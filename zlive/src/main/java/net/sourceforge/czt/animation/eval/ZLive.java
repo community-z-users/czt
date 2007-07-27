@@ -268,107 +268,101 @@ public class ZLive
   }
 
   /** Evaluate a Pred.
-      This throws some kind of EvalException if pred is too difficult
-      to evaluate or contains an undefined expression.
-      The input predicate must be type checked.
-      @param pred  A net.sourceforge.czt.z.ast.Pred object.
-      @return      Usually an instance of TruePred or FalsePred.
-  */
+   *  This throws some kind of EvalException if pred is too difficult
+   *  to evaluate or contains an undefined expression.
+   *  The input predicate must be type checked.
+   *  @param pred  A net.sourceforge.czt.z.ast.Pred object.
+   *  @return      Usually an instance of TruePred or FalsePred.
+   */
   public Pred evalPred(Pred pred)
     throws EvalException
     {
-    LOG.entering("ZLive","evalPred");
-    Pred result = null;
+      return (Pred) evalTerm(false, pred, new Envir());
+    }
+
+  /** Evaluate an Expr.
+   *  This throws some kind of EvalException if expr is too difficult
+   *  to evaluate or contains an undefined expression.
+   *  The input expression must be type checked.
+   *  @param expr  A net.sourceforge.czt.z.ast.Expr object.
+   *  @return      Usually an instance of EvalSet, or some other expr.
+   */
+  public Expr evalExpr(Expr expr)
+  throws EvalException
+  {
+    return (Expr) evalTerm(true, expr, new Envir());
+  }
+
+  /** Does the common evaluation steps for predicates and expressions.
+   * 
+   * @param isExpr  true if term should be evaluated as an expression.
+   * @param term    the expression or predicate to be evaluated.
+   * @param env0    the initial environment in which to evaluate term.
+   * @return        an evaluated expression if isExpr=true, 
+   *                otherwise TruePred or FalsePred.
+   */
+  protected Term evalTerm(boolean isExpr, Term term, Envir env0)
+  {
+    LOG.entering("ZLive","evalTerm");
+    Term result = null;
+    ZName resultName = null;
     predlist_ = new FlatPredList(this);
     try {
       if (getCurrentSection() == null) {
         throw new CztException("Must choose a section!");
       }
       // preprocess the predicate, to unfold things.
-      pred = (Pred) preprocess_.preprocess(getCurrentSection(), pred);
-      LOG.finer("After preprocess,  pred="+printTerm(pred));
-      // must typecheck, to reestablish the unique-ids invariant.
-      typecheck(pred);
-      LOG.finer("After retypecheck, pred="+printTerm(pred));
-      pred = (Pred) preprocess_.fixIds(pred);
-      LOG.finer("After doing fixIds pred="+printTerm(pred));
-      predlist_.addPred(pred);
-      Envir env0 = new Envir();
-      Bounds bnds = new Bounds(null);
-      predlist_.inferBoundsFixPoint(bnds, INFER_PASSES);
-      Mode m = predlist_.chooseMode(env0);
-      if (m == null) {
-        final String message =
-          "Cannot find mode to evaluate " + pred +
-          " (" + printTerm(pred, markup_) + ")";
-        throw new EvalException(message);
-      }
-      predlist_.setMode(m);
-      predlist_.startEvaluation();
-      if (predlist_.nextEvaluation())
-        result = factory_.createTruePred();
-      else
-        result = factory_.createFalsePred();
-    }
-    catch (RuntimeException ex) {
-      // we just catch and rethrow this for logging purposes
-      LOG.throwing("ZLive", "evalPred", ex);
-      throw ex;
-    }
-    LOG.exiting("ZLive","evalPred");
-    return result;
-    }
-
-  /** Evaluate an Expr.
-      This throws some kind of EvalException if expr is too difficult
-      to evaluate or contains an undefined expression.
-      The input expression must be type checked.
-      @param expr  A net.sourceforge.czt.z.ast.Expr object.
-      @return      Usually an instance of EvalSet, or some other expr.
-  */
-  public Expr evalExpr(Expr expr)
-  throws EvalException
-  {
-    LOG.entering("ZLive","evalExpr");
-    Expr result = null;
-    predlist_ = new FlatPredList(this);
-    try {
-      if (getCurrentSection() == null) {
-        throw new CztException("Must choose a section!");
-      }
-      // preprocess the expr, to unfold things.
       // Unifier.printDepth_ = 7;  // for debugging unifications
-      expr = (Expr) preprocess_.preprocess(getCurrentSection(), expr);
-      LOG.finer("After preprocess, expr="+printTerm(expr));
+      term = preprocess_.preprocess(getCurrentSection(), term);
+      LOG.finer("After preprocess,  pred="+printTerm(term));
       // must typecheck, to reestablish the unique-ids invariant.
-      typecheck(expr);
-      LOG.finer("After second typecheck, expr="+printTerm(expr));
-      expr = (Expr) preprocess_.fixIds(expr);
-      LOG.finer("After doing fixIds hack expr="+printTerm(expr));
-      ZName resultName = predlist_.addExpr(expr);
+      typecheck(term);
+      LOG.finer("After retypecheck, term="+printTerm(term));
+      term = preprocess_.fixIds(term);
+      LOG.finer("After doing fixIds term="+printTerm(term));
+      if (isExpr) {
+        resultName = predlist_.addExpr((Expr)term);
+      }
+      else {
+        predlist_.addPred((Pred)term);
+      }
       Bounds bnds = new Bounds(null);
       predlist_.inferBoundsFixPoint(bnds, INFER_PASSES);
-      Envir env0 = new Envir();
       Mode m = predlist_.chooseMode(env0);
       if (m == null) {
         final String message =
-          "Cannot find mode to evaluate " + expr +
-          " (" + printTerm(expr, markup_) + ")";
+          "Cannot find mode to evaluate: " + printTerm(term, markup_);
         throw new EvalException(message);
       }
       predlist_.setMode(m);
       predlist_.startEvaluation();
-      if ( ! predlist_.nextEvaluation()) {
-        throw new CztException("No solution for expression");
+      if (isExpr) {
+        if (predlist_.nextEvaluation()) {
+          assert resultName != null;
+          result = predlist_.getOutputEnvir().lookup(resultName);
+        }
+        else {
+          // In theory this should not happen.
+          // It should have thrown some kind of exception instead.
+          throw new CztException("No solution for expression");
+        }
       }
-      result = predlist_.getOutputEnvir().lookup(resultName);
+      else {
+        // evaluate the predicate
+        if (predlist_.nextEvaluation()) {
+          result = factory_.createTruePred();
+        }
+        else {
+          result = factory_.createFalsePred();
+        }
+      }
     }
     catch (RuntimeException ex) {
       // we just catch and rethrow this for logging purposes
-      LOG.throwing("ZLive", "evalExpr", ex);
+      LOG.throwing("ZLive", "evalTerm", ex);
       throw ex;
     }
-    LOG.exiting("ZLive","evalExpr");
+    LOG.exiting("ZLive","evalTerm", result);
     return result;
   }
 
@@ -382,10 +376,10 @@ public class ZLive
   public EvalSet evalSchema(Expr schema, BindExpr args)
   throws EvalException, CommandException
   {
-    SchText schText = factory_.createZSchText(args.getZDeclList(), 
+    SchText schText = factory_.createZSchText(args.getZDeclList(),
         factory_.createTruePred());
     ExistsExpr expr = factory_.createExistsExpr(schText, schema);
-    // if evalExpr doesn't throw a typecheck error, expr (and schema) must 
+    // if evalExpr doesn't throw a typecheck error, expr (and schema) must
     // be a schema expression, so the result should be an EvalSet.
     return (EvalSet) evalExpr(expr);
   }
@@ -400,13 +394,13 @@ public class ZLive
    */
   public EvalSet evalSchema(String schemaName, BindExpr args)
   throws EvalException, CommandException
-  {    
+  {
     Expr schema = null;
     String currSect = getCurrentSection();
     Key key = new Key(currSect, DefinitionTable.class);
     DefinitionTable table = (DefinitionTable) getSectionManager().get(key);
     DefinitionTable.Definition def = table.lookup(schemaName);
-    // Added distinction with CONSTDECL, for compatibility with old DefinitionTable (Leo)      
+    // Added distinction with CONSTDECL, for compatibility with old DefinitionTable (Leo)
     if (def != null && def.getDefinitionType().equals(DefinitionType.CONSTDECL))
     {
       schema = def.getExpr();
@@ -579,7 +573,7 @@ public class ZLive
   /** Converts an output BindExpr to an input BindExpr.
    *  That is, it throws away all entries whose names do not end with a
    *  prime, and removes one prime from the entries that do end with a prime.
-   *  
+   *
    * @param expr  Eg. &lt;| x==1, x'==2, y''==3, i?==4, o!==5 |&gt;
    * @return      Eg. &lt;| x==2, y'==3 |&gt;
    */
@@ -590,7 +584,7 @@ public class ZLive
       ConstDecl cdecl = (ConstDecl) decl;
       ZName name = cdecl.getZName();
       ZStrokeList strokes = name.getZStrokeList();
-      if (strokes.size() > 0 
+      if (strokes.size() > 0
           && strokes.get(strokes.size()-1) instanceof NextStroke) {
         // copy all strokes except the last
         ZStrokeList newStrokes = factory_.createZStrokeList();
