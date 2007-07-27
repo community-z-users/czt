@@ -505,8 +505,6 @@ public class Bounds
     if (isAliased(var1, var2))
       return; // no change needed.
     // Now we know that var1 and var2 are not equal.
-    System.out.println("addAlias("+var1+","+var2+") in "+hashCode());
-    System.out.println("  when bounds="+toString());
 
     // Now calculate the union of the two alias sets,
     // then copy bounds information from one variable to the other
@@ -566,7 +564,6 @@ public class Bounds
     deductions_++;
     // mark all var1 and var2 aliases as changed
     changed_.addAll(aliases_.get(var1));
-    System.out.println("  gave bounds="+toString());
   }
 
   /** Moves all bounds information for name 'from' onto name 'to'.
