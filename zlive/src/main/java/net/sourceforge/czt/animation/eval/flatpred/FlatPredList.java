@@ -480,11 +480,13 @@ public class FlatPredList extends FlatPred
         FlatPred flatPred = iter.next();
         Mode m = flatPred.chooseMode(env0);
         if (m != null) {
-          LOG.finest("considering "+m+" pred="+flatPred);
           assert flatPred == m.getParent();
           if (mode == null || m.getSolutions() < mode.getSolutions()) {
             mode = m;
-            LOG.finest("yes, best so far...");
+            LOG.finest("  ++"+m+" pred="+flatPred);
+          }
+          else {
+            LOG.finest("  --"+m+" pred="+flatPred);
           }
           // if it is deterministic or better, just use this one.
           //if (mode.getSolutions() <= Mode.ONE_SOLUTION)
