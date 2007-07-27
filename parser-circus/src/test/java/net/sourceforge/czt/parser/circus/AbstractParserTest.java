@@ -50,7 +50,7 @@ public abstract class AbstractParserTest extends TestCase
   // true => executes the printing tests, which will reparse and print files.
   protected static boolean TESTING_PRINTING = false;
   
-  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.OFF;
+  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.WARNING;
   protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
   protected static final ParseErrorLogging pel_;
   protected static final ParseErrorLogging pelsm_;
