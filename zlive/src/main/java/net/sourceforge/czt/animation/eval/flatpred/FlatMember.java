@@ -90,6 +90,8 @@ public class FlatMember extends FlatPred
    */
   protected Map<Object, Expr> knownValues(Envir env)
   {
+    if (bounds_ == null)
+      return null;
     Map<Object, ZName> argNames = bounds_.getStructure(args_.get(1));
     Map<Object, Expr> argValues = null;
     if (argNames != null) {
@@ -102,6 +104,84 @@ public class FlatMember extends FlatPred
       }
     }
     return argValues;
+  }
+
+  /** Returns all known information about the range of integer members,
+   *  if this set happens to contain integers.  It returns null if
+   *  nothing is known, or the set does not contain integers.
+   * @param env  Optional environment that will be used to evaluate the set
+   * @return
+   */
+  protected RangeSet range(Envir env)
+  {
+    ZName setName = args_.get(0);
+    ZName elemName = args_.get(1);
+    RangeSet result = RangeSet.integers;
+    // consider the bounds information
+    if (bounds_ != null) {
+      result = result.intersect(bounds_.getRange(elemName));
+      EvalSet set = bounds_.getEvalSet(setName);
+      if (set != null)
+        result = result.intersect(set.getLower(), set.getUpper());
+    }
+    // consider the set in the optional environment
+    if (env != null && env.isDefined(setName)) {
+      EvalSet set = (EvalSet) env.lookup(setName);
+      if (set != null) {
+        result = result.intersect(set.getLower(), set.getUpper());
+      }
+    }
+    if (result.equals(RangeSet.integers))
+      return null;
+    else
+      return result;
+  }
+
+  /** Returns all known information about the maximum size of the
+   *  set, for the given membership request.  This uses range
+   *  information from static bounds checking and from the set itself.
+   *  It can be called at any time, but will give more accurate estimates
+   *  as more becomes known.
+   * @param env  Optional environment that will be used to evaluate the set
+   * @return
+   */
+  protected double estSize(Envir env)
+  {        
+    ZName setName = args_.get(0);
+    RangeSet range = range(env);
+    BigInteger maxSize = (range==null) ? null : range.maxSize();
+    double result = EvalSet.INFINITE_SIZE;
+    EvalSet set = null;
+
+    // try to use static bounds information
+    if (bounds_ != null)
+      set = bounds_.getEvalSet(setName);
+    if (set != null) {
+      maxSize = RangeSet.minPos(maxSize, set.maxSize());
+      result = Math.min(result, set.estSize());
+    }
+
+    // try to use environment information about the set
+    if (env != null && env.isDefined(setName))
+      set = (EvalSet) env.lookup(setName);
+    if (set != null) {
+      maxSize = RangeSet.minPos(maxSize, set.maxSize());
+      result = Math.min(result, set.estSize());
+    }
+
+    // reduce estimate further if the member is partially known
+    // (this is a bit ad-hoc -- would be better to run chooseMode on the set)
+    Map<Object, Expr> argValues = knownValues(env);
+    if (argValues != null) {
+      result = Math.log(result);   // much smaller
+    }
+
+    // now take the minimum of maxSize and estSize
+    if (maxSize != null) {
+      result = Math.min(result, maxSize.doubleValue());
+    }
+
+    return result;
   }
 
   public Mode chooseMode(Envir env)
@@ -118,8 +198,8 @@ public class FlatMember extends FlatPred
         // The actual EvalSet object will be available at evaluation
         // time, but we check to see if it is already available.
         // If it is, we can get better estimates.
-        result.setSolutions(Double.MAX_VALUE); // a large worst case
-        Expr e = env.lookup(setName);
+        result.setSolutions(estSize(env));
+        /*
         if (e == null)
           e = bounds_.getEvalSet(setName);
         if (e != null && e instanceof EvalSet) {
@@ -144,6 +224,7 @@ public class FlatMember extends FlatPred
             solns = Math.min(solns, size.doubleValue());
           result.setSolutions(solns);
         }
+        */
       }
     }
     else {
@@ -204,15 +285,33 @@ public class FlatMember extends FlatPred
   {
     StringBuffer result = new StringBuffer();
     result.append(printArg(1));
+    Envir env = null;
     if (evalMode_ != null) {
-      Map<Object, Expr> known = knownValues(evalMode_.getEnvir0());
+      env = evalMode_.getEnvir0();
+      Map<Object, Expr> known = knownValues(env);
       if (known != null) {
         result.append(known.toString());
       }
     }
     result.append(" in ");
     result.append(printArg(0));
-    ZName setName = args_.get(0);
+
+    RangeSet range = range(env);
+    double estSize = estSize(env);
+
+    if (range != null || estSize < EvalSet.INFINITE_SIZE) {
+      result.append(" :: ");
+      if (estSize < EvalSet.INFINITE_SIZE) {
+        result.append(estSize);
+        result.append(" ");
+      }
+      if (range != null) {
+        result.append(range.toString());
+      }
+    }
+    return result.toString();
+
+    /*
     EvalSet set = null;
     RangeSet range = null;
     if (bounds_ != null) {
@@ -242,6 +341,7 @@ public class FlatMember extends FlatPred
       }
     }
     return result.toString();
+    */
   }
 
   ///////////////////////// Pred methods ///////////////////////
