@@ -244,7 +244,7 @@ public class AstToPrintTreeVisitor
   {
     final boolean isFunctionApplication =
       applExpr.getMixfix().booleanValue();
-    if (isFunctionApplication) {
+    if (isFunctionApplication && applExpr.getLeftExpr() instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
       OperatorName opName = refExpr.getZName().getOperatorName();
       Expr args = (Expr) visit(applExpr.getRightExpr());
