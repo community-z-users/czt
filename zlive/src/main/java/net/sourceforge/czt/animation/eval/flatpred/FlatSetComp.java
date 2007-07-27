@@ -115,11 +115,10 @@ public class FlatSetComp extends FlatPred
     LOG.fine("args = "+args_+" freevars="+this.freeVars_);
     assert bounds_ != null; // inferBounds should have been called.
     Mode m = modeFunction(env);
-    // TODO: could also check that predsOne_ has a usable mode.
-    //    (we could check predsAll_ too, but we do not know if this
-    //     set will be asked to enumerate its members, so predsAll_
-    //     may not be needed).
-
+    if (m != null) {
+      SetComp setcomp = new SetComp(predsAll_, resultName_, env, bounds_);
+      m.setSolutions(setcomp.estSize());
+    }
     // bind (set |-> fuzzy), so that size estimates work better.
     /* TODO: it would be nice to add more precise bounds
      *  information here, since we now know the free vars
