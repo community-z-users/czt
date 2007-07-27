@@ -2482,8 +2482,8 @@ It is easy to code this requirement in CSP.
    \circprocess\ ControllerStop \circdef \\
         \t1 Controller \\
             \t2 \lpar \lchanset levelabovemax, levelbelowmin, \\
-                            \t3  \LET x == \true @ sbwaiting.x, \\
-                            \t3  \LET x == \true @ emergencystop.x \rchanset \rpar \\
+                            \t3  sbwaiting.\true, \\
+                            \t3  emergencystop.\true \rchanset \rpar \\
         \t2 Deadlock %
 \end{circus}
 %

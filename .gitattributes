@@ -521,6 +521,7 @@ zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/channels.tex -tex
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/fib-multenv.xml -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/fib-singleenv.xml -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/steam-boiler-multienv.xml -text
+zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/steam-boiler-original.pdf -text svneol=unset#application/pdf
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/steam-boiler-singleenv.xml -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/bbook.utf16 svneol=native#unset
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/birthdaybook.utf16 -text

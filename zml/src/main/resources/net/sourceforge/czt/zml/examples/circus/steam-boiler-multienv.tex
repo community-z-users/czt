@@ -2707,12 +2707,21 @@ It is easy to code this requirement in CSP.
 \end{addedstuff}
 %
 \begin{circus}
+%   \circchannelset\ CtrlDeadLockAll == \\ \t1
+%        \lchanset levelabovemax, levelbelowmin, sbwaiting, emergencystop \rchanset \\
+%   \circchannelset\ CtrlDeadLockFalse == \\ \t1
+%        \lchanset sbwaiting.\false,
+%   \also
    \circprocess\ Deadlock \circdef \circbegin @ Stop \circend \\
    \circprocess\ ControllerStop \circdef \\
         \t1 Controller \\
+% Generates an warning about \LET within a channel set expression.
+% Although the grammar allows full fledged Z expressions (i.e. restricting it
+% is just too complicated), Circus does not allow that expressivity.
+% The equivalent alternative is given above.
             \t2 \lpar \lchanset levelabovemax, levelbelowmin, \\
-                            \t3  \LET x == \true @ sbwaiting.x, \\
-                            \t3  \LET x == \true @ emergencystop.x \rchanset \rpar \\
+                            \t3  sbwaiting.\true, \\
+                            \t3  emergencystop.\true \rchanset \rpar \\
         \t2 Deadlock
    \also
    \circassertref\ ControllerStop \circrefines FLDV~ WaitForSBWaiting \\
