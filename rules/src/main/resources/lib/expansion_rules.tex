@@ -111,9 +111,10 @@ schema construction expressions.
 TODO pred D1 and pred D2
 \begin{zedrule}{SchemaProjection}
   ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
-  ([D3 | true] \schemaminus [D2 | true]) \is [D4 | true]
+  [D2 | true] :: \power [D4 | true] \\
+  ([D3 | true] \schemaminus [D4 | true]) \is [D5 | true]
 \derives
-  [D1|P1] \project [D2|P2] = [D2 | (\exists D4 @ P1 \land P2)]
+  [D1|P1] \project [D2|P2] = [D2 | (\exists D5 @ P1 \land P2)]
 \end{zedrule}
 
 TODO pred D
