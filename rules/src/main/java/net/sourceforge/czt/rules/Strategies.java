@@ -19,7 +19,9 @@
 
 package net.sourceforge.czt.rules;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
 
@@ -45,12 +47,22 @@ public class Strategies
   public static Term innermost(Term term, RewriteOnceVisitor rewriter)
     throws UnboundJokerException
   {
+    Set<Term> normalForms = new HashSet<Term>();
+    return innermost(term, rewriter, normalForms);
+  }
+
+  public static Term innermost(Term term,
+                               RewriteOnceVisitor rewriter,
+                               Set<Term> normalForms)
+    throws UnboundJokerException
+  {
     Object[] children = term.getChildren();
     boolean aChildHasChanged = false;
     for (int i = 0; i < children.length; i++) {
-      if (children[i] instanceof Term) {
+      if (children[i] instanceof Term && ! normalForms.contains(children[i])) {
         Term child = (Term) children[i];
-        child = innermost(child, rewriter);
+        child = innermost(child, rewriter, normalForms);
+        normalForms.add(child);
         if (child != children[i]) {
           aChildHasChanged = true;
           children[i] = child;
@@ -58,17 +70,19 @@ public class Strategies
       }
     }
     if (aChildHasChanged) {
-      return reduce(term.create(children), rewriter);
+      return reduce(term.create(children), rewriter, normalForms);
     }
-    return reduce(term, rewriter);
+    return reduce(term, rewriter, normalForms);
   }
 
-  private static Term reduce(Term term, RewriteOnceVisitor rewriter)
+  private static Term reduce(Term term,
+                             RewriteOnceVisitor rewriter,
+                             Set<Term> normalForms)
     throws UnboundJokerException
   {
     Term result = rewriter.apply(term);
     if (result != term) {
-      return innermost(result, rewriter);
+      return innermost(result, rewriter, normalForms);
     }
     return term;
   }
