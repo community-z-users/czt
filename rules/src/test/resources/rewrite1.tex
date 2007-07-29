@@ -89,24 +89,7 @@
 
 \begin{theorem}{SimpleComp}
   \vdash? \Delta Simple \semi \Delta Simple =
-    [
-      x : \arithmos ;
-      x' : \arithmos
-    |
-      (\exists x_{9}~: \arithmos | true
-       @ (true \land
-          ((\exists x' : \arithmos | true
-            @ (true \land
-               ((x \in \nat \land x' \in \nat) \land
-                \lblot x == x' \rblot =
-                \lblot x == x_{9} \rblot )))
-           \land
-           (\exists x : \arithmos | true
-            @ (true \land
-               ((x \in \nat \land x' \in \nat) \land
-                \lblot x == x \rblot =
-                \lblot x == x_{9} \rblot))))))
-    ]
+          [ x : \arithmos ; x' : \arithmos | ( \exists x_{9}~: \arithmos | true @ ( ( true \land ( \exists x' : \arithmos | true @ ( ( ( true \land x \in \nat ) \land x' \in \nat ) \land \lblot x == x' \rblot = \lblot x == x_{9} \rblot ) ) ) \land ( \exists x : \arithmos | true @ ( ( ( true \land x \in \nat ) \land x' \in \nat ) \land \lblot x == x \rblot = \lblot x == x_{9} \rblot ) ) ) ) ]
 \end{theorem}
 
 \begin{theorem}{SimplePipe}
@@ -116,38 +99,38 @@
     |
       (\exists z_{9}:\arithmos | true
        @ (true \land
-          ((\exists z! : \arithmos | true
-            @ (true \land
-               ((x \in \nat \land z! \in \nat) \land
+         (\exists z! : \arithmos | true
+            @ true \land
+              x \in \nat \land z! \in \nat \land
                 \lblot z == z! \rblot =
-                \lblot z == z_{9} \rblot )))
-           \land
-           (\exists z? : \arithmos | true
-            @ (true \land
-               ((x \in \nat \land z? \in \nat) \land
+                \lblot z == z_{9} \rblot )
+         \land
+         (\exists z? : \arithmos | true
+            @ true \land
+              x \in \nat \land z? \in \nat \land
                 \lblot z == z? \rblot =
-                \lblot z == z_{9} \rblot))))))
+                \lblot z == z_{9} \rblot)))
     ]
 \end{theorem}
 
 \begin{theorem}{SimpleHide}
   \vdash? Simple \hide (x) =
-                [ | (\exists x:\arithmos @ (true \land x\in\nat))]  
+                [ | (\exists x:\arithmos @ true \land x\in\nat)]
 \end{theorem}
 
 \begin{theorem}{SimpleHide2}
   \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(x,y) =
-                [ | (\exists x:\arithmos; y:\arithmos @ (true \land (x\in\nat \land y\in\nat)))]
+                [ | (\exists x:\arithmos; y:\arithmos @ true \land x\in\nat \land y\in\nat)]
 \end{theorem}
 
 \begin{theorem}{SimpleHide3}
   \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(y) =
-                [ x:\arithmos | (\exists y:\arithmos @ (true \land (x\in\nat \land y\in\nat)))]
+          [x:\arithmos | (\exists y:\arithmos @ true \land x\in\nat \land y\in\nat)]
 \end{theorem}
 
 \begin{theorem}{SimpleHide3}
   \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(x) =
-                [ y:\arithmos | (\exists x:\arithmos @ (true \land (x\in\nat \land y\in\nat)))]
+          [y:\arithmos | (\exists x:\arithmos | true @ true \land x\in\nat \land y\in\nat)]
 \end{theorem}
 
 \begin{theorem}{SimpeRename}
