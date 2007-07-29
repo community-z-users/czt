@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Mark Utting
+  Copyright (C) 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,6 +21,7 @@ package net.sourceforge.czt.z.util;
 
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.ListTermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -30,7 +31,8 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class GetNameVisitor
   extends PrintVisitor
-  implements AxParaVisitor<String>,
+  implements TermVisitor<String>,
+	     AxParaVisitor<String>,
              ConstDeclVisitor<String>,
              FreeParaVisitor<String>,
              FreetypeVisitor<String>,
@@ -44,6 +46,11 @@ public class GetNameVisitor
              ZSectVisitor<String>
 {
   private static final String LIST_SEPARATOR = ", ";
+
+  public String visitTerm(Term term)
+  {
+    return null;
+  }
 
   public String visitAxPara(AxPara axPara)
   {
