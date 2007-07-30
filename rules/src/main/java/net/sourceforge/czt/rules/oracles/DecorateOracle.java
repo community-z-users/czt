@@ -77,6 +77,10 @@ public class DecorateOracle
    * <code>declNames_</code> (including ids).  We hope that nested
    * schema expressions are therefore not a problem (we should prove
    * this).
+   *
+   * @czt.todo Detect references to schemas (those are not handled
+   *           by this oracle).  Either throw an exception or add
+   *           a renaming.
    */
   public static class DecorateNamesVisitor
     implements InclDeclVisitor<Term>,
