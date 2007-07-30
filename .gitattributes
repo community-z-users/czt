@@ -320,6 +320,16 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/version.java -text
 jedit/zlive/src/main/resources/zlive.html -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/AlgorithmPanel.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/Main.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/ModelJUnitGUI.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/OptionPanelDefault.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/OptionPanelGreedy.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/OptionPanelRandomWalking.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/PanelCodeViewer.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/PanelResultViewer.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/PanelTestDesign.java -text
+modeljunit[!!-~]trunk/sourceforge/czt/modeljunit/gui/ResultDetails.java -text
 modeljunit/jdsl/overview/overview.pdf -text
 modeljunit/jdsl/tutorial/lesson06/tree.jpg -text
 modeljunit/jdsl/tutorial/lesson06/treeWithBoxes.jpg -text
