@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/circus" xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="0" Length="2" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="2" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="1" Length="298" Col="0"/>
+        </Anns>
+        <Name>basic_processes1</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="60" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="2" Length="15" Col="40"/>
+            </Anns>
+            <Word>circus_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="91" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="3" Length="4" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns2:ChannelPara>
+                <Anns>
+                    <LocAnn Start="115" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="6" Length="23" Col="4"/>
+                </Anns>
+                <ZDeclList>
+                    <ns2:ChannelDecl>
+                        <Anns>
+                            <LocAnn Start="129" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="6" Length="9" Col="18"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="129" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="6" Length="3" Col="18"/>
+                                </Anns>
+                                <Word>out</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <Anns>
+                                <LocAnn Start="134" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="6" Length="4" Col="23"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="134" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="6" Length="4" Col="23"/>
+                                </Anns>
+                                <Word>?</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns2:ChannelDecl>
+                </ZDeclList>
+            </ns2:ChannelPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="7" Length="4" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns2:ProcessPara>
+                <Anns>
+                    <LocAnn Start="176" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="108" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="190" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="26" Col="18"/>
+                    </Anns>
+                    <Word>JustMainActionBasicProcess</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns2:BasicProcess>
+                    <Anns>
+                        <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                    </Anns>
+                    <ZParaList>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <ns2:CircusStateAnn/>
+                                <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                                            </Anns>
+                                            <Word>$$defaultSt</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <ZSchText>
+                                                <ZDeclList/>
+                                                <TruePred/>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <ns2:ActionPara>
+                            <Anns>
+                                <LocAnn Start="249" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="18" Col="4"/>
+                            </Anns>
+                            <ZName>
+                                <Word>$$mainAction</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns2:PrefixingAction>
+                                <Anns>
+                                    <LocAnn Start="249" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="18" Col="4"/>
+                                    <ns2:OnTheFlyDefAnn/>
+                                </Anns>
+                                <ns2:SkipAction>
+                                    <Anns>
+                                        <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="4" Col="18"/>
+                                    </Anns>
+                                </ns2:SkipAction>
+                                <ns2:Communication MultiSych="0" CommKind="Output">
+                                    <Anns>
+                                        <LocAnn Start="251" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="3" Col="6"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="251" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="3" Col="6"/>
+                                            </Anns>
+                                            <Word>out</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <ns2:CircusFieldList>
+                                        <ns2:DotField>
+                                            <Anns>
+                                                <LocAnn Start="254" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="2" Col="9"/>
+                                            </Anns>
+                                            <NumExpr>
+                                                <Anns>
+                                                    <LocAnn Start="255" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="1" Col="10"/>
+                                                </Anns>
+                                                <ZNumeral Value="0">
+                                                    <Anns>
+                                                        <LocAnn Start="255" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="1" Col="10"/>
+                                                    </Anns>
+                                                </ZNumeral>
+                                            </NumExpr>
+                                        </ns2:DotField>
+                                    </ns2:CircusFieldList>
+                                </ns2:Communication>
+                            </ns2:PrefixingAction>
+                        </ns2:ActionPara>
+                    </ZParaList>
+                </ns2:BasicProcess>
+            </ns2:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="298" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="13" Length="2" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>
