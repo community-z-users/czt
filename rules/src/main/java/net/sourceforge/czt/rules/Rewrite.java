@@ -123,7 +123,7 @@ public class Rewrite
     do {
       oldExpr = result;
       try {
-        result = (Expr) rewriter_.apply(result);
+        result = (Expr) rewriter_.rewrite(result);
       }
       catch (UnboundJokerException e) {
         throw new RuntimeException(e);
@@ -164,7 +164,7 @@ public class Rewrite
     do {
       oldPred = result;
       try {
-        result = (Pred) rewriter_.apply(result);
+        result = (Pred) rewriter_.rewrite(result);
       }
       catch (UnboundJokerException e) {
         throw new RuntimeException(e);
@@ -222,7 +222,7 @@ public class Rewrite
   protected SchText rewrite(SchText schText)
   {
     try {
-      return (SchText) rewriter_.apply(schText);
+      return (SchText) rewriter_.rewrite(schText);
     }
     catch (UnboundJokerException e) {
       throw new RuntimeException(e);

@@ -46,7 +46,8 @@ import net.sourceforge.czt.zpatt.util.Factory;
  * visit methods may contain jokers.
  */
 public class RewriteOnceVisitor
-  implements TermVisitor<Term>,
+  implements Rewriter,
+             TermVisitor<Term>,
              ExprVisitor<Term>,
              PredVisitor<Term>,
              SchTextVisitor<Term>
@@ -66,7 +67,7 @@ public class RewriteOnceVisitor
     schemaEqualsRefExpr_ = factory.createRefExpr(name);
   }
 
-  public Term apply(Term term)
+  public Term rewrite(Term term)
     throws UnboundJokerException
   {
     Term result = term.accept(this);

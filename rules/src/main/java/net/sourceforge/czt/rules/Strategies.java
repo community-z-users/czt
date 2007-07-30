@@ -44,7 +44,7 @@ public class Strategies
    * @throws NullPointerException if the given term or rewriter are
    *         <code>null</code>.
    */
-  public static Term innermost(Term term, RewriteOnceVisitor rewriter)
+  public static Term innermost(Term term, Rewriter rewriter)
     throws UnboundJokerException
   {
     Set<Term> normalForms = new HashSet<Term>();
@@ -52,7 +52,7 @@ public class Strategies
   }
 
   public static Term innermost(Term term,
-                               RewriteOnceVisitor rewriter,
+                               Rewriter rewriter,
                                Set<Term> normalForms)
     throws UnboundJokerException
   {
@@ -76,11 +76,11 @@ public class Strategies
   }
 
   private static Term reduce(Term term,
-                             RewriteOnceVisitor rewriter,
+                             Rewriter rewriter,
                              Set<Term> normalForms)
     throws UnboundJokerException
   {
-    Term result = rewriter.apply(term);
+    Term result = rewriter.rewrite(term);
     if (result != term) {
       return innermost(result, rewriter, normalForms);
     }
