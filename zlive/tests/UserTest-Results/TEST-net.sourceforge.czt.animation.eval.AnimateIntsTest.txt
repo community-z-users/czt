@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateIntsTest
-Tests run: 90, Failures: 0, Errors: 1, Time elapsed: 85.468 sec
+Tests run: 90, Failures: 0, Errors: 0, Time elapsed: 154.32 sec
 ------------- Standard Output ---------------
 Passed test:animate_ints.tex:22
 Passed test:animate_ints.tex:23
@@ -62,15 +62,9 @@ Passed test:animate_ints.tex:91
 Passed test:animate_ints.tex:94
 Passed test:animate_ints.tex:95
 Passed test:animate_ints.tex:96
-Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_ints.tex:99
-Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_ints.tex:100
-Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
-Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
-Reducing FlatMember estimate from Infinity to log: Infinity
-Reducing FlatMember estimate from Infinity to log: Infinity
-Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Passed undef test: animate_ints.tex:101
 Passed test:animate_ints.tex:102
 Passed test:animate_ints.tex:105
 Passed test:animate_ints.tex:106
@@ -98,833 +92,94 @@ Passed test:animate_ints.tex:133
 Passed test:animate_ints.tex:134
 Passed test:animate_ints.tex:135
 ------------- ---------------- ---------------
-------------- Standard Error -----------------
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:284)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:284)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:284)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:284)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.run(AstToPrintTreeVisitor.java:173)
-	at net.sourceforge.czt.print.z.PrintUtils.printLatex(PrintUtils.java:182)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:500)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:284)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-java.lang.ClassCastException: net.sourceforge.czt.z.impl.SetCompExprImpl cannot be cast to net.sourceforge.czt.z.ast.RefExpr
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:248)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitApplExpr(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visit(AstToPrintTreeVisitor.java:584)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:428)
-	at net.sourceforge.czt.print.z.AstToPrintTreeVisitor.visitMemPred(AstToPrintTreeVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.print.z.PrintUtils.printUnicode(PrintUtils.java:264)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:510)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:526)
-	at net.sourceforge.czt.animation.eval.ZLive.printTerm(ZLive.java:533)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:284)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:297)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1072)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:682)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1434)
-	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:632)
-	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
-	at org.apache.tools.ant.Task.perform(Task.java:364)
-	at org.apache.tools.ant.Target.execute(Target.java:341)
-	at org.apache.tools.ant.Target.performTasks(Target.java:369)
-	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
-	at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
-	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
-	at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
-	at org.apache.tools.ant.Main.runBuild(Main.java:668)
-	at org.apache.tools.ant.Main.startAnt(Main.java:187)
-	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:246)
-	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:67)
-------------- ---------------- ---------------
 
-Testcase: animate_ints.tex:22 took 1.19 sec
-Testcase: animate_ints.tex:23 took 0.767 sec
-Testcase: animate_ints.tex:24 took 0.745 sec
-Testcase: animate_ints.tex:25 took 0.713 sec
-Testcase: animate_ints.tex:26 took 0.916 sec
-Testcase: animate_ints.tex:27 took 0.911 sec
-Testcase: animate_ints.tex:28 took 0.726 sec
-Testcase: animate_ints.tex:29 took 0.908 sec
-Testcase: animate_ints.tex:30 took 0.719 sec
-Testcase: animate_ints.tex:33 took 0.672 sec
-Testcase: animate_ints.tex:34 took 0.88 sec
-Testcase: animate_ints.tex:35 took 0.679 sec
-Testcase: animate_ints.tex:36 took 0.679 sec
-Testcase: animate_ints.tex:37 took 1.078 sec
-Testcase: animate_ints.tex:38 took 0.87 sec
-Testcase: animate_ints.tex:39 took 0.877 sec
-Testcase: animate_ints.tex:40 took 0.881 sec
-Testcase: animate_ints.tex:44 took 0.665 sec
-Testcase: animate_ints.tex:45 took 0.658 sec
-Testcase: animate_ints.tex:46 took 0.668 sec
-Testcase: animate_ints.tex:47 took 0.668 sec
-Testcase: animate_ints.tex:48 took 1.059 sec
-Testcase: animate_ints.tex:49 took 1.056 sec
-Testcase: animate_ints.tex:50 took 0.668 sec
-Testcase: animate_ints.tex:51 took 0.865 sec
-Testcase: animate_ints.tex:56 took 0.472 sec
-Testcase: animate_ints.tex:57 took 0.682 sec
-Testcase: animate_ints.tex:58 took 0.482 sec
-Testcase: animate_ints.tex:60 took 0.485 sec
-Testcase: animate_ints.tex:61 took 0.67 sec
-Testcase: animate_ints.tex:62 took 0.468 sec
-Testcase: animate_ints.tex:64 took 0.658 sec
-Testcase: animate_ints.tex:65 took 1.06 sec
-Testcase: animate_ints.tex:66 took 0.674 sec
-Testcase: animate_ints.tex:67 took 0.861 sec
-Testcase: animate_ints.tex:68 took 1.065 sec
-Testcase: animate_ints.tex:69 took 1.055 sec
-Testcase: animate_ints.tex:71 took 0.658 sec
-Testcase: animate_ints.tex:72 took 0.673 sec
-Testcase: animate_ints.tex:73 took 0.661 sec
-Testcase: animate_ints.tex:74 took 0.665 sec
-Testcase: animate_ints.tex:75 took 0.658 sec
-Testcase: animate_ints.tex:76 took 0.663 sec
-Testcase: animate_ints.tex:77 took 1.053 sec
-Testcase: animate_ints.tex:78 took 1.051 sec
-Testcase: animate_ints.tex:79 took 1.053 sec
-Testcase: animate_ints.tex:80 took 1.056 sec
-Testcase: animate_ints.tex:81 took 1.053 sec
-Testcase: animate_ints.tex:82 took 1.047 sec
-Testcase: animate_ints.tex:83 took 1.047 sec
-Testcase: animate_ints.tex:84 took 1.05 sec
-Testcase: animate_ints.tex:85 took 1.05 sec
-Testcase: animate_ints.tex:86 took 1.05 sec
-Testcase: animate_ints.tex:87 took 1.062 sec
-Testcase: animate_ints.tex:88 took 1.057 sec
-Testcase: animate_ints.tex:89 took 1.059 sec
-Testcase: animate_ints.tex:90 took 1.06 sec
-Testcase: animate_ints.tex:91 took 1.058 sec
-Testcase: animate_ints.tex:94 took 4.137 sec
-Testcase: animate_ints.tex:95 took 4.694 sec
-Testcase: animate_ints.tex:96 took 5.732 sec
-Testcase: animate_ints.tex:99 took 1.884 sec
-Testcase: animate_ints.tex:100 took 1.901 sec
-Testcase: animate_ints.tex:101 took 2.258 sec
-	Caused an ERROR
-Mu expression has no solutions: (mu { _ .. _ = tmp357 :: _.._;
-      n in tmp357 :: 0.._;
-      tmp359 == 0;
-      tmp359 .. _ = tmp358 :: 0.._;
-      n in tmp358 :: 0.._;
-      tmp362 == 1;
-      n + tmp362 = tmp361;
-      (n, tmp361) = tmp360;
-      tmp356 = tmp360
-    @ tmp356
-    } = tmp355;
-  tmp365 == 10;
-  - tmp365 = tmp364;
-  tmp363 = tmp364;
-  p{1=-10} in tmp355 :: 1000.0 ;
-  p.1 = tmp363;
-  p.2 = tmp366
-@ tmp366
-)
-net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu { _ .. _ = tmp357 :: _.._;
-      n in tmp357 :: 0.._;
-      tmp359 == 0;
-      tmp359 .. _ = tmp358 :: 0.._;
-      n in tmp358 :: 0.._;
-      tmp362 == 1;
-      n + tmp362 = tmp361;
-      (n, tmp361) = tmp360;
-      tmp356 = tmp360
-    @ tmp356
-    } = tmp355;
-  tmp365 == 10;
-  - tmp365 = tmp364;
-  tmp363 = tmp364;
-  p{1=-10} in tmp355 :: 1000.0 ;
-  p.1 = tmp363;
-  p.2 = tmp366
-@ tmp366
-)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:143)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:568)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:298)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_ints.tex:102 took 3.224 sec
-Testcase: animate_ints.tex:105 took 0.391 sec
-Testcase: animate_ints.tex:106 took 0.385 sec
-Testcase: animate_ints.tex:107 took 0.773 sec
-Testcase: animate_ints.tex:108 took 0.588 sec
-Testcase: animate_ints.tex:109 took 0.402 sec
-Testcase: animate_ints.tex:110 took 0.404 sec
-Testcase: animate_ints.tex:113 took 0.383 sec
-Testcase: animate_ints.tex:114 took 0.387 sec
-Testcase: animate_ints.tex:115 took 0.385 sec
-Testcase: animate_ints.tex:116 took 0.777 sec
-Testcase: animate_ints.tex:117 took 0.581 sec
-Testcase: animate_ints.tex:118 took 0.403 sec
-Testcase: animate_ints.tex:121 took 0.41 sec
-Testcase: animate_ints.tex:122 took 0.412 sec
-Testcase: animate_ints.tex:123 took 0.608 sec
-Testcase: animate_ints.tex:124 took 0.724 sec
-Testcase: animate_ints.tex:125 took 0.732 sec
-Testcase: animate_ints.tex:126 took 0.403 sec
-Testcase: animate_ints.tex:127 took 0.579 sec
-Testcase: animate_ints.tex:130 took 0.385 sec
-Testcase: animate_ints.tex:131 took 0.406 sec
-Testcase: animate_ints.tex:132 took 0.405 sec
-Testcase: animate_ints.tex:133 took 0.39 sec
-Testcase: animate_ints.tex:134 took 0.605 sec
-Testcase: animate_ints.tex:135 took 0.775 sec
+Testcase: animate_ints.tex:22 took 2.072 sec
+Testcase: animate_ints.tex:23 took 1.841 sec
+Testcase: animate_ints.tex:24 took 1.865 sec
+Testcase: animate_ints.tex:25 took 1.556 sec
+Testcase: animate_ints.tex:26 took 1.78 sec
+Testcase: animate_ints.tex:27 took 1.861 sec
+Testcase: animate_ints.tex:28 took 1.764 sec
+Testcase: animate_ints.tex:29 took 2.31 sec
+Testcase: animate_ints.tex:30 took 1.589 sec
+Testcase: animate_ints.tex:33 took 1.623 sec
+Testcase: animate_ints.tex:34 took 2.116 sec
+Testcase: animate_ints.tex:35 took 1.323 sec
+Testcase: animate_ints.tex:36 took 1.595 sec
+Testcase: animate_ints.tex:37 took 2.265 sec
+Testcase: animate_ints.tex:38 took 1.842 sec
+Testcase: animate_ints.tex:39 took 1.795 sec
+Testcase: animate_ints.tex:40 took 1.933 sec
+Testcase: animate_ints.tex:44 took 1.37 sec
+Testcase: animate_ints.tex:45 took 1.412 sec
+Testcase: animate_ints.tex:46 took 1.561 sec
+Testcase: animate_ints.tex:47 took 1.655 sec
+Testcase: animate_ints.tex:48 took 3.437 sec
+Testcase: animate_ints.tex:49 took 2.768 sec
+Testcase: animate_ints.tex:50 took 1.333 sec
+Testcase: animate_ints.tex:51 took 3.668 sec
+Testcase: animate_ints.tex:56 took 1.37 sec
+Testcase: animate_ints.tex:57 took 1.975 sec
+Testcase: animate_ints.tex:58 took 1.493 sec
+Testcase: animate_ints.tex:60 took 1.298 sec
+Testcase: animate_ints.tex:61 took 1.68 sec
+Testcase: animate_ints.tex:62 took 1.324 sec
+Testcase: animate_ints.tex:64 took 2.075 sec
+Testcase: animate_ints.tex:65 took 2.791 sec
+Testcase: animate_ints.tex:66 took 1.785 sec
+Testcase: animate_ints.tex:67 took 2.659 sec
+Testcase: animate_ints.tex:68 took 4.441 sec
+Testcase: animate_ints.tex:69 took 3.804 sec
+Testcase: animate_ints.tex:71 took 2.074 sec
+Testcase: animate_ints.tex:72 took 1.933 sec
+Testcase: animate_ints.tex:73 took 1.848 sec
+Testcase: animate_ints.tex:74 took 1.812 sec
+Testcase: animate_ints.tex:75 took 1.362 sec
+Testcase: animate_ints.tex:76 took 1.953 sec
+Testcase: animate_ints.tex:77 took 2.502 sec
+Testcase: animate_ints.tex:78 took 3.631 sec
+Testcase: animate_ints.tex:79 took 4.091 sec
+Testcase: animate_ints.tex:80 took 3.386 sec
+Testcase: animate_ints.tex:81 took 3.678 sec
+Testcase: animate_ints.tex:82 took 2.899 sec
+Testcase: animate_ints.tex:83 took 1.585 sec
+Testcase: animate_ints.tex:84 took 1.192 sec
+Testcase: animate_ints.tex:85 took 1.094 sec
+Testcase: animate_ints.tex:86 took 1.094 sec
+Testcase: animate_ints.tex:87 took 1.121 sec
+Testcase: animate_ints.tex:88 took 1.108 sec
+Testcase: animate_ints.tex:89 took 1.108 sec
+Testcase: animate_ints.tex:90 took 1.104 sec
+Testcase: animate_ints.tex:91 took 1.117 sec
+Testcase: animate_ints.tex:94 took 4.359 sec
+Testcase: animate_ints.tex:95 took 5.243 sec
+Testcase: animate_ints.tex:96 took 5.987 sec
+Testcase: animate_ints.tex:99 took 1.995 sec
+Testcase: animate_ints.tex:100 took 2.022 sec
+Testcase: animate_ints.tex:101 took 1.958 sec
+Testcase: animate_ints.tex:102 took 3.45 sec
+Testcase: animate_ints.tex:105 took 0.41 sec
+Testcase: animate_ints.tex:106 took 0.404 sec
+Testcase: animate_ints.tex:107 took 0.819 sec
+Testcase: animate_ints.tex:108 took 0.602 sec
+Testcase: animate_ints.tex:109 took 0.434 sec
+Testcase: animate_ints.tex:110 took 0.429 sec
+Testcase: animate_ints.tex:113 took 0.412 sec
+Testcase: animate_ints.tex:114 took 0.4 sec
+Testcase: animate_ints.tex:115 took 0.402 sec
+Testcase: animate_ints.tex:116 took 0.801 sec
+Testcase: animate_ints.tex:117 took 0.609 sec
+Testcase: animate_ints.tex:118 took 0.423 sec
+Testcase: animate_ints.tex:121 took 0.433 sec
+Testcase: animate_ints.tex:122 took 0.432 sec
+Testcase: animate_ints.tex:123 took 0.631 sec
+Testcase: animate_ints.tex:124 took 0.438 sec
+Testcase: animate_ints.tex:125 took 0.404 sec
+Testcase: animate_ints.tex:126 took 0.404 sec
+Testcase: animate_ints.tex:127 took 0.605 sec
+Testcase: animate_ints.tex:130 took 0.399 sec
+Testcase: animate_ints.tex:131 took 0.427 sec
+Testcase: animate_ints.tex:132 took 0.431 sec
+Testcase: animate_ints.tex:133 took 0.401 sec
+Testcase: animate_ints.tex:134 took 0.629 sec
+Testcase: animate_ints.tex:135 took 0.803 sec
