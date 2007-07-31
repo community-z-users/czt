@@ -274,7 +274,7 @@ public class ZSideKickActions
               if (rules != null) {
                 Prover prover = new SimpleProver(rules, manager, section);
                 RewriteOnceVisitor rewriter = new RewriteOnceVisitor(prover);
-                Term result = rewriter.apply(term);
+                Term result = rewriter.rewrite(term);
                 if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Rewriting failed");
                 }
@@ -319,8 +319,8 @@ public class ZSideKickActions
             RuleTable rules = (RuleTable)
               manager.get(new Key(section, RuleTable.class));
             if (rules != null) {
-              Prover prover = new SimpleProver(rules, manager, section);
-              RewriteOnceVisitor rewriter = new RewriteOnceVisitor(prover);
+              RewriteVisitor rewriter =
+                new RewriteVisitor(rules, manager, section);
               Term result = Strategies.innermost(term, rewriter);
               if (! replaceWff(term, result, view, manager, section)) {
                 reportError(view, "Rewriting failed");
@@ -466,7 +466,7 @@ public class ZSideKickActions
               if (rules != null) {
                 Prover prover = new SimpleProver(rules, manager, section);
                 RewriteOnceVisitor rewriter = new RewriteOnceVisitor(prover);
-		Term result = rewriter.apply(term);
+		Term result = rewriter.rewrite(term);
                 if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Unfolding failed");
                 }
