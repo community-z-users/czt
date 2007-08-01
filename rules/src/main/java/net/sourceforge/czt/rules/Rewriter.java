@@ -23,5 +23,8 @@ import net.sourceforge.czt.base.ast.Term;
 
 public interface Rewriter
 {
+  /**
+   * Returns the term itself if no rewriting could be performed.
+   */
   Term rewrite(Term term) throws UnboundJokerException;
 }
