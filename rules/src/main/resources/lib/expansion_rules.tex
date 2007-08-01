@@ -2,31 +2,7 @@
   \SECTION expansion\_rules \parents normalization\_rules
 \end{zsection}
 
-\begin{zedrule}{Ref}
-  E :: \power [D | true] \\
-  E \hasDefn E2
-\derives
-  E = E2
-\end{zedrule}
-
-\begin{zedrule}{DeltaRef}
-  \Delta \unprefix v \is v2 \\
-\derives
-  v = [v2; v2~']
-\end{zedrule}
-
-\begin{zedrule}{XiRef}
-  \Xi \unprefix v \is v2 \\
-  [v2|true] :: \power [D2 | true] 
-\derives
-  v = [v2; v2~' | \theta [D2|true] = \theta [D2|true]~']
-\end{zedrule}
-
-\begin{zedrule}{SchemaDecor}
-   [D1|P1]~Stroke \is [D2|P2] \\
-\derives
-   [D1|P1]~Stroke = [D2 | P2]
-\end{zedrule}
+Unfolding of schema operations.
 
 \begin{zedrule}{Theta}
   E :: \power [D | true] \\
@@ -35,10 +11,9 @@
   \theta E = E2
 \end{zedrule}
 
-This rule handles an arbitrary stroke, but does not handle
-lists of strokes.  In the future we will add
-support for Stroke-List jokers, so that all lists of
-decorations can be handled by this rule.
+TODO: This rule handles an arbitrary stroke, but does not handle lists
+of strokes.  In the future we will add support for Stroke-List jokers,
+so that all lists of decorations can be handled by this rule.
 
 \begin{zedrule}{ThetaDecor}
   E :: \power [D | true] \\
@@ -47,10 +22,48 @@ decorations can be handled by this rule.
   \theta E~Stroke = E2
 \end{zedrule}
 
+
+
+
+\begin{zed}
+  \generic ( decor~\_ )
+\end{zed}
+
+\begin{gendef}[SIG1,SIG2]
+  decor \_ : SIG1 \fun SIG2 \\
+\end{gendef}
+
+\begin{zedrule}{SchemaDecorUnfold}
+   [D1|P1]~Stroke = (decor~(normalize [D1|P1]))~Stroke
+\end{zedrule}
+
+\begin{zedrule}{SchemaDecor}
+  [D1|P1]~Stroke \is [D2|P2] \\
+\derives
+   (decor [D1|P1])~Stroke = [D2 | P2]
+\end{zedrule}
+
+
+
+
 \begin{zedrule}{SchemaRenaming}
    E [ RenameList ] \is E2 \\
 \derives
    E [ RenameList ] = E2
+\end{zedrule}
+
+\begin{zedrule}{SchemaComposition}
+  E1 :: \power [D1 | true] \\
+  E2 :: \power [D2 | true] \\
+  (split [D1|true]) \is ([D3|true]? \land [D4|true] \land
+                         [D5|true]' \land [D6|true]!) \\
+  ([D5 | true] \schemaminus [D2 | true]) \is E3\\
+  ([D5 | true] \schemaminus E3) \is E4 % matching names
+\derives
+  E1 \semi E2 =
+  (\exists E4~_9 @ (\exists E4~' @ [E1 | \theta E4~' = \theta E4~_9])
+                   \land
+                   (\exists E4   @ [E2 | \theta E4   = \theta E4~_9]))
 \end{zedrule}
 
 \begin{zedrule}{SchemaPiping}
@@ -108,22 +121,23 @@ schema construction expressions.
                                  (pred [D2|true] \land P2) ]
 \end{zedrule}
 
-TODO pred D1 and pred D2
 \begin{zedrule}{SchemaProjection}
   ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
   [D2 | true] :: \power [D4 | true] \\
   ([D3 | true] \schemaminus [D4 | true]) \is [D5 | true]
 \derives
-  [D1|P1] \project [D2|P2] = [D2 | (\exists D5 @ P1 \land P2)]
+  [D1|P1] \project [D2|P2] =
+  [D2 | (\exists D5 @ pred [D1|true] \land P1 \land P2)]
 \end{zedrule}
 
-TODO pred D
 \begin{zedrule}{SchemaPrecondition}
-  (split [D|true]) \is ([D1|true]? \land [D2|true] \land
-                        [D3|true]' \land [D4|true]!) \\
-  ([D1|true]? \land [D2|true]) :: \power [D5|true]
+  [D | true] :: \power [D1 | true]
+  (split [D1|true]) \is ([D2|true]? \land [D3|true] \land
+                         [D4|true]' \land [D5|true]!) \\
+  ([D2|true]? \land [D3|true]) :: \power [D6|true]
 \derives
-  \pre [D|P] = [ D5 | (\exists ([D3|true]' \land [D4|true]!) @ P)]
+  \pre [D|P] =
+  [D6 | (\exists ([D4|true]' \land [D5|true]!) @ pred [D|true] \land P)]
 \end{zedrule}
 
 \begin{zedrule}{SchemaExists}
@@ -162,6 +176,27 @@ TODO pred D
   [D1|true]\hide (NameList) \is \exists [D2|true] @ [D1|true]
 \derives
   E \hide (NameList) = \exists [D2|true] @ E
+\end{zedrule}
+
+
+\begin{zedrule}{Ref}
+  E :: \power [D | true] \\
+  E \hasDefn E2
+\derives
+  E = E2
+\end{zedrule}
+
+\begin{zedrule}{DeltaRef}
+  \Delta \unprefix v \is v2 \\
+\derives
+  v = [v2; v2~']
+\end{zedrule}
+
+\begin{zedrule}{XiRef}
+  \Xi \unprefix v \is v2 \\
+  [v2|true] :: \power [D2 | true] 
+\derives
+  v = [v2; v2~' | \theta [D2|true] = \theta [D2|true]~']
 \end{zedrule}
 
 
