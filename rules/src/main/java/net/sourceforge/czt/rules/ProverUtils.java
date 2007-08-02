@@ -24,6 +24,7 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.rules.oracles.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -40,6 +41,7 @@ import net.sourceforge.czt.zpatt.visitor.*;
 public final class ProverUtils
 {
   public static Factory FACTORY = new Factory(new ProverFactory());
+  public static Map<String,AbstractOracle> ORACLES = createOracleMap();
 
   /**
    * Copies the given predicate using the CopyVisitor (which makes
@@ -235,5 +237,21 @@ public final class ProverUtils
     {
       super(message);
     }
+  }
+
+  public static Map<String,AbstractOracle> createOracleMap()
+  {
+    Map<String,AbstractOracle> result = new HashMap<String,AbstractOracle>();
+    result.put("TypecheckOracle", new TypecheckOracle());
+    result.put("LookupOracle", new LookupOracle());
+    result.put("ThetaOracle", new ThetaOracle(false));
+    result.put("DecorThetaOracle", new ThetaOracle(true));
+    result.put("DecorOracle", new DecorateOracle());
+    result.put("SchemaMinusOracle", new SchemaMinusOracle());
+    result.put("UnprefixOracle", new UnprefixOracle());
+    result.put("SplitNamesOracle", new SplitNamesOracle());
+    result.put("HideOracle", new HideOracle());
+    result.put("RenameOracle", new RenameOracle());
+    return result;
   }
 }

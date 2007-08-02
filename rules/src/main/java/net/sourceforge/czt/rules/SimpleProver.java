@@ -72,32 +72,7 @@ public class SimpleProver
 
   private Map<String,AbstractOracle> createOracleMap()
   {
-    Factory factory = new Factory(new ProverFactory());
-    Stroke prime = factory.createNextStroke();
-    Stroke in = factory.createInStroke();
-    Stroke out = factory.createOutStroke();
-    Stroke num9Stroke = factory.createNumStroke(9);
-    ZStrokeList sl1 = factory.createZStrokeList();
-    sl1.add(prime);
-    ZStrokeList sl2 = factory.createZStrokeList();
-    sl2.add(num9Stroke);
-    ZStrokeList sl3 = factory.createZStrokeList();
-    sl3.add(out);
-    ZStrokeList sl4 = factory.createZStrokeList();
-    sl4.add(in);
-
-    Map<String,AbstractOracle> result = new HashMap<String,AbstractOracle>();
-    result.put("TypecheckOracle", new TypecheckOracle());
-    result.put("LookupOracle", new LookupOracle());
-    result.put("ThetaOracle", new ThetaOracle(false));
-    result.put("DecorThetaOracle", new ThetaOracle(true));
-    result.put("DecorOracle", new DecorateOracle());
-    result.put("SchemaMinusOracle", new SchemaMinusOracle());
-    result.put("UnprefixOracle", new UnprefixOracle());
-    result.put("SplitNamesOracle", new SplitNamesOracle());
-    result.put("HideOracle", new HideOracle());
-    result.put("RenameOracle", new RenameOracle());
-    return result;
+    return ProverUtils.createOracleMap();
   }
 
   public String getSection()
