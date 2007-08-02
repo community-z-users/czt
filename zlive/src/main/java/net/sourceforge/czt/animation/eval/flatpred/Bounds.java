@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -284,6 +286,19 @@ public class Bounds
     result.replace(0, 1, "{");
     result.append("}");
     return result.toString();
+  }
+
+  /** Add name=value to the bounds information. */
+  public void addConst(ZName name, Expr value)
+  {
+    if (value instanceof NumExpr) {
+      BigInteger val = ((NumExpr)value).getValue();
+      addLower(name,val);
+      addUpper(name,val);
+    }
+    else if (value instanceof EvalSet) {
+      setEvalSet(name, (EvalSet) value);
+    }
   }
 
   /** Get the EvalSet for var, if known.
