@@ -2,6 +2,8 @@
   \SECTION expansion\_rules \parents normalization\_rules
 \end{zsection}
 
+\begin{zedjoker}{ExprList} ExprList \end{zedjoker}
+
 Unfolding of schema operations.
 
 \begin{zedrule}{Theta}
@@ -179,11 +181,18 @@ schema construction expressions.
 \end{zedrule}
 
 
-\begin{zedrule}{Ref}
-  E1 :: \power [D | true] \\
-  E1 \hasDefn E2
+\begin{zedrule}{GenInst}
+  v [ExprList] :: \power [D | true] \\
+  v [ExprList] \hasDefn E2
 \derives
-  E1 = E2
+  v [ExprList] = E2
+\end{zedrule}
+
+\begin{zedrule}{Ref}
+  v :: \power [D | true] \\
+  v \hasDefn E2
+\derives
+  v = E2
 \end{zedrule}
 
 \begin{zedrule}{DeltaRef}
