@@ -21,6 +21,9 @@ package net.sourceforge.czt.animation.eval;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -149,6 +152,19 @@ public class Envir
     result.nextEnv = this;
     result.name_ = name;
     result.expr_ = value;
+    return result;
+  }
+
+  /** Creates an environment which extends this one by adding
+   *  all the name==expr pairs in binding.
+   */
+  public Envir plusAll(BindExpr binding)
+  {
+    Envir result = this;
+    for (Decl decl : binding.getZDeclList()) {
+      ConstDecl cdecl = (ConstDecl) decl;
+      result = plus(cdecl.getZName(), cdecl.getExpr());
+    }
     return result;
   }
 

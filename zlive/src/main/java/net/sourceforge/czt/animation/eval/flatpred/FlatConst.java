@@ -45,14 +45,8 @@ public class FlatConst extends FlatPred
 
   public boolean inferBounds(Bounds bnds)
   {
-    boolean changed = false;
-    if (constant_ instanceof NumExpr) {
-      BigInteger val = ((NumExpr)constant_).getValue();
-      ZName name = args_.get(0);
-      changed |= bnds.addLower(name,val);
-      changed |= bnds.addUpper(name,val);
-    }
-    return changed;
+    bnds.addConst(args_.get(0), constant_);
+    return false;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
