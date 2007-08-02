@@ -131,7 +131,7 @@ schema construction expressions.
 \end{zedrule}
 
 \begin{zedrule}{SchemaPrecondition}
-  [D | true] :: \power [D1 | true]
+  [D | true] :: \power [D1 | true] \\
   (split [D1|true]) \is ([D2|true]? \land [D3|true] \land
                          [D4|true]' \land [D5|true]!) \\
   ([D2|true]? \land [D3|true]) :: \power [D6|true]
@@ -180,10 +180,10 @@ schema construction expressions.
 
 
 \begin{zedrule}{Ref}
-  E :: \power [D | true] \\
-  E \hasDefn E2
+  E1 :: \power [D | true] \\
+  E1 \hasDefn E2
 \derives
-  E = E2
+  E1 = E2
 \end{zedrule}
 
 \begin{zedrule}{DeltaRef}
