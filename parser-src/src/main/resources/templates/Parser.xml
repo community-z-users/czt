@@ -6282,6 +6282,15 @@ RSQUARE:rsq
            RESULT = factory_.createRefExpr(name(it), el, Boolean.FALSE, Boolean.TRUE);
            addLocAnn(RESULT, getLocation(it, rsquare));
         :}
+<add:zpatt>
+        |
+        inner_term:it LSQUARE JOKEREXPRLIST:elj RSQUARE:rsquare
+        {:
+           ExprList el = factory_.createJokerExprList(elj.getString(), null);
+           RESULT = factory_.createRefExpr(name(it), el, Boolean.FALSE, Boolean.TRUE);
+           addLocAnn(RESULT, getLocation(it, rsquare));
+        :}
+</add:zpatt>
         |
         /* schema renaming */
         inner_term:it LSQUARE renameList:rnl RSQUARE:rsquare

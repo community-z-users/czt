@@ -393,7 +393,8 @@ class WrappedExpr
 
   public static boolean isValidWrappedExpr(RefExpr refExpr)
   {
-    boolean result = refExpr.getZExprList().size() > 1 &&
+    boolean result = refExpr.getExprList() instanceof ZExprList &&
+      refExpr.getZExprList().size() > 1 &&
       refExpr.getMixfix().equals(Boolean.TRUE);
     return result;
   }
