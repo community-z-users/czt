@@ -84,10 +84,12 @@ public class SetComp extends DefaultEvalSet
     // infer bounds for the free vars, whose values are now known.
     for (ZName free : preds.freeVars()) {
       if ( ! free.equals(resultName_)) {
-        Expr val = env0.lookup(free);
+        Expr value = env0.lookup(free);
         //System.out.println("add bounds for "+free+" = "+val);
-        assert val != null : "free var "+free+" has no value";
-        addBounds(bounds_, free, val);
+        // value may be null if this set is being used from chooseMode
+        if (value != null) {
+          bounds_.addConst(free, value);
+        }
       }
     }
     preds_.inferBoundsFixPoint(bounds_);
@@ -99,19 +101,6 @@ public class SetComp extends DefaultEvalSet
     if (m != null) {
       estSize_ = m.getSolutions();
       // TODO: infer maxSize here???
-    }
-  }
-
-  protected void addBounds(Bounds bnds, ZName name, Expr value)
-  {
-    if (value instanceof NumExpr) {
-      // TODO: make this code common with FlatConst.
-      BigInteger val = ((NumExpr)value).getValue();
-      bnds.addLower(name,val);
-      bnds.addUpper(name,val);
-    }
-    if (value instanceof EvalSet) {
-      bnds.setEvalSet(name, (EvalSet) value);
     }
   }
 

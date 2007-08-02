@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,18 +94,8 @@ public class TextUI {
   /** The current output stream */
   protected PrintWriter output_;
 
-  /** The current set of evaluation results from "do" or ";". */
-  protected ListIterator<Expr> currSet_ = null;
-
-  /** The position in currSet of currMember_ (0 .. n+1).
-   *  Invariant: this is always the value of currSet_.nextIndex() and
-   *  currMember_ (if non-null) is always the value of currSet_.previous().
-   */
-  protected int currPosition_ = 0;
-
-  /** The current member of currSet that has been shown. */
-  protected Expr currMember_ = null;
-
+  protected Stack<ZLiveResult> stack_ = new Stack<ZLiveResult>();
+  
   /** Get the instance of ZLive that is used for evaluation. */
   public ZLive getZLive()
   {
@@ -206,30 +197,52 @@ public class TextUI {
         doEvalExprPred(args, output_);
       }
       else if (cmd.equals("do")) {
-        doEvalSet(zlive_.evalExpr(parseExpr(args, output_)));
+        Expr expr = parseExpr(args, output_);
+        stack_.push(zlive_.evalTerm(true, expr, new Envir()));
+        doMove(1);
       }
       else if (cmd.equals("next")) {
-        doMove(currPosition_ + 1);
+        doMove(+1);
       }
       else if (cmd.equals("curr")) {
-        doMove(currPosition_);
+        doMove(0);
       }
       else if (cmd.equals("prev")) {
-        doMove(currPosition_ - 1);
+        doMove(-1);
       }
       else if (cmd.equals(";")) {
-        if (currMember_ == null || ! (currMember_ instanceof BindExpr)) {
+        Expr oldState = stack_.peek().currentMember();
+        if (oldState == null || ! (oldState instanceof BindExpr)) {
           throw new RuntimeException("no current binding to compose with");
         }
+        BindExpr inputs = zlive_.unprime( (BindExpr) oldState );
+        if (inputs.getZDeclList().size() == 0) {
+          throw new CztException("current binding has no primed names");
+        }
+        Envir env = new Envir().plusAll(inputs);
         Expr schema = parseExpr(args,output_);
-        BindExpr inputs = zlive_.unprime( (BindExpr) currMember_ );
-        inputs = (BindExpr) inputs.accept(new ResultTreeToZVisitor());
         // TODO: prompt user for any missing inputs???
-        Expr result = zlive_.evalSchema(schema, inputs);
-        doEvalSet(result);
+        stack_.push(zlive_.evalTerm(true, schema, env));
+        doMove(1);
+      }
+      else if (cmd.equals("undo")) {
+        if (stack_.size() == 0) {
+          output_.println("Nothing to undo.");
+        }
+        else {
+          stack_.pop();
+          if (stack_.isEmpty()) {
+            output_.println("Returned to the start.");
+          }
+          else {
+            output_.println("Returned to: " +
+                printTerm(stack_.peek().getOriginalTerm(), zlive_.getMarkup()));
+            doMove(stack_.peek().currentPosition());
+          }
+        }
       }
       else if (cmd.equals("why")) {
-        zlive_.printCode(output_);
+        zlive_.printCode(stack_.peek().getCode(), output_);
       }
       else if (cmd.equals("set")) {
         if (args == null || "".equals(args))
@@ -241,18 +254,14 @@ public class TextUI {
         }
       }
       else if (cmd.equals("show")) {
-        String sectName = zlive_.getCurrentSection();
-        SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(new Key(sectName, SectTypeEnvAnn.class));
-        for (NameSectTypeTriple triple : types.getNameSectTypeTriple()) {
-          if (triple.getSect().equals(sectName))
-            output_.println("    "+triple.getZName()+":  "+triple.getType());
-        }
+        printTypes(zlive_.getCurrentSection());
       }
       else if (cmd.equals("conjectures")) {
         doConjectures();
       }
       else if (cmd.equals("reset")) {
         zlive_.reset();
+        stack_.clear();
         output_.println("All specifications cleared...");
       }
       else if (cmd.equals("ver") || cmd.equals("version")) {
@@ -307,8 +316,8 @@ public class TextUI {
       output_.println("Cannot find source for section '" + ex.getName() + "'");
     }
     catch (Exception ex) {
-      output_.println("Error: " + ex);
-      ex.printStackTrace();
+      output_.println("Error: " + ex.getMessage());
+      // ex.printStackTrace();
     }
     output_.flush();
   }
@@ -374,18 +383,18 @@ public class TextUI {
     out.println();
   }
 
-  /** Checks that expr is an EvalSet, and starts to iterate through it. */
-  protected void doEvalSet(Expr expr)
+  protected void doMove(int offset)
   {
-    if ( ! (expr instanceof EvalSet)) {
-      throw new RuntimeException("expected an EvalSet result, not "+expr.getClass());
+    if (stack_.isEmpty()) {
+      throw new RuntimeException("you need to use 'do' to evaluate a set/schema first.");
     }
-    currSet_ = ((EvalSet) expr).listIterator();
-    currPosition_ = 0;
-    currMember_ = null;
-    doMove(1);
+    ZLiveResult result = stack_.peek();
+    result.moveTo(result.currentPosition() + offset);
+    output_.print(result.currentPosition()+": ");
+    this.printTerm(output_, result.currentMember(), zlive_.getMarkup());
+    output_.println();
   }
-
+  
   /** Tries to prove all the conjectures in the current section.
    *  Proof consists of exhaustively checking all possible instantiations
    *  of the conjecture, which is similar to model-checking.
@@ -486,43 +495,6 @@ public class TextUI {
     }
   }
 
-  /** Tries to move to member number 'position' in currSet.
-   */
-  public void doMove(int position)
-  {
-    if (currSet_ == null) {
-      throw new RuntimeException("no current set or schema");
-    }
-    if (position <= 0) {
-      output_.println("no previous solutions");
-    }
-    else {
-      while (position < currPosition_ && currSet_.hasPrevious()) {
-        // step backwards
-        currMember_ = currSet_.previous();
-        currPosition_ = currSet_.nextIndex();
-      }
-      while (position > currPosition_ && currSet_.hasNext()) {
-        // step forwards
-        currMember_ = currSet_.next();
-        currPosition_ = currSet_.nextIndex();
-      }
-      if (position > currPosition_) {
-        output_.println("no more solutions");
-      }
-    }
-    // now display the current element
-    if (currPosition_ > 0) {
-      // make sure we have got the element just *before* currPosition_.
-      currSet_.previous();
-      currMember_ = currSet_.next();
-      currPosition_ = currSet_.nextIndex();
-      output_.print(currPosition_+": ");
-      this.printTerm(output_, currMember_, zlive_.getMarkup());
-      output_.println();
-    }
-  }
-
   /** Prints the current values of all the ZLive settings.
    *  NOTE: when you change this, make sure you update printSettingsHelp too.
    */
@@ -599,6 +571,7 @@ public class TextUI {
     out.println("do <expr>         -- Evaluate a schema/set and show one member");
     out.println("next/curr/prev    -- Show next/current/previous state of a schema/set");
     out.println("; schemaExpr      -- Compose the current state with schemaExpr");
+    out.println("undo              -- Undo the last 'do' or ';' command.");
     out.println("why               -- Show the internal code of the last command");
     out.println("set               -- Show all current settings");
     out.println("set <var> <value> -- Sets <var> to <value>.");
@@ -613,6 +586,18 @@ public class TextUI {
     out.println("  apply rule expr -- Try to rewrite expr using rule (debug)");
     out.println();
     printSettingsHelp(out);
+  }
+
+  /** Prints the names and types of the definitions in the given section. */
+  public void printTypes(String sectName)
+  throws CommandException
+  {
+    SectTypeEnvAnn types = (SectTypeEnvAnn) zlive_.getSectionManager().get(
+        new Key(sectName, SectTypeEnvAnn.class));
+    for (NameSectTypeTriple triple : types.getNameSectTypeTriple()) {
+      if (triple.getSect().equals(sectName))
+        output_.println("    "+triple.getZName()+":  "+triple.getType());
+    }
   }
 
   public String printTerm(Term term, Markup markup)

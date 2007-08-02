@@ -1,6 +1,6 @@
 /*
   ZLive - A Z animator -- Part of the CZT Project.
-  Copyright 2006 Mark Utting
+  Copyright 2007 Mark Utting
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -80,9 +80,6 @@ public class ZLive
   private /*@non_null@*/ Flatten flatten_;
 
   private /*@non_null@*/ Preprocess preprocess_;
-
-  /** A Writer interface to System.out. */
-  protected PrintWriter writer_ = new PrintWriter(System.out);
 
   protected SectionManager sectman_;
 
@@ -270,14 +267,14 @@ public class ZLive
   /** Evaluate a Pred.
    *  This throws some kind of EvalException if pred is too difficult
    *  to evaluate or contains an undefined expression.
-   *  The input predicate must be type checked.
+   *  The input predicate must have been type checked.
    *  @param pred  A net.sourceforge.czt.z.ast.Pred object.
    *  @return      Usually an instance of TruePred or FalsePred.
    */
   public Pred evalPred(Pred pred)
     throws EvalException
     {
-      return (Pred) evalTerm(false, pred, new Envir());
+      return (Pred) evalTerm(false, pred, new Envir()).getResult();
     }
 
   /** Evaluate an Expr.
@@ -290,7 +287,7 @@ public class ZLive
   public Expr evalExpr(Expr expr)
   throws EvalException
   {
-    return (Expr) evalTerm(true, expr, new Envir());
+    return (Expr) evalTerm(true, expr, new Envir()).getResult();
   }
 
   /** Does the common evaluation steps for predicates and expressions.
@@ -298,41 +295,44 @@ public class ZLive
    * @param isExpr  true if term should be evaluated as an expression.
    * @param term    the expression or predicate to be evaluated.
    * @param env0    the initial environment in which to evaluate term.
-   * @return        an evaluated expression if isExpr=true, 
-   *                otherwise TruePred or FalsePred.
+   * @return        A structure that contains all the interesting 
+   *                information about the evaluation.
    */
-  protected Term evalTerm(boolean isExpr, Term term, Envir env0)
+  protected ZLiveResult evalTerm(boolean isExpr, Term term0, Envir env0)
   {
     LOG.entering("ZLive","evalTerm");
+    Term unfolded = null;
     Term result = null;
-    ZName resultName = null;
+    String section = getCurrentSection();
     predlist_ = new FlatPredList(this);
     try {
-      if (getCurrentSection() == null) {
+      if (section == null) {
         throw new CztException("Must choose a section!");
       }
       // preprocess the predicate, to unfold things.
       // Unifier.printDepth_ = 7;  // for debugging unifications
-      term = preprocess_.preprocess(getCurrentSection(), term);
-      LOG.finer("After preprocess,  pred="+printTerm(term));
+      unfolded = preprocess_.preprocess(section, term0);
+      LOG.finer("After preprocess,  pred="+printTerm(unfolded));
       // must typecheck, to reestablish the unique-ids invariant.
-      typecheck(term);
-      LOG.finer("After retypecheck, term="+printTerm(term));
-      term = preprocess_.fixIds(term);
-      LOG.finer("After doing fixIds term="+printTerm(term));
+      typecheck(unfolded);
+      LOG.finer("After retypecheck, term="+printTerm(unfolded));
+      unfolded = preprocess_.fixIds(unfolded);
+      LOG.finer("After doing fixIds term="+printTerm(unfolded));
+      ZName resultName = null;
       if (isExpr) {
-        resultName = predlist_.addExpr((Expr)term);
+        resultName = predlist_.addExpr((Expr)unfolded);
       }
       else {
-        predlist_.addPred((Pred)term);
+        predlist_.addPred((Pred)unfolded);
       }
       Bounds bnds = new Bounds(null);
+      // TODO: add any constants in env0 to bnds
       predlist_.inferBoundsFixPoint(bnds, INFER_PASSES);
       LOG.finer("Starting chooseMode with env="+env0.toString());
       Mode m = predlist_.chooseMode(env0);
       if (m == null) {
         final String message =
-          "Cannot find mode to evaluate: " + printTerm(term, markup_);
+          "Cannot find mode to evaluate: " + printTerm(unfolded, markup_);
         throw new EvalException(message);
       }
       LOG.finer("Setting mode "+m.toString());
@@ -368,36 +368,19 @@ public class ZLive
       throw ex;
     }
     LOG.exiting("ZLive","evalTerm", result);
-    return result;
+    return new ZLiveResult(section, term0, unfolded, predlist_, result);
   }
 
-  /** Evaluate a schema with some given inputs/output.
-   *  This calls evalExpr(exists binding @ schema).
-   *  So additional bindings in args will be ignored.
-   *  @param expr  An expression of type powerset of bindings.
-   *  @parem args  A binding that gives some of the input/output values.
-   *  @return      A set of bindings.
-  */
-  public EvalSet evalSchema(Expr schema, BindExpr args)
-  throws EvalException, CommandException
-  {
-    SchText schText = factory_.createZSchText(args.getZDeclList(),
-        factory_.createTruePred());
-    ExistsExpr expr = factory_.createExistsExpr(schText, schema);
-    // if evalExpr doesn't throw a typecheck error, expr (and schema) must
-    // be a schema expression, so the result should be an EvalSet.
-    return (EvalSet) evalExpr(expr);
-  }
-
-  /** This is a convenience version of evalSchema that accepts a
-   *  schema name rather than a schema expression.
+  /** Converts a schema name into an expression that can be evaluated.
    *  The schema name is looked up in the definition table of the
    *  current section.
+   * 
+   * @throws CztException if schemaName is not defined.
+   *  
    * @param schemaName The undecorated name of a schema.
-   * @param args       A binding that gives some of the input/output values.
-   * @return           A set of bindings.
+   * @return           The expression that defines the schema.
    */
-  public EvalSet evalSchema(String schemaName, BindExpr args)
+  public Expr schemaExpr(String schemaName)
   throws EvalException, CommandException
   {
     Expr schema = null;
@@ -412,10 +395,10 @@ public class ZLive
     }
     if (schema == null)
     {
-      CztException ex =new CztException("Cannot find schema: "+schemaName);
+      CztException ex = new CztException("Cannot find schema: "+schemaName);
       throw ex;
     }
-    return evalSchema(schema, args);
+    return schema;
   }
 
   /** Typechecks a term, to check its correctness and to
@@ -438,34 +421,19 @@ public class ZLive
     }
   }
 
-  public void printCode()
+  /** Prints the given list of FlatPreds.
+   */
+  public void printCode(FlatPredList code, PrintWriter writer)
   {
-    printCode(writer_);
-  }
-
-  /** Prints the list of FlatPreds used in the last call
-    * to evalPred or evalExpr.
-    */
-    public void printCode(PrintWriter writer)
-    {
-      if(predlist_ == null) {
-        writer.println("No previous evaluations");
-      }
-      else {
-        try {
-          if (predlist_.size() == 0)
-            writer.println("Code is empty!");
-          for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
-            FlatPred p = (FlatPred) i.next();
-            writer.write(p.toString() + ";\n");
-          }
-          writer.flush();
-        }
-        catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
+    if (code == null || code.size() == 0) {
+      writer.println("Code is empty!");
     }
+    for (Iterator i = code.iterator(); i.hasNext();) {
+      FlatPred p = (FlatPred) i.next();
+      writer.write(p.toString() + ";\n");
+    }
+    writer.flush();
+  }
 
   /** Prints an evaluated expression as a standard text string.
    */
