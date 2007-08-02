@@ -105,7 +105,7 @@ public enum ConcreteSyntaxSymbol
   TUPLE_SEL_EXPR("Tuple selection expression"),
   THETA_EXPR("Binding construction expression"),
   REF_EXPR("Reference expression"),
-  GENREF_EXPR("GEneric instantiation expression"),
+  GENREF_EXPR("Generic instantiation expression"),
   NUM_EXPR("Number literal expression"),
   SET_EXPR("Set extension expression"),
   SET_COMP_EXPR("Set comprehension expression"),
