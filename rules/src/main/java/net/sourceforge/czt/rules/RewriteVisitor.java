@@ -27,6 +27,7 @@ import java.util.Set;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.rules.oracles.AbstractOracle;
 import net.sourceforge.czt.rules.unification.UnificationUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
@@ -67,6 +68,8 @@ public class RewriteVisitor
   private List<RewriteRule> renameExprRules_ = new ArrayList<RewriteRule>();
 
   private List<Oracle> oracles_ = new ArrayList<Oracle>();
+  private SectionManager manager_;
+  private String section_;
   private SimpleProver prover_;
 
   public RewriteVisitor(RuleTable rules,
@@ -120,6 +123,8 @@ public class RewriteVisitor
         oracles_.add((Oracle) rulePara);
       }
     }
+    manager_ = manager;
+    section_ = section;
     prover_ = new SimpleProver(null, manager, section);
   }
 
@@ -203,7 +208,7 @@ public class RewriteVisitor
     private String name_;
     private Term left_;
     private Term right_;
-    private SequentList provisos_;
+    private List<OracleAppl> appls_ = new ArrayList<OracleAppl>();
 
     public RewriteRule(String name,
                        Term left,
@@ -213,39 +218,58 @@ public class RewriteVisitor
       name_ = name;
       left_ = left;
       right_ = right;
-      provisos_ = provisos;
+      for (Sequent sequent : provisos) {
+        boolean foundOracle = false;
+        for (Oracle oracle : oracles_) {
+          if (SimpleProver.apply(oracle, sequent)) {
+            OracleAppl oracleAppl = sequent.getAnn(OracleAppl.class);
+            foundOracle = true;
+            appls_.add(oracleAppl);
+            break;
+          }
+        }
+        if (! foundOracle) {
+          String message = "Rule " + name + ": No oracle found";
+          throw new IllegalStateException(message);
+        }
+      }
     }
 
     private void undo(Set<Binding> bindings)
     {
       ProverUtils.reset(bindings);
-      for (Sequent sequent : provisos_)
-      {
-        prover_.undo(sequent);
-      }
     }
 
     public Term apply(Term term)
     {
       Set<Binding> bindings = UnificationUtils.unify(left_, term);
-      if (bindings == null) return null;
-      for (Sequent sequent : provisos_) {
-        boolean proved = false;
-        for (Oracle oracle : oracles_) {
-          if (SimpleProver.apply(oracle, sequent)) {
-            OracleAppl oracleAppl = sequent.getAnn(OracleAppl.class);
-            if (prover_.prove(oracleAppl)) {
-              proved = true;
-              break;
+      if (bindings == null) {
+        return null;
+      }
+      for (OracleAppl oracleAppl : appls_) {
+        AbstractOracle checker =
+          ProverUtils.ORACLES.get(oracleAppl.getName());
+        if (checker != null) {
+          List args = oracleAppl.getAnn(List.class);
+          try {
+            Set<Binding> bdgs = checker.check(args, manager_, section_);
+            if (bdgs != null) {
+              bindings.addAll(bdgs);
             }
             else {
-              prover_.undo(sequent);
+              undo(bindings);
+              return null;
             }
           }
-        }
-        if (! proved) {
-          undo(bindings);
-          return null;
+          catch (UnboundJokerException e) {
+            String msg = "Rule " + name_ +
+              ": UnboundJokerException from oracle " +
+              oracleAppl.getName();
+            System.err.println(msg);
+            System.err.println(e.getMessage());
+            undo(bindings);
+            return null;
+          }
         }
       }
       try {
@@ -254,6 +278,7 @@ public class RewriteVisitor
         return result;
       }
       catch (UnboundJokerException e) {
+        System.err.println("Result of rewrite rule contains jokers");
         undo(bindings);
         throw new RuntimeException(e);
       }
