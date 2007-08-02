@@ -20,8 +20,10 @@
 package net.sourceforge.czt.rules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -31,6 +33,8 @@ import net.sourceforge.czt.rules.oracles.AbstractOracle;
 import net.sourceforge.czt.rules.unification.UnificationUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ConcreteSyntaxSymbol;
+import net.sourceforge.czt.z.util.SyntaxSymbolVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -47,30 +51,18 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class RewriteVisitor
   implements Rewriter,
              TermVisitor<Term>,
-             AndExprVisitor<Term>,
-             AndPredVisitor<Term>,
              ExprVisitor<Term>,
-             NegPredVisitor<Term>,
-             OrPredVisitor<Term>,
-             PredVisitor<Term>,
-             QntExprVisitor<Term>,
-             QntPredVisitor<Term>,
-             RenameExprVisitor<Term>
+             PredVisitor<Term>
 {
-  private List<RewriteRule> andExprRules_ = new ArrayList<RewriteRule>();
-  private List<RewriteRule> andPredRules_ = new ArrayList<RewriteRule>();
-  private List<RewriteRule> exprRules_ = new ArrayList<RewriteRule>();
-  private List<RewriteRule> negPredRules_ = new ArrayList<RewriteRule>();
-  private List<RewriteRule> orPredRules_ = new ArrayList<RewriteRule>();
-  private List<RewriteRule> predRules_ = new ArrayList<RewriteRule>();
-  private List<RewriteRule> qntExprRules_ = new ArrayList<RewriteRule>();
-  private List<RewriteRule> qntPredRules_ = new ArrayList<RewriteRule>();
-  private List<RewriteRule> renameExprRules_ = new ArrayList<RewriteRule>();
-
+  private Map<ConcreteSyntaxSymbol,List<RewriteRule>> exprRules_ =
+    new HashMap<ConcreteSyntaxSymbol,List<RewriteRule>>();
+  private Map<ConcreteSyntaxSymbol,List<RewriteRule>> predRules_ =
+    new HashMap<ConcreteSyntaxSymbol,List<RewriteRule>>();
   private List<Oracle> oracles_ = new ArrayList<Oracle>();
   private SectionManager manager_;
   private String section_;
   private SimpleProver prover_;
+  private SyntaxSymbolVisitor visitor_ = new SyntaxSymbolVisitor();
 
   public RewriteVisitor(RuleTable rules,
                         SectionManager manager,
@@ -149,29 +141,9 @@ public class RewriteVisitor
     return term;
   }
 
-  public Term visitAndExpr(AndExpr term)
-  {
-    return rewrite(term, andExprRules_);
-  }
-
-  public Term visitAndPred(AndPred term)
-  {
-    return rewrite(term, andPredRules_);
-  }
-
   public Term visitExpr(Expr expr)
   {
     return rewrite(expr, exprRules_);
-  }
-
-  public Term visitNegPred(NegPred pred)
-  {
-    return rewrite(pred, negPredRules_);
-  }
-
-  public Term visitOrPred(OrPred pred)
-  {
-    return rewrite(pred, orPredRules_);
   }
 
   public Term visitPred(Pred pred)
@@ -179,26 +151,23 @@ public class RewriteVisitor
     return rewrite(pred, predRules_);
   }
 
-  public Term visitQntExpr(QntExpr term)
+  public Term rewrite(Term term,
+                      Map<ConcreteSyntaxSymbol,List<RewriteRule>> map)
   {
-    return rewrite(term, qntExprRules_);
-  }
-
-  public Term visitQntPred(QntPred pred)
-  {
-    return rewrite(pred, qntPredRules_);
-  }
-
-  public Term visitRenameExpr(RenameExpr term)
-  {
-    return rewrite(term, renameExprRules_);
+    ConcreteSyntaxSymbol key = term.accept(visitor_);
+    if (key == null) {
+      throw new IllegalStateException("Cannot handle term " + term);
+    }
+    return rewrite(term, map.get(key));
   }
 
   public Term rewrite(Term term, List<RewriteRule> rules)
   {
-    for (RewriteRule rule : rules) {
-      Term result = rule.apply(term);
-      if (result != null) return result;
+    if (rules != null) {
+      for (RewriteRule rule : rules) {
+        Term result = rule.apply(term);
+        if (result != null) return result;
+      }
     }
     return null;
   }
@@ -233,6 +202,11 @@ public class RewriteVisitor
           throw new IllegalStateException(message);
         }
       }
+    }
+
+    public String getName()
+    {
+      return name_;
     }
 
     private void undo(Set<Binding> bindings)
@@ -286,15 +260,8 @@ public class RewriteVisitor
   }
 
   public class AddRuleVisitor
-    implements AndExprVisitor<Object>,
-               AndPredVisitor<Object>,
-               ExprVisitor<Object>,
-               NegPredVisitor<Object>,
-               OrPredVisitor<Object>,
-               PredVisitor<Object>,
-               QntExprVisitor<Object>,
-               QntPredVisitor<Object>,
-               RenameExprVisitor<Object>
+    implements ExprVisitor<Object>,
+               PredVisitor<Object>
   {
     private RewriteRule rule_;
 
@@ -303,57 +270,41 @@ public class RewriteVisitor
       rule_ = rule;
     }
 
-    public Object visitAndExpr(AndExpr andExpr)
+    private void addRule(Term term,
+                         Map<ConcreteSyntaxSymbol,List<RewriteRule>> map)
     {
-      andExprRules_.add(rule_);
-      return null;
+      ConcreteSyntaxSymbol key = term.accept(visitor_);
+      if (key == null) {
+        String msg = "Rule " + rule_.getName() +
+          ": Cannot handle term " + term;
+        throw new IllegalStateException(msg);
+      }
+      addRule(key, map);
     }
 
-    public Object visitAndPred(AndPred andPred)
+    private void addRule(ConcreteSyntaxSymbol key,
+                         Map<ConcreteSyntaxSymbol,List<RewriteRule>> map)
     {
-      andPredRules_.add(rule_);
-      return null;
+      List<RewriteRule> rules = map.get(key);
+      if (rules != null) {
+        rules.add(rule_);
+      }
+      else {
+        rules = new ArrayList<RewriteRule>();
+        rules.add(rule_);
+        map.put(key, rules);
+      }
     }
 
     public Object visitExpr(Expr expr)
     {
-      exprRules_.add(rule_);
-      return null;
-    }
-
-    public Object visitNegPred(NegPred negPred)
-    {
-      negPredRules_.add(rule_);
-      return null;
-    }
-
-    public Object visitOrPred(OrPred orPred)
-    {
-      orPredRules_.add(rule_);
+      addRule(expr, exprRules_);
       return null;
     }
 
     public Object visitPred(Pred pred)
     {
-      predRules_.add(rule_);
-      return null;
-    }
-
-    public Object visitQntExpr(QntExpr term)
-    {
-      qntExprRules_.add(rule_);
-      return null;
-    }
-
-    public Object visitQntPred(QntPred term)
-    {
-      qntPredRules_.add(rule_);
-      return null;
-    }
-
-    public Object visitRenameExpr(RenameExpr term)
-    {
-      renameExprRules_.add(rule_);
+      addRule(pred, predRules_);
       return null;
     }
   }
