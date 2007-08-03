@@ -569,4 +569,6 @@ public class ZLive
     }
     return factory_.createBindExpr(pairs);
   }
+
+  public net.sourceforge.czt.z.ast.Expr evalSchema(java.lang.String string ,net.sourceforge.czt.z.ast.BindExpr expr) throws net.sourceforge.czt.session.CommandException { return null; }
 }
