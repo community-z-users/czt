@@ -60,3 +60,17 @@ Not Rules:
 \begin{zedrule}{NotFalse}
   \lnot false \iff true
 \end{zedrule}
+
+Quantification Rules:
+
+\begin{zedrule}{ForallDistribution}
+  (\forall [D|P1]|P2 @ P3) \iff (\forall D | P1\land P2 @ P3)
+\end{zedrule}
+
+\begin{zedrule}{ExistsDistribution}
+  (\exists [D|P1]|P2 @ P3) \iff (\exists D | P1\land P2 @ P3)
+\end{zedrule}
+
+\begin{zedrule}{Exists1Distribution}
+  (\exists_1 [D|P1]|P2 @ P3) \iff (\exists_1 D | P1\land P2 @ P3)
+\end{zedrule}
