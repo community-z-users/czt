@@ -236,11 +236,11 @@ public class RewriteVisitor
             }
           }
           catch (UnboundJokerException e) {
-            String msg = "Rule " + name_ +
-              ": UnboundJokerException from oracle " +
-              oracleAppl.getName();
-            System.err.println(msg);
-            System.err.println(e.getMessage());
+            // String msg = "Rule " + name_ +
+            //   ": UnboundJokerException from oracle " +
+            //   oracleAppl.getName();
+            // System.err.println(msg);
+            // System.err.println(e.getMessage());
             undo(bindings);
             return null;
           }
