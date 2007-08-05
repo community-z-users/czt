@@ -47,9 +47,6 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <excludes>
-            <!-- quick hack to get the tests working -->
-            <exclude>**/ZLiveTest.java</exclude>
-            <exclude>**/ExprComparatorTest.java</exclude>
             <!-- exclude usertests -->
             <exclude>**/Animate*Test.java</exclude>
             <!-- exclude abstract superclasses -->
