@@ -22,7 +22,7 @@
 \end{theorem}
 
 \begin{theorem}{theorem3a}
-  \vdash? \Delta Simple = [ [ x : \nat | true ] ; [ x' : \arithmos | x' \in \nat ] | true ]
+  \vdash? \Delta Simple = [ [ x : \nat ] ; [ x' : \nat ] | true ]
 \end{theorem}
 
 \begin{theorem}{theorem3b}
@@ -31,7 +31,7 @@
 
 \begin{theorem}{theorem4a}
   \vdash? \Xi Simple =
-	    [ [ x : \nat | true ] ; [ x' : \arithmos | x' \in \nat ] | \lblot x == x \rblot = \lblot x == x' \rblot ] 
+	    [ [ x : \nat ] ; [ x' : \nat ] | \lblot x == x \rblot = \lblot x == x' \rblot ] 
 \end{theorem}
 
 \begin{theorem}{theorem4b}
@@ -67,7 +67,7 @@
 
 \begin{theorem}{ThetaPrime}
   \vdash? (\mu Simple~' @ \theta Simple~') =
-          (\mu [x' : \arithmos | x' \in \nat] @ \lblot x == x' \rblot )
+          (\mu [x' : \nat] @ \lblot x == x' \rblot )
 \end{theorem}
 
 \begin{theorem}{SimpleProjection1}
@@ -167,7 +167,10 @@
     [ x : \arithmos | x \in \nat ]
 \end{theorem}
 
-
+% TODO: does not yet work due to ID problems
+%\begin{theorem}{Decor1}
+  \vdash? [SimpleGen[\nat] | x > 5]' = [x':\nat | x' > 5]
+\end{theorem}
 
 
 Unfolding birthdaybook:
@@ -192,10 +195,3 @@ Unfolding birthdaybook:
     | birthday \in NAME \pfun DATE \land known = \dom birthday ]
 \end{theorem}
 
-%\begin{theorem}{Test}
-  \vdash? (\exists NAME:\power\arithmos @ [x:NAME | true] =
-                                          [x:\arithmos | x\in NAME])
-          \iff
-          (\exists NAME:\power\arithmos @ [x:\arithmos | x\in NAME] =
-                                          [x:\arithmos | x\in NAME])
-\end{theorem}

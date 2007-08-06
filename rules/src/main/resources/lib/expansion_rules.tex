@@ -25,24 +25,12 @@ so that all lists of decorations can be handled by this rule.
 \end{zedrule}
 
 
-
-
-\begin{zed}
-  \generic ( decor~\_ )
-\end{zed}
-
-\begin{gendef}[SIG1,SIG2]
-  decor \_ : SIG1 \fun SIG2 \\
-\end{gendef}
-
-\begin{zedrule}{SchemaDecorUnfold}
-   [D1|P1]~Stroke = (decor~(normalize [D1|P1]))~Stroke
-\end{zedrule}
+Works only for innermost:
 
 \begin{zedrule}{SchemaDecor}
   [D1|P1]~Stroke \is [D2|P2] \\
 \derives
-   (decor [D1|P1])~Stroke = [D2 | P2]
+  [D1|P1]~Stroke = [D2 | P2]
 \end{zedrule}
 
 
