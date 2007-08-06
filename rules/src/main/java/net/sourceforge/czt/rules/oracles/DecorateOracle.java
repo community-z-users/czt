@@ -83,8 +83,7 @@ public class DecorateOracle
    *           a renaming.
    */
   public static class DecorateNamesVisitor
-    implements InclDeclVisitor<Term>,
-               TermVisitor<Term>,
+    implements TermVisitor<Term>,
                ZNameVisitor<Term>
   {
     private Set<Name> declNames_;
@@ -101,25 +100,8 @@ public class DecorateOracle
       stroke_ = stroke;
     }
 
-    public Term visitInclDecl(InclDecl inclDecl)
-    {
-      // TODO: visit children?
-      DecorExpr decorExpr =
-        factory_.createDecorExpr(inclDecl.getExpr(), stroke_);
-      InclDecl result = (InclDecl) inclDecl.create(new Object[] { decorExpr });
-      return result;
-    }
-
     public Term visitTerm(Term term)
     {
-      if (term instanceof Joker) {
-        Joker joker = (Joker) term;
-        Term boundTo = joker.boundTo();
-        if (boundTo != null) {
-          return boundTo.accept(this);
-        }
-        throw new RuntimeException("Found unbound Joker");
-      }
       return (Term) VisitorUtils.visitTerm(this, term, true);
     }
 
