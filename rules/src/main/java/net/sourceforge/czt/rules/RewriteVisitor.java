@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.rules;
 
+import java.io.StringWriter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,6 +30,7 @@ import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.oracles.AbstractOracle;
 import net.sourceforge.czt.rules.unification.UnificationUtils;
@@ -249,6 +252,13 @@ public class RewriteVisitor
       try {
         Term result = ProverUtils.removeJoker(right_);
         undo(bindings);
+        //        StringWriter out = new StringWriter();
+        //        out.write("Rewrite ");
+        //        PrintUtils.printLatex(term, out, manager_, section_);
+        //        out.write(" to ");
+        //        PrintUtils.printLatex(result, out, manager_, section_);
+        //        out.write(" using rule " + name_);
+        //        System.err.println(out.toString());
         return result;
       }
       catch (UnboundJokerException e) {
