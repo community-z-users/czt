@@ -55,7 +55,13 @@ public class CollectStateVariablesVisitor
 
   public Term visitInclDecl(InclDecl inclDecl)
   {
-    String message = "Schema not normalised";
+    Expr expr = inclDecl.getExpr();
+    if (expr instanceof SchExpr) {
+      SchExpr schExpr = (SchExpr) expr;
+      schExpr.getZSchText().getDeclList().accept(this);
+      return null;
+    }
+    String message = "Include declaration " + inclDecl + " not supported.";
     throw new IllegalStateException(message);
   }
 
