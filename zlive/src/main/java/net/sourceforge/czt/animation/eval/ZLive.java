@@ -298,7 +298,7 @@ public class ZLive
    * @return        A structure that contains all the interesting 
    *                information about the evaluation.
    */
-  protected ZLiveResult evalTerm(boolean isExpr, Term term0, Envir env0)
+  public ZLiveResult evalTerm(boolean isExpr, Term term0, Envir env0)
   {
     LOG.entering("ZLive","evalTerm");
     Term unfolded = null;
