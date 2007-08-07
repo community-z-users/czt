@@ -1,8 +1,19 @@
 package net.sourceforge.czt.ui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+
+import net.sourceforge.czt.base.util.TermTreeNode;
+import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztErrorList;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.z.ast.Spec;
 
 /**
  *  Description of the Class
@@ -132,6 +143,40 @@ public class CZTGui implements ActionListener
 
   }
 
+  private void loadFile()
+  {
+    specDialog.setVisible(false);
+    saveas.setEnabled(true);
+    frame.setTitle(softwarename + " - " + file.getName());
+    SectionManager manager = new SectionManager();
+    FileSource source = new FileSource(file);
+    manager.put(new Key(source.getName(), Source.class), source);
+    try {
+      Spec spec = (Spec)
+        manager.get(new Key(source.getName(), Spec.class));
+      // TODO: Display JTree instead of printing
+      // use TermTreeNode
+      System.out.println(spec);
+    }
+    catch (CommandException exception) {
+      Throwable cause = exception.getCause();
+      if (cause instanceof CztErrorList) {
+        java.util.List<? extends CztError> errors =
+          ((CztErrorList) cause).getErrors();
+        // TODO: (iterate over error list
+      }
+      else if (cause instanceof IOException) {
+        String message = "Input output error: " + cause.getMessage();
+      }
+      else {
+        String message = cause + getClass().getName();
+      }
+    }
+    catch (Throwable e) {
+      String message =
+        "Caught " + e.getClass().getName() + ": " + e.getMessage();
+    }
+  }
 
   /**
    *  Description of the Method
@@ -166,16 +211,12 @@ public class CZTGui implements ActionListener
               JOptionPane.ERROR_MESSAGE);
           }
           else {
-            specDialog.setVisible(false);
-            saveas.setEnabled(true);
-            frame.setTitle(softwarename + " - " + file.getName());
+            loadFile();
           }
         }
       }
       else {
-        specDialog.setVisible(false);
-        saveas.setEnabled(true);
-        frame.setTitle(softwarename + " - " + file.getName());
+        loadFile();
       }
     }
     //if the cancel button is clicked on the spec dialog then hid it

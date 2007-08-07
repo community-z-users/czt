@@ -43,8 +43,14 @@ public class Main
   public static void main(String[] args)
     throws Throwable
   {
-    Main main = new Main();
-    main.run(args);
+    if (args == null || args.length == 0) {
+      CZTGui gui = new CZTGui();
+      gui.go();
+    }
+    else {
+      Main main = new Main();
+      main.run(args);
+    }
   }
 
   public void run(String[] args)
