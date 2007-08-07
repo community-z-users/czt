@@ -155,7 +155,8 @@ public class CZTGui implements ActionListener
       Spec spec = (Spec)
         manager.get(new Key(source.getName(), Spec.class));
       // TODO: Display JTree instead of printing
-      // use TermTreeNode
+      // use TermTreeNode to create JTree
+      // new JTree(new TermTreeNode(spec))
       System.out.println(spec);
     }
     catch (CommandException exception) {
