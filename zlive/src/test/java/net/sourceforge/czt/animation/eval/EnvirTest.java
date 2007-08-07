@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.Assert;
+import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -131,6 +132,14 @@ public class EnvirTest
     env.setValue(y,i5);
     Assert.assertEquals(i5, env.lookup(y));
     Assert.assertEquals(i10, env.lookup(x));
+  }
+  
+  public void testPlusAll()
+  {
+    BindExpr args = (BindExpr) parseExpr("\\lblot x==0, y==10 \\rblot");
+    Envir env = new Envir().plusAll(args);
+    assertEquals(i0, env.lookup(x));
+    assertEquals(i10, env.lookup(y));
   }
 }
 
