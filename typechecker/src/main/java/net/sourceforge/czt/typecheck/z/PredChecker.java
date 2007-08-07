@@ -229,7 +229,7 @@ public class PredChecker
         List<NameTypePair> pairs = signature.getNameTypePair();
         for (int i = 0; i < pairs.size(); i++ ) {
           NameTypePair pair = pairs.get(i);
-          ZName zName = factory().createZName(pair.getZName(), false);
+	  Name zName =  pair.getName();
 
           //lookup the type of this name in the environment
           Type envType = getType(zName);

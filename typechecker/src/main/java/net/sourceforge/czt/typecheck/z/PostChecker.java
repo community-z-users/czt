@@ -121,9 +121,7 @@ public class PostChecker
       ZStrokeList sl = testName.getZStrokeList();
       sl.remove(sl.size() - 1);
       if (exprChecker().getType(testName) != null) {
-        errorAnn.setInfo("ISO Standard Z requires that any decoration "
-                         + "on a reference to a schema is separated from "
-                         + "the schema name by a hard space (~ in LaTeX)");
+	errorAnn.setInfo(ErrorMessage.SPACE_NEEDED.toString());
       }
     }
     return errorAnn;

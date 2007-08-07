@@ -549,6 +549,15 @@ abstract public class Checker<R>
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
                                     Term term,
+				    ErrorMessage errorMessage)
+  {
+    checkForDuplicates(pairs, term, errorMessage.toString());
+  }
+
+  //check for type mismatches in a list of decls. Add an ErrorAnn to
+  //any name that is in error
+  protected void checkForDuplicates(List<NameTypePair> pairs,
+                                    Term term,
                                     String errorMessage)
   {
     List<Term> termList = factory().list();
