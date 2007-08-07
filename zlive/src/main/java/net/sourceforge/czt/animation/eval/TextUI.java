@@ -62,16 +62,25 @@ import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -219,8 +228,43 @@ public class TextUI {
         if (inputs.getZDeclList().size() == 0) {
           throw new CztException("current binding has no primed names");
         }
-        Envir env = new Envir().plusAll(inputs);
         Expr schema = parseExpr(args,output_);
+        
+        /*
+        // NOTE: the following code unifies inputs IDs with schema IDs.
+        // However, it is not necessary, because Envir ignores IDs!
+        List<? extends ErrorAnn> errs = TypeCheckUtils.typecheck(schema, 
+            manager, false, zlive_.getCurrentSection());
+        if (! errs.isEmpty())
+          throw new CommandException("cannot typecheck "+schema);
+        Type type = schema.getAnn(TypeAnn.class).getType();
+        if (type instanceof PowerType
+            && ((PowerType)type).getType() instanceof SchemaType) {
+          SchemaType stype = (SchemaType) ((PowerType)type).getType();
+          Signature sig = stype.getSignature();
+          System.out.println("schema has signature "+sig);
+          // TODO unify sig and inputs ids.
+          for (Decl decl : inputs.getZDeclList()) {
+            ZName inName = ((ConstDecl) decl).getZName();
+            System.out.println("looking for id for "+inName);
+            boolean found = false;
+            // now look for matching name in sig, and use its ID.
+            for (NameTypePair pair : sig.getNameTypePair()) {
+              ZName name = (ZName) pair.getName();
+              if (name.getWord().equals(inName.getWord())
+                  && name.getStrokeList().equals(inName.getStrokeList())) {
+                System.out.println("changing "+inName+" ID from "
+                  +inName.getId()+" to "+name.getId());
+                inName.setId(name.getId());
+                found = true;
+              }
+            }
+            if (! found)
+              throw new CztException("schema does not use input "+inName);
+          }
+        }
+        */
+        Envir env = new Envir().plusAll(inputs);
         // TODO: prompt user for any missing inputs???
         stack_.push(zlive_.evalTerm(true, schema, env));
         doMove(1);
