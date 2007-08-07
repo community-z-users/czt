@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.animation.ZLocator;
+import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.gui.temp.GaffeFactory;
@@ -37,6 +38,7 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -100,10 +102,12 @@ public class ZLiveHistory extends BasicHistory
   
   public void activateSchema(String schema)
   {
-    Expr temp;
     try {
-      temp = zLive_.evalSchema(schema,this.format(this.inputs_).getExpr());
-      ZSet result = new ZSet((EvalSet)temp);
+      Expr sexpr = zLive_.schemaExpr(schema);
+      BindExpr inputs = this.format(this.inputs_).getExpr();
+      Envir env = new Envir().plusAll(inputs);
+      EvalSet temp = (EvalSet) zLive_.evalTerm(true, sexpr,env).getResult();
+      ZSet result = new ZSet(temp);
       this.solutionSets.add(new SolutionSet(schema,result.getSet()));
       this.nextSolutionSet();  // Calls the listeners
     }
