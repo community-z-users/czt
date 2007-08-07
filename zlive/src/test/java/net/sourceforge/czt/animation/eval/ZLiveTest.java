@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.animation.eval;
 
+import java.io.PrintWriter;
 import java.util.Iterator;
 
 import junit.framework.Assert;
@@ -103,24 +104,25 @@ public class ZLiveTest extends ZTestCase
   }
 
   /** This tests the evaluation of schema AIncr with a==0 and b==10. */
-  /*  TODO: enable this once ; works correctly...
   public void testEvalOperation1()
   throws CommandException
   {
     BindExpr args = (BindExpr) parseExpr("\\lblot a==0, b==10 \\rblot");
-    ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
-        "evalSchema.log", java.util.logging.Level.FINEST);
     Envir env = new Envir().plusAll(args);
     Expr schema = zlive_.schemaExpr("AIncr");
-    EvalSet set = (EvalSet) zlive_.evalTerm(true, schema, env).getResult();
+    ZLiveResult result = zlive_.evalTerm(true, schema, env);
+    assertTrue(result.isSet());
+    EvalSet set = (EvalSet) result.getResult();
     Assert.assertEquals(1, set.size());
     Iterator<Expr> iter = set.iterator();
     assertTrue(iter.hasNext());
-    BindExpr expect = (BindExpr) parseExpr("\\lblot a'==1, b'==10 \\rblot");
-    assertTrue(ExprComparator.equalZ(expect, iter.next()));
-    ZFormatter.stopLogging("net.sourceforge.czt.animation.eval");
+    BindExpr expect = (BindExpr)
+      parseExpr("\\lblot a==0, b==10, a'==1, b'==10 \\rblot");
+    Expr value = iter.next();
+    assertTrue(value instanceof BindExpr);
+    assertTrue(ExprComparator.equalZ(expect, value));
   }
-*/
+
   public void testReset()
   {
     zlive_.reset();
@@ -141,7 +143,7 @@ public class ZLiveTest extends ZTestCase
     String version = ZLive.getVersion();
     assertTrue(version.startsWith("0") || version.startsWith("1"));
   }
-  
+
   public void testUnprime()
   {
     BindExpr orig = (BindExpr)
