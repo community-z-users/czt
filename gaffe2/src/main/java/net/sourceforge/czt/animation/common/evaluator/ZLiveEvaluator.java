@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
@@ -62,7 +63,9 @@ public class ZLiveEvaluator implements Evaluator
       System.out.println("Input: " + zlive_.printTerm(inputExpr));
       System.out
           .println("******************Evaluation BEGIN!**********************************");
-      EvalSet result = (EvalSet) zlive_.evalSchema(name, inputExpr);
+      Expr schema = zlive_.schemaExpr(name);
+      Envir env = new Envir().plusAll(inputExpr);
+      EvalSet result = (EvalSet) zlive_.evalTerm(true, schema, env).getResult();
       System.out
           .println("******************Evaluation SUCCESS!********************************");
       System.out
