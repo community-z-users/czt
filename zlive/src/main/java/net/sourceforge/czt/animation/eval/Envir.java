@@ -163,7 +163,7 @@ public class Envir
     Envir result = this;
     for (Decl decl : binding.getZDeclList()) {
       ConstDecl cdecl = (ConstDecl) decl;
-      result = plus(cdecl.getZName(), cdecl.getExpr());
+      result = result.plus(cdecl.getZName(), cdecl.getExpr());
     }
     return result;
   }
