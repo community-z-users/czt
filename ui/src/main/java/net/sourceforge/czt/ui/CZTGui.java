@@ -253,6 +253,7 @@ public class CZTGui implements ActionListener
     if (event.getSource() == close) {
       file = null;
       frame.setTitle(softwarename);
+      saveas.setEnabled(false);
       textResults.setText("RESULTS...\n\n");
 
     }
