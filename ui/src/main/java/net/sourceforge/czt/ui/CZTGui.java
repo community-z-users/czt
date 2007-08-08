@@ -45,6 +45,11 @@ public class CZTGui implements ActionListener
   JLabel markupLabel = new JLabel("Markup: ");
   String[] markupOptions = {"Latex", "Unicode", "XML"};
   JComboBox markupCombo = new JComboBox(markupOptions);
+  
+  JPanel encodingPanel = new JPanel();
+  JLabel encodingLabel = new JLabel("Encoding: ");
+  String[] encodingOptions = {"Default","UTF8","UTF16"};
+  JComboBox encodingCombo = new JComboBox(encodingOptions);
 
   JPanel typecheckPanel = new JPanel();
   JLabel typecheckLabel = new JLabel("Typecheck? ");
@@ -122,13 +127,17 @@ public class CZTGui implements ActionListener
 
     markupPanel.add(BorderLayout.WEST, markupLabel);
     markupPanel.add(BorderLayout.CENTER, markupCombo);
-
+    
+    encodingPanel.add(BorderLayout.WEST, encodingLabel);
+    encodingPanel.add(BorderLayout.CENTER, encodingCombo);
+    
     typecheckPanel.add(BorderLayout.WEST, typecheckLabel);
     typecheckPanel.add(BorderLayout.EAST, typecheckCheckBox);
 
     specMidPanel.setLayout(new BoxLayout(specMidPanel, BoxLayout.Y_AXIS));
     specMidPanel.add(languagePanel);
     specMidPanel.add(markupPanel);
+    specMidPanel.add(encodingPanel);
     specMidPanel.add(typecheckPanel);
 
     specOKCancelPanel.add(BorderLayout.WEST, specOKButton);
@@ -139,7 +148,7 @@ public class CZTGui implements ActionListener
     specDialog.getContentPane().add(BorderLayout.NORTH, specificationPanel);
     specDialog.getContentPane().add(BorderLayout.CENTER, specMidPanel);
     specDialog.getContentPane().add(BorderLayout.SOUTH, specOKCancelPanel);
-    specDialog.setSize(300, 220);
+    specDialog.setSize(300, 250);
 
   }
 
