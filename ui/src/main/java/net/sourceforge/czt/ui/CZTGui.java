@@ -24,8 +24,9 @@ import net.sourceforge.czt.z.ast.Spec;
 public class CZTGui implements ActionListener
 {
   String softwarename = "CZT";
-  JFileChooser chooser = new JFileChooser();
+  JFileChooser chooser = new JFileChooser("/research/yt49/czt");
   JFrame frame = new JFrame(softwarename);
+  JTree treeView = new JTree();
   JTextArea textResults = new JTextArea("RESULTS...\n\n");
 
   JPanel specificationPanel = new JPanel();
@@ -55,7 +56,6 @@ public class CZTGui implements ActionListener
 
   final JDialog specDialog = new JDialog(frame, "Specification", true);
 
-  JTree treeview = new JTree();
   JMenuBar menubar = new JMenuBar();
   JMenu filemenu = new JMenu("File");
   JMenuItem open = new JMenuItem("Open");
@@ -63,7 +63,7 @@ public class CZTGui implements ActionListener
   JMenuItem close = new JMenuItem("Close");
   JMenuItem exit = new JMenuItem("Exit");
   JScrollPane scroll = new JScrollPane(textResults);
-  JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeview, scroll);
+  JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeView, scroll);
   File file = null;
 
 
@@ -143,6 +143,10 @@ public class CZTGui implements ActionListener
 
   }
 
+
+  /**
+   *  Description of the Method
+   */
   private void loadFile()
   {
     specDialog.setVisible(false);
@@ -150,21 +154,27 @@ public class CZTGui implements ActionListener
     frame.setTitle(softwarename + " - " + file.getName());
     SectionManager manager = new SectionManager();
     FileSource source = new FileSource(file);
+    
     manager.put(new Key(source.getName(), Source.class), source);
+    
     try {
       Spec spec = (Spec)
         manager.get(new Key(source.getName(), Spec.class));
       // TODO: Display JTree instead of printing
       // use TermTreeNode to create JTree
-      // new JTree(new TermTreeNode(spec))
+      //(new TermTreeNode(0,spec,null));
+      //repaint();
       System.out.println(spec);
     }
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
       if (cause instanceof CztErrorList) {
         java.util.List<? extends CztError> errors =
-          ((CztErrorList) cause).getErrors();
+        ((CztErrorList) cause).getErrors();
         // TODO: (iterate over error list
+        for (int i = 0; i < errors.size(); i++) {
+          textResults.append(errors.get(i).toString() + "\n");
+        }
       }
       else if (cause instanceof IOException) {
         String message = "Input output error: " + cause.getMessage();
@@ -178,6 +188,7 @@ public class CZTGui implements ActionListener
         "Caught " + e.getClass().getName() + ": " + e.getMessage();
     }
   }
+
 
   /**
    *  Description of the Method
@@ -238,7 +249,7 @@ public class CZTGui implements ActionListener
       file = null;
       frame.setTitle(softwarename);
       textResults.setText("RESULTS...\n\n");
-      
+
     }
     //exit program and asks if user wants to save if a file is opened
     if (event.getSource() == exit) {
@@ -254,3 +265,4 @@ public class CZTGui implements ActionListener
     }
   }
 }
+
