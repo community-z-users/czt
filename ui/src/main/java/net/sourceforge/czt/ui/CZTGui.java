@@ -67,8 +67,9 @@ public class CZTGui implements ActionListener
   JMenuItem saveas = new JMenuItem("Save As...");
   JMenuItem close = new JMenuItem("Close");
   JMenuItem exit = new JMenuItem("Exit");
-  JScrollPane scroll = new JScrollPane(textResults);
-  JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeView, scroll);
+  JScrollPane scrollResults = new JScrollPane(textResults);
+  JScrollPane scrollTreeStructure = new JScrollPane(treeView);
+  JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollTreeStructure, scrollResults);
   File file = null;
 
 
