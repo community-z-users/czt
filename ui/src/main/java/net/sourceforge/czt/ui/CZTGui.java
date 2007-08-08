@@ -1,6 +1,7 @@
 package net.sourceforge.czt.ui;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -26,7 +27,7 @@ public class CZTGui implements ActionListener
   String softwarename = "CZT";
   JFileChooser chooser = new JFileChooser("/research/yt49/czt");
   JFrame frame = new JFrame(softwarename);
-  JTree treeView = new JTree();
+  JTree treeView = null;
   JTextArea textResults = new JTextArea("RESULTS...\n\n");
 
   JPanel specificationPanel = new JPanel();
@@ -72,11 +73,11 @@ public class CZTGui implements ActionListener
   JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollTreeStructure, scrollResults);
   File file = null;
 
-
+  
   /**
    *  Constructor for the CZTGui object
    */
-  public CZTGui() { }
+  public CZTGui() {}
 
 
   /**
@@ -96,7 +97,6 @@ public class CZTGui implements ActionListener
    */
   public void go()
   {
-
     split.setDividerLocation(400);
 
     open.addActionListener(this);
@@ -172,7 +172,7 @@ public class CZTGui implements ActionListener
         manager.get(new Key(source.getName(), Spec.class));
       // TODO: Display JTree instead of printing
       // use TermTreeNode to create JTree
-      //(new TermTreeNode(0,spec,null));
+      //DefaultMutableTreeNode n = (Spec)(new TermTreeNode(0,spec,null));
       //repaint();
       System.out.println(spec);
     }
@@ -216,13 +216,12 @@ public class CZTGui implements ActionListener
     if (event.getSource() == specBrowseButton) {
       int returnValOpen = chooser.showOpenDialog(frame);
       if (returnValOpen == JFileChooser.APPROVE_OPTION) {
-        file = chooser.getSelectedFile();
-        specText.setText(file.getPath());
+        specText.setText(chooser.getSelectedFile().getPath());
+        //specText.setText(file.getPath());
       }
     }
     //load the file
     if (event.getSource() == specOKButton) {
-      if (file == null) {
         if (!specText.equals("")) {
           file = new File(specText.getText());
           if (!file.isFile()) {
@@ -236,10 +235,6 @@ public class CZTGui implements ActionListener
             loadFile();
           }
         }
-      }
-      else {
-        loadFile();
-      }
     }
     //if the cancel button is clicked on the spec dialog then hid it
     if (event.getSource() == specCancelButton) {
