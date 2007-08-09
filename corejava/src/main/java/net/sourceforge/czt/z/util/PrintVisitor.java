@@ -54,12 +54,14 @@ public class PrintVisitor
              SchemaTypeVisitor<String>,
              SectTypeEnvAnnVisitor<String>,
              SignatureVisitor<String>,
+             TypeAnnVisitor<String>,
              ZNameVisitor<String>,
              ZNumeralVisitor<String>,
              ZStrokeListVisitor<String>,
              LocAnnVisitor<String>
 {
   protected boolean printUnicode_;
+  protected boolean printIds_;
 
   /**
    * Constructs a PrintVisitor that produces Unicode strings.
@@ -67,6 +69,12 @@ public class PrintVisitor
   public PrintVisitor()
   {
     printUnicode_ = true;
+    printIds_ = false;
+  }
+
+  public void setPrintIds(boolean bool)
+  {
+    printIds_ = bool;
   }
 
   /**
@@ -198,6 +206,11 @@ public class PrintVisitor
     return result.toString();
   }
 
+  public String visitTypeAnn(TypeAnn typeAnn)
+  {
+    return visit(typeAnn.getType());
+  }
+
   protected void unicodeToAscii(String name, StringBuffer result)
   {
     for(int i = 0; i < name.length(); i++) {
@@ -221,6 +234,9 @@ public class PrintVisitor
     }
     else {
       unicodeToAscii(zName.getWord(), result);
+    }
+    if (printIds_) {
+      result.append("_" + zName.getId());
     }
     result.append(visit(zName.getStrokeList()));
     return result.toString();
