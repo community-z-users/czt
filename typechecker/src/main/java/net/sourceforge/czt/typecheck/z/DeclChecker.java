@@ -111,11 +111,7 @@ public class DeclChecker
       List<NameTypePair> lPairs = vSchemaType.getSignature().getNameTypePair();
       for (NameTypePair pair : lPairs) {
         //copy the name
-        ZName oldName = pair.getZName();
-        ZName newName = factory().createZDeclName(oldName.getWord(),
-                                                  oldName.getStrokeList());
-        //add a unique ID to this name
-        factory().addNameID(newName);
+        ZName newName = factory().createZName(pair.getZName(), true);
 
         addAnn(newName, locAnn);
         NameTypePair newPair =

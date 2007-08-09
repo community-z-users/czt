@@ -230,7 +230,6 @@ public class ExprChecker
 
     //add the type annotation
     addTypeAnn(refExpr, result);
-    addTypeAnn(zName, type);
 
     return result;
   }
