@@ -43,15 +43,15 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 /** Test a system, based on a finite state machine (FSM) model of that system.
  *  <p>
  *  This class provides several methods that use model-based testing techniques
- *  to automatically generate test suites for a system under test (SUT) 
+ *  to automatically generate test suites for a system under test (SUT)
  *  from an FSM model of that system.  To use these methods, you write a
- *  special FSM class (see {@link FsmModel}) that models part of the behaviour of 
- *  your SUT, then pass an instance of that class to one of the test 
+ *  special FSM class (see {@link FsmModel}) that models part of the behaviour of
+ *  your SUT, then pass an instance of that class to one of the test
  *  generation methods (eg. {@link #randomWalk(int)}).
  *  It will analyse the structure of your FSM model, then call various
- *  sequences of methods in your model to ensure that it is well tested.  
- *  Each action method of your FSM can change the state of the FSM, 
- *  and can also perform some tests on the SUT and change its state.  
+ *  sequences of methods in your model to ensure that it is well tested.
+ *  Each action method of your FSM can change the state of the FSM,
+ *  and can also perform some tests on the SUT and change its state.
  *  So your FSM class is actually performing two roles:
  *  (1) Model: defining a simplified FSM view of the behaviour of your SUT;
  *  (2) Adaptor: mapping each transition of that FSM to a concrete test
@@ -61,11 +61,11 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *  <p>TODO:
  *    <ul>
  *      <li> DONE: record coverage statistics and make them accessible via an API.</li>
- *      <li> DONE: separate out the MBT traversal algorithms, the model manager and 
- *  the coverage metrics into separate classes and make the methods 
+ *      <li> DONE: separate out the MBT traversal algorithms, the model manager and
+ *  the coverage metrics into separate classes and make the methods
  *  non-static.</li>
  *      <li> DONE: build the graph *during* the random walk traversal.</li>
- *      <li> DONE: when a test fails, throw a specific exception 
+ *      <li> DONE: when a test fails, throw a specific exception
  *           containing lots of model information.</li>
  *      <li> DONE: make reset probability and buildGraph timeout user-settable.</li>
  *      <li> add more test generation algorithms, such as greedy random.</li>
@@ -74,14 +74,14 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *           probability for each Action.  (i.e., Markov chains).
  *    </ul>
  *    Acknowledgements: This model-based testing library uses the
- *    JDSL (Java Data Structure Library, see http://www.jdsl.org) graph 
+ *    JDSL (Java Data Structure Library, see http://www.jdsl.org) graph
  *    libraries to store and traverse the graph of the FSM.
  *  </p>
  */
 public class ModelTestCase
 {
   /** During random walk (including buildGraph), this is the
-   *  default probability of doing reset() rather than choosing 
+   *  default probability of doing reset() rather than choosing
    *  a random transition.
    */
   public static final double DEFAULT_RESET_PROBABILITY = 0.05;
@@ -103,35 +103,35 @@ public class ModelTestCase
    *  @see #setProgressVerbosity(int)
    */
   private int progressVerbosity = 0;
-  
+
   /** Controls how much information will be printed when a test fails.
    *  @see #setFailureVerbosity(int)
    */
   private int failureVerbosity = 3;
-  
+
   /** Number of failed tests. */
   private int failedTests = 0;
-  
+
   /** The probability that doRandomAction does a reset. */
   private double resetProbability = DEFAULT_RESET_PROBABILITY;
-  
+
   /** This class defines the finite state machine model of the system under test.
    *  It is null until fsmLoad() has successfully loaded that class.
    */
   private Class fsmClass = null;
-  
+
   /** The name of the finite state machine model that is being tested. */
   private String fsmName = null;
 
   /** The implementation under test (null means none yet). */
   //@invariant fsmModel != null ==> fsmClass != null;
   private FsmModel fsmModel = null;
-  
+
   /** All the @Action methods of fsmClass. */
   //@invariant fsmActions == null <==> fsmClass == null;
   private ArrayList<Method> fsmActions = null;
 
-  /** All the guards of fsmClass. 
+  /** All the guards of fsmClass.
    *  These are in exactly the same order as fsmActions.
    *  A null entry means that that Action method has no guard. */
   //@invariant fsmGuards == null <==> fsmClass == null;
@@ -167,7 +167,7 @@ public class ModelTestCase
 
   /** Records the (state,action) pairs that have not been explored. */
   private Map<Object,BitSet> fsmTodo;
-  
+
   /** Coverage listeners. */
   private static List<CoverageMetric> fsmCoverage
     = new ArrayList<CoverageMetric>();
@@ -175,18 +175,18 @@ public class ModelTestCase
   /** The current state of the implementation under test. */
   //@invariant fsmState != null ==> fsmModel != null;
   private Object fsmState = null;
-  
+
   /** The initial state of the implementation under test. */
   //@invariant fsmInitialState == null <==> fsmState == null;
   private Object fsmInitialState = null;
-  
+
   /** Current test sequence */
   //@invariant fsmSequence == null <==> fsmModel == null;
   private ArrayList<Transition> fsmSequence;
 
   /** An empty array of objects. */
   private static final Object[] fsmNoArgs = new Object[] {};
-  
+
   /** Looks up an Action by name and returns its number.
    * @param name The name of an Action.
    * @return     The index within fsmActions/fsmGuards, else -1.
@@ -202,15 +202,15 @@ public class ModelTestCase
     }
     return -1;
   }
-  
+
   /** Returns the number of test failures. */
   public int getFailedTests()
   {
     return failedTests;
   }
 
-  /** The probability of spontaneously doing a reset rather than 
-   * a normal transition during random walks etc. 
+  /** The probability of spontaneously doing a reset rather than
+   * a normal transition during random walks etc.
    * @return the reset probability
    */
   public double getResetProbability()
@@ -219,21 +219,21 @@ public class ModelTestCase
   }
 
   /**
-   * Set the probability of doing a reset during random walks. 
-   * Note that the average length of each test sequence will be 
+   * Set the probability of doing a reset during random walks.
+   * Note that the average length of each test sequence will be
    * roughly proportional to the inverse of this probability.
    * <p>
    * If this is set to 0.0, then resets will only be done when
    * we reach a dead-end state (no enabled actions).  This means
-   * that if the FSM contains a loop that does not have a path 
+   * that if the FSM contains a loop that does not have a path
    * back to the initial state, then the random walks may get
    * caught in that loop forever.  For this reason, a non-zero
-   * probability is recommended.  
+   * probability is recommended.
    * </p>
    * <p>
    * The default probability is {@link #DEFAULT_RESET_PROBABILITY}.
    * </p>
-   * 
+   *
    * @param prob    Must be at least 0.0 and less than 1.0.
    */
   public void setResetProbability(double prob)
@@ -253,8 +253,8 @@ public class ModelTestCase
   /** Sets the level of progress messages that will be printed
    *  as this class builds the FSM graph and generates tests.
    *  0 means no messages.  1 means statistical summaries only.
-   *  2 means also show each transition taken.  3 means also 
-   *  show progress messages as the FSM graph is built. 
+   *  2 means also show each transition taken.  3 means also
+   *  show progress messages as the FSM graph is built.
    * @param verbosity  0..3
    */
   public void setVerbosity(int verbosity)
@@ -285,7 +285,7 @@ public class ModelTestCase
   {
 	  return fsmClass;
   }
-  
+
   /** Returns the name of the FSM class that is the test model. */
   protected String getModelName()
   {
@@ -293,7 +293,7 @@ public class ModelTestCase
   }
 
   /** Returns the graph of the FSM model.
-   *  Note that the graph may be incomplete 
+   *  Note that the graph may be incomplete
    *  (call buildGraph to explore the graph thoroughly).
    */
   public InspectableGraph getGraph()
@@ -317,13 +317,13 @@ public class ModelTestCase
   {
 	  return fsmModel;
   }
-  
+
   /** Returns the current state of the implementation under test. */
   protected Object getCurrentState()
   {
     return fsmState;
   }
-  
+
   /** Returns the name of the given Action. */
   //@requires fsmGetModelClass() != null;
   protected Object getActionName(int index)
@@ -338,7 +338,7 @@ public class ModelTestCase
 	  return fsmActions.size();
   }
 
-  /** Print a warning, during analysis of the FSM class. 
+  /** Print a warning, during analysis of the FSM class.
    *  By default, this prints warnings to System.out.
    *  Subclasses can override this if they to do something different.
    */
@@ -421,7 +421,7 @@ public class ModelTestCase
         Class[] paramTypes = m.getParameterTypes();
         if (paramTypes.length != 0)
           Assert.fail("ERROR: @Action method "+fsmName+"."+m.getName()
-              +" must have no parameters."); 
+              +" must have no parameters.");
         if (m.getReturnType() != void.class)
           printWarning("ERROR: @Action method "
               +fsmName+"."+m.getName()+" should be void.");
@@ -542,7 +542,7 @@ public class ModelTestCase
       fsmDone.get(oldState).set(action);
       printProgress(3, "buildgraph: Added edge ("+oldState+","
           +actionName+","+newState+")");
-      
+
       // See if we can reduce the fsmTodo flags of oldState
       BitSet bset = fsmTodo.get(oldState);
       if (bset != null) {
@@ -559,17 +559,17 @@ public class ModelTestCase
    *  Of course, this may not have built ALL the graph if some
    *  guards are enabled sporadically in a given state, or if
    *  some transitions are non-deterministic.
-   *  
+   *
    *  <p>
    *  Note that this method traverses the graph as it explores its
-   *  shape, and this traversal is likely to increase any coverage 
+   *  shape, and this traversal is likely to increase any coverage
    *  statistics that are being recorded.  For example, transition
    *  coverage will normally be 100% after this method returns.
    *  If you want to measure the coverage of a short traversal,
-   *  you should call this method to explore the graph, then reset 
+   *  you should call this method to explore the graph, then reset
    *  the coverage measures to zero <em>before</em> doing the traversal.
    *  </p>
-   *  
+   *
    *  @param rand  A random generator to choose the exploration path.
    *  @return true if the graph seems to be completely built.
    */
@@ -632,11 +632,27 @@ public class ModelTestCase
       Object origin = fsmGraph.origin(e).element();
       Object dest = fsmGraph.destination(e).element();
       String action = (String) e.element();
-      output.println("  "+origin+" -> "+dest
+      output.println("  "+stateName(origin)+" -> "+stateName(dest)
           +"  [label=\""+action+"\"];");
     }
     output.println("}");
     output.close();
+  }
+
+  /** Converts a state into a name.
+   *  It calls toString on the state, and then adds quotes around
+   *  the string if it is not a Java identifier.
+   * 
+   * @param str  
+   * @return
+   */
+  public static String stateName(Object state)
+  {
+    String str = state.toString();
+    if (str.matches("[a-zA-Z][a-zA-Z0-9_]*"))
+      return str;
+    else
+      return "\"" + str.replaceAll("\"", "\\\"") + "\"";
   }
 
   /** Reset the FSM to its initial state.
@@ -648,7 +664,7 @@ public class ModelTestCase
   {
     doReset("User", testing);
   }
-  
+
   /** Reset the FSM to its initial state.
    *  This does the fsmLoad of fsm.class if it has not
    *  already been done.  It also calls the doneReset(testing)
@@ -675,7 +691,7 @@ public class ModelTestCase
       if (fsmInitialState == null)
         fsmInitialState = fsmState;
       else {
-        Assert.assertEquals("Model error: reset did not return to the initial state", 
+        Assert.assertEquals("Model error: reset did not return to the initial state",
             fsmInitialState, fsmState);
       }
       for (CoverageMetric cm : fsmCoverage)
@@ -714,7 +730,7 @@ public class ModelTestCase
     return ((Float)result).floatValue();
   }
 
-  /** Return the bitset of all actions that are enabled 
+  /** Return the bitset of all actions that are enabled
    *  in the current state. */
   public BitSet currentEnabledActions()
   {
@@ -746,7 +762,7 @@ public class ModelTestCase
       +" from state "+this.fsmState+" due to "+ex.getCause();
       // TODO: find out why setting the cause here is not enough
       //     to make the cause's stack trace appear in the junit output.
-      TestFailureException failure = 
+      TestFailureException failure =
         new TestFailureException(failmsg, ex.getCause());
       failure.setActionName(m.getName());
       failure.setModel(this.fsmModel);
@@ -813,7 +829,7 @@ public class ModelTestCase
 
   /** Randomly take an enabled transition, or do a reset
    * with a certain probability (see {@link #getResetProbability()}).
-   * 
+   *
    * @param rand The Random number generator that controls the choice.
    * @return   The number of the transition taken, or -1 for a reset.
    */
@@ -864,13 +880,13 @@ public class ModelTestCase
    *  each time (this makes the test results more predictable),
    *  then pass <code>new Random(<em>fixedSeed</em>)</code>.
    *  ({@link #randomWalk(int) fsmRandomWalk(fsm,length)}
-   *  does this for you). 
+   *  does this for you).
    * @param length The number of transitions to test.
    * @param rand   A random number generator to control the traversal.
    */
   //@requires 0 <= length;
   public void randomWalk(
-      int length, 
+      int length,
       /*@non_null@*/ Random rand)
   {
 	int totalLength = 0;
