@@ -902,18 +902,31 @@ public class ModelTestCase
   
   protected int doGreedyRandomAction(Random rand)
   {
+	  // System.out.println("Currently in state: " + fsmState);
 	  /*
 	  	BitSet of the actions that need to be done for the current state
 		
 		True, if action has not been done and is enabled
 		False, Otherwise
+		
+		Null, if terminal state or state has no more unvisted transitions
+		Non-Null, otherwise
 	  */
-	  System.out.println("Currently in state: " + fsmState);
 	  BitSet toDo = fsmTodo.get(fsmState);
+	  /*
+	  	BitSet of the actions have been done for the current state
+		
+		True, if action has been done
+		False, Otherwise
+		
+		Null, if terminal state or state has not been visited
+		Non-Null, otherwise
+	  */
 	  BitSet done = fsmDone.get(fsmState);
 	  // Indexes of the actions that need to be done
 	  ArrayList<Integer> indexToDo = new ArrayList<Integer>();
 	  
+	  // If terminal state we must force a reset so return -1
 	  if(toDo == null && done == null)
 		  return -1; 
 	  else if(toDo == null && done != null)
@@ -922,7 +935,7 @@ public class ModelTestCase
 		  return doRandomAction(rand);
 	  }
 	  
-	  System.out.println("todo cardinality: " + toDo.cardinality());
+	  // System.out.println("todo cardinality: " + toDo.cardinality());
 	  
 	  if(toDo.cardinality() == 0)
 	  {
@@ -947,7 +960,7 @@ public class ModelTestCase
 		  }
 		  // Randomly generate an index from 0 to size() of indexToDo - 1
 		  int index = rand.nextInt(indexToDo.size());
-		  System.out.println("index: " + index);
+		  // System.out.println("index: " + index);
 		  if(doAction(indexToDo.get(index)))
 		  {
 			  // If action is done return the action that was done
