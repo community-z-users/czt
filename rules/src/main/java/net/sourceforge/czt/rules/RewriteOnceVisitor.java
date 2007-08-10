@@ -135,7 +135,7 @@ public class RewriteOnceVisitor
     if (prover_.prove(sequent)) {
       Expr newExpr = (Expr) joker.boundTo();
       if (newExpr instanceof SchExpr) {
-        SchText result = ((SchExpr)newExpr).getSchText(); 
+        SchText result = ((SchExpr) newExpr).getSchText();
         return result;
       }
       else {
