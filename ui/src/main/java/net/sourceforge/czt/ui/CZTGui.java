@@ -25,10 +25,12 @@ import net.sourceforge.czt.z.ast.Spec;
 public class CZTGui implements ActionListener
 {
   String softwarename = "CZT";
-  JFileChooser chooser = new JFileChooser("/research/yt49/czt");
+  JFileChooser chooser = new JFileChooser("/research/yt49/czt/parser/src/test/resources/tests/z");
   JFrame frame = new JFrame(softwarename);
   JTree treeView = null;
-  JTextArea textResults = new JTextArea("RESULTS...\n\n");
+  JPanel resultPanel = new JPanel();
+  JLabel resultLabel = new JLabel("Results");
+  JTextArea textResults = new JTextArea();
 
   JPanel specificationPanel = new JPanel();
   JTextField specText = new JTextField(12);
@@ -70,7 +72,7 @@ public class CZTGui implements ActionListener
   JMenuItem exit = new JMenuItem("Exit");
   JScrollPane scrollResults = new JScrollPane(textResults);
   JScrollPane scrollTreeStructure = new JScrollPane();
-  JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollTreeStructure, scrollResults);
+  JSplitPane split = null;
   File file = null;
 
   
@@ -97,6 +99,11 @@ public class CZTGui implements ActionListener
    */
   public void go()
   {
+    resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
+    resultPanel.add(BorderLayout.CENTER, resultLabel);
+    resultPanel.add(BorderLayout.CENTER, scrollResults);
+    
+    split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollTreeStructure, resultPanel);
     split.setDividerLocation(400);
 
     open.addActionListener(this);
@@ -234,6 +241,7 @@ public class CZTGui implements ActionListener
               JOptionPane.ERROR_MESSAGE);
           }
           else {
+            textResults.setText("");
             loadFile();
           }
         }
@@ -241,7 +249,6 @@ public class CZTGui implements ActionListener
     //if the cancel button is clicked on the spec dialog then hid it
     if (event.getSource() == specCancelButton) {
       specText.setText("");
-      System.out.print(file.getName());
       specDialog.setVisible(false);
     }
     //save
@@ -256,7 +263,7 @@ public class CZTGui implements ActionListener
       file = null;
       frame.setTitle(softwarename);
       saveas.setEnabled(false);
-      textResults.setText("RESULTS...\n\n");
+      textResults.setText("");
 
     }
     //exit program and asks if user wants to save if a file is opened
