@@ -883,4 +883,94 @@ public class ModelTestCase
     if (failedTests > 0)
       printFailure(1, ""+failedTests+" tests failed.");
   }
+  
+  protected int doGreedyRandomAction(Random rand)
+  {
+	  /*
+	  	BitSet of the actions that need to be done for the current state
+		
+		True, if action has not been done and is enabled
+		False, Otherwise
+	  */
+	  System.out.println("Currently in state: " + fsmState);
+	  BitSet toDo = fsmTodo.get(fsmState);
+	  BitSet done = fsmDone.get(fsmState);
+	  // Indexes of the actions that need to be done
+	  ArrayList<Integer> indexToDo = new ArrayList<Integer>();
+	  
+	  if(toDo == null && done == null)
+		  return -1; 
+	  else if(toDo == null && done != null)
+	  {
+		  // If all actions of the state have been done just choose one randomly
+		  return doRandomAction(rand);
+	  }
+	  
+	  System.out.println("todo cardinality: " + toDo.cardinality());
+	  
+	  if(toDo.cardinality() == 0)
+	  {
+		  // If all actions of the state have been done just choose one randomly
+		  return doRandomAction(rand);
+	  }
+	  else if(toDo.cardinality() == 1)
+	  {
+		  // Get the index of the only set bit in the toDo Bitset
+		  int index = toDo.nextSetBit(0);
+		  if(doAction(index))
+		  {
+			  // If action is done return the action that was done
+			  return index;
+		  }
+	  }
+	  else
+	  {
+		  // Iterate over all true bits and put their indexes into a list
+		  for (int i = toDo.nextSetBit(0); i >= 0; i = toDo.nextSetBit(i+1)) {
+			  indexToDo.add(i);
+		  }
+		  // Randomly generate an index from 0 to size() of indexToDo - 1
+		  int index = rand.nextInt(indexToDo.size());
+		  System.out.println("index: " + index);
+		  if(doAction(indexToDo.get(index)))
+		  {
+			  // If action is done return the action that was done
+			  return indexToDo.get(index);
+		  }
+	  }
+	  return -1;
+  }
+  
+  public int doGreedyRandomActionOrReset(Random rand, boolean testing)
+  {
+	  int taken = -1;
+	  double prob = rand.nextDouble();
+	  if (prob < resetProbability)
+		  doReset("Random", testing);
+	  else
+	  {
+		  taken = doGreedyRandomAction(rand);
+		  if (taken < 0)
+			  doReset("Forced", testing);
+	  }
+	  return taken;
+  }
+  
+  public void greedyRandomWalk(int length) 
+  {
+	  greedyRandomWalk(length, new Random(FIXEDSEED));
+  }
+  
+  public void greedyRandomWalk(int length, Random rand)
+  {
+	  int totalLength = 0;
+	  doReset("Initial", true);
+	  while (totalLength < length) {
+		  doGreedyRandomActionOrReset(rand, true);
+		  totalLength++;
+	  }
+	  this.printProgress(1, "finished greedyRandomWalk of "+length+" transitions.");
+	  if (failedTests > 0)
+		  printFailure(1, ""+failedTests+" tests failed.");
+  }
 }
