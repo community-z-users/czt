@@ -93,7 +93,7 @@ public final class ProverUtils
     RefExpr schemaEquals = FACTORY.createRefExpr(name);
     Pred pred = FACTORY.createMemPred(pair, schemaEquals, Boolean.TRUE);
     return createSequent(pred, copy);
-   }
+  }
 
   /**
    * Resets all the bindings in the collection.
@@ -111,7 +111,7 @@ public final class ProverUtils
 
   public static List<ConjPara> collectConjectures(Term term)
   {
-    List<ConjPara> result = new ArrayList<ConjPara>();  
+    List<ConjPara> result = new ArrayList<ConjPara>();
     if (term instanceof Spec) {
       for (Sect sect : ((Spec) term).getSect()) {
         if (sect instanceof ZSect) {
