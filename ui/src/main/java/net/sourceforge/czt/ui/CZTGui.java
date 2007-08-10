@@ -69,7 +69,7 @@ public class CZTGui implements ActionListener
   JMenuItem close = new JMenuItem("Close");
   JMenuItem exit = new JMenuItem("Exit");
   JScrollPane scrollResults = new JScrollPane(textResults);
-  JScrollPane scrollTreeStructure = new JScrollPane(treeView);
+  JScrollPane scrollTreeStructure = new JScrollPane();
   JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollTreeStructure, scrollResults);
   File file = null;
 
@@ -172,9 +172,11 @@ public class CZTGui implements ActionListener
         manager.get(new Key(source.getName(), Spec.class));
       // TODO: Display JTree instead of printing
       // use TermTreeNode to create JTree
-      //DefaultMutableTreeNode n = (Spec)(new TermTreeNode(0,spec,null));
-      //repaint();
-      System.out.println(spec);
+      treeView = new JTree((new TermTreeNode(0,spec,null)));
+      scrollTreeStructure.setViewportView(treeView);
+
+      frame.getContentPane().add(BorderLayout.NORTH, menubar);
+      frame.getContentPane().add(BorderLayout.CENTER, split);
     }
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
@@ -269,6 +271,6 @@ public class CZTGui implements ActionListener
         System.exit(0);
       }
     }
-  }
+  }  
 }
 
