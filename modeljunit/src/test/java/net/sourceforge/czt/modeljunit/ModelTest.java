@@ -127,6 +127,23 @@ public class ModelTest extends TestCase
     Assert.assertEquals("History not reset.", 1, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
   }
+  
+  /** This tests a greedy random walk, plus TransitionCoverage metric with history */
+  public static void testGreedyRandomWalk()
+  {
+	  ModelTestCase model = new ModelTestCase(new FSM());
+	  CoverageHistory metric = new CoverageHistory(new TransitionCoverage(), 1);
+	  model.addCoverageMetric(metric);
+	  model.greedyRandomWalk(7);
+	  int coverage = metric.getCoverage();
+	  Assert.assertEquals(5, coverage);
+	  Assert.assertEquals(-1, metric.getMaximum());
+	  List<Integer> hist = metric.getHistory();
+	  Assert.assertNotNull(hist);
+	  Assert.assertEquals("Incorrect history size.", 7, hist.size());
+	  Assert.assertEquals(new Integer(0), hist.get(0));
+	  Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
+  }
 
   public static void testBuildGraph()
   {
