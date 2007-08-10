@@ -31,7 +31,9 @@ public final class RuleUtils
   /**
    * Do not create instances of this class.
    */
-  private RuleUtils() {}
+  private RuleUtils()
+  {
+  }
 
   public static URL getUnfoldRules()
   {
