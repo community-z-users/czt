@@ -29,6 +29,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
+import net.sourceforge.czt.z.util.GetNameVisitor;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.TermSelector;
 
@@ -52,12 +53,18 @@ public class WffHighlight
         final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
         if (locAnn.getStart().intValue() <= offset &&
             offset <= locAnn.getEnd().intValue()) {
-          String text = "<html>" +
-            term.accept(new ConcreteSyntaxDescriptionVisitor());
+          GetNameVisitor visitor = new GetNameVisitor();
+          if (jEdit.getBooleanProperty(ZSideKickPlugin.PROP_PRINT_IDS)) {
+            visitor.setPrintIds(true);
+          }
+          ConcreteSyntaxDescriptionVisitor csdv =
+            new ConcreteSyntaxDescriptionVisitor();
+          csdv.setNameVisitor(visitor);
+          String text = "<html>" + term.accept(csdv);
           TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
           if (typeAnn != null) {
             text += "<br/>Type: " +
-              typeAnn.getType().accept(new PrintVisitor());
+              typeAnn.getType().accept(visitor);
           }
           text += "</html>";
           return text;
