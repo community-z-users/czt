@@ -1,6 +1,7 @@
 package net.sourceforge.czt.ui;
 
 import javax.swing.*;
+import javax.swing.event.MenuKeyEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.*;
@@ -27,6 +28,8 @@ public class CZTGui implements ActionListener
   String softwarename = "CZT";
   JFileChooser chooser = new JFileChooser();
   JFrame frame = new JFrame(softwarename);
+  JPanel treeViewPanel = new JPanel();
+  JLabel treeViewLabel = new JLabel("Specification Structure");
   JTree treeView = null;
   JPanel resultPanel = new JPanel();
   JLabel resultLabel = new JLabel("Results");
@@ -48,10 +51,10 @@ public class CZTGui implements ActionListener
   JLabel markupLabel = new JLabel("Markup: ");
   String[] markupOptions = {"Latex", "Unicode", "XML"};
   JComboBox markupCombo = new JComboBox(markupOptions);
-  
+
   JPanel encodingPanel = new JPanel();
   JLabel encodingLabel = new JLabel("Encoding: ");
-  String[] encodingOptions = {"Default","UTF8","UTF16"};
+  String[] encodingOptions = {"Default", "UTF8", "UTF16"};
   JComboBox encodingCombo = new JComboBox(encodingOptions);
 
   JPanel typecheckPanel = new JPanel();
@@ -75,23 +78,24 @@ public class CZTGui implements ActionListener
   JSplitPane split = null;
   File file = null;
 
-  
+
   /**
    *  Constructor for the CZTGui object
    */
-  public CZTGui() {
-    
-    try{
-      FileInputStream fileStream = new FileInputStream(softwarename+".dat");
+  public CZTGui()
+  {
+
+    try {
+      FileInputStream fileStream = new FileInputStream(softwarename + ".dat");
       ObjectInputStream os = new ObjectInputStream(fileStream);
-      
-      Object pathObject = os.readObject();      
-      String path = (String)pathObject;
+
+      Object pathObject = os.readObject();
+      String path = (String) pathObject;
       chooser.setCurrentDirectory(new File(path));
-      
+
       os.close();
     }
-    catch(Exception e){
+    catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -114,11 +118,15 @@ public class CZTGui implements ActionListener
    */
   public void go()
   {
+    treeViewPanel.setLayout(new BoxLayout(treeViewPanel, BoxLayout.Y_AXIS));
+    treeViewPanel.add(BorderLayout.CENTER, treeViewLabel);
+    treeViewPanel.add(BorderLayout.CENTER, scrollTreeStructure);
+    
     resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
     resultPanel.add(BorderLayout.CENTER, resultLabel);
     resultPanel.add(BorderLayout.CENTER, scrollResults);
-    
-    split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollTreeStructure, resultPanel);
+
+    split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeViewPanel, resultPanel);
     split.setDividerLocation(400);
 
     open.addActionListener(this);
@@ -150,10 +158,10 @@ public class CZTGui implements ActionListener
 
     markupPanel.add(BorderLayout.WEST, markupLabel);
     markupPanel.add(BorderLayout.CENTER, markupCombo);
-    
+
     encodingPanel.add(BorderLayout.WEST, encodingLabel);
     encodingPanel.add(BorderLayout.CENTER, encodingCombo);
-    
+
     typecheckPanel.add(BorderLayout.WEST, typecheckLabel);
     typecheckPanel.add(BorderLayout.EAST, typecheckCheckBox);
 
@@ -186,36 +194,31 @@ public class CZTGui implements ActionListener
     frame.setTitle(softwarename + " - " + file.getName());
     SectionManager manager = new SectionManager();
     FileSource source = new FileSource(file);
-    
+
     manager.put(new Key(source.getName(), Source.class), source);
-    
-    try{
-      FileOutputStream fileStream = new FileOutputStream(softwarename+".dat");
+
+    try {
+      FileOutputStream fileStream = new FileOutputStream(softwarename + ".dat");
       ObjectOutputStream os = new ObjectOutputStream(fileStream);
       os.writeObject(file.getPath());
       os.close();
     }
-    catch(Exception e){
+    catch (Exception e) {
       e.printStackTrace();
     }
-    
+
     try {
       Spec spec = (Spec)
-        manager.get(new Key(source.getName(), Spec.class));
-      // TODO: Display JTree instead of printing
-      // use TermTreeNode to create JTree
-      treeView = new JTree((new TermTreeNode(0,spec,null)));
+      manager.get(new Key(source.getName(), Spec.class));
+      treeView = new JTree((new TermTreeNode(0, spec, null)));
       scrollTreeStructure.setViewportView(treeView);
-
-      frame.getContentPane().add(BorderLayout.NORTH, menubar);
-      frame.getContentPane().add(BorderLayout.CENTER, split);
     }
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
       if (cause instanceof CztErrorList) {
         java.util.List<? extends CztError> errors =
         ((CztErrorList) cause).getErrors();
-        // TODO: (iterate over error list
+        //iterate over error list
         for (int i = 0; i < errors.size(); i++) {
           textResults.append(errors.get(i).toString() + "\n");
         }
@@ -256,20 +259,20 @@ public class CZTGui implements ActionListener
     }
     //load the file
     if (event.getSource() == specOKButton) {
-        if (!specText.equals("")) {
-          file = new File(specText.getText());
-          if (!file.isFile()) {
-            file = null;
-            JOptionPane.showMessageDialog(frame,
-              "File Does Not Exist",
-              "Error",
-              JOptionPane.ERROR_MESSAGE);
-          }
-          else {
-            textResults.setText("");
-            loadFile();
-          }
+      if (!specText.equals("")) {
+        file = new File(specText.getText());
+        if (!file.isFile()) {
+          file = null;
+          JOptionPane.showMessageDialog(frame,
+            "File Does Not Exist",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
         }
+        else {
+          textResults.setText("");
+          loadFile();
+        }
+      }
     }
     //if the cancel button is clicked on the spec dialog then hid it
     if (event.getSource() == specCancelButton) {
@@ -289,7 +292,8 @@ public class CZTGui implements ActionListener
       frame.setTitle(softwarename);
       saveas.setEnabled(false);
       textResults.setText("");
-
+      treeView = null;
+      scrollTreeStructure.setViewportView(treeView);
     }
     //exit program and asks if user wants to save if a file is opened
     if (event.getSource() == exit) {
@@ -303,6 +307,6 @@ public class CZTGui implements ActionListener
         System.exit(0);
       }
     }
-  }  
+  }
 }
 
