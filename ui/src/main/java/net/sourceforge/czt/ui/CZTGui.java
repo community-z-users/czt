@@ -25,7 +25,7 @@ import net.sourceforge.czt.z.ast.Spec;
 public class CZTGui implements ActionListener
 {
   String softwarename = "CZT";
-  JFileChooser chooser = new JFileChooser("/research/yt49/czt/parser/src/test/resources/tests/z");
+  JFileChooser chooser = new JFileChooser();
   JFrame frame = new JFrame(softwarename);
   JTree treeView = null;
   JPanel resultPanel = new JPanel();
@@ -79,7 +79,22 @@ public class CZTGui implements ActionListener
   /**
    *  Constructor for the CZTGui object
    */
-  public CZTGui() {}
+  public CZTGui() {
+    
+    try{
+      FileInputStream fileStream = new FileInputStream(softwarename+".dat");
+      ObjectInputStream os = new ObjectInputStream(fileStream);
+      
+      Object pathObject = os.readObject();      
+      String path = (String)pathObject;
+      chooser.setCurrentDirectory(new File(path));
+      
+      os.close();
+    }
+    catch(Exception e){
+      e.printStackTrace();
+    }
+  }
 
 
   /**
@@ -173,6 +188,16 @@ public class CZTGui implements ActionListener
     FileSource source = new FileSource(file);
     
     manager.put(new Key(source.getName(), Source.class), source);
+    
+    try{
+      FileOutputStream fileStream = new FileOutputStream(softwarename+".dat");
+      ObjectOutputStream os = new ObjectOutputStream(fileStream);
+      os.writeObject(file.getPath());
+      os.close();
+    }
+    catch(Exception e){
+      e.printStackTrace();
+    }
     
     try {
       Spec spec = (Spec)
