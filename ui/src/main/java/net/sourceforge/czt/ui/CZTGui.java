@@ -29,11 +29,12 @@ public class CZTGui implements ActionListener
   JFileChooser chooser = new JFileChooser();
   JFrame frame = new JFrame(softwarename);
   JPanel treeViewPanel = new JPanel();
-  JLabel treeViewLabel = new JLabel("Specification Structure");
+  JLabel treeViewLabel = new JLabel("Specification Structure Explorer");
   JTree treeView = null;
   JPanel resultPanel = new JPanel();
-  JLabel resultLabel = new JLabel("Results");
-  JTextArea textResults = new JTextArea();
+  JLabel resultLabel = new JLabel("Error List");
+  DefaultListModel resultListModel = new DefaultListModel();
+  JList resultList = new JList();
 
   JPanel specificationPanel = new JPanel();
   JTextField specText = new JTextField(12);
@@ -73,7 +74,7 @@ public class CZTGui implements ActionListener
   JMenuItem saveas = new JMenuItem("Save As...");
   JMenuItem close = new JMenuItem("Close");
   JMenuItem exit = new JMenuItem("Exit");
-  JScrollPane scrollResults = new JScrollPane(textResults);
+  JScrollPane scrollResults = new JScrollPane(resultList);
   JScrollPane scrollTreeStructure = new JScrollPane();
   JSplitPane split = null;
   File file = null;
@@ -220,8 +221,11 @@ public class CZTGui implements ActionListener
         ((CztErrorList) cause).getErrors();
         //iterate over error list
         for (int i = 0; i < errors.size(); i++) {
-          textResults.append(errors.get(i).toString() + "\n");
+          resultListModel.addElement(errors.get(i).toString());
+          //textResults.append(errors.get(i).toString() + "\n");
+          
         }
+        resultList.setModel(resultListModel);
       }
       else if (cause instanceof IOException) {
         String message = "Input output error: " + cause.getMessage();
@@ -254,7 +258,6 @@ public class CZTGui implements ActionListener
       int returnValOpen = chooser.showOpenDialog(frame);
       if (returnValOpen == JFileChooser.APPROVE_OPTION) {
         specText.setText(chooser.getSelectedFile().getPath());
-        //specText.setText(file.getPath());
       }
     }
     //load the file
@@ -269,7 +272,7 @@ public class CZTGui implements ActionListener
             JOptionPane.ERROR_MESSAGE);
         }
         else {
-          textResults.setText("");
+          resultListModel.clear();
           loadFile();
         }
       }
@@ -289,9 +292,10 @@ public class CZTGui implements ActionListener
     //close the project and set back to defaults
     if (event.getSource() == close) {
       file = null;
+      specText.setText("");
       frame.setTitle(softwarename);
       saveas.setEnabled(false);
-      textResults.setText("");
+      resultListModel.clear();
       treeView = null;
       scrollTreeStructure.setViewportView(treeView);
     }
