@@ -11,6 +11,10 @@ import javax.swing.table.TableColumn;
 
 public class PanelResultViewer extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6522938608020451281L;
 	class ColumnInformation {
 		public String m_title;
 		public int m_width;
@@ -22,6 +26,10 @@ public class PanelResultViewer extends JPanel{
 		}
 	}
 	class ResultTableModelInstance extends AbstractTableModel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 3369812997489556322L;
 		public final  ColumnInformation m_columns[] = {
 			new ColumnInformation( "Type", 30, JLabel.LEFT ),
 			new ColumnInformation( "Class name", 60, JLabel.LEFT ),
@@ -73,8 +81,7 @@ public class PanelResultViewer extends JPanel{
 	}
 
 	private static PanelResultViewer m_panelRV;
-		
-	private Vector<ResultDetails> m_resultData;
+
 	private JTable m_table;
 	private ResultTableModelInstance m_columeModel;
 	
@@ -86,7 +93,6 @@ public class PanelResultViewer extends JPanel{
 		return m_panelRV;
 	}
 	private PanelResultViewer(){
-		m_resultData = new Vector<ResultDetails>();
 		m_table = new JTable();
 		m_table.setAutoCreateColumnsFromModel(false);
 		m_columeModel = new ResultTableModelInstance();

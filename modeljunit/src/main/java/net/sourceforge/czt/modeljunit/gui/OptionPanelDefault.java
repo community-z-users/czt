@@ -1,10 +1,13 @@
 package net.sourceforge.czt.modeljunit.gui;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
+public class OptionPanelDefault extends OptionPanelAdapter {
 
-public class OptionPanelDefault extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9005457035103622777L;
 
 	private JLabel m_labelLength;
 	public OptionPanelDefault(){

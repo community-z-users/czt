@@ -4,11 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-public class OptionPanelGreedy extends JPanel
+public class OptionPanelGreedy extends OptionPanelAdapter
 	implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5507515122641604928L;
 	private JLabel m_labelLength;
 	public OptionPanelGreedy(){
 		m_labelLength = new JLabel("Greedy algorithm options here.");

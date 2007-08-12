@@ -6,7 +6,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 // For compiler
 import javax.tools.Diagnostic;
@@ -18,7 +17,6 @@ import javax.tools.ToolProvider;
 
 public class ModelJUnitGUI implements ActionListener{
 	private JFrame m_frame;
-	private AlgorithmPanel[] m_algo;
 	private ImageIcon[] m_iconTag;
 	private JTabbedPane m_tabbedPane = new JTabbedPane();
 	private PanelTestDesign m_panelTD;
@@ -49,7 +47,7 @@ public class ModelJUnitGUI implements ActionListener{
 					m_tabbedPane.addTab("Test Design", m_panelTD);
 					m_tabbedPane.addTab("Code viewer", m_panelCV);
 					m_tabbedPane.addTab("Result viewer", m_panelRV);
-					
+					m_tabbedPane.addChangeListener(new TabChangeListener());
 					m_panelOption.setLayout(new BoxLayout(m_panelOption, BoxLayout.Y_AXIS));
 					m_panelOption.add(Box.createHorizontalStrut(16));
 					m_panelOption.add(m_butRun);
@@ -78,9 +76,20 @@ public class ModelJUnitGUI implements ActionListener{
 	// SYSTEM DIR: System.getProperty("user.home")
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == m_butRun){
+			if(m_panelTD.getSetting().m_strClassName== null ||
+					m_panelTD.getSetting().m_strClassName.length() == 0)
+			{
+				ErrorMessage.DisplayErrorMessage(
+						"NO TEST MODEL BEEN SELECTED",
+						"Please select Test Model \nfrom Test Design tab\nbefore running!");
+				return;
+			}
+			/* Get the java file in the current directory 
 			String fileName = "Test.java";
 			String currentDirectory = System.getProperty("user.dir");
 			String sourceFile = currentDirectory+"\\"+fileName;
+			*/
+			String sourceFile = m_panelTD.getSetting().m_strModelLocation;
 			System.out.println("File from: "+sourceFile);
 			// Clear the result table
 			m_panelRV.getTableModel().clearData();
@@ -130,12 +139,14 @@ public class ModelJUnitGUI implements ActionListener{
 	        }
 	        try {fileManager.close();} 
 	        catch (IOException exp) {exp.printStackTrace();}
-
+	        // Generate code in code viewer
+	        m_panelCV.updateCode();
 		}
 		
 	}
 	private void saveData(){
-		
+		System.out.println("Tab changed.");
+		this.m_panelTD.generateCode();
 	}
 	class TabChangeListener implements ChangeListener {
 		@Override
