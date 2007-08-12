@@ -1,0 +1,19 @@
+--- 12th August 08 ----------------
+Added the class TestingParameter class and IAlgorithmParameter interface.
+The TestingParameter is just a structure to store setting from PanelTestDesign
+panel.
+
+When user save or load the parameters from a file, different algorithms
+have different parameters, that will cause different loading and saving
+behavior in different OptionPanel, the solution is using IAlgorithmParameter
+interface.
+
+Added ErrorMessage class to pop up a dialog to claim error
+I use that class in ModelJUnitGUI class the event handler Run button, if 
+user did select test model file or algorithm. The error message dialog will 
+pop up.
+
+Change the base class of OptionalPanel from JPanel to OptionPanelAdapter
+which implement the IAlgorithmParameter interface, so I could generate 
+different code when user choose different algorithm. 
+--- 13th August 08 ----------------
