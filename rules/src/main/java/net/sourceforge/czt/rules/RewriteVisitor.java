@@ -37,6 +37,7 @@ import net.sourceforge.czt.rules.unification.UnificationUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxSymbol;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.SyntaxSymbolVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
@@ -164,12 +165,45 @@ public class RewriteVisitor
     return rewrite(term, map.get(key));
   }
 
+  private void checkTypes(Term term1, Term term2)
+  {
+    PrintVisitor printer = new PrintVisitor();
+    printer.setPrintIds(true);
+    if (term1 == null || term2 == null) return;
+    TypeAnn type1 = term1.getAnn(TypeAnn.class);
+    if (type1 != null) {
+      TypeAnn type2 = term2.getAnn(TypeAnn.class);
+      if (type2 == null ||
+          (UnificationUtils.unify(type1, type2) != null &&
+          (type1.getType() instanceof PowerType) &&
+          ((PowerType) type1.getType()).getType() instanceof SchemaType)) {
+        for (Iterator iter = term2.getAnns().iterator(); iter.hasNext(); ) {
+          if (iter.next() instanceof TypeAnn) {
+            iter.remove();
+          }
+        }
+        Factory factory = new Factory(new ProverFactory());
+        CopyVisitor copyVisitor = new CopyVisitor(factory);
+        type2 = (TypeAnn) type1.accept(copyVisitor);
+        term2.getAnns().add(type2);
+      }
+      if (! type1.equals(type2)) {
+        System.err.println("Type1 " + type1.accept(printer));
+        System.err.println("Type2 " +
+                           ((type2 != null) ? type2.accept(printer) : "null"));
+      }
+    }
+  }
+
   public Term rewrite(Term term, List<RewriteRule> rules)
   {
     if (rules != null) {
       for (RewriteRule rule : rules) {
         Term result = rule.apply(term);
-        if (result != null) return result;
+        if (result != null) {
+          checkTypes(term, result);
+          return result;
+        }
       }
     }
     return null;
