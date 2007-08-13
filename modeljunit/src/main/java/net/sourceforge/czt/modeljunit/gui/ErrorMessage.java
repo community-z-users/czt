@@ -1,4 +1,8 @@
-
+/**
+ * @author rong
+ * The purpose is the class is display an error dialog with error message
+ * to users.
+ * */
 package net.sourceforge.czt.modeljunit.gui;
 
 import javax.swing.JOptionPane;
