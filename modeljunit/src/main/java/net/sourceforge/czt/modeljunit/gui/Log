@@ -15,5 +15,13 @@ pop up.
 
 Change the base class of OptionalPanel from JPanel to OptionPanelAdapter
 which implement the IAlgorithmParameter interface, so I could generate 
-different code when user choose different algorithm. 
+different code when user choose different algorithm.
+ 
 --- 13th August 08 ----------------
+Format the code style by using the style from 
+https://czt.svn.sourceforge.net/svnroot/czt/trunk/doc/eclipse-code-format-style.xml
+
+Added Indentation class for generate code.
+
+Modified class TestingParameter to Parameter and change it to static class
+Clear code delete all System.out.print debug statement. 

@@ -346,9 +346,10 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.jav
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ErrorMessage.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/IAlgorithmParameter.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Indentation.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Log -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/OptionPanelAdapter.java -text
-modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/TestingParameter.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Parameter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ResetTest.java -text
 parser-circus/src/main/resources/lib/circus.unicode.latb -text
