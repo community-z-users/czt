@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Locale;
 
 import javax.swing.*;
 
@@ -31,6 +32,11 @@ public class PanelTestDesign extends JPanel implements ActionListener
   private final static int H_SPACE = 6;
 
   private int m_nCurAlgo;
+
+  public int getCurrentAlgorithm()
+  {
+    return m_nCurAlgo;
+  }
 
   private JPanel m_panelAlgorithmBase;
 
@@ -71,22 +77,15 @@ public class PanelTestDesign extends JPanel implements ActionListener
     m_butOpenModel.addActionListener(this);
     m_panelModel = new JPanel();
     m_panelModel.setLayout(new FlowLayout());
-    //m_panelModel.setLayout(new BorderLayout());
-    // m_panelModel.add(Box.createHorizontalStrut(H));
     m_panelModel.add(m_labTestModel);
-    // m_panelModel.add(Box.createHorizontalStrut(H));
     m_panelModel.add(m_txtFilePath);
-    // m_panelModel.add(Box.createHorizontalStrut(H));
     m_panelModel.add(m_butOpenModel);
-    // m_panelModel.add(Box.createHorizontalGlue());
     m_panelModel.setPreferredSize(new Dimension(30, 40));
     this.add(m_panelModel);
     this.add(Box.createVerticalStrut(H_SPACE));
     // ------ Initialize algorithm panel ------
     m_nCurAlgo = 0;
     m_panelAlgorithmBase = new JPanel();
-    // m_panelAlgorithmBase.setLayout();
-    // m_panelAlgorithmBase.add(Box.createHorizontalStrut(H));
     m_panelAlgorithm = new AlgorithmPanel[3];
     m_panelAlgorithm[0] = new AlgorithmPanel("Algorithm selection",
         "Select an algorithm from combobox.", "default.gif");
@@ -102,10 +101,8 @@ public class PanelTestDesign extends JPanel implements ActionListener
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[2].getAlgorithmName());
     m_combAlgorithmSelection.addActionListener(this);
     m_panelAlgorithmBase.add(m_combAlgorithmSelection);
-    // m_panelAlgorithmBase.add(Box.createHorizontalStrut(H_SPACE));
     m_panelDefaultOption = new OptionPanelDefault();
     m_panelAlgorithmBase.add(m_panelDefaultOption);
-    // m_panelAlgorithmBase.add(Box.createHorizontalStrut(H_SPACE));
     this.add(m_panelAlgorithmBase);
     this.add(Box.createHorizontalStrut(H_SPACE));
     // ------ Coverage matrix panel ------
@@ -149,14 +146,17 @@ public class PanelTestDesign extends JPanel implements ActionListener
       m_panelAlgorithmBase.add(m_panelAlgorithm[m_nCurAlgo].getOptionPanel());
       m_panelAlgorithmBase.revalidate();
       // Update the setting
-      Parameter.m_strAlgorithmName = m_panelAlgorithm[m_nCurAlgo]
-          .getAlgorithmName();
+      Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo].getAlgorithmName());
     }
     if (e.getSource() == m_butOpenModel) {
       String[] extensions = {"java", "class"};
       FileChooserFilter javaFileFilter = new FileChooserFilter(extensions,
           "Java Files");
       JFileChooser chooser = new JFileChooser();
+      if(Parameter.getFileChooserOpenMode() == 0)
+        chooser.setCurrentDirectory(new File(Parameter.getModelChooserDirectory()));
+      else
+        chooser.setCurrentDirectory(new File(Parameter.DEFAULT_DIRECTORY));
       chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
       chooser.setDialogTitle("Opne model file");
       chooser.addChoosableFileFilter(javaFileFilter);
@@ -166,10 +166,12 @@ public class PanelTestDesign extends JPanel implements ActionListener
         File f = chooser.getSelectedFile();
         String[] fileName = f.getName().split("\\.");
         Parameter.setClassName(fileName[0]);
-        Parameter.m_strModelLocation = f.getAbsolutePath();
+        Parameter.setModelLocation(f.getAbsolutePath());
         // Update the text field component
-        this.m_txtFilePath.setText(Parameter.getClassName() + " ( "
-            + Parameter.m_strModelLocation + " )");
+        m_txtFilePath.setText(Parameter.getClassName() + " ( "
+            + Parameter.getModelLocation() + " )");
+        // Set file chooser dialog initial directory
+        Parameter.setModelChooserDirectory(f.getAbsolutePath());
         m_txtFilePath.setCaretPosition(0);
       }
     }
@@ -184,6 +186,11 @@ public class PanelTestDesign extends JPanel implements ActionListener
 
   public String generateCode()
   {
+    if(m_nCurAlgo<1 
+        || m_panelAlgorithm[m_nCurAlgo].hasError()
+        || Parameter.getClassName() == null
+        || Parameter.getClassName().length()<=0)
+      return "";
     StringBuffer buf = new StringBuffer();
     // For random walk using random seed or not
     String strTestCase = Parameter.getTestCaseVariableName();
@@ -220,7 +227,7 @@ public class PanelTestDesign extends JPanel implements ActionListener
     // Generate class content
     buf.append(Indentation.SEP);
     buf.append(Indentation.wrap("public class " + Parameter.getClassName()
-        + "Tester\n{"));
+        + "Tester"+Indentation.SEP+"{"));
     buf.append(Indentation.wrap("public static void main(String args[])"));
     buf.append(Indentation.wrap("{"));
     // Setup coverage matrix
@@ -250,7 +257,7 @@ public class PanelTestDesign extends JPanel implements ActionListener
         + Parameter.getClassName() + "();"));
     buf.append(Indentation.wrap("ModelTestCase " + strTestCase
         + " = new ModelTestCase(model);"));
-    buf.append(Indentation.wrap(strTestCase + ".setVerbosity(2)"));
+    buf.append(Indentation.wrap(strTestCase + ".setVerbosity(2);"));
     // Generate code according to particular algorithm.
     buf.append(Indentation.SEP);
     buf.append(m_panelAlgorithm[m_nCurAlgo].generateCode());
