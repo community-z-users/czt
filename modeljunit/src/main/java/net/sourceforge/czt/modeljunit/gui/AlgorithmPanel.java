@@ -22,6 +22,11 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     //m_imgIcon = new ImageIcon(getClass().getResource("icon.gif"));
   }
 
+  public boolean hasError()
+  {
+    return m_panelOption.hasError();
+  }
+  
   public String getAlgorithmName()
   {
     return m_strNameOfAlgorithm;
