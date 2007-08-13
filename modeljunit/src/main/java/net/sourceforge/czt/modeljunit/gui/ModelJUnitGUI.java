@@ -8,6 +8,10 @@ import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException; // For compiler
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
@@ -35,20 +39,39 @@ public class ModelJUnitGUI implements ActionListener
 
   private JButton m_butRun = new JButton("Run");
 
+  // Menu items
+  private JMenuBar m_menuBar;
+
+  private JMenuItem m_miFile;
+
+  private JMenuItem m_miExit;
+  
+  private JRadioButtonMenuItem m_miOpenModel;
+  
+  private JRadioButtonMenuItem m_miOpenModelDefault;
+  
+  private JMenuItem m_miAbout;
+  
   public void createAndShowGUI()
   {
+    // Load setting file
+    Parameter.readSettingFile();
+    // Initialize GUI
     m_butRun.addActionListener(this);
+    m_frame = new JFrame("ModelJUnit GUI");
+    m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     Thread initializeImage = new Thread()
     {
       public void run()
       {
         try {
-          m_frame = new JFrame("ModelJUnit GUI");
-          m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
           /*m_iconTag = new ImageIcon[3];
           m_iconTag[0] = new ImageIcon(getClass().getResource("icon.gif"));
           m_iconTag[1] = new ImageIcon(getClass().getResource("icon.gif"));
           m_iconTag[2] = new ImageIcon(getClass().getResource("icon.gif"));*/
+
           // Initialize TestDesign panel
           m_panelTD = PanelTestDesign.createTestDesignPanel();
           // Initialize CodeViewer panel
@@ -77,12 +100,53 @@ public class ModelJUnitGUI implements ActionListener
       }
     };
     initializeImage.start();
+
+    // Menu and menu items
+    m_menuBar = new JMenuBar();
+    // File meun
+    JMenu fMenu = new JMenu("File");
+    fMenu.setMnemonic('f');
+
+    m_miFile = new JMenuItem("Export java file");
+    m_miFile.setMnemonic(KeyEvent.VK_E);
+    m_miFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
+        ActionEvent.ALT_MASK));
+    m_miFile.addActionListener(this);
+    fMenu.add(m_miFile);
+    fMenu.addSeparator();
+    // Exit application
+    m_miExit = new JMenuItem("Exit");
+    m_miExit.setMnemonic(KeyEvent.VK_F4);
+    m_miExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
+        ActionEvent.ALT_MASK));
+    m_miExit.addActionListener(this);
+    fMenu.add(m_miExit);
+    m_menuBar.add(fMenu);
+    // Setting menu
+    ButtonGroup group = new ButtonGroup();
+    JMenu sMenu = new JMenu("Settings");
+    sMenu.setMnemonic('s');
+    m_miOpenModel = new JRadioButtonMenuItem("use last time directory to open model");
+    m_miOpenModel.setMnemonic(KeyEvent.VK_L);
+    m_miOpenModel.addActionListener(this);
+    m_miOpenModel.setSelected(true);
+    group.add(m_miOpenModel);
+    sMenu.add(m_miOpenModel);
+    
+    m_miOpenModelDefault = new JRadioButtonMenuItem("Use default directory");
+    m_miOpenModelDefault.setMnemonic(KeyEvent.VK_L);
+    m_miOpenModelDefault.addActionListener(this);
+    group.add(m_miOpenModelDefault);
+    sMenu.add(m_miOpenModelDefault);
+    m_menuBar.add(sMenu);
+    // About menu
+    JMenu aMenu = new JMenu("About");
+    aMenu.setMnemonic('a');
+    m_miAbout = new JMenuItem("Version");
+    aMenu.add(m_miAbout);
+    m_menuBar.add(aMenu);
+    m_frame.setJMenuBar(m_menuBar);
   }
-
-  /*protected void createTab()
-  {
-
-  }*/
 
   @Override
   // TEMP directory: System.getProperty("java.io.tmpdir")
@@ -91,19 +155,34 @@ public class ModelJUnitGUI implements ActionListener
   // SYSTEM DIR: System.getProperty("user.home")
   public void actionPerformed(ActionEvent e)
   {
+    //-------------- Menu radio buttons ------------------
+    if(e.getSource() == m_miOpenModel)
+    {
+      Parameter.setFileChooserOpenMode(0);
+    }
+    if(e.getSource() == m_miOpenModelDefault)
+    {
+      Parameter.setFileChooserOpenMode(1);
+    }
+    //-------------- Run button event handler -------------
     if (e.getSource() == m_butRun) {
+      // No model imported
       if (Parameter.getClassName() == null
           || Parameter.getClassName().length() == 0) {
-        ErrorMessage.DisplayErrorMessage("NO TEST MODEL BEEN SELECTED",
-            "Please select Test Model \nfrom Test Design tab\nbefore running!");
+        ErrorMessage
+            .DisplayErrorMessage("NO TEST MODEL HAS BEEN SELECTED",
+                "Please select Test Model \nfrom Test Design tab\nbefore code generating!");
         return;
       }
-      /* Get the java file in the current directory 
-      String fileName = "Test.java";
-      String currentDirectory = System.getProperty("user.dir");
-      String sourceFile = currentDirectory+"\\"+fileName;
-      */
-      String sourceFile = Parameter.m_strModelLocation;
+      // No algorithm selected
+      if (m_panelTD.getCurrentAlgorithm() < 1) {
+        ErrorMessage
+            .DisplayErrorMessage("NO TEST ALGORITHM HAS BEEN SELECTED",
+                "Please select algorithm \nfrom Test Design tab\nbefore generate code!");
+        return;
+      }
+      
+      String sourceFile = Parameter.getModelLocation();
       System.out.println("File from: " + sourceFile);
       // Clear the result table
       m_panelRV.getTableModel().clearData();
@@ -150,6 +229,90 @@ public class ModelJUnitGUI implements ActionListener
       catch (IOException exp) {
         exp.printStackTrace();
       }
+    }
+    // ------------- Export java file --------------
+    if (e.getSource() == m_miFile) {
+      String code = m_panelTD.generateCode();
+      if (code.length() > 0) {
+        String extension = "java";
+        FileChooserFilter javaFileFilter = new FileChooserFilter(extension,
+            "Java Files");
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setDialogTitle("Save test file");
+        if(Parameter.getFileChooserOpenMode() == 0)
+          chooser.setCurrentDirectory(new File(Parameter.getModelChooserDirectory()));
+        else
+          chooser.setCurrentDirectory(new File(Parameter.DEFAULT_DIRECTORY));
+        chooser.addChoosableFileFilter(javaFileFilter);
+        int option = chooser.showDialog(m_frame,"Export");
+
+        if (option == JFileChooser.APPROVE_OPTION) {
+          File f = chooser.getSelectedFile();
+          // Set file chooser directory
+          Parameter.setModelChooserDirectory(f.getParent());
+          // Check the suffix ensure it be .java
+          String name[] = f.getName().split("\\.");
+          if(name.length!=2)
+          {
+            System.out.println(name[0]+", "+f.getPath());
+            File nf = new File(f.getParent(),name[0]+".java");
+            try {
+              nf.createNewFile();
+            }
+            catch (IOException e1) {
+              e1.printStackTrace();
+              ErrorMessage.DisplayErrorMessage("Cannot create file", "Try select other java file.");
+            }
+            f.delete();
+            f = nf;
+          }
+          // Write the java file
+          try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            writer.write(code);
+            writer.close();
+          }
+          catch (IOException e1) {
+            e1.printStackTrace();
+          }
+        }
+      }
+    }
+    if (e.getSource() == m_miExit) {
+      System.exit(0);
+    }
+  }
+
+
+  private class FileChooserFilter extends javax.swing.filechooser.FileFilter
+  {
+    private String m_description = null;
+
+    private String m_extension = null;
+
+    public FileChooserFilter(String extension, String description)
+    {
+      m_description = description;
+      m_extension = "." + extension.toLowerCase();
+    }
+
+    @Override
+    public boolean accept(File f)
+    {
+      if (f == null)
+        return false;
+      if (f.isDirectory())
+        return true;
+      if (f.getName().toLowerCase().endsWith(m_extension))
+        return true;
+      return false;
+    }
+
+    @Override
+    public String getDescription()
+    {
+      return m_description;
     }
   }
 
