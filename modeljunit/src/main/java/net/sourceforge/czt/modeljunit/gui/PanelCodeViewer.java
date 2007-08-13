@@ -4,7 +4,6 @@ package net.sourceforge.czt.modeljunit.gui;
 import java.awt.BorderLayout;
 
 import javax.swing.*;
-import javax.swing.text.Document;
 
 public class PanelCodeViewer extends JPanel
 {
