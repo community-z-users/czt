@@ -140,7 +140,7 @@ public class ModelTest extends TestCase
     Assert.assertEquals(-1, metric.getMaximum());
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    Assert.assertEquals("Incorrect history size.", 7, hist.size());
+    Assert.assertEquals("Incorrect history size.", 8, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
   }

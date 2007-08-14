@@ -902,114 +902,108 @@ public class ModelTestCase
 
   protected int doGreedyRandomAction(Random rand)
   {
-	  // System.out.println("Currently in state: " + fsmState);
-	  /*
-	  	BitSet of the actions that need to be done for the current state
+    // System.out.println("Currently in state: " + fsmState);
+    /*
+     BitSet of the actions that need to be done for the current state
 
-		True, if action has not been done and is enabled
-		False, Otherwise
+     True, if action has not been done and is enabled
+     False, Otherwise
 
-		Null, if terminal state or state has no more unvisted transitions
-		Non-Null, otherwise
-	  */
-	  BitSet toDo = fsmTodo.get(fsmState);
-	  /*
-	  	BitSet of the actions have been done for the current state
+     Null, if terminal state or state has no more unvisted transitions
+     Non-Null, otherwise
+     */
+    BitSet toDo = fsmTodo.get(fsmState);
+    /*
+     BitSet of the actions have been done for the current state
 
-		True, if action has been done
-		False, Otherwise
+     True, if action has been done
+     False, Otherwise
 
-		Null, if terminal state or state has not been visited
-		Non-Null, otherwise
-	  */
-	  BitSet done = fsmDone.get(fsmState);
-	  // Indexes of the actions that need to be done
-	  ArrayList<Integer> indexToDo = new ArrayList<Integer>();
+     Null, if terminal state or state has not been visited
+     Non-Null, otherwise
+     */
+    BitSet done = fsmDone.get(fsmState);
+    // Indexes of the actions that need to be done
+    ArrayList<Integer> indexToDo = new ArrayList<Integer>();
 
-	  // If terminal state we must force a reset so return -1
-	  if(toDo == null && done == null)
-		  return -1;
-	  else if(toDo == null && done != null)
-	  {
-		  // If all actions of the state have been done just choose one randomly
-		  return doRandomAction(rand);
-	  }
+    // If terminal state we must force a reset so return -1
+    if (toDo == null && done == null)
+      return -1;
+    else if (toDo == null && done != null) {
+      // If all actions of the state have been done just choose one randomly
+      return doRandomAction(rand);
+    }
 
-	  // System.out.println("todo cardinality: " + toDo.cardinality());
+    // System.out.println("todo cardinality: " + toDo.cardinality());
 
-	  if(toDo.cardinality() == 0)
-	  {
-		  // If all actions of the state have been done just choose one randomly
-		  return doRandomAction(rand);
-	  }
-	  else if(toDo.cardinality() == 1)
-	  {
-		  // Get the index of the only set bit in the toDo Bitset
-		  int index = toDo.nextSetBit(0);
-		  if(doAction(index))
-		  {
-			  // If action is done return the action that was done
-			  return index;
-		  }
-	  }
-	  else
-	  {
-		  // Iterate over all true bits and put their indexes into a list
-		  for (int i = toDo.nextSetBit(0); i >= 0; i = toDo.nextSetBit(i+1)) {
-			  indexToDo.add(i);
-		  }
-		  // Randomly generate an index from 0 to size() of indexToDo - 1
-		  int index = rand.nextInt(indexToDo.size());
-		  // System.out.println("index: " + index);
-		  if(doAction(indexToDo.get(index)))
-		  {
-			  // If action is done return the action that was done
-			  return indexToDo.get(index);
-		  }
-	  }
-	  return -1;
+    if (toDo.cardinality() == 0) {
+      // If all actions of the state have been done just choose one randomly
+      return doRandomAction(rand);
+    }
+    else if (toDo.cardinality() == 1) {
+      // Get the index of the only set bit in the toDo Bitset
+      int index = toDo.nextSetBit(0);
+      if (doAction(index)) {
+        // If action is done return the action that was done
+        return index;
+      }
+    }
+    else {
+      // Iterate over all true bits and put their indexes into a list
+      for (int i = toDo.nextSetBit(0); i >= 0; i = toDo.nextSetBit(i + 1)) {
+        indexToDo.add(i);
+      }
+      // Randomly generate an index from 0 to size() of indexToDo - 1
+      int index = rand.nextInt(indexToDo.size());
+      // System.out.println("index: " + index);
+      if (doAction(indexToDo.get(index))) {
+        // If action is done return the action that was done
+        return indexToDo.get(index);
+      }
+    }
+    return -1;
   }
 
   public int doGreedyRandomActionOrReset(Random rand, boolean testing)
   {
-	  int taken = -1;
-	  double prob = rand.nextDouble();
-	  if (prob < resetProbability)
-		  doReset("Random", testing);
-	  else
-	  {
-		  taken = doGreedyRandomAction(rand);
-		  if (taken < 0)
-			  doReset("Forced", testing);
-	  }
-	  return taken;
+    int taken = -1;
+    double prob = rand.nextDouble();
+    if (prob < resetProbability)
+      doReset("Random", testing);
+    else {
+      taken = doGreedyRandomAction(rand);
+      if (taken < 0)
+        doReset("Forced", testing);
+    }
+    return taken;
   }
 
   public void greedyRandomWalk(int length)
   {
-	  greedyRandomWalk(length, new Random(FIXEDSEED));
+    greedyRandomWalk(length, new Random(FIXEDSEED));
   }
 
   public void greedyRandomWalk(int length, Random rand)
   {
-	  int totalLength = 0;
-	  doReset("Initial", true);
-	  while (totalLength < length) {
-            int taken = doGreedyRandomActionOrReset(rand, true);
-            if (taken >= 0)
-              totalLength++;
-	  }
-	  this.printProgress(1, "finished greedyRandomWalk of "+length+" transitions.");
-	  if (failedTests > 0)
-		  printFailure(1, ""+failedTests+" tests failed.");
+    int totalLength = 0;
+    doReset("Initial", true);
+    while (totalLength < length) {
+      int taken = doGreedyRandomActionOrReset(rand, true);
+      if (taken >= 0)
+        totalLength++;
+    }
+    this.printProgress(1, "finished greedyRandomWalk of " + length
+        + " transitions.");
+    if (failedTests > 0)
+      printFailure(1, "" + failedTests + " tests failed.");
   }
 
   /** Same as allRoundTrips(length), but uses a fixed seed for the
    *  random number generator.  This ensures repeatability.
    *  That is, the test results will be deterministic (if the SUT is).
-  *
-  * @param maxLength  The number of test steps to do.
-  */
+   *
+   * @param maxLength  The number of test steps to do.
+   */
   public void allRoundTrips(int length)
   {
     allRoundTrips(length, new Random(FIXEDSEED));
