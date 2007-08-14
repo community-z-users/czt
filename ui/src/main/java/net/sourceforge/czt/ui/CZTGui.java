@@ -70,8 +70,11 @@ public class CZTGui implements ActionListener
 
   JMenuBar menubar = new JMenuBar();
   JMenu filemenu = new JMenu("File");
+  JMenu saveas = new JMenu("Save As");
+  JMenuItem saveasLatex = new JMenuItem("Latex");
+  JMenuItem saveasUnicode = new JMenuItem("Unicode");
+  JMenuItem saveasXML = new JMenuItem("XML");
   JMenuItem open = new JMenuItem("Open");
-  JMenuItem saveas = new JMenuItem("Save As...");
   JMenuItem close = new JMenuItem("Close");
   JMenuItem exit = new JMenuItem("Exit");
   JScrollPane scrollResults = new JScrollPane(resultList);
@@ -131,12 +134,15 @@ public class CZTGui implements ActionListener
     split.setDividerLocation(400);
 
     open.addActionListener(this);
-    saveas.setEnabled(false);
-    saveas.addActionListener(this);
     close.addActionListener(this);
     exit.addActionListener(this);
-
+    
+    saveas.add(saveasLatex);
+    saveas.add(saveasUnicode);
+    saveas.add(saveasXML);
+    
     filemenu.add(open);
+    saveas.setEnabled(false);
     filemenu.add(saveas);
     filemenu.add(close);
     filemenu.add(exit);
@@ -185,13 +191,32 @@ public class CZTGui implements ActionListener
   }
 
 
+  private void clearTreeView(){
+    treeView = null;
+    scrollTreeStructure.setViewportView(treeView);
+  }
+  private void clearErrorList(){
+    resultListModel.clear();
+  }
+  private void closeProject(){
+    file = null;
+    specText.setText("");
+    frame.setTitle(softwarename);
+    saveas.setEnabled(false);
+    clearTreeView();
+    clearErrorList();
+  }
+  
   /**
    *  Description of the Method
    */
   private void loadFile()
   {
+    clearTreeView();
+    clearErrorList();
+    
     specDialog.setVisible(false);
-    saveas.setEnabled(true);
+
     frame.setTitle(softwarename + " - " + file.getName());
     SectionManager manager = new SectionManager();
     FileSource source = new FileSource(file);
@@ -213,9 +238,11 @@ public class CZTGui implements ActionListener
       manager.get(new Key(source.getName(), Spec.class));
       treeView = new JTree((new TermTreeNode(0, spec, null)));
       scrollTreeStructure.setViewportView(treeView);
+      saveas.setEnabled(true);
     }
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
+      saveas.setEnabled(false);
       if (cause instanceof CztErrorList) {
         java.util.List<? extends CztError> errors =
         ((CztErrorList) cause).getErrors();
@@ -248,7 +275,7 @@ public class CZTGui implements ActionListener
    */
   public void actionPerformed(ActionEvent event)
   {
-    int n = 0;
+    /*int n = 0;**/
     //display the spec dialog
     if (event.getSource() == open) {
       specDialog.setVisible(true);
@@ -272,7 +299,6 @@ public class CZTGui implements ActionListener
             JOptionPane.ERROR_MESSAGE);
         }
         else {
-          resultListModel.clear();
           loadFile();
         }
       }
@@ -291,25 +317,19 @@ public class CZTGui implements ActionListener
     }
     //close the project and set back to defaults
     if (event.getSource() == close) {
-      file = null;
-      specText.setText("");
-      frame.setTitle(softwarename);
-      saveas.setEnabled(false);
-      resultListModel.clear();
-      treeView = null;
-      scrollTreeStructure.setViewportView(treeView);
+      closeProject();
     }
     //exit program and asks if user wants to save if a file is opened
     if (event.getSource() == exit) {
-      if (file != null) {
+      /*if (file != null) {
         n = JOptionPane.showConfirmDialog(frame, "Exit without saving?", softwarename, JOptionPane.YES_NO_OPTION);
         if (n == JOptionPane.YES_OPTION) {
           System.exit(0);
         }
       }
-      else {
+      else {**/
         System.exit(0);
-      }
+      /*}**/
     }
   }
 }
