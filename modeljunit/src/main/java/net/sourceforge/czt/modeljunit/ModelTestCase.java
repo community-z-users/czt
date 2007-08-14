@@ -38,6 +38,7 @@ import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 
 
 /** Test a system, based on a finite state machine (FSM) model of that system.
@@ -642,8 +643,8 @@ public class ModelTestCase
   /** Converts a state into a name.
    *  It calls toString on the state, and then adds quotes around
    *  the string if it is not a Java identifier.
-   * 
-   * @param str  
+   *
+   * @param str
    * @return
    */
   public static String stateName(Object state)
@@ -866,7 +867,6 @@ public class ModelTestCase
     randomWalk(length, new Random(FIXEDSEED));
   }
 
-
   /** Does a random walk through a finite state machine.
    *  It tests exactly 'length' transitions.
    *  If it has not finished testing, but gets into a state
@@ -885,58 +885,58 @@ public class ModelTestCase
    * @param rand   A random number generator to control the traversal.
    */
   //@requires 0 <= length;
-  public void randomWalk(
-      int length,
-      /*@non_null@*/ Random rand)
+  public void randomWalk(int length,
+  /*@non_null@*/Random rand)
   {
-	int totalLength = 0;
+    int totalLength = 0;
     doReset("Initial", true);
     while (totalLength < length) {
-      doRandomActionOrReset(rand, true);
-      totalLength++;
+      int taken = doRandomActionOrReset(rand, true);
+      if (taken >= 0)
+        totalLength++;
     }
-    this.printProgress(1, "finished randomWalk of "+length+" transitions.");
+    this.printProgress(1, "finished randomWalk of " + length + " transitions.");
     if (failedTests > 0)
-      printFailure(1, ""+failedTests+" tests failed.");
+      printFailure(1, "" + failedTests + " tests failed.");
   }
-  
+
   protected int doGreedyRandomAction(Random rand)
   {
 	  // System.out.println("Currently in state: " + fsmState);
 	  /*
 	  	BitSet of the actions that need to be done for the current state
-		
+
 		True, if action has not been done and is enabled
 		False, Otherwise
-		
+
 		Null, if terminal state or state has no more unvisted transitions
 		Non-Null, otherwise
 	  */
 	  BitSet toDo = fsmTodo.get(fsmState);
 	  /*
 	  	BitSet of the actions have been done for the current state
-		
+
 		True, if action has been done
 		False, Otherwise
-		
+
 		Null, if terminal state or state has not been visited
 		Non-Null, otherwise
 	  */
 	  BitSet done = fsmDone.get(fsmState);
 	  // Indexes of the actions that need to be done
 	  ArrayList<Integer> indexToDo = new ArrayList<Integer>();
-	  
+
 	  // If terminal state we must force a reset so return -1
 	  if(toDo == null && done == null)
-		  return -1; 
+		  return -1;
 	  else if(toDo == null && done != null)
 	  {
 		  // If all actions of the state have been done just choose one randomly
 		  return doRandomAction(rand);
 	  }
-	  
+
 	  // System.out.println("todo cardinality: " + toDo.cardinality());
-	  
+
 	  if(toDo.cardinality() == 0)
 	  {
 		  // If all actions of the state have been done just choose one randomly
@@ -969,7 +969,7 @@ public class ModelTestCase
 	  }
 	  return -1;
   }
-  
+
   public int doGreedyRandomActionOrReset(Random rand, boolean testing)
   {
 	  int taken = -1;
@@ -984,22 +984,66 @@ public class ModelTestCase
 	  }
 	  return taken;
   }
-  
-  public void greedyRandomWalk(int length) 
+
+  public void greedyRandomWalk(int length)
   {
 	  greedyRandomWalk(length, new Random(FIXEDSEED));
   }
-  
+
   public void greedyRandomWalk(int length, Random rand)
   {
 	  int totalLength = 0;
 	  doReset("Initial", true);
 	  while (totalLength < length) {
-		  doGreedyRandomActionOrReset(rand, true);
-		  totalLength++;
+            int taken = doGreedyRandomActionOrReset(rand, true);
+            if (taken >= 0)
+              totalLength++;
 	  }
 	  this.printProgress(1, "finished greedyRandomWalk of "+length+" transitions.");
 	  if (failedTests > 0)
 		  printFailure(1, ""+failedTests+" tests failed.");
+  }
+
+  /** Same as allRoundTrips(length), but uses a fixed seed for the
+   *  random number generator.  This ensures repeatability.
+   *  That is, the test results will be deterministic (if the SUT is).
+  *
+  * @param maxLength  The number of test steps to do.
+  */
+  public void allRoundTrips(int length)
+  {
+    allRoundTrips(length, new Random(FIXEDSEED));
+  }
+
+  /** Uses a greedy random walk to try and test all loops in the model.
+   *
+   * @param maxLength  The number of test steps to do.
+   * @param rand       The random number generator used to choose paths.
+   */
+  public void allRoundTrips(int length, Random rand)
+  {
+    CoverageMetric state = new StateCoverage();
+    this.addCoverageMetric(state);
+    int totalLength = 0;
+    doReset("Initial", true);
+    while (totalLength < length) {
+      int taken = doGreedyRandomActionOrReset(rand, true);
+      if (taken < 0) {
+        System.out.println("reset state coverage");
+        state.reset();
+      }
+      else {
+        totalLength++;
+        if (state.getDetails().get(getCurrentState()) > 1) {
+          doReset("found loop", true);
+          state.reset();
+        }
+      }
+    }
+    this.printProgress(1, "finished allRoundTrips of " + length
+        + " transitions.");
+    if (failedTests > 0)
+      printFailure(1, "" + failedTests + " tests failed.");
+    this.removeCoverageMetric(state);
   }
 }

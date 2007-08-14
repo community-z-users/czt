@@ -43,7 +43,7 @@ import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
  * Unit test for ModelJUnit
  */
 public class ResetTest extends TestCase
-{  
+{
   /**
    * Create the test case
    *
@@ -71,7 +71,7 @@ public class ResetTest extends TestCase
   {
     private int resets = 0;
     private int state = 0;
-    
+
     public Object getState()
     {
       return ""+state;
@@ -107,7 +107,7 @@ public class ResetTest extends TestCase
     public void reset(boolean testing)
     {
     }
-    
+
     public @Action void action()
     {
     }
@@ -126,7 +126,7 @@ public class ResetTest extends TestCase
       Assert.assertTrue(ex.getMessage().startsWith("Model error: reset"));
     }
   }
-  
+
   public static void testNullReset()
   {
     try {
@@ -138,7 +138,7 @@ public class ResetTest extends TestCase
       Assert.assertTrue(ex.getMessage().startsWith("Model Error: getState() must be non-null"));
     }
   }
-  
+
   /** Test the getting/setting of reset probability */
   public static void testResetProbability()
   {
@@ -158,7 +158,7 @@ public class ResetTest extends TestCase
       // check that it is unchanged
       Assert.assertEquals(0.99, model.getResetProbability());
     }
-    
+
     try {
       model.setResetProbability(1.0);
       Assert.fail("reset probability >= 1.0 should be illegal");
@@ -169,7 +169,7 @@ public class ResetTest extends TestCase
       Assert.assertEquals(0.99, model.getResetProbability());
     }
   }
-  
+
   /** Test the effect of reset probability. */
   public static void testResetHigh()
   {
@@ -177,10 +177,12 @@ public class ResetTest extends TestCase
     model.buildGraph();
     model.setResetProbability(0.9);
     CoverageMetric trCover = new TransitionCoverage();
-    model.addCoverageMetric(trCover);
+    CoverageHistory hist = new CoverageHistory(trCover,1);
+    model.addCoverageMetric(hist);
     model.randomWalk(40);
     // the random walk should choose reset almost all the time
     // so should not get past the first transition.
-    Assert.assertEquals(1, trCover.getCoverage());
+    Assert.assertEquals(41, hist.getHistory().size());
+    Assert.assertEquals(3, trCover.getCoverage());
   }
 }

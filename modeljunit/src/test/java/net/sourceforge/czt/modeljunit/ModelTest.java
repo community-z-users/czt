@@ -42,7 +42,7 @@ import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
  * Unit test for ModelJUnit
  */
 public class ModelTest extends TestCase
-{  
+{
   /**
    * Create the test case
    *
@@ -110,7 +110,7 @@ public class ModelTest extends TestCase
     Assert.assertEquals(-1, metric.getMaximum()); // unknown.
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    Assert.assertEquals("Incorrect history size.", 4, hist.size());
+    Assert.assertEquals("Incorrect history size.", 4+1, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
 
@@ -127,22 +127,22 @@ public class ModelTest extends TestCase
     Assert.assertEquals("History not reset.", 1, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
   }
-  
+
   /** This tests a greedy random walk, plus TransitionCoverage metric with history */
   public static void testGreedyRandomWalk()
   {
-	  ModelTestCase model = new ModelTestCase(new FSM());
-	  CoverageHistory metric = new CoverageHistory(new TransitionCoverage(), 1);
-	  model.addCoverageMetric(metric);
-	  model.greedyRandomWalk(7);
-	  int coverage = metric.getCoverage();
-	  Assert.assertEquals(5, coverage);
-	  Assert.assertEquals(-1, metric.getMaximum());
-	  List<Integer> hist = metric.getHistory();
-	  Assert.assertNotNull(hist);
-	  Assert.assertEquals("Incorrect history size.", 7, hist.size());
-	  Assert.assertEquals(new Integer(0), hist.get(0));
-	  Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
+    ModelTestCase model = new ModelTestCase(new FSM());
+    CoverageHistory metric = new CoverageHistory(new TransitionCoverage(), 1);
+    model.addCoverageMetric(metric);
+    model.greedyRandomWalk(7);
+    int coverage = metric.getCoverage();
+    Assert.assertEquals(5, coverage);
+    Assert.assertEquals(-1, metric.getMaximum());
+    List<Integer> hist = metric.getHistory();
+    Assert.assertNotNull(hist);
+    Assert.assertEquals("Incorrect history size.", 7, hist.size());
+    Assert.assertEquals(new Integer(0), hist.get(0));
+    Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
   }
 
   public static void testBuildGraph()
@@ -186,7 +186,7 @@ public class ModelTest extends TestCase
    *  ...  covN/max after trN random walk transitions.
    *  (each random walk starts from the initial state
    *  with the same random seed, so will follow the same path).
-   *  
+   *
    *  @param metric  The CoverageMetric to test.
    *  @param max     The value of metric.getMaximum() after buildGraph.
    *  @param expect  An array of {tr1,cov1, tr2,cov2, ..., trN,covN}
@@ -225,7 +225,7 @@ public class ModelTest extends TestCase
   public void testActionCoverage()
   {
     //    System.out.println("Starting testActionCoverage");
-    FsmCoverage(new ActionCoverage(), 4, 
+    FsmCoverage(new ActionCoverage(), 4,
         new int[] {1,1, 3,3, 20,4});
   }
 
@@ -235,7 +235,7 @@ public class ModelTest extends TestCase
   public void testStateCoverage()
   {
     //    System.out.println("Starting testStateCoverage");
-    FsmCoverage(new StateCoverage(), 3, 
+    FsmCoverage(new StateCoverage(), 3,
         new int[] {1,1, 2,2, 3,3, 20,3});
   }
 
@@ -245,7 +245,7 @@ public class ModelTest extends TestCase
   public void testTransitionCoverage()
   {
     //    System.out.println("Starting testTransitionCoverage");
-    FsmCoverage(new TransitionCoverage(), 5, 
+    FsmCoverage(new TransitionCoverage(), 5,
         new int[] {1,1, 3,3, 40,5});
   }
 
@@ -255,10 +255,10 @@ public class ModelTest extends TestCase
   public void testTransitionPairCoverage()
   {
     //    System.out.println("Starting testTransitionPairCoverage");
-    FsmCoverage(new TransitionPairCoverage(), 10, 
-        new int[] {1,0, 2,1, 3,2, 200,9});
+    FsmCoverage(new TransitionPairCoverage(), 10,
+        new int[] {1,0, 2,1, 3,2, 200,10});
   }
-  
+
   public static void main(String args[])
   {
     ModelTestCase model = new ModelTestCase(new FSM());
@@ -267,6 +267,6 @@ public class ModelTest extends TestCase
     model.removeAllCoverageMetrics();
     model.randomWalk(20);
     System.out.println("Finish random walk");
-    
+
   }
 }
