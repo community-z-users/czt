@@ -25,8 +25,10 @@ that create infinite loops of rewritings (eg. generating larger and
 larger terms).
 
 \begin{zsection}
-  \SECTION ZLivePreprocess \parents unfold
+  \SECTION ZLivePreprocess \parents expansion\_rules, simplification\_rules
 \end{zsection}
+
+\begin{zedjoker}{ExprList} ExprList \end{zedjoker}
 
 \section{Rules from the sets\_toolkit}
 
@@ -43,12 +45,6 @@ probably be omitted and done by the unfolddefn rule below.
 \end{zedrule}
 
 TODO: $\power_1$ ?
-
-We unfold schemas that are used as expressions into set comprehensions.
-\begin{zedrule}{SchemaToSetZLive}
-[D | P] = \{ D | P @ \theta [D | true] \}
-\end{zedrule}
-
 
 This next batch of rules unfolds the various kinds of relation
 and function spaces into a term that is type equivalent, but also
@@ -232,10 +228,16 @@ Next, we try unfolding simple definitions.
 otherwise the definition of emptyset in the sets\_toolkit
 gets used instead of our simpler unfold rule).
 
-\begin{zedrule}{unfolddefn}
-  E \hasDefn E2
+\begin{zedrule}{unfolddefn1}
+  v \hasDefn E2
 \derives
-   E = E2
+   v = E2
+\end{zedrule}
+
+\begin{zedrule}{unfolddefn2}
+  v [ExprList] \hasDefn E2
+\derives
+   v [ExprList] = E2
 \end{zedrule}
 
 
@@ -379,6 +381,3 @@ implement $\dcat$ as a ZLive primitive.
 %             \THEN \{\} 
 %             \ELSE (\dcat (head~E)) \cat (\dcat (tail~E))
 %\end{zedrule}
-
-
-\end{document}

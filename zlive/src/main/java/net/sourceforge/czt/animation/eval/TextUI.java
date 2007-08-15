@@ -736,7 +736,7 @@ public class TextUI {
    *  starts.  This is mostly used for debugging
    */
   public Term unfoldTerm(Term term)
-  throws EvalException
+    throws EvalException, UnboundJokerException
   {
     if (term == null)
       return null;

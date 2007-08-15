@@ -40,6 +40,7 @@ import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleUtils;
+import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
@@ -361,6 +362,11 @@ public class ZLive
           result = factory_.createFalsePred();
         }
       }
+    }
+    catch (UnboundJokerException ex) {
+      // we just catch and rethrow this for logging purposes
+      LOG.throwing("ZLive", "evalTerm", ex);
+      throw new RuntimeException(ex);
     }
     catch (RuntimeException ex) {
       // we just catch and rethrow this for logging purposes

@@ -31,9 +31,13 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.rules.CopyVisitor;
-import net.sourceforge.czt.rules.Rewrite;
-import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
+import net.sourceforge.czt.rules.Rewrite;
+import net.sourceforge.czt.rules.Rewriter;
+import net.sourceforge.czt.rules.RewriteVisitor;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.Strategies;
+import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -119,12 +123,15 @@ public final class Preprocess
    * @return         The rewritten term.
    */
   public Term preprocess(String sectname, Term term)
+    throws UnboundJokerException
   {
     if (rules_ == null)
       throw new RuntimeException("preprocessing error: no rules!");
     Factory factory = new Factory(new ProverFactory());
     Term term2 = term.accept(new CopyVisitor(factory));
-    Term term3 = Rewrite.rewrite(sectman_, sectname, term2, rules_);
+    Rewriter rewriter = new RewriteVisitor(rules_, sectman_, sectname);
+    Term term3 = Strategies.innermost(term2, rewriter);
+    //    Term term3 = Rewrite.rewrite(sectman_, sectname, term2, rules_);
     return term3;
   }
 
