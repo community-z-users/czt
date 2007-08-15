@@ -72,12 +72,12 @@ public class RewriteVisitor
                         SectionManager manager,
                         String section)
   {
-    Factory factory = new Factory(new ProverFactory());
-    CopyVisitor copyVisitor = new CopyVisitor(factory);
     for (Iterator<RulePara> iter = rules.iterator(); iter.hasNext(); ) {
       RulePara rulePara = iter.next();
       // Assuming oracles are not directly used for rewriting
       if (rulePara instanceof Rule) {
+        Factory factory = new Factory(new ProverFactory());
+        CopyVisitor copyVisitor = new CopyVisitor(factory);
         Rule rule = (Rule) rulePara.accept(copyVisitor);
         Sequent conclusion = rule.getSequent();
         Pred pred = conclusion.getPred();
@@ -201,7 +201,7 @@ public class RewriteVisitor
       for (RewriteRule rule : rules) {
         Term result = rule.apply(term);
         if (result != null) {
-          checkTypes(term, result);
+          //          checkTypes(term, result);
           return result;
         }
       }
