@@ -15,7 +15,10 @@ import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.z.ast.Spec;
+//import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.*;
+
+
 
 /**
  *  Description of the Class
@@ -35,6 +38,7 @@ public class CZTGui implements ActionListener
   JLabel resultLabel = new JLabel("Error List");
   DefaultListModel resultListModel = new DefaultListModel();
   JList resultList = new JList();
+  JTextArea outputText = new JTextArea();
 
   JPanel specificationPanel = new JPanel();
   JTextField specText = new JTextField(12);
@@ -89,6 +93,8 @@ public class CZTGui implements ActionListener
   public CZTGui()
   {
 
+    outputText.setEditable(false);
+    
     try {
       FileInputStream fileStream = new FileInputStream(softwarename + ".dat");
       ObjectInputStream os = new ObjectInputStream(fileStream);
@@ -239,6 +245,16 @@ public class CZTGui implements ActionListener
       treeView = new JTree((new TermTreeNode(0, spec, null)));
       scrollTreeStructure.setViewportView(treeView);
       saveas.setEnabled(true);
+      
+              for (Sect sect : spec.getSect()) {
+          if (sect instanceof ZSect) {
+            ZSect zSect = (ZSect) sect;
+            String sectionName = zSect.getName();
+            System.out.println(sectionName);
+              manager.get(new Key(sectionName,
+                                  SectTypeEnvAnn.class));
+          }
+              }
     }
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
@@ -248,9 +264,7 @@ public class CZTGui implements ActionListener
         ((CztErrorList) cause).getErrors();
         //iterate over error list
         for (int i = 0; i < errors.size(); i++) {
-          resultListModel.addElement(errors.get(i).toString());
-          //textResults.append(errors.get(i).toString() + "\n");
-          
+          resultListModel.addElement(errors.get(i).toString());          
         }
         resultList.setModel(resultListModel);
       }
@@ -266,7 +280,6 @@ public class CZTGui implements ActionListener
         "Caught " + e.getClass().getName() + ": " + e.getMessage();
     }
   }
-
 
   /**
    *  Description of the Method
