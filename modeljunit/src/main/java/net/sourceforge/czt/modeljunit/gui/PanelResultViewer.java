@@ -2,6 +2,13 @@
 package net.sourceforge.czt.modeljunit.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -10,7 +17,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-public class PanelResultViewer extends JPanel
+public class PanelResultViewer extends JPanel  
 {
 
   /**
@@ -61,7 +68,6 @@ public class PanelResultViewer extends JPanel
     public void clearData()
     {
       m_vector.removeAllElements();
-      //m_vector.add(new ResultDetails("A","B","C","D","E"));
     }
 
     public void addData(ResultDetails rd)
@@ -116,16 +122,27 @@ public class PanelResultViewer extends JPanel
 
     public String getTitle()
     {
-      return "Result table";
+      return "Compile result table";
     }
 
   }
 
   private static PanelResultViewer m_panelRV;
 
+  // Minimum height of the table and text area 
+  private final int MIN_HIEHGT = 160;
+  private final int INITIAL_WIDTH = 300;
   private JTable m_table;
-
   private ResultTableModelInstance m_columeModel;
+  // Display the test running information 
+  private JTextArea m_txtOutput;
+  // Scroll pane
+  JScrollPane m_scrollTable;
+  JScrollPane m_scrollTextArea;
+  // Split pane
+  JSplitPane m_splitPane; 
+  
+  
 
   public ResultTableModelInstance getTableModel()
   {
@@ -158,19 +175,48 @@ public class PanelResultViewer extends JPanel
     JTableHeader header = m_table.getTableHeader();
     header.setUpdateTableInRealTime(false);
 
-    JScrollPane ps = new JScrollPane();
+    // -------------------- Set up the split pane ------------------
+    // Scroll for compile table
+    m_scrollTable = new JScrollPane(m_table);
     m_table.setFillsViewportHeight(true);
-    ps.getViewport().setBackground(m_table.getBackground());
-    ps.getViewport().add(m_table);
+    m_scrollTable.getViewport().setBackground(m_table.getBackground());
+    m_scrollTable.getViewport().add(m_table);
 
-    setLayout(new BorderLayout());
-    add(m_table.getTableHeader(), BorderLayout.PAGE_START);
-    add(ps, BorderLayout.CENTER);
+    // Scroll pane for text area
+    m_txtOutput = new JTextArea();
+    m_txtOutput.setEditable(false);
+    //m_txtOutput.setPreferredSize(new Dimension(INITIAL_WIDTH,MIN_HIEHGT));
+    m_scrollTextArea = new JScrollPane(m_txtOutput);
+    m_scrollTextArea.getViewport().setBackground(m_txtOutput.getBackground());
+    m_scrollTextArea.getViewport().add(m_txtOutput);
 
+    m_splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, m_scrollTable, m_scrollTextArea);
+    m_splitPane.setOneTouchExpandable(true);
+    m_splitPane.setDividerLocation(MIN_HIEHGT);
+    //Provide minimum sizes for the two components in the split pane.
+    Dimension minimumSize = new Dimension(INITIAL_WIDTH, MIN_HIEHGT);
+    m_scrollTable.setMinimumSize(minimumSize);
+    m_scrollTextArea.setMinimumSize(minimumSize);
+
+    add(m_splitPane);
   }
 
   public void updateResult()
   {
 
   }
-}
+  public void resetRunTimeInformation()
+  {
+    m_txtOutput.setText("");
+  }
+  
+  public void updateRunTimeInformation(String str)
+  {
+    m_txtOutput.append(str);
+  }
+  
+  public void resizeScrollPanes(Dimension dim)
+  {
+    m_splitPane.setPreferredSize(dim);
+  }
+ }

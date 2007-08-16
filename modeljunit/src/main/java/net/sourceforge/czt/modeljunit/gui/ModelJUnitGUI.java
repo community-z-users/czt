@@ -8,11 +8,19 @@ import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException; // For compiler
+import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
@@ -20,7 +28,10 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-public class ModelJUnitGUI implements ActionListener
+import net.sourceforge.czt.modeljunit.FsmModel;
+import net.sourceforge.czt.modeljunit.ModelTestCase;
+
+public class ModelJUnitGUI implements ActionListener,ComponentListener
 {
   private JFrame m_frame;
 
@@ -45,13 +56,13 @@ public class ModelJUnitGUI implements ActionListener
   private JMenuItem m_miFile;
 
   private JMenuItem m_miExit;
-  
+
   private JRadioButtonMenuItem m_miOpenModel;
-  
+
   private JRadioButtonMenuItem m_miOpenModelDefault;
-  
+
   private JMenuItem m_miAbout;
-  
+
   public void createAndShowGUI()
   {
     // Load setting file
@@ -60,7 +71,14 @@ public class ModelJUnitGUI implements ActionListener
     m_butRun.addActionListener(this);
     m_frame = new JFrame("ModelJUnit GUI");
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    m_frame.addComponentListener(this);
+    
+    // Initialize TestDesign panel
+    m_panelTD = PanelTestDesign.createTestDesignPanel();
+    // Initialize CodeViewer panel
+    m_panelCV = PanelCodeViewer.createCodeViewer();
+    // Initialize ResuleViewer panel
+    m_panelRV = PanelResultViewer.createResultViewer();
     Thread initializeImage = new Thread()
     {
       public void run()
@@ -72,12 +90,7 @@ public class ModelJUnitGUI implements ActionListener
           m_iconTag[1] = new ImageIcon(getClass().getResource("icon.gif"));
           m_iconTag[2] = new ImageIcon(getClass().getResource("icon.gif"));*/
 
-          // Initialize TestDesign panel
-          m_panelTD = PanelTestDesign.createTestDesignPanel();
-          // Initialize CodeViewer panel
-          m_panelCV = PanelCodeViewer.createCodeViewer();
-          // Initialize ResuleViewer panel
-          m_panelRV = PanelResultViewer.createResultViewer();
+          
           // Setup the tab
           m_tabbedPane.addTab("Test Design", m_panelTD);
           m_tabbedPane.addTab("Code viewer", m_panelCV);
@@ -126,13 +139,14 @@ public class ModelJUnitGUI implements ActionListener
     ButtonGroup group = new ButtonGroup();
     JMenu sMenu = new JMenu("Settings");
     sMenu.setMnemonic('s');
-    m_miOpenModel = new JRadioButtonMenuItem("use last time directory to open model");
+    m_miOpenModel = new JRadioButtonMenuItem(
+        "use last time directory to open model");
     m_miOpenModel.setMnemonic(KeyEvent.VK_L);
     m_miOpenModel.addActionListener(this);
     m_miOpenModel.setSelected(true);
     group.add(m_miOpenModel);
     sMenu.add(m_miOpenModel);
-    
+
     m_miOpenModelDefault = new JRadioButtonMenuItem("Use default directory");
     m_miOpenModelDefault.setMnemonic(KeyEvent.VK_L);
     m_miOpenModelDefault.addActionListener(this);
@@ -156,12 +170,10 @@ public class ModelJUnitGUI implements ActionListener
   public void actionPerformed(ActionEvent e)
   {
     //-------------- Menu radio buttons ------------------
-    if(e.getSource() == m_miOpenModel)
-    {
+    if (e.getSource() == m_miOpenModel) {
       Parameter.setFileChooserOpenMode(0);
     }
-    if(e.getSource() == m_miOpenModelDefault)
-    {
+    if (e.getSource() == m_miOpenModelDefault) {
       Parameter.setFileChooserOpenMode(1);
     }
     //-------------- Run button event handler -------------
@@ -181,53 +193,62 @@ public class ModelJUnitGUI implements ActionListener
                 "Please select algorithm \nfrom Test Design tab\nbefore generate code!");
         return;
       }
+      // Clear the information in Result viewer text area
+      m_panelRV.resetRunTimeInformation();
       
       String sourceFile = Parameter.getModelLocation();
-      System.out.println("File from: " + sourceFile);
-      // Clear the result table
-      m_panelRV.getTableModel().clearData();
-      // Java compiler
-      /**
-       * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6477844
-       * Following statement will produce a null reference without exception
-       * it happens when I use only the JRE as Standard VM in Eclipse. 
-       * Please the JDK as Standard VM. It will work then.
-       * Window->Preferences->Installed JREs->
-       * Add C:\Program Files/Java/jdk1.6.0_02
-       */
-      JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-      StandardJavaFileManager fileManager = compiler.getStandardFileManager(
-          null, null, null);
-      DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
+      String name[] = sourceFile.split("\\.");
+   
+      if (name.length == 2 && name[1].equalsIgnoreCase("class"))
+        runClass();
+      // Compile file
+      else {
+        System.out.println("File from: " + sourceFile);
+        // Clear the result table
+        m_panelRV.getTableModel().clearData();
+        // Java compiler
+        /**
+         * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6477844
+         * Following statement will produce a null reference without exception
+         * it happens when I use only the JRE as Standard VM in Eclipse. 
+         * Please the JDK as Standard VM. It will work then.
+         * Window->Preferences->Installed JREs->
+         * Add C:\Program Files/Java/jdk1.6.0_02
+         */
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        StandardJavaFileManager fileManager = compiler.getStandardFileManager(
+            null, null, null);
+        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
 
-      Iterable<? extends JavaFileObject> compilationUnits = fileManager
-          .getJavaFileObjects(sourceFile);
-      JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager,
-          diagnostics, null, null, compilationUnits);
-      task.call();
-      // Check the result
-      boolean bHasProblem = false;
-      for (Diagnostic d : diagnostics.getDiagnostics()) {
-        // String type, String class name, String desc,String location, String path
-        ResultDetails details = new ResultDetails(d.getKind().name(), d
-            .getClass().toString(), d.getMessage(null), "Line: "
-            + Long.toString(d.getLineNumber()) + ", Column: "
-            + Long.toString(d.getColumnNumber()), d.getSource().toString());
-        m_panelRV.getTableModel().addData(details);
-        bHasProblem = true;
-      }
-      // If there is no problem display successful compile message
-      if (!bHasProblem) {
-        ResultDetails details = new ResultDetails("Successfully compiled ",
-            diagnostics.getDiagnostics().getClass().toString(), "", "",
-            sourceFile);
-        m_panelRV.getTableModel().addData(details);
-      }
-      try {
-        fileManager.close();
-      }
-      catch (IOException exp) {
-        exp.printStackTrace();
+        Iterable<? extends JavaFileObject> compilationUnits = fileManager
+            .getJavaFileObjects(sourceFile);
+        JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager,
+            diagnostics, null, null, compilationUnits);
+        task.call();
+        // Check the compile result
+        boolean bHasProblem = false;
+        for (Diagnostic d : diagnostics.getDiagnostics()) {
+          // String type, String class name, String desc,String location, String path
+          ResultDetails details = new ResultDetails(d.getKind().name(), d
+              .getClass().toString(), d.getMessage(null), "Line: "
+              + Long.toString(d.getLineNumber()) + ", Column: "
+              + Long.toString(d.getColumnNumber()), d.getSource().toString());
+          m_panelRV.getTableModel().addData(details);
+          bHasProblem = true;
+        }
+        // If there is no problem display successful compile message
+        if (!bHasProblem) {
+          ResultDetails details = new ResultDetails("Successfully compiled ",
+              diagnostics.getDiagnostics().getClass().toString(), "", "",
+              sourceFile);
+          m_panelRV.getTableModel().addData(details);
+        }
+        try {
+          fileManager.close();
+        }
+        catch (IOException exp) {
+          exp.printStackTrace();
+        }
       }
     }
     // ------------- Export java file --------------
@@ -240,12 +261,13 @@ public class ModelJUnitGUI implements ActionListener
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setDialogTitle("Save test file");
-        if(Parameter.getFileChooserOpenMode() == 0)
-          chooser.setCurrentDirectory(new File(Parameter.getModelChooserDirectory()));
+        if (Parameter.getFileChooserOpenMode() == 0)
+          chooser.setCurrentDirectory(new File(Parameter
+              .getModelChooserDirectory()));
         else
           chooser.setCurrentDirectory(new File(Parameter.DEFAULT_DIRECTORY));
         chooser.addChoosableFileFilter(javaFileFilter);
-        int option = chooser.showDialog(m_frame,"Export");
+        int option = chooser.showDialog(m_frame, "Export");
 
         if (option == JFileChooser.APPROVE_OPTION) {
           File f = chooser.getSelectedFile();
@@ -253,16 +275,16 @@ public class ModelJUnitGUI implements ActionListener
           Parameter.setModelChooserDirectory(f.getParent());
           // Check the suffix ensure it be .java
           String name[] = f.getName().split("\\.");
-          if(name.length!=2)
-          {
-            System.out.println(name[0]+", "+f.getPath());
-            File nf = new File(f.getParent(),name[0]+".java");
+          if (name.length != 2) {
+            System.out.println(name[0] + ", " + f.getPath());
+            File nf = new File(f.getParent(), name[0] + ".java");
             try {
               nf.createNewFile();
             }
             catch (IOException e1) {
               e1.printStackTrace();
-              ErrorMessage.DisplayErrorMessage("Cannot create file", "Try select other java file.");
+              ErrorMessage.DisplayErrorMessage("Cannot create file",
+                  "Try select other java file.");
             }
             f.delete();
             f = nf;
@@ -321,7 +343,14 @@ public class ModelJUnitGUI implements ActionListener
     m_panelCV.updateCode(m_panelTD.generateCode());
   }
 
-
+  private void runClass()
+  {
+    m_panelRV.updateRunTimeInformation(m_panelTD.runTest());
+  }
+  
+  private void compileFile()
+  {}
+  
   class TabChangeListener implements ChangeListener
   {
     @Override
@@ -329,5 +358,30 @@ public class ModelJUnitGUI implements ActionListener
     {
       updateGeneratedCode();
     }
+  }
+
+  @Override
+  public void componentHidden(ComponentEvent e)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void componentMoved(ComponentEvent e)
+  {
+    m_panelRV.resizeScrollPanes(m_frame.getContentPane().getSize());
+  }
+
+  @Override
+  public void componentResized(ComponentEvent e)
+  {
+    m_panelRV.resizeScrollPanes(m_frame.getContentPane().getSize());
+    
+  }
+
+  @Override
+  public void componentShown(ComponentEvent e)
+  {
+    // TODO Auto-generated method stub
   }
 }

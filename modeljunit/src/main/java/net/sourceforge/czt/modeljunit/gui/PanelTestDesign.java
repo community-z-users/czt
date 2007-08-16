@@ -6,12 +6,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.Locale;
+import java.io.PrintStream;
+import java.util.Hashtable;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class PanelTestDesign extends JPanel implements ActionListener
+import net.sourceforge.czt.modeljunit.ModelTestCase;
+
+public class PanelTestDesign extends JPanel implements ActionListener,ChangeListener
 {
 
   /**
@@ -42,14 +50,15 @@ public class PanelTestDesign extends JPanel implements ActionListener
 
   private JComboBox m_combAlgorithmSelection = new JComboBox();
 
+  private JSlider m_sliderAverageTestLength = 
+    new JSlider(JSlider.HORIZONTAL,1,100,5);
+  
   private AlgorithmPanel[] m_panelAlgorithm;
 
-  private OptionPanelDefault m_panelDefaultOption;
-
   // Coverage matrix panel
-  private JPanel m_panelCoverageMatrix;
+  private JPanel m_panelReport;
 
-  private int m_nCheckBox = 3;
+  private final int m_nCheckBox = 4;
 
   private JCheckBox[] m_checkCoverage;
 
@@ -73,6 +82,8 @@ public class PanelTestDesign extends JPanel implements ActionListener
     // ------ Setup model panel ------
     m_txtFilePath = new JTextField();
     m_txtFilePath.setColumns(26);
+    m_txtFilePath.setEditable(false);
+    
     m_butOpenModel = new JButton("...");
     m_butOpenModel.addActionListener(this);
     m_panelModel = new JPanel();
@@ -81,6 +92,10 @@ public class PanelTestDesign extends JPanel implements ActionListener
     m_panelModel.add(m_txtFilePath);
     m_panelModel.add(m_butOpenModel);
     m_panelModel.setPreferredSize(new Dimension(30, 40));
+    m_panelModel.setBorder(
+        new TitledBorder(
+            new EtchedBorder (EtchedBorder.LOWERED),
+            "Test model"));
     this.add(m_panelModel);
     this.add(Box.createVerticalStrut(H_SPACE));
     // ------ Initialize algorithm panel ------
@@ -100,19 +115,28 @@ public class PanelTestDesign extends JPanel implements ActionListener
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[1].getAlgorithmName());
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[2].getAlgorithmName());
     m_combAlgorithmSelection.addActionListener(this);
-    m_panelAlgorithmBase.add(m_combAlgorithmSelection);
-    m_panelDefaultOption = new OptionPanelDefault();
-    m_panelAlgorithmBase.add(m_panelDefaultOption);
+    // Setup slider 
+    m_sliderAverageTestLength.addChangeListener(this);
+    m_sliderAverageTestLength.setMajorTickSpacing(10);
+    //m_sliderAverageTestLength.setPaintTicks(true);
+    // Add components
+    addComponentsToTestGenerationPanel();
+    //m_panelAlgorithmBase.add(m_panelDefaultOption);
     this.add(m_panelAlgorithmBase);
+    this.m_panelAlgorithmBase.setBorder(
+        new TitledBorder(
+            new EtchedBorder (EtchedBorder.LOWERED),
+            "Test generation"));
     this.add(Box.createHorizontalStrut(H_SPACE));
-    // ------ Coverage matrix panel ------
-    m_panelCoverageMatrix = new JPanel();
-    m_panelCoverageMatrix.setLayout(new BoxLayout(m_panelCoverageMatrix,
+    // ------ Report setting panel ------
+    m_panelReport = new JPanel();
+    m_panelReport.setLayout(new BoxLayout(m_panelReport,
         BoxLayout.Y_AXIS));
     m_checkCoverage = new JCheckBox[m_nCheckBox];
     m_checkCoverage[0] = new JCheckBox("State coverage");
     m_checkCoverage[1] = new JCheckBox("Transition coverage");
     m_checkCoverage[2] = new JCheckBox("Transition pair coverage");
+    m_checkCoverage[3] = new JCheckBox("Print graph");
     Color bg = new Color(206, 206, 206);
 
     m_bChecked = new boolean[m_nCheckBox];
@@ -120,10 +144,16 @@ public class PanelTestDesign extends JPanel implements ActionListener
       m_checkCoverage[i].setBackground(bg);
       m_checkCoverage[i].addActionListener(this);
       m_bChecked[i] = false;
-      m_panelCoverageMatrix.add(m_checkCoverage[i]);
+      m_panelReport.add(m_checkCoverage[i]);
     }
-    m_panelCoverageMatrix.setBackground(bg);
-    this.add(m_panelCoverageMatrix);
+    
+    // set border
+    m_panelReport.setBackground(bg);
+    m_panelReport.setBorder(
+        new TitledBorder(
+            new EtchedBorder (EtchedBorder.LOWERED),
+            "Reporting"));
+    this.add(m_panelReport);
     this.add(Box.createVerticalGlue());
   }
 
@@ -132,22 +162,52 @@ public class PanelTestDesign extends JPanel implements ActionListener
     return null;
   }
 
+  protected void addComponentsToTestGenerationPanel()
+  {
+    m_panelAlgorithmBase.setLayout(new FlowLayout());
+    m_panelAlgorithmBase.add(m_combAlgorithmSelection);
+    //Create the label table.
+    Hashtable<Integer, JLabel> labelTable = 
+        new Hashtable<Integer, JLabel>();
+    //PENDING: could use images, but we don't have any good ones.
+    labelTable.put(new Integer( 0 ),
+                   new JLabel("Very Short") );
+                 //new JLabel(createImageIcon("images/stop.gif")) );
+    labelTable.put(new Integer( Integer.MAX_VALUE/10 ),
+                   new JLabel("Short") );
+                 //new JLabel(createImageIcon("images/slow.gif")) );
+    labelTable.put(new Integer( Integer.MAX_VALUE ),
+                   new JLabel("Long") );
+                 //new JLabel(createImageIcon("images/fast.gif")) );
+    this.m_sliderAverageTestLength.setLabelTable(labelTable);
+
+    //m_sliderAverageTestLength.setPaintLabels(true);
+    m_sliderAverageTestLength.setBorder(
+            BorderFactory.createEmptyBorder(0,0,0,10));
+
+    m_panelAlgorithmBase.add(m_sliderAverageTestLength);
+
+    m_nCurAlgo = m_combAlgorithmSelection.getSelectedIndex();
+    m_panelAlgorithmBase.add(m_panelAlgorithm[m_nCurAlgo].getOptionPanel());
+  }
   @Override
   public void actionPerformed(ActionEvent e)
   {
+    // ------------ Algorithm combo-box handler -------------- 
     if (e.getSource() == this.m_combAlgorithmSelection) {
       m_panelAlgorithmBase.removeAll();
-      m_panelAlgorithmBase.setLayout(new FlowLayout());
-      m_panelAlgorithmBase.add(m_combAlgorithmSelection);
-      m_nCurAlgo = m_combAlgorithmSelection.getSelectedIndex();
+      
+      addComponentsToTestGenerationPanel();
+      
       // Display the algorithm related panel
       if (m_panelAlgorithm[m_nCurAlgo].getOptionPanel() == null)
         System.out.println("Error: Algorithm panel is null");
-      m_panelAlgorithmBase.add(m_panelAlgorithm[m_nCurAlgo].getOptionPanel());
+      
       m_panelAlgorithmBase.revalidate();
       // Update the setting
       Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo].getAlgorithmName());
     }
+    // ------------ Open model from class file -------------- 
     if (e.getSource() == m_butOpenModel) {
       String[] extensions = {"java", "class"};
       FileChooserFilter javaFileFilter = new FileChooserFilter(extensions,
@@ -168,14 +228,16 @@ public class PanelTestDesign extends JPanel implements ActionListener
         Parameter.setClassName(fileName[0]);
         Parameter.setModelLocation(f.getAbsolutePath());
         // Update the text field component
-        m_txtFilePath.setText(Parameter.getClassName() + " ( "
-            + Parameter.getModelLocation() + " )");
+        m_txtFilePath.setText(Parameter.getClassName());
         // Set file chooser dialog initial directory
         Parameter.setModelChooserDirectory(f.getAbsolutePath());
         m_txtFilePath.setCaretPosition(0);
+        m_txtFilePath.setToolTipText(Parameter.getModelLocation());
+        // Load model from file and initialize the model object
+        Parameter.loadModelClassFromFile();
       }
     }
-    // Check the coverage matrix options
+    // ------ Check the coverage matrix options ------ 
     for (int i = 0; i < m_nCheckBox; i++) {
       if (e.getSource() == m_checkCoverage[i]) {
         m_bChecked[i] = !m_bChecked[i];
@@ -270,6 +332,22 @@ public class PanelTestDesign extends JPanel implements ActionListener
     return buf.toString();
   }
 
+  public String runTest()
+  {
+    String output = new String();
+    // Redirect the system.out to result viewer text area component
+    PrintStream ps = System.out; //Backup the System.out for later restore
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(baos, true));
+
+    ModelTestCase caseObj = m_panelAlgorithm[m_nCurAlgo].runAlgorithm();
+    
+    output = baos.toString();
+    System.out.println(output);
+    // Restore system.out to default value.
+    System.setOut(ps);
+    return output;
+  }
 
   private class FileChooserFilter extends javax.swing.filechooser.FileFilter
   {
@@ -303,6 +381,22 @@ public class PanelTestDesign extends JPanel implements ActionListener
           return true;
       }
       return false;
+    }
+  }
+
+  @Override
+  public void stateChanged(ChangeEvent e)
+  {
+    if(e.getSource()==this.m_sliderAverageTestLength)
+    {
+      int avgLength = 1;
+      JSlider source = (JSlider)e.getSource();
+      if (!source.getValueIsAdjusting()) {
+        avgLength = (int)source.getValue();
+        double prob = (double)1.0/(double)(avgLength+1);
+        Parameter.setResetProbility(prob);
+        System.out.println("(PaneltestDesign.java)Average length :"+prob);
+      }
     }
   }
 }

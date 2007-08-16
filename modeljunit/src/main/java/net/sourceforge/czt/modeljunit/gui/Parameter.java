@@ -13,11 +13,56 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import net.sourceforge.czt.modeljunit.FsmModel;
+import net.sourceforge.czt.modeljunit.ModelTestCase;
+
 public class Parameter
 {
   public static final String DEFAULT_DIRECTORY = System.getProperty("user.dir");
   /**
-   * Class name
+   * Reset probability
+   * 
+   * Set the probability of doing a reset during random walks. 
+   * Note that the average length of each test sequence will 
+   * be roughly proportional to the inverse of this probability. 
+   * 
+   * If this is set to 0.0, then resets will only be done 
+   * when we reach a dead-end state (no enabled actions). 
+   * This means that if the FSM contains a loop that does not 
+   * have a path back to the initial state, then the random walks 
+   * may get caught in that loop forever. For this reason, 
+   * a non-zero probability is recommended. 
+   * */
+  private static double m_nResetProbility = ModelTestCase.DEFAULT_RESET_PROBABILITY;
+  public static double getResetProbility()
+  { return m_nResetProbility; }
+  public static void setResetProbility(double probility)
+  { m_nResetProbility = probility; }
+  
+  /**
+   * Test generation verbosity
+   * 
+   * verbosity - 0..3
+   * */
+  private static int m_nVerbosity = 2;
+  public static int getVerbosity()
+  { return m_nVerbosity; }
+  public static void setVerbosity(int verb)
+  { m_nVerbosity = verb;}
+  
+  /**
+   * Test failure verbosity
+   * 
+   * failureVerbosity - 0..3
+   * */
+  private static int m_nFailureVerbosity;
+  public static int getFailureVerbosity()
+  { return m_nFailureVerbosity; }
+  public static void setFailureVerbosity(int verb)
+  { m_nFailureVerbosity = verb; }
+  
+  /**
+   * Class name, just includes the name of the class and suffix
    * */
   private static String m_strClassName;
 
@@ -32,7 +77,7 @@ public class Parameter
   }
 
   /**
-   * The absolute path of model (class or java file)
+   * The absolute path of model (class or java file) includes path ane file name
    * */
   private static String m_strModelLocation;
 
@@ -161,8 +206,8 @@ public class Parameter
     String currentDirectory = System.getProperty("user.dir");
     File file = new File(currentDirectory + File.separator + "setting.txt");
     // Generate new setting file
-    if (!file.exists()) {
-      System.out.println(file.getAbsolutePath());
+    if (!file.exists()) 
+    {
       Parameter.createDefaultSettingFile();
     }
     else
@@ -198,7 +243,28 @@ public class Parameter
       e.printStackTrace();
     }
   }
-
+  // -----------------------Run the test------------------------
+  private static Class<FsmModel> m_modelClass;
+  private static FsmModel m_modelObject;
+  public static Class<?> getModelClass(){ return m_modelClass; }
+  public static FsmModel getModelObject(){ return m_modelObject;} 
+  public static void loadModelClassFromFile()
+  {
+    ClassFileLoader classLoader = ClassFileLoader.createLoader();
+    String name[] = Parameter.getClassName().split("\\.");
+    Class<?> modelClass = classLoader.findClass(name[0]);
+    try {
+      m_modelObject = (FsmModel)modelClass.newInstance();
+    }
+    catch (InstantiationException e) {
+      e.printStackTrace();
+    }
+    catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+  }
+  
+  //----------------------Override toString----------------------
   public String toString()
   {
     return "class name: " + m_strClassName + ", \nLocation: "

@@ -3,8 +3,12 @@ package net.sourceforge.czt.modeljunit.gui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JPanel;
+
+import net.sourceforge.czt.modeljunit.FsmModel;
+import net.sourceforge.czt.modeljunit.ModelTestCase;
 
 public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
 {
@@ -15,40 +19,40 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
   private static final long serialVersionUID = 1528786500050772844L;
 
   protected boolean m_bHasError;
+  
   public boolean hasError()
   { return m_bHasError; }
+  
   @Override
   public String generateCode()
   {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public void initialize()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void loadParameters(BufferedReader bufReader)
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void saveParameters(BufferedWriter bufWriter)
   {
-    // TODO Auto-generated method stub
-
   }
+  
   @Override
   public String generateImportLab()
   {
-    // TODO Auto-generated method stub
     return null;
   }
 
+  @Override
+  public ModelTestCase runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
+  {
+    return null;
+  }
 }

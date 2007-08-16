@@ -25,3 +25,28 @@ Added Indentation class for generate code.
 
 Modified class TestingParameter to Parameter and change it to static class
 Clear code delete all System.out.print debug statement. 
+
+--- 14th August 08 ----------------
+The project requires files junit.jar (junit3.8.1) and modeljunit.jar now.
+
+Modified the original run button handler, separate it into two functions :
+runClass and compileFile.
+
+Added runClass function into ModelJunitGUI, this function uses reflection to 
+load and initialize ModelTestCase object and run the test and display result
+in a text area.
+
+Have not finished the compileFile function :(
+
+--- 15th August 08 ----------------
+Start to change the GUI, added a text area into Result Viewer panel.
+
+[problem 815-1]In the Result viewer panel when user resize the frame, the size of split
+panel also changed, but not always, like double click frame to maximize 
+the window, the split pane size does not changed.
+
+[bug 815-1] If user load class file twice, he/she will get duplicate class
+exception.
+
+--- 15th August 08 ----------------
+Added border on panels in the test design panel.

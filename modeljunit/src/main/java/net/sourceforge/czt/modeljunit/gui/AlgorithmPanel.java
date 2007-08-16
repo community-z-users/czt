@@ -3,7 +3,11 @@ package net.sourceforge.czt.modeljunit.gui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.lang.reflect.InvocationTargetException;
+
 import javax.swing.*;
+
+import net.sourceforge.czt.modeljunit.ModelTestCase;
 
 public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
 {
@@ -75,5 +79,33 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
   public String generateImportLab()
   {
     return m_panelOption.generateImportLab();
+  }
+
+  @Override
+  public ModelTestCase runAlgorithm()
+  {
+    ModelTestCase testcase = null;
+    try {
+      testcase = m_panelOption.runAlgorithm();
+    }
+    catch (InstantiationException e) {
+      e.printStackTrace();
+    }
+    catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    catch (SecurityException e) {
+      e.printStackTrace();
+    }
+    catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+    catch (InvocationTargetException e) {
+      e.printStackTrace();
+    }
+    return testcase;
   }
 }

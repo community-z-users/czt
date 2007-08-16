@@ -6,12 +6,18 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import net.sourceforge.czt.modeljunit.FsmModel;
+import net.sourceforge.czt.modeljunit.ModelTestCase;
 
 public class OptionPanelRandomWalking extends OptionPanelAdapter
     implements
@@ -116,5 +122,35 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
     }
     else
       return null;
+  }
+  @Override
+  public ModelTestCase runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
+  {
+    // Initialize model test case by using the loaded model
+    Class<?> testcaseClass = 
+      Class.forName("net.sourceforge.czt.modeljunit.ModelTestCase");
+    Constructor<?> con = testcaseClass.getConstructor
+      (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
+    ModelTestCase caseObj = 
+      (ModelTestCase)con.newInstance(new Object[]{Parameter.getModelObject()});
+    // Set reset probility
+    caseObj.setResetProbability(Parameter.getResetProbility());
+    // Set verbosity
+    caseObj.setVerbosity(Parameter.getVerbosity());
+    // Set failure verbosity
+    caseObj.setFailureVerbosity(Parameter.getFailureVerbosity());
+    // Get random walk length
+    int length = Integer.valueOf(m_txtLength.getText());
+    if(m_checkRandomSeed.isSelected())
+    {
+      Random rand = new Random();
+      caseObj.randomWalk(length,rand);
+    }
+    else
+    {
+      caseObj.randomWalk(length);
+    }
+      
+    return caseObj;
   }
 }

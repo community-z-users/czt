@@ -344,6 +344,7 @@ modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_graph.dat -text svneo
 modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ClassFileLoader.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ErrorMessage.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/IAlgorithmParameter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Indentation.java -text
