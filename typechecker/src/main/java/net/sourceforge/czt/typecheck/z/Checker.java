@@ -121,14 +121,18 @@ abstract public class Checker<R>
 
 
 
-  //add an error to the list of error annotation
+  /**
+   * Adds an error to the list of error annotation.
+   */
   protected void error(ErrorAnn errorAnn)
   {
     paraErrors().add(errorAnn);
   }
 
-  //add an error as an annotation to the term. Return true if and only
-  //if this error is not already added to this term
+  /**
+   * Adds an error as an annotation to the term. Return true if and
+   * only if this error is not already added to this term.
+   */
   protected boolean addErrorAnn(Term term, ErrorAnn errorAnn)
   {
     for (Object ann : term.getAnns()) {
@@ -143,7 +147,10 @@ abstract public class Checker<R>
     return true;
   }
 
-  //add an error to the list of error messages, and as an annotation to the term
+  /**
+   * Adds an error to the list of error messages, and as an annotation
+   * to the term.
+   */
   protected void error(Term term, ErrorAnn errorAnn)
   {
     boolean added = addErrorAnn(term, errorAnn);
@@ -188,7 +195,9 @@ abstract public class Checker<R>
     }
   }
 
-  //converts a Term to a string
+  /**
+   * Converts a Term to a string.
+   */
   protected String format(Term term)
   {
     try {
@@ -218,7 +227,9 @@ abstract public class Checker<R>
     PrintUtils.print(term, writer, sectInfo, sectName, markup());
   }
 
-  //get the position of a Term from its annotations
+  /**
+   * Gets the position of a Term from its annotations.
+   */
   protected String position(Term term)
   {
     String result = "Unknown location: ";
@@ -235,7 +246,9 @@ abstract public class Checker<R>
     return result;
   }
 
-  //find the closest LocAnn
+  /**
+   * Finds the closest LocAnn.
+   */
   protected LocAnn nearestLocAnn(Term term)
   {
     LocAnn result = (LocAnn) term.getAnn(LocAnn.class);
@@ -272,32 +285,42 @@ abstract public class Checker<R>
     return typeChecker_.carrierSet_;
   }
 
-  //a Factory for creating Z terms
+  /**
+   * Returns a Factory for creating Z terms.
+   */
   protected Factory factory()
   {
     return typeChecker_.getFactory();
   }
 
-  //the SectTypeEnv for all parent specifications
+  /**
+   * Returns the SectTypeEnv for all parent specifications.
+   */
   protected SectTypeEnv sectTypeEnv()
   {
     return typeChecker_.sectTypeEnv_;
   }
 
-  //the TypeEnv for local variable scopes
+  /**
+   * Returns the TypeEnv for local variable scopes.
+   */
   protected TypeEnv typeEnv()
   {
     return typeChecker_.typeEnv_;
   }
 
-  //the TypeEnv for pending global declarations
+  /**
+   * Returns the TypeEnv for pending global declarations.
+   */
   protected TypeEnv pending()
   {
     return typeChecker_.pending_;
   }
 
-  //true if and only if the previous type lookup came from the pending
-  //environment
+  /**
+   * Returns true if and only if the previous type lookup came from
+   * the pending environment.
+   */
   protected boolean isPending()
   {
     return typeChecker_.isPending_;
@@ -308,32 +331,42 @@ abstract public class Checker<R>
     typeChecker_.isPending_ = isPending;
   }
 
-  //the UnificationEnv for recording unified generic types
+  /**
+   * Returns the UnificationEnv for recording unified generic types.
+   */
   protected UnificationEnv unificationEnv()
   {
     return typeChecker_.unificationEnv_;
   }
 
-  //a section manager
+  /**
+   * Returns a section manager.
+   */
   protected SectionManager sectInfo()
   {
     return typeChecker_.sectInfo_;
   }
 
-  //the markup
+  /**
+   * Returns the markup.
+   */
   protected Markup markup()
   {
     return typeChecker_.markup_;
   }
 
-  //set the markup for printing error messages
+  /**
+   * Sets the markup for printing error messages.
+   */
   protected void setMarkup(Markup markup)
   {
     typeChecker_.markup_ = markup;
   }
 
-  //set the markup from the LocAnn of a term, using LATEX if the
-  //markup cannot be determined from the location
+  /**
+   * Sets the markup from the LocAnn of a term, using LATEX if the
+   * markup cannot be determined from the location.
+   */
   protected void setMarkup(Term term)
   {
     LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
@@ -344,26 +377,34 @@ abstract public class Checker<R>
     }
   }
 
-  //the current section name
+  /**
+   * Returns the current section name.
+   */
   protected String sectName()
   {
     return typeChecker_.sectName_.toString();
   }
 
-  //set the current section name
+  /**
+   * Sets the current section name.
+   */
   protected void setSectName(String sectName)
   {
     typeChecker_.sectName_.replace(0, typeChecker_.sectName_.length(),
                                    sectName);
   }
 
-  //the list of errors thrown by retrieving type info
+  /**
+   * Returns the list of errors thrown by retrieving type info.
+   */
   protected List<ErrorAnn> errors()
   {
     return typeChecker_.errors_;
   }
 
-  //the list of errors thrown by retrieving type info
+  /**
+   * Returns the list of errors thrown by retrieving type info.
+   */
   protected List<Object> paraErrors()
   {
     return typeChecker_.paraErrors_;
@@ -379,13 +420,17 @@ abstract public class Checker<R>
     return typeChecker_.id_++;
   }
 
-  //the logger instance
+  /**
+   * Returns the logger instance.
+   */
   protected Logger logger()
   {
     return typeChecker_.logger_;
   }
 
-  //the visitors used to typechecker a spec
+  /**
+   * Returns the visitors used to typechecker a spec.
+   */
   protected Checker<Object> specChecker()
   {
     return typeChecker_.specChecker_;
