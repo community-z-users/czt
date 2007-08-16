@@ -12,14 +12,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException; // For compiler
-import java.io.PrintStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
@@ -28,8 +23,6 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-import net.sourceforge.czt.modeljunit.FsmModel;
-import net.sourceforge.czt.modeljunit.ModelTestCase;
 
 public class ModelJUnitGUI implements ActionListener,ComponentListener
 {
@@ -75,6 +68,9 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     
     // Initialize TestDesign panel
     m_panelTD = PanelTestDesign.createTestDesignPanel();
+    // If user opens java file button text will be set to compile 
+    // else if user opens class file, button test becomes run test
+    m_panelTD.setModelRelatedButton(m_butRun);
     // Initialize CodeViewer panel
     m_panelCV = PanelCodeViewer.createCodeViewer();
     // Initialize ResuleViewer panel

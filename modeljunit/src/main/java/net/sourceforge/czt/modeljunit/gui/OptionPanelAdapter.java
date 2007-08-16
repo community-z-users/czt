@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JPanel;
 
-import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 
 public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter

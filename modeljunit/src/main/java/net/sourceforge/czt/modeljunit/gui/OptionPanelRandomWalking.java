@@ -1,6 +1,8 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -11,12 +13,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 
 public class OptionPanelRandomWalking extends OptionPanelAdapter
@@ -40,21 +40,23 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   
   public OptionPanelRandomWalking()
   {
-    m_labelLength = new JLabel("Walk length:");
+    m_labelLength = new JLabel("Random walk length:");
     m_txtLength = new JTextField();
     m_txtLength.setColumns(5);
     m_txtLength.setText("10");
 
     m_checkRandomSeed = new JCheckBox("Use random seed");
     
-    setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-    add(Box.createHorizontalStrut(6));
+    setLayout(new GridLayout(2,3,3,2));
     add(m_labelLength);
-    add(Box.createHorizontalStrut(6));
+    m_txtLength.setMaximumSize(new Dimension(60,15));
     add(m_txtLength);
-    add(Box.createHorizontalStrut(6));
-    add(m_checkRandomSeed);
     add(Box.createHorizontalGlue());
+
+    add(m_checkRandomSeed);
+    add(Box.createHorizontalStrut(6));
+    add(Box.createHorizontalGlue());
+   
   }
 
   @Override
@@ -150,7 +152,16 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
     {
       caseObj.randomWalk(length);
     }
-      
+    if(Parameter.getGenerateGraph())
+    {
+      caseObj.buildGraph();
+      try
+      {
+        caseObj.printGraphDot(Parameter.getClassName()+".dot");
+      }
+      catch(Exception exp)
+      { exp.printStackTrace();}
+    }
     return caseObj;
   }
 }

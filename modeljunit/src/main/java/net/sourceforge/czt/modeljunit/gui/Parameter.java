@@ -19,6 +19,11 @@ import net.sourceforge.czt.modeljunit.ModelTestCase;
 public class Parameter
 {
   public static final String DEFAULT_DIRECTORY = System.getProperty("user.dir");
+  private static boolean m_bGenerateGraph;
+  public static boolean getGenerateGraph()
+  { return m_bGenerateGraph; }
+  public static void setGenerateGraph(boolean print)
+  { m_bGenerateGraph = print; }
   /**
    * Reset probability
    * 
