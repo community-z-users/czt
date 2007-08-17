@@ -10,15 +10,13 @@ import java.io.*;
 import net.sourceforge.czt.base.util.TermTreeNode;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
+import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-//import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.*;
-
-
 
 /**
  *  Description of the Class
@@ -28,6 +26,8 @@ import net.sourceforge.czt.z.ast.*;
  */
 public class CZTGui implements ActionListener
 {
+  SectionManager manager = new SectionManager();
+  
   String softwarename = "CZT";
   JFileChooser chooser = new JFileChooser();
   JFrame frame = new JFrame(softwarename);
@@ -74,17 +74,15 @@ public class CZTGui implements ActionListener
 
   JMenuBar menubar = new JMenuBar();
   JMenu filemenu = new JMenu("File");
-  JMenu saveas = new JMenu("Save As");
-  JMenuItem saveasLatex = new JMenuItem("Latex");
-  JMenuItem saveasUnicode = new JMenuItem("Unicode");
-  JMenuItem saveasXML = new JMenuItem("XML");
   JMenuItem open = new JMenuItem("Open");
+  JMenuItem saveas = new JMenuItem("Export");
   JMenuItem close = new JMenuItem("Close");
   JMenuItem exit = new JMenuItem("Exit");
   JScrollPane scrollResults = new JScrollPane(resultList);
   JScrollPane scrollTreeStructure = new JScrollPane();
   JSplitPane split = null;
   File file = null;
+  File fileForExporting = null; 
 
 
   /**
@@ -94,6 +92,8 @@ public class CZTGui implements ActionListener
   {
 
     outputText.setEditable(false);
+    
+    specDialog.setLocationRelativeTo(frame);
     
     try {
       FileInputStream fileStream = new FileInputStream(softwarename + ".dat");
@@ -106,7 +106,7 @@ public class CZTGui implements ActionListener
       os.close();
     }
     catch (Exception e) {
-      e.printStackTrace();
+      //e.printStackTrace();
     }
   }
 
@@ -141,11 +141,8 @@ public class CZTGui implements ActionListener
 
     open.addActionListener(this);
     close.addActionListener(this);
+    saveas.addActionListener(this);
     exit.addActionListener(this);
-    
-    saveas.add(saveasLatex);
-    saveas.add(saveasUnicode);
-    saveas.add(saveasXML);
     
     filemenu.add(open);
     saveas.setEnabled(false);
@@ -213,6 +210,74 @@ public class CZTGui implements ActionListener
     clearErrorList();
   }
   
+  private void saveFile(String output)
+  {
+          FileSource source = new FileSource(file);
+          if (output != null) {
+            if (output.endsWith("utf8")) {
+              try{
+              try{
+              UnicodeString unicode = (UnicodeString)
+                manager.get(new Key(source.getName(), UnicodeString.class));
+              FileOutputStream stream = new FileOutputStream(output);
+              Writer writer = new OutputStreamWriter(stream, "UTF-8");
+              writer.write(unicode.toString());
+              writer.close();
+            }catch(IOException io){
+              io.printStackTrace();
+            }
+              }catch(CommandException command){}
+            }
+            else if (output.endsWith("utf16")) {
+              try{
+                try{
+              UnicodeString unicode = (UnicodeString)
+                manager.get(new Key(source.getName(), UnicodeString.class));
+              FileOutputStream stream = new FileOutputStream(output);
+              Writer writer = new OutputStreamWriter(stream, "UTF-16");
+              writer.write(unicode.toString());
+              writer.close();
+              }catch(IOException io){
+              io.printStackTrace();
+            }
+            }catch(CommandException command){}
+            }
+            else if (output.endsWith("tex") || output.endsWith("zed")) {System.out.println("textextex");
+              try{
+                try{
+              LatexString latex = (LatexString)
+                manager.get(new Key(source.getName(), LatexString.class));
+              FileOutputStream stream = new FileOutputStream(output);
+              Writer writer = new OutputStreamWriter(stream);
+              writer.write(latex.toString());
+              writer.close();
+              }catch(IOException io){
+              io.printStackTrace();
+            }
+            }catch(CommandException command){System.out.println("it fucked up");}
+            }
+            else if (output.endsWith("xml") || output.endsWith("zml")) {
+              try{
+                try{
+              XmlString xml = (XmlString)
+                manager.get(new Key(source.getName(), XmlString.class));
+              FileOutputStream stream = new FileOutputStream(output);
+              Writer writer = new OutputStreamWriter(stream, "UTF-8");
+              writer.write(xml.toString());
+              writer.close();
+              }catch(IOException io){
+              io.printStackTrace();
+            }
+            }catch(CommandException command){}
+            }
+            else {
+              JOptionPane.showMessageDialog(frame, "Unsupported output file " + output, softwarename, JOptionPane.ERROR_MESSAGE);
+              System.err.println("Unsupported output file " + output);
+              return;
+            }
+            }
+  }
+  
   /**
    *  Description of the Method
    */
@@ -224,7 +289,7 @@ public class CZTGui implements ActionListener
     specDialog.setVisible(false);
 
     frame.setTitle(softwarename + " - " + file.getName());
-    SectionManager manager = new SectionManager();
+    
     FileSource source = new FileSource(file);
 
     manager.put(new Key(source.getName(), Source.class), source);
@@ -246,6 +311,8 @@ public class CZTGui implements ActionListener
       scrollTreeStructure.setViewportView(treeView);
       saveas.setEnabled(true);
       
+      /*type check when check box is checked**/
+      if(typecheckCheckBox.isSelected()){
               for (Sect sect : spec.getSect()) {
           if (sect instanceof ZSect) {
             ZSect zSect = (ZSect) sect;
@@ -255,6 +322,7 @@ public class CZTGui implements ActionListener
                                   SectTypeEnvAnn.class));
           }
               }
+      }
     }
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
@@ -325,7 +393,9 @@ public class CZTGui implements ActionListener
     if (event.getSource() == saveas) {
       int returnValSave = chooser.showSaveDialog(frame);
       if (returnValSave == JFileChooser.APPROVE_OPTION) {
-        file = chooser.getSelectedFile();
+        fileForExporting = chooser.getSelectedFile();
+        System.out.println(fileForExporting.getPath());
+        saveFile(fileForExporting.getPath());
       }
     }
     //close the project and set back to defaults
