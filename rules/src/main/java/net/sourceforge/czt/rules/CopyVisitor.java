@@ -48,7 +48,6 @@ import net.sourceforge.czt.parser.util.DefinitionTable;
  * usually joker expressions.  For example, this is used to
  * generalize definitions so that their type parameters become jokers.
  * </p>
- * @czt.todo Doesn't copy annotations.
  *
  * @author Petra Malik
  */
@@ -112,9 +111,24 @@ public class CopyVisitor
     return factory_.createJokerExpr(name, null);
   }
 
+  private void visitAnns(Term term, Term result)
+  {
+    List anns = result.getAnns();
+    for (Object o : term.getAnns()) {
+      if (o instanceof Term) {
+        anns.add(((Term) o).accept(this));
+      }
+      else {
+        anns.add(o);
+      }
+    }
+  }
+
   public Term visitTerm(Term term)
   {
-    return VisitorUtils.visitTerm(this, term, false);
+    Term result = VisitorUtils.visitTerm(this, term, false);
+    visitAnns(term, result);
+    return result;
   }
 
   public Term visitVarDecl(VarDecl varDecl)
@@ -161,6 +175,7 @@ public class CopyVisitor
     if (pred != null) pred = (Pred) pred.accept(this);
     if (pred == null) pred = factory_.createTruePred();
     result.setPred(pred);
+    visitAnns(zSchText, result);
     return result;
   }
 
@@ -206,15 +221,16 @@ public class CopyVisitor
 
   public Term visitRefExpr(RefExpr expr)
   {
-    ZName name = null;
-    if (expr.getName() instanceof ZName)
-      name = (ZName) expr.getName();
-    if (generalize_ != null && name != null && generalize_.containsKey(name)) {
-      Expr result = generalize_.get(name);
-      System.out.println("copy visitor for "+generalizing_+" transforms type "+name+" to expr "+result);
-      return result; 
+    if (expr.getName() instanceof ZName) {
+      ZName name = (ZName) expr.getName();
+      if (generalize_ != null && generalize_.containsKey(name)) {
+        Expr result = generalize_.get(name);
+        String msg = "copy visitor for " + generalizing_ +
+          " transforms type " + name + " to expr "+result;
+        //      System.out.println(msg);
+        return result; 
+      }
     }
-    else
-      return VisitorUtils.visitTerm(this, expr, false);
+    return visitTerm(expr);
   }
 }
