@@ -289,6 +289,8 @@ TODO: implement min and max as primitives, but only over integer sets.
 
 \section{Sequence Rules}
 
+Using innermost, this rule will never get applied (unfolddefn2 is
+applied first).  It is also unsound.
 \begin{zedrule}{literalsequence}
    (\langle \listarg \rangle) ~ E = E
 \end{zedrule}
