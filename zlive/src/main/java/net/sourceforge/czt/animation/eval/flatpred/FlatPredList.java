@@ -36,8 +36,10 @@ import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.ExistsPred;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZExprList;
@@ -246,9 +248,15 @@ public class FlatPredList extends FlatPred
       addExistsPred(p);
   }
 
-  /** Adds one declaration to the FlatPred list.
-   *  This converts x,y:T into x \in T \land y \in T.
+  /** Adds one declaration to the FlatPred list predList_.
+   *
+   *  A VarDecl, x,y:T, is converted into x \in T \land y \in T.
    *  (More precisely, into: tmp=T; x \in tmp; y \in tmp).
+   *  A ConstDecl, x==E, is converted into x \in {E}.
+   *  A schema inclusion [D|P], is added recursively using
+   *  addSchText.  
+   *  TODO: it would be nice to use addExistsSchText sometimes,
+   *       when we are adding declarations within an exists etc.
    *  This method should be called before chooseMode
    *  or freeVars are called.
    *
@@ -279,6 +287,12 @@ public class FlatPredList extends FlatPred
         SetExpr set = getFactory().createSetExpr(expr1);
         Pred mem = getFactory().createMemPred(zname, set);
         zlive_.getFlatten().flattenPred(mem, this);
+      }
+      else if (decl instanceof InclDecl
+               && ((InclDecl)decl).getExpr() instanceof SchExpr) {
+        InclDecl idecl = (InclDecl) decl;
+        SchExpr sexpr = (SchExpr) idecl.getExpr();
+        addSchText(sexpr.getZSchText());
       }
       else {
         throw new EvalException("Unknown kind of Decl: " + decl);

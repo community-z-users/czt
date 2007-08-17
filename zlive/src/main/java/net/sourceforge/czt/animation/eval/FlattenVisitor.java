@@ -61,6 +61,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionType;
+import net.sourceforge.czt.rules.oracles.ThetaOracle;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.BindExpr;
@@ -76,6 +77,7 @@ import net.sourceforge.czt.z.ast.ImpliesPred;
 import net.sourceforge.czt.z.ast.LetExpr;
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.MuExpr;
+import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NegPred;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.NumStroke;
@@ -85,9 +87,11 @@ import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ProdExpr;
 import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.TupleSelExpr;
@@ -769,24 +773,22 @@ public class FlattenVisitor
    */
   public ZName visitSchExpr(SchExpr sch)
   {
-    ZSchText stext = sch.getZSchText();
-    // now build the binding that is the result
-    ZDeclList cdecls = zlive_.getFactory().createZDeclList();
-    for (Decl d : stext.getZDeclList()) {
-      if (d instanceof VarDecl) {
-        ZName name = (ZName) ((VarDecl)d).getZNameList().get(0);
-        RefExpr ref = zlive_.getFactory().createRefExpr(name);
-        cdecls.add(zlive_.getFactory().createConstDecl(name, ref));
-      }
-      else {
-        // TODO: could allow ConstDecls here too, or even InclDecls
-        //       if we use the typechecker to get their signature.
-        throw new EvalException("Schema should have been unfolded: "+sch);
-      }
+    Factory factory = zlive_.getFactory();
+    TypeAnn typeAnn = (TypeAnn) sch.getAnn(TypeAnn.class);
+    Type type = typeAnn.getType();
+    type = ((PowerType) type).getType();
+    Signature sig = ((SchemaType) type).getSignature();
+    ZDeclList zDeclList = factory.createZDeclList();
+    for (NameTypePair nameType : sig.getNameTypePair()) {
+      ZName name = (ZName) nameType.getName();
+      RefExpr refExpr = factory.createRefExpr(name);
+      ZName name2 =  factory.createZName(name.getWord(),
+                                         name.getStrokeList());
+      zDeclList.add(factory.createConstDecl(name2, refExpr));
     }
-    BindExpr binding = zlive_.getFactory().createBindExpr(cdecls);
+    BindExpr binding = factory.createBindExpr(zDeclList);
     ZName setName = createBoundName();
-    flat_.add(new FlatSetComp(zlive_, stext, binding, setName));
+    flat_.add(new FlatSetComp(zlive_, sch.getZSchText(), binding, setName));
     return setName;
   }
 

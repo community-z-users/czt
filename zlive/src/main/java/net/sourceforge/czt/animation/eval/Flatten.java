@@ -30,8 +30,15 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
@@ -133,6 +140,17 @@ public class Flatten
         ConstDecl cdecl = (ConstDecl) decl;
         ZName name = cdecl.getZName();
         result.add(name);
+      }
+      else if (decl instanceof InclDecl) {
+        InclDecl inclDecl = (InclDecl) decl;
+        TypeAnn typeAnn = (TypeAnn) inclDecl.getExpr().getAnn(TypeAnn.class);
+        Type type = typeAnn.getType();
+        type = ((PowerType) type).getType();
+        Signature sig = ((SchemaType) type).getSignature();
+        for (NameTypePair nameType : sig.getNameTypePair()) {
+          ZName name = (ZName) nameType.getName();
+          result.add(name);
+        }
       }
       else {
         throw new EvalException("Unknown kind of Decl: " + decl);
