@@ -182,6 +182,9 @@ public class VariableType
       VariableTypeVisitor<R> visitor = (VariableTypeVisitor<R>) v;
       return visitor.visitVariableType(this);
     }
-    return super.accept(v);
+    if (getValue() != null) {
+      return getValue().accept(v);
+    }
+    throw new IllegalArgumentException();
   }
 }
