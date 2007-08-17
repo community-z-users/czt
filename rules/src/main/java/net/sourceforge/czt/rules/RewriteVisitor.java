@@ -201,7 +201,7 @@ public class RewriteVisitor
       for (RewriteRule rule : rules) {
         Term result = rule.apply(term);
         if (result != null) {
-          //          checkTypes(term, result);
+          checkTypes(term, result);
           return result;
         }
       }
