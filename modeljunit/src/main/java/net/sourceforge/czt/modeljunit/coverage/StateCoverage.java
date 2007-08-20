@@ -24,6 +24,8 @@ import java.util.Map;
 import net.sourceforge.czt.jdsl.graph.api.Graph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.jdsl.graph.api.VertexIterator;
+import net.sourceforge.czt.modeljunit.GraphListener;
+import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** Measures the number of distinct Actions that have been tested.
@@ -33,35 +35,48 @@ public class StateCoverage extends AbstractCoverage
   /** The current state of the FSM. */
   Object currState_ = null;
   
-  public StateCoverage()
+  public StateCoverage(Model model)
   {
-    super();
+    super(model);
   }
 
+  /**
+   * @deprecated
+   *
+   */
+  public StateCoverage()
+  {
+    super(null);
+  }
+
+  @Override
   public String getName()
   {
     return "State Coverage";
   }
 
+  @Override
   public String getDescription()
   {
     return "The number of different FSM states visited.";
   }
 
+  @Override
   public void setModel(Graph model, Map<Object, Vertex> state2vertex)
   {
-    for (VertexIterator iter=model.vertices(); iter.hasNext(); ) {
+    for (VertexIterator iter = model.vertices(); iter.hasNext();) {
       Vertex v = iter.nextVertex();
-      addItem(v.element());  // get the FSM state object.
+      addItem(v.element()); // get the FSM state object.
     }
     maxCoverage_ = coverage_.size();
   }
 
-  public void doneTransition(Transition tr)
+  @Override
+  public void doneTransition(int action, Transition tr)
   {
     Object oldState = tr.getStartState();
     if ( ! oldState.equals(currState_)) {
-      // we have jumped somewhere, probably an init.
+      // we have jumped somewhere, probably a reset.
       incrementItem(oldState);
     }
     currState_ = tr.getEndState();

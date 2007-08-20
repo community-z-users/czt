@@ -82,10 +82,10 @@ package net.sourceforge.czt.modeljunit;
  *    <em>guard method</em> to say when that action is enabled.
  *    The guard method must have the same name as its action method
  *    but with "Guard" added at the end.  It must have no parameters and
- *    must return a boolean or float value (the latter are used for
- *    probabilistic testing). 
+ *    must return a boolean or integer value (the latter are used to define
+ *    Markov chains for probabilistic testing). 
  *    The action method will only be called when its guard is true
- *    (or greater than 0.0F in the case of probabilistic guards). 
+ *    (or greater than 0 in the case of probabilistic guards). 
  *    So a typical action method with a guard will look like this:
  *    <pre>
  *      public boolean deleteGuard() { return ...; }

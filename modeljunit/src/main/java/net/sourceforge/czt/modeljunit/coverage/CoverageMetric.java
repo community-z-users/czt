@@ -23,11 +23,12 @@ import java.util.Map;
 
 import net.sourceforge.czt.jdsl.graph.api.Graph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.modeljunit.ModelListener;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** An interface to a test coverage metric.
  */
-public interface CoverageMetric
+public interface CoverageMetric extends ModelListener
 {
   /** The name of this coverage metric.
    *  This should be a short string (10-30 chars?) with capitalised words.
@@ -48,32 +49,7 @@ public interface CoverageMetric
    *  Resetting the coverage does not imply that the model has changed,
    *  so the result of getMaximum() should be unchanged.
    */
-  public void reset();
-
-  /** Give the coverage metric access to the graph of the FSM.
-   *  The state2vertex map provides a way of going from FSM states
-   *  to the vertices of the graph --- to go from a Vertex v to the
-   *  corresponding FSM state, simply use v.element().  Similarly,
-   *  Edges of 'model' correspond to transitions --- for any Edge e 
-   *  in 'model', e.element() will return the name (as a String) of 
-   *  the Action taken along that edge.
-   *  <p>
-   *  Note that the doneInit and doneTransition methods will usually be
-   *  called before this method is called, because it is necessary
-   *  to explore the FSM while the graph is being built.  If you want
-   *  to reset the metrics after building the graph, you can use
-   *  the reset() method.
-   *  </p>
-   *  @param  model  The JDSL graph of the FSM structure.
-   *  @param  state2vertex  Maps each FSM state to a vertex of graph.
-   */
-  public void setModel(Graph model, Map<Object,Vertex> state2vertex);
-
-  /** The testing process calls this after each init() action. */
-  public void doneReset(boolean testing);
-
-  /** The testing process calls this after taking each transition. */
-  public void doneTransition(Transition tr);
+  public void clear();
 
   /** The number of 'items' covered so far.
    *  The definition of 'item' depends upon the kind of coverage
@@ -87,9 +63,8 @@ public interface CoverageMetric
    *  Note that a few coverage metrics (like the number of tests,
    *  or the total length of the test sequences) have no maximum,
    *  so in this case, getMaximum() returns -1.
-   *  Similarly, if the maximum is currently unknown because
-   *  setModel has not yet been called, then coverage metrics
-   *  should also return -1.
+   *  Similarly, getMaximum() may return -1 until the
+   *  the graph has been fully explored.
    */ 
   public int getMaximum();
 
@@ -115,4 +90,10 @@ public interface CoverageMetric
    *  @return  Map of how many times each object has been covered, or null.
    */
   public Map<Object,Integer> getDetails();
+  
+  /** This is called when the graph seems to be complete.
+   * @param model
+   * @param state2vertex
+   */
+  public void setModel(Graph model, Map<Object, Vertex> state2vertex);
 }

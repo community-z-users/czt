@@ -342,7 +342,12 @@ modeljunit/jdsl/tutorial/lesson07/support/data/sparse_graph.dat -text svneol=uns
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_flights.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_graph.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/GraphListener.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/Model.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/ModelListener.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/RandomTester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/Tester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ClassFileLoader.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ErrorMessage.java -text
@@ -352,6 +357,8 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Log -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/OptionPanelAdapter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Parameter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
+modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ModelTestCaseTest.java -text
+modeljunit/src/test/java/net/sourceforge/czt/modeljunit/RandomTesterTest.java -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ResetTest.java -text
 parser-circus/src/main/resources/lib/circus.unicode.latb -text
 parser-circus/src/main/resources/lib/circus_mc_toolkit.tex -text

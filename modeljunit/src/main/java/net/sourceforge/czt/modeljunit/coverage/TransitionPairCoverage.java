@@ -27,6 +27,7 @@ import net.sourceforge.czt.jdsl.graph.api.EdgeIterator;
 import net.sourceforge.czt.jdsl.graph.api.Graph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.jdsl.graph.api.VertexIterator;
+import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 import net.sourceforge.czt.modeljunit.TransitionPair;
 
@@ -37,16 +38,27 @@ public class TransitionPairCoverage extends AbstractCoverage
   /** The current state of the FSM. */
   Transition lastTransition_ = null;
   
-  public TransitionPairCoverage()
+  public TransitionPairCoverage(Model model)
   {
-    super();
+    super(model);
   }
 
+  /**
+   * @deprecated
+   *
+   */
+  public TransitionPairCoverage()
+  {
+    super(null);
+  }
+
+  @Override
   public String getName()
   {
     return "Transition-Pair Coverage";
   }
 
+  @Override
   public String getDescription()
   {
     return "All the pairs of transitions (t1,t2), where t1 is a transition"
@@ -54,6 +66,7 @@ public class TransitionPairCoverage extends AbstractCoverage
       +" out of that same state.";
   }
 
+  @Override
   public void setModel(Graph model, Map<Object, Vertex> state2vertex)
   {
     for (VertexIterator iter=model.vertices(); iter.hasNext(); ) {
@@ -74,12 +87,14 @@ public class TransitionPairCoverage extends AbstractCoverage
     maxCoverage_ = coverage_.size();
   }
 
-  public void doneReset(boolean testing)
+  @Override
+  public void doneReset(String reason, boolean testing)
   {
     lastTransition_ = null;
   }
 
-  public void doneTransition(Transition tr)
+  @Override
+  public void doneTransition(int action, Transition tr)
   {
     if (lastTransition_ != null
         && lastTransition_.getEndState().equals(tr.getStartState())) {

@@ -19,46 +19,70 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit.coverage;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import net.sourceforge.czt.jdsl.graph.api.Edge;
 import net.sourceforge.czt.jdsl.graph.api.EdgeIterator;
 import net.sourceforge.czt.jdsl.graph.api.Graph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.jdsl.graph.api.VertexIterator;
+import net.sourceforge.czt.modeljunit.GraphListener;
+import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** Measures the number of distinct Actions that have been tested.
  */
 public class ActionCoverage extends AbstractCoverage
 {
-  public ActionCoverage()
+  public ActionCoverage(Model model)
   {
-    super();
+    super(model);
   }
 
+  /**
+   * @deprecated
+   */
+  public ActionCoverage()
+  {
+    super(null);
+  }
+
+  @Override
   public String getName()
   {
     return "Action Coverage";
   }
 
+  @Override
   public String getDescription()
   {
     return "The number of different actions executed.";
   }
 
-  public void setModel(Graph model, Map<Object, Vertex> state2vertex)
+  @Override
+  public int getMaximum()
   {
-    for (EdgeIterator iter=model.edges(); iter.hasNext(); ) {
-      Edge e = iter.nextEdge();
-      addItem(e.element());
-    }
-    maxCoverage_ = coverage_.size();
+    if (model_ != null)
+      return model_.getNumActions();
+    else
+      return super.getMaximum();
   }
 
-  public void doneTransition(Transition tr)
+  @Override
+  public void doneTransition(int action, Transition tr)
   {
     incrementItem(tr.getAction());
+  }
+  
+  @Override
+  public void setModel(Graph model, Map<Object, Vertex> state2vertex)
+  {
+    // TODO: this will not be needed once model_ is never null.
+    
+    for (EdgeIterator iter = model.edges(); iter.hasNext();) {
+      Edge e = iter.nextEdge();
+      addItem(e.element()); // get the FSM state object.
+    }
+    maxCoverage_ = coverage_.size();
   }
 }

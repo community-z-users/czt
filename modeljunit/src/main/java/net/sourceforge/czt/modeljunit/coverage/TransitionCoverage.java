@@ -25,27 +25,40 @@ import net.sourceforge.czt.jdsl.graph.api.Edge;
 import net.sourceforge.czt.jdsl.graph.api.EdgeIterator;
 import net.sourceforge.czt.jdsl.graph.api.Graph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** Measures the number of Transitions that have been tested.
  */
 public class TransitionCoverage extends AbstractCoverage
 {
-  public TransitionCoverage()
+  public TransitionCoverage(Model model)
   {
-    super();
+    super(model);
   }
 
+  /**
+   * @deprecated
+   *
+   */
+  public TransitionCoverage()
+  {
+    super(null);
+  }
+  
+  @Override
   public String getName()
   {
     return "Transition Coverage";
   }
 
+  @Override
   public String getDescription()
   {
     return "The number of different transitions executed.";
   }
 
+  @Override
   public void setModel(Graph model, Map<Object, Vertex> state2vertex)
   {
     for (EdgeIterator iter=model.edges(); iter.hasNext(); ) {
@@ -59,7 +72,8 @@ public class TransitionCoverage extends AbstractCoverage
     maxCoverage_ = coverage_.size();
   }
 
-  public void doneTransition(Transition tr)
+  @Override
+  public void doneTransition(int action, Transition tr)
   {
     incrementItem(tr);
   }

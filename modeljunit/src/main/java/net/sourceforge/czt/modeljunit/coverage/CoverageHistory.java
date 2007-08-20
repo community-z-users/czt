@@ -1,5 +1,5 @@
 /**
- Copyright (C) 2006 Mark Utting
+ Copyright (C) 2007 Mark Utting
  This file is part of the CZT project.
 
  The CZT project contains free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ import java.util.Map;
 
 import net.sourceforge.czt.jdsl.graph.api.Graph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** A wrapper class that adds history recording to any CoverageMetric.
@@ -88,9 +89,9 @@ public class CoverageHistory implements CoverageMetric
   }
 
   /** This resets the history, as well as calling getMetric().reset(); */
-  public void reset()
+  public void clear()
   {
-    metric_.reset();
+    metric_.clear();
     count_ = interval_;
     history_.clear();
     history_.add(0);
@@ -100,24 +101,6 @@ public class CoverageHistory implements CoverageMetric
   public void setModel(Graph model, Map<Object, Vertex> state2vertex)
   {
     metric_.setModel(model, state2vertex);
-  }
-
-  /** Delegates to getMetric().doneInit(...). */
-  public void doneReset(boolean testing)
-  {
-    metric_.doneReset(testing);
-  }
-
-  /** Delegates to getMetric().doneTransition(...),
-   *  and records the resulting coverage.
-   */
-  public void doneTransition(Transition tr)
-  {
-    metric_.doneTransition(tr);
-    if (--count_ == 0) {
-      history_.add(metric_.getCoverage());
-      count_ = interval_;
-    }
   }
 
   /** Returns getMetric().getCoverage(). */
@@ -157,7 +140,7 @@ public class CoverageHistory implements CoverageMetric
   }
 
   /** Converts the history coverage values to a comma-separated string.
-   * 
+   *
    * @return  A string, like "0,1,3,5,5,5"
    */
   public String toCSV()
@@ -168,5 +151,49 @@ public class CoverageHistory implements CoverageMetric
       result.append(cov);
     }
     return result.substring(1); // skip the first comma.
+  }
+
+  @Override
+  public Model getModel()
+  {
+    return metric_.getModel();
+  }
+
+  @Override
+  public void doneGuard(Object state, int action, boolean enabled, int value)
+  {
+    metric_.doneGuard(state, action, enabled, value);
+  }
+
+  @Override
+  public void doneReset(String reason, boolean testing)
+  {
+    metric_.doneReset(reason, testing);
+  }
+
+  @Override
+  public void startAction(Object state, int action, String name)
+  {
+    metric_.startAction(state, action, name);
+  }
+
+  /** Delegates to getMetric().doneTransition(...),
+   *  and records the resulting coverage.
+   */
+  @Override
+  public void doneTransition(int action, Transition tr)
+  {
+    metric_.doneTransition(action, tr);
+    // see if we need to record the value of the coverage metric
+    if (--count_ == 0) {
+      history_.add(metric_.getCoverage());
+      count_ = interval_;
+    }
+  }
+
+  @Override
+  public void failure(Exception ex)
+  {
+    metric_.failure(ex);
   }
 }

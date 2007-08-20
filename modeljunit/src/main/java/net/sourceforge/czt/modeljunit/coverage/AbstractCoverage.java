@@ -24,6 +24,9 @@ import java.util.Map;
 
 import net.sourceforge.czt.jdsl.graph.api.Edge;
 import net.sourceforge.czt.jdsl.graph.api.Graph;
+import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.modeljunit.GraphListener;
+import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** A partial implementation of CoverageMetric.
@@ -32,7 +35,7 @@ import net.sourceforge.czt.modeljunit.Transition;
  *  Note that currCoverage_ is the number of keys
  *  in the coverage_ map that have non-zero values.
  *  (The {@link #addItem(Object) addItem} and
- *  {@link #incrementItem(Object) incrementItem} 
+ *  {@link #incrementItem(Object) incrementItem}
  *  methods maintain this invariant.)
  *  <p>
  *  Subclasses must implement the setModel method so that
@@ -46,9 +49,12 @@ import net.sourceforge.czt.modeljunit.Transition;
  */
 public abstract class AbstractCoverage implements CoverageMetric
 {
+  /** The model that this is listening to. */
+  protected Model model_;
+
   /** Records the number of times each item has been covered.
    *  If possible, all changes to this field should be done
-   *  via the methods {@link #reset() reset},
+   *  via the methods {@link #clear() reset},
    *  {@link #addItem(Object) addItem} and
    *  {@link #incrementItem(Object) incrementItem},
    *  because they preserve the invariant that currCoverage_
@@ -58,7 +64,7 @@ public abstract class AbstractCoverage implements CoverageMetric
 
   /** The maximum number of coverage items.
    *  This is typically -1 (which means unknown) until setModel
-   *  is called, then it is equal to the number of item in the
+   *  is called, then it is equal to the number of items in the
    *  {@code coverage_} map.
    */
   protected int maxCoverage_ = -1;
@@ -73,11 +79,18 @@ public abstract class AbstractCoverage implements CoverageMetric
    *  {@code currCoverage_=0}.
    *  All subclasses should call this constructor.
    */
-  public AbstractCoverage()
+  public AbstractCoverage(Model model)
   {
+    model_ = model;
     maxCoverage_ = -1; // means maximum is unknown
     currCoverage_ = 0;
     coverage_ = new HashMap<Object, Integer>();
+  }
+
+  @Override
+  public Model getModel()
+  {
+    return model_;
   }
 
   /** {@inheritDoc}
@@ -87,7 +100,7 @@ public abstract class AbstractCoverage implements CoverageMetric
    *  resets currCoverage_ to zero, to maintain the invariant.
    *  </p>
    */
-  public void reset()
+  public void clear()
   {
     for (Object key : coverage_.keySet()) {
       coverage_.put(key, 0);
@@ -110,6 +123,8 @@ public abstract class AbstractCoverage implements CoverageMetric
   /** Increments the count of {@code item} in the {@code coverage_} map.
    *  This should be called by {@link #doneTransition(Transition) doneTransition}
    *  (and perhaps doneReset) whenever a coverage item is covered.
+   *  If item was not already in the map, then it is added to the map
+   *  and its value is set to one.
    *
    * @param item The object that has just been 'covered'.
    */
@@ -128,20 +143,15 @@ public abstract class AbstractCoverage implements CoverageMetric
     coverage_.put(item, result);
   }
 
-  /** {@inheritDoc}
-   *  <p>
-   *  The default implementation does nothing.
-   *  </p>
-   */
-  public void doneReset(boolean testing)
-  {
-  }
-
   public int getCoverage()
   {
     return currCoverage_;
   }
 
+  /** The maximum number of items that can be covered.
+   *  For some coverage metrics, this may return -1 until the
+   *  FSM graph is completely built.
+   */
   public int getMaximum()
   {
     return maxCoverage_;
@@ -169,5 +179,50 @@ public abstract class AbstractCoverage implements CoverageMetric
     Object dest = model.destination(e).element();
     String action = (String) e.element();
     return new Transition(origin, action, dest);
+  }
+
+  /** {@inheritDoc}
+   *  <p>
+   *  The default implementation does nothing.
+   *  </p>
+   */
+  public void doneReset(String reason, boolean testing)
+  {
+  }
+
+  /** {@inheritDoc}
+   *  <p>
+   *  The default implementation does nothing.
+   *  </p>
+   */
+  public void doneGuard(Object state, int action, boolean enabled, int value)
+  {
+  }
+
+  /** {@inheritDoc}
+   *  <p>
+   *  The default implementation does nothing.
+   *  </p>
+   */
+  public void doneTransition(int action, Transition tr)
+  {
+  }
+
+  /** {@inheritDoc}
+   *  <p>
+   *  The default implementation does nothing.
+   *  </p>
+   */
+  public void failure(Exception ex)
+  {
+  }
+
+  /** {@inheritDoc}
+   *  <p>
+   *  The default implementation does nothing.
+   *  </p>
+   */
+  public void startAction(Object state, int action, String name)
+  {
   }
 }

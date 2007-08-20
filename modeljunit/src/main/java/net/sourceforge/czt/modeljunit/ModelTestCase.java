@@ -379,7 +379,7 @@ public class ModelTestCase
   public static void resetCoverageMetrics()
   {
     for (CoverageMetric cm : fsmCoverage)
-      cm.reset();
+      cm.clear();
   }
 
   /** Add a coverage listener. */
@@ -696,7 +696,7 @@ public class ModelTestCase
             fsmInitialState, fsmState);
       }
       for (CoverageMetric cm : fsmCoverage)
-        cm.doneReset(testing);
+        cm.doneReset(reason, testing);
     } catch (Exception ex) {
       Assert.fail("Error calling FSM reset method: " + ex.getMessage());
     }
@@ -800,7 +800,7 @@ public class ModelTestCase
     Assert.assertNotNull("Model Error: getState() must be non-null", fsmState);
     continueBuildGraph(done, index);
     for (CoverageMetric cm : fsmCoverage)
-      cm.doneTransition(done);
+      cm.doneTransition(index, done);
     return true;
   }
 
@@ -1024,13 +1024,13 @@ public class ModelTestCase
       int taken = doGreedyRandomActionOrReset(rand, true);
       if (taken < 0) {
         System.out.println("reset state coverage");
-        state.reset();
+        state.clear();
       }
       else {
         totalLength++;
         if (state.getDetails().get(getCurrentState()) > 1) {
           doReset("found loop", true);
-          state.reset();
+          state.clear();
         }
       }
     }
