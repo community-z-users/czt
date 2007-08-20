@@ -45,8 +45,20 @@ Start to change the GUI, added a text area into Result Viewer panel.
 panel also changed, but not always, like double click frame to maximize 
 the window, the split pane size does not changed.
 
-[bug 815-1] If user load class file twice, he/she will get duplicate class
+[solution 815-1]Partial solved, I changed the size of the panel code viewer when user changes frame size. 
+
+[bug 815-2] If user load class file twice, he/she will get duplicate class
 exception.
 
---- 15th August 08 ----------------
+[solution 815-2] Move the class loader be called when user selected model instead of in run event handler.
+
+--- 16th August 08 ----------------
 Added border on panels in the test design panel.
+
+Added slider to show the average reset possibility.
+Added comboboxes to display verbosity and failure verbosity. 
+Modified the Parameter class to store 3 variable (reset possibility, verbosity, failure verbosity).
+
+--- 20th August 08 ----------------
+Fixed bug the initial value of reset possibility should bu 0.05 instead of ModelTestCase.DEFAULT_RESET_PROBABILITY
+because the minimus value of the slider is 0.05 not ModelTestCase.DEFAULT_RESET_PROBABILITY. 

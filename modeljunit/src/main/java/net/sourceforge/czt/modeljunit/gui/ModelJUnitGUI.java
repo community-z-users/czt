@@ -41,7 +41,7 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
   // The panel with run button
   private JPanel m_panelOption = new JPanel();
 
-  private JButton m_butRun = new JButton("Run");
+  private JButton m_butRun = new JButton("Run test");
 
   // Menu items
   private JMenuBar m_menuBar;
@@ -66,6 +66,17 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     m_frame.addComponentListener(this);
     
+    try {
+      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ; 
+      UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel"); 
+      
+      }
+      catch (Exception e) {
+      System.out.println ("Couldn't load Motif look and feel " + e);
+      }
+
     // Initialize TestDesign panel
     m_panelTD = PanelTestDesign.createTestDesignPanel();
     // If user opens java file button text will be set to compile 
@@ -110,6 +121,27 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     };
     initializeImage.start();
 
+    /*
+     * JMenu file = new JMenu("Look & Feel", true); 
+ButtonGroup buttonGroup = new ButtonGroup(); 
+final UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels(); 
+for (int i = 0; i < info.length; i++) { 
+JRadioButtonMenuItem item = new 
+JRadioButtonMenuItem(info[i].getName(), i == 0); 
+final String className = info[i].getClassName(); 
+item.addActionListener(new ActionListener() { 
+public void actionPerformed(ActionEvent ae) { 
+try { UIManager.setLookAndFeel(className); } 
+catch (Exception e) { System.out.println(e); } 
+SwingUtilities.updateComponentTreeUI(ToUChyFeely.this); } 
+}); 
+buttonGroup.add(item); 
+file.add(item); 
+} 
+mb.add(file); 
+setJMenuBar(mb); 
+
+     * */
     // Menu and menu items
     m_menuBar = new JMenuBar();
     // File meun
@@ -176,7 +208,10 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     if (e.getSource() == m_butRun) {
       // No model imported
       if (Parameter.getClassName() == null
-          || Parameter.getClassName().length() == 0) {
+          || Parameter.getModelClass() == null
+          || Parameter.getModelObject() == null
+          || Parameter.getClassName().length() == 0) 
+      {
         ErrorMessage
             .DisplayErrorMessage("NO TEST MODEL HAS BEEN SELECTED",
                 "Please select Test Model \nfrom Test Design tab\nbefore code generating!");

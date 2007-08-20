@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -18,10 +19,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.Action;
 
 public class PanelTestDesign extends JPanel implements ActionListener,ChangeListener
 {
-
   /**
    * 
    */
@@ -37,6 +38,8 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
   private JButton m_butOpenModel;
   
   private JButton m_butExternalExecute;
+  
+  private JLabel m_labLoadingInfo = new JLabel("No model loaded");
 
   // Algorithm panel
   private final static int H_SPACE = 6;
@@ -96,8 +99,10 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     
     m_butOpenModel = new JButton("...");
     m_butOpenModel.addActionListener(this);
+    
     m_panelModel = new JPanel();
-    m_panelModel.setLayout(new FlowLayout());
+    m_panelModel.setLayout(new GridLayout(0,3,3,3));
+    // m_panelModel.setLayout(new FlowLayout());
     m_panelModel.add(m_labTestModel);
     m_panelModel.add(m_txtFilePath);
     m_panelModel.add(m_butOpenModel);
@@ -106,6 +111,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
         new TitledBorder(
             new EtchedBorder (EtchedBorder.LOWERED),
             "Test model"));
+    m_panelModel.add(m_labLoadingInfo);
     this.add(m_panelModel);
     this.add(Box.createVerticalStrut(H_SPACE));
     // ------ Initialize algorithm panel ------
@@ -127,7 +133,9 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[2].getAlgorithmName());
     m_combAlgorithmSelection.addActionListener(this);
     // Setup slider 
+    m_sliderAverageTestLength.setValue(0);
     m_sliderAverageTestLength.addChangeListener(this);
+    m_sliderAverageTestLength.setToolTipText("Reset probility: "+Parameter.getResetProbility());
     m_sliderAverageTestLength.setMajorTickSpacing(10);
     //m_sliderAverageTestLength.setPaintTicks(true);
     m_algorithmLeft = new JPanel();
@@ -270,6 +278,28 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
         if(fileName.length ==2 && fileName[1].equalsIgnoreCase("class"))
         {
           Parameter.loadModelClassFromFile();
+          Class<?> testcase = Parameter.getModelClass();
+          int actionNumber = 0;
+          for(Method method : testcase.getMethods())
+          {
+            if(method.isAnnotationPresent(Action.class))
+            {
+              actionNumber++;
+            }
+          }
+          if(actionNumber==0)
+          {
+            ErrorMessage.DisplayErrorMessage(
+                "NO ACTION IN THE CLASS", 
+                "Invalid model class, it doesnt includes any actions to test!");
+            Parameter.resetModelToNull();
+          }
+          else
+          {
+            m_labLoadingInfo.setText(actionNumber + " actions were loaded.");
+          }
+          // To get how many actions in the model file
+          
           m_butExternalExecute.setText("Run test");
         }
         else if(fileName.length ==2 && fileName[1].equalsIgnoreCase("java"))
@@ -460,6 +490,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
         avgLength = (int)source.getValue();
         double prob = (double)1.0/(double)(avgLength+1);
         Parameter.setResetProbility(prob);
+        m_sliderAverageTestLength.setToolTipText("Reset probility: "+Parameter.getResetProbility());
         System.out.println("(PaneltestDesign.java)Average length :"+prob);
       }
     }

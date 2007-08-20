@@ -38,7 +38,8 @@ public class Parameter
    * may get caught in that loop forever. For this reason, 
    * a non-zero probability is recommended. 
    * */
-  private static double m_nResetProbility = ModelTestCase.DEFAULT_RESET_PROBABILITY;
+  // private static double m_nResetProbility = ModelTestCase.DEFAULT_RESET_PROBABILITY;
+  private static double m_nResetProbility = 0.05;
   public static double getResetProbility()
   { return m_nResetProbility; }
   public static void setResetProbility(double probility)
@@ -249,17 +250,28 @@ public class Parameter
     }
   }
   // -----------------------Run the test------------------------
-  private static Class<FsmModel> m_modelClass;
+  // private static Class<FsmModel> m_modelClass;
+  private static Class<?> m_modelClass;
   private static FsmModel m_modelObject;
   public static Class<?> getModelClass(){ return m_modelClass; }
-  public static FsmModel getModelObject(){ return m_modelObject;} 
+  public static FsmModel getModelObject(){ return m_modelObject;}
+  
+  /**
+   * If user loaded an invalid model class, the model class and model object
+   * have to be reset to null.
+   * */
+  public static void resetModelToNull()
+  {
+    m_modelClass = null;
+    m_modelObject = null;
+  }
   public static void loadModelClassFromFile()
   {
     ClassFileLoader classLoader = ClassFileLoader.createLoader();
     String name[] = Parameter.getClassName().split("\\.");
-    Class<?> modelClass = classLoader.findClass(name[0]);
+    m_modelClass = classLoader.findClass(name[0]);
     try {
-      m_modelObject = (FsmModel)modelClass.newInstance();
+      m_modelObject = (FsmModel)m_modelClass.newInstance();
     }
     catch (InstantiationException e) {
       e.printStackTrace();
