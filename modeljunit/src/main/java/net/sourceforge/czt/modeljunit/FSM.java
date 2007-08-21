@@ -82,7 +82,7 @@ public class FSM implements FsmModel
   public static void main(String args[])
   {
     // create our model and a test generation algorithm
-    RandomTester tester = new RandomTester(new FSM());
+    Tester tester = new RandomTester(new FSM());
 
     // set up our favourite coverage metrics
     // OLD WAY:
@@ -94,7 +94,7 @@ public class FSM implements FsmModel
 
     // OLD WAY of showing the generated test sequence
     // tester.setVerbosity(2);
-    
+
     // NEW WAY of outputting verbose messages (uses a listener).
     tester.getModel().addListener("verbose",
         new AbstractListener(tester.getModel())
@@ -117,9 +117,11 @@ public class FSM implements FsmModel
 
     tester.getModel().printMessage("STARTING TESTING");
     trCoverage.clear();
+
     // generate a test suite of 20 steps
     //tester.reset();
     tester.generate(40);
+
     tester.getModel().printMessage(trCoverage.getName()+" was "
         +trCoverage.toString());
   }

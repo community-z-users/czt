@@ -124,4 +124,34 @@ public abstract class Tester
     for (int i=0; i<length; i++)
       generate();
   }
+
+  /** Equivalent to buildGraph(10000). */
+  public void buildGraph()
+  {
+    buildGraph(10000);
+  }
+
+  /** Calls {@code generate()} repeatedly until the graph seems to be complete.
+   *  The {@code maxSteps} parameter gives an upper bound on the
+   *  number of calls to generate, to avoid eternal exploration.
+   */
+  public void buildGraph(int maxSteps)
+  {
+    Random old = rand_;
+    rand_ = new Random(FIXEDSEED);
+    model_.addListener("graph"); // make sure there is a graph listener
+    GraphListener graph = (GraphListener)model_.getListener("graph");
+    boolean wasTesting = model_.setTesting(false);
+    model_.doReset("Buildgraph");
+    do {
+      generate(); // should be able to set testing=false within generate.
+      maxSteps--;
+    }
+    while (graph.numTodo() > 0 && maxSteps > 0);
+
+    model_.setTesting(wasTesting);
+    model_.doReset("Buildgraph");
+    // restore the original random number generator.
+    rand_ = old;
+  }
 }
