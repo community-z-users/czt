@@ -35,6 +35,12 @@ import net.sourceforge.czt.modeljunit.Transition;
  *  behaves exactly the same as the ActionCoverage metric, but
  *  also records a snapshot of its coverage level each 10 calls
  *  to doneTransition(...).
+ *  <p>
+ *  Note that you must add this CoverageHistory wrapper as the listener
+ *  to the model, rather than adding the underlying metric.  If you add
+ *  both, the metrics will be recorded twice as fast, which is probably
+ *  not what you want!
+ *  </p>
  *
  * @author marku
  */
@@ -68,6 +74,10 @@ public class CoverageHistory implements CoverageMetric
     history_ = new ArrayList<Integer>(100); // start with a reasonable size
     history_.add(0);
     count_ = interval_;
+    if (metric.getModel() != null) {
+      metric.getModel().printWarning(
+        "You should add CoverageHistory metric, rather than "+metric.getName());
+    }
   }
 
   /** Returns the underlying coverage metric. */

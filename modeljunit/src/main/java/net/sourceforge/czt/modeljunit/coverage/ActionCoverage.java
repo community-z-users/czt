@@ -34,19 +34,6 @@ import net.sourceforge.czt.modeljunit.Transition;
  */
 public class ActionCoverage extends AbstractCoverage
 {
-  public ActionCoverage(Model model)
-  {
-    super(model);
-  }
-
-  /**
-   * @deprecated
-   */
-  public ActionCoverage()
-  {
-    super(null);
-  }
-
   @Override
   public String getName()
   {

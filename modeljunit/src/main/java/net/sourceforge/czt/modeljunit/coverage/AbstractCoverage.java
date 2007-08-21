@@ -77,16 +77,12 @@ public abstract class AbstractCoverage implements CoverageMetric
   /** This default constructor sets up the {@code coverage_} map,
    *  sets {@code maxCoverage=-1} (meaning unknown), and sets
    *  {@code currCoverage_=0}.
-   *  All subclasses should call this constructor.
    */
-  public AbstractCoverage(Model model)
+  public AbstractCoverage()
   {
-    model_ = model;
     maxCoverage_ = -1; // means maximum is unknown
     currCoverage_ = 0;
     coverage_ = new HashMap<Object, Integer>();
-    if (model_ != null)
-      model_.addListener(getName(), this);
   }
 
   @Override

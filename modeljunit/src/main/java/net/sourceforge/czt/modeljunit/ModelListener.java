@@ -25,14 +25,19 @@ import net.sourceforge.czt.modeljunit.Transition;
  */
 public interface ModelListener
 {
-  /** Returns the model that this listener is listening to. */
+  /** Returns the model that this listener is listening to.
+   *  This may be null if this listener is not yet attached to a model.
+   *  As another example, the coverage metric within a CoverageHistory
+   *  object should always have getModel()==null, because it receives
+   *  events from the CoverageHistory wrapper rather than the model.
+   */
   public Model getModel();
   
   // TODO: might need a startReset(boolean) too?
 
   /** The Model calls this after each reset(boolean) action.
    *  @param reason   An adjective that describe why the reset was done.
-   *  @param testing  true
+   *  @param testing  The parameter that was passed to the FsmModel reset call.
    */
   public void doneReset(String reason, boolean testing);
 

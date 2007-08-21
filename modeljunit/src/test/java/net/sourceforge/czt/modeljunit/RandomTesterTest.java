@@ -38,13 +38,13 @@ public class RandomTesterTest extends TestCase
   {
     RandomTester tester = new RandomTester(new FSM());
     CoverageHistory metric =
-      new CoverageHistory(new ActionCoverage(tester.getModel()), 1);
-    tester.addListener(metric.getName(), metric);
+      new CoverageHistory(new ActionCoverage(), 1);
+    tester.addCoverageMetric(metric);
     tester.setRandom(new Random(3));
     tester.generate(5);
     int coverage = metric.getCoverage();
     Assert.assertEquals(1, coverage);
-    Assert.assertEquals(4, metric.getMaximum()); // we always know #actions
+    Assert.assertEquals(-1, metric.getMaximum());
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
     Assert.assertEquals("Incorrect history size.", 6, hist.size());

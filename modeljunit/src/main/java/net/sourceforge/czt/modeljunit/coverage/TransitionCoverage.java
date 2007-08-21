@@ -32,20 +32,6 @@ import net.sourceforge.czt.modeljunit.Transition;
  */
 public class TransitionCoverage extends AbstractCoverage
 {
-  public TransitionCoverage(Model model)
-  {
-    super(model);
-  }
-
-  /**
-   * @deprecated
-   *
-   */
-  public TransitionCoverage()
-  {
-    super(null);
-  }
-  
   @Override
   public String getName()
   {

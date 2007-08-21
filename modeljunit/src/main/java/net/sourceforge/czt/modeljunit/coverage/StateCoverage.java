@@ -34,20 +34,6 @@ public class StateCoverage extends AbstractCoverage
 {
   /** The current state of the FSM. */
   Object currState_ = null;
-  
-  public StateCoverage(Model model)
-  {
-    super(model);
-  }
-
-  /**
-   * @deprecated
-   *
-   */
-  public StateCoverage()
-  {
-    super(null);
-  }
 
   @Override
   public String getName()

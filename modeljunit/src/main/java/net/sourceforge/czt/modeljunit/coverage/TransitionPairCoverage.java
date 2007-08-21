@@ -37,20 +37,6 @@ public class TransitionPairCoverage extends AbstractCoverage
 {
   /** The current state of the FSM. */
   Transition lastTransition_ = null;
-  
-  public TransitionPairCoverage(Model model)
-  {
-    super(model);
-  }
-
-  /**
-   * @deprecated
-   *
-   */
-  public TransitionPairCoverage()
-  {
-    super(null);
-  }
 
   @Override
   public String getName()
