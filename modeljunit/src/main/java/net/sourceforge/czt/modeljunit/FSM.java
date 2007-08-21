@@ -92,7 +92,8 @@ public class FSM implements FsmModel
     // NEW WAY:
     CoverageMetric trCoverage = new TransitionCoverage(tester.getModel());
 
-    // tester.setVerbosity(2);  // show the generated test sequence
+    // OLD WAY of showing the generated test sequence
+    // tester.setVerbosity(2);
     
     // NEW WAY of outputting verbose messages (uses a listener).
     tester.getModel().addListener("verbose",
@@ -114,11 +115,12 @@ public class FSM implements FsmModel
     // accurate coverage metrics.
     tester.buildGraph();
 
-    System.out.println("STARTING TESTING");
+    tester.getModel().printMessage("STARTING TESTING");
     trCoverage.clear();
     // generate a test suite of 20 steps
     //tester.reset();
     tester.generate(40);
-    System.out.println(trCoverage.getName()+" was "+trCoverage.toString());
+    tester.getModel().printMessage(trCoverage.getName()+" was "
+        +trCoverage.toString());
   }
 }

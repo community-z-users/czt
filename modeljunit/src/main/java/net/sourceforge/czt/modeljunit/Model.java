@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.modeljunit;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -53,18 +54,8 @@ import junit.framework.Assert;
  */
 public class Model
 {
-  /** Constructs an EFSM model from the given FsmModel object.
-   * @param model
-   */
-  public Model(FsmModel model)
-  {
-    loadModelClass(model.getClass());
-    fsmModel_ = model;
-    doReset("Initial");
-  }
-
   /** This class defines the finite state machine model of the system under test.
-   *  It is null until fsmLoad() has successfully loaded that class.
+   *  It is null until loadModelClass() has successfully loaded that class.
    */
   private Class fsmClass_ = null;
 
@@ -112,6 +103,21 @@ public class Model
 
   /** An empty array of objects. */
   private static final Object[] VOID_ARGS = new Object[] {};
+
+  /** Output device used for messages and warnings. */
+  protected Writer output_;
+
+  /** Constructs an EFSM model from the given FsmModel object.
+   * @param model
+   */
+  public Model(FsmModel model)
+  {
+    // unbuffered, so that messages/warning appear ASAP.
+    output_ = new OutputStreamWriter(System.out);
+    loadModelClass(model.getClass());
+    fsmModel_ = model;
+    doReset("Initial");
+  }
 
   /** Looks up an Action by name and returns its number.
    *  The resulting number can be used to execute an action
@@ -190,6 +196,24 @@ public class Model
   {
     boolean old = fsmTesting_;
     fsmTesting_ = testing;
+    return old;
+  }
+
+  /** The current output stream, which is used for messages and warnings. */
+  public Writer getOutput()
+  {
+    return output_;
+  }
+  
+  /**
+   * Sets the current output stream.
+   * @param output
+   * @return        the old output stream
+   */
+  public Writer setOutput(Writer output)
+  {
+    Writer old = output_;
+    output_ = output;
     return old;
   }
 
@@ -539,20 +563,23 @@ public class Model
       cm.failure(ex);
   }
 
-  protected Writer output;
-  /** Sends a Warning event to all listeners 
+  /** Prints a warning message to the current output writer.
    */
   public void printWarning(String msg)
   {
     printMessage("Warning: " + msg);
   }
 
-  /** TODO: make this redirectable.  Add a setOutput method 
+  /** Print a message to the current output writer (see {@link #getOutput()}).
+   *  This automatically adds a newline on the end of msg.
+   *  It does a flush after each call, so that messages appear promptly. 
    */
   public void printMessage(String msg)
   {
     try {
-      output.write(msg);
+      output_.write(msg);
+      output_.write('\n');
+      output_.flush();
     }
     catch (IOException ex) {
       throw new RuntimeException("I/O error while printing message: "+msg, ex);
