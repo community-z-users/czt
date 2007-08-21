@@ -122,6 +122,18 @@ public class GraphListener implements ModelListener
     return todo.get(action);
   }
 
+  /**
+   *  Returns a bitset of all the TODO bits for this state.
+   *  The result will be null if there are no TODO bits set
+   *  (that is, all actions have been done, or have always had false guards).
+   * @param state
+   * @return A BitSet with at least one bit true, else null.
+   */
+  public BitSet getTodo(Object state)
+  {
+    return fsmTodo_.get(state);
+  }
+
   /** True if the given action has been executed from the given state.
    * @param state   A non-null state of the model.
    * @param action  The number of one of the actions of the model.
@@ -133,6 +145,18 @@ public class GraphListener implements ModelListener
     if (done == null)
       return false;
     return done.get(action);
+  }
+
+  /**
+   *  Returns a bitset of all the DONE bits for this state.
+   *  If the result is null, it means that no transitions have ever
+   *  been taken out of the given state.
+   * @param state
+   * @return A BitSet, or null.
+   */
+  public BitSet getDone(Object state)
+  {
+    return fsmDone_.get(state);
   }
 
   /** Returns the graph of the FSM model.
@@ -180,7 +204,7 @@ public class GraphListener implements ModelListener
     assert initial != null;
     printProgress(3, "buildgraph: start with vertex for initial state "+curr);
     fsmVertex_.put(curr, initial);
-    fsmDone_.put(curr, new BitSet());
+    fsmDone_.put(curr, new BitSet());  // TODO: remove this?
     BitSet enabled = model_.enabledGuards();
     if (enabled.isEmpty())
       throw new FsmException("Initial state has no actions enabled.");

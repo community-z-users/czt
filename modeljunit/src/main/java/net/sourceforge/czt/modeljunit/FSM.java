@@ -56,7 +56,7 @@ public class FSM implements FsmModel
     //    System.out.println("action1: " + state + " --> 1");
     state = 1;
   }
-  
+
   public boolean action2Guard() { return state == 0; }
   public @Action void action2()
   {
@@ -70,31 +70,55 @@ public class FSM implements FsmModel
     // leave state the same.
     //    System.out.println("actionNone: " + state + " --> " + state);
   }
-  
+
   /** This main method illustrates how we can use ModelJUnit
    *  to generate a small test suite.
    *  If we had an implementation of this model that we wanted
    *  to test, we would extend each of the above methods so that
    *  they called the methods of the implementation and checked
    *  the results of those methods.
-   *  
+   *
    *  We also report the transition coverage of the model. */
   public static void main(String args[])
   {
-    // set up our favourite coverage metrics
-    CoverageMetric trCoverage = new TransitionCoverage();
-    ModelTestCase.addCoverageMetric(trCoverage);
-    
-    // create our model and get ready to generate tests
-    FSM model = new FSM();
-    ModelTestCase testgen = new ModelTestCase(model);
-    testgen.setVerbosity(2);  // show the generated test sequence
+    // create our model and a test generation algorithm
+    RandomTester tester = new RandomTester(new FSM());
 
-    // generate a test suite of 30 steps
-    testgen.randomWalk(20);
+    // set up our favourite coverage metrics
+    // OLD WAY:
+    //CoverageMetric trCoverage = new TransitionCoverage(); // (tester.getModel());
+    //tester.addListener("transition", trCoverage);
+
+    // NEW WAY:
+    CoverageMetric trCoverage = new TransitionCoverage(tester.getModel());
+
+    // tester.setVerbosity(2);  // show the generated test sequence
+    
+    // NEW WAY of outputting verbose messages (uses a listener).
+    tester.getModel().addListener("verbose",
+        new AbstractListener(tester.getModel())
+        {
+
+          public void doneReset(String reason, boolean testing)
+          {
+            System.out.println("reset(" + testing + ")");
+          }
+
+          public void doneTransition(int action, Transition tr)
+          {
+            System.out.println("done " + tr);
+          }
+        });
+
     // finish building the FSM of our model so that we get
     // accurate coverage metrics.
-    testgen.buildGraph();
+    tester.buildGraph();
+
+    System.out.println("STARTING TESTING");
+    trCoverage.clear();
+    // generate a test suite of 20 steps
+    //tester.reset();
+    tester.generate(40);
     System.out.println(trCoverage.getName()+" was "+trCoverage.toString());
   }
 }

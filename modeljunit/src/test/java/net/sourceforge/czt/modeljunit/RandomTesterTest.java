@@ -20,6 +20,7 @@
 package net.sourceforge.czt.modeljunit;
 
 import java.util.List;
+import java.util.Random;
 
 import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
@@ -39,13 +40,14 @@ public class RandomTesterTest extends TestCase
     CoverageHistory metric =
       new CoverageHistory(new ActionCoverage(tester.getModel()), 1);
     tester.addListener(metric.getName(), metric);
-    tester.randomWalk(4);
+    tester.setRandom(new Random(3));
+    tester.generate(5);
     int coverage = metric.getCoverage();
-    Assert.assertEquals(3, coverage);
+    Assert.assertEquals(1, coverage);
     Assert.assertEquals(4, metric.getMaximum()); // we always know #actions
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    Assert.assertEquals("Incorrect history size.", 4+1, hist.size());
+    Assert.assertEquals("Incorrect history size.", 6, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
 
@@ -94,12 +96,14 @@ public class RandomTesterTest extends TestCase
     Assert.assertEquals(max, metric.getMaximum());
     Assert.assertEquals(0.0F, metric.getPercentage(), 0.1F);
 
-    tester.getModel().doReset("Initial", true);
+    tester.getModel().doReset("Initial");
     for (int i = 0; i < expect.length-1; i += 2) {
       int cov = expect[i+1];
       // System.out.println("After random walk of length "+expect[i]+
       //           " we expect "+metric.getName()+" = "+cov);
-      tester.randomWalk(expect[i]);
+      tester.setRandom(new Random(tester.FIXEDSEED));
+      tester.reset();
+      tester.generate(expect[i]);
       Assert.assertEquals(cov, metric.getCoverage());
       Assert.assertEquals(max, metric.getMaximum());
       Assert.assertEquals((100.0F * cov)/max, metric.getPercentage(), 0.1F);
@@ -143,6 +147,6 @@ public class RandomTesterTest extends TestCase
   {
     //    System.out.println("Starting testTransitionPairCoverage");
     FsmCoverage(new TransitionPairCoverage(), 10,
-        new int[] {1,0, 2,1, 3,2, 200,10});
+        new int[] {1,0, 2,1, 3,2, 200,9});
   }
 }

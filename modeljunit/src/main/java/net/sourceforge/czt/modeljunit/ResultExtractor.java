@@ -24,7 +24,6 @@ public class ResultExtractor
 
 	int passes;
 	int currentPass;
-	ModelTestCase model;
 	CoverageHistory metric;
 	String historyRandom;
 	String historyGreedy;
@@ -44,21 +43,26 @@ public class ResultExtractor
 		rand = new Random();
 	}
 	
+        protected String generateResults(int seed, Tester tester)
+        {
+                metric = new CoverageHistory(new TransitionCoverage(), 1);
+                tester.addCoverageMetric(metric);
+                tester.setRandom(new Random(seed));
+                tester.generate(100);
+                return metric.toCSV();
+        }
+        
 	public void run() {
 		while (currentPass != passes)
 		{
 			int seed = rand.nextInt();
-			
-			model = new ModelTestCase(new QuiDonc());
-			metric = new CoverageHistory(new TransitionCoverage(), 1);
-			model.addCoverageMetric(metric);
-			model.randomWalk(100, new Random(seed));
-			historyRandom = metric.toCSV();
-			model = new ModelTestCase(new QuiDonc());
-			metric = new CoverageHistory(new TransitionCoverage(), 1);
-			model.addCoverageMetric(metric);
-			model.greedyRandomWalk(100, new Random(seed));
-			historyGreedy = metric.toCSV();
+                        Model model = new Model(new QuiDonc());
+                        
+                        Tester rtester = new RandomTester(model);
+			historyRandom = generateResults(seed, rtester);
+                        
+                        Tester gtester = new RandomTester(model);
+                        historyGreedy = generateResults(seed, gtester);
 			
 			this.write(seed);
 			currentPass++;

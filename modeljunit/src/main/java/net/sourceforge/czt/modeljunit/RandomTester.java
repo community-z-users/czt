@@ -33,7 +33,7 @@ public class RandomTester extends Tester
   public static final double DEFAULT_RESET_PROBABILITY = 0.05;
 
   /** The probability that doRandomAction does a reset. */
-  private double resetProbability = DEFAULT_RESET_PROBABILITY;
+  private double resetProbability_ = DEFAULT_RESET_PROBABILITY;
 
   /**
    *  Creates a test generator that can generate random walks.
@@ -60,7 +60,7 @@ public class RandomTester extends Tester
    */
   public double getResetProbability()
   {
-    return resetProbability;
+    return resetProbability_;
   }
 
   /**
@@ -84,7 +84,7 @@ public class RandomTester extends Tester
   public void setResetProbability(double prob)
   {
     if (0.0 <= prob && prob < 1.0)
-      resetProbability = prob;
+      resetProbability_ = prob;
     else
       throw new IllegalArgumentException("illegal reset probability: "+prob);
   }
@@ -94,7 +94,7 @@ public class RandomTester extends Tester
    * @param rand  The Random number generator that controls the choice.
    * @return      The Action taken, or -1 if none are enabled.
    */
-  protected int doRandomAction()
+  public int doRandomAction()
   {
     int nTrans = model_.getNumActions();
     BitSet tried = new BitSet(nTrans);
@@ -119,17 +119,17 @@ public class RandomTester extends Tester
    * @param rand The Random number generator that controls the choice.
    * @return   The number of the transition taken, or -1 for a reset.
    */
-  public int doRandomActionOrReset(boolean testing)
+  public int doRandomActionOrReset()
   {
     int taken = -1;
     double prob = rand_.nextDouble();
-    if (prob < resetProbability)
-      model_.doReset("Random", testing);
+    if (prob < resetProbability_)
+      model_.doReset("Random");
     else
     {
       taken = doRandomAction();
       if (taken < 0) {
-        model_.doReset("Forced", testing);
+        model_.doReset("Forced");
       }
     }
     return taken;
@@ -147,48 +147,39 @@ public class RandomTester extends Tester
    *
    * @param length The number of transitions to test.
    */
-  //@requires 0 <= length;
-  public void randomWalk(int length, Random ran)
-  {
-    rand_ = ran;
-    int totalLength = 0;
-    model_.doReset("Initial", true);
-    while (totalLength < length) {
-      int taken = doRandomActionOrReset(true);
-      if (taken >= 0)
-        totalLength++;
-    }
-  }
-
-  public void randomWalk(int length)
-  {
-    randomWalk(length, new Random(FIXEDSEED));
-  }
 
   @Override
   public void generate()
   {
-    doRandomActionOrReset(true);
+    doRandomActionOrReset();
   }
   
+  /** Equivalent to buildGraph(10000). */
   public void buildGraph()
   {
     buildGraph(10000);
   }
 
+  /** Calls {@code generate()} repeatedly until the graph seems to be complete.
+   *  The {@code maxSteps} parameter gives an upper bound on the
+   *  number of calls to generate, to avoid eternal exploration.
+   */
   public void buildGraph(int maxSteps)
   {
     Random old = rand_;
     rand_ = new Random(FIXEDSEED);
     model_.addListener("graph"); // make sure there is a graph listener
     GraphListener graph = (GraphListener)model_.getListener("graph");
-    model_.doReset("Initial", false);
+    boolean wasTesting = model_.setTesting(false);
+    model_.doReset("Buildgraph");
     do {
       generate(); // should be able to set testing=false within generate.
       maxSteps--;
     }
     while (graph.numTodo() > 0 && maxSteps > 0);
     
+    model_.setTesting(wasTesting);
+    model_.doReset("Buildgraph");
     // restore the original random number generator.
     rand_ = old;
   }

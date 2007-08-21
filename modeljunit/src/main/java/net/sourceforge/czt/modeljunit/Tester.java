@@ -21,6 +21,8 @@ package net.sourceforge.czt.modeljunit;
 
 import java.util.Random;
 
+import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+
 public abstract class Tester
 {
   public static final long FIXEDSEED = 123456789L;
@@ -90,6 +92,20 @@ public abstract class Tester
   public void addListener(String name, ModelListener listener)
   {
     model_.addListener(name, listener);
+  }
+
+  /**
+   *  A convenience method that adds the metric with the name metric.getName().
+   * @param metric  Must be non-null.
+   */
+  public void addCoverageMetric(CoverageMetric metric)
+  {
+    model_.addListener(metric.getName(), metric);
+  }
+
+  public void reset()
+  {
+    model_.doReset();  // a user-requested reset
   }
 
   /** Generate one more test step in the current sequence.

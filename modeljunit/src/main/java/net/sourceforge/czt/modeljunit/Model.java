@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class Model
   {
     loadModelClass(model.getClass());
     fsmModel_ = model;
-    doReset("Initial", true);
+    doReset("Initial");
   }
 
   /** This class defines the finite state machine model of the system under test.
@@ -91,6 +93,12 @@ public class Model
   /** The current state of the implementation under test. */
   //@invariant fsmState_ != null ==> fsmModel_ != null;
   private Object fsmState_ = null;
+
+  /** True means we are generating real tests.
+   *  False means we are just exploring the model,
+   *  so the FsmModel does not really need to connect to the SUT.
+   */
+  private boolean fsmTesting_ = true;
 
   /** The initial state of the implementation under test. */
   //@invariant fsmInitialState_ == null <==> fsmState_ == null;
@@ -163,6 +171,26 @@ public class Model
   public int getNumActions()
   {
 	  return fsmActions_.size();
+  }
+
+  /** True means we are generating real tests.
+   *  False means we are just exploring the model,
+   *  so the FsmModel does not really need to connect to the SUT.
+   *  This flag is passed to each reset of the FsmModel.
+   */
+  public boolean getTesting()
+  {
+    return fsmTesting_;
+  }
+  
+  /** Sets the testing flag. 
+   *  Returns its previous value.
+   */
+  public boolean setTesting(boolean testing)
+  {
+    boolean old = fsmTesting_;
+    fsmTesting_ = testing;
+    return old;
   }
 
   /** Loads the given class and finds its @Action methods.
@@ -241,9 +269,9 @@ public class Model
    *  because it corresponds to a user-requested reset.
    * @param testing
    */
-  public void doReset(boolean testing)
+  public void doReset()
   {
-    doReset("User", testing);
+    doReset("User");
   }
 
   /** Reset the FSM to its initial state.
@@ -257,7 +285,7 @@ public class Model
    * @param testing False means we are just exploring the graph, so the
    *                 fsm object can skip the actual tests if it wants.
    */
-  protected void doReset(String reason, boolean testing)
+  protected void doReset(String reason)
   {
     if (fsmSequence_ == null)
       fsmSequence_ = new ArrayList<Transition>();
@@ -267,7 +295,7 @@ public class Model
       //    +reason+" reset from state "+fsmState_);
     }
     try {
-      fsmModel_.reset(testing);
+      fsmModel_.reset(fsmTesting_);
       fsmSequence_.clear();
       fsmState_ = fsmModel_.getState();
       Assert.assertNotNull("Model Error: getState() must be non-null", fsmState_);
@@ -277,7 +305,7 @@ public class Model
         Assert.assertEquals("Model error: reset did not return to the initial state",
             fsmInitialState_, fsmState_);
       }
-      notifyDoneReset(reason, testing);
+      notifyDoneReset(reason, fsmTesting_);
     } catch (Exception ex) {
       Assert.fail("Error calling FSM reset method: " + ex.getMessage());
     }
@@ -406,12 +434,17 @@ public class Model
     return true;
   }
 
-
-  /** Add a coverage listener.
-   *  It is a convention that name should equal listen.getName().
+  /** Add a listener.
+   *  If {@code name} is already mapped to a listener, then that listener
+   *  will be replaced by {@code listen}.
+   *  For coverage metrics, it is a convention that {@code name} should 
+   *  equal {@code listen.getName()}.
    */
   public void addListener(String name, ModelListener listen)
   {
+    if (name.equals("graph") && ! (listen instanceof GraphListener)) {
+      throw new RuntimeException("'graph' is reserved for GraphListener");
+    }
     listeners_.put(name, listen);
   }
 
@@ -506,15 +539,23 @@ public class Model
       cm.failure(ex);
   }
 
-  /** Sends a Warning event to all listeners */
+  protected Writer output;
+  /** Sends a Warning event to all listeners 
+   */
   public void printWarning(String msg)
   {
-    System.out.println("Warning: " + msg);
+    printMessage("Warning: " + msg);
   }
 
-  /** TODO: make this redirectable.  Add a setOutput method */
+  /** TODO: make this redirectable.  Add a setOutput method 
+   */
   public void printMessage(String msg)
   {
-    System.out.println(msg);
+    try {
+      output.write(msg);
+    }
+    catch (IOException ex) {
+      throw new RuntimeException("I/O error while printing message: "+msg, ex);
+    }
   }
 }

@@ -85,6 +85,8 @@ public abstract class AbstractCoverage implements CoverageMetric
     maxCoverage_ = -1; // means maximum is unknown
     currCoverage_ = 0;
     coverage_ = new HashMap<Object, Integer>();
+    if (model_ != null)
+      model_.addListener(getName(), this);
   }
 
   @Override
