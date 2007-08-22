@@ -350,6 +350,11 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/ResultExtractor.java -te
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/Tester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/LargeSet.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SimpleSet.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SimpleSetWithAdaptor.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SmartSetAdaptor.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ClassFileLoader.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ErrorMessage.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/IAlgorithmParameter.java -text
