@@ -144,11 +144,18 @@ public abstract class Tester
     boolean wasTesting = model_.setTesting(false);
     model_.doReset("Buildgraph");
     do {
-      generate(); // should be able to set testing=false within generate.
-      maxSteps--;
+      generate(10);
+      maxSteps -= 10;
     }
     while (graph.numTodo() > 0 && maxSteps > 0);
 
+    int todo = graph.numTodo();
+    if (todo > 0) {
+      model_.printWarning("buildgraph stopped with "
+          + graph.getGraph().numEdges() + " transitions and "
+          + graph.getGraph().numVertices() + " states, but "
+          + todo + " unexplored branches.");
+    }
     model_.setTesting(wasTesting);
     model_.doReset("Buildgraph");
     // restore the original random number generator.
