@@ -26,18 +26,18 @@ import net.sourceforge.czt.modeljunit.Transition;
 public class AbstractListener implements ModelListener
 {
   protected Model model_;
-  
+
   public AbstractListener(Model model)
   {
     model_ = model;
   }
-  
+
   /** Returns the model that this listener is listening to. */
   public Model getModel()
   {
     return model_;
   }
-  
+
   public void doneReset(String reason, boolean testing)
   {
   }
