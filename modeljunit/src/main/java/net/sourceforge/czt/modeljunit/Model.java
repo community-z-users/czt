@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+
 import junit.framework.Assert;
 
 
@@ -116,7 +118,7 @@ public class Model
     output_ = new OutputStreamWriter(System.out);
     loadModelClass(model.getClass());
     fsmModel_ = model;
-    doReset("Initial");
+    doReset("Initial"); // TODO: remove the need for this.  Do it later/never
   }
 
   /** Looks up an Action by name and returns its number.
@@ -470,6 +472,14 @@ public class Model
       throw new RuntimeException("'graph' is reserved for GraphListener");
     }
     listeners_.put(name, listen);
+
+    if (listen instanceof CoverageMetric) {
+      // see if we can tell this new metric about the graph.
+      GraphListener graph = (GraphListener) listeners_.get("graph");
+      if (graph != null && graph.isComplete()) {
+        // TODO ((CoverageMetric)listen).setGraph(graph);
+      }
+    }
   }
 
   /** Add one of the standard model listeners.
@@ -477,7 +487,7 @@ public class Model
    *  The usual convention naming conventions are that:
    *  <ul>
    *    <li>name="graph" adds a GraphListener;</li>
-   *    <li>name="trace" adds a TraceListener;</li>
+   *    <li>name="trace" adds a TraceListener; TODO</li>
    *  </ul>
    *
    * @param name Must be one of the above names.
