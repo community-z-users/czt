@@ -349,6 +349,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/RandomTester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/ResultExtractor.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/Tester.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/VerboseListener.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/LargeSet.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SimpleSet.java -text
