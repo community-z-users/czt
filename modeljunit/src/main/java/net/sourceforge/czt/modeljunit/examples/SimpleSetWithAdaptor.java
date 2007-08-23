@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.modeljunit.examples;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +41,7 @@ import net.sourceforge.czt.modeljunit.VerboseListener;
  *
  *  After each transition, we call checkSUT(), which uses JUnit Assert
  *  methods to check that the SUT is in the expected state.
- *  (To see a test fail, either pass a faulty implementation of 
+ *  (To see a test fail, either pass a faulty implementation of
  *  Set<String> to the constructor, to change the "false" in delS2 to "true".
  *
  *  Note: We could have added this adaptor code by inheriting from the
@@ -82,8 +84,10 @@ public class SimpleSetWithAdaptor implements FsmModel
 
   @Action public void addS2()
   {
+    // this one shows how we can test the result of sut_.add(...)
+    Assert.assertEquals(!s2, sut_.add(str2));
+    //sut_.add(str2);
     s2 = true;
-    sut_.add(str2);
     checkSUT();
   }
 
@@ -96,8 +100,10 @@ public class SimpleSetWithAdaptor implements FsmModel
 
   @Action public void delS2()
   {
+    // this one shows how we can test the result of sut_.remove(...)
+    Assert.assertEquals(s2, sut_.remove(str2));
+    //sut_.remove(str2);
     s2 = false;
-    sut_.remove(str2);
     checkSUT();
   }
 
@@ -108,6 +114,11 @@ public class SimpleSetWithAdaptor implements FsmModel
     Assert.assertEquals(size, sut_.size());
     Assert.assertEquals(s1, sut_.contains(str1));
     Assert.assertEquals(s2, sut_.contains(str2));
+    Assert.assertEquals(!s1 && !s2, sut_.isEmpty());
+    Set<String> tmp = new HashSet<String>();
+    if (s1) tmp.add(str1);
+    if (s2) tmp.add(str2);
+    Assert.assertEquals(sut_, tmp);
   }
 
   /** An example of generating tests from this model. */

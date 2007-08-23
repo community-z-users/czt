@@ -355,6 +355,8 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/LargeSet.java -
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SimpleSet.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SimpleSetWithAdaptor.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SmartSetAdaptor.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSet.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSetTest.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ClassFileLoader.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ErrorMessage.java -text
