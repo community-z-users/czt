@@ -93,7 +93,7 @@ public class ResultExtractor
 				w.print("Seed," + seeds.get(i) + ",");
 				w.print("Random,"); 
 				w.println(historyRandom.get(i));
-				w.print(",Greedy,");
+				w.print(",,Greedy,");
 				w.println(historyGreedy.get(i));
 			}
 			w.close();
