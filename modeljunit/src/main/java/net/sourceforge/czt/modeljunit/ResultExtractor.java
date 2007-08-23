@@ -3,6 +3,7 @@ package net.sourceforge.czt.modeljunit;
 import java.io.*;
 import java.util.Random;
 import java.util.List;
+import java.util.ArrayList;
 import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
@@ -18,15 +19,20 @@ public class ResultExtractor
 {
 	public static void main(String[] args) 
 	{
-		ResultExtractor r = new ResultExtractor();
+		ResultExtractor r;
+		if(args.length > 0)
+			r = new ResultExtractor(Integer.parseInt(args[0]));
+		else
+			r = new ResultExtractor();
 		r.run();
 	}
 
 	int passes;
 	int currentPass;
 	CoverageHistory metric;
-	String historyRandom;
-	String historyGreedy;
+	ArrayList<Integer> seeds;
+	ArrayList<String> historyRandom;
+	ArrayList<String> historyGreedy;
 	Random rand;
 	
 	public ResultExtractor()
@@ -34,6 +40,9 @@ public class ResultExtractor
 		passes = 3;
 		currentPass = 0;
 		rand = new Random();
+		seeds = new ArrayList<Integer>();
+		historyRandom = new ArrayList<String>();
+		historyGreedy = new ArrayList<String>();
 	}
 	
 	public ResultExtractor(int p)
@@ -41,6 +50,9 @@ public class ResultExtractor
 		passes = p;
 		currentPass = 0;
 		rand = new Random();
+		seeds = new ArrayList<Integer>();
+		historyRandom = new ArrayList<String>();
+		historyGreedy = new ArrayList<String>();
 	}
 	
         protected String generateResults(int seed, Tester tester)
@@ -59,34 +71,36 @@ public class ResultExtractor
                         Model model = new Model(new QuiDonc());
                         
                         Tester rtester = new RandomTester(model);
-			historyRandom = generateResults(seed, rtester);
+			historyRandom.add(generateResults(seed, rtester));
                         
-                        Tester gtester = new RandomTester(model);
-                        historyGreedy = generateResults(seed, gtester);
+                        Tester gtester = new GreedyTester(model);
+                        historyGreedy.add(generateResults(seed, gtester));
 			
-			this.write(seed);
+			seeds.add(seed);
 			currentPass++;
 		}
+		this.write();
 	}
 	
-	public void write(int seed) {
+	public void write() {
 		try
 		{
-			File f = new File("pass " + currentPass + " output.txt");
+			File f = new File("ResultExtractorOutput.csv");
 			PrintWriter w = new PrintWriter(new FileOutputStream(f));
 			
 			System.out.println("Writing to " + f.getAbsolutePath());
-			w.println("Results for seed: " + seed);
-			w.println("");
-			w.println("Random History");
-			w.println(historyRandom);
-			w.println("");
-			w.println("Greedy History");
-			w.println(historyGreedy);
+			for (int i = 0; i < seeds.size(); i++) {
+				w.print("Seed," + seeds.get(i) + ",");
+				w.print("Random,"); 
+				w.println(historyRandom.get(i));
+				w.print(",Greedy,");
+				w.println(historyGreedy.get(i));
+			}
 			w.close();
 		}
 		catch (Exception ex)
 		{
+			System.err.println("IO error occurance");
 			ex.printStackTrace();
 		}
 	}
