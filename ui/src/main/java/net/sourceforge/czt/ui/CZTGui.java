@@ -26,7 +26,7 @@ import net.sourceforge.czt.z.ast.*;
  */
 public class CZTGui implements ActionListener
 {
-  SectionManager manager = new SectionManager();
+  SectionManager manager;
   
   String softwarename = "CZT";
   JFileChooser chooser = new JFileChooser();
@@ -38,7 +38,6 @@ public class CZTGui implements ActionListener
   JLabel resultLabel = new JLabel("Error List");
   DefaultListModel resultListModel = new DefaultListModel();
   JList resultList = new JList();
-  JTextArea outputText = new JTextArea();
 
   JPanel specificationPanel = new JPanel();
   JTextField specText = new JTextField(12);
@@ -90,8 +89,6 @@ public class CZTGui implements ActionListener
    */
   public CZTGui()
   {
-
-    outputText.setEditable(false);
     
     specDialog.setLocationRelativeTo(frame);
     
@@ -210,9 +207,15 @@ public class CZTGui implements ActionListener
     clearErrorList();
   }
   
+  private void successfulSaveMessage(){
+   resultListModel.addElement("Saving Successful");
+   resultList.setModel(resultListModel);
+  }
+  
   private void saveFile(String output)
   {
           FileSource source = new FileSource(file);
+          
           if (output != null) {
             try{
               try{
@@ -223,6 +226,7 @@ public class CZTGui implements ActionListener
               Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(unicode.toString());
               writer.close();
+              successfulSaveMessage();
             }
             else if (output.endsWith("utf16")) {
               UnicodeString unicode = (UnicodeString)
@@ -231,6 +235,7 @@ public class CZTGui implements ActionListener
               Writer writer = new OutputStreamWriter(stream, "UTF-16");
               writer.write(unicode.toString());
               writer.close();
+              successfulSaveMessage();
             }
             else if (output.endsWith("tex") || output.endsWith("zed")) {
               LatexString latex = (LatexString)
@@ -239,6 +244,7 @@ public class CZTGui implements ActionListener
               Writer writer = new OutputStreamWriter(stream);
               writer.write(latex.toString());
               writer.close();
+              successfulSaveMessage();
             }
             else if (output.endsWith("xml") || output.endsWith("zml")) {
               XmlString xml = (XmlString)
@@ -247,6 +253,7 @@ public class CZTGui implements ActionListener
               Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(xml.toString());
               writer.close();
+              successfulSaveMessage();
             }
             else {
               JOptionPane.showMessageDialog(frame, "Unsupported output file " + output, softwarename, JOptionPane.ERROR_MESSAGE);
@@ -287,6 +294,8 @@ public class CZTGui implements ActionListener
     specDialog.setVisible(false);
 
     frame.setTitle(softwarename + " - " + file.getName());
+    
+    manager = new SectionManager();
     
     FileSource source = new FileSource(file);
     //should create new sectionmanager when opening new file
