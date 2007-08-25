@@ -419,6 +419,13 @@ public class CZTGui implements ActionListener
       int returnValOpen = chooser.showOpenDialog(frame);
       if (returnValOpen == JFileChooser.APPROVE_OPTION) {
         specText.setText(chooser.getSelectedFile().getPath());
+        
+        if(specText.getText().endsWith("zed")||specText.getText().endsWith("tex"))
+          markupCombo.setSelectedItem("Latex");
+        if(specText.getText().endsWith("utf8")){
+          markupCombo.setSelectedItem("Unicode");
+          encodingCombo.setSelectedItem("UTF8");
+        }
       }
     }
     //load the file
