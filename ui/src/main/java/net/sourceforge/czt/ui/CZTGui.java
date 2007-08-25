@@ -39,6 +39,7 @@ public class CZTGui implements ActionListener
   JLabel resultLabel = new JLabel("Output");
   DefaultListModel resultListModel = new DefaultListModel();
   JList resultList = new JList();
+  JLabel statusBar = new JLabel("status");
 
   JPanel specificationPanel = new JPanel();
   JTextField specText = new JTextField(12);
@@ -153,6 +154,7 @@ public class CZTGui implements ActionListener
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().add(BorderLayout.NORTH, menubar);
     frame.getContentPane().add(BorderLayout.CENTER, split);
+    frame.getContentPane().add(BorderLayout.SOUTH, statusBar);
     frame.setSize(600, 600);
     frame.setVisible(true);
 
@@ -206,11 +208,11 @@ public class CZTGui implements ActionListener
     saveas.setEnabled(false);
     clearTreeView();
     clearErrorList();
+    statusBar.setText("status");
   }
   
   private void successfulSaveMessage(){
-   resultListModel.addElement("Saving Successful");
-   resultList.setModel(resultListModel);
+    statusBar.setText("Saving "+file.getPath()+"...done");
   }
   
   private void saveFile(String output)
@@ -289,6 +291,8 @@ public class CZTGui implements ActionListener
    */
   private void loadFile()
   {
+    statusBar.setText("Reading "+file.getPath()+"...done");
+    
     String selectedLanguage = "";
     String selectedEncoding = "";
     
@@ -420,8 +424,10 @@ public class CZTGui implements ActionListener
       if (returnValOpen == JFileChooser.APPROVE_OPTION) {
         specText.setText(chooser.getSelectedFile().getPath());
         
-        if(specText.getText().endsWith("zed")||specText.getText().endsWith("tex"))
+        if(specText.getText().endsWith("zed")||specText.getText().endsWith("tex")){
           markupCombo.setSelectedItem("Latex");
+          encodingCombo.setSelectedItem("Default");
+        }
         if(specText.getText().endsWith("utf8")){
           markupCombo.setSelectedItem("Unicode");
           encodingCombo.setSelectedItem("UTF8");
