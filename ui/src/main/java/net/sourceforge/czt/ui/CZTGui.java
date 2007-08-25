@@ -16,6 +16,7 @@ import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -93,7 +94,7 @@ public class CZTGui implements ActionListener
     specDialog.setLocationRelativeTo(frame);
     
     try {
-      FileInputStream fileStream = new FileInputStream(softwarename + ".dat");
+      FileInputStream fileStream = new FileInputStream("/research/" + softwarename + ".dat");
       ObjectInputStream os = new ObjectInputStream(fileStream);
 
       Object pathObject = os.readObject();
@@ -288,6 +289,9 @@ public class CZTGui implements ActionListener
    */
   private void loadFile()
   {
+    String selectedLanguage = "";
+    String selectedEncoding = "";
+    
     clearTreeView();
     clearErrorList();
     
@@ -295,20 +299,59 @@ public class CZTGui implements ActionListener
 
     frame.setTitle(softwarename + " - " + file.getName());
     
-    manager = new SectionManager();
+    //obtain language selection
+    if(((String)languageCombo.getSelectedItem()).equals("Standard Z"))
+      selectedLanguage = "z";
+    else
+      if(((String)languageCombo.getSelectedItem()).equals("Object Z"))
+        selectedLanguage = "oz";
+    else
+      if(((String)languageCombo.getSelectedItem()).equals("Circus"))
+        selectedLanguage = "circus";
+    
+    //obtain encoding selection
+    if(((String)encodingCombo.getSelectedItem()).equals("UTF8"))
+      selectedEncoding = "utf8";
+    else
+      if(((String)encodingCombo.getSelectedItem()).equals("UTF16"))
+      selectedEncoding = "utf16";
+    else
+      if(((String)encodingCombo.getSelectedItem()).equals("Default"))
+      selectedEncoding = "default";
+    
+    manager = new SectionManager(selectedLanguage);
     
     FileSource source = new FileSource(file);
-
+    
+    //set markup selection
+    if(((String)markupCombo.getSelectedItem()).equals("Latex"))
+      source.setMarkup(Markup.LATEX);
+    else
+      if(((String)markupCombo.getSelectedItem()).equals("Unicode"))
+      source.setMarkup(Markup.UNICODE);
+    else
+      if(((String)markupCombo.getSelectedItem()).equals("XML"))
+      source.setMarkup(Markup.ZML);
+    //set encoding selection
+    if(((String)encodingCombo.getSelectedItem()).equals("Defualt"))
+      source.setEncoding("default");
+    else
+      if(((String)encodingCombo.getSelectedItem()).equals("UTF8"))
+      source.setEncoding("utf8");
+    else
+      if(((String)encodingCombo.getSelectedItem()).equals("UTF16"))
+      source.setEncoding("utf16");
+    
     manager.put(new Key(source.getName(), Source.class), source);
 
     try {
-      FileOutputStream fileStream = new FileOutputStream(softwarename + ".dat");
+      FileOutputStream fileStream = new FileOutputStream("/research/" + softwarename + ".dat");
       ObjectOutputStream os = new ObjectOutputStream(fileStream);
       os.writeObject(file.getPath());
       os.close();
     }
     catch (Exception e) {
-      e.printStackTrace();
+      //e.printStackTrace();
     }
 
     try {
@@ -396,7 +439,6 @@ public class CZTGui implements ActionListener
     }
     //if the cancel button is clicked on the spec dialog then hid it
     if (event.getSource() == specCancelButton) {
-      specText.setText("");
       specDialog.setVisible(false);
     }
     //save
