@@ -35,7 +35,7 @@ public class CZTGui implements ActionListener
   JLabel treeViewLabel = new JLabel("Specification Structure Explorer");
   JTree treeView = null;
   JPanel resultPanel = new JPanel();
-  JLabel resultLabel = new JLabel("Error List");
+  JLabel resultLabel = new JLabel("Output");
   DefaultListModel resultListModel = new DefaultListModel();
   JList resultList = new JList();
 
@@ -298,7 +298,7 @@ public class CZTGui implements ActionListener
     manager = new SectionManager();
     
     FileSource source = new FileSource(file);
-    //should create new sectionmanager when opening new file
+
     manager.put(new Key(source.getName(), Source.class), source);
 
     try {
