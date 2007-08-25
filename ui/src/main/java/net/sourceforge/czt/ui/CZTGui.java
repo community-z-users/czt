@@ -214,67 +214,65 @@ public class CZTGui implements ActionListener
   {
           FileSource source = new FileSource(file);
           if (output != null) {
+            try{
+              try{
             if (output.endsWith("utf8")) {
-              try{
-              try{
               UnicodeString unicode = (UnicodeString)
                 manager.get(new Key(source.getName(), UnicodeString.class));
               FileOutputStream stream = new FileOutputStream(output);
               Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(unicode.toString());
               writer.close();
-            }catch(IOException io){
-              io.printStackTrace();
-            }
-              }catch(CommandException command){}
             }
             else if (output.endsWith("utf16")) {
-              try{
-                try{
               UnicodeString unicode = (UnicodeString)
                 manager.get(new Key(source.getName(), UnicodeString.class));
               FileOutputStream stream = new FileOutputStream(output);
               Writer writer = new OutputStreamWriter(stream, "UTF-16");
               writer.write(unicode.toString());
               writer.close();
-              }catch(IOException io){
-              io.printStackTrace();
             }
-            }catch(CommandException command){}
-            }
-            else if (output.endsWith("tex") || output.endsWith("zed")) {System.out.println("textextex");
-              try{
-                try{
+            else if (output.endsWith("tex") || output.endsWith("zed")) {
               LatexString latex = (LatexString)
                 manager.get(new Key(source.getName(), LatexString.class));
               FileOutputStream stream = new FileOutputStream(output);
               Writer writer = new OutputStreamWriter(stream);
               writer.write(latex.toString());
               writer.close();
-              }catch(IOException io){
-              io.printStackTrace();
-            }
-            }catch(CommandException command){System.out.println("it fucked up");}
             }
             else if (output.endsWith("xml") || output.endsWith("zml")) {
-              try{
-                try{
               XmlString xml = (XmlString)
                 manager.get(new Key(source.getName(), XmlString.class));
               FileOutputStream stream = new FileOutputStream(output);
               Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(xml.toString());
               writer.close();
-              }catch(IOException io){
-              io.printStackTrace();
-            }
-            }catch(CommandException command){}
             }
             else {
               JOptionPane.showMessageDialog(frame, "Unsupported output file " + output, softwarename, JOptionPane.ERROR_MESSAGE);
-              System.err.println("Unsupported output file " + output);
               return;
             }
+              }catch(IOException exception){
+                
+              }
+            }catch(CommandException exception){
+      Throwable cause = exception.getCause();
+      saveas.setEnabled(false);
+      if (cause instanceof CztErrorList) {
+        java.util.List<? extends CztError> errors = ((CztErrorList) cause).getErrors();
+        //iterate over error list
+        for (int i = 0; i < errors.size(); i++) {
+          resultListModel.addElement(errors.get(i).toString());          
+        }
+        resultList.setModel(resultListModel);
+      }
+      else if (cause instanceof IOException) {
+        String message = "Input output error: " + cause.getMessage();
+      }
+      else {
+        String message = cause + getClass().getName();
+      }
+    }
             }
   }
   
@@ -291,7 +289,7 @@ public class CZTGui implements ActionListener
     frame.setTitle(softwarename + " - " + file.getName());
     
     FileSource source = new FileSource(file);
-
+    //should create new sectionmanager when opening new file
     manager.put(new Key(source.getName(), Source.class), source);
 
     try {
@@ -338,14 +336,17 @@ public class CZTGui implements ActionListener
       }
       else if (cause instanceof IOException) {
         String message = "Input output error: " + cause.getMessage();
+        //todo: catch errors and display
       }
       else {
         String message = cause + getClass().getName();
+        //todo: catch errors and display
       }
     }
     catch (Throwable e) {
       String message =
         "Caught " + e.getClass().getName() + ": " + e.getMessage();
+        //todo: catch errors and display
     }
   }
 
