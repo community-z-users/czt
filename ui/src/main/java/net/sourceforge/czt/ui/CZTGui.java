@@ -295,6 +295,7 @@ public class CZTGui implements ActionListener
     
     String selectedLanguage = "";
     String selectedEncoding = "";
+    int nrOfZSects = 0;
     
     clearTreeView();
     clearErrorList();
@@ -312,16 +313,6 @@ public class CZTGui implements ActionListener
     else
       if(((String)languageCombo.getSelectedItem()).equals("Circus"))
         selectedLanguage = "circus";
-    
-    //obtain encoding selection
-    if(((String)encodingCombo.getSelectedItem()).equals("UTF8"))
-      selectedEncoding = "utf8";
-    else
-      if(((String)encodingCombo.getSelectedItem()).equals("UTF16"))
-      selectedEncoding = "utf16";
-    else
-      if(((String)encodingCombo.getSelectedItem()).equals("Default"))
-      selectedEncoding = "default";
     
     manager = new SectionManager(selectedLanguage);
     
@@ -367,15 +358,22 @@ public class CZTGui implements ActionListener
       
       /*type check when check box is checked**/
       if(typecheckCheckBox.isSelected()){
-              for (Sect sect : spec.getSect()) {
+        for (Sect sect : spec.getSect()) {
           if (sect instanceof ZSect) {
             ZSect zSect = (ZSect) sect;
             String sectionName = zSect.getName();
             System.out.println(sectionName);
-              manager.get(new Key(sectionName,
-                                  SectTypeEnvAnn.class));
+            manager.get(new Key(sectionName,SectTypeEnvAnn.class));
+            if (zSect.getParaList() instanceof ZParaList && 
+            ((ZParaList) zSect.getParaList()).size() > 0) {
+            nrOfZSects++;
+            }
           }
-              }
+        }
+        if (nrOfZSects < 1) {
+        resultListModel.addElement("WARNING: No Z sections found in " + source);
+        resultList.setModel(resultListModel);
+        }
       }
     }
     catch (CommandException exception) {
