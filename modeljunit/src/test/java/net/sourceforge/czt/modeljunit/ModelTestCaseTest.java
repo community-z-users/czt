@@ -104,13 +104,13 @@ public class ModelTestCaseTest extends TestCase
     ModelTestCase model = new ModelTestCase(new FSM());
     CoverageHistory metric = new CoverageHistory(new ActionCoverage(), 1);
     model.addCoverageMetric(metric);
-    model.randomWalk(4);
+    model.randomWalk(4); // 4 transitions plus a few resets
     int coverage = metric.getCoverage();
     Assert.assertEquals(3, coverage);
     Assert.assertEquals(-1, metric.getMaximum()); // unknown.
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    Assert.assertEquals("Incorrect history size.", 4+1, hist.size());
+    Assert.assertEquals("Incorrect history size.", 7, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
 
@@ -134,13 +134,13 @@ public class ModelTestCaseTest extends TestCase
     ModelTestCase model = new ModelTestCase(new FSM());
     CoverageHistory metric = new CoverageHistory(new TransitionCoverage(), 1);
     model.addCoverageMetric(metric);
-    model.greedyRandomWalk(7);
+    model.greedyRandomWalk(7); // 7 transitions plus a few resets
     int coverage = metric.getCoverage();
     Assert.assertEquals(5, coverage);
     Assert.assertEquals(-1, metric.getMaximum());
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    Assert.assertEquals("Incorrect history size.", 8, hist.size());
+    Assert.assertEquals("Incorrect history size.", 10, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
   }
