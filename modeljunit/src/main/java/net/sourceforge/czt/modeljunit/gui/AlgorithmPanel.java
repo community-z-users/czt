@@ -51,37 +51,31 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     return m_panelOption;
   }
 
-  @Override
   public String generateCode()
   {
     return m_panelOption.generateCode();
   }
 
-  @Override
   public void initialize()
   {
     m_panelOption.initialize();
   }
 
-  @Override
   public void loadParameters(BufferedReader bufReader)
   {
     m_panelOption.loadParameters(bufReader);
   }
 
-  @Override
   public void saveParameters(BufferedWriter bufWriter)
   {
     m_panelOption.saveParameters(bufWriter);
   }
 
-  @Override
   public String generateImportLab()
   {
     return m_panelOption.generateImportLab();
   }
 
-  @Override
   public ModelTestCase runAlgorithm()
   {
     ModelTestCase testcase = null;

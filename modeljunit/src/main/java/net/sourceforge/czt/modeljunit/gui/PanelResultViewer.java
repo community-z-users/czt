@@ -9,11 +9,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-public class PanelResultViewer extends JPanel  
+public class PanelResultViewer extends JPanel
 {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -6522938608020451281L;
 
@@ -38,7 +38,7 @@ public class PanelResultViewer extends JPanel
   class ResultTableModelInstance extends AbstractTableModel
   {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3369812997489556322L;
 
@@ -67,13 +67,11 @@ public class PanelResultViewer extends JPanel
       m_vector.add(rd);
     }
 
-    @Override
     public int getColumnCount()
     {
       return m_columns.length;
     }
 
-    @Override
     public int getRowCount()
     {
       return m_vector == null ? 0 : m_vector.size();
@@ -85,7 +83,6 @@ public class PanelResultViewer extends JPanel
       return m_columns[col].m_title;
     }
 
-    @Override
     public Object getValueAt(int rowIndex, int columnIndex)
     {
       if (rowIndex < 0 || rowIndex >= getRowCount())
@@ -121,20 +118,20 @@ public class PanelResultViewer extends JPanel
 
   private static PanelResultViewer m_panelRV;
 
-  // Minimum height of the table and text area 
+  // Minimum height of the table and text area
   private final int MIN_HIEHGT = 160;
   private final int INITIAL_WIDTH = 300;
   private JTable m_table;
   private ResultTableModelInstance m_columeModel;
-  // Display the test running information 
+  // Display the test running information
   private JTextArea m_txtOutput;
   // Scroll pane
   JScrollPane m_scrollTable;
   JScrollPane m_scrollTextArea;
   // Split pane
-  JSplitPane m_splitPane; 
-  
-  
+  JSplitPane m_splitPane;
+
+
 
   public ResultTableModelInstance getTableModel()
   {
@@ -201,12 +198,12 @@ public class PanelResultViewer extends JPanel
   {
     m_txtOutput.setText("");
   }
-  
+
   public void updateRunTimeInformation(String str)
   {
     m_txtOutput.append(str);
   }
-  
+
   public void resizeScrollPanes(Dimension dim)
   {
     m_splitPane.setPreferredSize(dim);

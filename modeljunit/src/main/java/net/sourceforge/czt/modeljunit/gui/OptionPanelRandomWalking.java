@@ -26,7 +26,7 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
 {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -7675450997014889733L;
 
@@ -37,7 +37,7 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   private StringBuffer m_bufRandomTest;
 
   private JCheckBox m_checkRandomSeed;
-  
+
   public OptionPanelRandomWalking()
   {
     m_labelLength = new JLabel("Random walk length:");
@@ -46,7 +46,7 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
     m_txtLength.setText("10");
 
     m_checkRandomSeed = new JCheckBox("Use random seed");
-    
+
     setLayout(new GridLayout(2,3,3,2));
     add(m_labelLength);
     m_txtLength.setMaximumSize(new Dimension(60,15));
@@ -56,14 +56,12 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
     add(m_checkRandomSeed);
     add(Box.createHorizontalStrut(6));
     add(Box.createHorizontalGlue());
-   
+
   }
 
-  @Override
   public void actionPerformed(ActionEvent arg0)
   {
     // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -72,16 +70,16 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
     if(this.m_txtLength.getText().length()<=0)
       m_bHasError = true;
     m_bufRandomTest = new StringBuffer();
-    
+
     if(m_checkRandomSeed.isSelected())
     {
       m_bufRandomTest.append(Indentation.wrap("Random rand = new Random();"));
-      m_bufRandomTest.append(Indentation.wrap(Parameter.getTestCaseVariableName() 
+      m_bufRandomTest.append(Indentation.wrap(Parameter.getTestCaseVariableName()
           + ".randomWalk("+ m_txtLength.getText()
           + ", rand);"));
     }
     else
-      m_bufRandomTest.append(Indentation.wrap(Parameter.getTestCaseVariableName() 
+      m_bufRandomTest.append(Indentation.wrap(Parameter.getTestCaseVariableName()
           +".randomWalk("+ m_txtLength.getText()+ ");"));
     return m_bufRandomTest.toString();
   }
@@ -129,11 +127,11 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   public ModelTestCase runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
   {
     // Initialize model test case by using the loaded model
-    Class<?> testcaseClass = 
+    Class<?> testcaseClass =
       Class.forName("net.sourceforge.czt.modeljunit.ModelTestCase");
     Constructor<?> con = testcaseClass.getConstructor
       (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
-    ModelTestCase caseObj = 
+    ModelTestCase caseObj =
       (ModelTestCase)con.newInstance(new Object[]{Parameter.getModelObject()});
     // Set reset probility
     caseObj.setResetProbability(Parameter.getResetProbility());

@@ -65,13 +65,13 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     m_frame = new JFrame("ModelJUnit GUI");
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     m_frame.addComponentListener(this);
-    
+
     try {
       // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ; 
+      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ;
       UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel"); 
-      
+      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+
       }
       catch (Exception e) {
       System.out.println ("Couldn't load Motif look and feel " + e);
@@ -79,7 +79,7 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
 
     // Initialize TestDesign panel
     m_panelTD = PanelTestDesign.createTestDesignPanel();
-    // If user opens java file button text will be set to compile 
+    // If user opens java file button text will be set to compile
     // else if user opens class file, button test becomes run test
     m_panelTD.setModelRelatedButton(m_butRun);
     // Initialize CodeViewer panel
@@ -97,7 +97,7 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
           m_iconTag[1] = new ImageIcon(getClass().getResource("icon.gif"));
           m_iconTag[2] = new ImageIcon(getClass().getResource("icon.gif"));*/
 
-          
+
           // Setup the tab
           m_tabbedPane.addTab("Test Design", m_panelTD);
           m_tabbedPane.addTab("Code viewer", m_panelCV);
@@ -122,24 +122,24 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     initializeImage.start();
 
     /*
-     * JMenu file = new JMenu("Look & Feel", true); 
-ButtonGroup buttonGroup = new ButtonGroup(); 
-final UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels(); 
-for (int i = 0; i < info.length; i++) { 
-JRadioButtonMenuItem item = new 
-JRadioButtonMenuItem(info[i].getName(), i == 0); 
-final String className = info[i].getClassName(); 
-item.addActionListener(new ActionListener() { 
-public void actionPerformed(ActionEvent ae) { 
-try { UIManager.setLookAndFeel(className); } 
-catch (Exception e) { System.out.println(e); } 
-SwingUtilities.updateComponentTreeUI(ToUChyFeely.this); } 
-}); 
-buttonGroup.add(item); 
-file.add(item); 
-} 
-mb.add(file); 
-setJMenuBar(mb); 
+     * JMenu file = new JMenu("Look & Feel", true);
+ButtonGroup buttonGroup = new ButtonGroup();
+final UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
+for (int i = 0; i < info.length; i++) {
+JRadioButtonMenuItem item = new
+JRadioButtonMenuItem(info[i].getName(), i == 0);
+final String className = info[i].getClassName();
+item.addActionListener(new ActionListener() {
+public void actionPerformed(ActionEvent ae) {
+try { UIManager.setLookAndFeel(className); }
+catch (Exception e) { System.out.println(e); }
+SwingUtilities.updateComponentTreeUI(ToUChyFeely.this); }
+});
+buttonGroup.add(item);
+file.add(item);
+}
+mb.add(file);
+setJMenuBar(mb);
 
      * */
     // Menu and menu items
@@ -190,7 +190,6 @@ setJMenuBar(mb);
     m_frame.setJMenuBar(m_menuBar);
   }
 
-  @Override
   // TEMP directory: System.getProperty("java.io.tmpdir")
   // LIB PATH directory:  System.getProperty("java.library.path")
   // CLASSPATH directory: System.getProperty("java.class.path")
@@ -210,7 +209,7 @@ setJMenuBar(mb);
       if (Parameter.getClassName() == null
           || Parameter.getModelClass() == null
           || Parameter.getModelObject() == null
-          || Parameter.getClassName().length() == 0) 
+          || Parameter.getClassName().length() == 0)
       {
         ErrorMessage
             .DisplayErrorMessage("NO TEST MODEL HAS BEEN SELECTED",
@@ -226,10 +225,10 @@ setJMenuBar(mb);
       }
       // Clear the information in Result viewer text area
       m_panelRV.resetRunTimeInformation();
-      
+
       String sourceFile = Parameter.getModelLocation();
       String name[] = sourceFile.split("\\.");
-   
+
       if (name.length == 2 && name[1].equalsIgnoreCase("class"))
         runClass();
       // Compile file
@@ -241,7 +240,7 @@ setJMenuBar(mb);
         /**
          * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6477844
          * Following statement will produce a null reference without exception
-         * it happens when I use only the JRE as Standard VM in Eclipse. 
+         * it happens when I use only the JRE as Standard VM in Eclipse.
          * Please the JDK as Standard VM. It will work then.
          * Window->Preferences->Installed JREs->
          * Add C:\Program Files/Java/jdk1.6.0_02
@@ -378,39 +377,35 @@ setJMenuBar(mb);
   {
     m_panelRV.updateRunTimeInformation(m_panelTD.runTest());
   }
-  
+
   private void compileFile()
   {}
-  
+
   class TabChangeListener implements ChangeListener
   {
-    @Override
     public void stateChanged(ChangeEvent e)
     {
       updateGeneratedCode();
     }
   }
 
-  @Override
   public void componentHidden(ComponentEvent e)
   {
     // TODO Auto-generated method stub
-    
+
   }
-  @Override
+
   public void componentMoved(ComponentEvent e)
   {
     m_panelRV.resizeScrollPanes(m_frame.getContentPane().getSize());
   }
 
-  @Override
   public void componentResized(ComponentEvent e)
   {
     m_panelRV.resizeScrollPanes(m_frame.getContentPane().getSize());
-    
+
   }
 
-  @Override
   public void componentShown(ComponentEvent e)
   {
     // TODO Auto-generated method stub

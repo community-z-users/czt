@@ -12,7 +12,7 @@ public class OptionPanelGreedy extends OptionPanelAdapter
 {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -5507515122641604928L;
 
@@ -24,11 +24,8 @@ public class OptionPanelGreedy extends OptionPanelAdapter
     add(m_labelLength);
   }
 
-  @Override
   public void actionPerformed(ActionEvent arg0)
   {
     // TODO Auto-generated method stub
-
   }
-
 }

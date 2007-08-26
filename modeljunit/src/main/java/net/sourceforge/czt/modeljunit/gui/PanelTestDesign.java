@@ -24,7 +24,7 @@ import net.sourceforge.czt.modeljunit.Action;
 public class PanelTestDesign extends JPanel implements ActionListener,ChangeListener
 {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 5316043261026727079L;
 
@@ -36,9 +36,9 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
   private JTextField m_txtFilePath;
 
   private JButton m_butOpenModel;
-  
+
   private JButton m_butExternalExecute;
-  
+
   private JLabel m_labLoadingInfo = new JLabel("No model loaded");
 
   // Algorithm panel
@@ -55,20 +55,20 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
   private JComboBox m_combAlgorithmSelection = new JComboBox();
 
-  private JSlider m_sliderAverageTestLength = 
+  private JSlider m_sliderAverageTestLength =
     new JSlider(JSlider.HORIZONTAL,1,100,5);
-  
+
   private AlgorithmPanel[] m_panelAlgorithm;
 
   JPanel m_algorithmRight;
-  
+
   JPanel m_algorithmLeft;
   // Report panel
   private JLabel m_labelVerbosity = new JLabel("Test Generation Verbosity");
   private JComboBox m_comboVerbosity = new JComboBox(new String[]{"0","1","2","3"});
   private JLabel m_labelFailureVerbosity = new JLabel("Test Failure Verbosity");
   private JComboBox m_comboFailureVerbosity = new JComboBox(new String[]{"0","1","2","3"});
-  
+
   private JPanel m_panelReport;
 
   private final int m_nCheckBox = 4;
@@ -89,17 +89,17 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
   private PanelTestDesign()
   {
-    // Set test case variable name the name will affect code generation 
+    // Set test case variable name the name will affect code generation
     Parameter.setTestCaseVariableName("testCase");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     // ------ Setup model panel ------
     m_txtFilePath = new JTextField();
     m_txtFilePath.setColumns(26);
     m_txtFilePath.setEditable(false);
-    
+
     m_butOpenModel = new JButton("...");
     m_butOpenModel.addActionListener(this);
-    
+
     m_panelModel = new JPanel();
     m_panelModel.setLayout(new GridLayout(0,3,3,3));
     // m_panelModel.setLayout(new FlowLayout());
@@ -117,7 +117,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     // ------ Initialize algorithm panel ------
     m_nCurAlgo = 0;
     m_panelAlgorithmBase = new JPanel();
-    
+
     m_panelAlgorithm = new AlgorithmPanel[3];
     m_panelAlgorithm[0] = new AlgorithmPanel("Algorithm selection",
         "Select an algorithm from combobox.", "default.gif");
@@ -132,7 +132,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[1].getAlgorithmName());
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[2].getAlgorithmName());
     m_combAlgorithmSelection.addActionListener(this);
-    // Setup slider 
+    // Setup slider
     m_sliderAverageTestLength.setValue(0);
     m_sliderAverageTestLength.addChangeListener(this);
     m_sliderAverageTestLength.setToolTipText("Reset probility: "+Parameter.getResetProbility());
@@ -140,7 +140,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     //m_sliderAverageTestLength.setPaintTicks(true);
     m_algorithmLeft = new JPanel();
     m_algorithmLeft.setLayout(new BoxLayout(m_algorithmLeft, BoxLayout.Y_AXIS));
-    
+
     m_panelAlgorithmBase.setLayout(new BoxLayout(m_panelAlgorithmBase,BoxLayout.X_AXIS));
     m_algorithmLeft.add(Box.createVerticalStrut(16));
     m_algorithmLeft.add(m_combAlgorithmSelection);
@@ -203,7 +203,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
       m_panelReport.add(Box.createHorizontalStrut(10));
       m_panelReport.add(Box.createHorizontalGlue());
     }
-    
+
     // set border
     m_panelReport.setBackground(bg);
     m_panelReport.setBorder(
@@ -225,7 +225,6 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
   protected void addComponentsToTestGenerationPanel()
   {
-
     m_panelAlgorithmBase.remove(m_algorithmRight);
     m_nCurAlgo = m_combAlgorithmSelection.getSelectedIndex();
     m_algorithmRight = m_panelAlgorithm[m_nCurAlgo].getOptionPanel();
@@ -233,22 +232,22 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     m_panelAlgorithmBase.add(m_algorithmRight);
     m_panelAlgorithmBase.revalidate();
   }
-  @Override
+
   public void actionPerformed(ActionEvent e)
   {
-    // ------------ Algorithm combo-box handler -------------- 
+    // ------------ Algorithm combo-box handler --------------
     if (e.getSource() == this.m_combAlgorithmSelection) {
-      
+
       addComponentsToTestGenerationPanel();
       // Display the algorithm related panel
       if (m_panelAlgorithm[m_nCurAlgo].getOptionPanel() == null)
         System.out.println("Error: Algorithm panel is null");
-      
-      
+
+
       // Update the setting
       Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo].getAlgorithmName());
     }
-    // ------------ Open model from class file -------------- 
+    // ------------ Open model from class file --------------
     if (e.getSource() == m_butOpenModel) {
       String[] extensions = {"java", "class"};
       FileChooserFilter javaFileFilter = new FileChooserFilter(extensions,
@@ -290,7 +289,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
           if(actionNumber==0)
           {
             ErrorMessage.DisplayErrorMessage(
-                "NO ACTION IN THE CLASS", 
+                "NO ACTION IN THE CLASS",
                 "Invalid model class, it doesnt includes any actions to test!");
             Parameter.resetModelToNull();
           }
@@ -299,7 +298,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
             m_labLoadingInfo.setText(actionNumber + " actions were loaded.");
           }
           // To get how many actions in the model file
-          
+
           m_butExternalExecute.setText("Run test");
         }
         else if(fileName.length ==2 && fileName[1].equalsIgnoreCase("java"))
@@ -308,7 +307,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
         }
       }
     }
-    // ------ Check the coverage matrix options ------ 
+    // ------ Check the coverage matrix options ------
     for (int i = 0; i < m_nCheckBox; i++) {
       if (e.getSource() == m_checkCoverage[i]) {
         m_bChecked[i] = !m_bChecked[i];
@@ -330,7 +329,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
   public String generateCode()
   {
-    if(m_nCurAlgo<1 
+    if(m_nCurAlgo<1
         || m_panelAlgorithm[m_nCurAlgo].hasError()
         || Parameter.getClassName() == null
         || Parameter.getClassName().length()<=0)
@@ -343,8 +342,8 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
     buf.append(Indentation.wrap("import net.sourceforge.czt.modeljunit.*;"));
     //
-    if(m_checkCoverage[0].isSelected() 
-        || m_checkCoverage[1].isSelected() 
+    if(m_checkCoverage[0].isSelected()
+        || m_checkCoverage[1].isSelected()
         || m_checkCoverage[2].isSelected())
     {
       buf.append(Indentation.wrap
@@ -375,8 +374,8 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     buf.append(Indentation.wrap("public static void main(String args[])"));
     buf.append(Indentation.wrap("{"));
     // Setup coverage matrix
-    if(m_checkCoverage[0].isSelected() 
-        || m_checkCoverage[1].isSelected() 
+    if(m_checkCoverage[0].isSelected()
+        || m_checkCoverage[1].isSelected()
         || m_checkCoverage[2].isSelected())
     {
       if(m_checkCoverage[0].isSelected())
@@ -407,7 +406,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     // Generate code according to particular algorithm.
     buf.append(Indentation.SEP);
     buf.append(m_panelAlgorithm[m_nCurAlgo].generateCode());
-    // Accurate coverage metrics 
+    // Accurate coverage metrics
     buf.append(Indentation.SEP);
     if(m_checkCoverage[3].isSelected())
     {
@@ -436,7 +435,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     System.setOut(new PrintStream(baos, true));
 
     ModelTestCase caseObj = m_panelAlgorithm[m_nCurAlgo].runAlgorithm();
-    
+
     output = baos.toString();
     System.out.println(output);
     // Restore system.out to default value.
@@ -479,7 +478,6 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     }
   }
 
-  @Override
   public void stateChanged(ChangeEvent e)
   {
     if(e.getSource()==this.m_sliderAverageTestLength)
