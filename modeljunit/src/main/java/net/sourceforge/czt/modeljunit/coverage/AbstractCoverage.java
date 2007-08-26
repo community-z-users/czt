@@ -85,7 +85,6 @@ public abstract class AbstractCoverage implements CoverageMetric
     coverage_ = new HashMap<Object, Integer>();
   }
 
-  @Override
   public Model getModel()
   {
     return model_;
@@ -222,5 +221,11 @@ public abstract class AbstractCoverage implements CoverageMetric
    */
   public void startAction(Object state, int action, String name)
   {
+  }
+
+  /** A default implementation that does nothing. */  
+  public void setModel(Graph model, Map<Object, Vertex> state2vertex)
+  {
+    // TODO Auto-generated method stub
   }
 }

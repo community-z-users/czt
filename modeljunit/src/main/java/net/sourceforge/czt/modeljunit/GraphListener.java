@@ -41,13 +41,11 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *  As well as building the graph, this listener also keeps track of
  *  which paths have not yet been explored.
  */
-public class GraphListener implements ModelListener
+public class GraphListener extends AbstractListener
 {
-  protected Model model_;
-
   public GraphListener(Model model)
   {
-    model_ = model;
+    super(model);
     startBuildGraph();
   }
 

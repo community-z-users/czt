@@ -34,13 +34,11 @@ import net.sourceforge.czt.modeljunit.Transition;
  */
 public class ActionCoverage extends AbstractCoverage
 {
-  @Override
   public String getName()
   {
     return "Action Coverage";
   }
 
-  @Override
   public String getDescription()
   {
     return "The number of different actions executed.";

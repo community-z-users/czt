@@ -35,13 +35,11 @@ public class StateCoverage extends AbstractCoverage
   /** The current state of the FSM. */
   Object currState_ = null;
 
-  @Override
   public String getName()
   {
     return "State Coverage";
   }
 
-  @Override
   public String getDescription()
   {
     return "The number of different FSM states visited.";

@@ -32,13 +32,11 @@ import net.sourceforge.czt.modeljunit.Transition;
  */
 public class TransitionCoverage extends AbstractCoverage
 {
-  @Override
   public String getName()
   {
     return "Transition Coverage";
   }
 
-  @Override
   public String getDescription()
   {
     return "The number of different transitions executed.";

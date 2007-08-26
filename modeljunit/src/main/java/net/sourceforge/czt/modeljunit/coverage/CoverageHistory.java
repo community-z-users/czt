@@ -163,25 +163,26 @@ public class CoverageHistory implements CoverageMetric
     return result.substring(1); // skip the first comma.
   }
 
-  @Override
   public Model getModel()
   {
     return metric_.getModel();
   }
 
-  @Override
   public void doneGuard(Object state, int action, boolean enabled, int value)
   {
     metric_.doneGuard(state, action, enabled, value);
   }
 
-  @Override
   public void doneReset(String reason, boolean testing)
   {
     metric_.doneReset(reason, testing);
+    // see if we need to record the value of the coverage metric
+    if (--count_ == 0) {
+      history_.add(metric_.getCoverage());
+      count_ = interval_;
+    }
   }
 
-  @Override
   public void startAction(Object state, int action, String name)
   {
     metric_.startAction(state, action, name);
@@ -190,7 +191,6 @@ public class CoverageHistory implements CoverageMetric
   /** Delegates to getMetric().doneTransition(...),
    *  and records the resulting coverage.
    */
-  @Override
   public void doneTransition(int action, Transition tr)
   {
     metric_.doneTransition(action, tr);
@@ -201,7 +201,6 @@ public class CoverageHistory implements CoverageMetric
     }
   }
 
-  @Override
   public void failure(Exception ex)
   {
     metric_.failure(ex);

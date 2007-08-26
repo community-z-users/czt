@@ -38,13 +38,11 @@ public class TransitionPairCoverage extends AbstractCoverage
   /** The current state of the FSM. */
   Transition lastTransition_ = null;
 
-  @Override
   public String getName()
   {
     return "Transition-Pair Coverage";
   }
 
-  @Override
   public String getDescription()
   {
     return "All the pairs of transitions (t1,t2), where t1 is a transition"
