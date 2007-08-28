@@ -230,11 +230,14 @@ public class CZTGui implements ActionListener
     statusBar.setText("status");
   }
   
-  private void successfulSaveMessage(){
-    statusBar.setText("Exporting "+file.getPath()+"...done");
+  private void successfulSaveMessage(boolean success){
+    if(success == true)
+      statusBar.setText("Exporting to "+fileForExporting.getPath()+"...done");
+    if(success == false)
+      statusBar.setText("Exporting to "+fileForExporting.getPath()+"...failed");
   }
   
-  private void saveFile(String output)
+  /*private void saveFile(String output)
   {
           FileSource source = new FileSource(file);
           
@@ -282,7 +285,7 @@ public class CZTGui implements ActionListener
               return;
             }
               }catch(IOException exception){
-                
+                //what should happen here??
               }
             }catch(CommandException exception){
       Throwable cause = exception.getCause();
@@ -303,7 +306,7 @@ public class CZTGui implements ActionListener
       }
     }
             }
-  }
+  }**/
   
   /**
    *  Description of the Method
@@ -487,15 +490,34 @@ public class CZTGui implements ActionListener
       int returnValSave = chooser.showSaveDialog(frame);
       if (returnValSave == JFileChooser.APPROVE_OPTION) {
         fileForExporting = chooser.getSelectedFile();
-        saveFile(fileForExporting.getPath());
-        
-        /*LatexString latex = (LatexString)
-        manager.get(new Key(new FileSource(file).getName(), LatexString.class));
-        FileOutputStream stream = new FileOutputStream(fileForExporting.getPath());
-        Writer writer = new OutputStreamWriter(stream);
-        writer.write(latex.toString());
-        writer.close();
-        successfulSaveMessage();**/
+        saveSpec(fileForExporting.getPath(),"latex");
+      }
+    }
+        if (event.getSource() == saveasUnicode8) {
+      String[] s = (file.getPath()).split("[.]");
+      chooser.setSelectedFile(new File(s[0]+".utf8"));
+      int returnValSave = chooser.showSaveDialog(frame);
+      if (returnValSave == JFileChooser.APPROVE_OPTION) {
+        fileForExporting = chooser.getSelectedFile();
+        saveSpec(fileForExporting.getPath(),"utf8");
+      }
+    }
+        if (event.getSource() == saveasUnicode16) {
+      String[] s = (file.getPath()).split("[.]");
+      chooser.setSelectedFile(new File(s[0]+".utf16"));
+      int returnValSave = chooser.showSaveDialog(frame);
+      if (returnValSave == JFileChooser.APPROVE_OPTION) {
+        fileForExporting = chooser.getSelectedFile();
+        saveSpec(fileForExporting.getPath(),"utf16");
+      }
+    }
+        if (event.getSource() == saveasXML) {
+      String[] s = (file.getPath()).split("[.]");
+      chooser.setSelectedFile(new File(s[0]+".xml"));
+      int returnValSave = chooser.showSaveDialog(frame);
+      if (returnValSave == JFileChooser.APPROVE_OPTION) {
+        fileForExporting = chooser.getSelectedFile();
+        saveSpec(fileForExporting.getPath(),"xml");
       }
     }
     //close the project and set back to defaults
@@ -514,6 +536,73 @@ public class CZTGui implements ActionListener
         System.exit(0);
       /*}**/
     }
+  }
+  
+  void saveSpec(String path,String markup){
+    
+    FileSource source = new FileSource(file);
+    Writer writer = null;
+    
+    try{
+      try{
+        FileOutputStream stream = new FileOutputStream(path);
+        
+    if(markup.equals("latex")){
+    LatexString latex = (LatexString)
+    manager.get(new Key(new FileSource(file).getName(), LatexString.class));
+    writer = new OutputStreamWriter(stream);
+    writer.write(latex.toString());
+    writer.close();
+    successfulSaveMessage(true);
+    }
+    
+    if(markup.equals("utf8")){
+    UnicodeString unicode = (UnicodeString)
+    manager.get(new Key(source.getName(), UnicodeString.class));
+    writer = new OutputStreamWriter(stream, "UTF-8");
+    writer.write(unicode.toString());
+    writer.close();
+    successfulSaveMessage(true);
+    }
+    
+    if(markup.equals("utf16")){
+    UnicodeString unicode = (UnicodeString)
+    manager.get(new Key(source.getName(), UnicodeString.class));
+    writer = new OutputStreamWriter(stream, "UTF-16");
+    writer.write(unicode.toString());
+    writer.close();
+    successfulSaveMessage(true);
+    }
+    
+    if(markup.equals("xml")){
+    XmlString xml = (XmlString)
+    manager.get(new Key(source.getName(), XmlString.class));
+    writer = new OutputStreamWriter(stream, "UTF-8");
+    writer.write(xml.toString());
+    writer.close();
+    successfulSaveMessage(true);
+    }
+      }catch(IOException exception){
+        successfulSaveMessage(false);
+      }
+    }catch(CommandException exception){
+      Throwable cause = exception.getCause();
+      saveas.setEnabled(false);
+      if (cause instanceof CztErrorList) {
+        java.util.List<? extends CztError> errors = ((CztErrorList) cause).getErrors();
+        //iterate over error list
+        for (int i = 0; i < errors.size(); i++) {
+          resultListModel.addElement(errors.get(i).toString());          
+        }
+        resultList.setModel(resultListModel);
+      }
+      else if (cause instanceof IOException) {
+        String message = "Input output error: " + cause.getMessage();
+      }
+      else {
+        String message = cause + getClass().getName();
+      }
+    }    
   }
 }
 
