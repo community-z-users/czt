@@ -3,6 +3,7 @@ package net.sourceforge.czt.ui;
 import javax.swing.*;
 import javax.swing.event.MenuKeyEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -30,16 +31,22 @@ public class CZTGui implements ActionListener
   SectionManager manager;
   
   String softwarename = "CZT";
+
   JFileChooser chooser = new JFileChooser();
+  
   JFrame frame = new JFrame(softwarename);
+
   JPanel treeViewPanel = new JPanel();
   JLabel treeViewLabel = new JLabel("Specification Structure Explorer");
   JTree treeView = null;
+
   JPanel resultPanel = new JPanel();
   JLabel resultLabel = new JLabel("Output");
+
   DefaultListModel resultListModel = new DefaultListModel();
   JList resultList = new JList();
-  JLabel statusBar = new JLabel("status");
+
+  JTextArea statusBar = new JTextArea("status");
 
   JPanel specificationPanel = new JPanel();
   JTextField specText = new JTextField(12);
@@ -76,7 +83,11 @@ public class CZTGui implements ActionListener
   JMenuBar menubar = new JMenuBar();
   JMenu filemenu = new JMenu("File");
   JMenuItem open = new JMenuItem("Open");
-  JMenuItem saveas = new JMenuItem("Export");
+  JMenu saveas = new JMenu("Export to");
+  JMenuItem saveasLatex = new JMenuItem("Latex");
+  JMenuItem saveasUnicode8 = new JMenuItem("Unicode(utf8)");
+  JMenuItem saveasUnicode16 = new JMenuItem("Unicode(utf16)");
+  JMenuItem saveasXML = new JMenuItem("XML");
   JMenuItem close = new JMenuItem("Close");
   JMenuItem exit = new JMenuItem("Exit");
   JScrollPane scrollResults = new JScrollPane(resultList);
@@ -93,6 +104,7 @@ public class CZTGui implements ActionListener
   {
     
     specDialog.setLocationRelativeTo(frame);
+    statusBar.setEditable(false);
     
     try {
       FileInputStream fileStream = new FileInputStream("/research/" + softwarename + ".dat");
@@ -139,11 +151,18 @@ public class CZTGui implements ActionListener
     split.setDividerLocation(400);
 
     open.addActionListener(this);
+    saveasLatex.addActionListener(this);
+    saveasUnicode8.addActionListener(this);
+    saveasUnicode16.addActionListener(this);
+    saveasXML.addActionListener(this);
     close.addActionListener(this);
-    saveas.addActionListener(this);
     exit.addActionListener(this);
     
     filemenu.add(open);
+    saveas.add(saveasLatex);
+    saveas.add(saveasUnicode8);
+    saveas.add(saveasUnicode16);
+    saveas.add(saveasXML);
     saveas.setEnabled(false);
     filemenu.add(saveas);
     filemenu.add(close);
@@ -212,7 +231,7 @@ public class CZTGui implements ActionListener
   }
   
   private void successfulSaveMessage(){
-    statusBar.setText("Saving "+file.getPath()+"...done");
+    statusBar.setText("Exporting "+file.getPath()+"...done");
   }
   
   private void saveFile(String output)
@@ -290,8 +309,8 @@ public class CZTGui implements ActionListener
    *  Description of the Method
    */
   private void loadFile()
-  {
-    statusBar.setText("Reading "+file.getPath()+"...done");
+  { 
+    statusBar.setText("Reading "+file.getPath()+"...");
     
     String selectedLanguage = "";
     String selectedEncoding = "";
@@ -375,6 +394,7 @@ public class CZTGui implements ActionListener
         resultList.setModel(resultListModel);
         }
       }
+      statusBar.setText("Parsing "+file.getPath()+"...done");
     }
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
@@ -430,6 +450,14 @@ public class CZTGui implements ActionListener
           markupCombo.setSelectedItem("Unicode");
           encodingCombo.setSelectedItem("UTF8");
         }
+        if(specText.getText().endsWith("uft16")){
+          markupCombo.setSelectedItem("Unicode");
+          encodingCombo.setSelectedItem("UTF16");
+        }
+        if(specText.getText().endsWith("xml")||specText.getText().endsWith("zml")){
+          markupCombo.setSelectedItem("XML");
+          encodingCombo.setSelectedItem("UTF8");
+        }
       }
     }
     //load the file
@@ -453,12 +481,21 @@ public class CZTGui implements ActionListener
       specDialog.setVisible(false);
     }
     //save
-    if (event.getSource() == saveas) {
+    if (event.getSource() == saveasLatex) {
+      String[] s = (file.getPath()).split("[.]");
+      chooser.setSelectedFile(new File(s[0]+".tex"));
       int returnValSave = chooser.showSaveDialog(frame);
       if (returnValSave == JFileChooser.APPROVE_OPTION) {
         fileForExporting = chooser.getSelectedFile();
-        System.out.println(fileForExporting.getPath());
         saveFile(fileForExporting.getPath());
+        
+        /*LatexString latex = (LatexString)
+        manager.get(new Key(new FileSource(file).getName(), LatexString.class));
+        FileOutputStream stream = new FileOutputStream(fileForExporting.getPath());
+        Writer writer = new OutputStreamWriter(stream);
+        writer.write(latex.toString());
+        writer.close();
+        successfulSaveMessage();**/
       }
     }
     //close the project and set back to defaults
