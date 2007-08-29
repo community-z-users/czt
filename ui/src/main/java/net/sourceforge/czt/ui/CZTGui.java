@@ -105,6 +105,8 @@ public class CZTGui implements ActionListener
     
     specDialog.setLocationRelativeTo(frame);
     statusBar.setEditable(false);
+    saveas.setEnabled(false);
+    close.setEnabled(false);
     
     try {
       FileInputStream fileStream = new FileInputStream("/research/" + softwarename + ".dat");
@@ -163,7 +165,6 @@ public class CZTGui implements ActionListener
     saveas.add(saveasUnicode8);
     saveas.add(saveasUnicode16);
     saveas.add(saveasXML);
-    saveas.setEnabled(false);
     filemenu.add(saveas);
     filemenu.add(close);
     filemenu.add(exit);
@@ -225,6 +226,7 @@ public class CZTGui implements ActionListener
     specText.setText("");
     frame.setTitle(softwarename);
     saveas.setEnabled(false);
+    close.setEnabled(false);
     clearTreeView();
     clearErrorList();
     statusBar.setText("status");
@@ -237,57 +239,54 @@ public class CZTGui implements ActionListener
       statusBar.setText("Exporting to "+fileForExporting.getPath()+"...failed");
   }
   
-  /*private void saveFile(String output)
-  {
-          FileSource source = new FileSource(file);
-          
-          if (output != null) {
-            try{
-              try{
-            if (output.endsWith("utf8")) {
-              UnicodeString unicode = (UnicodeString)
-                manager.get(new Key(source.getName(), UnicodeString.class));
-              FileOutputStream stream = new FileOutputStream(output);
-              Writer writer = new OutputStreamWriter(stream, "UTF-8");
-              writer.write(unicode.toString());
-              writer.close();
-              successfulSaveMessage();
-            }
-            else if (output.endsWith("utf16")) {
-              UnicodeString unicode = (UnicodeString)
-                manager.get(new Key(source.getName(), UnicodeString.class));
-              FileOutputStream stream = new FileOutputStream(output);
-              Writer writer = new OutputStreamWriter(stream, "UTF-16");
-              writer.write(unicode.toString());
-              writer.close();
-              successfulSaveMessage();
-            }
-            else if (output.endsWith("tex") || output.endsWith("zed")) {
-              LatexString latex = (LatexString)
-                manager.get(new Key(source.getName(), LatexString.class));
-              FileOutputStream stream = new FileOutputStream(output);
-              Writer writer = new OutputStreamWriter(stream);
-              writer.write(latex.toString());
-              writer.close();
-              successfulSaveMessage();
-            }
-            else if (output.endsWith("xml") || output.endsWith("zml")) {
-              XmlString xml = (XmlString)
-                manager.get(new Key(source.getName(), XmlString.class));
-              FileOutputStream stream = new FileOutputStream(output);
-              Writer writer = new OutputStreamWriter(stream, "UTF-8");
-              writer.write(xml.toString());
-              writer.close();
-              successfulSaveMessage();
-            }
-            else {
-              JOptionPane.showMessageDialog(frame, "Unsupported output file " + output, softwarename, JOptionPane.ERROR_MESSAGE);
-              return;
-            }
-              }catch(IOException exception){
-                //what should happen here??
-              }
-            }catch(CommandException exception){
+  private void saveSpec(String path,String markup){
+    
+    FileSource source = new FileSource(file);
+    Writer writer = null;
+    
+    try{
+      try{
+        FileOutputStream stream = new FileOutputStream(path);
+        
+    if(markup.equals("latex")){
+    LatexString latex = (LatexString)
+    manager.get(new Key(new FileSource(file).getName(), LatexString.class));
+    writer = new OutputStreamWriter(stream);
+    writer.write(latex.toString());
+    writer.close();
+    successfulSaveMessage(true);
+    }
+    
+    if(markup.equals("utf8")){
+    UnicodeString unicode = (UnicodeString)
+    manager.get(new Key(source.getName(), UnicodeString.class));
+    writer = new OutputStreamWriter(stream, "UTF-8");
+    writer.write(unicode.toString());
+    writer.close();
+    successfulSaveMessage(true);
+    }
+    
+    if(markup.equals("utf16")){
+    UnicodeString unicode = (UnicodeString)
+    manager.get(new Key(source.getName(), UnicodeString.class));
+    writer = new OutputStreamWriter(stream, "UTF-16");
+    writer.write(unicode.toString());
+    writer.close();
+    successfulSaveMessage(true);
+    }
+    
+    if(markup.equals("xml")){
+    XmlString xml = (XmlString)
+    manager.get(new Key(source.getName(), XmlString.class));
+    writer = new OutputStreamWriter(stream, "UTF-8");
+    writer.write(xml.toString());
+    writer.close();
+    successfulSaveMessage(true);
+    }
+      }catch(IOException exception){
+        successfulSaveMessage(false);
+      }
+    }catch(CommandException exception){
       Throwable cause = exception.getCause();
       saveas.setEnabled(false);
       if (cause instanceof CztErrorList) {
@@ -305,15 +304,14 @@ public class CZTGui implements ActionListener
         String message = cause + getClass().getName();
       }
     }
-            }
-  }**/
+  }
   
   /**
    *  Description of the Method
    */
   private void loadFile()
   { 
-    statusBar.setText("Reading "+file.getPath()+"...");
+    statusBar.setText("Reading "+file.getPath()+"...done");
     
     String selectedLanguage = "";
     String selectedEncoding = "";
@@ -376,7 +374,6 @@ public class CZTGui implements ActionListener
       manager.get(new Key(source.getName(), Spec.class));
       treeView = new JTree((new TermTreeNode(0, spec, null)));
       scrollTreeStructure.setViewportView(treeView);
-      saveas.setEnabled(true);
       
       /*type check when check box is checked**/
       if(typecheckCheckBox.isSelected()){
@@ -398,6 +395,8 @@ public class CZTGui implements ActionListener
         }
       }
       statusBar.setText("Parsing "+file.getPath()+"...done");
+      saveas.setEnabled(true);
+      close.setEnabled(true);
     }
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
@@ -417,13 +416,15 @@ public class CZTGui implements ActionListener
       }
       else {
         String message = cause + getClass().getName();
-        //todo: catch errors and display
+        resultListModel.addElement(message);
+        resultList.setModel(resultListModel);
       }
     }
     catch (Throwable e) {
       String message =
         "Caught " + e.getClass().getName() + ": " + e.getMessage();
-        //todo: catch errors and display
+        resultListModel.addElement(message);
+        resultList.setModel(resultListModel);
     }
   }
 
@@ -453,7 +454,7 @@ public class CZTGui implements ActionListener
           markupCombo.setSelectedItem("Unicode");
           encodingCombo.setSelectedItem("UTF8");
         }
-        if(specText.getText().endsWith("uft16")){
+        if(specText.getText().endsWith("utf16")){
           markupCombo.setSelectedItem("Unicode");
           encodingCombo.setSelectedItem("UTF16");
         }
@@ -526,83 +527,8 @@ public class CZTGui implements ActionListener
     }
     //exit program and asks if user wants to save if a file is opened
     if (event.getSource() == exit) {
-      /*if (file != null) {
-        n = JOptionPane.showConfirmDialog(frame, "Exit without saving?", softwarename, JOptionPane.YES_NO_OPTION);
-        if (n == JOptionPane.YES_OPTION) {
-          System.exit(0);
-        }
-      }
-      else {**/
         System.exit(0);
-      /*}**/
     }
-  }
-  
-  void saveSpec(String path,String markup){
-    
-    FileSource source = new FileSource(file);
-    Writer writer = null;
-    
-    try{
-      try{
-        FileOutputStream stream = new FileOutputStream(path);
-        
-    if(markup.equals("latex")){
-    LatexString latex = (LatexString)
-    manager.get(new Key(new FileSource(file).getName(), LatexString.class));
-    writer = new OutputStreamWriter(stream);
-    writer.write(latex.toString());
-    writer.close();
-    successfulSaveMessage(true);
-    }
-    
-    if(markup.equals("utf8")){
-    UnicodeString unicode = (UnicodeString)
-    manager.get(new Key(source.getName(), UnicodeString.class));
-    writer = new OutputStreamWriter(stream, "UTF-8");
-    writer.write(unicode.toString());
-    writer.close();
-    successfulSaveMessage(true);
-    }
-    
-    if(markup.equals("utf16")){
-    UnicodeString unicode = (UnicodeString)
-    manager.get(new Key(source.getName(), UnicodeString.class));
-    writer = new OutputStreamWriter(stream, "UTF-16");
-    writer.write(unicode.toString());
-    writer.close();
-    successfulSaveMessage(true);
-    }
-    
-    if(markup.equals("xml")){
-    XmlString xml = (XmlString)
-    manager.get(new Key(source.getName(), XmlString.class));
-    writer = new OutputStreamWriter(stream, "UTF-8");
-    writer.write(xml.toString());
-    writer.close();
-    successfulSaveMessage(true);
-    }
-      }catch(IOException exception){
-        successfulSaveMessage(false);
-      }
-    }catch(CommandException exception){
-      Throwable cause = exception.getCause();
-      saveas.setEnabled(false);
-      if (cause instanceof CztErrorList) {
-        java.util.List<? extends CztError> errors = ((CztErrorList) cause).getErrors();
-        //iterate over error list
-        for (int i = 0; i < errors.size(); i++) {
-          resultListModel.addElement(errors.get(i).toString());          
-        }
-        resultList.setModel(resultListModel);
-      }
-      else if (cause instanceof IOException) {
-        String message = "Input output error: " + cause.getMessage();
-      }
-      else {
-        String message = cause + getClass().getName();
-      }
-    }    
   }
 }
 
