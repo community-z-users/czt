@@ -5,7 +5,15 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.lang.reflect.InvocationTargetException;
 
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.Tester;
+
+/**
+ * IAlgorithmParameter.java
+ *
+ * @author rong
+ * ID : 1005450
+ * 5th Aug 2007
+ * */
 
 public interface IAlgorithmParameter
 {
@@ -26,14 +34,21 @@ public interface IAlgorithmParameter
    * */
   public String generateImportLab();
   public String generateCode();
-  
+
   /**
    * Run code to see the result
-   * @throws InvocationTargetException 
-   * @throws NoSuchMethodException 
-   * @throws ClassNotFoundException 
-   * @throws IllegalArgumentException 
-   * @throws SecurityException 
+   * @throws InvocationTargetException
+   * @throws NoSuchMethodException
+   * @throws ClassNotFoundException
+   * @throws IllegalArgumentException
+   * @throws SecurityException
    * */
-  public ModelTestCase runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException;
+  public Tester runAlgorithm()
+    throws InstantiationException,
+      IllegalAccessException,
+      SecurityException,
+      IllegalArgumentException,
+      ClassNotFoundException,
+      NoSuchMethodException,
+      InvocationTargetException;
 }

@@ -1,8 +1,11 @@
-/**
- * @author rong date 30th/July/2007
- */
+
 
 package net.sourceforge.czt.modeljunit.gui;
+
+/**
+ * @author rong
+ * 30th/July/2007
+ */
 
 public class ResultDetails
 {

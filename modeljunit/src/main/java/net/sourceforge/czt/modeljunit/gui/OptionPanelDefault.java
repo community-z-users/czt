@@ -7,7 +7,7 @@ public class OptionPanelDefault extends OptionPanelAdapter
 {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -9005457035103622777L;
 

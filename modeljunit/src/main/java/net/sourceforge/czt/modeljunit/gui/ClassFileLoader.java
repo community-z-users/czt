@@ -6,6 +6,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * ClassFileLoader.java
+ *
+ * @author rong
+ * ID : 1005450
+ * 15th Aug 2007
+ * */
 public class ClassFileLoader extends ClassLoader
 {
   private static ClassFileLoader m_loader;
@@ -20,30 +27,45 @@ public class ClassFileLoader extends ClassLoader
       m_loader = new ClassFileLoader();
     return m_loader;
   }
-
+/*
   public Class<?> findClass(String name)
   {
     byte[] data = loadClassData(name);
-    return defineClass(name, data, 0, data.length);
-  }
+    Class<?> theClass = defineClass(name, data, 0, data.length);
+    return theClass;
 
-  private byte[] loadClassData(String name)
+  }
+*/
+  public static int runtime = 0;
+  public Class<?> loadClass(String classname)
   {
+
     FileInputStream fis = null;
     byte[] data = null;
-    try {
-      fis = new FileInputStream(new File(Parameter.getModelLocation()));
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      int ch = 0;
-      while ((ch = fis.read()) != -1) {
-        baos.write(ch);
+    // Bad coding style, just try
+    try
+    {
+      Class<?> modelclass = Class.forName(classname);
+      return modelclass;
+    }
+    catch (Exception exp)
+    {
+      try {
+        fis = new FileInputStream(new File(Parameter.getModelLocation()));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int ch = 0;
+        while ((ch = fis.read()) != -1) {
+          baos.write(ch);
+        }
+        data = baos.toByteArray();
       }
-      data = baos.toByteArray();
+      catch (IOException e) {
+        e.printStackTrace();
+      }
     }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-    return data;
+    // System.out.println("ClassFileLoader.loadClass: "+classname+" load time: "+runtime);
+    Class<?> theClass = defineClass(classname, data, 0, data.length);
+    return theClass;
   }
 
 }

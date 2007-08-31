@@ -9,7 +9,7 @@ public class PanelCodeViewer extends JPanel
 {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -8433568076533100620L;
 
@@ -29,7 +29,7 @@ public class PanelCodeViewer extends JPanel
     setLayout(new BorderLayout());
     m_txtCode = new JTextArea();
     JScrollPane scrollPane = new JScrollPane(m_txtCode);
-    m_txtCode.setEditable(false);
+    m_txtCode.setEditable(true);
     add(scrollPane, BorderLayout.CENTER);
   }
 

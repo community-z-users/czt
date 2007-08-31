@@ -14,8 +14,9 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException; // For compiler
+import java.io.IOException;
 
+// For compiler
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
@@ -23,7 +24,13 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-
+/**
+ * ModelJUnitGUI.java
+ *
+ * @author rong
+ * ID : 1005450
+ * 26th Jul 2007
+ * */
 public class ModelJUnitGUI implements ActionListener,ComponentListener
 {
   private JFrame m_frame;
@@ -331,7 +338,10 @@ setJMenuBar(mb);
         }
       }
     }
-    if (e.getSource() == m_miExit) {
+    // ----------------- Exit applicatin ---------------------
+    if (e.getSource() == m_miExit)
+    {
+      Parameter.wirteSettingFile();
       System.exit(0);
     }
   }

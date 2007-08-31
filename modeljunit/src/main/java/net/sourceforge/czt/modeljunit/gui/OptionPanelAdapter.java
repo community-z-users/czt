@@ -6,12 +6,10 @@ import java.io.BufferedWriter;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JPanel;
-
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.Tester;
 
 public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
 {
-
   /**
    * Serial version UID
    */
@@ -44,7 +42,7 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
     return null;
   }
 
-  public ModelTestCase runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
+  public Tester runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
   {
     return null;
   }

@@ -8,7 +8,15 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.*;
 
 import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.Tester;
 
+/**
+ * AlgorithmPanel.java
+ *
+ * @author rong
+ * ID : 1005450
+ * 30th Jl 2007
+ * */
 public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
 {
   private String m_strNameOfAlgorithm;
@@ -30,7 +38,7 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
   {
     return m_panelOption.hasError();
   }
-  
+
   public String getAlgorithmName()
   {
     return m_strNameOfAlgorithm;
@@ -76,11 +84,11 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     return m_panelOption.generateImportLab();
   }
 
-  public ModelTestCase runAlgorithm()
+  public Tester runAlgorithm()
   {
-    ModelTestCase testcase = null;
+    Tester tester = null;
     try {
-      testcase = m_panelOption.runAlgorithm();
+      tester = m_panelOption.runAlgorithm();
     }
     catch (InstantiationException e) {
       e.printStackTrace();
@@ -100,6 +108,6 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     catch (InvocationTargetException e) {
       e.printStackTrace();
     }
-    return testcase;
+    return tester;
   }
 }

@@ -17,7 +17,15 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.GreedyTester;
+import net.sourceforge.czt.modeljunit.RandomTester;
+import net.sourceforge.czt.modeljunit.Tester;
+import net.sourceforge.czt.modeljunit.VerboseListener;
+import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
+import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
+import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
+import net.sourceforge.czt.modeljunit.examples.SimpleSet;
 
 public class OptionPanelRandomWalking extends OptionPanelAdapter
     implements
@@ -30,9 +38,6 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
    */
   private static final long serialVersionUID = -7675450997014889733L;
 
-  private JLabel m_labelLength;
-
-  private JTextField m_txtLength;
 
   private StringBuffer m_bufRandomTest;
 
@@ -40,19 +45,8 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
 
   public OptionPanelRandomWalking()
   {
-    m_labelLength = new JLabel("Random walk length:");
-    m_txtLength = new JTextField();
-    m_txtLength.setColumns(5);
-    m_txtLength.setText("10");
-
+    // setLayout(new GridLayout(2,3,3,2));
     m_checkRandomSeed = new JCheckBox("Use random seed");
-
-    setLayout(new GridLayout(2,3,3,2));
-    add(m_labelLength);
-    m_txtLength.setMaximumSize(new Dimension(60,15));
-    add(m_txtLength);
-    add(Box.createHorizontalGlue());
-
     add(m_checkRandomSeed);
     add(Box.createHorizontalStrut(6));
     add(Box.createHorizontalGlue());
@@ -62,25 +56,25 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   public void actionPerformed(ActionEvent arg0)
   {
     // TODO Auto-generated method stub
+
   }
+
 
   @Override
   public String generateCode()
   {
-    if(this.m_txtLength.getText().length()<=0)
-      m_bHasError = true;
     m_bufRandomTest = new StringBuffer();
 
+    // Initialize test model
+    m_bufRandomTest.append(Indentation.wrap(Parameter.getClassName() + " model = new "
+        + Parameter.getClassName() + "();"));
+    m_bufRandomTest.append(Indentation.wrap("Tester tester = new RandomTester(model);"));
+    // To use random seed or not
     if(m_checkRandomSeed.isSelected())
-    {
-      m_bufRandomTest.append(Indentation.wrap("Random rand = new Random();"));
-      m_bufRandomTest.append(Indentation.wrap(Parameter.getTestCaseVariableName()
-          + ".randomWalk("+ m_txtLength.getText()
-          + ", rand);"));
-    }
+      m_bufRandomTest.append(Indentation.wrap("tester.setRandom(new Random());"));
     else
-      m_bufRandomTest.append(Indentation.wrap(Parameter.getTestCaseVariableName()
-          +".randomWalk("+ m_txtLength.getText()+ ");"));
+      m_bufRandomTest.append(Indentation.wrap("tester.setRandom(new Random(tester.FIXEDSEED));"));
+
     return m_bufRandomTest.toString();
   }
 
@@ -116,50 +110,38 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   @Override
   public String generateImportLab()
   {
+    m_bufRandomTest = new StringBuffer();
     if(m_checkRandomSeed.isSelected())
     {
-      return Indentation.wrap("import java.util.Random;");
+      m_bufRandomTest.append(Indentation.wrap("import java.util.Random;"));
     }
-    else
-      return null;
+    m_bufRandomTest.append(Indentation.wrap("import net.sourceforge.czt.modeljunit.RandomTester;"));
+    return m_bufRandomTest.toString();
   }
+
   @Override
-  public ModelTestCase runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
+  public Tester runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
   {
     // Initialize model test case by using the loaded model
-    Class<?> testcaseClass =
-      Class.forName("net.sourceforge.czt.modeljunit.ModelTestCase");
-    Constructor<?> con = testcaseClass.getConstructor
+    // Tester tester = new GreedyTester(new SimpleSet());
+    Class<?> testerClass =
+      Class.forName("net.sourceforge.czt.modeljunit.RandomTester");
+    Constructor<?> con = testerClass.getConstructor
       (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
-    ModelTestCase caseObj =
-      (ModelTestCase)con.newInstance(new Object[]{Parameter.getModelObject()});
+    Tester tester =
+      (RandomTester)con.newInstance(new Object[]{Parameter.getModelObject()});
     // Set reset probility
-    caseObj.setResetProbability(Parameter.getResetProbility());
-    // Set verbosity
-    caseObj.setVerbosity(Parameter.getVerbosity());
-    // Set failure verbosity
-    caseObj.setFailureVerbosity(Parameter.getFailureVerbosity());
-    // Get random walk length
-    int length = Integer.valueOf(m_txtLength.getText());
+    // caseObj.setResetProbability(Parameter.getResetProbility());
     if(m_checkRandomSeed.isSelected())
     {
       Random rand = new Random();
-      caseObj.randomWalk(length,rand);
+      tester.setRandom(rand);
     }
     else
     {
-      caseObj.randomWalk(length);
+      tester.setRandom(new Random(Tester.FIXEDSEED));
     }
-    if(Parameter.getGenerateGraph())
-    {
-      caseObj.buildGraph();
-      try
-      {
-        caseObj.printGraphDot(Parameter.getClassName()+".dot");
-      }
-      catch(Exception exp)
-      { exp.printStackTrace();}
-    }
-    return caseObj;
+
+    return tester;
   }
 }
