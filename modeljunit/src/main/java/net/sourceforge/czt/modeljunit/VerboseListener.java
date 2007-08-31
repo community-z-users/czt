@@ -22,7 +22,7 @@ package net.sourceforge.czt.modeljunit;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** An implementation of ModelListener that prints
- *  events to System.out.
+ *  event messages to the Model's <code>getOutput()</code> stream.
  */
 public class VerboseListener extends AbstractListener
 {

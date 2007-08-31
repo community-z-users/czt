@@ -31,11 +31,13 @@ import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
 
-/** This class extends the SimpleSet model so that it interacts
- *  with a system under test (SUT).
- *  
- *  It does a little more than necessary, because I decided that I
- *  wanted to test a set with more than 12 elements.  So in this adaptor
+/** This class shows how we can use inheritance to add adaptor code.
+ *  That is, it subclasses the SimpleSet model and adds
+ *  adaptor code that links the model to a system under test (SUT).
+ *  <p>
+ *  It does a little more than just this, because I decided that I
+ *  wanted to test a set with more than 12 elements (to force HashSet
+ *  to expand at least once).  So in this adaptor
  *  class, the s1 flag models the presence/absence of the empty string "",
  *  while the s2 flag models the presence/absence of TWELVE other strings
  *  "s1".."s12".  This means that those strings are always added or

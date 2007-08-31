@@ -19,17 +19,13 @@
 
 package net.sourceforge.czt.modeljunit.examples;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.Assert;
-
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.GreedyTester;
-import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
 
@@ -115,16 +111,13 @@ public class SimpleSetWithAdaptor implements FsmModel
     Assert.assertEquals(s1, sut_.contains(str1));
     Assert.assertEquals(s2, sut_.contains(str2));
     Assert.assertEquals(!s1 && !s2, sut_.isEmpty());
-    Set<String> tmp = new HashSet<String>();
-    if (s1) tmp.add(str1);
-    if (s2) tmp.add(str2);
-    Assert.assertEquals(sut_, tmp);
+    Assert.assertEquals(!s1 && s2, sut_.equals(Collections.singleton(str2)));
   }
 
   /** An example of generating tests from this model. */
   public static void main(String[] args)
   {
-    Set<String> sut = new HashSet<String>();
+    Set<String> sut = new StringSet(); //or StringSetBuggy();
     Tester tester = new GreedyTester(new SimpleSetWithAdaptor(sut));
     tester.addListener("verbose", new VerboseListener(tester.getModel()));
     tester.generate(100);

@@ -118,7 +118,7 @@ public abstract class AbstractCoverage implements CoverageMetric
   }
 
   /** Increments the count of {@code item} in the {@code coverage_} map.
-   *  This should be called by {@link #doneTransition(Transition) doneTransition}
+   *  This should be called by {@link #doneTransition(int,Transition) doneTransition}
    *  (and perhaps doneReset) whenever a coverage item is covered.
    *  If item was not already in the map, then it is added to the map
    *  and its value is set to one.

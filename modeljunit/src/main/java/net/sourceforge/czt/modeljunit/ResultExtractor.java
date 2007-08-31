@@ -10,6 +10,7 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
+import net.sourceforge.czt.modeljunit.examples.QuiDonc;
 
 /**
 * This class runs several random and greedyRandom walks

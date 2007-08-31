@@ -1,11 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>ModelJUnit Model Coverage Metrics</title>
+    <title>Model Coverage Metrics</title>
   </head>
 
   <body>
-    <h1>ModelJUnit Model Coverage Metrics</h1>
+    <h1>Model Coverage Metrics</h1>
 
     <p>
     The classes in this package implement various metrics for
@@ -22,7 +22,9 @@
     monitor model coverage, it is also wise to monitor the
     code coverage of your system under test (SUT) if possible.
     This can be done using standard profiling or coverage tools
-    for Java.
+    for Java, or you could use <a href="http://jumble.sourceforge.net">
+    Jumble</a> (which mutates your SUT class and finds out how
+    many of the possible mutations are caught by the tests).
     </p>
 
     <p>
@@ -31,7 +33,9 @@
     add it to your <code>ModelTestCase</code> object using the
     <code>addCoverageMetric</code> method.  Then generate some
     tests and the coverage metrics will be automatically recorded.
+	</p>
 
+	<p>
     The <code>ModelTestCase</code> class also provides methods
     for removing one or all coverage metrics and querying the
     current set of coverage metrics.
@@ -57,7 +61,7 @@
     <address><a href="mailto:marku@cs.waikato.ac.nz">marku@cs.waikato.ac.nz</a></address>
 <!-- Created: Thu Oct 19 22:48:21 NZST 2006 -->
 <!-- hhmts start -->
-Last modified: Thu Oct 19 23:21:46 NZST 2006
+Last modified: Fri Aug 31 23:21:46 NZST 2007
 <!-- hhmts end -->
   </body>
 </html>

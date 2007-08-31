@@ -78,6 +78,8 @@ import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
  *    JDSL (Java Data Structure Library, see http://www.jdsl.org) graph
  *    libraries to store and traverse the graph of the FSM.
  *  </p>
+ *
+ *  @deprecated Use one of the subclasses of Tester instead.
  */
 public class ModelTestCase
 {
@@ -644,8 +646,8 @@ public class ModelTestCase
    *  It calls toString on the state, and then adds quotes around
    *  the string if it is not a Java identifier.
    *
-   * @param str
-   * @return
+   * @param state
+   * @return A printable state name
    */
   public static String stateName(Object state)
   {
@@ -1002,7 +1004,7 @@ public class ModelTestCase
    *  random number generator.  This ensures repeatability.
    *  That is, the test results will be deterministic (if the SUT is).
    *
-   * @param maxLength  The number of test steps to do.
+   * @param length  The number of test steps to do.
    */
   public void allRoundTrips(int length)
   {
@@ -1011,8 +1013,8 @@ public class ModelTestCase
 
   /** Uses a greedy random walk to try and test all loops in the model.
    *
-   * @param maxLength  The number of test steps to do.
-   * @param rand       The random number generator used to choose paths.
+   * @param length  The number of test steps to do.
+   * @param rand    The random number generator used to choose paths.
    */
   public void allRoundTrips(int length, Random rand)
   {

@@ -124,7 +124,7 @@ public class Model
   /** Looks up an Action by name and returns its number.
    *  The resulting number can be used to execute an action
    *  (see {@link #doAction}) or to check the guard of the
-   *  action (see {@link isEnabled}).
+   *  action (see {@link #isEnabled(int)}).
    *
    * @param name The name of an Action.
    * @return     The number of the action (>= 0), else -1.
@@ -190,8 +190,8 @@ public class Model
   {
     return fsmTesting_;
   }
-  
-  /** Sets the testing flag. 
+
+  /** Sets the testing flag.
    *  Returns its previous value.
    */
   public boolean setTesting(boolean testing)
@@ -206,7 +206,7 @@ public class Model
   {
     return output_;
   }
-  
+
   /**
    * Sets the current output stream.
    * @param output
@@ -273,27 +273,9 @@ public class Model
     fsmClass_ = fsm;
   }
 
-  /** Converts a state into a name.
-   *  It calls toString on the state, and then adds quotes around
-   *  the string if it is not a Java identifier.
-   * TODO: move this into the graph listener?
-   *
-   * @param str
-   * @return
-   */
-  public static String stateName(Object state)
-  {
-    String str = state.toString();
-    if (str.matches("[a-zA-Z][a-zA-Z0-9_]*"))
-      return str;
-    else
-      return "\"" + str.replaceAll("\"", "\\\"") + "\"";
-  }
-
   /** Reset the FSM to its initial state.
    *  This is equivalent to doReset("User",testing),
    *  because it corresponds to a user-requested reset.
-   * @param testing
    */
   public void doReset()
   {
@@ -308,8 +290,6 @@ public class Model
    *        guards-not-deterministic warnings in the initial state.
    *
    * @param reason  Why the reset was performed (an adjective).
-   * @param testing False means we are just exploring the graph, so the
-   *                 fsm object can skip the actual tests if it wants.
    */
   protected void doReset(String reason)
   {
@@ -463,7 +443,7 @@ public class Model
   /** Add a listener.
    *  If {@code name} is already mapped to a listener, then that listener
    *  will be replaced by {@code listen}.
-   *  For coverage metrics, it is a convention that {@code name} should 
+   *  For coverage metrics, it is a convention that {@code name} should
    *  equal {@code listen.getName()}.
    */
   public void addListener(String name, ModelListener listen)
@@ -582,7 +562,7 @@ public class Model
 
   /** Print a message to the current output writer (see {@link #getOutput()}).
    *  This automatically adds a newline on the end of msg.
-   *  It does a flush after each call, so that messages appear promptly. 
+   *  It does a flush after each call, so that messages appear promptly.
    */
   public void printMessage(String msg)
   {

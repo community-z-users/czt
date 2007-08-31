@@ -91,7 +91,6 @@ public class RandomTester extends Tester
 
   /** Take any randomly-chosen Action that is enabled.
    *  Returns the number of the Action taken, -1 if all are disabled.
-   * @param rand  The Random number generator that controls the choice.
    * @return      The Action taken, or -1 if none are enabled.
    */
   public int doRandomAction()
@@ -116,7 +115,10 @@ public class RandomTester extends Tester
   /** Randomly take an enabled transition, or do a reset
    *  with a certain probability (see {@link #getResetProbability()}).
    *
-   * @param rand The Random number generator that controls the choice.
+   *  If this method is called in a state where
+   *  there are no Actions enabled, then it will perform
+   *  a <code>reset</code> to start from the initial state again.
+   *
    * @return   The number of the transition taken, or -1 for a reset.
    */
   public int doRandomActionOrReset()
@@ -135,17 +137,8 @@ public class RandomTester extends Tester
     return taken;
   }
 
-  /** Generates a random walk through a finite state machine.
-   *  It generates roughly 'length' transitions.
-   *  If it has not finished testing, but gets into a state
-   *  where there are no Actions enabled, then it will perform
-   *  a <code>reset</code> to start from the initial state again.
-   *  Each transition is chosen randomly from the set of actions whose
-   *  guards are enabled in that state.  There is also a given probability
-   *  (see {{@link #setResetProbability(double)} of choosing to do a
-   *  reset rather than choosing one of the transitions.
-   *
-   * @param length The number of transitions to test.
+  /** Generates one step of a random walk through the model.
+   *  This calls {@link #doRandomActionOrReset()}.
    */
 
   @Override

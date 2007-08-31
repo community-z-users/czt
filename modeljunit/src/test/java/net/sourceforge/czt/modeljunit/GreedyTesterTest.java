@@ -28,6 +28,7 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
+import net.sourceforge.czt.modeljunit.examples.FSM;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 

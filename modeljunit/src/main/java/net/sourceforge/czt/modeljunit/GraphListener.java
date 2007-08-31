@@ -85,7 +85,7 @@ public class GraphListener extends AbstractListener
    *  and it is quite possible that a few more non-deterministic or
    *  rarely-enabled transitions will be found by further test generation.
    *
-   * @return
+   * @return true if numTodo() == 0.
    */
   public boolean isComplete()
   {
@@ -110,7 +110,7 @@ public class GraphListener extends AbstractListener
    *  state, but that action has not yet been executed from that state.
    * @param state   A non-null state of the model.
    * @param action  The number of one of the actions of the model.
-   * @return
+   * @return true if no transition (state, action, _) has been taken yet.
    */
   public boolean isTodo(Object state, int action)
   {
@@ -135,7 +135,7 @@ public class GraphListener extends AbstractListener
   /** True if the given action has been executed from the given state.
    * @param state   A non-null state of the model.
    * @param action  The number of one of the actions of the model.
-   * @return
+   * @return true if any transition (state, action, _) has been taken.
    */
   public boolean isDone(Object state, int action)
   {
@@ -307,8 +307,8 @@ public class GraphListener extends AbstractListener
    *  It calls toString on the state, and then adds quotes around
    *  the string if it is not a Java identifier.
    *
-   * @param str
-   * @return
+   * @param state
+   * @return A name that is suitable for printing in a .dot file.
    */
   public static String stateName(Object state)
   {

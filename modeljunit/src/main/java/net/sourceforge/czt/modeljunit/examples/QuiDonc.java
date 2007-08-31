@@ -17,12 +17,19 @@ along with CZT; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.modeljunit;
+package net.sourceforge.czt.modeljunit.examples;
+
+import static java.lang.System.out;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import static java.lang.System.out;
+
+import net.sourceforge.czt.modeljunit.Action;
+import net.sourceforge.czt.modeljunit.FsmModel;
+import net.sourceforge.czt.modeljunit.GraphListener;
+import net.sourceforge.czt.modeljunit.GreedyTester;
+import net.sourceforge.czt.modeljunit.Tester;
 
 /** A simple EFSM model of the Qui-Donc service.
  *  Qui-Donc is a service of France Telecom that allows you
@@ -51,9 +58,9 @@ public class QuiDonc implements FsmModel
   public String INFO     = "Press 1 to spell the name, press 2 to hear the address, or press star for a new search.";
   public String NAME     = "The number 03 81 12 34 56 corresponds to Renard, K. J.  "+INFO;
   public String SPELL    = "Renard is spelt R, E, N, A, R, D.  "+INFO;
-  public String ADDR     = "The address of Renard, K. J. is 45 rue de Vesoul, Besan\u00E7on.  "+INFO; 
+  public String ADDR     = "The address of Renard, K. J. is 45 rue de Vesoul, Besan\u00E7on.  "+INFO;
   public String BYE      = "Thank you for using the Qui-Donc service.";
-  
+
   public QuiDonc()
   {
     timeouts = 0;
@@ -68,7 +75,7 @@ public class QuiDonc implements FsmModel
   public void reset(boolean testing)
   {
     timeouts = 0;
-    currState = State.Start; 
+    currState = State.Start;
   }
 
   public boolean dialGuard() { return currState == State.Start; }
@@ -96,7 +103,7 @@ public class QuiDonc implements FsmModel
     else
       out.println("wait/...(Repeat Message)...");
   }
-  
+
   public boolean starGuard()
   { return currState == State.Star
         || currState == State.Emerg
@@ -168,7 +175,7 @@ public class QuiDonc implements FsmModel
   public static void main(String[] args) throws IOException
   {
     QuiDonc quidonc = new QuiDonc();
-    
+
     // In order to read a line at a time from System.in,
     // which is type InputStream, it must be wrapped into
     // a BufferedReader, which requires wrapping it first
@@ -189,11 +196,14 @@ public class QuiDonc implements FsmModel
         break;
       if (line.equals("graph")) {
         out.println("Building FSM graph...");
-        ModelTestCase tester = new ModelTestCase(quidonc);
+        Tester tester = new GreedyTester(quidonc);
         tester.buildGraph();
-        tester.printGraphDot("QuiDonc.dot");
+        GraphListener graph =
+          (GraphListener)tester.getModel().getListener("graph");
+        graph.printGraphDot("QuiDonc.dot");
         out.println("Printed FSM graph to QuiDonc.dot.");
-        out.println("Use dotty or dot from http://www.graphviz.org to view/transform the graph.");
+        out.println("Use dotty or dot from http://www.graphviz.org"
+            + " to view/transform the graph.");
       }
       else if (line.equals("dial")) {
         checkGuard(quidonc.dialGuard());

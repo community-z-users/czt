@@ -28,28 +28,34 @@
     There are four basic steps to using model-based testing:
     <ol>
       <li><strong>Design a model of your SUT.</strong> In ModelJUnit,
-         this model is written as a Java class that implements the <a
-         href="FsmModel.html">FsmModel</a> interface.  The current
+         this model is written as a Java class that implements the
+         <a href="FsmModel.html">FsmModel</a> interface.  The current
          state of the SUT is modelled by the private data variables
          of this class and the operations of the SUT are modelled by
          the <em>action methods</em> of this class.</li>
       <li><strong>Connect your Model to your SUT.</strong>
          Pass an SUT object into the constructor of your model class.
-         Then add code to the action methods of your model so that
+         Then add some 'adaptor' code to the action methods of your model so that
          each action method tests one or more of the SUT operations.
          This means that as the automatic test generator traverses
          your model, it will be calling SUT operations and checking
          their results.</li>
       <li><strong>Generate some Tests.</strong>
-         Create a test suite by passing one of your model objects
-         to a <a href="ModelTestCase.html">ModelTestCase</a> object.
+         Create a test suite by passing an instance of your model
+         to one of the Tester classes.  For example,
+         <a href="GreedyTester.html">GreedyTester</a>.
          Then you can generate online (on-the-fly) test sequences of 
-         varying length using algorithms such as randomWalk(length).
+         varying length using the generate(N) method.  You can also
+         connect various model coverage metrics to the tester so that
+         you can see how thoroughly the model has been tested.
+         See the examples in the
+         <a href="examples/package-summary.html">examples</a>
+         package for more detail.
          </li>
       <li><strong>Analyze any Test Failures.</strong>
          Differences between your model and your SUT are reported
          as test failures.  You should analyze these to determine
-         if they are caused by an SUT error, or a model error.
+         if they are caused by an SUT error, or a model/adaptor error.
          </li>
     </ol>
     </p>
@@ -58,7 +64,7 @@
     <address><a href="mailto:marku@cs.waikato.ac.nz">marku@cs.waikato.ac.nz</a></address>
 <!-- Created: Thu Oct 19 22:48:21 NZST 2006 -->
 <!-- hhmts start -->
-Last modified: Thu Oct 19 23:21:46 NZST 2006
+Last modified: Fri Aug 31 23:21:46 NZST 2007
 <!-- hhmts end -->
   </body>
 </html>

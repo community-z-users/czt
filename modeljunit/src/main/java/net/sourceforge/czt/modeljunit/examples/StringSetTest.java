@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.modeljunit.examples;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
@@ -35,15 +34,6 @@ import junit.framework.TestCase;
  */
 public class StringSetTest extends TestCase
 {
-  static FileWriter log;
-  
-  public void setUp() throws IOException
-  {
-    if (log == null) {
-      log = new FileWriter("test.log");
-    }
-  }
-  
   public StringSetTest(String arg0)
   {
     super(arg0);
@@ -51,19 +41,9 @@ public class StringSetTest extends TestCase
 
   public void testSet() throws IOException
   {
-    System.err.println("Running MBT tests...");
-    log.append("Running model-based tests on StringSet()\n");
-    log.flush();
     Set<String> sut = new StringSet();
     Tester tester = new GreedyTester(new SimpleSetWithAdaptor(sut));
     tester.addListener("verbose", new VerboseListener(tester.getModel()));
     tester.generate(150);
-  }
-  
-  public static void main(String[] args) throws IOException
-  {
-    new StringSetTest("dummy").setUp();
-    new StringSetTest("test1").testSet();
-    new StringSetTest("test2").testSet();
   }
 }

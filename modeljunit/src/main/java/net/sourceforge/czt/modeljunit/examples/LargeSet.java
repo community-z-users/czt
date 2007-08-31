@@ -31,13 +31,25 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 
 /** A model of a set with N elements. (N <= 13)
+ *  With N=10, this model has 1024 states and 20480 transitions,
+ *  which would take a long time to test exhaustively.
+ *  See SmartSetAdaptor for a different/better way of testing
+ *  large sets.
  */
 public class LargeSet implements FsmModel
 {
   protected boolean[] elem; // elem[i]==true iff i is in the set
-  
+
+  /** Equivalent to LargeSet(2). 
+   *  Which is actually quite a small set!
+   */
+  public LargeSet()
+  {
+    this(2);
+  }
+
   /** Construct a model of a set with N elements.
-   *  
+   *
    * @param N  Must be 1..13.
    */
   public LargeSet(int N)
@@ -56,7 +68,7 @@ public class LargeSet implements FsmModel
         count++;
     return count;
     */
-    
+
     // A version of getState() that returns the complete TF string
     StringBuffer result = new StringBuffer();
     for (int i=0; i < elem.length; i++)
@@ -90,7 +102,7 @@ public class LargeSet implements FsmModel
   public boolean add10Guard() {return elem.length > 10;}
   public boolean add11Guard() {return elem.length > 11;}
   public boolean add12Guard() {return elem.length > 12;}
-  
+
   @Action public void add0() {addElem(0);}
   @Action public void add1() {addElem(1);}
   @Action public void add2() {addElem(2);}
@@ -104,8 +116,8 @@ public class LargeSet implements FsmModel
   @Action public void add10() {addElem(10);}
   @Action public void add11() {addElem(11);}
   @Action public void add12() {addElem(12);}
-  
-  
+
+
   // guards for the following del actions
   public boolean del0Guard() {return elem.length > 0;}
   public boolean del1Guard() {return elem.length > 1;}
@@ -120,7 +132,7 @@ public class LargeSet implements FsmModel
   public boolean del10Guard() {return elem.length > 10;}
   public boolean del11Guard() {return elem.length > 11;}
   public boolean del12Guard() {return elem.length > 12;}
-  
+
   @Action public void del0() {delElem(0);}
   @Action public void del1() {delElem(1);}
   @Action public void del2() {delElem(2);}
@@ -134,8 +146,8 @@ public class LargeSet implements FsmModel
   @Action public void del10() {delElem(10);}
   @Action public void del11() {delElem(11);}
   @Action public void del12() {delElem(12);}
-  
-  
+
+
   /** An example of generating tests from this model. */
   public static void main(String[] args) throws IOException
   {

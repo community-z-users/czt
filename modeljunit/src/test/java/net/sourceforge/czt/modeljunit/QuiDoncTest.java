@@ -24,6 +24,7 @@ import java.util.List;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+import net.sourceforge.czt.modeljunit.examples.QuiDonc;
 
 import junit.framework.Assert;
 import junit.framework.Test;

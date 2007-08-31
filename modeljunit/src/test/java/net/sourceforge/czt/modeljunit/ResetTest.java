@@ -27,6 +27,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+import net.sourceforge.czt.modeljunit.examples.FSM;
 
 /**
  * Unit test for ModelJUnit

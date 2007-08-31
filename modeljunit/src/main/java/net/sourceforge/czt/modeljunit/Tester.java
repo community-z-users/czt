@@ -23,6 +23,19 @@ import java.util.Random;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 
+/**
+ * An abstract superclass for all the test generation algorithms.
+ * Each subclass must implement a {@link #generate()} method that
+ * generates the next step in a test sequence.
+ * <p>
+ * Note that many test generation algorithms use randomness,
+ * so this class provides a setter and getter for a random number
+ * generator.  By default this is set to <code>new Random(FIXEDSEED)</code>,
+ * so that test generation is deterministic.
+ *
+ * @author marku
+ *
+ */
 public abstract class Tester
 {
   public static final long FIXEDSEED = 123456789L;
@@ -134,6 +147,11 @@ public abstract class Tester
   /** Calls {@code generate()} repeatedly until the graph seems to be complete.
    *  The {@code maxSteps} parameter gives an upper bound on the
    *  number of calls to generate, to avoid eternal exploration.
+   *  <p>
+   *  Note that this method uses a fresh random number generator
+   *  (with FIXEDSEED) to avoid modifying the random number
+   *  generator {@link #getRandom()} that is used for test generation.
+   *  </p>
    */
   public void buildGraph(int maxSteps)
   {
