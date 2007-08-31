@@ -35,7 +35,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
    */
   private static final long serialVersionUID = 5316043261026727079L;
 
-  protected final String[] COVERAGE_MATRIX = {"State coverage","Transition coverage","Transition pari coverage"};
+  protected final String[] COVERAGE_MATRIX = {"State coverage","Transition coverage","Transition pair coverage"};
   // Model panel
   private JPanel m_panelModel;
 
@@ -78,9 +78,9 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
   JPanel m_algorithmLeft;
   // Report panel
-  private JCheckBox m_checkVerbosity = new JCheckBox("Print the generated tests");
+  private JCheckBox m_checkVerbosity = new JCheckBox("Display the generated tests");
 
-  private JCheckBox m_checkFailureVerbosity = new JCheckBox("Print test failures in verbose mode");
+  private JCheckBox m_checkFailureVerbosity = new JCheckBox("Display test failures in verbose mode (Not used yet)");
 
   private JPanel m_panelReport;
 
@@ -112,6 +112,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
     m_butOpenModel = new JButton("...");
     m_butOpenModel.addActionListener(this);
+    m_butOpenModel.setToolTipText("HINT: load a .class file here");
 
     m_panelModel = new JPanel();
 
@@ -265,7 +266,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     m_checkCoverage[0] = new JCheckBox("State coverage");
     m_checkCoverage[1] = new JCheckBox("Transition coverage");
     m_checkCoverage[2] = new JCheckBox("Transition pair coverage");
-    m_checkCoverage[3] = new JCheckBox("Print graph");
+    m_checkCoverage[3] = new JCheckBox("Print graph to a file");
 
     m_bChecked = new boolean[m_nCheckBox];
     for (int i = 0; i < m_nCheckBox; i++) {
@@ -509,7 +510,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     // Build graph
     if(m_checkCoverage[3].isSelected())
     {
-      buf.append(Indentation.wrap("tester.buildGraph(1000);"));
+      buf.append(Indentation.wrap("tester.buildGraph();"));
       buf.append(Indentation.SEP);
     }
 
@@ -571,7 +572,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     // Generate graph
     if(Parameter.getGenerateGraph())
     {
-      tester.buildGraph(1000);
+      tester.buildGraph();
     }
     for(int i=0;i<3;i++)
       if(bCoverage[i])

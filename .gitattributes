@@ -360,6 +360,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSetBuggy.
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSetTest.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ClassFileLoader.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/DialogPackageSelection.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ErrorMessage.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/IAlgorithmParameter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Indentation.java -text
