@@ -457,7 +457,7 @@ public class Model
       // see if we can tell this new metric about the graph.
       GraphListener graph = (GraphListener) listeners_.get("graph");
       if (graph != null && graph.isComplete()) {
-        // TODO ((CoverageMetric)listen).setGraph(graph);
+        ((CoverageMetric)listen).setGraph(graph.getGraph(), graph.getVertexMap());
       }
     }
   }

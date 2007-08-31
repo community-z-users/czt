@@ -21,11 +21,9 @@ package net.sourceforge.czt.modeljunit.coverage;
 
 import java.util.Map;
 
-import net.sourceforge.czt.jdsl.graph.api.Graph;
+import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.jdsl.graph.api.VertexIterator;
-import net.sourceforge.czt.modeljunit.GraphListener;
-import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** Measures the number of distinct Actions that have been tested.
@@ -46,7 +44,7 @@ public class StateCoverage extends AbstractCoverage
   }
 
   @Override
-  public void setModel(Graph model, Map<Object, Vertex> state2vertex)
+  public void setGraph(InspectableGraph model, Map<Object, Vertex> state2vertex)
   {
     for (VertexIterator iter = model.vertices(); iter.hasNext();) {
       Vertex v = iter.nextVertex();

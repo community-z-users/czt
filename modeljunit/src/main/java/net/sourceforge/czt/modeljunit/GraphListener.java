@@ -166,6 +166,16 @@ public class GraphListener extends AbstractListener
     return fsmGraph_;
   }
 
+  /**
+   * Returns a map that maps each state of the model to
+   * the corresponding vertex of the graph.
+   * @return a map
+   */
+  public Map<Object,Vertex> getVertexMap()
+  {
+    return fsmVertex_;
+  }
+
   /** Maps a state to a vertex object of the FSM graph.
    */
   public Vertex getVertex(Object state)
@@ -397,7 +407,7 @@ public class GraphListener extends AbstractListener
             printProgress(2, "completed graph, so calling setModel");
             for (ModelListener listen : model_.getListeners().values()) {
               if (listen instanceof CoverageMetric) {
-                ((CoverageMetric)listen).setModel(fsmGraph_, fsmVertex_);
+                ((CoverageMetric)listen).setGraph(fsmGraph_, fsmVertex_);
               }
             }
           }

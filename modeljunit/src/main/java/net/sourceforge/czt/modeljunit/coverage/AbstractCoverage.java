@@ -23,9 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.jdsl.graph.api.Edge;
-import net.sourceforge.czt.jdsl.graph.api.Graph;
+import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
-import net.sourceforge.czt.modeljunit.GraphListener;
 import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
@@ -170,7 +169,7 @@ public abstract class AbstractCoverage implements CoverageMetric
   }
 
   /** A convenience method for converting a graph edge into a Transition. */
-  public static Transition transition(Edge e, Graph model)
+  public static Transition transition(Edge e, InspectableGraph model)
   {
     Object origin = model.origin(e).element();
     Object dest = model.destination(e).element();
@@ -224,7 +223,7 @@ public abstract class AbstractCoverage implements CoverageMetric
   }
 
   /** A default implementation that does nothing. */  
-  public void setModel(Graph model, Map<Object, Vertex> state2vertex)
+  public void setGraph(InspectableGraph model, Map<Object, Vertex> state2vertex)
   {
     // TODO Auto-generated method stub
   }

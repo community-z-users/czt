@@ -25,6 +25,7 @@ import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.Transition;
+import net.sourceforge.czt.modeljunit.VerboseListener;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 
@@ -84,47 +85,28 @@ public class FSM implements FsmModel
    *  they called the methods of the implementation and checked
    *  the results of those methods.
    *
-   *  We also report the transition coverage of the model. */
+   *  We also report the transition coverage of the model.
+   */
   public static void main(String args[])
   {
     // create our model and a test generation algorithm
     Tester tester = new RandomTester(new FSM());
 
-    // set up our favourite coverage metrics
+    // build the complete FSM graph for our model, just to ensure
+    // that we get accurate model coverage metrics.
+    tester.buildGraph();
+
+    // set up our favourite coverage metric
     CoverageMetric trCoverage = new TransitionCoverage();
     tester.addCoverageMetric(trCoverage);
 
-    // OLD WAY of showing the generated test sequence
-    // tester.setVerbosity(2);
+    // ask to print the generated tests
+    tester.addListener("verbose", new VerboseListener(tester.getModel()));
 
-    // NEW WAY of outputting verbose messages (uses a listener).
-    tester.getModel().addListener("verbose",
-        new AbstractListener(tester.getModel())
-        {
+    // generate a small test suite of 20 steps (covers 4/5 transitions)
+    tester.generate(20);
 
-          public void doneReset(String reason, boolean testing)
-          {
-            System.out.println("reset(" + testing + ")");
-          }
-
-          public void doneTransition(int action, Transition tr)
-          {
-            System.out.println("done " + tr);
-          }
-        });
-
-    // finish building the FSM of our model so that we get
-    // accurate coverage metrics.
-    tester.buildGraph();
-
-    tester.getModel().printMessage("STARTING TESTING");
-    trCoverage.clear();
-
-    // generate a test suite of 20 steps
-    //tester.reset();
-    tester.generate(40);
-
-    tester.getModel().printMessage(trCoverage.getName()+" was "
-        +trCoverage.toString());
+    tester.getModel().printMessage(trCoverage.getName() + " was "
+        + trCoverage.toString());
   }
 }

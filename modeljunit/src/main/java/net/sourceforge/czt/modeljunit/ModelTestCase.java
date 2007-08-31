@@ -584,7 +584,7 @@ public class ModelTestCase
       doRandomActionOrReset(rand, false);
     }
     for (CoverageMetric cm : fsmCoverage) {
-      cm.setModel(fsmGraph, fsmVertex);
+      cm.setGraph(fsmGraph, fsmVertex);
     }
     if (fsmTodo.size() == 0) {
       // we seem to have explored all paths

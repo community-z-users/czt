@@ -23,11 +23,8 @@ import java.util.Map;
 
 import net.sourceforge.czt.jdsl.graph.api.Edge;
 import net.sourceforge.czt.jdsl.graph.api.EdgeIterator;
-import net.sourceforge.czt.jdsl.graph.api.Graph;
+import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
-import net.sourceforge.czt.jdsl.graph.api.VertexIterator;
-import net.sourceforge.czt.modeljunit.GraphListener;
-import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** Measures the number of distinct Actions that have been tested.
@@ -60,7 +57,7 @@ public class ActionCoverage extends AbstractCoverage
   }
   
   @Override
-  public void setModel(Graph model, Map<Object, Vertex> state2vertex)
+  public void setGraph(InspectableGraph model, Map<Object, Vertex> state2vertex)
   {
     // TODO: this will not be needed once model_ is never null.
     

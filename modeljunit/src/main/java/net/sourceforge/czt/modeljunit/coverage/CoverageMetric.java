@@ -21,10 +21,9 @@ package net.sourceforge.czt.modeljunit.coverage;
 
 import java.util.Map;
 
-import net.sourceforge.czt.jdsl.graph.api.Graph;
+import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.modeljunit.ModelListener;
-import net.sourceforge.czt.modeljunit.Transition;
 
 /** An interface to a test coverage metric.
  */
@@ -95,5 +94,5 @@ public interface CoverageMetric extends ModelListener
    * @param model
    * @param state2vertex
    */
-  public void setModel(Graph model, Map<Object, Vertex> state2vertex);
+  public void setGraph(InspectableGraph model, Map<Object, Vertex> state2vertex);
 }

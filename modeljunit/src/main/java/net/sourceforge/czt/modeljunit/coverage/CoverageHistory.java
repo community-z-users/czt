@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.czt.jdsl.graph.api.Graph;
+import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
@@ -108,9 +108,9 @@ public class CoverageHistory implements CoverageMetric
   }
 
   /** Delegates to getMetric().setModel(...). */
-  public void setModel(Graph model, Map<Object, Vertex> state2vertex)
+  public void setGraph(InspectableGraph model, Map<Object, Vertex> state2vertex)
   {
-    metric_.setModel(model, state2vertex);
+    metric_.setGraph(model, state2vertex);
   }
 
   /** Returns getMetric().getCoverage(). */
