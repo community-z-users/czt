@@ -32,14 +32,22 @@
          <a href="FsmModel.html">FsmModel</a> interface.  The current
          state of the SUT is modelled by the private data variables
          of this class and the operations of the SUT are modelled by
-         the <em>action methods</em> of this class.</li>
+         the <em>action methods</em> of this class.
+         For example, see the 
+         {@link net.sourceforge.czt.modeljunit.examples.SimpleSet} model.
+         </li>
       <li><strong>Connect your Model to your SUT.</strong>
          Pass an SUT object into the constructor of your model class.
          Then add some 'adaptor' code to the action methods of your model so that
          each action method tests one or more of the SUT operations.
          This means that as the automatic test generator traverses
          your model, it will be calling SUT operations and checking
-         their results.</li>
+         their results.
+         For example, see the 
+         {@link net.sourceforge.czt.modeljunit.examples.SimpleSetWithAdaptor}
+         and {@link net.sourceforge.czt.modeljunit.examples.SmartSetAdaptor}
+         classes, which add adaptor code to the SimpleSet model.
+         </li>
       <li><strong>Generate some Tests.</strong>
          Create a test suite by passing an instance of your model
          to one of the Tester classes.  For example,

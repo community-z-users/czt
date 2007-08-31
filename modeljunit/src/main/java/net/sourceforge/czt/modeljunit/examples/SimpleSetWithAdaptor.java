@@ -38,7 +38,7 @@ import net.sourceforge.czt.modeljunit.VerboseListener;
  *  After each transition, we call checkSUT(), which uses JUnit Assert
  *  methods to check that the SUT is in the expected state.
  *  (To see a test fail, either pass a faulty implementation of
- *  Set<String> to the constructor, to change the "false" in delS2 to "true".
+ *  Set<String> to the constructor, or change the "false" in delS2 to "true").
  *
  *  Note: We could have added this adaptor code by inheriting from the
  *  SimpleSet model, but in this example the model code and the
