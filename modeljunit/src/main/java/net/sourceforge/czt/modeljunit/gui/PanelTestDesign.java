@@ -78,9 +78,9 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
   JPanel m_algorithmLeft;
   // Report panel
-  private JCheckBox m_checkVerbosity = new JCheckBox("Generate verbosity");
+  private JCheckBox m_checkVerbosity = new JCheckBox("Print the generated tests");
 
-  private JCheckBox m_checkFailureVerbosity = new JCheckBox("Generate failure verbosity");
+  private JCheckBox m_checkFailureVerbosity = new JCheckBox("Print test failures in verbose mode");
 
   private JPanel m_panelReport;
 
@@ -179,10 +179,10 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
         "Select an algorithm from combobox.", "default.gif");
     m_panelAlgorithm[0].setOptionPanel(new OptionPanelDefault());
     m_panelAlgorithm[1] = new AlgorithmPanel("Random",
-        "Random algorithm to travsal the model", "random.gif");
+        "Random algorithm to traverse the model", "random.gif");
     m_panelAlgorithm[1].setOptionPanel(new OptionPanelRandomWalking());
     m_panelAlgorithm[2] = new AlgorithmPanel("Greedy",
-        "Greedy algorithm to travsal the model", "greedy.gif");
+        "Greedy algorithm to traverse the model", "greedy.gif");
     m_panelAlgorithm[2].setOptionPanel(new OptionPanelGreedy());
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[0].getAlgorithmName());
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[1].getAlgorithmName());
@@ -191,7 +191,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     // Setup slider
     m_sliderAverageTestLength.setValue(0);
     m_sliderAverageTestLength.addChangeListener(this);
-    m_sliderAverageTestLength.setToolTipText("Reset probility: "+Parameter.getResetProbility());
+    m_sliderAverageTestLength.setToolTipText("Reset probability: "+Parameter.getResetProbility());
     m_sliderAverageTestLength.setMajorTickSpacing(10);
     //m_sliderAverageTestLength.setPaintTicks(true);
     m_panelAlgorithmBase.setLayout(new BoxLayout(m_panelAlgorithmBase,BoxLayout.X_AXIS));
@@ -217,7 +217,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     // Length text field
     m_txtLength = new JTextField();
     m_txtLength.setColumns(5);
-    m_txtLength.setText("0");
+    m_txtLength.setText("10");
 
     c.gridx = 0;
     c.gridy = 2;
@@ -571,7 +571,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     // Generate graph
     if(Parameter.getGenerateGraph())
     {
-      tester.buildGraph(length);
+      tester.buildGraph(1000);
     }
     for(int i=0;i<3;i++)
       if(bCoverage[i])
