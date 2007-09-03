@@ -358,6 +358,9 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SmartSetAdaptor
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSet.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSetBuggy.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSetTest.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/ecinema/ECinema.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/ecinema/Showtime.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/ecinema/User.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ClassFileLoader.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/DialogPackageSelection.java -text
