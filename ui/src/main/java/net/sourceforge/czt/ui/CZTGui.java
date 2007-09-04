@@ -421,10 +421,15 @@ public class CZTGui implements ActionListener
         String message = "Input output error: " + cause.getMessage();
         //todo: catch errors and display
       }
+      else if (cause == null) {
+        printMessage("Error occurred while parsing");
+      }
       else {
-        String message = cause + getClass().getName();
-        resultListModel.addElement(message);
-        resultList.setModel(resultListModel);
+        String message = "Error " + cause.getClass().getName();
+        if (cause.getCause() != null) {
+          message += ": " + cause.getCause();
+        }
+        printMessage(message);
       }
     }
     catch (Throwable e) {
@@ -433,6 +438,12 @@ public class CZTGui implements ActionListener
         resultListModel.addElement(message);
         resultList.setModel(resultListModel);
     }
+  }
+
+  private void printMessage(String message)
+  {
+    resultListModel.addElement(message);
+    resultList.setModel(resultListModel);        
   }
 
   /**
@@ -536,6 +547,12 @@ public class CZTGui implements ActionListener
     if (event.getSource() == exit) {
         System.exit(0);
     }
+  }
+
+  public static  java.util.List<? extends CztError> sort(java.util.List<? extends CztError> list)
+  {
+    // Todo: sort those
+    return list;
   }
 }
 
