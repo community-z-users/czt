@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -90,6 +90,12 @@ public class Main
       boolean printIds = false;
       Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
+        if ("-h".equals(args[i]) ||
+            "-help".equals(args[i]) ||
+            "--help".equals(args[i])) {
+          System.err.println(usage());
+          return;
+        }
         if ("-s".equals(args[i])) {
           syntaxCheckOnly = true;
         }
