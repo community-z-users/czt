@@ -131,6 +131,9 @@ public class CopyVisitor
     return result;
   }
 
+  /**
+   * Expands a,b,c,...:T into a:T; b:T; c:T; ...
+   */
   public Term visitVarDecl(VarDecl varDecl)
   {
     NameList declNameList = (NameList)
@@ -139,7 +142,6 @@ public class CopyVisitor
     if (declNameList instanceof ZNameList) {
       ZNameList zdnl = (ZNameList) declNameList;
       if (zdnl.size() > 1) {
-        // here we expand a,b,c,...:T into a:T; b:T; c:T; ...
         ZDeclList zDeclList = factory_.createZDeclList();
         for (Name declName : zdnl) {
           ZNameList list = factory_.createZNameList();
