@@ -109,7 +109,7 @@ public class CZTGui implements ActionListener
     close.setEnabled(false);
     
     try {
-      FileInputStream fileStream = new FileInputStream("/research/" + softwarename + ".dat");
+      FileInputStream fileStream = new FileInputStream(getSettingsFileName());
       ObjectInputStream os = new ObjectInputStream(fileStream);
 
       Object pathObject = os.readObject();
@@ -123,6 +123,12 @@ public class CZTGui implements ActionListener
     }
   }
 
+  private String getSettingsFileName()
+  {
+    String userHome = System.getProperty("user.home");
+    String result = userHome + "/." + softwarename;
+    return result;
+  }
 
   /**
    *  The main program for the CZTGui class
@@ -360,7 +366,8 @@ public class CZTGui implements ActionListener
     manager.put(new Key(source.getName(), Source.class), source);
 
     try {
-      FileOutputStream fileStream = new FileOutputStream("/research/" + softwarename + ".dat");
+      FileOutputStream fileStream =
+        new FileOutputStream(getSettingsFileName());
       ObjectOutputStream os = new ObjectOutputStream(fileStream);
       os.writeObject(file.getPath());
       os.close();
@@ -374,25 +381,25 @@ public class CZTGui implements ActionListener
       manager.get(new Key(source.getName(), Spec.class));
       treeView = new JTree((new TermTreeNode(0, spec, null)));
       scrollTreeStructure.setViewportView(treeView);
-      
-      /*type check when check box is checked**/
-      if(typecheckCheckBox.isSelected()){
-        for (Sect sect : spec.getSect()) {
-          if (sect instanceof ZSect) {
-            ZSect zSect = (ZSect) sect;
-            String sectionName = zSect.getName();
-            System.out.println(sectionName);
+
+      for (Sect sect : spec.getSect()) {
+        if (sect instanceof ZSect) {
+          ZSect zSect = (ZSect) sect;
+          String sectionName = zSect.getName();
+          System.out.println(sectionName);
+          if (typecheckCheckBox.isSelected()) {
             manager.get(new Key(sectionName,SectTypeEnvAnn.class));
-            if (zSect.getParaList() instanceof ZParaList && 
-            ((ZParaList) zSect.getParaList()).size() > 0) {
+          }
+          if (zSect.getParaList() instanceof ZParaList && 
+              ((ZParaList) zSect.getParaList()).size() > 0) {
             nrOfZSects++;
-            }
           }
         }
-        if (nrOfZSects < 1) {
-        resultListModel.addElement("WARNING: No Z sections found in " + source);
+      }
+      if (nrOfZSects < 1) {
+        String msg = "WARNING: No Z sections found in " + source;
+        resultListModel.addElement(msg);
         resultList.setModel(resultListModel);
-        }
       }
       statusBar.setText("Parsing "+file.getPath()+"...done");
       saveas.setEnabled(true);
