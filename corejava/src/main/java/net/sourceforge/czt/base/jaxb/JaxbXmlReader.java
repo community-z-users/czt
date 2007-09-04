@@ -31,6 +31,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.UnmarshalException;
 import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.util.ReflectiveVisitor;
 
@@ -86,13 +87,14 @@ public class JaxbXmlReader
    * @return the root element of the unmarshalled file.
    */
   public Term read(InputStream stream)
+    throws UnmarshalException
   {
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(stream));
     }
     catch (Exception e) {
-      e.printStackTrace();
+      throw new UnmarshalException(e);
     }
     return term;
   }
@@ -104,13 +106,14 @@ public class JaxbXmlReader
    * @return the root element of the unmarshalled file.
    */
   public Term read(InputSource input)
+    throws UnmarshalException
   {
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(input));
     }
     catch (Exception e) {
-      e.printStackTrace();
+      throw new UnmarshalException(e);
     }
     return term;
   }
@@ -123,13 +126,14 @@ public class JaxbXmlReader
    * @return the root element of the unmarshalled file.
    */
   public Term read(File file)
+    throws UnmarshalException
   {
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(file));
     }
     catch (Exception e) {
-      e.printStackTrace();
+      throw new UnmarshalException(e);
     }
     return term;
   }
