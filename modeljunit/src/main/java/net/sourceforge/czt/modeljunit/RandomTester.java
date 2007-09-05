@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.modeljunit;
 
 import java.util.BitSet;
-import java.util.Random;
 
 /** Test a system by making random walks through an EFSM model of the system.
  */

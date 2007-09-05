@@ -27,7 +27,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
@@ -313,7 +312,7 @@ public class Model
       }
       notifyDoneReset(reason, fsmTesting_);
     } catch (Exception ex) {
-      Assert.fail("Error calling FSM reset method: " + ex.getMessage());
+      throw new RuntimeException("Error calling the FSM reset method", ex);
     }
   }
 
