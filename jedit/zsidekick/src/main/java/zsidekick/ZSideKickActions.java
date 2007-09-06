@@ -1,6 +1,6 @@
 /*
  * ZSideKickActions.java
- * Copyright (C) 2006 Petra Malik
+ * Copyright (C) 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@ import sidekick.SideKickParsedData;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
+import net.sourceforge.czt.print.z.PrettyUnicodePrinter;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.session.*;
@@ -420,8 +421,14 @@ public class ZSideKickActions
           PrintUtils.printLatex(newTerm, writer, manager, section);
         }
         else {
-          PrintUtils.printUnicode(newTerm, writer,
-                                  manager, section);
+          //       int column = selection.getStart(view.getBuffer(),
+          //                                       selection.getStartLine());
+          int column = locAnn.getCol().intValue();
+          PrettyUnicodePrinter printer = new PrettyUnicodePrinter(writer);
+          printer.printTokenSequence(
+            PrintUtils.toTokenSequence(newTerm, manager, section), column);
+          //          PrintUtils.printUnicode(newTerm, writer,
+          //                                  manager, section);
         }
       }
       catch (Exception e) {
