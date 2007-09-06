@@ -50,11 +50,21 @@ public class SimCardAdaptor extends SimCard
       case DF_GSM:     setWord(5, 0x7F20); break;
       case EF_LP:      setWord(5, 0x6F05); break;
       case EF_IMSI:    setWord(5, 0x6F07); break;
-      case DF_Roaming: setWord(5, 0x7F01); break;  // TODO: correct this
-      case EF_FR:      setWord(5, 0x6F01); break;  // TODO: correct this
-      case EF_UK:      setWord(5, 0x6F02); break;  // TODO: correct this
+      case DF_Roaming: setWord(5, 0x5F30); break; // DF_IRIDIUM is under DF_GSM
+      case EF_FR:      setWord(5, 0x4F21); break; // Under DF_IRIDIUM
+      case EF_UK:      setWord(5, 0x4F22); break; // Under DF_IRIDIUM
       default: throw new RuntimeException("illegal file: "+file);
     }
+  }
+
+  protected int getWord(byte[] buf, int pos)
+  {
+    return ((buf[pos] & 0xFF) << 8) + (buf[pos+1] & 0xFF);
+  }
+
+  protected int getByte(byte[] buf, int pos)
+  {
+    return buf[pos] & 0xFF;
   }
 
   /** Check that an expected and actual status agree.
@@ -63,7 +73,7 @@ public class SimCardAdaptor extends SimCard
    */
   protected void checkStatus(Status_Word expect, int position)
   {
-    int actual = (response[position]&0xFF)<<8 + (response[position+1]&0xFF);
+    int actual = getWord(response, position);
     switch (expect) {
       // normal execution
       case sw_9000: Assert.assertEquals("expect 0x9000", 0x9000, actual); break;
@@ -71,8 +81,8 @@ public class SimCardAdaptor extends SimCard
       // file ID not found, or pattern not found
       case sw_9404: Assert.assertEquals("expect 0x9404", 0x9404, actual); break;
 
-      // SHOULD BE 9408: file is inconsistent with the command
-      case sw_9405: Assert.assertEquals("expect 0x9808", 0x9408, actual); break;
+      // SHOULD BE 9404: file ID not found
+      case sw_9405: Assert.assertEquals("expect 0x9404/5", 0x9404, actual); break;
 
       // access condition not fulfilled
       // unsuccessful CHV verification, at least one attempt left
@@ -86,7 +96,7 @@ public class SimCardAdaptor extends SimCard
       // unsuccessful UNBLOCK CHV verification, no attempt left
       // CHV blocked
       // UNBLOCK CHV blocked
-      case sw_9840: Assert.assertEquals("expect 0x9808", 0x9840, actual); break;
+      case sw_9840: Assert.assertEquals("expect 0x9840", 0x9840, actual); break;
 
       // in contradiction with CHV status
       case sw_9808: Assert.assertEquals("expect 0x9808", 0x9808, actual); break;
@@ -163,12 +173,18 @@ public void Unblock_PIN(int Puk, int new_Pin)
     initCmd(0xA4, 0x00, 0x00, 0x02);
     setFileID(file_name);
     response = sut.cmd(apdu);
-    Assert.assertEquals("expect 0x9F", 0x9F, response[0]);
-    int length = response[1];
-    // now send a GetResponse command to get the results
-    initCmd(0xC0, 0x00, 0x00, length);
-    response = sut.cmd(apdu);
-    checkStatus(super.result, length);
+    if (super.result == Status_Word.sw_9000) {
+      Assert.assertEquals("expect 0x9F", 0x9F, getByte(response,0));
+      int length = getByte(response,1);
+      // now send a GetResponse command to get the results
+      initCmd(0xC0, 0x00, 0x00, length);
+      response = sut.cmd(apdu);
+      Assert.assertEquals(0x9000, getWord(response, length));
+    }
+    else {
+      // we expect some kind of error
+      checkStatus(super.result, 0);
+    }
   }
 
   /**
@@ -180,19 +196,22 @@ public void Unblock_PIN(int Puk, int new_Pin)
     super.Read_Binary();
     initCmd(0xB0, 0x00, 0x00, 0x02);
     response = sut.cmd(apdu);
-    checkStatus(super.result, 2);
-    Assert.assertEquals("expect 0x9F", 0x9F, response[0]);
-    int length = response[1];
-    // now send a GetResponse command to read the first 2 bytes
-    initCmd(0xC0, 0x00, 0x00, length);
-    response = sut.cmd(apdu);
-    checkStatus(super.result, 2);
     if (super.result == Status_Word.sw_9000) {
-      // check the first two bytes of the data
+      Assert.assertEquals("expect 0x9F", 0x9F, getByte(response,0));
+      int length = getByte(response,1);
+      // now send a GetResponse command to read the first 2 bytes
+      initCmd(0xC0, 0x00, 0x00, length);
+      response = sut.cmd(apdu);
+      // then check the first two bytes of the data
       if (length > 0)
-        Assert.assertEquals(super.read_data.codePointAt(0), response[0]);
+        Assert.assertEquals(super.read_data.codePointAt(0), getByte(response,0));
       if (length > 1)
-        Assert.assertEquals(super.read_data.codePointAt(1), response[1]);
+        Assert.assertEquals(super.read_data.codePointAt(1), getByte(response,1));
+      Assert.assertEquals(0x9000, getWord(response, length));
+    }
+    else {
+      // we expect some kind of error
+      checkStatus(super.result, 0);
     }
   }
 }

@@ -18,6 +18,6 @@ public class GSM11ImplTest extends TestCase
     SimCard model = new SimCardAdaptor();
     Tester tester = new RandomTester(model);
     tester.addListener("Verbose", new VerboseListener(tester.getModel()));
-    tester.generate(20);
+    tester.generate(200);
   }
 }

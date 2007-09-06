@@ -79,7 +79,10 @@ public class SimCard implements FsmModel
       + "," + (EF==null ? "null" : EF.name.toString())
       + ",PIN="+PIN
       + "," + counter_PIN_try
-      //+ "," + counter_PUK_try
+      + "," + counter_PUK_try
+      + "," + status_en
+      + "," + status_PIN_block
+      + "," + status_block
       ;
   }
 
