@@ -33,6 +33,7 @@ import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -61,6 +62,7 @@ public class ZPrintVisitor
   private Properties properties_;
   private Utils utils_ = new UtilsImpl();
   private Factory factory_ = new Factory();
+  private Visitor visitor_ = this;
 
   /**
    * Creates a new Z print visitor.
@@ -76,6 +78,11 @@ public class ZPrintVisitor
   {
     super(printer);
     properties_ = properties;
+  }
+
+  public void setVisitor(Visitor visitor)
+  {
+    visitor_ = visitor;
   }
 
   private boolean getBooleanProperty(String propertyKey)
@@ -1193,7 +1200,7 @@ public class ZPrintVisitor
   protected void visit(Term t)
   {
     if (t != null) {
-      t.accept(this);
+      t.accept(visitor_);
     }
   }
 

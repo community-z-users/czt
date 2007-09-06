@@ -29,6 +29,7 @@ import net.sourceforge.czt.parser.util.WarningManager;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Para;
@@ -307,5 +308,29 @@ public final class PrintUtils
     Properties props = sectInfo.getProperties();
     ZPrintVisitor visitor = new ZPrintVisitor(printer, props);
     tree.accept(visitor);
+  }
+
+  public static TokenSequence toTokenSequence(Term term,
+                                              SectionManager sectInfo,
+                                              String sectionName)
+  {
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    Term tree;
+    try {
+      tree = (Term) toPrintTree.run(term, sectionName);
+    }
+    catch (CommandException exception) {
+      String msg =
+        "A command exception occurred while trying to print Unicode markup " +
+        "for term within section " + sectionName;
+      throw new PrintException(msg, exception);
+    }
+    PrecedenceParenAnnVisitor precVisitor =
+      new PrecedenceParenAnnVisitor();
+    tree.accept(precVisitor);
+    Properties props = sectInfo.getProperties();
+    TokenSequenceVisitor visitor = new TokenSequenceVisitor(props);
+    tree.accept(visitor);
+    return visitor.getResult();
   }
 }
