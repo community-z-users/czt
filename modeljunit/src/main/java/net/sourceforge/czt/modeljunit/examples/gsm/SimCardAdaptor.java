@@ -1,6 +1,7 @@
 package net.sourceforge.czt.modeljunit.examples.gsm;
 
 import junit.framework.Assert;
+import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.examples.gsm.SimCard.F_Name;
 
 /** This class connect the SimCard model to the GSM11Impl.
@@ -173,6 +174,7 @@ public void Unblock_PIN(int Puk, int new_Pin)
     initCmd(0xA4, 0x00, 0x00, 0x02);
     setFileID(file_name);
     response = sut.cmd(apdu);
+    System.out.println("Select("+file_name+") expects "+super.result);
     if (super.result == Status_Word.sw_9000) {
       Assert.assertEquals("expect 0x9F", 0x9F, getByte(response,0));
       int length = getByte(response,1);
@@ -190,23 +192,42 @@ public void Unblock_PIN(int Puk, int new_Pin)
   /**
    *  This always reads from offset 0, and reads just 2 bytes.
    */
+  @Action void Read_Binary2() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary3() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary4() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary5() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary6() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary7() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary8() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary9() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary10() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary11() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary12() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary13() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary14() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary15() {Read_Binary();}  // do this more often!!!
+  @Action void Read_Binary16() {Read_Binary();}  // do this more often!!!
+  @Action
   @Override
   public void Read_Binary()
   {
     super.Read_Binary();
     initCmd(0xB0, 0x00, 0x00, 0x02);
     response = sut.cmd(apdu);
+    System.out.println("ReadBinary("
+        +(EF==null ? "null" : EF.name) + ") expects result " + super.result);
     if (super.result == Status_Word.sw_9000) {
       Assert.assertEquals("expect 0x9F", 0x9F, getByte(response,0));
       int length = getByte(response,1);
+      Assert.assertEquals(2, length); // all our example files contain 2 chars
       // now send a GetResponse command to read the first 2 bytes
       initCmd(0xC0, 0x00, 0x00, length);
       response = sut.cmd(apdu);
       // then check the first two bytes of the data
-      if (length > 0)
-        Assert.assertEquals(super.read_data.codePointAt(0), getByte(response,0));
-      if (length > 1)
-        Assert.assertEquals(super.read_data.codePointAt(1), getByte(response,1));
+      System.out.println("checking read_binary result against "+super.read_data 
+          + " response="+response[0]+","+response[1]+","+response[2]+","+response[3]);
+      Assert.assertEquals(super.read_data.codePointAt(0), getByte(response,0));
+      Assert.assertEquals(super.read_data.codePointAt(1), getByte(response,1));
       Assert.assertEquals(0x9000, getWord(response, length));
     }
     else {

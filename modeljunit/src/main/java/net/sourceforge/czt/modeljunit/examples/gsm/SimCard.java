@@ -18,6 +18,11 @@ import net.sourceforge.czt.modeljunit.RandomTester;
  *  See Chapter 11 of the book "Practical Model-Based Testing:
  *  A Tools Approach" for more discussion of this system and
  *  a version of the model in B.
+ *  
+ *  This ModelJUnit version of the model was translated from a UML/OCL
+ *  model developed at LEIRIOS Technologies, which in turn was adapted
+ *  from an earlier and larger version of the B model published in
+ *  the above book.
  *
  * @author marku
  *
@@ -52,7 +57,7 @@ public class SimCard implements FsmModel
   protected Map<F_Name,File> files = new HashMap<F_Name,File>();
 
   /** This sets up a hierarchy of files that is used for testing.
-   *  They remain constant throughout the testing.
+   *  Their contents remain constant throughout the testing.
    */
   private void initFiles()
   {
@@ -79,10 +84,11 @@ public class SimCard implements FsmModel
       + "," + (EF==null ? "null" : EF.name.toString())
       + ",PIN="+PIN
       + "," + counter_PIN_try
-      + "," + counter_PUK_try
+      //+ "," + counter_PUK_try
       + "," + status_en
-      + "," + status_PIN_block
-      + "," + status_block
+      + "," + (status_PIN_block==B_Status.Blocked ? "PINBLOCKED" : "")
+      + "," + (status_block==B_Status.Blocked ? "PUKBLOCKED" : "")
+      + "," + result.toString()
       ;
   }
 
@@ -132,13 +138,11 @@ public class SimCard implements FsmModel
     }
   }
 
-  @Action public void unblockPINGood11() {Unblock_PIN(22,11);}
   @Action public void unblockPINGood12() {Unblock_PIN(22,12);}
   @Action public void unblockPINBad()    {Unblock_PIN(11,11);}
   public void Unblock_PIN(int Puk, int new_Pin)
   {
     // pre: Puk > 0 and Puk < 10000 and new_Pin > 0 and new_Pin < 10000
-
 
     if (status_block == B_Status.Blocked) {
       result = Status_Word.sw_9840; /*@REQ: Unblock_CHV1 @*/
@@ -151,7 +155,11 @@ public class SimCard implements FsmModel
       status_PIN_block = B_Status.Unblocked;
       result = Status_Word.sw_9000;
       if (status_en == E_Status.Disabled) {
-        status_en = E_Status.Disabled; /*@REQ: Unblock5 @*/
+        // Sep 2007: corrected this error from the B and UML/OCL models.
+        // (The B model did not model enabled/disabled PINs, and the
+        //  UML/OCL model set status_en to Disabled rather than Enabled.)
+        // status_en = E_Status.Disabled; /*@REQ: Unblock5 @*/
+        status_en = E_Status.Enabled; /*@REQ: Unblock5 @*/
       }
       else {
         // leave status_en unchanged
@@ -169,8 +177,8 @@ public class SimCard implements FsmModel
     }
   }
 
-  @Action public void enabledPIN11() {Enabled_PIN(11);}
-  @Action public void enabledPIN12() {Enabled_PIN(12);}
+  // When the correct PIN is 12, this will also test the invalid-PIN case
+  @Action public void enablePIN11() {Enabled_PIN(11);}
   public void Enabled_PIN(int Pin)
   {
     // pre: Pin > 0 and Pin < 10000
@@ -199,8 +207,8 @@ public class SimCard implements FsmModel
     }
   }
 
+  // When the correct PIN is 12, this will also test the invalid-PIN case
   @Action public void disablePINGood() { Disabled_PIN(11); }
-  @Action public void disablePINBad() { Disabled_PIN(13); }
   public void Disabled_PIN(int Pin)
   {
     // pre:     Pin > 0 and Pin < 10000
@@ -229,7 +237,8 @@ public class SimCard implements FsmModel
     }
   }
 
-  @Action public void changePinSame() { Change_PIN(11,11); }
+  // When the correct PIN is 12, this will also test the invalid-PIN case
+  @Action public void changePinSame() { Change_PIN(11,11); }  // ???
   @Action public void changePinNew() { Change_PIN(11,12); }
   public void Change_PIN(int old_Pin, int new_Pin)
   {
@@ -265,7 +274,8 @@ public class SimCard implements FsmModel
   @Action public void selectEF_IMSI() {Select_file(F_Name.EF_IMSI);}
   @Action public void selectEF_LP() {Select_file(F_Name.EF_LP);}
   @Action public void selectEF_FR() {Select_file(F_Name.EF_FR);}
-  @Action public void selectEF_UK() {Select_file(F_Name.EF_UK);}
+  // We omit testing EF_UK, since its permissions are similar to EF_FR
+  // @Action public void selectEF_UK() {Select_file(F_Name.EF_UK);}
   public void Select_file(F_Name file_name)
   {
     // pre: true
@@ -277,13 +287,20 @@ public class SimCard implements FsmModel
        * That is, if it refers to the master file or
        * to the parent of the current directory or
        * to a child of the current directory.
+       * 
+       * Sept 2007: Added the case where the requested directory is
+       * the already-selected directory (and is not MF).  This case was
+       * missing from the published B model in "Practical Model-Based
+       * Testing", and was discovered when executing randomly-generated
+       * tests from this model against the sample implementation.
        */
-      if (file_name == F_Name.MF ||
-          temp_file == DF.parent ||
-          (temp_file.parent != null && temp_file.parent == DF)) {
+      if (file_name == F_Name.MF
+          || file_name == DF.name
+          || temp_file == DF.parent
+          || (temp_file.parent != null && temp_file.parent == DF)) {
             result = Status_Word.sw_9000;
             DF = temp_file;
-            EF = null;  /*@REQ: REQ1, REQ3, SELECT_FILE2 , SELECT_FILE3 , SELECT_FILE4 @*/
+            EF = null; /*@REQ: REQ1, REQ3, SELECT_FILE2, SELECT_FILE3, SELECT_FILE4 @*/
           }
           else {
             /* the directory file_name cannot be selected */
@@ -298,7 +315,9 @@ public class SimCard implements FsmModel
         EF = temp_file; /*@REQ: REQ2, SELECT_FILE2  @*/
       }
       else {
-        /* file_name is not a child of the current directory and is not the current directory */
+        /* file_name is not a child of the current directory 
+         * and is not the current directory
+         */
         result = Status_Word.sw_9405; /*@REQ: SELECT_FILE7 @*/
       }
     }
