@@ -1,14 +1,18 @@
 package net.sourceforge.czt.modeljunit.examples.gsm;
 
+import java.io.FileNotFoundException;
+
 import junit.framework.Assert;
 import net.sourceforge.czt.modeljunit.Action;
-import net.sourceforge.czt.modeljunit.examples.gsm.SimCard.F_Name;
+import net.sourceforge.czt.modeljunit.GraphListener;
+import net.sourceforge.czt.modeljunit.GreedyTester;
+import net.sourceforge.czt.modeljunit.RandomTester;
 
-/** This class connect the SimCard model to the GSM11Impl.
+/** This class connects the SimCard model to the GSM11Impl.
  *
  * @author marku
  */
-public class SimCardAdaptor extends SimCard
+public class SimCardAdaptor
 {
   protected byte[] apdu = new byte[258];
   protected byte[] response = null;
@@ -44,7 +48,7 @@ public class SimCardAdaptor extends SimCard
   }
 
   /** Translate a model filename into a real filename. */
-  protected void setFileID(F_Name file)
+  protected void setFileID(SimCard.F_Name file)
   {
     switch (file) {
       case MF:         setWord(5, 0x3F00); break;
@@ -72,7 +76,7 @@ public class SimCardAdaptor extends SimCard
    *  @param expect  The expected status (from the model).
    *  @param position The position in {@code response} of the status word
    */
-  protected void checkStatus(Status_Word expect, int position)
+  protected void checkStatus(SimCard.Status_Word expect, int position)
   {
     int actual = getWord(response, position);
     switch (expect) {
@@ -108,74 +112,59 @@ public class SimCardAdaptor extends SimCard
     }
   }
 
-  @Override
-  public void reset(boolean testing)
+  public void reset()
   {
-    sut = new GSM11Impl(); // or just reset it?
-    super.reset(testing);
+    sut = new GSM11Impl(); // or we could add a reset operation to GSM11Impl.
   }
 
-  @Override
-  public void Verify_PIN(int Pin)
+  public void Verify_PIN(int Pin, SimCard.Status_Word result)
   {
-    super.Verify_PIN(Pin);
     initCmd(0x20, 0x00, 0x01, 0x08);
     setChv(5, Pin);
     response = sut.cmd(apdu);
-    checkStatus(super.result, 0);
+    checkStatus(result, 0);
   }
 
-@Override
-public void Unblock_PIN(int Puk, int new_Pin)
-{
-  super.Unblock_PIN(Puk, new_Pin);
-  initCmd(0x2C, 0x00, 0x00, 0x10);
-  setChv(5, Puk);
-  setChv(13, new_Pin);
-  response = sut.cmd(apdu);
-  checkStatus(super.result, 0);
-}
-
-  @Override
-  public void Enabled_PIN(int Pin)
+  public void Unblock_PIN(int Puk, int new_Pin, SimCard.Status_Word result)
   {
-    super.Enabled_PIN(Pin);
+    initCmd(0x2C, 0x00, 0x00, 0x10);
+    setChv(5, Puk);
+    setChv(13, new_Pin);
+    response = sut.cmd(apdu);
+    checkStatus(result, 0);
+  }
+
+  public void Enabled_PIN(int Pin, SimCard.Status_Word result)
+  {
     initCmd(0x28, 0x00, 0x01, 0x08);
     setChv(5, Pin);
     response = sut.cmd(apdu);
-    checkStatus(super.result, 0);
+    checkStatus(result, 0);
   }
 
-  @Override
-  public void Disabled_PIN(int Pin)
+  public void Disabled_PIN(int Pin, SimCard.Status_Word result)
   {
-    super.Disabled_PIN(Pin);
     initCmd(0x26, 0x00, 0x01, 0x08);
     setChv(5, Pin);
     response = sut.cmd(apdu);
-    checkStatus(super.result, 0);
+    checkStatus(result, 0);
   }
 
-  @Override
-  public void Change_PIN(int old_Pin, int new_Pin)
+  public void Change_PIN(int old_Pin, int new_Pin, SimCard.Status_Word result)
   {
-    super.Change_PIN(old_Pin, new_Pin);
     initCmd(0x24, 0x00, 0x01, 0x10);
     setChv(5, old_Pin);
     setChv(13, new_Pin);
     response = sut.cmd(apdu);
-    checkStatus(super.result, 0);
+    checkStatus(result, 0);
   }
 
-  @Override
-  public void Select_file(F_Name file_name)
+  public void Select_file(SimCard.F_Name file_name, SimCard.Status_Word result)
   {
-    super.Select_file(file_name);
     initCmd(0xA4, 0x00, 0x00, 0x02);
     setFileID(file_name);
     response = sut.cmd(apdu);
-    System.out.println("Select("+file_name+") expects "+super.result);
-    if (super.result == Status_Word.sw_9000) {
+    if (result == SimCard.Status_Word.sw_9000) {
       Assert.assertEquals("expect 0x9F", 0x9F, getByte(response,0));
       int length = getByte(response,1);
       // now send a GetResponse command to get the results
@@ -185,38 +174,18 @@ public void Unblock_PIN(int Puk, int new_Pin)
     }
     else {
       // we expect some kind of error
-      checkStatus(super.result, 0);
+      checkStatus(result, 0);
     }
   }
 
   /**
    *  This always reads from offset 0, and reads just 2 bytes.
    */
-  @Action void Read_Binary2() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary3() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary4() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary5() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary6() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary7() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary8() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary9() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary10() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary11() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary12() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary13() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary14() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary15() {Read_Binary();}  // do this more often!!!
-  @Action void Read_Binary16() {Read_Binary();}  // do this more often!!!
-  @Action
-  @Override
-  public void Read_Binary()
+  public void Read_Binary(SimCard.Status_Word result, String read_data)
   {
-    super.Read_Binary();
     initCmd(0xB0, 0x00, 0x00, 0x02);
     response = sut.cmd(apdu);
-    System.out.println("ReadBinary("
-        +(EF==null ? "null" : EF.name) + ") expects result " + super.result);
-    if (super.result == Status_Word.sw_9000) {
+    if (result == SimCard.Status_Word.sw_9000) {
       Assert.assertEquals("expect 0x9F", 0x9F, getByte(response,0));
       int length = getByte(response,1);
       Assert.assertEquals(2, length); // all our example files contain 2 chars
@@ -224,15 +193,15 @@ public void Unblock_PIN(int Puk, int new_Pin)
       initCmd(0xC0, 0x00, 0x00, length);
       response = sut.cmd(apdu);
       // then check the first two bytes of the data
-      System.out.println("checking read_binary result against "+super.read_data 
+      System.out.println("checking read_binary result against "+read_data 
           + " response="+response[0]+","+response[1]+","+response[2]+","+response[3]);
-      Assert.assertEquals(super.read_data.codePointAt(0), getByte(response,0));
-      Assert.assertEquals(super.read_data.codePointAt(1), getByte(response,1));
+      Assert.assertEquals(read_data.codePointAt(0), getByte(response,0));
+      Assert.assertEquals(read_data.codePointAt(1), getByte(response,1));
       Assert.assertEquals(0x9000, getWord(response, length));
     }
     else {
       // we expect some kind of error
-      checkStatus(super.result, 0);
+      checkStatus(result, 0);
     }
   }
 }

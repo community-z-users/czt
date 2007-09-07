@@ -56,6 +56,21 @@ public class SimCard implements FsmModel
   protected File EF;  // the current elementary file, or null
   protected Map<F_Name,File> files = new HashMap<F_Name,File>();
 
+  /** If this is non-null, each action calls the corresponding adaptor
+   *  action, which tests the GSM11 implementation.
+   */
+  protected SimCardAdaptor sut = null;
+  
+  /** If <code>sut0</code> is null, then the model runs without
+   *  testing any SUT.
+   *  
+   * @param sut0  Can be null.
+   */
+  public SimCard(SimCardAdaptor sut0)
+  {
+    sut = sut0;
+  }
+  
   /** This sets up a hierarchy of files that is used for testing.
    *  Their contents remain constant throughout the testing.
    */
@@ -84,7 +99,7 @@ public class SimCard implements FsmModel
       + "," + (EF==null ? "null" : EF.name.toString())
       + ",PIN="+PIN
       + "," + counter_PIN_try
-      //+ "," + counter_PUK_try
+      + "," + counter_PUK_try
       + "," + status_en
       + "," + (status_PIN_block==B_Status.Blocked ? "PINBLOCKED" : "")
       + "," + (status_block==B_Status.Blocked ? "PUKBLOCKED" : "")
@@ -107,6 +122,9 @@ public class SimCard implements FsmModel
     EF = null;
     result = Status_Word.sw_9000;  // Okay
     /*@REQ: RESET @*/
+    if (sut != null) {
+      sut.reset();
+    }
   }
 
   @Action public void verifyPIN11() {Verify_PIN(11);}
@@ -135,6 +153,10 @@ public class SimCard implements FsmModel
     else {
       counter_PIN_try = counter_PIN_try + 1;
       result = Status_Word.sw_9804;  /*@REQ: VERIFY_CHV3 @*/
+    }
+
+    if (sut != null) {
+      sut.Verify_PIN(Pin, result);
     }
   }
 
@@ -166,6 +188,7 @@ public class SimCard implements FsmModel
       }/*@REQ: Unblock7,Unblock2 @*/
     }
     else if (counter_PUK_try == Max_Puk_Try - 1) {
+      System.out.println("BLOCKED PUK!!! PUK try counter="+counter_PUK_try);
       counter_PUK_try = Max_Puk_Try;
       status_block = B_Status.Blocked;
       perm_session = false;
@@ -174,6 +197,10 @@ public class SimCard implements FsmModel
     else {
       counter_PUK_try = counter_PUK_try + 1;
       result = Status_Word.sw_9804;  /*@REQ: Unblock3 @*/
+    }
+    
+    if (sut != null) {
+      sut.Unblock_PIN(Puk, new_Pin, result);
     }
   }
 
@@ -205,6 +232,10 @@ public class SimCard implements FsmModel
       counter_PIN_try = counter_PIN_try + 1;
       result = Status_Word.sw_9804;  /*@REQ: ENABLE5 @*/
     }
+    
+    if (sut != null) {
+      sut.Enabled_PIN(Pin, result);
+    }
   }
 
   // When the correct PIN is 12, this will also test the invalid-PIN case
@@ -234,6 +265,10 @@ public class SimCard implements FsmModel
     else {
       counter_PIN_try = counter_PIN_try + 1;
       result = Status_Word.sw_9804;  /*@REQ: DISABLE5 @*/
+    }
+
+    if (sut != null) {
+      sut.Disabled_PIN(Pin, result);
     }
   }
 
@@ -265,6 +300,10 @@ public class SimCard implements FsmModel
     else {
       counter_PIN_try = counter_PIN_try + 1;
       result = Status_Word.sw_9804;  /*@REQ: CHANGE5 @*/
+    }
+    
+    if (sut != null) {
+      sut.Change_PIN(old_Pin, new_Pin, result);
     }
   }
 
@@ -321,6 +360,10 @@ public class SimCard implements FsmModel
         result = Status_Word.sw_9405; /*@REQ: SELECT_FILE7 @*/
       }
     }
+    
+    if (sut != null) {
+      sut.Select_file(file_name, result);
+    }
   }
 
   @Action public void Read_Binary()
@@ -348,11 +391,16 @@ public class SimCard implements FsmModel
     else {
       result = Status_Word.sw_9804; /*@REQ: READ_BINARY3 @*/
     }
+    
+    if (sut != null) {
+      sut.Read_Binary(result, read_data);
+    }
   }
 
   public static void main(String[] args) throws FileNotFoundException
   {
-    RandomTester tester = new GreedyTester(new SimCard());
+    System.out.println("Exploring the SimCard model without testing the SUT.");
+    RandomTester tester = new GreedyTester(new SimCard(null));
     tester.setResetProbability(0.01);  // long test sequences
     tester.buildGraph(100000);
     GraphListener graph = (GraphListener) tester.getModel().getListener("graph");
