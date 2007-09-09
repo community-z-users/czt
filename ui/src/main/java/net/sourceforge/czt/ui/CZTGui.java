@@ -240,9 +240,9 @@ public class CZTGui implements ActionListener
   
   private void successfulSaveMessage(boolean success){
     if(success == true)
-      statusBar.setText("Exporting to "+fileForExporting.getPath()+"...done");
+      statusBar.setText("Finished exporting to "+fileForExporting.getName());
     if(success == false)
-      statusBar.setText("Exporting to "+fileForExporting.getPath()+"...failed");
+      statusBar.setText("Failed exporting to "+fileForExporting.getName());
   }
   
   private void saveSpec(String path,String markup){
@@ -317,7 +317,7 @@ public class CZTGui implements ActionListener
    */
   private void loadFile()
   { 
-    statusBar.setText("Reading "+file.getPath()+"...done");
+    statusBar.setText("Finished reading "+file.getName());
     
     String selectedLanguage = "";
     String selectedEncoding = "";
@@ -401,7 +401,7 @@ public class CZTGui implements ActionListener
         resultListModel.addElement(msg);
         resultList.setModel(resultListModel);
       }
-      statusBar.setText("Parsing "+file.getPath()+"...done");
+      statusBar.setText("Finished parsing "+file.getName());
       saveas.setEnabled(true);
       close.setEnabled(true);
     }
@@ -413,7 +413,7 @@ public class CZTGui implements ActionListener
         ((CztErrorList) cause).getErrors();
         //iterate over error list
         for (int i = 0; i < errors.size(); i++) {
-          resultListModel.addElement(errors.get(i).toString());          
+          resultListModel.addElement(errors.get(i).toString());
         }
         resultList.setModel(resultListModel);
       }
@@ -421,15 +421,10 @@ public class CZTGui implements ActionListener
         String message = "Input output error: " + cause.getMessage();
         //todo: catch errors and display
       }
-      else if (cause == null) {
-        printMessage("Error occurred while parsing");
-      }
       else {
-        String message = "Error " + cause.getClass().getName();
-        if (cause.getCause() != null) {
-          message += ": " + cause.getCause();
-        }
-        printMessage(message);
+        String message = cause + getClass().getName();
+        resultListModel.addElement(message);
+        resultList.setModel(resultListModel);
       }
     }
     catch (Throwable e) {
@@ -438,12 +433,6 @@ public class CZTGui implements ActionListener
         resultListModel.addElement(message);
         resultList.setModel(resultListModel);
     }
-  }
-
-  private void printMessage(String message)
-  {
-    resultListModel.addElement(message);
-    resultList.setModel(resultListModel);        
   }
 
   /**
@@ -547,12 +536,6 @@ public class CZTGui implements ActionListener
     if (event.getSource() == exit) {
         System.exit(0);
     }
-  }
-
-  public static  java.util.List<? extends CztError> sort(java.util.List<? extends CztError> list)
-  {
-    // Todo: sort those
-    return list;
   }
 }
 
