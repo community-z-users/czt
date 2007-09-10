@@ -27,6 +27,7 @@ import sidekick.SideKickParsedData;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
+import net.sourceforge.czt.print.util.PrettyPrinter;
 import net.sourceforge.czt.print.z.PrettyUnicodePrinter;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.*;
@@ -424,7 +425,8 @@ public class ZSideKickActions
           //       int column = selection.getStart(view.getBuffer(),
           //                                       selection.getStartLine());
           int column = locAnn.getCol().intValue();
-          PrettyUnicodePrinter printer = new PrettyUnicodePrinter(writer);
+          PrettyUnicodePrinter tokenPrinter = new PrettyUnicodePrinter();
+          PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
           printer.printTokenSequence(
             PrintUtils.toTokenSequence(newTerm, manager, section), column);
           //          PrintUtils.printUnicode(newTerm, writer,
@@ -533,6 +535,40 @@ public class ZSideKickActions
         }
         else {
           reportError(view, "Cannot find Z section for selected term");
+        }
+      }
+    }
+  }
+
+  public static void prettyPrint(View view)
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      ParsedData parsedData = getParsedData(view);
+      if (parsedData != null) {
+        SectionManager manager = parsedData.getManager();
+        ZSect zSect = wffHighlight.findZSectForCurrentWff();
+        if (zSect != null) {
+          String section = zSect.getName();
+          final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+          final int start = locAnn.getStart().intValue();
+          Selection selection =
+            new Selection.Range(start,
+                                start + locAnn.getLength().intValue());
+          StringWriter writer = new StringWriter();
+          PrettyUnicodePrinter tokenPrinter = new PrettyUnicodePrinter();
+          PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
+          printer.printTokenSequence(
+            PrintUtils.toTokenSequence(term, manager, section), 0);
+          final String text = writer.toString();
+          final JEditTextArea textArea = view.getTextArea();
+          final int caretPos = textArea.getCaretPosition();
+          textArea.setSelection(selection);
+          textArea.setSelectedText(text);
+          selection = new Selection.Range(start,
+                                          start + text.length());
+          textArea.setSelection(selection);
         }
       }
     }
