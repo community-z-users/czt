@@ -440,23 +440,25 @@ public class Model
   }
 
   /** Add a listener.
-   *  If {@code name} is already mapped to a listener, then that listener
-   *  will be replaced by {@code listen}.
-   *  For coverage metrics, it is a convention that {@code name} should
-   *  equal {@code listen.getName()}.
+   *  The listener name is used to identify it and retrieve it.
+   *  If a listener by the same name is already present, then this
+   *  new listener will be ignored.  This means that it if you
+   *  add the same listener multiple times, the first instance
+   *  is the one that will continue to be used.  (So you get more
+   *  of the graph or coverage statistics recorded).
    */
-  public void addListener(String name, ModelListener listen)
+  public void addListener(ModelListener listen)
   {
-    if (name.equals("graph") && ! (listen instanceof GraphListener)) {
-      throw new RuntimeException("'graph' is reserved for GraphListener");
-    }
-    listeners_.put(name, listen);
+    if (listeners_.get(listen.getName()) == null) {
+      listeners_.put(listen.getName(), listen);
+      listen.setModel(this);
 
-    if (listen instanceof CoverageMetric) {
-      // see if we can tell this new metric about the graph.
-      GraphListener graph = (GraphListener) listeners_.get("graph");
-      if (graph != null && graph.isComplete()) {
-        ((CoverageMetric)listen).setGraph(graph.getGraph(), graph.getVertexMap());
+      if (listen instanceof CoverageMetric) {
+        // see if we can tell this metric about the complete graph.
+        GraphListener graph = (GraphListener) listeners_.get("graph");
+        if (graph != null && graph.isComplete()) {
+          ((CoverageMetric)listen).setGraph(graph.getGraph(), graph.getVertexMap());
+        }
       }
     }
   }
@@ -469,12 +471,14 @@ public class Model
    *    <li>name="trace" adds a TraceListener; TODO</li>
    *  </ul>
    *
+   * TODO: change this to use a factory.
+   * 
    * @param name Must be one of the above names.
    */
   public void addListener(String name)
   {
-    if (name.equals("graph") && listeners_.get(name) == null) {
-      listeners_.put(name, new GraphListener(this));
+    if (name.equals("graph")) {
+      addListener(new GraphListener());
     }
 /*
  * TODO:

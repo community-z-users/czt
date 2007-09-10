@@ -25,6 +25,15 @@ import net.sourceforge.czt.modeljunit.Transition;
  */
 public interface ModelListener
 {
+  /** Get the short name that this listener is known by.
+   *  This name can be used to add a listener to a model or
+   *  a Tester object and to lookup a listener.
+   *  The name should be a short descriptive noun phrase,
+   *  should usually be less than 30 characters, may
+   *  contain spaces, and should be all lowercase.
+   */
+  public String getName();
+
   /** Returns the model that this listener is listening to.
    *  This may be null if this listener is not yet attached to a model.
    *  As another example, the coverage metric within a CoverageHistory
@@ -32,7 +41,12 @@ public interface ModelListener
    *  events from the CoverageHistory wrapper rather than the model.
    */
   public Model getModel();
-  
+
+  /** Tell the listener which model it is listening to.
+   *
+   */
+  public void setModel(Model model);
+
   // TODO: might need a startReset(boolean) too?
 
   /** The Model calls this after each reset(boolean) action.
@@ -48,7 +62,7 @@ public interface ModelListener
    *  The {@code enabled} boolean says whether the guard of action is
    *  enabled or not, while {@code value} gives the actual value returned
    *  by the guard method (0 for false, 1 for true, or other positive
-   *  integer values for Markov chain guards).  
+   *  integer values for Markov chain guards).
    */
   public void doneGuard(Object state, int action, boolean enabled, int value);
 
@@ -62,7 +76,7 @@ public interface ModelListener
   public void startAction(Object state, int action, String name);
 
   /** The Model calls this after taking each transition.
-   * 
+   *
    * @param action  The number of the action just taken.
    * @param tr      The transition just taken.
    */

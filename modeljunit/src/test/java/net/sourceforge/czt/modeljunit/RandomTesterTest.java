@@ -45,7 +45,7 @@ public class RandomTesterTest extends TestCase
     tester.generate(5);
     int coverage = metric.getCoverage();
     Assert.assertEquals(1, coverage);
-    Assert.assertEquals(-1, metric.getMaximum());
+    Assert.assertEquals(4, metric.getMaximum());
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
     Assert.assertEquals("Incorrect history size.", 6, hist.size());
@@ -85,8 +85,9 @@ public class RandomTesterTest extends TestCase
     tester.addListener(metric.getName(), metric);
     //    System.out.println("Testing "+metric.getName());
     Assert.assertEquals(0, metric.getCoverage());
-    Assert.assertEquals(-1, metric.getMaximum());
-
+    if (metric.getMaximum() != -1) {
+      Assert.assertEquals(max, metric.getMaximum()); // should be correct or -1
+    }
     // Build the graph
     tester.buildGraph();
 

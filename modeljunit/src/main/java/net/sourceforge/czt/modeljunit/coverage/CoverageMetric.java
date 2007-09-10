@@ -29,12 +29,6 @@ import net.sourceforge.czt.modeljunit.ModelListener;
  */
 public interface CoverageMetric extends ModelListener
 {
-  /** The name of this coverage metric.
-   *  This should be a short string (10-30 chars?) with capitalised words.
-   *  For example: "State Coverage", or "Number of Tests".
-   */
-  public /*@non_null@*/ String getName();
-
   /** A medium-length description of this coverage metric.
    *  This should be a sentence or paragraph suitable for 
    *  displaying as pop-up documentation, to explain the metric.

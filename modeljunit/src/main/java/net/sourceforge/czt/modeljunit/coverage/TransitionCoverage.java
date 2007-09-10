@@ -33,7 +33,7 @@ public class TransitionCoverage extends AbstractCoverage
 {
   public String getName()
   {
-    return "Transition Coverage";
+    return "transition coverage";
   }
 
   public String getDescription()

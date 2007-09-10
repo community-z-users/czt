@@ -24,8 +24,8 @@ public class GSM11ImplTest extends TestCase
     //tester.buildGraph(1000000);
     //tester.addListener("Verbose", new VerboseListener(tester.getModel()));
     CoverageMetric trans = new TransitionCoverage();
-    tester.addCoverageMetric(trans);
-    tester.generate(100000);
+    tester.addListener(trans);
+    tester.generate(10000);
     System.out.println("Transition coverage = "+trans.toString());
   }
 

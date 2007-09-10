@@ -33,7 +33,7 @@ public class ActionCoverage extends AbstractCoverage
 {
   public String getName()
   {
-    return "Action Coverage";
+    return "action coverage";
   }
 
   public String getDescription()

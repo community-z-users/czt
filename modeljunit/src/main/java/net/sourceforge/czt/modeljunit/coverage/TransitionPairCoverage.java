@@ -39,7 +39,7 @@ public class TransitionPairCoverage extends AbstractCoverage
 
   public String getName()
   {
-    return "Transition-Pair Coverage";
+    return "transition-pair coverage";
   }
 
   public String getDescription()

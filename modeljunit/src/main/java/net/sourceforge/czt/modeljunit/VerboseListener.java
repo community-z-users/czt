@@ -26,9 +26,18 @@ import net.sourceforge.czt.modeljunit.Transition;
  */
 public class VerboseListener extends AbstractListener
 {
+  public VerboseListener()
+  {
+  }
+
+  /** @deprecated Use the null constructor instead. */
   public VerboseListener(Model model)
   {
-    super(model);
+  }
+
+  public String getName()
+  {
+    return "verbose";
   }
 
   public void doneReset(String reason, boolean testing)

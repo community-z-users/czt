@@ -96,24 +96,38 @@ public abstract class Tester
   }
 
   /**
-   *  A convenience method for adding listeners and coverage metrics.
-   *  This is equivalent to getModel().addListener(name, listener).
+   *  A convenience method for adding known listeners and coverage metrics.
+   *  This is equivalent to <code>getModel().addListener(name)</code>.
    *
-   *  @param name      A name for this listener.  Typically listener.getName()
-   *  @param listener  A ModelListener (or CoverageMetric) object.
+   *  See the Factory class for the set of known names.
+   *
+   *  @param name The name of a known listener.
    */
-  public void addListener(String name, ModelListener listener)
+  public void addListener(String name)
   {
-    model_.addListener(name, listener);
+    model_.addListener(name);
+  }
+
+  /** @deprecated Use addListener(listener) instead. */
+  public void addListener(String name, ModelListener listen)
+  {
+    model_.addListener(listen);
+  }
+
+  /** @deprecated Use addListener(listener) instead. */
+  public void addCoverageMetric(CoverageMetric metric)
+  {
+    model_.addListener(metric);
   }
 
   /**
-   *  A convenience method that adds the metric with the name metric.getName().
+   *  A convenience method that adds a listener object.
+   *  This is equivalent to <code>getModel().addListener(listener)</code>.
    * @param metric  Must be non-null.
    */
-  public void addCoverageMetric(CoverageMetric metric)
+  public void addListener(ModelListener listener)
   {
-    model_.addListener(metric.getName(), metric);
+    model_.addListener(listener);
   }
 
   public void reset()

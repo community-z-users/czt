@@ -25,6 +25,7 @@ import java.util.Map;
 import net.sourceforge.czt.jdsl.graph.api.Edge;
 import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.modeljunit.AbstractListener;
 import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
@@ -37,20 +38,22 @@ import net.sourceforge.czt.modeljunit.Transition;
  *  {@link #incrementItem(Object) incrementItem}
  *  methods maintain this invariant.)
  *  <p>
- *  Subclasses must implement the setModel method so that
+ *  Subclasses must implement the setGraph method so that
  *  it calls {@link #addItem(Object) addItem} for every item in
  *  the FSM graph.  After doing this,
  *  it should also set maxCoverage_ to coverage_.size().
  *  Subclasses must also implement doneTransition (and
  *  perhaps doneReset) so that it calls incrementCount(item)
- *  each time a coverage item is covered.
+ *  each time a coverage item is covered.  Of course, they
+ *  must also implement <code>getName()</code> and
+ *  <code>getDescription()</code> so that this metric has a
+ *  meaningful name and some documentation.
  *  </p>
  */
-public abstract class AbstractCoverage implements CoverageMetric
+public abstract class AbstractCoverage
+  extends AbstractListener
+  implements CoverageMetric
 {
-  /** The model that this is listening to. */
-  protected Model model_;
-
   /** Records the number of times each item has been covered.
    *  If possible, all changes to this field should be done
    *  via the methods {@link #clear() reset},
@@ -82,11 +85,6 @@ public abstract class AbstractCoverage implements CoverageMetric
     maxCoverage_ = -1; // means maximum is unknown
     currCoverage_ = 0;
     coverage_ = new HashMap<Object, Integer>();
-  }
-
-  public Model getModel()
-  {
-    return model_;
   }
 
   /** {@inheritDoc}
@@ -165,7 +163,13 @@ public abstract class AbstractCoverage implements CoverageMetric
 
   public String toString()
   {
-    return getCoverage() + "/" + getMaximum();
+    int max = getMaximum();
+    if (max < 0) {
+      return getCoverage() + "/???";
+    }
+    else {
+      return getCoverage() + "/" + getMaximum();
+    }
   }
 
   /** A convenience method for converting a graph edge into a Transition. */
@@ -186,45 +190,8 @@ public abstract class AbstractCoverage implements CoverageMetric
   {
   }
 
-  /** {@inheritDoc}
-   *  <p>
-   *  The default implementation does nothing.
-   *  </p>
-   */
-  public void doneGuard(Object state, int action, boolean enabled, int value)
-  {
-  }
-
-  /** {@inheritDoc}
-   *  <p>
-   *  The default implementation does nothing.
-   *  </p>
-   */
-  public void doneTransition(int action, Transition tr)
-  {
-  }
-
-  /** {@inheritDoc}
-   *  <p>
-   *  The default implementation does nothing.
-   *  </p>
-   */
-  public void failure(Exception ex)
-  {
-  }
-
-  /** {@inheritDoc}
-   *  <p>
-   *  The default implementation does nothing.
-   *  </p>
-   */
-  public void startAction(Object state, int action, String name)
-  {
-  }
-
   /** A default implementation that does nothing. */  
   public void setGraph(InspectableGraph model, Map<Object, Vertex> state2vertex)
   {
-    // TODO Auto-generated method stub
   }
 }

@@ -45,7 +45,7 @@ public class GreedyTesterTest extends TestCase
     tester.generate(5);
     int coverage = metric.getCoverage();
     Assert.assertEquals(4, coverage);
-    Assert.assertEquals(-1, metric.getMaximum());
+    Assert.assertEquals(4, metric.getMaximum());
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
     Assert.assertEquals("Incorrect history size.", 6, hist.size());

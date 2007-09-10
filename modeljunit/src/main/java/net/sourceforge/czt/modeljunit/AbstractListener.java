@@ -22,20 +22,21 @@ package net.sourceforge.czt.modeljunit;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** An implementation of ModelListener that ignores all events.
+ *  Subclasses must define the <code>getName</code> method, at least.
  */
-public class AbstractListener implements ModelListener
+public abstract class AbstractListener implements ModelListener
 {
   protected Model model_;
-
-  public AbstractListener(Model model)
-  {
-    model_ = model;
-  }
 
   /** Returns the model that this listener is listening to. */
   public Model getModel()
   {
     return model_;
+  }
+
+  public void setModel(Model model)
+  {
+    model_ = model;
   }
 
   public void doneReset(String reason, boolean testing)

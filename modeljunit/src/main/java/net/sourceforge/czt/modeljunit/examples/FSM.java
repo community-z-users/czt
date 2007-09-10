@@ -98,7 +98,7 @@ public class FSM implements FsmModel
 
     // set up our favourite coverage metric
     CoverageMetric trCoverage = new TransitionCoverage();
-    tester.addCoverageMetric(trCoverage);
+    tester.addListener(trCoverage);
 
     // ask to print the generated tests
     tester.addListener("verbose", new VerboseListener(tester.getModel()));

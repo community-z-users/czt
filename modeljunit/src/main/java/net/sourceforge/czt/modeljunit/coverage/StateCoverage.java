@@ -35,7 +35,7 @@ public class StateCoverage extends AbstractCoverage
 
   public String getName()
   {
-    return "State Coverage";
+    return "state coverage";
   }
 
   public String getDescription()

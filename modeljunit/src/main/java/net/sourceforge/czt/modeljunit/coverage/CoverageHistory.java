@@ -25,6 +25,7 @@ import java.util.Map;
 
 import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.modeljunit.AbstractListener;
 import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Transition;
 
@@ -44,7 +45,9 @@ import net.sourceforge.czt.modeljunit.Transition;
  *
  * @author marku
  */
-public class CoverageHistory implements CoverageMetric
+public class CoverageHistory
+  extends AbstractListener
+  implements CoverageMetric
 {
   /** How often to take a snapshot. */
   //@invariant interval_ > 0;
@@ -98,6 +101,16 @@ public class CoverageHistory implements CoverageMetric
     return metric_.getDescription();
   }
 
+  /** This tells the underlying metric about the model,
+   *  even though the model will not be sending events directly
+   *  to that metric (the events come through this wrapper).
+   */
+  @Override public void setModel(Model model)
+  {
+    super.setModel(model);
+    metric_.setModel(model);
+  }
+
   /** This resets the history, as well as calling getMetric().reset(); */
   public void clear()
   {
@@ -108,9 +121,9 @@ public class CoverageHistory implements CoverageMetric
   }
 
   /** Delegates to getMetric().setModel(...). */
-  public void setGraph(InspectableGraph model, Map<Object, Vertex> state2vertex)
+  public void setGraph(InspectableGraph graph, Map<Object, Vertex> state2vertex)
   {
-    metric_.setGraph(model, state2vertex);
+    metric_.setGraph(graph, state2vertex);
   }
 
   /** Returns getMetric().getCoverage(). */
@@ -161,11 +174,6 @@ public class CoverageHistory implements CoverageMetric
       result.append(cov);
     }
     return result.substring(1); // skip the first comma.
-  }
-
-  public Model getModel()
-  {
-    return metric_.getModel();
   }
 
   public void doneGuard(Object state, int action, boolean enabled, int value)

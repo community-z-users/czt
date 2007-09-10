@@ -43,10 +43,9 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  */
 public class GraphListener extends AbstractListener
 {
-  public GraphListener(Model model)
+  public String getName()
   {
-    super(model);
-    startBuildGraph();
+    return "graph";
   }
 
   /** The graph of all the states and transitions of this FSM.
@@ -199,8 +198,10 @@ public class GraphListener extends AbstractListener
    *  This assumes that the current fsmState is the initial state.
    *  That is, a reset has just been done.
    */
-  protected void startBuildGraph()
+  @Override
+  public void setModel(Model model)
   {
+    super.setModel(model);
     Object curr = model_.getCurrentState();
     assert curr != null;
     fsmGraph_ = new IncidenceListGraph();

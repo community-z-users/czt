@@ -59,7 +59,7 @@ public class ResultExtractor
         protected String generateResults(int seed, Tester tester)
         {
                 metric = new CoverageHistory(new TransitionCoverage(), 1);
-                tester.addCoverageMetric(metric);
+                tester.addListener(metric);
                 tester.setRandom(new Random(seed));
                 tester.generate(100);
                 return metric.toCSV();
