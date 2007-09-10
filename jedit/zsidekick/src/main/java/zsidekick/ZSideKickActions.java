@@ -28,7 +28,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.print.util.PrettyPrinter;
-import net.sourceforge.czt.print.z.PrettyUnicodePrinter;
+import net.sourceforge.czt.print.z.UnicodeTokenPrinter;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.session.*;
@@ -425,7 +425,7 @@ public class ZSideKickActions
           //       int column = selection.getStart(view.getBuffer(),
           //                                       selection.getStartLine());
           int column = locAnn.getCol().intValue();
-          PrettyUnicodePrinter tokenPrinter = new PrettyUnicodePrinter();
+          UnicodeTokenPrinter tokenPrinter = new UnicodeTokenPrinter();
           PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
           printer.printTokenSequence(
             PrintUtils.toTokenSequence(newTerm, manager, section), column);
@@ -557,7 +557,7 @@ public class ZSideKickActions
             new Selection.Range(start,
                                 start + locAnn.getLength().intValue());
           StringWriter writer = new StringWriter();
-          PrettyUnicodePrinter tokenPrinter = new PrettyUnicodePrinter();
+          UnicodeTokenPrinter tokenPrinter = new UnicodeTokenPrinter();
           PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
           printer.printTokenSequence(
             PrintUtils.toTokenSequence(term, manager, section), 0);

@@ -27,7 +27,7 @@ import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.z.util.ZString;
 
-public class PrettyUnicodePrinter
+public class UnicodeTokenPrinter
   implements TokenSequence.Printer
 {
   public String toString(Token token)
