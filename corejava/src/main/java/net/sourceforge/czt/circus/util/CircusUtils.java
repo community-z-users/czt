@@ -24,6 +24,7 @@ import net.sourceforge.czt.circus.ast.TransformerPara;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -76,7 +77,7 @@ public final class CircusUtils
   
   public static final String DEFAULT_IMPLICIT_ACTION_NAME_PREFIX = "$$implicitAct";
   public static final String DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX = "$$implicitProc";
-  
+    
   /**
    * Default number of multisynchronisation occurrences for particular communication pattern.
    * At the moment this feature is still experimental, and may disapear in the future.
@@ -93,6 +94,27 @@ public final class CircusUtils
    */
   public static final ParamQualifier DEFAULT_PARAMETER_QUALIFIER = ParamQualifier.Value;
   
+  /* NOTE: add the type for SYNCH given type. The OZ typechecker uses
+   *       a special OIDType AST class. I will assume this is not needed for us.
+   */ 
+  
+  /** Name for synchronisation channel type (ID is added by type checker to this instance */
+  public static final ZName SYNCH_CHANNEL_NAME = FACTORY.createZName(CircusString.CIRCUSSYNCH);
+  
+  /** Power type of the given type for synchronisation type names. ID is added to the synch name of this instance */
+  public static final PowerType SYNCH_CHANNEL_TYPE = FACTORY.createPowerType(FACTORY.createGivenType(SYNCH_CHANNEL_NAME)); 
+  
+  /** 
+   *  Reference expression of the given type for synchronisation names. 
+   *  An ID is added to the synch name of this instance. 
+   *  
+   *  This expression is not typed, even after the typechecker is created.  
+   *  If one creates synchronisation channels on-the-fly, one MUST type
+   *  check it before use in order to add  the proper powertype to the 
+   *  synch_channeel_expr used.
+   */
+  public static final RefExpr SYNCH_CHANNEL_EXPR = FACTORY.createRefExpr(SYNCH_CHANNEL_NAME); 
+
   /**
    * Returns true if the <code>ActionPara</code> is indeed a schema expression action
    * with a non-null <code>Name</code>.
@@ -148,13 +170,22 @@ public final class CircusUtils
   
   public static boolean isOnTheFly(Term term)
   {
-    // if it is already getCircusAction() with a annotation...
+    // if it is already from a getCircusAction/Process() with an annotation...
     boolean result = (term.getAnn(OnTheFlyDefAnn.class) != null);
-    if (term instanceof ActionPara)
+    
+    // if not or if the term does not have an OnTheFlyDefAnn
+    if (!result)
     {
-      // else, check within the getCircusAction()
-      ActionPara ap = (ActionPara)term;
-      result = ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) != null;
+      // select the appropriate element within a Para
+      if (term instanceof ActionPara)
+      {
+        term = ((ActionPara)term).getCircusAction();
+      }
+      else if (term instanceof ProcessPara)
+      {
+        term = ((ProcessPara)term).getCircusProcess();
+      }      
+      result = term.getAnn(OnTheFlyDefAnn.class) != null;      
     }
     return result;
   }
@@ -197,26 +228,33 @@ public final class CircusUtils
     ZParaList implicitProcPara = getZSectImplicitProcessParaList(term);
     for (Para p : implicitProcPara) {
       if (!(p instanceof ProcessPara))
-        throw new UnsupportedAstClassException("Unsupported on-the-fly paragraph class " + p.getClass().getName());
+        throw new UnsupportedAstClassException("Unsupported on-the-fly paragraph class " + p.getClass().getName() + " within ZSect" + term.getName());
       ProcessPara pp = (ProcessPara)p;
-      if (pp.getCircusProcess().getAnn(OnTheFlyDefAnn.class) == null) 
-        throw new UnsupportedAstClassException("Invalid on-the-fly process definition within ZSect.");      
-      if (pp.getZGenFormals() != null && !pp.getZGenFormals().isEmpty()) 
-        throw new UnsupportedAstClassException("On-the-fly process definition within ZSect cannot have formal generic parameters.");      
+      
       CircusProcess old = result.put(pp.getZName(), pp.getCircusProcess());
       if (old != null)
-        throw new UnsupportedAstClassException("Duplicated name for on-the-fly process definition with ZSect: " + pp.getZName());      
+        throw new UnsupportedAstClassException("Duplicated name for on-the-fly process definition with ZSect" + 
+            term.getName() +": " + pp.getZName());      
     }    
     return result;
   }
     
-  protected static ZParaList /*List<ProcessPara>*/ getZSectImplicitProcessParaList(ZSect term) 
+  public static ZParaList /*List<ProcessPara>*/ getZSectImplicitProcessParaList(ZSect term) 
   {
     ZParaList result = FACTORY.createZParaList();        
     for(Para p : term.getZParaList()) {
       if ((p instanceof ProcessPara) && 
-         ((ProcessPara)p).getZName().getWord().startsWith(DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX))
-        result.add(p);
+         ((ProcessPara)p).getZName().getWord().startsWith(DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX)) 
+      {
+        ProcessPara pp = (ProcessPara)p;
+        
+        if (pp.getCircusProcess().getAnn(OnTheFlyDefAnn.class) == null) 
+          throw new UnsupportedAstClassException("Invalid on-the-fly process definition within ZSect " + term.getName());      
+        if (pp.getZGenFormals() != null && !pp.getZGenFormals().isEmpty()) 
+          throw new UnsupportedAstClassException("On-the-fly process definition within ZSect " + term.getName() + " cannot have formal generic parameters.");      
+        
+        result.add(pp);
+      }
     }
     return result;
   }
