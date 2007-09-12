@@ -428,7 +428,7 @@ public class ZSideKickActions
           UnicodeTokenPrinter tokenPrinter = new UnicodeTokenPrinter();
           PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
           printer.printTokenSequence(
-            PrintUtils.toTokenSequence(newTerm, manager, section), column);
+            PrintUtils.toUnicode(newTerm, manager, section), column);
           //          PrintUtils.printUnicode(newTerm, writer,
           //                                  manager, section);
         }
@@ -439,14 +439,7 @@ public class ZSideKickActions
           new net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter();
         jaxbWriter.write(newTerm, writer);
       }
-      final String text = writer.toString();
-      final JEditTextArea textArea = view.getTextArea();
-      final int caretPos = textArea.getCaretPosition();
-      textArea.setSelection(selection);
-      textArea.setSelectedText(text);
-      selection = new Selection.Range(start,
-                                      start + text.length());
-      textArea.setSelection(selection);
+      replaceSelection(view, selection, writer.toString());
       return true;
     }
     return false;
@@ -560,18 +553,23 @@ public class ZSideKickActions
           UnicodeTokenPrinter tokenPrinter = new UnicodeTokenPrinter();
           PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
           printer.printTokenSequence(
-            PrintUtils.toTokenSequence(term, manager, section), 0);
-          final String text = writer.toString();
-          final JEditTextArea textArea = view.getTextArea();
-          final int caretPos = textArea.getCaretPosition();
-          textArea.setSelection(selection);
-          textArea.setSelectedText(text);
-          selection = new Selection.Range(start,
-                                          start + text.length());
-          textArea.setSelection(selection);
+            PrintUtils.toUnicode(term, manager, section), 0);
+          replaceSelection(view, selection, writer.toString());
         }
       }
     }
+  }
+
+  public static void replaceSelection(View view,
+                                      Selection selection,
+                                      String text)
+  {
+    final JEditTextArea textArea = view.getTextArea();
+    textArea.setSelection(selection);
+    textArea.setSelectedText(text);
+    int start = selection.getStart();
+    Selection newSelection = new Selection.Range(start, start + text.length());
+    textArea.setSelection(newSelection);
   }
 
   public static void reportMessage(View view, String message)

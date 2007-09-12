@@ -310,9 +310,9 @@ public final class PrintUtils
     tree.accept(visitor);
   }
 
-  public static TokenSequence toTokenSequence(Term term,
-                                              SectionManager sectInfo,
-                                              String sectionName)
+  public static TokenSequence toUnicode(Term term,
+                                        SectionManager sectInfo,
+                                        String sectionName)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree;
