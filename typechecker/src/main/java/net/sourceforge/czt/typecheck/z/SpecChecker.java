@@ -170,26 +170,7 @@ public class SpecChecker
 
   public Object visitZParaList(ZParaList list)
   {
-    for (Para para : list) {
-      //add the global definitions to the SectTypeEnv
-      Signature signature = para.accept(paraChecker());
-      List<NameTypePair> pairs = signature.getNameTypePair();
-      for (NameTypePair pair : pairs) {
-        //if the name already exists globally, raise an error
-        ZName zName = pair.getZName();
-        NameSectTypeTriple duplicate =
-          sectTypeEnv().add(zName, pair.getType());
-        if (duplicate != null) {
-          Object [] params = {zName};
-          error(zName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
-        }
-      }
-
-      //only check on the final traversal of the tree
-      if (!useBeforeDecl() || sectTypeEnv().getSecondTime()) {
-        postCheck();
-      }
-    }
+    checkParaList(list);
     return null;
   }
 

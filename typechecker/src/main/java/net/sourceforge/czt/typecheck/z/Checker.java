@@ -34,7 +34,6 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
@@ -471,6 +470,47 @@ abstract public class Checker<R>
     return typeChecker_.charTupleChecker_;
   }
 
+  /**
+   * Criteria for need of post checking.
+   * Refactored from z.SpecChecker.visitZParaList as boolean expression
+   * to be reused by other implementations, for instance, the post checking
+   * of Circus ZParaList for action and process calls.
+   */
+  protected boolean needPostCheck()
+  {
+    //only check on the final traversal of the tree
+    return (!useBeforeDecl() || sectTypeEnv().getSecondTime());
+  }
+  
+  /**
+   * General type checking method for ZParaList terms.
+   * Refactored from z.SpecChecker.visitZParaList into a separate method.
+   * This enables reuse of functionality for Circus, which has a more 
+   * complicated ZParaList type checking, as well as further post checking.
+   * For instance, Circus allow mutually recursive calls to process and actions.
+   */
+  protected void checkParaList(ZParaList list)
+  {
+    for (Para para : list) {
+      //add the global definitions to the SectTypeEnv
+      Signature signature = para.accept(paraChecker());
+      List<NameTypePair> pairs = signature.getNameTypePair();
+      for (NameTypePair pair : pairs) {
+        //if the name already exists globally, raise an error
+        ZName zName = pair.getZName();
+        NameSectTypeTriple duplicate =
+          sectTypeEnv().add(zName, pair.getType());
+        if (duplicate != null) {
+          Object [] params = {zName};
+          error(zName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
+        }
+      }      
+      if (needPostCheck()) {
+        postCheck();
+      }
+    }  
+  }
+  
   protected void postCheck()
   {
     //post-check any previously unresolved expressions
