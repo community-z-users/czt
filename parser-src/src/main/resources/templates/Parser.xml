@@ -3497,8 +3497,12 @@ channelDecl ::=
          */
         nameList:nl
 	{:                  
+           // no generics for synchronisation channels.
            ZNameList znl = factory_.createZNameList();
-           RESULT = factory_.createChannelDecl(factory_.list(znl, nl), null);
+           
+           assert nl != null &amp;&amp; !nl.isEmpty() : "Cannot have empty synch channel name list";
+           RESULT = factory_.createChannelDecl(factory_.list(znl, nl), 
+              CircusUtils.SYNCH_CHANNEL_EXPR);
            addLocAnn(RESULT, getLocation(nl));
 	:} 
         /* Generically defined typed channels with type error */
@@ -3540,7 +3544,7 @@ channelDecl ::=
         :}    
         ;
         
-/* Channel declaration from schema inclusion MUST have the Name list null
+/* Channel declaration from schema inclusion MUST have the Name list EMPTY
  * and the expression MUST not be NULL, it contains the schema name (possibly
  * with generic actuals). (see Circus.xsd comments).
  */        
