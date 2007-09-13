@@ -25,6 +25,7 @@ import java.util.Vector;
 import javax.swing.tree.TreeNode;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.util.Visitor;
 
 /**
  * A node of an AST that can be used as a tree node in a JTree.
@@ -37,12 +38,18 @@ public class TermTreeNode
   private int pos_;
   private Object node_;
   private TermTreeNode parent_;
+  private static Visitor<String> toStringVisitor_;
 
   public TermTreeNode(int pos, Object node, TermTreeNode parent)
   {
     pos_ = pos;
     node_ = node;
     parent_ = parent;
+  }
+
+  public void setToStringVisitor(Visitor<String> visitor)
+  {
+    toStringVisitor_ = visitor;
   }
 
   public TreeNode getChildAt(int index)
@@ -98,10 +105,13 @@ public class TermTreeNode
 
   public String toString()
   {
+    if (toStringVisitor_ != null && node_ instanceof Term) {
+      return ((Term) node_).accept(toStringVisitor_);
+    }
     if (node_ instanceof List) {
       return "List[" + ((List) node_).size() + "]";
     }
-    else if (node_ != null) {
+    if (node_ != null) {
       return node_.toString();
     }
     return "null";

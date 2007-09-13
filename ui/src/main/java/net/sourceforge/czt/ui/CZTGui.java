@@ -19,6 +19,7 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor;
 
 /**
  *  Description of the Class
@@ -380,7 +381,14 @@ public class CZTGui implements ActionListener
     try {
       Spec spec = (Spec)
       manager.get(new Key(source.getName(), Spec.class));
-      treeView = new JTree((new TermTreeNode(0, spec, null)));
+      TermTreeNode node = new TermTreeNode(0, spec, null);
+      if ("circus".equals(selectedLanguage)) {
+        node.setToStringVisitor(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
+      }
+      else {
+        node.setToStringVisitor(new ConcreteSyntaxDescriptionVisitor());
+      }
+      treeView = new JTree(node);
       scrollTreeStructure.setViewportView(treeView);
 
       for (Sect sect : spec.getSect()) {
