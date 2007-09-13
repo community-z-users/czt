@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2006 Mark Utting
+  Copyright (C) 2004, 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -49,16 +49,9 @@ public class TermTreeNode
   {
     if (node_ instanceof Term) {
       Term term = (Term) node_;
-      Object[] anns = null;
       Object[] children = term.getChildren();
-      if (term.getAnns() != null) {
-        anns = term.getAnns().toArray();
-      }
       if (index < children.length) {
         return new TermTreeNode(index, children[index], this);
-      }
-      else if (index < children.length + anns.length) {
-        return new TermTreeNode(index, anns[index - children.length], this);
       }
     }
     return null;
@@ -69,9 +62,6 @@ public class TermTreeNode
     if (node_ instanceof Term) {
       Term term = (Term) node_;
       int result = term.getChildren().length;
-      if (term.getAnns() != null) {
-        result += term.getAnns().size();
-      }
       return result;
     }
     return 0;
