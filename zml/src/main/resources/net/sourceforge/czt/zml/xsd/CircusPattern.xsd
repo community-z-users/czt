@@ -154,7 +154,9 @@
   <xs:element name="JokerCommunication" type="CP:JokerCommunication" substitutionGroup="CIRCUS:Communication"/>
   <xs:element name="JokerChannelSet" type="CP:JokerChannelSet" substitutionGroup="CIRCUS:ChannelSet"/>
   <xs:element name="JokerNameSet" type="CP:JokerNameSet" substitutionGroup="CIRCUS:NameSet"/>
-  
+  <xs:element name="JokerPara" type="CP:JokerPara" substitutionGroup="Z:Para"/>
+  <xs:element name="JokerParaList" type="CP:JokerParaList" substitutionGroup="Z:ParaList"/>
+
   <!-- Bindings are real instances to associate jokers with. They are instantiated by
        rules wherever Jokers were used. One could see them as actual parameters of a rule -->  
   <xs:element name="JokerProcessBinding" type="CP:JokerProcessBinding" substitutionGroup="P:Binding"/>
@@ -162,6 +164,8 @@
   <xs:element name="JokerCommunicationBinding" type="CP:JokerCommunicationBinding" substitutionGroup="P:Binding"/>
   <xs:element name="JokerNameSetBinding" type="CP:JokerNameSetBinding" substitutionGroup="P:Binding"/>
   <xs:element name="JokerChannelSetBinding" type="CP:JokerChannelSetBinding" substitutionGroup="P:Binding"/>
+  <xs:element name="JokerParaBinding" type="CP:JokerParaBinding" substitutionGroup="P:Binding"/>
+  <xs:element name="JokerParaListBinding" type="CP:JokerParaListBinding" substitutionGroup="P:Binding"/>
   
   <!-- 
   I am not convinced there is a case for CommunicationExpr or other forms of 
@@ -212,7 +216,9 @@
       <xs:enumeration value="Action"/>
       <xs:enumeration value="Communication"/>
       <xs:enumeration value="ChanelSet"/>
-      <xs:enumeration value="ChanelNameSet"/>
+      <xs:enumeration value="NameSet"/>
+      <xs:enumeration value="Para"/>
+      <xs:enumeration value="ParaList"/>
     </xs:restriction>
   </xs:simpleType>
   
@@ -255,6 +261,24 @@
   <xs:complexType name="JokerNameSet">
     <xs:complexContent>
       <xs:extension base="CIRCUS:NameSet">
+        <xs:attribute name="Name" type="xs:string"/>
+        <xs:attribute name="Id" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="JokerPara">
+    <xs:complexContent>
+      <xs:extension base="Z:Para">
+        <xs:attribute name="Name" type="xs:string"/>
+        <xs:attribute name="Id" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="JokerParaList">
+    <xs:complexContent>
+      <xs:extension base="Z:ParaList">
         <xs:attribute name="Name" type="xs:string"/>
         <xs:attribute name="Id" type="xs:string" use="optional"/>
       </xs:extension>
@@ -345,4 +369,38 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <xs:complexType name="JokerParaBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="CP:JokerPara">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Para"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="JokerParaListBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="CP:JokerParaList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:ParaList"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
 </xs:schema>
