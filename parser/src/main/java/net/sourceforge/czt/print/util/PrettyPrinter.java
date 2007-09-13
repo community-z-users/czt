@@ -107,7 +107,7 @@ public class PrettyPrinter
     return pos;
   }
 
-  //@ assumes (o instanceof Token) || (o instanceof TokenSequence);
+  //@ requires (o instanceof Token) || (o instanceof TokenSequence);
   private int getLength(Object o)
   {
     if (o instanceof Token) return tokenPrinter_.toString((Token) o).length();
