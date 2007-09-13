@@ -81,12 +81,15 @@ public class GetNameVisitor
   {
     final StringBuilder result = new StringBuilder();
     String sep = LIST_SEPARATOR;
+    boolean first = true;
     for (Object obj : listTerm) {
       String string;
       if (obj instanceof Term) string = visit((Term) obj);
       else string = obj.toString();
       if (string != null) {
-        result.append(sep + string);
+        if (! first) result.append(sep);
+        result.append(string);
+        first = false;
       }
     }
     return result.toString();
