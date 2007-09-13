@@ -341,6 +341,7 @@ public class CZTGui implements ActionListener
         selectedLanguage = "circus";
     
     manager = new SectionManager(selectedLanguage);
+    manager.setProperty("czt.path", file.getParent());
     
     FileSource source = new FileSource(file);
     
