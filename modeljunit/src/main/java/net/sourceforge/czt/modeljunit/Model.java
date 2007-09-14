@@ -477,30 +477,23 @@ public class Model
     return result;
   }
 
-  /** Add one of the standard model listeners.
+  /** Add one of the predefined model listeners or coverage metrics.
+   *  For example, if name is "transition coverage", then a TransitionCoverage
+   *  metric will be added to this model, and returned.
+   *  However, if this model already has a listener by this name,
+   *  then that listener will be returned and no new listener will be added.
    *
-   *  The usual convention naming conventions are that:
-   *  <ul>
-   *    <li>name="graph" adds a GraphListener;</li>
-   *    <li>name="trace" adds a TraceListener; TODO</li>
-   *  </ul>
-   *
-   * TODO: change this to use a factory.
-   *
-   * @param name Must be one of the above names.
+   * @param name The informal lowercase name of a Listener object.
+   * @return     The listener that will actually be used.
+   * @throws RuntimeException if name is not a known kind of listener.
    */
   public ModelListener addListener(String name)
   {
-    if (name.equals("graph")) {
-      return addListener(new GraphListener());
+    ModelListener listen = ListenerFactory.getFactory().getListener(name);
+    if (listen != null) {
+      return addListener(listen);
     }
-/*
- * TODO:
-    else if (name.equals("trace") && listeners_.get(name) == null) {
-      listeners_.put(name, new TraceListener(this));
-    }
-*/
-    throw new RuntimeException("Unknown listener: " + name);
+    throw new RuntimeException("Unknown kind of listener: " + name);
   }
 
   /** Remove a coverage listener by name.
