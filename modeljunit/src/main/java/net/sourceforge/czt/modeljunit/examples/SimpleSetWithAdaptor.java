@@ -119,7 +119,7 @@ public class SimpleSetWithAdaptor implements FsmModel
   {
     Set<String> sut = new StringSet(); //or StringSetBuggy();
     Tester tester = new GreedyTester(new SimpleSetWithAdaptor(sut));
-    tester.addListener("verbose", new VerboseListener(tester.getModel()));
+    tester.addListener(new VerboseListener());
     tester.generate(100);
   }
 }

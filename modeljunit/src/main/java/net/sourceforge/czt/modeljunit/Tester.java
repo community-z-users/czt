@@ -80,6 +80,7 @@ public abstract class Tester
   /** Get the random number generator that is used for test generation. */
   public Random getRandom()
   {
+    System.out.println("getRandom returns "+rand_);
     return rand_;
   }
 
@@ -171,6 +172,7 @@ public abstract class Tester
   {
     Random old = rand_;
     rand_ = new Random(FIXEDSEED);
+    //System.out.println("DEBUG: BUILDGRAPH replaces "+old+" by "+rand_);
     model_.addListener("graph"); // make sure there is a graph listener
     GraphListener graph = (GraphListener)model_.getListener("graph");
     boolean wasTesting = model_.setTesting(false);
@@ -192,5 +194,6 @@ public abstract class Tester
     model_.doReset("Buildgraph");
     // restore the original random number generator.
     rand_ = old;
+    //System.out.println("DEBUG: BUILDGRAPH restores "+old);
   }
 }

@@ -428,9 +428,17 @@ public class ModelTestCase
         if (m.getReturnType() != void.class)
           printWarning("ERROR: @Action method "
               +fsmName+"."+m.getName()+" should be void.");
+        // insert m into fsmActions_ in alphabetical order.
+        int pos=0;
+        while (pos < fsmActions.size()) {
+          if (fsmActions.get(pos).getName().compareTo(m.getName()) > 0) {
+            break;
+          }
+          pos++;
+        }
+        fsmActions.add(pos, m);
         printProgress(3, "added method "+fsmName+"."+m.getName()
-            +" to model as action#"+fsmActions.size());
-        fsmActions.add(m);
+            +" to model as action#"+pos);
       }
     }
     int nActions = fsmActions.size();

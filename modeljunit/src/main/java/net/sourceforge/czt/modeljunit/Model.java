@@ -132,7 +132,7 @@ public class Model
   //@requires name != null;
   //@ensures -1 <= \result && \result < fsmActions_.size();
   //@ensures \result >= 0 ==> name.equals(fsmActions_.get(i).getName());
-  public int fsmFindAction(String name)
+  public int getActionNumber(String name)
   {
     for (int i=0; i < fsmActions_.size(); i++) {
       if (name.equals(fsmActions_.get(i).getName()))
@@ -237,7 +237,16 @@ public class Model
         if (m.getReturnType() != void.class)
           printWarning("@Action method "
               +fsmName_+"."+m.getName()+" should be void.");
-        fsmActions_.add(m);
+        // insert m into fsmActions_ in alphabetical order.
+        int pos=0;
+        while (pos < fsmActions_.size()) {
+          if (fsmActions_.get(pos).getName().compareTo(m.getName()) > 0) {
+            break;
+          }
+          pos++;
+        }
+        //System.out.println("adding method "+m.getName()+" at pos "+pos);
+        fsmActions_.add(pos, m);
       }
     }
     int nActions = fsmActions_.size();
@@ -253,7 +262,7 @@ public class Model
       if (m.getName().endsWith("Guard")
           && m.getParameterTypes().length == 0) {
         String trName = m.getName().substring(0, m.getName().length()-5);
-        int trPos = fsmFindAction(trName);
+        int trPos = getActionNumber(trName);
         if (trPos < 0)
           printWarning(fsmName_+"."+m.getName()
               +" guard does not match any Action method.");
@@ -442,14 +451,18 @@ public class Model
   /** Add a listener.
    *  The listener name is used to identify it and retrieve it.
    *  If a listener by the same name is already present, then this
-   *  new listener will be ignored.  This means that it if you
+   *  new listener will be ignored.  This means that if you
    *  add the same listener multiple times, the first instance
    *  is the one that will continue to be used.  (So you get more
    *  of the graph or coverage statistics recorded).
+   *
+   *  @return The listener that will be used.
    */
-  public void addListener(ModelListener listen)
+  public ModelListener addListener(ModelListener listen)
   {
-    if (listeners_.get(listen.getName()) == null) {
+    ModelListener result = listeners_.get(listen.getName());
+    if (result == null) {
+      result = listen;
       listeners_.put(listen.getName(), listen);
       listen.setModel(this);
 
@@ -461,6 +474,7 @@ public class Model
         }
       }
     }
+    return result;
   }
 
   /** Add one of the standard model listeners.
@@ -472,13 +486,13 @@ public class Model
    *  </ul>
    *
    * TODO: change this to use a factory.
-   * 
+   *
    * @param name Must be one of the above names.
    */
-  public void addListener(String name)
+  public ModelListener addListener(String name)
   {
     if (name.equals("graph")) {
-      addListener(new GraphListener());
+      return addListener(new GraphListener());
     }
 /*
  * TODO:
@@ -486,6 +500,7 @@ public class Model
       listeners_.put(name, new TraceListener(this));
     }
 */
+    throw new RuntimeException("Unknown listener: " + name);
   }
 
   /** Remove a coverage listener by name.
@@ -500,6 +515,16 @@ public class Model
   public void removeAllListeners()
   {
     listeners_.clear();
+  }
+
+  /** Get the GraphListener for this model.
+   *  This is equivalent to getListener("graph"), with a cast
+   *  of the resulting listener to a GraphListener.
+   *  @return null if this model has no graph listener.
+   */
+  public GraphListener getGraphListener()
+  {
+    return (GraphListener) getListener("graph");
   }
 
   /** Get a listener by name, or null if that name is unused.

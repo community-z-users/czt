@@ -97,14 +97,16 @@ public class RandomTester extends Tester
     int nTrans = model_.getNumActions();
     BitSet tried = new BitSet(nTrans);
     int index = rand_.nextInt(nTrans);
-    //System.out.println("random choice is "+index+" out of "+nTrans);
+    //System.out.println("DEBUG: random choice is "+index+" out of "+nTrans
+    //    +" tried.card="+tried.cardinality());
     while (tried.cardinality() < nTrans) {
       while (tried.get(index)) {
         index = rand_.nextInt(nTrans);
-        //System.out.println("random RETRY gives "+index);
+        //System.out.println("DEBUG: random RETRY gives "+index);
       }
       tried.set(index); // mark this one as having been tried.
       if (model_.doAction(index)) {
+        //System.out.println("DEBUG: done action "+index);
         return index;
       }
     }
@@ -124,6 +126,7 @@ public class RandomTester extends Tester
   {
     int taken = -1;
     double prob = rand_.nextDouble();
+    //System.out.println("DEBUG: RESET if "+prob+" < "+resetProbability_);
     if (prob < resetProbability_)
       model_.doReset("Random");
     else

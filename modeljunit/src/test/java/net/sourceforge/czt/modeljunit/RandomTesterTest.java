@@ -34,13 +34,27 @@ import junit.framework.TestCase;
 
 public class RandomTesterTest extends TestCase
 {
+  /** Checks that we always get a consistent sequence of random numbers. */
+  public static void testRandom()
+  {
+    Random rand = new Random(Tester.FIXEDSEED);
+    assertEquals(965, rand.nextInt(1000));
+    assertEquals(600, rand.nextInt(1000));
+    assertEquals(483, rand.nextInt(1000));
+    assertEquals(344, rand.nextInt(1000));
+  }
+
   /** This tests a random walk, plus ActionCoverage metric with history.*/
   public static void testRandomWalk()
   {
     RandomTester tester = new RandomTester(new FSM());
+    //System.out.println("action0="+tester.getModel().getActionName(0));
+    //System.out.println("action1="+tester.getModel().getActionName(1));
+    //System.out.println("action2="+tester.getModel().getActionName(2));
+    //System.out.println("action3="+tester.getModel().getActionName(3));
     CoverageHistory metric =
       new CoverageHistory(new ActionCoverage(), 1);
-    tester.addCoverageMetric(metric);
+    tester.addListener(metric);
     tester.setRandom(new Random(3));
     tester.generate(5);
     int coverage = metric.getCoverage();
@@ -82,7 +96,7 @@ public class RandomTesterTest extends TestCase
   public void FsmCoverage(CoverageMetric metric, int max, int... expect)
   {
     RandomTester tester = new RandomTester(new FSM());
-    tester.addListener(metric.getName(), metric);
+    tester.addListener(metric);
     //    System.out.println("Testing "+metric.getName());
     Assert.assertEquals(0, metric.getCoverage());
     if (metric.getMaximum() != -1) {

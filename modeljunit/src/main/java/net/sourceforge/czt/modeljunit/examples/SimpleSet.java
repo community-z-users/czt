@@ -46,7 +46,7 @@ public class SimpleSet implements FsmModel
   public static void main(String[] args)
   {
     Tester tester = new GreedyTester(new SimpleSet());
-    tester.addListener("verbose", new VerboseListener(tester.getModel()));
+    tester.addListener(new VerboseListener());
     tester.generate(100);
   }
 }

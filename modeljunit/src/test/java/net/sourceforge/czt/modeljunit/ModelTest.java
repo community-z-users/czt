@@ -19,31 +19,28 @@
 
 package net.sourceforge.czt.modeljunit;
 
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.BitSet;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Assert;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.sourceforge.czt.jdsl.graph.api.Edge;
-import net.sourceforge.czt.jdsl.graph.api.EdgeIterator;
-import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
-import net.sourceforge.czt.jdsl.graph.api.Vertex;
-import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
-import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
-import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
-import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
-import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 import net.sourceforge.czt.modeljunit.examples.FSM;
+import net.sourceforge.czt.modeljunit.examples.SimpleSetWithAdaptor;
+import net.sourceforge.czt.modeljunit.examples.StringSetBuggy;
 
 /**
  * Unit tests for Model
  */
 public class ModelTest extends TestCase
 {
+  private String message_ = null;
+
   /**
    * Create the test case
    *
@@ -64,13 +61,19 @@ public class ModelTest extends TestCase
 
   public static void testReflection()
   {
-    Model model = new Model(new FSM());
+    FSM sut = new FSM();
+    Model model = new Model(sut);
+    assertEquals(sut, model.getModel());
+    assertEquals(FSM.class, model.getModelClass());
+    assertEquals("net.sourceforge.czt.modeljunit.examples.FSM",
+        model.getModelName());
+    assertEquals(4, model.getNumActions());
     Assert.assertEquals("0", model.getCurrentState());
-    int action0 = model.fsmFindAction("action0");
-    int action1 = model.fsmFindAction("action1");
-    int action2 = model.fsmFindAction("action2");
-    int actionNone = model.fsmFindAction("actionNone");
-    int rubbish = model.fsmFindAction("rubbish");
+    int action0 = model.getActionNumber("action0");
+    int action1 = model.getActionNumber("action1");
+    int action2 = model.getActionNumber("action2");
+    int actionNone = model.getActionNumber("actionNone");
+    int rubbish = model.getActionNumber("rubbish");
     Assert.assertTrue(action0 >= 0);
     Assert.assertTrue(action1 >= 0);
     Assert.assertTrue(action2 >= 0);
@@ -82,83 +85,168 @@ public class ModelTest extends TestCase
     Assert.assertEquals("actionNone", model.getActionName(actionNone));
   }
 
+
+  public static void testFlag()
+  {
+    FSM sut = new FSM();
+    Model model = new Model(sut);
+    assertTrue(model.getTesting());
+    assertTrue(model.setTesting(false));
+    assertFalse(model.getTesting());
+    assertFalse(model.setTesting(true));
+    assertTrue(model.getTesting());
+  }
+
+  public static void testOutput()
+  {
+    FSM sut = new FSM();
+    Model model = new Model(sut);
+    Writer wr0 = model.getOutput();
+    assertTrue(wr0 instanceof OutputStreamWriter);
+    Writer wr1 = new StringWriter();
+    assertEquals(wr0, model.setOutput(wr1));
+    assertEquals(wr1, model.getOutput());
+    model.printMessage("test");
+    model.printWarning("warning");
+    Writer wr2 = new OutputStreamWriter(System.out);
+    assertEquals(wr1, model.setOutput(wr2));
+    assertEquals(wr2, model.getOutput());
+    model.printMessage("ignore this message"); // should NOT go into wr1.
+    assertEquals("test\nWarning: warning\n", wr1.toString());
+  }
+
   public static void testEnabled()
   {
     Model model = new Model(new FSM());
-    int action0 = model.fsmFindAction("action0");
-    int action1 = model.fsmFindAction("action1");
-    int action2 = model.fsmFindAction("action2");
-    int actionNone = model.fsmFindAction("actionNone");
+    int action0 = model.getActionNumber("action0");
+    int action1 = model.getActionNumber("action1");
+    int action2 = model.getActionNumber("action2");
+    int actionNone = model.getActionNumber("actionNone");
+    Object s0 = model.getCurrentState();
+    assertEquals("0", s0);
 
     // check enabled actions of state 0.
-    BitSet enabled = model.enabledGuards();
-    Assert.assertEquals(false, enabled.get(action0));
-    Assert.assertEquals(false, enabled.get(action1));
-    Assert.assertEquals(true, enabled.get(action2));
-    Assert.assertEquals(true, enabled.get(actionNone));
+    BitSet enabled0 = model.enabledGuards();
+    assertEquals(2, enabled0.cardinality());
+    assertEquals(false, enabled0.get(action0));
+    assertEquals(false, enabled0.get(action1));
+    assertEquals(true, enabled0.get(action2));
+    assertEquals(true, enabled0.get(actionNone));
 
     // Now take action2, to state 2, and check its enabled actions.
     model.doAction(action2);
-    Assert.assertEquals("2", model.getCurrentState().toString());
-    enabled = model.enabledGuards();
-    Assert.assertEquals(true, enabled.get(action0));
-    Assert.assertEquals(true, enabled.get(action1));
-    Assert.assertEquals(false, enabled.get(action2));
-    Assert.assertEquals(true, enabled.get(actionNone));
+    assertEquals("2", model.getCurrentState().toString());
+    BitSet enabled2 = model.enabledGuards();
+    assertEquals(true, enabled2.get(action0));
+    assertEquals(true, enabled2.get(action1));
+    assertEquals(false, enabled2.get(action2));
+    assertEquals(true, enabled2.get(actionNone));
+
+    // Now check that reset returns to the initial state.
+    model.doReset();
+    assertEquals(s0, model.getCurrentState());
+    assertEquals(enabled0, model.enabledGuards());
   }
 
-  /** This tests a greedy random walk, plus TransitionCoverage 
-   *  metric with history
-   *
-   * TODO: add these tests in separate files.
-   * 
-  public static void testGreedyRandomWalk()
+  public void testFailure()
   {
-    ModelTestCase model = new ModelTestCase(new FSM());
-    CoverageHistory metric = new CoverageHistory(new TransitionCoverage(), 1);
-    model.addCoverageMetric(metric);
-    model.greedyRandomWalk(7);
-    int coverage = metric.getCoverage();
-    Assert.assertEquals(5, coverage);
-    Assert.assertEquals(-1, metric.getMaximum());
-    List<Integer> hist = metric.getHistory();
-    Assert.assertNotNull(hist);
-    Assert.assertEquals("Incorrect history size.", 8, hist.size());
-    Assert.assertEquals(new Integer(0), hist.get(0));
-    Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
-  }
-
-  public static void testBuildGraph()
-  {
-    ModelTestCase model = new ModelTestCase(new FSM());
-    model.buildGraph();
-    InspectableGraph graph = model.getGraph();
-    // now check that the correct graph has been built.
-    Assert.assertEquals(3, graph.numVertices());
-    Assert.assertEquals(5, graph.numEdges());
-    Vertex s0 = model.getVertex("0");
-    Vertex s1 = model.getVertex("1");
-    Vertex s2 = model.getVertex("2");
-    Assert.assertNotNull(s0);
-    Assert.assertNotNull(s1);
-    Assert.assertNotNull(s2);
-    Assert.assertEquals("0", s0.element());
-    Assert.assertEquals("1", s1.element());
-    Assert.assertEquals("2", s2.element());
-    // we must iterate through the edges, because graph.aConnectingEdge
-    // does not respect the direction of the edge!
-    EdgeIterator iter = graph.edges();
-    while (iter.hasNext()) {
-      Edge e = iter.nextEdge();
-      if (graph.origin(e) == s2 && graph.destination(e) == s0)
-        Assert.assertEquals("action0", e.element());
-      else if (graph.origin(e) == s2 && graph.destination(e) == s1)
-        Assert.assertEquals("action1", e.element());
-      else if (graph.origin(e) == s0 && graph.destination(e) == s2)
-        Assert.assertEquals("action2", e.element());
-      else
-        Assert.assertEquals("actionNone", e.element());
+    SimpleSetWithAdaptor sut = new SimpleSetWithAdaptor(new StringSetBuggy());
+    Model model = new Model(sut);
+    message_ = null;
+    model.addListener(new AbstractListener()
+      { public String getName() {return "failure";}
+        @Override public void failure(Exception ex)
+        {
+          message_ = "failure";
+        }
+      }
+    );
+    int addS1 = model.getActionNumber("addS1");
+    try {
+      assertTrue(model.doAction(addS1));
+      fail("Action delS2 (with sut=StringSetBuggy) should have failed");
+    }
+    catch (TestFailureException ex) {
+      assertEquals("failure in action addS1 from state FF due to ",
+          ex.getMessage().subSequence(0, 45));
+      assertEquals("FF", ex.getState());
+      assertEquals("addS1", ex.getActionName());
+      assertEquals(sut, ex.getModel());
+      assertEquals(sut.getClass().getName(), ex.getModelName());
+      List<Transition> trs = ex.getSequence();
+      assertEquals(0, trs.size());
+      assertEquals("failure", message_);
     }
   }
-*/
+
+  public void testListener()
+  {
+    Model model = new Model(new FSM());
+    ModelListener dummy = new AbstractListener()
+      {
+        public String getName() {return "dummy";}
+        @Override public void doneReset(String reason, boolean testing)
+        {
+          message_ += "doneReset("+reason+","+testing+")";
+        }
+
+        public void doneGuard(Object state, int action, boolean enabled, int value)
+        {
+          message_ += "doneGuard("+state+","+action+","+enabled+","+value+")";
+        }
+
+        public void startAction(Object state, int action, String name)
+        {
+          message_ += "startAction("+state+","+action+","+name+")";
+        }
+
+        public void doneTransition(int action, Transition tr)
+        {
+          message_ += "doneTransition("+action+","+tr.toString()+")";
+        }
+      };
+    assertNull(model.getListener("dummy"));
+    assertEquals(dummy, model.addListener(dummy));
+    assertEquals(dummy, model.getListener("dummy"));
+    assertEquals(1, model.getListeners().size());
+    // TODO: test model.addListener("verbose");
+    int action1 = model.getActionNumber("action1");
+    int action2 = model.getActionNumber("action2");
+    message_ = "";
+    // now start creating model events.
+    assertTrue(model.isEnabled(action2));
+    assertEquals("doneGuard(0,"+action2+",true,1)", message_);
+    message_ = "";
+    assertFalse(model.isEnabled(action1));
+    assertEquals("doneGuard(0,"+action1+",false,0)", message_);
+    message_ = "";
+    assertTrue(model.doAction(action2));
+    assertEquals("doneGuard(0,"+action2+",true,1)"
+        + "startAction(0,"+action2+",action2)"
+        + "doneTransition("+action2+",(0, action2, 2))", message_);
+    message_ = "";
+    model.doReset();
+    assertEquals("doneReset(User,true)", message_);
+
+    // now remove the listener and check that it is no longer called
+    assertEquals(dummy, model.removeListener("dummy"));
+    assertNull(model.getListener("dummy"));
+    message_ = "";
+    model.doReset();
+    assertEquals("", message_);
+
+    // test all then removeAll.
+    model.addListener("graph");
+    assertTrue(model.getListener("graph") instanceof GraphListener);
+    assertEquals(model.getGraphListener(), model.getListener("graph"));
+    assertEquals(1, model.getListeners().size());
+    new RandomTester(model).buildGraph();
+    model.addListener(new TransitionCoverage());
+    TransitionCoverage tr = (TransitionCoverage) model.getListener("transition coverage");
+    assertEquals(2, model.getListeners().size());
+    assertEquals(5, tr.getMaximum()); // it should have been given the graph
+    assertEquals("0/5", tr.toString());
+    model.removeAllListeners();
+    assertEquals(0, model.getListeners().size());
+  }
 }

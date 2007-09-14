@@ -73,7 +73,9 @@ public class GraphListener extends AbstractListener
   // invariant (obj,vertex) in fsmVertex_ <==> vertex.element()==obj;
   private Map<Object,Vertex> fsmVertex_;
 
-  /** Records the (state,action) pairs that have been explored. */
+  /** Records the (state,action) pairs that have been explored.
+   *  There is an entry in this map for every state that has been visited.
+   */
   private Map<Object,BitSet> fsmDone_;
 
   /** Records the (state,action) pairs that have not been explored. */
@@ -146,10 +148,10 @@ public class GraphListener extends AbstractListener
 
   /**
    *  Returns a bitset of all the DONE bits for this state.
-   *  If the result is null, it means that no transitions have ever
-   *  been taken out of the given state.
+   *  The result should never be null once the given state has
+   *  been visited.
    * @param state
-   * @return A BitSet, or null.
+   * @return A BitSet.
    */
   public BitSet getDone(Object state)
   {
@@ -187,13 +189,6 @@ public class GraphListener extends AbstractListener
     // model_.printMessage(msg);
   }
 
-  /** Returns the model that is being used to generate tests */
-  @Override
-  public Model getModel()
-  {
-    return model_;
-  }
-
   /** Starts to build the FSM graph by exploring the fsm object.
    *  This assumes that the current fsmState is the initial state.
    *  That is, a reset has just been done.
@@ -213,7 +208,7 @@ public class GraphListener extends AbstractListener
     assert initial != null;
     printProgress(3, "buildgraph: start with vertex for initial state "+curr);
     fsmVertex_.put(curr, initial);
-    fsmDone_.put(curr, new BitSet());  // TODO: remove this?
+    fsmDone_.put(curr, new BitSet());
     BitSet enabled = model_.enabledGuards();
     if (enabled.isEmpty())
       throw new FsmException("Initial state has no actions enabled.");
@@ -341,11 +336,8 @@ public class GraphListener extends AbstractListener
   }
 
   /** Records a transition in the graph, if it is not already there.
-   *  This internal method should be called by doAction, so that
-   *  it can analyze/record every transition.  It is quite like
-   *  a coverage listener, but I decided to make it more built-in
-   *  because the graph is so fundamental to model-based testing.
-   * @param tr  A possibly new transition (and state).
+   * @param action  The number of the action just taken
+   * @param tr      A possibly new transition (and state).
    */
   @Override
   public void doneTransition(int action, Transition tr)
