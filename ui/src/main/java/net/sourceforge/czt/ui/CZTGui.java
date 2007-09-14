@@ -1,5 +1,6 @@
 package net.sourceforge.czt.ui;
 
+
 import javax.swing.*;
 import javax.swing.event.MenuKeyEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -103,7 +104,8 @@ public class CZTGui implements ActionListener
    */
   public CZTGui()
   {
-    
+    chooser.setAcceptAllFileFilterUsed(false);
+    chooser.addChoosableFileFilter(new CZTFilter());
     specDialog.setLocationRelativeTo(frame);
     statusBar.setEditable(false);
     saveas.setEnabled(false);
@@ -318,7 +320,7 @@ public class CZTGui implements ActionListener
    */
   private void loadFile()
   { 
-    statusBar.setText("Finished reading "+file.getName());
+    statusBar.setText("Reading "+file.getName()+"...done");
     
     String selectedLanguage = "";
     String selectedEncoding = "";
