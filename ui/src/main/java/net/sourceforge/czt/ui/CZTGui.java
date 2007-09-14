@@ -92,6 +92,8 @@ public class CZTGui implements ActionListener
   JMenuItem saveasXML = new JMenuItem("XML");
   JMenuItem close = new JMenuItem("Close");
   JMenuItem exit = new JMenuItem("Exit");
+  JMenu helpmenu = new JMenu("Help");
+  JMenuItem czthelp = new JMenuItem("CZT Help");
   JScrollPane scrollResults = new JScrollPane(resultList);
   JScrollPane scrollTreeStructure = new JScrollPane();
   JSplitPane split = null;
@@ -168,6 +170,7 @@ public class CZTGui implements ActionListener
     saveasXML.addActionListener(this);
     close.addActionListener(this);
     exit.addActionListener(this);
+    czthelp.addActionListener(this);
     
     filemenu.add(open);
     saveas.add(saveasLatex);
@@ -177,8 +180,10 @@ public class CZTGui implements ActionListener
     filemenu.add(saveas);
     filemenu.add(close);
     filemenu.add(exit);
+    helpmenu.add(czthelp);
 
     menubar.add(filemenu);
+    menubar.add(helpmenu);
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().add(BorderLayout.NORTH, menubar);
