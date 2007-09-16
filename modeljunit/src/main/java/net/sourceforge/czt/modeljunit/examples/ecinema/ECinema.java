@@ -304,12 +304,11 @@ public class ECinema implements FsmModel
   public static void main(String[] args) throws FileNotFoundException
   {
     Tester tester = new GreedyTester(new ECinema());
-    tester.buildGraph();
-    GraphListener graph = (GraphListener) tester.getModel().getListener("graph");
+    GraphListener graph = tester.buildGraph();
     graph.printGraphDot("ecinema.dot");
-    CoverageMetric trans = new TransitionCoverage();
-    tester.addCoverageMetric(trans);
-    tester.addListener("verbose", new VerboseListener(tester.getModel()));
+    CoverageMetric trans = (CoverageMetric) tester.addListener("transition coverage");
+    tester.addListener("verbose");
+    // this illustrates how to generate tests upto a given level of coverage.
     while (trans.getPercentage() < 100) {
       tester.generate();
     }

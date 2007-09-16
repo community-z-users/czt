@@ -101,7 +101,7 @@ public class FSM implements FsmModel
     tester.addListener(trCoverage);
 
     // ask to print the generated tests
-    tester.addListener("verbose", new VerboseListener(tester.getModel()));
+    tester.addListener("verbose");
 
     // generate a small test suite of 20 steps (covers 4/5 transitions)
     tester.generate(20);

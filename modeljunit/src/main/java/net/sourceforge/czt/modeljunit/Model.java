@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 
@@ -530,10 +531,10 @@ public class Model
     return listeners_.get(name);
   }
 
-  /** A list of all the current coverage listeners */
-  public Map<String,ModelListener> getListeners()
+  /** The set of names of all the current coverage metrics and listeners */
+  public Set<String> getListenerNames()
   {
-    return listeners_;
+    return listeners_.keySet();
   }
 
   /** Sends a doneReset event to all listeners */

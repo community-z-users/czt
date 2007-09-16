@@ -31,7 +31,7 @@ public class GraphListenerTest extends TestCase
     done = listen.getDone(state2);
     assertEquals(3, todo.cardinality());
     assertEquals(0, done.cardinality());
-    new RandomTester(model).buildGraph();
+    assertEquals(listen, new RandomTester(model).buildGraph());
     InspectableGraph graph = listen.getGraph();
     // now check that the correct graph has been built.
     assertEquals(3, graph.numVertices());

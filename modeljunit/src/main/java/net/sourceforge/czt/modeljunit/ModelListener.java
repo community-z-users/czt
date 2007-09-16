@@ -26,11 +26,11 @@ import net.sourceforge.czt.modeljunit.Transition;
 public interface ModelListener
 {
   /** Get the short name that this listener is known by.
-   *  This name can be used to add a listener to a model or
+   *  This name is used to add a listener to a model or
    *  a Tester object and to lookup a listener.
    *  The name should be a short descriptive noun phrase,
-   *  should usually be less than 30 characters, may
-   *  contain spaces, and should be all lowercase.
+   *  all in lowercase, should usually be less than 30 characters,
+   *  and may contain spaces.
    */
   public String getName();
 

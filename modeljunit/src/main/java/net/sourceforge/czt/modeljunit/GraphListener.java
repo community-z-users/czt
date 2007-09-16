@@ -397,8 +397,9 @@ public class GraphListener extends AbstractListener
           fsmTodo_.remove(oldState);
           if (isComplete()) {
             // tell all the listeners about the graph
-            printProgress(2, "completed graph, so calling setModel");
-            for (ModelListener listen : model_.getListeners().values()) {
+            printProgress(2, "completed graph, so calling setGraph");
+            for (String name : model_.getListenerNames()) {
+              ModelListener listen = model_.getListener(name);
               if (listen instanceof CoverageMetric) {
                 ((CoverageMetric)listen).setGraph(fsmGraph_, fsmVertex_);
               }

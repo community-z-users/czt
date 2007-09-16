@@ -208,7 +208,7 @@ public class ModelTest extends TestCase
     assertNull(model.getListener("dummy"));
     assertEquals(dummy, model.addListener(dummy));
     assertEquals(dummy, model.getListener("dummy"));
-    assertEquals(1, model.getListeners().size());
+    assertEquals(1, model.getListenerNames().size());
     // TODO: test model.addListener("verbose");
     int action1 = model.getActionNumber("action1");
     int action2 = model.getActionNumber("action2");
@@ -235,18 +235,18 @@ public class ModelTest extends TestCase
     model.doReset();
     assertEquals("", message_);
 
-    // test all then removeAll.
+    // test getListenerNames then removeAll.
     model.addListener("graph");
     assertTrue(model.getListener("graph") instanceof GraphListener);
     assertEquals(model.getGraphListener(), model.getListener("graph"));
-    assertEquals(1, model.getListeners().size());
-    new RandomTester(model).buildGraph();
+    assertEquals(1, model.getListenerNames().size());
+    assertEquals(model.getGraphListener(), new RandomTester(model).buildGraph());
     model.addListener(new TransitionCoverage());
     TransitionCoverage tr = (TransitionCoverage) model.getListener("transition coverage");
-    assertEquals(2, model.getListeners().size());
+    assertEquals(2, model.getListenerNames().size());
     assertEquals(5, tr.getMaximum()); // it should have been given the graph
     assertEquals("0/5", tr.toString());
     model.removeAllListeners();
-    assertEquals(0, model.getListeners().size());
+    assertEquals(0, model.getListenerNames().size());
   }
 }

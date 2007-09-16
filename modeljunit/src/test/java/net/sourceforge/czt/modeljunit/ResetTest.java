@@ -168,7 +168,7 @@ public class ResetTest extends TestCase
     tester.setResetProbability(0.9);
     CoverageMetric trCover = new TransitionCoverage();
     CoverageHistory hist = new CoverageHistory(trCover,1);
-    tester.addCoverageMetric(hist);
+    tester.addListener(hist);
     tester.generate(40);
     // the random walk should choose reset almost all the time
     // so should not get must past the first transition.

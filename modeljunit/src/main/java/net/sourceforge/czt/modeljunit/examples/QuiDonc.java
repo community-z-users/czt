@@ -197,9 +197,7 @@ public class QuiDonc implements FsmModel
       if (line.equals("graph")) {
         out.println("Building FSM graph...");
         Tester tester = new GreedyTester(quidonc);
-        tester.buildGraph();
-        GraphListener graph =
-          (GraphListener)tester.getModel().getListener("graph");
+        GraphListener graph = tester.buildGraph();
         graph.printGraphDot("QuiDonc.dot");
         out.println("Printed FSM graph to QuiDonc.dot.");
         out.println("Use dotty or dot from http://www.graphviz.org"

@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.modeljunit;
 
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Random;
 
@@ -164,5 +165,20 @@ public class RandomTesterTest extends TestCase
     //    System.out.println("Starting testTransitionPairCoverage");
     FsmCoverage(new TransitionPairCoverage(), 10,
         new int[] {1,0, 2,1, 3,2, 200,9});
+  }
+  
+  public void testPrintCoverage()
+  {
+    RandomTester tester = new RandomTester(new FSM());
+    tester.addListener("transition coverage");
+    tester.addCoverageMetric(new ActionCoverage());
+    tester.buildGraph();
+    tester.generate(100);
+    StringWriter out = new StringWriter();
+    tester.getModel().setOutput(out);
+    tester.printCoverage();
+    assertEquals("action coverage: 4/4\n"
+        + "transition coverage: 5/5\n",
+        out.toString());
   }
 }

@@ -58,10 +58,9 @@ public class QuiDoncTest extends TestCase
   throws FileNotFoundException
   {
     Tester tester = new RandomTester(new QuiDonc());
-    tester.buildGraph();
+    GraphListener graph = tester.buildGraph();
     //    model.printGraphDot("QuiDonc.dot");
     // NOTE: with the State+timeouts getState, it has 11 vertices, 37 edges.
-    GraphListener graph = tester.getModel().getGraphListener();
     Assert.assertEquals(5, graph.getGraph().numVertices());
     int numEdges = graph.getGraph().numEdges();
     System.out.println("QuiDonc has "+numEdges+" edges.");

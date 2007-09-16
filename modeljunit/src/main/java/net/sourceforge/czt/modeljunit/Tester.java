@@ -19,7 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 
@@ -103,10 +107,11 @@ public abstract class Tester
    *  See the Factory class for the set of known names.
    *
    *  @param name The name of a known listener.
+   *  @return     The listener that has been added (now or earlier).
    */
-  public void addListener(String name)
+  public ModelListener addListener(String name)
   {
-    model_.addListener(name);
+    return model_.addListener(name);
   }
 
   /** @deprecated Use addListener(listener) instead. */
@@ -115,20 +120,39 @@ public abstract class Tester
     model_.addListener(listen);
   }
 
-  /** @deprecated Use addListener(listener) instead. */
-  public void addCoverageMetric(CoverageMetric metric)
+  /** This is equivalent to addListener(metric), but more convenient.
+   * @param metric  A non-null coverage metric to add.
+   * @return metric, or a previously-added metric with the same name (if any).
+   */
+  public CoverageMetric addCoverageMetric(CoverageMetric metric)
   {
-    model_.addListener(metric);
+    return (CoverageMetric) model_.addListener(metric);
   }
 
   /**
    *  A convenience method that adds a listener object.
    *  This is equivalent to <code>getModel().addListener(listener)</code>.
    * @param metric  Must be non-null.
+   * @return     The listener that has been added (now or earlier).
    */
-  public void addListener(ModelListener listener)
+  public ModelListener addListener(ModelListener listener)
   {
-    model_.addListener(listener);
+    return model_.addListener(listener);
+  }
+
+  /** Prints the name and toString message from each coverage metric.
+   *  They are printed in alphabetical order.
+   */
+  public void printCoverage()
+  {
+    List<String> names = new ArrayList<String>(model_.getListenerNames());
+    Collections.sort(names);
+    for (String name : names) {
+      ModelListener listen = model_.getListener(name);
+      if (listen instanceof CoverageMetric) {
+        model_.printMessage(name+": "+listen.toString());
+      }
+    }
   }
 
   public void reset()
@@ -154,9 +178,9 @@ public abstract class Tester
   }
 
   /** Equivalent to buildGraph(10000). */
-  public void buildGraph()
+  public GraphListener buildGraph()
   {
-    buildGraph(10000);
+    return buildGraph(10000);
   }
 
   /** Calls {@code generate()} repeatedly until the graph seems to be complete.
@@ -168,13 +192,13 @@ public abstract class Tester
    *  generator {@link #getRandom()} that is used for test generation.
    *  </p>
    */
-  public void buildGraph(int maxSteps)
+  public GraphListener buildGraph(int maxSteps)
   {
     Random old = rand_;
     rand_ = new Random(FIXEDSEED);
     //System.out.println("DEBUG: BUILDGRAPH replaces "+old+" by "+rand_);
-    model_.addListener("graph"); // make sure there is a graph listener
-    GraphListener graph = (GraphListener)model_.getListener("graph");
+    // make sure there is a graph listener
+    GraphListener graph = (GraphListener) model_.addListener("graph");
     boolean wasTesting = model_.setTesting(false);
     model_.doReset("Buildgraph");
     do {
@@ -195,5 +219,6 @@ public abstract class Tester
     // restore the original random number generator.
     rand_ = old;
     //System.out.println("DEBUG: BUILDGRAPH restores "+old);
+    return graph;
   }
 }
