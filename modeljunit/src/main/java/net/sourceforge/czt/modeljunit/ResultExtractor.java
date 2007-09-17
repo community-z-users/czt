@@ -75,16 +75,16 @@ public class ResultExtractor
                   Model model = new Model(new QuiDonc());
                         
                   Tester rtester = new RandomTester(model);
-			historyRandom.add(generateResults(seed, rtester));
-                        
+	 	  historyRandom.add(generateResults(seed, rtester));
+                       
                   Tester gtester = new GreedyTester(model);
                   historyGreedy.add(generateResults(seed, gtester));
 
-			Tester atester = new AllRoundTester(model);
-			historyAllRound.add(generateResults(seed, atester));
+		  //Tester atester = new AllRoundTester(model);
+		  //historyAllRound.add(generateResults(seed, atester));
 			
-			seeds.add(seed);
-			currentPass++;
+		  seeds.add(seed);
+		  currentPass++;
 		}
 		this.write();
 	}
@@ -102,8 +102,8 @@ public class ResultExtractor
 				w.println(historyRandom.get(i));
 				w.print(",,Greedy,");
 				w.println(historyGreedy.get(i));
-				w.print(",,All Round Trips,");
-				w.println(historyAllRound.get(i));
+				//w.print(",,All Round Trips,");
+				//w.println(historyAllRound.get(i));
 			}
 			w.close();
 		}
