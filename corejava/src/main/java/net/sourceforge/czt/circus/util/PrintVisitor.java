@@ -348,7 +348,7 @@ public class PrintVisitor
     StringBuilder result = new StringBuilder("ChannelDecl[");
     result.append(visitList(term.getZGenFormals(), "[" , ", ", "]"));
     openTabScope(result);
-    result.append(visitList(term.getZNameList(), ", "));
+    result.append(visitList(term.getZChannelNameList(), ", "));
     result.append(" : ");
     result.append(visit(term.getExpr()));
     closeTabScope(result);
