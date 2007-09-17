@@ -877,6 +877,10 @@ public class CircusPrintVisitor
         throw new UnsupportedOperationException("Unexpected term NameSetType.");
     }
     
+    public Object visitChannelType(ChannelType term) {
+        throw new UnsupportedOperationException("Unexpected term ChannelType.");
+    }
+    
     public Object visitProcessSignature(ProcessSignature term) {
         throw new UnsupportedOperationException("Unexpected term ProcessSignature.");
     }
