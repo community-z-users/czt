@@ -162,8 +162,12 @@ public abstract class Tester
 
   /** Generate one more test step in the current sequence.
    *  This may reset and start a new test sequence if necessary.
+   *
+   *  Modified return type to int.  In order for current implementation of
+   *  AllRoundTester to work this must be the case.
+   *
    */
-  public abstract void generate();
+  public abstract int generate();
 
   /** Generate some test sequences, with the given total length.
    *  The default implementation of this just calls generate()

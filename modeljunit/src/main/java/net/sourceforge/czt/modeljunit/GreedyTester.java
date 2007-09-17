@@ -137,8 +137,8 @@ public class GreedyTester extends RandomTester
   }
 
   @Override
-  public void generate()
+  public int generate()
   {
-    doGreedyRandomActionOrReset();
+    return doGreedyRandomActionOrReset();
   }
 }

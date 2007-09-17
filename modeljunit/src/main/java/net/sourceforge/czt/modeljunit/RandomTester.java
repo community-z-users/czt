@@ -144,8 +144,8 @@ public class RandomTester extends Tester
    */
 
   @Override
-  public void generate()
+  public int generate()
   {
-    doRandomActionOrReset();
+    return doRandomActionOrReset();
   }
 }

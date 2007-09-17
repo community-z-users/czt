@@ -342,6 +342,7 @@ modeljunit/jdsl/tutorial/lesson07/support/data/sparse_graph.dat -text svneol=uns
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_flights.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_graph.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/AllRoundTester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/GraphListener.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/ListenerFactory.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/Model.java -text
