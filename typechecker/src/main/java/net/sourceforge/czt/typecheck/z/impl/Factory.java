@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.z.impl;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
@@ -454,5 +455,10 @@ public class Factory
   {
     Map<K, V> result = new java.util.HashMap<K, V>();
     return result;
+  }
+  
+  public <V> Set<V> hashSet()
+  {
+    return new java.util.HashSet<V>();
   }
 }
