@@ -34,6 +34,7 @@ public class ResultExtractor
 	ArrayList<Integer> seeds;
 	ArrayList<String> historyRandom;
 	ArrayList<String> historyGreedy;
+	ArrayList<String> historyAllRound;
 	Random rand;
 	
 	public ResultExtractor()
@@ -44,6 +45,7 @@ public class ResultExtractor
 		seeds = new ArrayList<Integer>();
 		historyRandom = new ArrayList<String>();
 		historyGreedy = new ArrayList<String>();
+		historyAllRound = new ArrayList<String>();
 	}
 	
 	public ResultExtractor(int p)
@@ -54,6 +56,7 @@ public class ResultExtractor
 		seeds = new ArrayList<Integer>();
 		historyRandom = new ArrayList<String>();
 		historyGreedy = new ArrayList<String>();
+		historyAllRound = new ArrayList<String>();
 	}
 	
         protected String generateResults(int seed, Tester tester)
@@ -69,13 +72,16 @@ public class ResultExtractor
 		while (currentPass != passes)
 		{
 			int seed = rand.nextInt();
-                        Model model = new Model(new QuiDonc());
+                  Model model = new Model(new QuiDonc());
                         
-                        Tester rtester = new RandomTester(model);
+                  Tester rtester = new RandomTester(model);
 			historyRandom.add(generateResults(seed, rtester));
                         
-                        Tester gtester = new GreedyTester(model);
-                        historyGreedy.add(generateResults(seed, gtester));
+                  Tester gtester = new GreedyTester(model);
+                  historyGreedy.add(generateResults(seed, gtester));
+
+			Tester atester = new AllRoundTester(model);
+			historyAllRound.add(generateResults(seed, atester));
 			
 			seeds.add(seed);
 			currentPass++;
@@ -96,6 +102,8 @@ public class ResultExtractor
 				w.println(historyRandom.get(i));
 				w.print(",,Greedy,");
 				w.println(historyGreedy.get(i));
+				w.print(",,All Round Trips,");
+				w.println(historyAllRound.get(i));
 			}
 			w.close();
 		}
