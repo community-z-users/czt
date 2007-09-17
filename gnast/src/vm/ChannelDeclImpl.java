@@ -10,7 +10,7 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
 
-  public net.sourceforge.czt.z.ast.ZNameList getZNameList()
+  public net.sourceforge.czt.z.ast.ZNameList getZChannelNameList()
   {
     if (getNameList().size() > 1) {
       net.sourceforge.czt.z.ast.NameList rnl = getNameList().get(1);
