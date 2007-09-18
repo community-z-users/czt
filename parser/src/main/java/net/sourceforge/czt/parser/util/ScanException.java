@@ -79,4 +79,10 @@ public class ScanException
   {
     return locInfo_.toString() + ": " + getMessage();
   }
+
+  public int compareTo(CztError other)
+  {
+    return CztErrorImpl.compareTo(this, other);
+  }
+
 }

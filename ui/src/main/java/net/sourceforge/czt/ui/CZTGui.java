@@ -8,6 +8,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Collections;
 
 import net.sourceforge.czt.base.util.TermTreeNode;
 import net.sourceforge.czt.parser.util.CztError;
@@ -300,26 +301,35 @@ public class CZTGui implements ActionListener
       }catch(IOException exception){
         successfulSaveMessage(false);
       }
-    }catch(CommandException exception){
-      Throwable cause = exception.getCause();
-      saveas.setEnabled(false);
-      if (cause instanceof CztErrorList) {
-        java.util.List<? extends CztError> errors = ((CztErrorList) cause).getErrors();
-        //iterate over error list
-        for (int i = 0; i < errors.size(); i++) {
-          resultListModel.addElement(errors.get(i).toString());          
-        }
-        resultList.setModel(resultListModel);
-      }
-      else if (cause instanceof IOException) {
-        String message = "Input output error: " + cause.getMessage();
-      }
-      else {
-        String message = cause + getClass().getName();
-      }
+    }
+    catch(CommandException exception) {
+      printErrors(exception);
     }
   }
-  
+
+  private void printErrors(CommandException exception)
+  {
+    Throwable cause = exception.getCause();
+    saveas.setEnabled(false);
+    if (cause instanceof CztErrorList) {
+      java.util.List<? extends CztError> errors =
+        ((CztErrorList) cause).getErrors();
+      Collections.sort(errors);
+      for (int i = 0; i < errors.size(); i++) {
+        resultListModel.addElement(errors.get(i).toString());          
+      }
+    }
+    else if (cause instanceof IOException) {
+      String message = "Input output error: " + cause.getMessage();
+      resultListModel.addElement(message);
+    }
+    else {
+      String message = cause + getClass().getName();
+      resultListModel.addElement(message);
+    }
+    resultList.setModel(resultListModel);
+  }
+
   /**
    *  Description of the Method
    */
@@ -422,26 +432,7 @@ public class CZTGui implements ActionListener
       close.setEnabled(true);
     }
     catch (CommandException exception) {
-      Throwable cause = exception.getCause();
-      saveas.setEnabled(false);
-      if (cause instanceof CztErrorList) {
-        java.util.List<? extends CztError> errors =
-        ((CztErrorList) cause).getErrors();
-        //iterate over error list
-        for (int i = 0; i < errors.size(); i++) {
-          resultListModel.addElement(errors.get(i).toString());
-        }
-        resultList.setModel(resultListModel);
-      }
-      else if (cause instanceof IOException) {
-        String message = "Input output error: " + cause.getMessage();
-        //todo: catch errors and display
-      }
-      else {
-        String message = cause + getClass().getName();
-        resultListModel.addElement(message);
-        resultList.setModel(resultListModel);
-      }
+      printErrors(exception);
     }
     catch (Throwable e) {
       String message =

@@ -29,7 +29,7 @@ package net.sourceforge.czt.parser.util;
  * @author Petra Malik
  */
 public interface CztError
-  extends LocInfo
+  extends LocInfo, Comparable<CztError>
 {
   String getMessage();
   ErrorType getErrorType();

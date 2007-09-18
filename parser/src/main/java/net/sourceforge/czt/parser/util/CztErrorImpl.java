@@ -87,4 +87,25 @@ public abstract class CztErrorImpl
   {
     return params_;
   }
+
+  public int compareTo(CztError other)
+  {
+    return compareTo(this, other);
+  }
+
+  public static int compareTo(CztError error1, CztError error2)
+  {
+    int result = 0;
+    result = error1.getLine() - error2.getLine();
+    if (result == 0) {
+      result = error1.getColumn() - error2.getColumn();
+    }
+    if (result == 0) {
+      result = error1.getErrorType().compareTo(error2.getErrorType());
+    }
+    if (result == 0) {
+      result = error1.getMessage().compareTo(error2.getMessage());
+    }
+    return result;
+  }
 }
