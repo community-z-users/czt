@@ -65,13 +65,13 @@ public class CZTGui implements ActionListener
 
   JPanel markupPanel = new JPanel();
   JLabel markupLabel = new JLabel("Markup: ");
-  String[] markupOptions = {"Latex", "Unicode", "XML"};
+  String[] markupOptions = {"Latex", "UTF8","UTF16", "XML"};
   JComboBox markupCombo = new JComboBox(markupOptions);
 
-  JPanel encodingPanel = new JPanel();
+  /*JPanel encodingPanel = new JPanel();
   JLabel encodingLabel = new JLabel("Encoding: ");
   String[] encodingOptions = {"Default", "UTF8", "UTF16"};
-  JComboBox encodingCombo = new JComboBox(encodingOptions);
+  JComboBox encodingCombo = new JComboBox(encodingOptions);**/
 
   JPanel typecheckPanel = new JPanel();
   JLabel typecheckLabel = new JLabel("Typecheck? ");
@@ -204,16 +204,12 @@ public class CZTGui implements ActionListener
     markupPanel.add(BorderLayout.WEST, markupLabel);
     markupPanel.add(BorderLayout.CENTER, markupCombo);
 
-    encodingPanel.add(BorderLayout.WEST, encodingLabel);
-    encodingPanel.add(BorderLayout.CENTER, encodingCombo);
-
     typecheckPanel.add(BorderLayout.WEST, typecheckLabel);
     typecheckPanel.add(BorderLayout.EAST, typecheckCheckBox);
 
     specMidPanel.setLayout(new BoxLayout(specMidPanel, BoxLayout.Y_AXIS));
     specMidPanel.add(languagePanel);
     specMidPanel.add(markupPanel);
-    specMidPanel.add(encodingPanel);
     specMidPanel.add(typecheckPanel);
 
     specOKCancelPanel.add(BorderLayout.WEST, specOKButton);
@@ -224,7 +220,7 @@ public class CZTGui implements ActionListener
     specDialog.getContentPane().add(BorderLayout.NORTH, specificationPanel);
     specDialog.getContentPane().add(BorderLayout.CENTER, specMidPanel);
     specDialog.getContentPane().add(BorderLayout.SOUTH, specOKCancelPanel);
-    specDialog.setSize(300, 250);
+    specDialog.setSize(300, 200);
 
   }
 
@@ -364,23 +360,24 @@ public class CZTGui implements ActionListener
     FileSource source = new FileSource(file);
     
     //set markup selection
-    if(((String)markupCombo.getSelectedItem()).equals("Latex"))
+    if(((String)markupCombo.getSelectedItem()).equals("Latex")){
       source.setMarkup(Markup.LATEX);
+      source.setEncoding("Default");
+    }
     else
-      if(((String)markupCombo.getSelectedItem()).equals("Unicode"))
+    if(((String)markupCombo.getSelectedItem()).equals("UTF8")){
       source.setMarkup(Markup.UNICODE);
-    else
-      if(((String)markupCombo.getSelectedItem()).equals("XML"))
-      source.setMarkup(Markup.ZML);
-    //set encoding selection
-    if(((String)encodingCombo.getSelectedItem()).equals("Defualt"))
-      source.setEncoding("default");
-    else
-      if(((String)encodingCombo.getSelectedItem()).equals("UTF8"))
       source.setEncoding("utf8");
+    }
     else
-      if(((String)encodingCombo.getSelectedItem()).equals("UTF16"))
+    if(((String)markupCombo.getSelectedItem()).equals("UTF16")){
+      source.setMarkup(Markup.UNICODE);
       source.setEncoding("utf16");
+    }
+    else
+    if(((String)markupCombo.getSelectedItem()).equals("XML")){
+      source.setMarkup(Markup.ZML);
+    }
     
     manager.put(new Key(source.getName(), Source.class), source);
 
@@ -462,19 +459,15 @@ public class CZTGui implements ActionListener
         
         if(specText.getText().endsWith("zed")||specText.getText().endsWith("tex")){
           markupCombo.setSelectedItem("Latex");
-          encodingCombo.setSelectedItem("Default");
         }
         if(specText.getText().endsWith("utf8")){
-          markupCombo.setSelectedItem("Unicode");
-          encodingCombo.setSelectedItem("UTF8");
+          markupCombo.setSelectedItem("UTF8");
         }
         if(specText.getText().endsWith("utf16")){
-          markupCombo.setSelectedItem("Unicode");
-          encodingCombo.setSelectedItem("UTF16");
+          markupCombo.setSelectedItem("UTF16");
         }
         if(specText.getText().endsWith("xml")||specText.getText().endsWith("zml")){
           markupCombo.setSelectedItem("XML");
-          encodingCombo.setSelectedItem("UTF8");
         }
       }
     }
