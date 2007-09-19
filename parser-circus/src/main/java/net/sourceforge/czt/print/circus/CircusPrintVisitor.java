@@ -798,9 +798,9 @@ public class CircusPrintVisitor
     public Object visitIfGuardedCommand(IfGuardedCommand term) {
         printLPAREN(term);
         print(Keyword.IF);
-        Iterator<GuardedAction> it = term.getGuardedAction().iterator();
-        while (it.hasNext()) {
-            GuardedAction ga = it.next();
+        Iterator<? extends CircusAction> it = term.getGuardedAction().iterator();
+        while (it.hasNext()) {            
+            GuardedAction ga = (GuardedAction)it.next();
             visit(ga.getPred());
             print(CircusKeyword.CIRCTHEN);
             visit(ga.getCircusAction());
@@ -915,6 +915,7 @@ public class CircusPrintVisitor
      ***********************************************************/
     
     public Object visitTransformerPara(TransformerPara term) {
+        visit(term.getName());
         print(CircusKeyword.CIRCASSERTREF);        
         visit(term.getTransformerPred());        
         return null;
@@ -995,4 +996,39 @@ public class CircusPrintVisitor
         visit(term.getExpr());
         return null;
     }
+
+  public Object visitCircusProcessSignature(CircusProcessSignature term)  
+  {
+    throw new UnsupportedOperationException("Unexpected term CircusProcessSignature.");
+  }
+
+  public Object visitImplicitChannelAnn(ImplicitChannelAnn term)
+  {
+    throw new UnsupportedOperationException("Unexpected term ImplicitChannelAnn.");
+  }
+
+  public Object visitZSignatureList(ZSignatureList term)
+  {
+    throw new UnsupportedOperationException("Unexpected term ZSignatureList.");
+  }
+
+  public Object visitCircusActionList(CircusActionList term)
+  {
+    throw new UnsupportedOperationException("Unexpected term CircusActionList.");
+  }
+
+  public Object visitActionSignatureList(ActionSignatureList term)
+  {
+    throw new UnsupportedOperationException("Unexpected term ActionSignatureList.");
+  }
+
+  public Object visitProcessSignatureList(ProcessSignatureList term)
+  {
+    throw new UnsupportedOperationException("Unexpected term ProcessSignatureList.");
+  }
+
+  public Object visitCircusCommunicationList(CircusCommunicationList term)
+  {
+    throw new UnsupportedOperationException("Unexpected term CircusCommunicationList.");
+  }
 }
