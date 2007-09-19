@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/circus" xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <NarrSect>
         <Anns>
             <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="0" Length="508" Col="0"/>
@@ -101,12 +101,12 @@
 
 </Content>
             </NarrPara>
-            <ns2:ChannelPara>
+            <ns3:ChannelPara>
                 <Anns>
                     <LocAnn Start="709" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="30" Length="33" Col="3"/>
                 </Anns>
                 <ZDeclList>
-                    <ns2:ChannelDecl>
+                    <ns3:ChannelDecl>
                         <Anns>
                             <LocAnn Start="723" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="30" Length="19" Col="17"/>
                         </Anns>
@@ -140,9 +140,9 @@
                             </ZName>
                             <ZExprList/>
                         </RefExpr>
-                    </ns2:ChannelDecl>
+                    </ns3:ChannelDecl>
                 </ZDeclList>
-            </ns2:ChannelPara>
+            </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="755" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="31" Length="2" Col="12"/>
@@ -151,7 +151,7 @@
 
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="774" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="34" Length="823" Col="2"/>
                 </Anns>
@@ -163,7 +163,7 @@
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:BasicProcess>
+                <ns3:BasicProcess>
                     <Anns>
                         <LocAnn Start="804" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="34" Length="793" Col="32"/>
                     </Anns>
@@ -171,7 +171,7 @@
                         <AxPara Box="OmitBox">
                             <Anns>
                                 <LocAnn Start="845" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="36" Length="93" Col="20"/>
-                                <ns2:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
@@ -579,7 +579,7 @@
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns2:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="1042" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="38" Length="92" Col="8"/>
                             </Anns>
@@ -590,15 +590,15 @@
                                 <Word>Input</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:GuardedAction>
+                            <ns3:GuardedAction>
                                 <Anns>
                                     <LocAnn Start="1073" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="38" Length="61" Col="39"/>
                                 </Anns>
-                                <ns2:PrefixingAction>
+                                <ns3:PrefixingAction>
                                     <Anns>
                                         <LocAnn Start="1111" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="38" Length="23" Col="77"/>
                                     </Anns>
-                                    <ns2:CallAction>
+                                    <ns3:CallAction>
                                         <Anns>
                                             <LocAnn Start="1126" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="38" Length="8" Col="92"/>
                                         </Anns>
@@ -610,8 +610,8 @@
                                             <ZStrokeList/>
                                         </ZName>
                                         <ZExprList/>
-                                    </ns2:CallAction>
-                                    <ns2:Communication MultiSych="0" CommKind="Input">
+                                    </ns3:CallAction>
+                                    <ns3:Communication MultiSych="0" CommKind="Input">
                                         <Anns>
                                             <LocAnn Start="1111" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="38" Length="5" Col="77"/>
                                         </Anns>
@@ -625,8 +625,8 @@
                                             </ZName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <ns2:CircusFieldList>
-                                            <ns2:InputField>
+                                        <ns3:CircusFieldList>
+                                            <ns3:InputField>
                                                 <Anns>
                                                     <LocAnn Start="1117" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="38" Length="2" Col="83"/>
                                                 </Anns>
@@ -638,10 +638,10 @@
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <TruePred/>
-                                            </ns2:InputField>
-                                        </ns2:CircusFieldList>
-                                    </ns2:Communication>
-                                </ns2:PrefixingAction>
+                                            </ns3:InputField>
+                                        </ns3:CircusFieldList>
+                                    </ns3:Communication>
+                                </ns3:PrefixingAction>
                                 <MemPred Mixfix="true">
                                     <Anns>
                                         <LocAnn Start="1073" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="38" Length="14" Col="39"/>
@@ -690,8 +690,8 @@
                                         <ZExprList/>
                                     </RefExpr>
                                 </MemPred>
-                            </ns2:GuardedAction>
-                        </ns2:ActionPara>
+                            </ns3:GuardedAction>
+                        </ns3:ActionPara>
                         <AxPara Box="OmitBox">
                             <Anns>
                                 <LocAnn Start="1146" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="39" Length="133" Col="8"/>
@@ -1237,7 +1237,7 @@
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns2:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="1400" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="41" Length="99" Col="8"/>
                             </Anns>
@@ -1248,15 +1248,15 @@
                                 <Word>Output</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:GuardedAction>
+                            <ns3:GuardedAction>
                                 <Anns>
                                     <LocAnn Start="1432" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="41" Length="67" Col="40"/>
                                 </Anns>
-                                <ns2:PrefixingAction>
+                                <ns3:PrefixingAction>
                                     <Anns>
                                         <LocAnn Start="1464" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="41" Length="35" Col="72"/>
                                     </Anns>
-                                    <ns2:CallAction>
+                                    <ns3:CallAction>
                                         <Anns>
                                             <LocAnn Start="1490" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="41" Length="9" Col="98"/>
                                         </Anns>
@@ -1268,8 +1268,8 @@
                                             <ZStrokeList/>
                                         </ZName>
                                         <ZExprList/>
-                                    </ns2:CallAction>
-                                    <ns2:Communication MultiSych="0" CommKind="Output">
+                                    </ns3:CallAction>
+                                    <ns3:Communication MultiSych="0" CommKind="Output">
                                         <Anns>
                                             <LocAnn Start="1464" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="41" Length="6" Col="72"/>
                                         </Anns>
@@ -1283,8 +1283,8 @@
                                             </ZName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <ns2:CircusFieldList>
-                                            <ns2:OutputField>
+                                        <ns3:CircusFieldList>
+                                            <ns3:OutputField>
                                                 <Anns>
                                                     <LocAnn Start="1471" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="41" Length="11" Col="79"/>
                                                 </Anns>
@@ -1324,10 +1324,10 @@
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ApplExpr>
-                                            </ns2:OutputField>
-                                        </ns2:CircusFieldList>
-                                    </ns2:Communication>
-                                </ns2:PrefixingAction>
+                                            </ns3:OutputField>
+                                        </ns3:CircusFieldList>
+                                    </ns3:Communication>
+                                </ns3:PrefixingAction>
                                 <MemPred Mixfix="true">
                                     <Anns>
                                         <LocAnn Start="1432" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="41" Length="8" Col="40"/>
@@ -1373,9 +1373,9 @@
                                         <ZExprList/>
                                     </RefExpr>
                                 </MemPred>
-                            </ns2:GuardedAction>
-                        </ns2:ActionPara>
-                        <ns2:ActionPara>
+                            </ns3:GuardedAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="1505" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="76" Col="2"/>
                             </Anns>
@@ -1383,12 +1383,12 @@
                                 <Word>$$mainAction</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:SeqAction>
+                            <ns3:SeqAction>
                                 <Anns>
                                     <LocAnn Start="1505" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="76" Col="2"/>
-                                    <ns2:OnTheFlyDefAnn/>
+                                    <ns3:OnTheFlyDefAnn/>
                                 </Anns>
-                                <ns2:CallAction>
+                                <ns3:CallAction>
                                     <Anns>
                                         <LocAnn Start="1507" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="10" Col="4"/>
                                     </Anns>
@@ -1400,8 +1400,8 @@
                                         <ZStrokeList/>
                                     </ZName>
                                     <ZExprList/>
-                                </ns2:CallAction>
-                                <ns2:MuAction>
+                                </ns3:CallAction>
+                                <ns3:MuAction>
                                     <Anns>
                                         <LocAnn Start="1530" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="51" Col="27"/>
                                         <ParenAnn>
@@ -1410,11 +1410,11 @@
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
-                                    <ns2:SeqAction>
+                                    <ns3:SeqAction>
                                         <Anns>
                                             <LocAnn Start="1544" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="37" Col="41"/>
                                         </Anns>
-                                        <ns2:ExtChoiceAction>
+                                        <ns3:ExtChoiceAction>
                                             <Anns>
                                                 <LocAnn Start="1544" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="23" Col="41"/>
                                                 <ParenAnn>
@@ -1423,7 +1423,7 @@
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
-                                            <ns2:CallAction>
+                                            <ns3:CallAction>
                                                 <Anns>
                                                     <LocAnn Start="1544" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="5" Col="41"/>
                                                 </Anns>
@@ -1435,8 +1435,8 @@
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZExprList/>
-                                            </ns2:CallAction>
-                                            <ns2:CallAction>
+                                            </ns3:CallAction>
+                                            <ns3:CallAction>
                                                 <Anns>
                                                     <LocAnn Start="1561" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="6" Col="58"/>
                                                 </Anns>
@@ -1448,9 +1448,9 @@
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZExprList/>
-                                            </ns2:CallAction>
-                                        </ns2:ExtChoiceAction>
-                                        <ns2:CallAction>
+                                            </ns3:CallAction>
+                                        </ns3:ExtChoiceAction>
+                                        <ns3:CallAction>
                                             <Anns>
                                                 <LocAnn Start="1580" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="1" Col="77"/>
                                             </Anns>
@@ -1462,8 +1462,8 @@
                                                 <ZStrokeList/>
                                             </ZName>
                                             <ZExprList/>
-                                        </ns2:CallAction>
-                                    </ns2:SeqAction>
+                                        </ns3:CallAction>
+                                    </ns3:SeqAction>
                                     <ZName>
                                         <Anns>
                                             <LocAnn Start="1538" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="42" Length="1" Col="35"/>
@@ -1471,12 +1471,12 @@
                                         <Word>X</Word>
                                         <ZStrokeList/>
                                     </ZName>
-                                </ns2:MuAction>
-                            </ns2:SeqAction>
-                        </ns2:ActionPara>
+                                </ns3:MuAction>
+                            </ns3:SeqAction>
+                        </ns3:ActionPara>
                     </ZParaList>
-                </ns2:BasicProcess>
-            </ns2:ProcessPara>
+                </ns3:BasicProcess>
+            </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="1610" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="44" Length="88" Col="12"/>
@@ -1706,12 +1706,12 @@
 
 </Content>
             </NarrPara>
-            <ns2:ChannelPara>
+            <ns3:ChannelPara>
                 <Anns>
                     <LocAnn Start="1856" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="62" Length="48" Col="3"/>
                 </Anns>
                 <ZDeclList>
-                    <ns2:ChannelDecl>
+                    <ns3:ChannelDecl>
                         <Anns>
                             <LocAnn Start="1870" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="62" Length="34" Col="17"/>
                         </Anns>
@@ -1765,9 +1765,9 @@
                                 </RefExpr>
                             </ZExprList>
                         </ProdExpr>
-                    </ns2:ChannelDecl>
+                    </ns3:ChannelDecl>
                 </ZDeclList>
-            </ns2:ChannelPara>
+            </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="1917" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="63" Length="2" Col="12"/>
@@ -1776,7 +1776,7 @@
 
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="1936" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="66" Length="1667" Col="2"/>
                 </Anns>
@@ -1788,7 +1788,7 @@
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:BasicProcess>
+                <ns3:BasicProcess>
                     <Anns>
                         <LocAnn Start="1974" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="66" Length="1629" Col="40"/>
                     </Anns>
@@ -1796,7 +1796,7 @@
                         <AxPara Box="OmitBox">
                             <Anns>
                                 <LocAnn Start="2013" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="68" Length="201" Col="20"/>
-                                <ns2:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
@@ -3085,7 +3085,7 @@
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns2:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="2637" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="238" Col="8"/>
                             </Anns>
@@ -3096,15 +3096,15 @@
                                 <Word>InputController</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:GuardedAction>
+                            <ns3:GuardedAction>
                                 <Anns>
                                     <LocAnn Start="2678" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="197" Col="49"/>
                                 </Anns>
-                                <ns2:PrefixingAction>
+                                <ns3:PrefixingAction>
                                     <Anns>
                                         <LocAnn Start="2716" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="159" Col="87"/>
                                     </Anns>
-                                    <ns2:ExtChoiceAction>
+                                    <ns3:ExtChoiceAction>
                                         <Anns>
                                             <LocAnn Start="2746" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="129" Col="122"/>
                                             <ParenAnn>
@@ -3113,7 +3113,7 @@
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
-                                        <ns2:GuardedAction>
+                                        <ns3:GuardedAction>
                                             <Anns>
                                                 <LocAnn Start="2746" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="42" Col="122"/>
                                                 <ParenAnn>
@@ -3122,7 +3122,7 @@
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
-                                            <ns2:CallAction>
+                                            <ns3:CallAction>
                                                 <Anns>
                                                     <LocAnn Start="2778" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="10" Col="149"/>
                                                 </Anns>
@@ -3134,7 +3134,7 @@
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZExprList/>
-                                            </ns2:CallAction>
+                                            </ns3:CallAction>
                                             <MemPred Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Start="2746" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="8" Col="122"/>
@@ -3167,8 +3167,8 @@
                                                     </ZExprList>
                                                 </SetExpr>
                                             </MemPred>
-                                        </ns2:GuardedAction>
-                                        <ns2:GuardedAction>
+                                        </ns3:GuardedAction>
+                                        <ns3:GuardedAction>
                                             <Anns>
                                                 <LocAnn Start="2814" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="61" Col="185"/>
                                                 <ParenAnn>
@@ -3177,11 +3177,11 @@
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
-                                            <ns2:PrefixingAction>
+                                            <ns3:PrefixingAction>
                                                 <Anns>
                                                     <LocAnn Start="2846" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="29" Col="217"/>
                                                 </Anns>
-                                                <ns2:CallAction>
+                                                <ns3:CallAction>
                                                     <Anns>
                                                         <LocAnn Start="2865" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="10" Col="236"/>
                                                     </Anns>
@@ -3193,8 +3193,8 @@
                                                         <ZStrokeList/>
                                                     </ZName>
                                                     <ZExprList/>
-                                                </ns2:CallAction>
-                                                <ns2:Communication MultiSych="0" CommKind="Output">
+                                                </ns3:CallAction>
+                                                <ns3:Communication MultiSych="0" CommKind="Output">
                                                     <Anns>
                                                         <LocAnn Start="2846" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="5" Col="217"/>
                                                     </Anns>
@@ -3208,8 +3208,8 @@
                                                         </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <ns2:CircusFieldList>
-                                                        <ns2:DotField>
+                                                    <ns3:CircusFieldList>
+                                                        <ns3:DotField>
                                                             <Anns>
                                                                 <LocAnn Start="2851" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="7" Col="222"/>
                                                             </Anns>
@@ -3254,10 +3254,10 @@
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                             </ApplExpr>
-                                                        </ns2:DotField>
-                                                    </ns2:CircusFieldList>
-                                                </ns2:Communication>
-                                            </ns2:PrefixingAction>
+                                                        </ns3:DotField>
+                                                    </ns3:CircusFieldList>
+                                                </ns3:Communication>
+                                            </ns3:PrefixingAction>
                                             <MemPred Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Start="2814" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="8" Col="185"/>
@@ -3303,9 +3303,9 @@
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </MemPred>
-                                        </ns2:GuardedAction>
-                                    </ns2:ExtChoiceAction>
-                                    <ns2:Communication MultiSych="0" CommKind="Input">
+                                        </ns3:GuardedAction>
+                                    </ns3:ExtChoiceAction>
+                                    <ns3:Communication MultiSych="0" CommKind="Input">
                                         <Anns>
                                             <LocAnn Start="2716" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="5" Col="87"/>
                                         </Anns>
@@ -3319,8 +3319,8 @@
                                             </ZName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <ns2:CircusFieldList>
-                                            <ns2:InputField>
+                                        <ns3:CircusFieldList>
+                                            <ns3:InputField>
                                                 <Anns>
                                                     <LocAnn Start="2722" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="2" Col="93"/>
                                                 </Anns>
@@ -3332,10 +3332,10 @@
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <TruePred/>
-                                            </ns2:InputField>
-                                        </ns2:CircusFieldList>
-                                    </ns2:Communication>
-                                </ns2:PrefixingAction>
+                                            </ns3:InputField>
+                                        </ns3:CircusFieldList>
+                                    </ns3:Communication>
+                                </ns3:PrefixingAction>
                                 <MemPred Mixfix="true">
                                     <Anns>
                                         <LocAnn Start="2678" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="14" Col="49"/>
@@ -3384,8 +3384,8 @@
                                         <ZExprList/>
                                     </RefExpr>
                                 </MemPred>
-                            </ns2:GuardedAction>
-                        </ns2:ActionPara>
+                            </ns3:GuardedAction>
+                        </ns3:ActionPara>
                         <AxPara Box="OmitBox">
                             <Anns>
                                 <LocAnn Start="2890" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="73" Length="106" Col="8"/>
@@ -4036,7 +4036,7 @@
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns2:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="3177" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="240" Col="8"/>
                             </Anns>
@@ -4047,15 +4047,15 @@
                                 <Word>OutputController</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:GuardedAction>
+                            <ns3:GuardedAction>
                                 <Anns>
                                     <LocAnn Start="3219" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="198" Col="50"/>
                                 </Anns>
-                                <ns2:PrefixingAction>
+                                <ns3:PrefixingAction>
                                     <Anns>
                                         <LocAnn Start="3251" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="166" Col="82"/>
                                     </Anns>
-                                    <ns2:ExtChoiceAction>
+                                    <ns3:ExtChoiceAction>
                                         <Anns>
                                             <LocAnn Start="3286" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="131" Col="117"/>
                                             <ParenAnn>
@@ -4064,7 +4064,7 @@
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
-                                        <ns2:GuardedAction>
+                                        <ns3:GuardedAction>
                                             <Anns>
                                                 <LocAnn Start="3286" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="63" Col="117"/>
                                                 <ParenAnn>
@@ -4073,11 +4073,11 @@
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
-                                            <ns2:PrefixingAction>
+                                            <ns3:PrefixingAction>
                                                 <Anns>
                                                     <LocAnn Start="3318" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="31" Col="149"/>
                                                 </Anns>
-                                                <ns2:CallAction>
+                                                <ns3:CallAction>
                                                     <Anns>
                                                         <LocAnn Start="3336" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="13" Col="167"/>
                                                     </Anns>
@@ -4089,8 +4089,8 @@
                                                         <ZStrokeList/>
                                                     </ZName>
                                                     <ZExprList/>
-                                                </ns2:CallAction>
-                                                <ns2:Communication MultiSych="0" CommKind="Output">
+                                                </ns3:CallAction>
+                                                <ns3:Communication MultiSych="0" CommKind="Output">
                                                     <Anns>
                                                         <LocAnn Start="3318" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="4" Col="149"/>
                                                     </Anns>
@@ -4104,8 +4104,8 @@
                                                         </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <ns2:CircusFieldList>
-                                                        <ns2:DotField>
+                                                    <ns3:CircusFieldList>
+                                                        <ns3:DotField>
                                                             <Anns>
                                                                 <LocAnn Start="3322" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="7" Col="153"/>
                                                             </Anns>
@@ -4150,10 +4150,10 @@
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                             </ApplExpr>
-                                                        </ns2:DotField>
-                                                    </ns2:CircusFieldList>
-                                                </ns2:Communication>
-                                            </ns2:PrefixingAction>
+                                                        </ns3:DotField>
+                                                    </ns3:CircusFieldList>
+                                                </ns3:Communication>
+                                            </ns3:PrefixingAction>
                                             <MemPred Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Start="3286" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="8" Col="117"/>
@@ -4199,8 +4199,8 @@
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </MemPred>
-                                        </ns2:GuardedAction>
-                                        <ns2:GuardedAction>
+                                        </ns3:GuardedAction>
+                                        <ns3:GuardedAction>
                                             <Anns>
                                                 <LocAnn Start="3375" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="42" Col="211"/>
                                                 <ParenAnn>
@@ -4209,7 +4209,7 @@
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
-                                            <ns2:CallAction>
+                                            <ns3:CallAction>
                                                 <Anns>
                                                     <LocAnn Start="3407" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="10" Col="238"/>
                                                 </Anns>
@@ -4221,7 +4221,7 @@
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZExprList/>
-                                            </ns2:CallAction>
+                                            </ns3:CallAction>
                                             <MemPred Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Start="3375" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="8" Col="211"/>
@@ -4254,9 +4254,9 @@
                                                     </ZExprList>
                                                 </SetExpr>
                                             </MemPred>
-                                        </ns2:GuardedAction>
-                                    </ns2:ExtChoiceAction>
-                                    <ns2:Communication MultiSych="0" CommKind="Output">
+                                        </ns3:GuardedAction>
+                                    </ns3:ExtChoiceAction>
+                                    <ns3:Communication MultiSych="0" CommKind="Output">
                                         <Anns>
                                             <LocAnn Start="3251" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="6" Col="82"/>
                                         </Anns>
@@ -4270,8 +4270,8 @@
                                             </ZName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <ns2:CircusFieldList>
-                                            <ns2:OutputField>
+                                        <ns3:CircusFieldList>
+                                            <ns3:OutputField>
                                                 <Anns>
                                                     <LocAnn Start="3258" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="6" Col="89"/>
                                                 </Anns>
@@ -4288,10 +4288,10 @@
                                                     </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                            </ns2:OutputField>
-                                        </ns2:CircusFieldList>
-                                    </ns2:Communication>
-                                </ns2:PrefixingAction>
+                                            </ns3:OutputField>
+                                        </ns3:CircusFieldList>
+                                    </ns3:Communication>
+                                </ns3:PrefixingAction>
                                 <MemPred Mixfix="true">
                                     <Anns>
                                         <LocAnn Start="3219" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="8" Col="50"/>
@@ -4337,9 +4337,9 @@
                                         <ZExprList/>
                                     </RefExpr>
                                 </MemPred>
-                            </ns2:GuardedAction>
-                        </ns2:ActionPara>
-                        <ns2:ActionPara>
+                            </ns3:GuardedAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="3432" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="76" Length="102" Col="8"/>
                             </Anns>
@@ -4350,15 +4350,15 @@
                                 <Word>ControllerCycle</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:MuAction>
+                            <ns3:MuAction>
                                 <Anns>
                                     <LocAnn Start="3461" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="76" Length="73" Col="37"/>
                                 </Anns>
-                                <ns2:SeqAction>
+                                <ns3:SeqAction>
                                     <Anns>
                                         <LocAnn Start="3477" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="76" Length="57" Col="53"/>
                                     </Anns>
-                                    <ns2:ExtChoiceAction>
+                                    <ns3:ExtChoiceAction>
                                         <Anns>
                                             <LocAnn Start="3477" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="76" Length="43" Col="53"/>
                                             <ParenAnn>
@@ -4367,7 +4367,7 @@
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
-                                        <ns2:CallAction>
+                                        <ns3:CallAction>
                                             <Anns>
                                                 <LocAnn Start="3477" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="76" Length="15" Col="53"/>
                                             </Anns>
@@ -4379,8 +4379,8 @@
                                                 <ZStrokeList/>
                                             </ZName>
                                             <ZExprList/>
-                                        </ns2:CallAction>
-                                        <ns2:CallAction>
+                                        </ns3:CallAction>
+                                        <ns3:CallAction>
                                             <Anns>
                                                 <LocAnn Start="3504" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="76" Length="16" Col="80"/>
                                             </Anns>
@@ -4392,9 +4392,9 @@
                                                 <ZStrokeList/>
                                             </ZName>
                                             <ZExprList/>
-                                        </ns2:CallAction>
-                                    </ns2:ExtChoiceAction>
-                                    <ns2:CallAction>
+                                        </ns3:CallAction>
+                                    </ns3:ExtChoiceAction>
+                                    <ns3:CallAction>
                                         <Anns>
                                             <LocAnn Start="3533" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="76" Length="1" Col="109"/>
                                         </Anns>
@@ -4406,8 +4406,8 @@
                                             <ZStrokeList/>
                                         </ZName>
                                         <ZExprList/>
-                                    </ns2:CallAction>
-                                </ns2:SeqAction>
+                                    </ns3:CallAction>
+                                </ns3:SeqAction>
                                 <ZName>
                                     <Anns>
                                         <LocAnn Start="3470" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="76" Length="1" Col="46"/>
@@ -4415,9 +4415,9 @@
                                     <Word>X</Word>
                                     <ZStrokeList/>
                                 </ZName>
-                            </ns2:MuAction>
-                        </ns2:ActionPara>
-                        <ns2:ActionPara>
+                            </ns3:MuAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="3548" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="78" Length="41" Col="3"/>
                             </Anns>
@@ -4425,12 +4425,12 @@
                                 <Word>$$mainAction</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:SeqAction>
+                            <ns3:SeqAction>
                                 <Anns>
                                     <LocAnn Start="3548" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="78" Length="41" Col="3"/>
-                                    <ns2:OnTheFlyDefAnn/>
+                                    <ns3:OnTheFlyDefAnn/>
                                 </Anns>
-                                <ns2:CallAction>
+                                <ns3:CallAction>
                                     <Anns>
                                         <LocAnn Start="3550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="78" Length="14" Col="5"/>
                                     </Anns>
@@ -4442,8 +4442,8 @@
                                         <ZStrokeList/>
                                     </ZName>
                                     <ZExprList/>
-                                </ns2:CallAction>
-                                <ns2:CallAction>
+                                </ns3:CallAction>
+                                <ns3:CallAction>
                                     <Anns>
                                         <LocAnn Start="3574" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="78" Length="15" Col="29"/>
                                     </Anns>
@@ -4455,12 +4455,12 @@
                                         <ZStrokeList/>
                                     </ZName>
                                     <ZExprList/>
-                                </ns2:CallAction>
-                            </ns2:SeqAction>
-                        </ns2:ActionPara>
+                                </ns3:CallAction>
+                            </ns3:SeqAction>
+                        </ns3:ActionPara>
                     </ZParaList>
-                </ns2:BasicProcess>
-            </ns2:ProcessPara>
+                </ns3:BasicProcess>
+            </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="3616" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="80" Length="34" Col="12"/>
@@ -4471,12 +4471,12 @@
 
 </Content>
             </NarrPara>
-            <ns2:ChannelPara>
+            <ns3:ChannelPara>
                 <Anns>
                     <LocAnn Start="3667" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="85" Length="27" Col="2"/>
                 </Anns>
                 <ZDeclList>
-                    <ns2:ChannelDecl>
+                    <ns3:ChannelDecl>
                         <Anns>
                             <LocAnn Start="3681" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="85" Length="13" Col="16"/>
                         </Anns>
@@ -4510,9 +4510,9 @@
                             </ZName>
                             <ZExprList/>
                         </RefExpr>
-                    </ns2:ChannelDecl>
+                    </ns3:ChannelDecl>
                 </ZDeclList>
-            </ns2:ChannelPara>
+            </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="3707" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="86" Length="303" Col="12"/>
@@ -4526,7 +4526,7 @@ Thus, we have changed the state name from $val$ (keyword for parameters
 passed by value to $val\_$).
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="4027" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="94" Length="368" Col="2"/>
                 </Anns>
@@ -4538,7 +4538,7 @@ passed by value to $val\_$).
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:BasicProcess>
+                <ns3:BasicProcess>
                     <Anns>
                         <LocAnn Start="4059" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="94" Length="336" Col="34"/>
                     </Anns>
@@ -4546,7 +4546,7 @@ passed by value to $val\_$).
                         <AxPara Box="OmitBox">
                             <Anns>
                                 <LocAnn Start="4098" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="96" Length="34" Col="20"/>
-                                <ns2:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
@@ -4605,7 +4605,7 @@ passed by value to $val\_$).
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns2:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="4144" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="97" Length="34" Col="8"/>
                             </Anns>
@@ -4616,16 +4616,16 @@ passed by value to $val\_$).
                                 <Word>Read</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:PrefixingAction>
+                            <ns3:PrefixingAction>
                                 <Anns>
                                     <LocAnn Start="4158" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="97" Length="20" Col="22"/>
                                 </Anns>
-                                <ns2:SkipAction>
+                                <ns3:SkipAction>
                                     <Anns>
                                         <LocAnn Start="4174" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="97" Length="4" Col="38"/>
                                     </Anns>
-                                </ns2:SkipAction>
-                                <ns2:Communication MultiSych="0" CommKind="Output">
+                                </ns3:SkipAction>
+                                <ns3:Communication MultiSych="0" CommKind="Output">
                                     <Anns>
                                         <LocAnn Start="4158" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="97" Length="2" Col="22"/>
                                     </Anns>
@@ -4639,8 +4639,8 @@ passed by value to $val\_$).
                                         </ZName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <ns2:CircusFieldList>
-                                        <ns2:OutputField>
+                                    <ns3:CircusFieldList>
+                                        <ns3:OutputField>
                                             <Anns>
                                                 <LocAnn Start="4161" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="97" Length="6" Col="25"/>
                                             </Anns>
@@ -4657,11 +4657,11 @@ passed by value to $val\_$).
                                                 </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                        </ns2:OutputField>
-                                    </ns2:CircusFieldList>
-                                </ns2:Communication>
-                            </ns2:PrefixingAction>
-                        </ns2:ActionPara>
+                                        </ns3:OutputField>
+                                    </ns3:CircusFieldList>
+                                </ns3:Communication>
+                            </ns3:PrefixingAction>
+                        </ns3:ActionPara>
                         <AxPara Box="OmitBox">
                             <Anns>
                                 <LocAnn Start="4190" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="98" Length="63" Col="8"/>
@@ -4782,7 +4782,7 @@ passed by value to $val\_$).
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns2:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="4265" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="99" Length="37" Col="8"/>
                             </Anns>
@@ -4793,11 +4793,11 @@ passed by value to $val\_$).
                                 <Word>Write</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:PrefixingAction>
+                            <ns3:PrefixingAction>
                                 <Anns>
                                     <LocAnn Start="4280" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="99" Length="22" Col="23"/>
                                 </Anns>
-                                <ns2:CallAction>
+                                <ns3:CallAction>
                                     <Anns>
                                         <LocAnn Start="4293" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="99" Length="9" Col="36"/>
                                     </Anns>
@@ -4809,8 +4809,8 @@ passed by value to $val\_$).
                                         <ZStrokeList/>
                                     </ZName>
                                     <ZExprList/>
-                                </ns2:CallAction>
-                                <ns2:Communication MultiSych="0" CommKind="Input">
+                                </ns3:CallAction>
+                                <ns3:Communication MultiSych="0" CommKind="Input">
                                     <Anns>
                                         <LocAnn Start="4280" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="99" Length="3" Col="23"/>
                                     </Anns>
@@ -4824,8 +4824,8 @@ passed by value to $val\_$).
                                         </ZName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <ns2:CircusFieldList>
-                                        <ns2:InputField>
+                                    <ns3:CircusFieldList>
+                                        <ns3:InputField>
                                             <Anns>
                                                 <LocAnn Start="4284" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="99" Length="2" Col="27"/>
                                             </Anns>
@@ -4837,12 +4837,12 @@ passed by value to $val\_$).
                                                 <ZStrokeList/>
                                             </ZName>
                                             <TruePred/>
-                                        </ns2:InputField>
-                                    </ns2:CircusFieldList>
-                                </ns2:Communication>
-                            </ns2:PrefixingAction>
-                        </ns2:ActionPara>
-                        <ns2:ActionPara>
+                                        </ns3:InputField>
+                                    </ns3:CircusFieldList>
+                                </ns3:Communication>
+                            </ns3:PrefixingAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="4310" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="69" Col="4"/>
                             </Anns>
@@ -4850,12 +4850,12 @@ passed by value to $val\_$).
                                 <Word>$$mainAction</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:SeqAction>
+                            <ns3:SeqAction>
                                 <Anns>
                                     <LocAnn Start="4310" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="69" Col="4"/>
-                                    <ns2:OnTheFlyDefAnn/>
+                                    <ns3:OnTheFlyDefAnn/>
                                 </Anns>
-                                <ns2:CallAction>
+                                <ns3:CallAction>
                                     <Anns>
                                         <LocAnn Start="4312" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="5" Col="6"/>
                                     </Anns>
@@ -4867,8 +4867,8 @@ passed by value to $val\_$).
                                         <ZStrokeList/>
                                     </ZName>
                                     <ZExprList/>
-                                </ns2:CallAction>
-                                <ns2:MuAction>
+                                </ns3:CallAction>
+                                <ns3:MuAction>
                                     <Anns>
                                         <LocAnn Start="4329" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="50" Col="23"/>
                                         <ParenAnn>
@@ -4877,11 +4877,11 @@ passed by value to $val\_$).
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
-                                    <ns2:SeqAction>
+                                    <ns3:SeqAction>
                                         <Anns>
                                             <LocAnn Start="4344" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="35" Col="38"/>
                                         </Anns>
-                                        <ns2:ExtChoiceAction>
+                                        <ns3:ExtChoiceAction>
                                             <Anns>
                                                 <LocAnn Start="4344" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="21" Col="38"/>
                                                 <ParenAnn>
@@ -4890,7 +4890,7 @@ passed by value to $val\_$).
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
-                                            <ns2:CallAction>
+                                            <ns3:CallAction>
                                                 <Anns>
                                                     <LocAnn Start="4344" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="4" Col="38"/>
                                                 </Anns>
@@ -4902,8 +4902,8 @@ passed by value to $val\_$).
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZExprList/>
-                                            </ns2:CallAction>
-                                            <ns2:CallAction>
+                                            </ns3:CallAction>
+                                            <ns3:CallAction>
                                                 <Anns>
                                                     <LocAnn Start="4360" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="5" Col="54"/>
                                                 </Anns>
@@ -4915,9 +4915,9 @@ passed by value to $val\_$).
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZExprList/>
-                                            </ns2:CallAction>
-                                        </ns2:ExtChoiceAction>
-                                        <ns2:CallAction>
+                                            </ns3:CallAction>
+                                        </ns3:ExtChoiceAction>
+                                        <ns3:CallAction>
                                             <Anns>
                                                 <LocAnn Start="4378" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="1" Col="72"/>
                                             </Anns>
@@ -4929,8 +4929,8 @@ passed by value to $val\_$).
                                                 <ZStrokeList/>
                                             </ZName>
                                             <ZExprList/>
-                                        </ns2:CallAction>
-                                    </ns2:SeqAction>
+                                        </ns3:CallAction>
+                                    </ns3:SeqAction>
                                     <ZName>
                                         <Anns>
                                             <LocAnn Start="4338" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="100" Length="1" Col="32"/>
@@ -4938,12 +4938,12 @@ passed by value to $val\_$).
                                         <Word>X</Word>
                                         <ZStrokeList/>
                                     </ZName>
-                                </ns2:MuAction>
-                            </ns2:SeqAction>
-                        </ns2:ActionPara>
+                                </ns3:MuAction>
+                            </ns3:SeqAction>
+                        </ns3:ActionPara>
                     </ZParaList>
-                </ns2:BasicProcess>
-            </ns2:ProcessPara>
+                </ns3:BasicProcess>
+            </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="4408" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="102" Length="776" Col="12"/>
@@ -4964,7 +4964,7 @@ Like in FDR, we have chosen special parenthesis to make it clear that it is a re
 generic processes and renaming are used together.
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="5315" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="121" Length="69" Col="2"/>
                 </Anns>
@@ -4976,11 +4976,11 @@ generic processes and renaming are used together.
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:RenameProcess>
+                <ns3:RenameProcess>
                     <Anns>
                         <LocAnn Start="5348" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="121" Length="36" Col="35"/>
                     </Anns>
-                    <ns2:IndexedProcess>
+                    <ns3:IndexedProcess>
                         <Anns>
                             <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="121" Col="40"/>
                             <ParenAnn>
@@ -4989,7 +4989,7 @@ generic processes and renaming are used together.
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns2:CallProcess CallKind="Param">
+                        <ns3:CallProcess CallKind="Param">
                             <Anns>
                                 <LocAnn Start="5374" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="121" Length="8" Col="61"/>
                             </Anns>
@@ -5004,9 +5004,9 @@ generic processes and renaming are used together.
                                 <ZExprList/>
                             </RefExpr>
                             <ZExprList/>
-                        </ns2:CallProcess>
+                        </ns3:CallProcess>
                         <ZDeclList>
-                            <ns2:QualifiedDecl ParamQualifier="Value">
+                            <ns3:QualifiedDecl ParamQualifier="Value">
                                 <Anns>
                                     <LocAnn Start="5350" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="121" Length="12" Col="37"/>
                                 </Anns>
@@ -5032,10 +5032,10 @@ generic processes and renaming are used together.
                                     </ZName>
                                     <ZExprList/>
                                 </RefExpr>
-                            </ns2:QualifiedDecl>
+                            </ns3:QualifiedDecl>
                         </ZDeclList>
-                    </ns2:IndexedProcess>
-                    <ns2:AssignmentPairs>
+                    </ns3:IndexedProcess>
+                    <ns3:AssignmentPairs>
                         <Anns>
                             <LocAnn Start="5385" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="121" Length="54" Col="72"/>
                         </Anns>
@@ -5083,10 +5083,10 @@ generic processes and renaming are used together.
                                 <ZExprList/>
                             </RefExpr>
                         </ZExprList>
-                    </ns2:AssignmentPairs>
-                </ns2:RenameProcess>
-            </ns2:ProcessPara>
-            <ns2:ProcessPara>
+                    </ns3:AssignmentPairs>
+                </ns3:RenameProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="5450" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="123" Length="92" Col="2"/>
                 </Anns>
@@ -5098,7 +5098,7 @@ generic processes and renaming are used together.
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:CallProcess CallKind="Index">
+                <ns3:CallProcess CallKind="Index">
                     <Anns>
                         <LocAnn Start="5478" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="123" Length="64" Col="30"/>
                     </Anns>
@@ -5130,9 +5130,9 @@ generic processes and renaming are used together.
                             <ZExprList/>
                         </RefExpr>
                     </ZExprList>
-                </ns2:CallProcess>
-            </ns2:ProcessPara>
-            <ns2:ProcessPara>
+                </ns3:CallProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="5564" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="136" Col="2"/>
                 </Anns>
@@ -5144,11 +5144,11 @@ generic processes and renaming are used together.
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:HideProcess>
+                <ns3:HideProcess>
                     <Anns>
                         <LocAnn Start="5596" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="104" Col="97"/>
                     </Anns>
-                    <ns2:ParallelProcess>
+                    <ns3:ParallelProcess>
                         <Anns>
                             <LocAnn Start="5596" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="59" Col="83"/>
                             <ParenAnn>
@@ -5157,7 +5157,7 @@ generic processes and renaming are used together.
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns2:CallProcess CallKind="Param">
+                        <ns3:CallProcess CallKind="Param">
                             <Anns>
                                 <LocAnn Start="5596" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="10" Col="34"/>
                             </Anns>
@@ -5172,8 +5172,8 @@ generic processes and renaming are used together.
                                 <ZExprList/>
                             </RefExpr>
                             <ZExprList/>
-                        </ns2:CallProcess>
-                        <ns2:CallProcess CallKind="Param">
+                        </ns3:CallProcess>
+                        <ns3:CallProcess CallKind="Param">
                             <Anns>
                                 <LocAnn Start="5651" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="89"/>
                             </Anns>
@@ -5188,86 +5188,130 @@ generic processes and renaming are used together.
                                 <ZExprList/>
                             </RefExpr>
                             <ZExprList/>
-                        </ns2:CallProcess>
-                        <ns2:CircusChannelSet>
+                        </ns3:CallProcess>
+                        <ns3:CircusChannelSet>
                             <Anns>
                                 <LocAnn Start="5613" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="31" Col="51"/>
                             </Anns>
-                            <ns2:BasicChannelSetExpr>
+                            <ns3:BasicChannelSetExpr>
                                 <Anns>
                                     <LocAnn Start="5613" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="31" Col="51"/>
                                 </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false" Explicit="false">
+                                <ns3:CircusCommunicationList>
+                                    <ns3:Communication MultiSych="0" CommKind="Synch">
                                         <Anns>
                                             <LocAnn Start="5623" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="61"/>
                                         </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="5623" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="61"/>
+                                                </Anns>
+                                                <Word>read</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <ns3:CircusFieldList/>
+                                    </ns3:Communication>
+                                    <ns3:Communication MultiSych="0" CommKind="Synch">
+                                        <Anns>
+                                            <LocAnn Start="5623" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="61"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="5623" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="61"/>
+                                                </Anns>
+                                                <Word>read</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <ns3:CircusFieldList/>
+                                    </ns3:Communication>
+                                    <ns3:Communication MultiSych="0" CommKind="Synch">
+                                        <Anns>
+                                            <LocAnn Start="5629" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="67"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="5629" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="67"/>
+                                                </Anns>
+                                                <Word>write</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <ns3:CircusFieldList/>
+                                    </ns3:Communication>
+                                </ns3:CircusCommunicationList>
+                            </ns3:BasicChannelSetExpr>
+                        </ns3:CircusChannelSet>
+                    </ns3:ParallelProcess>
+                    <ns3:CircusChannelSet>
+                        <Anns>
+                            <LocAnn Start="5669" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="31" Col="107"/>
+                        </Anns>
+                        <ns3:BasicChannelSetExpr>
+                            <Anns>
+                                <LocAnn Start="5669" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="31" Col="107"/>
+                            </Anns>
+                            <ns3:CircusCommunicationList>
+                                <ns3:Communication MultiSych="0" CommKind="Synch">
+                                    <Anns>
+                                        <LocAnn Start="5679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="5623" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="61"/>
+                                                <LocAnn Start="5679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
                                             </Anns>
                                             <Word>read</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <ZExprList/>
                                     </RefExpr>
+                                    <ns3:CircusFieldList/>
+                                </ns3:Communication>
+                                <ns3:Communication MultiSych="0" CommKind="Synch">
+                                    <Anns>
+                                        <LocAnn Start="5679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false" Explicit="false">
-                                        <Anns>
-                                            <LocAnn Start="5629" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="67"/>
-                                        </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="5629" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="67"/>
+                                                <LocAnn Start="5679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
+                                            </Anns>
+                                            <Word>read</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <ns3:CircusFieldList/>
+                                </ns3:Communication>
+                                <ns3:Communication MultiSych="0" CommKind="Synch">
+                                    <Anns>
+                                        <LocAnn Start="5685" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="123"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="5685" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="123"/>
                                             </Anns>
                                             <Word>write</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <ZExprList/>
                                     </RefExpr>
-                                </ZExprList>
-                            </ns2:BasicChannelSetExpr>
-                        </ns2:CircusChannelSet>
-                    </ns2:ParallelProcess>
-                    <ns2:CircusChannelSet>
-                        <Anns>
-                            <LocAnn Start="5669" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="31" Col="107"/>
-                        </Anns>
-                        <ns2:BasicChannelSetExpr>
-                            <Anns>
-                                <LocAnn Start="5669" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="31" Col="107"/>
-                            </Anns>
-                            <ZExprList>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <Anns>
-                                        <LocAnn Start="5679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
-                                    </Anns>
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="5679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
-                                        </Anns>
-                                        <Word>read</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <Anns>
-                                        <LocAnn Start="5685" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="123"/>
-                                    </Anns>
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="5685" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="123"/>
-                                        </Anns>
-                                        <Word>write</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                            </ZExprList>
-                        </ns2:BasicChannelSetExpr>
-                    </ns2:CircusChannelSet>
-                </ns2:HideProcess>
-            </ns2:ProcessPara>
+                                    <ns3:CircusFieldList/>
+                                </ns3:Communication>
+                            </ns3:CircusCommunicationList>
+                        </ns3:BasicChannelSetExpr>
+                    </ns3:CircusChannelSet>
+                </ns3:HideProcess>
+            </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="5713" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="126" Length="13" Col="12"/>
@@ -5276,7 +5320,7 @@ generic processes and renaming are used together.
 Note that
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="5743" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="130" Length="71" Col="2"/>
                 </Anns>
@@ -5288,11 +5332,11 @@ Note that
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:RenameProcess>
+                <ns3:RenameProcess>
                     <Anns>
                         <LocAnn Start="5787" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="130" Length="27" Col="46"/>
                     </Anns>
-                    <ns2:ParamProcess>
+                    <ns3:ParamProcess>
                         <Anns>
                             <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="130" Col="51"/>
                             <ParenAnn>
@@ -5301,7 +5345,7 @@ Note that
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns2:CallProcess CallKind="Param">
+                        <ns3:CallProcess CallKind="Param">
                             <Anns>
                                 <LocAnn Start="5804" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="130" Length="8" Col="63"/>
                             </Anns>
@@ -5316,9 +5360,9 @@ Note that
                                 <ZExprList/>
                             </RefExpr>
                             <ZExprList/>
-                        </ns2:CallProcess>
+                        </ns3:CallProcess>
                         <ZDeclList>
-                            <ns2:QualifiedDecl ParamQualifier="Value">
+                            <ns3:QualifiedDecl ParamQualifier="Value">
                                 <Anns>
                                     <LocAnn Start="5789" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="130" Length="12" Col="48"/>
                                 </Anns>
@@ -5344,10 +5388,10 @@ Note that
                                     </ZName>
                                     <ZExprList/>
                                 </RefExpr>
-                            </ns2:QualifiedDecl>
+                            </ns3:QualifiedDecl>
                         </ZDeclList>
-                    </ns2:ParamProcess>
-                    <ns2:AssignmentPairs>
+                    </ns3:ParamProcess>
+                    <ns3:AssignmentPairs>
                         <Anns>
                             <LocAnn Start="5815" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="130" Length="54" Col="74"/>
                         </Anns>
@@ -5395,10 +5439,10 @@ Note that
                                 <ZExprList/>
                             </RefExpr>
                         </ZExprList>
-                    </ns2:AssignmentPairs>
-                </ns2:RenameProcess>
-            </ns2:ProcessPara>
-            <ns2:ProcessPara>
+                    </ns3:AssignmentPairs>
+                </ns3:RenameProcess>
+            </ns3:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="5880" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="132" Length="60" Col="2"/>
                 </Anns>
@@ -5410,11 +5454,11 @@ Note that
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:RenameProcess>
+                <ns3:RenameProcess>
                     <Anns>
                         <LocAnn Start="5924" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="132" Length="16" Col="46"/>
                     </Anns>
-                    <ns2:ExtChoiceProcess>
+                    <ns3:ExtChoiceProcess>
                         <Anns>
                             <LocAnn Start="5925" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="132" Length="14" Col="49"/>
                             <ParenAnn>
@@ -5423,7 +5467,7 @@ Note that
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns2:CallProcess CallKind="Param">
+                        <ns3:CallProcess CallKind="Param">
                             <Anns>
                                 <LocAnn Start="5925" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="132" Length="1" Col="47"/>
                             </Anns>
@@ -5438,8 +5482,8 @@ Note that
                                 <ZExprList/>
                             </RefExpr>
                             <ZExprList/>
-                        </ns2:CallProcess>
-                        <ns2:CallProcess CallKind="Param">
+                        </ns3:CallProcess>
+                        <ns3:CallProcess CallKind="Param">
                             <Anns>
                                 <LocAnn Start="5938" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="132" Length="1" Col="60"/>
                             </Anns>
@@ -5454,9 +5498,9 @@ Note that
                                 <ZExprList/>
                             </RefExpr>
                             <ZExprList/>
-                        </ns2:CallProcess>
-                    </ns2:ExtChoiceProcess>
-                    <ns2:AssignmentPairs>
+                        </ns3:CallProcess>
+                    </ns3:ExtChoiceProcess>
+                    <ns3:AssignmentPairs>
                         <Anns>
                             <LocAnn Start="5941" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="132" Length="35" Col="63"/>
                         </Anns>
@@ -5484,9 +5528,9 @@ Note that
                                 <ZExprList/>
                             </RefExpr>
                         </ZExprList>
-                    </ns2:AssignmentPairs>
-                </ns2:RenameProcess>
-            </ns2:ProcessPara>
+                    </ns3:AssignmentPairs>
+                </ns3:RenameProcess>
+            </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="5990" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="134" Length="17" Col="12"/>
@@ -5496,7 +5540,7 @@ Note that
 \end{document}
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="5481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="123" Length="45" Col="33"/>
                 </Anns>
@@ -5508,7 +5552,7 @@ Note that
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:InterleaveProcessIdx>
+                <ns3:InterleaveProcessIdx>
                     <Anns>
                         <LocAnn Start="5481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="123" Length="45" Col="33"/>
                         <ParenAnn>
@@ -5516,9 +5560,9 @@ Note that
                                 <LocAnn Start="5478" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="123" Length="51" Col="30"/>
                             </Anns>
                         </ParenAnn>
-                        <ns2:OnTheFlyDefAnn/>
+                        <ns3:OnTheFlyDefAnn/>
                     </Anns>
-                    <ns2:CallProcess CallKind="Param">
+                    <ns3:CallProcess CallKind="Param">
                         <Anns>
                             <LocAnn Start="5517" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="123" Length="9" Col="69"/>
                         </Anns>
@@ -5533,9 +5577,9 @@ Note that
                             <ZExprList/>
                         </RefExpr>
                         <ZExprList/>
-                    </ns2:CallProcess>
+                    </ns3:CallProcess>
                     <ZDeclList>
-                        <ns2:QualifiedDecl ParamQualifier="Value">
+                        <ns3:QualifiedDecl ParamQualifier="Value">
                             <Anns>
                                 <LocAnn Start="5493" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="123" Length="12" Col="45"/>
                             </Anns>
@@ -5561,10 +5605,10 @@ Note that
                                 </ZName>
                                 <ZExprList/>
                             </RefExpr>
-                        </ns2:QualifiedDecl>
+                        </ns3:QualifiedDecl>
                     </ZDeclList>
-                </ns2:InterleaveProcessIdx>
-            </ns2:ProcessPara>
+                </ns3:InterleaveProcessIdx>
+            </ns3:ProcessPara>
         </ZParaList>
     </ZSect>
 </Spec>

@@ -2134,8 +2134,8 @@ The \( \mathsl{Analyser} \, \)\/ is added to the \( \mathsl{Timer} \,
 %
 It is easy to see that this assembly is free from deadlock and livelock, and this is confirmed by FDR.
 \begin{circus}
-   \circassertref\ DF \circrefines\ FLDV~ TSAnalyser \\
-   \circassertref\ LF \circrefines\ FLDV~ TSAnalyser \\
+   TSAnalyserDeadlockFreedom\ \circassertref\ DF \circrefines\ FLDV~ TSAnalyser \\
+   TSAnalyserLivelockFreedom\ \circassertref\ LF \circrefines\ FLDV~ TSAnalyser \\
 \end{circus}
 \[
   \mathbf{assert}\ \mathsl{TSAnalyser} :[ \hbox{ deadlock free } [FD] ] %
@@ -2423,8 +2423,8 @@ This completes the description of the \( \mathsl{Controller} \, \).
 \end{circus}
 
 \begin{circus}
-   \circassertref\ DF \circrefines\ FLDV~ Controller \\
-   \circassertref\ LF \circrefines\ FLDV~ Controller \\
+   ControllerDeadlockFreedom\ \circassertref\ DF \circrefines\ FLDV~ Controller \\
+   ControllerLivelockFreedom\ \circassertref\ LF \circrefines\ FLDV~ Controller \\
 \end{circus}
 \[
   \mathbf{assert}\ \mathsl{Controller} :[ \hbox{ deadlock free } [FD] ] %
@@ -2594,8 +2594,8 @@ from deadlock and livelock.
         \t1\ \ Reporter ) \circhide TACReporterInterface
 \end{circus}
 \begin{circus}
-   \circassertref\ DF \circrefines\ FLDV~ TACReporter \\
-   \circassertref\ LF \circrefines\ FLDV~ TACReporter \\
+   TACReporterDeadlockFreedom\  \circassertref\ DF \circrefines\ FLDV~ TACReporter \\
+   TACReporterLivelockFreedom\ \circassertref\ LF \circrefines\ FLDV~ TACReporter \\
 \end{circus}
 \[
   \mathbf{assert}\ \mathsl{TACReporter} :[ \mathsl{deadlock free } [FD] ]
@@ -2608,7 +2608,7 @@ The steam boiler has the behaviour of the four processes:
 \end{circus}
 This is a refinement of the abstract specification.
 \begin{circus}
-    \circassertref\ SteamBoiler1 \circrefines\ FLDV~ SteamBoiler
+    SteamBoilerRefinement\ \circassertref\ SteamBoiler1 \circrefines\ FLDV~ SteamBoiler
 \end{circus}
 \[
   \mathsl{SteamBoiler1} \refinedby_{FD} \mathsl{SteamBoiler}
@@ -2724,8 +2724,8 @@ It is easy to code this requirement in CSP.
                             \t3  emergencystop.\true \rchanset \rpar \\
         \t2 Deadlock
    \also
-   \circassertref\ ControllerStop \circrefines FLDV~ WaitForSBWaiting \\
-   \circassertref\ WaitForSBWaiting \circrefines FLDV~ ControllerStop
+   ControllerStopRefinement\   \circassertref\ ControllerStop \circrefines FLDV~ WaitForSBWaiting \\
+   WaitForSBWaitingRefinement\ \circassertref\ WaitForSBWaiting \circrefines FLDV~ ControllerStop
 \end{circus}
 %
 \begin{addedstuff}

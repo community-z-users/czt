@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/circus" xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <NarrSect>
         <Anns>
             <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="0" Length="799" Col="0"/>
@@ -55,12 +55,12 @@
 
 </Content>
             </NarrPara>
-            <ns2:ChannelPara>
+            <ns3:ChannelPara>
                 <Anns>
                     <LocAnn Start="999" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="33" Length="23" Col="4"/>
                 </Anns>
                 <ZDeclList>
-                    <ns2:ChannelDecl>
+                    <ns3:ChannelDecl>
                         <Anns>
                             <LocAnn Start="1013" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="33" Length="9" Col="18"/>
                         </Anns>
@@ -87,9 +87,9 @@
                             </ZName>
                             <ZExprList/>
                         </RefExpr>
-                    </ns2:ChannelDecl>
+                    </ns3:ChannelDecl>
                 </ZDeclList>
-            </ns2:ChannelPara>
+            </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="1036" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="34" Length="80" Col="12"/>
@@ -101,7 +101,7 @@
 Within a single environment
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="1353" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="57" Col="4"/>
                 </Anns>
@@ -113,7 +113,7 @@ Within a single environment
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:BasicProcess>
+                <ns3:BasicProcess>
                     <Anns>
                         <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
                     </Anns>
@@ -136,7 +136,7 @@ Within a single environment
                         </NarrPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <ns2:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
                                 <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
                             </Anns>
                             <ZNameList/>
@@ -166,7 +166,7 @@ Within a single environment
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns2:ActionPara>
+                        <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="1469" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="53" Length="18" Col="4"/>
                             </Anns>
@@ -174,17 +174,17 @@ Within a single environment
                                 <Word>$$mainAction</Word>
                                 <ZStrokeList/>
                             </ZName>
-                            <ns2:PrefixingAction>
+                            <ns3:PrefixingAction>
                                 <Anns>
                                     <LocAnn Start="1469" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="53" Length="18" Col="4"/>
-                                    <ns2:OnTheFlyDefAnn/>
+                                    <ns3:OnTheFlyDefAnn/>
                                 </Anns>
-                                <ns2:SkipAction>
+                                <ns3:SkipAction>
                                     <Anns>
                                         <LocAnn Start="1483" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="53" Length="4" Col="18"/>
                                     </Anns>
-                                </ns2:SkipAction>
-                                <ns2:Communication MultiSych="0" CommKind="Output">
+                                </ns3:SkipAction>
+                                <ns3:Communication MultiSych="0" CommKind="Output">
                                     <Anns>
                                         <LocAnn Start="1471" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="53" Length="3" Col="6"/>
                                     </Anns>
@@ -198,8 +198,8 @@ Within a single environment
                                         </ZName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <ns2:CircusFieldList>
-                                        <ns2:DotField>
+                                    <ns3:CircusFieldList>
+                                        <ns3:DotField>
                                             <Anns>
                                                 <LocAnn Start="1474" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="53" Length="2" Col="9"/>
                                             </Anns>
@@ -213,14 +213,14 @@ Within a single environment
                                                     </Anns>
                                                 </ZNumeral>
                                             </NumExpr>
-                                        </ns2:DotField>
-                                    </ns2:CircusFieldList>
-                                </ns2:Communication>
-                            </ns2:PrefixingAction>
-                        </ns2:ActionPara>
+                                        </ns3:DotField>
+                                    </ns3:CircusFieldList>
+                                </ns3:Communication>
+                            </ns3:PrefixingAction>
+                        </ns3:ActionPara>
                     </ZParaList>
-                </ns2:BasicProcess>
-            </ns2:ProcessPara>
+                </ns3:BasicProcess>
+            </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="1553" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="58" Length="1592" Col="12"/>

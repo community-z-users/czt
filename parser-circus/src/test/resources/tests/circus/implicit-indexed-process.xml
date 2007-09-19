@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/circus" xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <NarrSect>
         <Anns>
             <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="0" Length="15" Col="0"/>
@@ -106,7 +106,7 @@
 
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="182" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="93" Col="1"/>
                 </Anns>
@@ -118,7 +118,7 @@
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:CallProcess CallKind="Index">
+                <ns3:CallProcess CallKind="Index">
                     <Anns>
                         <LocAnn Start="210" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="65" Col="29"/>
                     </Anns>
@@ -150,8 +150,8 @@
                             <ZExprList/>
                         </RefExpr>
                     </ZExprList>
-                </ns2:CallProcess>
-            </ns2:ProcessPara>
+                </ns3:CallProcess>
+            </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
                     <LocAnn Start="301" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="11" Length="4" Col="12"/>
@@ -160,7 +160,7 @@
 
 </Content>
             </NarrPara>
-            <ns2:ProcessPara>
+            <ns3:ProcessPara>
                 <Anns>
                     <LocAnn Start="213" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="46" Col="32"/>
                 </Anns>
@@ -172,7 +172,7 @@
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns2:InterleaveProcessIdx>
+                <ns3:InterleaveProcessIdx>
                     <Anns>
                         <LocAnn Start="213" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="46" Col="32"/>
                         <ParenAnn>
@@ -180,9 +180,9 @@
                                 <LocAnn Start="210" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="52" Col="29"/>
                             </Anns>
                         </ParenAnn>
-                        <ns2:OnTheFlyDefAnn/>
+                        <ns3:OnTheFlyDefAnn/>
                     </Anns>
-                    <ns2:CallProcess CallKind="Param">
+                    <ns3:CallProcess CallKind="Param">
                         <Anns>
                             <LocAnn Start="250" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="9" Col="69"/>
                         </Anns>
@@ -197,9 +197,9 @@
                             <ZExprList/>
                         </RefExpr>
                         <ZExprList/>
-                    </ns2:CallProcess>
+                    </ns3:CallProcess>
                     <ZDeclList>
-                        <ns2:QualifiedDecl ParamQualifier="Value">
+                        <ns3:QualifiedDecl ParamQualifier="Value">
                             <Anns>
                                 <LocAnn Start="225" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="12" Col="44"/>
                             </Anns>
@@ -225,10 +225,10 @@
                                 </ZName>
                                 <ZExprList/>
                             </RefExpr>
-                        </ns2:QualifiedDecl>
+                        </ns3:QualifiedDecl>
                     </ZDeclList>
-                </ns2:InterleaveProcessIdx>
-            </ns2:ProcessPara>
+                </ns3:InterleaveProcessIdx>
+            </ns3:ProcessPara>
         </ZParaList>
     </ZSect>
 </Spec>
