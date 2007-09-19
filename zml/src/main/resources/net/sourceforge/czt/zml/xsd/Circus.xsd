@@ -414,26 +414,6 @@ These interfaces represent the AST for Circus.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  
-  <xs:element name="CircusStateAnn" type="CIRCUS:CircusStateAnn" substitutionGroup="Z:Ann">
-    <xs:annotation>
-        <xs:documentation>
-            Defines if a given paragraph is the process state. 
-            The parser must enforce such a paragraph is a schema.
-        </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:element name="OnTheFlyDefAnn" type="CIRCUS:OnTheFlyDefAnn" substitutionGroup="Z:Ann">
-    <xs:annotation>
-        <xs:documentation>
-            Defines an on-the-fly definition annotation used for both Process and Action terms.            
-            It must be included into <code>ParamAction</code> and <code>ParamProcess</code> by 
-            the parser whenever an on-the-fly definition occurs. It is also used for on-the-fly
-            schema definitions.
-        </xs:documentation>
-    </xs:annotation>
-  </xs:element>
 
   <!-- Process :: Call -->
 
@@ -1414,7 +1394,7 @@ These interfaces represent the AST for Circus.
   are part of GenericType, and the references to X and Y are GENTYPE X/Y. 
   Thus, ChannelType is a Type2 and contains a Signature of the names and types it represents.
   -->
-  <xs:element name="ChannelType" type="CIRCUS:CircusSignatureType" substitutionGroup="Z:Type2">
+  <xs:element name="ChannelType" type="CIRCUS:CircusType" substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>
         A channel type is like a generic type, where the type can be <code>null</code> for synchronisation channels.
@@ -1423,7 +1403,7 @@ These interfaces represent the AST for Circus.
     </xs:annotation>
   </xs:element>      
   
-  <xs:element name="ChannelSetType" type="CIRCUS:CircusSignatureType" substitutionGroup="Z:Type2">
+  <xs:element name="ChannelSetType" type="CIRCUS:CircusType" substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>
         A channel set type contains the signature of the set of names it represents, where synchronisation channels have null type.
@@ -1472,7 +1452,7 @@ These interfaces represent the AST for Circus.
       </xs:documentation>
     </xs:annotation>
   </xs:element>    
-  <xs:element name="NameSetType" type="CIRCUS:CircusSignatureType" substitutionGroup="Z:Type2">
+  <xs:element name="NameSetType" type="CIRCUS:CircusType" substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>
         A name set type contains the signature of the set of names it represents.
@@ -1482,7 +1462,28 @@ These interfaces represent the AST for Circus.
   
   <!-- Additional top-level signatures in Circus -->
   
-  <xs:element name="ProcessSignature" type="CIRCUS:ProcessSignature">
+   <xs:element name="CircusSignature" type="CIRCUS:CircusSignature" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        Abstract Circus signature term.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  
+  <xs:element name="ProcessSignature" type="CIRCUS:ProcessSignature" abstract="true" 
+    substitutionGroup="CIRCUS:CircusSignature">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+        Abstract process signature class used by both CircusProcessSignature and
+        BasicProcessSignature.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="CircusProcessSignature" type="CIRCUS:ProcessSignature" 
+    substitutionGroup="CIRCUS:ProcessSignature">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1496,10 +1497,45 @@ These interfaces represent the AST for Circus.
         In the case of HIDE, all other flags are irrelevant.        
         These usage flags are built up by collecting the channel usage from action signatures.
         </p>
+        <p>
+        Because BasicProcessSignature uses yet another SignatureList, 
+        we need  more than one SignatureList, so we have a list of signature lists!
+        So, we add through GnAST the following convenience methods:       
+        
+        <ul>
+          <li>
+            ZSignatureList getMainSignatures() = getSignatureList().get(0):
+            <ul>
+              <li>a) Signature getParamOrIndexes() = getSignatureList().get(0).get(0)</li>
+              <li>b) Signature getUsedChannels()   = getSignatureList().get(0).get(1)</li>
+              <li>c) Signature getUsedNameSets()   = getSignatureList().get(0).get(2) (for BasicProcessSignature only)</li>
+              <li>d) Signature getStateSignature() = getSignatureList().get(0).get(3) (for BasicProcessSignature only)</li>
+            </ul>
+          </li>
+          <li>
+            The Signature returned by the above projections correspond to: 
+            <ul>
+              <li>a) non-null (possibly empty) signature of param or indexes of a process </li>
+              <li>b) non-null (possibly empty) signature of process state (empty = default state as [ | true]).</li>
+              <li>c) non-null (possibly empty) signature used channels as list of name type pairs within Signature.</li>
+              <li>d) non-null (possibly empty) signature used name sets as list of name type pairs within Signature.</li>              
+            </ul>
+          </li>
+          <li>
+            ZSignatureList getLocalZSignatures()= getSignatureList().get(1)       (for BasicProcessSignature only).
+            This represents the local Z paragraphs within the basic process.
+          </li>          
+          <li>
+            ActionSignatureList getActionSignatures() = getSignatureList().get(2) (for BasicProcessSignature only)
+          </li>            
+        </ul>
+        </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="BasicProcessSignature" type="CIRCUS:BasicProcessSignature" substitutionGroup="CIRCUS:ProcessSignature">
+  
+  <xs:element name="BasicProcessSignature" type="CIRCUS:BasicProcessSignature" 
+    substitutionGroup="CIRCUS:ProcessSignature">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1514,7 +1550,8 @@ These interfaces represent the AST for Circus.
   
   <!-- Additional process-level signatures in Circus -->
   
-  <xs:element name="ActionSignature" type="CIRCUS:ActionSignature">
+  <xs:element name="ActionSignature" type="CIRCUS:ActionSignature"
+    substitutionGroup="CIRCUS:CircusSignature">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1523,13 +1560,55 @@ These interfaces represent the AST for Circus.
         These flags can be either IN, OUT, SYNCH or HIDE.
         In the case of HIDE, all other flags are irrelevant.                
         </p>
+        <p>
+        Because ActionProcessSignature requires a list of Z Signatures,        
+        So, we add through GnAST the following convenience methods:               
+          <ul>
+            <li>Signature getFormalParams() = getSignatureList().get(0)</li>
+            <li>Signature getLocalVars()    = getSignatureList().get(1)</li>
+            <li>Signature getUsedChannels() = getSignatureList().get(2)</li>
+          </ul>          
+        </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>  
   
   <!-- Lists used by Circus elements -->
   
-  <!-- the FieldList hierarchy -->
+  <xs:element name="ActionList" type="CIRCUS:ActionList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract Action list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="CircusActionList" type="CIRCUS:CircusActionList"
+    substitutionGroup="CIRCUS:ActionList">
+    <xs:annotation>
+      <xs:documentation>
+        A list with (concrete) Circus actions. An alternative implementation
+        would be a list with action jokers.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="CommunicationList" type="CIRCUS:CommunicationList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract communication list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="CircusCommunicationList" type="CIRCUS:CircusCommunicationList"
+    substitutionGroup="CIRCUS:CommunicationList">
+    <xs:annotation>
+      <xs:documentation>
+        A list with (concrete) Circus communications. An alternative implementation
+        would be a list with communication jokers.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
   <xs:element name="FieldList" type="CIRCUS:FieldList" abstract="true">
     <xs:annotation>
       <xs:documentation>
@@ -1541,8 +1620,82 @@ These interfaces represent the AST for Circus.
     substitutionGroup="CIRCUS:FieldList">
     <xs:annotation>
       <xs:documentation>
-        A communication fields list.
+        A communication fields list. An alternative implementation would be a
+        list with communication field jokers.
       </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="SignatureList" type="CIRCUS:SignatureList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract signature list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ZSignatureList" type="CIRCUS:ZSignatureList"
+    substitutionGroup="CIRCUS:SignatureList">
+    <xs:annotation>
+      <xs:documentation>
+        An signature list with Z signatures.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ActionSignatureList" type="CIRCUS:ActionSignatureList" 
+    substitutionGroup="CIRCUS:SignatureList">
+    <xs:annotation>
+      <xs:documentation>
+        An signature list with action signatures.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ProcessSignatureList" type="CIRCUS:ProcessSignatureList" 
+    substitutionGroup="CIRCUS:SignatureList">
+    <xs:annotation>
+      <xs:documentation>
+        An signature list with action signatures.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- Term Annotations defined by Circus -->
+  
+  <xs:element name="CircusAnn" type="CIRCUS:CircusAnn" abstract="true" substitutionGroup="Z:Ann">
+    <xs:annotation>
+        <xs:documentation>
+            Abstract annotation type for all term annotations used within Circus.
+        </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="CircusStateAnn" type="CIRCUS:CircusAnn" substitutionGroup="CIRCUS:CircusAnn">
+    <xs:annotation>
+        <xs:documentation>
+            Defines if a given paragraph is the process state. 
+            The parser must enforce such a paragraph is a schema.
+        </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="OnTheFlyDefAnn" type="CIRCUS:CircusAnn" substitutionGroup="CIRCUS:CircusAnn">
+    <xs:annotation>
+        <xs:documentation>
+            Defines an on-the-fly definition annotation used for both Process and Action terms.            
+            It must be included into <code>ParamAction</code> and <code>ParamProcess</code> by 
+            the parser whenever an on-the-fly definition occurs. It is also used for on-the-fly
+            schema definitions.
+        </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ImplicitChannelAnn" type="CIRCUS:CircusAnn" substitutionGroup="CIRCUS:CircusAnn">
+    <xs:annotation>
+        <xs:documentation>
+            Annotation used for implicitly declared channnels via indexed processes.
+        </xs:documentation>
     </xs:annotation>
   </xs:element>
   
@@ -1649,6 +1802,7 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusConjPara">
         <xs:sequence>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="CIRCUS:TransformerPred"/>                      
         </xs:sequence>                  
       </xs:extension>
@@ -1676,12 +1830,14 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
+          <!--
           <xs:element ref="CIRCUS:Communication" minOccurs="0" maxOccurs="unbounded"/>
+          -->
+          <xs:element ref="CIRCUS:CommunicationList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
-  
+  </xs:complexType>  
   
   <!-- Process Definition complexType -->
   <xs:complexType name="CircusProcess">
@@ -1844,19 +2000,6 @@ These interfaces represent the AST for Circus.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
-  <xs:complexType name="CircusStateAnn">
-    <xs:complexContent>
-      <xs:extension base="Z:Ann"/>
-    </xs:complexContent>
-  </xs:complexType>        
-
-  <xs:complexType name="OnTheFlyDefAnn">
-    <xs:complexContent>
-      <xs:extension base="Z:Ann"/>            
-    </xs:complexContent>
-  </xs:complexType>
-
   
   <!-- Process Definition :: Calls --> 
   
@@ -2421,11 +2564,46 @@ These interfaces represent the AST for Circus.
     </xs:complexContent>
   </xs:complexType>
 
+  <!-- Lists used by Circus terms --> 
+  
+  <xs:complexType name="ActionList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="CircusActionList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:ActionList">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:CircusAction" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="CommunicationList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="CircusCommunicationList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CommunicationList">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:Communication" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <xs:complexType name="FieldList">
     <xs:complexContent>
       <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
+  
   <xs:complexType name="CircusFieldList">
     <xs:complexContent>
       <xs:extension base="CIRCUS:FieldList">
@@ -2435,6 +2613,42 @@ These interfaces represent the AST for Circus.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <xs:complexType name="SignatureList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ZSignatureList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:SignatureList">
+        <xs:sequence>
+          <xs:element ref="Z:Signature" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ProcessSignatureList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:SignatureList">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:ProcessSignature" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ActionSignatureList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:SignatureList">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:ActionSignature" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
   
   <!-- CSP Communication complexType -->
   <xs:complexType name="Communication">
@@ -2588,7 +2802,10 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
+          <!--
           <xs:element ref="CIRCUS:GuardedAction" minOccurs="1" maxOccurs="unbounded"/>
+          -->
+          <xs:element ref="CIRCUS:ActionList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2765,7 +2982,7 @@ These interfaces represent the AST for Circus.
   
   <!-- Circus Types and Signatures -->  
   
-  <xs:complexType name="CircusSignatureType">
+  <xs:complexType name="CircusType">
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>          
@@ -2844,18 +3061,21 @@ These interfaces represent the AST for Circus.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>    
-  
-  <xs:complexType name="ProcessSignature">
+      
+  <xs:complexType name="CircusSignature">
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:Name">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ProcessName"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>       
+          <xs:element ref="Z:Name"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ProcessSignature">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusSignature">
+        <xs:sequence>              
           <!-- Use concrete (rather than allowing Joker) names here -->
           <xs:element ref="Z:ZNameList">
             <xs:annotation>
@@ -2865,6 +3085,7 @@ These interfaces represent the AST for Circus.
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          <!--     
           <xs:element ref="Z:Signature" minOccurs="0">          
             <xs:annotation>
               <xs:appinfo>
@@ -2872,7 +3093,48 @@ These interfaces represent the AST for Circus.
                   generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
-          </xs:element>
+          </xs:element>          
+          getParamOrIndexes() = getSignature(0)          
+          getUsedChannels()   = getSignature(1)
+          --> 
+          <!--
+          Because BasicProcessSignature needs yet another Signature,
+          we added a SignatureList to the main complex types :(
+          Maybe this should be 
+          
+          getZSignature() = getSignature(2) for BasicProcessSignature!
+          
+          <xs:element ref="Z:Signature" minOccurs="2" maxOccurs="2"/>                              
+          
+          <xs:element ref="CIRCUS:SignatureList"/>
+          -->          
+          <!--
+          Wow! Because BasicProcessSignature uses yet another SignatureList, 
+          we need  more than one SignatureList, so we have a list of signature lists!
+          So, we add through GnAST the following convenience methods:
+          
+          ZSignatureList getMainSignatures() = getSignatureList().get(0)
+            a) Signature getParamOrIndexes() = getSignatureList().get(0).get(0)
+            b) Signature getUsedChannels()   = getSignatureList().get(0).get(1)
+            c) Signature getUsedNameSets()   = getSignatureList().get(0).get(2) (for BasicProcessSignature only)
+            d) Signature getStateSignature() = getSignatureList().get(0).get(3) (for BasicProcessSignature only)
+            
+          
+          The Signature returned by the above projections correspond to: 
+            a) non-null (possibly empty) signature of param or indexes of a process 
+            b) non-null (possibly empty) signature used channels as list of name type pairs within Signature
+            c) non-null (possibly empty) signature used name sets as list of name type pairs within Signature
+            d) non-null (possibly empty) signature of process state (empty = default state as [ | true]).
+            
+          ZSignatureList getLocalZSignatures()= getSignatureList().get(1)       (for BasicProcessSignature only)   
+            This represents the local Z paragraphs within the basic process.
+            
+          ActionSignatureList getActionSignatures() = getSignatureList().get(2) (for BasicProcessSignature only)
+            
+          We leave it unbounded to allow further extension with new lists within the 
+          list of SignatureLists!
+          -->
+          <xs:element ref="CIRCUS:SignatureList" minOccurs="2" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="Kind" type="CIRCUS:ProcessKind" use="optional" default="Parameterised"/>
       </xs:extension>
@@ -2889,9 +3151,8 @@ These interfaces represent the AST for Circus.
   </xs:simpleType>  
 
   <!-- 
-  The typechecker must spread the information from LocalPara and OnTheFlyPara 
-  across the three different options, depending on the kind of paragraph, as 
-  described below.
+  We need the "empty" complex type here just because we add via GnAST the
+  necessary convinience methods to access the right signature lists mentioned above.
   --> 
   <xs:complexType name="BasicProcessSignature">
     <xs:complexContent>
@@ -2899,8 +3160,7 @@ These interfaces represent the AST for Circus.
           <xs:sequence>   
               <!-- 
               For stateless processes, the typechecker must create an empty signature for the SchemaType.
-              Moreover, it must also resolve any pending generic actual from either the schema or the process.
-              --> 
+              Moreover, it must also resolve any pending generic actual from either the schema or the process.              
               <xs:element ref="Z:SchemaType">
                 <xs:annotation>
                   <xs:appinfo>
@@ -2909,10 +3169,12 @@ These interfaces represent the AST for Circus.
                   </xs:appinfo>
                 </xs:annotation>
               </xs:element>
+              
+              Refactored into SignatureList in ProcessSignature.
+              -->               
               <!-- 
-              Contains a list of alll local paragraphs that are Z paragraphs.
-              This includes the implicitly declared state.
-              -->
+              Contains a list of all local paragraphs that are Z paragraphs.
+              This includes the implicitly declared state.              
               <xs:element ref="Z:Signature" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                   <xs:appinfo>
@@ -2920,16 +3182,22 @@ These interfaces represent the AST for Circus.
                   </xs:appinfo>
                 </xs:annotation>
               </xs:element> 
+              
+              Superseeded by SignatureList above in ProcessSignature
+              -->
+              
               <!--
               Contains a list of all actions pragraphs of the process.
               This includes the implicitly declared actions.
-              -->
               <xs:element ref="CIRCUS:ActionSignature" minOccurs="0" maxOccurs="unbounded"/>                
+              Superseeded by SignatureList above in ProcessSignature
+              -->
+              
               <!--
               Contains a list of all name set paragraphs of the process.
               Use concrete (rather than allowing Joker) names here 
-              -->
-              <xs:element ref="Z:ZNameList">                
+              
+              <xs:element ref="Z:NameList">                
                 <xs:annotation>
                   <xs:appinfo>
                     <jaxb:property name="NameSet"
@@ -2937,6 +3205,9 @@ These interfaces represent the AST for Circus.
                   </xs:appinfo>
                 </xs:annotation>
               </xs:element>
+              
+              Superseeded by SignatureList above in ProcessSignature
+              -->
           </xs:sequence>
       </xs:extension>
     </xs:complexContent>    
@@ -2945,15 +3216,9 @@ These interfaces represent the AST for Circus.
   <!-- TODO: flattening signature elements to a list for updated JAXB -->
   <xs:complexType name="ActionSignature">
     <xs:complexContent>
-      <xs:extension base="Z:Term">
+      <xs:extension base="CIRCUS:CircusSignature">
         <xs:sequence>
-          <xs:element ref="Z:Name">          
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ActionName"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <!-- 
           <xs:element ref="Z:Signature">            
             <xs:annotation>
               <xs:appinfo>
@@ -2978,9 +3243,26 @@ These interfaces represent the AST for Circus.
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          
+          Signature getFormalParams() = getSignatureList().get(0)
+          Signature getLocalVars()    = getSignatureList().get(1)
+          Signature getUsedChannels() = getSignatureList().get(2)          
+          
+          We leave it unbounded to allow further extension with new lists within the 
+          list of SignatureLists!
+          -->          
+          <xs:element ref="CIRCUS:SignatureList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-        
+
+  <!-- Term annotation complex types -->
+  
+  <xs:complexType name="CircusAnn">
+    <xs:complexContent>
+      <xs:extension base="Z:Ann"/>            
+    </xs:complexContent>
+  </xs:complexType>  
+    
 </xs:schema>
