@@ -302,10 +302,10 @@ public class Model
    */
   protected void doReset(String reason)
   {
-    if (fsmSequence_ == null)
+    if (fsmSequence_ == null) {
       fsmSequence_ = new ArrayList<Transition>();
-    else
-    {
+    }
+    else {
       //this.printProgress(1, "tested "+fsmSequence_.size()+" transitions.  "
       //    +reason+" reset from state "+fsmState_);
     }
@@ -314,8 +314,9 @@ public class Model
       fsmSequence_.clear();
       fsmState_ = fsmModel_.getState();
       Assert.assertNotNull("Model Error: getState() must be non-null", fsmState_);
-      if (fsmInitialState_ == null)
+      if (fsmInitialState_ == null) {
         fsmInitialState_ = fsmState_;
+      }
       else {
         Assert.assertEquals("Model error: reset did not return to the initial state",
             fsmInitialState_, fsmState_);
@@ -324,6 +325,17 @@ public class Model
     } catch (Exception ex) {
       throw new RuntimeException("Error calling the FSM reset method", ex);
     }
+  }
+
+  /**
+   * True iff the current state is the initial state.
+   * (Note that the result is false before the first reset,
+   * since the initial and current state are unknown until then).
+   * @return
+   */
+  public boolean isInitialState()
+  {
+    return fsmInitialState_ != null && fsmInitialState_.equals(fsmState_);
   }
 
   /** Is Action number 'index' enabled?
@@ -385,6 +397,20 @@ public class Model
         enabled.set(i);
     }
     return enabled;
+  }
+
+  /**
+   *  True iff the current state is a terminal state.
+   *  That is, if there are no transitions out of it.
+   *  Note that the terminal status of a given state may depend
+   *  upon the path taken to reach that state, so on one run a
+   *  state may be terminal, whereas on another run it may not be.
+   *
+   * @return true iff getCurrentState() is a terminal state.
+   */
+  public boolean isTerminal()
+  {
+    return enabledGuards().cardinality() == 0;
   }
 
   /** Try to take the given Action from the current state.

@@ -42,8 +42,7 @@ public class GreedyTester extends RandomTester
   public GreedyTester(Model model)
   {
     super(model);
-    model.addListener("graph");
-    graph_ = (GraphListener) model.getListener("graph");
+    graph_ = (GraphListener) model.addListener("graph");
   }
 
   /**
@@ -83,9 +82,10 @@ public class GreedyTester extends RandomTester
     ArrayList<Integer> indexToDo = new ArrayList<Integer>();
 
     // If terminal state we must force a reset so return -1
-    if (toDo == null && done == null)
+    if (model_.isTerminal()) {
       return -1;
-    else if (toDo == null && done != null) {
+    }
+    if (toDo == null) {
       // If all actions of the state have been done just choose one randomly
       return doRandomAction();
     }

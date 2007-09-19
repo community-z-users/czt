@@ -190,13 +190,15 @@ public class GraphListener extends AbstractListener
   }
 
   /** Starts to build the FSM graph by exploring the fsm object.
-   *  This assumes that the current fsmState is the initial state.
-   *  That is, a reset has just been done.
+   *  This does a reset if the model is not already in the initial state.
    */
   @Override
   public void setModel(Model model)
   {
     super.setModel(model);
+    if (! model_.isInitialState()) {
+      model_.doReset("graphlistener");
+    }
     Object curr = model_.getCurrentState();
     assert curr != null;
     fsmGraph_ = new IncidenceListGraph();
@@ -214,70 +216,6 @@ public class GraphListener extends AbstractListener
       throw new FsmException("Initial state has no actions enabled.");
     fsmTodo_.put(curr, enabled);
   }
-
-  /** Finish building the graph.
-   *  That is, keep exploring until all enabled actions in
-   *  all reachable states that have explored.
-   *  Of course, this may not have built ALL the graph if some
-   *  guards are enabled sporadically in a given state, or if
-   *  some transitions are non-deterministic.
-   *
-   *  <p>
-   *  Note that this method traverses the graph as it explores its
-   *  shape, and this traversal is likely to increase any coverage
-   *  statistics that are being recorded.  For example, transition
-   *  coverage will normally be 100% after this method returns.
-   *  If you want to measure the coverage of a short traversal,
-   *  you should call this method to explore the graph, then reset
-   *  the coverage measures to zero <em>before</em> doing the traversal.
-   *  </p>
-   *
-   *  @param rand  A random generator to choose the exploration path.
-   *  @return true if the graph seems to be completely built.
-   */
-  /*
-   * TODO: implement this.  (Pass it an arbitrary Tester?)
-   *
-  public boolean buildGraph(Random rand, int maxTransitions)
-  {
-    int maxLen = maxTransitions;
-    while (fsmTodo_.size() > 0 && maxLen > 0) {
-      maxLen--;
-      doRandomActionOrReset(rand, false);
-    }
-    for (CoverageMetric cm : fsmCoverage) {
-      cm.setModel(fsmGraph_, fsmVertex_);
-    }
-    if (fsmTodo_.size() == 0) {
-      // we seem to have explored all paths
-      printProgress(1, "FSM has "+this.fsmGraph.numVertices()
-          +" states and "+this.fsmGraph.numEdges()+" transitions.");
-      return true;
-    }
-    else {
-        printProgress(1, "BuildGraph still has " + fsmTodo_.size()
-            + " unexplored paths after " + maxTransitions
-            + " transitions.  FSM too big?");
-        return false;
-    }
-  }
-  */
-
-  /** Equivalent to buildGraph(new Random(FIXEDSEED), 10000). */
-  /*
-  public boolean buildGraph(Random rand)
-  {
-    return buildGraph(new Random(FIXEDSEED), 10000);
-  }
-  */
-
-  /** Equivalent to buildGraph(new Random(FIXEDSEED)). */
-  /*
-  public boolean buildGraph()
-  {
-    return buildGraph(new Random(FIXEDSEED));
-  }
-  */
 
   /** Saves the FSM graph into the given file, in DOT format.
    *  The DOT format can be converted into many other graphical formats,
@@ -347,7 +285,7 @@ public class GraphListener extends AbstractListener
     assert oldVertex != null;  // we must have already visited it.
     String actionName = tr.getAction();
     Object newState = tr.getEndState();
-    assert newState == model_.getCurrentState();  // we should still be inside doAction.
+    assert newState == model_.getCurrentState();
     BitSet enabled = model_.enabledGuards();
     // see if this newState is an unknown one.
     Vertex newVertex = fsmVertex_.get(newState);
