@@ -855,7 +855,7 @@ action code
      * Creates an empty (basic) channel set expression
      */
     protected Expr createEmptyChannelSetExpr() {
-      return factory_.createBasicChannelSetExpr(factory_.&lt;Communication&gt;list());      
+      return factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList());
     }
     
     /**
@@ -903,7 +903,7 @@ action code
      * the a parsing error is thrown and the result is just an empty &lt;code&gt;BasicChannelSetExpr&lt;/code&gt;.
      * &lt;/p&gt;
      */
-    protected Expr createBasicChannelSetExpr(LocInfo loc, List&lt;Communication&gt; zrl) {      
+    protected Expr createBasicChannelSetExpr(LocInfo loc, List&lt;Communication&gt; cl) {      
 //      //assert zrl != null &amp;&amp; !zrl.isEmpty();
 //      int errorIdx = 0;
 //      Iterator&lt;Expr&gt; it = zrl.iterator(); 
@@ -932,7 +932,7 @@ action code
 //            new Object[] { errorIdx, size-1, isEmpty ? "empty" : zrl.get(errorIdx), 
 //              isEmpty ? "null" : zrl.get(errorIdx).getClass().getName(), loc }));       
 //      } 
-      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(zrl);      
+      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList(cl));      
       if (loc != null) { addLocAnn(result, loc); }      
       return result;
     } 
@@ -4934,15 +4934,18 @@ command ::=
         /* Alternative */
         IF:cif guardedCommands:gcs CIRCFI:cfi
         {:
-            RESULT = factory_.createIfGuardedCommand(gcs);
+            RESULT = factory_.createIfGuardedCommand(factory_.createCircusActionList(gcs));
             addLocAnn(RESULT, getLocation(cif, cfi));
         :} %prec _CIRCIF
         |
         /* Iteration */
         CIRCDO:cdo guardedCommands:gcs CIRCOD:cod
         {:
-            RESULT = factory_.createIfGuardedCommand(gcs);//createWhileGuardedCommand(gcs);
-            addLocAnn(RESULT, getLocation(cdo, cod));
+            RESULT = factory_.createIfGuardedCommand(factory_.createCircusActionList(gcs));
+                //createWhileGuardedCommand(gcs);
+            addLocAnn(RESULT, getLocation(cdo, cod));            
+            //TODO: 
+            //throw new UnsupportedOperationException("Wrapper AST creation not yet available in the Circus Parser.");
         :}
         |
         /* Variable declaration 
@@ -5019,9 +5022,9 @@ nameSubstitution ::=
 // NOTE: Shall it allow basic process here? i.e. shall "process" not contain "circusBasicProc" 
 //       and this production should then go to processDesc?
 processRefPara ::=
-        CIRCASSERTREF process:spec refines:r process:impl
+        name:n CIRCASSERTREF process:spec refines:r process:impl
         {:
-           RESULT = factory_.createTransformerPara(
+           RESULT = factory_.createTransformerPara(n, 
                 factory_.createProcessTransformerPred(null, r, parserState_.getRefinementModel(), 
                 factory_.list(spec, impl)));
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
@@ -5030,9 +5033,9 @@ processRefPara ::=
         ;
         
 actionRefPara ::=
-        CIRCASSERTREF circusAction:spec refines:r circusAction:impl 
+        name:n CIRCASSERTREF circusAction:spec refines:r circusAction:impl 
         {:
-           RESULT = factory_.createTransformerPara(
+           RESULT = factory_.createTransformerPara(n, 
                 factory_.createActionTransformerPred(null, r, 
                 parserState_.getRefinementModel(), factory_.list(spec, impl)));
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
