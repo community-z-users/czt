@@ -23,6 +23,14 @@
   net.sourceforge.czt.z.ast.Signature getParamOrIndexes();
 
   /**
+   * This is a convenience method. It sets the given non-null (possibly empty)  
+   * signature of the formal parameters or indexes signature of this process.
+   * It is the same as getMainSignatures().set(0, sig). It may throw a
+   * a UnsupportedAstClassException from getMainSignatures().
+   */
+  void setParamOrIndexes(net.sourceforge.czt.z.ast.Signature sig);
+
+  /**
    * This is a convenience method. It represents the non-null (possibly empty)
    * signature of used channels by this process. This (possibly) includes channels used 
    * by its actions, in case it is a BasicProcessSignature.
@@ -30,3 +38,11 @@
    * a UnsupportedAstClassException from getMainSignatures().
    */
   net.sourceforge.czt.z.ast.Signature getUsedChannels();
+
+  /**
+   * This is a convenience method. It sets the given non-null (possibly empty)  
+   * signature of the used channels signature of this process.
+   * It is the same as getMainSignatures().set(1, sig). It may throw a
+   * a UnsupportedAstClassException from getMainSignatures().
+   */
+  void setUsedChannels(net.sourceforge.czt.z.ast.Signature sig);

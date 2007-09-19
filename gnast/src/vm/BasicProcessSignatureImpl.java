@@ -6,6 +6,15 @@
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
+
+  public void setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig)
+  {
+    if (getMainSignatures().size() > 2) {
+      assert sig != null;
+      getMainSignatures().set(2, sig);
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
+  }
   
   public net.sourceforge.czt.z.ast.Signature getStateSignature()
   {
@@ -15,6 +24,15 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
   
+  public void setStateSignature(net.sourceforge.czt.z.ast.Signature sig)
+  {
+    if (getMainSignatures().size() > 3) {
+      assert sig != null;
+      getMainSignatures().set(3, sig);
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
+  }
+
   public net.sourceforge.czt.circus.ast.ZSignatureList getLocalZSignatures()
   {
     if (getSignatureList().size() > 1) {

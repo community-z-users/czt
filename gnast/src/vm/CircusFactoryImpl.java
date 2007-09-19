@@ -20,3 +20,58 @@
       return createCircusChannelSet(createSetExpr(createZExprList()));
     }
     
+    private <E> java.util.List<E> newList(E... elems)
+  {
+    java.util.List<E> result = new java.util.ArrayList<E>();
+    result.addAll(java.util.Arrays.asList(elems));
+    return result;
+  }
+  
+  public CircusProcessSignature createCircusProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    net.sourceforge.czt.z.ast.Signature usedChannels,
+    ProcessKind kind)
+  {
+    return createCircusProcessSignature(name, genFormals,
+      newList(
+        // list0 = ZSignatureList getMainSignatures()
+        createZSignatureList(
+          // list0.0 = Signature paramOrIndexes
+          // list0.1 = Signature usedChannels
+          newList(paramOrIndexes, usedChannels)
+        )
+      ),
+      kind);
+  }
+  
+  public BasicProcessSignature createBasicProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    net.sourceforge.czt.z.ast.Signature usedChannels,
+    ProcessKind kind,
+    net.sourceforge.czt.z.ast.Signature usedNameSets,
+    net.sourceforge.czt.z.ast.Signature stateSignature,
+    ZSignatureList localZParagraphs,
+    ActionSignatureList processActions)
+  {
+    return createBasicProcessSignature(name, genFormals,
+      newList(
+        // list0 = ZSignatureList getMainSignatures()
+        createZSignatureList(
+          // list0.0 = Signature paramOrIndexes
+          // list0.1 = Signature usedChannels
+          // list0.2 = Signature usedNameSets
+          // list0.3 = Signature stateSignature
+          newList(paramOrIndexes, usedChannels, 
+                  usedNameSets, stateSignature)
+        ),
+        // list1 = ZSignatureList getLocalZSignatures()
+        localZParagraphs,
+        // list2 = ActionSignatureList getActionSignatures()
+        processActions
+      ),
+      kind);
+  }

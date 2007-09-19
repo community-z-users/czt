@@ -23,10 +23,28 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
 
+  public void setParamOrIndexes(net.sourceforge.czt.z.ast.Signature sig)
+  {
+    if (getMainSignatures().size() > 0) {
+      assert sig != null;
+      getMainSignatures().set(0, sig);
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
+  }
+
   public net.sourceforge.czt.z.ast.Signature getUsedChannels()
   {
     if (getMainSignatures().size() > 1) {
       return getMainSignatures().get(1);
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
+  }
+
+  public void setUsedChannels(net.sourceforge.czt.z.ast.Signature sig)
+  {
+    if (getMainSignatures().size() > 1) {
+      assert sig != null;
+      getMainSignatures().set(1, sig);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
