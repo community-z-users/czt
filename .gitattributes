@@ -592,6 +592,9 @@ zlive/src/test/java/net/sourceforge/czt/animation/eval/result/DiscreteSetTest.ja
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/RangeSetTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/SetCompTest.java -text
 zlive/tests/UserTest-Statistics.xls -text
+zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/CookieMachine.xml -text
+zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/buffer-refinement-multienv.xml -text
+zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/buffer-refinement-singleenv.xml -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/channels.tex -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/fib-multenv.xml -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/fib-singleenv.xml -text
