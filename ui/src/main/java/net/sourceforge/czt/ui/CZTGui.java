@@ -109,7 +109,7 @@ public class CZTGui implements ActionListener
    */
   public CZTGui()
   {
-    chooser.setAcceptAllFileFilterUsed(false);
+    chooser.setAcceptAllFileFilterUsed(true);
     chooser.addChoosableFileFilter(new CZTFilter());
     specDialog.setLocationRelativeTo(frame);
     statusBar.setEditable(false);
