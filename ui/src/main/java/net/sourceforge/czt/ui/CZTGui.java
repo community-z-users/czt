@@ -449,6 +449,9 @@ public class CZTGui implements ActionListener
     /*int n = 0;**/
     //display the spec dialog
     if (event.getSource() == open) {
+      if(!(statusBar.equals("status"))){
+        statusBar.setText("status");
+      }
       specDialog.setVisible(true);
     }
     //choose a file
