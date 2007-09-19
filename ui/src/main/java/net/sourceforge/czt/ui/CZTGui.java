@@ -8,7 +8,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import net.sourceforge.czt.base.util.TermTreeNode;
 import net.sourceforge.czt.parser.util.CztError;
@@ -308,11 +310,11 @@ public class CZTGui implements ActionListener
     Throwable cause = exception.getCause();
     saveas.setEnabled(false);
     if (cause instanceof CztErrorList) {
-      java.util.List<? extends CztError> errors =
-        ((CztErrorList) cause).getErrors();
+      List<CztError> errors = new ArrayList<CztError>();
+      errors.addAll(((CztErrorList) cause).getErrors());
       Collections.sort(errors);
-      for (int i = 0; i < errors.size(); i++) {
-        resultListModel.addElement(errors.get(i).toString());          
+      for (Object o : errors) {
+        resultListModel.addElement(o.toString());          
       }
     }
     else if (cause instanceof IOException) {
