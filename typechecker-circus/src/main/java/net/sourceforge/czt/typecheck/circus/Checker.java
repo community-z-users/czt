@@ -56,13 +56,23 @@ public abstract class Checker<R>
   extends net.sourceforge.czt.typecheck.z.Checker<R>
 {
   protected TypeChecker typeChecker_;
-  
+    
   public Checker(TypeChecker typeChecker)
   {
     super(typeChecker);
     assert typeChecker != null;
     typeChecker_ = typeChecker;
   }
+  
+  public void setCircusFormalParametersDecl(boolean val)
+  {
+    typeChecker_.circusFormalParameters_ = val;
+  }
+  
+  public boolean isCheckingCircusFormalParamDecl()
+  {
+    return typeChecker_.circusFormalParameters_;
+  }  
   
   protected net.sourceforge.czt.typecheck.circus.impl.Factory factory()
   {
@@ -114,10 +124,22 @@ public abstract class Checker<R>
     return ZUtils.assertZName(getCurrentProcessName());
   }
   
-  protected void setCurrentProcessName(Name name)
+  protected Name setCurrentProcessName(Name name)
   {
+    Name old = typeChecker_.currentProcess_;
     typeChecker_.currentProcess_ = name;
+    return old;
   }
+  
+  /**
+   * This variables control process scoping. That is, one cannot have
+   * nested process declarations.
+   */
+  protected boolean isWithinProcessParaScope()
+  {
+    return typeChecker_.currentProcess_ != null;
+  }
+    
   
   protected Name getCurrentActionName()
   {
@@ -168,12 +190,7 @@ public abstract class Checker<R>
   {
     return typeChecker_.chansets_;
   }
-  
-  protected List<ProcessInfo> processes()
-  {
-    return typeChecker_.processes_;
-  }
-  
+    
   protected NameList muProcesses()
   {
     return typeChecker_.muProcesses_;
@@ -351,46 +368,7 @@ public abstract class Checker<R>
     }    
     return result;
   }
-  
-  protected boolean addProcess(Name name)
-  {
-    boolean result = true;
-    for (ProcessInfo process : processes())
-    {
-      if (process.getProcessName().equals(name))
-      {
-        result = false;
-      }
-    }
-    
-    if(result)
-    {
-      ProcessInfo insert = new ProcessInfo(name, false, null);
-      processes().add(insert);
-    }
-    return result;
-  }
-  
-  protected boolean addGenProcess(Name name, List<Name> params)
-  {
-    boolean result = true;
-    for (ProcessInfo process : processes())
-    {
-      if (process.getProcessName().equals(name))
-      {
-        result = false;
-      }
-    }
-    
-    if(result)
-    {
-      ProcessInfo insert = new ProcessInfo(name, true, params);
-      processes().add(insert);
-    }
-    
-    return result;
-  }
-  
+ 
   protected void addVars(List<NameTypePair> vars)
   {
     for(NameTypePair var : vars)
@@ -677,119 +655,30 @@ public abstract class Checker<R>
     }
   }
   
-  protected void addProcessAnn(CircusProcess term, ProcessSignature psig)
+  protected void addProcessSignatureAnn(CircusProcess term, ProcessSignature psig)
   {
-    ProcessAnn pAnn = (ProcessAnn) term.getAnn(ProcessAnn.class);
-    if (pAnn == null)
-    {
-      pAnn = factory().createProcessAnn(factory().createProcessType(psig));
-      term.getAnns().add(pAnn);
+    assert psig != null;
+    ProcessSignatureAnn psigAnn = (ProcessSignatureAnn) term.getAnn(ProcessSignatureAnn.class);
+    if (psigAnn == null) {
+      psigAnn = factory().createProcessSignatureAnn(psigAnn);
+      term.getAnns().add(psigAnn);
     }
-    else
-    {
-      pAnn.setProcessType(factory().createProcessType(psig));
-    }
+    else {
+      psigAnn.setProcessSignature(psig);
+    }    
   }
   
-  protected void addActionAnn(CircusAction term, ActionSignature asig)
+  protected void addActionSignatureAnn(CircusAction term, ActionSignature asig)
   {
-    ActionAnn aAnn = (ActionAnn) term.getAnn(ActionAnn.class);
-    if (aAnn == null)
-    {
-      aAnn = factory().createActionAnn(factory().createActionType(asig));
-      term.getAnns().add(aAnn);
+    assert asig != null;
+    ActionSignatureAnn psigAnn = (ActionSignatureAnn) term.getAnn(ActionSignatureAnn.class);
+    if (asigAnn == null) {
+      asigAnn = factory().createActionSignatureAnn(asigAnn);
+      term.getAnns().add(asigAnn);
     }
-    else
-    {
-      aAnn.setActionType(factory().createActionType(asig));
-    }
-  }
-  
-  protected ProcessSignature cloneProcessSignature(ProcessSignature procSig)
-  {
-    
-    ProcessSignature result = factory().createProcessSignature();
-    
-    if(procSig instanceof BasicProcessSignature)
-    {
-      BasicProcessSignature resultTemp = factory().createBasicProcessSignature();
-      BasicProcessSignature signature = (BasicProcessSignature)procSig;
-      if(signature.getActionsSignature() != null)
-      {
-        resultTemp.getActionsSignature().addAll(signature.getActionsSignature());
-      }
-      if(signature.getDeclNameSets() != null)
-      {
-        resultTemp.getDeclNameSets().addAll(signature.getDeclNameSets());
-      }
-      if(signature.getLocalZDeclsSignature() != null)
-      {
-        resultTemp.getLocalZDeclsSignature().addAll(signature.getLocalZDeclsSignature());
-      }
-      if(signature.getStateSignature() != null)
-      {
-        resultTemp.setStateSignature(signature.getStateSignature());
-      }
-      result = resultTemp;
-    }
-    
-    if(procSig.getParamsOrIndexes() != null)
-    {
-      Signature sig = factory().createSignature(procSig.getParamsOrIndexes().getNameTypePair());
-      result.setParamsOrIndexes(sig);
-    }
-    
-    return result;
-  }
-  
-  protected ActionSignature cloneActionSignature(ActionSignature actionSig)
-  {
-    ActionSignature result = factory().createActionSignature();
-    
-    if(actionSig.getLocalVarsSignature() != null)
-    {
-      result.setLocalVarsSignature(actionSig.getLocalVarsSignature());
-    }
-    if(actionSig.getParams() != null)
-    {
-      result.setParams(actionSig.getParams());
-    }
-    return result;
-  }
-  
-  /*
-   * Método auxiliar que verifica se existe redeclaração de variáveis
-   */
-  protected List<NameTypePair> checkDecls(List<NameTypePair> list, List<NameTypePair> news,
-    Term term, ErrorMessage error, List<Object> paramsError)
-  {
-    for(NameTypePair newDec : news)
-    {
-      boolean put = true;
-      for(NameTypePair oldDec : list)
-      {
-        if(newDec.getName().equals(oldDec.getName()))
-        {
-          Type2 typeNewDec = unwrapType(newDec.getType());
-          Type2 typeOldDec = unwrapType(oldDec.getType());
-          if (unify(typeNewDec, typeOldDec) != SUCC)
-          {
-            paramsError.add(oldDec.getZName().getWord());
-            paramsError.add(typeOldDec);
-            paramsError.add(typeNewDec);
-            Object [] params = paramsError.toArray();
-            error(term, error, params);
-          }
-          put = false;
-          break;
-        }
-      }
-      if(put)
-      {
-        list.add(newDec);
-      }
-    }
-    return list;
+    else {
+      asigAnn.setActionSignature(asig);
+    }    
   }
   
   protected ProcessSignature joinProcessSignature(ProcessSignature procSigL, ProcessSignature procSigR)
@@ -1017,5 +906,30 @@ public abstract class Checker<R>
     Set<Name> set = factory().hashSet();
     set.adddAll(declNames);
     return (set.size() = declNames.size());
+  }
+  
+  protected void checkForDuplicateNames(List<Name> declNames, ErrorMessage errorMsg)
+  {
+    checkForDuplicateNames(declNames, errorMsg.toString());
+  }
+  
+  protected void checkForDuplicateNames(List<Name> declNames, String errorMsg)
+  {
+    if (hasDuplicatedNames(declNames))
+    {
+      assert !declNames.isEmpty() : "Duplicated list of names cannot be empty.";
+      
+      Object [] params = {declNames.toString()};
+      // at the pair.getName() location
+      error(declNames.get(0), errorMsg, params);  
+    }
+  }
+  
+  protected void postActionCallCheck()
+  {
+    List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> 
+      paraErrors = postCheckParaErrors();
+    paraErrors().clear();
+    paraErrors().addAll(paraErrors);
   }
 }

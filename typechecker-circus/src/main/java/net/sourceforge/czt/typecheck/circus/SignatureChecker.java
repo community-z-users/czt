@@ -208,7 +208,7 @@ public class SignatureChecker
     // this covers: ProcessSignature and BasicProcessSignature
     ProcessType pType = factory().createProcessType(term);
     NameTypePair pair = factory().createNameTypePair(term.getProcessName(), pType);
-    Signature result = factory().createSignature(factory().list(pair));
+    Signature result = factory().createSignature(pair);
     return result;
   }
   
@@ -221,7 +221,7 @@ public class SignatureChecker
   {    
     ActionType aType = factory().createActionType(term);
     NameTypePair pair = factory().createNameTypePair(term.getActionName(), aType);
-    Signature result = factory().createSignature(factory().list(pair));
+    Signature result = factory().createSignature(pair);
     return result;
   }
 }

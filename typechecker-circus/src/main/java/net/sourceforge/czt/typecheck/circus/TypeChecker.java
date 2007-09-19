@@ -78,11 +78,6 @@ public class TypeChecker
   /** The chansets. */
   protected NameList chansets_;
   
-  /** 
-   * The processes. 
-   */
-  protected List<ProcessInfo> processes_;
-  
   //the local TypeEnv for Circus
   protected LocalTypeEnv localCircTypeEnv_;
   
@@ -93,6 +88,9 @@ public class TypeChecker
   
   protected NameList actions4PostCheck_;
   
+  // flag for whether the delcarations being checked are for circus formal parameters
+  protected boolean circusFormalParameters_ = false;
+    
   //the visitors used to typechecker a Circus program
   protected Checker<Signature> signatureChecker_;
   protected Checker<ActionSignature> actionChecker_;
@@ -130,10 +128,10 @@ public class TypeChecker
     currentAction_ = null;
     stateName_ = null;
     onTheFlyProcesses_ = null;
+    circusFormalParameters_ = false;
 
     channels_ = new ArrayList<ChannelInfo>();
-    processes_ = new ArrayList<ProcessInfo>();
-
+    
     chansets_ = getFactory().createZNameList();    
     muProcesses_ = getFactory().createZNameList();    
     muActions_ = getFactory().createZNameList();    

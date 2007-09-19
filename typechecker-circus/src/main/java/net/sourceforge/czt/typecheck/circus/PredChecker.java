@@ -69,6 +69,13 @@ public class PredChecker
     ProcessType ptSpec = factory().createProcessType(psSpec);
     ProcessType ptImpl = factory().createProcessType(psImpl);
     UResult result = unificationEnv().unify(ptSpec, ptImpl);
+    
+    // TODO: CHECK: we need to handle PARTIAL. Recheck? See z.PredChecker() on this.
+    if (result == SUCC)
+    {    
+      ProdType resultType = factory().createProdType(ptSpec, ptImpl);    
+      addTypeAnn(term, resultType);
+    }    
     return result;
   }
 
@@ -80,6 +87,14 @@ public class PredChecker
     ActionType atSpec = factory().createProcessType(asSpec);
     ActionType atImpl = factory().createProcessType(asImpl);
     UResult result = unificationEnv().unify(atSpec, atImpl);
+    
+    // TODO: CHECK: we need to handle PARTIAL. Recheck? See z.PredChecker() on this.
+    if (result == SUCC)
+    {    
+      ProdType resultType = factory().createProdType(atSpec, atImpl);    
+      addTypeAnn(term, resultType);
+    }
+    
     return result;
   }
 }

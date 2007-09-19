@@ -27,6 +27,7 @@ import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.ZFactory;
@@ -187,6 +188,12 @@ public class Factory
   public PowerType createSynchType()
   {       
     PowerType result = createPowerType(createGivenType(createSynchName()));
+    return result;
+  }
+  
+  public Signature createSignature(NameTypePair pair)
+  {
+    Signature result = createSignature(list(pair));
     return result;
   }
 }

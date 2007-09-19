@@ -70,6 +70,7 @@ public class LocalTypeEnv
   
   public void enterScope()
   {    
+    super.enterScope();
     List<NameTypePair> usedChans = getFactory().list();    
     usedChans_.push(usedChans);
     List<NameTypePair> genericImplicitChans = getFactory().list();
@@ -80,6 +81,7 @@ public class LocalTypeEnv
   {    
     usedChans_.pop();
     genericImplicitChans_.pop();
+    super.exitScope();
   }
   
   /** 

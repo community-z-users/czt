@@ -31,7 +31,9 @@ import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
 
 /**
  * This checker extends within the typechecker architecture the
@@ -48,15 +50,15 @@ import net.sourceforge.czt.z.ast.ZNameList;
 public class DeclChecker
   extends Checker<List<NameTypePair>>
   implements ChannelDeclVisitor<List<NameTypePair>>,
-             QualifiedDeclVisitor<List<NameTypePair>>
-{
-  
+             QualifiedDeclVisitor<List<NameTypePair>>,
+             ZDeclListVisitor<List<NameTypePair>>
+{ 
   //a Z decl checker
   protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
   
   public DeclChecker(TypeChecker typeChecker)
   {
-    super(typeChecker);
+    super(typeChecker);    
     zDeclChecker_ = new net.sourceforge.czt.typecheck.z.DeclChecker(typeChecker);
   }
   
@@ -66,6 +68,54 @@ public class DeclChecker
   public List<NameTypePair> visitTerm(Term decl)
   {
     return decl.accept(zDeclChecker_);
+  }
+  
+  /**
+   * If declaring Circus formal parameters, we can only accept VarDecl or
+   * QualifiedDecl, but not ConstDecl or InclDecl.
+   */
+  public List<NameTypePair> visitZDeclList(ZDeclList term)
+  {
+    if (!isCheckingCircusFormalParamDecl())
+    {
+      return term.accept(zDeclChecker_);
+    }
+    else 
+    {
+      List<NameTypePair> pairs = factory().list();
+      
+      //for each declaration in the list, get the declarations from that
+      //and make sure they are of the appropriate subtype.
+      for (Decl decl : zDeclList.getDecl()) {
+        if (decl instanceof VarDecl || decl instanceof QualifiedDecl)
+        {
+          List<NameTypePair> nextPairs = decl.accept(declChecker());
+          pairs.addAll(nextPairs);
+        } else
+        {
+          boolean isProcess = true;
+          Name name = getCurrentProcessName();
+          if (name == null)
+          {
+            isProcess = false;
+            name = getCurrentActionName();
+          }
+          
+          if (name == null)
+          {            
+            Object[] params = {(isProcess ? "process" : "action")};
+            error(decl, ErrorMessage.INVALID_SCOPE_FOR_FORMAL_PARAMS, params);
+          }
+          else 
+          { 
+            Object[] params = {(isProcess ? "process" : "action"), 
+              name.toString(), decl.getClass().toString()};
+            error(decl, ErrorMessage.INVALID_DECL_IN_FORMAL_PARAMS, params);
+          }          
+        }
+      }
+      return pairs;
+    }
   }
   
   /**
@@ -96,14 +146,8 @@ public class DeclChecker
     //this already checks if names are repeated.
     addGenParamTypes(genParams);
     
-    if (hasDuplicatedNames(declNames))
-    {
-      assert !declNames.isEmpty() : "Duplicated list of channel names cannot be empty.";
-      
-      Object [] params = {declNames.toString()};
-      // at the pair.getName() location
-      error(declNames.get(0), ErrorMessage.DUPLICATE_CHANNEL_NAME_IN_CHANDECL, params);  
-    }
+    // checks for duplicate names, and adds an error in case one is found.
+    checkForDuplicateNames(declNames, ErrorMessage.DUPLICATE_CHANNEL_NAME_IN_CHANDECL);
     
     //visit the expression
     Type2 exprType = expr.accept(exprChecker());
@@ -139,69 +183,6 @@ public class DeclChecker
     //exit the variable scope
     typeEnv().exitScope();
     
-    
-    // TODO: Why is that necessary is unclear. CHECK
-    // Manuela: hold current generic parameters for future verification
-    setCurrentGenParams(genParams);
-    
-    // iterate through results to check for duplicated channels.
-    //if the name already exists globally, raise an error
-    Iterator<NameTypePair> it = result.iterator();
-    
-    // if not considering generic channels
-    if (genParams.isEmpty())
-    {
-      while (it.hasNext())
-      {
-        NameTypePair pair = it.next();
-        // if cannot add the channel, it is repeated
-        if (!addChannel(pair.getName(), pair.getType()))
-        {          
-          // remove from the result list
-          it.remove();          
-          // raise an error with the name
-          Object [] params = {pair.getName()};
-          // at the pair.getName() location
-          error(pair.getName(), ErrorMessage.REDECLARED_CHANNEL_NAME, params);
-        }
-      }    
-    }
-    // otherwise, if using generic channels
-    else
-    {
-      while (it.hasNext())
-      {
-        NameTypePair pair = it.next();
-                
-        // Check wheather the channel type is actually generic.
-        Type2 chanType = unwrapType(pair.getType()); //(Type2)pair.getType();
-        boolean isGeneric = chanType.accept(channelDeclChecker());
-        
-        if(isGeneric)
-        {
-          if (!addGenChannel(pair.getName(), pair.getType(), genParams))
-          {   
-            // remove from the result list
-            it.remove();          
-            
-            Object [] params = {pair.getName()};
-            error(pair.getName(), ErrorMessage.REDECLARED_CHANNEL_NAME, params);
-          }
-        }
-        else
-        {
-          if (!addChannel(pair.getName(), pair.getType()))
-          {   
-            // remove from the result list
-            it.remove();          
-            
-            Object [] params = {pair.getName()};
-            error(pair.getName(), ErrorMessage.REDECLARED_CHANNEL_NAME, params);
-          }
-        }
-      }        
-    }
-    
     return result;
   }
   
@@ -227,14 +208,7 @@ public class DeclChecker
     PowerType vPowerType = factory().createPowerType();
     UResult unified = unify(vPowerType, exprType);
 
-    if (hasDuplicatedNames(term.getZNameList()))
-    {
-      assert !term.getZNameList().isEmpty() : "Duplicated list of qualified declaration names cannot be empty.";
-      
-      Object [] params = {declNames.toString()};
-      // at the pair.getName() location
-      error(declNames.get(0), ErrorMessage.DUPLICATE_PARAM_NAME_IN_QUALIFIEDDECL, params);  
-    }
+    checkForDuplicateNames(term.getZNameList(), ErrorMessage.DUPLICATE_PARAM_NAME_IN_QUALIFIEDDECL);
     
     //the list of name type pairs in the channel decl name list
     List<NameTypePair> result = checkDeclNames(

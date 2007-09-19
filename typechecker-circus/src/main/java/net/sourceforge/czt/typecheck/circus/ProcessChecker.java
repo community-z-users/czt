@@ -20,71 +20,127 @@ package net.sourceforge.czt.typecheck.circus;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.czt.circus.ast.ActionPara;
+import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.ActionType;
+import net.sourceforge.czt.circus.ast.AlphabetisedParallelProcess;
+import net.sourceforge.czt.circus.ast.AlphabetisedParallelProcessIdx;
+import net.sourceforge.czt.circus.ast.AlphabetisedParallelProcessIte;
+import net.sourceforge.czt.circus.ast.BasicProcess;
+import net.sourceforge.czt.circus.ast.BasicProcessSignature;
+import net.sourceforge.czt.circus.ast.CallProcess;
+import net.sourceforge.czt.circus.ast.CircusAction;
+import net.sourceforge.czt.circus.ast.CircusProcess;
+import net.sourceforge.czt.circus.ast.HideProcess;
+import net.sourceforge.czt.circus.ast.IndexedProcess;
+import net.sourceforge.czt.circus.ast.NameSetPara;
+import net.sourceforge.czt.circus.ast.ParallelProcess;
+import net.sourceforge.czt.circus.ast.ParallelProcessIdx;
+import net.sourceforge.czt.circus.ast.ParallelProcessIte;
+import net.sourceforge.czt.circus.ast.ParamProcess;
+import net.sourceforge.czt.circus.ast.Process1;
+import net.sourceforge.czt.circus.ast.Process2;
+import net.sourceforge.czt.circus.ast.ProcessIte;
+import net.sourceforge.czt.circus.ast.ProcessPara;
+import net.sourceforge.czt.circus.ast.ProcessSignature;
+import net.sourceforge.czt.circus.ast.ProcessType;
+import net.sourceforge.czt.circus.ast.RenameProcess;
+import net.sourceforge.czt.circus.visitor.AlphabetisedParallelProcessIteVisitor;
+import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
+import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
+import net.sourceforge.czt.circus.visitor.HideProcessVisitor;
+import net.sourceforge.czt.circus.visitor.IndexedProcessVisitor;
+import net.sourceforge.czt.circus.visitor.InterleaveProcessIdxVisitor;
+import net.sourceforge.czt.circus.visitor.InterleaveProcessIteVisitor;
+import net.sourceforge.czt.circus.visitor.InterleaveProcessVisitor;
+import net.sourceforge.czt.circus.visitor.ParallelProcessIdxVisitor;
+import net.sourceforge.czt.circus.visitor.ParallelProcessIteVisitor;
+import net.sourceforge.czt.circus.visitor.ParallelProcessVisitor;
+import net.sourceforge.czt.circus.visitor.ParamProcessVisitor;
+import net.sourceforge.czt.circus.visitor.Process2Visitor;
+import net.sourceforge.czt.circus.visitor.ProcessIdxVisitor;
+import net.sourceforge.czt.circus.visitor.ProcessIteVisitor;
+import net.sourceforge.czt.circus.visitor.RenameProcessVisitor;
 import net.sourceforge.czt.typecheck.circus.impl.ProcessInfo;
-
-import static net.sourceforge.czt.z.util.ZUtils.*;
-import static net.sourceforge.czt.typecheck.circus.util.GlobalDefs.*;
-
-import net.sourceforge.czt.base.ast.ListTerm;
-import net.sourceforge.czt.base.impl.ListTermImpl;
-import net.sourceforge.czt.typecheck.z.impl.UnknownType;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.circus.ast.*;
-import net.sourceforge.czt.circus.visitor.*;
-import net.sourceforge.czt.circustools.ast.*;
-import net.sourceforge.czt.circustools.visitor.*;
 import net.sourceforge.czt.typecheck.circus.util.KindOfProcess;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.z.ast.ApplExpr;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.GivenType;
+import net.sourceforge.czt.z.ast.InclDecl;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.NewOldPair;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.ProdType;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZRenameList;
+import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
- * Visitor que checa os tipos de processos. Retorna sempre um objeto do tipo
- * ProcessSignature.
+ * This visitor produces a ProocessSignature for each Circus process class.
+ * This could be either a CircusProcessSignature or BasicProcessSignature,
+ * depending whether we have a process description or a basic process with 
+ * state and actions. This follows the Parser "processDesc" non-terminal
+ * production.
  *
  * @author Leo Freitas
  * @author Manuela Xavier
  */
 public class ProcessChecker extends Checker<ProcessSignature>
-  implements Process1Visitor<ProcessSignature>,
-             Process2Visitor<ProcessSignature>,
-             IndexedProcessVisitor<ProcessSignature>,
-             CallProcessVisitor<ProcessSignature>,
-             BasicProcessVisitor<ProcessSignature>,
-             //ProcessDVisitor,
-             ProcessIteVisitor<ProcessSignature>,
-             //ProcessIdxVisitor,             
-             ParamProcessVisitor<ProcessSignature>,
-             //ParProcessIteVisitor,
-             //ExtChoiceProcessIteVisitor,
-             //IntChoiceProcessIteVisitor,
-             //SeqProcessIteVisitor,
+  implements 
+             // Parameterised process 
+             ParamProcessVisitor<ProcessSignature>,               
+
+             // Parameterised iterated processes
+             InterleaveProcessIteVisitor<ProcessSignature>,
              AlphabetisedParallelProcessIteVisitor<ProcessSignature>,
-             //InterleaveProcessIteVisitor,
-             ParallelProcessIteVisitor<ProcessSignature>,
-             //IntChoiceProcessIdxVisitor,
-             //ExtChoiceProcessIdxVisitor,
-             AlphabetisedParallelProcessIdxVisitor<ProcessSignature>,
-             //ParProcessIdxVisitor,
-             //SeqProcessIdxVisitor,
-             ParallelProcessIdxVisitor<ProcessSignature>,
-             //InterleaveProcessIdxVisitor,
-             MuProcessVisitor<ProcessSignature>,
-             PrefixingProcessVisitor<ProcessSignature>,
-             GuardedProcessVisitor<ProcessSignature>,
+             ParallelProcessIteVisitor<ProcessSignature>,               
+             ProcessIteVisitor<ProcessSignature>, 
+                //Represents: ExtChoiceProcessIteVisitor, IntChoiceProcessIteVisitor, SeqProcessIteVisitor;
+             
+             // Indexed process 
+             IndexedProcessVisitor<ProcessSignature>,             
+
+             // Indexed iterated processes
+             InterleaveProcessIdxVisitor<ProcessSignature>,             
+             ParallelProcessIdxVisitor<ProcessSignature>,               
+             ProcessIdxVisitor<ProcessSignature>, 
+                //Represents: ExtChoiceProcessIdxVisitor, IntChoiceProcessIdxVisitor, SeqProcessIdxVisitor;
+             
+             BasicProcessVisitor<ProcessSignature>,
              HideProcessVisitor<ProcessSignature>,
-             RenameProcessVisitor<ProcessSignature>,
-             //ExtChoiceProcessVisitor,
-             //IntChoiceProcessVisitor,
-             //ParProcessVisitor<ProcessSignature>,
-             //SeqProcessVisitor,
-             //InterleaveProcessVisitor,
+             InterleaveProcessVisitor<ProcessSignature>,  
              ParallelProcessVisitor<ProcessSignature>,
-             AlphabetisedParallelProcessVisitor<ProcessSignature>
+             Process2Visitor<ProcessSignature>, 
+                //Represents: ExtChoiceProcessVisitor, IntChoiceProcessVisitor, SeqProcessVisitor;
+             CallProcessVisitor<ProcessSignature>,             
+             RenameProcessVisitor<ProcessSignature>,
+  
+             //only production not treated by the parser grammar yet.
+             //AlphabetisedParallelProcessVisitor<ProcessSignature>
+  
+             // In general, case we miss some...
+             Process1Visitor<ProcessSignature>,
+             ProcessDVisitor<ProcessSignature>
 {
     
   //a Z decl checker
   protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
-
+  
   /** Creates a new instance of ProcessChecker */
   public ProcessChecker(TypeChecker typeChecker)
   {
@@ -92,6 +148,38 @@ public class ProcessChecker extends Checker<ProcessSignature>
     zDeclChecker_ =
       new net.sourceforge.czt.typecheck.z.DeclChecker(typeChecker);
   }
+  
+  // Parameterised process 
+  
+  public ProcessSignature visitParamProcess(ParamProcess term)
+  {    
+    // ParamProcess ::= Declaration @ Process
+    DeclList decls = term.getZDeclList();            
+    CircusProcess process = term.getCircusProcess();
+    
+    // sets we are handling formal parameters declaration,
+    // hence, only VarDecl and QualifiedDecl apply.
+    setCircusFormalParametersDecl(true);
+    List<NameTypePaiir> declPairs = decls.accept(declChecker());    
+    setCircusFormalParametersDecl(false);
+    
+    // check there are no non-unifiable duplicates within the list of Z names.
+    checkForDuplicateNames(declPairs, ErrorMessage.DUPLICATE_PARAM_IN_PROCESS);    
+        
+    typeEnv().enterScope();
+
+    typeEnv().add(declPairs);    
+    
+    Signature paramSig = factory().createSignature(declPairs);
+    ProcessSignature procSig = process.accept(processChecker());        
+    progSig.setParamsOrIndexes(paramsSig);
+    CircusFactoryImpl
+    typeEnv().exitScope();
+    
+    addProcessSignatureAnn(term, procSig);
+    
+    return procSig;
+  }  
   
   //ok - verificado em 15/09/2005 às 19:03
   public ProcessSignature visitProcess1(Process1 term)
@@ -157,48 +245,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
     addProcessAnn(term, signature);
         
     return signature;
-  }
-  
-  // ParamProcess ::= Declaration @ Process
-  //ok - verificado em 15/09/2005 às 19:08
-  public ProcessSignature visitParamProcess(ParamProcess term)
-  {
-    ZDeclList decls = term.getZDeclList();            
-    CircusProcess proc = term.getCircusProcess();
-
-    List<NameTypePair> allPairs = new ArrayList<NameTypePair>();
-    List<Object> paramsError = new ArrayList<Object>();
-    paramsError.add(assertZDeclName(currentProcess()).getWord());
-    
-    for(Decl d : decls){
-        if (!(d instanceof VarDecl))
-          throw new UnsupportedOperationException("Param processes accept only VarDecl!");
-      VarDecl decl = (VarDecl)d;
-      List<NameTypePair> pairs = decl.accept(declChecker());
-      allPairs = checkDecls(allPairs, pairs, term, ErrorMessage.REDECLARED_PARAM_IN_PROCESS, paramsError);
-    }
-    
-    // atualiza informações sobre o processo
-    ProcessInfo procInfo = getProcessInfo(currentProcess());
-    procInfo.setKindOfProcess(KindOfProcess.PARAM);
-    procInfo.setParamsOrIndexes(allPairs);
-    
-    typeEnv().enterScope();
-
-    typeEnv().add(allPairs);
-//    localCircTypeEnv().addCurrentParamsIndexes(allPairs);
-    
-    ProcessSignature procSig = proc.accept(processChecker());
-    ProcessSignature procSignature = cloneProcessSignature(procSig);
-    Signature sig = factory().createSignature(allPairs);
-    procSignature.setParamsOrIndexes(sig);
-    
-    typeEnv().exitScope();
-    
-    addProcessAnn(term, procSignature);
-    
-    return procSignature;
-  }
+  }  
   
   // Process ::= begin PParagraph* state StateParagraph PParagraph* @ Action end
   // Process ::= begin PParagraph* @ Action end
