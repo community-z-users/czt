@@ -584,15 +584,15 @@ public class PrintVisitor
   
   public String visitBasicProcessSignature(BasicProcessSignature term)
   {
-    StringBuilder result = new StringBuilder(visitProcess(term));
-    if (term.getStateType() != null)
-    {
-      result.append(visit(term.getStateType()));//SchemaType
-    }
-    final String sep = NLAndTabs();
-    result.append(visitList(term.getZSignature(), "ZDeclSig : ["+ sep, sep, "]\n"));//List<Signature>
-    result.append(visitList(term.getActionSignature(), "ActionSig: ["+ sep, sep, "]\n"));//List<Signature>
-    result.append(visitList(term.getNameSet(), "NameSet  : [", ", ", "]\n"));//ZNameList
+    StringBuilder result = new StringBuilder("TODO: " + visitProcess(term));
+    //if (term.getStateType() != null)
+    //{
+    //  result.append(visit(term.getStateType()));//SchemaType
+    //}
+    ///final String sep = NLAndTabs();
+    //result.append(visitList(term.getZSignature(), "ZDeclSig : ["+ sep, sep, "]\n"));//List<Signature>
+    //result.append(visitList(term.getActionSignature(), "ActionSig: ["+ sep, sep, "]\n"));//List<Signature>
+    //result.append(visitList(term.getUsedNameSets(), "NameSet  : [", ", ", "]\n"));//ZNameList
     return result.toString();
   }
   

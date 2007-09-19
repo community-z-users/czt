@@ -60,6 +60,11 @@ public class CircusConcreteSyntaxSymbolVisitor
     return null;
   }
   
+  public CircusConcreteSyntaxSymbol visitImplicitChannelAnn(ImplicitChannelAnn term)
+  {
+    return null;
+  }
+  
   public CircusConcreteSyntaxSymbol visitProcessType(ProcessType term)
   {
     return null;
@@ -395,6 +400,36 @@ public class CircusConcreteSyntaxSymbolVisitor
   public CircusConcreteSyntaxSymbol visitActionTransformerPred(ActionTransformerPred term)
   {
     return CircusConcreteSyntaxSymbol.ACTION_TRANSFORMER_PRED;
+  }
+  
+  public CircusConcreteSyntaxSymbol visitCircusCommunicationList(CircusCommunicationList term)
+  {
+    return null;
+  }
+  
+  public CircusConcreteSyntaxSymbol visitActionSignatureList(ActionSignatureList term)
+  {
+    return null;
+  }
+  
+  public CircusConcreteSyntaxSymbol visitZSignatureList(ZSignatureList term)
+  {
+    return null;
+  }
+  
+  public CircusConcreteSyntaxSymbol visitCircusActionList(CircusActionList term)
+  {
+    return null;
+  }  
+    
+  public CircusConcreteSyntaxSymbol visitProcessSignatureList(ProcessSignatureList term)
+  {
+    return null;
+  }
+  
+  public CircusConcreteSyntaxSymbol visitCircusProcessSignature(CircusProcessSignature term)
+  {
+    return null;
   }
   
   public interface Utils
