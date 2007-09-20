@@ -406,6 +406,13 @@ public class ZSideKickActions
     }
   }
 
+  public static int getColumn(int pos, View view)
+  {
+    final JEditTextArea textArea = view.getTextArea();
+    final int line = textArea.getLineOfOffset(pos);
+    return pos - textArea.getLineStartOffset(line);
+  }
+
   public static boolean replaceWff(Term oldTerm, Term newTerm, View view,
                                    SectionManager manager, String section)
   {
@@ -422,9 +429,7 @@ public class ZSideKickActions
           PrintUtils.printLatex(newTerm, writer, manager, section);
         }
         else {
-          //       int column = selection.getStart(view.getBuffer(),
-          //                                       selection.getStartLine());
-          int column = locAnn.getCol().intValue();
+          int column = getColumn(selection.getStart(), view);
           UnicodeTokenPrinter tokenPrinter = new UnicodeTokenPrinter();
           PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
           printer.printTokenSequence(
