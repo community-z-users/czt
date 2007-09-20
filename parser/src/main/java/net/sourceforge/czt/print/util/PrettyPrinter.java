@@ -86,7 +86,7 @@ public class PrettyPrinter
     boolean first = true;
     for (Object o : tseq.getSequence()) {
       if (! first) { // handle space
-        if (lineWidth_ < pos + getLength(o)) {
+        if (lineWidth_ < pos + getLength(o) && pos > startPos + offset_) {
           pos = startPos + offset_;
           indent(pos);
         }
