@@ -24,11 +24,11 @@ import java.io.Writer;
 
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.TokenName;
-import net.sourceforge.czt.print.util.TokenSequence;
+import net.sourceforge.czt.print.util.PrettyPrinter;
 import net.sourceforge.czt.z.util.ZString;
 
 public class UnicodeTokenPrinter
-  implements TokenSequence.Printer
+  implements PrettyPrinter.Printer
 {
   public String toString(Token token)
   {

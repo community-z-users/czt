@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.z.TokenName;
 
 public class TokenSequence
 {
@@ -33,6 +34,12 @@ public class TokenSequence
     @                 (o instanceof TokenSequence));
     @*/
   private List<Object> list_ = new ArrayList<Object>();
+
+  private int nrOfTokens_ = 0;
+  //@ invariant nrOfTokens_ >= 0;
+
+  private int length_ = 0;
+  //@ invariant length_ >= 0;
 
   public TokenSequence(String name)
   {
@@ -47,11 +54,18 @@ public class TokenSequence
   public void add(Token t)
   {
     list_.add(t);
+    nrOfTokens_++;
+    length_ += t.spelling().length();
+    if (TokenName.NUMSTROKE.getName().equals(t.getName())) {
+      length_ += 2;
+    }
   }
 
   public void add(TokenSequence seq)
   {
     list_.add(seq);
+    nrOfTokens_ += seq.getNrOfTokens();
+    length_ += seq.getLength();
   }
 
   public Object[] getSequence()
@@ -62,44 +76,18 @@ public class TokenSequence
   /**
    * The sum of all the token length.
    */
-  public int getLength(Printer printer)
+  public int getLength()
   {
-    int nr = 0;
-    for (Object o : list_) {
-      if (o instanceof Token) {
-        Token token = (Token) o;
-        nr += printer.toString(token).length();
-      }
-      else {
-        TokenSequence tseq = (TokenSequence) o;
-        nr += tseq.getLength(printer);
-      }
-    }
-    return nr;
+    return length_;
   }
 
   public int getNrOfTokens()
   {
-    int nr = 0;
-    for (Object o : list_) {
-      if (o instanceof Token) {
-        nr += 1;
-      }
-      else {
-        TokenSequence tseq = (TokenSequence) o;
-        nr += tseq.getNrOfTokens();
-      }
-    }
-    return nr;
+    return nrOfTokens_;
   }
 
   public String toString()
   {
     return list_.toString();
-  }
-
-  public interface Printer
-  {
-    String toString(Token token);
   }
 }

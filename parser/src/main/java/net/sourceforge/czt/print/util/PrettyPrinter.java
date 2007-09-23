@@ -35,7 +35,7 @@ import net.sourceforge.czt.parser.z.TokenName;
 public class PrettyPrinter
   extends PrintWriter
 {
-  private TokenSequence.Printer tokenPrinter_;
+  private Printer tokenPrinter_;
   private int lineWidth_ = 80;
   private int offset_ = 2;
 
@@ -44,7 +44,7 @@ public class PrettyPrinter
    *
    * @param out a character-output stream.
    */
-  public PrettyPrinter(Writer out, TokenSequence.Printer tokenPrinter)
+  public PrettyPrinter(Writer out, Printer tokenPrinter)
   {
     super(out);
     tokenPrinter_ = tokenPrinter;
@@ -112,7 +112,7 @@ public class PrettyPrinter
   {
     if (o instanceof Token) return tokenPrinter_.toString((Token) o).length();
     TokenSequence tseq = (TokenSequence) o;
-    return tseq.getLength(tokenPrinter_) + tseq.getNrOfTokens() - 1;
+    return tseq.getLength() + tseq.getNrOfTokens() - 1;
   }
 
   public void indent(int spaces)
@@ -121,5 +121,10 @@ public class PrettyPrinter
     for (int i = 0; i < spaces; i++) {
       print(" ");
     }
+  }
+
+  public interface Printer
+  {
+    String toString(Token token);
   }
 }
