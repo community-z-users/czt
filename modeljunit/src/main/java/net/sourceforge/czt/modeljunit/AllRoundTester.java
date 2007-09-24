@@ -2,6 +2,7 @@ package net.sourceforge.czt.modeljunit;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
+import java.util.Random;
 
 public class AllRoundTester extends Tester
 {
@@ -19,7 +20,7 @@ public class AllRoundTester extends Tester
     super(model);
     test = new GreedyTester(model_);
     state = new StateCoverage();
-    test.addCoverageMetric(state);
+    test.addListener(state);
     loopTolerance = 1;
   }
 
@@ -32,23 +33,33 @@ public class AllRoundTester extends Tester
     this(new Model(fsm));
     test = new GreedyTester(model_);
     state = new StateCoverage();
-    test.addCoverageMetric(state);
+    test.addListener(state);
     loopTolerance = 1;
   }
   
+  /**
+   * Allows you to add a tester
+   *
+   */
   public AllRoundTester(Tester testr)
   {
-	  super(testr.getModel());
-	  test = testr;
-	  state = new StateCoverage();
-	  test.addCoverageMetric(state);
-	  loopTolerance = 1;
+    super(testr.getModel());
+    test = testr;
+    state = new StateCoverage();
+    test.addListener(state);
+    loopTolerance = 1;
   }
 
+  /**
+   * Lets you get how many times the algorithm will tolerate a loop
+   */
   public int getLoopTolerance() {
 	  return loopTolerance;
   }
   
+  /**
+   * Lets you set how many times the algorithm will tolerate a loop
+   */
   public void setLoopTolerance(int t) {
 	  loopTolerance = t;
   }
@@ -58,6 +69,12 @@ public class AllRoundTester extends Tester
    * @param maxLength  The number of test steps to do.
    * @param rand       The random number generator used to choose paths.
    */
+
+  public void setRandom(Random rand)
+  {
+    test.setRandom(rand);
+  }
+
   public int allRoundTrips()
   {
     int taken = test.generate();

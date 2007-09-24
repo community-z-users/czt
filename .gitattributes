@@ -371,6 +371,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Parameter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/TestExeModel.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
+modeljunit/src/test/java/net/sourceforge/czt/modeljunit/AllRoundTesterTest.java -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/GraphListenerTest.java -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ListenerFactoryTest.java -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ModelTestCaseTest.java -text
