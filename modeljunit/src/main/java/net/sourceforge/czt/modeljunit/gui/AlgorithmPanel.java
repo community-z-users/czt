@@ -34,11 +34,6 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     //m_imgIcon = new ImageIcon(getClass().getResource("icon.gif"));
   }
 
-  public boolean hasError()
-  {
-    return m_panelOption.hasError();
-  }
-
   public String getAlgorithmName()
   {
     return m_strNameOfAlgorithm;
@@ -69,6 +64,11 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     m_panelOption.initialize();
   }
 
+  public Tester GetTester()
+  {
+    return m_panelOption.GetTester();
+  }
+  
   public void loadParameters(BufferedReader bufReader)
   {
     m_panelOption.loadParameters(bufReader);
@@ -84,30 +84,8 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     return m_panelOption.generateImportLab();
   }
 
-  public Tester runAlgorithm()
+  public void runAlgorithm()
   {
-    Tester tester = null;
-    try {
-      tester = m_panelOption.runAlgorithm();
-    }
-    catch (InstantiationException e) {
-      e.printStackTrace();
-    }
-    catch (IllegalAccessException e) {
-      e.printStackTrace();
-    }
-    catch (SecurityException e) {
-      e.printStackTrace();
-    }
-    catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    }
-    catch (NoSuchMethodException e) {
-      e.printStackTrace();
-    }
-    catch (InvocationTargetException e) {
-      e.printStackTrace();
-    }
-    return tester;
+    m_panelOption.runAlgorithm();
   }
 }
