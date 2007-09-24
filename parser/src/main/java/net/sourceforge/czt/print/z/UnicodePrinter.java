@@ -24,6 +24,7 @@ import java.io.Writer;
 
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -59,25 +60,59 @@ public class UnicodePrinter
     super(out, autoFlush);
   }
 
-
   public void printToken(Token token)
   {
+    printToken(token, 0);
+  }
+
+  public void printToken(Token token, int indent)
+  {
+    if (TokenName.NL.equals(token)) {
+      print("\n");
+      indent(indent);
+      return;
+    }
+
     if (token.getSpelling() instanceof WhereWord ||
         TokenName.END.equals(token)) {
       print("\n");
     }
-    if (TokenName.NL.equals(token)) {
-      print("\n");
-    }
-    else if (TokenName.NUMSTROKE.getName().equals(token.getName())) {
+
+    if (TokenName.NUMSTROKE.getName().equals(token.getName())) {
       print(ZString.SE + token.getSpelling() + ZString.NW);
     }
     else {
       print(token.spelling());
     }
-    if (! "TEXT".equals(token.getName())) {
+
+    if (! "TEXT".equals(token.getName()) &&
+        ! TokenName.NL.equals(token)) {
       if (token.getSpelling() instanceof WhereWord) print("\n");
       print(ZString.SPACE);
+    }
+  }
+
+  private void indent(int pos)
+  {
+    for (int i = 0; i < pos; i++) {
+      print("\t");
+    }
+  }
+
+  public void printTokenSequence(TokenSequence tseq)
+  {
+    printTokenSequence(tseq, 0);
+  }
+
+  public void printTokenSequence(TokenSequence tseq, int indent)
+  {
+    for (Object o : tseq.getSequence()) {
+      if (o instanceof TokenSequence) {
+        printTokenSequence((TokenSequence) o, indent+1);
+      }
+      else {
+        printToken((Token) o, indent);
+      }
     }
   }
 }

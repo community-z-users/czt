@@ -27,8 +27,7 @@ import sidekick.SideKickParsedData;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
-import net.sourceforge.czt.print.util.PrettyPrinter;
-import net.sourceforge.czt.print.z.UnicodeTokenPrinter;
+import net.sourceforge.czt.print.z.UnicodePrinter;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.session.*;
@@ -430,12 +429,11 @@ public class ZSideKickActions
         }
         else {
           int column = getColumn(selection.getStart(), view);
-          UnicodeTokenPrinter tokenPrinter = new UnicodeTokenPrinter();
-          PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
-          printer.printTokenSequence(
-            PrintUtils.toUnicode(newTerm, manager, section), column);
-          //          PrintUtils.printUnicode(newTerm, writer,
-          //                                  manager, section);
+          TokenSequence tseq =
+            PrintUtils.toUnicode(newTerm, manager, section);
+          new PrettyPrinter().handleTokenSequence(tseq, column);
+          UnicodePrinter printer = new UnicodePrinter(writer);
+          printer.printTokenSequence(tseq);
         }
       }
       catch (Exception e) {
@@ -555,10 +553,11 @@ public class ZSideKickActions
             new Selection.Range(start,
                                 start + locAnn.getLength().intValue());
           StringWriter writer = new StringWriter();
-          UnicodeTokenPrinter tokenPrinter = new UnicodeTokenPrinter();
-          PrettyPrinter printer = new PrettyPrinter(writer, tokenPrinter);
-          printer.printTokenSequence(
-            PrintUtils.toUnicode(term, manager, section), 0);
+          TokenSequence tseq =
+            PrintUtils.toUnicode(term, manager, section);
+          new PrettyPrinter().handleTokenSequence(tseq, 0);
+          UnicodePrinter printer = new UnicodePrinter(writer);
+          printer.printTokenSequence(tseq);
           replaceSelection(view, selection, writer.toString());
         }
       }

@@ -19,48 +19,21 @@
 
 package net.sourceforge.czt.print.util;
 
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.util.List;
+import java.util.ListIterator;
 
 import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.util.TokenImpl;
 import net.sourceforge.czt.parser.z.TokenName;
 
 /**
- * Print Z specifications in Unicode.
- * This class adds the functionality to print Z tokens in unicode
- * to the PrintWriter class.
  *
  * @author Petra Malik
  */
 public class PrettyPrinter
-  extends PrintWriter
 {
-  private Printer tokenPrinter_;
   private int lineWidth_ = 80;
   private int offset_ = 2;
-
-  /**
-   * Create a new PrintWriter, without automatic line flushing.
-   *
-   * @param out a character-output stream.
-   */
-  public PrettyPrinter(Writer out, Printer tokenPrinter)
-  {
-    super(out);
-    tokenPrinter_ = tokenPrinter;
-  }
-
-  /**
-   * Create a new PrintWriter.
-   *
-   * @param out a character-output stream.
-   * @param autoFlush a boolean; if true, the println() methods
-   *                  will flush the output buffer
-   */
-  public PrettyPrinter(Writer out, boolean autoFlush)
-  {
-    super(out, autoFlush);
-  }
 
   public void setOffset(int offset)
   {
@@ -72,59 +45,56 @@ public class PrettyPrinter
     lineWidth_ = width;
   }
 
-  public int printToken(Token token)
+  public int handleTokenSequence(TokenSequence tseq,
+                                 int startPos)
   {
-    String s = tokenPrinter_.toString(token);
-    print(s);
-    return s.length();
+    return handleTokenSequence(tseq, lineWidth_-startPos, 0);
   }
 
-  public int printTokenSequence(TokenSequence tseq,
-                                int startPos)
+  public int handleTokenSequence(TokenSequence tseq,
+                                 int space,
+                                 int indent)
   {
-    int pos = startPos;
-    boolean first = true;
-    for (Object o : tseq.getSequence()) {
-      if (! first) { // handle space
-        if (lineWidth_ < pos + getLength(o) && pos > startPos + offset_) {
-          pos = startPos + offset_;
-          indent(pos);
+    final List<Object> list = tseq.getSequence();
+    int spaceLeft = space;
+    int processed = 0;
+    boolean nl = true;
+    for (ListIterator iter = list.listIterator(); iter.hasNext();) {
+      final Object o = iter.next();
+      final int length = getLength(o);
+      if (iter.hasPrevious()) { // handle space
+        if (spaceLeft < 0 ||
+            (spaceLeft < length && processed > 1)) {
+          iter.previous();
+          iter.add(TokenName.NL);
+          Object next = iter.next();
+          assert next == o;
+          spaceLeft = lineWidth_-2*indent;
+          nl = true;
         }
         else {
-          print(" ");
-          pos += 1;
+          spaceLeft -= 1;
         }
       }
-      if (o instanceof Token) {
-        Token token = (Token) o;
-        pos += printToken(token);
+      if (nl && o instanceof TokenSequence) {
+        spaceLeft =
+          handleTokenSequence((TokenSequence) o, spaceLeft, indent+1);
       }
       else {
-        pos = printTokenSequence((TokenSequence) o, pos);
+        spaceLeft -= length;
       }
-      first = false;
+      processed += length;
     }
-    return pos;
+    return spaceLeft;
   }
 
   //@ requires (o instanceof Token) || (o instanceof TokenSequence);
   private int getLength(Object o)
   {
-    if (o instanceof Token) return tokenPrinter_.toString((Token) o).length();
+    if (o instanceof Token) {
+      return ((Token) o).spelling().length();
+    }
     TokenSequence tseq = (TokenSequence) o;
     return tseq.getLength() + tseq.getNrOfTokens() - 1;
-  }
-
-  public void indent(int spaces)
-  {
-    println();
-    for (int i = 0; i < spaces; i++) {
-      print(" ");
-    }
-  }
-
-  public interface Printer
-  {
-    String toString(Token token);
   }
 }

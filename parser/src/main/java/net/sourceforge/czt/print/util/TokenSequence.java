@@ -68,9 +68,9 @@ public class TokenSequence
     length_ += seq.getLength();
   }
 
-  public Object[] getSequence()
+  public List<Object> getSequence()
   {
-    return list_.toArray();
+    return list_;
   }
 
   /**
