@@ -18,6 +18,7 @@ import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 
 public class TestExeModel
 {
+  public static final String[] COVERAGE_MATRIX = {"State coverage","Transition coverage","Transition pair coverage"};
   private static int m_nWalkLength;
   
   public static void SetWalkLength(int length)
@@ -78,15 +79,23 @@ public class TestExeModel
     // Set up coverage matrix to check the test result
     boolean[] bCoverage = Parameter.getCoverageOption();
     CoverageHistory[] coverage = new CoverageHistory[3];
-
-    coverage[0] = new CoverageHistory(new StateCoverage(), 1);
-    m_tester.addCoverageMetric(coverage[0]);
+    if(bCoverage[0])
+    {
+      coverage[0] = new CoverageHistory(new StateCoverage(), 1);
+      m_tester.addCoverageMetric(coverage[0]);
+    }
     
-    coverage[1] = new CoverageHistory(new TransitionCoverage(), 1);
-    m_tester.addCoverageMetric(coverage[1]);
+    if(bCoverage[1])
+    {
+      coverage[1] = new CoverageHistory(new TransitionCoverage(), 1);
+      m_tester.addCoverageMetric(coverage[1]);
+    }
     
-    coverage[2] = new CoverageHistory(new TransitionPairCoverage(), 1);
-    m_tester.addCoverageMetric(coverage[2]);
+    if(bCoverage[2])
+    {
+      coverage[2] = new CoverageHistory(new TransitionPairCoverage(), 1);
+      m_tester.addCoverageMetric(coverage[2]);
+    }
     
     StringBuffer verbose = new StringBuffer();
     StringWriter sw = new StringWriter();
@@ -106,9 +115,12 @@ public class TestExeModel
     // Generate test walking
     m_tester.generate(m_nWalkLength);
     // Print out generated graph
-    System.out.println("State history = "+coverage[0].toCSV());
-    System.out.println("Transaction history = "+coverage[1].toCSV());
-    System.out.println("Transaction pair history = "+coverage[2].toCSV());
+    if(bCoverage[0])    
+      System.out.println(TestExeModel.COVERAGE_MATRIX[0]+" history = "+coverage[0].toCSV());
+    if(bCoverage[1])
+      System.out.println(TestExeModel.COVERAGE_MATRIX[1]+" history = "+coverage[1].toCSV());
+    if(bCoverage[2])
+      System.out.println(TestExeModel.COVERAGE_MATRIX[2]+" history = "+coverage[2].toCSV());
     verbose = sw.getBuffer();
     // Recover System.out
     output = baos.toString();

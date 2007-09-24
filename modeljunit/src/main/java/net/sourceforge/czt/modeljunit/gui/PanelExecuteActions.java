@@ -14,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.MouseInputAdapter;
 
 import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Tester;
@@ -30,6 +29,7 @@ public class PanelExecuteActions extends JPanel
   private static PanelExecuteActions m_panel = null;
   
   private JLabel m_labModName;
+  private String m_strDefName = "No model loaded!";
   private int m_nCurrentSelectedAction;
   private JList m_listActoin;
   private JList m_listExecutionHistory;
@@ -49,7 +49,7 @@ public class PanelExecuteActions extends JPanel
    
     // Information panel
     paneInfo.add(new JLabel("Model name:"));
-    m_labModName = new JLabel();
+    m_labModName = new JLabel(m_strDefName);
     paneInfo.add(Box.createHorizontalStrut(16));
     paneInfo.add(m_labModName);
     paneInfo.add(Box.createHorizontalGlue());
@@ -84,7 +84,11 @@ public class PanelExecuteActions extends JPanel
 
   public void ResetSubComponents()
   {
-    m_labModName.setText(Parameter.getModelClass().getName());
+    if(Parameter.getModelClass().getName() != null &&
+        Parameter.getModelClass().getName().length() > 0)
+      m_labModName.setText(Parameter.getModelClass().getName());
+    else
+      m_labModName.setText(m_strDefName);
   }
   
   public static PanelExecuteActions createExecuteActionsPanel()

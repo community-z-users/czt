@@ -48,7 +48,6 @@ public class PanelTestDesign extends JPanel
    */
   private static final long serialVersionUID = 5316043261026727079L;
 
-  protected final String[] COVERAGE_MATRIX = {"State coverage","Transition coverage","Transition pair coverage"};
   // Model panel
   private JPanel m_panelModel;
 
@@ -231,6 +230,8 @@ public class PanelTestDesign extends JPanel
     m_txtLength.setColumns(5);
     m_txtLength.setText("10");
     m_txtLength.addFocusListener(this);
+    // Set walk length to default value
+    TestExeModel.SetWalkLength(Integer.valueOf(m_txtLength.getText()));
 
     c.gridx = 0;
     c.gridy = 2;
@@ -555,6 +556,8 @@ public class PanelTestDesign extends JPanel
     return buf.toString();
   }
 
+  
+  
   private class FileChooserFilter extends javax.swing.filechooser.FileFilter
   {
     private String m_description = null;

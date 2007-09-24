@@ -202,6 +202,15 @@ setJMenuBar(mb);
     m_frame.setJMenuBar(m_menuBar);
   }
 
+  protected boolean isParametersSet()
+  {
+    if (Parameter.getClassName() == null
+        || Parameter.getModelClass() == null
+        || Parameter.getModelObject() == null
+        || Parameter.getClassName().length() == 0)
+      return false;
+    return true;
+  }
   // TEMP directory: System.getProperty("java.io.tmpdir")
   // LIB PATH directory:  System.getProperty("java.library.path")
   // CLASSPATH directory: System.getProperty("java.class.path")
@@ -218,10 +227,7 @@ setJMenuBar(mb);
     //-------------- Run button event handler -------------
     if (e.getSource() == m_butRun) {
       // No model imported
-      if (Parameter.getClassName() == null
-          || Parameter.getModelClass() == null
-          || Parameter.getModelObject() == null
-          || Parameter.getClassName().length() == 0)
+      if(!isParametersSet())
       {
         ErrorMessage
             .DisplayErrorMessage("NO TEST MODEL HAS BEEN SELECTED",
@@ -400,6 +406,8 @@ setJMenuBar(mb);
   {
     public void stateChanged(ChangeEvent e)
     {
+      if(!isParametersSet())
+        return;
       updateGeneratedCode();
       m_panelEA.ResetSubComponents();
     }
