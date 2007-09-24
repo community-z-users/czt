@@ -56,7 +56,7 @@ public class CZTGui implements ActionListener
   JPanel specificationPanel = new JPanel();
   JTextField specText = new JTextField(12);
   JLabel specificationLabel = new JLabel("Specification:");
-  JButton specBrowseButton = new JButton("...");
+  JButton specBrowseButton = new JButton("Browse...");
 
   JPanel specMidPanel = new JPanel();
 
@@ -222,7 +222,7 @@ public class CZTGui implements ActionListener
     specDialog.getContentPane().add(BorderLayout.NORTH, specificationPanel);
     specDialog.getContentPane().add(BorderLayout.CENTER, specMidPanel);
     specDialog.getContentPane().add(BorderLayout.SOUTH, specOKCancelPanel);
-    specDialog.setSize(300, 200);
+    specDialog.setSize(350, 200);
 
   }
 
