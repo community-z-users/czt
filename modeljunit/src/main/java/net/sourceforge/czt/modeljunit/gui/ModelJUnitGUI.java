@@ -45,6 +45,8 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
 
   private PanelResultViewer m_panelRV;
 
+  private PanelExecuteActions m_panelEA;
+  
   // The panel with run button
   private JPanel m_panelOption = new JPanel();
 
@@ -93,6 +95,8 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     m_panelCV = PanelCodeViewer.createCodeViewer();
     // Initialize ResuleViewer panel
     m_panelRV = PanelResultViewer.createResultViewer();
+    // Initialize ExecuteAction panel
+    m_panelEA = PanelExecuteActions.createExecuteActionsPanel();
     Thread initializeImage = new Thread()
     {
       public void run()
@@ -109,6 +113,7 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
           m_tabbedPane.addTab("Test Design", m_panelTD);
           m_tabbedPane.addTab("Code viewer", m_panelCV);
           m_tabbedPane.addTab("Result viewer", m_panelRV);
+          m_tabbedPane.addTab("Action Execution", m_panelEA);
           m_tabbedPane.addChangeListener(new TabChangeListener());
           m_panelOption
               .setLayout(new BoxLayout(m_panelOption, BoxLayout.Y_AXIS));
@@ -385,7 +390,7 @@ setJMenuBar(mb);
 
   private void runClass()
   {
-    m_panelRV.updateRunTimeInformation(m_panelTD.runTest());
+    m_panelRV.updateRunTimeInformation(TestExeModel.RunTestAuto());
   }
 
   private void compileFile()
@@ -396,6 +401,7 @@ setJMenuBar(mb);
     public void stateChanged(ChangeEvent e)
     {
       updateGeneratedCode();
+      m_panelEA.ResetSubComponents();
     }
   }
 

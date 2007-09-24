@@ -30,25 +30,14 @@ public interface IAlgorithmParameter
   public void loadParameters(BufferedReader bufReader);
 
   /**
-   * Code generator
-   * */
+   * Generate import statement to include libraries
+   * @return generated import statement
+   */
   public String generateImportLab();
+  /**
+   * Code generator, to generate test code by using this function
+   * */
   public String generateCode();
 
-  /**
-   * Run code to see the result
-   * @throws InvocationTargetException
-   * @throws NoSuchMethodException
-   * @throws ClassNotFoundException
-   * @throws IllegalArgumentException
-   * @throws SecurityException
-   * */
-  public Tester runAlgorithm()
-    throws InstantiationException,
-      IllegalAccessException,
-      SecurityException,
-      IllegalArgumentException,
-      ClassNotFoundException,
-      NoSuchMethodException,
-      InvocationTargetException;
+  public void runAlgorithm();
 }

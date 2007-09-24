@@ -47,8 +47,7 @@ public class Parameter
    * may get caught in that loop forever. For this reason,
    * a non-zero probability is recommended.
    * */
-  // private static double m_nResetProbility = ModelTestCase.DEFAULT_RESET_PROBABILITY;
-  private static double m_nResetProbility = 0.05;
+  private static double m_nResetProbility = 0.5;
   public static double getResetProbility()
   { return m_nResetProbility; }
   public static void setResetProbility(double probility)
@@ -56,7 +55,6 @@ public class Parameter
 
   /**
    * Test generation verbosity
-   *
    * whether user wants show verbosity or not
    * */
   private static boolean m_bVerbosity = false;
@@ -207,7 +205,8 @@ public class Parameter
     m_listPackageName.remove(index);
   }
   /*
-   * 0. Ues last time directory, 1. use default path
+   * When user open a file selection dialog the default location is
+   * 0. To use last time directory, 1. To use default path
    * */
   private static int m_nFileChooserOpenMode;
   public static int getFileChooserOpenMode()
@@ -220,7 +219,7 @@ public class Parameter
     m_nFileChooserOpenMode = mode;
   }
 
-  //-------------------- Functions about setting file ---------------------
+  //-------------------- Functions about setting.txt ---------------------
 
   private static File recreateSettingFile()
   {

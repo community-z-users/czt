@@ -15,11 +15,12 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
    */
   private static final long serialVersionUID = 1528786500050772844L;
 
-  protected boolean m_bHasError;
-
-  public boolean hasError()
-  { return m_bHasError; }
-
+  protected Tester m_tester;
+  public Tester GetTester()
+  {
+    return m_tester;
+  }
+  
   public String generateCode()
   {
     return null;
@@ -42,8 +43,5 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
     return null;
   }
 
-  public Tester runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
-  {
-    return null;
-  }
+  public void runAlgorithm(){}
 }

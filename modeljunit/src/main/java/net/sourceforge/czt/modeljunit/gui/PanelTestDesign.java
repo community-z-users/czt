@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -28,18 +30,27 @@ import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 
-public class PanelTestDesign extends JPanel implements ActionListener,ChangeListener
+/**
+ * PanelTestDesign.java
+ *
+ * @author rong
+ * ID : 1005450
+ * 26th Jul 2007
+ * */
+public class PanelTestDesign extends JPanel 
+  implements 
+    ActionListener,
+    FocusListener,
+    ChangeListener
 {
   /**
-   *
+   * serial version ID
    */
   private static final long serialVersionUID = 5316043261026727079L;
 
   protected final String[] COVERAGE_MATRIX = {"State coverage","Transition coverage","Transition pair coverage"};
   // Model panel
   private JPanel m_panelModel;
-
-  private JLabel m_labTestModel = new JLabel("Test Model:");
 
   private JTextField m_txtFilePath;
 
@@ -107,7 +118,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     // ------ Setup model panel ------
     m_txtFilePath = new JTextField();
-    m_txtFilePath.setColumns(26);
+    m_txtFilePath.setColumns(36);
     m_txtFilePath.setEditable(true);
 
     m_butOpenModel = new JButton("...");
@@ -124,7 +135,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     c1.ipadx = 6;
     c1.fill = GridBagConstraints.HORIZONTAL;
     c1.anchor = GridBagConstraints.FIRST_LINE_START;
-    m_panelModel.add(m_labTestModel,c1);
+    m_panelModel.add(new JLabel("Test Model:"),c1);
     GridBagConstraints c2 = new GridBagConstraints();
     c2.gridx = 1;
     c2.gridy = 0;
@@ -215,10 +226,11 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     c.gridx = 1;
     c.gridy = 1;
     m_algorithmLeft.add(m_sliderAverageTestLength,c);
-    // Length text field
+    // Test walk length text field
     m_txtLength = new JTextField();
     m_txtLength.setColumns(5);
     m_txtLength.setText("10");
+    m_txtLength.addFocusListener(this);
 
     c.gridx = 0;
     c.gridy = 2;
@@ -292,6 +304,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
   {
     m_butExternalExecute = button;
   }
+
   public PanelTestDesign clone()
   {
     return null;
@@ -328,14 +341,19 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
 
       // Update the setting
       Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo].getAlgorithmName());
+      // Generate the Tester object
+      m_panelAlgorithm[m_nCurAlgo].initialize();
+      // Set current algorithm for prepare execution
+      TestExeModel.SetTester(m_panelAlgorithm[m_nCurAlgo].GetTester());
+      TestExeModel.SetAlgorithm(m_panelAlgorithm[m_nCurAlgo]);
     }
-
+ // ------------ Package selection button handler --------------
     if(e.getSource() == m_butPackageName)
     {
       DialogPackageSelection dlg = DialogPackageSelection.createPackageSelectionDialog(this);
       dlg.setVisible(true);
     }
-    // ------ Check the coverage matrix options ------
+    // -------------- Check the coverage matrix options --------------
     for (int i = 0; i < m_nCheckBox; i++) {
       if (e.getSource() == m_checkCoverage[i]) {
         m_bChecked[i] = !m_bChecked[i];
@@ -394,11 +412,13 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
           Parameter.loadModelClassFromFile();
           Class<?> testcase = Parameter.getModelClass();
           int actionNumber = 0;
+          TestExeModel.ResetMethodList();
           for(Method method : testcase.getMethods())
           {
             if(method.isAnnotationPresent(Action.class))
             {
               actionNumber++;
+              TestExeModel.AddMethod(method);
             }
           }
 
@@ -429,7 +449,6 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     // Random walking length
     int length = Integer.valueOf(m_txtLength.getText());
     if(m_nCurAlgo<1
-        || m_panelAlgorithm[m_nCurAlgo].hasError()
         || Parameter.getClassName() == null
         || Parameter.getClassName().length()<=0)
       return "";
@@ -438,7 +457,7 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     String strTestCase = Parameter.getTestCaseVariableName();
     if (m_nCurAlgo !=0 && m_panelAlgorithm[m_nCurAlgo].generateImportLab() != null)
       buf.append(m_panelAlgorithm[m_nCurAlgo].generateImportLab());
-    buf.append(Indentation.wrap("import java.util.Random;"));
+
     buf.append(Indentation.wrap("import net.sourceforge.czt.modeljunit.*;"));
     // Import coverage history file(s)
     if(m_checkCoverage[0].isSelected()
@@ -536,72 +555,6 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
     return buf.toString();
   }
 
-  public String runTest()
-  {
-    // Random walking length
-    int length = Integer.valueOf(m_txtLength.getText());
-    String output = new String();
-    // Redirect the system.out to result viewer text area component
-    PrintStream ps = System.out; //Backup the System.out for later restore
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(baos, true));
-
-    Tester tester = m_panelAlgorithm[m_nCurAlgo].runAlgorithm();
-
-    // Set up coverage matrix
-    boolean[] bCoverage = Parameter.getCoverageOption();
-    CoverageHistory[] coverage = new CoverageHistory[3];
-    if(bCoverage[0])
-    {
-      coverage[0] = new CoverageHistory(new StateCoverage(), 1);
-      tester.addCoverageMetric(coverage[0]);
-    }
-    if(bCoverage[1])
-    {
-      coverage[1] = new CoverageHistory(new TransitionCoverage(), 1);
-      tester.addCoverageMetric(coverage[1]);
-    }
-    if(bCoverage[2])
-    {
-      coverage[2] = new CoverageHistory(new TransitionPairCoverage(), 1);
-      tester.addCoverageMetric(coverage[2]);
-    }
-
-    // Set verbosity
-    tester.addListener("verbose", new VerboseListener(tester.getModel()));
-    // Generate graph
-    if(Parameter.getGenerateGraph())
-    {
-      tester.buildGraph();
-    }
-    for(int i=0;i<3;i++)
-      if(bCoverage[i])
-      {
-        System.out.println(COVERAGE_MATRIX[i]+" cleared!");
-        coverage[i].clear();
-      }
-    // Set failure verbosity
-    // caseObj.setFailureVerbosity(Parameter.getFailureVerbosity());
-    // Get random walk length
-    // Generate test walking
-    tester.generate(length);
-
-    for(int i=0;i<3;i++)
-    {
-      if(bCoverage[i])
-      {
-        System.out.println(COVERAGE_MATRIX[i]+": "+coverage[i].toString());
-        System.out.println("History = "+coverage[i].toCSV());
-      }
-    }
-    // Recover System.out
-    output = baos.toString();
-    System.out.println(output);
-    // Restore system.out to default value.
-    System.setOut(ps);
-    return output;
-  }
-
   private class FileChooserFilter extends javax.swing.filechooser.FileFilter
   {
     private String m_description = null;
@@ -651,5 +604,19 @@ public class PanelTestDesign extends JPanel implements ActionListener,ChangeList
         // System.out.println("(PaneltestDesign.java)Average length :"+prob);
       }
     }
+  }
+
+  @Override
+  public void focusGained(FocusEvent e)
+  {}
+
+  @Override
+  public void focusLost(FocusEvent e)
+  {
+    if(e.getSource() == m_txtLength)
+    {
+      TestExeModel.SetWalkLength(Integer.valueOf(m_txtLength.getText()));
+    }
+    
   }
 }

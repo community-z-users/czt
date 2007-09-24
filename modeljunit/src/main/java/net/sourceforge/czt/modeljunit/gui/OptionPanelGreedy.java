@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -44,7 +46,6 @@ public class OptionPanelGreedy extends OptionPanelAdapter
 
   public OptionPanelGreedy()
   {
-    // setLayout(new GridLayout(2,3,3,2));
     m_checkRandomSeed = new JCheckBox("Use random seed");
     add(m_checkRandomSeed);
     add(Box.createHorizontalStrut(6));
@@ -69,10 +70,11 @@ public class OptionPanelGreedy extends OptionPanelAdapter
         + Parameter.getClassName() + "();"));
     m_bufCode.append(Indentation.wrap("Tester tester = new GreedyTester(model);"));
     // To use random seed or not
+    // If user does not want to use random seed,
+    // test will user tester.setRandom(new Random(tester.FIXEDSEED)),
+    // Which makes application will generate same tests every time it runs.
     if(m_checkRandomSeed.isSelected())
       m_bufCode.append(Indentation.wrap("tester.setRandom(new Random());"));
-    else
-      m_bufCode.append(Indentation.wrap("tester.setRandom(new Random(tester.FIXEDSEED));"));
 
     return m_bufCode.toString();
   }
@@ -80,7 +82,21 @@ public class OptionPanelGreedy extends OptionPanelAdapter
   @Override
   public void initialize()
   {
-    // TODO Auto-generated method stub
+    try
+    {
+    // Initialize model test case by using the loaded model
+    // Tester tester = new GreedyTester(new SimpleSet());
+    Class<?> testerClass =
+      Class.forName("net.sourceforge.czt.modeljunit.GreedyTester");
+    Constructor<?> con = testerClass.getConstructor
+      (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
+    m_tester =
+      (GreedyTester)con.newInstance(new Object[]{Parameter.getModelObject()});
+    }catch(Exception exp)
+    {
+      exp.printStackTrace();
+    }
+    
 
   }
 
@@ -110,34 +126,28 @@ public class OptionPanelGreedy extends OptionPanelAdapter
   public String generateImportLab()
   {
     m_bufCode = new StringBuffer();
+    if(m_checkRandomSeed.isSelected())
+      m_bufCode.append(Indentation.wrap("import java.util.Random;"));
+    
     m_bufCode.append(Indentation.wrap("import net.sourceforge.czt.modeljunit.GreedyTester;"));
     return m_bufCode.toString();
   }
 
   @Override
-  public Tester runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
+  public void runAlgorithm()
   {
-    // Initialize model test case by using the loaded model
-    // Tester tester = new GreedyTester(new SimpleSet());
-    Class<?> testerClass =
-      Class.forName("net.sourceforge.czt.modeljunit.GreedyTester");
-    Constructor<?> con = testerClass.getConstructor
-      (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
-    Tester tester =
-      (GreedyTester)con.newInstance(new Object[]{Parameter.getModelObject()});
+    
     // Set reset probility
     // caseObj.setResetProbability(Parameter.getResetProbility());
     if(m_checkRandomSeed.isSelected())
     {
       Random rand = new Random();
-      tester.setRandom(rand);
+      m_tester.setRandom(rand);
     }
     else
     {
-      tester.setRandom(new Random(Tester.FIXEDSEED));
+      m_tester.setRandom(new Random(Tester.FIXEDSEED));
     }
-
-    return tester;
   }
 }
 

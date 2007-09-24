@@ -1,4 +1,4 @@
---- 12th August 08 ----------------
+--- 12th August 07 ----------------
 Added the class TestingParameter class and IAlgorithmParameter interface.
 The TestingParameter is just a structure to store setting from PanelTestDesign
 panel.
@@ -17,7 +17,7 @@ Change the base class of OptionalPanel from JPanel to OptionPanelAdapter
 which implement the IAlgorithmParameter interface, so I could generate 
 different code when user choose different algorithm.
  
---- 13th August 08 ----------------
+--- 13th August 07 ----------------
 Format the code style by using the style from 
 https://czt.svn.sourceforge.net/svnroot/czt/trunk/doc/eclipse-code-format-style.xml
 
@@ -26,7 +26,7 @@ Added Indentation class for generate code.
 Modified class TestingParameter to Parameter and change it to static class
 Clear code delete all System.out.print debug statement. 
 
---- 14th August 08 ----------------
+--- 14th August 07 ----------------
 The project requires files junit.jar (junit3.8.1) and modeljunit.jar now.
 
 Modified the original run button handler, separate it into two functions :
@@ -38,7 +38,7 @@ in a text area.
 
 Have not finished the compileFile function :(
 
---- 15th August 08 ----------------
+--- 15th August 07 ----------------
 Start to change the GUI, added a text area into Result Viewer panel.
 
 [problem 815-1]In the Result viewer panel when user resize the frame, the size of split
@@ -52,13 +52,80 @@ exception.
 
 [solution 815-2] Move the class loader be called when user selected model instead of in run event handler.
 
---- 16th August 08 ----------------
+--- 16th August 07 ----------------
 Added border on panels in the test design panel.
 
 Added slider to show the average reset possibility.
 Added comboboxes to display verbosity and failure verbosity. 
 Modified the Parameter class to store 3 variable (reset possibility, verbosity, failure verbosity).
 
---- 20th August 08 ----------------
-Fixed bug the initial value of reset possibility should bu 0.05 instead of ModelTestCase.DEFAULT_RESET_PROBABILITY
-because the minimus value of the slider is 0.05 not ModelTestCase.DEFAULT_RESET_PROBABILITY. 
+--- 20th August 07 ----------------
+Fixed bug the initial value of reset possibility should be 0.05 instead of ModelTestCase.DEFAULT_RESET_PROBABILITY
+because the minimus value of the slider is 0.05 not ModelTestCase.DEFAULT_RESET_PROBABILITY.
+
+--- 25th August 08 ----------------
+Added DialogPackage Selection class, in this dialog, user could input the package name, application will
+add package and "." in front of the class name. and I changed the ClassFileLoader class, I use forName to 
+load the class instead of using defineClass to load class to VM.
+
+--- 26th August 08 ----------------
+Modified Parameter class, PanelTestDesign class and OptionPanelRandomWalk to adapt to the FSM class changing.
+
+--- 27th August 08 ----------------
+Keep modifying those classes yesterday. 
+Cannot find a way to print graph to dot file (printGraphDot)
+
+Exception in thread "AWT-EventQueue-0" net.sourceforge.czt.jdsl.core.api.InvalidAccessorException: vertex is null
+	at net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph._checkVertex(IncidenceListGraph.java:594)
+	at net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph.degree(IncidenceListGraph.java:236)
+	at net.sourceforge.czt.jdsl.graph.ref.AbstractGraph.connectingEdges(AbstractGraph.java:201)
+	at net.sourceforge.czt.modeljunit.GraphListener.doneTransition(GraphListener.java:375)
+	at net.sourceforge.czt.modeljunit.Model.notifyDoneTransition(Model.java:566)
+	at net.sourceforge.czt.modeljunit.Model.doAction(Model.java:459)
+	at net.sourceforge.czt.modeljunit.RandomTester.doRandomAction(RandomTester.java:109)
+	at net.sourceforge.czt.modeljunit.RandomTester.doRandomActionOrReset(RandomTester.java:130)
+	at net.sourceforge.czt.modeljunit.RandomTester.generate(RandomTester.java:154)
+	at net.sourceforge.czt.modeljunit.Tester.generate(Tester.java:125)
+	at net.sourceforge.czt.modeljunit.Tester.buildGraph(Tester.java:147)
+	
+--- 28th August 08 ----------------
+Added Greedy algorithm panel
+
+--- 29th August 08 ----------------
+Debug and testing
+
+--- 18th September 07 ----------------
+Stores actions into parameter class when user successfully selected model.
+ 
+Added ExecuteActions class, the panel could generate buttons according to
+number of actions. Those action information comes from Parameter class.
+
+--- 19th September 07 ----------------
+Modify the ExecuteActions class change buttons to a JList
+user could click items in list to run action.
+
+--- 20th September 07 ----------------
+Fix typo error in Parameter.java the initialize reset possibility should be 0.5 instead 0.05
+Reduce generated code length when user did select random generate test.
+
+--- 22th September 07 ----------------
+Implement functions of the ExecuteActions class 
+Got problem about run actions, I think I should save Tester object 
+and action information into Parameter class, but Parameter class is
+already becomes a huge class, and it is getting mess~~~ difficult to 
+read and difficult to modify.
+
+Delete all run test staff from Parameter class. I do not think anyone 
+event want try to understand this class, I think I should separate some 
+functions or variable to other class.
+
+--- 24th September 07 ----------------
+Separate the test running from PanelTestDesign to TestRunner class,
+The original  PanelTestDesign contains code generation and test running,
+since the new panel ExecuteActions has to use some function of test running,
+I decide create a new class to run test. So PanelTestDesign&ExecuteActions
+can share the test execution.
+
+Oh~~~, the new class name is TestExeModel it contains 2 functions RunTestAuto
+and RunTestManual. RunTestAuto is for run button in ModelJUnitGUI and RunTestManual
+is for panel ExecuteActions, user can run test by select actions one by one.

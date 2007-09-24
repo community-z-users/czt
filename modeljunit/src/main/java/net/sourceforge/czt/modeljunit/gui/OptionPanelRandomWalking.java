@@ -70,10 +70,11 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
         + Parameter.getClassName() + "();"));
     m_bufRandomTest.append(Indentation.wrap("Tester tester = new RandomTester(model);"));
     // To use random seed or not
+    // If user does not want to use random seed,
+    // test will user tester.setRandom(new Random(tester.FIXEDSEED)),
+    // Which makes application will generate same tests every time it runs.
     if(m_checkRandomSeed.isSelected())
       m_bufRandomTest.append(Indentation.wrap("tester.setRandom(new Random());"));
-    else
-      m_bufRandomTest.append(Indentation.wrap("tester.setRandom(new Random(tester.FIXEDSEED));"));
 
     return m_bufRandomTest.toString();
   }
@@ -81,7 +82,21 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   @Override
   public void initialize()
   {
-    // TODO Auto-generated method stub
+    try
+    {
+    // Initialize model test case by using the loaded model
+    // Tester tester = new GreedyTester(new SimpleSet());
+    Class<?> testerClass =
+      Class.forName("net.sourceforge.czt.modeljunit.RandomTester");
+    Constructor<?> con = testerClass.getConstructor
+      (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
+    m_tester =
+      (RandomTester)con.newInstance(new Object[]{Parameter.getModelObject()});
+    }catch(Exception exp)
+    {
+      exp.printStackTrace();
+    }
+
 
   }
 
@@ -120,28 +135,17 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   }
 
   @Override
-  public Tester runAlgorithm() throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException
+  public void runAlgorithm()
   {
-    // Initialize model test case by using the loaded model
-    // Tester tester = new GreedyTester(new SimpleSet());
-    Class<?> testerClass =
-      Class.forName("net.sourceforge.czt.modeljunit.RandomTester");
-    Constructor<?> con = testerClass.getConstructor
-      (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
-    Tester tester =
-      (RandomTester)con.newInstance(new Object[]{Parameter.getModelObject()});
-    // Set reset probility
-    // caseObj.setResetProbability(Parameter.getResetProbility());
+    // Use random seed to generate test or not
     if(m_checkRandomSeed.isSelected())
     {
       Random rand = new Random();
-      tester.setRandom(rand);
+      m_tester.setRandom(rand);
     }
     else
     {
-      tester.setRandom(new Random(Tester.FIXEDSEED));
+      m_tester.setRandom(new Random(Tester.FIXEDSEED));
     }
-
-    return tester;
   }
 }

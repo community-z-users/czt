@@ -38,7 +38,7 @@ public class PanelResultViewer extends JPanel
   class ResultTableModelInstance extends AbstractTableModel
   {
     /**
-     *
+     * serial version id
      */
     private static final long serialVersionUID = 3369812997489556322L;
 
@@ -118,18 +118,19 @@ public class PanelResultViewer extends JPanel
 
   private static PanelResultViewer m_panelRV;
 
-  // Minimum height of the table and text area
+  // Minimum height of the compile result table and text area
   private final int MIN_HIEHGT = 160;
   private final int INITIAL_WIDTH = 300;
   private JTable m_table;
   private ResultTableModelInstance m_columeModel;
-  // Display the test running information
+  // Display the test runtime information
   private JTextArea m_txtOutput;
-  // Scroll pane
-  JScrollPane m_scrollTable;
-  JScrollPane m_scrollTextArea;
+  // Stroll pane for compile result
+  private JScrollPane m_scrollTable;
+  //Scroll pane for test runtime info
+  private JScrollPane m_scrollTextArea;
   // Split pane
-  JSplitPane m_splitPane;
+  private JSplitPane m_splitPane;
 
 
 
@@ -167,33 +168,34 @@ public class PanelResultViewer extends JPanel
     // -------------------- Set up the split pane ------------------
     // Scroll for compile table
     m_scrollTable = new JScrollPane(m_table);
-    m_table.setFillsViewportHeight(true);
+    // m_table.setFillsViewportHeight(true);
     m_scrollTable.getViewport().setBackground(m_table.getBackground());
     m_scrollTable.getViewport().add(m_table);
 
     // Scroll pane for text area
+    Dimension minimumSize = new Dimension(INITIAL_WIDTH, MIN_HIEHGT);
     m_txtOutput = new JTextArea();
     m_txtOutput.setEditable(false);
-    //m_txtOutput.setPreferredSize(new Dimension(INITIAL_WIDTH,MIN_HIEHGT));
+    
     m_scrollTextArea = new JScrollPane(m_txtOutput);
-    m_scrollTextArea.getViewport().setBackground(m_txtOutput.getBackground());
+    //m_scrollTextArea.getViewport().setBackground(m_txtOutput.getBackground());
     m_scrollTextArea.getViewport().add(m_txtOutput);
 
+    // Provide minimum sizes for the two components in the split pane.
+    m_scrollTable.setMinimumSize(minimumSize);
+    m_scrollTextArea.setMinimumSize(minimumSize);
+    
     m_splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, m_scrollTable, m_scrollTextArea);
     m_splitPane.setOneTouchExpandable(true);
     m_splitPane.setDividerLocation(MIN_HIEHGT);
-    //Provide minimum sizes for the two components in the split pane.
-    Dimension minimumSize = new Dimension(INITIAL_WIDTH, MIN_HIEHGT);
-    m_scrollTable.setMinimumSize(minimumSize);
-    m_scrollTextArea.setMinimumSize(minimumSize);
-
+    
     add(m_splitPane);
   }
 
-  public void updateResult()
+  /*public void updateResult()
   {
+  }*/
 
-  }
   public void resetRunTimeInformation()
   {
     m_txtOutput.setText("");

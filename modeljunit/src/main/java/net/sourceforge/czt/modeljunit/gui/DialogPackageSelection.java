@@ -16,7 +16,15 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
+/**
+ * DialogPackageSelection.java
+ *
+ * @author rong
+ * ID : 1005450
+ * 30th Aug 2007
+ * The dialog provides an interface to select package from local 
+ * hard drive.
+ * */
 public class DialogPackageSelection extends JDialog
   implements ListSelectionListener, ActionListener
 {
