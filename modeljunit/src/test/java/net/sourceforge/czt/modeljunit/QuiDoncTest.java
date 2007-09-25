@@ -19,7 +19,11 @@
 
 package net.sourceforge.czt.modeljunit;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
@@ -36,6 +40,10 @@ import junit.framework.TestSuite;
  */
 public class QuiDoncTest extends TestCase
 {
+  protected static QuiDonc quidonc;
+  
+  protected static StringWriter output_;
+  
   /**
    * Create the test case
    *
@@ -44,6 +52,12 @@ public class QuiDoncTest extends TestCase
   public QuiDoncTest(String testName)
   {
     super(testName);
+  }
+
+  public void setUp()
+  {
+    output_ = new StringWriter();
+    quidonc = new QuiDonc(new PrintWriter(output_));
   }
 
   /**
@@ -57,42 +71,44 @@ public class QuiDoncTest extends TestCase
   public static void testEnabled()
   throws FileNotFoundException
   {
-    Tester tester = new RandomTester(new QuiDonc());
+    Tester tester = new RandomTester(quidonc);
     GraphListener graph = tester.buildGraph();
     //    model.printGraphDot("QuiDonc.dot");
     // NOTE: with the State+timeouts getState, it has 11 vertices, 37 edges.
     Assert.assertEquals(5, graph.getGraph().numVertices());
     int numEdges = graph.getGraph().numEdges();
-    System.out.println("QuiDonc has "+numEdges+" edges.");
+    output_.write("QuiDonc has "+numEdges+" edges.\n");
     // should be 18 transitions, but we cannot find some of the non-det
     // wait transitions that are enabled only on the third wait call.
     Assert.assertEquals(17, graph.getGraph().numEdges());
     // fsmDoAction(fsmGetAction("dial"));
+    // System.out.println(output_.toString());
   }
 
   /** This tests a random walk, plus transition coverage */
   public static void testRandomWalk()
   {
-    System.out.println("STARTING RANDOM");
-    Tester tester = new RandomTester(new QuiDonc());
+    output_.write("STARTING RANDOM\n");
+    Tester tester = new RandomTester(quidonc);
     CoverageHistory metric = new CoverageHistory(new TransitionCoverage(), 1);
     tester.addListener(metric);
     tester.generate(100);
     int coverage = metric.getCoverage();
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    System.out.println("transhist="+metric.toCSV());
+    output_.write("transhist="+metric.toCSV()+"\n");
     Assert.assertEquals(16, coverage);
     Assert.assertEquals(-1, metric.getMaximum());
     Assert.assertEquals("Incorrect history size.", 101, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
+    // System.out.println(output_.toString());
   }
 
   /** This tests a greedy random walk, plus transition coverage */
   public static void testGreedyRandomWalk()
   {
-    System.out.println("STARTING GREEDY");
+    output_.write("STARTING GREEDY\n");
     Tester tester = new GreedyTester(new QuiDonc());
     CoverageHistory metric = new CoverageHistory(new TransitionCoverage(), 1);
     tester.addListener(metric);
@@ -100,31 +116,32 @@ public class QuiDoncTest extends TestCase
     int coverage = metric.getCoverage();
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    System.out.println("transhist="+metric.toCSV());
+    output_.write("transhist="+metric.toCSV()+"\n");
     Assert.assertEquals(17, coverage);   // TODO: investigate this
     Assert.assertEquals(16, metric.getMaximum());
     Assert.assertEquals("Incorrect history size.", 101, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
+    // System.out.println(output_.toString());
   }
 
   /** This tests an all-round-trips walk, plus transition coverage */
   public static void testAllRoundTrips()
   {
-    System.out.println("STARTING ALL LOOPS");
-    ModelTestCase model = new ModelTestCase(new QuiDonc());
+    output_.write("STARTING ALL ROUND TRIPS\n");
+    Tester tester = new AllRoundTester(new QuiDonc());
     CoverageHistory metric = new CoverageHistory(new TransitionCoverage(), 1);
-    model.addCoverageMetric(metric);
-    model.setVerbosity(2);
-    model.allRoundTrips(100);
+    tester.addCoverageMetric(metric);
+    tester.generate(100);
     int coverage = metric.getCoverage();
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    System.out.println("transhist="+metric.toCSV());
+    output_.write("transhist="+metric.toCSV()+"\n");
     Assert.assertEquals(12, coverage);
     Assert.assertEquals(-1, metric.getMaximum());
     // TODO: Assert.assertEquals("Incorrect history size.", 101, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
+    // System.out.println(output_.toString());
   }
 }

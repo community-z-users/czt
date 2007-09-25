@@ -26,13 +26,19 @@ import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.jdsl.graph.api.VertexIterator;
 import net.sourceforge.czt.modeljunit.Transition;
 
-/** Measures the number of distinct Actions that have been tested.
+/** Counts the number of times each state has been entered.
+ *  Each reset will increment the count of the initial state.
+ *  Each transition will increment the count of its target state.
+ *  <p>
+ *  The getCoverage method will return the total number of states
+ *  visited since the last clear.  The getMaximum method will
+ *  return the total number of states in the graph, if this is known.
+ *  </p>
  */
 public class StateCoverage extends AbstractCoverage
 {
-  /** The current state of the FSM. */
-  Object currState_ = null;
-
+  protected boolean todoReset_ = false;
+  
   public String getName()
   {
     return "state coverage";
@@ -54,14 +60,31 @@ public class StateCoverage extends AbstractCoverage
   }
 
   @Override
+  public void clear()
+  {
+    super.clear();
+    todoReset_ = false;
+  }
+
+  /** Increments the count of the initial state.
+   *  However, this is done just once for each sequence of resets.
+   */
+  @Override
+  public void doneReset(String reason, boolean testing)
+  {
+    super.doneReset(reason, testing);
+    todoReset_ = true;
+  }
+
+  /** Increments the count of the target state of the transition. */
+  @Override
   public void doneTransition(int action, Transition tr)
   {
-    Object oldState = tr.getStartState();
-    if ( ! oldState.equals(currState_)) {
-      // we have jumped somewhere, probably a reset.
-      incrementItem(oldState);
+    super.doneTransition(action, tr);
+    if (todoReset_) {
+      todoReset_ = false;
+      incrementItem(tr.getStartState());
     }
-    currState_ = tr.getEndState();
-    incrementItem(currState_);
+    incrementItem(tr.getEndState());
   }
 }

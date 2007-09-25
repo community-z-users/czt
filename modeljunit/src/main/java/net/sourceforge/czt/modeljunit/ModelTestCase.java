@@ -708,7 +708,7 @@ public class ModelTestCase
       for (CoverageMetric cm : fsmCoverage)
         cm.doneReset(reason, testing);
     } catch (Exception ex) {
-      Assert.fail("Error calling FSM reset method: " + ex.getMessage());
+      throw new RuntimeException("Error calling FSM reset method.", ex);
     }
   }
 

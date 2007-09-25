@@ -19,11 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit.examples;
 
-import static java.lang.System.out;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
@@ -47,6 +47,7 @@ public class QuiDonc implements FsmModel
     };
   private State currState; // the current state of the system.
   private int timeouts;    // on the third timeout, we hang up.
+  private PrintWriter out; // output stream for test instructions
 
   public String _STAR = "Please press the star key.";
   public String WELCOME  = "Welcome to Qui-Donc.  "+_STAR;
@@ -63,6 +64,12 @@ public class QuiDonc implements FsmModel
 
   public QuiDonc()
   {
+    this(new PrintWriter(System.out));
+  }
+
+  public QuiDonc(PrintWriter out0)
+  {
+    out = out0;
     timeouts = 0;
     currState = State.Start;
   }
@@ -165,10 +172,10 @@ public class QuiDonc implements FsmModel
 
 
   /** Convenience method for the interactive interface. */
-  public static void checkGuard(boolean guard)
+  public static void checkGuard(QuiDonc quidonc, boolean guard)
   {
     if ( ! guard)
-      out.println("WARNING: that action is not enabled, but we'll do it anyway...");
+      quidonc.out.println("WARNING: that action is not enabled, but we'll do it anyway...");
   }
 
   /** An interactive interface to QuiDonce, for illustration purposes. */
@@ -184,39 +191,39 @@ public class QuiDonc implements FsmModel
     InputStreamReader isr = new InputStreamReader(System.in);
     BufferedReader input = new BufferedReader(isr);
 
-    out.println("This program allows you to explore the QuiDonc model interactively.");
-    out.println("The following inputs are possible (or type 'graph' to generate the FSM):");
-    out.println("  dial,*,1,2,wait,18#,0381111111#,0381222222#,...");
+    quidonc.out.println("This program allows you to explore the QuiDonc model interactively.");
+    quidonc.out.println("The following inputs are possible (or type 'graph' to generate the FSM):");
+    quidonc.out.println("  dial,*,1,2,wait,18#,0381111111#,0381222222#,...");
     // Read and print lines in a loop.
     // Terminate with control-Z (Windows) or control-D (other)
     while (true) {
-      out.print(quidonc.getState()+"> ");
+      quidonc.out.print(quidonc.getState()+"> ");
       String line = input.readLine();
       if (line == null)
         break;
       if (line.equals("graph")) {
-        out.println("Building FSM graph...");
+        quidonc.out.println("Building FSM graph...");
         Tester tester = new GreedyTester(quidonc);
         GraphListener graph = tester.buildGraph();
         graph.printGraphDot("QuiDonc.dot");
-        out.println("Printed FSM graph to QuiDonc.dot.");
-        out.println("Use dotty or dot from http://www.graphviz.org"
+        quidonc.out.println("Printed FSM graph to QuiDonc.dot.");
+        quidonc.out.println("Use dotty or dot from http://www.graphviz.org"
             + " to view/transform the graph.");
       }
       else if (line.equals("dial")) {
-        checkGuard(quidonc.dialGuard());
+        checkGuard(quidonc, quidonc.dialGuard());
         quidonc.dial();
       }
       else if (line.equals("*")) {
-        checkGuard(quidonc.starGuard());
+        checkGuard(quidonc, quidonc.starGuard());
         quidonc.star();
       }
       else if (line.equals("1")) {
-        checkGuard(quidonc.key1Guard());
+        checkGuard(quidonc, quidonc.key1Guard());
         quidonc.key1();
       }
       else if (line.equals("2")) {
-        checkGuard(quidonc.key2Guard());
+        checkGuard(quidonc, quidonc.key2Guard());
         quidonc.key2();
       }
       else if (line.equals("wait")) {
@@ -224,19 +231,19 @@ public class QuiDonc implements FsmModel
         quidonc.wait_();
       }
       else if (line.equals("18#")) {
-        checkGuard(quidonc.num18Guard());
+        checkGuard(quidonc, quidonc.num18Guard());
         quidonc.num18();
       }
       else if (line.equals("0381111111#")) {
-        checkGuard(quidonc.num1Guard());
+        checkGuard(quidonc, quidonc.num1Guard());
         quidonc.num1();
       }
       else if (line.equals("0381222222#")) {
-        checkGuard(quidonc.num2Guard());
+        checkGuard(quidonc, quidonc.num2Guard());
         quidonc.num2();
       }
       else {
-        checkGuard(quidonc.badGuard());
+        checkGuard(quidonc, quidonc.badGuard());
         quidonc.bad();
       }
     }

@@ -164,7 +164,7 @@ public class ResultExtractor
       File f = new File("ResultExtractorOutput.csv");
       PrintWriter w = new PrintWriter(new FileOutputStream(f));
 
-      System.out.println("Writing to " + f.getAbsolutePath());
+      // System.out.println("Writing to " + f.getAbsolutePath());
       for (int i = 0; i < seeds.size(); i++) {
         w.print("Seed," + seeds.get(i) + ",");
         w.print("Random,");

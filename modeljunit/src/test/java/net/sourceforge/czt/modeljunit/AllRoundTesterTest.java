@@ -39,7 +39,7 @@ public class AllRoundTesterTest extends TestCase
   {
     Tester tester = new AllRoundTester(new FSM());
     tester.setRandom(new Random(3));
-    tester.addListener("verbose");
+    //tester.addListener("verbose");
     tester.generate(50);
     //int coverage = metric.getCoverage();
     //Assert.assertEquals(2, coverage);

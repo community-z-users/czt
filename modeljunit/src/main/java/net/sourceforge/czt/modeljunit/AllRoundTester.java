@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.modeljunit;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
@@ -6,22 +7,21 @@ import java.util.Random;
 
 public class AllRoundTester extends Tester
 {
-	
-	CoverageMetric state;
-	int loopTolerance;
-	Tester test;
+  CoverageMetric state;
+
+  int loopTolerance;
+
+  Tester test;
+
   /**
-   *  Creates a test generator that can generate random walks.
+   *  Creates a GreedyTester that will terminate each test
+   *  sequence after {@code getLoopTolerance()} visits to a state.
    *
    * @param model  Must be non-null;
    */
   public AllRoundTester(Model model)
   {
-    super(model);
-    test = new GreedyTester(model_);
-    state = new StateCoverage();
-    test.addListener(state);
-    loopTolerance = 1;
+    this(new GreedyTester(model));
   }
 
   /**
@@ -32,10 +32,9 @@ public class AllRoundTester extends Tester
   {
     this(new Model(fsm));
   }
-  
+
   /**
    * Allows you to add a tester
-   *
    */
   public AllRoundTester(Tester testr)
   {
@@ -46,19 +45,23 @@ public class AllRoundTester extends Tester
   }
 
   /**
-   * Lets you get how many times the algorithm will tolerate a loop
+   *  The maximum number of times that any state can appear
+   *  in a test sequence during test generation.
+   *  Once this is exceeded, the test sequence is terminated by doing a reset.
    */
-  public int getLoopTolerance() {
-	  return loopTolerance;
+  public int getLoopTolerance()
+  {
+    return loopTolerance;
   }
-  
+
   /**
    * Lets you set how many times the algorithm will tolerate a loop
    */
-  public void setLoopTolerance(int t) {
-	  loopTolerance = t;
+  public void setLoopTolerance(int t)
+  {
+    loopTolerance = t;
   }
-  
+
   /** Uses a greedy random walk to try and test all loops in the model.
    *
    * @param maxLength  The number of test steps to do.
@@ -74,29 +77,25 @@ public class AllRoundTester extends Tester
   {
     int taken = test.generate();
     if (taken < 0) {
-        System.out.println("reset state coverage");
-        state.clear();
+      state.clear();
+      // we have done the clear after the reset, so we manually
+      // mark the initial state as already visited.
+      state.doneReset("User", true);
     }
-    else 
-    {
+    else {
       Object curr = test.getModel().getCurrentState();
-      assert state != null;
-      assert state.getDetails() != null;
       Integer count = state.getDetails().get(curr);
-      System.out.println("visited state "+curr+" "
-          + state.getDetails().get(curr) + " times");
-        if (count > getLoopTolerance()) {
-          test.reset();
-          state.clear();
-          System.out.println("terminated test because we saw state "+curr
-              +" "+count+" times.");
-        }
+      //System.out.println("visited state " + curr + " " + count + " times");
+      if (count > getLoopTolerance()) {
+        state.clear(); // do clear before reset, so reset covers initial state
+        test.getModel().doReset("AllRoundTrips");
+      }
     }
     return taken;
   }
-  
+
   public int generate()
   {
-	  return this.allRoundTrips();
+    return this.allRoundTrips();
   }
 }
