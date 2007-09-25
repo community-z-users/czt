@@ -300,7 +300,7 @@ public class Model
    *
    * @param reason  Why the reset was performed (an adjective).
    */
-  protected void doReset(String reason)
+  public void doReset(String reason)
   {
     if (fsmSequence_ == null) {
       fsmSequence_ = new ArrayList<Transition>();
@@ -418,7 +418,7 @@ public class Model
    * @param  index  Index into the fsmTransitions array.
    * @return        True if taken, false if it is disabled.
    */
-  protected boolean doAction(int index)
+  public boolean doAction(int index)
   {
     if (! isEnabled(index))
       return false;
