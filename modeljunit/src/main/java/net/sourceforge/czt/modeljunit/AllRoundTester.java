@@ -41,8 +41,7 @@ public class AllRoundTester extends Tester
   {
     super(testr.getModel());
     test = testr;
-    state = new StateCoverage();
-    test.addListener(state);
+    state = test.addCoverageMetric(new StateCoverage());
     loopTolerance = 1;
   }
 
