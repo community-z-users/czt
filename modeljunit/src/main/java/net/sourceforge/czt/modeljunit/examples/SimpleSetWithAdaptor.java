@@ -54,6 +54,12 @@ public class SimpleSetWithAdaptor implements FsmModel
   protected String str1 = "some string";
   protected String str2 = "";  // empty string
 
+  /** Tests a StringSet implementation. */
+  public SimpleSetWithAdaptor()
+  {
+    sut_ = new StringSet();
+  }
+
   public SimpleSetWithAdaptor(Set<String> sut)
   {
     sut_ = sut;
