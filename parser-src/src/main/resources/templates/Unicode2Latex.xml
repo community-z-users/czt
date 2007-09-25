@@ -91,7 +91,7 @@ action code
 </add:oldz>
 <add:circus>
     /*  Add here only additional elements that have not been declared in toolkits
-     *  or in other Keyword/Token related files.
+     *  or in other keyword/token related files.
      */
 </add:circus>
     return map;

@@ -33,7 +33,7 @@ import net.sourceforge.czt.java_cup.runtime.*;
 
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.z.Keyword;
+import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
@@ -88,7 +88,7 @@ public class KeywordScanner
     Map &lt;String, Integer&gt; result = new HashMap&lt;String, Integer&gt;();
 
     /* Adds all Z Standard keyword tokens */
-    addKeywords(result, Keyword.values());
+    addKeywords(result, ZKeyword.values());
 
 <add:pattern>
     /* Adds all Z pattern keyword tokens */

@@ -30,7 +30,7 @@ import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.TokenImpl;
 import net.sourceforge.czt.parser.util.WarningManager;
-import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
@@ -215,7 +215,7 @@ public class AstToPrintTreeVisitor
     }
     else if (And.NL.equals(andPred.getAnd())) {
       list.add(visit(andPred.getLeftPred()));
-      list.add(TokenName.NL);
+      list.add(ZToken.NL);
       list.add(visit(andPred.getRightPred()));
     }
     else if (And.Semi.equals(andPred.getAnd())) {
@@ -291,34 +291,34 @@ public class AstToPrintTreeVisitor
     Box box = axPara.getBox();
     if (box == null || Box.AxBox.equals(box)) {
       if (! isGeneric(axPara)) {
-        list.add(TokenName.AX);
+        list.add(ZToken.AX);
       }
       else {
-        list.add(TokenName.GENAX);
-        list.add(TokenName.LSQUARE);
+        list.add(ZToken.GENAX);
+        list.add(ZToken.LSQUARE);
         boolean first = true;
         for (Name declName : axPara.getName()) {
           if (first) first = false;
           else list.add(ZString.COMMA);
           list.add(visit(declName));
         }
-        list.add(TokenName.RSQUARE);
-        list.add(TokenName.NL);
+        list.add(ZToken.RSQUARE);
+        list.add(ZToken.NL);
       }
       ZSchText schText = axPara.getZSchText();
       for (Iterator<Decl> iter = schText.getZDeclList().iterator();
            iter.hasNext();) {
         list.add(visit(iter.next()));
-        if (iter.hasNext()) list.add(TokenName.NL);
+        if (iter.hasNext()) list.add(ZToken.NL);
       }
       if (schText.getPred() != null) {
-        list.add(new TokenImpl(TokenName.DECORWORD, new WhereWord()));
+        list.add(new TokenImpl(ZToken.DECORWORD, new WhereWord()));
         list.add(visit(schText.getPred()));
       }
-      list.add(TokenName.END);
+      list.add(ZToken.END);
     }
     else if (Box.OmitBox.equals(box)) {
-      list.add(TokenName.ZED);
+      list.add(ZToken.ZED);
       final List declNameList = axPara.getName();
       final SchText schText = axPara.getSchText();
       final List<Decl> decls = axPara.getZSchText().getZDeclList();
@@ -337,13 +337,13 @@ public class AstToPrintTreeVisitor
         else { // (generic) horizontal definition
           list.add(visit(declName));
           if (declNameList.size() > 0) {
-            list.add(TokenName.LSQUARE);
+            list.add(ZToken.LSQUARE);
             for (Iterator<Name> iter = declNameList.iterator();
                  iter.hasNext();) {
               list.add(visit(iter.next()));
               if (iter.hasNext()) list.add(ZString.COMMA);
             }
-            list.add(TokenName.RSQUARE);
+            list.add(ZToken.RSQUARE);
           }
           final Expr expr = constDecl.getExpr();
           final TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
@@ -357,11 +357,11 @@ public class AstToPrintTreeVisitor
               }
             }
           }
-          list.add(new TokenImpl(TokenName.DECORWORD, spelling));
+          list.add(new TokenImpl(ZToken.DECORWORD, spelling));
           list.add(visit(expr));
         }
       }
-      list.add(TokenName.END);
+      list.add(ZToken.END);
     }
     else if (Box.SchBox.equals(box)) {
       return handleOldZ(axPara.getAnns(), handleSchemaDefinition(axPara));
@@ -378,10 +378,10 @@ public class AstToPrintTreeVisitor
     List list = new ArrayList();
     assert Box.SchBox.equals(axPara.getBox());
     if (isGeneric(axPara)) {
-      list.add(TokenName.GENSCH);
+      list.add(ZToken.GENSCH);
     }
     else {
-      list.add(TokenName.SCH);
+      list.add(ZToken.SCH);
     }
     List<Decl> decls = axPara.getZSchText().getZDeclList();
     ConstDecl cdecl = (ConstDecl) decls.get(0);
@@ -389,27 +389,27 @@ public class AstToPrintTreeVisitor
     if (declName == null) throw new CztException();
     list.add(declName);
     if (isGeneric(axPara)) {
-      list.add(TokenName.LSQUARE);
+      list.add(ZToken.LSQUARE);
       for (Iterator<Name> iter = axPara.getName().iterator();
            iter.hasNext();) {
         list.add(visit(iter.next()));
         if (iter.hasNext()) list.add(ZString.COMMA);
       }
-      list.add(TokenName.RSQUARE);
+      list.add(ZToken.RSQUARE);
     }
-    list.add(TokenName.NL);
+    list.add(ZToken.NL);
     SchExpr schExpr = (SchExpr) cdecl.getExpr();
     ZSchText schText = schExpr.getZSchText();
     for (Iterator<Decl> iter = schText.getZDeclList().iterator();
          iter.hasNext();) {
       list.add(visit(iter.next()));
-      if (iter.hasNext()) list.add(TokenName.NL);
+      if (iter.hasNext()) list.add(ZToken.NL);
     }
     if (schText.getPred() != null) {
-      list.add(new TokenImpl(TokenName.DECORWORD, new WhereWord()));
+      list.add(new TokenImpl(ZToken.DECORWORD, new WhereWord()));
       list.add(visit(schText.getPred()));
     }
-    list.add(TokenName.END);
+    list.add(ZToken.END);
     return printFactory_.createPrintParagraph(list);
   }
 

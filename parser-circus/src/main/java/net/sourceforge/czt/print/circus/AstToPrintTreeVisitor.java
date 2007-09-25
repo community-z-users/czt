@@ -29,7 +29,7 @@ import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
@@ -38,7 +38,7 @@ import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.visitor.*;
 
 /**
- * AstToPrintTreeVisitors should not use Keyword enum. Instead,
+ * AstToPrintTreeVisitors should not use ZKeyword enum. Instead,
  * they should add the corresponding DecordWord. Thast is becsause
  * the Unicode2Latex parser does not yet know about keywords.
  * The CircusPrintVisitor.visitPrintParagraph (in ZPrintVisitor)
@@ -71,7 +71,7 @@ public class AstToPrintTreeVisitor
     // TODO: Check here when we have unboxed versions.
     List list = new ArrayList();
     
-    list.add(TokenName.ZED);
+    list.add(ZToken.ZED);
     list.add(CircusString.CIRCPROC);
     
     // TODO: CHECK WITH PETRA HOW TO HANDLE THOSE HERE.
@@ -80,7 +80,7 @@ public class AstToPrintTreeVisitor
     if (term.getGenFormals() instanceof ZNameList &&
       !ZUtils.assertZNameList(term.getGenFormals()).isEmpty())
     {
-      list.add(TokenName.LSQUARE);
+      list.add(ZToken.LSQUARE);
       boolean first = true;
       for (Name declName : ZUtils.assertZNameList(term.getGenFormals()).getName())
       {
@@ -88,7 +88,7 @@ public class AstToPrintTreeVisitor
         else list.add(ZString.COMMA);
         list.add(visit(declName));
       }
-      list.add(TokenName.RSQUARE);
+      list.add(ZToken.RSQUARE);
     }
     list.add(visit(term.getName()));
     list.add(CircusString.CIRCDEF);
@@ -98,16 +98,16 @@ public class AstToPrintTreeVisitor
     if (isBasicProcess)
     {
       list.add(CircusString.CIRCBEGIN);
-      list.add(TokenName.END);
+      list.add(ZToken.END);
       //NOTE: NL cannot happen after END as a Token!
       //      if needed use it as String/Text like CRLF or \n
-      //list.add(TokenName.NL);
+      //list.add(ZToken.NL);
     }
     // adding a printParagraph to the list will make it be print. ok.
     list.add(visit(term.getCircusProcess()));
     
     // close the environment for either CIRCEND (basic) or normal processes.
-    list.add(TokenName.END);
+    list.add(ZToken.END);
     return getZPrintFactory().createPrintParagraph(list);
   }
   
@@ -139,7 +139,7 @@ public class AstToPrintTreeVisitor
       list.add(CircusString.CIRCDEF);
       list.add(visit(term.getCircusAction()));
     }
-    list.add(TokenName.END);
+    list.add(ZToken.END);
     return getZPrintFactory().createPrintParagraph(list);
   }
   
@@ -191,7 +191,7 @@ public class AstToPrintTreeVisitor
           // This handling of horizontal schema expressions may not be complete...
           if (!ZUtils.getSchemaZGenFormals(next).isEmpty())
           {
-            list.add(TokenName.LSQUARE);
+            list.add(ZToken.LSQUARE);
             boolean first = true;
             for (Name declName : ZUtils.getSchemaZGenFormals(next).getName())
             {
@@ -199,11 +199,11 @@ public class AstToPrintTreeVisitor
               else list.add(ZString.COMMA);
               list.add(visit(declName));
             }
-            list.add(TokenName.RSQUARE);            
+            list.add(ZToken.RSQUARE);            
           }                    
           list.add(ZString.DEFEQUAL);
           list.add(visit(ZUtils.getSchemaDefExpr(next)));
-          list.add(TokenName.END);
+          list.add(ZToken.END);
         }
       }
       else
@@ -212,7 +212,7 @@ public class AstToPrintTreeVisitor
       }
       // There is no need for a new line here since the paragraphs
       // are within a BEGIN/END environment already (?)
-      //if (iter.hasNext()) list.add(TokenName.NL);
+      //if (iter.hasNext()) list.add(ZToken.NL);
     }
     
     if (!term.getOnTheFlyPara().isEmpty()) {                    
@@ -227,7 +227,7 @@ public class AstToPrintTreeVisitor
         ActionPara next = iter.next();
         ActionPara ap = (ActionPara)next;
         list.add(visit(ap));
-        //if (iter.hasNext()) list.add(TokenName.NL);        
+        //if (iter.hasNext()) list.add(ZToken.NL);        
       }
     }
     
@@ -235,14 +235,14 @@ public class AstToPrintTreeVisitor
     list.add(CircusToken.CIRCUSACTION);
     list.add(ZString.SPOT);
     list.add(visit(term.getMainAction()));
-    list.add(TokenName.END);    
+    list.add(ZToken.END);    
     
     if (hasState && !processedState_)
     {
       getWM().warnMissingFor("locally or implicitly declared process state", term);
     }
     
-    list.add(TokenName.ZED);
+    list.add(ZToken.ZED);
     list.add(CircusString.CIRCEND);
     // the environment closure is done at ProcessPara above
     

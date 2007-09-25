@@ -22,7 +22,7 @@ package net.sourceforge.czt.parser.z;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.Token;
 
-public enum Keyword
+public enum ZKeyword
   implements Token
 {
   ELSE("else"),
@@ -74,7 +74,7 @@ public enum Keyword
 
   private String spelling_;
 
-  Keyword(String spelling)
+  ZKeyword(String spelling)
   {
     spelling_ = spelling;
   }

@@ -24,7 +24,7 @@ import java.util.ListIterator;
 
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.util.TokenImpl;
-import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.parser.z.ZToken;
 
 /**
  *
@@ -66,7 +66,7 @@ public class PrettyPrinter
         if (spaceLeft < 0 ||
             (spaceLeft < length && processed > 1)) {
           iter.previous();
-          iter.add(TokenName.NL);
+          iter.add(ZToken.NL);
           Object next = iter.next();
           assert next == o;
           spaceLeft = lineWidth_-2*indent;

@@ -38,8 +38,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.visitor.*;
 import net.sourceforge.czt.parser.circus.CircusToken;
-import net.sourceforge.czt.parser.z.Keyword;
-import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -74,7 +74,7 @@ public class CircusPrintVisitor
      ***********************************************************/
     
     protected void print(CircusKeyword keyword) {
-        /* CIRCDEF is the only Keyword that is a scanner token */
+        /* CIRCDEF is the only keyword that is a scanner token */
         if (keyword.equals(CircusKeyword.CIRCDEF))
             print((Token) keyword);
         else
@@ -83,9 +83,9 @@ public class CircusPrintVisitor
     
     private void printActualParams(ZExprList term, boolean indexes) {
         if (term != null && !term.isEmpty()) {
-            print(indexes ? CircusToken.CIRCLINST : TokenName.LPAREN);
+            print(indexes ? CircusToken.CIRCLINST : ZToken.LPAREN);
             visit(term);
-            print(indexes ? CircusToken.CIRCRINST : TokenName.RPAREN);
+            print(indexes ? CircusToken.CIRCRINST : ZToken.RPAREN);
         }
     }
     
@@ -99,7 +99,7 @@ public class CircusPrintVisitor
     protected void printProcessD(ProcessD term, boolean indexes) {
         if (!CircusUtils.isOnTheFly(term)) {
             printFormalParameters(term.getZDeclList());
-            print(indexes ? CircusKeyword.CIRCINDEX : Keyword.SPOT);
+            print(indexes ? CircusKeyword.CIRCINDEX : ZKeyword.SPOT);
             visit(term.getCircusProcess());
         } else {
             throw new PrintException("On-the-fly parameterised process (" +
@@ -110,7 +110,7 @@ public class CircusPrintVisitor
     protected void printActionD(ActionD term) {
         if (!CircusUtils.isOnTheFly(term)) {
             printFormalParameters(term.getZDeclList());
-            print(Keyword.SPOT);
+            print(ZKeyword.SPOT);
             visit(term.getCircusAction());
         } else {
             throw new PrintException("On-the-fly parameterised action (" +
@@ -145,9 +145,9 @@ public class CircusPrintVisitor
      ***********************************************************/
     public Object visitChannelPara(ChannelPara term) {
         //TODO: Change this to CIRCUS for \begin{circus} at some point.
-        print(TokenName.ZED);
+        print(ZToken.ZED);
         visit(term.getDeclList());
-        print(TokenName.END);
+        print(ZToken.END);
         return null;
     }
     
@@ -162,11 +162,11 @@ public class CircusPrintVisitor
             printGenericFormals(term.getNameList().get(0));
             visit(term.getNameList().get(1));
             if (term.getExpr() != null) {
-                print(Keyword.COLON);
+                print(ZKeyword.COLON);
                 visit(term.getExpr());
             }
         }
-        print(TokenName.NL);
+        print(ZToken.NL);
         return null;
     }
     
@@ -174,13 +174,13 @@ public class CircusPrintVisitor
      * Channel set related
      ***********************************************************/
     public Object visitChannelSetPara(ChannelSetPara term) {
-        print(TokenName.ZED);
+        print(ZToken.ZED);
         print(CircusKeyword.CIRCCHANSET);
         printGenericFormals(term.getGenFormals());
         visit(term.getName());
-        print(Keyword.DEFEQUAL);
+        print(ZKeyword.DEFEQUAL);
         visit(term.getChannelSet());
-        print(TokenName.END);
+        print(ZToken.END);
         return null;
     }
     
@@ -208,7 +208,7 @@ public class CircusPrintVisitor
         throw new PrintException("Unexpected term ProcessPara");
       /*
     // TODO: Check here when we have unboxed versions.
-    print(TokenName.ZED);
+    print(ZToken.ZED);
     print(CircusKeyword.CIRCPROC);
     printGenericFormals(term.getGenFormals());
     visit(term.getProcessName());
@@ -218,13 +218,13 @@ public class CircusPrintVisitor
     // basic processes will be spread across different environments
     if (isBasicProcess) {
         print(CircusKeyword.CIRCBEGIN);
-        print(TokenName.END);
-        print(TokenName.NL);
+        print(ZToken.END);
+        print(ZToken.NL);
     }
     visit(term.getCircusProcess());
        
     // close the environment for either CIRCEND (basic) or normal processes.
-    print(TokenName.END);
+    print(ZToken.END);
     return null;*/
     }
     
@@ -263,12 +263,12 @@ public class CircusPrintVisitor
                 print(CircusToken.CIRCUSACTION);
                 print(CircusKeyword.CIRCSTATE);
                 visit(next);
-                print(TokenName.END);
-                if (iter.hasNext()) print(TokenName.NL);
+                print(ZToken.END);
+                if (iter.hasNext()) print(ZToken.NL);
             }
         } else {
             visit(next);
-            if (iter.hasNext()) print(TokenName.NL);
+            if (iter.hasNext()) print(ZToken.NL);
         }
     }
      
@@ -278,7 +278,7 @@ public class CircusPrintVisitor
         Para next = iter.next();
         if (next instanceof ActionPara) {
             visit(next);
-            if (iter.hasNext()) print(TokenName.NL);
+            if (iter.hasNext()) print(ZToken.NL);
         } else {
             warnBadParagraphFor("Implicitly", next, term);
         }
@@ -286,9 +286,9 @@ public class CircusPrintVisitor
      
     if (term.getMainAction() != null) {
         print(CircusToken.CIRCUSACTION);
-        print(Keyword.SPOT);
+        print(ZKeyword.SPOT);
         visit(term.getMainAction());
-        print(TokenName.NL);
+        print(ZToken.NL);
     } else {
         warnMissingFor("main action", term);
     }
@@ -296,7 +296,7 @@ public class CircusPrintVisitor
         warnMissingFor("locally or implicitly declared process state", term);
     }
      
-    print(TokenName.ZED);
+    print(ZToken.ZED);
     print(CircusKeyword.CIRCEND);
     // the environment closure is done at ProcessPara above
      
@@ -376,7 +376,7 @@ public class CircusPrintVisitor
         visit(term.getLeftProc());
         print(CircusToken.LPAR);
         visit(term.getLeftAlpha());
-        print(Keyword.BAR);
+        print(ZKeyword.BAR);
         visit(term.getRightAlpha());
         print(CircusToken.RPAR);
         visit(term.getRightProc());
@@ -403,7 +403,7 @@ public class CircusPrintVisitor
      * as there are no unicode left :(. We also allow printing the keyword before
      * checking for on-the-fly as it does not matter where the printer breaks.
      */
-        print(Keyword.ZCOMP);
+        print(ZKeyword.ZCOMP);
         printProcessD(term, false);
         return null;
     }
@@ -428,7 +428,7 @@ public class CircusPrintVisitor
             print(CircusToken.LPAR);
             visit(term.getChannelSet());
             print(CircusToken.RPAR);
-            print(Keyword.SPOT);
+            print(ZKeyword.SPOT);
             visit(term.getCircusProcess());
         } else {
             throw new PrintException("On-the-fly replicated parallel process must be processed by the AstToPrintTreeVisitor.");
@@ -452,7 +452,7 @@ public class CircusPrintVisitor
     }
     
     public Object visitSeqProcessIdx(SeqProcessIdx term) {
-        print(Keyword.ZCOMP);
+        print(ZKeyword.ZCOMP);
         printProcessD(term, true);
         return null;
     }
@@ -516,7 +516,7 @@ public class CircusPrintVisitor
         print(CircusKeyword.CIRCDEF);
         visit(term.getCircusAction());
     }
-    print(TokenName.END);
+    print(ZToken.END);
     return null;*/
     }
     
@@ -554,7 +554,7 @@ public class CircusPrintVisitor
         printLPAREN(term);
         print(CircusKeyword.CIRCMU);
         visit(term.getName());
-        print(Keyword.SPOT);
+        print(ZKeyword.SPOT);
         visit(term.getCircusAction());
         printRPAREN(term);
         return null;
@@ -583,9 +583,9 @@ public class CircusPrintVisitor
     
     public Object visitSubstitutionAction(SubstitutionAction term) {
         visit(term.getCircusAction());
-        print(TokenName.LSQUARE);
+        print(ZToken.LSQUARE);
         visit(term.getRenameList());
-        print(TokenName.RSQUARE);
+        print(ZToken.RSQUARE);
         return null;
     }
     
@@ -596,7 +596,7 @@ public class CircusPrintVisitor
         print(CircusToken.RCIRCGUARD);
         // Similar to replicated sequential composition, we need to reuse
         // the guard symbol, as there are no other good unicode char match.
-        print(Keyword.ANDALSO);
+        print(ZKeyword.ANDALSO);
         visit(term.getCircusAction());
         printRPAREN(term);
         return null;
@@ -620,19 +620,19 @@ public class CircusPrintVisitor
     }
     
     public Object visitOutputField(OutputField term) {
-        print(TokenName.OUTSTROKE);
+        print(ZToken.OUTSTROKE);
         visit(term.getExpr());
         return null;
     }
     
     public Object visitDotField(DotField term) {
-        print(Keyword.DOT);
+        print(ZKeyword.DOT);
         visit(term.getExpr());
         return null;
     }
     
     public Object visitInputField(InputField term) {
-        print(TokenName.INSTROKE);
+        print(ZToken.INSTROKE);
         visit(term.getVariableName());
         if (term.getRestriction() != null && !(term.getRestriction() instanceof TruePred)) {
             print(CircusKeyword.PREFIXCOLON);
@@ -674,9 +674,9 @@ public class CircusPrintVisitor
         visit(term.getLeftAction());
         print(CircusToken.LPAR);
         visit(term.getLeftNameSet());
-        print(Keyword.BAR);
+        print(ZKeyword.BAR);
         visit(term.getChannelSet());
-        print(Keyword.BAR);
+        print(ZKeyword.BAR);
         visit(term.getRightNameSet());
         print(CircusToken.RPAR);
         visit(term.getRightAction());
@@ -690,7 +690,7 @@ public class CircusPrintVisitor
         visit(term.getLeftAction());
         print(CircusToken.LPAR);
         visit(term.getLeftAlpha());
-        print(Keyword.BAR);
+        print(ZKeyword.BAR);
         visit(term.getRightAlpha());
         print(CircusToken.RPAR);
         visit(term.getRightAction());
@@ -704,7 +704,7 @@ public class CircusPrintVisitor
         visit(term.getLeftAction());
         print(CircusToken.LINTER);
         visit(term.getLeftNameSet());
-        print(Keyword.BAR);
+        print(ZKeyword.BAR);
         visit(term.getRightNameSet());
         print(CircusToken.RINTER);
         visit(term.getRightAction());
@@ -718,7 +718,7 @@ public class CircusPrintVisitor
     }
     
     public Object visitSeqActionIte(SeqActionIte term) {
-        print(Keyword.ZCOMP);
+        print(ZKeyword.ZCOMP);
         printActionD(term);
         return null;
     }
@@ -743,7 +743,7 @@ public class CircusPrintVisitor
             visit(term.getChannelSet());
             print(CircusToken.RPAR);
             printFormalParameters(term.getZDeclList());
-            print(Keyword.SPOT);
+            print(ZKeyword.SPOT);
             print(CircusToken.LPAR);
             visit(term.getNameSet());
             print(CircusToken.RPAR);
@@ -766,7 +766,7 @@ public class CircusPrintVisitor
             print(CircusToken.LINTER);
             visit(term.getNameSet());
             print(CircusToken.RINTER);
-            print(Keyword.SPOT);
+            print(ZKeyword.SPOT);
             visit(term.getCircusAction());
         } else {
             throw new PrintException("On-the-fly replicated interleave action must be processed by the AstToPrintTreeVisitor.");
@@ -782,7 +782,7 @@ public class CircusPrintVisitor
         printLPAREN(term);
         print(CircusKeyword.CIRCVAR);
         visit(term.getDeclList());
-        print(Keyword.SPOT);
+        print(ZKeyword.SPOT);
         visit(term.getCircusAction());
         printRPAREN(term);
         return null;
@@ -797,7 +797,7 @@ public class CircusPrintVisitor
     
     public Object visitIfGuardedCommand(IfGuardedCommand term) {
         printLPAREN(term);
-        print(Keyword.IF);
+        print(ZKeyword.IF);
         Iterator<? extends CircusAction> it = term.getGuardedAction().iterator();
         while (it.hasNext()) {            
             GuardedAction ga = (GuardedAction)it.next();
@@ -805,13 +805,13 @@ public class CircusPrintVisitor
             print(CircusKeyword.CIRCTHEN);
             visit(ga.getCircusAction());
             if (it.hasNext()) {
-                print(TokenName.NL);
+                print(ZToken.NL);
                 print(CircusKeyword.CIRCELSE);
             }
         }
         // For a single guard, let the if on the same line as the fi
         if (term.getGuardedAction().size() > 1) {
-            print(TokenName.NL);
+            print(ZToken.NL);
         }
         print(CircusKeyword.CIRCFI);
         printRPAREN(term);
@@ -823,35 +823,35 @@ public class CircusPrintVisitor
         if (term.getZFrame().isEmpty()) {
             // Assumption
             if (term.getPost() instanceof TruePred) {
-                print(TokenName.LBRACE);
+                print(ZToken.LBRACE);
                 visit(term.getPre());
-                print(TokenName.RBRACE);
+                print(ZToken.RBRACE);
             }
             // Coercion
             else if (term.getPre() instanceof TruePred) {
-                print(TokenName.LSQUARE);
+                print(ZToken.LSQUARE);
                 visit(term.getPost());
-                print(TokenName.RSQUARE);
+                print(ZToken.RSQUARE);
             }
             // Specification stamement with empty frame
             else {
-                print(Keyword.COLON);
-                print(TokenName.LSQUARE);
+                print(ZKeyword.COLON);
+                print(ZToken.LSQUARE);
                 visit(term.getPre());
-                print(Keyword.COMMA);
+                print(ZKeyword.COMMA);
                 visit(term.getPost());
-                print(TokenName.RSQUARE);
+                print(ZToken.RSQUARE);
             }
         }
         // Specification statement with non-empty frame
         else {
             visit(term.getFrame());
-            print(Keyword.COLON);
-            print(TokenName.LSQUARE);
+            print(ZKeyword.COLON);
+            print(ZToken.LSQUARE);
             visit(term.getPre());
-            print(Keyword.COMMA);
+            print(ZKeyword.COMMA);
             visit(term.getPost());
-            print(TokenName.RSQUARE);
+            print(ZToken.RSQUARE);
         }
         printRPAREN(term);
         return null;
@@ -933,7 +933,7 @@ public class CircusPrintVisitor
                 print(CircusKeyword.CIRCSIMULATES);
                 break;
             case Equivalence:
-                print(Keyword.EQUALS);
+                print(ZKeyword.EQUALS);
                 break;            
         }
     }
@@ -961,7 +961,7 @@ public class CircusPrintVisitor
         if (ZUtils.assertZNameList(term.getNameList()).isEmpty())
             throw new PrintException("Empty list of qualified variables/parameters");
         visit(term.getNameList());
-        print(Keyword.COLON);
+        print(ZKeyword.COLON);
         visit(term.getExpr());
         return null;
     }
@@ -987,7 +987,7 @@ public class CircusPrintVisitor
     public Object visitNameSetPara(NameSetPara term) {
         /* Hum... need to know if it is boxed or not... */
         visit(term.getName());
-        print(Keyword.DEFEQUAL);
+        print(ZKeyword.DEFEQUAL);
         visit(term.getNameSet());
         return null;
     }

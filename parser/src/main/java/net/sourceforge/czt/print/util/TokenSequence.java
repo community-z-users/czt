@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.parser.z.ZToken;
 
 public class TokenSequence
 {
@@ -56,7 +56,7 @@ public class TokenSequence
     list_.add(t);
     nrOfTokens_++;
     length_ += t.spelling().length();
-    if (TokenName.NUMSTROKE.getName().equals(t.getName())) {
+    if (ZToken.NUMSTROKE.getName().equals(t.getName())) {
       length_ += 2;
     }
   }

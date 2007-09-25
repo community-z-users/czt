@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -67,18 +67,18 @@ public class UnicodePrinter
 
   public void printToken(Token token, int indent)
   {
-    if (TokenName.NL.equals(token)) {
+    if (ZToken.NL.equals(token)) {
       print("\n");
       indent(indent);
       return;
     }
 
     if (token.getSpelling() instanceof WhereWord ||
-        TokenName.END.equals(token)) {
+        ZToken.END.equals(token)) {
       print("\n");
     }
 
-    if (TokenName.NUMSTROKE.getName().equals(token.getName())) {
+    if (ZToken.NUMSTROKE.getName().equals(token.getName())) {
       print(ZString.SE + token.getSpelling() + ZString.NW);
     }
     else {
@@ -86,7 +86,7 @@ public class UnicodePrinter
     }
 
     if (! "TEXT".equals(token.getName()) &&
-        ! TokenName.NL.equals(token)) {
+        ! ZToken.NL.equals(token)) {
       if (token.getSpelling() instanceof WhereWord) print("\n");
       print(ZString.SPACE);
     }

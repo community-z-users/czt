@@ -25,7 +25,7 @@ import net.sourceforge.czt.parser.util.Token;
 /**
  * An enumeration of Z tokens.
  */
-public enum TokenName
+public enum ZToken
   implements Token
 {
   TEXT,
@@ -55,11 +55,11 @@ public enum TokenName
 
   private String spelling_;
 
-  TokenName()
+  ZToken()
   {
   }
 
-  TokenName(String spelling)
+  ZToken(String spelling)
   {
     spelling_ = spelling;
   }

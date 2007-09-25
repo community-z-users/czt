@@ -21,8 +21,8 @@ package net.sourceforge.czt.print.zpatt;
 
 import java.util.Properties;
 
-import net.sourceforge.czt.parser.z.Keyword;
-import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.parser.zpatt.ZPattKeyword;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.ZPattString;
@@ -50,7 +50,7 @@ public class ZpattPrintVisitor
   public Object visitHeadDeclList(HeadDeclList list)
   {
     visit(list.getJokerDeclList());
-    print(Keyword.COMMA);
+    print(ZKeyword.COMMA);
     visit(list.getZDeclList());
     return null;
   }
@@ -182,7 +182,7 @@ public class ZpattPrintVisitor
   {
     for (Sequent sequent : sequentList) {
       visit(sequent);
-      print(TokenName.NL);
+      print(ZToken.NL);
     }
     return null;
   }
