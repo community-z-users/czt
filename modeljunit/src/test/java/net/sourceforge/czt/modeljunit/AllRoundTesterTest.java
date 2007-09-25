@@ -38,11 +38,9 @@ public class AllRoundTesterTest extends TestCase
   public static void testAllRoundWalk()
   {
     Tester tester = new AllRoundTester(new FSM());
-    CoverageHistory metric =
-      new CoverageHistory(new ActionCoverage(), 1);
-    tester.addCoverageMetric(metric);
     tester.setRandom(new Random(3));
-    tester.generate(5);
+    tester.addListener("verbose");
+    tester.generate(50);
     //int coverage = metric.getCoverage();
     //Assert.assertEquals(2, coverage);
     //Assert.assertEquals(4, metric.getMaximum());

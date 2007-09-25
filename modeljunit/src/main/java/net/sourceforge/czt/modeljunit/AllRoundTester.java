@@ -31,10 +31,6 @@ public class AllRoundTester extends Tester
   public AllRoundTester(FsmModel fsm)
   {
     this(new Model(fsm));
-    test = new GreedyTester(model_);
-    state = new StateCoverage();
-    test.addListener(state);
-    loopTolerance = 1;
   }
   
   /**
@@ -84,9 +80,17 @@ public class AllRoundTester extends Tester
     }
     else 
     {
-        if (state.getDetails().get(test.getModel().getCurrentState()) > getLoopTolerance()) {
+      Object curr = test.getModel().getCurrentState();
+      assert state != null;
+      assert state.getDetails() != null;
+      Integer count = state.getDetails().get(curr);
+      System.out.println("visited state "+curr+" "
+          + state.getDetails().get(curr) + " times");
+        if (count > getLoopTolerance()) {
           test.reset();
           state.clear();
+          System.out.println("terminated test because we saw state "+curr
+              +" "+count+" times.");
         }
     }
     return taken;
