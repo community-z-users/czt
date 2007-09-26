@@ -28,8 +28,10 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.OpTable;
+import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.util.TokenImpl;
 import net.sourceforge.czt.parser.util.WarningManager;
+import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.*;
@@ -194,7 +196,7 @@ public class AstToPrintTreeVisitor
     List list = new LinkedList();
     if (And.Wedge.equals(andPred.getAnd())) {
       list.add(visit(andPred.getLeftPred()));
-      list.add(ZString.AND);
+      list.add(ZKeyword.AND);
       list.add(visit(andPred.getRightPred()));
     }
     else if (And.Chain.equals(andPred.getAnd())) {
@@ -220,7 +222,7 @@ public class AstToPrintTreeVisitor
     }
     else if (And.Semi.equals(andPred.getAnd())) {
       list.add(visit(andPred.getLeftPred()));
-      list.add(ZString.SEMICOLON);
+      list.add(ZKeyword.SEMICOLON);
       list.add(visit(andPred.getRightPred()));
     }
     else {
@@ -299,7 +301,7 @@ public class AstToPrintTreeVisitor
         boolean first = true;
         for (Name declName : axPara.getName()) {
           if (first) first = false;
-          else list.add(ZString.COMMA);
+          else list.add(ZKeyword.COMMA);
           list.add(visit(declName));
         }
         list.add(ZToken.RSQUARE);
@@ -331,7 +333,7 @@ public class AstToPrintTreeVisitor
         if (opInfo != null && Cat.Generic.equals(opInfo.getCat())) {
           // generic operator definition
           list.addAll(printOperator(operatorName, declNameList));
-          list.add(ZString.DEFEQUAL);
+          list.add(ZKeyword.DEFEQUAL);
           list.add(visit(constDecl.getExpr()));
         }
         else { // (generic) horizontal definition
@@ -341,23 +343,23 @@ public class AstToPrintTreeVisitor
             for (Iterator<Name> iter = declNameList.iterator();
                  iter.hasNext();) {
               list.add(visit(iter.next()));
-              if (iter.hasNext()) list.add(ZString.COMMA);
+              if (iter.hasNext()) list.add(ZKeyword.COMMA);
             }
             list.add(ZToken.RSQUARE);
           }
           final Expr expr = constDecl.getExpr();
           final TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
-          Decorword spelling = new Decorword(ZString.DEFEQUAL);
+          Token token = ZKeyword.DEFEQUAL;
           if (typeAnn != null) {
             Type type = typeAnn.getType();
             if (type instanceof PowerType) {
               PowerType powerType = (PowerType) type;
               if (powerType.getType() instanceof SchemaType) {
-                spelling = new DefsWord();
+                token = new TokenImpl(ZToken.DECORWORD, new DefsWord());
               }
             }
           }
-          list.add(new TokenImpl(ZToken.DECORWORD, spelling));
+          list.add(token);
           list.add(visit(expr));
         }
       }
@@ -393,7 +395,7 @@ public class AstToPrintTreeVisitor
       for (Iterator<Name> iter = axPara.getName().iterator();
            iter.hasNext();) {
         list.add(visit(iter.next()));
-        if (iter.hasNext()) list.add(ZString.COMMA);
+        if (iter.hasNext()) list.add(ZKeyword.COMMA);
       }
       list.add(ZToken.RSQUARE);
     }
@@ -461,7 +463,7 @@ public class AstToPrintTreeVisitor
     }
     List list = new LinkedList();
     list.add(visit(memPred.getLeftExpr()));
-    list.add(ZString.MEM);
+    list.add(ZKeyword.MEM);
     list.add(visit(memPred.getRightExpr()));
     PrintPredicate result =
       printFactory_.createPrintPredicate(list, precedence, null);
@@ -651,7 +653,7 @@ public class AstToPrintTreeVisitor
             throw new CannotPrintAstException(message);
           }
           result.add(visit(tupleContents.get(1)));
-          if (i.hasNext()) result.add(ZString.COMMA);
+          if (i.hasNext()) result.add(ZKeyword.COMMA);
         }
         pos++;
       }

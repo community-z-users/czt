@@ -29,6 +29,7 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
@@ -121,9 +122,16 @@ public class ZmlScanner
 
     public void printToken(Token token)
     {
-      int intValue = getIntValue(token.getName(), fieldMap_);
-      symbolList_.add(new Symbol(intValue,
-                                 token.getSpelling()));
+      if (token instanceof ZKeyword) {
+        int intValue = getIntValue("DECORWORD", fieldMap_);
+        symbolList_.add(new Symbol(intValue,
+                                   new Decorword(token.spelling())));
+      }
+      else {
+        int intValue = getIntValue(token.getName(), fieldMap_);
+        symbolList_.add(new Symbol(intValue,
+                                   token.getSpelling()));
+      }
     }
 
     public List<Symbol> getSymbols()
