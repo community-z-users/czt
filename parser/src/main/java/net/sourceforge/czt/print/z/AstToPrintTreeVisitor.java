@@ -19,8 +19,8 @@
 
 package net.sourceforge.czt.print.z;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
@@ -191,7 +191,7 @@ public class AstToPrintTreeVisitor
 
   public Term visitAndPred(AndPred andPred)
   {
-    List list = new ArrayList();
+    List list = new LinkedList();
     if (And.Wedge.equals(andPred.getAnd())) {
       list.add(visit(andPred.getLeftPred()));
       list.add(ZString.AND);
@@ -248,7 +248,7 @@ public class AstToPrintTreeVisitor
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
       OperatorName opName = refExpr.getZName().getOperatorName();
       Expr args = (Expr) visit(applExpr.getRightExpr());
-      List argList = new ArrayList();
+      List argList = new LinkedList();
       if (opName.isUnary()) {
         argList.add(args);
       }
@@ -287,7 +287,7 @@ public class AstToPrintTreeVisitor
 
   public Term visitAxPara(AxPara axPara)
   {
-    List list = new ArrayList();
+    List list = new LinkedList();
     Box box = axPara.getBox();
     if (box == null || Box.AxBox.equals(box)) {
       if (! isGeneric(axPara)) {
@@ -375,7 +375,7 @@ public class AstToPrintTreeVisitor
 
   private PrintParagraph handleSchemaDefinition(AxPara axPara)
   {
-    List list = new ArrayList();
+    List list = new LinkedList();
     assert Box.SchBox.equals(axPara.getBox());
     if (isGeneric(axPara)) {
       list.add(ZToken.GENSCH);
@@ -435,7 +435,7 @@ public class AstToPrintTreeVisitor
         String message = "Unexpected Mixfix == true.";
         throw new CannotPrintAstException(message);
       }
-      List list = new ArrayList();
+      List list = new LinkedList();
       list.add(firstExpr);
       list.add("=");
       list.add(setExpr.getZExprList().get(0));
@@ -459,7 +459,7 @@ public class AstToPrintTreeVisitor
         throw new CannotPrintAstException(e.getMessage());
       }
     }
-    List list = new ArrayList();
+    List list = new LinkedList();
     list.add(visit(memPred.getLeftExpr()));
     list.add(ZString.MEM);
     list.add(visit(memPred.getRightExpr()));
@@ -506,7 +506,7 @@ public class AstToPrintTreeVisitor
       warningManager_.warn("Cannot get operator table for {0}; try to print anyway ... ", name);
     }
     if (opTable_ == null) {
-      List parentOpTables = new ArrayList();
+      List parentOpTables = new LinkedList();
       for (Parent parent : zSect.getParent()) {
         OpTable parentOpTable = getOpTable(parent.getWord());
         if (parentOpTable != null) {
@@ -605,8 +605,8 @@ public class AstToPrintTreeVisitor
 
   private List printOperator(OperatorName op, Object arguments)
   {
-    List result = new ArrayList();
-    List args = new ArrayList();
+    List result = new LinkedList();
+    List args = new LinkedList();
     if (arguments instanceof List) {
       args = (List) arguments;
     }
