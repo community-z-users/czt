@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,6 +20,7 @@
 package net.sourceforge.czt.parser.z;
 
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
 /**
@@ -28,40 +29,43 @@ import net.sourceforge.czt.parser.util.Token;
 public enum ZToken
   implements Token
 {
-  TEXT,
-  DECORWORD,
-  NUMERAL,
-  NUMSTROKE,
-  INSTROKE(ZString.INSTROKE),
-  OUTSTROKE(ZString.OUTSTROKE),
-  NEXTSTROKE(ZString.PRIME),
-  LPAREN(ZString.LPAREN),
-  RPAREN(ZString.RPAREN),
-  LSQUARE(ZString.LSQUARE),
-  RSQUARE(ZString.RSQUARE),
-  LBRACE(ZString.LBRACE),
-  RBRACE(ZString.RBRACE),
-  LBIND(ZString.LBIND),
-  RBIND(ZString.RBIND),
-  LDATA(ZString.LDATA),
-  RDATA(ZString.RDATA),
-  ZED(ZString.ZED),
-  AX(ZString.AX),
-  SCH(ZString.SCH),
-  GENAX(ZString.GENAX),
-  GENSCH(ZString.GENSCH),
-  END(ZString.END),
-  NL(ZString.NL);
+  TEXT(NewlineCategory.NEITHER),
+  DECORWORD(NewlineCategory.NEITHER),
+  NUMERAL(NewlineCategory.NEITHER),
+  NUMSTROKE(NewlineCategory.NEITHER),
+  INSTROKE(ZString.INSTROKE, NewlineCategory.NEITHER),
+  OUTSTROKE(ZString.OUTSTROKE, NewlineCategory.NEITHER),
+  NEXTSTROKE(ZString.PRIME, NewlineCategory.NEITHER),
+  LPAREN(ZString.LPAREN, NewlineCategory.AFTER),
+  RPAREN(ZString.RPAREN, NewlineCategory.BEFORE),
+  LSQUARE(ZString.LSQUARE, NewlineCategory.AFTER),
+  RSQUARE(ZString.RSQUARE, NewlineCategory.BEFORE),
+  LBRACE(ZString.LBRACE, NewlineCategory.AFTER),
+  RBRACE(ZString.RBRACE, NewlineCategory.BEFORE),
+  LBIND(ZString.LBIND, NewlineCategory.AFTER),
+  RBIND(ZString.RBIND, NewlineCategory.BEFORE),
+  LDATA(ZString.LDATA, NewlineCategory.BOTH),
+  RDATA(ZString.RDATA, NewlineCategory.BOTH),
+  ZED(ZString.ZED, NewlineCategory.AFTER),
+  AX(ZString.AX, NewlineCategory.AFTER),
+  SCH(ZString.SCH, NewlineCategory.AFTER),
+  GENAX(ZString.GENAX, NewlineCategory.AFTER),
+  GENSCH(ZString.GENSCH, NewlineCategory.AFTER),
+  END(ZString.END, NewlineCategory.BEFORE),
+  NL(ZString.NL, null);
 
   private String spelling_;
+  private NewlineCategory newlineCategory_;
 
-  ZToken()
+  ZToken(NewlineCategory newlineCategory)
   {
+    newlineCategory_ = newlineCategory;
   }
 
-  ZToken(String spelling)
+  ZToken(String spelling, NewlineCategory newlineCategory)
   {
     spelling_ = spelling;
+    newlineCategory_ = newlineCategory;
   }
 
   public String getName()
@@ -77,5 +81,10 @@ public enum ZToken
   public String spelling()
   {
     return spelling_;
+  }
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return newlineCategory_;
   }
 }

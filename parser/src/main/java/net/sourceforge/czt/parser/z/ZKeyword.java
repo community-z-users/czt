@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,63 +20,66 @@
 package net.sourceforge.czt.parser.z;
 
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
 public enum ZKeyword
   implements Token
 {
-  ELSE("else"),
-  FALSE("false"),
-  FUNCTION("function"),
-  GENERIC("generic"),
-  IF("if"),
-  LEFTASSOC("leftassoc"),
-  LET("let"),
-  POWER(ZString.POWER),
-  PARENTS("parents"),
-  ZPRE("pre"),
-  RELATION("relation"),
-  RIGHTASSOC("rightassoc"),
-  SECTION("section"),
-  THEN("then"),
-  TRUE("true"),
-  COLON(ZString.COLON),
-  DEFEQUAL("=="),
-  COMMA(ZString.COMMA),
-  DEFFREE("::="),
-  BAR("|"),
-  ANDALSO(ZString.AMP),
-  ZHIDE(ZString.ZHIDE),
-  SLASH(ZString.SLASH),
-  DOT(ZString.DOT),
-  SEMICOLON(ZString.SEMICOLON),
-  ARG(ZString.LL),
-  LISTARG(",,"),
-  EQUALS(ZString.EQUALS),
-  CONJECTURE(ZString.CONJECTURE),
-  ALL(ZString.ALL),
-  SPOT(ZString.SPOT),
-  EXI(ZString.EXI),
-  EXIONE(ZString.EXIONE),
-  IFF(ZString.IFF),
-  IMP(ZString.IMP),
-  OR(ZString.OR),
-  AND(ZString.AND),
-  NOT(ZString.NOT),
-  MEM(ZString.MEM),
-  ZPROJ(ZString.ZPROJ),
-  CROSS(ZString.CROSS),
-  LAMBDA(ZString.LAMBDA),
-  MU(ZString.MU),
-  THETA(ZString.THETA),
-  ZCOMP(ZString.ZCOMP),
-  ZPIPE(ZString.ZPIPE);
+  ELSE("else", NewlineCategory.BOTH),
+  FALSE("false", NewlineCategory.NEITHER),
+  FUNCTION("function", NewlineCategory.BOTH),
+  GENERIC("generic", NewlineCategory.BOTH),
+  IF("if", NewlineCategory.AFTER),
+  LEFTASSOC("leftassoc", NewlineCategory.BOTH),
+  LET("let", NewlineCategory.AFTER),
+  POWER(ZString.POWER, NewlineCategory.AFTER),
+  PARENTS("parents", NewlineCategory.BOTH),
+  ZPRE("pre", NewlineCategory.AFTER),
+  RELATION("relation", NewlineCategory.BOTH),
+  RIGHTASSOC("rightassoc", NewlineCategory.BOTH),
+  SECTION("section", NewlineCategory.BOTH),
+  THEN("then", NewlineCategory.BOTH),
+  TRUE("true", NewlineCategory.NEITHER),
+  COLON(ZString.COLON, NewlineCategory.BOTH),
+  DEFEQUAL("==", NewlineCategory.BOTH),
+  COMMA(ZString.COMMA, NewlineCategory.BOTH),
+  DEFFREE("::=", NewlineCategory.BOTH),
+  BAR("|", NewlineCategory.BOTH),
+  ANDALSO(ZString.AMP, NewlineCategory.BOTH),
+  ZHIDE(ZString.ZHIDE, NewlineCategory.BOTH),
+  SLASH(ZString.SLASH, NewlineCategory.BOTH),
+  DOT(ZString.DOT, NewlineCategory.BOTH),
+  SEMICOLON(ZString.SEMICOLON, NewlineCategory.BOTH),
+  ARG(ZString.LL, NewlineCategory.AFTER),
+  LISTARG(",,", NewlineCategory.BOTH),
+  EQUALS(ZString.EQUALS, NewlineCategory.BOTH),
+  CONJECTURE(ZString.CONJECTURE, NewlineCategory.BOTH),
+  ALL(ZString.ALL, NewlineCategory.AFTER),
+  SPOT(ZString.SPOT, NewlineCategory.BOTH),
+  EXI(ZString.EXI, NewlineCategory.AFTER),
+  EXIONE(ZString.EXIONE, NewlineCategory.AFTER),
+  IFF(ZString.IFF, NewlineCategory.BOTH),
+  IMP(ZString.IMP, NewlineCategory.BOTH),
+  OR(ZString.OR, NewlineCategory.BOTH),
+  AND(ZString.AND, NewlineCategory.BOTH),
+  NOT(ZString.NOT, NewlineCategory.AFTER),
+  MEM(ZString.MEM, NewlineCategory.BOTH),
+  ZPROJ(ZString.ZPROJ, NewlineCategory.BOTH),
+  CROSS(ZString.CROSS, NewlineCategory.BOTH),
+  LAMBDA(ZString.LAMBDA, NewlineCategory.AFTER),
+  MU(ZString.MU, NewlineCategory.AFTER),
+  THETA(ZString.THETA, NewlineCategory.AFTER),
+  ZCOMP(ZString.ZCOMP, NewlineCategory.BOTH),
+  ZPIPE(ZString.ZPIPE, NewlineCategory.BOTH);
 
   private String spelling_;
+  private NewlineCategory newlineCategory_;
 
-  ZKeyword(String spelling)
+  ZKeyword(String spelling, NewlineCategory newlineCategory)
   {
     spelling_ = spelling;
+    newlineCategory_ = newlineCategory;
   }
 
   public String getName()
@@ -92,5 +95,10 @@ public enum ZKeyword
   public String spelling()
   {
     return spelling_;
+  }
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return newlineCategory_;
   }
 }
