@@ -31,7 +31,7 @@ public class CZTFilter extends FileFilter {
 
     //The description of this filter
     public String getDescription() {
-        return "*.utf8,*.utf16,*.tex,*.xml,*.zml";
+        return "Common CZT files *.utf8,*.utf16,*.tex,*.xml,*.zml";
     }
 }
 
