@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.oz;
 
+import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.oz.util.OzString;
@@ -29,23 +30,25 @@ import net.sourceforge.czt.oz.util.OzString;
  * @author Leo Freitas
  */
 public enum OzKeyword implements Token {
-  DELTA(ZString.DELTA),
-  GCH(OzString.GCH),
-  PARALLEL(OzString.PARALLEL),
-  ASSOPARALLEL(OzString.ASSOPARALLEL),
-  DGCH(OzString.DGCH),
-  DCNJ(OzString.DCNJ),
-  CLASSUNION(OzString.CLASSUNION),
-  SDEF(OzString.SDEF),
-  POLY(OzString.POLY),
-  CONTAINMENT(OzString.CONTAINMENT),
-  INITWORD(OzString.INITWORD);
+  DELTA(ZString.DELTA, NewlineCategory.AFTER),
+  GCH(OzString.GCH, NewlineCategory.BOTH),
+  PARALLEL(OzString.PARALLEL, NewlineCategory.BOTH),
+  ASSOPARALLEL(OzString.ASSOPARALLEL, NewlineCategory.BOTH),
+  DGCH(OzString.DGCH, NewlineCategory.AFTER),
+  DCNJ(OzString.DCNJ, NewlineCategory.AFTER),
+  CLASSUNION(OzString.CLASSUNION, NewlineCategory.BOTH),
+  SDEF(OzString.SDEF, NewlineCategory.BOTH),
+  POLY(OzString.POLY, NewlineCategory.AFTER),
+  CONTAINMENT(OzString.CONTAINMENT, NewlineCategory.BEFORE),
+  INITWORD(OzString.INITWORD, NewlineCategory.BOTH);
 
   private String spelling_;
+  private NewlineCategory newlineCategory_;
 
-  OzKeyword(String spelling)
+  OzKeyword(String spelling, NewlineCategory newlineCategory)
   {
     spelling_ = spelling;
+    newlineCategory_ = newlineCategory;
   }
 
   public String getName()
@@ -62,4 +65,9 @@ public enum OzKeyword implements Token {
   {
     return spelling_;
   }    
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return newlineCategory_;
+  }
 }

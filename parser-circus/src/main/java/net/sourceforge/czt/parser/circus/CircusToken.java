@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.circus;
 
 import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
 /**
@@ -34,29 +35,31 @@ public enum CircusToken
   implements Token
 {
   /* TODO: Maybe include hard-space here "~" for beautification */
-  LCIRCCHANSET(CircusString.LCIRCCHANSET),
-  RCIRCCHANSET(CircusString.RCIRCCHANSET),
-  CIRCLINST(CircusString.CIRCLINST), 
-  CIRCRINST(CircusString.CIRCRINST),
-  LPAR(CircusString.LPAR), 
-  RPAR(CircusString.RPAR), 
-  LINTER(CircusString.LINTER), 
-  RINTER(CircusString.RINTER), 
-  LCIRCGUARD(CircusString.LCIRCGUARD), 
-  RCIRCGUARD(CircusString.RCIRCGUARD),
-  LSCHEXPRACT(CircusString.LSCHEXPRACT), 
-  RSCHEXPRACT(CircusString.RSCHEXPRACT), 
-  LCIRCRENAME(CircusString.LCIRCRENAME), 
-  RCIRCRENAME(CircusString.RCIRCRENAME),
+  LCIRCCHANSET(CircusString.LCIRCCHANSET, NewlineCategory.AFTER),
+  RCIRCCHANSET(CircusString.RCIRCCHANSET, NewlineCategory.BEFORE),
+  CIRCLINST(CircusString.CIRCLINST, NewlineCategory.AFTER),
+  CIRCRINST(CircusString.CIRCRINST, NewlineCategory.BEFORE),
+  LPAR(CircusString.LPAR, NewlineCategory.BOTH),
+  RPAR(CircusString.RPAR, NewlineCategory.BOTH),
+  LINTER(CircusString.LINTER, NewlineCategory.BOTH),
+  RINTER(CircusString.RINTER, NewlineCategory.BOTH),
+  LCIRCGUARD(CircusString.LCIRCGUARD, NewlineCategory.AFTER),
+  RCIRCGUARD(CircusString.RCIRCGUARD, NewlineCategory.BEFORE),
+  LSCHEXPRACT(CircusString.LSCHEXPRACT, NewlineCategory.AFTER),
+  RSCHEXPRACT(CircusString.RSCHEXPRACT, NewlineCategory.BEFORE),
+  LCIRCRENAME(CircusString.LCIRCRENAME, NewlineCategory.AFTER),
+  RCIRCRENAME(CircusString.RCIRCRENAME, NewlineCategory.BEFORE),
   
-  CIRCUS(CircusString.CIRCUS),
-  CIRCUSACTION(CircusString.CIRCUSACTION);
+  CIRCUS(CircusString.CIRCUS, NewlineCategory.BOTH),
+  CIRCUSACTION(CircusString.CIRCUSACTION, NewlineCategory.BOTH);
 
   private String spelling_;
+  private NewlineCategory newlineCategory_;
 
-  CircusToken(String spelling)
+  CircusToken(String spelling, NewlineCategory newlineCategory)
   {
     spelling_ = spelling;
+    newlineCategory_ = newlineCategory;
   }
 
   public String getName()
@@ -72,5 +75,10 @@ public enum CircusToken
   public String spelling()
   {
     return spelling_;
+  }
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return newlineCategory_;
   }
 }

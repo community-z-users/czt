@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.parser.zpatt;
 
+import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zpatt.util.ZPattString;
@@ -52,5 +53,10 @@ public enum ZPattKeyword implements Token {
   public String spelling()
   {
     return spelling_;
-  }  
+  }
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return NewlineCategory.AFTER;
+  }
 }

@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.circus;
 
+import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.circus.util.CircusString;
@@ -57,9 +58,9 @@ public enum CircusKeyword implements Token {
   /************************************************** 
    * Keywords with new-lines accepted "before" them *    
    **************************************************/ 
-  CIRCOD(CircusString.CIRCOD),              /* \\circod         , od  */
-  CIRCEND(CircusString.CIRCEND),            /* \\circend        , end */
-  CIRCFI(CircusString.CIRCFI),              /* \\circend        , fi  */
+  CIRCOD(CircusString.CIRCOD, NewlineCategory.BEFORE),      /* \\circod         , od  */
+  CIRCEND(CircusString.CIRCEND, NewlineCategory.BEFORE),    /* \\circend        , end */
+  CIRCFI(CircusString.CIRCFI, NewlineCategory.BEFORE),      /* \\circend        , fi  */
   
   /**
    * Note: 
@@ -70,42 +71,42 @@ public enum CircusKeyword implements Token {
   /************************************************** 
    * Keywords with new-lines accepted "after" them  *    
    **************************************************/ 
-  CIRCDO(CircusString.CIRCDO),              /* \\circdo         , do          */
-  CIRCVAR(CircusString.CIRCVAR),            /* \\circvar        , var         */
-  CIRCVAL(CircusString.CIRCVAL),            /* \\circval        , val         */
-  CIRCRES(CircusString.CIRCRES),            /* \\circres        , res         */
-  CIRCVRES(CircusString.CIRCVRES),          /* \\circvres       , vres        */
-  CIRCCHAN(CircusString.CIRCCHAN),          /* \\circchannel    , channel     */
-  CIRCCHANFROM(CircusString.CIRCCHANFROM),  /* \\circchannelfrom, channelfrom */
-  CIRCCHANSET(CircusString.CIRCCHANSET),    /* \\circchannelset , channelset  */
-  CIRCNAMESET(CircusString.CIRCNAMESET),    /* \\circnameset    , nameset     */
-  CIRCPROC(CircusString.CIRCPROC),          /* \\circprocess    , process     */
-  CIRCASSERTREF(CircusString.CIRCASSERTREF),/* \\circassertref  , assert      */
-  CIRCBEGIN(CircusString.CIRCBEGIN),        /* \\circbegin      , begin       */
-  CIRCSTATE(CircusString.CIRCSTATE),        /* \\circstate      , state       */
-  REPINTERLEAVE(CircusString.REPINTERLEAVE),/* \\Interleave     , U+2AFC      */   
-  REPPARALLEL(CircusString.REPPARALLEL),    /* \\Parallel       , U+2225      */ 
-  REPEXTCHOICE(CircusString.REPEXTCHOICE),  /* \\Extchoice      , U+25A1      */   
-  REPINTCHOICE(CircusString.REPINTCHOICE),  /* \\Intchoice      , U+2294      */
+  CIRCDO(CircusString.CIRCDO, NewlineCategory.AFTER),       /* \\circdo         , do          */
+  CIRCVAR(CircusString.CIRCVAR, NewlineCategory.AFTER),     /* \\circvar        , var         */
+  CIRCVAL(CircusString.CIRCVAL, NewlineCategory.AFTER),            /* \\circval        , val         */
+  CIRCRES(CircusString.CIRCRES, NewlineCategory.AFTER),            /* \\circres        , res         */
+  CIRCVRES(CircusString.CIRCVRES, NewlineCategory.AFTER),          /* \\circvres       , vres        */
+  CIRCCHAN(CircusString.CIRCCHAN, NewlineCategory.AFTER),          /* \\circchannel    , channel     */
+  CIRCCHANFROM(CircusString.CIRCCHANFROM, NewlineCategory.AFTER),  /* \\circchannelfrom, channelfrom */
+  CIRCCHANSET(CircusString.CIRCCHANSET, NewlineCategory.AFTER),    /* \\circchannelset , channelset  */
+  CIRCNAMESET(CircusString.CIRCNAMESET, NewlineCategory.AFTER),    /* \\circnameset    , nameset     */
+  CIRCPROC(CircusString.CIRCPROC, NewlineCategory.AFTER),          /* \\circprocess    , process     */
+  CIRCASSERTREF(CircusString.CIRCASSERTREF, NewlineCategory.AFTER),/* \\circassertref  , assert      */
+  CIRCBEGIN(CircusString.CIRCBEGIN, NewlineCategory.AFTER),        /* \\circbegin      , begin       */
+  CIRCSTATE(CircusString.CIRCSTATE, NewlineCategory.AFTER),        /* \\circstate      , state       */
+  REPINTERLEAVE(CircusString.REPINTERLEAVE, NewlineCategory.AFTER),/* \\Interleave     , U+2AFC      */   
+  REPPARALLEL(CircusString.REPPARALLEL, NewlineCategory.AFTER),    /* \\Parallel       , U+2225      */ 
+  REPEXTCHOICE(CircusString.REPEXTCHOICE, NewlineCategory.AFTER),  /* \\Extchoice      , U+25A1      */   
+  REPINTCHOICE(CircusString.REPINTCHOICE, NewlineCategory.AFTER),  /* \\Intchoice      , U+2294      */
 
   /************************************************** 
    * Keywords with new-lines accepted both b/a them *    
    **************************************************/ 
-  CIRCDEF(CircusString.CIRCDEF),            /* \\circdef        , U+2259 */            
-  CIRCINDEX(CircusString.CIRCINDEX),        /* \\circindex      , U+2299 */            
-  CIRCTHEN(CircusString.CIRCTHEN),          /* \\circthen       , U+27FC */
-  CIRCELSE(CircusString.CIRCELSE),          /* \\circelse       , U+25AF */
-  PREFIXTHEN(CircusString.PREFIXTHEN),      /* \\then           , U+27F6 */
-  PREFIXCOLON(CircusString.PREFIXCOLON),    /* \\prefixcolon    , U+2236 */
-  CIRCSEQ(CircusString.CIRCSEQ),            /* \\circseq        , U+037E */
-  INTERLEAVE(CircusString.INTERLEAVE),      /* \\interleave     , U+2980 */
-  CIRCHIDING(CircusString.CIRCHIDING),      /* \\circhide       , U+2AF5 */
-  EXTCHOICE(CircusString.EXTCHOICE),        /* \\extchoice      , U+25FB */
-  INTCHOICE(CircusString.INTCHOICE),        /* \\intchoice      , U+2293 */
-  CIRCASSIGN(CircusString.CIRCASSIGN),      /* :=               , :=     */
-  CIRCREFINES(CircusString.CIRCREFINES),    /* \\circrefines    , U+2291 */
-  CIRCSIMULATES(CircusString.CIRCSIMULATES),/* \\circsimulates  , U+227C */
-  CIRCMU(CircusString.CIRCMU),              /* \\circmu         , U+00B5 */
+  CIRCDEF(CircusString.CIRCDEF, NewlineCategory.BOTH),            /* \\circdef        , U+2259 */            
+  CIRCINDEX(CircusString.CIRCINDEX, NewlineCategory.BOTH),        /* \\circindex      , U+2299 */            
+  CIRCTHEN(CircusString.CIRCTHEN, NewlineCategory.BOTH),          /* \\circthen       , U+27FC */
+  CIRCELSE(CircusString.CIRCELSE, NewlineCategory.BOTH),          /* \\circelse       , U+25AF */
+  PREFIXTHEN(CircusString.PREFIXTHEN, NewlineCategory.BOTH),      /* \\then           , U+27F6 */
+  PREFIXCOLON(CircusString.PREFIXCOLON, NewlineCategory.BOTH),    /* \\prefixcolon    , U+2236 */
+  CIRCSEQ(CircusString.CIRCSEQ, NewlineCategory.BOTH),            /* \\circseq        , U+037E */
+  INTERLEAVE(CircusString.INTERLEAVE, NewlineCategory.BOTH),      /* \\interleave     , U+2980 */
+  CIRCHIDING(CircusString.CIRCHIDING, NewlineCategory.BOTH),      /* \\circhide       , U+2AF5 */
+  EXTCHOICE(CircusString.EXTCHOICE, NewlineCategory.BOTH),        /* \\extchoice      , U+25FB */
+  INTCHOICE(CircusString.INTCHOICE, NewlineCategory.BOTH),        /* \\intchoice      , U+2293 */
+  CIRCASSIGN(CircusString.CIRCASSIGN, NewlineCategory.BOTH),      /* :=               , :=     */
+  CIRCREFINES(CircusString.CIRCREFINES, NewlineCategory.BOTH),    /* \\circrefines    , U+2291 */
+  CIRCSIMULATES(CircusString.CIRCSIMULATES, NewlineCategory.BOTH),/* \\circsimulates  , U+227C */
+  CIRCMU(CircusString.CIRCMU, NewlineCategory.AFTER),              /* \\circmu         , U+00B5 */
   
   /**
    * Note: 
@@ -119,15 +120,17 @@ public enum CircusKeyword implements Token {
   /************************************************** 
    * Keywords without new-lines accepted (no-fix)   *    
    **************************************************/   
-  CIRCSKIP(CircusString.CIRCSKIP),
-  CIRCSTOP(CircusString.CIRCSTOP),
-  CIRCCHAOS(CircusString.CIRCCHAOS);
+  CIRCSKIP(CircusString.CIRCSKIP, NewlineCategory.NEITHER),
+  CIRCSTOP(CircusString.CIRCSTOP, NewlineCategory.NEITHER),
+  CIRCCHAOS(CircusString.CIRCCHAOS, NewlineCategory.NEITHER);
 
   private String spelling_;
+  private NewlineCategory newlineCategory_;
 
-  CircusKeyword(String spelling)
+  CircusKeyword(String spelling, NewlineCategory newlineCategory)
   {
     spelling_ = spelling;
+    newlineCategory_ = newlineCategory;
   }
 
   public String getName()
@@ -143,5 +146,10 @@ public enum CircusKeyword implements Token {
   public String spelling()
   {
     return spelling_;
-  }    
+  }
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return newlineCategory_;
+  }
 }

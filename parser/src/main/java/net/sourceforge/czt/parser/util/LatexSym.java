@@ -110,4 +110,9 @@ public enum LatexSym
   {
     return null;
   }
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return null;
+  }
 }

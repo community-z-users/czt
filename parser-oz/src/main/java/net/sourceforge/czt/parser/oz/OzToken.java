@@ -21,23 +21,26 @@ package net.sourceforge.czt.parser.oz;
 
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
 public enum OzToken
   implements Token
 {
-  CLASS(ZString.SCH + ZString.SPACE + "class"),
-  GENCLASS(ZString.SCH + ZString.SPACE + "genclass"),
-  STATE(ZString.SCH + ZString.ZEDCHAR),
-  INIT(ZString.SCH + ZString.SPACE + OzString.INITWORD),
-  OPSCH(ZString.SCH +  "op"),
-  SDEF(ZString.SPACE + OzString.SDEF);
+  CLASS(ZString.SCH + ZString.SPACE + "class", NewlineCategory.BOTH),
+  GENCLASS(ZString.SCH + ZString.SPACE + "genclass", NewlineCategory.BOTH),
+  STATE(ZString.SCH + ZString.ZEDCHAR, NewlineCategory.BOTH),
+  INIT(ZString.SCH + ZString.SPACE + OzString.INITWORD, NewlineCategory.BOTH),
+  OPSCH(ZString.SCH +  "op", NewlineCategory.BOTH),
+  SDEF(ZString.SPACE + OzString.SDEF, NewlineCategory.BOTH);
 
   private String spelling_;
+  private NewlineCategory newlineCategory_;
 
-  OzToken(String spelling)
+  OzToken(String spelling, NewlineCategory newlineCategory)
   {
     spelling_ = spelling;
+    newlineCategory_ = newlineCategory;
   }
 
   public String getName()
@@ -53,5 +56,10 @@ public enum OzToken
   public String spelling()
   {
     return spelling_;
+  }
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return newlineCategory_;
   }
 }

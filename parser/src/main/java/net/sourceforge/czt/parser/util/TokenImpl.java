@@ -46,4 +46,9 @@ public class TokenImpl
     Object o = getSpelling();
     return o != null ? o.toString() : null;
   }
+
+  public NewlineCategory getNewlineCategory()
+  {
+    return token_.getNewlineCategory();
+  }
 }

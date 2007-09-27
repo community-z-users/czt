@@ -41,4 +41,5 @@ public interface Token
   String getName();
   Object getSpelling();
   String spelling();
+  NewlineCategory getNewlineCategory();
 }
