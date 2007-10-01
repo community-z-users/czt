@@ -16,7 +16,7 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
   private static final long serialVersionUID = 1528786500050772844L;
 
   protected Tester m_tester;
-  public Tester GetTester()
+  public Tester getTester()
   {
     return m_tester;
   }

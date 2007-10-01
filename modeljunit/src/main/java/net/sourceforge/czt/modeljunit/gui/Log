@@ -74,7 +74,7 @@ Modified Parameter class, PanelTestDesign class and OptionPanelRandomWalk to ada
 --- 27th August 08 ----------------
 Keep modifying those classes yesterday. 
 Cannot find a way to print graph to dot file (printGraphDot)
-
+[bug 827-1]
 Exception in thread "AWT-EventQueue-0" net.sourceforge.czt.jdsl.core.api.InvalidAccessorException: vertex is null
 	at net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph._checkVertex(IncidenceListGraph.java:594)
 	at net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph.degree(IncidenceListGraph.java:236)
@@ -92,6 +92,7 @@ Exception in thread "AWT-EventQueue-0" net.sourceforge.czt.jdsl.core.api.Invalid
 Added Greedy algorithm panel
 
 --- 29th August 08 ----------------
+[solution 827-1]Solved
 Debug and testing
 
 --- 18th September 07 ----------------
@@ -129,3 +130,21 @@ can share the test execution.
 Oh~~~, the new class name is TestExeModel it contains 2 functions RunTestAuto
 and RunTestManual. RunTestAuto is for run button in ModelJUnitGUI and RunTestManual
 is for panel ExecuteActions, user can run test by select actions one by one.
+
+--- 28th September 07 ----------------
+Redesign the PanelExecuteActions class's GUI, instead of use two panel, use GridBag
+layout. Implemented the functionality that user click action list's(left JList) action, 
+model will run corresponding action and display the result in action history list
+(right JList).
+
+--- 29th September 07 ----------------
+Added function that if the action does not satisfy the guard's condition the function 
+name in action list will become gray.
+Found two bugs:
+[bug 929-1] If user reload model, the action list in PanelExecuteAction does not refresh
+[reason 929-1] Unknown
+[bug 929-2] If user select algorithm before load model, he/she will get exception
+[reason 929-2] I initialized tester when user choose algorithm, if model is null
+				exception is triggered.
+--- 31th September 07 ----------------
+Implement the 

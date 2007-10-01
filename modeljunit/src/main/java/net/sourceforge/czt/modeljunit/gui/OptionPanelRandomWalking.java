@@ -29,15 +29,13 @@ import net.sourceforge.czt.modeljunit.examples.SimpleSet;
 
 public class OptionPanelRandomWalking extends OptionPanelAdapter
     implements
-      ActionListener,
       IAlgorithmParameter
 {
 
   /**
-   *
+   * Serial version UID
    */
   private static final long serialVersionUID = -7675450997014889733L;
-
 
   private StringBuffer m_bufRandomTest;
 
@@ -50,15 +48,7 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
     add(m_checkRandomSeed);
     add(Box.createHorizontalStrut(6));
     add(Box.createHorizontalGlue());
-
   }
-
-  public void actionPerformed(ActionEvent arg0)
-  {
-    // TODO Auto-generated method stub
-
-  }
-
 
   @Override
   public String generateCode()
@@ -91,13 +81,11 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
     Constructor<?> con = testerClass.getConstructor
       (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
     m_tester =
-      (RandomTester)con.newInstance(new Object[]{Parameter.getModelObject()});
+      (RandomTester)con.newInstance(new Object[]{TestExeModel.getModelObject()});
     }catch(Exception exp)
     {
       exp.printStackTrace();
     }
-
-
   }
 
   @Override

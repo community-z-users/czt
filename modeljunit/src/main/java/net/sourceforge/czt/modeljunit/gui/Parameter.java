@@ -27,6 +27,8 @@ import net.sourceforge.czt.modeljunit.FsmModel;
 public class Parameter
 {
   public static final String DEFAULT_DIRECTORY = System.getProperty("user.dir");
+  public static final String[] ALGORITHM_NAME = 
+  {"Algorithm selection","Random","Greedy"};
   public static final String DEFAULT_PACKAGE_NAME = "Default";
   private static boolean m_bGenerateGraph;
   public static boolean getGenerateGraph()
@@ -105,6 +107,7 @@ public class Parameter
 
   /**
    * Algorithm name
+   * When user select new algorithm from GUI, this value will be changed. 
    * */
   private static String m_strAlgorithmName;
 
@@ -119,7 +122,7 @@ public class Parameter
   }
 
   /**
-   * Test case name
+   * Test case class name
    * */
   private static String m_strTestCaseVariableName;
 
@@ -219,6 +222,31 @@ public class Parameter
     m_nFileChooserOpenMode = mode;
   }
 
+  /**
+   * The function will test whether a model was loaded 
+   * and whether a algorithm was selected, if both been done, return true
+   * otherwise return false 
+   * @return if user can use the model to test return true otherwise return false
+   */
+  public static boolean isTestRunnable(boolean bShowErrMsg)
+  {
+    if (m_strClassName == null 
+        || !TestExeModel.isModelLoaded()
+        || m_strClassName.length() == 0)
+    {
+      if(bShowErrMsg)
+        ErrorMessage.DisplayErrorMessage("NO MODEL", "No model loaded!");
+      return false;
+    }
+    if(m_strAlgorithmName == null 
+         || m_strAlgorithmName.equalsIgnoreCase(ALGORITHM_NAME[0]))
+    {
+      if(bShowErrMsg)
+        ErrorMessage.DisplayErrorMessage("NO ALOGRITHM", "No testing algorithm selected!");
+      return false;
+    }
+    return true;
+  }
   //-------------------- Functions about setting.txt ---------------------
 
   private static File recreateSettingFile()
@@ -252,7 +280,6 @@ public class Parameter
     catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 
   public static void readSettingFile()
@@ -314,42 +341,6 @@ public class Parameter
       out.close();
     }
     catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-  // -----------------------Run the test------------------------
-  // private static Class<FsmModel> m_modelClass;
-  private static Class<?> m_modelClass;
-  private static FsmModel m_modelObject;
-  public static Class<?> getModelClass(){ return m_modelClass; }
-  public static FsmModel getModelObject(){ return m_modelObject;}
-
-  /**
-   * If user loaded an invalid model class, the model class and model object
-   * have to be reset to null.
-   * */
-  public static void resetModelToNull()
-  {
-    m_modelClass = null;
-    m_modelObject = null;
-  }
-  public static void loadModelClassFromFile()
-  {
-    ClassFileLoader classLoader = ClassFileLoader.createLoader();
-
-    String name[] = Parameter.getClassName().split("\\.");
-    String packagename = m_listPackageName.get(m_nCurPackage);
-    if(packagename.equalsIgnoreCase(DEFAULT_PACKAGE_NAME))
-      m_modelClass = classLoader.loadClass(name[0]);
-    else
-      m_modelClass = classLoader.loadClass(packagename+"."+name[0]);
-    try {
-      m_modelObject = (net.sourceforge.czt.modeljunit.FsmModel)m_modelClass.newInstance();
-    }
-    catch (InstantiationException e) {
-      e.printStackTrace();
-    }
-    catch (IllegalAccessException e) {
       e.printStackTrace();
     }
   }

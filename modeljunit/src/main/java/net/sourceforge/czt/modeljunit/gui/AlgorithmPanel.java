@@ -64,9 +64,9 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     m_panelOption.initialize();
   }
 
-  public Tester GetTester()
+  public Tester getTester()
   {
-    return m_panelOption.GetTester();
+    return m_panelOption.getTester();
   }
   
   public void loadParameters(BufferedReader bufReader)

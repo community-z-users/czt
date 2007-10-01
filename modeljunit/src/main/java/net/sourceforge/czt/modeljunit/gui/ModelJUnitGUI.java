@@ -202,15 +202,6 @@ setJMenuBar(mb);
     m_frame.setJMenuBar(m_menuBar);
   }
 
-  protected boolean isParametersSet()
-  {
-    if (Parameter.getClassName() == null
-        || Parameter.getModelClass() == null
-        || Parameter.getModelObject() == null
-        || Parameter.getClassName().length() == 0)
-      return false;
-    return true;
-  }
   // TEMP directory: System.getProperty("java.io.tmpdir")
   // LIB PATH directory:  System.getProperty("java.library.path")
   // CLASSPATH directory: System.getProperty("java.class.path")
@@ -227,7 +218,7 @@ setJMenuBar(mb);
     //-------------- Run button event handler -------------
     if (e.getSource() == m_butRun) {
       // No model imported
-      if(!isParametersSet())
+      if(!Parameter.isTestRunnable(false))
       {
         ErrorMessage
             .DisplayErrorMessage("NO TEST MODEL HAS BEEN SELECTED",
@@ -300,9 +291,11 @@ setJMenuBar(mb);
       }
     }
     // ------------- Export java file --------------
-    if (e.getSource() == m_miFile) {
+    if (e.getSource() == m_miFile) 
+    {
       String code = m_panelTD.generateCode();
-      if (code.length() > 0) {
+      if (code.length() > 0) 
+      {
         String extension = "java";
         FileChooserFilter javaFileFilter = new FileChooserFilter(extension,
             "Java Files");
@@ -349,7 +342,7 @@ setJMenuBar(mb);
         }
       }
     }
-    // ----------------- Exit applicatin ---------------------
+    // ----------------- Exit application ---------------------
     if (e.getSource() == m_miExit)
     {
       Parameter.wirteSettingFile();
@@ -391,25 +384,49 @@ setJMenuBar(mb);
 
   private void updateGeneratedCode()
   {
-    m_panelCV.updateCode(m_panelTD.generateCode());
+    String code = m_panelTD.generateCode();
+    m_panelCV.updateCode(code);
+    m_panelEA.setGeneratedCode(code);
   }
 
   private void runClass()
   {
-    m_panelRV.updateRunTimeInformation(TestExeModel.RunTestAuto());
+    m_panelRV.updateRunTimeInformation(TestExeModel.runTestAuto());
   }
-
-  private void compileFile()
-  {}
 
   class TabChangeListener implements ChangeListener
   {
     public void stateChanged(ChangeEvent e)
     {
-      if(!isParametersSet())
+      
+      JTabbedPane sourcePane = (JTabbedPane)e.getSource();
+      
+      int idx = sourcePane.getSelectedIndex();
+      
+      // If user loaded a new model initialize it.
+      if(m_panelTD.isNewModelLoaded())
+      {
+        m_panelTD.initializeTester();
+        // if user already selected an algorithm,
+        // reset new model before do any action.
+        if(Parameter.getAlgorithmName()!= null &&
+            !Parameter.getAlgorithmName().equals(Parameter.ALGORITHM_NAME[0]))
+          m_panelEA.doResetAction();
+        // Clean the action history
+        m_panelEA.resetActionHistoryList();
+        // Fill actions in action list
+        m_panelEA.reloadActionModel();
+      }
+      // Regenerate code
+      if(!Parameter.isTestRunnable(false))
         return;
       updateGeneratedCode();
-      m_panelEA.ResetSubComponents();
+      // If user click the ExecuteAction pane
+      if(3 == idx)
+      {
+        m_panelEA.resetSubComponents();
+        m_panelEA.autoModelInitialization();
+      }
     }
   }
 
@@ -427,7 +444,6 @@ setJMenuBar(mb);
   public void componentResized(ComponentEvent e)
   {
     m_panelRV.resizeScrollPanes(m_frame.getContentPane().getSize());
-
   }
 
   public void componentShown(ComponentEvent e)

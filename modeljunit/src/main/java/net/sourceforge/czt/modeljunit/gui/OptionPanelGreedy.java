@@ -31,7 +31,6 @@ import net.sourceforge.czt.modeljunit.examples.SimpleSet;
 
 public class OptionPanelGreedy extends OptionPanelAdapter
     implements
-      ActionListener,
       IAlgorithmParameter
 {
 
@@ -53,13 +52,6 @@ public class OptionPanelGreedy extends OptionPanelAdapter
 
   }
 
-  public void actionPerformed(ActionEvent arg0)
-  {
-    // TODO Auto-generated method stub
-
-  }
-
-
   @Override
   public String generateCode()
   {
@@ -79,6 +71,9 @@ public class OptionPanelGreedy extends OptionPanelAdapter
     return m_bufCode.toString();
   }
 
+  /**
+   * Initialize tester and model
+   * */
   @Override
   public void initialize()
   {
@@ -91,13 +86,11 @@ public class OptionPanelGreedy extends OptionPanelAdapter
     Constructor<?> con = testerClass.getConstructor
       (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
     m_tester =
-      (GreedyTester)con.newInstance(new Object[]{Parameter.getModelObject()});
+      (GreedyTester)con.newInstance(new Object[]{TestExeModel.getModelObject()});
     }catch(Exception exp)
     {
       exp.printStackTrace();
     }
-    
-
   }
 
   @Override
@@ -136,8 +129,7 @@ public class OptionPanelGreedy extends OptionPanelAdapter
   @Override
   public void runAlgorithm()
   {
-    
-    // Set reset probility
+    // Set reset probability
     // caseObj.setResetProbability(Parameter.getResetProbility());
     if(m_checkRandomSeed.isSelected())
     {

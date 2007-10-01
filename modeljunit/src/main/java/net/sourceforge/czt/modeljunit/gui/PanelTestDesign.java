@@ -62,7 +62,10 @@ public class PanelTestDesign extends JPanel
   private JLabel m_labPackageName;
 
   private JButton m_butPackageName = new JButton("Package");
-
+  // If user successfully load a new model to test, this variable will be set to true
+  // Once the tester and model are initialized variable should be set to false
+  private boolean m_bNewModelLoaded = false;
+  
   // Algorithm panel
   private final static int H_SPACE = 6;
 
@@ -103,6 +106,7 @@ public class PanelTestDesign extends JPanel
   // Base panel
   private static PanelTestDesign m_panel = null;
 
+  // Singleton creator 
   public static PanelTestDesign createTestDesignPanel()
   {
     if (m_panel == null)
@@ -110,6 +114,7 @@ public class PanelTestDesign extends JPanel
     return m_panel;
   }
 
+  // The constructor
   private PanelTestDesign()
   {
     // Set test case variable name the name will affect code generation
@@ -186,13 +191,13 @@ public class PanelTestDesign extends JPanel
     m_panelAlgorithmBase = new JPanel();
 
     m_panelAlgorithm = new AlgorithmPanel[3];
-    m_panelAlgorithm[0] = new AlgorithmPanel("Algorithm selection",
+    m_panelAlgorithm[0] = new AlgorithmPanel(Parameter.ALGORITHM_NAME[0],
         "Select an algorithm from combobox.", "default.gif");
     m_panelAlgorithm[0].setOptionPanel(new OptionPanelDefault());
-    m_panelAlgorithm[1] = new AlgorithmPanel("Random",
+    m_panelAlgorithm[1] = new AlgorithmPanel(Parameter.ALGORITHM_NAME[1],
         "Random algorithm to traverse the model", "random.gif");
     m_panelAlgorithm[1].setOptionPanel(new OptionPanelRandomWalking());
-    m_panelAlgorithm[2] = new AlgorithmPanel("Greedy",
+    m_panelAlgorithm[2] = new AlgorithmPanel(Parameter.ALGORITHM_NAME[2],
         "Greedy algorithm to traverse the model", "greedy.gif");
     m_panelAlgorithm[2].setOptionPanel(new OptionPanelGreedy());
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[0].getAlgorithmName());
@@ -301,6 +306,23 @@ public class PanelTestDesign extends JPanel
     this.add(Box.createVerticalGlue());
   }
 
+  /**
+   * If user successfully load a new model to test, return true,
+   * Otherwise return false.
+   **/
+  public boolean isNewModelLoaded()
+  {
+    return m_bNewModelLoaded;
+  }
+  /**
+   * If user successfully load a new model to test, set state to true,
+   * Otherwise set to false.
+   **/
+  public void setModelLoadState(boolean state)
+  {
+    m_bNewModelLoaded = state;
+  }
+  
   public void setModelRelatedButton(JButton button)
   {
     m_butExternalExecute = button;
@@ -329,6 +351,28 @@ public class PanelTestDesign extends JPanel
     m_labPackageName.setToolTipText(name);
   }
 
+  /**
+   * After user successfully load a new model this method 
+   * will be involved to initialize model and tester to run test
+   * and set the new model loaded flag to false.
+   * */
+  public void initializeTester()
+  {
+    // Generate the Tester object
+    m_panelAlgorithm[m_nCurAlgo].initialize();
+    // Set current algorithm for prepare execution
+    TestExeModel.setTester(m_panelAlgorithm[m_nCurAlgo].getTester());
+    TestExeModel.setAlgorithm(m_panelAlgorithm[m_nCurAlgo]);
+    m_bNewModelLoaded = false;
+  }
+  
+  /**
+   * Including:
+   *    Algorithm combobox handler
+   *    Package selection button handler
+   *    Check button for coverage matrix
+   *    Model loading button handler
+   * */
   public void actionPerformed(ActionEvent e)
   {
     // ------------ Algorithm combo-box handler --------------
@@ -339,14 +383,9 @@ public class PanelTestDesign extends JPanel
       if (m_panelAlgorithm[m_nCurAlgo].getOptionPanel() == null)
         System.out.println("Error: Algorithm panel is null");
 
-
       // Update the setting
       Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo].getAlgorithmName());
-      // Generate the Tester object
-      m_panelAlgorithm[m_nCurAlgo].initialize();
-      // Set current algorithm for prepare execution
-      TestExeModel.SetTester(m_panelAlgorithm[m_nCurAlgo].GetTester());
-      TestExeModel.SetAlgorithm(m_panelAlgorithm[m_nCurAlgo]);
+      
     }
  // ------------ Package selection button handler --------------
     if(e.getSource() == m_butPackageName)
@@ -363,6 +402,7 @@ public class PanelTestDesign extends JPanel
           Parameter.setGenerateGraph(m_checkCoverage[3].isSelected());
       }
     }
+    // ------- Model loading --------
     if (e.getSource() == m_butOpenModel)
     {
       openModelFromFile();
@@ -392,7 +432,7 @@ public class PanelTestDesign extends JPanel
         chooser.setCurrentDirectory(new File(Parameter.DEFAULT_DIRECTORY));
 
       chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-      chooser.setDialogTitle("Opne model file");
+      chooser.setDialogTitle("Open model file");
       chooser.addChoosableFileFilter(javaFileFilter);
       int option = chooser.showOpenDialog(this.m_panelModel);
 
@@ -410,28 +450,30 @@ public class PanelTestDesign extends JPanel
         // Load model from file and initialize the model object
         if(fileName.length ==2 && fileName[1].equalsIgnoreCase("class"))
         {
-          Parameter.loadModelClassFromFile();
-          Class<?> testcase = Parameter.getModelClass();
+          TestExeModel.loadModelClassFromFile();
+          Class<?> testcase = TestExeModel.getModelClass();
           int actionNumber = 0;
-          TestExeModel.ResetMethodList();
           for(Method method : testcase.getMethods())
           {
             if(method.isAnnotationPresent(Action.class))
             {
               actionNumber++;
-              TestExeModel.AddMethod(method);
+              TestExeModel.addMethod(method);
             }
           }
-
+          // Failed to load model
           if(actionNumber==0)
           {
             ErrorMessage.DisplayErrorMessage(
                 "NO ACTION IN THE CLASS",
                 "Invalid model class, it doesnt includes any actions to test!");
-            Parameter.resetModelToNull();
+            TestExeModel.resetModelToNull();
+            m_bNewModelLoaded = false;
           }
+          // Successfully load a new model
           else
           {
+            m_bNewModelLoaded = true;
             m_labLoadingInfo.setText(actionNumber + " actions were loaded.");
           }
           // To get how many actions in the model file
