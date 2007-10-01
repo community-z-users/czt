@@ -45,7 +45,7 @@ public class LargeSet implements FsmModel
    */
   public LargeSet()
   {
-    this(2);
+    this(6);
   }
 
   /** Construct a model of a set with N elements.
@@ -90,12 +90,12 @@ public class LargeSet implements FsmModel
 
   // guards for the following add actions
   public boolean add0Guard() {return elem.length > 0;}
-  public boolean add1Guard() {return elem.length > 1;}
-  public boolean add2Guard() {return elem.length > 2;}
-  public boolean add3Guard() {return elem.length > 3;}
-  public boolean add4Guard() {return elem.length > 4;}
-  public boolean add5Guard() {return elem.length > 5;}
-  public boolean add6Guard() {return elem.length > 6;}
+  public boolean add1Guard() {return elem.length > 1 && elem[0];}
+  public boolean add2Guard() {return elem.length > 2 && elem[0];}
+  public boolean add3Guard() {return elem.length > 3 && elem[1];}
+  public boolean add4Guard() {return elem.length > 4 && elem[1];}
+  public boolean add5Guard() {return elem.length > 5 && elem[2];}
+  public boolean add6Guard() {return elem.length > 6 && elem[2];}
   public boolean add7Guard() {return elem.length > 7;}
   public boolean add8Guard() {return elem.length > 8;}
   public boolean add9Guard() {return elem.length > 9;}
