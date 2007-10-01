@@ -24,6 +24,10 @@ import javax.swing.event.ListSelectionListener;
  * 30th Aug 2007
  * The dialog provides an interface to select package from local 
  * hard drive.
+ * References:
+ *      http://forum.java.sun.com/thread.jspa?threadID=714461&tstart=240
+ *      http://www.javaworld.com/javaworld/jw-03-2000/jw-03-classload.html
+ *      http://java.sun.com/products/jndi/tutorial/beyond/misc/classloader.html
  * */
 public class DialogPackageSelection extends JDialog
   implements ListSelectionListener, ActionListener
@@ -144,7 +148,9 @@ public class DialogPackageSelection extends JDialog
       m_listPackage.setSelectedIndex(0);
     }
     if(e.getSource() == m_butEdit)
-    {}
-
+    {
+      String path = System.getProperty("java.class.path");
+      System.out.println(path);
+    }
   }
 }
