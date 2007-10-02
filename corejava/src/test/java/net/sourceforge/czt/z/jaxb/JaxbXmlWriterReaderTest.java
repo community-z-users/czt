@@ -70,6 +70,7 @@ public class JaxbXmlWriterReaderTest
     List<URL> result = new ArrayList();
     result.add(Resources.getZExample("Sched.xml"));
     result.add(Resources.getZExample("birthdaybook.xml"));
+    result.add(Resources.getZExample("predicate.xml"));
     return result;
   }
 }
