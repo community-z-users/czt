@@ -118,9 +118,8 @@ public class KeywordScanner
   }
   
   private static void addKeywords(Map &lt;String, Integer&gt; result, Token[] keywords) {
-    SymMap symMap = SymMap.getInstance();
     for (Token keyword : keywords) {
-      final Integer symbol = symMap.get(keyword.toString());
+      final Integer symbol = SymMap.getMap().get(keyword.toString());
       if (symbol == null) {
         final String message = "Cannot map keyword " + keyword +
           " to a parser token.";

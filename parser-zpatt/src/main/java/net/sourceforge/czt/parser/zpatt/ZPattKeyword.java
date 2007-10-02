@@ -30,12 +30,12 @@ import net.sourceforge.czt.zpatt.util.ZPattString;
  */
 public enum ZPattKeyword implements Token {
   
-  VDASH(ZString.VDASH),
-  PROVISO(ZPattString.PROVISO);
+  VDASH(ZString.VDASH, NewlineCategory.AFTER);
   
   private String spelling_;
+  private NewlineCategory newlineCategory_;
 
-  ZPattKeyword(String spelling)
+  ZPattKeyword(String spelling, NewlineCategory newlineCategory)
   {
     spelling_ = spelling;
   }
@@ -57,6 +57,6 @@ public enum ZPattKeyword implements Token {
 
   public NewlineCategory getNewlineCategory()
   {
-    return NewlineCategory.AFTER;
+    return newlineCategory_;
   }
 }

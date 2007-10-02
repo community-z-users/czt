@@ -45,7 +45,7 @@ public enum ZToken
   LBIND(ZString.LBIND, NewlineCategory.AFTER),
   RBIND(ZString.RBIND, NewlineCategory.BEFORE),
   LDATA(ZString.LDATA, NewlineCategory.BOTH),
-  RDATA(ZString.RDATA, NewlineCategory.BOTH),
+  RDATA(ZString.RDATA, NewlineCategory.BEFORE), // nl cat BOTH in Standard!
   ZED(ZString.ZED, NewlineCategory.AFTER),
   AX(ZString.AX, NewlineCategory.AFTER),
   SCH(ZString.SCH, NewlineCategory.AFTER),

@@ -28,17 +28,17 @@ public enum ZKeyword
 {
   ELSE("else", NewlineCategory.BOTH),
   FALSE("false", NewlineCategory.NEITHER),
-  FUNCTION("function", NewlineCategory.BOTH),
-  GENERIC("generic", NewlineCategory.BOTH),
+  FUNCTION("function", NewlineCategory.AFTER), // nl cat BOTH in the Standard!
+  GENERIC("generic", NewlineCategory.AFTER), // nl cat BOTH in the Standard!
   IF("if", NewlineCategory.AFTER),
   LEFTASSOC("leftassoc", NewlineCategory.BOTH),
   LET("let", NewlineCategory.AFTER),
   POWER(ZString.POWER, NewlineCategory.AFTER),
   PARENTS("parents", NewlineCategory.BOTH),
   ZPRE("pre", NewlineCategory.AFTER),
-  RELATION("relation", NewlineCategory.BOTH),
+  RELATION("relation", NewlineCategory.AFTER), // nl cat BOTH in the Standard!
   RIGHTASSOC("rightassoc", NewlineCategory.BOTH),
-  SECTION("section", NewlineCategory.BOTH),
+  SECTION("section", NewlineCategory.AFTER), // nl cat BOTH in the Standard!
   THEN("then", NewlineCategory.BOTH),
   TRUE("true", NewlineCategory.NEITHER),
   COLON(ZString.COLON, NewlineCategory.BOTH),

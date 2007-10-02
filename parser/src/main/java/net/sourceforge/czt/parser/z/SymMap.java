@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,15 +21,16 @@ package net.sourceforge.czt.parser.z;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class SymMap
 {
   private static Map<String,Integer> MAP = createMap(Sym.class);
-  private static SymMap SYM_MAP = new SymMap();
 
-  protected static Map<String,Integer> createMap(Class symClass)
+  public static Map<String,Integer> createMap(Class symClass)
   {
     try {
       Map<String,Integer> result = new HashMap<String,Integer>();
@@ -40,24 +41,19 @@ public class SymMap
           result.put(field.getName(), (Integer) field.get(null));
         }
       }
-      return result;
+      return Collections.unmodifiableMap(result);
     }
     catch (IllegalAccessException e) {
       throw new RuntimeException("Cannot initialise parser symbol map", e);
     }
   }
 
-  public static SymMap getInstance()
-  {
-    return SYM_MAP;
-  }
-
-  protected SymMap()
+  private SymMap()
   {
   }
 
-  public Integer get(String symbolName)
+  public static Map<String,Integer> getMap()
   {
-    return MAP.get(symbolName);
+    return MAP;
   }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -24,24 +24,17 @@ package <package/>;
 import java.util.Map;
 
 public class SymMap
-  extends net.sourceforge.czt.parser.z.SymMap
 {
   private static Map&lt;String,Integer&gt; MAP =
     net.sourceforge.czt.parser.z.SymMap.createMap(Sym.class);
-  private static SymMap SYM_MAP = new SymMap();
 
-  public static SymMap getInstance()
-  {
-    return SYM_MAP;
-  }
-
-  protected SymMap()
+  private SymMap()
   {
   }
 
-  public Integer get(String symbolName)
+  public static Map&lt;String,Integer&gt; getMap()
   {
-    return MAP.get(symbolName);
+    return MAP;
   }
 }
 </scanner>
