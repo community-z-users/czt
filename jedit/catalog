@@ -2,13 +2,15 @@
 <!DOCTYPE MODES SYSTEM "catalog.dtd">
 
 <MODES>
-  <MODE NAME="z" FILE="zed.xml" FILE_NAME_GLOB="*.{utf,z}{,8,16}"/>
-  <MODE NAME="oz" FILE="zed.xml" FILE_NAME_GLOB="*.oz{,8,16}"/>
-  <MODE NAME="zlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{tex,czt}"/>
-  <MODE NAME="ozlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{ozed}"/>
+  <MODE NAME="z" FILE="zed.xml" FILE_NAME_GLOB="*.{zed,utf}{8,16}"/>
+  <MODE NAME="zlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{tex,zed}"/>
 
-  <MODE NAME="zpatt" FILE="zed.xml" FILE_NAME_GLOB="*.zpatt{,8,16}"/>
-  <MODE NAME="zpattlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{pzed}"/>
-  <MODE NAME="circus" FILE="zed.xml" FILE_NAME_GLOB="*.circus{,8,16}"/>
+  <MODE NAME="oz" FILE="zed.xml" FILE_NAME_GLOB="*.oz{8,16}"/>
+  <MODE NAME="ozlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{oz}"/>
+
+  <MODE NAME="zpatt" FILE="zed.xml" FILE_NAME_GLOB="*.zedpatt{8,16}"/>
+  <MODE NAME="zpattlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{zedpatt}"/>
+
+  <MODE NAME="circus" FILE="zed.xml" FILE_NAME_GLOB="*.circus{8,16}"/>
   <MODE NAME="circuslatex" FILE="latex.xml" FILE_NAME_GLOB="*.{circus}"/>
 </MODES>
