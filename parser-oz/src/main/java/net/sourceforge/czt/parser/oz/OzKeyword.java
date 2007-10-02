@@ -30,7 +30,7 @@ import net.sourceforge.czt.oz.util.OzString;
  * @author Leo Freitas
  */
 public enum OzKeyword implements Token {
-  DELTA(ZString.DELTA, NewlineCategory.AFTER),
+  DELTA(ZString.DELTA, null),
   GCH(OzString.GCH, NewlineCategory.BOTH),
   PARALLEL(OzString.PARALLEL, NewlineCategory.BOTH),
   ASSOPARALLEL(OzString.ASSOPARALLEL, NewlineCategory.BOTH),
@@ -40,10 +40,16 @@ public enum OzKeyword implements Token {
   SDEF(OzString.SDEF, NewlineCategory.BOTH),
   POLY(OzString.POLY, NewlineCategory.AFTER),
   CONTAINMENT(OzString.CONTAINMENT, NewlineCategory.BEFORE),
-  INITWORD(OzString.INITWORD, NewlineCategory.BOTH);
+  INITWORD(OzString.INITWORD, NewlineCategory.BOTH),
+  DSQC(NewlineCategory.AFTER);
 
-  private String spelling_;
+  private String spelling_ = null;
   private NewlineCategory newlineCategory_;
+
+  OzKeyword(NewlineCategory newlineCategory)
+  {
+    newlineCategory_ = newlineCategory;
+  }
 
   OzKeyword(String spelling, NewlineCategory newlineCategory)
   {

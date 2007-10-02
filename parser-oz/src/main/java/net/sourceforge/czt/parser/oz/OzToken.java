@@ -32,10 +32,18 @@ public enum OzToken
   STATE(ZString.SCH + ZString.ZEDCHAR, NewlineCategory.BOTH),
   INIT(ZString.SCH + ZString.SPACE + OzString.INITWORD, NewlineCategory.BOTH),
   OPSCH(ZString.SCH +  "op", NewlineCategory.BOTH),
-  SDEF(ZString.SPACE + OzString.SDEF, NewlineCategory.BOTH);
+  SDEF(ZString.SPACE + OzString.SDEF, NewlineCategory.BOTH),
+  OPNAME(NewlineCategory.AFTER),
+  DEFNAME(NewlineCategory.NEITHER),
+  SCOPE(NewlineCategory.BOTH);  
 
-  private String spelling_;
+  private String spelling_ = null;
   private NewlineCategory newlineCategory_;
+
+  OzToken(NewlineCategory newlineCategory)
+  {
+    newlineCategory_ = newlineCategory;
+  }
 
   OzToken(String spelling, NewlineCategory newlineCategory)
   {
