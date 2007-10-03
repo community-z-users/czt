@@ -51,4 +51,9 @@ public class TokenImpl
   {
     return token_.getNewlineCategory();
   }
+
+  public String toString()
+  {
+    return "Token[" + getName() + ", " + spelling() + "]";
+  }
 }
