@@ -30,6 +30,7 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.z.ZOpToken;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
@@ -98,12 +99,19 @@ public class ZmlScanner
   public static int getIntValue(String tokenName,
                                 Map<String, Object> fieldMap)
   {
-    Object object = fieldMap.get(tokenName);
+    String name = tokenName;
+    try {
+      Enum.valueOf(ZOpToken.class, tokenName);
+      name = "DECORWORD";
+    }
+    catch (IllegalArgumentException e) {
+    }
+    Object object = fieldMap.get(name);
     if (object instanceof Integer) {
       Integer result = (Integer) object;
       return result;
     }
-    throw new CztException(tokenName.toString() + " not found.");
+    throw new CztException(tokenName + " not found.");
   }
 
   /**
