@@ -23,6 +23,12 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
+/**
+ * In the ISO standard, "function", "generic", "relation", and
+ * "section" are in the "BOTH" category, but a new line before one of
+ * these is possible if multiple paragraphs are permitted inside in
+ * a zed paragraph, so have been moved into the "AFTER" category.
+ */
 public enum ZKeyword
   implements Token
 {
