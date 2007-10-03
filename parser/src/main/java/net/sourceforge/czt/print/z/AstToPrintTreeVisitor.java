@@ -439,7 +439,7 @@ public class AstToPrintTreeVisitor
       }
       List list = new LinkedList();
       list.add(firstExpr);
-      list.add("=");
+      list.add(ZKeyword.EQUALS);
       list.add(setExpr.getZExprList().get(0));
       PrintPredicate result =
         printFactory_.createPrintPredicate(list, precedence, null);
