@@ -117,16 +117,6 @@ public class ZPrintVisitor
     print(new TokenImpl(tokenName, spelling));
   }
 
-  protected void print(ZKeyword keyword)
-  {
-    if (ZKeyword.SECTION.equals(keyword) ||
-        ZKeyword.PARENTS.equals(keyword)) {
-      print((Token) keyword);
-      return;
-    }
-    printDecorword(keyword.spelling());
-  }
-
   protected void printDecorword(Decorword dw)
   {
     print(ZToken.DECORWORD, dw);
