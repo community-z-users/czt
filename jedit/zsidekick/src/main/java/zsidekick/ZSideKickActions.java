@@ -536,7 +536,7 @@ public class ZSideKickActions
     }
   }
 
-  public static void prettyPrint(View view)
+  public static void prettyPrint(View view, int width)
   {
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
@@ -555,7 +555,9 @@ public class ZSideKickActions
           StringWriter writer = new StringWriter();
           TokenSequence tseq =
             PrintUtils.toUnicode(term, manager, section);
-          new PrettyPrinter().handleTokenSequence(tseq, 0);
+          PrettyPrinter prettyPrinter = new PrettyPrinter();
+          prettyPrinter.setLineWidth(width);
+          prettyPrinter.handleTokenSequence(tseq, 0);
           UnicodePrinter printer = new UnicodePrinter(writer);
           printer.printTokenSequence(tseq);
           replaceSelection(view, selection, writer.toString());
