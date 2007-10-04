@@ -130,15 +130,21 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     boolean isColonDecl = false;
     boolean doLookahead = true;
     LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
-    Symbol currsym = dumb_.pop();
-    tokens.addLast(currsym);
+    Symbol currsym;
 
+    do {
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+    }
+    while (currsym.sym == Sym.NL);
+ 
     while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
       currsym = dumb_.pop();
       tokens.addLast(currsym);
       doLookahead = false;
       while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
-            currsym.sym == Sym.LISTARG || currsym.sym == Sym.DECLWORD) {
+            currsym.sym == Sym.LISTARG || currsym.sym == Sym.DECLWORD ||
+	    currsym.sym == Sym.NL) {
         currsym = dumb_.pop();
         tokens.addLast(currsym);
         doLookahead = true;
