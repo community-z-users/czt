@@ -22,6 +22,7 @@ package net.sourceforge.czt.print.z;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.*;
@@ -29,6 +30,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.z.ZOpToken;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.PrintException;
@@ -1220,6 +1222,12 @@ public class ZPrintVisitor
     return printOperator(op, arguments);
   }
 
+  /**
+   * This contains a very crude hack to get the PrettyPrinter working.
+   * Used OpTokens are currently only I, PRE, and POST, even though
+   * they might be in fact different ones (with the same newline
+   * category).
+   */
   private String printOperator(OperatorName op, Object arguments)
   {
     List args = new ArrayList();
@@ -1239,7 +1247,9 @@ public class ZPrintVisitor
       }
     }
     int pos = 0;
-    for (String opPart : op.getWords()) {
+    String[] opArray = op.getWords();
+    for (int opArrayPos = 0; opArrayPos < opArray.length; opArrayPos++) {
+      String opPart = opArray[opArrayPos];
       if (opPart.equals(ZString.ARG)) {
         visit((Term) args.get(pos));
         pos++;
@@ -1269,7 +1279,18 @@ public class ZPrintVisitor
       else {
         final Decorword decorword =
           new Decorword(opPart, (ZStrokeList) op.getStrokes());
-        print(ZToken.DECORWORD, decorword);
+        if (opArrayPos > 0 && opArrayPos < opArray.length - 1) {
+          print(new TokenImpl(ZOpToken.I, decorword));
+        }
+        else if (opArrayPos > 0) {
+          print(new TokenImpl(ZOpToken.POST, decorword));
+        }
+        else if (opArrayPos < opArray.length - 1) {
+          print(new TokenImpl(ZOpToken.PRE, decorword));
+        }
+        else {
+          return "An OperatorWord cannot contain of just one part";
+        }
       }
     }
     return null;
