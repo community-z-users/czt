@@ -99,12 +99,12 @@ action code
 
   private String begin(String string)
   {
-    return "\\begin{" + string + "}";
+    return "\\begin{" + string + "}\n";
   }
 
   private String end(String string)
   {
-    return "\n\\end{" + string + "}";
+    return "\n\\end{" + string + "}\n";
   }
 
   private LatexCommand concate(LatexCommand c1, LatexCommand c2)
@@ -549,7 +549,7 @@ terminal ZSect     SECTHEAD;
 terminal LocInt    NUMERAL, NUMSTROKE;
 terminal LocString TEXT;
 terminal String    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
-                   POSTWORD_MARKUP;
+                   POSTWORD_MARKUP, INDENT;
 terminal Decorword DECORWORD;
 
 /* Non terminals */
@@ -1054,6 +1054,15 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {:
                 RESULT =
                   new LatexCommand("\\\\\n", ZString.NL, true, true);
+             :}
+             |
+             INDENT:indent
+             {:
+                int i = indent.length();
+                if (i > 9) i = 9;
+                String latex = indent + "\\t" + i;
+                RESULT =
+                  new LatexCommand(latex, indent, true, true);
              :}
              ;
 

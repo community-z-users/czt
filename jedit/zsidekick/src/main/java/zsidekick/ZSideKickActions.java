@@ -25,11 +25,22 @@ import org.gjt.sp.jedit.textarea.*;
 import sidekick.SideKickParsedData;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
-import net.sourceforge.czt.print.z.UnicodePrinter;
-import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.print.z.*;
+import net.sourceforge.czt.rules.CopyVisitor;
+import net.sourceforge.czt.rules.Prover;
+import net.sourceforge.czt.rules.ProverUtils;
+import net.sourceforge.czt.rules.ProofTree;
+import net.sourceforge.czt.rules.RuleUtils;
+import net.sourceforge.czt.rules.Rewrite;
+import net.sourceforge.czt.rules.RewriteOnceVisitor;
+import net.sourceforge.czt.rules.RewriteVisitor;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.Strategies;
+import net.sourceforge.czt.rules.SimpleProver;
+import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
@@ -537,6 +548,7 @@ public class ZSideKickActions
   }
 
   public static void prettyPrint(View view, int width)
+    throws Exception
   {
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
@@ -558,8 +570,27 @@ public class ZSideKickActions
           PrettyPrinter prettyPrinter = new PrettyPrinter();
           prettyPrinter.setLineWidth(width);
           prettyPrinter.handleTokenSequence(tseq, 0);
-          UnicodePrinter printer = new UnicodePrinter(writer);
-          printer.printTokenSequence(tseq);
+          String modeName = view.getBuffer().getMode().toString();
+          if (modeName.endsWith("latex")) {
+            ZmlScanner scanner = new ZmlScanner(tseq.iterator());
+            if (term instanceof Para) {
+              scanner.prepend(new Symbol(Sym.PARA_START));
+              scanner.append(new Symbol(Sym.PARA_END));
+            }
+            else {
+              scanner.prepend(new Symbol(Sym.TOKENSEQ));
+              scanner.append(new Symbol(Sym.TOKENSEQ));
+            }
+            Unicode2Latex parser = new Unicode2Latex(scanner);
+            parser.setSectionInfo(manager, section);
+            UnicodePrinter printer = new UnicodePrinter(writer);
+            parser.setWriter(printer);
+            parser.parse();
+          }
+          else {
+            UnicodePrinter printer = new UnicodePrinter(writer);
+            printer.printTokenSequence(tseq);
+          }
           replaceSelection(view, selection, writer.toString());
         }
       }

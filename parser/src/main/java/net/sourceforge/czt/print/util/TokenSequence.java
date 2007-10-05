@@ -20,7 +20,10 @@
 package net.sourceforge.czt.print.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Stack;
 
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZToken;
@@ -73,6 +76,11 @@ public class TokenSequence
     return list_;
   }
 
+  public Iterator<Token> iterator()
+  {
+    return new TokenSeqIterator(getSequence());
+  }
+
   /**
    * The sum of all the token length.
    */
@@ -89,5 +97,48 @@ public class TokenSequence
   public String toString()
   {
     return list_.toString();
+  }
+
+  public static class TokenSeqIterator
+    implements Iterator<Token>
+  {
+    Stack<Iterator> stack_ = new Stack<Iterator>();
+    Token next_;
+
+    protected TokenSeqIterator(List<Object> list)
+    {
+      stack_.push(list.iterator());
+      next_ = null;
+    }
+
+    public boolean hasNext()
+    {
+      if (next_ != null) return true;
+      while (! stack_.isEmpty() && ! stack_.peek(). hasNext()) {
+        stack_.pop();
+      }
+      if (stack_.isEmpty()) return false;
+      Object next = stack_.peek().next();
+      if (next instanceof Token) {
+        next_ = (Token) next;
+        return true;
+      }
+      TokenSequence seq = (TokenSequence) next;
+      stack_.push(seq.getSequence().iterator());
+      return hasNext();
+    }
+
+    public Token next()
+    {
+      if (! hasNext()) throw new NoSuchElementException();
+      Token result = next_;
+      next_ = null;
+      return result;
+    }
+
+    public void remove()
+    {
+      throw new UnsupportedOperationException();
+    }
   }
 }

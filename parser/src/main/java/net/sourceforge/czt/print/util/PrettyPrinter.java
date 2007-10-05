@@ -22,9 +22,11 @@ package net.sourceforge.czt.print.util;
 import java.util.List;
 import java.util.ListIterator;
 
+import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.util.TokenImpl;
 import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  *
@@ -58,25 +60,29 @@ public class PrettyPrinter
     final List<Object> list = tseq.getSequence();
     int spaceLeft = space;
     int processed = 0;
-    boolean nl = true;
+    Object previous = null;
     for (ListIterator iter = list.listIterator(); iter.hasNext();) {
       final Object o = iter.next();
       final int length = getLength(o);
-      if (iter.hasPrevious()) { // handle space
-        if (spaceLeft < 0 ||
-            (spaceLeft < length && processed > 1)) {
+      if (previous != null) { // handle space
+        boolean nlAllowed = allowsNlAfter(previous) || allowsNlBefore(o);
+        if (! nlAllowed && (spaceLeft < 0 ||
+                            (spaceLeft < length && processed > 1))) {
+        }
+        if (nlAllowed && (spaceLeft < 0 ||
+                          (spaceLeft < length && processed > 1))) {
           iter.previous();
           iter.add(ZToken.NL);
+          iter.add(new TokenImpl(ZToken.INDENT, indent(indent)));
           Object next = iter.next();
           assert next == o;
           spaceLeft = lineWidth_-2*indent;
-          nl = true;
         }
         else {
           spaceLeft -= 1;
         }
       }
-      if (nl && o instanceof TokenSequence) {
+      if (o instanceof TokenSequence) {
         spaceLeft =
           handleTokenSequence((TokenSequence) o, spaceLeft, indent+1);
       }
@@ -84,8 +90,44 @@ public class PrettyPrinter
         spaceLeft -= length;
       }
       processed += length;
+      previous = o;
     }
     return spaceLeft;
+  }
+
+  private String indent(int indent)
+  {
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < indent; i++) {
+      result.append(ZString.SPACE);
+    }
+    return result.toString();
+  }
+
+  public boolean allowsNlBefore(Object o)
+  {
+    if (o instanceof Token) {
+      NewlineCategory nlCat = ((Token) o).getNewlineCategory();
+      return
+        (nlCat == NewlineCategory.BOTH || nlCat == NewlineCategory.BEFORE);
+    }
+    final TokenSequence seq = (TokenSequence) o;
+    final List<Object> list = seq.getSequence();
+    if (list.isEmpty()) return false;
+    return allowsNlBefore(list.get(0));
+  }
+
+  public boolean allowsNlAfter(Object o)
+  {
+    if (o instanceof Token) {
+      NewlineCategory nlCat = ((Token) o).getNewlineCategory();
+      return
+        (nlCat == NewlineCategory.BOTH || nlCat == NewlineCategory.AFTER);
+    }
+    final TokenSequence seq = (TokenSequence) o;
+    final List<Object> list = seq.getSequence();
+    if (list.isEmpty()) return false;
+    return allowsNlAfter(list.get(0));
   }
 
   //@ requires (o instanceof Token) || (o instanceof TokenSequence);

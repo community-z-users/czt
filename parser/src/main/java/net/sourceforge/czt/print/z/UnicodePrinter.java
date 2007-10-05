@@ -62,14 +62,13 @@ public class UnicodePrinter
 
   public void printToken(Token token)
   {
-    printToken(token, 0);
-  }
-
-  public void printToken(Token token, int indent)
-  {
     if (ZToken.NL.equals(token)) {
       print("\n");
-      indent(indent);
+      return;
+    }
+
+    if (ZToken.INDENT.equals(token)) {
+      print(token.spelling());
       return;
     }
 
@@ -92,26 +91,14 @@ public class UnicodePrinter
     }
   }
 
-  private void indent(int pos)
-  {
-    for (int i = 0; i < pos; i++) {
-      print("\t");
-    }
-  }
-
   public void printTokenSequence(TokenSequence tseq)
-  {
-    printTokenSequence(tseq, 0);
-  }
-
-  public void printTokenSequence(TokenSequence tseq, int indent)
   {
     for (Object o : tseq.getSequence()) {
       if (o instanceof TokenSequence) {
-        printTokenSequence((TokenSequence) o, indent+1);
+        printTokenSequence((TokenSequence) o);
       }
       else {
-        printToken((Token) o, indent);
+        printToken((Token) o);
       }
     }
   }

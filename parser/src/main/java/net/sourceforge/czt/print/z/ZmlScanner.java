@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2006 Petra Malik
+  Copyright (C) 2004, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.print.z;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -46,11 +47,20 @@ public class ZmlScanner
   protected List symbols_;
   private int pos_ = 0;
 
+  private Iterator<Token> iter_;
+  private Symbol pre_;
+  private Symbol post_;
+
   /**
    * Creates a new ZML scanner.
    */
-  public ZmlScanner()
+  protected ZmlScanner()
   {
+  }
+
+  public ZmlScanner(Iterator<Token> iter)
+  {
+    iter_ = iter;
   }
 
   public ZmlScanner(Term term)
@@ -80,38 +90,77 @@ public class ZmlScanner
 
   public void prepend(Symbol s)
   {
-    symbols_.add(0, s);
+    if (iter_ != null) {
+      pre_ = s;
+    }
+    else {
+      symbols_.add(0, s);
+    }
   }
 
   public void append(Symbol s)
   {
-    symbols_.add(s);
+    if (iter_ != null) {
+      post_ = s;
+    }
+    else {
+      symbols_.add(s);
+    }
   }
 
   public Symbol next_token()
   {
+    if (iter_ != null) {
+      Symbol result = null;
+      if (pre_ != null) {
+        result = pre_;
+        pre_ = null;
+        return result;
+      }
+      if (iter_.hasNext()) {
+        result = getSymbol(iter_.next(), DebugUtils.getFieldMap2(Sym.class));
+      }
+      if (result == null) {
+        if (post_ != null) {
+          result = post_;
+          post_ = null;
+        }
+        else {
+          result = new Symbol(0);
+        }
+      }
+      return result;
+    }
     if (pos_ >= symbols_.size()) return new Symbol(0);
     Symbol result = (Symbol) symbols_.get(pos_);
     pos_++;
     return result;
   }
 
-  public static int getIntValue(String tokenName,
-                                Map<String, Object> fieldMap)
+  public static Symbol getSymbol(Token token,
+                                 Map<String, Object> fieldMap)
   {
-    String name = tokenName;
+    String name = token.getName();
+    Object value = token.getSpelling();
     try {
-      Enum.valueOf(ZOpToken.class, tokenName);
+      Enum.valueOf(ZOpToken.class, name);
       name = "DECORWORD";
     }
-    catch (IllegalArgumentException e) {
+    catch (IllegalArgumentException exception) {
+      try {
+        Enum.valueOf(ZKeyword.class, name);
+        name = "DECORWORD";
+        value = new Decorword(token.spelling());
+      }
+      catch (IllegalArgumentException e) {
+      }
     }
     Object object = fieldMap.get(name);
     if (object instanceof Integer) {
       Integer result = (Integer) object;
-      return result;
+      return new Symbol(result, value);
     }
-    throw new CztException(tokenName + " not found.");
+    throw new CztException(token.getName() + " not found.");
   }
 
   /**
@@ -130,16 +179,7 @@ public class ZmlScanner
 
     public void printToken(Token token)
     {
-      if (token instanceof ZKeyword) {
-        int intValue = getIntValue("DECORWORD", fieldMap_);
-        symbolList_.add(new Symbol(intValue,
-                                   new Decorword(token.spelling())));
-      }
-      else {
-        int intValue = getIntValue(token.getName(), fieldMap_);
-        symbolList_.add(new Symbol(intValue,
-                                   token.getSpelling()));
-      }
+      symbolList_.add(getSymbol(token, fieldMap_));
     }
 
     public List<Symbol> getSymbols()
