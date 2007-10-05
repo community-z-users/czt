@@ -147,4 +147,27 @@ Found two bugs:
 [reason 929-2] I initialized tester when user choose algorithm, if model is null
 				exception is triggered.
 --- 31th September 07 ----------------
-Implement the 
+Implement the button functionality of restore and export java buttons.
+
+--- 5th October 07 ----------------
+Changes in PanelTestDesign pane:
+Stop using DialogPackageSelection.java dialog.
+Add function to store package name and location to setting file once user click save to default button.
+
+Create new dialog DialogPackageURLSelection.java to set package location and name.
+
+Fixed the bug in PanelExecuteActions pane, that when user export java file, unexpected newline 
+symbols are attached in comments.
+
+--- 6th October 07 ----------------
+Use the URLClassLoader to set package location 
+Modified the reset button in PanelExecuteActions pane, change it will clear the 
+action history list (right list) now.
+
+Changes in PanelExecuteActions.java
+Change the background color of disabled action list item in action list(left list).
+Change the background and test color of selected list item in action list(left list).
+
+--- 7th October 07 ----------------
+Deprecated the AlgorithmPanel class
+Using OptionPanelCreator to create option panels

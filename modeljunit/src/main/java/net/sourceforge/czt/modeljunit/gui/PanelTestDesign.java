@@ -11,9 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
 import java.lang.reflect.Method;
 
 import javax.swing.*;
@@ -23,12 +21,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.sourceforge.czt.modeljunit.Action;
-import net.sourceforge.czt.modeljunit.Tester;
-import net.sourceforge.czt.modeljunit.VerboseListener;
-import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
-import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
-import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
-import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 
 /**
  * PanelTestDesign.java
@@ -82,10 +74,11 @@ public class PanelTestDesign extends JPanel
 
   private JComboBox m_combAlgorithmSelection = new JComboBox();
 
+  // min, max, initialize value
   private JSlider m_sliderAverageTestLength =
-    new JSlider(JSlider.HORIZONTAL,1,100,5);
+    new JSlider(JSlider.HORIZONTAL,1,99,1);
 
-  private AlgorithmPanel[] m_panelAlgorithm;
+  private OptionPanelAdapter[] m_panelAlgorithm;
 
   JPanel m_algorithmRight;
 
@@ -107,7 +100,7 @@ public class PanelTestDesign extends JPanel
   private static PanelTestDesign m_panel = null;
 
   // Singleton creator 
-  public static PanelTestDesign createTestDesignPanel()
+  public static PanelTestDesign getTestDesignPanelInstance()
   {
     if (m_panel == null)
       m_panel = new PanelTestDesign();
@@ -117,11 +110,17 @@ public class PanelTestDesign extends JPanel
   // The constructor
   private PanelTestDesign()
   {
+    // Panel background color
+    Color[] bg = new Color[3];
+    bg[0] = new Color(156, 186, 216);
+    bg[1] = new Color(216, 186, 156);
+    bg[2] = new Color(186, 216, 186);
     // Set test case variable name the name will affect code generation
     Parameter.setTestCaseVariableName("testCase");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     // ------ Setup model panel ------
-    m_txtFilePath = new JTextField();
+    
+    m_txtFilePath = new JTextField(36);
     m_txtFilePath.setColumns(36);
     m_txtFilePath.setEditable(true);
 
@@ -144,11 +143,12 @@ public class PanelTestDesign extends JPanel
     c2.gridx = 1;
     c2.gridy = 0;
     c2.ipadx = 6;
+    c2.gridwidth = 3;
     c2.fill = GridBagConstraints.HORIZONTAL;
     c2.anchor = GridBagConstraints.PAGE_START;
     m_panelModel.add(m_txtFilePath,c2);
     GridBagConstraints c3 = new GridBagConstraints();
-    c3.gridx = 2;
+    c3.gridx = 5;
     c3.gridy = 0;
     c3.ipadx = 6;
     // Insets(top, left, down, right)
@@ -156,18 +156,22 @@ public class PanelTestDesign extends JPanel
     c3.anchor = GridBagConstraints.FIRST_LINE_END;
     c3.fill = GridBagConstraints.HORIZONTAL;
     m_panelModel.add(m_butOpenModel,c3);
+    // Pixels between last line components and edge of panel
+    int nBotDist = 6;
+    // Package setting button
     GridBagConstraints c4 = new GridBagConstraints();
     c4.gridx = 0;
     c4.gridy = 1;
-    c4.insets = new Insets(0,0,0,16);
+    // Insets(top, left, down, right)
+    c4.insets = new Insets(0,0,nBotDist,16);
     m_butPackageName.addActionListener(this);
     m_panelModel.add(m_butPackageName,c4);
     // Package name label
-    m_labPackageName = new JLabel(Parameter.getPackageName(Parameter.getCurPackage()));
+    m_labPackageName = new JLabel(Parameter.getPackageName());
     GridBagConstraints c5 = new GridBagConstraints();
     c5.gridx = 1;
     c5.gridy = 1;
-    c5.insets = new Insets(0,0,0,16);
+    c5.insets = new Insets(0,0,nBotDist,16);
     m_panelModel.add(m_labPackageName,c5);
     // Class loaded label
     GridBagConstraints c6 = new GridBagConstraints();
@@ -175,6 +179,7 @@ public class PanelTestDesign extends JPanel
     c6.gridy = 1;
     c6.fill = GridBagConstraints.HORIZONTAL;
     c6.anchor = GridBagConstraints.PAGE_END;
+    c6.insets = new Insets(0,0,nBotDist,16);
     m_panelModel.add(m_labLoadingInfo,c6);
 
     // Set panel size
@@ -184,30 +189,32 @@ public class PanelTestDesign extends JPanel
         new TitledBorder(
             new EtchedBorder (EtchedBorder.LOWERED),
             "Test model"));
+    m_panelModel.setBackground(bg[0]);
     this.add(m_panelModel);
     this.add(Box.createVerticalStrut(H_SPACE));
     // ------ Initialize algorithm panel ------
     m_nCurAlgo = 0;
     m_panelAlgorithmBase = new JPanel();
 
-    m_panelAlgorithm = new AlgorithmPanel[3];
-    m_panelAlgorithm[0] = new AlgorithmPanel(Parameter.ALGORITHM_NAME[0],
+    m_panelAlgorithm = new OptionPanelAdapter[3];
+    m_panelAlgorithm[0] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[0],
         "Select an algorithm from combobox.", "default.gif");
-    m_panelAlgorithm[0].setOptionPanel(new OptionPanelDefault());
-    m_panelAlgorithm[1] = new AlgorithmPanel(Parameter.ALGORITHM_NAME[1],
+    
+    m_panelAlgorithm[1] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[1],
         "Random algorithm to traverse the model", "random.gif");
-    m_panelAlgorithm[1].setOptionPanel(new OptionPanelRandomWalking());
-    m_panelAlgorithm[2] = new AlgorithmPanel(Parameter.ALGORITHM_NAME[2],
+    
+    m_panelAlgorithm[2] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[2],
         "Greedy algorithm to traverse the model", "greedy.gif");
-    m_panelAlgorithm[2].setOptionPanel(new OptionPanelGreedy());
+    
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[0].getAlgorithmName());
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[1].getAlgorithmName());
     m_combAlgorithmSelection.addItem(m_panelAlgorithm[2].getAlgorithmName());
     m_combAlgorithmSelection.addActionListener(this);
     // Setup slider
-    m_sliderAverageTestLength.setValue(0);
+    
+    m_sliderAverageTestLength.setValue((int)(1/Parameter.getResetProbility()));
     m_sliderAverageTestLength.addChangeListener(this);
-    m_sliderAverageTestLength.setToolTipText("Reset probability: "+Parameter.getResetProbility());
+    m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbility()));
     m_sliderAverageTestLength.setMajorTickSpacing(10);
     //m_sliderAverageTestLength.setPaintTicks(true);
     m_panelAlgorithmBase.setLayout(new BoxLayout(m_panelAlgorithmBase,BoxLayout.X_AXIS));
@@ -246,7 +253,6 @@ public class PanelTestDesign extends JPanel
     c.gridy = 2;
     m_algorithmLeft.add(m_txtLength, c);
 
-
     m_algorithmRight = new JPanel();
     m_panelAlgorithmBase.add(m_algorithmRight);
     m_panelAlgorithmBase.add(m_algorithmLeft);
@@ -260,7 +266,6 @@ public class PanelTestDesign extends JPanel
             "Test generation"));
     add(Box.createHorizontalStrut(H_SPACE));
     // ------------ Report setting panel ------------
-    Color bg = new Color(206, 206, 206);
     m_panelReport = new JPanel();
     m_panelReport.setLayout(new GridLayout(6,3,6,3));
     // Generate verbosity and failure verbosity
@@ -268,14 +273,14 @@ public class PanelTestDesign extends JPanel
     		"<br>that will be printed as this class builds the FSM graph and generates tests. </html>" );
     // Can only use html tags separate lines in tool tip text "\n" doesnt work
     m_checkVerbosity.addActionListener(this);
-    m_checkVerbosity.setBackground(bg);
+    m_checkVerbosity.setBackground(bg[2]);
     m_panelReport.add(m_checkVerbosity);
     m_panelReport.add(Box.createHorizontalStrut(10));
     m_panelReport.add(Box.createVerticalGlue());
 
     m_checkFailureVerbosity.setToolTipText("Sets the amount of information printed when tests fail.");
     m_checkFailureVerbosity.addActionListener(this);
-    m_checkFailureVerbosity.setBackground(bg);
+    m_checkFailureVerbosity.setBackground(bg[2]);
     m_panelReport.add(m_checkFailureVerbosity);
     m_panelReport.add(Box.createHorizontalStrut(10));
     m_panelReport.add(Box.createHorizontalGlue());
@@ -288,7 +293,7 @@ public class PanelTestDesign extends JPanel
 
     m_bChecked = new boolean[m_nCheckBox];
     for (int i = 0; i < m_nCheckBox; i++) {
-      m_checkCoverage[i].setBackground(bg);
+      m_checkCoverage[i].setBackground(bg[2]);
       m_checkCoverage[i].addActionListener(this);
       m_bChecked[i] = false;
       m_panelReport.add(m_checkCoverage[i]);
@@ -297,7 +302,7 @@ public class PanelTestDesign extends JPanel
     }
 
     // set border
-    m_panelReport.setBackground(bg);
+    m_panelReport.setBackground(bg[2]);
     m_panelReport.setBorder(
         new TitledBorder(
             new EtchedBorder (EtchedBorder.LOWERED),
@@ -338,7 +343,7 @@ public class PanelTestDesign extends JPanel
 
     m_panelAlgorithmBase.remove(m_algorithmRight);
     m_nCurAlgo = m_combAlgorithmSelection.getSelectedIndex();
-    m_algorithmRight = m_panelAlgorithm[m_nCurAlgo].getOptionPanel();
+    m_algorithmRight = m_panelAlgorithm[m_nCurAlgo];
     m_panelAlgorithmBase.add(Box.createHorizontalStrut(16));
     m_panelAlgorithmBase.add(m_algorithmRight);
     m_panelAlgorithmBase.revalidate();
@@ -346,7 +351,7 @@ public class PanelTestDesign extends JPanel
 
   public void updatePackageName()
   {
-    String name = Parameter.getPackageName(Parameter.getCurPackage());
+    String name = Parameter.getPackageName();
     m_labPackageName.setText(name);
     m_labPackageName.setToolTipText(name);
   }
@@ -378,9 +383,17 @@ public class PanelTestDesign extends JPanel
     // ------------ Algorithm combo-box handler --------------
     if (e.getSource() == this.m_combAlgorithmSelection) {
 
+      
       addComponentsToTestGenerationPanel();
+      for(int i=0;i<3;i++)
+      {
+        if(i == m_nCurAlgo)
+          m_panelAlgorithm[m_nCurAlgo].setVisible(true);
+        else
+          m_panelAlgorithm[i].setVisible(false);
+      }
       // Display the algorithm related panel
-      if (m_panelAlgorithm[m_nCurAlgo].getOptionPanel() == null)
+      if (m_panelAlgorithm[m_nCurAlgo] == null)
         System.out.println("Error: Algorithm panel is null");
 
       // Update the setting
@@ -390,7 +403,9 @@ public class PanelTestDesign extends JPanel
  // ------------ Package selection button handler --------------
     if(e.getSource() == m_butPackageName)
     {
-      DialogPackageSelection dlg = DialogPackageSelection.createPackageSelectionDialog(this);
+      // DialogPackageSelection dlg = DialogPackageSelection.createPackageSelectionDialog(this);
+      // dlg.setVisible(true);
+      DialogPackageURLSelection dlg = new DialogPackageURLSelection();
       dlg.setVisible(true);
     }
     // -------------- Check the coverage matrix options --------------
@@ -497,7 +512,7 @@ public class PanelTestDesign extends JPanel
       return "";
     StringBuffer buf = new StringBuffer();
 
-    String strTestCase = Parameter.getTestCaseVariableName();
+    // String strTestCase = Parameter.getTestCaseVariableName();
     if (m_nCurAlgo !=0 && m_panelAlgorithm[m_nCurAlgo].generateImportLab() != null)
       buf.append(m_panelAlgorithm[m_nCurAlgo].generateImportLab());
 
@@ -645,7 +660,7 @@ public class PanelTestDesign extends JPanel
         avgLength = (int)source.getValue();
         double prob = (double)1.0/(double)(avgLength+1);
         Parameter.setResetProbility(prob);
-        m_sliderAverageTestLength.setToolTipText("Reset probility: "+Parameter.getResetProbility());
+        m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbility()));
         // System.out.println("(PaneltestDesign.java)Average length :"+prob);
       }
     }

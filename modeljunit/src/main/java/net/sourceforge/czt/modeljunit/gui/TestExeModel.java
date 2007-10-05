@@ -56,14 +56,10 @@ public class TestExeModel
   
   public static void loadModelClassFromFile()
   {
-    ClassFileLoader classLoader = ClassFileLoader.createLoader();
+    ClassFileLoader classLoader = ClassFileLoader.getInstance();
 
     String name[] = Parameter.getClassName().split("\\.");
-    String packagename = Parameter.getPackageName(Parameter.getCurPackage());
-    if(packagename.equalsIgnoreCase(Parameter.DEFAULT_PACKAGE_NAME))
-      m_modelClass = classLoader.loadClass(name[0]);
-    else
-      m_modelClass = classLoader.loadClass(packagename+"."+name[0]);
+    m_modelClass = classLoader.loadClass(name[0]);
     try {
       m_modelObject = (net.sourceforge.czt.modeljunit.FsmModel)m_modelClass.newInstance();
     }

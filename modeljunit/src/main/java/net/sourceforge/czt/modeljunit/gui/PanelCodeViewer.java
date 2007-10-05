@@ -17,7 +17,8 @@ public class PanelCodeViewer extends JPanel
 
   private JTextArea m_txtCode;
 
-  public static PanelCodeViewer createCodeViewer()
+  //Use singleton pattern to get instance of code view panel
+  public static PanelCodeViewer getCodeViewerInstance()
   {
     if (m_panelCV == null)
       m_panelCV = new PanelCodeViewer();

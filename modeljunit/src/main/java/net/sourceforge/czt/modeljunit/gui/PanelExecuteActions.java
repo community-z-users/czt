@@ -106,7 +106,7 @@ public class PanelExecuteActions extends JPanel
          //list item is selected
         if (iss) {
             setBorder(BorderFactory.createLineBorder(
-              Color.blue, 1));
+              Color.BLACK, 1));
         } else {
             setBorder(BorderFactory.createLineBorder(
              list.getBackground(), 1));
@@ -135,8 +135,22 @@ public class PanelExecuteActions extends JPanel
   // Generated code
   private String[] m_strCodePart;
   
-  //Split pane
+  // Split pane
   private JSplitPane m_splitPane;
+  // Instance 
+  private static PanelExecuteActions m_instance;
+  public static PanelExecuteActions getPanelExecuteActionsInstance()
+  {
+    if (m_instance == null)
+      m_instance = new PanelExecuteActions();
+    return m_instance;
+  }
+  
+  @Override
+  public Object clone()
+  {
+    return null; 
+  }
   
   private PanelExecuteActions()
   {
@@ -298,7 +312,8 @@ public class PanelExecuteActions extends JPanel
   {
     if(!Parameter.isTestRunnable(true))
       return;
-    StringWriter msg = new StringWriter();
+    // StringWriter msg = new StringWriter();
+    String msg = new String();
     VerboseListener vl = new VerboseListener();
     Tester tester = TestExeModel.getTester();
     Model mod = tester.getModel();
@@ -306,21 +321,21 @@ public class PanelExecuteActions extends JPanel
     String action = ((ListItem)m_listActoin.getSelectedValue()).getValue();
     tester.addListener(vl);
     // redirect model's output
-    Writer defWriter = mod.getOutput();
-    mod.setOutput(msg);
+    //Writer defWriter = mod.getOutput();
+    //mod.setOutput(msg);
     // run test manually
     int nActionNum = mod.getActionNumber(action); 
     if(mod.isEnabled(nActionNum))
     {
       mod.doAction(nActionNum);
-      msg.append(" State = \""+mod.getCurrentState().toString()+"\"");
-      m_listExeHisModel.addElement(MODEL+action+"(); // "+msg.toString());
+      msg =" State: "+mod.getCurrentState().toString();
+      m_listExeHisModel.addElement(MODEL+action+"(); // "+msg);
     }
     else 
       ErrorMessage.DisplayErrorMessage("Cannot execute the action", 
           "Action "+action+" cannot be executed in state: "+mod.getCurrentState());
     // restore model's output
-    mod.setOutput(defWriter);
+    //mod.setOutput(defWriter);
     // reset action list
     reloadActionModel();
   }
@@ -344,11 +359,13 @@ public class PanelExecuteActions extends JPanel
       item = new ListItem(strAction);
       if(!mod.isEnabled(i))
       {
-        item.setBKColor(Color.LIGHT_GRAY);
-        item.setTextColor(Color.WHITE);
+        item.setTextColor(Color.LIGHT_GRAY);
       }
       if(i==idxBackup)
-        item.setBKColor(Color.GREEN);
+      {
+        item.setTextColor(Color.WHITE);
+        item.setBKColor(Color.GRAY);
+      }
       m_listActionModel.addElement(item);
     }
     m_nCurrentSelectedAction = idxBackup;
@@ -383,23 +400,34 @@ public class PanelExecuteActions extends JPanel
   {
     if(!Parameter.isTestRunnable(true))
       return;
+    Tester tester = TestExeModel.getTester();
+    // tester object will be created when user select an algorithm
+    if(tester==null)
+    {
+      ErrorMessage.DisplayErrorMessage(
+          "Tester object has not been created", 
+          "Please check test design pane, especially check the algorithm selection!");
+      return;
+    }
     
-      Tester tester = TestExeModel.getTester();
-      Model mod = tester.getModel();
-      // Reset model
-      mod.doReset();
-      // Update action history list
-      m_listExeHisModel.addElement(MODEL+"doReset(); // Reset model");
-      reloadActionModel();
+    Model mod = tester.getModel();
+    // Reset the action history list
+    m_listExeHisModel.clear();
+    // Reset model
+    mod.doReset();
+    String state = mod.getCurrentState().toString();
+    // Update action history list
+    m_listExeHisModel.addElement(MODEL+"doReset(); // Reset model to state: "+state);
+    reloadActionModel();
   }
   
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    // Reset button handler 
+    //---------------- Reset button handler ---------------- 
     if(e.getSource() == m_butReset)
       doResetAction();
-    // Export button handler
+    // ---------------- Export button handler ----------------
     if(e.getSource() == m_butExport)
     {
       String code = m_strCodePart[0];
@@ -464,34 +492,5 @@ public class PanelExecuteActions extends JPanel
     }
   }
   
-  private class FileChooserFilter extends javax.swing.filechooser.FileFilter
-  {
-    private String m_description = null;
-
-    private String m_extension = null;
-
-    public FileChooserFilter(String extension, String description)
-    {
-      m_description = description;
-      m_extension = "." + extension.toLowerCase();
-    }
-
-    @Override
-    public boolean accept(File f)
-    {
-      if (f == null)
-        return false;
-      if (f.isDirectory())
-        return true;
-      if (f.getName().toLowerCase().endsWith(m_extension))
-        return true;
-      return false;
-    }
-
-    @Override
-    public String getDescription()
-    {
-      return m_description;
-    }
-  }
+  
 }

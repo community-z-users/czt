@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import net.sourceforge.czt.modeljunit.FsmModel;
+import net.sourceforge.czt.modeljunit.RandomTester;
 
 /**
  * Parameter.java
@@ -29,7 +30,32 @@ public class Parameter
   public static final String DEFAULT_DIRECTORY = System.getProperty("user.dir");
   public static final String[] ALGORITHM_NAME = 
   {"Algorithm selection","Random","Greedy"};
-  public static final String DEFAULT_PACKAGE_NAME = "Default";
+  
+  /**
+   * Package related variables
+   * */
+  private static String m_strPackageLocation;
+  private static String m_strPackageName;
+  public static String getPackageLocation()
+  {
+    return m_strPackageLocation;
+  }
+  public static String getPackageName()
+  {
+    return m_strPackageName;
+  }
+  public static void setPackageLocation(String location)
+  {
+    m_strPackageLocation = location;
+  }
+  public static void setPackageName(String name)
+  {
+    m_strPackageName = name;
+  }
+  
+  /**
+   * Testing parameters
+   * */
   private static boolean m_bGenerateGraph;
   public static boolean getGenerateGraph()
   { return m_bGenerateGraph; }
@@ -49,7 +75,7 @@ public class Parameter
    * may get caught in that loop forever. For this reason,
    * a non-zero probability is recommended.
    * */
-  private static double m_nResetProbility = 0.5;
+  private static double m_nResetProbility = RandomTester.DEFAULT_RESET_PROBABILITY;
   public static double getResetProbility()
   { return m_nResetProbility; }
   public static void setResetProbility(double probility)
@@ -166,50 +192,10 @@ public class Parameter
     m_strModelChooserDirectory = directory;
   }
 
-  /**
-   * Add package before class name to load class from file
-   * The package name will be saved into setting file
-   * */
-  private static ArrayList<String> m_listPackageName = new ArrayList<String>();
-
-  public static int numberOfPackage()
-  {
-    return m_listPackageName.size();
-  }
-  /**
-   * Variables about package setting
-   * */
-  public static int m_nCurPackage = 0;
-  public static void setCurPackage(int idx)
-  {
-    if(idx >= 0)
-      m_nCurPackage = idx;
-  }
-  public static int getCurPackage()
-  {
-    return m_nCurPackage;
-  }
-
-  public static boolean addPackageName(String packagename)
-  {
-    if(!m_listPackageName.contains(packagename))
-    {
-      m_listPackageName.add(packagename);
-      return true;
-    }
-    return false;
-  }
-  public static String getPackageName(int index)
-  {
-    return m_listPackageName.get(index);
-  }
-  public static void removePackageName(int index)
-  {
-    m_listPackageName.remove(index);
-  }
   /*
    * When user open a file selection dialog the default location is
-   * 0. To use last time directory, 1. To use default path
+   * 0. To use last time directory, 1. To use default path, the default
+   * path is the location that the application running.
    * */
   private static int m_nFileChooserOpenMode;
   public static int getFileChooserOpenMode()
@@ -298,29 +284,19 @@ public class Parameter
       BufferedReader in = new BufferedReader(new FileReader(file));
       String str;
       String[] parameters;
-      m_listPackageName.clear();
       while ((str = in.readLine()) != null) {
         parameters = str.split("=");
         // read model class location
         if (parameters[0].equalsIgnoreCase("Model directory"))
-        {
-          m_strModelChooserDirectory = parameters[1];
-        }
-        // read package name(s)
-        if(parameters[0].equalsIgnoreCase("package"))
-        {
-          Parameter.addPackageName(parameters[1]);
-        }
+          m_strModelChooserDirectory = parameters[1];         
+        if (parameters[0].equalsIgnoreCase("Package location"))
+          m_strPackageLocation = parameters[1];
+        if (parameters[0].equalsIgnoreCase("Package name"))
+          m_strPackageName = parameters[1];
       }
       in.close();
     }
     catch (IOException e) {
-    }
-    // Application has some default package name
-    if(m_listPackageName.size()<=0)
-    {
-      m_listPackageName.add("net.sourceforge.czt.modeljunit.examples");
-      m_listPackageName.add(DEFAULT_PACKAGE_NAME);
     }
   }
 
@@ -333,11 +309,8 @@ public class Parameter
       System.out.println("create default setting file");
       BufferedWriter out = new BufferedWriter(new FileWriter(file));
       out.write("Model directory=" + Parameter.getModelChooserDirectory() + br);
-      // Write package name(s)
-      for(int i=0; i<Parameter.numberOfPackage(); i++)
-      {
-        out.write("package="+Parameter.getPackageName(i)+br);
-      }
+      out.write("Package location=" + Parameter.getPackageLocation() + br);
+      out.write("Package name=" + Parameter.getPackageName() + br);
       out.close();
     }
     catch (IOException e) {

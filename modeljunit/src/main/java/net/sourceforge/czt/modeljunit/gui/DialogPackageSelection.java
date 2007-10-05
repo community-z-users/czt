@@ -28,13 +28,12 @@ import javax.swing.event.ListSelectionListener;
  *      http://forum.java.sun.com/thread.jspa?threadID=714461&tstart=240
  *      http://www.javaworld.com/javaworld/jw-03-2000/jw-03-classload.html
  *      http://java.sun.com/products/jndi/tutorial/beyond/misc/classloader.html
+ * @deprecated Use DislogPackageURLSelection.java to replace this class.
  * */
+/*
 public class DialogPackageSelection extends JDialog
   implements ListSelectionListener, ActionListener
 {
-  /**
-   * Generated ID
-   */
   private static final long serialVersionUID = 2823926867321588393L;
   private static DialogPackageSelection m_dialog;
 
@@ -49,7 +48,7 @@ public class DialogPackageSelection extends JDialog
   // Bad design I should change it later...
   private PanelTestDesign m_parentPanel;
 
-  private DialogPackageSelection(PanelTestDesign parent)
+  /*private DialogPackageSelection(PanelTestDesign parent)
   {
     super.setDefaultLookAndFeelDecorated(false);
     super.setAlwaysOnTop(true);
@@ -153,4 +152,4 @@ public class DialogPackageSelection extends JDialog
       System.out.println(path);
     }
   }
-}
+}*/

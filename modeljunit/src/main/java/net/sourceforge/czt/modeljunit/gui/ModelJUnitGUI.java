@@ -75,34 +75,35 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     m_frame.addComponentListener(this);
 
-    try {
+    try 
+    {
       // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
       // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ;
       UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
       // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-
-      }
-      catch (Exception e) {
+    }
+    catch (Exception e) 
+    {
       System.out.println ("Couldn't load Motif look and feel " + e);
-      }
+    }
 
     // Initialize TestDesign panel
-    m_panelTD = PanelTestDesign.createTestDesignPanel();
+    m_panelTD = PanelTestDesign.getTestDesignPanelInstance();
+    // Initialize CodeViewer panel
+    m_panelCV = PanelCodeViewer.getCodeViewerInstance();
+    // Initialize ResuleViewer panel
+    m_panelRV = PanelResultViewer.getResultViewerInstance();
+    // Initialize ExecuteAction panel
+    m_panelEA = PanelExecuteActions.getPanelExecuteActionsInstance();
     // If user opens java file button text will be set to compile
     // else if user opens class file, button test becomes run test
     m_panelTD.setModelRelatedButton(m_butRun);
-    // Initialize CodeViewer panel
-    m_panelCV = PanelCodeViewer.createCodeViewer();
-    // Initialize ResuleViewer panel
-    m_panelRV = PanelResultViewer.createResultViewer();
-    // Initialize ExecuteAction panel
-    m_panelEA = PanelExecuteActions.createExecuteActionsPanel();
     Thread initializeImage = new Thread()
     {
       public void run()
       {
-        try {
-
+        try 
+        {
           /*m_iconTag = new ImageIcon[3];
           m_iconTag[0] = new ImageIcon(getClass().getResource("icon.gif"));
           m_iconTag[1] = new ImageIcon(getClass().getResource("icon.gif"));

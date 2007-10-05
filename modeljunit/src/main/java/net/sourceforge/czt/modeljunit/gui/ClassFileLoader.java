@@ -5,6 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+
+import javax.naming.Context;
+import javax.naming.NamingException;
 
 /**
  * ClassFileLoader.java
@@ -21,51 +26,65 @@ public class ClassFileLoader extends ClassLoader
   {
   }
 
-  public static ClassFileLoader createLoader()
+  public static ClassFileLoader getInstance()
   {
     if (m_loader == null)
       m_loader = new ClassFileLoader();
     return m_loader;
   }
-/*
-  public Class<?> findClass(String name)
-  {
-    byte[] data = loadClassData(name);
-    Class<?> theClass = defineClass(name, data, 0, data.length);
-    return theClass;
 
-  }
-*/
   public static int runtime = 0;
   public Class<?> loadClass(String classname)
   {
+    // http://forum.java.sun.com/thread.jspa?threadID=568853&messageID=2815072
+    // that thread explained why i have to add file://C in front of strPL
+    // java doc does not explain :(
+    String strPL = Parameter.getPackageLocation();
+    strPL = "file://"+strPL;
+    String strPN = Parameter.getPackageName();
+    if(strPN.charAt(strPN.length()-1)!='.')
+      strPN = strPN+".";
 
-    FileInputStream fis = null;
-    byte[] data = null;
-    // Bad coding style, just try
+    ClassLoader prevCL = Thread.currentThread().getContextClassLoader();
+    // Create the class loader by using the given URL
+    // Use prevCl as parent to maintain current visibility
+    if(strPL!=null && strPL.length()>0)
+    {
+      try
+      {
+        ClassLoader cl = 
+          URLClassLoader.newInstance(new URL[]{new URL(strPL)}, prevCL);
+  
+        // Set class loader to current thread
+        Thread.currentThread().setContextClassLoader(cl);
+        // Expect that environment properties are in
+        // application resource file found at "url"
+  
+      }
+      catch (Exception e) 
+      {
+        e.printStackTrace();
+      } 
+      finally 
+      {
+        // Restore
+        Thread.currentThread().setContextClassLoader(prevCL);
+      }
+    }
+    
     try
     {
-      Class<?> modelclass = Class.forName(classname);
+      Class<?> modelclass = Class.forName(strPN+classname);
+      if(modelclass== null)
+        System.out.println("NULL model class was returned!!!");
       return modelclass;
     }
-    catch (Exception exp)
+    catch (Exception e)
     {
-      try {
-        fis = new FileInputStream(new File(Parameter.getModelLocation()));
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int ch = 0;
-        while ((ch = fis.read()) != -1) {
-          baos.write(ch);
-        }
-        data = baos.toByteArray();
-      }
-      catch (IOException e) {
         e.printStackTrace();
-      }
     }
-    // System.out.println("ClassFileLoader.loadClass: "+classname+" load time: "+runtime);
-    Class<?> theClass = defineClass(classname, data, 0, data.length);
-    return theClass;
-  }
 
+    System.out.println("NULL model class was returned!!!");
+    return null;
+  }
 }

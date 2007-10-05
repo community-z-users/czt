@@ -139,7 +139,7 @@ public class PanelResultViewer extends JPanel
     return m_columeModel;
   }
 
-  public static PanelResultViewer createResultViewer()
+  public static PanelResultViewer getResultViewerInstance()
   {
     if (m_panelRV == null)
       m_panelRV = new PanelResultViewer();

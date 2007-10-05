@@ -1,6 +1,7 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,10 +13,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.modeljunit.RandomTester;
@@ -41,13 +44,19 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
 
   private JCheckBox m_checkRandomSeed;
 
-  public OptionPanelRandomWalking()
+  public OptionPanelRandomWalking(String name, String explain, String imgPath)
   {
+    super(name, explain, imgPath);
     // setLayout(new GridLayout(2,3,3,2));
     m_checkRandomSeed = new JCheckBox("Use random seed");
     add(m_checkRandomSeed);
     add(Box.createHorizontalStrut(6));
     add(Box.createHorizontalGlue());
+    
+    Border edge = BorderFactory.createLineBorder(Color.WHITE);
+
+    this.setBorder(BorderFactory.createTitledBorder(
+        edge, "Random walk algorithm pane"));
   }
 
   @Override
