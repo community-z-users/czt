@@ -52,7 +52,8 @@ public enum ZToken
   GENAX(ZString.GENAX, NewlineCategory.AFTER),
   GENSCH(ZString.GENSCH, NewlineCategory.AFTER),
   END(ZString.END, NewlineCategory.BEFORE),
-  NL(ZString.NL, null);
+  NL(ZString.NL, null),
+  INDENT(ZString.SPACE, null);
 
   private String spelling_;
   private NewlineCategory newlineCategory_;
