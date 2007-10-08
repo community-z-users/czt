@@ -66,17 +66,13 @@ public class PrettyPrinter
       final int length = getLength(o);
       if (previous != null) { // handle space
         boolean nlAllowed = allowsNlAfter(previous) || allowsNlBefore(o);
-        if (! nlAllowed && (spaceLeft < 0 ||
-                            (spaceLeft < length && processed > 1))) {
-        }
         if (nlAllowed && (spaceLeft < 0 ||
                           (spaceLeft < length && processed > 1))) {
           iter.previous();
           iter.add(ZToken.NL);
-          iter.add(new TokenImpl(ZToken.INDENT, indent(indent)));
+          spaceLeft = indent(iter, indent);
           Object next = iter.next();
           assert next == o;
-          spaceLeft = lineWidth_-2*indent;
         }
         else {
           spaceLeft -= 1;
@@ -87,12 +83,23 @@ public class PrettyPrinter
           handleTokenSequence((TokenSequence) o, spaceLeft, indent+1);
       }
       else {
-        spaceLeft -= length;
+        if (ZToken.NL.equals(o)) {
+          spaceLeft = indent(iter, indent);
+        }
+        else {
+          spaceLeft -= length;
+        }
       }
       processed += length;
       previous = o;
     }
     return spaceLeft;
+  }
+
+  private int indent(ListIterator iter, int indent)
+  {
+    iter.add(new TokenImpl(ZToken.INDENT, indent(indent)));
+    return lineWidth_-2*indent;
   }
 
   private String indent(int indent)
