@@ -193,7 +193,7 @@ public class AstToPrintTreeVisitor
 
   public Term visitAndPred(AndPred andPred)
   {
-    List list = new LinkedList();
+    List<Object> list = new LinkedList<Object>();
     if (And.Wedge.equals(andPred.getAnd())) {
       list.add(visit(andPred.getLeftPred()));
       list.add(ZKeyword.AND);
@@ -231,7 +231,9 @@ public class AstToPrintTreeVisitor
     final Precedence prec = getPrec(andPred);
     PrintPredicate result =
       printFactory_.createPrintPredicate(list, prec, null);
+    if (andPred.getAnn(ParenAnn.class) != null) {
       result.getAnns().add(factory_.createParenAnn());
+    }
     return result;
   }
 
