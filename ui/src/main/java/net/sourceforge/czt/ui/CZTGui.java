@@ -96,7 +96,6 @@ public class CZTGui implements ActionListener
   JMenu filemenu = new JMenu("File");
   JMenuItem open = new JMenuItem("Open");
   JMenuItem startConsole = new JMenuItem("Start Console");
-  JMenuItem stopConsole = new JMenuItem("Stop Console");
   JMenu saveas = new JMenu("Export to");
   JMenuItem saveasLatex = new JMenuItem("Latex");
   JMenuItem saveasUnicode8 = new JMenuItem("Unicode(utf8)");
@@ -112,12 +111,7 @@ public class CZTGui implements ActionListener
   File file = null;
   File fileForExporting = null;
   
-  private ZLive zlive_;
-  private TextUI ui;
   private PrintStream out;
-  private java.io.Console console;
-  private boolean consoleRunning = true;
-  private String ZLiveOutput;
   /**
    *  Constructor for the CZTGui object
    */
@@ -131,9 +125,6 @@ public class CZTGui implements ActionListener
     saveas.setEnabled(false);
     close.setEnabled(false);
     
-    zlive_ = new ZLive();
-    ui = new TextUI(zlive_, null);
-    console = System.console();
     out = new PrintStream(new CZTGuiZLiveOutputRedirect( resultConsole ) );
     System.setOut(out);
     System.setErr(out);
@@ -200,7 +191,6 @@ public class CZTGui implements ActionListener
 
     open.addActionListener(this);
     startConsole.addActionListener(this);
-    stopConsole.addActionListener(this);
     saveasLatex.addActionListener(this);
     saveasUnicode8.addActionListener(this);
     saveasUnicode16.addActionListener(this);
@@ -211,7 +201,6 @@ public class CZTGui implements ActionListener
     
     filemenu.add(open);
     filemenu.add(startConsole);
-    filemenu.add(stopConsole);
     saveas.add(saveasLatex);
     saveas.add(saveasUnicode8);
     saveas.add(saveasUnicode16);
@@ -368,18 +357,7 @@ public class CZTGui implements ActionListener
     //resultList.setModel(resultListModel);
   }
 
-  public void execute(/*Console console,**/ JTextArea output, String command)
-  {
-    if (! command.equals("")) {
-      String parts[] = command.split(" ",2);
-      StringWriter out = new StringWriter();
-      ui.setOutput(new PrintWriter(out));
-      ui.processCmd(parts[0], parts.length > 1 ? parts[1] : "");
-      output.append(out.toString());
-    }
-    //output.commandDone();
-  }
-  
+   
   /**
    *  Description of the Method
    */
@@ -495,49 +473,55 @@ public class CZTGui implements ActionListener
     }
   }
 
-  public void ZLiveConsole(){
-    String command = null;
+  public void ZLive(){
     Runnable zliveConsole = new ZLiveConsole();
     Thread zliveConsoleThread = new Thread(zliveConsole);
     zliveConsoleThread.start();
     //execute(resultConsole,command);
   }
   
-  public class ZLiveConsole implements Runnable, ActionListener, KeyListener{
+  public class ZLiveConsole implements Runnable, ActionListener{
     JFrame consoleFrame = new JFrame("ZLive");
     JTextArea consoleArea = new JTextArea();
     JScrollPane consoleScroller = new JScrollPane(consoleArea);
     JTextField inputField = new JTextField(15);
     JButton executeButton = new JButton("Execute");
     JPanel inputPanel = new JPanel();
-    consoleArea.addKeyListener(this);
+    private ZLive zlive_ = new ZLive();;
+    private TextUI ui = new TextUI(zlive_, null);
     
     public void run(){
       //executeButton.setMnemonic(KeyEvent.VK_ENTER);
-      inputPanel.add(BorderLayout.WEST, inputField);
-      inputPanel.add(BorderLayout.EAST, executeButton);
+      inputPanel.add(BorderLayout.CENTER, inputField);
+      inputPanel.add(BorderLayout.EAST, executeButton);            
       consoleFrame.getContentPane().add(BorderLayout.NORTH, inputPanel);
       consoleFrame.getContentPane().add(BorderLayout.CENTER, consoleScroller);
+      consoleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       consoleFrame.setSize(300,200);
       consoleFrame.setVisible(true);
       executeButton.addActionListener(this);
       
-      
     }
+    
+    public void execute(/*Console console,**/ JTextArea output, String command)
+  {
+    if (! command.equals("")) {
+      String parts[] = command.split(" ",2);
+      StringWriter out = new StringWriter();
+      ui.setOutput(new PrintWriter(out));
+      ui.processCmd(parts[0], parts.length > 1 ? parts[1] : "");
+      output.append(out.toString());
+    }
+    //output.commandDone();
+  }
+    
     public void actionPerformed(ActionEvent event){
       if(event.getSource() == executeButton){
+        consoleArea.append(inputField.getText()+"\n");
         execute(consoleArea,inputField.getText());
         inputField.setText("");
+        inputField.requestFocus();
       }
-    }
-    public void keyTyped(KeyEvent e) {
-      System.out.print("yeah");
-    }
-    public void keyPressed(KeyEvent e) {
-      System.out.print("yeah");
-    }
-    public void keyReleased(KeyEvent e) {
-      System.out.print("yeah");
     }
   }
       
@@ -550,11 +534,7 @@ public class CZTGui implements ActionListener
   public void actionPerformed(ActionEvent event)
   {
     if(event.getSource() == startConsole){
-      ZLiveConsole();
-    }
-    
-    if(event.getSource() == stopConsole){
-      consoleRunning = false;
+      ZLive();
     }
     
     if(event.getSource() == czthelp){
