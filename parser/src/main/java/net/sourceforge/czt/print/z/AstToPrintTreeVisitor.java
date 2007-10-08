@@ -194,10 +194,42 @@ public class AstToPrintTreeVisitor
   public Term visitAndPred(AndPred andPred)
   {
     List<Object> list = new LinkedList<Object>();
+    visitAndPred(andPred, list);
+    final Precedence prec = getPrec(andPred);
+    PrintPredicate result =
+      printFactory_.createPrintPredicate(list, prec, null);
+    if (andPred.getAnn(ParenAnn.class) != null) {
+      result.getAnns().add(factory_.createParenAnn());
+    }
+    return result;
+  }
+
+  private void visitAndPredChild(Pred pred, boolean wedge, List<Object> list)
+  {
+    if (wedge &&
+        pred instanceof AndPred &&
+        And.Wedge.equals(((AndPred) pred).getAnd()) &&
+        pred.getAnn(ParenAnn.class) == null) {
+      visitAndPred((AndPred) pred, list);
+    }
+    else if (! wedge &&
+             pred instanceof AndPred &&
+             (And.NL.equals(((AndPred) pred).getAnd()) ||
+              And.Semi.equals(((AndPred) pred).getAnd())) &&
+             pred.getAnn(ParenAnn.class) == null) {
+      visitAndPred((AndPred) pred, list);
+    }
+    else {
+      list.add(visit(pred));
+    }
+  }
+
+  private void visitAndPred(AndPred andPred, List<Object> list)
+  {
     if (And.Wedge.equals(andPred.getAnd())) {
-      list.add(visit(andPred.getLeftPred()));
+      visitAndPredChild(andPred.getLeftPred(), true, list);
       list.add(ZKeyword.AND);
-      list.add(visit(andPred.getRightPred()));
+      visitAndPredChild(andPred.getRightPred(), true, list);
     }
     else if (And.Chain.equals(andPred.getAnd())) {
       PrintPredicate pred1 = (PrintPredicate) visit(andPred.getLeftPred());
@@ -216,25 +248,18 @@ public class AstToPrintTreeVisitor
       }
     }
     else if (And.NL.equals(andPred.getAnd())) {
-      list.add(visit(andPred.getLeftPred()));
+      visitAndPredChild(andPred.getLeftPred(), false, list);
       list.add(ZToken.NL);
-      list.add(visit(andPred.getRightPred()));
+      visitAndPredChild(andPred.getRightPred(), false, list);
     }
     else if (And.Semi.equals(andPred.getAnd())) {
-      list.add(visit(andPred.getLeftPred()));
+      visitAndPredChild(andPred.getLeftPred(), false, list);
       list.add(ZKeyword.SEMICOLON);
-      list.add(visit(andPred.getRightPred()));
+      visitAndPredChild(andPred.getRightPred(), false, list);
     }
     else {
       throw new CztException("Unexpected Op");
     }
-    final Precedence prec = getPrec(andPred);
-    PrintPredicate result =
-      printFactory_.createPrintPredicate(list, prec, null);
-    if (andPred.getAnn(ParenAnn.class) != null) {
-      result.getAnns().add(factory_.createParenAnn());
-    }
-    return result;
   }
 
   /**
