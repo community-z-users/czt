@@ -68,25 +68,29 @@ import java.util.Random;
 		// Return the best value
 	}
 	
-	public int eval(Object transition)
+	public int eval(int action, BitSet transitions)
 	{
 		if(complex == true)
-			return evalComplex(transition);
+			return evalComplex(action, transition);
 		else
-			return evalSimple(transition);
+			return evalSimple(action, transition);
 	}
 	
-	public int evalSimple(Object transition)
+	public int evalSimple(int action, BitSet transitions)
 	{
 		
 	}
 	
-	public int evalComplex(Object transition)
+	public int evalComplex(int action, BitSet transitions)
 	{
 		
 	}
 	
-	public int mem(Object transition)
+	public int mem(int action, BitSet transitions)
 	{
+		if(transitions.get(action))
+			return 0;
+		else
+			return 1;
 	}
  }
