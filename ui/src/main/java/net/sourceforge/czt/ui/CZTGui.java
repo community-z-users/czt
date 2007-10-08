@@ -4,6 +4,7 @@ package net.sourceforge.czt.ui;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicHTML;
@@ -113,9 +114,10 @@ public class CZTGui implements ActionListener
   
   private ZLive zlive_;
   private TextUI ui;
-  //private PrintStream out;
-  private Console console;
+  private PrintStream out;
+  private java.io.Console console;
   private boolean consoleRunning = true;
+  private String ZLiveOutput;
   /**
    *  Constructor for the CZTGui object
    */
@@ -125,16 +127,16 @@ public class CZTGui implements ActionListener
     chooser.addChoosableFileFilter(new CZTFilter());
     specDialog.setLocationRelativeTo(frame);
     statusBar.setEditable(false);
-    resultConsole.setEditable(false);
+    resultConsole.setEditable(true);
     saveas.setEnabled(false);
     close.setEnabled(false);
     
     zlive_ = new ZLive();
     ui = new TextUI(zlive_, null);
     console = System.console();
-    //out = new PrintStream(new CZTGuiZLiveOutputRedirect( resultConsole ) );
-    //System.setOut(out);
-    //System.setErr(out);
+    out = new PrintStream(new CZTGuiZLiveOutputRedirect( resultConsole ) );
+    System.setOut(out);
+    System.setErr(out);
     
     /*try{
     JEditorPane tc = new JEditorPane(CZTGui.class.getResource("czt_help.html"));
@@ -371,9 +373,9 @@ public class CZTGui implements ActionListener
     if (! command.equals("")) {
       String parts[] = command.split(" ",2);
       StringWriter out = new StringWriter();
-      ui.setOutput(new PrintWriter(System.out));
+      ui.setOutput(new PrintWriter(out));
       ui.processCmd(parts[0], parts.length > 1 ? parts[1] : "");
-      //output.append(out.toString());
+      output.append(out.toString());
     }
     //output.commandDone();
   }
@@ -495,12 +497,50 @@ public class CZTGui implements ActionListener
 
   public void ZLiveConsole(){
     String command = null;
-    while(consoleRunning){
-    command = console.readLine("zlive> ",null);
-    if(command.equals("quit"))break;
-    execute(resultConsole,command);
+    Runnable zliveConsole = new ZLiveConsole();
+    Thread zliveConsoleThread = new Thread(zliveConsole);
+    zliveConsoleThread.start();
+    //execute(resultConsole,command);
+  }
+  
+  public class ZLiveConsole implements Runnable, ActionListener, KeyListener{
+    JFrame consoleFrame = new JFrame("ZLive");
+    JTextArea consoleArea = new JTextArea();
+    JScrollPane consoleScroller = new JScrollPane(consoleArea);
+    JTextField inputField = new JTextField(15);
+    JButton executeButton = new JButton("Execute");
+    JPanel inputPanel = new JPanel();
+    consoleArea.addKeyListener(this);
+    
+    public void run(){
+      //executeButton.setMnemonic(KeyEvent.VK_ENTER);
+      inputPanel.add(BorderLayout.WEST, inputField);
+      inputPanel.add(BorderLayout.EAST, executeButton);
+      consoleFrame.getContentPane().add(BorderLayout.NORTH, inputPanel);
+      consoleFrame.getContentPane().add(BorderLayout.CENTER, consoleScroller);
+      consoleFrame.setSize(300,200);
+      consoleFrame.setVisible(true);
+      executeButton.addActionListener(this);
+      
+      
+    }
+    public void actionPerformed(ActionEvent event){
+      if(event.getSource() == executeButton){
+        execute(consoleArea,inputField.getText());
+        inputField.setText("");
+      }
+    }
+    public void keyTyped(KeyEvent e) {
+      System.out.print("yeah");
+    }
+    public void keyPressed(KeyEvent e) {
+      System.out.print("yeah");
+    }
+    public void keyReleased(KeyEvent e) {
+      System.out.print("yeah");
     }
   }
+      
   
   /**
    *  Description of the Method
@@ -510,7 +550,6 @@ public class CZTGui implements ActionListener
   public void actionPerformed(ActionEvent event)
   {
     if(event.getSource() == startConsole){
-      resultConsole.setEditable(true);
       ZLiveConsole();
     }
     
@@ -616,5 +655,5 @@ public class CZTGui implements ActionListener
         System.exit(0);
     }
   }
+
 }
-        
