@@ -197,18 +197,18 @@ public class PanelTestDesign extends JPanel
     m_panelAlgorithmBase = new JPanel();
 
     m_panelAlgorithm = new OptionPanelAdapter[3];
-    m_panelAlgorithm[0] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[0],
+    m_panelAlgorithm = OptionPanelCreator.createPanels();
+    /*m_panelAlgorithm[0] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[0],
         "Select an algorithm from combobox.", "default.gif");
     
     m_panelAlgorithm[1] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[1],
         "Random algorithm to traverse the model", "random.gif");
     
     m_panelAlgorithm[2] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[2],
-        "Greedy algorithm to traverse the model", "greedy.gif");
-    
-    m_combAlgorithmSelection.addItem(m_panelAlgorithm[0].getAlgorithmName());
-    m_combAlgorithmSelection.addItem(m_panelAlgorithm[1].getAlgorithmName());
-    m_combAlgorithmSelection.addItem(m_panelAlgorithm[2].getAlgorithmName());
+        "Greedy algorithm to traverse the model", "greedy.gif");*/
+    // Add algorithm name into combobox
+    for(int i=0;i<OptionPanelCreator.NUM_PANE;i++)
+      m_combAlgorithmSelection.addItem(m_panelAlgorithm[i].getAlgorithmName());
     m_combAlgorithmSelection.addActionListener(this);
     // Setup slider
     
