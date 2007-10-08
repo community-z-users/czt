@@ -403,7 +403,11 @@ setJMenuBar(mb);
       JTabbedPane sourcePane = (JTabbedPane)e.getSource();
       
       int idx = sourcePane.getSelectedIndex();
-      
+      // Set run button visibility
+      if(3 == idx)
+        m_butRun.setVisible(false);
+      else
+        m_butRun.setVisible(true);
       // If user loaded a new model initialize it.
       if(m_panelTD.isNewModelLoaded())
       {
@@ -418,10 +422,12 @@ setJMenuBar(mb);
         // Fill actions in action list
         m_panelEA.reloadActionModel();
       }
+      
       // Regenerate code
       if(!Parameter.isTestRunnable(false))
         return;
       updateGeneratedCode();
+      
       // If user click the ExecuteAction pane
       if(3 == idx)
       {
