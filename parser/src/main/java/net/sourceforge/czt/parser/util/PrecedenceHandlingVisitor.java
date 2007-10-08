@@ -40,10 +40,10 @@ import net.sourceforge.czt.z.visitor.*;
  * This is described in note 3 of section 8.3 of the Z standard.
  */
 public class PrecedenceHandlingVisitor
-  implements TermVisitor,
-             RefExprVisitor,
-             ApplExprVisitor,
-             ProdExprVisitor
+  implements TermVisitor<Term>,
+             RefExprVisitor<Term>,
+             ApplExprVisitor<Term>,
+             ProdExprVisitor<Term>
 {
   /** The precedence of a cross product. */
   protected static final BigInteger PRODEXPR_PRECEDENCE =
@@ -54,9 +54,6 @@ public class PrecedenceHandlingVisitor
 
   /** A ZFactory. */
   protected Factory factory_ = new Factory(new ZFactoryImpl());
-
-  /** The parents of the terms being analysed. */
-  protected List parent_ = new ArrayList();
 
   /**
    * Constructs an instance of this handler with a specified
@@ -70,40 +67,34 @@ public class PrecedenceHandlingVisitor
   /**
    * Visits all of its children and copies annotations.
    */
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     Term result = VisitorUtils.visitTerm(this, term, true);
     return result;
   }
 
-  public Object visitRefExpr(RefExpr refExpr)
+  private Term handleExpr(Expr expr)
   {
-    Object o = visitTerm(refExpr);
-
-    if (WrappedExpr.isValidWrappedExpr(o)) {
-      return reorder(new WrappedExpr(o));
+    Term term = visitTerm(expr);
+    if (WrappedExpr.isValidWrappedExpr(term)) {
+      return reorder(new WrappedExpr(term));
     }
-    return o;
+    return term;
   }
 
-  public Object visitApplExpr(ApplExpr applExpr)
+  public Term visitRefExpr(RefExpr refExpr)
   {
-    Object o = visitTerm(applExpr);
-
-    if (WrappedExpr.isValidWrappedExpr(o)) {
-      return reorder(new WrappedExpr(o));
-    }
-    return o;
+    return handleExpr(refExpr);
   }
 
-  public Object visitProdExpr(ProdExpr prodExpr)
+  public Term visitApplExpr(ApplExpr applExpr)
   {
-    Object o = visitTerm(prodExpr);
+    return handleExpr(applExpr);
+  }
 
-    if (WrappedExpr.isValidWrappedExpr(o)) {
-      return reorder(new WrappedExpr(o));
-    }
-    return o;
+  public Term visitProdExpr(ProdExpr prodExpr)
+  {
+    return handleExpr(prodExpr);
   }
 
   protected Expr createExpr(WrappedExpr wrappedExpr)

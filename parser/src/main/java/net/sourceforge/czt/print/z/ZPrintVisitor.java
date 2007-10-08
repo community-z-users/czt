@@ -54,17 +54,21 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class ZPrintVisitor
   extends AbstractPrintVisitor
-  implements TermVisitor, ListTermVisitor, ZVisitor,
-             ApplicationVisitor, OperatorApplicationVisitor,
-             PrintParagraphVisitor,
-             PrintPredicateVisitor, PrintExpressionVisitor,
+  implements TermVisitor<Object>,
+             ListTermVisitor<Object>,
+             ZVisitor<Object>,
+             ApplicationVisitor<Object>,
+             OperatorApplicationVisitor<Object>,
+             PrintParagraphVisitor<Object>,
+             PrintPredicateVisitor<Object>,
+             PrintExpressionVisitor<Object>,
              PrintPropertiesKeys
 {
   protected boolean ref_ = false;
   private Properties properties_;
   private Utils utils_ = new UtilsImpl();
   private Factory factory_ = new Factory();
-  private Visitor visitor_ = this;
+  private Visitor<Object> visitor_ = this;
 
   /**
    * Creates a new Z print visitor.

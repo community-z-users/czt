@@ -33,7 +33,7 @@ import net.sourceforge.czt.print.util.TokenSequence;
  * since a Stack is build up while recursing into children.
  */
 public class TokenSequenceVisitor
-  implements TermVisitor,
+  implements TermVisitor<Object>,
              AbstractPrintVisitor.ZPrinter
 {
   private ZPrintVisitor visitor_;

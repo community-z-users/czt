@@ -50,7 +50,7 @@ import net.sourceforge.czt.z.util.ZUtils;
  */
 public class CircusPrintVisitor
     extends net.sourceforge.czt.print.z.ZPrintVisitor
-    implements CircusVisitor {
+    implements CircusVisitor<Object> {
     
     private final WarningManager warningManager_;
     

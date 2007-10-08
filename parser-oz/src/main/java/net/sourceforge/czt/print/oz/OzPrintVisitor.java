@@ -41,7 +41,7 @@ import net.sourceforge.czt.parser.z.ZToken;
  */
 public class OzPrintVisitor
   extends net.sourceforge.czt.print.z.ZPrintVisitor
-  implements OzVisitor
+  implements OzVisitor<Object>
 {
   /**
    * Creates a new Object-Z print visitor.

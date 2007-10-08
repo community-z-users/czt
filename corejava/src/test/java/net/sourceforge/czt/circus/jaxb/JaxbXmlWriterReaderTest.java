@@ -65,7 +65,7 @@ public class JaxbXmlWriterReaderTest extends XmlWriterReaderTest
 
   public List<URL> getExampleFiles()
   {
-    List<URL> result = new ArrayList();
+    List<URL> result = new ArrayList<URL>();
     result.add(Resources.getCircusExample("channels.xml"));
     // STILL SOME PROBLEMS...
     //result.add(Resources.getCircusExample("fib-multenv.xml"));

@@ -23,15 +23,11 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
-
-import net.sourceforge.czt.z2b.*;
-
 
 /**
  * This class prints a Z predicate/expression out in B syntax.
@@ -39,26 +35,26 @@ import net.sourceforge.czt.z2b.*;
  * @author Mark Utting
  */
 public class BTermWriter
-  implements TermVisitor,
-             AndPredVisitor,
-	     OrPredVisitor,
-	     ImpliesPredVisitor,
-	     IffPredVisitor,
-	     NegPredVisitor,
-	     MemPredVisitor,
-	     FalsePredVisitor,
-	     TruePredVisitor,
-             ExistsPredVisitor,
-             ForallPredVisitor,
+  implements TermVisitor<Term>,
+             AndPredVisitor<Term>,
+	     OrPredVisitor<Term>,
+	     ImpliesPredVisitor<Term>,
+	     IffPredVisitor<Term>,
+	     NegPredVisitor<Term>,
+	     MemPredVisitor<Term>,
+	     FalsePredVisitor<Term>,
+	     TruePredVisitor<Term>,
+             ExistsPredVisitor<Term>,
+             ForallPredVisitor<Term>,
 
-	     ZNameVisitor,
-	     NumExprVisitor,
-	     ApplExprVisitor,
-             RefExprVisitor,
-             PowerExprVisitor,
-             SetExprVisitor,
-             ProdExprVisitor,
-             TupleExprVisitor
+	     ZNameVisitor<Term>,
+	     NumExprVisitor<Term>,
+	     ApplExprVisitor<Term>,
+             RefExprVisitor<Term>,
+             PowerExprVisitor<Term>,
+             SetExprVisitor<Term>,
+             ProdExprVisitor<Term>,
+             TupleExprVisitor<Term>
 {
   // Precedences of a few common B operators.
   // NOTE: these must agree with any matching entries in ops_.
@@ -74,7 +70,8 @@ public class BTermWriter
   = Logger.getLogger("net.sourceforge.czt.z2b");
   
   /** This maps Z operators into B operators */
-  private static Map ops_ = new HashMap();
+  private static Map<String,BOperator> ops_ =
+    new HashMap<String,BOperator>();
 
   /** These objects store information about a B operator. */
   private class BOperator {
@@ -420,42 +417,42 @@ public class BTermWriter
   */
   
   /** This generic visit method recurses into all Z terms. */
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, true);
   }
 
-  public Object visitAndPred(AndPred p)
+  public Term visitAndPred(AndPred p)
   {
     infixOp(bOp(arg+ZString.AND+arg), p.getLeftPred(), p.getRightPred());
     return p;
   }
 
-  public Object visitOrPred(OrPred p)
+  public Term visitOrPred(OrPred p)
   {
     infixOp(bOp(arg+ZString.OR+arg), p.getLeftPred(), p.getRightPred());
     return p;
   }
 
-  public Object visitImpliesPred(ImpliesPred p)
+  public Term visitImpliesPred(ImpliesPred p)
   {
     infixOp(bOp(arg+ZString.IMP+arg), p.getLeftPred(), p.getRightPred());
     return p;
   }
 
-  public Object visitIffPred(IffPred p)
+  public Term visitIffPred(IffPred p)
   {
     infixOp(bOp(arg+ZString.IFF+arg), p.getLeftPred(), p.getRightPred());
     return p;
   }
 
-  public Object visitNegPred(NegPred p)
+  public Term visitNegPred(NegPred p)
   {
     unaryOp(bOp(ZString.NOT+arg), p.getPred());
     return p;
   }
 
-  public Object visitMemPred(MemPred p)
+  public Term visitMemPred(MemPred p)
   {
     BOperator op = null;
     if (p.getMixfix().booleanValue()
@@ -503,19 +500,19 @@ public class BTermWriter
     return p;
   }
 
-  public Object visitFalsePred(FalsePred p)
+  public Term visitFalsePred(FalsePred p)
   {
     out_.print("false");
     return p;
   }
 
-  public Object visitTruePred(TruePred p)
+  public Term visitTruePred(TruePred p)
   {
     out_.print("true");
     return p;
   }
 
-  public Object visitExistsPred(ExistsPred p)
+  public Term visitExistsPred(ExistsPred p)
   {
     out_.beginPrec(out_.TIGHTEST);
     out_.print("#(");
@@ -528,7 +525,7 @@ public class BTermWriter
     return p;
   }
 
-  public Object visitForallPred(ForallPred p)
+  public Term visitForallPred(ForallPred p)
   {
     out_.beginPrec(out_.TIGHTEST);
     out_.print("!(");
@@ -546,7 +543,7 @@ public class BTermWriter
   // Expressions
   //=========================================================
 
-  public Object visitZName(ZName zName)
+  public Term visitZName(ZName zName)
   {
     String name = zName.accept(new PrintVisitor());
     sLogger.fine("BTermWriter.visitName(" + zName + ") sees " + name);
@@ -565,13 +562,13 @@ public class BTermWriter
     return zName;
   }
 
-  public Object visitNumExpr(NumExpr e)
+  public Term visitNumExpr(NumExpr e)
   {
     out_.print(e.getNumeral().accept(new PrintVisitor()));
     return e;
   }
 
-  public Object visitApplExpr(ApplExpr e)
+  public Term visitApplExpr(ApplExpr e)
   {
     // Try to map the function to a B operator.
     BOperator op = null;
@@ -614,7 +611,7 @@ public class BTermWriter
     return e;
   }
 
-  public Object visitRefExpr(RefExpr e)
+  public Term visitRefExpr(RefExpr e)
   {
     BOperator op = null;
     ZName name = e.getZName();
@@ -634,7 +631,7 @@ public class BTermWriter
     return e;
   }
 
-  public Object visitPowerExpr(PowerExpr e)
+  public Term visitPowerExpr(PowerExpr e)
   {
     BOperator op = bOp(ZString.POWER+arg);
     sLogger.fine("printing PowerExpr.  op=" + op);    
@@ -642,7 +639,7 @@ public class BTermWriter
     return e;
   }
 
-  public Object visitSetExpr(SetExpr set)
+  public Term visitSetExpr(SetExpr set)
   {
     out_.beginPrec(out_.TIGHTEST);
     out_.print("{");
@@ -659,7 +656,7 @@ public class BTermWriter
     return set;
   }
 
-  public Object visitProdExpr(ProdExpr e)
+  public Term visitProdExpr(ProdExpr e)
   {
     List<Expr> sets = e.getZExprList();
     if (sets.size() == 2) {
@@ -677,7 +674,7 @@ public class BTermWriter
     return e;
   }
 
-  public Object visitTupleExpr(TupleExpr e)
+  public Term visitTupleExpr(TupleExpr e)
   {
     List<Expr> sets = e.getZExprList();
     if (sets.size() == 2) {

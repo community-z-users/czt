@@ -67,7 +67,7 @@ public class JaxbXmlWriterReaderTest
 
   public List<URL> getExampleFiles()
   {
-    List<URL> result = new ArrayList();
+    List<URL> result = new ArrayList<URL>();
     result.add(Resources.getZExample("Sched.xml"));
     result.add(Resources.getZExample("birthdaybook.xml"));
     result.add(Resources.getZExample("predicate.xml"));

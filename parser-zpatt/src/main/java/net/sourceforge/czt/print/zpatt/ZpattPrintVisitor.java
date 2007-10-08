@@ -29,7 +29,7 @@ import net.sourceforge.czt.zpatt.visitor.*;
 
 public class ZpattPrintVisitor
   extends net.sourceforge.czt.print.z.ZPrintVisitor
-  implements ZpattVisitor
+  implements ZpattVisitor<Object>
 {
   public ZpattPrintVisitor(ZPrinter printer, Properties props)
   {

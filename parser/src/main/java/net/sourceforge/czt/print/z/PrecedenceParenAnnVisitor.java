@@ -54,9 +54,12 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class PrecedenceParenAnnVisitor
-  implements TermVisitor,
-             PredVisitor, ExprVisitor, ProdExprVisitor,
-             ApplicationVisitor, OperatorApplicationVisitor
+  implements TermVisitor<Object>,
+             PredVisitor<Object>,
+             ExprVisitor<Object>,
+             ProdExprVisitor<Object>,
+             ApplicationVisitor<Object>,
+             OperatorApplicationVisitor<Object>
 {
   /**
    * A factory used to create the parenthesis annotations.
@@ -171,9 +174,9 @@ public class PrecedenceParenAnnVisitor
   {
     VisitorUtils.visitTerm(this, prodExpr);
     preservePrecedence(prodExpr);
-    for (Iterator iter = prodExpr.getZExprList().iterator();
+    for (Iterator<Expr> iter = prodExpr.getZExprList().iterator();
          iter.hasNext(); ) {
-      Object child = iter.next();
+      Expr child = iter.next();
       if (child instanceof ProdExpr) {
         addParenAnn((ProdExpr) child);
       }

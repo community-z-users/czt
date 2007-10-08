@@ -5,7 +5,7 @@ import com.microstar.xml.*;
 
 public class CztXmlHandler extends HandlerBase
 {
-  private List<List<Object>> table_ = new ArrayList();
+  private List<List<Object>> table_ = new ArrayList<List<Object>>();
   private List<Object> row_;
   private String name_;
   private String unicode_;
@@ -20,7 +20,7 @@ public class CztXmlHandler extends HandlerBase
   public void attribute(String name, String value, boolean isSpecified)
   {
     if ("HEADING".equalsIgnoreCase(name)) {
-      row_ = new ArrayList();
+      row_ = new ArrayList<Object>();
       row_.add(value);
     }
     else if ("NAME".equalsIgnoreCase(name)) {

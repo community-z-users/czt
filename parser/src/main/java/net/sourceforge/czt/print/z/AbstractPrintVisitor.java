@@ -29,7 +29,7 @@ import net.sourceforge.czt.parser.z.*;
  * @author Petra Malik
  */
 public abstract class AbstractPrintVisitor
-  implements Visitor
+  implements Visitor<Object>
 {
   private ZPrinter printer_;
 
