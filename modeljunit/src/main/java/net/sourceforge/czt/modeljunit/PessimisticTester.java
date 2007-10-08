@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Random;
 
+import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+
 /** An attempt at implementing the Pessimistic Player algorithm
  *
  *  @author Pele Douangsavanh
@@ -30,10 +33,11 @@ import java.util.Random;
 public class PessimisticTester extends Tester
 {
   protected GraphListener graph_;
+  protected CoverageMetric transitions_;
 
-  private int depth;
+  private int depth_;
 
-  private boolean complex;
+  private boolean complex_;
 
   /**
    *  Creates a test generator that can generate random walks.
@@ -44,9 +48,10 @@ public class PessimisticTester extends Tester
   {
     super(model);
     model.addListener("graph");
+    transitions_ = (CoverageMetric) model.addListener(new TransitionCoverage());
     graph_ = (GraphListener) model.getListener("graph");
-    depth = 5;
-    complex = false;
+    depth_ = 5;
+    complex_ = false;
   }
 
   /**
@@ -68,20 +73,29 @@ public class PessimisticTester extends Tester
     return 0;
   }
 
-  public int eval(int action, BitSet transitions)
+  public int evalState(Object state, int depth)
   {
-    if (complex == true)
-      return evalComplex(action, transitions);
-    else
-      return evalSimple(action, transitions);
+    if (depth == 0)
+      return 0;
+    int[] worth = new int[model_.getNumActions()];
+    
+    return 0;
   }
 
-  public int evalSimple(int action, BitSet transitions)
+  public int eval(Object state, int action)
+  {
+    if (complex_ == true)
+      return evalComplex(state, action);
+    else
+      return evalSimple(state, action);
+  }
+
+  public int evalSimple(Object state, int action)
   {
     return 0;
   }
 
-  public int evalComplex(int action, BitSet transitions)
+  public int evalComplex(Object state, int action)
   {
     return 0;
   }
