@@ -74,24 +74,24 @@ action code
 
   private Map addStandardMapping(Map map)
   {
-    map.put(ZString.SPOT, new LatexCommand("@", ZString.SPOT, true, true));
-    map.put("+", new LatexCommand("+", "+", true, true));
-    map.put(ZString.MINUS, new LatexCommand("-", ZString.MINUS, true, true));
-    map.put("*", new LatexCommand("*", "*", true, true));
-    map.put("|", new LatexCommand("|", "|", true, true));
-    map.put(";", new LatexCommand(";", ";", false, true));
-    map.put(",", new LatexCommand(",", ",", false, true));
-    map.put(ZString.SE, new LatexCommand("_{", ZString.SE, false, false));
-    map.put(ZString.NW, new LatexCommand("}", ZString.NW, false, false));
-    map.put(ZString.NE, new LatexCommand("^{", ZString.NE, false, false));
-    map.put(ZString.SW, new LatexCommand("}", ZString.SW, false, false));
-    map.put(ZString.LL, new LatexCommand("\\_", ZString.LL, false, false));
+    map.put(ZString.SPOT, resultTT("@", ZString.SPOT));
+    map.put("+", resultTT("+", "+"));
+    map.put(ZString.MINUS, resultTT("-", ZString.MINUS));
+    map.put("*", resultTT("*", "*"));
+    map.put("|", resultTT("|", "|"));
+    map.put(";", resultFT(";", ";"));
+    map.put(",", resultFT(",", ","));
+    map.put(ZString.SE, resultFF("_{", ZString.SE));
+    map.put(ZString.NW, resultFF("}", ZString.NW));
+    map.put(ZString.NE, resultFF("^{", ZString.NE));
+    map.put(ZString.SW, resultFF("}", ZString.SW));
+    map.put(ZString.LL, resultFF("\\_", ZString.LL));
 <add:oldz>
-    map.put(ZString.NEG, new LatexCommand("-", ZString.NEG, false, false));
+    map.put(ZString.NEG, resultFF("-", ZString.NEG));
 </add:oldz>
 <add:circus>
-    /*  Add here only additional elements that have not been declared in toolkits
-     *  or in other keyword/token related files.
+    /*  Add here only additional elements that have not been declared
+     *  in toolkits or in other keyword/token related files.
      */
 </add:circus>
     return map;
@@ -236,16 +236,6 @@ action code
                             addLeftSpace, addRightSpace);
   }
 
-  /**
-   * Create a list containing one element.
-   */
-  protected List list(Object o)
-  {
-    List result = new ArrayList();
-    result.add(o);
-    return result;
-  }
-
   private void addParentMarkups(ZSect zsect, LatexMarkupFunction table)
   {
     for (Parent parent : zsect.getParent()) {
@@ -312,12 +302,30 @@ action code
     }
     addStandardMapping(unicode2latexMap_);
 <add:oldz>
-    LatexCommand arithmos =
-       new LatexCommand("\\num", ZString.ARITHMOS, false, false);
+    LatexCommand arithmos = resultFF("\\num", ZString.ARITHMOS);
     unicode2latexMap_.put(ZString.ARITHMOS, arithmos);
 </add:oldz>
   }
 
+  protected LatexCommand resultTT(String latex, String unicode)
+  {
+    return new LatexCommand(latex, unicode, true, true);
+  }
+
+  protected LatexCommand resultTF(String latex, String unicode)
+  {
+    return new LatexCommand(latex, unicode, true, false);
+  }
+
+  protected LatexCommand resultFT(String latex, String unicode)
+  {
+    return new LatexCommand(latex, unicode, false, true);
+  }
+
+  protected LatexCommand resultFF(String latex, String unicode)
+  {
+    return new LatexCommand(latex, unicode, false, false);
+  }
 :}
 
 parser code {:
@@ -395,9 +403,10 @@ parser code {:
       action_obj.setupMarkupTable(table);
     }
     String logMessage =
-        "Next token is (" + symbolMap_.get(result.sym) + ", " + 
-            (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " + 
-                (result.value != null ? result.value.getClass().getName() : "null") : "...shhh...") + ").";    
+      "Next token is (" + symbolMap_.get(result.sym) + ", " + 
+      (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " + 
+       (result.value != null ? result.value.getClass().getName() : "null") :
+       "...shhh...") + ").";    
     CztLogger.getLogger(<class/>.class).fine(logMessage);
     return result;
   }
@@ -490,8 +499,10 @@ parser code {:
         if (s.right &gt;= 0) m.append(", column "+(s.right + 1));
       }
       String value = String.valueOf(s.value);
-      if (s.value instanceof Term &amp;&amp; ((Term)s.value).getAnn(LocAnn.class) != null) {  
-        value += " at " + ((LocAnn)(((Term)s.value).getAnn(LocAnn.class))).toString();
+      if (s.value instanceof Term &amp;&amp;
+          ((Term)s.value).getAnn(LocAnn.class) != null) {  
+        value += " at " +
+          ((LocAnn)(((Term)s.value).getAnn(LocAnn.class))).toString();
       }
       m.append(", Token(" + symbolMap_.get(s.sym) + "," + s.value + ")");
     }
@@ -529,13 +540,15 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
 <add:circus>
-                   CIRCUS, CIRCUSACTION, LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
+                   CIRCUS, CIRCUSACTION, LCIRCCHANSET, RCIRCCHANSET,
+                   CIRCLINST, CIRCRINST,
                    LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
                    LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME, 
                    
-                   //CIRCREFINES, CIRCDEF, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
-                   //CIRCPROC, CIRCDO, CIRCVAR, CIRCVAL, CIRCRES, CIRCVRES, CIRCNAMESET,
-                   //CIRCASSERTREF, CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
+                   //CIRCREFINES, CIRCDEF, CIRCCHAN, CIRCCHANFROM,
+                   //CIRCCHANSET, CIRCPROC, CIRCDO, CIRCVAR, CIRCVAL,
+                   //CIRCRES, CIRCVRES, CIRCNAMESET, CIRCASSERTREF,
+                   //CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
 </add:circus>
 <add:zpatt>
                    JOKER, RULE, RULELINE, PROVISO,
@@ -722,7 +735,8 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
             |
             CIRCUSJOKER decorword:w tokenSeq:s END
             {:                
-               String result = begin("circusjoker") + "{" + w.getName() + "}";
+               String result = begin("circusjoker") + "{" +
+                 w.getName() + "}";
                if (s != null) result += s.getName();
                result += end("circusjoker");
                parser.write(result);
@@ -730,7 +744,8 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
             |
             CIRCUSACTIONLAW decorword:w tokenSeq:s END
             {:
-               String result = begin("circusactionlaw") + "{" + w.getName() + "}";
+               String result = begin("circusactionlaw") + "{" +
+                 w.getName() + "}";
                if (s != null) result += s.getName();
                result += end("rule");
                parser.write(result);
@@ -738,14 +753,16 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
             |
             CIRCUSPROCESSLAW decorword:w tokenSeq:s END
             {:
-               String result = begin("circusprocesslaw") + "{" + w.getName() + "}";
+               String result = begin("circusprocesslaw") +
+                 "{" + w.getName() + "}";
                if (s != null) result += s.getName();
                result += end("rule");
                parser.write(result);
             :}
 </add:circuspatt>
 <add:circus>
-            // TODO: Add here, like for OZ, the appropriate printing productions
+            // TODO: Add here, like for OZ, the appropriate printing
+            // productions
             |
             CIRCUS tokenSeq:s END
             {:
@@ -821,37 +838,26 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {: RESULT = s; :}
              |
              INSTROKE
-             {:
-                RESULT =
-                  new LatexCommand("?", ZString.INSTROKE, false, false);
-             :}
+             {: RESULT = resultFF("?", ZString.INSTROKE); :}
              |
              OUTSTROKE
-             {:
-                RESULT =
-                  new LatexCommand("!", ZString.OUTSTROKE, false, false);
-             :}
+             {: RESULT = resultFF("!", ZString.OUTSTROKE); :}
              |
              NEXTSTROKE
-             {:
-                RESULT =
-                  new LatexCommand("'", ZString.PRIME, false, false);
-             :}
+             {: RESULT = resultFF("'", ZString.PRIME); :}
              |
              NUMSTROKE:i
              {:
                 final String numString = i.getValue().toString();
                 String latex = "_" + numString;
                 String unicode = ZString.SE + numString + ZString.NW;
-                RESULT =
-                  new LatexCommand(latex, unicode, false, false);
+                RESULT = resultFF(latex, unicode);
              :}
              |
              NUMERAL:i
              {:
                 final String numString = i.getValue().toString();
-                RESULT =
-                  new LatexCommand(numString, numString, false, false);
+                RESULT = resultFF(numString, numString);
              :}
              |
              paren:s
@@ -859,28 +865,19 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              |
              WHERE:t
              {:
-                RESULT =
-                  new LatexCommand("\n\\where\n", ZString.VL, true, true);
-             :}
+                RESULT = resultTT("\n\\where\n", ZString.VL); :}
 <add:oz>
              |
              SDEF
-             {:
-                RESULT =
-                  new LatexCommand("\\sdef", OzString.SDEF, true, true);
-             :}             
+             {: RESULT = resultTT("\\sdef", OzString.SDEF); :}             
 </add:oz>
 <add:zpatt>
              |
              RULELINE
-             {:
-                RESULT = new LatexCommand("\n\\derives\n", "\u2500", true, true);
-             :}
+             {: RESULT = resultTT("\n\\derives\n", "\u2500"); :}
              |
              PROVISO
-             {:
-                RESULT = new LatexCommand("\\proviso", "\u25B8", true, true);
-             :}
+             {: RESULT = resultTT("\\proviso", "\u25B8"); :}
 </add:zpatt>
              ;
 
@@ -888,13 +885,11 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {:
                 assert s != null;
                 if (s instanceof WhereWord) {
-                  RESULT =
-                    new LatexCommand("\n\\where\n", ZString.VL, true, true);
+                  RESULT = resultTT("\n\\where\n", ZString.VL);
                 }
 <add:oldz>
                 else if (s instanceof DefsWord) {
-                  RESULT =
-                    new LatexCommand("\\defs", ZString.DEFEQUAL, true, true);
+                  RESULT = resultTT("\\defs", ZString.DEFEQUAL);
                 }
 </add:oldz>
                 else {
@@ -904,156 +899,111 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              ;
 
    paren ::= LPAREN
-             {:
-                RESULT =
-                  new LatexCommand("(", ZString.LPAREN, true, true);
-             :}
+             {: RESULT = resultTT("(", ZString.LPAREN); :}
              |
              RPAREN
-             {:
-                RESULT =
-                  new LatexCommand(")", ZString.RPAREN , true, true);
-             :}
+             {: RESULT = resultTT(")", ZString.RPAREN); :}
              |
              LSQUARE
-             {:
-                RESULT =
-                  new LatexCommand("[", ZString.LSQUARE, true, true);
-             :}
+             {: RESULT = resultTT("[", ZString.LSQUARE); :}
              |
              RSQUARE
-             {:
-                RESULT =
-                  new LatexCommand("]", ZString.RSQUARE, true, true);
-             :}
+             {: RESULT = resultTT("]", ZString.RSQUARE); :}
              |
              LBRACE
-             {:
-                RESULT =
-                  new LatexCommand("\\{",  ZString.LBRACE, true, true);
-             :}
+             {: RESULT = resultTT("\\{",  ZString.LBRACE); :}
              |
              RBRACE
-             {:
-                RESULT =
-                  new LatexCommand("\\}", ZString.RBRACE, true, true);
-             :}
+             {: RESULT = resultTT("\\}", ZString.RBRACE); :}
              |
              LBIND
-             {:
-                RESULT =
-                  new LatexCommand("\\lblot", ZString.LBIND, true, true);
-             :}
+             {: RESULT = resultTT("\\lblot", ZString.LBIND); :}
              |
              RBIND
-             {:
-                RESULT =
-                  new LatexCommand("\\rblot", ZString.RBIND, true, true);
-             :}
+             {: RESULT = resultTT("\\rblot", ZString.RBIND); :}
              |
              LDATA
-             {:
-                RESULT =
-                  new LatexCommand("\\ldata", ZString.LDATA, true, true);
-             :}
+             {: RESULT = resultTT("\\ldata", ZString.LDATA); :}
              |
              RDATA
-             {:
-                RESULT =
-                  new LatexCommand("\\rdata", ZString.RDATA, true, true);
-             :}
+             {: RESULT = resultTT("\\rdata", ZString.RDATA); :}
 <add:circus>
              |
              LCIRCCHANSET
              {:
-                RESULT =
-                  new LatexCommand("\\lchanset~", CircusString.LCIRCCHANSET, true, true);
+                RESULT = resultTT("\\lchanset~", CircusString.LCIRCCHANSET);
              :}
              |
              RCIRCCHANSET
              {:
-                RESULT =
-                  new LatexCommand("~\\rchanset", CircusString.RCIRCCHANSET, true, true);
+                RESULT = resultTT("~\\rchanset", CircusString.RCIRCCHANSET);
              :}
              |
              CIRCLINST
              {:
-                RESULT =
-                  new LatexCommand("\\circlinst~", CircusString.CIRCLINST, true, true);
+                RESULT = resultTT("\\circlinst~", CircusString.CIRCLINST);
              :}
              |
              CIRCRINST
              {:
-                RESULT =
-                  new LatexCommand("~\\circrinst", CircusString.CIRCRINST, true, true);
+                RESULT = resultTT("~\\circrinst", CircusString.CIRCRINST);
              :}
              |
              LCIRCGUARD
              {:
-                RESULT =
-                  new LatexCommand("\\lcircguard~", CircusString.LCIRCGUARD, true, true);
+                RESULT = resultTT("\\lcircguard~", CircusString.LCIRCGUARD);
              :}
              |
              RCIRCGUARD
              {:
-                RESULT =
-                  new LatexCommand("~\\rcircguard", CircusString.RCIRCGUARD, true, true);
+                RESULT = resultTT("~\\rcircguard", CircusString.RCIRCGUARD);
              :}
              |
              LSCHEXPRACT
              {:
-                RESULT =
-                  new LatexCommand("\\lschexpract~", CircusString.LSCHEXPRACT, true, true);
+                RESULT = resultTT("\\lschexpract~", CircusString.LSCHEXPRACT);
              :}
              |
              RSCHEXPRACT
              {:
-                RESULT =
-                  new LatexCommand("~\\rschexpract", CircusString.RSCHEXPRACT, true, true);
+                RESULT = resultTT("~\\rschexpract", CircusString.RSCHEXPRACT);
              :}
              |
              LCIRCRENAME
              {:
-                RESULT =
-                  new LatexCommand("\\lcircrename~", CircusString.LCIRCRENAME, true, true);
+                RESULT = resultTT("\\lcircrename~", CircusString.LCIRCRENAME);
              :}
              |
              RCIRCRENAME
              {:
-                RESULT =
-                  new LatexCommand("~\\rcircrename", CircusString.RCIRCRENAME, true, true);
+                RESULT = resultTT("~\\rcircrename", CircusString.RCIRCRENAME);
              :}
              |
              LPAR
              {:
-                RESULT =
-                  new LatexCommand("~\\lpar~", CircusString.LPAR, true, true);
+                RESULT = resultTT("~\\lpar~", CircusString.LPAR);
              :}
              |
              RPAR
              {:
-                RESULT =
-                  new LatexCommand("~\\rpar~", CircusString.RPAR, true, true);
+                RESULT = resultTT("~\\rpar~", CircusString.RPAR);
              :}
              |
              LINTER
              {:
-                RESULT =
-                  new LatexCommand("~\\linter~", CircusString.LINTER, true, true);
+                RESULT = resultTT("~\\linter~", CircusString.LINTER);
              :}
              |
              RINTER
              {:
-                RESULT =
-                  new LatexCommand("~\\rinter~", CircusString.RINTER, true, true);
+                RESULT = resultTT("~\\rinter~", CircusString.RINTER);
              :}                             
 </add:circus>
              ;
              
   special ::= NL
              {:
-                RESULT =
-                  new LatexCommand("\\\\\n", ZString.NL, true, true);
+                RESULT = resultTT("\\\\\n", ZString.NL);
              :}
              |
              INDENT:indent
@@ -1061,8 +1011,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 int i = indent.length();
                 if (i > 9) i = 9;
                 String latex = indent + "\\t" + i;
-                RESULT =
-                  new LatexCommand(latex, indent, true, true);
+                RESULT = resultTT(latex, indent);
              :}
              ;
 
@@ -1076,7 +1025,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 String unicode = ZString.AX;
                 if (s != null) unicode += s.getUnicode();
                 unicode += ZString.END;
-                RESULT = new LatexCommand(latex, unicode, false, false);
+                RESULT = resultFF(latex, unicode);
              :}
              |
              SCH decorword:w tokenSeq:s END
@@ -1087,7 +1036,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 String unicode = ZString.SCH + ZString.SPACE + w.getName();
                 if (s != null) unicode += s.getUnicode();
                 unicode += ZString.END;
-                RESULT = new LatexCommand(latex, unicode, false, false);
+                RESULT = resultFF(latex, unicode);
              :}
              |
              GENAX tokenSeq:s END
@@ -1106,10 +1055,11 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 String latex = begin("schema") + "{" + w.getName() + "}";
                 if (s != null) latex += s.getName();
                 latex += end("schema");
-                String unicode = ZString.SCHCHAR + ZString.GENCHAR + w.getName();
+                String unicode =
+                  ZString.SCHCHAR + ZString.GENCHAR + w.getName();
                 if (s != null) unicode += s.getUnicode();
                 unicode += ZString.END;
-                RESULT = new LatexCommand(latex, unicode, false, false);
+                RESULT = resultFF(latex, unicode);
              :}
              |
              STATE tokenSeq:s END
@@ -1120,7 +1070,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 String unicode = ZString.SCH + ZString.ZEDCHAR;
                 if (s != null) unicode += s.getUnicode();
                 unicode += ZString.END;
-                RESULT = new LatexCommand(latex, unicode, false, false);
+                RESULT = resultFF(latex, unicode);
              :}
              |
              INIT tokenSeq:s END
@@ -1132,7 +1082,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                                  OzString.INITWORD + ZString.SPACE;
                 if (s != null) unicode += s.getUnicode();
                 unicode += ZString.END;
-                RESULT = new LatexCommand(latex, unicode, false, false);
+                RESULT = resultFF(latex, unicode);
              :}
              |
              OPSCH decorword:w tokenSeq:s END
@@ -1144,7 +1094,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                   ZString.SCH + "op" + ZString.SPACE + w.getName();
                 if (s != null) unicode += s.getUnicode();
                 unicode += ZString.END;
-                RESULT = new LatexCommand(latex, unicode, false, false);
+                RESULT = resultFF(latex, unicode);
              :}
              ;
 </add:oz>
