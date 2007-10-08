@@ -1,21 +1,21 @@
 /**
-Copyright (C) 2007 Mark Utting
-This file is part of the CZT project.
+ Copyright (C) 2007 Mark Utting
+ This file is part of the CZT project.
 
-The CZT project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+ The CZT project contains free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-The CZT project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ The CZT project is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with CZT; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ You should have received a copy of the GNU General Public License
+ along with CZT; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 package net.sourceforge.czt.modeljunit;
 
@@ -27,15 +27,15 @@ import java.util.Random;
  *
  *  @author Pele Douangsavanh
  */
- public class PessimisticTester extends Tester
- {
-	 protected GraphListener graph_;
-	 
-	 private int depth;
-	 
-	 private boolean complex;
-	 
-	 /**
+public class PessimisticTester extends Tester
+{
+  protected GraphListener graph_;
+
+  private int depth;
+
+  private boolean complex;
+
+  /**
    *  Creates a test generator that can generate random walks.
    *
    * @param model  Must be non-null;
@@ -45,8 +45,8 @@ import java.util.Random;
     super(model);
     model.addListener("graph");
     graph_ = (GraphListener) model.getListener("graph");
-		depth = 5;
-		complex = false;
+    depth = 5;
+    complex = false;
   }
 
   /**
@@ -57,40 +57,47 @@ import java.util.Random;
   {
     this(new Model(fsm));
   }
-	
-	public int player(Object state, int depth)
-	{
-		if(depth == 0)
-		{
-			return 0;
-		}
-		// Store largest transition value pair
-		// Return the best value
-	}
-	
-	public int eval(int action, BitSet transitions)
-	{
-		if(complex == true)
-			return evalComplex(action, transition);
-		else
-			return evalSimple(action, transition);
-	}
-	
-	public int evalSimple(int action, BitSet transitions)
-	{
-		
-	}
-	
-	public int evalComplex(int action, BitSet transitions)
-	{
-		
-	}
-	
-	public int mem(int action, BitSet transitions)
-	{
-		if(transitions.get(action))
-			return 0;
-		else
-			return 1;
-	}
- }
+
+  public int player(Object state, int depth)
+  {
+    if (depth == 0) {
+      return 0;
+    }
+    // Store largest transition value pair
+    // Return the best value
+    return 0;
+  }
+
+  public int eval(int action, BitSet transitions)
+  {
+    if (complex == true)
+      return evalComplex(action, transitions);
+    else
+      return evalSimple(action, transitions);
+  }
+
+  public int evalSimple(int action, BitSet transitions)
+  {
+    return 0;
+  }
+
+  public int evalComplex(int action, BitSet transitions)
+  {
+    return 0;
+  }
+
+  public int mem(int action, BitSet transitions)
+  {
+    if (transitions.get(action))
+      return 0;
+    else
+      return 1;
+  }
+
+  @Override
+  public int generate()
+  {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+}
