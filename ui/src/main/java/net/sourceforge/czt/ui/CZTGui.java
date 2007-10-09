@@ -125,9 +125,11 @@ public class CZTGui implements ActionListener
     saveas.setEnabled(false);
     close.setEnabled(false);
     
+    /*
     out = new PrintStream(new CZTGuiZLiveOutputRedirect( resultConsole ) );
     System.setOut(out);
     System.setErr(out);
+    */
     
     /*try{
     JEditorPane tc = new JEditorPane(CZTGui.class.getResource("czt_help.html"));
