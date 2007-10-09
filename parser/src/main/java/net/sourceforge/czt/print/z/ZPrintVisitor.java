@@ -508,24 +508,49 @@ public class ZPrintVisitor
     return null;
   }
 
+  private void visitIffExprChild(Expr expr)
+  {
+    if (expr instanceof IffExpr &&
+        expr.getAnn(ParenAnn.class) == null) {
+      visitIffExpr((IffExpr) expr);
+    }
+    else {
+      visit(expr);
+    }
+  }
+
   public Object visitIffExpr(IffExpr iffExpr)
   {
     final boolean braces = iffExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(ZToken.LPAREN);
-    visit(iffExpr.getLeftExpr());
+    visitIffExprChild(iffExpr.getLeftExpr());
     print(ZKeyword.IFF);
-    visit(iffExpr.getRightExpr());
+    visitIffExprChild(iffExpr.getRightExpr());
     if (braces) print(ZToken.RPAREN);
     return null;
+  }
+
+  private void visitIffPredChild(Pred pred)
+  {
+    if (pred instanceof ExprPred) {
+      visitIffExprChild(((ExprPred) pred).getExpr());
+    }
+    else if (pred instanceof IffPred &&
+        pred.getAnn(ParenAnn.class) == null) {
+      visitIffPred((IffPred) pred);
+    }
+    else {
+      visit(pred);
+    }
   }
 
   public Object visitIffPred(IffPred iffPred)
   {
     final boolean braces = iffPred.getAnn(ParenAnn.class) != null;
     if (braces) print(ZToken.LPAREN);
-    visit(iffPred.getLeftPred());
+    visitIffPredChild(iffPred.getLeftPred());
     print(ZKeyword.IFF);
-    visit(iffPred.getRightPred());
+    visitIffPredChild(iffPred.getRightPred());
     if (braces) print(ZToken.RPAREN);
     return null;
   }
@@ -800,7 +825,10 @@ public class ZPrintVisitor
 
   private void visitOrPredChild(Pred pred)
   {
-    if (pred instanceof OrPred &&
+    if (pred instanceof ExprPred) {
+      visitOrExprChild(((ExprPred) pred).getExpr());
+    }
+    else if (pred instanceof OrPred &&
         pred.getAnn(ParenAnn.class) == null) {
       visitOrPred((OrPred) pred);
     }
