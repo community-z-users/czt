@@ -3,7 +3,6 @@ package net.sourceforge.czt.ui;
 
 import javax.swing.*;
 import javax.swing.text.*;
-import javax.swing.event.MenuKeyEvent;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -11,6 +10,7 @@ import javax.swing.plaf.basic.BasicHTML;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,13 +38,14 @@ import net.sourceforge.czt.animation.eval.*;
 public class CZTGui implements ActionListener
 {
   SectionManager manager;
-  
+
   String softwarename = "CZT";
 
   JFileChooser chooser = new JFileChooser();
-  
+
   JFrame frame = new JFrame(softwarename);
   JFrame helpFrame = new JFrame("CZT Help");
+  JEditorPane helpEditor = new JEditorPane();
 
   JPanel treeViewPanel = new JPanel();
   JLabel treeViewLabel = new JLabel("Specification Structure Explorer");
@@ -110,7 +111,7 @@ public class CZTGui implements ActionListener
   JSplitPane split = null;
   File file = null;
   File fileForExporting = null;
-  
+
   private PrintStream out;
   /**
    *  Constructor for the CZTGui object
@@ -124,13 +125,13 @@ public class CZTGui implements ActionListener
     resultConsole.setEditable(true);
     saveas.setEnabled(false);
     close.setEnabled(false);
-    
+
     /*
     out = new PrintStream(new CZTGuiZLiveOutputRedirect( resultConsole ) );
     System.setOut(out);
     System.setErr(out);
     */
-    
+
     /*try{
     JEditorPane tc = new JEditorPane(CZTGui.class.getResource("czt_help.html"));
     //tc.setContentType("text/html");
@@ -140,7 +141,7 @@ public class CZTGui implements ActionListener
     }catch(IOException exception){
     System.out.println("cannot read html");
     }**/
-    
+
     try {
       FileInputStream fileStream = new FileInputStream(getSettingsFileName());
       ObjectInputStream os = new ObjectInputStream(fileStream);
@@ -183,10 +184,12 @@ public class CZTGui implements ActionListener
     treeViewPanel.setLayout(new BoxLayout(treeViewPanel, BoxLayout.Y_AXIS));
     treeViewPanel.add(BorderLayout.CENTER, treeViewLabel);
     treeViewPanel.add(BorderLayout.CENTER, scrollTreeStructure);
-    
+
     resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
     resultPanel.add(BorderLayout.CENTER, resultLabel);
     resultPanel.add(BorderLayout.CENTER, scrollResults);
+
+    helpFrame.getContentPane().add(BorderLayout.CENTER, helpEditor);
 
     split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeViewPanel, resultPanel);
     split.setDividerLocation(400);
@@ -200,7 +203,7 @@ public class CZTGui implements ActionListener
     close.addActionListener(this);
     exit.addActionListener(this);
     czthelp.addActionListener(this);
-    
+
     filemenu.add(open);
     filemenu.add(startConsole);
     saveas.add(saveasLatex);
@@ -272,23 +275,23 @@ public class CZTGui implements ActionListener
     clearErrorList();
     statusBar.setText("status");
   }
-  
+
   private void successfulSaveMessage(boolean success){
     if(success == true)
       statusBar.setText("Finished exporting to "+fileForExporting.getName());
     if(success == false)
       statusBar.setText("Failed exporting to "+fileForExporting.getName());
   }
-  
+
   private void saveSpec(String path,String markup){
-    
+
     FileSource source = new FileSource(file);
     Writer writer = null;
-    
+
     try{
       try{
         FileOutputStream stream = new FileOutputStream(path);
-        
+
     if(markup.equals("latex")){
     LatexString latex = (LatexString)
     manager.get(new Key(new FileSource(file).getName(), LatexString.class));
@@ -297,7 +300,7 @@ public class CZTGui implements ActionListener
     writer.close();
     successfulSaveMessage(true);
     }
-    
+
     if(markup.equals("utf8")){
     UnicodeString unicode = (UnicodeString)
     manager.get(new Key(source.getName(), UnicodeString.class));
@@ -306,7 +309,7 @@ public class CZTGui implements ActionListener
     writer.close();
     successfulSaveMessage(true);
     }
-    
+
     if(markup.equals("utf16")){
     UnicodeString unicode = (UnicodeString)
     manager.get(new Key(source.getName(), UnicodeString.class));
@@ -315,7 +318,7 @@ public class CZTGui implements ActionListener
     writer.close();
     successfulSaveMessage(true);
     }
-    
+
     if(markup.equals("xml")){
     XmlString xml = (XmlString)
     manager.get(new Key(source.getName(), XmlString.class));
@@ -359,25 +362,25 @@ public class CZTGui implements ActionListener
     //resultList.setModel(resultListModel);
   }
 
-   
+
   /**
    *  Description of the Method
    */
   private void loadFile()
-  { 
+  {
     statusBar.setText("Reading "+file.getName()+"...done");
-    
+
     String selectedLanguage = "";
     String selectedEncoding = "";
     int nrOfZSects = 0;
-    
+
     clearTreeView();
     clearErrorList();
-    
+
     specDialog.setVisible(false);
 
     frame.setTitle(softwarename + " - " + file.getName());
-    
+
     //obtain language selection
     if(((String)languageCombo.getSelectedItem()).equals("Standard Z"))
       selectedLanguage = "z";
@@ -387,12 +390,12 @@ public class CZTGui implements ActionListener
     else
       if(((String)languageCombo.getSelectedItem()).equals("Circus"))
         selectedLanguage = "circus";
-    
+
     manager = new SectionManager(selectedLanguage);
     manager.setProperty("czt.path", file.getParent());
-    
+
     FileSource source = new FileSource(file);
-    
+
     //set markup selection
     if(((String)markupCombo.getSelectedItem()).equals("Latex")){
       source.setMarkup(Markup.LATEX);
@@ -412,7 +415,7 @@ public class CZTGui implements ActionListener
     if(((String)markupCombo.getSelectedItem()).equals("XML")){
       source.setMarkup(Markup.ZML);
     }
-    
+
     manager.put(new Key(source.getName(), Source.class), source);
 
     try {
@@ -447,7 +450,7 @@ public class CZTGui implements ActionListener
           if (typecheckCheckBox.isSelected()) {
             manager.get(new Key(sectionName,SectTypeEnvAnn.class));
           }
-          if (zSect.getParaList() instanceof ZParaList && 
+          if (zSect.getParaList() instanceof ZParaList &&
               ((ZParaList) zSect.getParaList()).size() > 0) {
             nrOfZSects++;
           }
@@ -481,7 +484,7 @@ public class CZTGui implements ActionListener
     zliveConsoleThread.start();
     //execute(resultConsole,command);
   }
-  
+
   public class ZLiveConsole implements Runnable, ActionListener{
     JFrame consoleFrame = new JFrame("ZLive");
     JTextArea consoleArea = new JTextArea();
@@ -491,20 +494,20 @@ public class CZTGui implements ActionListener
     JPanel inputPanel = new JPanel();
     private ZLive zlive_ = new ZLive();;
     private TextUI ui = new TextUI(zlive_, null);
-    
+
     public void run(){
       //executeButton.setMnemonic(KeyEvent.VK_ENTER);
       inputPanel.add(BorderLayout.CENTER, inputField);
-      inputPanel.add(BorderLayout.EAST, executeButton);            
+      inputPanel.add(BorderLayout.EAST, executeButton);
       consoleFrame.getContentPane().add(BorderLayout.NORTH, inputPanel);
       consoleFrame.getContentPane().add(BorderLayout.CENTER, consoleScroller);
       consoleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       consoleFrame.setSize(300,200);
       consoleFrame.setVisible(true);
       executeButton.addActionListener(this);
-      
+
     }
-    
+
     public void execute(/*Console console,**/ JTextArea output, String command)
   {
     if (! command.equals("")) {
@@ -516,7 +519,7 @@ public class CZTGui implements ActionListener
     }
     //output.commandDone();
   }
-    
+
     public void actionPerformed(ActionEvent event){
       if(event.getSource() == executeButton){
         consoleArea.append(inputField.getText()+"\n");
@@ -526,8 +529,8 @@ public class CZTGui implements ActionListener
       }
     }
   }
-      
-  
+
+
   /**
    *  Description of the Method
    *
@@ -538,8 +541,11 @@ public class CZTGui implements ActionListener
     if(event.getSource() == startConsole){
       ZLive();
     }
-    
+
     if(event.getSource() == czthelp){
+      URL url = this.getClass().getResource("czt_help.html");
+
+      helpEditor.setText(url.toString());
       helpFrame.setSize(600,600);
       helpFrame.setVisible(true);
     }
@@ -556,7 +562,7 @@ public class CZTGui implements ActionListener
       int returnValOpen = chooser.showOpenDialog(frame);
       if (returnValOpen == JFileChooser.APPROVE_OPTION) {
         specText.setText(chooser.getSelectedFile().getPath());
-        
+
         if(specText.getText().endsWith("zed")||specText.getText().endsWith("tex")){
           markupCombo.setSelectedItem("Latex");
         }
