@@ -27,8 +27,8 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 
-public class AbstractVisitor
-  implements Visitor
+public class AbstractVisitor<R>
+  implements Visitor<R>
 {
   private SectionInfo sectInfo_;
   private Set dependencies_ = new HashSet();

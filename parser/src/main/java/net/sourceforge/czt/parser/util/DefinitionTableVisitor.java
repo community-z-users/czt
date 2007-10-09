@@ -38,12 +38,12 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class DefinitionTableVisitor
-  extends AbstractVisitor
-  implements TermVisitor,
-             AxParaVisitor,
-             ParaVisitor,
-             ZParaListVisitor,
-             ZSectVisitor
+  extends AbstractVisitor<Object>
+  implements TermVisitor<Object>,
+             AxParaVisitor<Object>,
+             ParaVisitor<Object>,
+             ZParaListVisitor<Object>,
+             ZSectVisitor<Object>
 {
   private DefinitionTable table_;
   private final PrintVisitor printVisitor_;
