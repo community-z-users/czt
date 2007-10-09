@@ -776,24 +776,46 @@ public class ZPrintVisitor
     return null;
   }
 
+  private void visitOrExprChild(Expr expr)
+  {
+    if (expr instanceof OrExpr &&
+        expr.getAnn(ParenAnn.class) == null) {
+      visitOrExpr((OrExpr) expr);
+    }
+    else {
+      visit(expr);
+    }
+  }
+
   public Object visitOrExpr(OrExpr orExpr)
   {
     final boolean braces = orExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(ZToken.LPAREN);
-    visit(orExpr.getLeftExpr());
+    visitOrExprChild(orExpr.getLeftExpr());
     print(ZKeyword.OR);
-    visit(orExpr.getRightExpr());
+    visitOrExprChild(orExpr.getRightExpr());
     if (braces) print(ZToken.RPAREN);
     return null;
+  }
+
+  private void visitOrPredChild(Pred pred)
+  {
+    if (pred instanceof OrPred &&
+        pred.getAnn(ParenAnn.class) == null) {
+      visitOrPred((OrPred) pred);
+    }
+    else {
+      visit(pred);
+    }
   }
 
   public Object visitOrPred(OrPred orPred)
   {
     final boolean braces = orPred.getAnn(ParenAnn.class) != null;
     if (braces) print(ZToken.LPAREN);
-    visit(orPred.getLeftPred());
+    visitOrPredChild(orPred.getLeftPred());
     print(ZKeyword.OR);
-    visit(orPred.getRightPred());
+    visitOrPredChild(orPred.getRightPred());
     if (braces) print(ZToken.RPAREN);
     return null;
   }
