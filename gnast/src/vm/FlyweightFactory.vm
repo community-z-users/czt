@@ -105,7 +105,7 @@ public class ${class.Name}
   public ${head}(#factoryTypeVarList(${c.AllProperties}))
   {
     nCreates_++;
-    List argList = new ArrayList($c.AllProperties.size());
+    List<Object> argList = new ArrayList<Object>($c.AllProperties.size());
     argList.add("${c.Name}");
 #foreach($prop in $c.AllProperties)
     argList.add(${prop.VarName});

@@ -25,8 +25,8 @@ import net.sourceforge.czt.zpatt.ast.*;
 
 public class RuleTable
 {
-  private Map<String, RulePara> map_ = new HashMap();
-  private List<RulePara> rules_ = new ArrayList();
+  private Map<String,RulePara> map_ = new HashMap<String,RulePara>();
+  private List<RulePara> rules_ = new ArrayList<RulePara>();
 
   public void addRuleParas(RuleTable table)
     throws RuleTableException

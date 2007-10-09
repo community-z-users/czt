@@ -19,16 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z2b;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 // the CZT classes for Z.
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
-
-// our classes
-import net.sourceforge.czt.z2b.*;
-
 
 /**
  * This class represents a B abstract machine.
@@ -64,7 +57,7 @@ public class BMachine
   /** Initialisation variables and their invariants */
   List<Pred>  initialisation_ = new ArrayList<Pred>();
 
-  List<BOperation> operations_ = new ArrayList();
+  List<BOperation> operations_ = new ArrayList<BOperation>();
 
 
   /**

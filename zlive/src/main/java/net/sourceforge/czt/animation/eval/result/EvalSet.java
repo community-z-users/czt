@@ -31,7 +31,6 @@ import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.Ann;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -71,7 +70,7 @@ public abstract class EvalSet
   /** There seems to be no reason to need annotations,
    *  but the Expr interface forces us to have a non-null list.
    */
-  private ListTerm<Ann> anns_ = new ListTermImpl<Ann>();
+  private ListTerm<Object> anns_ = new ListTermImpl<Object>();
 
   /** The lower bound on numeric elements, if any, else null.
    *  <p>
@@ -289,7 +288,7 @@ public abstract class EvalSet
   }
 
   /** A copy of the TermImpl implementation. */
-  public ListTerm<Ann> getAnns()
+  public ListTerm<Object> getAnns()
   {
     return anns_;
   }

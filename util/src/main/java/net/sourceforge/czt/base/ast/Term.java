@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2006 Mark Utting
+  Copyright 2003, 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -95,7 +95,7 @@ public interface Term
    *
    * @return a list of annotations (should never be <code>null</code>).
    */
-  List getAnns();
+  List<Object> getAnns();
 
   /**
    * <p>Returns one of the <code>aClass</code> annotations of this

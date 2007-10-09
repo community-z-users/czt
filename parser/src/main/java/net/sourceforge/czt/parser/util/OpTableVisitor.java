@@ -29,12 +29,12 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class OpTableVisitor
-  extends AbstractVisitor
-  implements TermVisitor,
-             OptempParaVisitor,
-             ParaVisitor,
-             ZParaListVisitor,
-             ZSectVisitor
+  extends AbstractVisitor<Object>
+  implements TermVisitor<Object>,
+             OptempParaVisitor<Object>,
+             ParaVisitor<Object>,
+             ZParaListVisitor<Object>,
+             ZSectVisitor<Object>
 {
   private OpTable table_;
 
@@ -48,7 +48,7 @@ public class OpTableVisitor
     super(sectInfo);
   }
 
-  public Class getInfoType()
+  public Class<OpTable> getInfoType()
   {
     return OpTable.class;
   }
@@ -97,7 +97,7 @@ public class OpTableVisitor
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    List parentTables = new ArrayList();
+    List<OpTable> parentTables = new ArrayList<OpTable>();
     for (Parent parent : zSect.getParent()) {
       OpTable parentTable =
         (OpTable) get(parent.getWord(), OpTable.class);

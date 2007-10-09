@@ -41,7 +41,7 @@ public abstract class TermImpl implements Term
   /**
    * A list of annotations.
    */
-  private List anns_ = new ArrayList();
+  private List<Object> anns_ = new ArrayList<Object>();
 
   protected TermImpl()
   {
@@ -80,7 +80,7 @@ public abstract class TermImpl implements Term
     return s.hashCode();
   }
 
-  public List getAnns()
+  public List<Object> getAnns()
   {
     return anns_;
   }

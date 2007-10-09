@@ -71,9 +71,9 @@ public class LatexMarkupFunctionVisitor
     return getLatexMarkupFunction();
   }
 
-  public List getRequiredInfoTypes()
+  public List<Class> getRequiredInfoTypes()
   {
-    List result = new ArrayList();
+    List<Class> result = new ArrayList<Class>();
     result.add(LatexMarkupFunction.class);
     return result;
   }

@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 // the CZT classes for Z.
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.z.PrintUtils;
@@ -37,7 +36,6 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.PrintVisitor;
-import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
 
@@ -47,26 +45,23 @@ import static net.sourceforge.czt.z.util.ZUtils.*;
  * @author Mark Utting
  */
 public class Z2B
-  implements TermVisitor,
-             ListTermVisitor,
-             LatexMarkupParaVisitor,
-             GivenParaVisitor,
-             FreeParaVisitor,
-             FreetypeVisitor,
-             AxParaVisitor,
-             ConjParaVisitor,
-             NarrParaVisitor,
-             OptempParaVisitor,
-             UnparsedParaVisitor,
-             VarDeclVisitor,
-             ConstDeclVisitor,
-             ZDeclListVisitor,
-             ZParaListVisitor,
-             ZFreetypeListVisitor
+  implements TermVisitor<Object>,
+             ListTermVisitor<Object>,
+             LatexMarkupParaVisitor<Object>,
+             GivenParaVisitor<Object>,
+             FreeParaVisitor<Object>,
+             FreetypeVisitor<Object>,
+             AxParaVisitor<Object>,
+             ConjParaVisitor<Object>,
+             NarrParaVisitor<Object>,
+             OptempParaVisitor<Object>,
+             UnparsedParaVisitor<Object>,
+             VarDeclVisitor<Object>,
+             ConstDeclVisitor<Object>,
+             ZDeclListVisitor<Object>,
+             ZParaListVisitor<Object>,
+             ZFreetypeListVisitor<Object>
 {
-  private static final Logger sLogger
-    = Logger.getLogger("net.sourceforge.czt.z2b");
-
   private BMachine mach_ = null;
 
   private FreeVarChecker freevarChecker_ = new FreeVarChecker();
@@ -299,7 +294,9 @@ public class Z2B
   }
 
   /** Adds ALL the names in a VarDecl to the names/preds lists. */
-  protected void declareVars(VarDecl decl, List names, List preds)
+  protected void declareVars(VarDecl decl,
+                             List<String> names,
+                             List<Pred> preds)
   {
     for (Name name : decl.getZNameList()) {
       declareVar((ZName) name, decl.getExpr(), names, preds);
@@ -407,7 +404,7 @@ public class Z2B
   /** Adds all the given types to the 'parameters' list of a B machine. */
   public Object visitGivenPara(GivenPara para)
   {
-    Map sets = mach_.getSets();
+    Map<String,List<String>> sets = mach_.getSets();
     for (Name name : para.getNames()) {
       sets.put(name.accept(new PrintVisitor()), null);
     }
@@ -440,10 +437,10 @@ public class Z2B
   /** Adds a simple free type to a B machine. */
   public Object visitFreetype(Freetype freetype)
   {
-    Map sets = mach_.getSets();
-    Iterator i = assertZBranchList(freetype.getBranchList()).iterator();
+    Map<String,List<String>> sets = mach_.getSets();
+    Iterator<Branch> i = assertZBranchList(freetype.getBranchList()).iterator();
     // now we get all the branch names, and check they are simple.
-    List/*<String>*/ contents = new ArrayList();
+    List<String> contents = new ArrayList<String>();
     while (i.hasNext()) {
       Branch branch = (Branch) i.next();
       if (branch.getExpr() != null)

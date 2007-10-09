@@ -28,7 +28,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.parser.circus.CircusToken;
-import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.*;
@@ -69,7 +68,7 @@ public class AstToPrintTreeVisitor
   public Term visitProcessPara(ProcessPara term)
   {
     // TODO: Check here when we have unboxed versions.
-    List list = new ArrayList();
+    List<Object> list = new ArrayList<Object>();
     
     list.add(ZToken.ZED);
     list.add(CircusString.CIRCPROC);
@@ -113,7 +112,7 @@ public class AstToPrintTreeVisitor
   
   public Term visitActionPara(ActionPara term)
   {
-    List list = new ArrayList();
+    List<Object> list = new ArrayList<Object>();
     list.add(CircusToken.CIRCUSACTION);
     if (CircusUtils.isCircusState(term))
     {
@@ -145,7 +144,7 @@ public class AstToPrintTreeVisitor
   
   public Term visitBasicProcess(BasicProcess term)
   {
-    List list = new ArrayList();
+    List<Object> list = new ArrayList<Object>();
     
     processedState_ = false;
     boolean hasState = (term.getStatePara() != null);

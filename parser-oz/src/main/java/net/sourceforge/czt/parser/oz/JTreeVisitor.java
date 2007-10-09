@@ -38,7 +38,7 @@ public class JTreeVisitor
 {
   public Object visitTerm(Term term)
   {
-    List list = new ArrayList();
+    List<Object> list = new ArrayList<Object>();
     Object[] children = term.getChildren();
     for (int i = 0; i < children.length; i++) {
       Object child = children[i];

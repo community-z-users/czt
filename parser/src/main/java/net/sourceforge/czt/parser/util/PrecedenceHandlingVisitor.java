@@ -138,16 +138,16 @@ public class PrecedenceHandlingVisitor
       WrappedExpr wNewChild = new WrappedExpr(newChild);
       //the new child keeps the last term in the old child's list and adds it
       //to the front of its list
-      List wChildList = wChild.getList();
-      List wNewChildList = wNewChild.getList();
+      List<Expr> wChildList = wChild.getList();
+      List<Expr> wNewChildList = wNewChild.getList();
       wNewChildList.add(wChildList.get(wChildList.size() - 1));
 
       //get all but the first element of the old parent list and add to
       //the new child
-      List fromParentList =
-        new ArrayList(wExpr.getList().subList(1, wExpr.getList().size()));
+      List<Expr> fromParentList =
+        new ArrayList<Expr>(wExpr.getList().subList(1, wExpr.getList().size()));
       wNewChildList.addAll(fromParentList);
-      List wNewParentList = wNewParent.getList();
+      List<Expr> wNewParentList = wNewParent.getList();
       //the new parent keeps the front of old childs list
       wNewParentList.addAll(wChildList.subList(0, wChildList.size() - 1));
 
@@ -168,7 +168,7 @@ public class PrecedenceHandlingVisitor
    */
   protected boolean needsReordering(WrappedExpr wrappedExpr)
   {
-    final List wrappedExprList = wrappedExpr.getList();
+    final List<Expr> wrappedExprList = wrappedExpr.getList();
     final Object firstElem =
       wrappedExprList.size() > 0 ? wrappedExprList.get(0) : null;
 

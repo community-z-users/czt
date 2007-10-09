@@ -117,7 +117,7 @@ public class $class.Name
     try {
       $c.Name jaxbObject = objectFactory_.create${c.Name}();
       if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
+        List<Object> list = zedObject.getAnns();
         if (list.size() > 0) {
           jaxbObject.setAnns(visitAnnotations(list));
         }

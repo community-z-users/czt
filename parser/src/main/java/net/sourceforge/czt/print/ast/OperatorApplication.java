@@ -92,9 +92,9 @@ public class OperatorApplication
 
   public OperatorApplication create(Object[] children)
   {
-    List argList = new ArrayList();
+    List<Expr> argList = new ArrayList<Expr>();
     for (int i = 0; i < children.length; i++) {
-      argList.add(children[0]);
+      argList.add((Expr) children[0]);
     }
     return new OperatorApplication((PrintFactory) getFactory(),
                                    opName_, argList, prec_, assoc_);

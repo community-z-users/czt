@@ -139,7 +139,7 @@ public class GlobalDefs
 
   public static boolean containsCycle(Term term)
   {
-    List list = new java.util.ArrayList();
+    List<Object> list = new java.util.ArrayList<Object>();
     return containsCycle(list, term);
   }
 
@@ -152,7 +152,7 @@ public class GlobalDefs
       for (int i = 0; i < term.getChildren().length; i++) {
         Object child = term.getChildren()[i];
         if (child instanceof Term) {
-          List<Object> newlist = new java.util.ArrayList(list);
+          List<Object> newlist = new java.util.ArrayList<Object>(list);
           newlist.add(term);
           if (containsCycle(newlist, (Term) child)) {
             return true;
