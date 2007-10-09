@@ -86,7 +86,7 @@ public class ${class.Name}
   {
     nCreates_++;
     final int listSize = 1;
-    List argList = new ArrayList(listSize);
+    List<Object> argList = new ArrayList<Object>(listSize);
     argList.add("${c.Name}");
     ${c.Name} result = (${c.Name}) terms_.get(argList);
     if (result == null) {
