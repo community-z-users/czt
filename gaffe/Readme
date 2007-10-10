@@ -17,27 +17,6 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ================================================================================
 
-
-Build Requirements
-==================
-The following things are needed for building.
-1.A Java compiler matching J2SE 1.4
-2. either
-    Apache Ant
-	http://ant.apache.org/
-3.The Bean Scripting Framework (BSF) library
-	http://www-124.ibm.com/developerworks/projects/bsf
-4.The Rhino library
-	http://www.mozilla.org/rhino/
-5.The czt.properties file from CZT
-        http://czt.sourceforge.net/
-
-Requirements for use
-====================
-1.A Java runtime environment matching J2SE 1.4
-2.The BSF library
-3.The Rhino library
-
 Configuration
 =============
 The DesignerCore runs a configuration script when it starts.
@@ -56,6 +35,7 @@ stand for.
 
 2. Building GAfFE with Ant, it complained that it could not find a correct jar file for BSF, or Rhino.
 ------------------------------------------------------------------------------------------------------
+[Now obsolete: since 2006 we use Maven to build gaffe.]
 To find the BSF and Rhino libraries, build.xml first checks for a bsf.jar.path/rhino.jar.path property 
 containing the complete pathname of the jar file.
 If there is no *.jar.path property, it checks for a bsf.home/rhino.home property (getting these from 
@@ -78,6 +58,7 @@ Ways to correct this error:
 
 3. What properties can be given to Ant when building GAfFE?
 -----------------------------------------------------------
+[Now obsolete: since 2006 we use Maven to build gaffe.]
 gaffe.source.path    = Where the java files are stored (default src).
 gaffe.resources.path = Where the resource (mostly .gif) files are stored (default resources).
 gaffe.build.path     = Where to put the compiled .class files (default classes).
@@ -106,6 +87,7 @@ wish to them.
 -------------------------------------------------------------------------------
 it is looking in the right place. What is wrong?
 ------------------------------------------------
+[Now obsolete: since 2006 we use Maven to build gaffe.]
 The build file checks that it has the correct .jar file by using it as the classpath, while looking for a class that is known to be in the correct .jar file.
 If the jar file location it mentions is pointing at a real jar file, then there are two possibilities.
  - One is that the jar file has the right name, but doesn't contain the right stuff (maybe it's the wrong
