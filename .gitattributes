@@ -167,8 +167,8 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/deleteIcon.gif svneol=n
 gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
-gaffe/src/net/sourceforge/czt/animation/gui/history/ZLiveHistory.java -text
-gaffe/src/net/sourceforge/czt/animation/gui/temp/GaffeFactory.java -text
+gaffe/src/main/java/net/sourceforge/czt/animation/gui/history/ZLiveHistory.java -text
+gaffe/src/main/java/net/sourceforge/czt/animation/gui/temp/GaffeFactory.java -text
 gaffe/src/test/java/net/sourceforge/czt/animation/gui/temp/ZBindingTest.java -text
 gaffe/src/test/java/net/sourceforge/czt/animation/gui/temp/ZGivenTest.java -text
 gaffe/src/test/java/net/sourceforge/czt/animation/gui/temp/ZNumberTest.java -text
