@@ -24,7 +24,6 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.event.TableModelEvent;
@@ -125,8 +124,7 @@ final class MethodsTable extends AbstractTableModel
     int max = 0;
     if (beanInfo_ == null)
       return 1;
-    for (Iterator it = methodDescriptors_.iterator(); it.hasNext();) {
-      MethodDescriptor md = (MethodDescriptor) it.next();
+    for (MethodDescriptor md : methodDescriptors_) {
       max = Math.max(max, md.getMethod().getParameterTypes().length);
     }
     return 1 + max;
@@ -162,7 +160,7 @@ final class MethodsTable extends AbstractTableModel
           return "?";
         if (m.getParameterTypes().length < column)
           return "";
-        Class parameterType = m.getParameterTypes()[column - 1];
+        Class<?> parameterType = m.getParameterTypes()[column - 1];
         return IntrospectionHelper.translateClassName(parameterType);
     }
   };

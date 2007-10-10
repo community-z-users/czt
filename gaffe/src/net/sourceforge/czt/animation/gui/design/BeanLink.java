@@ -26,9 +26,9 @@ public class BeanLink
 {
   public final Object source, listener;
 
-  public final Class listenerType;
+  public final Class<?> listenerType;
 
-  public BeanLink(Object source, Object listener, Class listenerType)
+  public BeanLink(Object source, Object listener, Class<?> listenerType)
   {
     this.source = source;
     this.listener = listener;

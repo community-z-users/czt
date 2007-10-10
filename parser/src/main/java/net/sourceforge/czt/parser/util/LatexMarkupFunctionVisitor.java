@@ -19,25 +19,21 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.*;
-
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class LatexMarkupFunctionVisitor
-  implements TermVisitor,
-             LatexMarkupParaVisitor,
-             ParaVisitor,
-             ZParaListVisitor,
-             ZSectVisitor
+  implements TermVisitor<Object>,
+             LatexMarkupParaVisitor<Object>,
+             ParaVisitor<Object>,
+             ZParaListVisitor<Object>,
+             ZSectVisitor<Object>
 {
   private LatexMarkupFunction table_;
   private SectionManager manager_;
-  private Set dependencies_ = new HashSet();
 
   /**
    * Creates a new latex markup function visitor.
@@ -47,16 +43,6 @@ public class LatexMarkupFunctionVisitor
   public LatexMarkupFunctionVisitor(SectionManager manager)
   {
     manager_ = manager;
-  }
-
-  public Class getInfoType()
-  {
-    return LatexMarkupFunction.class;
-  }
-
-  public Set getDependencies()
-  {
-    return dependencies_;
   }
 
   public Object run(ZSect sect)
@@ -69,13 +55,6 @@ public class LatexMarkupFunctionVisitor
       throw new CommandException(e.getCause());
     }
     return getLatexMarkupFunction();
-  }
-
-  public List<Class> getRequiredInfoTypes()
-  {
-    List<Class> result = new ArrayList<Class>();
-    result.add(LatexMarkupFunction.class);
-    return result;
   }
 
   public LatexMarkupFunction getLatexMarkupFunction()
@@ -104,7 +83,6 @@ public class LatexMarkupFunctionVisitor
 
   public Object visitLatexMarkupPara(LatexMarkupPara para)
   {
-    List directives = para.getDirective();
     for (Directive d : para.getDirective()) {
       try {
         table_.add(d);

@@ -38,7 +38,6 @@ import java.beans.EventSetDescriptor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Vector;
 
@@ -195,9 +194,9 @@ class ToolWindow extends JFrame
     beanToolPanel.setBorder(btpBorder); //XXX title border?
     beanToolPanel.setLayout(new FlowLayout());
 
-    for (ListIterator i = tools.listIterator(); i.hasNext();)
-      nonBeanToolPanel.add(((Tool) i.next()).getButton());
-
+    for (Tool t : tools) {
+      nonBeanToolPanel.add(t.getButton());
+    }
     for (int i = 0; i < beanTypes.length; i++)
       try {
         addBeanTool(beanTypes[i]);
@@ -209,17 +208,17 @@ class ToolWindow extends JFrame
     setVisible(true);
   };
 
-  public void addBeanTool(Class type) throws IntrospectionException
+  public void addBeanTool(Class<?> type) throws IntrospectionException
   {
     Tool tool = new PlaceBeanTool(type);
     tools.add(tool);
     beanToolPanel.add(tool.getButton());
   };
 
-  public void removeBeanTool(Class type)
+  public void removeBeanTool(Class<?> type)
   {
-    for (ListIterator i = tools.listIterator(); i.hasNext();) {
-      Tool tool = (Tool) i.next();
+    for (ListIterator<Tool> i = tools.listIterator(); i.hasNext();) {
+      Tool tool = i.next();
       if (tool instanceof PlaceBeanTool
           && ((PlaceBeanTool) tool).getType().equals(type)) {
         beanToolPanel.remove(tool.getButton());
@@ -471,11 +470,11 @@ class ToolWindow extends JFrame
    */
   protected class PlaceBeanTool extends Tool
   {
-    protected final Class type;
+    protected final Class<?> type;
 
     protected final BeanInfo beanInfo;
 
-    public PlaceBeanTool(Class type) throws IntrospectionException
+    public PlaceBeanTool(Class<?> type) throws IntrospectionException
     {
       super(getIconForType(type), Introspector.getBeanInfo(type)
           .getBeanDescriptor().getDisplayName(), Introspector.getBeanInfo(type)
@@ -484,7 +483,7 @@ class ToolWindow extends JFrame
       this.type = type;
     };
 
-    public Class getType()
+    public Class<?> getType()
     {
       return type;
     };
@@ -738,7 +737,7 @@ class ToolWindow extends JFrame
       if (sourceInfo_ != null && listenerBean_ != null) {
         EventSetDescriptor[] esds = sourceInfo_.getEventSetDescriptors();
         for (int i = 0; i < esds.length; i++) {
-          Class ltype = esds[i].getListenerType();
+          Class<?> ltype = esds[i].getListenerType();
           if (ltype.isAssignableFrom(listenerBean_.getClass())) {
             f.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             return;
@@ -756,7 +755,7 @@ class ToolWindow extends JFrame
       if (sourceInfo_ != null && listenerBean_ != null) {
         EventSetDescriptor[] esds = sourceInfo_.getEventSetDescriptors();
         for (int i = 0; i < esds.length; i++) {
-          Class ltype = esds[i].getListenerType();
+          Class<?> ltype = esds[i].getListenerType();
           if (ltype.isAssignableFrom(listenerBean_.getClass())) {
             approvedListenerTypes.add(ltype);
           }
@@ -829,8 +828,7 @@ class ToolWindow extends JFrame
 
     public void mouseMoved(MouseEvent e, FormDesign f)
     {
-      for (Iterator linkIt = f.getEventLinks().iterator(); linkIt.hasNext();) {
-        BeanLink bl = (BeanLink) linkIt.next();
+      for (BeanLink bl : f.getEventLinks()) {
         if (f.getVisualLine(bl).ptSegDist(e.getPoint()) < 5) {
           f.setCursor(Cursor.getDefaultCursor());
           return;
@@ -841,8 +839,7 @@ class ToolWindow extends JFrame
 
     public void mouseClicked(MouseEvent e, FormDesign f)
     {
-      for (Iterator linkIt = f.getEventLinks().iterator(); linkIt.hasNext();) {
-        BeanLink bl = (BeanLink) linkIt.next();
+      for (BeanLink bl : f.getEventLinks()) {
         if (f.getVisualLine(bl).ptSegDist(e.getPoint()) < 5) {
           f.removeEventLink(bl);
           setCurrentTool(defaultTool);

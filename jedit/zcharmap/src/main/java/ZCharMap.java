@@ -322,7 +322,7 @@ public class ZCharMap extends JPanel
      * @return <code>String.class</code> if <code>col</code>
      *         is zero, <code>ZChar.class</code> otherwise.
      */
-    public Class getColumnClass(int col)
+    public Class<?> getColumnClass(int col)
     {
       if (col==0) return String.class;
       return ZChar.class;

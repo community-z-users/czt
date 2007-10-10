@@ -197,34 +197,7 @@ public class ZPrintVisitor
     throw new PrintException("Unexpeced term AxPara");
   }
 
-  /**
-   * If the given RefExpr is a reference to a binary operator,
-   * the name of the operator (without underscore characters)
-   * is returned; otherwise null.
-   *
-   * TODO: What to do about the expressions in RefExpr?
-   */
-  private String getBinOperatorName(RefExpr refExpr)
-  {
-    String result = null;
-    String word = refExpr.getZName().getWord();
-    String[] split = word.split(" ");
-    final int expectedLength = 4;
-    final int third = 3;
-    if (split.length == expectedLength &&
-        split[1].equals("_") && split[third].equals("_")) {
-      result = split[2];
-    }
-    if (result == null) {
-      String message =
-        "ZPrintVisitor: getBinOperatorName of " + word + " failed.";
-      message += " split is " + split + " of length " + split.length;
-      throw new PrintException(message);
-    }
-    return result;
-  }
-
-  public Object visitApplication(Application appl)
+   public Object visitApplication(Application appl)
   {
     final boolean braces = appl.getAnn(ParenAnn.class) != null;
     if (braces) print(ZToken.LPAREN);
@@ -681,7 +654,7 @@ public class ZPrintVisitor
     return null;
   }
 
-  private void printNarrText(List list)
+  private void printNarrText(List<? extends Object> list)
   {
     StringBuffer txt = new StringBuffer();
     for (Object o : list) {
@@ -792,7 +765,6 @@ public class ZPrintVisitor
       print(ZKeyword.RIGHTASSOC);
     }
     print(ZToken.LPAREN);
-    List list = optempPara.getOper();
     for (Oper oper : optempPara.getOper()) {
       visit(oper);
     }
@@ -1222,7 +1194,7 @@ public class ZPrintVisitor
   {
     if (! ZUtils.isAnonymous(zSect)) {
       final String name = zSect.getName();
-      final List parents = zSect.getParent();
+      final List<Parent> parents = zSect.getParent();
       print(ZToken.ZED);
       print(ZKeyword.SECTION);
       if (name == null) throw new PrintException("Invalid section name.");
@@ -1256,27 +1228,6 @@ public class ZPrintVisitor
   }
 
   /**
-   * @return <code>null</code> if all went well, or an
-   *         error message in case of an error.
-   */
-  private String printOperator(Expr operator, Object arguments)
-  {
-    if (! (operator instanceof RefExpr)) {
-      return operator.toString() + " not instance of RefExpr.";
-    }
-    RefExpr ref = (RefExpr) operator;
-    OperatorName op = null;
-    try {
-      op = new OperatorName(ref.getZName());
-    }
-    catch (OperatorName.OperatorNameException e) {
-      return "Unexpected operator " + ref.getZName().getWord();
-    }
-    assert op != null;
-    return printOperator(op, arguments);
-  }
-
-  /**
    * This contains a very crude hack to get the PrettyPrinter working.
    * Used OpTokens are currently only I, PRE, and POST, even though
    * they might be in fact different ones (with the same newline
@@ -1284,7 +1235,7 @@ public class ZPrintVisitor
    */
   private String printOperator(OperatorName op, Object arguments)
   {
-    List args = new ArrayList();
+    List<Object> args = new ArrayList<Object>();
     if (arguments instanceof List) {
       args = (List) arguments;
     }
@@ -1297,7 +1248,7 @@ public class ZPrintVisitor
           return arguments.toString() + " not instance of TupleExpr";
         }
         TupleExpr tuple = (TupleExpr) arguments;
-        args = tuple.getZExprList();
+        args.addAll(tuple.getZExprList());
       }
     }
     int pos = 0;
@@ -1350,7 +1301,7 @@ public class ZPrintVisitor
     return null;
   }
 
-  protected void printTermList(List list)
+  protected void printTermList(List<? extends Term> list)
   {
     printTermList(list, ZKeyword.COMMA);
   }
@@ -1358,10 +1309,10 @@ public class ZPrintVisitor
   /**
    * @throws NullPointerException if separator is <code>null</code>.
    */
-  protected void printTermList(List list, ZKeyword separator)
+  protected void printTermList(List<? extends Term> list, ZKeyword separator)
   {
     if (separator == null) throw new NullPointerException();
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
+    for (Iterator<? extends Term> iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
       visit(term);
       if (iter.hasNext()) {
@@ -1373,11 +1324,11 @@ public class ZPrintVisitor
   /**
    * @throws NullPointerException if separator is <code>null</code>.
    */
-  protected void printTermList(List list, String separator)
+  protected void printTermList(List<? extends Term> list, String separator)
   {
     if (separator == null) throw new NullPointerException();
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      Term term = (Term) iter.next();
+    for (Iterator<? extends Term> iter = list.iterator(); iter.hasNext();) {
+      Term term = iter.next();
       visit(term);
       if (iter.hasNext()) {
         printDecorword(separator);

@@ -28,13 +28,13 @@ import java.awt.Rectangle;
  */
 public class BeanOutOfBoundsException extends Exception
 {
-  private Class type_;
+  private Class<?> type_;
 
   private Point attemptedLocation_;
 
   private Rectangle formBounds_;
 
-  public BeanOutOfBoundsException(Class type, Point attemptedLocation,
+  public BeanOutOfBoundsException(Class<?> type, Point attemptedLocation,
       Rectangle formBounds)
   {
     super("BeanOutOfBoundsException: Attempted to place " + type.getName()
@@ -46,7 +46,7 @@ public class BeanOutOfBoundsException extends Exception
     formBounds_ = formBounds;
   };
 
-  public Class getType()
+  public Class<?> getType()
   {
     return type_;
   };

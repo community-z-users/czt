@@ -44,9 +44,10 @@ public final class ZUtils
    * is <code>null</code> a list of all undecored names with its
    * corresponding types is returned.
    */
-  public static List<NameTypePair> subsignature(Signature sig, Class decor)
+  public static List<NameTypePair> subsignature(Signature sig,
+                                                Class<?> decor)
   {
-    List result = new ArrayList<NameTypePair>();
+    List<NameTypePair> result = new ArrayList<NameTypePair>();
     for (NameTypePair pair : sig.getNameTypePair()) {
       final ZName zName = pair.getZName();
       final ZStrokeList strokeList = zName.getZStrokeList();

@@ -331,7 +331,7 @@ public class FormDesign extends JFrame implements ToolChangeListener
   //XXX Should this be a set instead?
   protected Vector<BeanLink> eventLinks = new Vector<BeanLink>();
 
-  public Vector getEventLinks()
+  public Vector<BeanLink> getEventLinks()
   {
     return new Vector<BeanLink>(eventLinks);
   };
@@ -383,8 +383,8 @@ public class FormDesign extends JFrame implements ToolChangeListener
 
   public void removeEventLinksTo(Object listener)
   {
-    for (Iterator i = eventLinks.iterator(); i.hasNext();) {
-      BeanLink bl = (BeanLink) i.next();
+    for (Iterator<BeanLink> i = eventLinks.iterator(); i.hasNext();) {
+      BeanLink bl = i.next();
       if (bl.listener == listener) {
         removeEventLink(bl, i);
       }
@@ -393,28 +393,28 @@ public class FormDesign extends JFrame implements ToolChangeListener
 
   public void removeEventLinksFrom(Object source)
   {
-    for (Iterator i = eventLinks.iterator(); i.hasNext();) {
-      BeanLink bl = (BeanLink) i.next();
+    for (Iterator<BeanLink> i = eventLinks.iterator(); i.hasNext();) {
+      BeanLink bl = i.next();
       if (bl.source == source) {
         removeEventLink(bl, i);
       }
     }
   };
 
-  public void removeEventLinksTo(Object listener, Class listenerType)
+  public void removeEventLinksTo(Object listener, Class<?> listenerType)
   {
-    for (Iterator i = eventLinks.iterator(); i.hasNext();) {
-      BeanLink bl = (BeanLink) i.next();
+    for (Iterator<BeanLink> i = eventLinks.iterator(); i.hasNext();) {
+      BeanLink bl = i.next();
       if (bl.listener == listener && bl.listenerType == listenerType) {
         removeEventLink(bl, i);
       }
     }
   };
 
-  public void removeEventLinksFrom(Object source, Class listenerType)
+  public void removeEventLinksFrom(Object source, Class<?> listenerType)
   {
-    for (Iterator i = eventLinks.iterator(); i.hasNext();) {
-      BeanLink bl = (BeanLink) i.next();
+    for (Iterator<BeanLink> i = eventLinks.iterator(); i.hasNext();) {
+      BeanLink bl = i.next();
       if (bl.source == source && bl.listenerType == listenerType) {
         removeEventLink(bl, i);
       }
@@ -543,7 +543,7 @@ public class FormDesign extends JFrame implements ToolChangeListener
         }
         else
           beanName = "(unnamed)";
-        Class beanClass = bean.getClass();
+        Class<?> beanClass = bean.getClass();
         try {
           BeanDescriptor bd = Introspector.getBeanInfo(beanClass)
               .getBeanDescriptor();
@@ -632,7 +632,7 @@ public class FormDesign extends JFrame implements ToolChangeListener
     return currentBean;
   };
 
-  public final boolean placementAllowed(Point location, Class type)
+  public final boolean placementAllowed(Point location, Class<?> type)
   {
     return getForm().getBounds().contains(location) == Component.class
         .isAssignableFrom(type);

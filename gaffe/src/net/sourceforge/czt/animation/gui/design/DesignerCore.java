@@ -56,7 +56,6 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Vector;
 import java.util.prefs.Preferences;
 
@@ -141,13 +140,12 @@ public class DesignerCore implements BeanContextProxy
   public DesignerCore(File f)
   {
     this();
-    Vector formDesigns = readFile(f);
+    Vector<FormDesign> formDesigns = readFile(f);
     //Delete the old forms.
     while (!forms.isEmpty())
       removeForm((FormDesign) forms.get(0));
     //Display the new forms.
-    for (Iterator it = formDesigns.iterator(); it.hasNext();) {
-      FormDesign fd = (FormDesign) it.next();
+    for (FormDesign fd : formDesigns) {
       addForm(fd, fd.getForm().getStartsVisible());
     }
   };
@@ -179,7 +177,7 @@ public class DesignerCore implements BeanContextProxy
       {
       };
 
-      public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
+      public Iterator<Object> getCurrentServiceSelectors(BeanContextServices bcs,
           Class serviceClass)
       {
         return null;
@@ -230,11 +228,6 @@ public class DesignerCore implements BeanContextProxy
     return bcsSupport;
   };
 
-  private FormDesign getSelectedBeansForm()
-  {
-    return currentBeansForm;
-  };
-
   private Object getSelectedBean()
   {
     return currentBean;
@@ -276,9 +269,10 @@ public class DesignerCore implements BeanContextProxy
 
   public void addFormDesignListener(FormDesignListener l)
   {
-    for (Iterator i = forms.iterator(); i.hasNext();)
-      l.formCreated(new FormDesignEvent(this, (FormDesign) i.next(),
+    for (FormDesign fd : forms) {
+      l.formCreated(new FormDesignEvent(this, fd,
           FormDesignEvent.CREATED));
+    }
     listenerSupport.add(FormDesignListener.class, l);
   };
 
@@ -413,8 +407,7 @@ public class DesignerCore implements BeanContextProxy
     {
       currentBeansForm = ev.getSelectedBeansForm();
       currentBean = getSelectedBean();
-      for (ListIterator i = forms.listIterator(); i.hasNext();) {
-        FormDesign fd = (FormDesign) i.next();
+      for (FormDesign fd : forms) {
         if (fd != currentBeansForm)
           fd.unselectBean();
       };
@@ -446,8 +439,7 @@ public class DesignerCore implements BeanContextProxy
     {
       public void windowClosing(WindowEvent ev)
       {
-        Vector v = getVisibleForms();
-
+        Vector<FormDesign> v = getVisibleForms();
         v.remove(ev.getWindow());
         if (v.isEmpty()) {
           actionMap.get("Quit").actionPerformed(
@@ -469,8 +461,8 @@ public class DesignerCore implements BeanContextProxy
   {
     Vector<FormDesign> result = new Vector<FormDesign>(forms);
 
-    for (Iterator i = result.iterator(); i.hasNext();)
-      if (!((FormDesign) i.next()).isVisible())
+    for (Iterator<FormDesign> i = result.iterator(); i.hasNext();)
+      if (! i.next().isVisible())
         i.remove();
     return result;
   };
@@ -655,8 +647,9 @@ public class DesignerCore implements BeanContextProxy
             "Confirm exit", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.NO_OPTION)
           return;
-        for (ListIterator i = forms.listIterator(); i.hasNext();)
-          ((FormDesign) i.next()).dispose();
+        for (FormDesign f : forms) {
+          f.dispose();
+        }
         propertiesWindow.dispose();
         toolWindow.dispose();
         //XXX properly close all windows
@@ -778,8 +771,8 @@ public class DesignerCore implements BeanContextProxy
           };
         });
 
-        for (Iterator i = forms.iterator(); i.hasNext();) {
-          ((FormDesign) i.next()).saveDesign(encoder);
+        for (FormDesign fd : forms) {
+          fd.saveDesign(encoder);
         }
         encoder.close();
       };
@@ -804,7 +797,7 @@ public class DesignerCore implements BeanContextProxy
         fc.addChoosableFileFilter(Utils.gaffeFileFilter);
         if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
           return;
-        Vector formDesigns = readFile(fc.getSelectedFile());
+        Vector<FormDesign> formDesigns = readFile(fc.getSelectedFile());
 
         //We got nothing from the file, so we'll leave the current designs.
         if (formDesigns.isEmpty())
@@ -814,8 +807,7 @@ public class DesignerCore implements BeanContextProxy
         while (!forms.isEmpty())
           removeForm((FormDesign) forms.get(0));
         //Display the new forms.
-        for (Iterator it = formDesigns.iterator(); it.hasNext();) {
-          FormDesign fd = (FormDesign) it.next();
+        for (FormDesign fd : formDesigns) {
           addForm(fd, fd.getForm().getStartsVisible());
         }
       };
