@@ -19,8 +19,8 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.*;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -28,7 +28,6 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.PrintVisitor;
-import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
@@ -48,8 +47,6 @@ public class DefinitionTableVisitor
   private DefinitionTable table_;
   private final PrintVisitor printVisitor_;
   
-  private static final Logger logger_ = Logger.getLogger(DefinitionTableVisitor.class.getName());
-          
   /**
    * Creates a new definition table visitor.
    * The section information should be able to provide information of
@@ -108,9 +105,9 @@ public class DefinitionTableVisitor
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    List parentTables = new ArrayList();
-    for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
-      Parent parent = (Parent) iter.next();
+    List<DefinitionTable> parentTables =
+      new ArrayList<DefinitionTable>();
+    for (Parent parent : zSect.getParent()) {
       DefinitionTable parentTable =
         (DefinitionTable) get(parent.getWord(), DefinitionTable.class);
       parentTables.add(parentTable);
@@ -161,10 +158,8 @@ public class DefinitionTableVisitor
 //  
   protected void processDeclList(ZNameList genFormals, List<Decl> decls) 
   {
-    for (Iterator<Decl> iter = decls.iterator(); iter.hasNext(); ) 
+    for (Decl decl : decls) 
     {
-      Decl decl = iter.next();
-      // 
       if (decl instanceof ConstDecl) 
       {        
         ConstDecl constDecl = (ConstDecl) decl;        

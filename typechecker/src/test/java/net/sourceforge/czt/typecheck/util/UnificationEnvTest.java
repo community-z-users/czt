@@ -19,8 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.typecheck.util;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -28,9 +26,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 
@@ -267,10 +263,5 @@ public class UnificationEnvTest
       UResult unified = unificationEnv_.unify(first, second);
       assertEquals(message, SUCC, unified);
     }
-  }
-
-  protected static List list()
-  {
-    return new ArrayList();
   }
 }

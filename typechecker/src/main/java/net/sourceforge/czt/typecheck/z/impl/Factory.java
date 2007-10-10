@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,6 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.typecheck.z.util.ParameterAnn;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 
 /**
@@ -63,7 +63,7 @@ public class Factory
 
   public static Term cloneTerm(Term term)
   {
-    List<Term> listTerm = new java.util.ArrayList();
+    List<Term> listTerm = new ArrayList<Term>();
     listTerm.add(term);
     return cloneTerm(term, listTerm);
   }
@@ -421,20 +421,20 @@ public class Factory
 
   public <E> List<E> list()
   {
-    java.util.List<E> result = new java.util.ArrayList<E>();
+    java.util.List<E> result = new ArrayList<E>();
     return result;
   }
 
   public <E> List<E> list(E... elems)
   {
-    java.util.List<E> result = new java.util.ArrayList<E>();
+    java.util.List<E> result = new ArrayList<E>();
     result.addAll(java.util.Arrays.asList(elems));
     return result;
   }
 
   public <E> List<E> list(List<E> list)
   {
-    List<E> result = new java.util.ArrayList<E>(list);
+    List<E> result = new ArrayList<E>(list);
     return result;
   }
 

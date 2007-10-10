@@ -48,7 +48,7 @@ public class ListTermImpl<E>
   /**
    * A list of annotations.
    */
-  private List anns_ = new ArrayList();
+  private List<Object> anns_ = new ArrayList<Object>();
 
   /**
    * Constructs an empty list term that accepts all Objects.
@@ -154,7 +154,7 @@ public class ListTermImpl<E>
 
   public ListTerm<Object> getAnns()
   {
-    ListTermImpl result = new ListTermImpl();
+    ListTermImpl<Object> result = new ListTermImpl<Object>();
     result.addAll(anns_);
     return result;
   }

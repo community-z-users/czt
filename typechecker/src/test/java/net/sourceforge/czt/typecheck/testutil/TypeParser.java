@@ -18,8 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.typecheck.testutil;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -44,7 +42,7 @@ public class TypeParser
   protected String current_;
 
   //the list of variable types that have been created
-  protected List vTypes_;
+  protected List<VariableType> vTypes_;
 
   //the Factory
   protected Factory factory_ ;
@@ -200,7 +198,8 @@ public class TypeParser
     String nextToken = nextToken();  //consume "\\["
 
     //parse the list of names
-    ZNameList names = factory_.createZNameList(list());
+    List<Name> nameList = list();
+    ZNameList names = factory_.createZNameList(nameList);
     while (!"\\]".equals(nextToken)) {
       String word = nextToken();
       ZName zName = factory_.createZDeclName(word);
@@ -241,7 +240,7 @@ public class TypeParser
 
       Type2 nextType = parseInnerType();
 
-      List types = list();
+      List<Type2> types = list();
       types.add(result);
       types.add(nextType);
       result = factory_.createProdType(types);
@@ -296,8 +295,7 @@ public class TypeParser
 
   protected VariableType createVariableType(ZName zName)
   {
-    for (Iterator iter = vTypes_.iterator(); iter.hasNext(); ) {
-      VariableType vType = (VariableType) iter.next();
+    for (VariableType vType : vTypes_) {
       if (vType.getName().equals(zName)) {
         return vType;
       }
@@ -307,8 +305,8 @@ public class TypeParser
     return result;
   }
 
-  protected static List list()
+  protected static <T> List<T> list()
   {
-    return new ArrayList();
+    return new ArrayList<T>();
   }
 }

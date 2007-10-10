@@ -37,14 +37,14 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class ToSpiveyZVisitor
-  implements TermVisitor,
-             AxParaVisitor,
-             RefExprVisitor,
-             SchExprVisitor
+  implements TermVisitor<Object>,
+             AxParaVisitor<Object>,
+             RefExprVisitor<Object>,
+             SchExprVisitor<Object>
 {
   private static int count_ = 0;
   private Factory factory_ = new Factory();
-  private List anns_;
+  private List<Object> anns_;
   private Stack<Term> parents_ = new Stack<Term>();
 
   public Object visitTerm(Term term)
@@ -77,7 +77,6 @@ public class ToSpiveyZVisitor
     anns_ = axPara.getAnns();
     boolean defs = false;
     if (Box.OmitBox.equals(axPara.getBox())) {
-      final SchText schText = axPara.getSchText();
       final List<Decl> decls = axPara.getZSchText().getZDeclList();
       for (Decl decl : decls) {
         final ConstDecl constDecl = (ConstDecl) decl;

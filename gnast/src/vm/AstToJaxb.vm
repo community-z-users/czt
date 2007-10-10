@@ -125,7 +125,7 @@ public class $class.Name
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
       {
-        List list = zedObject.getContent();
+        List<? extends Object> list = zedObject.getContent();
         if (list.size() == 1) {
           Object o = list.get(0);
           if (o instanceof Term) {
@@ -134,7 +134,7 @@ public class $class.Name
           jaxbObject.setContent(o);
         }
         else if (list.size() > 1) {
-          List newlist = new java.util.ArrayList();
+          List<Object> newlist = new java.util.ArrayList<Object>();
           for (Object o : list) {
             if (o instanceof Term) {
               o = ((Term) o).accept(this);

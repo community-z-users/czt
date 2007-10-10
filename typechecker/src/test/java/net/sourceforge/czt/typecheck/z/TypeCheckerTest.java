@@ -20,7 +20,6 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -31,14 +30,8 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.parser.z.ParseUtils;
 
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
-import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
-
-import net.sourceforge.czt.typecheck.testutil.TypeParser;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -123,7 +116,8 @@ public class TypeCheckerTest
     return (Term) manager.get(new Key(file, Spec.class));
   }
 
-  protected List typecheck(Term term, SectionManager manager)
+  protected List<? extends ErrorAnn> typecheck(Term term,
+                                               SectionManager manager)
     throws Exception
   {
     return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_);
@@ -165,7 +159,7 @@ public class TypeCheckerTest
     public void runTest()
     {
       SectionManager manager = getManager();
-      List<ErrorAnn> errors = new java.util.ArrayList<ErrorAnn>();
+      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
       try {
         Term term = parse(file_, manager);
         errors = typecheck(term, manager);
@@ -207,8 +201,7 @@ public class TypeCheckerTest
     public void runTest()
     {
       SectionManager manager = getManager();
-      Throwable throwable = null;
-      List<ErrorAnn> errors = new java.util.ArrayList();
+      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
       try {
         Term term = parse(file_, manager);
         if (term == null) {

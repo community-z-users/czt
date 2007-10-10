@@ -18,24 +18,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.typecheck.z;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
 
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
-import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 
 import net.sourceforge.czt.typecheck.testutil.TypeParser;
 
@@ -230,9 +222,7 @@ public class TypeInference
     ZName zName = factory_.createZName(word);
     ZSect zSect = (ZSect) spec_.getSect().get(0);
     SectTypeEnvAnn ann = (SectTypeEnvAnn) zSect.getAnn(SectTypeEnvAnn.class);
-    List triples = ann.getNameSectTypeTriple();
-    for (Iterator iter = triples.iterator(); iter.hasNext(); ) {
-      NameSectTypeTriple triple = (NameSectTypeTriple) iter.next();
+    for (NameSectTypeTriple triple : ann.getNameSectTypeTriple()) {
       if (zName.equals(triple.getName())) {
         return triple.getType();
       }
@@ -260,10 +250,5 @@ public class TypeInference
     Spec spec = (Spec) ParseUtils.parse(source, manager_);
     spec_ = spec;
     return spec;
-  }
-
-  protected static List list()
-  {
-    return new ArrayList();
   }
 }

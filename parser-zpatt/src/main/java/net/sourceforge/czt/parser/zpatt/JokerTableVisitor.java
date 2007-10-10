@@ -32,12 +32,12 @@ import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.visitor.*;
 
 public class JokerTableVisitor
-  extends AbstractVisitor
-  implements TermVisitor,
-             JokersVisitor,
-             ParaVisitor,
-             ZParaListVisitor,
-             ZSectVisitor
+  extends AbstractVisitor<Object>
+  implements TermVisitor<Object>,
+             JokersVisitor<Object>,
+             ParaVisitor<Object>,
+             ZParaListVisitor<Object>,
+             ZSectVisitor<Object>
 {
   private JokerTable table_;
 
@@ -49,11 +49,6 @@ public class JokerTableVisitor
   public JokerTableVisitor(SectionInfo sectInfo)
   {
     super(sectInfo);
-  }
-
-  public Class getInfoType()
-  {
-    return JokerTable.class;
   }
 
   public Object run(Term term)
@@ -100,9 +95,8 @@ public class JokerTableVisitor
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    List parentTables = new ArrayList();
-    for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
-      Parent parent = (Parent) iter.next();
+    List<JokerTable> parentTables = new ArrayList<JokerTable>();
+    for (Parent parent : zSect.getParent()) {
       JokerTable parentTable =
         (JokerTable) get(parent.getWord(), JokerTable.class);
       if (parentTable != null) {
