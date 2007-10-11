@@ -142,7 +142,7 @@ public class Main
           FileSource source = new FileSource(args[i]);
           if (parse(source, manager, syntaxCheckOnly, prove) &&
               output != null) {
-            if (output.endsWith("utf8")) {
+            if (output.endsWith("8")) {
               UnicodeString unicode = (UnicodeString)
                 manager.get(new Key(source.getName(), UnicodeString.class));
               FileOutputStream stream = new FileOutputStream(output);
@@ -150,7 +150,7 @@ public class Main
               writer.write(unicode.toString());
               writer.close();
             }
-            else if (output.endsWith("utf16")) {
+            else if (output.endsWith("16")) {
               UnicodeString unicode = (UnicodeString)
                 manager.get(new Key(source.getName(), UnicodeString.class));
               FileOutputStream stream = new FileOutputStream(output);
@@ -231,8 +231,8 @@ public class Main
       "File ending bindings:\n" +
       "  tex, zed --> LaTeX mark-up\n" +
       "  xml, zml --> ZML\n" +
-      "  utf8     --> Unicode (encoding UTF-8)\n" +
-      "  utf16    --> Unicode (encoding UTF-16)\n" +
+      "  *8       --> Unicode (encoding UTF-8)\n" +
+      "  *16      --> Unicode (encoding UTF-16)\n" +
       "Commands:\n" + printCommands();
   }
 

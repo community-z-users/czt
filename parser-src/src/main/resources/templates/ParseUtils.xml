@@ -243,11 +243,11 @@ public class <class/>
   public static Markup getMarkup(String filename)
   {
     Markup result = null;
-    if (filename.endsWith(".tex") || filename.endsWith(".TEX")) {
+    if (filename.endsWith(".tex") || filename.endsWith(".TEX") ||
+        filename.endsWith(".zed") || filename.endsWith(".ZED")) {
       result = Markup.LATEX;
     }
-    else if (filename.endsWith(".utf8") || filename.endsWith(".UTF8") ||
-             filename.endsWith(".utf16") || filename.endsWith(".UTF16")) {
+    else if (filename.endsWith("8") || filename.endsWith("16")) {
       result = Markup.UNICODE;
     }
     return result;
