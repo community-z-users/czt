@@ -495,7 +495,7 @@ public class Main {
       non_terminal nt;
 
       /* check for unused terminals */
-      for (Enumeration t = terminal.all(); t.hasMoreElements(); )
+      for (Enumeration<?> t = terminal.all(); t.hasMoreElements(); )
 	{
 	  term = (terminal)t.nextElement();
 
@@ -518,7 +518,7 @@ public class Main {
 	}
 
       /* check for unused non terminals */
-      for (Enumeration n = non_terminal.all(); n.hasMoreElements(); )
+      for (Enumeration<?> n = non_terminal.all(); n.hasMoreElements(); )
 	{
 	  nt = (non_terminal)n.nextElement();
 
@@ -588,7 +588,7 @@ public class Main {
 	System.err.println("  Filling in tables...");
       action_table = new parse_action_table();
       reduce_table = new parse_reduce_table();
-      for (Enumeration st = lalr_state.all(); st.hasMoreElements(); )
+      for (Enumeration<?> st = lalr_state.all(); st.hasMoreElements(); )
 	{
 	  lalr_state lst = (lalr_state)st.nextElement();
 	  lst.build_table_entries(
@@ -855,7 +855,7 @@ public class Main {
       lalr_state ordered[] = new lalr_state[lalr_state.number()];
 
       /* put the states in sorted order for a nicer display */
-      for (Enumeration s = lalr_state.all(); s.hasMoreElements(); )
+      for (Enumeration<?> s = lalr_state.all(); s.hasMoreElements(); )
 	{
 	  lalr_state st = (lalr_state)s.nextElement();
 	  ordered[st.index()] = st;

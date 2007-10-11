@@ -213,7 +213,6 @@ public class PrecedenceHandlingVisitor
 
     //get the associativities of the two expressions
     Assoc assoc = getAssoc(wrappedExpr);
-    Assoc nestedAssoc = getAssoc(nestedExpr);
 
     //if the precedences are the same, but the associativity of
     //refExpr is left, then no reordering is required
@@ -223,22 +222,6 @@ public class PrecedenceHandlingVisitor
 
     //if we get to here, then reordering is required
     return true;
-  }
-
-  private RefExpr getRefExpr(Expr expr)
-  {
-    RefExpr result = null;
-
-    if (expr instanceof ApplExpr) {
-      ApplExpr applExpr = (ApplExpr) expr;
-      if (applExpr.getLeftExpr() instanceof RefExpr) {
-        result = (RefExpr) applExpr.getLeftExpr();
-      }
-    }
-    else if (expr instanceof RefExpr) {
-
-    }
-    return result;
   }
 
   //returns true if and only if the specified Term has a
@@ -376,7 +359,6 @@ class WrappedExpr
   public static boolean isValidWrappedExpr(ApplExpr applExpr)
   {
     Expr leftExpr = applExpr.getLeftExpr();
-    Expr rightExpr = applExpr.getRightExpr();
     boolean result = leftExpr instanceof RefExpr &&
       applExpr.getMixfix().equals(Boolean.TRUE);
     return result;

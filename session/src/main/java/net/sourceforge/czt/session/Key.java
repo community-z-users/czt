@@ -24,9 +24,9 @@ package net.sourceforge.czt.session;
 public class Key
 {
   private String name_;
-  private Class type_;
+  private Class<?> type_;
 
-  public Key(String name, Class type)
+  public Key(String name, Class<?> type)
   {
     if (name == null) throw new NullPointerException();
     if (type == null) throw new NullPointerException();
@@ -39,7 +39,7 @@ public class Key
     return name_;
   }
 
-  public Class getType()
+  public Class<?> getType()
   {
     return type_;
   }

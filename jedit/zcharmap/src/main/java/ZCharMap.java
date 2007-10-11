@@ -70,8 +70,6 @@ public class ZCharMap extends JPanel
 
   private RenderingHints renderingHints;
 
-  private JButton convert_;
-
   //############################################################
   //####################### CONSTRUCTOR ########################
   //############################################################
@@ -89,7 +87,8 @@ public class ZCharMap extends JPanel
 
     org.gjt.sp.jedit.textarea.TextAreaPainter textAreaPainter =
       mView.getTextArea().getPainter();
-    HashMap hints = new HashMap();
+    HashMap<RenderingHints.Key,Object> hints =
+      new HashMap<RenderingHints.Key,Object>();
     if (textAreaPainter.isAntiAliasEnabled()) {
       hints.put(RenderingHints.KEY_ANTIALIASING,
 		RenderingHints.VALUE_ANTIALIAS_ON);
@@ -149,7 +148,7 @@ public class ZCharMap extends JPanel
   {
     if (message instanceof EditPaneUpdate) {
       EditPaneUpdate editPaneUpdate = (EditPaneUpdate) message;
-      if (editPaneUpdate.getWhat() == editPaneUpdate.BUFFER_CHANGED) {
+      if (editPaneUpdate.getWhat() == EditPaneUpdate.BUFFER_CHANGED) {
         setTableModel();
         mTable.repaint();
       }

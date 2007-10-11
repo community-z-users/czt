@@ -267,7 +267,7 @@ setJMenuBar(mb);
         task.call();
         // Check the compile result
         boolean bHasProblem = false;
-        for (Diagnostic d : diagnostics.getDiagnostics()) {
+        for (Diagnostic<? extends JavaFileObject> d : diagnostics.getDiagnostics()) {
           // String type, String class name, String desc,String location, String path
           ResultDetails details = new ResultDetails(d.getKind().name(), d
               .getClass().toString(), d.getMessage(null), "Line: "

@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Precedence
-  implements Comparable
+  implements Comparable<Precedence>
 {
   private Integer prec1_;
   private Integer prec2_;
@@ -57,9 +57,8 @@ public class Precedence
     return new Precedence(prec1, prec2);
   }
 
-  public int compareTo(Object o)
+  public int compareTo(Precedence p)
   {
-    Precedence p = (Precedence) o;
     final int compareFirst = prec1_.compareTo(p.prec1_);
     if (compareFirst == 0) return prec2_.compareTo(p.prec2_);
     return compareFirst;

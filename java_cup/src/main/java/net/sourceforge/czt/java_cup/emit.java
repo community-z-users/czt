@@ -296,7 +296,7 @@ public class emit {
       out.println("  /* terminals */");
 
       /* walk over the terminals */              /* later might sort these */
-      for (Enumeration e = terminal.all(); e.hasMoreElements(); )
+      for (Enumeration<?> e = terminal.all(); e.hasMoreElements(); )
         {
           term = (terminal)e.nextElement();
 
@@ -312,7 +312,7 @@ public class emit {
           out.println("  /* non terminals */");
 
           /* walk over the non terminals */       /* later might sort these */
-          for (Enumeration e = non_terminal.all(); e.hasMoreElements(); )
+          for (Enumeration<?> e = non_terminal.all(); e.hasMoreElements(); )
             {
               nt = (non_terminal)e.nextElement();
 

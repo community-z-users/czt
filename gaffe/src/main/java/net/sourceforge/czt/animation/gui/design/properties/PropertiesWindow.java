@@ -41,7 +41,6 @@ import java.util.EventListener;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
@@ -823,10 +822,9 @@ public final class PropertiesWindow extends JFrame
       boolean isEditable = propertiesTable_.isCellEditable(row, column);
       Component component;
       if (value != null)
-        for (Iterator it = defaultRenderers.entrySet().iterator(); it.hasNext();) {
-          Map.Entry entry = (Map.Entry) it.next();
-          Class clazz = (Class) entry.getKey();
-          TableCellRenderer renderer = (TableCellRenderer) entry.getValue();
+        for (Map.Entry<Class<?>,TableCellRenderer> entry : defaultRenderers.entrySet()) {
+          Class<?> clazz = entry.getKey();
+          TableCellRenderer renderer = entry.getValue();
           if (clazz.isAssignableFrom(value.getClass())) {
             component = renderer.getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
@@ -841,9 +839,9 @@ public final class PropertiesWindow extends JFrame
     };
   };
 
-  private static final Map<Class, TableCellRenderer> defaultRenderers = new HashMap<Class, TableCellRenderer>();
+  private static final Map<Class<?>, TableCellRenderer> defaultRenderers = new HashMap<Class<?>, TableCellRenderer>();
 
-  public static void addDefaultRenderer(Class c, TableCellRenderer r)
+  public static void addDefaultRenderer(Class<?> c, TableCellRenderer r)
   {
     defaultRenderers.put(c, r);
   };

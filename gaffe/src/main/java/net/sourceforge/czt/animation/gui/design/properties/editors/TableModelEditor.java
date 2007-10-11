@@ -36,9 +36,10 @@ import javax.swing.table.TableModel;
  */
 public class TableModelEditor extends PropertyEditorSupport
 {
-  private static final Map<String, Class> tableModelClasses = new HashMap<String, Class>();
+  private static final Map<String, Class<?>> tableModelClasses =
+    new HashMap<String, Class<?>>();
 
-  public static void registerTableModel(Class c)
+  public static void registerTableModel(Class<?> c)
   {
     if (c.isInterface() || !TableModel.class.isAssignableFrom(c))
       throw new IllegalArgumentException("Classes registered with "
@@ -54,7 +55,7 @@ public class TableModelEditor extends PropertyEditorSupport
 
   public String getAsText()
   {
-    Class valueClass = getValue().getClass();
+    Class<?> valueClass = getValue().getClass();
     try {
       BeanDescriptor bd = Introspector.getBeanInfo(valueClass)
           .getBeanDescriptor();
@@ -67,7 +68,7 @@ public class TableModelEditor extends PropertyEditorSupport
   public void setAsText(String className)
   {
     try {
-      setValue(((Class) tableModelClasses.get(className)).newInstance());
+      setValue(((Class<?>) tableModelClasses.get(className)).newInstance());
     } catch (Exception ex) {
       setValue(new DefaultTableModel());
     }

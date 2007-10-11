@@ -23,13 +23,9 @@ import java.io.*;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.LogRecord;
@@ -201,40 +197,6 @@ public class Gnast implements GlobalProperties
     return true;
   }
 
-  // ********************* LOGGING *************************
-
-  private void handleLogging()
-  {
-    Logger rootLogger = Logger.getLogger("");
-    rootLogger.setLevel(Level.FINEST);
-
-    // setting console logger
-    Handler handler = null;
-    Handler[] h = rootLogger.getHandlers();
-    for (int i = 0; i < h.length; i++) {
-      if (h[i] instanceof ConsoleHandler) {
-        handler = h[i];
-      }
-    }
-    if (handler == null) {
-      handler = new ConsoleHandler();
-      rootLogger.addHandler(handler);
-    }
-    handler.setLevel(verbosity_);
-    handler.setFormatter(new OutputFormatter());
-
-    // setting file logger
-    try {
-      handler = new FileHandler("gnast.log");
-      handler.setLevel(Level.ALL);
-      handler.setEncoding("utf8");
-    }
-    catch (Exception e) {
-      getLogger().severe(e.getMessage());
-    }
-    rootLogger.addHandler(handler);
-  }
-
   // ********************* OTHERS *************************
 
   /**
@@ -403,7 +365,7 @@ public class Gnast implements GlobalProperties
   public static Properties removePrefix(String prefix, Properties props)
   {
     Properties result = new Properties();
-    for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
+    for (Enumeration<?> e = props.propertyNames(); e.hasMoreElements();) {
       String propertyName = (String) e.nextElement();
       if (propertyName.startsWith(prefix))
         result.setProperty(propertyName.substring(prefix.length()),
@@ -422,7 +384,7 @@ public class Gnast implements GlobalProperties
   public static Properties withPrefix(String prefix, Properties props)
   {
     Properties result = new Properties();
-    for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
+    for (Enumeration<?> e = props.propertyNames(); e.hasMoreElements();) {
       String propertyName = (String) e.nextElement();
       if (propertyName.startsWith(prefix))
         result.setProperty(propertyName,

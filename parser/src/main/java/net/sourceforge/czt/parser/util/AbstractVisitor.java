@@ -31,7 +31,7 @@ public class AbstractVisitor<R>
   implements Visitor<R>
 {
   private SectionInfo sectInfo_;
-  private Set dependencies_ = new HashSet();
+  private Set<Key> dependencies_ = new HashSet<Key>();
 
   public AbstractVisitor(SectionInfo sectInfo)
   {
@@ -53,7 +53,7 @@ public class AbstractVisitor<R>
     }
   }
 
-  public Set getDependencies()
+  public Set<Key> getDependencies()
   {
     return dependencies_;
   }
@@ -65,7 +65,7 @@ public class AbstractVisitor<R>
    * exception is wrapped into a RuntimeException and thrown.
    * It can be retrieved by calling getCause().</p>
    */
-  protected Object get(String name, Class type)
+  protected Object get(String name, Class<?> type)
   {
     Key key = new Key(name, type);
     dependencies_.add(key);

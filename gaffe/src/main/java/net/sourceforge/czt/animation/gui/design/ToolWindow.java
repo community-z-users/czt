@@ -161,7 +161,7 @@ class ToolWindow extends JFrame
         "CrossCursor");
   };
 
-  public ToolWindow(Class[] beanTypes, ActionMap am)
+  public ToolWindow(Class<?>[] beanTypes, ActionMap am)
   {
     setupCrossCursor();
     setTitle("GAfFE: Tool Window");
@@ -446,7 +446,7 @@ class ToolWindow extends JFrame
   //because PlaceBeanTool must be non-static!
   //XXX Is there a way around this? an ugly way around it could use an anonymous
   //inner class with this function.
-  private static Icon getIconForType(Class type) throws IntrospectionException
+  private static Icon getIconForType(Class<?> type) throws IntrospectionException
   {
     final BeanInfo bi = Introspector.getBeanInfo(type);
     //final BeanDescriptor bd = bi.getBeanDescriptor();
@@ -751,7 +751,7 @@ class ToolWindow extends JFrame
     {
       getListener(e, f);
 
-      Vector<Class> approvedListenerTypes = new Vector<Class>();
+      Vector<Class<?>> approvedListenerTypes = new Vector<Class<?>>();
       if (sourceInfo_ != null && listenerBean_ != null) {
         EventSetDescriptor[] esds = sourceInfo_.getEventSetDescriptors();
         for (int i = 0; i < esds.length; i++) {
@@ -770,7 +770,7 @@ class ToolWindow extends JFrame
         f.repaint();
         //XXX different dialog if there's only one approvedListenerType?
         //XXX highlight the two beans?
-        Class chosenListenerType = (Class) JOptionPane.showInputDialog(f, //Parent window
+        Class<?> chosenListenerType = (Class<?>) JOptionPane.showInputDialog(f, //Parent window
             "Register listener as type:", //Message
             "Listener type selection", //Dialog title
             JOptionPane.QUESTION_MESSAGE, //Message type

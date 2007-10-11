@@ -111,7 +111,7 @@ public class DesignerCore implements BeanContextProxy
 
   private PropertyChangeSupport pcSupport = new PropertyChangeSupport(this);
 
-  private Vector<Class> toolClasses = new Vector<Class>();
+  private Vector<Class<?>> toolClasses = new Vector<Class<?>>();
 
   protected int beanHighlightingStatus = BHS_HIGHLIGHT_NO_BEANS;
 
@@ -196,7 +196,7 @@ public class DesignerCore implements BeanContextProxy
       {
       };
 
-      public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
+      public Iterator<Object> getCurrentServiceSelectors(BeanContextServices bcs,
           Class serviceClass)
       {
         return null;

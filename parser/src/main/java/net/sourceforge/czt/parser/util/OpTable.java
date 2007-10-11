@@ -21,12 +21,16 @@
 package net.sourceforge.czt.parser.util;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -66,18 +70,21 @@ public class OpTable
    * Since the set of active associations is always a function,
    * a map can be used here.</p>
    */
-  private Map<String,OperatorTokenType> opTokens_ = new HashMap();
+  private Map<String,OperatorTokenType> opTokens_ =
+    new HashMap<String,OperatorTokenType>();
 
   /**
    * A mapping from operator word to precedence.
    * For instance, '+' is mapped to '30'.
    */
-  private Map<String, BigInteger> precedence_ = new HashMap();
+  private Map<String,BigInteger> precedence_ =
+    new HashMap<String,BigInteger>();
 
   /**
    * Maps precedence to associativity.
    */
-  private Map<BigInteger,Assoc> assoc_ = new HashMap();
+  private Map<BigInteger,Assoc> assoc_ =
+    new HashMap<BigInteger,Assoc>();
 
   /**
    * Constructs an operator table for a new section.
@@ -88,13 +95,12 @@ public class OpTable
    * @czt.todo we could take a set/map of Sections here?
    *           Or the section manager plus a set of parent names?
    */
-  public OpTable(String section, Collection/*<OpTable>*/ parents)
+  public OpTable(String section, Collection<OpTable> parents)
     throws OperatorException
   {
     section_ = section;
     if (parents != null) {
-      for (Iterator iter = parents.iterator(); iter.hasNext();) {
-        OpTable table = (OpTable) iter.next();
+      for (OpTable table : parents) {
         addParentOpTable(table);
       }
     }
@@ -120,11 +126,10 @@ public class OpTable
     return dw.getWord();
   }
 
-  public static String getOpNameWithoutStrokes(List/*<Oper>*/ oper)
+  public static String getOpNameWithoutStrokes(List<Oper> oper)
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator iter = oper.iterator(); iter.hasNext();) {
-      Oper o = (Oper) iter.next();
+    for (Oper o : oper) {
       if (o instanceof Operand) {
         final Operand operand = (Operand) o;
         if (Boolean.TRUE.equals(operand.getList())) {
@@ -168,11 +173,10 @@ public class OpTable
   {
     throw new UnsupportedOperationException();
   }
-  public OpInfo lookup(List list)
+  public OpInfo lookup(List<String> list)
   {
     StringBuffer opname = new StringBuffer();
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      String s = (String) iter.next();
+    for (String s : list) {
       if (ZString.ARG_TOK.equals(s) || ZString.LISTARG_TOK.equals(s)) {
         opname.append(s);
       }
@@ -219,7 +223,7 @@ public class OpTable
   public void add(OptempPara opPara)
     throws OperatorException
   {
-    List oper = opPara.getOper();
+    List<Oper> oper = opPara.getOper();
     if (oper.size() < 2) {
       throw new OperatorException("Error: operator template with less " +
                                   "than 2 arguments");
@@ -262,35 +266,10 @@ public class OpTable
     ops_.put(name, info);
   }
 
-  /**
-   *
-   * @czt.todo reimplement this method exploiting the fact that table
-   *           <code>ops_</code> is ordered.
-   */
-  private void addOperators(OpTable parentTable)
-    throws OperatorException
-  {
-    final Map parentOps = parentTable.ops_;
-    for (Iterator i = parentOps.keySet().iterator(); i.hasNext();) {
-      String name = (String) i.next();
-      OpInfo info = (OpInfo) parentOps.get(name);
-      assert info != null;
-      OpInfo existingInfo = (OpInfo) ops_.get(name);
-      if (existingInfo != null && ! existingInfo.equals(info)) {
-        String message = "Operator " + name + " defined more than once" +
-          " in parents " + info.getSection() + " and " +
-          existingInfo.getSection();
-        throw new OperatorException(message);
-      }
-      ops_.put(name, info);
-    }
-  }
-
   private void addPrefix(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
-
+    List<Oper> words = opPara.getOper();
     final int start = 1;
     final int finish = words.size() - 4;
     if (words.size() == 2) {
@@ -309,7 +288,7 @@ public class OpTable
   private void addPostfix(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     final int start = 2;
     final int finish = words.size() - 3;
     if (words.size() == 2) {
@@ -329,7 +308,7 @@ public class OpTable
   private void addInfix(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     final int start = 2;
     final int finish = words.size() - 4;
     if (words.size() == 3) {
@@ -345,7 +324,7 @@ public class OpTable
   private void addNofix(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     final int start = 1;
     final int finish = words.size() - 2;
 
@@ -357,9 +336,8 @@ public class OpTable
   private void addPreOrPrep(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     final int namePosition = 0;
-
     final OperatorTokenType type = opPara.getCat().equals(Cat.Relation) ?
       OperatorTokenType.PREP :
       OperatorTokenType.PRE;
@@ -370,9 +348,8 @@ public class OpTable
   private void addLOrLp(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     final int namePosition = 0;
-
     final OperatorTokenType type = opPara.getCat().equals(Cat.Relation) ?
       OperatorTokenType.LP :
       OperatorTokenType.L;
@@ -383,9 +360,8 @@ public class OpTable
   private void addPostOrPostp(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     final int namePosition = 1;
-
     final OperatorTokenType type = opPara.getCat().equals(Cat.Relation) ?
       OperatorTokenType.POSTP :
       OperatorTokenType.POST;
@@ -396,9 +372,8 @@ public class OpTable
   private void addElOrElp(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     final int namePosition = 1;
-
     final OperatorTokenType type = opPara.getCat().equals(Cat.Relation) ?
       OperatorTokenType.ELP :
       OperatorTokenType.EL;
@@ -409,8 +384,7 @@ public class OpTable
   private void addEsOrSsList(OptempPara opPara, int start, int finish)
     throws OperatorException
   {
-    List words = opPara.getOper();
-
+    List<Oper> words = opPara.getOper();
     for (int i = start; i < finish; i += 2) {
       OperatorTokenType type =
         isSeq(words, i) ?
@@ -425,7 +399,7 @@ public class OpTable
   private void addErOrSrOrErpOrSrp(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     OperatorTokenType type = null;
     final int opPosition = words.size() - 2;
     final int namePosition = words.size() - 1;
@@ -447,7 +421,7 @@ public class OpTable
   private void addEreOrSreOrErepOrSRep(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     OperatorTokenType type = null;
     final int opPosition = words.size() - 3;
     final int namePosition = words.size() - 2;
@@ -469,7 +443,7 @@ public class OpTable
   private void addIOrIp(OptempPara opPara)
     throws OperatorException
   {
-    List words = opPara.getOper();
+    List<Oper> words = opPara.getOper();
     final int namePosition = 1;
 
     final OperatorTokenType type = opPara.getCat().equals(Cat.Relation) ?
@@ -479,7 +453,7 @@ public class OpTable
     addOp(words, namePosition, type, opPara);
   }
 
-  private boolean isSeq(List words, int i)
+  private boolean isSeq(List<Oper> words, int i)
   {
     return (((Operand) words.get(i)).getList()).booleanValue();
   }
@@ -515,7 +489,7 @@ public class OpTable
     addAssociativity(precedence, associativity);
   }
 
-  private void addOp(List words, int namePosition, OperatorTokenType type,
+  private void addOp(List<Oper> words, int namePosition, OperatorTokenType type,
                      OptempPara opPara)
     throws OperatorException
   {
@@ -577,9 +551,9 @@ public class OpTable
   private void addOpTokens(OpTable parentTable)
     throws OperatorException
   {
-    final Map parentOpTokens = parentTable.opTokens_;
-    for (Iterator i = parentOpTokens.keySet().iterator(); i.hasNext();) {
-      String word = (String) i.next();
+    final Map<String,OperatorTokenType> parentOpTokens =
+      parentTable.opTokens_;
+    for (String word : parentOpTokens.keySet()) {
       OperatorTokenType type = (OperatorTokenType) parentOpTokens.get(word);
       assert type != null;
       addOpToken(word, type, parentTable.optempPara_.get(word));

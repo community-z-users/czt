@@ -23,19 +23,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.visitor.*;
 
 public class CollectStateVariablesVisitor
-  implements ConstDeclVisitor,
-             HeadDeclListVisitor,
-             InclDeclVisitor,
-             VarDeclVisitor,
-             JokerDeclListVisitor,
-             ZDeclListVisitor
+  implements ConstDeclVisitor<Object>,
+             HeadDeclListVisitor<Object>,
+             InclDeclVisitor<Object>,
+             VarDeclVisitor<Object>,
+             JokerDeclListVisitor<Object>,
+             ZDeclListVisitor<Object>
 {
   private Set<Name> variables_ = new HashSet<Name>();
 

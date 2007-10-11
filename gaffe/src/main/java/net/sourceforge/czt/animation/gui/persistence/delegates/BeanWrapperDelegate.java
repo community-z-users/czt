@@ -103,7 +103,7 @@ public final class BeanWrapperDelegate extends DefaultPersistenceDelegate
    * @param newInstance The instance to be modified.
    * @param out The encoder to write the statements to.
    */
-  protected void initialize(Class type, Object oldInstance, Object newInstance,
+  protected void initialize(Class<?> type, Object oldInstance, Object newInstance,
       Encoder out)
   {
     out.writeStatement(new Statement(oldInstance, "setBean",

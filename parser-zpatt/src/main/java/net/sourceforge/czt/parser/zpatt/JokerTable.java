@@ -20,9 +20,12 @@
 
 package net.sourceforge.czt.parser.zpatt;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 
@@ -48,13 +51,12 @@ public class JokerTable
    *
    * @param parents Joker tables of all direct parents of the new section.
    */
-  public JokerTable(String section, Collection/*<JokerTable>*/ parents)
+  public JokerTable(String section, Collection<JokerTable> parents)
     throws JokerException
   {
     section_ = section;
     if (parents != null) {
-      for (Iterator iter = parents.iterator(); iter.hasNext();) {
-        JokerTable table = (JokerTable) iter.next();
+      for (JokerTable table : parents) {
         addJokerTable(table);
       }
     }

@@ -93,7 +93,7 @@ public class SectionManager
   /**
    * The default commands.
    */
-  private Map<Class,Command> commands_ = new HashMap<Class,Command>();
+  private Map<Class<?>,Command> commands_ = new HashMap<Class<?>,Command>();
 
   /**
    * Properties are used to store persistant global settings
@@ -193,7 +193,7 @@ public class SectionManager
    */
   public void setProperties(Properties props)
   {
-    Enumeration e = props.propertyNames();
+    Enumeration<?> e = props.propertyNames();
     while (e.hasMoreElements()) {
       String key = (String) e.nextElement();
       properties_.setProperty(key, props.getProperty(key));
@@ -252,8 +252,8 @@ public class SectionManager
   {
     final Logger logger = getLogger();
     try {
-      Class typeClass = toClass(type);
-      Class commandClass = toClass(commandClassName);
+      Class<?> typeClass = toClass(type);
+      Class<?> commandClass = toClass(commandClassName);
       if (typeClass != null && commandClass != null) {
         Object command = commandClass.newInstance();
         if (command instanceof Command) {
@@ -292,7 +292,7 @@ public class SectionManager
   /**
    * Returns Class.forName(className) but does not throw exceptions.
    */
-  private Class toClass(String name)
+  private Class<?> toClass(String name)
   {
     try {
       return Class.forName(name);
@@ -322,7 +322,7 @@ public class SectionManager
    * @param infoType The type of information the command will calculate.
    * @param command  The command that will calculate the information.
    */
-  public void putCommand(Class infoType, Command command)
+  public void putCommand(Class<?> infoType, Command command)
   {
     commands_.put(infoType, command);
   }
@@ -330,7 +330,7 @@ public class SectionManager
   /**
    * Returns the command for calculating the given type of information.
    */
-  public Command getCommand(Class infoType)
+  public Command getCommand(Class<?> infoType)
   {
     return commands_.get(infoType);
   }
@@ -356,7 +356,7 @@ public class SectionManager
     throws CommandException
   {
     getLogger().finer("Entering method get " + key);
-    final Class infoType = key.getType();
+    final Class<?> infoType = key.getType();
     final String name = key.getName();
     Object result = content_.get(key);
     if (result == null) {
@@ -407,7 +407,7 @@ public class SectionManager
    * Similar to put(key,value).
    * At the moment, the dependencies are ignored.
    */
-  public void put(Key key, Object value, Set/*<Key>*/ dependencies)
+  public void put(Key key, Object value, Set<Key> dependencies)
   {
     put(key, value);
   }

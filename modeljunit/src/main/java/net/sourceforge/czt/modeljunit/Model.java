@@ -59,7 +59,7 @@ public class Model
   /** This class defines the finite state machine model of the system under test.
    *  It is null until loadModelClass() has successfully loaded that class.
    */
-  private Class fsmClass_ = null;
+  private Class<? extends FsmModel> fsmClass_ = null;
 
   /** The name of the finite state machine model that is being tested. */
   private String fsmName_ = null;

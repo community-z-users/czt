@@ -22,12 +22,10 @@ package net.sourceforge.czt.print.z;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZOpToken;
@@ -67,7 +65,6 @@ public class ZPrintVisitor
   protected boolean ref_ = false;
   private Properties properties_;
   private Utils utils_ = new UtilsImpl();
-  private Factory factory_ = new Factory();
   private Visitor<Object> visitor_ = this;
 
   /**
@@ -86,7 +83,7 @@ public class ZPrintVisitor
     properties_ = properties;
   }
 
-  public void setVisitor(Visitor visitor)
+  public void setVisitor(Visitor<Object> visitor)
   {
     visitor_ = visitor;
   }
@@ -143,18 +140,6 @@ public class ZPrintVisitor
   {
     final boolean braces = term.getAnn(ParenAnn.class) != null;
     if (braces) print(ZToken.RPAREN);
-  }
-
-  /**
-   * Prints the first term followed by the symbol followed by the
-   * second term.
-   */
-  private void print(Term t1, String symbol, Term t2)
-  {
-    if (symbol == null) throw new NullPointerException();
-    visit(t1);
-    printDecorword(symbol);
-    visit(t2);
   }
 
   public Object visitTerm(Term term)
