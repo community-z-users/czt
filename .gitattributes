@@ -28,6 +28,7 @@ doc/cztlogo/wordart.png -text
 doc/eclipse-projects.zip -text
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
+doc/papers/posix/posix.zed16 -text
 doc/papers/rules/cztprover1.eps -text
 doc/papers/rules/cztprover1.png -text svneol=unset#image/png
 doc/papers/rules/master.bbl -text
