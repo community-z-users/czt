@@ -64,15 +64,16 @@ import net.sourceforge.czt.circus.util.CircusString;
 </add:oldz>
 action code
 {:
-  private Map sections_ = new HashMap();
-  private Map unicode2latexMap_ = null;
+  private Map&lt;String,ZSect&gt; sections_ =
+    new HashMap&lt;String,ZSect&gt;();
+  private Map&lt;String,Object&gt; unicode2latexMap_ = null;
 
   /**
    * An iterator over markup directives to be printed.
    */
   protected Iterator markup_ = null;
 
-  private Map addStandardMapping(Map map)
+  private Map addStandardMapping(Map&lt;String,Object&gt; map)
   {
     map.put(ZString.SPOT, resultTT("@", ZString.SPOT));
     map.put("+", resultTT("+", "+"));
@@ -251,7 +252,7 @@ action code
         CztLogger.getLogger(<class/>.class).warning(message);
       }
       if (parentMarkup == null) {
-        ZSect parentHeader = (ZSect) sections_.get(parentName);
+        ZSect parentHeader = sections_.get(parentName);
         if (parentHeader != null) addParentMarkups(parentHeader, table);
       }
       else {
@@ -293,7 +294,7 @@ action code
 
   protected void setupMarkupTable(LatexMarkupFunction table)
   {
-    unicode2latexMap_ = new HashMap();
+    unicode2latexMap_ = new HashMap&lt;String,Object&gt;();
     if (table != null) {
       for (Iterator iter = table.iterator(); iter.hasNext();) {
         MarkupDirective directive = (MarkupDirective) iter.next();

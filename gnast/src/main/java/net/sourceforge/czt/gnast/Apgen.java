@@ -119,20 +119,20 @@ public class Apgen
     template_ = templateFile;
   }
 
-  public Apgen(String templateFile, Map map)
+  public Apgen(String templateFile, Map<Object,Object> map)
   {
     init();
     template_ = templateFile;
     addToContext(map);
   }
 
-  public Apgen(Map map)
+  public Apgen(Map<Object,Object> map)
   {
     init();
     addToContext(map);
   }
 
-  public Apgen(Map map, Properties initProps)
+  public Apgen(Map<Object,Object> map, Properties initProps)
   {
     init(initProps);
     addToContext(map);
@@ -238,14 +238,13 @@ public class Apgen
    * @czt.todo Insert strings containing a dot as a map into a
    *           velocity context?
    */
-  public void addToContext(Map map)
+  public void addToContext(Map<Object,Object> map)
   {
     final String methodName = "addToContext";
     LOGGER.entering(CLASS_NAME, methodName, map);
 
     if (map == null || map.entrySet() == null) return;
-    for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
-      Map.Entry entry = (Map.Entry) iter.next();
+    for (Map.Entry<Object,Object> entry : map.entrySet()) {
       String key = (String) entry.getKey();
       key = key.replace('.', '_');
       Object value = entry.getValue();
@@ -374,14 +373,13 @@ public class Apgen
    *                            is not a string.
    * @throws NullPointerException if the map or the name is <code>null</code>.
    */
-  public static Map<String,Object> parseMap(Map map, String name)
+  public static Map<String,Object> parseMap(Map<Object,Object> map, String name)
   {
     final String methodName = "parseMap";
     LOGGER.entering(CLASS_NAME, methodName);
 
     Map<String,Object> erg = new HashMap<String,Object>();
-    for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
-      Map.Entry entry = (Map.Entry) iter.next();
+    for (Map.Entry<Object,Object> entry : map.entrySet()) {
       String s = (String) entry.getKey();
       if (s.startsWith(name + ".")) {
         String key = s.substring(name.length() + 1, s.length());

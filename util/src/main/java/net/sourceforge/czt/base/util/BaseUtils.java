@@ -42,14 +42,14 @@ public final class BaseUtils
     return collectAll(Class.forName(className), term);
   }
 
-  public static List<Term> collectAll(Class c, Term term)
+  public static List<Term> collectAll(Class<?> c, Term term)
   {
     List<Term> result = new ArrayList<Term>();
     collectAll(c, term, result);
     return result;
   }
 
-  public static void collectAll(Class c, Term term, List<Term> result)
+  public static void collectAll(Class<?> c, Term term, List<Term> result)
   {
     if (c.isInstance(term)) {
       result.add(term);
