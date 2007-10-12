@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -176,16 +176,7 @@ public final class PrintUtils
                                 SectionManager sectInfo,
                                 String sectionName)
   {
-    warningManager_.clear();  
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
-    Term tree;
-    try {
-      tree = (Term) toPrintTree.run(term, sectionName);
-    }
-    catch (CommandException exception) {
-      throw new PrintException("A command exception occurred while trying to print LaTeX markup " +
-          "for term within section " + sectionName, exception);
-    }
+    Term tree = preprocess(term, sectInfo, sectionName);
     ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
     if (tree instanceof Para) {
       scanner.prepend(new Symbol(Sym.PARA_START));
@@ -215,16 +206,10 @@ public final class PrintUtils
   {
     warningManager_.clear();  
     term.accept(new ToSpiveyZVisitor());
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
+    AstToPrintTreeVisitor toPrintTree =
+      new AstToPrintTreeVisitor(sectInfo, warningManager_);
     toPrintTree.setOldZ(true);
-    Term tree;
-    try {
-      tree = (Term) toPrintTree.run(term, sectionName);
-    }
-    catch (CommandException exception) {
-      throw new PrintException("A command exception occurred while trying to print old (Spivey's) LaTeX markup " +
-          "for term within section " + sectionName, exception);
-    }
+    Term tree = toPrintTree(toPrintTree, term, sectionName);
     Properties props = new Properties(sectInfo.getProperties());
     props.setProperty(PrintPropertiesKeys.PROP_Z_EVES, "true");
     ZmlScanner scanner = new ZmlScanner(tree, props);
@@ -260,16 +245,7 @@ public final class PrintUtils
                                   Writer out,
                                   SectionManager sectInfo)
   {
-    warningManager_.clear();  
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
-    Term tree = (Term) term.accept(toPrintTree);
-    PrecedenceParenAnnVisitor precVisitor =
-      new PrecedenceParenAnnVisitor();
-    tree.accept(precVisitor);
-    UnicodePrinter printer = new UnicodePrinter(out);
-    Properties props = sectInfo.getProperties();
-    ZPrintVisitor visitor = new ZPrintVisitor(printer, props);
-    tree.accept(visitor);
+    printUnicode(term, out, sectInfo, "prelude");
   }
 
   /**
@@ -282,49 +258,27 @@ public final class PrintUtils
    *
    * This method may be used for terms like Expr and Pred that do not
    * contain a section header so that context information cannot be
-   * obtained from the tree itself.  See
-   * {@link #printUnicode(Term,Writer,SectionManager)} for writing trees that do
-   * contain context information.
+   * obtained from the tree itself.  See {@link
+   * #printUnicode(Term,Writer,SectionManager)} for writing trees that
+   * do contain context information.
    */
   public static void printUnicode(Term term,
                                   Writer out,
                                   SectionManager sectInfo,
                                   String sectionName)
   {
-    warningManager_.clear();  
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
-    Term tree;
-    try {
-      tree = (Term) toPrintTree.run(term, sectionName);
-    }
-    catch (CommandException exception) {
-      throw new PrintException("A command exception occurred while trying to print Unicode markup " +
-          "for term within section " + sectionName, exception);
-    }
-    PrecedenceParenAnnVisitor precVisitor =
-      new PrecedenceParenAnnVisitor();
-    tree.accept(precVisitor);
+    TokenSequence tseq = toUnicode(term, sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
-    Properties props = sectInfo.getProperties();
-    ZPrintVisitor visitor = new ZPrintVisitor(printer, props);
-    tree.accept(visitor);
+    printer.printTokenSequence(tseq);
+    //    ZPrintVisitor visitor = new ZPrintVisitor(printer, props);
+    //    tree.accept(visitor);
   }
 
   public static TokenSequence toUnicode(Term term,
                                         SectionManager sectInfo,
                                         String sectionName)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-    Term tree;
-    try {
-      tree = (Term) toPrintTree.run(term, sectionName);
-    }
-    catch (CommandException exception) {
-      String msg =
-        "A command exception occurred while trying to print Unicode markup " +
-        "for term within section " + sectionName;
-      throw new PrintException(msg, exception);
-    }
+    Term tree = preprocess(term, sectInfo, sectionName);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
@@ -332,5 +286,29 @@ public final class PrintUtils
     TokenSequenceVisitor visitor = new TokenSequenceVisitor(props);
     tree.accept(visitor);
     return visitor.getResult();
+  }
+
+  public static Term preprocess(Term term,
+                                SectionManager manager,
+                                String section)
+    throws PrintException
+  {
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
+    return toPrintTree(toPrintTree, term, section);
+  }
+
+  public static Term toPrintTree(AstToPrintTreeVisitor toPrintTree,
+                                 Term term,
+                                 String sectionName)
+  {
+    try {
+      return (Term) toPrintTree.run(term, sectionName);
+    }
+    catch (CommandException exception) {
+      String msg =
+        "A command exception occurred while trying to print Unicode markup " +
+        "for term within section " + sectionName;
+      throw new PrintException(msg, exception);
+    }
   }
 }
