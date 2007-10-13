@@ -96,7 +96,9 @@ public class CZTGui implements ActionListener
   JMenuBar menubar = new JMenuBar();
   JMenu filemenu = new JMenu("File");
   JMenuItem open = new JMenuItem("Open");
-  JMenuItem startConsole = new JMenuItem("Start Console");
+  JMenu console = new JMenu("Console");
+  JMenuItem startConsole = new JMenuItem("Start ZLive Default");
+  JMenu startConsoleWith = new JMenu("Start ZLive with");
   JMenu saveas = new JMenu("Export to");
   JMenuItem saveasLatex = new JMenuItem("Latex");
   JMenuItem saveasUnicode8 = new JMenuItem("Unicode(utf8)");
@@ -112,7 +114,10 @@ public class CZTGui implements ActionListener
   File file = null;
   File fileForExporting = null;
 
-  private PrintStream out;
+  private ZLive zlive_ = new ZLive();;
+  private TextUI ui = new TextUI(zlive_, null);
+  ArrayList<JMenuItem> zliveSectionMenuItems = new ArrayList<JMenuItem>();
+  
   /**
    *  Constructor for the CZTGui object
    */
@@ -125,22 +130,7 @@ public class CZTGui implements ActionListener
     resultConsole.setEditable(true);
     saveas.setEnabled(false);
     close.setEnabled(false);
-
-    /*
-    out = new PrintStream(new CZTGuiZLiveOutputRedirect( resultConsole ) );
-    System.setOut(out);
-    System.setErr(out);
-    */
-
-    /*try{
-    JEditorPane tc = new JEditorPane(CZTGui.class.getResource("czt_help.html"));
-    //tc.setContentType("text/html");
-    //tc.setEditable(false);
-    //tc.setText("<body bgcolor='red'><h1>hellow world</h1><p>bla bla</p><h2>jiberish</h2></body>");
-    helpFrame.getContentPane().add(BorderLayout.NORTH, tc);
-    }catch(IOException exception){
-    System.out.println("cannot read html");
-    }**/
+    startConsoleWith.setEnabled(false);
 
     try {
       FileInputStream fileStream = new FileInputStream(getSettingsFileName());
@@ -205,7 +195,9 @@ public class CZTGui implements ActionListener
     czthelp.addActionListener(this);
 
     filemenu.add(open);
-    filemenu.add(startConsole);
+    console.add(startConsole);
+    console.add(startConsoleWith);
+    filemenu.add(console);
     saveas.add(saveasLatex);
     saveas.add(saveasUnicode8);
     saveas.add(saveasUnicode16);
@@ -271,6 +263,7 @@ public class CZTGui implements ActionListener
     frame.setTitle(softwarename);
     saveas.setEnabled(false);
     close.setEnabled(false);
+    startConsoleWith.setEnabled(false);
     clearTreeView();
     clearErrorList();
     statusBar.setText("status");
@@ -369,6 +362,10 @@ public class CZTGui implements ActionListener
   private void loadFile()
   {
     statusBar.setText("Reading "+file.getName()+"...done");
+    //unable to start zlive with a spec unless no errors
+    //and clear the sections each time a new file is opened
+    zliveSectionMenuItems.clear();
+    startConsoleWith.setEnabled(false);
 
     String selectedLanguage = "";
     String selectedEncoding = "";
@@ -392,6 +389,10 @@ public class CZTGui implements ActionListener
         selectedLanguage = "circus";
 
     manager = new SectionManager(selectedLanguage);
+    //get a new ZLive so that previously loaded spec is not present
+    zlive_ = new ZLive();
+    ui = new TextUI(zlive_,null);
+    zlive_.setSectionManager(manager);
     manager.setProperty("czt.path", file.getParent());
 
     FileSource source = new FileSource(file);
@@ -441,12 +442,16 @@ public class CZTGui implements ActionListener
       }
       treeView = new JTree(node);
       scrollTreeStructure.setViewportView(treeView);
-
+      //remove all section items before adding new ones
+      startConsoleWith.removeAll();//
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
           ZSect zSect = (ZSect) sect;
           String sectionName = zSect.getName();
-          System.out.println(sectionName);
+          
+          //add menu items for starting zlive with a prefered specification
+          zliveSectionMenuItems.add(new JMenuItem(sectionName));
+          
           if (typecheckCheckBox.isSelected()) {
             manager.get(new Key(sectionName,SectTypeEnvAnn.class));
           }
@@ -456,13 +461,23 @@ public class CZTGui implements ActionListener
           }
         }
       }
+      
+      if(!zliveSectionMenuItems.isEmpty()){
+        for(int i=0;i<zliveSectionMenuItems.size();i++){
+        zliveSectionMenuItems.get(i).addActionListener(this);
+        startConsoleWith.add(zliveSectionMenuItems.get(i));
+        }
+      }
+      
       if (nrOfZSects < 1) {
         String msg = "WARNING: No Z sections found in " + source;
         //resultListModel.addElement(msg);
         //resultList.setModel(resultListModel);
         resultConsole.append(msg);
       }
+      //only if no errors
       statusBar.setText("Finished parsing "+file.getName());
+      startConsoleWith.setEnabled(true);
       saveas.setEnabled(true);
       close.setEnabled(true);
     }
@@ -477,60 +492,98 @@ public class CZTGui implements ActionListener
         resultConsole.append(message);
     }
   }
-
-  public void ZLive(){
-    Runnable zliveConsole = new ZLiveConsole();
-    Thread zliveConsoleThread = new Thread(zliveConsole);
-    zliveConsoleThread.start();
-    //execute(resultConsole,command);
-  }
-
-  public class ZLiveConsole implements Runnable, ActionListener{
-    JFrame consoleFrame = new JFrame("ZLive");
-    JTextArea consoleArea = new JTextArea();
-    JScrollPane consoleScroller = new JScrollPane(consoleArea);
-    JTextField inputField = new JTextField(15);
-    JButton executeButton = new JButton("Execute");
-    JPanel inputPanel = new JPanel();
-    private ZLive zlive_ = new ZLive();;
-    private TextUI ui = new TextUI(zlive_, null);
-
-    public void run(){
-      //executeButton.setMnemonic(KeyEvent.VK_ENTER);
-      inputPanel.add(BorderLayout.CENTER, inputField);
-      inputPanel.add(BorderLayout.EAST, executeButton);
-      consoleFrame.getContentPane().add(BorderLayout.NORTH, inputPanel);
-      consoleFrame.getContentPane().add(BorderLayout.CENTER, consoleScroller);
-      consoleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      consoleFrame.setSize(300,200);
-      consoleFrame.setVisible(true);
-      executeButton.addActionListener(this);
-
-    }
-
-    public void execute(/*Console console,**/ JTextArea output, String command)
+  
+  public void execute(/*Console console,**/ JTextArea output, String command)
   {
     if (! command.equals("")) {
       String parts[] = command.split(" ",2);
       StringWriter out = new StringWriter();
       ui.setOutput(new PrintWriter(out));
       ui.processCmd(parts[0], parts.length > 1 ? parts[1] : "");
-      output.append(out.toString());
+      output.append("\n"+out.toString());
     }
     //output.commandDone();
   }
 
-    public void actionPerformed(ActionEvent event){
-      if(event.getSource() == executeButton){
-        consoleArea.append(inputField.getText()+"\n");
-        execute(consoleArea,inputField.getText());
-        inputField.setText("");
-        inputField.requestFocus();
+  //listens for the enter key pressed and executes the command
+  public class ZLiveConsole implements KeyListener{
+  
+        /** Handle the key typed event from the text field. */
+    public void keyTyped(KeyEvent e) {
+	//no keyTyped events needed
+    }
+
+    /** Handle the key-pressed event from the text field. */
+    public void keyPressed(KeyEvent e) {
+      if(e.getKeyChar()=='\n'){
+        zliveGo();
       }
     }
+
+    /** Handle the key-released event from the text field. */
+    public void keyReleased(KeyEvent e) {
+	//no keyReleased events needed
+    }
+    
+    public void zliveGo(){
+      int linecount = resultConsole.getLineCount();
+      int offset = 0;
+      int length = 0;
+      
+      String command = null;
+      
+      //get contents of the last line and check and execute
+      try{
+        if(linecount > 1){
+          offset = resultConsole.getLineStartOffset(linecount-1);
+          length = resultConsole.getLineEndOffset(linecount-1)-offset;
+          command = resultConsole.getText(offset,length);
+        }else{
+          command = resultConsole.getText();
+        }
+        if(command.startsWith(zlive_.getCurrentSection())){
+          command = command.substring(zlive_.getCurrentSection().length()+2);
+          execute(resultConsole,command);
+          resultConsole.append(zlive_.getCurrentSection()+"> ");
+        }
+      }catch(BadLocationException e){
+      e.printStackTrace();
+      }
+    }
+  
   }
-
-
+  
+  public void startZLive(String sectName){
+    
+    /*StyledDocument doc = (StyledDocument)resultConsole.getDocument();
+    	        // Add a couple of styles
+	        Style stylePrompt = doc.addStyle("Prompt", null);
+	        Style styleCommand = doc.addStyle("Command", null);
+	        Style styleAnswer = doc.addStyle("Answer", null);
+ 
+	        StyleConstants.setForeground(stylePrompt, Color.RED);
+	        // set the Foreground, can define other attrs too.
+	        StyleConstants.setForeground(styleCommand, Color.BLACK);
+	        StyleConstants.setForeground(styleAnswer, Color.BLUE);
+                try{
+                doc.insertString(doc.getLength(), "Yeah that works.", styleAnswer);
+                }catch(BadLocationException ex){}**/
+                
+    if(!(sectName.equals(""))){
+    
+      try{
+      zlive_.setCurrentSection(sectName);
+      }catch(CommandException ex){
+        resultConsole.append("Error Loading Specification\n");
+      }
+    
+    }
+    
+    resultConsole.setText("");
+    resultConsole.append(zlive_.getCurrentSection()+"> ");
+    resultConsole.addKeyListener(new ZLiveConsole());
+  }
+  
   /**
    *  Description of the Method
    *
@@ -538,14 +591,24 @@ public class CZTGui implements ActionListener
    */
   public void actionPerformed(ActionEvent event)
   {
+
+    for(int i=0;i<zliveSectionMenuItems.size();i++){
+      if(event.getSource() == zliveSectionMenuItems.get(i)){
+        startZLive(event.getActionCommand());
+      }
+    }
+    
     if(event.getSource() == startConsole){
-      ZLive();
+      startZLive("");
     }
 
     if(event.getSource() == czthelp){
       URL url = this.getClass().getResource("czt_help.html");
-
-      helpEditor.setText(url.toString());
+      helpEditor.setContentType("text/html");
+      
+      try{
+      helpEditor.setPage(url);
+      }catch(IOException e){}
       helpFrame.setSize(600,600);
       helpFrame.setVisible(true);
     }
