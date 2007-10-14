@@ -33,6 +33,7 @@ import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.util.Section;
 
 /**
  * Utilities for printing Z specifications given as an AST.
@@ -117,8 +118,8 @@ public final class PrintUtils
   public static void printLatex(Term term, Writer out, SectionManager sectInfo)
   {
     warningManager_.clear();
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
-    Term tree = (Term) term.accept(toPrintTree);
+    String sectionName = Section.STANDARD_TOOLKIT.getName();
+    Term tree = preprocess(term, sectInfo, sectionName);
     ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
     Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
@@ -128,7 +129,8 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      throw new PrintException("An exception occurred while trying to print LaTeX markup.", e);
+      String msg = "An exception occurred while trying to print LaTeX markup.";
+      throw new PrintException(msg, e);
     }
   }
 
@@ -137,13 +139,15 @@ public final class PrintUtils
   {
     warningManager_.clear();  
     term.accept(new ToSpiveyZVisitor());
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
+    AstToPrintTreeVisitor toPrintTree =
+      new AstToPrintTreeVisitor(sectInfo, warningManager_);
     toPrintTree.setOldZ(true);
     Term tree = (Term) term.accept(toPrintTree);
     Properties props = new Properties(sectInfo.getProperties());
     props.setProperty(PrintPropertiesKeys.PROP_Z_EVES, "true");
     ZmlScanner scanner = new ZmlScanner(tree, props);
-    Unicode2OldLatex parser = new Unicode2OldLatex(new SectHeadScanner(scanner));
+    Unicode2OldLatex parser =
+      new Unicode2OldLatex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -151,7 +155,9 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      throw new PrintException("An exception occurred while trying to print old (Spivey's) LaTeX markup.", e);
+      String msg = "An exception occurred while trying to print " +
+        "old (Spivey's) LaTeX markup.";
+      throw new PrintException(msg, e);
     }
   }
 
@@ -245,7 +251,8 @@ public final class PrintUtils
                                   Writer out,
                                   SectionManager sectInfo)
   {
-    printUnicode(term, out, sectInfo, "prelude");
+    String sectionName = Section.STANDARD_TOOLKIT.getName();
+    printUnicode(term, out, sectInfo, sectionName);
   }
 
   /**
@@ -267,22 +274,21 @@ public final class PrintUtils
                                   SectionManager sectInfo,
                                   String sectionName)
   {
-    TokenSequence tseq = toUnicode(term, sectInfo, sectionName);
+    Properties props = sectInfo.getProperties();
+    TokenSequence tseq = toUnicode(term, sectInfo, sectionName, props);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printTokenSequence(tseq);
-    //    ZPrintVisitor visitor = new ZPrintVisitor(printer, props);
-    //    tree.accept(visitor);
   }
 
   public static TokenSequence toUnicode(Term term,
                                         SectionManager sectInfo,
-                                        String sectionName)
+                                        String sectionName,
+                                        Properties props)
   {
     Term tree = preprocess(term, sectInfo, sectionName);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
-    Properties props = sectInfo.getProperties();
     TokenSequenceVisitor visitor = new TokenSequenceVisitor(props);
     tree.accept(visitor);
     return visitor.getResult();
@@ -293,7 +299,8 @@ public final class PrintUtils
                                 String section)
     throws PrintException
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
+    AstToPrintTreeVisitor toPrintTree =
+      new AstToPrintTreeVisitor(manager, warningManager_);
     return toPrintTree(toPrintTree, term, section);
   }
 

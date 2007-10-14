@@ -41,7 +41,7 @@ public class TokenSequenceVisitor
 
   public TokenSequenceVisitor(Properties props)
   {
-    visitor_ = new ZPrintVisitor(this);
+    visitor_ = new ZPrintVisitor(this, props);
     visitor_.setVisitor(this);
   }
 

@@ -441,7 +441,8 @@ public class ZSideKickActions
         else {
           int column = getColumn(selection.getStart(), view);
           TokenSequence tseq =
-            PrintUtils.toUnicode(newTerm, manager, section);
+            PrintUtils.toUnicode(newTerm, manager, section,
+                                 manager.getProperties());
           new PrettyPrinter().handleTokenSequence(tseq, column);
           UnicodePrinter printer = new UnicodePrinter(writer);
           printer.printTokenSequence(tseq);
@@ -566,7 +567,8 @@ public class ZSideKickActions
                                 start + locAnn.getLength().intValue());
           StringWriter writer = new StringWriter();
           TokenSequence tseq =
-            PrintUtils.toUnicode(term, manager, section);
+            PrintUtils.toUnicode(term, manager, section,
+                                 manager.getProperties());
           PrettyPrinter prettyPrinter = new PrettyPrinter();
           prettyPrinter.setLineWidth(width);
           prettyPrinter.handleTokenSequence(tseq, 0);
