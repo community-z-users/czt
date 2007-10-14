@@ -182,9 +182,10 @@ public final class PrintUtils
                                 SectionManager sectInfo,
                                 String sectionName)
   {
-    Term tree = preprocess(term, sectInfo, sectionName);
-    ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
-    if (tree instanceof Para) {
+    TokenSequence tseq = PrintUtils.toUnicode(term, sectInfo, sectionName,
+                                              sectInfo.getProperties());
+    ZmlScanner scanner = new ZmlScanner(tseq.iterator());
+    if (term instanceof Para) {
       scanner.prepend(new Symbol(Sym.PARA_START));
       scanner.append(new Symbol(Sym.PARA_END));
     }
