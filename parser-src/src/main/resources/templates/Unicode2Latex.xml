@@ -100,7 +100,7 @@ action code
 
   private String begin(String string)
   {
-    return "\\begin{" + string + "}\n";
+    return "\\begin{" + string + "}";
   }
 
   private String end(String string)
