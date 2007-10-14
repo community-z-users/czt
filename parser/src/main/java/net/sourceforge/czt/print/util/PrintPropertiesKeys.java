@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -34,9 +34,13 @@ public interface PrintPropertiesKeys
    * When set to <code>true</code>, the printer tools add
    * the id's of declaring and referencing names.
    */
-  String PROP_PRINT_NAME_IDS =
-    "print_name_ids";
+  String PROP_PRINT_NAME_IDS = "print_name_ids";
 
-  String PROP_Z_EVES =
-    "print_z_eves";
+  String PROP_Z_EVES = "print_z_eves";
+
+  /**
+   * The number of columns after which the pretty printer should
+   * break the line (that is, insert a newline).
+   */
+  String PROP_TXT_WIDTH = "txt_width";
 }

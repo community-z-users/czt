@@ -27,6 +27,7 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.WarningManager;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.PrettyPrinter;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.util.TokenSequence;
@@ -137,7 +138,7 @@ public final class PrintUtils
   public static void printOldLatex(Term term, Writer out,
                                    SectionManager sectInfo)
   {
-    warningManager_.clear();  
+    warningManager_.clear();
     term.accept(new ToSpiveyZVisitor());
     AstToPrintTreeVisitor toPrintTree =
       new AstToPrintTreeVisitor(sectInfo, warningManager_);
@@ -182,6 +183,7 @@ public final class PrintUtils
                                 SectionManager sectInfo,
                                 String sectionName)
   {
+    warningManager_.clear();
     TokenSequence tseq = PrintUtils.toUnicode(term, sectInfo, sectionName,
                                               sectInfo.getProperties());
     ZmlScanner scanner = new ZmlScanner(tseq.iterator());
@@ -292,7 +294,26 @@ public final class PrintUtils
     tree.accept(precVisitor);
     TokenSequenceVisitor visitor = new TokenSequenceVisitor(props);
     tree.accept(visitor);
-    return visitor.getResult();
+    TokenSequence tseq = visitor.getResult();
+    int textWidth = textWidth(props);
+    if (textWidth > 0) {
+      PrettyPrinter prettyPrinter = new PrettyPrinter();
+      prettyPrinter.setLineWidth(textWidth);
+      prettyPrinter.handleTokenSequence(tseq, 0);
+    }
+    return tseq;
+  }
+
+
+  public static int textWidth(Properties props)
+  {
+    String value = props.getProperty(PrintPropertiesKeys.PROP_TXT_WIDTH);
+    try {
+      return Integer.valueOf(value);
+    }
+    catch (NumberFormatException e) {
+      return -1;
+    }
   }
 
   public static Term preprocess(Term term,
