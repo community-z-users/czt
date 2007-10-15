@@ -46,6 +46,7 @@ public class CZTGui implements ActionListener
   JFrame frame = new JFrame(softwarename);
   JFrame helpFrame = new JFrame("CZT Help");
   JEditorPane helpEditor = new JEditorPane();
+  JScrollPane helpScrollPane = new JScrollPane(helpEditor);
 
   JPanel treeViewPanel = new JPanel();
   JLabel treeViewLabel = new JLabel("Specification Structure Explorer");
@@ -181,7 +182,9 @@ public class CZTGui implements ActionListener
     resultPanel.add(BorderLayout.CENTER, resultLabel);
     resultPanel.add(BorderLayout.CENTER, scrollResults);
 
-    helpFrame.getContentPane().add(BorderLayout.CENTER, helpEditor);
+    helpFrame.getContentPane().add(BorderLayout.CENTER, helpScrollPane);
+    helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    helpFrame.setSize(600,600);
 
     split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeViewPanel, resultPanel);
     split.setDividerLocation(400);
@@ -614,7 +617,6 @@ public class CZTGui implements ActionListener
       try{
       helpEditor.setPage(url);
       }catch(IOException e){}
-      helpFrame.setSize(600,600);
       helpFrame.setVisible(true);
     }
     /*int n = 0;**/
