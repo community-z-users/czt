@@ -131,6 +131,8 @@ public class CZTGui implements ActionListener
     saveas.setEnabled(false);
     close.setEnabled(false);
     startConsoleWith.setEnabled(false);
+    //listen for enter key to execute commands
+    resultConsole.addKeyListener(new ZLiveConsole());
 
     try {
       FileInputStream fileStream = new FileInputStream(getSettingsFileName());
@@ -542,9 +544,13 @@ public class CZTGui implements ActionListener
           command = resultConsole.getText();
         }
         if(command.startsWith(zlive_.getCurrentSection())){
+          System.out.println(zlive_.getCurrentSection());
           command = command.substring(zlive_.getCurrentSection().length()+2);
           execute(resultConsole,command);
+          if(command.equals(""))
+            resultConsole.append("\n");
           resultConsole.append(zlive_.getCurrentSection()+"> ");
+          //resultConsole.getDocument().remove(resultConsole.getLineEndOffset(resultConsole.getLineCount()-1),1);
         }
       }catch(BadLocationException e){
       e.printStackTrace();
@@ -581,7 +587,6 @@ public class CZTGui implements ActionListener
     
     resultConsole.setText("");
     resultConsole.append(zlive_.getCurrentSection()+"> ");
-    resultConsole.addKeyListener(new ZLiveConsole());
   }
   
   /**
