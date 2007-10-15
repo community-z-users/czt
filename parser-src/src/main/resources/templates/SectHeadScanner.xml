@@ -128,11 +128,25 @@ public class SectHeadScanner
     throw new ParseException(error);
   }
 
+  /**
+   * Ignores NL and INDENT.
+   */
+  private Symbol next()
+    throws Exception
+  {
+    Symbol next = lookahead_.pop();
+    while (next != null &amp;&amp;
+           (next.sym == Sym.NL || next.sym == Sym.INDENT)) {
+      next = lookahead_.pop();
+    }
+    return next;
+  }
+
   private ZSect parseSectHead()
     throws Exception
   {
-    final Symbol nametok = lookahead_.pop();
-    final Symbol next = lookahead_.pop();
+    final Symbol nametok = next();
+    final Symbol next = next();
     if (nametok == null) {
       reportError();
     }
