@@ -120,8 +120,9 @@ public final class PrintUtils
   {
     warningManager_.clear();
     String sectionName = Section.STANDARD_TOOLKIT.getName();
-    Term tree = preprocess(term, sectInfo, sectionName);
-    ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
+    TokenSequence tseq = PrintUtils.toUnicode(term, sectInfo, sectionName,
+                                              sectInfo.getProperties());
+    ZmlScanner scanner = new ZmlScanner(tseq.iterator());
     Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
