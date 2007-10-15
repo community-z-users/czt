@@ -243,7 +243,7 @@ public class PanelTestDesign extends JPanel
     m_txtLength.setText("10");
     m_txtLength.addFocusListener(this);
     // Set walk length to default value
-    TestExeModel.SetWalkLength(Integer.valueOf(m_txtLength.getText()));
+    TestExeModel.setWalkLength(Integer.valueOf(m_txtLength.getText()));
 
     c.gridx = 0;
     c.gridy = 2;
@@ -274,6 +274,7 @@ public class PanelTestDesign extends JPanel
     // Can only use html tags separate lines in tool tip text "\n" doesnt work
     m_checkVerbosity.addActionListener(this);
     m_checkVerbosity.setBackground(bg[2]);
+    m_checkVerbosity.setSelected(true);
     m_panelReport.add(m_checkVerbosity);
     m_panelReport.add(Box.createHorizontalStrut(10));
     m_panelReport.add(Box.createVerticalGlue());
@@ -583,29 +584,56 @@ public class PanelTestDesign extends JPanel
       buf.append(Indentation.wrap("tester.addListener(\"verbose\", new VerboseListener(tester.getModel()));"));
       buf.append(Indentation.SEP);
     }
-    // Accurate coverage metrics
-    // Build graph
-    if(m_checkCoverage[3].isSelected())
-    {
-      buf.append(Indentation.wrap("tester.buildGraph();"));
-      buf.append(Indentation.SEP);
-    }
 
     // Clear coverage history
     if(m_checkCoverage[0].isSelected()
         || m_checkCoverage[1].isSelected()
         || m_checkCoverage[2].isSelected())
     {
+      // Accurate coverage metrics
+      // Build graph
+      buf.append(Indentation.wrap("tester.buildGraph();"));
+      buf.append(Indentation.SEP);
       if(m_checkCoverage[0].isSelected())
-      {buf.append(Indentation.wrap("stateCoverage.clear();"));}
+      {
+        buf.append(Indentation.wrap("stateCoverage.clear();"));
+      }
       if(m_checkCoverage[1].isSelected())
-      {buf.append(Indentation.wrap("transitionCoverage.clear();"));}
+      {
+        buf.append(Indentation.wrap("transitionCoverage.clear();"));
+      }
       if(m_checkCoverage[2].isSelected())
-      {buf.append(Indentation.wrap("transitionPairCoverage.clear();"));}
+      {
+        buf.append(Indentation.wrap("transitionPairCoverage.clear();"));
+      }
       buf.append(Indentation.SEP);
     }
 
     buf.append(Indentation.wrap("tester.generate("+length+");"));
+    
+    if(m_checkCoverage[0].isSelected())
+    {
+      buf.append(Indentation.SEP);
+      buf.append(Indentation.wrap("System.out.println(\"State coverage: \"+stateCoverage.toString());"));
+      buf.append(Indentation.wrap("System.out.println(\"State history : \"+stateCoverage.toCSV());"));
+    }
+    
+    if(m_checkCoverage[1].isSelected())
+    {
+      buf.append(Indentation.SEP);
+      buf.append(Indentation.wrap("System.out.println(\"Transition coverage: \"+transitionCoverage.toString());"));
+      buf.append(Indentation.wrap("System.out.println(\"Transition history : \"+transitionCoverage.toCSV());"));
+    }
+    
+    if(m_checkCoverage[2].isSelected())
+    {
+      buf.append(Indentation.SEP);
+      buf.append(Indentation.wrap("System.out.println(\"Transition pair coverage: \"+transitionPairCoverage.toString());"));
+      buf.append(Indentation.wrap("System.out.println(\"Transition pair history : \"+transitionPairCoverage.toCSV());"));
+    }
+    
+    if(m_checkCoverage[3].isSelected())
+    { buf.append(Indentation.wrap("tester.printGraphDot(\"map.dot\");"));}
     // Ending
     buf.append(Indentation.wrap("}"));
     buf.append(Indentation.wrap("}"));
@@ -675,7 +703,7 @@ public class PanelTestDesign extends JPanel
   {
     if(e.getSource() == m_txtLength)
     {
-      TestExeModel.SetWalkLength(Integer.valueOf(m_txtLength.getText()));
+      TestExeModel.setWalkLength(Integer.valueOf(m_txtLength.getText()));
     }
     
   }

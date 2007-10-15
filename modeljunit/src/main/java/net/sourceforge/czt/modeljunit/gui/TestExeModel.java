@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.event.EventListenerList;
 
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.Model;
@@ -23,19 +24,48 @@ import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 public class TestExeModel
 {
   public static final String[] COVERAGE_MATRIX = {"State coverage","Transition coverage","Transition pair coverage"};
+  
+  private static ArrayList<IView> m_arrayView = new ArrayList<IView>();
+  private static int[] m_nTestWalkArray;
   private static int m_nWalkLength;
   
-  public static void SetWalkLength(int length)
+  public static void registerView(IView view)
+  {
+    m_arrayView.add(view);
+  }
+
+  // Once data changed, change correspond view display
+  private static void updateView()
+  {
+    for(IView view : m_arrayView)
+    {
+      view.update(m_nTestWalkArray);
+    }
+  }
+
+  // For update PanelCoverage view line chart diagram
+  public static void setTestWalkArray(int[] array)
+  {
+    m_nTestWalkArray = array;
+    updateView();
+  }
+  
+  public static void setWalkLength(int length)
   {
     m_nWalkLength = length;
   }
-  
+  public static int getWalkLength()
+  {
+    return m_nWalkLength;
+  }
   //-----------------------Run the test------------------------
   // private static Class<FsmModel> m_modelClass;
   private static Class<?> m_modelClass;
   private static FsmModel m_modelObject;
-  public static Class<?> getModelClass(){ return m_modelClass; }
-  public static FsmModel getModelObject(){ return m_modelObject;}
+  public static Class<?> getModelClass()
+  { return m_modelClass; }
+  public static FsmModel getModelObject()
+  { return m_modelObject;}
   
   public static boolean isModelLoaded()
   {
@@ -110,6 +140,8 @@ public class TestExeModel
     m_algo.runAlgorithm();
     // Set up coverage matrix to check the test result
     boolean[] bCoverage = Parameter.getCoverageOption();
+    // Does it work????????????
+    m_tester.reset();
     CoverageHistory[] coverage = new CoverageHistory[3];
     if(bCoverage[0])
     {
@@ -131,30 +163,41 @@ public class TestExeModel
     
     StringBuffer verbose = new StringBuffer();
     StringWriter sw = new StringWriter();
-    VerboseListener vl = new VerboseListener();
-    m_tester.addListener(vl);
+    if(Parameter.getVerbosity())
+    {
+      VerboseListener vl = new VerboseListener();
+      m_tester.addListener(vl);
+    }
     // Redirect model's output to string
     Model md = m_tester.getModel();
     Writer defWriter = md.getOutput();
     md.setOutput(sw);
     
     // Generate graph
-    if(Parameter.getGenerateGraph())
-      m_tester.buildGraph();
-    // Clear coverage matrices
+    if(bCoverage[0]||bCoverage[1]||bCoverage[2])
+      m_tester.buildGraph(100000);
+
     for(int i=0;i<3;i++)
       if(bCoverage[i])
         coverage[i].clear();
-
     // Generate test walking
     m_tester.generate(m_nWalkLength);
     // Print out generated graph
-    if(bCoverage[0])    
+    if(bCoverage[0])
+    {
+      System.out.println(TestExeModel.COVERAGE_MATRIX[0]+" = "+coverage[0].toString());
       System.out.println(TestExeModel.COVERAGE_MATRIX[0]+" history = "+coverage[0].toCSV());
+    }
     if(bCoverage[1])
+    {
+      System.out.println(TestExeModel.COVERAGE_MATRIX[1]+" = "+coverage[1].toString());
       System.out.println(TestExeModel.COVERAGE_MATRIX[1]+" history = "+coverage[1].toCSV());
+    }
     if(bCoverage[2])
+    {
+      System.out.println(TestExeModel.COVERAGE_MATRIX[2]+" = "+coverage[2].toString());
       System.out.println(TestExeModel.COVERAGE_MATRIX[2]+" history = "+coverage[2].toCSV());
+    }
     verbose = sw.getBuffer();
     // Reset model's output to default value
     md.setOutput(defWriter);

@@ -26,17 +26,4 @@ public class OptionPanelCreator
         "Greedy algorithm to traverse the model", "greedy.gif");
     return panes;
   }
-  
-  public static OptionPanelAdapter createOptionPane(String name, String explain, String imgPath)
-  {
-    if(name.equalsIgnoreCase(Parameter.ALGORITHM_NAME[0]))
-      return new OptionPanelDefault(name, explain, imgPath);
-    else if(name.equalsIgnoreCase(Parameter.ALGORITHM_NAME[1]))
-      return new OptionPanelRandomWalking(name, explain, imgPath);
-    else if(name.equalsIgnoreCase(Parameter.ALGORITHM_NAME[2]))
-      return new OptionPanelGreedy(name, explain, imgPath);
-    else
-      return null;
-  }
-
 }

@@ -85,7 +85,7 @@ public class Parameter
    * Test generation verbosity
    * whether user wants show verbosity or not
    * */
-  private static boolean m_bVerbosity = false;
+  private static boolean m_bVerbosity = true;
   public static boolean getVerbosity()
   { return m_bVerbosity; }
   public static void setVerbosity(boolean verb)
