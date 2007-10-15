@@ -134,7 +134,7 @@ public class PrettyPrinter
     final TokenSequence seq = (TokenSequence) o;
     final List<Object> list = seq.getSequence();
     if (list.isEmpty()) return false;
-    return allowsNlAfter(list.get(0));
+    return allowsNlAfter(list.get(list.size() - 1));
   }
 
   //@ requires (o instanceof Token) || (o instanceof TokenSequence);
