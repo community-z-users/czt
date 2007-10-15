@@ -43,7 +43,7 @@ public class StringSetTest extends TestCase
   {
     Set<String> sut = new StringSetBuggy();
     Tester tester = new GreedyTester(new SimpleSetWithAdaptor(sut));
-    tester.addListener("verbose", new VerboseListener(tester.getModel()));
+    tester.addListener("verbose");
     tester.generate(150);
   }
 }

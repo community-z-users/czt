@@ -23,11 +23,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.Assert;
-
 import net.sourceforge.czt.modeljunit.Action;
-import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.GreedyTester;
-import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
 
@@ -112,7 +109,7 @@ public class SmartSetAdaptor extends SimpleSet
   {
     Set<String> sut = new HashSet<String>();
     Tester tester = new GreedyTester(new SmartSetAdaptor(sut));
-    tester.addListener("verbose", new VerboseListener(tester.getModel()));
+    tester.addListener("verbose");
     tester.generate(100);
   }
 }

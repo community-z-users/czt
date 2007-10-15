@@ -24,9 +24,7 @@ import java.io.IOException;
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.GreedyTester;
-import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
-import net.sourceforge.czt.modeljunit.VerboseListener;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 
@@ -152,11 +150,10 @@ public class LargeSet implements FsmModel
   public static void main(String[] args) throws IOException
   {
     Tester tester = new GreedyTester(new LargeSet(2));
+    tester.buildGraph(100000);
     CoverageHistory hist = new CoverageHistory(new TransitionCoverage(), 1);
     tester.addCoverageMetric(hist);
-    tester.buildGraph(100000);
-    hist.clear();
-    tester.addListener("verbose", new VerboseListener(tester.getModel()));
+    tester.addListener("verbose");
     while (hist.getPercentage() < 99.0)
       tester.generate();
     System.out.println("Transition Coverage ="+hist.toString());

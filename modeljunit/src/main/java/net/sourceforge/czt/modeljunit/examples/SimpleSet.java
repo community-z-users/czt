@@ -22,7 +22,6 @@ package net.sourceforge.czt.modeljunit.examples;
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.GreedyTester;
-import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
 

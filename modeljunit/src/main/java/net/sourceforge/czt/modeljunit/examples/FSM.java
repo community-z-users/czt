@@ -19,13 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit.examples;
 
-import net.sourceforge.czt.modeljunit.AbstractListener;
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
-import net.sourceforge.czt.modeljunit.Transition;
-import net.sourceforge.czt.modeljunit.VerboseListener;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 
