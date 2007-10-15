@@ -102,9 +102,7 @@ public class PessimisticTester extends Tester
 		// If state has not been visited and action is in toDo set it gets
 		// an even higher bias
 		if ((actions_.getDetails().get(state) == 0) && (!(graph_.getTodo(model_.getCurrentState()).get(action))))
-		{
 			result += 250;
-		}
     return result;
   }
 
