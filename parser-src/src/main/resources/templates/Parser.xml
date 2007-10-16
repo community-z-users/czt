@@ -2492,7 +2492,7 @@ section ::=
 
 sectionHeader ::=
         //ZED token at the start of sections is ignored by
-        //the smart scanner to avoid a few problems
+        //the OperatorScanner to avoid a few problems
         SECTION:s DECORWORD:dw parents:p END
         {:
            String name = dw.getName();
