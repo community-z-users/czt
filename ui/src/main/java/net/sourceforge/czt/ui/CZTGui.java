@@ -482,7 +482,10 @@ public class CZTGui implements ActionListener
       }
       //only if no errors
       statusBar.setText("Finished parsing "+file.getName());
-      startConsoleWith.setEnabled(true);
+      //only allow animation if typechecking is done
+      if(typecheckCheckBox.isSelected()){
+        startConsoleWith.setEnabled(true);
+      }
       saveas.setEnabled(true);
       close.setEnabled(true);
     }
@@ -547,12 +550,12 @@ public class CZTGui implements ActionListener
           command = resultConsole.getText();
         }
         if(command.startsWith(zlive_.getCurrentSection())){
-          System.out.println(zlive_.getCurrentSection());
           command = command.substring(zlive_.getCurrentSection().length()+2);
           execute(resultConsole,command);
           if(command.equals(""))
             resultConsole.append("\n");
           resultConsole.append(zlive_.getCurrentSection()+"> ");
+          resultConsole.setText(resultConsole.getText().trim());
           //resultConsole.getDocument().remove(resultConsole.getLineEndOffset(resultConsole.getLineCount()-1),1);
         }
       }catch(BadLocationException e){
