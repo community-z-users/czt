@@ -97,7 +97,7 @@ public class CZTGui implements ActionListener
   JMenuBar menubar = new JMenuBar();
   JMenu filemenu = new JMenu("File");
   JMenuItem open = new JMenuItem("Open");
-  JMenu console = new JMenu("Console");
+  JMenu console = new JMenu("Animate");
   JMenuItem startConsole = new JMenuItem("Start ZLive Default");
   JMenu startConsoleWith = new JMenu("Start ZLive with");
   JMenu saveas = new JMenu("Export to");
@@ -202,7 +202,6 @@ public class CZTGui implements ActionListener
     filemenu.add(open);
     console.add(startConsole);
     console.add(startConsoleWith);
-    filemenu.add(console);
     saveas.add(saveasLatex);
     saveas.add(saveasUnicode8);
     saveas.add(saveasUnicode16);
@@ -213,6 +212,7 @@ public class CZTGui implements ActionListener
     helpmenu.add(czthelp);
 
     menubar.add(filemenu);
+    menubar.add(console);
     menubar.add(helpmenu);
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -525,6 +525,9 @@ public class CZTGui implements ActionListener
     public void keyPressed(KeyEvent e) {
       if(e.getKeyChar()=='\n'){
         zliveGo();
+        //try{
+        //resultConsole.setText(resultConsole.getText().substring(0,resultConsole.getText().lastIndexOf('\n')-1));
+        //}catch(BadLocationException ex){}
       }
     }
 
@@ -555,7 +558,6 @@ public class CZTGui implements ActionListener
           if(command.equals(""))
             resultConsole.append("\n");
           resultConsole.append(zlive_.getCurrentSection()+"> ");
-          resultConsole.setText(resultConsole.getText().trim());
           //resultConsole.getDocument().remove(resultConsole.getLineEndOffset(resultConsole.getLineCount()-1),1);
         }
       }catch(BadLocationException e){
