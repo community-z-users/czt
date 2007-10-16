@@ -155,7 +155,8 @@ public class <class/>
       updateLatexMarkupFunction();
       return token;
     }
-    final boolean isStartOfAnonymousSpec = sectName_ == null &amp;&amp;
+    final boolean isStartOfAnonymousSpec =
+      ! sectHead_ &amp;&amp; sectName_ == null &amp;&amp;
         (is(token, LatexSym.CHAR_MARKUP) ||
          is(token, LatexSym.WORD_MARKUP) ||
          is(token, LatexSym.INWORD_MARKUP) ||
@@ -222,10 +223,6 @@ public class <class/>
         }
         else if (sectName_ != null) {
           sectName_ += token.spelling();
-        }
-        else {
-          System.err.println("Unexpected token '" + token.spelling() +
-                             "' within a section header.");
         }
       }
     }
