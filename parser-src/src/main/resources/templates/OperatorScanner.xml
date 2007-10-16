@@ -117,6 +117,9 @@ public class <class/>
     // (this solves some shift/reduce problems)
     // and set lookup_ to false.
     if (result.sym == Sym.ZED) {
+      while (lookAhead_.sym == Sym.NL) {
+        lookAhead_ = scanner_.next_token();
+      }
       if (lookAhead_.sym == Sym.SECTION) {
         lookAhead_.value = result.value;
         lookup_ = false;
