@@ -524,10 +524,8 @@ public class CZTGui implements ActionListener
     /** Handle the key-pressed event from the text field. */
     public void keyPressed(KeyEvent e) {
       if(e.getKeyChar()=='\n'){
+        e.consume();
         zliveGo();
-        //try{
-        //resultConsole.setText(resultConsole.getText().substring(0,resultConsole.getText().lastIndexOf('\n')-1));
-        //}catch(BadLocationException ex){}
       }
     }
 
@@ -558,7 +556,6 @@ public class CZTGui implements ActionListener
           if(command.equals(""))
             resultConsole.append("\n");
           resultConsole.append(zlive_.getCurrentSection()+"> ");
-          //resultConsole.getDocument().remove(resultConsole.getLineEndOffset(resultConsole.getLineCount()-1),1);
         }
       }catch(BadLocationException e){
       e.printStackTrace();
