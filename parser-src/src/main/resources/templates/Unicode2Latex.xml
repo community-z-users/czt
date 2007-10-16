@@ -567,7 +567,8 @@ terminal String    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
 terminal Decorword DECORWORD;
 
 /* Non terminals */
-non terminal              input, narrWordList, sectionList, paragraphList;
+non terminal              input, narrWordList, sectionList, paragraphList,
+                          specialSeq;
 non terminal ZSect        sectionHeader;
 non terminal String       markup, para, zpara, wordmarkup;
 <add:oz>
@@ -673,7 +674,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.write(result);
              :}
              |
-             SCH decorword:w tokenSeq:s END
+             SCH specialSeq decorword:w tokenSeq:s END
              {:
                 String result = begin("schema") + "{" + w.getName() + "}";
                 if (s != null) result += s.getName();
@@ -689,7 +690,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.write(result);
              :}
              |
-             GENSCH decorword:w tokenSeq:s END
+             GENSCH specialSeq decorword:w tokenSeq:s END
              {:
                 String result = begin("schema") + "{" + w.getName() + "}";
                 if (s != null) result += s.getName();
@@ -1000,6 +1001,12 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 RESULT = resultTT("~\\rinter~", CircusString.RINTER);
              :}                             
 </add:circus>
+             ;
+
+  specialSeq ::=
+             specialSeq special
+             |
+             // empty
              ;
              
   special ::= NL
