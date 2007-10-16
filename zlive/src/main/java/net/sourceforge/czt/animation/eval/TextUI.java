@@ -207,7 +207,10 @@ public class TextUI {
       }
       else if (cmd.equals("do")) {
         Expr expr = parseExpr(args, output_);
-        stack_.push(zlive_.evalTerm(true, expr, new Envir()));
+        stack_.push(new ZLiveResult(zlive_.getCurrentSection(), expr));
+        stack_.peek().setEnvir0(new Envir());
+        zlive_.compile(stack_.peek());
+        zlive_.evaluate(stack_.peek());
         doMove(1);
       }
       else if (cmd.equals("next")) {
@@ -229,44 +232,12 @@ public class TextUI {
           throw new CztException("current binding has no primed names");
         }
         Expr schema = parseExpr(args,output_);
-        
-        /*
-        // NOTE: the following code unifies inputs IDs with schema IDs.
-        // However, it is not necessary, because Envir ignores IDs!
-        List<? extends ErrorAnn> errs = TypeCheckUtils.typecheck(schema, 
-            manager, false, zlive_.getCurrentSection());
-        if (! errs.isEmpty())
-          throw new CommandException("cannot typecheck "+schema);
-        Type type = schema.getAnn(TypeAnn.class).getType();
-        if (type instanceof PowerType
-            && ((PowerType)type).getType() instanceof SchemaType) {
-          SchemaType stype = (SchemaType) ((PowerType)type).getType();
-          Signature sig = stype.getSignature();
-          System.out.println("schema has signature "+sig);
-          // TODO unify sig and inputs ids.
-          for (Decl decl : inputs.getZDeclList()) {
-            ZName inName = ((ConstDecl) decl).getZName();
-            System.out.println("looking for id for "+inName);
-            boolean found = false;
-            // now look for matching name in sig, and use its ID.
-            for (NameTypePair pair : sig.getNameTypePair()) {
-              ZName name = (ZName) pair.getName();
-              if (name.getWord().equals(inName.getWord())
-                  && name.getStrokeList().equals(inName.getStrokeList())) {
-                System.out.println("changing "+inName+" ID from "
-                  +inName.getId()+" to "+name.getId());
-                inName.setId(name.getId());
-                found = true;
-              }
-            }
-            if (! found)
-              throw new CztException("schema does not use input "+inName);
-          }
-        }
-        */
         Envir env = new Envir().plusAll(inputs);
         // TODO: prompt user for any missing inputs???
-        stack_.push(zlive_.evalTerm(true, schema, env));
+        stack_.push(new ZLiveResult(zlive_.getCurrentSection(), schema));
+        stack_.peek().setEnvir0(env);
+        zlive_.compile(stack_.peek());
+        zlive_.evaluate(stack_.peek());
         doMove(1);
       }
       else if (cmd.equals("undo")) {

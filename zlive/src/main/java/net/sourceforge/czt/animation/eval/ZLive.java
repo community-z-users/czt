@@ -112,7 +112,7 @@ public class ZLive
   }
 
   /** Recognises the Names produced by createNewName. */
-  public /*@pure@*/ boolean isNewName(/*@non_null@*/ ZName name) {
+  public /*@pure@*/ static boolean isNewName(/*@non_null@*/ ZName name) {
     String word = name.getWord();
     return word.matches("tmp[0-9]+");
   }
@@ -291,59 +291,101 @@ public class ZLive
     return (Expr) evalTerm(true, expr, new Envir()).getResult();
   }
 
-  /** Does the common evaluation steps for predicates and expressions.
-   * 
-   * @param isExpr  true if term should be evaluated as an expression.
-   * @param term    the expression or predicate to be evaluated.
-   * @param env0    the initial environment in which to evaluate term.
-   * @return        A structure that contains all the interesting 
-   *                information about the evaluation.
-   */
-  public ZLiveResult evalTerm(boolean isExpr, Term term0, Envir env0)
+  /** Evaluate an expression or predicate. */
+  public ZLiveResult evalTerm(boolean expr, Term term, Envir env0)
   {
-    LOG.entering("ZLive","evalTerm");
-    Term unfolded = null;
-    Term result = null;
-    String section = getCurrentSection();
-    predlist_ = new FlatPredList(this);
+    ZLiveResult result = new ZLiveResult(getCurrentSection(), term);
+    if (expr) {
+      assert result.isExpr();
+      assert ! result.isPred();
+    }
+    else {
+      assert ! result.isExpr();
+      assert result.isPred();
+    }
+    //assert result.isPred() == (! expr);
+    //assert result.isExpr() == expr : "Expr is "+term.toString()
+    //  + " isPred="+result.isPred() + " and isExpr="+result.isExpr();
+    result.setEnvir0(env0);
+    compile(result);
+    evaluate(result);
+    return result;
+  }
+
+  /** Processes and compiles a term into internal FlatPred form.
+   *  This fills in the unfoldterm, code and mode parts of result.
+   * 
+   * @param result  resultgetOriginalTerm() is the term to be compiled.
+   */
+  public void compile(ZLiveResult result)
+  {
+    LOG.entering("ZLive","compile");
+    String section = result.getSectionName();
+    FlatPredList predlist = new FlatPredList(this);
     try {
       if (section == null) {
         throw new CztException("Must choose a section!");
       }
       // preprocess the predicate, to unfold things.
       // Unifier.printDepth_ = 7;  // for debugging unifications
-      unfolded = preprocess_.preprocess(section, term0);
+      Term unfolded = preprocess_.preprocess(section, result.getOriginalTerm());
       LOG.finer("After preprocess,  pred="+printTerm(unfolded));
       // must typecheck, to reestablish the unique-ids invariant.
       typecheck(unfolded);
       LOG.finer("After retypecheck, term="+printTerm(unfolded));
       unfolded = preprocess_.fixIds(unfolded);
       LOG.finer("After doing fixIds term="+printTerm(unfolded));
-      ZName resultName = null;
-      if (isExpr) {
-        resultName = predlist_.addExpr((Expr)unfolded);
+      result.setUnfoldedTerm(unfolded);
+      if (result.isExpr()) {
+        ZName resultName = predlist.addExpr((Expr)unfolded);
+        result.setCode(predlist, resultName);
       }
       else {
-        predlist_.addPred((Pred)unfolded);
+        predlist.addPred((Pred)unfolded);
+        result.setCode(predlist, null);
       }
       Bounds bnds = new Bounds(null);
       // TODO: add any constants in env0 to bnds
-      predlist_.inferBoundsFixPoint(bnds, INFER_PASSES);
+      predlist.inferBoundsFixPoint(bnds, INFER_PASSES);
+      Envir env0 = result.getEnvir0();
+      assert env0 != null;
       LOG.finer("Starting chooseMode with env="+env0.toString());
-      Mode m = predlist_.chooseMode(env0);
+      Mode m = predlist.chooseMode(env0);
       if (m == null) {
         final String message =
           "Cannot find mode to evaluate: " + printTerm(unfolded, markup_);
         throw new EvalException(message);
       }
       LOG.finer("Setting mode "+m.toString());
-      predlist_.setMode(m);
-      predlist_.startEvaluation();
+      result.setMode(m);
+      predlist.setMode(m);
+    }
+    catch (UnboundJokerException ex) {
+      // we just catch and rethrow this for logging purposes
+      LOG.throwing("ZLive", "evalTerm", ex);
+      throw new RuntimeException(ex);
+    }
+    LOG.exiting("ZLive","compile");
+  }
+
+  /** Evaluates a term that has already been preprocessed and compiled.
+   *  This fills in the getResult() part of result.
+   * 
+   * @param result  the code and mode must be already set.
+   */
+  public void evaluate(ZLiveResult result)
+  {
+    assert result.getMode() != null;
+    try {
+      LOG.entering("ZLive","evaluate");
+      FlatPredList predlist = result.getCode();
+      predlist.startEvaluation();
       LOG.finer("Looking for first solution...");
-      if (isExpr) {
-        if (predlist_.nextEvaluation()) {
+      if (result.isExpr()) {
+        if (predlist.nextEvaluation()) {
+          ZName resultName = result.getResultName();
           assert resultName != null;
-          result = predlist_.getOutputEnvir().lookup(resultName);
+          result.setResult(predlist.getOutputEnvir().lookup(resultName));
         }
         else {
           // In theory this should not happen -- nextEvaluation
@@ -355,26 +397,20 @@ public class ZLive
       }
       else {
         // evaluate the predicate
-        if (predlist_.nextEvaluation()) {
-          result = factory_.createTruePred();
+        if (predlist.nextEvaluation()) {
+          result.setResult(factory_.createTruePred());
         }
         else {
-          result = factory_.createFalsePred();
+          result.setResult(factory_.createFalsePred());
         }
       }
     }
-    catch (UnboundJokerException ex) {
-      // we just catch and rethrow this for logging purposes
-      LOG.throwing("ZLive", "evalTerm", ex);
-      throw new RuntimeException(ex);
-    }
     catch (RuntimeException ex) {
       // we just catch and rethrow this for logging purposes
-      LOG.throwing("ZLive", "evalTerm", ex);
+      LOG.throwing("ZLive", "evaluate", ex);
       throw ex;
     }
-    LOG.exiting("ZLive","evalTerm", result);
-    return new ZLiveResult(section, term0, unfolded, predlist_, result);
+    LOG.exiting("ZLive","evaluate", result);
   }
 
   /** Converts a schema name into an expression that can be evaluated.

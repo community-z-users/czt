@@ -40,19 +40,21 @@ public class ModeList extends Mode
   //@ requires solns > 0.0;
   public ModeList(/*@non_null@*/FlatPred parent,
                   /*@non_null@*/Envir env0,
+                  /*@non_null@*/Envir env,
 		  /*@non_null@*/List<ZName> args,
 		  double solns,
 		  /*@non_null@*/List<Mode> subModes)
   {
     super(parent, env0, args, solns);
+    this.postEnvir_ = env; // because args may not include local vars
     subModes_ = subModes;
   }
 
   /** A copy constructor. */
   public ModeList(/*@non_null@*/Mode mode)
   {
-    this(mode.parent_, mode.preEnvir_, mode.args_, mode.solutions_,
-        new ArrayList<Mode>());
+    this(mode.parent_, mode.preEnvir_, mode.postEnvir_, 
+        mode.args_, mode.solutions_, new ArrayList<Mode>());
   }
 
   /** Add a mode to the end of the submodes list.

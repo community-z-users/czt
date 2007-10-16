@@ -22,18 +22,23 @@ package net.sourceforge.czt.animation.eval;
 import java.util.ListIterator;
 
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
+import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 public class ZLiveResult
 {
-  protected String section_;
-  protected Term original_;
+  protected String section_;  // always non-null
+  protected Term original_;  // always non-null
   protected Term unfolded_;
+  protected Envir envir0_;
   protected FlatPredList code_;
+  protected ZName resultName_;
+  protected Mode mode_;
   protected Term result_;
 
   /** An iterator through result_ (if it is an EvalSet) */
@@ -48,34 +53,49 @@ public class ZLiveResult
   /** The current member of currSet that has been shown. */
   protected Expr currMember_ = null;
 
-  /** Record the result of an evaluation.
+  /** Convenience constructor that records all information
+   *  about the evaluated term.
+   *
    *  All of the arguments must be non-null.
    * @param original  The term that was evaluated
    * @param unfolded  The term after preprocessing
    * @param code      The internal FlatPred code used during evaluation
    * @param result    The result of evaluation
    */
-  public ZLiveResult(String section, Term original, Term unfolded,
-      FlatPredList code, Term result)
+  public ZLiveResult(String section, Term original,
+      Envir env0, Term unfolded,
+      FlatPredList code, ZName resultName, Mode mode,
+      Term result)
   {
+    this(section, original);
+    this.setEnvir0(env0);
+    this.setUnfoldedTerm(unfolded);
+    this.setCode(code, resultName);
+    this.setMode(mode);
+    this.setResult(result);
+  }
+
+  /** Record the result of an evaluation.
+   *
+   * @param section   The section this term is relative to.
+   * @param original  The term to be evaluated.
+   */
+  public ZLiveResult(String section, Term original)
+  {
+    assert section != null;
+    assert original != null;
     this.section_ = section;
     this.original_ = original;
-    this.unfolded_ = unfolded;
-    this.code_ = code;
-    this.result_ = result;
-    if (result instanceof EvalSet) {
-      currIter_ = ((EvalSet)result).listIterator();
-    }
   }
 
   public boolean isExpr()
   {
-    return result_ instanceof Expr;
+    return original_ instanceof Expr;
   }
 
   public boolean isPred()
   {
-    return result_ instanceof Pred;
+    return original_ instanceof Pred;
   }
 
   public boolean isSet()
@@ -98,14 +118,87 @@ public class ZLiveResult
     return unfolded_;
   }
 
+  /** Record the result of flattening/simplifying the term.
+   *
+   * @param code Must be non-null.
+   */
+  public void setUnfoldedTerm(Term term)
+  {
+    assert term != null;
+    unfolded_ = term;
+  }
+
+  public Envir getEnvir0()
+  {
+    return envir0_;
+  }
+
+  /** Record the initial environment in which the term is evaluated.
+   *
+   * @param env0 Must be non-null.
+   */
+  public void setEnvir0(Envir env0)
+  {
+    assert env0 != null;
+    envir0_ = env0;
+  }
+
   public FlatPredList getCode()
   {
     return code_;
   }
 
+  public ZName getResultName()
+  {
+    return resultName_;
+  }
+
+  /** Record the result of compiling the flattened term.
+   *
+   * @param code Must be non-null.
+   * @param resultName Must be non-null for expressions, null for predicates.
+   */
+  public void setCode(FlatPredList code, ZName resultName)
+  {
+    assert code != null;
+    assert isExpr() == (resultName != null);
+    code_ = code;
+    resultName_ = resultName;
+  }
+
+  /** The mode that was used to evaluate the term. */
+  public Mode getMode()
+  {
+    return mode_;
+  }
+
+  /** Record the mode that was used to evaluate the term.
+   *
+   * @param mode Must be non-null and use the same initial environment.
+   */
+  public void setMode(Mode mode)
+  {
+    assert mode != null;
+    assert mode.getEnvir0() == this.getEnvir0() : ""+ mode.getEnvir0() +"=="+ this.getEnvir0();
+    mode_ = mode;
+  }
+
   public Term getResult()
   {
     return result_;
+  }
+
+  /** Set the result of evaluating the term.
+   *
+   * @param result Must be non-null.
+   */
+  public void setResult(Term result)
+  {
+    assert result != null;
+    result_ = result;
+    if (result instanceof EvalSet) {
+      currIter_ = ((EvalSet)result).listIterator();
+    }
   }
 
   /** The position of the currentMember() in the current set.

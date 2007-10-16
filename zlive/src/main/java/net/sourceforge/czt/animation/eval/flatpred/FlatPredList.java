@@ -154,7 +154,7 @@ public class FlatPredList extends FlatPred
    *  This must not be called until after all addPred/Expr
    *  calls have been done.  The first time it is called, it
    *  calculates the free variables as the union of the free
-   *  variables of all the FlatPreds in the list.
+   *  variables of all the FlatPreds in the list, minus the boundvars.
    *  It also sets the args list to contain these same variables.
    */
   @Override public /*@non_null@*/ Set<ZName> freeVars() {
@@ -474,7 +474,7 @@ public class FlatPredList extends FlatPred
       return null;
     }
     assert submodes.size() == predlist_.size();
-    ModeList result = new ModeList(this, env, args_, cost, submodes);
+    ModeList result = new ModeList(this, env0, env, args_, cost, submodes);
     LOG.exiting("FlatPredList", "chooseMode", result);
     return result;
   }

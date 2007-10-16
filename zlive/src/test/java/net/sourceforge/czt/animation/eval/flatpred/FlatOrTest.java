@@ -83,7 +83,7 @@ public class FlatOrTest
         new ZName[] {x,y,z},
         "IIO,III", // these are the only modes that should work
         new Eval(1, "III", i2, i3, i2),  // only z=x is true
-        new Eval(3, "IIO", i2, i4, i0)   // ie. x in {2,3,5}
+        new Eval(3, "IIO", i2, i4, i0)   // ie. z in {2,3,5}
     );
     ModelTestCase model = new ModelTestCase(iut);
     model.randomWalk(200);

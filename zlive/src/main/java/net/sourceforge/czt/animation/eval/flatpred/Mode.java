@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 
@@ -29,7 +30,7 @@ import net.sourceforge.czt.z.util.PrintVisitor;
     It contains statistics about the number of solutions expected when
     the FlatPred is executed, plus an updated environment which contains
     any variables created by the FlatPred.
-    
+
     @author marku
  */
 public class Mode
@@ -51,7 +52,7 @@ public class Mode
 
   /** The environment before executing the FlatPred. */
   protected /*@spec_public@*/ Envir preEnvir_;
-  
+
   /** The environment after executing the FlatPred. */
   protected /*@spec_public@*/ Envir postEnvir_;
 
@@ -98,7 +99,7 @@ public class Mode
     return preEnvir_.isDefined(arg)
       && ! postEnvir_.isDefinedSince(preEnvir_, arg);
   }
-  
+
   /** A convenience version of isInput that takes the
    *  position of the variable in the FlatPred getArgs() list.
    */
@@ -171,9 +172,28 @@ public class Mode
   }
 
   /** Two modes are compatible if they have the same outputs.
+   *  However, either side is allowed to have extra tmp* outputs.
+   *
+   *  TODO: check the correctness of this by checking that those
+   *      extra tmp* outputs do not appear free outside that disjunct.
+   *      Ideally, the constructor of the FlatOr should remove such names
+   *      from the freevar set.  However, this is not easy to do, because
+   *      it requires a more global view than the constructor has.
    */
   public boolean compatible(/*@non_null@*/Mode other)
   {
-    return getOutputs().equals(other.getOutputs());
+    Set<ZName> leftOut = getOutputs();
+    Set<ZName> rightOut = other.getOutputs();
+    for (ZName out : leftOut) {
+      if ( ! rightOut.contains(out) && ! ZLive.isNewName(out)) {
+        return false;
+      }
+    }
+    for (ZName out : rightOut) {
+      if ( ! leftOut.contains(out) && ! ZLive.isNewName(out)) {
+        return false;
+      }
+    }
+    return true;
   }
 }
