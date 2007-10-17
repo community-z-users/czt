@@ -19,11 +19,13 @@
 
 package net.sourceforge.czt.ui;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 
 public class MainTest
-  extends TestCase
 {
+  /**
+   * @org.junit.Test
+   */
   public void testVersionNumberPresent()
   {
     String version = Main.getVersion();
