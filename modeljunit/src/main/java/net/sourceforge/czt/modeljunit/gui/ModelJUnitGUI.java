@@ -47,6 +47,8 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
 
   private PanelExecuteActions m_panelEA;
   
+  private PanelCoverage m_panelC;
+  
   // The panel with run button
   private JPanel m_panelOption = new JPanel();
 
@@ -98,6 +100,9 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     // If user opens java file button text will be set to compile
     // else if user opens class file, button test becomes run test
     m_panelTD.setModelRelatedButton(m_butRun);
+    // Initialize coverage view panel
+    m_panelC = PanelCoverage.getInstance();
+    
     Thread initializeImage = new Thread()
     {
       public void run()
@@ -115,6 +120,8 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
           m_tabbedPane.addTab("Code viewer", m_panelCV);
           m_tabbedPane.addTab("Result viewer", m_panelRV);
           m_tabbedPane.addTab("Action Execution", m_panelEA);
+          m_tabbedPane.addTab("Action Execution", m_panelC);
+          
           m_tabbedPane.addChangeListener(new TabChangeListener());
           m_panelOption
               .setLayout(new BoxLayout(m_panelOption, BoxLayout.Y_AXIS));
@@ -267,7 +274,7 @@ setJMenuBar(mb);
         task.call();
         // Check the compile result
         boolean bHasProblem = false;
-        for (Diagnostic<? extends JavaFileObject> d : diagnostics.getDiagnostics()) {
+        for (Diagnostic d : diagnostics.getDiagnostics()) {
           // String type, String class name, String desc,String location, String path
           ResultDetails details = new ResultDetails(d.getKind().name(), d
               .getClass().toString(), d.getMessage(null), "Line: "
