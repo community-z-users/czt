@@ -58,25 +58,37 @@ public class LatexMarkupConverterTest
         new OutputStreamWriter(new FileOutputStream(uniFile), "UTF-8");
       latexToUnicode(source, writer);
       writer.close();
-      String[] args2 = { "-in", uniFile, "-out", latexFile };
-      UnicodeToLatex.main(args2);
+      unicodeToLatex(uniFile, latexFile);
       return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
                               manager);
     }
     else if (url.toString().endsWith(".utf8") ||
              url.toString().endsWith(".UTF8")) {
-      Reader in = new InputStreamReader(url.openStream(), "UTF-8");
+      unicodeToLatex(url, latexFile);
       Writer writer =
-        new OutputStreamWriter(new FileOutputStream(latexFile));
-      UnicodeToLatex.run(in, writer);
-      writer.close();
-      writer =
         new OutputStreamWriter(new FileOutputStream(uniFile), "UTF-8");
       latexToUnicode(new FileSource(latexFile), writer);
       return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
                               manager);
     }
     return ParseUtils.parse(new UrlSource(url), manager);
+  }
+
+  private void unicodeToLatex(String unicodeFileName, String latexFileName)
+    throws Exception
+  {
+    File file = new File(unicodeFileName);
+    unicodeToLatex(file.toURL(), latexFileName);
+  }
+
+  private void unicodeToLatex(URL url, String latexFileName)
+    throws Exception
+  {
+    Reader in = new InputStreamReader(url.openStream(), "UTF-8");
+    Writer writer =
+      new OutputStreamWriter(new FileOutputStream(latexFileName));
+    UnicodeToLatex.run(in, writer);
+    writer.close();
   }
 
   private void latexToUnicode(Source source, Writer writer)
