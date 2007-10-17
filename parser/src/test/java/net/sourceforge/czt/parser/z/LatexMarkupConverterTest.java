@@ -94,7 +94,8 @@ public class LatexMarkupConverterTest
   private void latexToUnicode(Source source, Writer writer)
     throws Exception
   {
-    LatexToUnicode lexer = new LatexToUnicode(source, new SectionManager(), new Properties());
+    LatexToUnicode lexer =
+      new LatexToUnicode(source, new SectionManager(), new Properties());
     LocToken s = null;
     while ( (s = lexer.next()) != null) {
       if (s.spelling() != null) writer.write(s.spelling());
