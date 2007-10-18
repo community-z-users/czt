@@ -85,11 +85,11 @@ public abstract class Source
     if (name.endsWith(".tex") || name.endsWith(".zed")) {
       setMarkup(Markup.LATEX);
     }
-    else if (name.endsWith(".utf8")) {
+    else if (name.endsWith("8")) {
       setMarkup(Markup.UNICODE);
       setEncoding("UTF-8");
     }
-    else if (name.endsWith(".utf16")) {
+    else if (name.endsWith("16")) {
       setMarkup(Markup.UNICODE);
       setEncoding("UTF-16");
     }
