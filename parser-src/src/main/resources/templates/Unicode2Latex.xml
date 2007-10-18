@@ -87,6 +87,7 @@ action code
     map.put(ZString.NE, resultFF("^{", ZString.NE));
     map.put(ZString.SW, resultFF("}", ZString.SW));
     map.put(ZString.LL, resultFF("\\_", ZString.LL));
+    map.put("parents", resultFT("\\parents", "parents"));
 <add:oldz>
     map.put(ZString.NEG, resultFF("-", ZString.NEG));
 </add:oldz>
@@ -269,27 +270,37 @@ action code
   protected void setupMarkupTable(ZSect zsect)
   {
     final String sectName = zsect.getName();
+    LatexMarkupFunction table = getMarkupTable(sectName);
+    if (table == null) {
+      table = new LatexMarkupFunction(zsect.getName());
+      addParentMarkups(zsect, table);
+    }
+    assert table != null;
+    setupMarkupTable(table);
+  }
+
+  /**
+   * Returns whether the table has been found.
+   */
+  protected LatexMarkupFunction getMarkupTable(String sectName)
+  {
     LatexMarkupFunction table = null;
     try {
       table = (LatexMarkupFunction)
         parser.sectInfo_.get(new Key(sectName, LatexMarkupFunction.class));
+      if (table != null) {
+        LatexMarkupPara para =
+          table.toAst(new net.sourceforge.czt.z.util.Factory());
+        markup_ = para.getDirective().iterator();
+      }
+      return table;
     }
     catch (CommandException exception) {
       String message = "Cannot get latex markup for section " + sectName +
         " caused by " + exception;
       CztLogger.getLogger(<class/>.class).warning(message);
     }
-    if (table != null) {
-      LatexMarkupPara para =
-        table.toAst(new net.sourceforge.czt.z.util.Factory());
-      markup_ = para.getDirective().iterator();
-    }
-    else {
-      table = new LatexMarkupFunction(zsect.getName());
-      addParentMarkups(zsect, table);
-    }
-    assert table != null;
-    setupMarkupTable(table);
+    return table;
   }
 
   protected void setupMarkupTable(LatexMarkupFunction table)
@@ -397,6 +408,10 @@ parser code {:
     if (result.sym == Sym.SECTHEAD) {
       action_obj.setupMarkupTable((ZSect) result.value);
     }
+    else if (result.sym == Sym.DECORWORD &amp;&amp;
+             "section".equals(result.value.toString())) {
+      return new Symbol(Sym.SECTION);
+    }
     else if (result.sym == Sym.TOKENSEQ ||
              result.sym == Sym.PARA_START) {
       LatexMarkupFunction table = (LatexMarkupFunction)
@@ -418,7 +433,7 @@ parser code {:
     if (markupScanner_ != null) {
       // if markupScanner_ is not null, we are just printing the definition
       // part of a latex markup directive.  Therefore, markup_ must be non
-      // null (since we can only got the directive from there).
+      // null (since we can only get the directive from there).
       assert action_obj.markup_ != null;
       Symbol result = markupScanner_.next_token();
       if (result == null || result.sym == Sym.EOF) {
@@ -570,7 +585,7 @@ terminal Decorword DECORWORD;
 non terminal              input, narrWordList, sectionList, paragraphList,
                           specialSeq;
 non terminal ZSect        sectionHeader;
-non terminal String       markup, para, zpara, wordmarkup;
+non terminal String       markup, para, zpara, zedPara, wordmarkup;
 <add:oz>
 non terminal LatexCommand innerPara;
 </add:oz>
@@ -585,7 +600,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.getWriter().flush();
              :}
              |
-             PARA_START zpara:p PARA_END
+             PARA_START zpara PARA_END
              {:
                 parser.getWriter().flush();
              :}
@@ -658,13 +673,28 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {: RESULT = z; :}
              ;
 
-   zpara ::= ZED tokenSeq:s END
+   zedPara ::=
+             SECTION specialSeq decorword:w tokenSeq:s
+             {:
+                String result = begin("zsection");
+                result += "\\SECTION " + w.getName() + " ";
+                if (s != null) { result += s.getName(); }
+                result += end("zsection");
+                parser.write(result);
+                LatexMarkupFunction table = getMarkupTable(w.getUnicode());
+                setupMarkupTable(table);
+             :}
+             |
+             token:t tokenSeq:s
              {:
                 String result = begin("zed");
-                if (s != null) { result += s.getName(); }
+                if (s != null) { result += concate(t,s).getName(); }
                 result += end("zed");
                 parser.write(result);
              :}
+             ;
+
+   zpara ::= ZED specialSeq zedPara END
              |
              AX tokenSeq:s END
              {:
