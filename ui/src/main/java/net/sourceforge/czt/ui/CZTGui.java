@@ -118,6 +118,8 @@ public class CZTGui implements ActionListener
   private ZLive zlive_ = new ZLive();;
   private TextUI ui = new TextUI(zlive_, null);
   ArrayList<JMenuItem> zliveSectionMenuItems = new ArrayList<JMenuItem>();
+  //used to stop backspaces at a certain point to avoid deleting the prompt
+  int currentCharCount = 0;
   
   /**
    *  Constructor for the CZTGui object
@@ -378,7 +380,10 @@ public class CZTGui implements ActionListener
 
     clearTreeView();
     clearErrorList();
-
+    
+    //other than zlive command started it should be 0 to allow editing
+    currentCharCount = 0;
+    
     specDialog.setVisible(false);
 
     frame.setTitle(softwarename + " - " + file.getName());
@@ -518,7 +523,9 @@ public class CZTGui implements ActionListener
   
         /** Handle the key typed event from the text field. */
     public void keyTyped(KeyEvent e) {
-	//no keyTyped events needed
+      if(resultConsole.getCaretPosition()<=(currentCharCount-1)){
+        e.consume();
+      }
     }
 
     /** Handle the key-pressed event from the text field. */
@@ -526,6 +533,16 @@ public class CZTGui implements ActionListener
       if(e.getKeyChar()=='\n'){
         e.consume();
         zliveGo();
+      }
+      if(e.getKeyChar()=='\b'){
+        if(resultConsole.getCaretPosition()<=currentCharCount){
+          e.consume();
+        }
+      }
+      if(e.getKeyChar()==KeyEvent.VK_DELETE){
+        if(resultConsole.getCaretPosition()<=(currentCharCount-1)){
+          e.consume();
+        }
       }
     }
 
@@ -555,13 +572,18 @@ public class CZTGui implements ActionListener
           execute(resultConsole,command);
           if(command.equals(""))
             resultConsole.append("\n");
-          resultConsole.append(zlive_.getCurrentSection()+"> ");
+          showZLivePrompt();
         }
       }catch(BadLocationException e){
       e.printStackTrace();
       }
     }
   
+  }
+  
+  public void showZLivePrompt(){
+    resultConsole.append(zlive_.getCurrentSection()+"> ");
+    currentCharCount = resultConsole.getText().length();
   }
   
   public void startZLive(String sectName){
@@ -591,7 +613,7 @@ public class CZTGui implements ActionListener
     }
     
     resultConsole.setText("");
-    resultConsole.append(zlive_.getCurrentSection()+"> ");
+    showZLivePrompt();
   }
   
   /**
