@@ -133,7 +133,7 @@ public class SectionManager
    * affecting the old one, but destructive changes to its content will
    * show up in this section manager as well.
    */
-  public Object clone()
+  public SectionManager clone()
   {
     SectionManager result = new SectionManager();
     copyMap(content_, result.content_);
