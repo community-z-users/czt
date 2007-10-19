@@ -27,7 +27,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.parser.util.LocToken;
 import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.z.UnicodeToLatex;
 import net.sourceforge.czt.session.*;
 
 /**
