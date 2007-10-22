@@ -17,7 +17,12 @@ import net.sourceforge.czt.modeljunit.Tester;
 
 public interface IAlgorithmParameter
 {
-  public void initialize();
+  /**
+   * Initialize particular tester object.
+   * Different panel might hold different test object.
+   * This function provides a way to initialize different tester object.
+   * */
+  public void initialize(int idx);
 
   /**
    * Save parameters into configuration file
@@ -39,5 +44,5 @@ public interface IAlgorithmParameter
    * */
   public String generateCode();
 
-  public void runAlgorithm();
+  public void runAlgorithm(int idx);
 }

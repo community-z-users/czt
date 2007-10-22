@@ -25,6 +25,10 @@ import javax.swing.JTextField;
 public class DialogPackageURLSelection extends JDialog
   implements ActionListener
 {
+  /**
+   * Serial version ID
+   */
+  private static final long serialVersionUID = -6531245154586965471L;
   private JTextField m_txtLocation;
   private JTextField m_txtName;
   private JButton m_butPackageLocation;
@@ -42,7 +46,7 @@ public class DialogPackageURLSelection extends JDialog
     cons.weightx = 0.5;
     cons.gridx = 0;
     cons.gridy = 0;
-    add(new JLabel("Package repositry: "),cons);
+    add(new JLabel("Package top level folder: "),cons);
     cons = new GridBagConstraints();
     cons.fill = GridBagConstraints.HORIZONTAL;
     cons.weightx = 0.5;
@@ -100,7 +104,7 @@ public class DialogPackageURLSelection extends JDialog
     cons.gridx = 0;
     cons.gridy = 2;
     cons.insets = new Insets(0,16,6,6);
-    m_butSave = new JButton("Save to default package");
+    m_butSave = new JButton("Set package");
     m_butSave.addActionListener(this);
     add(m_butSave,cons);
     this.pack();
@@ -113,6 +117,7 @@ public class DialogPackageURLSelection extends JDialog
     if(e.getSource() == m_butSave)
     {
       Parameter.wirteSettingFile();
+      this.dispose();
     }
     //------------ Choose the package location --------------
     if(e.getSource() == this.m_butPackageLocation)
@@ -153,6 +158,8 @@ public class DialogPackageURLSelection extends JDialog
               "Package has to locate under package location reposity!");
           return;
         }
+        System.out.println(name);
+        Parameter.setPackageTopFolder(name);
         name = name.substring(idx, name.length());
         char[] cName = name.toCharArray();
         // Could use replaceAll but in Window File.separator is \

@@ -9,7 +9,7 @@ public class PanelCodeViewer extends JPanel
 {
 
   /**
-   *
+   * serial version ID
    */
   private static final long serialVersionUID = -8433568076533100620L;
 

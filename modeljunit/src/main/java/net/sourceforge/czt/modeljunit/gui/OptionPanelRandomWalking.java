@@ -79,7 +79,7 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   }
 
   @Override
-  public void initialize()
+  public void initialize(int idx)
   {
     try
     {
@@ -89,7 +89,7 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
       Class.forName("net.sourceforge.czt.modeljunit.RandomTester");
     Constructor<?> con = testerClass.getConstructor
       (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
-    m_tester =
+    m_tester[idx] =
       (RandomTester)con.newInstance(new Object[]{TestExeModel.getModelObject()});
     }catch(Exception exp)
     {
@@ -132,17 +132,17 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   }
 
   @Override
-  public void runAlgorithm()
+  public void runAlgorithm(int idx)
   {
     // Use random seed to generate test or not
     if(m_checkRandomSeed.isSelected())
     {
       Random rand = new Random();
-      m_tester.setRandom(rand);
+      m_tester[idx].setRandom(rand);
     }
     else
     {
-      m_tester.setRandom(new Random(Tester.FIXEDSEED));
+      m_tester[idx].setRandom(new Random(Tester.FIXEDSEED));
     }
   }
 }

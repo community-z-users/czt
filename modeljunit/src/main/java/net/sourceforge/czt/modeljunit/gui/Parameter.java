@@ -34,24 +34,27 @@ public class Parameter
   /**
    * Package related variables
    * */
+  private static String m_strPackageTopFolder;
   private static String m_strPackageLocation;
   private static String m_strPackageName;
+  
+  public static String getPackageTopFolder()
+  {return m_strPackageTopFolder;}
+  
+  public static void setPackageTopFolder(String folder)
+  { m_strPackageTopFolder = folder; }
+  
   public static String getPackageLocation()
-  {
-    return m_strPackageLocation;
-  }
+  { return m_strPackageLocation;}
+  
   public static String getPackageName()
-  {
-    return m_strPackageName;
-  }
+  { return m_strPackageName; }
+  
   public static void setPackageLocation(String location)
-  {
-    m_strPackageLocation = location;
-  }
+  { m_strPackageLocation = location;}
+  
   public static void setPackageName(String name)
-  {
-    m_strPackageName = name;
-  }
+  { m_strPackageName = name; }
   
   /**
    * Testing parameters
@@ -292,7 +295,18 @@ public class Parameter
         if (parameters[0].equalsIgnoreCase("Package location"))
           m_strPackageLocation = parameters[1];
         if (parameters[0].equalsIgnoreCase("Package name"))
+        {
           m_strPackageName = parameters[1];
+          // Compose package top folder
+          char[] name = m_strPackageName.toCharArray();
+          for(int i=0;i<name.length;i++)
+          {
+            if(name[i] == '.')
+              name[i] = File.separator.charAt(0);
+          }
+          String strName = new String(name);
+          m_strPackageTopFolder = m_strPackageLocation+File.separator+strName;
+        }
       }
       in.close();
     }

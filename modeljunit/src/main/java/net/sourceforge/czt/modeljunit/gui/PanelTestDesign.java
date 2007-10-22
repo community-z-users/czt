@@ -362,16 +362,29 @@ public class PanelTestDesign extends JPanel
    * will be involved to initialize model and tester to run test
    * and set the new model loaded flag to false.
    * */
-  public void initializeTester()
+  public void initializeTester(int idx)
   {
     // Generate the Tester object
-    m_panelAlgorithm[m_nCurAlgo].initialize();
+    m_panelAlgorithm[m_nCurAlgo].initialize(idx);
     // Set current algorithm for prepare execution
-    TestExeModel.setTester(m_panelAlgorithm[m_nCurAlgo].getTester());
+    TestExeModel.setTester(m_panelAlgorithm[m_nCurAlgo].getTester(idx),idx);
     TestExeModel.setAlgorithm(m_panelAlgorithm[m_nCurAlgo]);
     m_bNewModelLoaded = false;
   }
   
+  /**
+   * If user checked any coverage check button 
+   * or want to generate .dot graph file.
+   * Tester will build graph, this function will return ture.
+   * Otherwise false.
+   * */
+  public boolean isLineChartDrawable()
+  {
+    return (m_checkCoverage[0].isSelected() ||
+        m_checkCoverage[1].isSelected() ||
+        m_checkCoverage[2].isSelected()||
+        m_checkCoverage[3].isSelected())?true:false;
+  }
   /**
    * Including:
    *    Algorithm combobox handler
@@ -382,9 +395,8 @@ public class PanelTestDesign extends JPanel
   public void actionPerformed(ActionEvent e)
   {
     // ------------ Algorithm combo-box handler --------------
-    if (e.getSource() == this.m_combAlgorithmSelection) {
-
-      
+    if (e.getSource() == this.m_combAlgorithmSelection) 
+    {  
       addComponentsToTestGenerationPanel();
       for(int i=0;i<3;i++)
       {
@@ -443,7 +455,11 @@ public class PanelTestDesign extends JPanel
           "Java Files");
       JFileChooser chooser = new JFileChooser();
       if(Parameter.getFileChooserOpenMode() == 0)
-        chooser.setCurrentDirectory(new File(Parameter.getModelChooserDirectory()));
+        // Open dialog from package location
+        if(Parameter.getPackageLocation() != null && Parameter.getPackageLocation().length()>0)
+          chooser.setCurrentDirectory(new File(Parameter.getPackageTopFolder()));
+        else // Open dialog from last time record
+          chooser.setCurrentDirectory(new File(Parameter.getModelChooserDirectory()));
       else
         chooser.setCurrentDirectory(new File(Parameter.DEFAULT_DIRECTORY));
 
@@ -553,6 +569,21 @@ public class PanelTestDesign extends JPanel
 
     // Generate code according to particular algorithm.
     buf.append(m_panelAlgorithm[m_nCurAlgo].generateCode());
+    
+    // If user want to check coverage or draw dot graph, 
+    // build graph before add coverage listener. 
+    if(m_checkCoverage[0].isSelected()
+        || m_checkCoverage[1].isSelected()
+        || m_checkCoverage[2].isSelected()
+        || m_checkCoverage[3].isSelected())
+    {
+      if(m_checkCoverage[3].isSelected())
+        buf.append(Indentation.wrap("GraphListener graph = tester.buildGraph();"));
+      else
+        buf.append(Indentation.wrap("tester.buildGraph();"));
+      buf.append(Indentation.SEP);
+    }
+    
     // Setup coverage matrix
     if(m_checkCoverage[0].isSelected()
         || m_checkCoverage[1].isSelected()
@@ -585,30 +616,6 @@ public class PanelTestDesign extends JPanel
       buf.append(Indentation.SEP);
     }
 
-    // Clear coverage history
-    if(m_checkCoverage[0].isSelected()
-        || m_checkCoverage[1].isSelected()
-        || m_checkCoverage[2].isSelected())
-    {
-      // Accurate coverage metrics
-      // Build graph
-      buf.append(Indentation.wrap("tester.buildGraph();"));
-      buf.append(Indentation.SEP);
-      if(m_checkCoverage[0].isSelected())
-      {
-        buf.append(Indentation.wrap("stateCoverage.clear();"));
-      }
-      if(m_checkCoverage[1].isSelected())
-      {
-        buf.append(Indentation.wrap("transitionCoverage.clear();"));
-      }
-      if(m_checkCoverage[2].isSelected())
-      {
-        buf.append(Indentation.wrap("transitionPairCoverage.clear();"));
-      }
-      buf.append(Indentation.SEP);
-    }
-
     buf.append(Indentation.wrap("tester.generate("+length+");"));
     
     if(m_checkCoverage[0].isSelected())
@@ -633,7 +640,7 @@ public class PanelTestDesign extends JPanel
     }
     
     if(m_checkCoverage[3].isSelected())
-    { buf.append(Indentation.wrap("tester.printGraphDot(\"map.dot\");"));}
+    { buf.append(Indentation.wrap("graph.printGraphDot(\"map.dot\");"));}
     // Ending
     buf.append(Indentation.wrap("}"));
     buf.append(Indentation.wrap("}"));
@@ -697,7 +704,6 @@ public class PanelTestDesign extends JPanel
   @Override
   public void focusGained(FocusEvent e)
   {}
-
   @Override
   public void focusLost(FocusEvent e)
   {

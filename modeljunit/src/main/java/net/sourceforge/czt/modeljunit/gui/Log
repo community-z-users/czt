@@ -171,3 +171,25 @@ Change the background and test color of selected list item in action list(left l
 --- 7th October 07 ----------------
 Deprecated the AlgorithmPanel class
 Using OptionPanelCreator to create option panels
+
+--- 9th October 07 ----------------
+Fixed several typo errors. Made the DialogPackageURLSelection dialog close when user save package
+path and name.
+
+--- 10th October 07 ----------------
+To design the coverage panel, added IView interface, which is a Model-View pattern. TestExeModel
+is the model and PanelCoverage is the view. View will be updated if data in model is changed. Once
+that happened, model will ensure view's update will be involved.
+
+--- 13th October 07 ----------------
+Added PanelCoverage panel, implement the function to draw coordinate, the coordinate scale is
+adjustable according to the walk length in test design panel
+
+--- 17th October 07 ----------------
+Fix bug that run test second time cause coverage compute wrong result by recreate tester object 
+every time user click run button
+
+--- 18th October 07 ----------------
+Finish the PanelCoverage panel. Run test several times when user click run button and update the
+test sequence array list in PanelCoverage. If user changes the walk length, the event handler will
+call TestExeModel update to update data in PanelCoverage.

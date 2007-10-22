@@ -59,14 +59,14 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     return m_panelOption.generateCode();
   }
 
-  public void initialize()
+  public void initialize(int idx)
   {
-    m_panelOption.initialize();
+    m_panelOption.initialize(idx);
   }
 
-  public Tester getTester()
+  public Tester getTester(int idx)
   {
-    return m_panelOption.getTester();
+    return m_panelOption.getTester(idx);
   }
   
   public void loadParameters(BufferedReader bufReader)
@@ -84,8 +84,8 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
     return m_panelOption.generateImportLab();
   }
 
-  public void runAlgorithm()
+  public void runAlgorithm(int idx)
   {
-    m_panelOption.runAlgorithm();
+    m_panelOption.runAlgorithm(idx);
   }
 }

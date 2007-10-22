@@ -92,10 +92,10 @@ public class PanelExecuteActions extends JPanel
    //class and return a reference
    public Component 
      getListCellRendererComponent(JList list,
-         Object value, // value to display
-         int index,    // cell index
-         boolean iss,  // is selected
-         boolean chf)  // cell has focus?
+         Object value,  // value to display
+         int index,     // cell index
+         boolean isSel, // is selected
+         boolean chf)   // cell has focus?
    {
         // Set the text and 
         //background color for rendering
@@ -104,13 +104,10 @@ public class PanelExecuteActions extends JPanel
         setForeground(((ListItem)value).getTextColor());
          // Set a border if the 
          //list item is selected
-        if (iss) {
-            setBorder(BorderFactory.createLineBorder(
-              Color.BLACK, 1));
-        } else {
-            setBorder(BorderFactory.createLineBorder(
-             list.getBackground(), 1));
-        }
+        if (isSel) 
+            setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        else 
+            setBorder(BorderFactory.createLineBorder(list.getBackground(), 1));
         return this;
     }
  }
@@ -315,7 +312,7 @@ public class PanelExecuteActions extends JPanel
     // StringWriter msg = new StringWriter();
     String msg = new String();
     VerboseListener vl = new VerboseListener();
-    Tester tester = TestExeModel.getTester();
+    Tester tester = TestExeModel.getTester(1);
     Model mod = tester.getModel();
     
     String action = ((ListItem)m_listActoin.getSelectedValue()).getValue();
@@ -345,7 +342,8 @@ public class PanelExecuteActions extends JPanel
   {
     int idxBackup = m_nCurrentSelectedAction;
     m_listActionModel.clear();
-    Tester tester = TestExeModel.getTester();
+    // Get manual tester
+    Tester tester = TestExeModel.getTester(1);
     if(tester==null)
       return;
     Model mod = tester.getModel();
@@ -358,9 +356,7 @@ public class PanelExecuteActions extends JPanel
       String strAction = mod.getActionName(i).toString();
       item = new ListItem(strAction);
       if(!mod.isEnabled(i))
-      {
         item.setTextColor(Color.LIGHT_GRAY);
-      }
       if(i==idxBackup)
       {
         item.setTextColor(Color.WHITE);
@@ -400,7 +396,7 @@ public class PanelExecuteActions extends JPanel
   {
     if(!Parameter.isTestRunnable(true))
       return;
-    Tester tester = TestExeModel.getTester();
+    Tester tester = TestExeModel.getTester(1);
     // tester object will be created when user select an algorithm
     if(tester==null)
     {
@@ -439,7 +435,6 @@ public class PanelExecuteActions extends JPanel
       }
       code += System.getProperty("line.separator");
       code += m_strCodePart[1];
-      System.out.println(code);
       saveTestFile(code);
     }
   }
@@ -467,7 +462,7 @@ public class PanelExecuteActions extends JPanel
       // Check the suffix ensure it be .java
       String name[] = f.getName().split("\\.");
       if (name.length != 2) {
-        System.out.println(name[0] + ", " + f.getPath());
+        // System.out.println(name[0] + ", " + f.getPath());
         File nf = new File(f.getParent(), name[0] + ".java");
         try {
           nf.createNewFile();

@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class PanelCoverage extends JPanel implements IView
+import net.sourceforge.czt.modeljunit.Tester;
+
+public class PanelCoverage extends JPanel
 {
   // Minimum dimension
   private static final Dimension MIN_COORD_AXIS = new Dimension(760,300);
@@ -25,8 +29,16 @@ public class PanelCoverage extends JPanel implements IView
   private static int m_nScaleNumber = 21;
   private static final int SCALE_LARGE_LENGTH = 6;
   private static final int SCALE_SHORT_LENGTH = 3;
+  private int[] m_arrayStages = null;
   // String position
   private static final int STRING_Y_AXIS_LEFT_PADDING = 16;
+  // Points to draw
+  // State coverage array
+  private ArrayList<Integer> m_covS;
+  // Transition coverage array
+  private ArrayList<Integer> m_covT;
+  // Transition pair coverage array
+  private ArrayList<Integer> m_covTP;
   // Panel object
   private static PanelCoverage m_panel;
   public static PanelCoverage getInstance()
@@ -39,10 +51,12 @@ public class PanelCoverage extends JPanel implements IView
   {
     this.setBackground(Color.WHITE);
   }
-  
-  private void drawLine(Graphics2D g, float x, float y)
+  /**
+   * To get how many times the test has to run to draw the line chart
+   * */
+  public int[] getStages()
   {
-    
+    return m_arrayStages;
   }
   
   @Override
@@ -102,20 +116,17 @@ public class PanelCoverage extends JPanel implements IView
     }
     // Scale X
     final int nWalkLength = TestExeModel.getWalkLength();
-    int nScaleNum = 0;
-    // To set number scales for x coordinate according to random walk length
-    float fScaleSpan = 1f;
-    if(nWalkLength >= m_nScaleNumber)
-    {
-      nScaleNum = PanelCoverage.m_nScaleNumber;
-      fScaleSpan = (float)nWalkLength/(m_nScaleNumber-1);
-      System.out.println("scale #:"+m_nScaleNumber+","+fScaleSpan);
-    }
-    else
-      nScaleNum = nWalkLength+1;
+
+    if(this.m_arrayStages == null)
+      computeStages(nWalkLength);
 
     final int internalSpaceX = (AXIS_WIDTH-ARROW_LENGTH)/PanelCoverage.m_nScaleNumber;
-    for(int i=1; i<nScaleNum; i++)
+    int[] arrayScaleXPos = new int[m_arrayStages.length];
+    int[] arraySScaleYPos = new int[m_arrayStages.length];
+    int[] arrayTScaleYPos = new int[m_arrayStages.length];
+    int[] arrayTPScaleYPos = new int[m_arrayStages.length];
+    final int AXIS_Y_LENGTH = AXIS_HEIGHT-TOP_SPACE-ARROW_LENGTH;
+    for(int i=1; i<m_arrayStages.length; i++)
     {
       int nScaleposY = AXIS_HEIGHT;
       int nScaleposX = LEFT_SPACE + i*internalSpaceX;
@@ -125,17 +136,67 @@ public class PanelCoverage extends JPanel implements IView
       else
         g2.draw(new Line2D.Float(nScaleposX, nScaleposY-SCALE_SHORT_LENGTH,
             nScaleposX,nScaleposY));
+      arrayScaleXPos[i] = nScaleposX;
+      if(isCoverageDrawable())
+      {
+        arraySScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covS.get(i)/100.0));
+        arrayTScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covT.get(i)/100.0));
+        arrayTPScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covTP.get(i)/100.0));
+      }
       // Draw scale text
-      g2.drawString(Integer.toString((int)(fScaleSpan*i)), nScaleposX, nScaleposY+16);
+      g2.drawString(Integer.toString(m_arrayStages[i]), nScaleposX, nScaleposY+16);
     }
-    // Draw coverage line
-    boolean[] bCoverage = Parameter.getCoverageOption();
+    if(isCoverageDrawable())
+    {
+      arraySScaleYPos[0] = arrayTScaleYPos[0] = arrayTPScaleYPos[0]= AXIS_HEIGHT;
+      arrayScaleXPos[0] = LEFT_SPACE;
+      // Draw line chart for state coverage
+      g2.setColor(Color.GREEN);
+      g2.drawPolyline(arrayScaleXPos, arraySScaleYPos, this.m_arrayStages.length);
+      g2.setColor(Color.BLUE);
+      g2.drawPolyline(arrayScaleXPos, arrayTScaleYPos, this.m_arrayStages.length);
+      g2.setColor(Color.RED);
+      g2.drawPolyline(arrayScaleXPos, arrayTPScaleYPos, this.m_arrayStages.length);
+    }
   }
   
-  @Override
-  public void update(Object data)
+  public int[] computeStages(final int nWalkLength)
   {
-    paintComponent(this.getGraphics());
-    
+    int nScaleNum = 0;
+    // To set number scales for x coordinate according to random walk length
+    double dScaleSpan = 1f;
+    if(nWalkLength >= m_nScaleNumber)
+    {
+      nScaleNum = PanelCoverage.m_nScaleNumber;
+      dScaleSpan = (double)nWalkLength/(m_nScaleNumber);
+    }
+    else
+      nScaleNum = nWalkLength;
+    m_arrayStages = new int[nScaleNum];
+    double j=0;
+    for(int i=0;i<m_arrayStages.length;i++)
+    {
+      j += dScaleSpan;
+      m_arrayStages[i] = (int)j;
+      // System.out.print(+m_arrayStages[i]+",");
+    }
+    // System.out.println();
+    return m_arrayStages;
   }
+  private boolean isCoverageDrawable()
+  {
+    return (m_covS!=null && m_covS.size()>0 &&
+    m_covT!=null && m_covT.size()>0 &&
+    m_covTP!=null && m_covTP.size()>0)? true : false;
+  }
+  
+  public void setStateCoverage(ArrayList<Integer> percentage)
+  { m_covS = percentage; }
+  
+  public void setTransitionCoverage(ArrayList<Integer> percentage)
+  { m_covT = percentage; }
+  
+  public void setTransitionPairCoverage(ArrayList<Integer> percentage)
+  { m_covTP = percentage; }
+  
 }

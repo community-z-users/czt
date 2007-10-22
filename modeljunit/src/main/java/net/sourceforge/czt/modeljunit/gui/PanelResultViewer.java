@@ -1,6 +1,7 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.Vector;
 import javax.swing.*;
@@ -119,7 +120,7 @@ public class PanelResultViewer extends JPanel
   private static PanelResultViewer m_panelRV;
 
   // Minimum height of the compile result table and text area
-  private final int MIN_HIEHGT = 160;
+  private final int MIN_HIEHGT = 60;
   private final int INITIAL_WIDTH = 300;
   private JTable m_table;
   private ResultTableModelInstance m_columeModel;
@@ -148,6 +149,7 @@ public class PanelResultViewer extends JPanel
 
   private PanelResultViewer()
   {
+    this.setLayout(new BorderLayout());
     m_table = new JTable();
     m_table.setAutoCreateColumnsFromModel(false);
     m_columeModel = new ResultTableModelInstance();
@@ -189,12 +191,8 @@ public class PanelResultViewer extends JPanel
     m_splitPane.setOneTouchExpandable(true);
     m_splitPane.setDividerLocation(MIN_HIEHGT);
     
-    add(m_splitPane);
+    add(m_splitPane, BorderLayout.CENTER);
   }
-
-  /*public void updateResult()
-  {
-  }*/
 
   public void resetRunTimeInformation()
   {
@@ -204,10 +202,5 @@ public class PanelResultViewer extends JPanel
   public void updateRunTimeInformation(String str)
   {
     m_txtOutput.append(str);
-  }
-
-  public void resizeScrollPanes(Dimension dim)
-  {
-    m_splitPane.setPreferredSize(dim);
   }
  }

@@ -26,11 +26,17 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
 
   private ImageIcon m_imgIcon;
   
-  protected Tester m_tester;
+  /** 
+   * The array of tester object
+   * Using array because we need to separate several tester for different panel.
+   * 0. For automatically run testing.
+   * 1. For manually run testing.
+   **/
+  protected Tester[] m_tester = new Tester[2];
   
-  public Tester getTester()
+  public Tester getTester(int idx)
   {
-    return m_tester;
+    return m_tester[idx];
   }
   
   public OptionPanelAdapter(String name, String explain, String imgPath)
@@ -40,12 +46,14 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
     //m_imgIcon = new ImageIcon(getClass().getResource("icon.gif"));
   }
   
+  @Override
   public String generateCode()
   {
     return null;
   }
 
-  public void initialize()
+  @Override
+  public void initialize(int idx)
   {
   }
 
@@ -60,7 +68,9 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
     return null;
   }
 
-  public void runAlgorithm(){}
+  @Override
+  public void runAlgorithm(int idx)
+  {}
   
   public String getAlgorithmName()
   {

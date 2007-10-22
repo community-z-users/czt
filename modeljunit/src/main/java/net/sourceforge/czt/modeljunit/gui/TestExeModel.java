@@ -25,35 +25,13 @@ public class TestExeModel
 {
   public static final String[] COVERAGE_MATRIX = {"State coverage","Transition coverage","Transition pair coverage"};
   
-  private static ArrayList<IView> m_arrayView = new ArrayList<IView>();
-  private static int[] m_nTestWalkArray;
   private static int m_nWalkLength;
-  
-  public static void registerView(IView view)
-  {
-    m_arrayView.add(view);
-  }
-
-  // Once data changed, change correspond view display
-  private static void updateView()
-  {
-    for(IView view : m_arrayView)
-    {
-      view.update(m_nTestWalkArray);
-    }
-  }
-
-  // For update PanelCoverage view line chart diagram
-  public static void setTestWalkArray(int[] array)
-  {
-    m_nTestWalkArray = array;
-    updateView();
-  }
   
   public static void setWalkLength(int length)
   {
     m_nWalkLength = length;
   }
+  
   public static int getWalkLength()
   {
     return m_nWalkLength;
@@ -101,15 +79,20 @@ public class TestExeModel
     }
   }
   
-  // The tester object
-  private static Tester m_tester;
-  public static void setTester(Tester tester)
+  /** 
+   * The array of tester object
+   * Using array because we need to separate several tester for different panel.
+   * 0. For automatically run testing.
+   * 1. For manually run testing.
+   **/
+  private static Tester[] m_tester = new Tester[2];
+  public static void setTester(Tester tester, int idx)
   {
-    m_tester = tester;
+    m_tester[idx] = tester;
   }
-  public static Tester getTester()
+  public static Tester getTester(int idx)
   {
-    return m_tester;
+    return m_tester[idx];
   }
   
   private static IAlgorithmParameter m_algo;
@@ -131,34 +114,36 @@ public class TestExeModel
   // Run test automatically. This will be call when user press run button
   public static String runTestAuto()
   {
+    
     String output = new String();
     // Redirect the system.out to result viewer text area component
     PrintStream ps = System.out; //Backup the System.out for later restore
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     System.setOut(new PrintStream(baos, true));
     // Run algorithm
-    m_algo.runAlgorithm();
+    m_algo.runAlgorithm(0);
     // Set up coverage matrix to check the test result
     boolean[] bCoverage = Parameter.getCoverageOption();
-    // Does it work????????????
-    m_tester.reset();
+    // Generate graph
+    if(bCoverage[0]||bCoverage[1]||bCoverage[2])
+      m_tester[0].buildGraph();
     CoverageHistory[] coverage = new CoverageHistory[3];
     if(bCoverage[0])
     {
       coverage[0] = new CoverageHistory(new StateCoverage(), 1);
-      m_tester.addCoverageMetric(coverage[0]);
+      m_tester[0].addCoverageMetric(coverage[0]);
     }
     
     if(bCoverage[1])
     {
       coverage[1] = new CoverageHistory(new TransitionCoverage(), 1);
-      m_tester.addCoverageMetric(coverage[1]);
+      m_tester[0].addCoverageMetric(coverage[1]);
     }
     
     if(bCoverage[2])
     {
       coverage[2] = new CoverageHistory(new TransitionPairCoverage(), 1);
-      m_tester.addCoverageMetric(coverage[2]);
+      m_tester[0].addCoverageMetric(coverage[2]);
     }
     
     StringBuffer verbose = new StringBuffer();
@@ -166,22 +151,18 @@ public class TestExeModel
     if(Parameter.getVerbosity())
     {
       VerboseListener vl = new VerboseListener();
-      m_tester.addListener(vl);
+      m_tester[0].addListener(vl);
     }
     // Redirect model's output to string
-    Model md = m_tester.getModel();
+    Model md = m_tester[0].getModel();
     Writer defWriter = md.getOutput();
     md.setOutput(sw);
-    
-    // Generate graph
-    if(bCoverage[0]||bCoverage[1]||bCoverage[2])
-      m_tester.buildGraph(100000);
 
     for(int i=0;i<3;i++)
       if(bCoverage[i])
         coverage[i].clear();
     // Generate test walking
-    m_tester.generate(m_nWalkLength);
+    m_tester[0].generate(m_nWalkLength);
     // Print out generated graph
     if(bCoverage[0])
     {

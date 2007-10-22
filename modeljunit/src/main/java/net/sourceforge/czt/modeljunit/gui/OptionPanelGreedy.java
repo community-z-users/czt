@@ -83,7 +83,7 @@ public class OptionPanelGreedy extends OptionPanelAdapter
    * Initialize tester and model
    * */
   @Override
-  public void initialize()
+  public void initialize(int idx)
   {
     try
     {
@@ -93,7 +93,7 @@ public class OptionPanelGreedy extends OptionPanelAdapter
       Class.forName("net.sourceforge.czt.modeljunit.GreedyTester");
     Constructor<?> con = testerClass.getConstructor
       (new Class[]{Class.forName("net.sourceforge.czt.modeljunit.FsmModel")});
-    m_tester =
+    m_tester[idx] =
       (GreedyTester)con.newInstance(new Object[]{TestExeModel.getModelObject()});
     }catch(Exception exp)
     {
@@ -135,18 +135,18 @@ public class OptionPanelGreedy extends OptionPanelAdapter
   }
 
   @Override
-  public void runAlgorithm()
+  public void runAlgorithm(int idx)
   {
     // Set reset probability
     // caseObj.setResetProbability(Parameter.getResetProbility());
     if(m_checkRandomSeed.isSelected())
     {
       Random rand = new Random();
-      m_tester.setRandom(rand);
+      m_tester[idx].setRandom(rand);
     }
     else
     {
-      m_tester.setRandom(new Random(Tester.FIXEDSEED));
+      m_tester[idx].setRandom(new Random(Tester.FIXEDSEED));
     }
   }
 }

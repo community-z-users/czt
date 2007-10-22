@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -15,6 +17,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 
 // For compiler
 import javax.tools.Diagnostic;
@@ -24,6 +28,12 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
+import net.sourceforge.czt.modeljunit.Tester;
+import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
+import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
+import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
+
 /**
  * ModelJUnitGUI.java
  *
@@ -31,7 +41,7 @@ import javax.tools.ToolProvider;
  * ID : 1005450
  * 26th Jul 2007
  * */
-public class ModelJUnitGUI implements ActionListener,ComponentListener
+public class ModelJUnitGUI implements ActionListener
 {
   private JFrame m_frame;
 
@@ -75,7 +85,6 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
     m_butRun.addActionListener(this);
     m_frame = new JFrame("ModelJUnit GUI");
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    m_frame.addComponentListener(this);
 
     try 
     {
@@ -109,18 +118,34 @@ public class ModelJUnitGUI implements ActionListener,ComponentListener
       {
         try 
         {
-          /*m_iconTag = new ImageIcon[3];
-          m_iconTag[0] = new ImageIcon(getClass().getResource("icon.gif"));
-          m_iconTag[1] = new ImageIcon(getClass().getResource("icon.gif"));
-          m_iconTag[2] = new ImageIcon(getClass().getResource("icon.gif"));*/
-
-
+          
+          m_iconTag = new ImageIcon[6];
+          String strIconPath = System.getProperty("user.dir")+File.separator+"images"+File.separator;
+          /*ClassLoader loader = this.getClass().getClassLoader();
+          java.net.URL url = loader.getResource("."+File.separator+"images"+File.separator+"YinyangOrb.gif");
+          System.out.println("url: "+"images"+File.separator+"YinyangOrb.gif");
+          System.out.println(url.toString());*/
+          
+          // System.out.println(System.getProperty("user.dir"));
+          // Image img = Toolkit.getDefaultToolkit().getImage(java.net.URLClassLoader.getSystemResource(strIconPath+"images.jpg"));
+          try
+          {
+            m_iconTag[0] = new ImageIcon(strIconPath+"YinyangOrb.png");
+            m_iconTag[1] = new ImageIcon(strIconPath+"PurpleOrb.png");
+            m_iconTag[2] = new ImageIcon(strIconPath+"BlueOrb.png");
+            m_iconTag[3] = new ImageIcon(strIconPath+"RedOrb.png");
+            m_iconTag[4] = new ImageIcon(strIconPath+"YellowOrb.png");
+            m_iconTag[5] = new ImageIcon(strIconPath+"GreenOrb.png");
+            m_frame.setIconImage(m_iconTag[0].getImage());
+          }
+          catch(Exception e)
+          {e.printStackTrace();}
           // Setup the tab
-          m_tabbedPane.addTab("Test Design", m_panelTD);
-          m_tabbedPane.addTab("Code viewer", m_panelCV);
-          m_tabbedPane.addTab("Result viewer", m_panelRV);
-          m_tabbedPane.addTab("Action Execution", m_panelEA);
-          m_tabbedPane.addTab("Action Execution", m_panelC);
+          m_tabbedPane.addTab("Test Design", m_iconTag[1], m_panelTD);
+          m_tabbedPane.addTab("Code viewer", m_iconTag[2], m_panelCV);
+          m_tabbedPane.addTab("Result viewer", m_iconTag[3], m_panelRV);
+          m_tabbedPane.addTab("Action Execution", m_iconTag[4], m_panelEA);
+          m_tabbedPane.addTab("Action Execution", m_iconTag[5], m_panelC);
           
           m_tabbedPane.addChangeListener(new TabChangeListener());
           m_panelOption
@@ -240,8 +265,7 @@ setJMenuBar(mb);
                 "Please select algorithm \nfrom Test Design tab\nbefore generate code!");
         return;
       }
-      // Clear the information in Result viewer text area
-      m_panelRV.resetRunTimeInformation();
+      
 
       String sourceFile = Parameter.getModelLocation();
       String name[] = sourceFile.split("\\.");
@@ -397,8 +421,50 @@ setJMenuBar(mb);
     m_panelEA.setGeneratedCode(code);
   }
 
+  /**
+   * Run test automatically
+   * */
   private void runClass()
   {
+    // Draw line chart in coverage panel
+    if(m_panelTD.isLineChartDrawable())
+    {
+      int[] stages = m_panelC.computeStages(TestExeModel.getWalkLength());
+      ArrayList<Integer> coverageState = new ArrayList<Integer>();
+      ArrayList<Integer> coverageTransition = new ArrayList<Integer>();
+      ArrayList<Integer> coverageTransitionPair = new ArrayList<Integer>();
+      // Run test several times to draw line chart
+      for(int i=0; i<stages.length; i++)
+      {
+        m_panelTD.initializeTester(0);
+        Tester tester = TestExeModel.getTester(0);
+        tester.buildGraph();
+        
+        CoverageHistory[] coverage = new CoverageHistory[3];
+        coverage[0] = new CoverageHistory(new StateCoverage(),1);
+        coverage[1] = new CoverageHistory(new TransitionCoverage(),1);
+        coverage[2] = new CoverageHistory(new TransitionPairCoverage(),1);
+        tester.addCoverageMetric(coverage[0]);
+        tester.addCoverageMetric(coverage[1]);
+        tester.addCoverageMetric(coverage[2]);
+        tester.generate(stages[i]);
+        coverageState.add((int)coverage[0].getPercentage());
+        coverageTransition.add((int)coverage[1].getPercentage());
+        coverageTransitionPair.add((int)coverage[2].getPercentage());
+        //System.out.println("state percentage:"+coverage[0].getPercentage());
+        //System.out.println("transition percentage:"+coverage[1].getPercentage());
+        //System.out.println("transition pair percentage:"+coverage[2].getPercentage());
+      }
+      m_panelC.setStateCoverage(coverageState);
+      m_panelC.setTransitionCoverage(coverageTransition);
+      m_panelC.setTransitionPairCoverage(coverageTransitionPair);
+      m_panelC.repaint();
+    }
+    // To reset tester, it solve the problem that coverage matrix incorrect.
+    m_panelTD.initializeTester(0);
+    // Clear the information in Result viewer text area
+    m_panelRV.resetRunTimeInformation();
+    // Run test and display test output
     m_panelRV.updateRunTimeInformation(TestExeModel.runTestAuto());
   }
 
@@ -418,7 +484,9 @@ setJMenuBar(mb);
       // If user loaded a new model initialize it.
       if(m_panelTD.isNewModelLoaded())
       {
-        m_panelTD.initializeTester();
+        // Reload all models
+        m_panelTD.initializeTester(0);
+        m_panelTD.initializeTester(1);
         // if user already selected an algorithm,
         // reset new model before do any action.
         if(Parameter.getAlgorithmName()!= null &&
@@ -442,26 +510,5 @@ setJMenuBar(mb);
         m_panelEA.autoModelInitialization();
       }
     }
-  }
-
-  public void componentHidden(ComponentEvent e)
-  {
-    // TODO Auto-generated method stub
-
-  }
-
-  public void componentMoved(ComponentEvent e)
-  {
-    m_panelRV.resizeScrollPanes(m_frame.getContentPane().getSize());
-  }
-
-  public void componentResized(ComponentEvent e)
-  {
-    m_panelRV.resizeScrollPanes(m_frame.getContentPane().getSize());
-  }
-
-  public void componentShown(ComponentEvent e)
-  {
-    // TODO Auto-generated method stub
   }
 }
