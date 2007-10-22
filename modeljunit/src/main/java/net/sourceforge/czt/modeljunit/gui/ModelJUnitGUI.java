@@ -128,14 +128,15 @@ public class ModelJUnitGUI implements ActionListener
           
           // System.out.println(System.getProperty("user.dir"));
           // Image img = Toolkit.getDefaultToolkit().getImage(java.net.URLClassLoader.getSystemResource(strIconPath+"images.jpg"));
+          
           try
           {
-            m_iconTag[0] = new ImageIcon(strIconPath+"YinyangOrb.png");
-            m_iconTag[1] = new ImageIcon(strIconPath+"PurpleOrb.png");
-            m_iconTag[2] = new ImageIcon(strIconPath+"BlueOrb.png");
-            m_iconTag[3] = new ImageIcon(strIconPath+"RedOrb.png");
-            m_iconTag[4] = new ImageIcon(strIconPath+"YellowOrb.png");
-            m_iconTag[5] = new ImageIcon(strIconPath+"GreenOrb.png");
+            m_iconTag[0] = new ImageIcon(getClass().getResource("/images/YinyangOrb.png"));
+            m_iconTag[1] = new ImageIcon(getClass().getResource("/images/PurpleOrb.png"));
+            m_iconTag[2] = new ImageIcon(getClass().getResource("/images/BlueOrb.png"));
+            m_iconTag[3] = new ImageIcon(getClass().getResource("/images/RedOrb.png"));
+            m_iconTag[4] = new ImageIcon(getClass().getResource("/images/YellowOrb.png"));
+            m_iconTag[5] = new ImageIcon(getClass().getResource("/images/GreenOrb.png"));
             m_frame.setIconImage(m_iconTag[0].getImage());
           }
           catch(Exception e)
@@ -434,31 +435,30 @@ setJMenuBar(mb);
       ArrayList<Integer> coverageTransition = new ArrayList<Integer>();
       ArrayList<Integer> coverageTransitionPair = new ArrayList<Integer>();
       // Run test several times to draw line chart
-      for(int i=0; i<stages.length; i++)
-      {
-        m_panelTD.initializeTester(0);
-        Tester tester = TestExeModel.getTester(0);
-        tester.buildGraph();
+      m_panelTD.initializeTester(0);
+      Tester tester = TestExeModel.getTester(0);
+      tester.buildGraph();
         
-        CoverageHistory[] coverage = new CoverageHistory[3];
-        coverage[0] = new CoverageHistory(new StateCoverage(),1);
-        coverage[1] = new CoverageHistory(new TransitionCoverage(),1);
-        coverage[2] = new CoverageHistory(new TransitionPairCoverage(),1);
-        tester.addCoverageMetric(coverage[0]);
-        tester.addCoverageMetric(coverage[1]);
-        tester.addCoverageMetric(coverage[2]);
-        tester.generate(stages[i]);
-        coverageState.add((int)coverage[0].getPercentage());
-        coverageTransition.add((int)coverage[1].getPercentage());
-        coverageTransitionPair.add((int)coverage[2].getPercentage());
-        //System.out.println("state percentage:"+coverage[0].getPercentage());
-        //System.out.println("transition percentage:"+coverage[1].getPercentage());
-        //System.out.println("transition pair percentage:"+coverage[2].getPercentage());
-      }
+      CoverageHistory[] coverage = new CoverageHistory[3];
+      coverage[0] = new CoverageHistory(new StateCoverage(),1);
+      coverage[1] = new CoverageHistory(new TransitionCoverage(),1);
+      coverage[2] = new CoverageHistory(new TransitionPairCoverage(),1);
+      tester.addCoverageMetric(coverage[0]);
+      tester.addCoverageMetric(coverage[1]);
+      tester.addCoverageMetric(coverage[2]);
       m_panelC.setStateCoverage(coverageState);
       m_panelC.setTransitionCoverage(coverageTransition);
       m_panelC.setTransitionPairCoverage(coverageTransitionPair);
-      m_panelC.repaint();
+      for(int i=0; i<stages.length; i++) {
+        tester.generate(stages[0]);
+        m_panelC.repaint();
+      }
+      coverageState.add((int)coverage[0].getPercentage());
+      coverageTransition.add((int)coverage[1].getPercentage());
+      coverageTransitionPair.add((int)coverage[2].getPercentage());
+      //System.out.println("state percentage:"+coverage[0].getPercentage());
+      //System.out.println("transition percentage:"+coverage[1].getPercentage());
+      //System.out.println("transition pair percentage:"+coverage[2].getPercentage());
     }
     // To reset tester, it solve the problem that coverage matrix incorrect.
     m_panelTD.initializeTester(0);
