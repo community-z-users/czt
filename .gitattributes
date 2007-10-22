@@ -378,6 +378,13 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Parameter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/TestExeModel.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
+modeljunit/src/main/resources/images/BlueOrb.png -text svneol=unset#image/png
+modeljunit/src/main/resources/images/GreenOrb.png -text svneol=unset#image/png
+modeljunit/src/main/resources/images/PurpleOrb.png -text svneol=unset#image/png
+modeljunit/src/main/resources/images/RedOrb.png -text svneol=unset#image/png
+modeljunit/src/main/resources/images/Thumbs.db -text
+modeljunit/src/main/resources/images/YellowOrb.png -text svneol=unset#image/png
+modeljunit/src/main/resources/images/YinyangOrb.png -text svneol=unset#image/png
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/AllRoundTesterTest.java -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/GraphListenerTest.java -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ListenerFactoryTest.java -text
