@@ -149,8 +149,8 @@ public class ResultExtractor
       Tester gtester = new GreedyTester(model);
       historyGreedy.add(generateResults(seed, gtester));
 
-      //Tester atester = new AllRoundTester(model);
-      //historyAllRound.add(generateResults(seed, atester));
+      Tester atester = new AllRoundTester(model);
+      historyAllRound.add(generateResults(seed, atester));
 
       seeds.add(seed);
       currentPass++;
@@ -164,15 +164,17 @@ public class ResultExtractor
       File f = new File("ResultExtractorOutput.csv");
       PrintWriter w = new PrintWriter(new FileOutputStream(f));
 
-      // System.out.println("Writing to " + f.getAbsolutePath());
+      System.out.println("Writing to " + f.getAbsolutePath());
       for (int i = 0; i < seeds.size(); i++) {
         w.print("Seed," + seeds.get(i) + ",");
         w.print("Random,");
         w.println(historyRandom.get(i));
         w.print(",,Greedy,");
         w.println(historyGreedy.get(i));
-        //w.print(",,All Round Trips,");
-        //w.println(historyAllRound.get(i));
+      }
+      for (int j = 0; j < seeds.size(); j++) {
+        w.print(",,All Round Trips,");
+        w.println(historyAllRound.get(j));
       }
       w.close();
     }

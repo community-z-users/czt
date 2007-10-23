@@ -22,7 +22,14 @@ package net.sourceforge.czt.modeljunit;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Random;
+import java.util.HashMap;
 
+import net.sourceforge.czt.jdsl.graph.api.Edge;
+import net.sourceforge.czt.jdsl.graph.api.EdgeIterator;
+import net.sourceforge.czt.jdsl.graph.api.Graph;
+import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
+import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
@@ -35,7 +42,7 @@ public class PessimisticTester extends Tester
 {
   protected GraphListener graph_;
   protected CoverageMetric transitions_;
-	protected CoverageMetric actions_;
+  protected CoverageMetric actions_;
 
   private int depth_;
 
@@ -74,6 +81,41 @@ public class PessimisticTester extends Tester
     
     int result = 0;
     
+		InspectableGraph fsmGraph = graph_.getGraph();
+		EdgeIterator edges = fsmGraph.edges();
+		int max = Integer.MIN_VALUE;;
+		
+    while (edges.hasNext()) {
+      Edge e = edges.nextEdge();
+      Object origin = fsmGraph.origin(e).element();
+      Object dest = fsmGraph.destination(e).element();
+      String action = (String) e.element();
+      if(origin.equals(state) && graph_.isDone(state, Integer.parseInt(action)))
+			{
+				int tempBest = eval(state, Integer.parseInt(action)) + evalState(dest, depth - 1);
+				if (tempBest > max)
+				{
+					worth[Integer.parseInt(action)] = tempBest;
+					result += tempBest;
+					max = tempBest;
+				}
+			}
+    }
+		
+		fsmGraph = graph_.getGraph();
+		edges = fsmGraph.edges();
+		
+    while (edges.hasNext()) {
+      Edge e = edges.nextEdge();
+      Object origin = fsmGraph.origin(e).element();
+      Object dest = fsmGraph.destination(e).element();
+      String action = (String) e.element();
+      if(origin.equals(state) && graph_.isTodo(state, Integer.parseInt(action)))
+			{
+				worth[Integer.parseInt(action)] = 50;
+				result += 50;
+			}
+    }
     return result;
   }
 
@@ -85,24 +127,40 @@ public class PessimisticTester extends Tester
       return evalSimple(state, action);
   }
 
-  public int evalSimple(Object state, int action)
+  public int evalSimple(Object state, int actionNo)
   {
 		int result = 0;
-		Object[] done = new Object[model_.getNumActions()];
-		if ((done.length == 0) && ((!(graph_.getTodo(model_.getCurrentState()).get(action)))))
-			result += 10;
-		else
-			result -= done.length;
+		
+		HashMap<Object, Integer> done = new HashMap<Object, Integer>();
+		
+		InspectableGraph fsmGraph = graph_.getGraph();
+		EdgeIterator edges = fsmGraph.edges();
+		
+    while (edges.hasNext()) {
+      Edge e = edges.nextEdge();
+      Object origin = fsmGraph.origin(e).element();
+      Object dest = fsmGraph.destination(e).element();
+      String action = (String) e.element();
+      if(origin.equals(state) && graph_.isTodo(state, Integer.parseInt(action)))
+      {
+        done.put(state, Integer.parseInt(action));
+      }
+    }
+		
+    if ((done.size() == 0) && (graph_.isTodo(state, actionNo)))
+      result += 10;
+    else
+			result -= done.size();
     return result;
   }
 
   public int evalComplex(Object state, int action)
   {
-		int result = evalSimple(state, action);
-		// If state has not been visited and action is in toDo set it gets
-		// an even higher bias
-		if ((actions_.getDetails().get(state) == 0) && (!(graph_.getTodo(model_.getCurrentState()).get(action))))
-			result += 250;
+    int result = evalSimple(state, action);
+    // If state has not been visited and action is in toDo set it gets
+    // an even higher bias
+    if ((actions_.getDetails().get(state) == 0) && (graph_.isTodo(state, action)))
+      result += 250;
     return result;
   }
 
