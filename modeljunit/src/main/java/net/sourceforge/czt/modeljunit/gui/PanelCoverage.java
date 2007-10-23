@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class PanelCoverage extends JPanel
   private static final int ARROW_HALF_WIDTH = 6;
   private static final int ARROW_LENGTH = 10;
   // Scale numbers
-  private static int m_nScaleNumber = 21;
+  private static int m_nScaleNumber = 20;
   private static final int SCALE_LARGE_LENGTH = 6;
   private static final int SCALE_SHORT_LENGTH = 3;
   private int[] m_arrayStages = null;
@@ -41,6 +42,7 @@ public class PanelCoverage extends JPanel
   private ArrayList<Integer> m_covTP;
   // Panel object
   private static PanelCoverage m_panel;
+  
   public static PanelCoverage getInstance()
   {
     if(m_panel == null)
@@ -63,7 +65,7 @@ public class PanelCoverage extends JPanel
   protected void paintComponent(Graphics g)
   {
     super.paintComponent(g);
-    Dimension size = this.getSize();
+    Dimension size = getSize();
     // Limit the minimum size of coordinate system 
     if(size.height<MIN_COORD_AXIS.height)
       size.height = MIN_COORD_AXIS.height;
@@ -73,12 +75,6 @@ public class PanelCoverage extends JPanel
     Graphics2D g2 = (Graphics2D) g;
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
         RenderingHints.VALUE_ANTIALIAS_ON);
-    g2.setPaint(Color.RED);
-    
-    g2.setPaint(Color.GREEN);
-    
-    g2.setPaint(Color.BLUE);
-    
     // Draw coordinate
     g2.setPaint(Color.BLACK);
     final int AXIS_HEIGHT = size.height-TOP_SPACE-BOTTOM_SPACE;
@@ -120,24 +116,24 @@ public class PanelCoverage extends JPanel
     if(this.m_arrayStages == null)
       computeStages(nWalkLength);
 
-    final int internalSpaceX = (AXIS_WIDTH-ARROW_LENGTH)/PanelCoverage.m_nScaleNumber;
+    final int internalSpaceX = (AXIS_WIDTH-ARROW_LENGTH)/(PanelCoverage.m_nScaleNumber+1);
     int[] arrayScaleXPos = new int[m_arrayStages.length];
     int[] arraySScaleYPos = new int[m_arrayStages.length];
     int[] arrayTScaleYPos = new int[m_arrayStages.length];
     int[] arrayTPScaleYPos = new int[m_arrayStages.length];
     final int AXIS_Y_LENGTH = AXIS_HEIGHT-TOP_SPACE-ARROW_LENGTH;
-    for(int i=1; i<m_arrayStages.length; i++)
+    for(int i=0; i<m_arrayStages.length; i++)
     {
       int nScaleposY = AXIS_HEIGHT;
-      int nScaleposX = LEFT_SPACE + i*internalSpaceX;
-      if(i%2==0)
+      int nScaleposX = LEFT_SPACE + (i+1)*internalSpaceX;
+      if(i%2!=0)
         g2.draw(new Line2D.Float(nScaleposX, nScaleposY-SCALE_LARGE_LENGTH,
             nScaleposX,nScaleposY));
       else
         g2.draw(new Line2D.Float(nScaleposX, nScaleposY-SCALE_SHORT_LENGTH,
             nScaleposX,nScaleposY));
       arrayScaleXPos[i] = nScaleposX;
-      if(isCoverageDrawable())
+      if(isCoverageDrawable(i))
       {
         arraySScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covS.get(i)/100.0));
         arrayTScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covT.get(i)/100.0));
@@ -146,17 +142,27 @@ public class PanelCoverage extends JPanel
       // Draw scale text
       g2.drawString(Integer.toString(m_arrayStages[i]), nScaleposX, nScaleposY+16);
     }
-    if(isCoverageDrawable())
+    //System.out.println(isCoverageDrawable(i));
+    if(isCoverageDrawable(1))
     {
       arraySScaleYPos[0] = arrayTScaleYPos[0] = arrayTPScaleYPos[0]= AXIS_HEIGHT;
       arrayScaleXPos[0] = LEFT_SPACE;
       // Draw line chart for state coverage
-      g2.setColor(Color.GREEN);
-      g2.drawPolyline(arrayScaleXPos, arraySScaleYPos, this.m_arrayStages.length);
-      g2.setColor(Color.BLUE);
-      g2.drawPolyline(arrayScaleXPos, arrayTScaleYPos, this.m_arrayStages.length);
-      g2.setColor(Color.RED);
-      g2.drawPolyline(arrayScaleXPos, arrayTPScaleYPos, this.m_arrayStages.length);
+      boolean[] bShowCoverage = Parameter.getCoverageOption();
+      if(bShowCoverage[0])
+      {
+        g2.setColor(Color.GREEN);
+        g2.drawPolyline(arrayScaleXPos, arraySScaleYPos, m_covS.size());
+      }
+      if(bShowCoverage[1]){
+        g2.setColor(Color.BLUE);
+        g2.drawPolyline(arrayScaleXPos, arrayTScaleYPos, m_covT.size());
+      }
+      if(bShowCoverage[2])
+      {
+        g2.setColor(Color.RED);
+        g2.drawPolyline(arrayScaleXPos, arrayTPScaleYPos, m_covTP.size());
+      }
     }
   }
   
@@ -165,7 +171,7 @@ public class PanelCoverage extends JPanel
     int nScaleNum = 0;
     // To set number scales for x coordinate according to random walk length
     double dScaleSpan = 1f;
-    if(nWalkLength >= m_nScaleNumber)
+    if(nWalkLength > m_nScaleNumber)
     {
       nScaleNum = PanelCoverage.m_nScaleNumber;
       dScaleSpan = (double)nWalkLength/(m_nScaleNumber);
@@ -183,20 +189,34 @@ public class PanelCoverage extends JPanel
     // System.out.println();
     return m_arrayStages;
   }
-  private boolean isCoverageDrawable()
+  private boolean isCoverageDrawable(int i)
   {
     return (m_covS!=null && m_covS.size()>0 &&
     m_covT!=null && m_covT.size()>0 &&
-    m_covTP!=null && m_covTP.size()>0)? true : false;
+    m_covTP!=null && m_covTP.size()>0 &&
+    m_covS.size()>i && m_covT.size()>i && m_covTP.size()>i)? true : false;
   }
   
-  public void setStateCoverage(ArrayList<Integer> percentage)
-  { m_covS = percentage; }
+  public void clearCoverages()
+  {
+    m_covS = new ArrayList<Integer>();
+    m_covT = new ArrayList<Integer>();
+    m_covTP = new ArrayList<Integer>();
+  }
   
-  public void setTransitionCoverage(ArrayList<Integer> percentage)
-  { m_covT = percentage; }
+  public void addStateCoverage(Integer nPercentage)
+  { m_covS.add(nPercentage); }
   
-  public void setTransitionPairCoverage(ArrayList<Integer> percentage)
-  { m_covTP = percentage; }
+  public void addTransitionCoverage(Integer nPercentage)
+  { m_covT.add(nPercentage); }
   
+  public void addTransitionPairCoverage(Integer nPercentage)
+  { m_covTP.add(nPercentage);}
+  
+  public void redrawGraph()
+  { 
+    this.setDoubleBuffered(true);
+    //this.repaint(new Rectangle(LEFT_SPACE, TOP_SPACE, getSize().width-RIGHT_SPACE, getSize().height-BOTTOM_SPACE));
+    paintComponent(this.getGraphics());  
+  }
 }
