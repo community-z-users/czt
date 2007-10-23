@@ -35,6 +35,7 @@ import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZChar;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * A latex markup parser that looks like a scanner.
@@ -178,7 +179,7 @@ public class <class/>
     }
     if (sectHead_) { // we are just parsing a section header
       if (is(token, LatexSym.END)) { // end of section header
-        sectName_ = sectName_.trim();
+        sectName_ = trim(sectName_);
         markupFunction_ = new LatexMarkupFunction(sectName_);
         markupFunctions_.put(sectName_, markupFunction_);
         lexer_.setMarkupFunction(markupFunction_);
@@ -201,7 +202,7 @@ public class <class/>
         if (parents_ != null) {
           String[] parents = parents_.split(",");
           for (int i = 0; i &lt; parents.length; i++) {
-            String parent = parents[i].trim();
+            String parent = trim(parents[i]);
             if (parent != null &amp;&amp; ! parent.equals("")) {
               addMarkupFunction(parent);
             }
@@ -262,6 +263,21 @@ public class <class/>
       symbol_ = token;
     }
     return token;
+  }
+
+  /**
+   * Removes spaces and newlines before and after.
+   */
+  private String trim(String string)
+  {
+    String result = string.trim();
+    while (result.startsWith(ZString.NLCHAR)) {
+      result = result.substring(1).trim();
+    }
+    while(result.endsWith(ZString.NLCHAR)) {
+      result = result.substring(0, result.length() - 1).trim();
+    }
+    return result;
   }
 
   private void updateLatexMarkupFunction()
