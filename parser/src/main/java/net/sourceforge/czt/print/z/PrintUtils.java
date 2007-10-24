@@ -75,7 +75,7 @@ public final class PrintUtils
                            SectionManager sectInfo,
                            Markup markup)
   {
-    String sectionName = Section.STANDARD_TOOLKIT.getName();
+    final String sectionName = Section.STANDARD_TOOLKIT.getName();
     print(term, out, sectInfo, sectionName, markup);
   }
 
@@ -85,36 +85,17 @@ public final class PrintUtils
                            String sectName,
                            Markup markup)
   {
-    if (markup == Markup.LATEX) {
+    switch (markup) {
+    case  LATEX:
       printLatex(term, out, sectInfo, sectName);
-    }
-    else if (markup == Markup.UNICODE) {
+      break;
+    case  UNICODE:
       printUnicode(term, out, sectInfo, sectName);
-    }
-    else {
+      break;
+    default:
       String message = "Attempt to print unsupported markup";
       throw new PrintException(message);
     }
-  }
-
-  /**
-   * Prints a given term (usually a Spec or Sect) as latex markup to
-   * the given writer.  The section information is used to obtain the
-   * operator table and latex markup table needed for printing, and
-   * should therefore be able to provide information of type
-   * <code>net.sourceforge.czt.parser.util.OpTable.class</code> and
-   * <code>net.sourceforge.czt.parser.util.LatexMarkupTable.class</code>.
-   *
-   * This method may be used for terms like Spec and Sect that contain
-   * a section header so that context information can be obtained from
-   * the tree itself.  See {@link
-   * #printLatex(Term,Writer,SectionManager,String)} for
-   * writing trees that do not contain context information.
-   */
-  public static void printLatex(Term term, Writer out, SectionManager sectInfo)
-  {
-    String sectionName = Section.STANDARD_TOOLKIT.getName();
-    printLatex(term, out, sectInfo, sectionName);
   }
 
   public static void printOldLatex(Term term,
@@ -190,27 +171,6 @@ public final class PrintUtils
         "old (Spivey's) LaTeX markup.";
       throw new PrintException(msg, e);
     }
-  }
-
-  /**
-   * Prints a given term (usually a Spec or Sect) as unicode to the
-   * given writer.  The section information is used to obtain the
-   * operator table and latex markup table needed for printing, and
-   * should therefore be able to provide information of type
-   * <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
-   *
-   * This method may be used for terms like Spec and Sect that contain
-   * a section header so that context information can be obtained from
-   * the tree itself.  See
-   * {@link #printUnicode(Term,Writer,SectionManager,String)} for writing trees
-   * that do not contain context information.
-   */
-  public static void printUnicode(Term term,
-                                  Writer out,
-                                  SectionManager sectInfo)
-  {
-    String sectionName = Section.STANDARD_TOOLKIT.getName();
-    printUnicode(term, out, sectInfo, sectionName);
   }
 
   /**

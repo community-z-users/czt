@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -38,7 +38,7 @@ public class UnicodePrinterCommand
       final Writer writer = new StringWriter();
       final Key key = new Key(name, Term.class);
       final Term term = (Term) manager.get(key);
-      PrintUtils.printUnicode(term, writer, manager);
+      PrintUtils.printUnicode(term, writer, manager, null);
       writer.close();
       manager.put(new Key(name, UnicodeString.class),
                   new UnicodeString(writer.toString()));

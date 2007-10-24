@@ -151,10 +151,12 @@ public class AstToPrintTreeVisitor
    */
   public Term run(Term term, OpTable opTable)
   {
-    warningManager_.setCurrentSectName(Section.ANONYMOUS.getName());  
-    opTable_ = opTable;
-    prec_ = new PrecedenceVisitor(opTable_);
-    return (Term) term.accept(this);
+    if (opTable != null) {
+      warningManager_.setCurrentSectName(opTable.getSection());  
+      opTable_ = opTable;
+      prec_ = new PrecedenceVisitor(opTable_);
+    }
+    return term.accept(this);
   }
 
   /**
@@ -169,10 +171,12 @@ public class AstToPrintTreeVisitor
   public Term run(Term term, String sectionName)
     throws CommandException
   {
-    warningManager_.setCurrentSectName(sectionName);
-    opTable_ = (OpTable) sectInfo_.get(new Key(sectionName, OpTable.class));
-    prec_ = new PrecedenceVisitor(opTable_);
-    return (Term) term.accept(this);
+    if (sectionName != null) {
+      warningManager_.setCurrentSectName(sectionName);
+      opTable_ = (OpTable) sectInfo_.get(new Key(sectionName, OpTable.class));
+      prec_ = new PrecedenceVisitor(opTable_);
+    }
+    return term.accept(this);
   }
 
   public void setOldZ(boolean value)

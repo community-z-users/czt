@@ -525,7 +525,7 @@ public class ZLive
         }
       }
       try {
-        PrintUtils.printUnicode(term, out, getSectionManager());
+        PrintUtils.printUnicode(term, out, getSectionManager(), null);
         out.flush();
         return;
       }
