@@ -22,6 +22,7 @@ package net.sourceforge.czt.print.z;
 import java.io.Writer;
 import java.util.Properties;
 
+import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -34,6 +35,7 @@ import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.util.Section;
 
 /**
@@ -50,7 +52,8 @@ public final class PrintUtils
   {
   }
   
-  public static final WarningManager warningManager_ = new WarningManager(PrintUtils.class);
+  public static final WarningManager warningManager_ =
+    new WarningManager(PrintUtils.class);
 
   /**
    * Prints a given term (usually a Spec or Sect) in the specified
@@ -72,16 +75,8 @@ public final class PrintUtils
                            SectionManager sectInfo,
                            Markup markup)
   {
-    if (markup == Markup.LATEX) {
-      printLatex(term, out, sectInfo);
-    }
-    else if (markup == Markup.UNICODE) {
-      printUnicode(term, out, sectInfo);
-    }
-    else {
-      String message = "Attempt to print unsupported markup";
-      throw new PrintException(message);
-    }
+    String sectionName = Section.STANDARD_TOOLKIT.getName();
+    print(term, out, sectInfo, sectionName, markup);
   }
 
   public static void print(Term term,
@@ -118,49 +113,16 @@ public final class PrintUtils
    */
   public static void printLatex(Term term, Writer out, SectionManager sectInfo)
   {
-    warningManager_.clear();
     String sectionName = Section.STANDARD_TOOLKIT.getName();
-    TokenSequence tseq = PrintUtils.toUnicode(term, sectInfo, sectionName,
-                                              sectInfo.getProperties());
-    ZmlScanner scanner = new ZmlScanner(tseq.iterator());
-    Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
-    parser.setSectionInfo(sectInfo);
-    UnicodePrinter printer = new UnicodePrinter(out);
-    parser.setWriter(printer);
-    try {
-      parser.parse();
-    }
-    catch (Exception e) {
-      String msg = "An exception occurred while trying to print LaTeX markup.";
-      throw new PrintException(msg, e);
-    }
+    printLatex(term, out, sectInfo, sectionName);
   }
 
-  public static void printOldLatex(Term term, Writer out,
+  public static void printOldLatex(Term term,
+                                   Writer out,
                                    SectionManager sectInfo)
   {
-    warningManager_.clear();
-    term.accept(new ToSpiveyZVisitor());
-    AstToPrintTreeVisitor toPrintTree =
-      new AstToPrintTreeVisitor(sectInfo, warningManager_);
-    toPrintTree.setOldZ(true);
-    Term tree = (Term) term.accept(toPrintTree);
-    Properties props = new Properties(sectInfo.getProperties());
-    props.setProperty(PrintPropertiesKeys.PROP_Z_EVES, "true");
-    ZmlScanner scanner = new ZmlScanner(tree, props);
-    Unicode2OldLatex parser =
-      new Unicode2OldLatex(new SectHeadScanner(scanner));
-    parser.setSectionInfo(sectInfo);
-    UnicodePrinter printer = new UnicodePrinter(out);
-    parser.setWriter(printer);
-    try {
-      parser.parse();
-    }
-    catch (Exception e) {
-      String msg = "An exception occurred while trying to print " +
-        "old (Spivey's) LaTeX markup.";
-      throw new PrintException(msg, e);
-    }
+    String sectionName = Section.STANDARD_TOOLKIT.getName();
+    printOldLatex(term, out, sectInfo, sectionName);
   }
 
   /**
@@ -188,15 +150,7 @@ public final class PrintUtils
     TokenSequence tseq = PrintUtils.toUnicode(term, sectInfo, sectionName,
                                               sectInfo.getProperties());
     ZmlScanner scanner = new ZmlScanner(tseq.iterator());
-    if (term instanceof Para) {
-      scanner.prepend(new Symbol(Sym.PARA_START));
-      scanner.append(new Symbol(Sym.PARA_END));
-    }
-    else {
-      scanner.prepend(new Symbol(Sym.TOKENSEQ));
-      scanner.append(new Symbol(Sym.TOKENSEQ));
-    }
-    Unicode2Latex parser = new Unicode2Latex(scanner);
+    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -204,8 +158,9 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      throw new PrintException("An exception occurred while trying to print LaTeX markup " +
-         "for term within section " + sectionName, e);
+      String msg = "An exception occurred while trying to print " +
+        "LaTeX markup for term within section " + sectionName;
+      throw new PrintException(msg, e);
     }
   }
 
@@ -223,9 +178,7 @@ public final class PrintUtils
     Properties props = new Properties(sectInfo.getProperties());
     props.setProperty(PrintPropertiesKeys.PROP_Z_EVES, "true");
     ZmlScanner scanner = new ZmlScanner(tree, props);
-    scanner.prepend(new Symbol(Sym.TOKENSEQ));
-    scanner.append(new Symbol(Sym.TOKENSEQ));
-    Unicode2OldLatex parser = new Unicode2OldLatex(scanner);
+    Unicode2OldLatex parser = new Unicode2OldLatex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -233,8 +186,9 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      throw new PrintException("An exception occurred while trying to print old (Spivey's) LaTeX markup " +
-         "for term within section " + sectionName, e);
+      String msg = "An exception occurred while trying to print " +
+        "old (Spivey's) LaTeX markup.";
+      throw new PrintException(msg, e);
     }
   }
 
@@ -340,5 +294,22 @@ public final class PrintUtils
         "for term within section " + sectionName;
       throw new PrintException(msg, exception);
     }
+  }
+
+  private static Scanner prepare(ZmlScanner scanner, Term term)
+  {
+    Scanner result = scanner;
+    if (term instanceof Spec) {
+      result = new SectHeadScanner(scanner);
+    }
+    else if (term instanceof Para) {
+      scanner.prepend(new Symbol(Sym.PARA_START));
+      scanner.append(new Symbol(Sym.PARA_END));
+    }
+    else {
+      scanner.prepend(new Symbol(Sym.TOKENSEQ));
+      scanner.append(new Symbol(Sym.TOKENSEQ));
+    }
+    return result;
   }
 }
