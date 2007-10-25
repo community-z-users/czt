@@ -639,16 +639,10 @@ public class TextUI {
   {
     try {
       Term term = term0.accept(new ResultTreeToZVisitor());
-      if (Markup.LATEX.equals(markup)) {
-        PrintUtils.printLatex(term, out,
-            zlive_.getSectionManager(),
-            zlive_.getCurrentSection());
-      }
-      else {
-        PrintUtils.printUnicode(term, out,
-            zlive_.getSectionManager(),
-            zlive_.getCurrentSection());
-      }
+      PrintUtils.print(term, out,
+                       zlive_.getSectionManager(),
+                       zlive_.getCurrentSection(),
+                       markup);
     }
     catch (Exception e) {
       out.print("Error trying to print: " + term0);

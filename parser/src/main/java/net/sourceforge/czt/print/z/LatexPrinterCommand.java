@@ -23,12 +23,20 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import net.sourceforge.czt.java_cup.runtime.Scanner;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Spec;
 
 public class LatexPrinterCommand
+  extends AbstractLatexPrinterCommand
   implements Command
 {
   public boolean compute(String name, SectionManager manager)
@@ -38,7 +46,7 @@ public class LatexPrinterCommand
       final Writer writer = new StringWriter();
       final Key key = new Key(name, Term.class);
       final Term term = (Term) manager.get(key);
-      PrintUtils.printLatex(term, writer, manager, null);
+      printLatex(term, writer, manager, null);
       writer.close();
       manager.put(new Key(name, LatexString.class),
                   new LatexString(writer.toString()));
@@ -46,6 +54,38 @@ public class LatexPrinterCommand
     }
     catch (IOException e) {
       throw new CommandException(e);
+    }
+  }
+
+  /**
+   * Prints a given term (usually an Expr or Pred) as latex markup to
+   * the given writer.  The name of section (where this term belongs
+   * to) and the section information is used to obtain the operator
+   * table and latex markup table needed for printing.  The section
+   * information should therefore be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>
+   * and
+   * <code>net.sourceforge.czt.parser.util.LatexMarkupTable.class</code>.
+   */
+  public void printLatex(Term term,
+                         Writer out,
+                         SectionManager sectInfo,
+                         String sectionName)
+  {
+    TokenSequence tseq = toUnicode(term, sectInfo, sectionName,
+                                   sectInfo.getProperties());
+    ZmlScanner scanner = new ZmlScanner(tseq.iterator());
+    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
+    parser.setSectionInfo(sectInfo, sectionName);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    parser.setWriter(printer);
+    try {
+      parser.parse();
+    }
+    catch (Exception e) {
+      String msg = "An exception occurred while trying to print " +
+        "LaTeX markup for term within section " + sectionName;
+      throw new PrintException(msg, e);
     }
   }
 }

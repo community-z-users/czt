@@ -22,13 +22,16 @@ package net.sourceforge.czt.print.z;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.session.*;
 
 public class UnicodePrinterCommand
+  extends AbstractPrinterCommand
   implements Command
 {
   public boolean compute(String name, SectionManager manager)
@@ -38,7 +41,7 @@ public class UnicodePrinterCommand
       final Writer writer = new StringWriter();
       final Key key = new Key(name, Term.class);
       final Term term = (Term) manager.get(key);
-      PrintUtils.printUnicode(term, writer, manager, null);
+      printUnicode(term, writer, manager, null);
       writer.close();
       manager.put(new Key(name, UnicodeString.class),
                   new UnicodeString(writer.toString()));
@@ -47,5 +50,24 @@ public class UnicodePrinterCommand
     catch (IOException e) {
       throw new CommandException(e);
     }
+  }
+
+  /**
+   * Prints a given term (usually an Expr or Pred) as unicode to the
+   * given writer.  The name of section (where this term belongs to)
+   * and the section information is used to obtain the operator table
+   * and latex markup table needed for printing.  The section
+   * information should therefore be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   */
+  public void printUnicode(Term term,
+                           Writer out,
+                           SectionManager sectInfo,
+                           String sectionName)
+  {
+    Properties props = sectInfo.getProperties();
+    TokenSequence tseq = toUnicode(term, sectInfo, sectionName, props);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    printer.printTokenSequence(tseq);
   }
 }

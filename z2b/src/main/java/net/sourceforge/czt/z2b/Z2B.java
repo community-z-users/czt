@@ -30,6 +30,7 @@ import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 import net.sourceforge.czt.util.CztException;
@@ -209,7 +210,7 @@ public class Z2B
   protected void print(Term term, String section)
   {
     StringWriter writer = new StringWriter();
-    PrintUtils.printLatex(term, writer, manager_, section);
+    PrintUtils.print(term, writer, manager_, section, Markup.LATEX);
     System.out.println(writer.toString());
   }
 

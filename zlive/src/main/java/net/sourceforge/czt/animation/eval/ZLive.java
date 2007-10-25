@@ -38,7 +38,8 @@ import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionTable.Definition;
 import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.print.z.LatexPrinterCommand;
+import net.sourceforge.czt.print.z.UnicodePrinterCommand;
 import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.session.CommandException;
@@ -515,8 +516,8 @@ public class ZLive
     else {
       if (Markup.LATEX.equals(markup)) {
         try {
-          PrintUtils.printLatex(term, out, getSectionManager(),
-                                getCurrentSection());
+          new LatexPrinterCommand().printLatex(term, out, getSectionManager(),
+                                               getCurrentSection());
           out.flush();
           return;
         }
@@ -525,7 +526,8 @@ public class ZLive
         }
       }
       try {
-        PrintUtils.printUnicode(term, out, getSectionManager(), null);
+        new UnicodePrinterCommand().printUnicode(term, out,
+                                                 getSectionManager(), null);
         out.flush();
         return;
       }

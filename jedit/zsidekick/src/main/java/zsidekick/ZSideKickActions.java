@@ -435,18 +435,6 @@ public class ZSideKickActions
       StringWriter writer = new StringWriter();
       try {
         String modeName = view.getBuffer().getMode().toString();
-        if (modeName.endsWith("latex")) {
-          PrintUtils.printLatex(newTerm, writer, manager, section);
-        }
-        else {
-          int column = getColumn(selection.getStart(), view);
-          TokenSequence tseq =
-            PrintUtils.toUnicode(newTerm, manager, section,
-                                 manager.getProperties());
-          new PrettyPrinter().handleTokenSequence(tseq, column);
-          UnicodePrinter printer = new UnicodePrinter(writer);
-          printer.printTokenSequence(tseq);
-        }
       }
       catch (Exception e) {
         e.printStackTrace();
@@ -566,33 +554,10 @@ public class ZSideKickActions
             new Selection.Range(start,
                                 start + locAnn.getLength().intValue());
           StringWriter writer = new StringWriter();
-          TokenSequence tseq =
-            PrintUtils.toUnicode(term, manager, section,
-                                 manager.getProperties());
-          PrettyPrinter prettyPrinter = new PrettyPrinter();
-          prettyPrinter.setLineWidth(width);
-          prettyPrinter.handleTokenSequence(tseq, 0);
           String modeName = view.getBuffer().getMode().toString();
-          if (modeName.endsWith("latex")) {
-            ZmlScanner scanner = new ZmlScanner(tseq.iterator());
-            if (term instanceof Para) {
-              scanner.prepend(new Symbol(Sym.PARA_START));
-              scanner.append(new Symbol(Sym.PARA_END));
-            }
-            else {
-              scanner.prepend(new Symbol(Sym.TOKENSEQ));
-              scanner.append(new Symbol(Sym.TOKENSEQ));
-            }
-            Unicode2Latex parser = new Unicode2Latex(scanner);
-            parser.setSectionInfo(manager, section);
-            UnicodePrinter printer = new UnicodePrinter(writer);
-            parser.setWriter(printer);
-            parser.parse();
-          }
-          else {
-            UnicodePrinter printer = new UnicodePrinter(writer);
-            printer.printTokenSequence(tseq);
-          }
+          Markup markup = modeName.endsWith("latex") ?
+            Markup.LATEX : Markup.UNICODE;
+          PrintUtils.print(zSect, writer, manager, section, markup);
           replaceSelection(view, selection, writer.toString());
         }
       }

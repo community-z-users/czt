@@ -53,7 +53,7 @@ public class PrecedenceParenAnnVisitorTest
       ZName iter = factory_.createZName("iter");
       ApplExpr funApp =
         factory_.createFunOpAppl(neg, factory_.createRefExpr(n));
-      AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_, PrintUtils.warningManager_);
+      AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
       Term tree = toPrintTree.run(funApp, standardToolkitOpTable);
       final int prec = 190;
       Assert.assertEquals(visitor.precedence(tree),
@@ -83,7 +83,7 @@ public class PrecedenceParenAnnVisitorTest
         factory_.createFunOpAppl(plus, factory_.createTupleExpr(b, c));
       Expr plus2 =
         factory_.createFunOpAppl(plus, factory_.createTupleExpr(a, plus1));
-      AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_, PrintUtils.warningManager_);
+      AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
       Term tree = (Term) toPrintTree.run(plus2, standardToolkitOpTable);
       PrecedenceParenAnnVisitor visitor =
         new PrecedenceParenAnnVisitor();
