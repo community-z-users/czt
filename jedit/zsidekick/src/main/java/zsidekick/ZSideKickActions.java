@@ -46,6 +46,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
 
 public class ZSideKickActions
+  implements PrintPropertiesKeys
 {
   public static ParsedData getParsedData(View view)
   {
@@ -545,6 +546,7 @@ public class ZSideKickActions
       ParsedData parsedData = getParsedData(view);
       if (parsedData != null) {
         SectionManager manager = parsedData.getManager();
+        manager.setProperty(PROP_TXT_WIDTH, "" + width);
         ZSect zSect = wffHighlight.findZSectForCurrentWff();
         if (zSect != null) {
           String section = zSect.getName();
@@ -557,7 +559,7 @@ public class ZSideKickActions
           String modeName = view.getBuffer().getMode().toString();
           Markup markup = modeName.endsWith("latex") ?
             Markup.LATEX : Markup.UNICODE;
-          PrintUtils.print(zSect, writer, manager, section, markup);
+          PrintUtils.print(term, writer, manager, section, markup);
           replaceSelection(view, selection, writer.toString());
         }
       }
