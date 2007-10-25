@@ -25,6 +25,7 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
 
 public class AbstractLatexPrinterCommand
   extends AbstractPrinterCommand
@@ -32,7 +33,7 @@ public class AbstractLatexPrinterCommand
   protected Scanner prepare(ZmlScanner scanner, Term term)
   {
     Scanner result = scanner;
-    if (term instanceof Spec) {
+    if (term instanceof Spec || term instanceof ZSect) {
       result = new SectHeadScanner(scanner);
     }
     else if (term instanceof Para) {
