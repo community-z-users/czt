@@ -71,10 +71,10 @@ public class CztParser
     return markup_;
   }
 
-  public SectionManager getManager()
+  public SectionManager getManager(Buffer buffer)
   {
     SectionManager manager = new SectionManager(extension_);
-    setParseProperties(manager);
+    setProperties(manager, buffer);
     return manager;
   }
 
@@ -83,7 +83,7 @@ public class CztParser
   {
     ParsedData data = new ParsedData(buffer.getName());
     try {
-      SectionManager manager = getManager();
+      SectionManager manager = getManager(buffer);
       final String name = buffer.getPath();
       final String path = new File(name).getParent();
       if (path != null) {
@@ -197,13 +197,19 @@ public class CztParser
     }
   }
 
-  protected void setParseProperties(SectionManager manager)
+  protected void setProperties(SectionManager manager, Buffer buffer)
   {
     String propname = ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
     String value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, value);
+
     propname = ZSideKickPlugin.PROP_PRINT_IDS;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_PRINT_NAME_IDS, value);
+
+    int width = buffer.getIntegerProperty("maxLineLen", 0);
+    if (width > 0) {
+      manager.setProperty(PROP_TXT_WIDTH, "" + width);
+    }
   }
 }
