@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik, Tim Miller
+  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik, Tim Miller
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.oz;
 
 import java.util.List;
 import java.util.Iterator;
+import java.util.Properties;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.oz.util.OzString;
@@ -45,12 +46,15 @@ public class OzPrintVisitor
 {
   /**
    * Creates a new Object-Z print visitor.
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
   public OzPrintVisitor(ZPrinter printer)
   {
     super(printer);
+  }
+
+  public OzPrintVisitor(ZPrinter printer, Properties props)
+  {
+    super(printer, props);
   }
 
   public Object visitClassPara(ClassPara classPara)

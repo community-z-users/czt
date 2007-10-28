@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006, 2007 Petra Malik
+  Copyright (C) 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,24 +21,12 @@ package net.sourceforge.czt.print.oz;
 
 import java.util.Properties;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.util.PrintException;
-import net.sourceforge.czt.session.SectionManager;
-
-public class UnicodePrinterCommand
-  extends net.sourceforge.czt.print.z.UnicodePrinterCommand
+public class TokenSequenceVisitor
+  extends  net.sourceforge.czt.print.z.TokenSequenceVisitor
 {
-  protected Term preprocess(Term term,
-                            SectionManager manager,
-                            String section)
-    throws PrintException
+  public TokenSequenceVisitor(Properties props)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
-    return toPrintTree(toPrintTree, term, section);
-  }
-
-  protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
-  {
-    return new TokenSequenceVisitor(props);
+    super();
+    setZPrintVisitor(new OzPrintVisitor(this, props));
   }
 }

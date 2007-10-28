@@ -40,7 +40,7 @@ public class AbstractPrinterCommand
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
-    TokenSequenceVisitor visitor = new TokenSequenceVisitor(props);
+    TokenSequenceVisitor visitor = createTokenSequenceVisitor(props);
     tree.accept(visitor);
     TokenSequence tseq = visitor.getResult();
     int textWidth = textWidth(props);
@@ -52,6 +52,10 @@ public class AbstractPrinterCommand
     return tseq;
   }
 
+  protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
+  {
+    return new TokenSequenceVisitor(props);
+  }
 
   protected int textWidth(Properties props)
   {

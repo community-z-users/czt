@@ -33,6 +33,10 @@ public abstract class AbstractPrintVisitor
 {
   private ZPrinter printer_;
 
+  public AbstractPrintVisitor()
+  {
+  }
+
   public AbstractPrintVisitor(ZPrinter printer)
   {
     printer_ = printer;
@@ -41,6 +45,11 @@ public abstract class AbstractPrintVisitor
   public ZPrinter getPrinter()
   {
     return printer_;
+  }
+
+  public void setPrinter(ZPrinter printer)
+  {
+    printer_ = printer;
   }
 
   protected void print(Token token)

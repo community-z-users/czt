@@ -39,9 +39,23 @@ public class TokenSequenceVisitor
   private ZPrintVisitor visitor_;
   private Stack<TokenSequence> stack_ = new Stack<TokenSequence>();
 
+  protected TokenSequenceVisitor()
+  {
+  }
+
+  public TokenSequenceVisitor(ZPrintVisitor visitor)
+  {
+    setZPrintVisitor(visitor);
+  }
+
   public TokenSequenceVisitor(Properties props)
   {
-    visitor_ = new ZPrintVisitor(this, props);
+    setZPrintVisitor(new ZPrintVisitor(this, props));
+  }
+
+  protected void setZPrintVisitor(ZPrintVisitor visitor)
+  {
+    visitor_ = visitor;
     visitor_.setVisitor(this);
   }
 

@@ -69,8 +69,6 @@ public class ZPrintVisitor
 
   /**
    * Creates a new Z print visitor.
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
   public ZPrintVisitor(ZPrinter printer)
   {

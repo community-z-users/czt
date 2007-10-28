@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,36 +19,105 @@
 
 package net.sourceforge.czt.print.oz;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
-
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.java_cup.runtime.Scanner;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.SectionManager;
 
 public class LatexPrinterCommand
-  implements Command
+  extends net.sourceforge.czt.print.z.LatexPrinterCommand
 {
-  public boolean compute(String name, SectionManager manager)
-    throws CommandException
+  public void printLatex(Term term,
+                         Writer out,
+                         SectionManager sectInfo,
+                         String sectionName)
   {
+    if (sectionName == null) {
+      AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+      Term tree = (Term) term.accept(toPrintTree);
+      ZmlScanner scanner = new ZmlScanner(tree);
+      Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
+      parser.setSectionInfo(sectInfo);
+      UnicodePrinter printer = new UnicodePrinter(out);
+      parser.setWriter(printer);
+      try {
+        parser.parse();
+      }
+      catch (Exception e) {
+        throw new CztException(e);
+      }
+      return;
+    }
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    Term tree;
     try {
-      final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
-      PrintUtils.printLatex(term, writer, manager);
-      writer.close();
-      manager.put(new Key(name, LatexString.class),
-                  new LatexString(writer.toString(), "oz"));
-      return true;
+      tree = (Term) toPrintTree.run(term, sectionName);
     }
-    catch (IOException e) {
-      throw new CommandException(e);
+    catch (CommandException exception) {
+      throw new CztException(exception);
     }
+    ZmlScanner scanner = new ZmlScanner(tree);
+    scanner.prepend(new Symbol(Sym.TOKENSEQ));
+    scanner.append(new Symbol(Sym.TOKENSEQ));
+    Unicode2Latex parser = new Unicode2Latex(scanner);
+    parser.setSectionInfo(sectInfo, sectionName);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    parser.setWriter(printer);
+    try {
+      parser.parse();
+    }
+    catch (Exception e) {
+      throw new CztException(e);
+    }
+  }
+
+  /*
+  public void printLatex(Term term,
+                         Writer out,
+                         SectionManager sectInfo,
+                         String sectionName)
+  {
+    TokenSequence tseq = toUnicode(term, sectInfo, sectionName,
+                                   sectInfo.getProperties());
+    ZmlScanner scanner = new ZmlScanner(tseq.iterator());
+    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
+    parser.setSectionInfo(sectInfo, sectionName);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    parser.setWriter(printer);
+    try {
+      parser.parse();
+    }
+    catch (Exception e) {
+      String msg = "An exception occurred while trying to print " +
+        "LaTeX markup for term within section " + sectionName;
+      throw new PrintException(msg, e);
+    }
+  }
+  */
+
+  protected Term preprocess(Term term,
+                            SectionManager manager,
+                            String section)
+    throws PrintException
+  {
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
+    return toPrintTree(toPrintTree, term, section);
+  }
+
+  protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
+  {
+    return new TokenSequenceVisitor(props);
+  }
+
+  protected Scanner createSectHeadScanner(ZmlScanner scanner)
+  {
+    return new SectHeadScanner(scanner);
   }
 }
