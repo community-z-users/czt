@@ -1131,15 +1131,6 @@ abstract public class Checker<R>
     return new net.sourceforge.czt.typecheck.oz.util.CarrierSet(true);
   }
 
-  protected void print(Term term,
-                       Writer writer,
-                       SectionInfo sectInfo,
-                       String sectName,
-                       Markup markup)
-  {
-    PrintUtils.print(term, writer, sectInfo, sectName, markup());
-  }
-
   public String toString(Type type)
   {
     String result = new String();
