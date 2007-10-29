@@ -39,35 +39,31 @@ public class LatexPrinterCommand
                          SectionManager sectInfo,
                          String sectionName)
   {
-    if (sectionName == null) {
-      AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-      Term tree = (Term) term.accept(toPrintTree);
-      ZmlScanner scanner = new ZmlScanner(tree);
-      Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
-      parser.setSectionInfo(sectInfo);
-      UnicodePrinter printer = new UnicodePrinter(out);
-      parser.setWriter(printer);
-      try {
-        parser.parse();
-      }
-      catch (Exception e) {
-        throw new CztException(e);
-      }
-      return;
-    }
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree;
-    try {
-      tree = (Term) toPrintTree.run(term, sectionName);
+    if (sectionName == null) {
+      tree = (Term) term.accept(toPrintTree);
     }
-    catch (CommandException exception) {
-      throw new CztException(exception);
+    else {
+      try {
+        tree = (Term) toPrintTree.run(term, sectionName);
+      }
+      catch (CommandException exception) {
+        throw new CztException(exception);
+      }
     }
     ZmlScanner scanner = new ZmlScanner(tree);
-    scanner.prepend(new Symbol(Sym.TOKENSEQ));
-    scanner.append(new Symbol(Sym.TOKENSEQ));
-    Unicode2Latex parser = new Unicode2Latex(scanner);
-    parser.setSectionInfo(sectInfo, sectionName);
+    Unicode2Latex parser;
+    if (sectionName == null) {
+      parser = new Unicode2Latex(new SectHeadScanner(scanner));
+      parser.setSectionInfo(sectInfo);
+    }
+    else {
+      scanner.prepend(new Symbol(Sym.TOKENSEQ));
+      scanner.append(new Symbol(Sym.TOKENSEQ));
+      parser = new Unicode2Latex(scanner);
+      parser.setSectionInfo(sectInfo, sectionName);
+    }
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
     try {
