@@ -114,6 +114,8 @@ public class CZTGui implements ActionListener
   JSplitPane split = null;
   File file = null;
   File fileForExporting = null;
+  FileSource loadSource = null;
+  FileSource saveSource = null;
 
   private ZLive zlive_ = new ZLive();;
   private TextUI ui = new TextUI(zlive_, null);
@@ -285,7 +287,7 @@ public class CZTGui implements ActionListener
 
   private void saveSpec(String path,String markup){
 
-    FileSource source = new FileSource(file);
+    saveSource = new FileSource(file);
     Writer writer = null;
 
     try{
@@ -303,7 +305,7 @@ public class CZTGui implements ActionListener
 
     if(markup.equals("utf8")){
     UnicodeString unicode = (UnicodeString)
-    manager.get(new Key(source.getName(), UnicodeString.class));
+    manager.get(new Key(saveSource.getName(), UnicodeString.class));
     writer = new OutputStreamWriter(stream, "UTF-8");
     writer.write(unicode.toString());
     writer.close();
@@ -312,7 +314,7 @@ public class CZTGui implements ActionListener
 
     if(markup.equals("utf16")){
     UnicodeString unicode = (UnicodeString)
-    manager.get(new Key(source.getName(), UnicodeString.class));
+    manager.get(new Key(saveSource.getName(), UnicodeString.class));
     writer = new OutputStreamWriter(stream, "UTF-16");
     writer.write(unicode.toString());
     writer.close();
@@ -321,7 +323,7 @@ public class CZTGui implements ActionListener
 
     if(markup.equals("xml")){
     XmlString xml = (XmlString)
-    manager.get(new Key(source.getName(), XmlString.class));
+    manager.get(new Key(saveSource.getName(), XmlString.class));
     writer = new OutputStreamWriter(stream, "UTF-8");
     writer.write(xml.toString());
     writer.close();
@@ -399,36 +401,37 @@ public class CZTGui implements ActionListener
         selectedLanguage = "circus";
 
     manager = new SectionManager(selectedLanguage);
+    loadSource = new FileSource(file);
     //get a new ZLive so that previously loaded spec is not present
-    zlive_ = new ZLive();
-    ui = new TextUI(zlive_,null);
-    zlive_.setSectionManager(manager);
+    //zlive_ = new ZLive();
+    //ui = new TextUI(zlive_,null);
+    //zlive_.setSectionManager(manager);
     manager.setProperty("czt.path", file.getParent());
-
-    FileSource source = new FileSource(file);
 
     //set markup selection
     if(((String)markupCombo.getSelectedItem()).equals("Latex")){
-      source.setMarkup(Markup.LATEX);
-      source.setEncoding("Default");
+      loadSource.setMarkup(Markup.LATEX);
+      loadSource.setEncoding("Default");
     }
     else
     if(((String)markupCombo.getSelectedItem()).equals("UTF8")){
-      source.setMarkup(Markup.UNICODE);
-      source.setEncoding("utf8");
+      loadSource.setMarkup(Markup.UNICODE);
+      loadSource.setEncoding("utf8");
     }
     else
     if(((String)markupCombo.getSelectedItem()).equals("UTF16")){
-      source.setMarkup(Markup.UNICODE);
-      source.setEncoding("utf16");
+      loadSource.setMarkup(Markup.UNICODE);
+      loadSource.setEncoding("utf16");
     }
     else
     if(((String)markupCombo.getSelectedItem()).equals("XML")){
-      source.setMarkup(Markup.ZML);
+      loadSource.setMarkup(Markup.ZML);
     }
 
-    manager.put(new Key(source.getName(), Source.class), source);
-
+    manager.put(new Key(loadSource.getName(), Source.class), loadSource);
+    zlive_.reset();
+    zlive_.getSectionManager().put(new Key(loadSource.getName(), Source.class), loadSource);
+    
     try {
       FileOutputStream fileStream =
         new FileOutputStream(getSettingsFileName());
@@ -442,7 +445,8 @@ public class CZTGui implements ActionListener
 
     try {
       Spec spec = (Spec)
-      manager.get(new Key(source.getName(), Spec.class));
+      manager.get(new Key(loadSource.getName(), Spec.class));
+      zlive_.getSectionManager().get(new Key(loadSource.getName(), Spec.class));
       TermTreeNode node = new TermTreeNode(0, spec, null);
       if ("circus".equals(selectedLanguage)) {
         node.setToStringVisitor(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
@@ -480,7 +484,7 @@ public class CZTGui implements ActionListener
       }
       
       if (nrOfZSects < 1) {
-        String msg = "WARNING: No Z sections found in " + source;
+        String msg = "WARNING: No Z sections found in " + loadSource;
         //resultListModel.addElement(msg);
         //resultList.setModel(resultListModel);
         resultConsole.append(msg);
@@ -575,7 +579,7 @@ public class CZTGui implements ActionListener
           showZLivePrompt();
         }
       }catch(BadLocationException e){
-      e.printStackTrace();
+        e.printStackTrace();
       }
     }
   
@@ -602,15 +606,11 @@ public class CZTGui implements ActionListener
                 doc.insertString(doc.getLength(), "Yeah that works.", styleAnswer);
                 }catch(BadLocationException ex){}**/
                 
-    if(!(sectName.equals(""))){
-    
       try{
-      zlive_.setCurrentSection(sectName);
+        zlive_.setCurrentSection(sectName);
       }catch(CommandException ex){
         resultConsole.append("Error Loading Specification\n");
       }
-    
-    }
     
     resultConsole.setText("");
     showZLivePrompt();
