@@ -34,6 +34,7 @@ import net.sourceforge.czt.session.SectionManager;
 public class LatexPrinterCommand
   extends net.sourceforge.czt.print.z.LatexPrinterCommand
 {
+  @Override
   public void printLatex(Term term,
                          Writer out,
                          SectionManager sectInfo,
@@ -42,15 +43,7 @@ public class LatexPrinterCommand
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = toPrintTree(toPrintTree, term, sectionName);
     ZmlScanner scanner = new ZmlScanner(tree);
-    Scanner s = scanner;
-    if (sectionName == null) {
-      s = createSectHeadScanner(scanner);
-    }
-    else {
-      scanner.prepend(new Symbol(Sym.TOKENSEQ));
-      scanner.append(new Symbol(Sym.TOKENSEQ));
-    }
-    Unicode2Latex parser = new Unicode2Latex(s);
+    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -62,7 +55,8 @@ public class LatexPrinterCommand
     }
   }
 
-  /*
+  /* That's how I expect it to work (using the pretty printer)
+  @Override
   public void printLatex(Term term,
                          Writer out,
                          SectionManager sectInfo,
@@ -86,6 +80,7 @@ public class LatexPrinterCommand
   }
   */
 
+  @Override
   protected Term preprocess(Term term,
                             SectionManager manager,
                             String section)
@@ -95,13 +90,33 @@ public class LatexPrinterCommand
     return toPrintTree(toPrintTree, term, section);
   }
 
+  @Override
   protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
   {
     return new TokenSequenceVisitor(props);
   }
 
-  protected Scanner createSectHeadScanner(ZmlScanner scanner)
+  @Override
+  protected Scanner createSectHeadScanner(net.sourceforge.czt.print.z.ZmlScanner scanner)
   {
     return new SectHeadScanner(scanner);
+  }
+
+  @Override
+  protected int getSymParaStart()
+  {
+    return Sym.PARA_START;
+  }
+
+  @Override
+  protected int getSymParaEnd()
+  {
+    return Sym.PARA_END;
+  }
+
+  @Override
+  protected int getSymTokenseq()
+  {
+    return Sym.TOKENSEQ;
   }
 }
