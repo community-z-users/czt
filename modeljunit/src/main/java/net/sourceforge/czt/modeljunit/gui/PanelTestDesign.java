@@ -212,9 +212,9 @@ public class PanelTestDesign extends JPanel
     m_combAlgorithmSelection.addActionListener(this);
     // Setup slider
     
-    m_sliderAverageTestLength.setValue((int)(1/Parameter.getResetProbility()));
+    m_sliderAverageTestLength.setValue((int)(1/Parameter.getResetProbability()));
     m_sliderAverageTestLength.addChangeListener(this);
-    m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbility()));
+    m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbability()));
     m_sliderAverageTestLength.setMajorTickSpacing(10);
     //m_sliderAverageTestLength.setPaintTicks(true);
     m_panelAlgorithmBase.setLayout(new BoxLayout(m_panelAlgorithmBase,BoxLayout.X_AXIS));
@@ -695,7 +695,7 @@ public class PanelTestDesign extends JPanel
         avgLength = (int)source.getValue();
         double prob = (double)1.0/(double)(avgLength+1);
         Parameter.setResetProbility(prob);
-        m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbility()));
+        m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbability()));
         // System.out.println("(PaneltestDesign.java)Average length :"+prob);
       }
     }

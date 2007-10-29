@@ -12,6 +12,7 @@ import javax.swing.event.EventListenerList;
 
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.Model;
+import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
@@ -122,6 +123,10 @@ public class TestExeModel
     System.setOut(new PrintStream(baos, true));
     // Run algorithm
     m_algo.runAlgorithm(0);
+    if (m_tester[0] instanceof RandomTester) {
+      RandomTester tester = (RandomTester)m_tester[0];
+      tester.setResetProbability(Parameter.getResetProbability());
+    }
     // Set up coverage matrix to check the test result
     boolean[] bCoverage = Parameter.getCoverageOption();
     // Generate graph

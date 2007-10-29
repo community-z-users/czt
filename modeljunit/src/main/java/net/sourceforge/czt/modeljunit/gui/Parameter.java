@@ -78,11 +78,11 @@ public class Parameter
    * may get caught in that loop forever. For this reason,
    * a non-zero probability is recommended.
    * */
-  private static double m_nResetProbility = RandomTester.DEFAULT_RESET_PROBABILITY;
-  public static double getResetProbility()
-  { return m_nResetProbility; }
-  public static void setResetProbility(double probility)
-  { m_nResetProbility = probility; }
+  private static double m_dResetProbability = RandomTester.DEFAULT_RESET_PROBABILITY;
+  public static double getResetProbability()
+  { return m_dResetProbability; }
+  public static void setResetProbility(double probability)
+  { m_dResetProbability = probability; }
 
   /**
    * Test generation verbosity

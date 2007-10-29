@@ -68,7 +68,7 @@ public class OptionPanelGreedy extends OptionPanelAdapter
     // Initialize test model
     m_bufCode.append(Indentation.wrap(Parameter.getClassName() + " model = new "
         + Parameter.getClassName() + "();"));
-    m_bufCode.append(Indentation.wrap("Tester tester = new GreedyTester(model);"));
+    m_bufCode.append(Indentation.wrap("GreedyTester tester = new GreedyTester(model);"));
     // To use random seed or not
     // If user does not want to use random seed,
     // test will user tester.setRandom(new Random(tester.FIXEDSEED)),
@@ -76,6 +76,11 @@ public class OptionPanelGreedy extends OptionPanelAdapter
     if(m_checkRandomSeed.isSelected())
       m_bufCode.append(Indentation.wrap("tester.setRandom(new Random());"));
 
+    double resetProb = Parameter.getResetProbability();
+    if (resetProb != RandomTester.DEFAULT_RESET_PROBABILITY) {
+      m_bufCode.append(Indentation.wrap("tester.setResetProbability("
+          +String.format("%1$.3f", new Object[] {resetProb}) + ");"));
+    }
     return m_bufCode.toString();
   }
 
