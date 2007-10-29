@@ -96,8 +96,8 @@ public class PanelCoverage extends JPanel
         AXIS_WIDTH-ARROW_LENGTH,AXIS_HEIGHT-ARROW_HALF_WIDTH));
     // Draw scale
     // Scale Y
-    final int nInternalSpaceY = (AXIS_HEIGHT-ARROW_LENGTH)/PanelCoverage.m_nScaleNumber;
-    for(int i=1; i<PanelCoverage.m_nScaleNumber; i++)
+    final int nInternalSpaceY = (AXIS_HEIGHT-ARROW_LENGTH)/(PanelCoverage.m_nScaleNumber+2);
+    for(int i=1; i<PanelCoverage.m_nScaleNumber+1; i++)
     {
       int nScalePos = AXIS_HEIGHT - i*nInternalSpaceY;
       if(i%2==0)
@@ -215,8 +215,8 @@ public class PanelCoverage extends JPanel
   
   public void redrawGraph()
   { 
-    this.setDoubleBuffered(true);
+    // this.setDoubleBuffered(true);
     //this.repaint(new Rectangle(LEFT_SPACE, TOP_SPACE, getSize().width-RIGHT_SPACE, getSize().height-BOTTOM_SPACE));
-    paintComponent(this.getGraphics());  
+    this.paintComponent(this.getGraphics());  
   }
 }

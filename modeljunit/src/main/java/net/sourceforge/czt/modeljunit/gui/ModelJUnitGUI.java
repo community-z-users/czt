@@ -71,6 +71,8 @@ public class ModelJUnitGUI implements ActionListener
 
   private JMenuItem m_miAbout;
 
+  private int m_nCurrentPanelIndex;
+  
   public void createAndShowGUI()
   {
     // Load setting file
@@ -421,7 +423,7 @@ setJMenuBar(mb);
   private void runClass()
   {
     // Draw line chart in coverage panel
-    if(m_panelTD.isLineChartDrawable())
+    if(m_panelTD.isLineChartDrawable()&& m_nCurrentPanelIndex==4)
     {
       m_panelC.clearCoverages();
       int[] stages = m_panelC.computeStages(TestExeModel.getWalkLength());
@@ -470,9 +472,9 @@ setJMenuBar(mb);
       
       JTabbedPane sourcePane = (JTabbedPane)e.getSource();
       
-      int idx = sourcePane.getSelectedIndex();
+      m_nCurrentPanelIndex = sourcePane.getSelectedIndex();
       // Set run button visibility
-      if(3 == idx)
+      if(3 == m_nCurrentPanelIndex)
         m_butRun.setVisible(false);
       else
         m_butRun.setVisible(true);
@@ -499,7 +501,7 @@ setJMenuBar(mb);
       updateGeneratedCode();
       
       // If user click the ExecuteAction pane
-      if(3 == idx)
+      if(3 == m_nCurrentPanelIndex)
       {
         m_panelEA.resetSubComponents();
         m_panelEA.autoModelInitialization();

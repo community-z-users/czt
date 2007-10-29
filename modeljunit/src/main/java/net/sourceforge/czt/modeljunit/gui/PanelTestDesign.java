@@ -134,14 +134,14 @@ public class PanelTestDesign extends JPanel
     // Setup the grid bag layout
     GridBagConstraints c1 = new GridBagConstraints();
     c1.gridx = 0;
-    c1.gridy = 0;
+    c1.gridy = 1;
     c1.ipadx = 6;
     c1.fill = GridBagConstraints.HORIZONTAL;
     c1.anchor = GridBagConstraints.FIRST_LINE_START;
     m_panelModel.add(new JLabel("Test Model:"),c1);
     GridBagConstraints c2 = new GridBagConstraints();
     c2.gridx = 1;
-    c2.gridy = 0;
+    c2.gridy = 1;
     c2.ipadx = 6;
     c2.gridwidth = 3;
     c2.fill = GridBagConstraints.HORIZONTAL;
@@ -149,7 +149,7 @@ public class PanelTestDesign extends JPanel
     m_panelModel.add(m_txtFilePath,c2);
     GridBagConstraints c3 = new GridBagConstraints();
     c3.gridx = 5;
-    c3.gridy = 0;
+    c3.gridy = 1;
     c3.ipadx = 6;
     // Insets(top, left, down, right)
     c3.insets = new Insets(0,16,0,16);
@@ -161,7 +161,7 @@ public class PanelTestDesign extends JPanel
     // Package setting button
     GridBagConstraints c4 = new GridBagConstraints();
     c4.gridx = 0;
-    c4.gridy = 1;
+    c4.gridy = 0;
     // Insets(top, left, down, right)
     c4.insets = new Insets(0,0,nBotDist,16);
     m_butPackageName.addActionListener(this);
@@ -170,13 +170,13 @@ public class PanelTestDesign extends JPanel
     m_labPackageName = new JLabel(Parameter.getPackageName());
     GridBagConstraints c5 = new GridBagConstraints();
     c5.gridx = 1;
-    c5.gridy = 1;
+    c5.gridy = 0;
     c5.insets = new Insets(0,0,nBotDist,16);
     m_panelModel.add(m_labPackageName,c5);
     // Class loaded label
     GridBagConstraints c6 = new GridBagConstraints();
     c6.gridx = 2;
-    c6.gridy = 1;
+    c6.gridy = 0;
     c6.fill = GridBagConstraints.HORIZONTAL;
     c6.anchor = GridBagConstraints.PAGE_END;
     c6.insets = new Insets(0,0,nBotDist,16);
