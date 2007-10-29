@@ -6,9 +6,11 @@ The abstract specification is a simple function from file
 identifiers to a sequence of bytes.  Initialisation sets this
 function to the empty set.
 
+For animation purposes, we set BYTE and FID to small integer ranges.
+
 \begin{zed}
-  BYTE == 0 \upto 5 \\
-  [ FID ] \\
+  BYTE == 0 \upto 3 \\
+  FID == 100 \upto 102 \\
   FILE == \seq BYTE \\
   FSTORE == FID \pfun FILE \\
   FS == [ fs : FSTORE ] \\
