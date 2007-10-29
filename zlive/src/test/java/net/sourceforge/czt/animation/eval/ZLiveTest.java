@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.animation.eval;
 
-import java.io.PrintWriter;
 import java.util.Iterator;
 
 import junit.framework.Assert;

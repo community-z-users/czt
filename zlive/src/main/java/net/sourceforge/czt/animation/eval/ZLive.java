@@ -35,7 +35,6 @@ import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
-import net.sourceforge.czt.parser.util.DefinitionTable.Definition;
 import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.LatexPrinterCommand;
@@ -161,7 +160,9 @@ public class ZLive
   public SectionManager getSectionManager()
   { return sectman_; }
 
-   /** Set the section manager that will be used during evaluation. */
+   /** Set the section manager that will be used during evaluation.
+    *  @deprecated
+    */
   //@ requires sm != null;
   public void setSectionManager(SectionManager sm)
   { sectman_ = sm; }

@@ -25,14 +25,11 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
-import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /** Maintains lower and upper bounds for integer variables.
@@ -78,9 +75,6 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public class Bounds
 {
-  private static final Logger LOG
-  = Logger.getLogger("net.sourceforge.czt.animation.eval");
-
   protected Bounds parent_;
 
   /** The number of bounds deductions in this scope (and child scopes). */

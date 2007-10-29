@@ -23,7 +23,7 @@ import java.io.FileNotFoundException;
 
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -85,8 +85,7 @@ public class FlatOrTest
         new Eval(1, "III", i2, i3, i2),  // only z=x is true
         new Eval(3, "IIO", i2, i4, i0)   // ie. z in {2,3,5}
     );
-    ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(200);
+    new GreedyTester(iut).generate(200);
   }
 }
 

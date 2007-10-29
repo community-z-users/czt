@@ -24,20 +24,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.animation.eval.result.DiscreteSet;
-import net.sourceforge.czt.animation.eval.result.ProdSet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
-import net.sourceforge.czt.modeljunit.ModelTestCase;
-import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
-import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
-import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
-import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
-import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
-import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
-import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -82,8 +72,7 @@ public class FlatProdTest
           new Eval(1, "II?", r0_1, r0_1, four),
           new Eval(1, "II?", r0_1, r1_0, empty)
       );
-    ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(1500);
+    new GreedyTester(iut).generate(1500);
   }
 }
 

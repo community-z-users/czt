@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.flatpred.FlatBinding;
 import net.sourceforge.czt.animation.eval.flatpred.FlatCard;
@@ -61,7 +60,6 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionType;
-import net.sourceforge.czt.rules.oracles.ThetaOracle;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.BindExpr;
@@ -185,9 +183,6 @@ public class FlattenVisitor
 
   /** The set of builtin binary relations handled by ZLive */
   static final Set<String> knownRelations = new HashSet<String>();
-
-  private static final Logger LOG
-  = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   public FlattenVisitor(ZLive zlive, FlatPredList destination, DefinitionTable defns)
   {

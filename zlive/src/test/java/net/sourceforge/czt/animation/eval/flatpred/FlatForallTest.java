@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.ForallPred;
@@ -72,8 +72,7 @@ public class FlatForallTest
         new Eval(1, "III", i2, i4, i1), // i:2..4 @ i>1
         new Eval(0, "III", i2, i4, i2)  // i:2..4 @ i>2
     );
-    ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(200);
+    new GreedyTester(iut).generate(200);
   }
 
   /** Test an empty range. */
@@ -86,7 +85,6 @@ public class FlatForallTest
         new Eval(1, "III", i2, i1, i0), // i:2..1 is empty
         new Eval(1, "III", i2, i0, i4)  // i:2..0 @ i>4
     );
-    ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(200);
+    new GreedyTester(iut).generate(200);
   }
 }

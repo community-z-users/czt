@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.GreedyTester;
+import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.ZName;
@@ -50,8 +51,8 @@ public class FlatBindingTest
                             new Eval(1, "O", bind),
                             new Eval(1, "I", bind)
                             );
-    ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(1500);
+    Tester tester = new GreedyTester(iut);
+    tester.generate(1500);
   }
 
   public void testMBT()
@@ -71,45 +72,8 @@ public class FlatBindingTest
                             new Eval(1, "???", i3, i4, bind),
                             new Eval(0, "I?I", i2, i5, bind)
                             );
-    ModelTestCase model = new ModelTestCase(iut);
-    /*
-    int interval = 2;
-    CoverageHistory actions = new CoverageHistory(new ActionCoverage(), interval);
-    CoverageHistory states = new CoverageHistory(new StateCoverage(), interval);
-    CoverageHistory trans = new CoverageHistory(new TransitionCoverage(), interval);
-    CoverageHistory tpair = new CoverageHistory(new TransitionPairCoverage(), interval);
-    addCoverageMetric(actions);
-    addCoverageMetric(states);
-    addCoverageMetric(trans);
-    addCoverageMetric(tpair);
-    */
-    model.randomWalk(1500);
-
-    /*
-    // We print a vertical table of coverage statistics.
-    // First we build the graph, so we get more accurate stats
-    // (this also adds some transitions to the end of the history).
-    fsmBuildGraph(iut);
-    int minlen = Integer.MAX_VALUE;
-    List<List<Integer>> table = new ArrayList<List<Integer>>();
-    System.out.print("Transitions");
-    for (CoverageMetric cm : getCoverageMetrics()) {
-      if (cm instanceof CoverageHistory) {
-        System.out.print(","+cm.getName()+"="+cm);
-        List<Integer> history = ((CoverageHistory)cm).getHistory();
-        table.add(history);
-        if (history.size() < minlen)
-          minlen = history.size();
-      }
-    }
-    System.out.println();
-    for (int i=0; i < minlen; i++) {
-      System.out.print(i*interval);
-      for (List<Integer> hist : table)
-        System.out.print(","+hist.get(i));
-      System.out.println();
-    }
-    */
+    Tester tester = new GreedyTester(iut);
+    tester.generate(1500);
   }
 }
 

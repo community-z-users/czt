@@ -26,10 +26,11 @@ import java.util.List;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.GreedyTester;
+import net.sourceforge.czt.modeljunit.ModelListener;
+import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
-import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
@@ -63,25 +64,26 @@ public class FlatMultTest
                             new Eval(1, "???", i3, i4, i12),
                             new Eval(0, "I?I", i2, i5, i11) // 11 is prime
                             );
-    ModelTestCase model = new ModelTestCase(iut);
+    Tester tester = new GreedyTester(iut);
     CoverageHistory actions = new CoverageHistory(new ActionCoverage(), interval);
     CoverageHistory states = new CoverageHistory(new StateCoverage(), interval);
     CoverageHistory trans = new CoverageHistory(new TransitionCoverage(), interval);
     CoverageHistory tpair = new CoverageHistory(new TransitionPairCoverage(), interval);
-    ModelTestCase.addCoverageMetric(actions);
-    ModelTestCase.addCoverageMetric(states);
-    ModelTestCase.addCoverageMetric(trans);
-    ModelTestCase.addCoverageMetric(tpair);
-    model.randomWalk(1500);
+    tester.addCoverageMetric(actions);
+    tester.addCoverageMetric(states);
+    tester.addCoverageMetric(trans);
+    tester.addCoverageMetric(tpair);
+    tester.generate(1500);
 
     // We print a vertical table of coverage statistics.
     // First we build the graph, so we get more accurate stats
     // (this also adds some transitions to the end of the history).
-    model.buildGraph();
+    tester.buildGraph();
     int minlen = Integer.MAX_VALUE;
     List<List<Integer>> table = new ArrayList<List<Integer>>();
     //    System.out.print("Transitions");
-    for (CoverageMetric cm : model.getCoverageMetrics()) {
+    for (String name : tester.getModel().getListenerNames()) {
+      ModelListener cm = tester.getModel().getListener(name);
       if (cm instanceof CoverageHistory) {
         //        System.out.print(","+cm.getName());
         List<Integer> history = ((CoverageHistory)cm).getHistory();

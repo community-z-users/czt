@@ -24,7 +24,7 @@ import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Flatten;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -66,10 +66,7 @@ public class FlatMuTest
         new Eval(1, "IIO", i2, i2, i4),
         new Eval(-1, "IIO", i2, i1, i4)   // should throw undef
     );
-    ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(200);
-    //model.buildGraph();
-    //model.printGraphDot("FlatMu1.dot");
+    new GreedyTester(iut).generate(200);
   }
 
   public void testMu2()
@@ -95,10 +92,7 @@ public class FlatMuTest
         new Eval(1, "IIO", i2, i3, i1),   // ok, because 2/2 = 3/2.
         new Eval(-1, "IIO", i2, i4, i1)   // should throw undef
     );
-    ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(800);
-    //model.buildGraph();
-    //model.printGraphDot("FlatMu2.dot");
+    new GreedyTester(iut).generate(800);
   }
 
   public void testMuImplicit()
@@ -130,11 +124,7 @@ public class FlatMuTest
         new Eval(1, "IO", i5, pair),
         new Eval(-1, "IO", i20, pair)  // should throw undef
     );
-    ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(200);
-    //model.buildGraph();
-    //model.printGraphDot("FlatMu3.dot");
-    //ZFormatter.stopLogging();
+    new GreedyTester(iut).generate(200);
   }
 }
 

@@ -24,20 +24,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.rules.CopyVisitor;
-import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
-import net.sourceforge.czt.rules.Rewrite;
-import net.sourceforge.czt.rules.Rewriter;
 import net.sourceforge.czt.rules.RewriteVisitor;
+import net.sourceforge.czt.rules.Rewriter;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.Strategies;
 import net.sourceforge.czt.rules.UnboundJokerException;
+import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -77,9 +75,6 @@ import net.sourceforge.czt.zpatt.util.Factory;
  */
 public final class Preprocess
 {
-  private static final Logger LOG =
-    Logger.getLogger("net.sourceforge.czt.animation.eval");
-
   private SectionManager sectman_;
 
   private RuleTable rules_;

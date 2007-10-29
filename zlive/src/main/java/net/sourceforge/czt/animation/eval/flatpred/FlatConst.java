@@ -18,7 +18,6 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 import net.sourceforge.czt.animation.eval.Envir;
@@ -26,8 +25,8 @@ import net.sourceforge.czt.animation.eval.flatvisitor.FlatConstVisitor;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** FlatPlus implements the var = const predicate. */

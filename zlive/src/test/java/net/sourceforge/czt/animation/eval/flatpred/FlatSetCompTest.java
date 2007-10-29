@@ -25,7 +25,6 @@ import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.EvalSetTest;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.ast.ZSchText;
 
 
 /**
