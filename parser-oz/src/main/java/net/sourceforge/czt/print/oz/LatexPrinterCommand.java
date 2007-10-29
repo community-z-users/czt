@@ -40,18 +40,7 @@ public class LatexPrinterCommand
                          String sectionName)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-    Term tree;
-    if (sectionName == null) {
-      tree = (Term) term.accept(toPrintTree);
-    }
-    else {
-      try {
-        tree = (Term) toPrintTree.run(term, sectionName);
-      }
-      catch (CommandException exception) {
-        throw new CztException(exception);
-      }
-    }
+    Term tree = toPrintTree(toPrintTree, term, sectionName);
     ZmlScanner scanner = new ZmlScanner(tree);
     Unicode2Latex parser;
     if (sectionName == null) {
