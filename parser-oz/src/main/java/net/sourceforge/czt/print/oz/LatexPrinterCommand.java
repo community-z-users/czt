@@ -42,17 +42,16 @@ public class LatexPrinterCommand
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = toPrintTree(toPrintTree, term, sectionName);
     ZmlScanner scanner = new ZmlScanner(tree);
-    Unicode2Latex parser;
+    Scanner s = scanner;
     if (sectionName == null) {
-      parser = new Unicode2Latex(new SectHeadScanner(scanner));
-      parser.setSectionInfo(sectInfo);
+      s = createSectHeadScanner(scanner);
     }
     else {
       scanner.prepend(new Symbol(Sym.TOKENSEQ));
       scanner.append(new Symbol(Sym.TOKENSEQ));
-      parser = new Unicode2Latex(scanner);
-      parser.setSectionInfo(sectInfo, sectionName);
     }
+    Unicode2Latex parser = new Unicode2Latex(s);
+    parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
     try {
