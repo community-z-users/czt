@@ -42,7 +42,7 @@ public class PanelCoverage extends JPanel
   private ArrayList<Integer> m_covTP;
   // Panel object
   private static PanelCoverage m_panel;
-  
+
   public static PanelCoverage getInstance()
   {
     if(m_panel == null)
@@ -52,6 +52,7 @@ public class PanelCoverage extends JPanel
   private PanelCoverage()
   {
     this.setBackground(Color.WHITE);
+    this.setDoubleBuffered(true);
   }
   /**
    * To get how many times the test has to run to draw the line chart
@@ -60,13 +61,13 @@ public class PanelCoverage extends JPanel
   {
     return m_arrayStages;
   }
-  
+
   @Override
   protected void paintComponent(Graphics g)
   {
     super.paintComponent(g);
     Dimension size = getSize();
-    // Limit the minimum size of coordinate system 
+    // Limit the minimum size of coordinate system
     if(size.height<MIN_COORD_AXIS.height)
       size.height = MIN_COORD_AXIS.height;
     if(size.width<MIN_COORD_AXIS.width)
@@ -81,7 +82,7 @@ public class PanelCoverage extends JPanel
     final int AXIS_WIDTH = size.width-RIGHT_SPACE-LEFT_SPACE;
     // Draw axis Y
     g2.draw(new Line2D.Float(LEFT_SPACE, TOP_SPACE, LEFT_SPACE, AXIS_HEIGHT));
-    // Draw axis X    
+    // Draw axis X
     g2.draw(new Line2D.Float(LEFT_SPACE, AXIS_HEIGHT, AXIS_WIDTH, AXIS_HEIGHT));
     // Draw coordinate arrows
     // Y coordinate arrow
@@ -165,7 +166,7 @@ public class PanelCoverage extends JPanel
       }
     }
   }
-  
+
   public int[] computeStages(final int nWalkLength)
   {
     int nScaleNum = 0;
@@ -196,27 +197,27 @@ public class PanelCoverage extends JPanel
     m_covTP!=null && m_covTP.size()>0 &&
     m_covS.size()>i && m_covT.size()>i && m_covTP.size()>i)? true : false;
   }
-  
+
   public void clearCoverages()
   {
     m_covS = new ArrayList<Integer>();
     m_covT = new ArrayList<Integer>();
     m_covTP = new ArrayList<Integer>();
   }
-  
+
   public void addStateCoverage(Integer nPercentage)
   { m_covS.add(nPercentage); }
-  
+
   public void addTransitionCoverage(Integer nPercentage)
   { m_covT.add(nPercentage); }
-  
+
   public void addTransitionPairCoverage(Integer nPercentage)
   { m_covTP.add(nPercentage);}
-  
+
   public void redrawGraph()
-  { 
-    // this.setDoubleBuffered(true);
+  {
+    this.paintImmediately(0, 0, this.getWidth(), this.getHeight());
     //this.repaint(new Rectangle(LEFT_SPACE, TOP_SPACE, getSize().width-RIGHT_SPACE, getSize().height-BOTTOM_SPACE));
-    this.paintComponent(this.getGraphics());  
+    //this.paintComponent(this.getGraphics());
   }
 }
