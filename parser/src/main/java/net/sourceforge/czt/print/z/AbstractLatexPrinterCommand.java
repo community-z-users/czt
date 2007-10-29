@@ -37,14 +37,29 @@ public class AbstractLatexPrinterCommand
       result = createSectHeadScanner(scanner);
     }
     else if (term instanceof Para) {
-      scanner.prepend(new Symbol(Sym.PARA_START));
-      scanner.append(new Symbol(Sym.PARA_END));
+      scanner.prepend(new Symbol(getSymParaStart()));
+      scanner.append(new Symbol(getSymParaEnd()));
     }
     else {
-      scanner.prepend(new Symbol(Sym.TOKENSEQ));
-      scanner.append(new Symbol(Sym.TOKENSEQ));
+      scanner.prepend(new Symbol(getSymTokenseq()));
+      scanner.append(new Symbol(getSymTokenseq()));
     }
     return result;
+  }
+
+  protected int getSymParaStart()
+  {
+    return Sym.PARA_START;
+  }
+
+  protected int getSymParaEnd()
+  {
+    return Sym.PARA_END;
+  }
+
+  protected int getSymTokenseq()
+  {
+    return Sym.TOKENSEQ;
   }
 
   protected Scanner createSectHeadScanner(ZmlScanner scanner)
