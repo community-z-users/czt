@@ -631,7 +631,7 @@ public class CZTGui implements ActionListener
     }
     
     if(event.getSource() == startConsole){
-      startZLive("");
+      startZLive("ZLiveDefault");
     }
 
     if(event.getSource() == czthelp){
