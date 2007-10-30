@@ -80,16 +80,8 @@ public class TypeCheckRewriteTest
     throws Exception
   {
     super.typecheck(term, manager);
-
-    //System.err.println("\n\n\n\n\n******** before ***********");
-    //printTerm(term, manager);
-
     //apply rules
     Term rewrittenTerm = preprocess(term, manager);
-
-    //System.err.println("\n~~~~~~~~ after ~~~~~~~~~~~~");
-    //printTerm(rewrittenTerm, manager); 
-
     String sectName = term.accept(new GetZSectNameVisitor());
     return TypeCheckUtils.typecheck(rewrittenTerm, manager, 
 				    false, true, sectName);
@@ -130,16 +122,5 @@ public class TypeCheckRewriteTest
     Term term2 = term.accept(new CopyVisitor(factory));
     Term term3 = Rewrite.rewrite(manager, term2, rules_);
     return term3;
-  }
-
-  private void printTerm(Term term, SectionManager manager)
-  {
-    try {
-      PrintUtils.printLatex(term, new PrintWriter(System.err), manager);
-    }
-    catch (Exception e) {
-      System.err.println(e.toString());
-      e.printStackTrace();
-    }
   }
 }
