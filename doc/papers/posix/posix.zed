@@ -74,20 +74,26 @@ After returns the subfile after the given offset.
 Shift returns a shifted file by the given offset.
 
 \begin{zed}
-  \function 42 \leftassoc ( \_~shift~\_ )
+  \function 42 \leftassoc ( \varg shift \varg )
 \end{zed}
 \begin{zed}
-  \function 42 \leftassoc ( \_~after~\_ )
+  \function 42 \leftassoc ( \varg after \varg )
 \end{zed}
 
 
-\begin{axdef}
-\_~shift~\_~: FILE \cross \nat \fun ( \nat \pfun BYTE ) \\
- \_~after~\_~: FILE \cross \nat \fun FILE 
-\where
-  \forall f : FILE ; offs : \nat @ f~after~offs = ( offs + 1 \upto \# f ) \extract f \land f~shift~offs = ( 1 \upto offs ) \ndres ( zero~offs \cat f )
-\end{axdef}
-
+%\begin{axdef}
+%\_~shift~\_~: FILE \cross \nat \fun ( \nat \pfun BYTE ) \\
+% \_~after~\_~: FILE \cross \nat \fun FILE 
+%\where
+%  \forall f : FILE ; offs : \nat @ f~after~offs = ( offs + 1 \upto \# f ) \extract f \land f~shift~offs = ( 1 \upto offs ) \ndres ( zero~offs \cat f )
+%\end{axdef}
+\begin{zed}
+  \varg shift \varg == (\lambda f : FILE ; offs : \nat \\
+  \t2      @ ( 1 \upto offs ) \ndres ( zero~offs \cat f ))
+  \\
+  \varg after \varg == (\lambda f : FILE ; offs : \nat \\
+  \t2      @ ( offs + 1 \upto \# f ) \extract f)
+\end{zed}
 
 
 To read from a file, nothing changes and the resulting
