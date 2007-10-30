@@ -39,7 +39,7 @@ public class CZTGui implements ActionListener
 {
   SectionManager manager;
 
-  String softwarename = "CZT";
+  String softwarename = "Community Z Tools";
 
   JFileChooser chooser = new JFileChooser();
 
