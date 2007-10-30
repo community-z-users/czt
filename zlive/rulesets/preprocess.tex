@@ -243,10 +243,13 @@ gets used instead of our simpler unfold rule).
 
 \section{Rules for Functions}
 
-TODO: generalise this to work on more complex decllists.
-(We must calculate its characteristic tuple).
+TODO: generalise these to work on more complex decllists.
+(We must calculate characteristic tuples).
 \begin{zedrule}{lambda}
    (\lambda v:E @ E2) = \{v:E @ (v,E2) \}
+\end{zedrule}
+\begin{zedrule}{lambda2}
+   (\lambda v1:E1; v2:E2 @ E3) = \{v1:E1; v2:E2 @ ((v1,v2),E3) \}
 \end{zedrule}
 
 %% NOTE: We do not include this rule, because it causes TOO MANY
