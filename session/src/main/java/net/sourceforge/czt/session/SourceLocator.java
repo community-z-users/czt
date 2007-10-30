@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,7 +28,10 @@ import java.net.URL;
 public class SourceLocator
   implements Command
 {
-  protected final String [] suffix_ = {".tex", ".utf8", ".utf16", ""};
+  protected final String [] suffix_ = {
+    ".tex", ".zed", ".zed8", ".zed16", ".oz", ".oz8", ".oz16",
+    ".circus", ".circus8", ".circus16", ".zedpatt", ".zedpatt8", ".zedpatt16",
+    ".zml"};
 
   public boolean compute(String name, SectionManager manager)
     throws CommandException
