@@ -23,8 +23,6 @@ plugin.zsidekick.ZSideKickPlugin.menu=sidekick-tree \
                                       zsidekick.toXml \
                                       zsidekick.nextWff \
                                       zsidekick.insertTypeForCurrentWff \
-                                      zsidekick.unfold1CurrentWff \
-                                      zsidekick.unfoldCurrentWff \
                                       zsidekick.rewriteCurrentWff \
                                       zsidekick.rewriteInnermostCurrentWff \
                                       zsidekick.interactiveRewriteCurrentWff \
@@ -47,8 +45,6 @@ zsidekick.proveCurrentWff.label=Prove selected predicate
 zsidekick.rewriteCurrentWff.label=Rewrite selected formula
 zsidekick.rewriteInnermostCurrentWff.label=Rewrite (innermost) selected formula
 zsidekick.interactiveRewriteCurrentWff.label=Show proof tree for rewriting selected formula
-zsidekick.unfold1CurrentWff.label=Unfold selected formula
-zsidekick.unfoldCurrentWff.label=Unfold recursively selected formula
 zsidekick.disableTypechecking.label=Disable Typechecking
 zsidekick.showCompleteTree.label=Show complete syntax tree
 
