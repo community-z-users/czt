@@ -424,6 +424,12 @@ public class ZSideKickActions
     return pos - textArea.getLineStartOffset(line);
   }
 
+  private static Markup getMarkup(View view)
+  {
+    String modeName = view.getBuffer().getMode().toString();
+    return modeName.endsWith("latex") ? Markup.LATEX : Markup.UNICODE;
+  }
+
   public static boolean replaceWff(Term oldTerm, Term newTerm, View view,
                                    SectionManager manager, String section)
   {
@@ -435,7 +441,7 @@ public class ZSideKickActions
                             start + locAnn.getLength().intValue());
       StringWriter writer = new StringWriter();
       try {
-        String modeName = view.getBuffer().getMode().toString();
+        PrintUtils.print(newTerm, writer, manager, section, getMarkup(view));
       }
       catch (Exception e) {
         e.printStackTrace();
@@ -468,10 +474,7 @@ public class ZSideKickActions
             new Selection.Range(start,
                                 start + locAnn.getLength().intValue());
           StringWriter writer = new StringWriter();
-          String modeName = view.getBuffer().getMode().toString();
-          Markup markup = modeName.endsWith("latex") ?
-            Markup.LATEX : Markup.UNICODE;
-          PrintUtils.print(term, writer, manager, section, markup);
+          PrintUtils.print(term, writer, manager, section, getMarkup(view));
           replaceSelection(view, selection, writer.toString());
         }
       }
