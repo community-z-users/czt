@@ -120,6 +120,7 @@ public class CZTGui implements ActionListener
 
   private ZLive zlive_ = new ZLive();;
   private TextUI ui = new TextUI(zlive_, null);
+  private boolean animationFirstStart;
   ArrayList<JMenuItem> zliveSectionMenuItems = new ArrayList<JMenuItem>();
   //used to stop backspaces at a certain point to avoid deleting the prompt
   int currentCharCount = 0;
@@ -131,6 +132,8 @@ public class CZTGui implements ActionListener
   {
     czticon = new ImageIcon(this.getClass().getResource("CZTicon.PNG")).getImage();
     frame.setIconImage(czticon);
+    
+    animationFirstStart = true;
     
     chooser.setAcceptAllFileFilterUsed(true);
     chooser.addChoosableFileFilter(new CZTFilter());
@@ -379,6 +382,7 @@ public class CZTGui implements ActionListener
     //and clear the sections each time a new file is opened
     zliveSectionMenuItems.clear();
     startConsoleWith.setEnabled(false);
+    animationFirstStart = true;
 
     String selectedLanguage = "";
     String selectedEncoding = "";
@@ -448,7 +452,6 @@ public class CZTGui implements ActionListener
     try {
       Spec spec = (Spec)
       manager.get(new Key(loadSource.getName(), Spec.class));
-      zlive_.getSectionManager().get(new Key(loadSource.getName(), Spec.class));
       TermTreeNode node = new TermTreeNode(0, spec, null);
       if ("circus".equals(selectedLanguage)) {
         node.setToStringVisitor(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
@@ -628,6 +631,14 @@ public class CZTGui implements ActionListener
 
     for(int i=0;i<zliveSectionMenuItems.size();i++){
       if(event.getSource() == zliveSectionMenuItems.get(i)){
+        if(animationFirstStart){
+          try{
+            zlive_.getSectionManager().get(new Key(loadSource.getName(), Spec.class));
+            animationFirstStart = false;
+          }catch(CommandException e){
+            e.printStackTrace();
+          }
+        }
         startZLive(event.getActionCommand());
       }
     }
