@@ -658,17 +658,63 @@ public class CZTGui implements ActionListener
       int returnValOpen = chooser.showOpenDialog(frame);
       if (returnValOpen == JFileChooser.APPROVE_OPTION) {
         specText.setText(chooser.getSelectedFile().getPath());
+        String extension = specText.getText();
 
-        if(specText.getText().endsWith("zed")||specText.getText().endsWith("tex")){
+        if(extension.endsWith("zed")||extension.endsWith("tex")){
+          languageCombo.setSelectedItem("Standard Z");
           markupCombo.setSelectedItem("Latex");
         }
-        if(specText.getText().endsWith("utf8")){
+        if(extension.endsWith("zed8")){
+          languageCombo.setSelectedItem("Standard Z");
           markupCombo.setSelectedItem("UTF8");
         }
-        if(specText.getText().endsWith("utf16")){
+        if(extension.endsWith("zed16")){
+          languageCombo.setSelectedItem("Standard Z");
           markupCombo.setSelectedItem("UTF16");
         }
-        if(specText.getText().endsWith("xml")||specText.getText().endsWith("zml")){
+        if(extension.endsWith("oz")){
+          languageCombo.setSelectedItem("Object Z");
+          markupCombo.setSelectedItem("Latex");
+        }
+        if(extension.endsWith("oz8")){
+          languageCombo.setSelectedItem("Object Z");
+          markupCombo.setSelectedItem("UTF8");
+        }
+        if(extension.endsWith("oz16")){
+          languageCombo.setSelectedItem("Object Z");
+          markupCombo.setSelectedItem("UTF16");
+        }
+        if(extension.endsWith("circus")){
+          languageCombo.setSelectedItem("Circus");
+          markupCombo.setSelectedItem("Latex");
+        }
+        if(extension.endsWith("circus8")){
+          languageCombo.setSelectedItem("Circus");
+          markupCombo.setSelectedItem("UTF8");
+        }
+        if(extension.endsWith("circus16")){
+          languageCombo.setSelectedItem("Circus");
+          markupCombo.setSelectedItem("UTF16");
+        }
+        if(extension.endsWith("zedpatt")){
+          languageCombo.setSelectedItem("ZRules");
+          markupCombo.setSelectedItem("Latex");
+        }
+        if(extension.endsWith("zedpatt8")){
+          languageCombo.setSelectedItem("ZRules");
+          markupCombo.setSelectedItem("UTF8");
+        }
+        if(extension.endsWith("zedpatt16")){
+          languageCombo.setSelectedItem("ZRules");
+          markupCombo.setSelectedItem("UTF16");
+        }
+        if(extension.endsWith("utf8")){
+          markupCombo.setSelectedItem("UTF8");
+        }
+        if(extension.endsWith("utf16")){
+          markupCombo.setSelectedItem("UTF16");
+        }
+        if(extension.endsWith("xml")||extension.endsWith("zml")){
           markupCombo.setSelectedItem("XML");
         }
       }
