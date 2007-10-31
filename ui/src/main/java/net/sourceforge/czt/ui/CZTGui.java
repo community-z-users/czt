@@ -471,8 +471,12 @@ public class CZTGui implements ActionListener
           //add menu items for starting zlive with a prefered specification
           zliveSectionMenuItems.add(new JMenuItem(sectionName));
           
+          //zlive_.getSectionManager().put(new Key(sectionName, Source.class),loadSource);
+          
           if (typecheckCheckBox.isSelected()) {
             manager.get(new Key(sectionName,SectTypeEnvAnn.class));
+            //only allow animation if typechecking is done
+            startConsoleWith.setEnabled(true);
           }
           if (zSect.getParaList() instanceof ZParaList &&
               ((ZParaList) zSect.getParaList()).size() > 0) {
@@ -496,10 +500,7 @@ public class CZTGui implements ActionListener
       }
       //only if no errors
       statusBar.setText("Finished parsing "+file.getName());
-      //only allow animation if typechecking is done
-      if(typecheckCheckBox.isSelected()){
-        startConsoleWith.setEnabled(true);
-      }
+      
       saveas.setEnabled(true);
       close.setEnabled(true);
     }
