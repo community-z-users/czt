@@ -40,6 +40,7 @@ public class CZTGui implements ActionListener
   SectionManager manager;
 
   String softwarename = "Community Z Tools";
+  Image czticon;
 
   JFileChooser chooser = new JFileChooser();
 
@@ -128,6 +129,9 @@ public class CZTGui implements ActionListener
    */
   public CZTGui()
   {
+    czticon = new ImageIcon(this.getClass().getResource("CZTicon.PNG")).getImage();
+    frame.setIconImage(czticon);
+    
     chooser.setAcceptAllFileFilterUsed(true);
     chooser.addChoosableFileFilter(new CZTFilter());
     specDialog.setLocationRelativeTo(frame);
@@ -402,11 +406,9 @@ public class CZTGui implements ActionListener
 
     manager = new SectionManager(selectedLanguage);
     loadSource = new FileSource(file);
-    //get a new ZLive so that previously loaded spec is not present
-    //zlive_ = new ZLive();
-    //ui = new TextUI(zlive_,null);
-    //zlive_.setSectionManager(manager);
+    
     manager.setProperty("czt.path", file.getParent());
+    zlive_.getSectionManager().setProperty("czt.path", file.getParent());
 
     //set markup selection
     if(((String)markupCombo.getSelectedItem()).equals("Latex")){
