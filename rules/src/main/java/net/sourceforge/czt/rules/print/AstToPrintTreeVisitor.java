@@ -17,10 +17,11 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.print;
 
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.base.ast.*;
+import  net.sourceforge.czt.rules.Joker;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.*;

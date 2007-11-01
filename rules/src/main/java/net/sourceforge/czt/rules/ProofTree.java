@@ -28,8 +28,8 @@ import javax.swing.tree.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.print.util.*;
-//import net.sourceforge.czt.print.zpatt.PrintUtils;
 import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.rules.print.PrintUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
