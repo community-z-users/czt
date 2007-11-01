@@ -27,7 +27,9 @@ import java.util.logging.*;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.util.*;
-import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.prover.ProofTree;
+import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
