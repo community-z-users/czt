@@ -45,7 +45,7 @@ public class CZTGui implements ActionListener
   JFileChooser chooser = new JFileChooser();
 
   JFrame frame = new JFrame(softwarename);
-  JFrame helpFrame = new JFrame("CZT Help");
+  JFrame helpFrame = new JFrame(softwarename+" Help");
   JEditorPane helpEditor = new JEditorPane();
   JScrollPane helpScrollPane = new JScrollPane(helpEditor);
 
@@ -123,6 +123,8 @@ public class CZTGui implements ActionListener
   private boolean animationFirstStart;
   ArrayList<JMenuItem> zliveSectionMenuItems = new ArrayList<JMenuItem>();
   //used to stop backspaces at a certain point to avoid deleting the prompt
+  //note: pasting text onto the textarea could result in previously undeletable
+  //text deletable
   int currentCharCount = 0;
   
   /**
@@ -130,11 +132,14 @@ public class CZTGui implements ActionListener
    */
   public CZTGui()
   {
+
     URL iconurl = this.getClass().getResource("images/CZTicon.png");
     ImageIcon icon = new ImageIcon(iconurl);
     czticon = icon.getImage();
     frame.setIconImage(czticon);
+    helpFrame.setIconImage(czticon);
     
+    //to let gui know whether zlive has parsed a spec already
     animationFirstStart = true;
     
     chooser.setAcceptAllFileFilterUsed(true);
