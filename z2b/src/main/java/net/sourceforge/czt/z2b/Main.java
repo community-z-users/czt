@@ -23,23 +23,14 @@ import java.util.logging.*;
 import java.util.*;
 import java.net.URL;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.rules.CopyVisitor;
-import net.sourceforge.czt.rules.ast.ProverFactory;
-import net.sourceforge.czt.rules.Rewrite;
-import net.sourceforge.czt.rules.RuleTable;
-import net.sourceforge.czt.rules.RuleUtils;
-import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.zpatt.util.Factory;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
 
 /** Translate a Z specification from ZML format into B format.
  *
