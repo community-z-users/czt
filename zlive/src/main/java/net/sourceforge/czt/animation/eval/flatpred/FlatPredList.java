@@ -92,6 +92,13 @@ public class FlatPredList extends FlatPred
   /** Maximum acceptable cost for evaluating each FlatPredList */
   private static double maxCost_ = 1000000000;
 
+  /** The maximum number of FlatPreds in predlist_ that succeeded
+   *  during all evaluations.  This is used just to give better failure
+   *  messages to users, when evaluations fail.  
+   *  -1 means no evaluation attempted yet.
+   */
+  private int highTide_ = -1;
+  
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List<FlatPred> predlist_ = new ArrayList<FlatPred>();
 
@@ -593,6 +600,9 @@ public class FlatPredList extends FlatPred
       // start from the beginning of the list
       solutionsReturned_++;
       curr = 0;
+      if (curr > highTide_) {
+        highTide_ = curr;
+      }
       //LOG.finest("starting search, size=" + end
       //    + ((curr < end) ? ": "+predlist_.get(curr) : ""));
       if (curr < end)
@@ -613,6 +623,9 @@ public class FlatPredList extends FlatPred
       FlatPred fp = predlist_.get(curr);
       if (fp.nextEvaluation()) {
         curr++;
+        if (curr > highTide_) {
+          highTide_ = curr;
+        }
         if (curr < end) {
           FlatPred nextfp = predlist_.get(curr);
           //LOG.finest("moving forward to "+curr+": "+nextfp);
@@ -644,11 +657,18 @@ public class FlatPredList extends FlatPred
    */
   public String toString() {
     StringBuffer result = new StringBuffer();
-    for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
-      String str = i.next().toString();
+    for (int i = 0; i < predlist_.size(); i++) {
+      if (i == highTide_) {
+        result.append("%%----------\n");
+      }
+      FlatPred pred = predlist_.get(i);
+      String str = pred.toString();
       result.append(indent(str));
-      if (i.hasNext())
+      if (i < predlist_.size() - 1)
         result.append(";\n");
+    }
+    if (highTide_ == predlist_.size() && highTide_ > 0) {
+      result.append("\n%%----------");
     }
     return result.toString();
   }
