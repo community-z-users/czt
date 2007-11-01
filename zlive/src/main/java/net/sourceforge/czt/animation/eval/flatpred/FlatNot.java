@@ -64,7 +64,11 @@ public class FlatNot extends FlatPredList
   ///////////////////////// Pred methods ///////////////////////
 
   public String toString() {
-    return "not (" + indent(super.toString()) + "\n)";
+    String body = super.toString();
+    if (body.contains("\n"))
+      return "not (" + indent(body) + "\n)";
+    else
+      return "not (" + body + ")";
   }
 
   public <R> R accept(Visitor<R> visitor)
