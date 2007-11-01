@@ -17,9 +17,9 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.prover;
 
-import static net.sourceforge.czt.rules.ProverUtils.collectConjectures;
+import static net.sourceforge.czt.rules.prover.ProverUtils.collectConjectures;
 
 import java.io.StringWriter;
 import java.net.URL;
@@ -31,8 +31,10 @@ import java.util.logging.Logger;
 import junit.framework.TestCase;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
+import net.sourceforge.czt.rules.CopyVisitor;
+import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.ast.ProverFactory;
+import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;

@@ -17,16 +17,29 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.oracles;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.visitor.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.rules.Joker;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.InclDecl;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
+import net.sourceforge.czt.z.visitor.InclDeclVisitor;
+import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
+import net.sourceforge.czt.zpatt.ast.HeadDeclList;
+import net.sourceforge.czt.zpatt.ast.JokerDeclList;
+import net.sourceforge.czt.zpatt.visitor.HeadDeclListVisitor;
+import net.sourceforge.czt.zpatt.visitor.JokerDeclListVisitor;
 
 public class CollectStateVariablesVisitor
   implements ConstDeclVisitor<Object>,

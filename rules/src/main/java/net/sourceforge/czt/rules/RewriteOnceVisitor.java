@@ -22,6 +22,8 @@ package net.sourceforge.czt.rules;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.rules.prover.Prover;
+import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;

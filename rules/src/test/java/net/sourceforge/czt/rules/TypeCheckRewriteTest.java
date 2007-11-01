@@ -41,8 +41,9 @@ import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 
-import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.rules.ast.ProverFactory;
+import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
+import net.sourceforge.czt.rules.oldrewriter.Rewrite;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 /**

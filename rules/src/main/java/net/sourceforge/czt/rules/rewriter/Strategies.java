@@ -17,13 +17,15 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.rewriter;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.rules.Rewriter;
+import net.sourceforge.czt.rules.UnboundJokerException;
 
 /**
  * Strategies for term rewriting.

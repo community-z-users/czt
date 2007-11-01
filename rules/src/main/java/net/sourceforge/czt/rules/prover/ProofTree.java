@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.prover;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -28,6 +28,7 @@ import javax.swing.tree.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.print.util.*;
+import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.print.PrintUtils;
 import net.sourceforge.czt.session.*;

@@ -23,8 +23,9 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.ast.ProverFactory;
+import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;

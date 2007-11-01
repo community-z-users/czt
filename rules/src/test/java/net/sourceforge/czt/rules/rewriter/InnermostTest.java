@@ -17,17 +17,13 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.rewriter;
 
-import static net.sourceforge.czt.rules.ProverUtils.collectConjectures;
+import static net.sourceforge.czt.rules.prover.ProverUtils.collectConjectures;
 
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -35,8 +31,14 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
+import net.sourceforge.czt.rules.CopyVisitor;
+import net.sourceforge.czt.rules.Rewriter;
+import net.sourceforge.czt.rules.RewriteVisitor;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.ast.ProverFactory;
+import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
+import net.sourceforge.czt.rules.oldrewriter.RewriteTest;
 import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
@@ -47,7 +49,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.zpatt.util.Factory;
 
-public class RewriteTest
+public class InnermostTest
   extends TestCase
 {
   private static Factory factory_ = new Factory(new ProverFactory());
@@ -56,7 +58,7 @@ public class RewriteTest
     throws Exception
   {
     TestSuite suite = new TestSuite();
-    collectTests(suite, "/rewrite1.tex");
+    collectTests(suite, "/rewrite.tex");
     return suite;
   }
 
@@ -105,7 +107,8 @@ public class RewriteTest
       throws Exception
     {
       Unifier unifier = new Unifier();
-      Term rewritten = Rewrite.rewrite(manager_, section_, term, rules_);
+      Rewriter rewriter = new RewriteVisitor(rules_, manager_, section_);
+      Term rewritten = Strategies.innermost(term, rewriter);
       Term expected = expectedResult.accept(new CopyVisitor(factory_));
       boolean result = unifier.unify(expected, rewritten);
       if (! result) {

@@ -33,6 +33,8 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.oracles.AbstractOracle;
+import net.sourceforge.czt.rules.prover.ProverUtils;
+import net.sourceforge.czt.rules.prover.SimpleProver;
 import net.sourceforge.czt.rules.unification.UnificationUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;

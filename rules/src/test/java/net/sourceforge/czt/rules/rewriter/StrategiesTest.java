@@ -17,11 +17,15 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.rewriter;
 
 import junit.framework.TestCase;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.rules.RewriteOnceVisitor;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.prover.Prover;
+import net.sourceforge.czt.rules.prover.SimpleProver;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.StringSource;
