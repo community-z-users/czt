@@ -586,7 +586,6 @@ typechecker/tests/z/TypeMismatchInExpr-SchExpr2-1to1.error -text
 typechecker/tests/z/TypeMismatchInExpr-SchExpr2-Mto1.error -text
 typechecker/tests/z/TypeMismatchInExpr-SchExpr2-MtoM.error -text
 typechecker/tests/z/TypeMismatchInExpr-SchExpr2-Vright.error -text
-ui/src/main/resources/net/sourceforge/czt/ui/CZTicon.PNG -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text
