@@ -72,7 +72,7 @@ public class CZTGui implements ActionListener
 
   JPanel languagePanel = new JPanel();
   JLabel languageLabel = new JLabel("Language: ");
-  String[] languageOptions = {"Standard Z", "Object Z", "Circus"};
+  String[] languageOptions = {"Standard Z", "Object Z", "Circus", "Z Rules"};
   JComboBox languageCombo = new JComboBox(languageOptions);
 
   JPanel markupPanel = new JPanel();
@@ -414,6 +414,9 @@ public class CZTGui implements ActionListener
     else
       if(((String)languageCombo.getSelectedItem()).equals("Circus"))
         selectedLanguage = "circus";
+    else
+      if(((String)languageCombo.getSelectedItem()).equals("Z Rules"))
+        selectedLanguage = "zpatt";
 
     manager = new SectionManager(selectedLanguage);
     loadSource = new FileSource(file);
@@ -716,15 +719,15 @@ public class CZTGui implements ActionListener
           markupCombo.setSelectedItem("UTF16");
         }
         if(extension.endsWith("zedpatt")){
-          languageCombo.setSelectedItem("ZRules");
+          languageCombo.setSelectedItem("Z Rules");
           markupCombo.setSelectedItem("Latex");
         }
         if(extension.endsWith("zedpatt8")){
-          languageCombo.setSelectedItem("ZRules");
+          languageCombo.setSelectedItem("Z Rules");
           markupCombo.setSelectedItem("UTF8");
         }
         if(extension.endsWith("zedpatt16")){
-          languageCombo.setSelectedItem("ZRules");
+          languageCombo.setSelectedItem("Z Rules");
           markupCombo.setSelectedItem("UTF16");
         }
         if(extension.endsWith("utf8")){
