@@ -17,9 +17,10 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.rewriter;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.rules.UnboundJokerException;
 
 public interface Rewriter
 {

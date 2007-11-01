@@ -17,13 +17,16 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.oldrewriter;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.prover.Prover;
 import net.sourceforge.czt.rules.prover.ProverUtils;
+import net.sourceforge.czt.rules.rewriter.Rewriter;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;

@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.rewriter;
 
 import java.io.StringWriter;
 
@@ -31,6 +31,9 @@ import java.util.Set;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.rules.CopyVisitor;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.oracles.AbstractOracle;
 import net.sourceforge.czt.rules.prover.ProverUtils;

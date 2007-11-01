@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.rules.Rewriter;
 import net.sourceforge.czt.rules.UnboundJokerException;
 
 /**

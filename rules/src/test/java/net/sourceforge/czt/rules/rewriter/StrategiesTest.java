@@ -22,8 +22,8 @@ package net.sourceforge.czt.rules.rewriter;
 import junit.framework.TestCase;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.rules.RewriteOnceVisitor;
 import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.oldrewriter.RewriteOnceVisitor;
 import net.sourceforge.czt.rules.prover.Prover;
 import net.sourceforge.czt.rules.prover.SimpleProver;
 import net.sourceforge.czt.session.Key;
