@@ -80,6 +80,16 @@
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
+	<excludes>
+	  <exclude>**/images/*</exclude>
+	</excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+	<includes>
+	  <include>**/images/*.png</include>
+	</includes>
       </resource>
     </resources>
   </build>

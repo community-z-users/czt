@@ -130,7 +130,9 @@ public class CZTGui implements ActionListener
    */
   public CZTGui()
   {
-    czticon = new ImageIcon(this.getClass().getResource("CZTicon.PNG")).getImage();
+    URL iconurl = this.getClass().getResource("images/CZTicon.png");
+    ImageIcon icon = new ImageIcon(iconurl);
+    czticon = icon.getImage();
     frame.setIconImage(czticon);
     
     animationFirstStart = true;
