@@ -3,6 +3,8 @@ package net.sourceforge.czt.ui;
 
 import javax.swing.*;
 import javax.swing.text.*;
+import javax.swing.text.html.HTMLFrameHyperlinkEvent;
+import javax.swing.text.html.HTMLDocument;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -35,7 +37,7 @@ import net.sourceforge.czt.animation.eval.*;
  *@author     yt49
  *@created    July 31, 2007
  */
-public class CZTGui implements ActionListener
+public class CZTGui implements ActionListener,HyperlinkListener
 {
   SectionManager manager;
 
@@ -72,18 +74,13 @@ public class CZTGui implements ActionListener
 
   JPanel languagePanel = new JPanel();
   JLabel languageLabel = new JLabel("Language: ");
-  String[] languageOptions = {"Standard Z", "Object Z", "Circus", "Z Rules"};
+  String[] languageOptions = {"Standard Z","Object Z","Circus","Z Rules"};
   JComboBox languageCombo = new JComboBox(languageOptions);
 
   JPanel markupPanel = new JPanel();
   JLabel markupLabel = new JLabel("Markup: ");
   String[] markupOptions = {"Latex", "UTF8","UTF16", "XML"};
   JComboBox markupCombo = new JComboBox(markupOptions);
-
-  /*JPanel encodingPanel = new JPanel();
-  JLabel encodingLabel = new JLabel("Encoding: ");
-  String[] encodingOptions = {"Default", "UTF8", "UTF16"};
-  JComboBox encodingCombo = new JComboBox(encodingOptions);**/
 
   JPanel typecheckPanel = new JPanel();
   JLabel typecheckLabel = new JLabel("Typecheck? ");
@@ -133,6 +130,7 @@ public class CZTGui implements ActionListener
   public CZTGui()
   {
 
+    //sets a customized icon for the gui instead of the default java cup
     URL iconurl = this.getClass().getResource("images/CZTicon.png");
     ImageIcon icon = new ImageIcon(iconurl);
     czticon = icon.getImage();
@@ -152,6 +150,9 @@ public class CZTGui implements ActionListener
     startConsoleWith.setEnabled(false);
     //listen for enter key to execute commands
     resultConsole.addKeyListener(new ZLiveConsole());
+    //listen for hyperlink clicks
+    helpEditor.setEditable(false);
+    helpEditor.addHyperlinkListener(this);
 
     try {
       FileInputStream fileStream = new FileInputStream(getSettingsFileName());
@@ -477,7 +478,7 @@ public class CZTGui implements ActionListener
         if (sect instanceof ZSect) {
           ZSect zSect = (ZSect) sect;
           String sectionName = zSect.getName();
-          
+
           //add menu items for starting zlive with a prefered specification
           zliveSectionMenuItems.add(new JMenuItem(sectionName));
           
@@ -607,21 +608,6 @@ public class CZTGui implements ActionListener
   }
   
   public void startZLive(String sectName){
-    
-    /*StyledDocument doc = (StyledDocument)resultConsole.getDocument();
-    	        // Add a couple of styles
-	        Style stylePrompt = doc.addStyle("Prompt", null);
-	        Style styleCommand = doc.addStyle("Command", null);
-	        Style styleAnswer = doc.addStyle("Answer", null);
- 
-	        StyleConstants.setForeground(stylePrompt, Color.RED);
-	        // set the Foreground, can define other attrs too.
-	        StyleConstants.setForeground(styleCommand, Color.BLACK);
-	        StyleConstants.setForeground(styleAnswer, Color.BLUE);
-                try{
-                doc.insertString(doc.getLength(), "Yeah that works.", styleAnswer);
-                }catch(BadLocationException ex){}**/
-                
       try{
         zlive_.setCurrentSection(sectName);
       }catch(CommandException ex){
@@ -807,5 +793,21 @@ public class CZTGui implements ActionListener
         System.exit(0);
     }
   }
-
+ 
+         public void hyperlinkUpdate(HyperlinkEvent e) {
+             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                 JEditorPane pane = (JEditorPane) e.getSource();
+                 if (e instanceof HTMLFrameHyperlinkEvent) {
+                     HTMLFrameHyperlinkEvent  evt = (HTMLFrameHyperlinkEvent)e;
+                     HTMLDocument doc = (HTMLDocument)pane.getDocument();
+                     doc.processHTMLFrameHyperlinkEvent(evt);
+                 } else {
+                     try {
+                         pane.setPage(e.getURL());
+                     } catch (Throwable t) {
+                         t.printStackTrace();
+                     }
+                 }
+             }
+         }  
 }
