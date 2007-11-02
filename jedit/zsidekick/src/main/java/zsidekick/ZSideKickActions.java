@@ -501,5 +501,5 @@ public class ZSideKickActions
   {
     view.getStatus().setMessage(message);
     view.getToolkit().beep();
- }
+  }
 }
