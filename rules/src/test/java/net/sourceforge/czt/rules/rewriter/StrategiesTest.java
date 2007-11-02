@@ -23,9 +23,6 @@ import junit.framework.TestCase;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.RuleTable;
-import net.sourceforge.czt.rules.oldrewriter.RewriteOnceVisitor;
-import net.sourceforge.czt.rules.prover.Prover;
-import net.sourceforge.czt.rules.prover.SimpleProver;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.StringSource;
@@ -49,8 +46,8 @@ public class StrategiesTest
       manager.get(new Key("simplification_rules", RuleTable.class));
     StringSource source = new StringSource(pred1);
     Term term = ParseUtils.parsePred(source, section, manager);
-    Prover prover = new SimpleProver(rules, manager, "standard_toolkit");
-    term = Strategies.innermost(term, new RewriteOnceVisitor(prover));
+    Rewriter rewriter = new RewriteVisitor(rules, manager, "standard_toolkit");
+    term = Strategies.innermost(term, rewriter);
     source = new StringSource(pred2);
     Term expected = ParseUtils.parsePred(source, section, manager);
     assertEquals(expected, term);
