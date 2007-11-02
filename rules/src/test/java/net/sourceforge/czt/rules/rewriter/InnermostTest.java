@@ -36,7 +36,6 @@ import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
-import net.sourceforge.czt.rules.oldrewriter.RewriteTest;
 import net.sourceforge.czt.rules.rewriter.Rewriter;
 import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
 import net.sourceforge.czt.rules.unification.Unifier;
@@ -72,7 +71,7 @@ public class InnermostTest
     manager.putCommands("zpatt");
     Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
     manager.put(new Key("unfold", Source.class), unfoldSource);
-    URL url = RewriteTest.class.getResource(resource);
+    URL url = InnermostTest.class.getResource(resource);
     assertFalse(url == null);
     manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
     Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
