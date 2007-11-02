@@ -94,6 +94,11 @@ public class CopyVisitor
     this.generalize_ = generalize;
   }
 
+  public CopyVisitor()
+  {
+    factory_ = new Factory(new ProverFactory());
+  }
+
   public CopyVisitor(Factory factory)
   {
     factory_ = factory;
