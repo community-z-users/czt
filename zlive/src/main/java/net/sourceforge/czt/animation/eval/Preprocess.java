@@ -29,13 +29,9 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
-import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
-import net.sourceforge.czt.rules.rewriter.Rewriter;
-import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
 import net.sourceforge.czt.rules.rewriter.Strategies;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -61,7 +57,6 @@ import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
 import net.sourceforge.czt.z.visitor.QntExprVisitor;
 import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
-import net.sourceforge.czt.zpatt.util.Factory;
 
 /** Preprocesses a term to get it ready for evaluation.
  *  This unfolds some Z constructs into simpler ones,
@@ -122,12 +117,7 @@ public final class Preprocess
   {
     if (rules_ == null)
       throw new RuntimeException("preprocessing error: no rules!");
-    Factory factory = new Factory(new ProverFactory());
-    Term term2 = term.accept(new CopyVisitor(factory));
-    Rewriter rewriter = new RewriteVisitor(rules_, sectman_, sectname);
-    Term term3 = Strategies.innermost(term2, rewriter);
-    //    Term term3 = Rewrite.rewrite(sectman_, sectname, term2, rules_);
-    return term3;
+    return Strategies.innermost(term, rules_, sectman_, sectname);
   }
 
   /** A temporary hack to fix up any incorrect ZName ids
