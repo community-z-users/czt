@@ -24,13 +24,31 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.rules.CopyVisitor;
+import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
+import net.sourceforge.czt.session.SectionManager;
 
 /**
  * Strategies for term rewriting.
  */
 public class Strategies
 {
+  /**
+   * This is a convenience method.
+   * Copies the given term and applies the innermost strategy.
+   */
+  public static Term innermost(Term term,
+                               RuleTable rules,
+                               SectionManager manager,
+                               String sectionName)
+    throws UnboundJokerException
+  {
+    Term copiedTerm = term.accept(new CopyVisitor());
+    Rewriter rewriter = new RewriteVisitor(rules, manager, sectionName);
+    return Strategies.innermost(copiedTerm, rewriter);
+  }
+
   /**
    * Performs a leftmost innermost rewriting of the given term.  The
    * redex (a sub-term that can be reduced) is searched in a
