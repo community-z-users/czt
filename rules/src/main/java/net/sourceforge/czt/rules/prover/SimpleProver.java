@@ -28,6 +28,7 @@ import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.oracles.*;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Session;
 import net.sourceforge.czt.util.CztException;
@@ -57,18 +58,30 @@ public class SimpleProver
   public SimpleProver(Session session)
     throws CommandException
   {
-    rules_ = (RuleTable) session.get(RuleTable.class);
-    manager_ = session.getManager();
-    section_ = session.getSection();
+    this((RuleTable) session.get(RuleTable.class),
+         session.getManager(),
+         session.getSection());
   }
 
+  /**
+   * @throws CommandException if the given sectionmanager doesn't provide
+   *                          SectTypeEnv information for the given section.
+   */
   public SimpleProver(RuleTable rules,
                       SectionManager manager,
                       String section)
+    throws CommandException
   {
     rules_ = rules;
     manager_ = manager;
     section_ = section;
+    typecheck(section, manager);
+  }
+
+  private void typecheck(String section, SectionManager manager)
+    throws CommandException
+  {
+    manager.get(new Key(section, SectTypeEnvAnn.class));
   }
 
   private Map<String,AbstractOracle> createOracleMap()

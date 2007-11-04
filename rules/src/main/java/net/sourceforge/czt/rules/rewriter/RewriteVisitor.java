@@ -39,6 +39,7 @@ import net.sourceforge.czt.rules.oracles.AbstractOracle;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.prover.SimpleProver;
 import net.sourceforge.czt.rules.unification.UnificationUtils;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxSymbol;
@@ -73,9 +74,14 @@ public class RewriteVisitor
   private SimpleProver prover_;
   private SyntaxSymbolVisitor visitor_ = new SyntaxSymbolVisitor();
 
+  /**
+   * @throws CommandException if the given sectionmanager doesn't provide
+   *                          SectTypeEnv information for the given section.
+   */
   public RewriteVisitor(RuleTable rules,
                         SectionManager manager,
                         String section)
+    throws CommandException
   {
     for (Iterator<RulePara> iter = rules.iterator(); iter.hasNext(); ) {
       RulePara rulePara = iter.next();

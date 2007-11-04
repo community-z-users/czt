@@ -362,6 +362,11 @@ public class ZLive
       result.setMode(m);
       predlist.setMode(m);
     }
+    catch (CommandException ex) {
+      // we just catch and rethrow this for logging purposes
+      LOG.throwing("ZLive", "evalTerm", ex);
+      throw new RuntimeException(ex);
+    }
     catch (UnboundJokerException ex) {
       // we just catch and rethrow this for logging purposes
       LOG.throwing("ZLive", "evalTerm", ex);

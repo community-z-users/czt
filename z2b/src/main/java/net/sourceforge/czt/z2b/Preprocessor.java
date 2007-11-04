@@ -48,6 +48,9 @@ class Preprocessor
     try {
       return Strategies.innermost(term, rules_, manager, section);
     }
+    catch (CommandException e) {
+      throw new RuntimeException("Unfolding failed!", e);
+    }
     catch (UnboundJokerException e) {
       throw new RuntimeException("Unfolding failed!", e);
     }

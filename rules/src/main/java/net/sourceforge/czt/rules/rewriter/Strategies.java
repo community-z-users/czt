@@ -27,6 +27,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -37,12 +38,15 @@ public class Strategies
   /**
    * This is a convenience method.
    * Copies the given term and applies the innermost strategy.
+   *
+   * @throws CommandException  if the given sectionmanager doesn't provide
+   *                           SectTypeEnv information for the given section.
    */
   public static Term innermost(Term term,
                                RuleTable rules,
                                SectionManager manager,
                                String sectionName)
-    throws UnboundJokerException
+    throws CommandException, UnboundJokerException
   {
     Term copiedTerm = term.accept(new CopyVisitor());
     Rewriter rewriter = new RewriteVisitor(rules, manager, sectionName);

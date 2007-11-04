@@ -125,6 +125,7 @@ public class ProofTree
   }
 
   private void prove(ProofNode node)
+    throws CommandException
   {
     SimpleProver prover = new SimpleProver(rules_, manager_, section_);
     Sequent sequent = node.getSequent();
@@ -213,10 +214,16 @@ public class ProofTree
               JMenuItem menuItem = new JMenuItem("Ask oracle");
               menuItem.addActionListener(new ActionListener() {
                   public void actionPerformed(ActionEvent e) {
-                    SimpleProver prover =
-                      new SimpleProver(rules_, manager_, section_);
-                    prover.prove(pn.getOracleAppl());
-                    getModel().nodeChanged(pn);
+                    try {
+                      SimpleProver prover =
+                        new SimpleProver(rules_, manager_, section_);
+                      prover.prove(pn.getOracleAppl());
+                      getModel().nodeChanged(pn);
+                    }
+                    catch (CommandException exception)
+                    {
+                      exception.printStackTrace();
+                    }
                   }
                 });
               popup.add(menuItem);
@@ -245,7 +252,13 @@ public class ProofTree
         JMenuItem menuItem = new JMenuItem("Auto prove");
         menuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              prove(node);
+              try {
+                prove(node);
+              }
+              catch (CommandException exception)
+              {
+                exception.printStackTrace();
+              }
             }
           });
         popup.add(menuItem);

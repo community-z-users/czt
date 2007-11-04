@@ -113,7 +113,7 @@ public final class Preprocess
    * @return         The rewritten term.
    */
   public Term preprocess(String sectname, Term term)
-    throws UnboundJokerException
+    throws CommandException, UnboundJokerException
   {
     if (rules_ == null)
       throw new RuntimeException("preprocessing error: no rules!");

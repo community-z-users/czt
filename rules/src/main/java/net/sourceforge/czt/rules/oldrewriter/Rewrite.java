@@ -26,6 +26,7 @@ import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.prover.SimpleProver;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
@@ -89,7 +90,7 @@ public class Rewrite
   {
     this(manager, rules);
     rewriter_ =
-      new RewriteOnceVisitor(new SimpleProver(rules, manager, section));
+      new RewriteOnceVisitor(createProver(rules, manager, section));
   }
 
   public void setBottomUp(boolean bottomUp)
@@ -97,9 +98,23 @@ public class Rewrite
     bottomUp_ = bottomUp;
   }
 
+  private SimpleProver createProver(RuleTable rules,
+                                    SectionManager manager,
+                                    String sectionname)
+  {
+    try {
+      return new SimpleProver(rules, manager, sectionname);
+    }
+    catch (CommandException exception)
+    {
+      String msg = "Cannot create prover for " + sectionname;
+      throw new RuntimeException(msg, exception);
+    }
+  }
+
   public Term visitZSect(ZSect zSect)
   {
-    SimpleProver prover = new SimpleProver(rules_, manager_, zSect.getName());
+    SimpleProver prover = createProver(rules_, manager_, zSect.getName());
     rewriter_ = new RewriteOnceVisitor(prover);
     return VisitorUtils.visitTerm(this, zSect, true);
   }
