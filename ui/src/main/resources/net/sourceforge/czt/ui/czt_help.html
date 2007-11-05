@@ -1,4 +1,6 @@
+<!DOCTYPE HTML SYSTEM>
 <html>
+<head>
 <style type="text/css">
 <!--
 .subtitle {
@@ -40,47 +42,70 @@ a:active {
 }
 -->
 </style>
+</head>
  <body>
-  <div>
-   <p><span style="font-weight:bold" align="center"><h1 align="center">CZT HELP</h1></span>
-   <hr></p>
-   <h3>
+<div>
+   <p align="center"><span style="font-weight:bold"><h1>CZT HELP</h1></span>
+   </p><hr>
    <h2><span class="style1"><div class="subtitle"><a name="contents">Contents</a></div>
    </span>
-     <h3>
-     </p>
    </h2>
    <ul>
-   	<li><a href="#gettingStarted">Getting Started</a></li>
-	<li><a href="#introduction">Introduction</a></li>
-	<li>Overview</li>
-	<li><a href="#basics">Basics</a></li>
-    <li>ZLive</li>
-    <li><strong>Additional Information</strong>
+   	<li><a href="#gettingStarted">1. Getting Started</a></li>
+	<li><strong>2. Overview</strong>
+	  <ul>
+	  	<li><a href="#introduction">2.1 Introduction</a></li>
+		<li><a href="#background">2.2 Background</a></li>
+		<li><a href="#objectives">2.3 CZT Objectives</a></li>
+	  </ul>	
+	</li>
+	<li><a href="#basics">3. Basics</a></li>
+    <li><a href="#zlive">4. ZLive</a></li>
+    <li><strong>5. Additional Information</strong>
       <ul>
-        <li><a href="#extensionsupport">Supported file Extensions</a></li>
-        <li><a href="#runningcmdline">Running CZT as a commandline tool</a></li>
-	<li><a href="#glossary">Glossary</a></li>
+        <li><a href="#extensionsupport">5.1 Supported file Extensions</a></li>
+        <li><a href="#runningcmdline">5.2 Running CZT as a commandline tool</a></li>
+	<li><a href="#glossary">5.3 Glossary</a></li>
+	<li>5.4 For more information go to the CZT website at <strong>http://czt.sourceforge.net</strong></li>
       </ul>
     </li>
    </ul>
    <h3><span class="style1"><div class="subtitle"><a name="gettingStarted">Getting Started</a></div></span></h3>
-   <h3><span class="style1"><div class="subtitle"><a name="introduction">Introduction</a></div></span>
-   </h3>
+   <h3><span class="style1"><div class="subtitle">Overview</div></span></h3>
+   <h4><span class="style1"><div class="subtitle"><a name="introduction">Introduction</a></div></span></h4>
    <p>The Community Z Tools (CZT) project is building a set of tools for editing, typechecking and animating formal specifications written in the  Z specification language, with some support for Z extensions such as Object-Z, Circus, and TCOZ. These tools are all built using the CZT Java framework for Z tools.
 
 Beta-versions of the end-user CZT tools are now included in the CZT releases. This includes a jEdit-based Z editor that gives WYSIWYG editing of the Unicode markup for Z, template-based insertion of Z constructs for LaTeX and Unicode markup, automatic typechecking on each save, a SideKick panel that shows the structure of your Z specification, conversion between the different markups and much much more. More information can be found in the manual. Here is a screenshot, showing some random Z in Unicode format:   </p>
+   <h4><span class="style1"><div class="subtitle"><a name="background">Background</a></div></span></h4>
+   <p>(Adapted from Andrew Martin's  original CZT proposal)</p>
+
+<p>The Z specification language was adopted as an ISO standard in 2002. It can be used to precisely specify the requirements or behaviour of systems, and analyze that behaviour via proof, animation, test generation etc. However, one of the biggest barriers to the widespread use of the Z specification language seems to be the issue of tool support.
+
+Many projects have constructed Z tools, some of product quality, most as student projects. Few of them are integrated with each other; few support all the new ISO standard; fewer still build together to form the kind of integrated environment that developers are beginning to expect. Many good ideas have been developed to prototype stage, and then have been lost as projects have finished and students or researchers have moved on. The number of times a request for a Z parser arises in the Z newsgroup suggests lots of people are producing tools, most of which will never be seen outside their own institute. An integrated effort will move forward the state of tools, and thereby the take-up of Z. </p>
+
+   <h4><span class="style1"><div class="subtitle"><a name="objectives">CZT Objectives</a></div></span></h4>
+   <p>Our objectives are to encourage interchange between existing Z tools (via a standard XML interchange format for Z), and to provide open-source libraries for building and integrating new Z tools. The software we are building includes:</p>
+<ul>
+<li> An XML Schema markup for Z.</li>
+<li> Java classes for Z annotated syntax trees (AST).</li>
+<li> Java classes for converting between XML and Java AST.</li>
+<li> Java libraries for the common operations needed in every Z tool (markup-converters, parser, type-checker, etc.). A paper describing these has been presented at ZB2005.</li>
+<li> Graphical Z editors, with facilities for easily entering the special Z unicode symbols. Currently we provide jEdit and eclipse plugins.</li>
+<li> A Z animation tool called ZLive, with a customisable graphical user interface.</li>
+<li> Export tools, to output Z in other notations or for other Z tools.</li>
+<li> Extended versions of the libraries and tools to support Z extensions such as Object-Z and CIRCUS.</li>
+</ul>
+   
    <h3><span class="style1"><div class="subtitle"><a name="basics">Basics</a></div></span></h3>
-   <p><strong><a href="#openfile">Opening a file</a></strong></p>
+   <p><strong><a href="#openfile">Opening and Parsing a file</a></strong></p>
    <p><strong><a href="#specifyingoptions">Specifying the Language and Mark-up to parse a file with</a></strong></p>
    <p><strong><a href="#typechecking">Type-Checking</a></strong></p>
    <p><strong><a href="#exploringstructure">Exploring the Structure of a Specification</a></strong></p>
    <p><strong><a href="#exporting">Exporting a file</a></strong></p>
    <p align="center"><a href="#contents">Back to Contents</a></p>
    <hr>
-   <p align="left"><span style="font-weight:bold"><a name="openfile"></a>Opening a file</span></p>
+   <p align="left"><span style="font-weight:bold"><a name="openfile"></a>Opening and Parsing a file</span></p>
    <p>From the main window click <span style="font-weight:bold">File, </span>then click<span style="font-weight:bold"> Open, </span>a 'Specification' dialog will pop up, then click <span style="font-weight:bold">"...", </span>an open dialog will pop up, choose the file and click <span style="font-weight:bold">Open, </span>then click <span style="font-weight:bold">OK </span>to open and parse the file with default settings. Alternatively, you can type in the full path of a file in the <span style="font-weight:bold">Specification</span> text area and click <span style="font-weight:bold">OK.</span><p align="center"><a href="#basics">Back to Basics</a></p>
-   </p>
    <hr>
    <p></p>
    <p align="left"><span style="font-weight:bold"><a name="specifyingoptions"></a>Specifying the Language and Mark-up to parse a file with</span></p>
@@ -98,27 +123,33 @@ Beta-versions of the end-user CZT tools are now included in the CZT releases. Th
    <p><div class="codesnip"><pre><strong>    int x = 5</strong></pre>
    <pre><strong>    String y = "Hello"</strong></pre>
    <pre><strong>    ...</strong></pre>
-   <pre><strong>    output(x-y)</strong></pre></div></p>
+   <pre><strong>    output(x-y)</strong></pre></div>
    <p>The output() call may cause type errors since the language in question may not have a operation defined for minus(-) between an "int" and a "String"</p>
    <p>To perform <span style="font-weight:bold">type-checking</span>, follow the steps to <span style="font-weight:bold">Opening a file </span>except <span style="font-weight:bold">before</span> clicking on <span style="font-weight:bold">OK, </span>click on the <span style="font-weight:bold">Typecheck? </span>Checkbox. If the box is checked then type-checking will be performed on the specification otherwise the specification would not be type-checked.</p><p align="center"><a href="#basics">Back to Basics</a></p>
    <hr>
    <p></p>
    <p align="left"><span style="font-weight:bold"><a name="exploringstructure"></a>Exploring the Structure of a Specification</span></p>
    <p></p>
-   <p>Once a file/specification has been opened and parsed, the structure of the file/specification is displayed in a tree format on the <span style="font-weight:bold">Specification Structure Explorer</span> panel allowing the user to inspect the sections and paragraphs contained in the specification by expanding or collapsing the tree.</p><p align="center"><a href="#basics">Back to Basics</a></p>
+   <p>Once a specification has been opened and parsed, the structure of the specification is displayed in a tree format on the <span style="font-weight:bold">Specification Structure Explorer</span> panel allowing the user to inspect the sections and paragraphs contained in the specification by expanding or collapsing the tree.</p><p align="center"><a href="#basics">Back to Basics</a></p>
    <hr>
    <p></p>
    <p align="left"><span style="font-weight:bold"><a name="exporting"></a>Exporting a file</span></p>
    <p></p>
    <p>From the main window click <span style="font-weight:bold">File, </span>then click<span style="font-weight:bold"> Export to, </span>then click <span style="font-weight:bold">Latex, Unicode8, Unicode16 </span>or <span style="font-weight:bold">XML</span> to export to the preferred mark-up. Then a save dialog will pop up requesting a file name (a suggested file name will be provided) and once a file name is entered click <span style="font-weight:bold">Save.</span></p><p align="center"><a href="#basics">Back to Basics</a></p>
    <hr>
-     <h3><span class="style1"><div class="subtitle">ZLive</div></span></h3>
-    The ZLive animator is part of the CZT project that aims at providing a framework        for building formal methods tools, especially for the Z specification        language.  This subproject provides an animator for evaluating        Z expressions, predicates and schemas.  It can be used to execute        some schemas, to test that given values satisfy a schema, or        to generate all solutions of a set or schema.
+     <h3><span class="style1"><div class="subtitle"><a name="zlive">ZLive</a></div></span></h3>
+    The ZLive animator is part of the CZT project that aims at providing a framework        for building formal methods tools, especially for the Z specification        language.  This subproject provides an animator for evaluating        Z expressions, predicates and schemas.  It can be used to execute some schemas, to test that given values satisfy a schema, or to generate all solutions of a set or schema.
+    <p>There are <strong>two ways</strong> to run ZLive, one of which is <strong>ZLiveDefault</strong> and can be run <strong>independantly</strong> but <strong>commands are limited</strong> to general commands which do not correspond to a specification and the <strong>other way</strong> is to run the <strong>ZLive Animator</strong> which <strong>requires</strong> the user to open a specification before it can be run. 
+    <p>To run <strong>ZLiveDefault</strong>, click <strong>Animate</strong> then click <strong>Start ZLive Default</strong></p>
+    <p>To run <strong>ZLive Animator</strong>, click <strong>Animate</strong> then click <strong>Start ZLive Animator with</strong> and <strong>choose a section</strong> to animate</p>
+    <p>Note: Running the <strong>ZLive Animator</strong> causes the opened specification to be parsed again. Also the ZLive Animator can be similarly started by ZLiveDefault by loading a specification from it and setting the section.</p>
+    <p>For a full <strong>list of commands</strong> type "help" on the ZLive prompt</p>
+    <p align="center"><a href="#contents">Back to Contents</a></p>
     <h3><span class="style1"<div class="subtitle">Additional Information</div></span></h3>
    <h4><span class="style1"><div class="subtitle"><a name="extensionsupport">Supported file Extensions</a></div></span></h4>
    <p>In general, CZT supports <span style="font-weight:bold">all types</span> of files with <span style="font-weight:bold">any kind of extension</span> as long as it contains content that can be read as Z specifications. The most <span style="font-weight:bold">common</span> CZT associated file extensions are: </p>
    <p>
-   <table border="1" cellpadding="3" cellspacing="3" bordercolor="#000000">
+   <table border="1" cellpadding="3" cellspacing="3">
    <tr>
    	<td>Extension</td>
 	<td>Language</td>
@@ -171,17 +202,17 @@ Beta-versions of the end-user CZT tools are now included in the CZT releases. Th
    </tr>
    <tr>
    	<td>zedpatt</td>
-	<td>ZRules</td>
+	<td>Z Rules</td>
 	<td>Latex</td>
    </tr>
    <tr>
    	<td>zedpatt8</td>
-	<td>ZRules</td>
+	<td>Z Rules</td>
 	<td>Unicode (UTF8)</td>
    </tr>
    <tr>
    	<td>zedpatt16</td>
-	<td>ZRules</td>
+	<td>Z Rules</td>
 	<td>Unicode (UTF16)</td>
    </tr>
    <tr>
@@ -194,9 +225,7 @@ Beta-versions of the end-user CZT tools are now included in the CZT releases. Th
 	<td>Standard Z</td>
 	<td>XML</td>
    </tr>
-   </table>   
-   
-   </p>
+   </table>
 
    <p>When browsing for a file you can filter out files with uncommon extensions by clicking on the <span style="font-weight:bold">Files of Type</span> drop down menu and select <span style="font-weight:bold">Common CZT files </span>or specify it to display <span style="font-weight:bold">All Files </span>(does not display hidden files). This can be useful when your specification files are mixed in a folder with files of other types</p><p align="center"><a href="#contents">Back to Contents</a></p>
  </div>
@@ -220,6 +249,6 @@ Beta-versions of the end-user CZT tools are now included in the CZT releases. Th
      <pre><strong>    java -jar czt.jar zlive</strong></pre>
    </div><p align="center"><a href="#contents">Back to Contents</a></p>
  </div>
- <h4><span class="style1"><div class="subtitle"><a name="glossary">Glossary</a></span></h4>
+ <h4><span class="style1"><div class="subtitle"><a name="glossary">Glossary</a></div></span></h4>
  </body>
 </html>
