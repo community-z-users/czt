@@ -169,7 +169,7 @@ public class Model
 
   /** Returns the name of the given Action. */
   //@requires fsmGetModelClass() != null;
-  public Object getActionName(int index)
+  public String getActionName(int index)
   {
 	  return fsmActions_.get(index).getName();
   }
