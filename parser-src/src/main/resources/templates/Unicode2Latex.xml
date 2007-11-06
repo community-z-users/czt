@@ -406,6 +406,7 @@ parser code {:
   {
     Symbol result = local_next_token_help();
     if (result.sym == Sym.SECTHEAD) {
+      sectionName_ = ((ZSect) result.value).getName();
       action_obj.setupMarkupTable((ZSect) result.value);
     }
     else if (result.sym == Sym.DECORWORD &amp;&amp;
@@ -681,7 +682,9 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 if (s != null) { result += s.getName(); }
                 result += end("zsection");
                 parser.write(result);
-                LatexMarkupFunction table = getMarkupTable(w.getUnicode());
+                parser.sectionName_ = w.getUnicode();
+                LatexMarkupFunction table =
+                  getMarkupTable(parser.sectionName_);
                 setupMarkupTable(table);
              :}
              |
