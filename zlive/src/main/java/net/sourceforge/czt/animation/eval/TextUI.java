@@ -233,8 +233,9 @@ public class TextUI {
             output_.println("Returned to the start.");
           }
           else {
-            output_.println("Returned to: " +
-                printTerm(stack_.peek().getOriginalTerm(), zlive_.getMarkup()));
+            output_.print("Returned to: ");
+            zlive_.printTerm(output_, stack_.peek().getOriginalTerm(),
+                zlive_.getMarkup());
             doMove(stack_.peek().currentPosition());
           }
         }
@@ -279,7 +280,7 @@ public class TextUI {
         Term term = parseTerm(args, output_);
         term = unfoldTerm(term);
         if (term != null)
-          output_.println("Term = "+zlive_.printTerm(term));
+          output_.println("Term = "+zlive_.termToString(term));
       }
       else if (cmd.equals("apply")) {
         doApplyRule(args);
@@ -295,7 +296,7 @@ public class TextUI {
       output_.println("Undefined!  " + ex.getMessage());
       if (ex.getTerm() != null) {
         output_.print("    term = ");
-        printTerm(output_, ex.getTerm(), zlive_.getMarkup());
+        zlive_.printTerm(output_, ex.getTerm(), zlive_.getMarkup());
         output_.println();
       }
     }
@@ -306,7 +307,7 @@ public class TextUI {
           + ex.getMessage());
       if (ex.getTerm() != null) {
         output_.print("    term = ");
-        printTerm(output_, ex.getTerm(), zlive_.getMarkup());
+        zlive_.printTerm(output_, ex.getTerm(), zlive_.getMarkup());
         output_.println();
       }
     }
@@ -376,8 +377,9 @@ public class TextUI {
       result = zlive_.evalPred( (Pred)term );
     else
       result = zlive_.evalExpr( (Expr)term );
-    if (result != null)
-      printTerm(out, result, zlive_.getMarkup());
+    if (result != null) {
+      zlive_.printTerm(out, result, zlive_.getMarkup());
+    }
     out.println();
   }
 
@@ -389,7 +391,7 @@ public class TextUI {
     ZLiveResult result = stack_.peek();
     result.moveTo(result.currentPosition() + offset);
     output_.print(result.currentPosition()+": ");
-    this.printTerm(output_, result.currentMember(), zlive_.getMarkup());
+    zlive_.printTerm(output_, result.currentMember(), zlive_.getMarkup());
     output_.println();
   }
   
@@ -417,7 +419,8 @@ public class TextUI {
             output_.println("Conjecture on line "+loc.getLine());
           }
           try {
-            printTerm(output_, zlive_.evalPred( conj.getPred() ), zlive_.getMarkup());
+            Term result = zlive_.evalPred( conj.getPred() );
+            zlive_.printTerm(output_, result, zlive_.getMarkup());
             output_.println();
           }
           catch (Exception e) {
@@ -475,7 +478,8 @@ public class TextUI {
               output_.println("Error: output joker is null -- not bound");
             }
             else {
-              output_.println(zlive_.printTerm(ProverUtils.removeJoker(result)));
+              zlive_.printTerm(output_, ProverUtils.removeJoker(result));
+              output_.println();
             }
           }
           else {
@@ -483,8 +487,10 @@ public class TextUI {
           }
         }
         else {
-          output_.println("Cannot apply rule " + parts[0] +
-              " to expr " + zlive_.printTerm(expr));
+          output_.println("Cannot apply rule " + parts[0]);
+          output_.print(" to expr: ");
+          zlive_.printTerm(output_, expr);
+          output_.println();
         }
       }
     }
@@ -601,37 +607,8 @@ public class TextUI {
   public String printTerm(Term term, Markup markup)
   {
     StringWriter stringWriter = new StringWriter();
-    printTerm(new PrintWriter(stringWriter), term, markup);
+    zlive_.printTerm(new PrintWriter(stringWriter), term, markup);
     return stringWriter.toString();
-  }
-
-  /** Prints an evaluated expression as a standard text string.
-   */
-  public void printTerm(PrintStream out, Term term, Markup markup)
-  {
-    PrintWriter writer = new PrintWriter(out);
-    printTerm(writer, term, markup);
-    writer.flush();
-  }
-
-  /** Writes an evaluated expression as LaTeX or Unicode.
-   *  This converts most ZLive-specific terms into standard Z terms
-   *  then uses the usual print visitors.
-   */
-  public void printTerm(PrintWriter out, Term term0, Markup markup)
-  {
-    try {
-      Term term = term0.accept(new ResultTreeToZVisitor());
-      PrintUtils.print(term, out,
-                       zlive_.getSectionManager(),
-                       zlive_.getCurrentSection(),
-                       markup);
-    }
-    catch (Exception e) {
-      out.print("Error trying to print: " + term0);
-      e.printStackTrace(System.err);
-    }
-    out.flush();
   }
 
   /** Parses and typechecks the string args into a Pred or an Expr.

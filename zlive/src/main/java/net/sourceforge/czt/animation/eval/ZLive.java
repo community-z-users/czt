@@ -38,6 +38,7 @@ import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.LatexPrinterCommand;
+import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.print.z.UnicodePrinterCommand;
 import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.UnboundJokerException;
@@ -160,13 +161,6 @@ public class ZLive
   public SectionManager getSectionManager()
   { return sectman_; }
 
-   /** Set the section manager that will be used during evaluation.
-    *  @deprecated
-    */
-  //@ requires sm != null;
-  public void setSectionManager(SectionManager sm)
-  { sectman_ = sm; }
-
   /** Reset the section manager that will be used during evaluation.
    *  This clears all the specifications that have been loaded.
    */
@@ -211,6 +205,14 @@ public class ZLive
   }
 
   /**
+   * Sets the markup that will be used to parse and print terms.
+   */
+  public void setMarkup(Markup markup)
+  {
+      markup_ = markup;
+  }
+
+  /**
    * @throws IllegalArgumentException if the given markup is not supported.
    */
   public void setMarkup(String markup)
@@ -237,11 +239,6 @@ public class ZLive
   public void setGivenSetSize(String value)
   {
     givenSetSize_ = Integer.parseInt(value);
-  }
-
-  public void setMarkup(Markup markup)
-  {
-    markup_ = markup;
   }
 
   /** Which section evaluations are being done in. */
@@ -331,12 +328,12 @@ public class ZLive
       // preprocess the predicate, to unfold things.
       // Unifier.printDepth_ = 7;  // for debugging unifications
       Term unfolded = preprocess_.preprocess(section, result.getOriginalTerm());
-      LOG.finer("After preprocess,  pred="+printTerm(unfolded));
+      LOG.finer("After preprocess,  pred="+termToString(unfolded));
       // must typecheck, to reestablish the unique-ids invariant.
       typecheck(unfolded);
-      LOG.finer("After retypecheck, term="+printTerm(unfolded));
+      LOG.finer("After retypecheck, term="+termToString(unfolded));
       unfolded = preprocess_.fixIds(unfolded);
-      LOG.finer("After doing fixIds term="+printTerm(unfolded));
+      LOG.finer("After doing fixIds term="+termToString(unfolded));
       result.setUnfoldedTerm(unfolded);
       if (result.isExpr()) {
         ZName resultName = predlist.addExpr((Expr)unfolded);
@@ -355,7 +352,7 @@ public class ZLive
       Mode m = predlist.chooseMode(env0);
       if (m == null) {
         final String message =
-          "Cannot find mode to evaluate: " + printTerm(unfolded, markup_);
+          "Cannot find mode to evaluate: " + termToString(unfolded, markup_);
         throw new EvalException(message);
       }
       LOG.finer("Setting mode "+m.toString());
@@ -483,70 +480,53 @@ public class ZLive
     }
     writer.flush();
   }
-
-  /** Prints an evaluated expression as a standard text string.
+  
+  /** Print any term (evaluated or not), using the current markup.
    */
-  public void printTerm(PrintStream out, Term term, Markup markup)
+  public void printTerm(PrintStream out, Term term)
   {
     PrintWriter writer = new PrintWriter(out);
-    printTerm(writer, term, markup);
-    writer.flush();
+    printTerm(writer, term, getMarkup());
   }
 
-  /** Writes an evaluated expression as a standard text string.
-   *  TODO: improve this to handle GivenValue, SetComp and all
-   *        other classes in net.sourceforge.czt.animation.eval.result.
-   *        Note that these may be recursive, so we need a visitor.
+  /** Print any term (evaluated or not), using the current markup.
    */
-  public void printTerm(PrintWriter out, Term term, Markup markup)
+  public void printTerm(PrintWriter writer, Term term)
   {
-    if (term == null) {
+    printTerm(writer, term, getMarkup());
+  }
+
+  /** Write an evaluated term.
+   *  The output will be in LaTeX or Unicode format, according to the
+   *  current markup setting (see getMarkup()).
+   *  Internal ZLive evaluation results, such as EvalSets (which may
+   *  contain infinite sets), are converted into standard Z constructs
+   *  before they are printed.  For example, each EvalSet enumerates
+   *  a maximum number of elements (see the setEvalSetSize methods in
+   *  the ResultTreeToZVisitor class) and then prints "..." if there
+   *  are more elements remaining.
+   */
+  public void printTerm(PrintWriter out, Term term0, Markup markup)
+  {
+    if (term0 == null) {
       out.print("null");
     }
-    else if (term instanceof NumExpr) {
-      NumExpr num = (NumExpr) term;
-      ZNumeral znum = (ZNumeral) num.getNumeral();
-      out.print(znum.getValue());
-    }
-    else if (term instanceof EvalSet) {
-      EvalSet set = (EvalSet) term;
-      out.print("{ ");
-      Iterator<Expr> i = set.iterator();
-      while (i.hasNext()) {
-        printTerm(out, (Expr) i.next(), markup);
-        if (i.hasNext())
-          out.print(", ");
-      }
-      out.print(" }");
-    }
     else {
-      if (Markup.LATEX.equals(markup)) {
-        try {
-          new LatexPrinterCommand().printLatex(term, out, getSectionManager(),
-                                               getCurrentSection());
-          out.flush();
-          return;
-        }
-        catch (Exception e) {
-          e.printStackTrace(System.err);
-        }
-      }
       try {
-        new UnicodePrinterCommand().printUnicode(term, out,
-                                                 getSectionManager(), null);
-        out.flush();
-        return;
+        Term term = term0.accept(new ResultTreeToZVisitor());
+        PrintUtils.print(term, out, getSectionManager(),
+            getCurrentSection(), markup);
       }
       catch (Exception e) {
+        out.print("Error trying to print: " + term0);
         e.printStackTrace(System.err);
       }
-      out.print(term);
     }
     out.flush();
   }
 
   /** Converts the given term to a String. */
-  public String printTerm(Term term, Markup markup)
+  public String termToString(Term term, Markup markup)
   {
     StringWriter stringWriter = new StringWriter();
     printTerm(new PrintWriter(stringWriter), term, markup);
@@ -554,9 +534,9 @@ public class ZLive
   }
 
   /** Converts the given term to a String, using the current markup. */
-  public String printTerm(Term term)
+  public String termToString(Term term)
   {
-    return printTerm(term, getMarkup());
+    return termToString(term, getMarkup());
   }
 
   /**
