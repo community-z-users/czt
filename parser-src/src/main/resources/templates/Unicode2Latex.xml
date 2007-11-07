@@ -280,7 +280,9 @@ action code
   }
 
   /**
-   * Returns whether the table has been found.
+   * Returns the LatexMarkupFunction for the given section.
+   * Also sets up <code>markup_</code> if a LatexMarkupFunction
+   * has been found.
    */
   protected LatexMarkupFunction getMarkupTable(String sectName)
   {
