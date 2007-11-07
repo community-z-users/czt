@@ -590,7 +590,8 @@ non terminal String       markup, para, zpara, zedPara, wordmarkup;
 <add:oz>
 non terminal LatexCommand innerPara;
 </add:oz>
-non terminal LatexCommand token, tokenSeq, paren, special, decorword;
+non terminal LatexCommand token, tokenSeq, sectHeadSeq,
+             paren, special, decorword;
 
    input ::= narrWordList:narr sectionList:s
              {: parser.getWriter().flush(); :}
@@ -675,14 +676,14 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              ;
 
    zedPara ::=
-             SECTION specialSeq decorword:w tokenSeq:s
+             SECTION specialSeq DECORWORD:dw sectHeadSeq:s
              {:
                 String result = begin("zsection");
-                result += "\\SECTION " + w.getName() + " ";
+                result += "\\SECTION " + toLatexInSectHead(dw.getName()) + " ";
                 if (s != null) { result += s.getName(); }
                 result += end("zsection");
                 parser.write(result);
-                parser.sectionName_ = w.getUnicode();
+                parser.sectionName_ = dw.getName();
                 LatexMarkupFunction table =
                   getMarkupTable(parser.sectionName_);
                 setupMarkupTable(table);
@@ -696,6 +697,23 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.write(result);
              :}
              ;
+
+   sectHeadSeq ::= sectHeadSeq:s DECORWORD:dw
+             {:
+                if ("parents".equals(dw.getName())) {
+                  RESULT = concate(s, resultFF("\\parents", dw.getName()));
+                }
+                else {
+                  String latex = toLatexInSectHead(dw.getName());
+                  RESULT = concate(s, resultFF(latex, dw.getName()));
+                }
+             :}
+             |
+             sectHeadSeq:s special:w2
+             {: RESULT = concate(s, w2); :}
+             |
+             {: RESULT = null; :}
+             ;             
 
    zpara ::= ZED specialSeq zedPara END
              |
