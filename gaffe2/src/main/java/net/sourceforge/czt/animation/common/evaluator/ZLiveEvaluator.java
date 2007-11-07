@@ -60,7 +60,7 @@ public class ZLiveEvaluator implements Evaluator
       }
       BindExpr inputExpr = factory_.createBindExpr(declList);
       System.out.println("\nReady to evaluate schema: " + name);
-      System.out.println("Input: " + zlive_.printTerm(inputExpr));
+      System.out.println("Input: " + zlive_.termToString(inputExpr));
       System.out
           .println("******************Evaluation BEGIN!**********************************");
       Expr schema = zlive_.schemaExpr(name);
@@ -71,7 +71,7 @@ public class ZLiveEvaluator implements Evaluator
       System.out
           .println("Whether has a result: " + result.iterator().hasNext());
       System.out.println("Output: "
-          + zlive_.printTerm(result.iterator().next()));
+          + zlive_.termToString(result.iterator().next()));
       return new EvalSetResult(result);
     } catch (CommandException commex) {
       System.out
