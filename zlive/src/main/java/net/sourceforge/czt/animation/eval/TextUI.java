@@ -36,6 +36,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
@@ -241,7 +242,12 @@ public class TextUI {
         }
       }
       else if (cmd.equals("why")) {
-        zlive_.printCode(stack_.peek().getCode(), output_);
+        if (stack_.isEmpty()) {
+          output_.println("You must do a 'do' command first.");
+        }
+        else {
+          zlive_.printCode(stack_.peek().getCode(), output_);
+        }
       }
       else if (cmd.equals("set")) {
         if (args == null || "".equals(args))
@@ -511,6 +517,8 @@ public class TextUI {
     out.println("closedrangesize = " + FlatRangeSet.getAverageClosedRange());
     out.println("searchsize      = " + FlatPredList.getSearchSize());
     out.println("printsetsize    = " + ResultTreeToZVisitor.getEvalSetSize());
+    out.println("printwidth      = " + zlive_.getSectionManager()
+        .getProperty(PrintPropertiesKeys.PROP_TXT_WIDTH));
   }
 
   /** Prints a help message about all the settings. */
@@ -560,6 +568,10 @@ public class TextUI {
     else if ("printsetsize".equals(name)) {
       ResultTreeToZVisitor.setEvalSetSize(value);
     }
+    else if ("printwidth".equals(name)) {
+      zlive_.getSectionManager()
+        .setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, value);
+    }
     else {
       output_.println("Unknown setting: " + name);
     }
@@ -576,7 +588,7 @@ public class TextUI {
     out.println("next/curr/prev    -- Show next/current/previous state of a schema/set");
     out.println("; schemaExpr      -- Compose the current state with schemaExpr");
     out.println("undo              -- Undo the last 'do' or ';' command.");
-    out.println("why               -- Show the internal code of the last command");
+    out.println("why               -- Show the internal code of the last do or ';' command");
     out.println("set               -- Show all current settings");
     out.println("set <var> <value> -- Sets <var> to <value>.");
     out.println("show              -- Show name & type of defns in current section");
