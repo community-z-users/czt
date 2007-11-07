@@ -97,7 +97,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
   JMenuItem open = new JMenuItem("Open");
   JMenu console = new JMenu("Animate");
   JMenuItem startConsole = new JMenuItem("Start ZLive Default");
-  JMenu startConsoleWith = new JMenu("Start ZLive with");
+  JMenu startConsoleWith = new JMenu("Start ZLive Animator with");
   JMenu saveas = new JMenu("Export to");
   JMenuItem saveasLatex = new JMenuItem("Latex");
   JMenuItem saveasUnicode8 = new JMenuItem("Unicode(utf8)");
@@ -482,7 +482,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
           //add menu items for starting zlive with a prefered specification
           zliveSectionMenuItems.add(new JMenuItem(sectionName));
           
-          //zlive_.getSectionManager().put(new Key(sectionName, Source.class),loadSource);
+          zlive_.getSectionManager().put(new Key(sectionName, Source.class),loadSource);
           
           if (typecheckCheckBox.isSelected()) {
             manager.get(new Key(sectionName,SectTypeEnvAnn.class));
