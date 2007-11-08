@@ -153,9 +153,6 @@ public class Plugin
     generateJFlex("ContextFreeScanner",
                  "net.sourceforge.czt.print.z",
                  "{print}");
-    generateJava("SectHeadScanner",
-                 "net.sourceforge.czt.print.z",
-                 "{z}{print}");
   }
 
   private void generateZpattPrinter(String basePackage)
@@ -165,9 +162,6 @@ public class Plugin
     generateJFlex("ContextFreeScanner",
                   "net.sourceforge.czt.print.zpatt",
                   "{zpatt}{print}");
-    generateJava("SectHeadScanner",
-                 "net.sourceforge.czt.print.zpatt",
-                 "{zpatt}{print}");
   }
 
   private void generateOzPrinter(String basePackage)
@@ -177,9 +171,6 @@ public class Plugin
     generateJFlex("ContextFreeScanner",
                  "net.sourceforge.czt.print.oz",
                  "{oz}{print}");
-    generateJava("SectHeadScanner",
-                 "net.sourceforge.czt.print.oz",
-                 "{oz}{print}");
   }
 
   private void generateCircusPrinter(String basePackage)
@@ -187,9 +178,6 @@ public class Plugin
   {
     generateCup("Unicode2Latex", basePackage + "circus", "{z}{circus}");
     generateJFlex("ContextFreeScanner",
-                 "net.sourceforge.czt.print.circus",
-                 "{circus}{print}");
-    generateJava("SectHeadScanner",
                  "net.sourceforge.czt.print.circus",
                  "{circus}{print}");
   }

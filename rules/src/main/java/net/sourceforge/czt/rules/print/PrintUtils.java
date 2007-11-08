@@ -29,7 +29,6 @@ import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.print.z.UnicodePrinter;
-import net.sourceforge.czt.print.zpatt.SectHeadScanner;
 import net.sourceforge.czt.print.zpatt.Sym;
 import net.sourceforge.czt.print.zpatt.Unicode2Latex;
 import net.sourceforge.czt.print.zpatt.ZmlScanner;

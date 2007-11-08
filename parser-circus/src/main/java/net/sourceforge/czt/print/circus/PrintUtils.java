@@ -161,7 +161,7 @@ public final class PrintUtils
     transformWarningMap(warnings, scanner.getClass(), warningManager_.getZSectWarnings());        
         
     //System.out.println("03: CREATING UNICODE->LATEX PARSER FOR ZML SCANNER");
-    Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
+    Unicode2Latex parser = new Unicode2Latex(scanner);
     parser.setSectionInfo(sectInfo);
     //System.out.println("04: CREATING UNICODE PRINTER FOR GIVEN FILE WRITER");
     UnicodePrinter printer = new UnicodePrinter(out);

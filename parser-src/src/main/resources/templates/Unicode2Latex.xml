@@ -407,11 +407,7 @@ parser code {:
     throws Exception
   {
     Symbol result = local_next_token_help();
-    if (result.sym == Sym.SECTHEAD) {
-      sectionName_ = ((ZSect) result.value).getName();
-      action_obj.setupMarkupTable((ZSect) result.value);
-    }
-    else if (result.sym == Sym.DECORWORD &amp;&amp;
+    if (result.sym == Sym.DECORWORD &amp;&amp;
              "section".equals(result.value.toString())) {
       return new Symbol(Sym.SECTION);
     }
@@ -577,7 +573,6 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
 </add:circuspatt>
                    END_MARKUP,
                    TOKENSEQ, PARA_START, PARA_END;
-terminal ZSect     SECTHEAD;
 terminal LocInt    NUMERAL, NUMSTROKE;
 terminal LocString TEXT;
 terminal String    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
@@ -585,7 +580,7 @@ terminal String    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
 terminal Decorword DECORWORD;
 
 /* Non terminals */
-non terminal              input, narrWordList, sectionList, paragraphList,
+non terminal              input, narrWordList, paragraphList,
                           specialSeq;
 non terminal ZSect        sectionHeader;
 non terminal String       markup, para, zpara, zedPara, wordmarkup;
@@ -595,7 +590,7 @@ non terminal LatexCommand innerPara;
 non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              paren, special, decorword;
 
-   input ::= narrWordList:narr sectionList:s
+   input ::= paragraphList
              {: parser.getWriter().flush(); :}
              |
              TOKENSEQ tokenSeq:s TOKENSEQ
@@ -615,51 +610,6 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              {: parser.write(t.getString()); :}
              |
              // empty
-             ;
-
-   sectionList ::= 
-             sectionList sectionHeader:zsect paragraphList
-<add:oldz>
-             {:
-                if (! ZUtils.isAnonymous(zsect)) {
-                  parser.write(end("zsection"));
-                }
-             :}
-</add:oldz>
-             |
-             // empty
-             ;
-
-   sectionHeader ::= SECTHEAD:zsect
-             {:
-                RESULT = zsect;
-                final String name = zsect.getName();
-                sections_.put(name, zsect);
-                if (! ZUtils.isAnonymous(zsect)) {
-                  parser.write(begin("zsection"));
-                  final String latexName = toLatexInSectHead(zsect.getName());
-<add:z>
-                  parser.write("\\SECTION " + latexName + " \\parents ");
-</add:z>
-<add:oldz>
-                  parser.write("{" + latexName + "}{");
-</add:oldz>
-                  for (Iterator iter = zsect.getParent().iterator();
-                       iter.hasNext();) {
-                    Parent parent = (Parent) iter.next();
-                    String parentLatexName =
-                      toLatexInSectHead(parent.getWord());
-                    parser.write(parentLatexName);
-                    if (iter.hasNext()) parser.write(", ");
-                  }
-<add:oldz>
-                  parser.write("}");
-</add:oldz>
-<add:z>
-                  parser.write(end("zsection"));
-</add:z>
-                }
-             :}
              ;
 
    paragraphList ::= 

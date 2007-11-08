@@ -113,7 +113,7 @@ public class ZPrintVisitor
     }
   }
   
-  protected void print(ZToken tokenName, Object spelling)
+  protected void print(Token tokenName, Object spelling)
   {
     print(new TokenImpl(tokenName, spelling));
   }
@@ -1175,19 +1175,17 @@ public class ZPrintVisitor
 
   public Object visitZSect(ZSect zSect)
   {
-    if (! ZUtils.isAnonymous(zSect)) {
-      final String name = zSect.getName();
-      final List<Parent> parents = zSect.getParent();
-      print(ZToken.ZED);
-      print(ZKeyword.SECTION);
-      if (name == null) throw new PrintException("Invalid section name.");
-      print(ZToken.DECORWORD, new Decorword(name));
-      if (parents.size() > 0) {
-        print(ZKeyword.PARENTS);
-        printTermList(parents);
-      }
-      print(ZToken.END);
+    final String name = zSect.getName();
+    final List<Parent> parents = zSect.getParent();
+    print(ZToken.ZED);
+    print(ZKeyword.SECTION);
+    if (name == null) throw new PrintException("Invalid section name.");
+    print(ZToken.DECORWORD, new Decorword(name));
+    if (parents.size() > 0) {
+      print(ZKeyword.PARENTS);
+      printTermList(parents);
     }
+    print(ZToken.END);
     visit(zSect.getParaList());
     return null;
   }

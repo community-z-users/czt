@@ -97,12 +97,6 @@ public class LatexPrinterCommand
   }
 
   @Override
-  protected Scanner createSectHeadScanner(net.sourceforge.czt.print.z.ZmlScanner scanner)
-  {
-    return new SectHeadScanner(scanner);
-  }
-
-  @Override
   protected int getSymParaStart()
   {
     return Sym.PARA_START;

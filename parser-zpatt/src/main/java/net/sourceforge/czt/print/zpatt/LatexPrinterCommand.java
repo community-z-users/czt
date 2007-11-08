@@ -42,7 +42,7 @@ public class LatexPrinterCommand
       AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
       Term tree = (Term) term.accept(toPrintTree);
       ZmlScanner scanner = new ZmlScanner(tree, manager.getProperties());
-      Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
+      Unicode2Latex parser = new Unicode2Latex(scanner);
       parser.setSectionInfo(manager);
       UnicodePrinter printer = new UnicodePrinter(writer);
       parser.setWriter(printer);

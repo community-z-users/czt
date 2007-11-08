@@ -34,7 +34,7 @@ public class AbstractLatexPrinterCommand
   {
     Scanner result = scanner;
     if (term instanceof Spec || term instanceof ZSect) {
-      result = createSectHeadScanner(scanner);
+      // do nothing
     }
     else if (term instanceof Para) {
       scanner.prepend(new Symbol(getSymParaStart()));
@@ -61,9 +61,5 @@ public class AbstractLatexPrinterCommand
   {
     return Sym.TOKENSEQ;
   }
-
-  protected Scanner createSectHeadScanner(ZmlScanner scanner)
-  {
-    return new SectHeadScanner(scanner);
-  }
 }
+
