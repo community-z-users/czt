@@ -172,7 +172,7 @@ public class FlatMember extends FlatPred
     }
 
     // reduce estimate further if the member is partially known
-    // (this is a bit ad-hoc -- would be better to run chooseMode on the set)
+    // TODO: this is very ad-hoc -- try to run chooseMode on the constrained set instead
     if (env != null) {
       Map<Object, Expr> argValues = knownValues(env);
       if (argValues != null) {

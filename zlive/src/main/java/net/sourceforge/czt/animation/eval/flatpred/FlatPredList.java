@@ -398,9 +398,9 @@ public class FlatPredList extends FlatPred
    *  See FlatPred.inferBounds(Bounds bnds);
    *  <p>
    *  This does upto maxPasses passes over all the predicates
-   *  in the list.  It stops earlier than maxPasses if a fixed
-   *  point is reached.  That is, if the bounds are not getting
-   *  any tighter on each pass over the list.
+   *  in the list.  
+   *  TODO: stop earlier than maxPasses if a fixed point is reached.
+   *  That is, if the bounds are not getting any tighter after a pass.
    *  </p>
    *  @param bnds  The database of lower and upper bounds for integer variables.
    *  @param maxPasses The maximum number of iterations done.  Must be > 0.
