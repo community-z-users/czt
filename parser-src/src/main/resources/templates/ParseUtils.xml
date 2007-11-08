@@ -267,6 +267,18 @@ public class <class/>
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
+    Key&lt;Spec&gt; key = new Key&lt;Spec&gt;(name, Spec.class);
+    if (manager.isCached(key)) {
+      Spec spec = manager.get(key);
+      for (Sect sect : spec.getSect()) {
+        if (sect instanceof ZSect) {
+          ZSect zsect = (ZSect) sect;
+          manager.put(new Key&lt;ZSect&gt;(zsect.getName(), ZSect.class),
+                      zsect);
+        }
+      }
+      return true;
+    }
     try {
       Source source = (Source) manager.get(new Key(name, Source.class));
       if (source != null) {
