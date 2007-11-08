@@ -100,19 +100,17 @@ public class FlatSetComp extends FlatPred
   }
 
   /** Like other Flat*Set* objects, this acts as a function:
-      the free variables of the set are the inputs and the
-      resulting EvalSet object is the output.
-  */
+   *  the free variables of the set are the inputs and the
+   *  resulting EvalSet object is the output.
+   *  The number of solutions is always 1, since this just
+   *  defines the whole set, rather than iterating through it.
+   */
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
     LOG.entering("FlatSetComp","chooseMode",env);
     LOG.fine("args = "+args_+" freevars="+this.freeVars_);
     assert bounds_ != null; // inferBounds should have been called.
     Mode m = modeFunction(env);
-    if (m != null) {
-      SetComp setcomp = new SetComp(predsAll_, resultName_, env, bounds_);
-      m.setSolutions(setcomp.estSize());
-    }
     // bind (set |-> fuzzy), so that size estimates work better.
     /* TODO: it would be nice to add more precise bounds
      *  information here, since we now know the free vars
