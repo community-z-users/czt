@@ -190,7 +190,9 @@ public class TextUI {
         doEvalExprPred(args, output_);
       }
       else if (cmd.equals("do")) {
-        Expr expr = parseExpr(args, output_);
+        // This will usually be an expr, but we allow anything,
+        // so that we can use 'why' on predicates etc.
+        Term expr = parseTerm(args, output_);
         stack_.push(new ZLiveResult(zlive_.getCurrentSection(), expr));
         stack_.peek().setEnvir0(new Envir());
         zlive_.compile(stack_.peek());
