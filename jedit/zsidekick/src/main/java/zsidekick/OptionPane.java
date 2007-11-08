@@ -31,17 +31,27 @@ public class OptionPane extends AbstractOptionPane
     ZSideKickPlugin.PROP_PRINT_IDS;
   private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
+  private final String USE_BEFORE_DECL =
+    ZSideKickPlugin.PROP_USE_BEFORE_DECL;
+  private final String USE_STRONG_TYPING =
+    ZSideKickPlugin.PROP_USE_STRONG_TYPING;
   private final String PROP_LABEL_STD_CONFORMANCE =
     ZSideKickPlugin.OPTION_PREFIX + "standardConformance";
   private final String PROP_LABEL_PRINT_IDS =
     ZSideKickPlugin.OPTION_PREFIX + "printNameIds";
   private final String PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.OPTION_PREFIX + "ignoreUnknownLatexCommands";
+  private final String PROP_LABEL_USE_BEFORE_DECL =
+    ZSideKickPlugin.OPTION_PREFIX + "useBeforeDecl";
+  private final String PROP_LABEL_USE_STRONG_TYPING =
+    ZSideKickPlugin.OPTION_PREFIX + "useStrongTyping";
   private final String PROP_LABEL_RESET =
     ZSideKickPlugin.OPTION_PREFIX + "resetButton";
 
   private JCheckBox ignoreUnknownLatexCommands_;
   private JCheckBox printIds_;
+  private JCheckBox useBeforeDecl_;
+  private JCheckBox useStrongTyping_;
 
   public OptionPane()
   {
@@ -66,6 +76,18 @@ public class OptionPane extends AbstractOptionPane
     printIds_.getModel().setSelected(value);
     addComponent(printIds_);
 
+    useBeforeDecl_ = 
+      new JCheckBox(jEdit.getProperty(PROP_LABEL_USE_BEFORE_DECL));
+    value = jEdit.getBooleanProperty(USE_BEFORE_DECL);
+    useBeforeDecl_.getModel().setSelected(value);
+    addComponent(useBeforeDecl_);
+
+    useStrongTyping_ = 
+      new JCheckBox(jEdit.getProperty(PROP_LABEL_USE_STRONG_TYPING));
+    value = jEdit.getBooleanProperty(USE_STRONG_TYPING);
+    useStrongTyping_.getModel().setSelected(value);
+    addComponent(useStrongTyping_);
+
     JButton resetButton =
       new JButton(jEdit.getProperty(PROP_LABEL_RESET));
     resetButton.addActionListener(new ResetHandler());
@@ -78,6 +100,10 @@ public class OptionPane extends AbstractOptionPane
     jEdit.setBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS, value);
     value = printIds_.getModel().isSelected();
     jEdit.setBooleanProperty(PRINT_IDS, value);
+    value = useBeforeDecl_.getModel().isSelected();
+    jEdit.setBooleanProperty(USE_BEFORE_DECL, value);
+    value = useStrongTyping_.getModel().isSelected();
+    jEdit.setBooleanProperty(USE_STRONG_TYPING, value);
   }
 
   class ResetHandler implements ActionListener
@@ -86,6 +112,8 @@ public class OptionPane extends AbstractOptionPane
     {
       printIds_.getModel().setSelected(false);
       ignoreUnknownLatexCommands_.getModel().setSelected(false);
+      useBeforeDecl_.getModel().setSelected(false);
+      useStrongTyping_.getModel().setSelected(false);
     }
   }
 }

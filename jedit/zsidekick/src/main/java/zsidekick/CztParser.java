@@ -34,12 +34,14 @@ import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys;
 import net.sourceforge.czt.z.ast.*;
 
 public class CztParser
   extends SideKickParser
   implements ParsePropertiesKeys,
-             PrintPropertiesKeys
+             PrintPropertiesKeys,
+	     TypecheckPropertiesKeys
 {
   /* Z extension (dialect). */
   private String extension_;
@@ -206,6 +208,14 @@ public class CztParser
     propname = ZSideKickPlugin.PROP_PRINT_IDS;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_PRINT_NAME_IDS, value);
+
+    propname = ZSideKickPlugin.PROP_USE_BEFORE_DECL;
+    value = jEdit.getBooleanProperty(propname) ? "true" : "false";
+    manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, value);
+
+    propname = ZSideKickPlugin.PROP_USE_STRONG_TYPING;
+    value = jEdit.getBooleanProperty(propname) ? "true" : "false";
+    manager.setProperty(PROP_TYPECHECK_USE_STRONG_TYPING, value);
 
     int width = buffer.getIntegerProperty("maxLineLen", 0);
     if (width > 0) {

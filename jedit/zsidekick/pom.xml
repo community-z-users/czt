@@ -18,6 +18,10 @@
       <artifactId>rules</artifactId>
     </dependency>
     <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>typechecker-oz</artifactId>
+    </dependency>
+    <dependency>
       <groupId>${jedit.groupId}</groupId>
       <artifactId>${jedit.artifactId}</artifactId>
     </dependency>
