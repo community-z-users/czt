@@ -410,8 +410,18 @@ public class ZLive
       // throw an exception if this looks too expensive to evaluate
       double estSolns = result.getMode().getSolutions();
       if (estSolns > maxCost_) {
-        throw new EvalException("Too many solutions -- estimate="
-            +String.format("%1$.2g", new Object[] {estSolns}));
+        StringBuffer msg = new StringBuffer();
+        msg.append("Too many solutions -- estimate=");
+        msg.append(String.format("%1$.2g", new Object[] {estSolns}));
+        msg.append(" [");
+        for (Iterator<FlatPred> iter = predlist.iterator(); iter.hasNext(); ) {
+          FlatPred fp = iter.next();
+          double fpSolns = fp.getMode().getSolutions(); 
+          msg.append(String.format("%1$.2g,", new Object[] {fpSolns}));
+        }
+        msg.deleteCharAt(msg.length()-1);
+        msg.append("]");
+        throw new EvalException(msg.toString());
       }
       predlist.startEvaluation();
       LOG.finer("Looking for first solution...");
