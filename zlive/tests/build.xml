@@ -25,7 +25,7 @@
     <!-- we add several JUnit paths, for each of our machines... -->
     <pathelement location="/usr/share/junit/lib/junit.jar"/> <!-- petra@galatea -->
     <pathelement location="/research/tools/apache-ant-1.6.5/lib/junit.jar"/> <!-- marku@spot -->
-    <pathelement location="E:/marku/czt/junit.jar"/> <!-- marku@sophie -->
+    <pathelement location="D:/marku/czt/junit.jar"/> <!-- marku@sophie -->
   </path>
 
   <target name="usertest_compare" depends="usertest,compare"
