@@ -90,7 +90,7 @@ public class TermSelector
     if (stack_.empty()) {
       return root_.accept(new FindTermVisitor(position, stack_));
     }
-    LocAnn locAnn = (LocAnn) stack_.pop().getAnn(LocAnn.class);
+    LocAnn locAnn = stack_.pop().getAnn(LocAnn.class);
     BigInteger pos = BigInteger.valueOf(position);
     if (locAnn.getStart().compareTo(pos) > 0 ||
         pos.compareTo(locAnn.getEnd()) > 0) {
@@ -99,7 +99,7 @@ public class TermSelector
     }
     while (! stack_.empty()) {
       final Term term = stack_.pop();
-      locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      locAnn = term.getAnn(LocAnn.class);
       if (isLocation(locAnn)) {
         stack_.push(term);
         return true;
