@@ -54,6 +54,7 @@ import net.sourceforge.czt.animation.eval.flatpred.FlatTuple;
 import net.sourceforge.czt.animation.eval.flatpred.FlatTupleSel;
 import net.sourceforge.czt.animation.eval.flatpred.FlatUnion;
 import net.sourceforge.czt.animation.eval.result.GivenValue;
+import net.sourceforge.czt.animation.eval.result.RelSet;
 import net.sourceforge.czt.base.ast.Digit;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -678,7 +679,7 @@ public class FlattenVisitor
   }
 
   /** Returns true if e is 1, false if e is 0, exception otherwise. */
-  private boolean isOne(Expr e)
+  private static boolean isOne(Expr e)
   {
     if (e instanceof NumExpr) {
       int value = ((NumExpr)e).getValue().intValue();
@@ -711,52 +712,60 @@ public class FlattenVisitor
     return result;
   }
 
+  /** Non-null result means this LET encodes a relation/function space. */
+  public static RelSet getRelSet(LetExpr e)
+  {
+    ZSchText stext = e.getZSchText();
+    boolean isFunc = false;
+    boolean isTotal = false;
+    boolean isOnto = false;
+    boolean isInj = false;
+    for (Decl decl : stext.getZDeclList()) {
+      if ( ! (decl instanceof ConstDecl))
+        throw new EvalException("LET should not have been unfolded: "+e);
+      ConstDecl cdecl = (ConstDecl) decl;
+      if (cdecl.getName().toString().equals("isFun"))
+        isFunc = isOne(cdecl.getExpr());
+      else if (cdecl.getName().toString().equals("isTotal"))
+        isTotal = isOne(cdecl.getExpr());
+      else if (cdecl.getName().toString().equals("isOnto"))
+        isOnto = isOne(cdecl.getExpr());
+      else if (cdecl.getName().toString().equals("isInj"))
+        isInj = isOne(cdecl.getExpr());
+      else {
+        return null;
+      }
+    }
+    if ( ! (e.getExpr() instanceof PowerExpr)
+        || ! (((PowerExpr)e.getExpr()).getExpr() instanceof ProdExpr)) {
+      return null;
+    }
+    ProdExpr prod = (ProdExpr) ((PowerExpr) e.getExpr()).getExpr();
+    Expr domSet = prod.getZExprList().get(0);
+    Expr ranSet = prod.getZExprList().get(1);
+    return new RelSet(domSet, ranSet, isFunc, isTotal, isOnto, isInj);
+  }
+
   /** This translates our special LET isFun==1;... @ A x B
    *  constructs into FlatRelSet objects that represent function spaces.
    */
   public ZName visitLetExpr(LetExpr e) {
     ZName result = createBoundName();
-    ZSchText stext = e.getZSchText();
-    boolean isRelationSet = true;  // until we find otherwise
-    boolean isFunc = false;
-    boolean isTotal = false;
-    boolean isOnto = false;
-    boolean isInj = false;
-    try {
-      for (Decl decl : stext.getZDeclList()) {
-        if ( ! (decl instanceof ConstDecl))
-          throw new EvalException("LET should not have been unfolded: "+e);
+    RelSet relset = getRelSet(e);
+    if (relset != null) {
+      ZName domName = relset.getDom().accept(this);
+      ZName ranName = relset.getRan().accept(this);
+      flat_.add(new FlatRelSet(domName, ranName, 
+          relset.isFunction(), relset.isTotal(), relset.isOnto(), 
+          relset.isInjective(), result));
+    }
+    else {
+      // flatten each RHS expression and assign it to the LHS name.
+      for (Decl decl : e.getZSchText().getZDeclList()) {
         ConstDecl cdecl = (ConstDecl) decl;
-        if (cdecl.getName().toString().equals("isFun"))
-          isFunc = isOne(cdecl.getExpr());
-        else if (cdecl.getName().toString().equals("isTotal"))
-          isTotal = isOne(cdecl.getExpr());
-        else if (cdecl.getName().toString().equals("isOnto"))
-          isOnto = isOne(cdecl.getExpr());
-        else if (cdecl.getName().toString().equals("isInj"))
-          isInj = isOne(cdecl.getExpr());
-        else
-          isRelationSet = false;
+        ZName tmpname = cdecl.getExpr().accept(this);
+        flat_.add(new FlatEquals(tmpname, cdecl.getZName()));
       }
-      if (isRelationSet
-          && e.getExpr() instanceof PowerExpr
-          && ((PowerExpr)e.getExpr()).getExpr() instanceof ProdExpr) {
-        ProdExpr prod = (ProdExpr) ((PowerExpr) e.getExpr()).getExpr();
-        ZName domSet = prod.getZExprList().get(0).accept(this);
-        ZName ranSet = prod.getZExprList().get(1).accept(this);
-        flat_.add(new FlatRelSet(domSet, ranSet,
-            isFunc, isTotal, isOnto, isInj, result));
-        return result;
-      }
-    }
-    catch (EvalException ex) {
-      isRelationSet = false;
-    }
-    // flatten each RHS expression and assign it to the LHS name.
-    for (Decl decl : stext.getZDeclList()) {
-      ConstDecl cdecl = (ConstDecl) decl;
-      ZName tmpname = cdecl.getExpr().accept(this);
-      flat_.add(new FlatEquals(tmpname, cdecl.getZName()));
     }
     return flat_.addExpr(e.getExpr());
   }

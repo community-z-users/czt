@@ -34,28 +34,31 @@ import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
- * A power set with lazy evaluation of its elements.
+ * A relation or function space, from_ &lt;--&gt; to_.
+ * With various constraints (functional, total, onto or injective).
  *
  * @author Petra Malik
  */
 public class RelSet extends EvalSet
 {
-  private EvalSet from_;
-  private EvalSet to_;
+  private Expr from_;  // will be an EvalSet at evaluation time
+  private Expr to_;    // will be an EvalSet at evaluation time
   private boolean function_;
   private boolean total_;
   private boolean onto_;
   private boolean injective_;
 
   /** Creates a new power set of the given base set. */
-  public RelSet(EvalSet from,
-                EvalSet to,
+  public RelSet(Expr from,
+                Expr to,
                 boolean function,
                 boolean total,
                 boolean onto,
                 boolean injective)
   {
-    if (! function && injective) throw new UnsupportedOperationException();
+    if (! function && injective) {
+      throw new UnsupportedOperationException("injective non-function relation");
+    }
     from_ = from;
     to_ = to;
     function_ = function;
@@ -72,6 +75,26 @@ public class RelSet extends EvalSet
   public Expr getRan()
   {
     return to_;
+  }
+
+  public boolean isFunction()
+  {
+    return function_;
+  }
+
+  public boolean isTotal()
+  {
+    return total_;
+  }
+
+  public boolean isOnto()
+  {
+    return onto_;
+  }
+
+  public boolean isInjective()
+  {
+    return injective_;
   }
 
   public boolean isEmpty()
@@ -105,20 +128,27 @@ public class RelSet extends EvalSet
       String msg = "Type error: members of RelSet must be sets: " + obj;
       throw new EvalException(msg);
     }
+    EvalSet fromSet = (EvalSet) from_;
+    EvalSet toSet = (EvalSet) to_;
     HashMap<Expr,Expr> map = new HashMap<Expr,Expr>();
     Set<Expr> range = new HashSet<Expr>();
     for (Expr expr : ((EvalSet) obj)) {
-      if (!(expr instanceof TupleExpr)) return false;
+      if (!(expr instanceof TupleExpr))
+        return false;
       ZExprList exprList = ((TupleExpr) expr).getZExprList();
-      if (exprList.size() != 2) return false;
+      if (exprList.size() != 2)
+        return false;
       Expr left = exprList.get(0);
       Expr right = exprList.get(1);
-      if (! from_.contains(left)) return false;
-      if (! to_.contains(right)) return false;
+      if (! fromSet.contains(left))
+        return false;
+      if (! toSet.contains(right))
+        return false;
       if (function_ || total_) {
         Expr to = map.get(left);
         if (to != null) {
-          if (function_) return false;
+          if (function_)
+            return false;
         }
         else {
           map.put(left, right);
@@ -128,9 +158,12 @@ public class RelSet extends EvalSet
     }
     final int domSize = map.size();
     final int ranSize = range.size();
-    if (total_ && domSize != from_.size()) return false;
-    if (onto_ && ranSize != to_.size()) return false;
-    if (injective_ && domSize != ranSize) return false;
+    if (total_ && domSize != fromSet.size())
+      return false;
+    if (onto_ && ranSize != toSet.size())
+      return false;
+    if (injective_ && domSize != ranSize)
+      return false;
     return true;
   }
 
@@ -228,7 +261,7 @@ public class RelSet extends EvalSet
     String func = funcName(function_, injective_, total_, onto_);
     return from_.toString() + " " + func + " " + to_.toString();
   }
-  
+
   public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof RelSetVisitor) {

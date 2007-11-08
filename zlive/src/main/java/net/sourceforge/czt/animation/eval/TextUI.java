@@ -248,6 +248,9 @@ public class TextUI {
           output_.println("You must do a 'do' command first.");
         }
         else {
+          output_.print("Unfolded term: ");
+          zlive_.printTerm(output_, stack_.peek().getUnfoldedTerm());
+          output_.println("\nCode:");
           zlive_.printCode(stack_.peek().getCode(), output_);
         }
       }

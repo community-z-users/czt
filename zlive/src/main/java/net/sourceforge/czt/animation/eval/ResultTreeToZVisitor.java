@@ -28,19 +28,30 @@ import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.visitor.LetExprVisitor;
 
+/**
+ * This class converts ZLive-specific terms into standard Z AST nodes.
+ * It is typically called before printing a term.
+ * You can use setEvalSetSize to control how many elements are
+ * printed when a large or infinite EvalSet is encountered.
+ *
+ * @author marku
+ *
+ */
 public class ResultTreeToZVisitor
   implements TermVisitor<Term>,
              EvalSetVisitor<Term>,
 	     PowerSetVisitor<Term>,
              ProdSetVisitor<Term>,
-             RelSetVisitor<Term>
+             RelSetVisitor<Term>,
+             LetExprVisitor<Term>
 {
   private Factory factory_ = new Factory();
-  
+
   /** Stop evaluating elements of a set after this many. */
   private static int evalSetSize = -1;  // infinity
-  
+
   public ResultTreeToZVisitor()
   {
     VisitorUtils.checkVisitorRules(this);
@@ -113,7 +124,7 @@ public class ResultTreeToZVisitor
   /** We do not attempt to enumerate function spaces,
    *  since this is rarely useful -- they are usually too big,
    *  and they are usually used for membership tests.
-   *  Instead, this returns expressions like: domain op range, 
+   *  Instead, this returns expressions like: domain op range,
    *  where op is one of the function space operators.
    */
   public Term visitRelSet(RelSet relSet)
@@ -123,7 +134,26 @@ public class ResultTreeToZVisitor
     ZExprList args = factory_.createZExprList();
     args.add( (Expr) visit(relSet.getDom()));
     args.add( (Expr) visit(relSet.getRan()));
-    return factory_.createRefExpr(funcName, args, Boolean.TRUE);
+    return factory_.createRefExpr(funcName, args, true, true);
+  }
+
+  /**
+   * Convert the strange LET expressions that ZLive uses for
+   * function/relation spaces back into normal function/relation spaces.
+   * This is useful when we are printing unfolded terms.
+   *
+   * @param expr
+   * @return
+   */
+  public Term visitLetExpr(LetExpr expr)
+  {
+    RelSet relset = FlattenVisitor.getRelSet(expr);
+    if (relset == null) {
+      return expr;
+    }
+    else {
+      return visitRelSet(relset);
+    }
   }
 
   private Term visit(Term t)

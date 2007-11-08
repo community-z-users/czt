@@ -408,6 +408,10 @@ public class ZLive
       LOG.entering("ZLive","evaluate");
       FlatPredList predlist = result.getCode();
       // throw an exception if this looks too expensive to evaluate
+      // TODO: could also move/copy this check into FlatPredList.
+      //   (ie. keep track of a more accurate cost by doing the multiplications
+      //    as highTide_ advances.  This would prevent huge set comps
+      //    from being evaluated and taking too much time).
       double estSolns = result.getMode().getSolutions();
       if (estSolns > maxCost_) {
         StringBuffer msg = new StringBuffer();
