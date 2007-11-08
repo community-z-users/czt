@@ -145,6 +145,7 @@ public class EvalSetTest
   {
     Mode m = set.chooseMode(envIJK);
     Assert.assertTrue(m != null);
+    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions());
     set.setMode(m);
     set.startEvaluation();
     Assert.assertTrue(set.nextEvaluation());
@@ -196,6 +197,7 @@ public class EvalSetTest
     Envir env = envIJK.plus(s, other);
     Mode m = set.chooseMode(env);
     Assert.assertTrue(m != null);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions());
     set.setMode(m);
     set.startEvaluation();
     // Check that the generated set (s) equals t.
