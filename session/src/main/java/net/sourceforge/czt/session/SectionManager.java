@@ -352,7 +352,7 @@ public class SectionManager
    * @return      An instance of key.getType().
    * @throws      CommmandException if the lookup was unseccessful.
    */
-  public Object get(Key key)
+  public <T> T get(Key<T> key)
     throws CommandException
   {
     getLogger().finer("Entering method get " + key);
@@ -374,7 +374,7 @@ public class SectionManager
     }
     final String message = "Leaving method get and returning " + result;
     getLogger().finer(message);
-    return result;
+    return (T) result;
   }
 
   /**

@@ -45,7 +45,7 @@ public interface SectionInfo
    * @return      An instance of key.getType().
    * @throws      CommmandException if the lookup was unseccessful.
    */
-  Object get(Key key) throws CommandException;
+  <T> T get(Key<T> key) throws CommandException;
 
   void put(Key key, Object value, Set<Key> dependencies);
 

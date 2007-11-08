@@ -21,12 +21,12 @@
 package net.sourceforge.czt.session;
 
 /** A Key is a pair (String,Class). */
-public class Key
+public class Key<T>
 {
   private String name_;
-  private Class<?> type_;
+  private Class<T> type_;
 
-  public Key(String name, Class<?> type)
+  public Key(String name, Class<T> type)
   {
     if (name == null) throw new NullPointerException();
     if (type == null) throw new NullPointerException();
