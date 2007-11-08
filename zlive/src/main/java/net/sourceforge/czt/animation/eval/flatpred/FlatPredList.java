@@ -89,9 +89,6 @@ public class FlatPredList extends FlatPred
    */
   public static final boolean optimize_ = true;
 
-  /** Maximum acceptable cost for evaluating each FlatPredList */
-  private static double maxCost_ = 1000000000;
-
   /** The maximum number of FlatPreds in predlist_ that succeeded
    *  during all evaluations.  This is used just to give better failure
    *  messages to users, when evaluations fail.  
@@ -116,28 +113,6 @@ public class FlatPredList extends FlatPred
   public FlatPredList(ZLive newZLive)
   {
     zlive_ = newZLive;
-  }
-
-  /** Set the maximum acceptable cost for evaluating each FlatPredList.
-   *  If no mode can be found with fewer solutions than this,
-   *  then chooseMode returns null, so that evaluation path will
-   *  not be considered.
-   */
-  public static double getSearchSize()
-  {
-    return maxCost_;
-  }
-
-  public static void setSearchSize(double num)
-  {
-    if (num < 1.0)
-      throw new CztException("search size must be at least 1.0");
-    FlatPredList.maxCost_ = num;
-  }
-
-  public static void setSearchSize(String str)
-  {
-    setSearchSize(Double.valueOf(str));
   }
 
   /** Returns the number of FlatPreds in this list. */
@@ -467,12 +442,14 @@ public class FlatPredList extends FlatPred
       cost *= m.getSolutions();
       LOG.finer(this.hashCode() + " cost=" + m.getSolutions()
           + " outputs=" + m.getOutputs() + " pred=" + m.getParent());
+      /*
       if (optimize_ && cost > maxCost_) {
         LOG.finer("too expensive (" + cost + ") to evaluate " + this
             + " with env=" + env);
         LOG.exiting("FlatPredList", "chooseMode", null);
         return null;
       }
+      */
       env = m.getEnvir();
     }
     if ( ! flatPreds.isEmpty()) {

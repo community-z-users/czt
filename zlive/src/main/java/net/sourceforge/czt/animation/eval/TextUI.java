@@ -515,7 +515,7 @@ public class TextUI {
     out.println("givensetsize    = " + zlive_.getGivenSetSize());
     out.println("numitersize     = " + RangeSet.getNumIterSize());
     out.println("closedrangesize = " + FlatRangeSet.getAverageClosedRange());
-    out.println("searchsize      = " + FlatPredList.getSearchSize());
+    out.println("searchsize      = " + zlive_.getSearchSize());
     out.println("printsetsize    = " + ResultTreeToZVisitor.getEvalSetSize());
     out.println("printwidth      = " + zlive_.getSectionManager()
         .getProperty(PrintPropertiesKeys.PROP_TXT_WIDTH));
@@ -563,7 +563,7 @@ public class TextUI {
       FlatRangeSet.setAverageClosedRange(value);
     }
     else if ("searchsize".equals(name)) {
-        FlatPredList.setSearchSize(value);
+        zlive_.setSearchSize(value);
       }
     else if ("printsetsize".equals(name)) {
       ResultTreeToZVisitor.setEvalSetSize(value);

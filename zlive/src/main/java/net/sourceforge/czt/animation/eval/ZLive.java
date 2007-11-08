@@ -74,6 +74,9 @@ public class ZLive
    */
   public static final int INFER_PASSES = 5;
 
+  /** Maximum acceptable cost for evaluating each FlatPredList */
+  private double maxCost_ = 1000000000;
+
   private static final Logger LOG =
     Logger.getLogger("net.sourceforge.czt.animation.eval");
 
@@ -241,6 +244,27 @@ public class ZLive
     givenSetSize_ = Integer.parseInt(value);
   }
 
+  /** Set the maximum acceptable cost for evaluating each FlatPredList.
+   *  If the chosen mode has more solutions this, then an exception
+   *  will be thrown before evaluation starts.
+   */
+  public double getSearchSize()
+  {
+    return maxCost_;
+  }
+
+  public void setSearchSize(double num)
+  {
+    if (num < 1.0)
+      throw new CztException("search size must be at least 1.0");
+    maxCost_ = num;
+  }
+
+  public void setSearchSize(String str)
+  {
+    setSearchSize(Double.valueOf(str));
+  }
+
   /** Which section evaluations are being done in. */
   public String getCurrentSection()
   {
@@ -383,6 +407,12 @@ public class ZLive
     try {
       LOG.entering("ZLive","evaluate");
       FlatPredList predlist = result.getCode();
+      // throw an exception if this looks too expensive to evaluate
+      double estSolns = result.getMode().getSolutions();
+      if (estSolns > maxCost_) {
+        throw new EvalException("Too many solutions -- estimate="
+            +String.format("%1$.2g", new Object[] {estSolns}));
+      }
       predlist.startEvaluation();
       LOG.finer("Looking for first solution...");
       if (result.isExpr()) {
