@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.z2b;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
@@ -26,27 +29,45 @@ import net.sourceforge.czt.rules.rewriter.Strategies;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.Factory;
 
 class Preprocessor
 {
   private RuleTable rules_;
+  private Factory factory_ = new Factory();
 
   Preprocessor()
+    throws UnfoldException
   {
     try {
       SectionManager manager = new SectionManager("zpatt");
       rules_ = (RuleTable)
         manager.get(new Key("expansion_rules", RuleTable.class));
+      RuleTable simplificationRules = (RuleTable)
+        manager.get(new Key("simplification_rules", RuleTable.class));
+      rules_.addRuleParas(simplificationRules);
     }
     catch(CommandException e) {
-      throw new RuntimeException(e);
+      throw new UnfoldException(e);
+    }
+    catch (RuleTable.RuleTableException e) {
+      throw new UnfoldException(e);
     }
   }
 
-  Term unfold(Term term, String section, SectionManager manager)
+  Term unfold(Expr expr, String section, SectionManager manager)
   {
     try {
-      return Strategies.innermost(term, rules_, manager, section);
+      final List<Expr> exprList = new ArrayList<Expr>();
+      final ZName name = factory_.createZName("normalize",
+                                              factory_.createZStrokeList(),
+                                              null);
+      final ExprList refExprList = factory_.createZExprList();
+      exprList.add(factory_.createRefExpr(name, refExprList, false, false));
+      exprList.add(expr);
+      final ApplExpr applExpr = factory_.createApplExpr(exprList, false);
+      return Strategies.innermost(applExpr, rules_, manager, section);
     }
     catch (CommandException e) {
       throw new RuntimeException("Unfolding failed!", e);

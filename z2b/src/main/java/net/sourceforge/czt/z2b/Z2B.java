@@ -72,6 +72,7 @@ public class Z2B
   private Preprocessor preprocessor_ = new Preprocessor();
 
   public Z2B(SectionManager manager)
+    throws UnfoldException
   {
     manager_ = manager;
   }
