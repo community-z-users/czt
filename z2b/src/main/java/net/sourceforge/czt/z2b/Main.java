@@ -1,4 +1,3 @@
-package net.sourceforge.czt.z2b;
 /**
 Copyright 2003, 2006 Mark Utting
 This file is part of the CZT project.
@@ -17,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with CZT; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
+package net.sourceforge.czt.z2b;
 
 import java.io.*;
 import java.util.logging.*;
