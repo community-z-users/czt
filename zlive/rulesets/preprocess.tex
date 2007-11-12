@@ -292,10 +292,9 @@ TODO: implement min and max as primitives, but only over integer sets.
 
 \section{Sequence Rules}
 
-Using innermost, this rule will never get applied (unfolddefn2 is
-applied first).  It is also unsound.
-\begin{zedrule}{literalsequence}
-   (\langle \listarg \rangle) ~ E = E
+TODO: this really needs to check that E1 and E2 are sequences
+\begin{zedrule}{concat}
+   E1 \cat E2 = E1 \cup \{ n:\dom E2 @ n + \# E1 \mapsto E2 ~ n \}
 \end{zedrule}
 
 TODO: implement concatenation as a primitive, with several
