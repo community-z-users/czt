@@ -21,7 +21,6 @@ package net.sourceforge.czt.animation.eval;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
@@ -29,7 +28,6 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.base.ast.Term;
@@ -37,7 +35,6 @@ import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.ast.ProverFactory;
@@ -283,8 +280,8 @@ public class TextUI {
       else if (cmd.equals("env")) {
         final String section = zlive_.getCurrentSection();
         if (section != null) {
-          output_.println(manager.get(new Key(section, OpTable.class)));
-          output_.println(manager.get(new Key(section, DefinitionTable.class)));
+          output_.println(manager.get(new Key<OpTable>(section, OpTable.class)));
+          output_.println(manager.get(new Key<DefinitionTable>(section, DefinitionTable.class)));
         }
       }
       else if (cmd.equals("unfold")) {
@@ -348,7 +345,7 @@ public class TextUI {
   throws CommandException
   {
     final SectionManager manager = zlive_.getSectionManager();
-    Key key = new Key(filename, Spec.class);
+    Key<Spec> key = new Key<Spec>(filename, Spec.class);
     if (manager.isCached(key))
     {
       output_.println(filename + " is already loaded.");
@@ -358,14 +355,15 @@ public class TextUI {
     else
     {
       Source source = new FileSource(filename);
-      manager.put(new Key(filename, Source.class), source);
+      manager.put(new Key<Source>(filename, Source.class), source);
       Spec spec = (Spec) manager.get(key);
       String sectName = null;
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
           sectName = ((ZSect) sect).getName();
           output_.println("Loading section " + sectName);
-          Key typekey = new Key(sectName, SectTypeEnvAnn.class);
+          Key<SectTypeEnvAnn> typekey =
+            new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class);
           /* ignore the result */  manager.get(typekey);
         }
       }
@@ -421,7 +419,7 @@ public class TextUI {
       output_.println("Error: no current section.");
     }
     else {
-      ZSect sect = (ZSect) manager.get(new Key(section, ZSect.class));
+      ZSect sect = (ZSect) manager.get(new Key<ZSect>(section, ZSect.class));
       for (Para par : ZUtils.assertZParaList(sect.getParaList()))
         if (par instanceof ConjPara) {
           ConjPara conj = (ConjPara) par;
@@ -467,7 +465,7 @@ public class TextUI {
       if (errs.size() > 0)
         output_.println("Type errors: "+errs);
       RuleTable rules = (RuleTable)
-      manager.get(new Key("ZLivePreprocess", RuleTable.class));
+      manager.get(new Key<RuleTable>("ZLivePreprocess", RuleTable.class));
       RulePara rulePara = rules.get(parts[0]);
       if (rulePara == null) {
         output_.println("Cannot find rule paragraph " + parts[0]);
@@ -613,8 +611,8 @@ public class TextUI {
   public void printTypes(String sectName)
   throws CommandException
   {
-    SectTypeEnvAnn types = (SectTypeEnvAnn) zlive_.getSectionManager().get(
-        new Key(sectName, SectTypeEnvAnn.class));
+    SectTypeEnvAnn types = zlive_.getSectionManager().get(
+        new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class));
     for (NameSectTypeTriple triple : types.getNameSectTypeTriple()) {
       if (triple.getSect().equals(sectName))
         output_.println("    "+triple.getZName()+":  "+triple.getType());
