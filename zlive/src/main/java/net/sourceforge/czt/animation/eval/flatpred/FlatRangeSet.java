@@ -226,13 +226,6 @@ public class FlatRangeSet extends FlatPred
     result.append(printArg(lowerArg_));
     result.append(" .. ");
     result.append(printArg(upperArg_));
-    EvalSet range = null;
-    if (bounds_ != null)
-      range = bounds_.getEvalSet(args_.get(setArg_));
-    if (range != null) {
-      result.append(" :: ");
-      result.append(range.toString());
-    }
     return result.toString();
   }
 

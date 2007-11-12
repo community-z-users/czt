@@ -60,6 +60,8 @@ import net.sourceforge.czt.z.util.PrintVisitor;
  */
 public abstract class FlatPred
 {
+  protected static final String INDENT = "  ";
+  
   protected static final Logger LOG =
     Logger.getLogger("net.sourceforge.czt.animation.eval");
 
@@ -318,7 +320,7 @@ public abstract class FlatPred
       String endQuant)
   {
     if (stext.contains("\n") || body.contains("\n")) {
-      return quant + " " + indent(stext) + "\n@ " + indent(body)
+      return quant + "\n" + INDENT + indent(stext) + "\n@ " + indent(body)
             + "\n" + endQuant;
     }
     else {
@@ -333,7 +335,7 @@ public abstract class FlatPred
    */
   public String indent(String str)
   {
-    return str.replaceAll("\n", "\n  ");
+    return str.replaceAll("\n", "\n" + INDENT);
   }
 
   ///////////////////////// Pred methods ///////////////////////

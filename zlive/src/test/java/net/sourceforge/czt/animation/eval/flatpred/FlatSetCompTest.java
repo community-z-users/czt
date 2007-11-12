@@ -67,7 +67,8 @@ public class FlatSetCompTest
 
   public void testToString()
   {
-    assertEquals("s = { tmp0 = i .. k :: 10..12;\n"
+    assertEquals("s = {\n"
+               + "    tmp0 = i .. k;\n"
                + "    r in tmp0 :: 3.0 10..12\n"
                + "  @ r\n"
                + "  }",

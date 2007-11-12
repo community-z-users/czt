@@ -30,7 +30,6 @@ import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
@@ -108,6 +107,12 @@ public class FlatPredList extends FlatPred
 
   /** The ZLive animator that owns/uses this FlatPred list. */
   private /*@non_null@*/ ZLive zlive_;
+
+  /** The latest Bounds information for this list (may be null). */
+  private Bounds bounds_;
+
+  /** The minimum width of each printed FlatPred, before any commentary. */
+  private static final int MIN_CODE_WIDTH = 30;
 
   /** Creates an empty FlatPred list. */
   public FlatPredList(ZLive newZLive)
@@ -378,6 +383,7 @@ public class FlatPredList extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
+    bounds_ = bnds;
     LOG.entering("FlatPredList","inferBounds",bnds);
     for (FlatPred pred : predlist_)
       pred.inferBounds(bnds);
@@ -628,30 +634,59 @@ public class FlatPredList extends FlatPred
     return zlive_.getFactory();
   }
 
+  private void appendInfo(StringBuilder buf, String op, Object info)
+  {
+    if (info != null) {
+      buf.append(op);
+      buf.append(info.toString());
+      buf.append(",");
+    }
+  }
+
   /** This prints each FlatPred on a separate line.
    *  If a FlatPred within the list is displayed on multiple lines, it
    *  indents those lines, to preserve the nested indentation structure.
    */
   public String toString() {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (int i = 0; i < predlist_.size(); i++) {
       if (i == highTide_) {
-        result.append("%%----------\n");
+        result.append("%%---------------\n");
       }
       FlatPred pred = predlist_.get(i);
       String str = pred.toString();
       result.append(indent(str));
+      if (i < predlist_.size() - 1) {
+        result.append(";");
+      }
+      Mode mode = pred.getMode();
+      // now append some comments about its output variables
+      if (mode != null && mode.numOutputs() > 0) {
+        int startLine = result.lastIndexOf("\n");
+        for (int col=result.length(); col < startLine+MIN_CODE_WIDTH; col++) {
+          result.append(" ");
+        }
+        result.append(" %% ");
+        for (ZName out : mode.getOutputs()) {
+          result.append(printName(out));
+          if (bounds_ != null) {
+            ZName best = bounds_.getBestAlias(out);
+            if (! out.equals(best)) {
+              appendInfo(result, "=", best);
+            }
+            appendInfo(result, "=", bounds_.getStructure(out));
+            appendInfo(result, ":", bounds_.getEvalSet(out));
+            appendInfo(result, ":", bounds_.getRange(out));
+          }
+          result.append("    ");
+        }
+      }
       if (i < predlist_.size() - 1)
-        result.append(";\n");
+        result.append("\n");
     }
     if (highTide_ == predlist_.size() && highTide_ > 0) {
       result.append("\n%%----------");
     }
     return result.toString();
-  }
-
-  public static void main(String[] args)
-  {
-    System.out.println("ab\ncd".replaceAll("\n","NNN"));
   }
 }
