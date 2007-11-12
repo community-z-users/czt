@@ -106,7 +106,7 @@ public class TextUI {
 
   /** main entry point, which runs ZLive with System.in and System.out. */
   public static void main (String args[])
-  throws IOException
+  throws IOException, CommandException
   {
     BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     PrintWriter output = new PrintWriter(System.out, true); // with autoflush
@@ -127,6 +127,7 @@ public class TextUI {
       output.println("Usage: [-logrules | -logeval]");
 
     TextUI ui = new TextUI(new ZLive(), output);
+    ui.setSetting("printwidth", "80");
     ui.mainLoop(input);
   }
 
