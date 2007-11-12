@@ -1482,7 +1482,7 @@ reference for load and store instructions.
                                         <Anns>
                                             <LocAnn Start="2521" Loc="Sched.tex" Line="95" Length="9" Col="22"/>
                                         </Anns>
-                                        <Word> _ \ _ </Word>
+                                        <Word> _ ∖ _ </Word>
                                         <ZStrokeList/>
                                     </ZName>
                                     <ZExprList/>
@@ -19707,7 +19707,7 @@ Remove a process from the system
                                                                                                     <Anns>
                                                                                                         <LocAnn Start="17467" Loc="Sched.tex" Line="578" Length="9" Col="15"/>
                                                                                                     </Anns>
-                                                                                                    <Word> _ \ _ </Word>
+                                                                                                    <Word> _ ∖ _ </Word>
                                                                                                     <ZStrokeList/>
                                                                                                 </ZName>
                                                                                                 <ZExprList/>

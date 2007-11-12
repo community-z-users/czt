@@ -156,7 +156,7 @@
       <char id="SUBSET" hex="2282" description="subset of"/>
       <char id="CUP" hex="222A" description="union"/>
       <char id="CAP" hex="2229" description="intersection"/>
-      <char id="SETMINUS" hex="005C" description="reverse solidus"/>
+      <char id="SETMINUS" hex="2216" description="set minus"/>
       <char id="SYMDIFF" hex="2296" description="circled minus"/>
       <char id="BIGCUP" hex="22C3" description="n-ary union"/>
       <char id="BIGCAP" hex="22C2" description="n-ary intersection"/>
