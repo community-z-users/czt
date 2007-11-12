@@ -32,14 +32,11 @@ import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
-import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.print.z.LatexPrinterCommand;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.print.z.UnicodePrinterCommand;
 import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.session.CommandException;
@@ -178,7 +175,7 @@ public class ZLive
                                            + "\\end{zsection}",
                                            name);
       specSource.setMarkup(Markup.LATEX);
-      sectman_.put(new Key(name ,Source.class), specSource);
+      sectman_.put(new Key<Source>(name ,Source.class), specSource);
       this.setCurrentSection(name);
     }
     catch (Exception e) {
@@ -189,7 +186,7 @@ public class ZLive
     // now load the ZLive preprocessing rules.
     try {
       Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
-      sectman_.put(new Key("unfold", Source.class), unfoldSource);
+      sectman_.put(new Key<Source>("unfold", Source.class), unfoldSource);
       preprocess_ = new Preprocess(sectman_);
       preprocess_.setRules("/preprocess.tex");
     } catch (Exception e) {
@@ -279,8 +276,9 @@ public class ZLive
   throws CommandException
   {
     if (sectName != null && sectName.length() > 0) {
-      sectman_.get(new Key(sectName, ZSect.class));          // parse it
-      sectman_.get(new Key(sectName, SectTypeEnvAnn.class)); // typecheck it
+      // parse it then typecheck it
+      sectman_.get(new Key<ZSect>(sectName, ZSect.class));
+      sectman_.get(new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class));
       sectName_ = sectName;
     }
     else {
@@ -475,8 +473,9 @@ public class ZLive
   {
     Expr schema = null;
     String currSect = getCurrentSection();
-    Key key = new Key(currSect, DefinitionTable.class);
-    DefinitionTable table = (DefinitionTable) getSectionManager().get(key);
+    Key<DefinitionTable> key =
+      new Key<DefinitionTable>(currSect, DefinitionTable.class);
+    DefinitionTable table = getSectionManager().get(key);
     DefinitionTable.Definition def = table.lookup(schemaName);
     // Added distinction with CONSTDECL, for compatibility with old DefinitionTable (Leo)
     if (def != null && def.getDefinitionType().equals(DefinitionType.CONSTDECL))
@@ -518,10 +517,8 @@ public class ZLive
     if (code == null || code.size() == 0) {
       writer.println("Code is empty!");
     }
-    for (Iterator i = code.iterator(); i.hasNext();) {
-      FlatPred p = (FlatPred) i.next();
-      writer.write(p.toString() + ";\n");
-    }
+    writer.write(code.toString());
+    writer.write("\n");
     writer.flush();
   }
   
