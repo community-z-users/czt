@@ -40,6 +40,13 @@ public class PanelTestDesign extends JPanel
    */
   private static final long serialVersionUID = 5316043261026727079L;
 
+  // The index of paint graph check box
+  private static final int CHECKBOX_PAINTGRAPH = 4;
+  
+  // There are 5 check boxes about coverage and paint graph 
+  private static final int NUM_GRAPH_CHECKBOX = 5;
+  
+  private static final int ALGORITHM_NUM = 3;
   // Model panel
   private JPanel m_panelModel;
 
@@ -89,8 +96,6 @@ public class PanelTestDesign extends JPanel
   private JCheckBox m_checkFailureVerbosity = new JCheckBox("Display test failures in verbose mode (Not used yet)");
 
   private JPanel m_panelReport;
-
-  private final int m_nCheckBox = 4;
 
   private JCheckBox[] m_checkCoverage;
 
@@ -182,8 +187,6 @@ public class PanelTestDesign extends JPanel
     c6.insets = new Insets(0,0,nBotDist,16);
     m_panelModel.add(m_labLoadingInfo,c6);
 
-    // Set panel size
-    m_panelModel.setPreferredSize(new Dimension(160,50));
     // Set panel border
     m_panelModel.setBorder(
         new TitledBorder(
@@ -196,7 +199,7 @@ public class PanelTestDesign extends JPanel
     m_nCurAlgo = 0;
     m_panelAlgorithmBase = new JPanel();
 
-    m_panelAlgorithm = new OptionPanelAdapter[3];
+    m_panelAlgorithm = new OptionPanelAdapter[ALGORITHM_NUM];
     m_panelAlgorithm = OptionPanelCreator.createPanels();
     /*m_panelAlgorithm[0] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[0],
         "Select an algorithm from combobox.", "default.gif");
@@ -211,7 +214,6 @@ public class PanelTestDesign extends JPanel
       m_combAlgorithmSelection.addItem(m_panelAlgorithm[i].getAlgorithmName());
     m_combAlgorithmSelection.addActionListener(this);
     // Setup slider
-    
     m_sliderAverageTestLength.setValue((int)(1/Parameter.getResetProbability()));
     m_sliderAverageTestLength.addChangeListener(this);
     m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbability()));
@@ -267,7 +269,8 @@ public class PanelTestDesign extends JPanel
     add(Box.createHorizontalStrut(H_SPACE));
     // ------------ Report setting panel ------------
     m_panelReport = new JPanel();
-    m_panelReport.setLayout(new GridLayout(6,3,6,3));
+    // 7: there are 7 lines
+    m_panelReport.setLayout(new GridLayout(7,3,7,3));
     // Generate verbosity and failure verbosity
     m_checkVerbosity.setToolTipText("<html>Sets the level of progress messages " +
     		"<br>that will be printed as this class builds the FSM graph and generates tests. </html>" );
@@ -286,14 +289,15 @@ public class PanelTestDesign extends JPanel
     m_panelReport.add(Box.createHorizontalStrut(10));
     m_panelReport.add(Box.createHorizontalGlue());
     // Coverage matrix
-    m_checkCoverage = new JCheckBox[m_nCheckBox];
+    m_checkCoverage = new JCheckBox[NUM_GRAPH_CHECKBOX];
     m_checkCoverage[0] = new JCheckBox("State coverage");
     m_checkCoverage[1] = new JCheckBox("Transition coverage");
     m_checkCoverage[2] = new JCheckBox("Transition pair coverage");
-    m_checkCoverage[3] = new JCheckBox("Print graph to a file");
+    m_checkCoverage[3] = new JCheckBox("Action coverage");
+    m_checkCoverage[CHECKBOX_PAINTGRAPH] = new JCheckBox("Print graph to a file");
 
-    m_bChecked = new boolean[m_nCheckBox];
-    for (int i = 0; i < m_nCheckBox; i++) {
+    m_bChecked = new boolean[NUM_GRAPH_CHECKBOX];
+    for (int i = 0; i < NUM_GRAPH_CHECKBOX; i++) {
       m_checkCoverage[i].setBackground(bg[2]);
       m_checkCoverage[i].addActionListener(this);
       m_bChecked[i] = false;
@@ -381,7 +385,7 @@ public class PanelTestDesign extends JPanel
   public boolean isLineChartDrawable()
   {
     return (m_checkCoverage[0].isSelected() ||
-        m_checkCoverage[1].isSelected() ||
+        m_checkCoverage[1].isSelected()||
         m_checkCoverage[2].isSelected()||
         m_checkCoverage[3].isSelected())?true:false;
   }
@@ -398,7 +402,7 @@ public class PanelTestDesign extends JPanel
     if (e.getSource() == this.m_combAlgorithmSelection) 
     {  
       addComponentsToTestGenerationPanel();
-      for(int i=0;i<3;i++)
+      for(int i=0;i<ALGORITHM_NUM;i++)
       {
         if(i == m_nCurAlgo)
           m_panelAlgorithm[m_nCurAlgo].setVisible(true);
@@ -413,21 +417,19 @@ public class PanelTestDesign extends JPanel
       Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo].getAlgorithmName());
       
     }
- // ------------ Package selection button handler --------------
+    // ------------ Package selection button handler --------------
     if(e.getSource() == m_butPackageName)
     {
-      // DialogPackageSelection dlg = DialogPackageSelection.createPackageSelectionDialog(this);
-      // dlg.setVisible(true);
       DialogPackageURLSelection dlg = new DialogPackageURLSelection();
       dlg.setVisible(true);
     }
     // -------------- Check the coverage matrix options --------------
-    for (int i = 0; i < m_nCheckBox; i++) {
+    for (int i = 0; i < NUM_GRAPH_CHECKBOX; i++) {
       if (e.getSource() == m_checkCoverage[i]) {
         m_bChecked[i] = !m_bChecked[i];
         Parameter.setCoverageOption(m_bChecked);
-        if(i==3)
-          Parameter.setGenerateGraph(m_checkCoverage[3].isSelected());
+        if(i==CHECKBOX_PAINTGRAPH)
+          Parameter.setGenerateGraph(m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected());
       }
     }
     // ------- Model loading --------
@@ -560,6 +562,12 @@ public class PanelTestDesign extends JPanel
       buf.append(Indentation.wrap
         ("import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;"));
     }
+ // Import state action coverage lab
+    if(m_checkCoverage[3].isSelected())
+    {
+      buf.append(Indentation.wrap
+        ("import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;"));
+    }
     // Generate class content
     buf.append(Indentation.SEP);
     buf.append(Indentation.wrap("public class " + Parameter.getClassName()
@@ -577,7 +585,7 @@ public class PanelTestDesign extends JPanel
         || m_checkCoverage[2].isSelected()
         || m_checkCoverage[3].isSelected())
     {
-      if(m_checkCoverage[3].isSelected())
+      if(m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected())
         buf.append(Indentation.wrap("GraphListener graph = tester.buildGraph();"));
       else
         buf.append(Indentation.wrap("tester.buildGraph();"));
@@ -587,7 +595,8 @@ public class PanelTestDesign extends JPanel
     // Setup coverage matrix
     if(m_checkCoverage[0].isSelected()
         || m_checkCoverage[1].isSelected()
-        || m_checkCoverage[2].isSelected())
+        || m_checkCoverage[2].isSelected()
+        || m_checkCoverage[3].isSelected())
     {
       buf.append(Indentation.SEP);
       if(m_checkCoverage[0].isSelected())
@@ -606,6 +615,12 @@ public class PanelTestDesign extends JPanel
       {
         buf.append(Indentation.wrap("CoverageHistory transitionPairCoverage = new TransitionCoverage();"));
         buf.append(Indentation.wrap("tester.addCoverageMetric(transitionPairCoverage);"));
+        buf.append(Indentation.SEP);
+      }
+      if(m_checkCoverage[3].isSelected())
+      {
+        buf.append(Indentation.wrap("CoverageHistory actionCoverage = new ActionCoverage();"));
+        buf.append(Indentation.wrap("tester.addCoverageMetric(actionCoverage);"));
         buf.append(Indentation.SEP);
       }
     }
@@ -638,8 +653,14 @@ public class PanelTestDesign extends JPanel
       buf.append(Indentation.wrap("System.out.println(\"Transition pair coverage: \"+transitionPairCoverage.toString());"));
       buf.append(Indentation.wrap("System.out.println(\"Transition pair history : \"+transitionPairCoverage.toCSV());"));
     }
-    
     if(m_checkCoverage[3].isSelected())
+    {
+      buf.append(Indentation.SEP);
+      buf.append(Indentation.wrap("System.out.println(\"Action coverage: \"+actionCoverage.toString());"));
+      buf.append(Indentation.wrap("System.out.println(\"Action history : \"+actionCoverage.toCSV());"));
+    }
+    
+    if(m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected())
     { buf.append(Indentation.wrap("graph.printGraphDot(\"map.dot\");"));}
     // Ending
     buf.append(Indentation.wrap("}"));
@@ -648,8 +669,6 @@ public class PanelTestDesign extends JPanel
     return buf.toString();
   }
 
-  
-  
   private class FileChooserFilter extends javax.swing.filechooser.FileFilter
   {
     private String m_description = null;
@@ -694,7 +713,7 @@ public class PanelTestDesign extends JPanel
       if (!source.getValueIsAdjusting()) {
         avgLength = (int)source.getValue();
         double prob = (double)1.0/(double)(avgLength+1);
-        Parameter.setResetProbility(prob);
+        Parameter.setResetProbability(prob);
         m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbability()));
         // System.out.println("(PaneltestDesign.java)Average length :"+prob);
       }

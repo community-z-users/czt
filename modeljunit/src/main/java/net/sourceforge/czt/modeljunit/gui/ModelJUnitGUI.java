@@ -23,6 +23,7 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
 import net.sourceforge.czt.modeljunit.Tester;
+import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
@@ -141,7 +142,7 @@ public class ModelJUnitGUI implements ActionListener
           m_tabbedPane.addTab("Code viewer", m_iconTag[2], m_panelCV);
           m_tabbedPane.addTab("Result viewer", m_iconTag[3], m_panelRV);
           m_tabbedPane.addTab("Action Execution", m_iconTag[4], m_panelEA);
-          m_tabbedPane.addTab("Action Execution", m_iconTag[5], m_panelC);
+          m_tabbedPane.addTab("Coverage graph", m_iconTag[5], m_panelC);
           
           m_tabbedPane.addChangeListener(new TabChangeListener());
           m_panelOption
@@ -432,13 +433,15 @@ setJMenuBar(mb);
       Tester tester = TestExeModel.getTester(0);
       tester.buildGraph();
       
-      CoverageHistory[] coverage = new CoverageHistory[3];
+      CoverageHistory[] coverage = new CoverageHistory[TestExeModel.COVERAGE_NUM];
       coverage[0] = new CoverageHistory(new StateCoverage(),1);
       coverage[1] = new CoverageHistory(new TransitionCoverage(),1);
       coverage[2] = new CoverageHistory(new TransitionPairCoverage(),1);
+      coverage[3] = new CoverageHistory(new ActionCoverage(),1);
       tester.addCoverageMetric(coverage[0]);
       tester.addCoverageMetric(coverage[1]);
       tester.addCoverageMetric(coverage[2]);
+      tester.addCoverageMetric(coverage[3]);
       // Run test several times to draw line chart
       for(int i=0; i<stages.length; i++)
       {
@@ -447,6 +450,7 @@ setJMenuBar(mb);
         m_panelC.addStateCoverage((int)coverage[0].getPercentage());
         m_panelC.addTransitionCoverage((int)coverage[1].getPercentage());
         m_panelC.addTransitionPairCoverage((int)coverage[2].getPercentage());
+        m_panelC.addActionCoverage((int)coverage[3].getPercentage());
         m_panelC.redrawGraph();
         try {
           Thread.sleep(100);

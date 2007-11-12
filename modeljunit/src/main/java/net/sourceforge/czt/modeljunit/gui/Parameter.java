@@ -31,6 +31,8 @@ public class Parameter
   public static final String[] ALGORITHM_NAME = 
   {"Algorithm selection","Random","Greedy"};
   
+  // Number of coverage options
+  public static final int NUM_COVERAGE = 5;
   /**
    * Package related variables
    * */
@@ -81,7 +83,7 @@ public class Parameter
   private static double m_dResetProbability = RandomTester.DEFAULT_RESET_PROBABILITY;
   public static double getResetProbability()
   { return m_dResetProbability; }
-  public static void setResetProbility(double probability)
+  public static void setResetProbability(double probability)
   { m_dResetProbability = probability; }
 
   /**
@@ -168,7 +170,7 @@ public class Parameter
   /**
    * Transition Coverage options
    * */
-  private static boolean[] m_bCoverageOption = new boolean[3];
+  private static boolean[] m_bCoverageOption = new boolean[4];
 
   public static boolean[] getCoverageOption()
   {

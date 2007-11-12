@@ -15,6 +15,7 @@ import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
+import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
@@ -24,7 +25,16 @@ import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
  * */
 public class TestExeModel
 {
-  public static final String[] COVERAGE_MATRIX = {"State coverage","Transition coverage","Transition pair coverage"};
+  // There are four coverages, state, transition, transition pair and action.
+  public static final int COVERAGE_NUM = 4; 
+  
+  public static final String[] COVERAGE_MATRIX = 
+  {
+    "State coverage",
+    "Transition coverage",
+    "Transition pair coverage",
+    "Action coverage"
+  };
   
   private static int m_nWalkLength;
   
@@ -130,9 +140,9 @@ public class TestExeModel
     // Set up coverage matrix to check the test result
     boolean[] bCoverage = Parameter.getCoverageOption();
     // Generate graph
-    if(bCoverage[0]||bCoverage[1]||bCoverage[2])
+    if(bCoverage[0]||bCoverage[1]||bCoverage[2]||bCoverage[3])
       m_tester[0].buildGraph();
-    CoverageHistory[] coverage = new CoverageHistory[3];
+    CoverageHistory[] coverage = new CoverageHistory[COVERAGE_NUM];
     if(bCoverage[0])
     {
       coverage[0] = new CoverageHistory(new StateCoverage(), 1);
@@ -150,6 +160,11 @@ public class TestExeModel
       coverage[2] = new CoverageHistory(new TransitionPairCoverage(), 1);
       m_tester[0].addCoverageMetric(coverage[2]);
     }
+    if(bCoverage[3])
+    {
+      coverage[3] = new CoverageHistory(new ActionCoverage(), 1);
+      m_tester[0].addCoverageMetric(coverage[3]);
+    }
     
     StringBuffer verbose = new StringBuffer();
     StringWriter sw = new StringWriter();
@@ -163,7 +178,7 @@ public class TestExeModel
     Writer defWriter = md.getOutput();
     md.setOutput(sw);
 
-    for(int i=0;i<3;i++)
+    for(int i=0;i<COVERAGE_NUM;i++)
       if(bCoverage[i])
         coverage[i].clear();
     // Generate test walking
@@ -183,6 +198,11 @@ public class TestExeModel
     {
       System.out.println(TestExeModel.COVERAGE_MATRIX[2]+" = "+coverage[2].toString());
       System.out.println(TestExeModel.COVERAGE_MATRIX[2]+" history = "+coverage[2].toCSV());
+    }
+    if(bCoverage[3])
+    {
+      System.out.println(TestExeModel.COVERAGE_MATRIX[3]+" = "+coverage[3].toString());
+      System.out.println(TestExeModel.COVERAGE_MATRIX[3]+" history = "+coverage[3].toCSV());
     }
     verbose = sw.getBuffer();
     // Reset model's output to default value

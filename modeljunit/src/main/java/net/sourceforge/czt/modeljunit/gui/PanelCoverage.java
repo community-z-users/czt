@@ -40,6 +40,9 @@ public class PanelCoverage extends JPanel
   private ArrayList<Integer> m_covT;
   // Transition pair coverage array
   private ArrayList<Integer> m_covTP;
+  // Action coverage array
+  private ArrayList<Integer> m_covA;
+  
   // Panel object
   private static PanelCoverage m_panel;
 
@@ -139,6 +142,7 @@ public class PanelCoverage extends JPanel
         arraySScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covS.get(i)/100.0));
         arrayTScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covT.get(i)/100.0));
         arrayTPScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covTP.get(i)/100.0));
+        arrayTPScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covA.get(i)/100.0));
       }
       // Draw scale text
       g2.drawString(Integer.toString(m_arrayStages[i]), nScaleposX, nScaleposY+16);
@@ -163,6 +167,11 @@ public class PanelCoverage extends JPanel
       {
         g2.setColor(Color.RED);
         g2.drawPolyline(arrayScaleXPos, arrayTPScaleYPos, m_covTP.size());
+      }
+      if(bShowCoverage[3])
+      {
+        g2.setColor(Color.BLACK);
+        g2.drawPolyline(arrayScaleXPos, arrayTPScaleYPos, m_covA.size());
       }
     }
   }
@@ -193,9 +202,13 @@ public class PanelCoverage extends JPanel
   private boolean isCoverageDrawable(int i)
   {
     return (m_covS!=null && m_covS.size()>0 &&
-    m_covT!=null && m_covT.size()>0 &&
-    m_covTP!=null && m_covTP.size()>0 &&
-    m_covS.size()>i && m_covT.size()>i && m_covTP.size()>i)? true : false;
+            m_covT!=null && m_covT.size()>0 &&
+            m_covTP!=null && m_covTP.size()>0 &&
+            m_covA!=null && m_covA.size()>0 &&
+            m_covS.size()>i && 
+            m_covT.size()>i && 
+            m_covTP.size()>i && 
+            m_covA.size()>i)? true : false;
   }
 
   public void clearCoverages()
@@ -203,6 +216,7 @@ public class PanelCoverage extends JPanel
     m_covS = new ArrayList<Integer>();
     m_covT = new ArrayList<Integer>();
     m_covTP = new ArrayList<Integer>();
+    m_covA = new ArrayList<Integer>();
   }
 
   public void addStateCoverage(Integer nPercentage)
@@ -213,6 +227,9 @@ public class PanelCoverage extends JPanel
 
   public void addTransitionPairCoverage(Integer nPercentage)
   { m_covTP.add(nPercentage);}
+  
+  public void addActionCoverage(Integer nPercentage)
+  { m_covA.add(nPercentage);}
 
   public void redrawGraph()
   {
