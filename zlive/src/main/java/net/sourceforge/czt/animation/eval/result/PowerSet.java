@@ -228,7 +228,7 @@ public class PowerSet extends DefaultEvalSet
      * @param start the start position to start iterating from
      * @param end  the list position at which the iteration will stop
      */
-    public AddElementIterator(Expr expr, List list,
+    public AddElementIterator(Expr expr, List<Expr> list,
                               int start, int end)
     {
       expr_ = expr;
