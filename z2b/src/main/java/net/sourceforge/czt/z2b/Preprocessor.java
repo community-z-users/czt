@@ -19,23 +19,19 @@
 
 package net.sourceforge.czt.z2b;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
+import net.sourceforge.czt.rules.rewriter.RewriteUtils;
 import net.sourceforge.czt.rules.rewriter.Strategies;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.Factory;
 
 class Preprocessor
 {
   private RuleTable rules_;
-  private Factory factory_ = new Factory();
 
   Preprocessor()
     throws UnfoldException
@@ -59,14 +55,7 @@ class Preprocessor
   Term unfold(Expr expr, String section, SectionManager manager)
   {
     try {
-      final List<Expr> exprList = new ArrayList<Expr>();
-      final ZName name = factory_.createZName("normalize",
-                                              factory_.createZStrokeList(),
-                                              null);
-      final ExprList refExprList = factory_.createZExprList();
-      exprList.add(factory_.createRefExpr(name, refExprList, false, false));
-      exprList.add(expr);
-      final ApplExpr applExpr = factory_.createApplExpr(exprList, false);
+      Expr applExpr = RewriteUtils.createNormalizeAppl(expr);
       return Strategies.innermost(applExpr, rules_, manager, section);
     }
     catch (CommandException e) {
