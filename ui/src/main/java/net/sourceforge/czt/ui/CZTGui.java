@@ -391,6 +391,8 @@ public class CZTGui implements ActionListener,HyperlinkListener
     zliveSectionMenuItems.clear();
     startConsoleWith.setEnabled(false);
     animationFirstStart = true;
+    
+    close.setEnabled(true);
 
     String selectedLanguage = "";
     String selectedEncoding = "";
@@ -513,7 +515,6 @@ public class CZTGui implements ActionListener,HyperlinkListener
       statusBar.setText("Finished parsing "+file.getName());
       
       saveas.setEnabled(true);
-      close.setEnabled(true);
     }
     catch (CommandException exception) {
       printErrors(exception);
