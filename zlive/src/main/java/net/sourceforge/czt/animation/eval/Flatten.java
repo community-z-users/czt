@@ -73,8 +73,8 @@ public class Flatten
     throws CommandException
   {
     String currSect = zlive_.getCurrentSection();
-    Key key = new Key(currSect, DefinitionTable.class);
-    DefinitionTable table = (DefinitionTable) zlive_.getSectionManager().get(key);
+    Key<DefinitionTable> key = new Key<DefinitionTable>(currSect, DefinitionTable.class);
+    DefinitionTable table = zlive_.getSectionManager().get(key);
     FlattenVisitor visitor = new FlattenVisitor(zlive_, destination, table);
     toFlatten.accept(visitor);
   }
@@ -89,8 +89,8 @@ public class Flatten
     throws CommandException
   {
     String currSect = zlive_.getCurrentSection();
-    Key key = new Key(currSect, DefinitionTable.class);
-    DefinitionTable table = (DefinitionTable) zlive_.getSectionManager().get(key);
+    Key<DefinitionTable> key = new Key<DefinitionTable>(currSect, DefinitionTable.class);
+    DefinitionTable table = zlive_.getSectionManager().get(key);
     FlattenVisitor visitor = new FlattenVisitor(zlive_, destination, table);
     return toFlatten.accept(visitor);
   }
