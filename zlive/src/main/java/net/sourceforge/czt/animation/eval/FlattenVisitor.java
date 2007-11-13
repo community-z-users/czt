@@ -34,6 +34,7 @@ import net.sourceforge.czt.animation.eval.flatpred.FlatExists;
 import net.sourceforge.czt.animation.eval.flatpred.FlatFalse;
 import net.sourceforge.czt.animation.eval.flatpred.FlatForall;
 import net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet;
+import net.sourceforge.czt.animation.eval.flatpred.FlatIfThenElse;
 import net.sourceforge.czt.animation.eval.flatpred.FlatLessThan;
 import net.sourceforge.czt.animation.eval.flatpred.FlatLessThanEquals;
 import net.sourceforge.czt.animation.eval.flatpred.FlatMember;
@@ -64,6 +65,7 @@ import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.CondExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.ExistsPred;
@@ -108,6 +110,7 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.AndPredVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.BindExprVisitor;
+import net.sourceforge.czt.z.visitor.CondExprVisitor;
 import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
 import net.sourceforge.czt.z.visitor.FalsePredVisitor;
 import net.sourceforge.czt.z.visitor.ForallPredVisitor;
@@ -139,7 +142,7 @@ import net.sourceforge.czt.z.visitor.ZNameVisitor;
  *  The ZLive parameter to the constructor is used to access the
  *  section manager (to get the current context of the expr/pred).
  *  <p>
- *  TODO: could look for common subexpressions.  Eg. keep track of all 
+ *  TODO: could look for common subexpressions.  Eg. keep track of all
  *  expressions translated so far in a Map&lt;Expr,ZName&gt;.
  */
 public class FlattenVisitor
@@ -169,7 +172,8 @@ public class FlattenVisitor
       BindExprVisitor<ZName>,
       LetExprVisitor<ZName>,
       ZNameVisitor<ZName>,
-      SchExprVisitor<ZName>
+      SchExprVisitor<ZName>,
+      CondExprVisitor<ZName>
 {
   /** A reference to the main animator object, so that we can
       access all kinds of settings, tables and section manager etc.
@@ -400,7 +404,7 @@ public class FlattenVisitor
   /** TODO: see if we can optimize more aggressively here.
    *   Eg. by using (exists D @ P) <=> (exists D | P @ true)?
    *   And by calling addExistsPred, rather than addPred, so that
-   *   nested exists are flattened out. 
+   *   nested exists are flattened out.
    */
   public ZName visitExistsPred(ExistsPred p) {
     FlatPredList sch = new FlatPredList(zlive_);
@@ -437,7 +441,7 @@ public class FlattenVisitor
    *  We replace \nat and \num by FlatRangeSet.
    *  Arithmos is also mapped into FlatRangeSet (integers), which
    *  means ZLive handles integers only for now.
-   *  TODO: implement arithmos differently so that ZLive can 
+   *  TODO: implement arithmos differently so that ZLive can
    *  eventually support non-integer numbers, such as real numbers.
    */
   public ZName visitRefExpr(RefExpr e) {
@@ -755,8 +759,8 @@ public class FlattenVisitor
     if (relset != null) {
       ZName domName = relset.getDom().accept(this);
       ZName ranName = relset.getRan().accept(this);
-      flat_.add(new FlatRelSet(domName, ranName, 
-          relset.isFunction(), relset.isTotal(), relset.isOnto(), 
+      flat_.add(new FlatRelSet(domName, ranName,
+          relset.isFunction(), relset.isTotal(), relset.isOnto(),
           relset.isInjective(), result));
     }
     else {
@@ -796,6 +800,22 @@ public class FlattenVisitor
     return setName;
   }
 
+  public ZName visitCondExpr(CondExpr cond)
+  {
+    FlatPredList pred = new FlatPredList(zlive_);
+    FlatPredList left = new FlatPredList(zlive_);
+    FlatPredList right = new FlatPredList(zlive_);
+    pred.addPred(cond.getPred());
+    ZName result = left.addExpr(cond.getLeftExpr());
+    ZName result2 = right.addExpr(cond.getRightExpr());
+    // now add result2 := result to right, so that both expressions
+    // are bound to the same result name.  And make result2 local.
+    right.makeBound(result2);
+    right.add(new FlatEquals(result2, result));
+    flat_.add(new FlatIfThenElse(pred, left, right));
+    return result;
+  }
+
   /*
   public ZDeclList visitZDeclList(ZDeclList declList)
   {
@@ -819,7 +839,6 @@ public class FlattenVisitor
   public ZName visitForallExpr(ForallExpr zedObject) {return zedObject; }
   public ZName visitVarDecl(VarDecl zedObject) {return zedObject; }
   public ZName visitCompExpr(CompExpr zedObject) {return zedObject; }
-  public ZName visitCondExpr(CondExpr zedObject) {return zedObject; }
   public ZName visitLambdaExpr(LambdaExpr zedObject) {return zedObject; }
   public ZName visitIffExpr(IffExpr zedObject) {return zedObject; }
   public ZName visitQntExpr(QntExpr zedObject) {return zedObject; }
