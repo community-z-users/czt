@@ -1,6 +1,5 @@
 package net.sourceforge.czt.ui;
 
-
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
@@ -31,6 +30,9 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor;
 
 import net.sourceforge.czt.animation.eval.*;
+
+import java.net.URI;
+
 /**
  *  Description of the Class
  *
@@ -363,7 +365,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
       Collections.sort(errors);
       for (Object o : errors) {
         //resultListModel.addElement(o.toString());
-        resultConsole.append(o.toString());
+        resultConsole.append(o.toString()+"\n");
       }
     }
     else if (cause instanceof IOException) {
@@ -618,7 +620,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     resultConsole.setText("");
     showZLivePrompt();
   }
-  
+        
   /**
    *  Description of the Method
    *
@@ -789,7 +791,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     if (event.getSource() == close) {
       closeProject();
     }
-    //exit program and asks if user wants to save if a file is opened
+    //exit program
     if (event.getSource() == exit) {
         System.exit(0);
     }
