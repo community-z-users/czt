@@ -127,11 +127,11 @@ public class <class/>
     StringBuffer buf = new StringBuffer();
     if (src.getMarkup() == Markup.LATEX) {
       if (parent == null)
-        parent = "standard\\_toolkit";
+        parent = "standard_toolkit";
       buf.append("\\begin{zsection}\\SECTION ");
       buf.append(name);
       buf.append(" \\parents ");
-      buf.append(parent);
+      buf.append(parent.replaceAll("_", "\\\\_"));
       buf.append("\\end{zsection} ");
       buf.append("\\begin{axdef} \\where\n");
       Reader reader = src.getReader();
@@ -189,7 +189,8 @@ public class <class/>
 
   /** Parse a Source string/file as a Z Expression.
    *  @param src The String or File etc. to be parsed.
-   *  @param section The Z section to parse within (null=standard_toolkit).
+   *  @param section The Z section (in Unicode)
+   *                 to parse within (null=standard_toolkit).
    *  @param sectman A section manager to use.  Must be non-null.
    *
    * @throws IOException if there are errors reading file/url inputs
@@ -204,11 +205,11 @@ public class <class/>
     StringBuffer buf = new StringBuffer();
     if (src.getMarkup() == Markup.LATEX) {
       if (parent == null)
-        parent = "standard\\_toolkit";
+        parent = "standard_toolkit";
       buf.append("\\begin{zsection}\\SECTION ");
       buf.append(name);
       buf.append(" \\parents ");
-      buf.append(parent);
+      buf.append(parent.replaceAll("_", "\\\\_"));
       buf.append("\\end{zsection} ");
       buf.append("\\begin{axdef} result == \n");
       Reader reader = src.getReader();

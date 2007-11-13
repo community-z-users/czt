@@ -40,7 +40,7 @@ public class StrategiesTest
   protected void rewrite(String pred1, String pred2)
     throws Exception
   {
-    final String section = "standard\\_toolkit";
+    final String section = "standard_toolkit";
     SectionManager manager = new SectionManager("zpatt");
     RuleTable rules = (RuleTable)
       manager.get(new Key("simplification_rules", RuleTable.class));
