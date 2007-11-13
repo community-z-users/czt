@@ -30,6 +30,17 @@ larger terms).
 
 \begin{zedjoker}{ExprList} ExprList \end{zedjoker}
 
+\section{Logic Rules}
+
+\begin{zedrule}{implication}
+   (P1 \implies P2) \iff (\lnot P1) \lor P2
+\end{zedrule}
+
+\begin{zedrule}{equivalence}
+   (P1 \iff P2) \iff (P1 \land P2) \lor (\lnot P1 \land \lnot P2)
+\end{zedrule}
+
+
 \section{Rules from the sets\_toolkit}
 
 We do not unfold $\emptyset$ to $\{\}$, because it is not possible
@@ -51,6 +62,9 @@ and function spaces into a term that is type equivalent, but also
 preserves several flags that tell us what kind of function space
 it was (isFun, isTotal etc.).  These flags are meaningful to ZLive, 
 even though they are not used in the body of the LET expressions.
+The pretty-printer within ZLive converts these special LET terms
+back into function space operators, so it may appear that these rules
+are not working even though they are.
 
 \begin{zedrule}{rel}
    E1 \rel E2 = (\LET isFun==0 @ \power (E1 \cross E2))
@@ -330,7 +344,7 @@ TODO: implement squash as a primitive?
 Because the following definition from the Z standard is quite 
 inefficient as an evaluation rule ($O(N^2)$ at least).  
 Also, this definition is not quite correct, because it does
-not return undefined when $s$ is not a function.
+not return undefined when $E$ is not a function.
 \begin{zedrule}{squash}
    squash~E = \{ p:E @ \#\{i:\dom E | i \leq p.1\} \mapsto p.2 \}
 \end{zedrule}
