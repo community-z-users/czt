@@ -520,7 +520,7 @@ public class BTermWriter
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
     out_.print(").");
-    printPred(Create.andPred(types, p.getPred()));
+    printPred(Create.andPred(typesconds, p.getPred()));
     out_.endPrec(out_.TIGHTEST);
     return p;
   }
@@ -533,7 +533,7 @@ public class BTermWriter
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
     out_.print(").");
-    printPred(getFactory().createImpliesPred(types, p.getPred()));
+    printPred(getFactory().createImpliesPred(typesconds, p.getPred()));
     out_.endPrec(out_.TIGHTEST);
     return p;
   }
