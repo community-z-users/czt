@@ -509,7 +509,10 @@ public class Z2B
 
   public Object visitConstDecl(ConstDecl decl)
   {
-    if ( ! (decl.getExpr() instanceof SchExpr)) {
+    TypeAnn typeAnn = decl.getExpr().getAnn(TypeAnn.class);
+    boolean isSchema = typeAnn.getType() instanceof PowerType &&
+      ((PowerType) typeAnn.getType()).getType() instanceof SchemaType;
+    if ( ! isSchema) {
       String name = decl.getName().accept(new PrintVisitor());
       mach_.getDefns().put(name, decl.getExpr());
     }
