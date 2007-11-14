@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the CZT project: http://czt.sourceforge.net
 
   The CZT project contains free software; you can redistribute it and/or
@@ -23,7 +23,6 @@ package <package/>;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.parser.util.*;
@@ -68,7 +67,8 @@ public class <class/>
   /**
    * All markup functions created so far.
    */
-  private Map markupFunctions_ = new HashMap();
+  private Map&lt;String,LatexMarkupFunction&gt; markupFunctions_ =
+    new HashMap&lt;String,LatexMarkupFunction&gt;();
 
   /**
    * Are we just parsing a section header?
@@ -120,8 +120,7 @@ public class <class/>
       markupFunctions_.put(sectName_, markupFunction_);
       lexer_.setMarkupFunction(markupFunction_);
     }
-    LatexMarkupFunction markupFunction =
-      (LatexMarkupFunction) markupFunctions_.get(parent);
+    LatexMarkupFunction markupFunction = markupFunctions_.get(parent);
     if (markupFunction == null) {
       try {
         markupFunction = (LatexMarkupFunction)
