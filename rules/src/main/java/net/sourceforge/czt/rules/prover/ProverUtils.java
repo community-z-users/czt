@@ -253,6 +253,7 @@ public final class ProverUtils
     result.put("SplitNamesOracle", new SplitNamesOracle());
     result.put("HideOracle", new HideOracle());
     result.put("RenameOracle", new RenameOracle());
+    result.put("XiOracle", new XiOracle());
     return result;
   }
 }

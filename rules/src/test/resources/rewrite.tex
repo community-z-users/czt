@@ -31,13 +31,12 @@
 
 \begin{theorem}{theorem4a}
   \vdash? \Xi Simple =
-	    [ [ x : \nat ] ; [ x' : \nat ] | \lblot x == x \rblot = \lblot x == x' \rblot ] 
+	    [ [ x : \nat ] ; [ x' : \nat ] | x = x' ] 
 \end{theorem}
 
 \begin{theorem}{theorem4b}
   \vdash? normalize~\Xi Simple =
-	    [ x : \arithmos ; x' : \arithmos | x \in \nat \land x' \in \nat  \land
-			                                                 \lblot x == x \rblot = \lblot x == x' \rblot  ]
+	    [ x : \arithmos ; x' : \arithmos | x \in \nat \land x' \in \nat  \land x = x' ]
 \end{theorem}
 
 \begin{theorem}{theoremNegation}

@@ -191,9 +191,10 @@ schema construction expressions.
 
 \begin{zedrule}{XiRef}
   \Xi \unprefix v \is v2 \\
-  [v2|true] :: \power [D2 | true] 
+  [v2|true] :: \power [D2 | true] \\
+  \theta [D2|true] = \theta [D2|true]~' \iff P
 \derives
-  v = [v2; v2~' | \theta [D2|true] = \theta [D2|true]~']
+  v = [v2; v2~' | P]
 \end{zedrule}
 
 
