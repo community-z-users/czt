@@ -1,5 +1,5 @@
 /**
- Copyright (C) 20067 Mark Utting
+ Copyright (C) 2007 Mark Utting
  This file is part of the czt project.
 
  The CZT project contains free software; you can redistribute it and/or modify
@@ -24,49 +24,65 @@ import java.util.List;
 import java.util.TreeSet;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatIfThenElseVisitor;
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
- * FlatIfThenElse(p, e1, e2) implements IF p THEN e1 ELSE e2.
- * It requires all free vars of p to be ground.
- * It evaluates p to true or false, then returns one solution
- * from either e1 (when p is true) or e2 (when p is false).
- * The two FlatPredLists e1 and e2 must have identical modes
- * and should assign their evaluated result to the same name.
- * 
- * This implementation of IF-THEN-ELSE is quite similar to FlatOr, 
- * but here the two expressions cannot return multiple solutions, 
+ * FlatIfThenElse(p, e1,n1, e2,n2, resultName) implements
+ *    (p => n1=e1 and resultName=n1) and
+ *    (not(p) => n2=e2 and resultName=n2)
+ *
+ * It requires all free vars of p, e1 and e2 to be ground.
+ * This IF-THEN-ELSE uses three separate FlatPredLists (for p, e1, e2).
+ * Given an input environment env0, it evaluates all of those
+ * FlatPredLists using env0, and then extends env0 by binding
+ * just resultName to the result of e1 (if p is true) or e2 (if p is false).
+ *
+ * This implementation of IF-THEN-ELSE is quite similar to FlatOr,
+ * but here the two expressions cannot return multiple solutions,
  * whereas in FlatOr each predicate may have any number of solutions.
  *
  * @author marku
  */
 public class FlatIfThenElse extends FlatPred
 {
-  /** Bounds information for the left_ predicate. */
-  protected Bounds leftBounds_;
-
-  /** Bounds information for the right_ predicate. */
-  protected Bounds rightBounds_;
-
   /** The predicate that controls the choice. */
   protected FlatPredList pred_;
-  
-  /** The left-hand expr, once known. */
+
+  /** The left-hand expr. */
   protected FlatPredList left_;
+  /** The name that left_ binds its value to. */
+  protected ZName leftResult_;
+  /** Bounds information for the left_ expression. */
+  protected Bounds leftBounds_;
 
   /** The right-hand expr, once known. */
   protected FlatPredList right_;
+  /** The name that right_ binds its value to. */
+  protected ZName rightResult_;
+  /** Bounds information for the right_ expression. */
+  protected Bounds rightBounds_;
+
+  /** The name that the result of the whole IF-THEN-ELSE is bound to. */
+  protected ZName wholeResult_;
 
   /** Creates a new instance of FlatUnion. */
-  public FlatIfThenElse(FlatPredList pred, FlatPredList left, FlatPredList right)
+  public FlatIfThenElse(FlatPredList pred,
+      FlatPredList left, ZName leftResult,
+      FlatPredList right, ZName rightResult,
+      ZName wholeResult)
   {
     super();
     pred_ = pred;
     left_ = left;
+    leftResult_ = leftResult;
     right_ = right;
+    rightResult_ = rightResult;
+    wholeResult_ = wholeResult;
     freeVars_ = new TreeSet<ZName>(ZNameComparator.create());
     freeVars_.addAll(pred_.freeVars());
     freeVars_.addAll(left_.freeVars());
@@ -75,19 +91,19 @@ public class FlatIfThenElse extends FlatPred
     solutionsReturned_ = -1;
   }
 
-  /** Bounds information can only flow into the two expressions at the moment.
+  /** Bounds information flows into pred_, left_ and right_, but not out.
    */
   public boolean inferBounds(Bounds bnds)
   {
-    // infer bounds on left side
+    // infer bounds on left side (we know pred_ is true).
     if (leftBounds_ == null)
       leftBounds_ = new Bounds(bnds);
     leftBounds_.startAnalysis(bnds);
-    pred_.inferBounds(leftBounds_); // in the THEN part, we know pred_ is true.
+    pred_.inferBounds(leftBounds_);
     left_.inferBounds(leftBounds_);
     leftBounds_.endAnalysis();
 
-    // infer bounds on right side
+    // infer bounds on right side (do NOT assume that pred_ is true)
     if (rightBounds_ == null)
       rightBounds_ = new Bounds(bnds);
     rightBounds_.startAnalysis(bnds);
@@ -97,6 +113,11 @@ public class FlatIfThenElse extends FlatPred
     return false;
   }
 
+  /** This requires pred_ and both of left_ and right_ expressions
+   * to have valid modes, because in general, we may have to evaluate
+   * both expressions.  For example {x:0..y @ IF x<5 THEN 0 ELSE 10}
+   * (depending on y, this may use only the THEN expression, or both).
+   */
   public Mode chooseMode(Envir env0)
   {
     Mode result = null;
@@ -105,7 +126,9 @@ public class FlatIfThenElse extends FlatPred
       return null;
     }
     Mode leftMode = left_.chooseMode(env0);
+    assert leftMode.isOutput(leftResult_);
     Mode rightMode = right_.chooseMode(env0);
+    assert rightMode.isOutput(rightResult_);
     if (leftMode != null && rightMode != null
         && leftMode.compatible(rightMode)) {
       double solutions = Math.max(leftMode.getSolutions(), rightMode.getSolutions());
@@ -113,7 +136,7 @@ public class FlatIfThenElse extends FlatPred
       modes.add(predMode);
       modes.add(leftMode);
       modes.add(rightMode);
-      Envir env = rightMode.getEnvir();
+      Envir env = env0.plus(wholeResult_, null);
       result = new ModeList(this, env0, env, args_, solutions, modes);
     }
     return result;
@@ -141,15 +164,29 @@ public class FlatIfThenElse extends FlatPred
     boolean result = false;
     if (solutionsReturned_ == 0) {
       solutionsReturned_++;
+      Expr resultValue = null;
       pred_.startEvaluation();
       if (pred_.nextEvaluation()) {
         left_.startEvaluation();
-        result = left_.nextEvaluation();
+        if (left_.nextEvaluation()) {
+          resultValue = left_.getOutputEnvir().lookup(leftResult_);
+        }
+        if (resultValue == null) {
+          throw new EvalException("THEN expression did not return a result");
+        }
       }
       else {
         right_.startEvaluation();
-        result = right_.nextEvaluation(); 
+        if (right_.nextEvaluation()) {
+          resultValue = right_.getOutputEnvir().lookup(rightResult_);
+        }
+        if (resultValue == null) {
+          throw new EvalException("ELSE expression did not return a result");
+        }
       }
+      Envir env = evalMode_.getEnvir();
+      env.setValue(wholeResult_, resultValue);
+      result = true;
     }
     return result;
   }
@@ -160,7 +197,7 @@ public class FlatIfThenElse extends FlatPred
     return "(IF " + indent(pred_.toString())
       + "\nTHEN " + indent(left_.toString())
       + "\nELSE " + indent(right_.toString())
-      + "\n)";
+      + "\n) = "+ printName(wholeResult_);
   }
 
   ///////////////////////// Pred methods ///////////////////////

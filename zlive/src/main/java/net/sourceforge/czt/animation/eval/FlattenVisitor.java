@@ -802,17 +802,15 @@ public class FlattenVisitor
 
   public ZName visitCondExpr(CondExpr cond)
   {
+    ZName result = createBoundName();
     FlatPredList pred = new FlatPredList(zlive_);
     FlatPredList left = new FlatPredList(zlive_);
     FlatPredList right = new FlatPredList(zlive_);
     pred.addPred(cond.getPred());
-    ZName result = left.addExpr(cond.getLeftExpr());
-    ZName result2 = right.addExpr(cond.getRightExpr());
-    // now add result2 := result to right, so that both expressions
-    // are bound to the same result name.  And make result2 local.
-    right.makeBound(result2);
-    right.add(new FlatEquals(result2, result));
-    flat_.add(new FlatIfThenElse(pred, left, right));
+    ZName leftResult = left.addExpr(cond.getLeftExpr());
+    ZName rightResult = right.addExpr(cond.getRightExpr());
+    flat_.add(new FlatIfThenElse(pred, left, leftResult,
+        right, rightResult, result));
     return result;
   }
 

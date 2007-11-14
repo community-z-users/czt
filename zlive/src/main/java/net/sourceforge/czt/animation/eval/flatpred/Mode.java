@@ -179,6 +179,9 @@ public class Mode
    *      Ideally, the constructor of the FlatOr should remove such names
    *      from the freevar set.  However, this is not easy to do, because
    *      it requires a more global view than the constructor has.
+   *      
+   *      Ideally, we should compare just the *free* variables
+   *      of the two predicates.
    */
   public boolean compatible(/*@non_null@*/Mode other)
   {
