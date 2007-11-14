@@ -23,17 +23,9 @@ import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.rules.ast.*;
-import net.sourceforge.czt.rules.unification.UnificationUtils;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.util.Factory;
-import net.sourceforge.czt.zpatt.visitor.*;
 
 public class JokerCollector
-  implements TermVisitor
+  implements TermVisitor<Term>
 {
   protected List<Joker> jokers_ = new ArrayList<Joker>();
 
@@ -42,7 +34,7 @@ public class JokerCollector
     return jokers_;
   }
 
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     if (term instanceof Joker) {
       jokers_.add((Joker) term);
