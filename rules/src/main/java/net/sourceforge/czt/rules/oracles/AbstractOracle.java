@@ -22,7 +22,6 @@ package net.sourceforge.czt.rules.oracles;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.zpatt.ast.Binding;

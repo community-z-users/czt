@@ -21,11 +21,9 @@ package net.sourceforge.czt.rules.oracles;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionType;
@@ -38,9 +36,6 @@ import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;

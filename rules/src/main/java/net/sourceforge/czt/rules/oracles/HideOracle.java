@@ -28,8 +28,6 @@ import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.zpatt.ast.*;

@@ -22,7 +22,6 @@ package net.sourceforge.czt.rules.oracles;
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.prover.ProverUtils;
@@ -30,9 +29,7 @@ import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 
