@@ -87,6 +87,7 @@ public class FlatIfThenElse extends FlatPred
     freeVars_.addAll(pred_.freeVars());
     freeVars_.addAll(left_.freeVars());
     freeVars_.addAll(right_.freeVars());
+    freeVars_.add(wholeResult_);
     args_ = new ArrayList<ZName>(freeVars_);
     solutionsReturned_ = -1;
   }
@@ -122,7 +123,7 @@ public class FlatIfThenElse extends FlatPred
   {
     Mode result = null;
     Mode predMode = pred_.chooseMode(env0);
-    if (predMode.numOutputs() > 0) {
+    if (predMode == null || predMode.numOutputs() > 0) {
       return null;
     }
     Mode leftMode = left_.chooseMode(env0);
@@ -136,7 +137,10 @@ public class FlatIfThenElse extends FlatPred
       modes.add(predMode);
       modes.add(leftMode);
       modes.add(rightMode);
-      Envir env = env0.plus(wholeResult_, null);
+      Envir env = env0;
+      if ( ! env0.isDefined(wholeResult_)) {
+        env = env0.plus(wholeResult_, null);
+      }
       result = new ModeList(this, env0, env, args_, solutions, modes);
     }
     return result;
@@ -185,8 +189,13 @@ public class FlatIfThenElse extends FlatPred
         }
       }
       Envir env = evalMode_.getEnvir();
-      env.setValue(wholeResult_, resultValue);
-      result = true;
+      if (evalMode_.isOutput(wholeResult_)) {
+        env.setValue(wholeResult_, resultValue);
+        result = true;
+      }
+      else {
+        result = env.lookup(wholeResult_).equals(resultValue);
+      }
     }
     return result;
   }
