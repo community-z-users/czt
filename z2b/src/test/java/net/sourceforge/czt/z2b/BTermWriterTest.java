@@ -105,6 +105,12 @@ public class BTermWriterTest
     testPred("(\\exists x:\\nat | x<10 @ x>5)",
         "#(x).(x : NAT & x < 10 & x > 5)");
   }
+
+  public void testLambda() throws IOException, CommandException
+  {
+    testExpr("(\\lambda x:\\nat | x<10 @ x+1)",
+        "%x.((x : NAT & x < 10) | (x + 1))");
+  }
 }
 
   
