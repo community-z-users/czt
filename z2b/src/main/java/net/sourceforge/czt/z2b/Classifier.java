@@ -51,7 +51,7 @@ public class Classifier
             if (primed.size() == sigSize) {
               init_.add(triple);
             }
-            if (undecorated.size() == primed.size()) {
+            if (undecorated.size() == primed.size() && primed.size() > 0) {
               ops_.add(triple);
             }
           }
