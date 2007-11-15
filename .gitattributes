@@ -597,6 +597,7 @@ zlive/src/main/java/net/sourceforge/czt/animation/eval/flatvisitor/FlatPowerSetV
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatvisitor/FlatProdVisitor.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/result/RelSetVisitor.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
+zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatIfThenElseTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/DiscreteSetTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/RangeSetTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/SetCompTest.java -text

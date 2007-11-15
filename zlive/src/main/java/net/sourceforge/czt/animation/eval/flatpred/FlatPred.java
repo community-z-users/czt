@@ -125,7 +125,7 @@ public abstract class FlatPred
     return evalMode_;
   }
 
-  /** Get the environment that is being used during evaluation.
+  /** Get the output environment of the evaluation.
    *  @return Envir if known, else null.
    */
   public/*@pure@*/Envir getEnvir()

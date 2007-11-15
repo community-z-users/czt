@@ -198,7 +198,8 @@ public class FlatPredModel implements FsmModel
     else {
       // now check that mode is correct.
       for (int i=0; i<names_.length; i++) {
-        Assert.assertEquals(isInput[i], mode_.isInput(i));
+        Assert.assertEquals("name["+i+"] = "+names_[i], 
+            isInput[i], mode_.isInput(names_[i]));
       }
       pred_.setMode(mode_);
       // check that all names are defined in the output environment.
@@ -314,7 +315,8 @@ public class FlatPredModel implements FsmModel
         Assert.assertTrue(pred_.nextEvaluation());
     }
     else if (data_.successes == 1) {
-      Assert.assertTrue(pred_.nextEvaluation());
+      Assert.assertTrue("nextEvaluation should be true",
+          pred_.nextEvaluation());
       // check that the correct results were returned.
       Envir newenv = pred_.getEnvir();
       debug("nextEval returns newenv="+newenv);
@@ -322,7 +324,7 @@ public class FlatPredModel implements FsmModel
         Assert.assertTrue(names_[i]+" undefined.",
             newenv.isDefined(names_[i]));
         Assert.assertEquals(names_[i]+" has incorrect value.",
-            newenv.lookup(names_[i]), data_.args[i]);
+            data_.args[i], newenv.lookup(names_[i]));
       }
     }
     else if (data_.successes == Eval.UNDEF) {
