@@ -52,6 +52,9 @@ public class <class/>
       new HashMap&lt;String,NewlineCategory&gt;();
     map.put("_APPLICATION", null);
     map.put("_RENAME", null);
+    map.put("EXPR", null);
+    map.put("PRED", null);
+    map.put("PARA", null);
     map.put("EOF", null);
     map.put("error", null);
     map.put("DECLWORD", ZToken.DECORWORD.getNewlineCategory());

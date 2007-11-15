@@ -1714,6 +1714,7 @@ init with
 scan with {: return local_next_token(); :};
 
 terminal LocInfo
+        PARA, EXPR, PRED,
         THETA, MU, LAMBDA,
         NEXTSTROKE, OUTSTROKE, INSTROKE,
         LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
@@ -1817,8 +1818,10 @@ terminal Decorword
 </add:oz>
         DECORWORD, DECLWORD;
 
+non terminal Term
+    input;
+
 non terminal Spec
-    input,
     specification;
 
 non terminal NarrSect
@@ -2381,6 +2384,15 @@ input ::=
            </add:circus>
            RESULT = s;
         :}
+        |
+        PARA boxedParagraph:p
+        {: RESULT = p; :}
+        |
+        EXPR expression:e
+        {: RESULT = e; :}
+        |
+        PRED predicate:p
+        {: RESULT = p; :}
         ;
 
 narrSect ::=
