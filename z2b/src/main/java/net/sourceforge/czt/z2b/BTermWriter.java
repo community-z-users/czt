@@ -50,8 +50,10 @@ public class BTermWriter
 	     ZNameVisitor<Term>,
 	     NumExprVisitor<Term>,
 	     ApplExprVisitor<Term>,
+             LambdaExprVisitor<Term>,
              RefExprVisitor<Term>,
              PowerExprVisitor<Term>,
+             SetCompExprVisitor<Term>,
              SetExprVisitor<Term>,
              ProdExprVisitor<Term>,
              TupleExprVisitor<Term>
@@ -419,7 +421,8 @@ public class BTermWriter
   /** This generic visit method recurses into all Z terms. */
   public Term visitTerm(Term term)
   {
-    return VisitorUtils.visitTerm(this, term, true);
+    final String msg = "BTermWriter does not yet support " + term.toString();
+    throw new UnsupportedOperationException(msg);
   }
 
   public Term visitAndPred(AndPred p)
@@ -543,6 +546,20 @@ public class BTermWriter
   // Expressions
   //=========================================================
 
+  public Term visitLambdaExpr(LambdaExpr e)
+  {
+    out_.beginPrec(out_.TIGHTEST);
+    out_.print("%");
+    ZSchText stext = e.getZSchText();
+    Pred types = splitSchText(stext);  // this prints the names
+    out_.print(".");
+    printPred(Create.andPred(types, stext.getPred()));
+    out_.print(" | ");
+    printExpr(e.getExpr());
+    out_.endPrec(out_.TIGHTEST);
+    return e;
+  }
+
   public Term visitZName(ZName zName)
   {
     String name = zName.accept(new PrintVisitor());
@@ -637,6 +654,25 @@ public class BTermWriter
     sLogger.fine("printing PowerExpr.  op=" + op);    
     unaryOp(op, e.getExpr());
     return e;
+  }
+
+  public Term visitSetCompExpr(SetCompExpr setCompExpr)
+  {
+    if (setCompExpr.getExpr() != null) {
+      String msg = "SetCompExpr with expr " + setCompExpr.getExpr() +
+        " not yest supported";
+      throw new UnsupportedOperationException(msg);
+    }
+    out_.beginPrec(out_.TIGHTEST);
+    out_.print("{");
+    ZSchText stext = setCompExpr.getZSchText();
+    Pred types = splitSchText(stext);  // this prints the names
+    Pred typesconds = Create.andPred(types, stext.getPred());
+    out_.print(" | ");
+    printPred(typesconds);
+    out_.print("}");
+    out_.endPrec(out_.TIGHTEST);
+    return setCompExpr;
   }
 
   public Term visitSetExpr(SetExpr set)
