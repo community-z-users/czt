@@ -552,10 +552,11 @@ public class BTermWriter
     out_.print("%");
     ZSchText stext = e.getZSchText();
     Pred types = splitSchText(stext);  // this prints the names
-    out_.print(".");
+    out_.print(".(");
     printPred(Create.andPred(types, stext.getPred()));
     out_.print(" | ");
     printExpr(e.getExpr());
+    out_.print(")");
     out_.endPrec(out_.TIGHTEST);
     return e;
   }
