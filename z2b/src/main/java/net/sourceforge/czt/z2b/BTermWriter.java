@@ -64,6 +64,7 @@ public class BTermWriter
   public static final int DEFN_PREC = -4;
   public static final int COMMA_PREC = -1;
   public static final int AND_PREC = -5;
+  public static final int WHERE_PREC = -8;
   protected static final String arg = " _ "; // indicates arg of an operator 
 
   private BWriter out_ = null;
@@ -232,7 +233,7 @@ public class BTermWriter
       // addInfix("||",  "||", -7);
       // addInfix("[]",  "[]", -7);
 
-      // addInfix("|",   "|", -8);
+      addInfix("|",   "|", WHERE_PREC);
     }
   }
 
@@ -549,14 +550,13 @@ public class BTermWriter
   public Term visitLambdaExpr(LambdaExpr e)
   {
     out_.beginPrec(out_.TIGHTEST);
-    out_.print("%");
+    out_.print("%(");
     ZSchText stext = e.getZSchText();
     Pred types = splitSchText(stext);  // this prints the names
-    out_.print(".(");
-    printPred(Create.andPred(types, stext.getPred()));
-    out_.print(" | ");
-    printExpr(e.getExpr());
-    out_.print(")");
+    out_.print(").");
+    BOperator where = bOp(" _ | _ ");
+    assert where != null;
+    infixOp(where, Create.andPred(types, stext.getPred()), e.getExpr());
     out_.endPrec(out_.TIGHTEST);
     return e;
   }
@@ -661,16 +661,20 @@ public class BTermWriter
   {
     if (setCompExpr.getExpr() != null) {
       String msg = "SetCompExpr with expr " + setCompExpr.getExpr() +
-        " not yest supported";
+        " not yet supported";
       throw new UnsupportedOperationException(msg);
     }
     out_.beginPrec(out_.TIGHTEST);
     out_.print("{");
+    out_.beginPrec();
     ZSchText stext = setCompExpr.getZSchText();
     Pred types = splitSchText(stext);  // this prints the names
-    Pred typesconds = Create.andPred(types, stext.getPred());
     out_.print(" | ");
+    out_.beginPrec(WHERE_PREC+1);
+    Pred typesconds = Create.andPred(types, stext.getPred());
     printPred(typesconds);
+    out_.endPrec(WHERE_PREC+1);
+    out_.endPrec();
     out_.print("}");
     out_.endPrec(out_.TIGHTEST);
     return setCompExpr;

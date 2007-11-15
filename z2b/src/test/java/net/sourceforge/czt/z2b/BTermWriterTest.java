@@ -109,7 +109,14 @@ public class BTermWriterTest
   public void testLambda() throws IOException, CommandException
   {
     testExpr("(\\lambda x:\\nat | x<10 @ x+1)",
-        "%x.((x : NAT & x < 10) | (x + 1))");
+        "%(x).(x : NAT & x < 10 | x + 1)");
+  }
+  
+
+  public void testSetComp1() throws IOException, CommandException
+  {
+    testExpr("\\{x:\\nat | x<10 \\}",
+        "{x | x : NAT & x < 10}");
   }
 }
 
