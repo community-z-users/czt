@@ -131,9 +131,6 @@ public class BMachine
     if (constants_.size() > 0) {
       dest.continueSection("MACHINE","CONSTANTS");
       printNames(dest,constants_);
-      assert properties_.size() > 0;
-      dest.continueSection("MACHINE","PROPERTIES");
-      dest.printPreds(properties_);
     }
     if (defns_.size() > 0) {
       dest.continueSection("MACHINE","DEFINITIONS");
@@ -148,6 +145,11 @@ public class BMachine
         if (i.hasNext())
           dest.printSeparator(";");
       }
+    }
+    if (constants_.size() > 0) {
+      assert properties_.size() > 0;
+      dest.continueSection("MACHINE","PROPERTIES");
+      dest.printPreds(properties_);
     }
     if (variables_.size() > 0) {
       dest.continueSection("MACHINE","VARIABLES");
