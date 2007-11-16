@@ -153,6 +153,7 @@ public class BTermWriter
       ops_.put("ran",    new BOperator("ran"));  // not an operator
       addPrefix("min",    "min");
       addPrefix("max",    "max");
+      addPrefix("seq", "seq");
       addPrefix("\u22C3", "Union"); // N-ary union
       addPrefix("\u22C2", "Inter"); // N-ary intersection
       addPrefix("#",      "card"); // set cardinality
