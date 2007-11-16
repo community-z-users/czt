@@ -162,7 +162,6 @@ public class Z2B
     // operations
     List<BOperation> ops = mach_.getOperations();
     for (NameSectTypeTriple triple : opSchemas) {
-      System.err.println("Found operation " + triple.getName());
       ops.add(operation(triple));
     }
     return mach_;
