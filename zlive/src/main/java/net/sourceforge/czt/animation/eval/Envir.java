@@ -64,7 +64,7 @@ public class Envir
     throw new EvalException("Missing name in envir: " + want);
   }
 
-  protected boolean sameName(/*@non_null@*/ZName a, ZName b) {
+  public static boolean sameName(/*@non_null@*/ZName a, ZName b) {
     // TODO make this equals test more elegant.  
     // Must avoid differences just because of the decl_ field.
     return b != null 

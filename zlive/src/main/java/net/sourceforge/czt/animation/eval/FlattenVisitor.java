@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.flatpred.FlatBinding;
+import net.sourceforge.czt.animation.eval.flatpred.FlatBindSel;
 import net.sourceforge.czt.animation.eval.flatpred.FlatCard;
 import net.sourceforge.czt.animation.eval.flatpred.FlatConst;
 import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
@@ -65,6 +66,7 @@ import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.BindSelExpr;
 import net.sourceforge.czt.z.ast.CondExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
@@ -110,6 +112,7 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.AndPredVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.BindExprVisitor;
+import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
 import net.sourceforge.czt.z.visitor.CondExprVisitor;
 import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
 import net.sourceforge.czt.z.visitor.FalsePredVisitor;
@@ -161,6 +164,7 @@ public class FlattenVisitor
 
       NumExprVisitor<ZName>,
       ApplExprVisitor<ZName>,
+      BindSelExprVisitor<ZName>,
       TupleSelExprVisitor<ZName>,
       RefExprVisitor<ZName>,
       PowerExprVisitor<ZName>,
@@ -622,6 +626,16 @@ public class FlattenVisitor
     result = fp.addExpr(p2);
     flat_.makeBound(result);
     flat_.add(new FlatMu(fp, result));
+    return result;
+  }
+
+  public ZName visitBindSelExpr(BindSelExpr e)
+  {
+    ZName result = createBoundName();
+    flat_.add(new FlatBindSel(
+            e.getExpr().accept(this),
+            e.getZName(),
+            result));
     return result;
   }
 
