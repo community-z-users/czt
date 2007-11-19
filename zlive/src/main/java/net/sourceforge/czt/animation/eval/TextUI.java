@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -31,8 +32,10 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.OpTable;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.rules.RuleTable;
@@ -318,6 +321,12 @@ public class TextUI {
         output_.print("    term = ");
         zlive_.printTerm(output_, ex.getTerm(), zlive_.getMarkup());
         output_.println();
+      }
+    }
+    catch (ParseException ex) {
+      //print any errors
+      for (CztError err : ex.getErrorList()) {
+        output_.println(err);
       }
     }
     catch (SourceLocator.SourceLocatorException ex) {
@@ -652,12 +661,12 @@ public class TextUI {
     List<? extends ErrorAnn> errors =
       TypeCheckUtils.typecheck(term, manager, false, section);
     if (errors.size() > 0) {
-      out.println("Error: term contains type errors.");
-      //print any errors
-      for (ErrorAnn next : errors) {
-        out.println(next);
-      }
-      return null;
+      // Annoying: we have to copy the list to prevent the Java generics
+      // from giving type errors/warnings.
+      List<CztError> errs = new ArrayList<CztError>();
+      for (ErrorAnn err : errors)
+        errs.add(err);
+      throw new ParseException(errs);
     }
     else
       return term;
