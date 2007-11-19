@@ -596,6 +596,8 @@ public class CZTGui implements ActionListener,HyperlinkListener
           execute(resultConsole,command);
           if(command.equals(""))
             resultConsole.append("\n");
+          if(command.equals("reset"))
+            startConsoleWith.setEnabled(false);
           showZLivePrompt();
         }
       }catch(BadLocationException e){
