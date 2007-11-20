@@ -127,8 +127,11 @@ throws an exception for all infinite relations/functions.
 \end{zedrule}
 
 TODO: it might be better to make $\subseteq$ into a primitive constraint?
+This did unfold to  $(\forall x:E1 @ x \in E2)$, but the membership seems
+better.
+
 \begin{zedrule}{subseteq}
-   E1 \subseteq E2 \iff (\forall x:E1 @ x \in E2)
+   E1 \subseteq E2 \iff E1 \in \power E2
 \end{zedrule}
 
 \begin{zedrule}{subset}
@@ -360,7 +363,10 @@ not return undefined when $E$ is not a function.
 TODO: this might be better done using $\cat$
 (if we had much more sophisticated modes).
 \begin{zedrule}{prefixdef}
-   E1 \prefix E2 \iff E1 \subseteq E2
+%   E2 :: \power (\arithmos \cross T)
+%\derives
+   E1 \prefix E2 \iff E1 \subseteq E2 
+%   \provided E1 \in \seq T \land E2 \in \seq T
 \end{zedrule}
 
 \begin{zedrule}{suffixdef}

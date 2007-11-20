@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSchemasTest
-Tests run: 37, Failures: 3, Errors: 8, Time elapsed: 17.571 sec
+Tests run: 37, Failures: 3, Errors: 8, Time elapsed: 16.481 sec
 ------------- Standard Output ---------------
 Passed test:animate_schemas.tex:22
 Passed test:animate_schemas.tex:23
@@ -7,7 +7,7 @@ Passed test:animate_schemas.tex:24
 Passed test:animate_schemas.tex:25
 Passed test:animate_schemas.tex:26
 Passed test:animate_schemas.tex:27
-WARNING: changing a id from 26806 to 26805
+WARNING: changing a id from 26772 to 26771
 Passed test:animate_schemas.tex:28
 Passed test:animate_schemas.tex:31
 Passed test:animate_schemas.tex:32
@@ -28,249 +28,249 @@ Passed test:animate_schemas.tex:98
 Passed test:animate_schemas.tex:100
 Passed test:animate_schemas.tex:113
 Passed test:animate_schemas.tex:134
-WARNING: changing i id from 27143 to 28262
+WARNING: changing i id from 27109 to 28228
  currsize =~\# \{ x : items | true @ x . 2 \} ] ; [ items' : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize' : \nat ; currsize' : \nat | maxsize' \geq currsize' \\
  currsize' =~\# \{ x : items' | true @ x . 2 \} ] | true ] | currsize > 0 \\
  \exists i : \nat ; v : \nat | ( i , v ) \in items \land v = min \{ x : items | true @ x . 2 \} @ items' = \{ p : \{ x : items | x \notin \{ ( i , v ) \} \} | true @ ( \# \{ i : \{ x : \{ x : items | x \notin \{ ( i , v ) \} \} | true @ x . 1 \} | i \leq p . 1 \} , p . 2 ) \} \land offheap! = v \\
  currsize' = currsize - 1 \\
  maxsize' = maxsize ] | maxsize = 10 \land items = \{ s : \{ f : \nat \pfun \arithmos | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} | true @ ( s , s ) \} \{ ( 1 , 2 ) \} ] = 1)
-WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@7a0b8de2
-WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@d663e59e
-WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@d663e59e
-tmp11245 == 1;
+WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@29e1e862
+WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@863a401e
+WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@863a401e
+tmp11282 == 1;
 (mu
-    tmp11248 = {
-        tmp11251 == 0;
-        tmp11250 = tmp11251 .. _;
-        tmp11253 == 0;
-        tmp11252 = tmp11253 .. _;
-        tmp11249 = tmp11250 -|-> tmp11252;
-        tmp11256 == 0;
-        tmp11255 = tmp11256 .. _;
-        tmp11258 == 0;
-        tmp11257 = tmp11258 .. _;
-        tmp11259 = tmp11255 x tmp11257;
-        tmp11254 = P tmp11259;
-        f in tmp11254;
-        tmp11260 = {
+    tmp11285 = {
+        tmp11288 == 0;
+        tmp11287 = tmp11288 .. _;
+        tmp11290 == 0;
+        tmp11289 = tmp11290 .. _;
+        tmp11286 = tmp11287 -|-> tmp11289;
+        tmp11293 == 0;
+        tmp11292 = tmp11293 .. _;
+        tmp11295 == 0;
+        tmp11294 = tmp11295 .. _;
+        tmp11296 = tmp11292 x tmp11294;
+        tmp11291 = P tmp11296;
+        f in tmp11291;
+        tmp11297 = {
             x in f;
-            tmp11261 = x.1
-          @ tmp11261
+            tmp11298 = x.1
+          @ tmp11298
           };
-        tmp11263 == 1;
-        # f = tmp11264;
-        tmp11262 = tmp11263 .. tmp11264;
-        tmp11260 = tmp11262
+        tmp11300 == 1;
+        # f = tmp11301;
+        tmp11299 = tmp11300 .. tmp11301;
+        tmp11297 = tmp11299
       @ f
       };
-    deref in tmp11248 :: 1000.0 ;
+    deref in tmp11285 :: 1000.0 ;
     (mu
-        tmp11266 = {
-            tmp11267 = {
-                tmp11270 == 0;
-                tmp11269 = tmp11270 .. _;
-                tmp11271 = _ .. _;
-                tmp11268 = tmp11269 -|-> tmp11271;
-                tmp11274 == 0;
-                tmp11273 = tmp11274 .. _;
-                tmp11275 = _ .. _;
-                tmp11276 = tmp11273 x tmp11275;
-                tmp11272 = P tmp11276;
-                f in tmp11272;
-                tmp11277 = {
+        tmp11303 = {
+            tmp11304 = {
+                tmp11307 == 0;
+                tmp11306 = tmp11307 .. _;
+                tmp11308 = _ .. _;
+                tmp11305 = tmp11306 -|-> tmp11308;
+                tmp11311 == 0;
+                tmp11310 = tmp11311 .. _;
+                tmp11312 = _ .. _;
+                tmp11313 = tmp11310 x tmp11312;
+                tmp11309 = P tmp11313;
+                f in tmp11309;
+                tmp11314 = {
                     x in f;
-                    tmp11278 = x.1
-                  @ tmp11278
+                    tmp11315 = x.1
+                  @ tmp11315
                   };
-                tmp11280 == 1;
-                # f = tmp11281;
-                tmp11279 = tmp11280 .. tmp11281;
-                tmp11277 = tmp11279
+                tmp11317 == 1;
+                # f = tmp11318;
+                tmp11316 = tmp11317 .. tmp11318;
+                tmp11314 = tmp11316
               @ f
               };
-            s in tmp11267 :: 1000.0 ;
-            tmp11282 = (s, s)
-          @ tmp11282
+            s in tmp11304 :: 1000.0 ;
+            tmp11319 = (s, s)
+          @ tmp11319
           };
-        p in tmp11266 :: 1000.0 ;
-        tmp11283 = p.1;
-        tmp11285 == 1;
-        tmp11286 == 1;
-        tmp11284 = (tmp11285, tmp11286);
-        tmp11288 == 2;
-        tmp11289 == 3;
-        tmp11287 = (tmp11288, tmp11289);
-        tmp11291 == 3;
-        tmp11292 == 5;
-        tmp11290 = (tmp11291, tmp11292);
-        tmp11294 == 4;
-        tmp11295 == 7;
-        tmp11293 = (tmp11294, tmp11295);
-        tmp11296 = { tmp11284, tmp11290, tmp11293, tmp11287 };
-        tmp11283 = tmp11296;
-        tmp11297 = p.2
-      @ tmp11297
+        p in tmp11303 :: 1000.0 ;
+        tmp11320 = p.1;
+        tmp11322 == 1;
+        tmp11323 == 1;
+        tmp11321 = (tmp11322, tmp11323);
+        tmp11325 == 2;
+        tmp11326 == 3;
+        tmp11324 = (tmp11325, tmp11326);
+        tmp11328 == 3;
+        tmp11329 == 5;
+        tmp11327 = (tmp11328, tmp11329);
+        tmp11331 == 4;
+        tmp11332 == 7;
+        tmp11330 = (tmp11331, tmp11332);
+        tmp11333 = { tmp11327, tmp11330, tmp11324, tmp11321 };
+        tmp11320 = tmp11333;
+        tmp11334 = p.2
+      @ tmp11334
       );
-    deref = tmp11297
+    deref = tmp11334
   @ deref
   );
-tmp11247 = deref.deref;
-# tmp11247 = tmp11246;
-tmp11246 = tmp11245 + tmp11244;
-tmp11242 = tmp11243 .. tmp11244;
-n in tmp11242 :: 100.0 1.._;
+tmp11284 = deref.deref;
+# tmp11284 = tmp11283;
+tmp11283 = tmp11282 + tmp11281;
+tmp11279 = tmp11280 .. tmp11281;
+n in tmp11279 :: 100.0 1.._;
 (mu
     (mu
-        tmp11301 = {
-            tmp11304 == 0;
-            tmp11303 = tmp11304 .. _;
-            tmp11306 == 0;
-            tmp11305 = tmp11306 .. _;
-            tmp11302 = tmp11303 -|-> tmp11305;
-            tmp11309 == 0;
-            tmp11308 = tmp11309 .. _;
-            tmp11311 == 0;
-            tmp11310 = tmp11311 .. _;
-            tmp11312 = tmp11308 x tmp11310;
-            tmp11307 = P tmp11312;
-            f in tmp11307;
-            tmp11313 = {
+        tmp11338 = {
+            tmp11341 == 0;
+            tmp11340 = tmp11341 .. _;
+            tmp11343 == 0;
+            tmp11342 = tmp11343 .. _;
+            tmp11339 = tmp11340 -|-> tmp11342;
+            tmp11346 == 0;
+            tmp11345 = tmp11346 .. _;
+            tmp11348 == 0;
+            tmp11347 = tmp11348 .. _;
+            tmp11349 = tmp11345 x tmp11347;
+            tmp11344 = P tmp11349;
+            f in tmp11344;
+            tmp11350 = {
                 x in f;
-                tmp11314 = x.1
-              @ tmp11314
+                tmp11351 = x.1
+              @ tmp11351
               };
-            tmp11316 == 1;
-            # f = tmp11317;
-            tmp11315 = tmp11316 .. tmp11317;
-            tmp11313 = tmp11315
+            tmp11353 == 1;
+            # f = tmp11354;
+            tmp11352 = tmp11353 .. tmp11354;
+            tmp11350 = tmp11352
           @ f
           };
-        deref in tmp11301 :: 1000.0 ;
+        deref in tmp11338 :: 1000.0 ;
         (mu
-            tmp11319 = {
-                tmp11320 = {
-                    tmp11323 == 0;
-                    tmp11322 = tmp11323 .. _;
-                    tmp11324 = _ .. _;
-                    tmp11321 = tmp11322 -|-> tmp11324;
-                    tmp11327 == 0;
-                    tmp11326 = tmp11327 .. _;
-                    tmp11328 = _ .. _;
-                    tmp11329 = tmp11326 x tmp11328;
-                    tmp11325 = P tmp11329;
-                    f in tmp11325;
-                    tmp11330 = {
+            tmp11356 = {
+                tmp11357 = {
+                    tmp11360 == 0;
+                    tmp11359 = tmp11360 .. _;
+                    tmp11361 = _ .. _;
+                    tmp11358 = tmp11359 -|-> tmp11361;
+                    tmp11364 == 0;
+                    tmp11363 = tmp11364 .. _;
+                    tmp11365 = _ .. _;
+                    tmp11366 = tmp11363 x tmp11365;
+                    tmp11362 = P tmp11366;
+                    f in tmp11362;
+                    tmp11367 = {
                         x in f;
-                        tmp11331 = x.1
-                      @ tmp11331
+                        tmp11368 = x.1
+                      @ tmp11368
                       };
-                    tmp11333 == 1;
-                    # f = tmp11334;
-                    tmp11332 = tmp11333 .. tmp11334;
-                    tmp11330 = tmp11332
+                    tmp11370 == 1;
+                    # f = tmp11371;
+                    tmp11369 = tmp11370 .. tmp11371;
+                    tmp11367 = tmp11369
                   @ f
                   };
-                s in tmp11320 :: 1000.0 ;
-                tmp11335 = (s, s)
-              @ tmp11335
+                s in tmp11357 :: 1000.0 ;
+                tmp11372 = (s, s)
+              @ tmp11372
               };
-            p in tmp11319 :: 1000.0 ;
-            tmp11336 = p.1;
-            tmp11338 == 1;
-            tmp11339 == 1;
-            tmp11337 = (tmp11338, tmp11339);
-            tmp11341 == 2;
-            tmp11342 == 3;
-            tmp11340 = (tmp11341, tmp11342);
-            tmp11344 == 3;
-            tmp11345 == 5;
-            tmp11343 = (tmp11344, tmp11345);
-            tmp11347 == 4;
-            tmp11348 == 7;
-            tmp11346 = (tmp11347, tmp11348);
-            tmp11349 = { tmp11346, tmp11337, tmp11340, tmp11343 };
-            tmp11336 = tmp11349;
-            tmp11350 = p.2
-          @ tmp11350
+            p in tmp11356 :: 1000.0 ;
+            tmp11373 = p.1;
+            tmp11375 == 1;
+            tmp11376 == 1;
+            tmp11374 = (tmp11375, tmp11376);
+            tmp11378 == 2;
+            tmp11379 == 3;
+            tmp11377 = (tmp11378, tmp11379);
+            tmp11381 == 3;
+            tmp11382 == 5;
+            tmp11380 = (tmp11381, tmp11382);
+            tmp11384 == 4;
+            tmp11385 == 7;
+            tmp11383 = (tmp11384, tmp11385);
+            tmp11386 = { tmp11383, tmp11374, tmp11377, tmp11380 };
+            tmp11373 = tmp11386;
+            tmp11387 = p.2
+          @ tmp11387
           );
-        deref = tmp11350
+        deref = tmp11387
       @ deref
       );
-    tmp11300 = deref.deref;
-    p in tmp11300;
-    tmp11351 = p.1;
-    tmp11353 == 1;
-    tmp11352 = n + tmp11353;
-    tmp11351 = tmp11352;
-    tmp11354 = p.2
-  @ tmp11354
+    tmp11337 = deref.deref;
+    p in tmp11337;
+    tmp11388 = p.1;
+    tmp11390 == 1;
+    tmp11389 = n + tmp11390;
+    tmp11388 = tmp11389;
+    tmp11391 = p.2
+  @ tmp11391
   );
-tmp11298 = (n, tmp11354) @ tmp11298 })
+tmp11335 = (n, tmp11391) @ tmp11335 })
 ------------- ---------------- ---------------
 ------------- Standard Error -----------------
-Type1 POWER POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
-Type1 POWER POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
-Type1 POWER (POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253) × POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253))
-Type2 POWER (POWER (GIVEN 𝔸_25253 × GENTYPE X_26426) × POWER (GIVEN 𝔸_25253 × GENTYPE X_26426))
-Type1 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26426)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
-Type1 POWER POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
-Type1 POWER POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
-Type1 POWER (POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253) × POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253))
-Type2 POWER (POWER (GIVEN 𝔸_25253 × GENTYPE X_26426) × POWER (GIVEN 𝔸_25253 × GENTYPE X_26426))
-Type1 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26426)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
-Type1 POWER POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
-Type1 POWER POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
-Type1 POWER (POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253) × POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253))
-Type2 POWER (POWER (GIVEN 𝔸_25253 × GENTYPE X_26426) × POWER (GIVEN 𝔸_25253 × GENTYPE X_26426))
-Type1 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26426)
-Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
+Type1 POWER POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
+Type1 POWER POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
+Type1 POWER (POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219) × POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219))
+Type2 POWER (POWER (GIVEN 𝔸_25219 × GENTYPE X_26392) × POWER (GIVEN 𝔸_25219 × GENTYPE X_26392))
+Type1 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26392)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
+Type1 POWER POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
+Type1 POWER POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
+Type1 POWER (POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219) × POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219))
+Type2 POWER (POWER (GIVEN 𝔸_25219 × GENTYPE X_26392) × POWER (GIVEN 𝔸_25219 × GENTYPE X_26392))
+Type1 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26392)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
+Type1 POWER POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
+Type1 POWER POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
+Type1 POWER (POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219) × POWER (GIVEN 𝔸_25219 × GIVEN 𝔸_25219))
+Type2 POWER (POWER (GIVEN 𝔸_25219 × GENTYPE X_26392) × POWER (GIVEN 𝔸_25219 × GENTYPE X_26392))
+Type1 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26392)
+Type2 POWER POWER (GIVEN 𝔸_25219 × GENTYPE X_26362)
 ------------- ---------------- ---------------
 
-Testcase: animate_schemas.tex:22 took 0.161 sec
-Testcase: animate_schemas.tex:23 took 0.145 sec
-Testcase: animate_schemas.tex:24 took 0.15 sec
-Testcase: animate_schemas.tex:25 took 0.18 sec
-Testcase: animate_schemas.tex:26 took 0.15 sec
-Testcase: animate_schemas.tex:27 took 0.173 sec
-Testcase: animate_schemas.tex:28 took 0.211 sec
-Testcase: animate_schemas.tex:31 took 0.148 sec
-Testcase: animate_schemas.tex:32 took 0.153 sec
-Testcase: animate_schemas.tex:33 took 0.15 sec
-Testcase: animate_schemas.tex:36 took 0.239 sec
-Testcase: animate_schemas.tex:37 took 0.239 sec
-Testcase: animate_schemas.tex:63 took 0.36 sec
+Testcase: animate_schemas.tex:22 took 0.237 sec
+Testcase: animate_schemas.tex:23 took 0.161 sec
+Testcase: animate_schemas.tex:24 took 0.162 sec
+Testcase: animate_schemas.tex:25 took 0.196 sec
+Testcase: animate_schemas.tex:26 took 0.154 sec
+Testcase: animate_schemas.tex:27 took 0.182 sec
+Testcase: animate_schemas.tex:28 took 0.216 sec
+Testcase: animate_schemas.tex:31 took 0.157 sec
+Testcase: animate_schemas.tex:32 took 0.151 sec
+Testcase: animate_schemas.tex:33 took 0.152 sec
+Testcase: animate_schemas.tex:36 took 0.241 sec
+Testcase: animate_schemas.tex:37 took 0.246 sec
+Testcase: animate_schemas.tex:63 took 0.367 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:66 took 0.352 sec
-Testcase: animate_schemas.tex:69 took 0.472 sec
-Testcase: animate_schemas.tex:72 took 0.431 sec
-Testcase: animate_schemas.tex:75 took 0.996 sec
+Testcase: animate_schemas.tex:66 took 0.359 sec
+Testcase: animate_schemas.tex:69 took 0.512 sec
+Testcase: animate_schemas.tex:72 took 0.444 sec
+Testcase: animate_schemas.tex:75 took 1.011 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:78 took 0.763 sec
+Testcase: animate_schemas.tex:78 took 0.79 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:82 took 0.327 sec
-Testcase: animate_schemas.tex:83 took 0.336 sec
-Testcase: animate_schemas.tex:84 took 0.358 sec
-Testcase: animate_schemas.tex:85 took 0.311 sec
+Testcase: animate_schemas.tex:82 took 0.341 sec
+Testcase: animate_schemas.tex:83 took 0.343 sec
+Testcase: animate_schemas.tex:84 took 0.363 sec
+Testcase: animate_schemas.tex:85 took 0.31 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
@@ -289,14 +289,14 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:89 took 0.442 sec
-Testcase: animate_schemas.tex:92 took 0.751 sec
-Testcase: animate_schemas.tex:96 took 0.967 sec
-Testcase: animate_schemas.tex:97 took 0.469 sec
-Testcase: animate_schemas.tex:98 took 0.797 sec
-Testcase: animate_schemas.tex:100 took 1.223 sec
-Testcase: animate_schemas.tex:113 took 0.355 sec
-Testcase: animate_schemas.tex:114 took 0.311 sec
+Testcase: animate_schemas.tex:89 took 0.398 sec
+Testcase: animate_schemas.tex:92 took 0.424 sec
+Testcase: animate_schemas.tex:96 took 0.498 sec
+Testcase: animate_schemas.tex:97 took 0.416 sec
+Testcase: animate_schemas.tex:98 took 0.642 sec
+Testcase: animate_schemas.tex:100 took 0.991 sec
+Testcase: animate_schemas.tex:113 took 0.293 sec
+Testcase: animate_schemas.tex:114 took 0.277 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
@@ -329,7 +329,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:117 took 0.327 sec
+Testcase: animate_schemas.tex:117 took 0.293 sec
 	Caused an ERROR
 Gave up unbounded iteration from 0 by 1 after 10 results.
 net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
@@ -347,7 +347,7 @@ net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration fr
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:119 took 0.343 sec
+Testcase: animate_schemas.tex:119 took 0.323 sec
 	Caused an ERROR
 Gave up unbounded iteration from 0 by 1 after 10 results.
 net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
@@ -365,7 +365,7 @@ net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration fr
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:121 took 0.318 sec
+Testcase: animate_schemas.tex:121 took 0.558 sec
 	Caused an ERROR
 Gave up unbounded iteration from 0 by 1 after 10 results.
 net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
@@ -383,8 +383,8 @@ net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration fr
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:134 took 0.664 sec
-Testcase: animate_schemas.tex:162 took 1.737 sec
+Testcase: animate_schemas.tex:134 took 0.4 sec
+Testcase: animate_schemas.tex:162 took 1.655 sec
 	Caused an ERROR
 Cannot find mode to evaluate: \# [ [ offheap! : \nat ; [ [ items : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize : \nat ; currsize : \nat | maxsize \geq currsize \\
  currsize =~\# \{ x : items | true @ x . 2 \} ] ; [ items' : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize' : \nat ; currsize' : \nat | maxsize' \geq currsize' \\
@@ -403,7 +403,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:172 took 0.862 sec
+Testcase: animate_schemas.tex:172 took 0.878 sec
 	Caused an ERROR
 Type error in FlatBindSel: {net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f, net.sourceforge.czt.z.impl.TupleExprImpl@604aa7be} . deref
 net.sourceforge.czt.animation.eval.EvalException: Type error in FlatBindSel: {net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f, net.sourceforge.czt.z.impl.TupleExprImpl@604aa7be} . deref
@@ -419,348 +419,348 @@ net.sourceforge.czt.animation.eval.EvalException: Type error in FlatBindSel: {ne
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:173 took 1.185 sec
+Testcase: animate_schemas.tex:173 took 1.327 sec
 	Caused an ERROR
-Cannot generate members of SetComp: { tmp11243 == 1;
-tmp11245 == 1;
+Cannot generate members of SetComp: { tmp11280 == 1;
+tmp11282 == 1;
 (mu
-    tmp11248 = {
-        tmp11251 == 0;
-        tmp11250 = tmp11251 .. _;
-        tmp11253 == 0;
-        tmp11252 = tmp11253 .. _;
-        tmp11249 = tmp11250 -|-> tmp11252;
-        tmp11256 == 0;
-        tmp11255 = tmp11256 .. _;
-        tmp11258 == 0;
-        tmp11257 = tmp11258 .. _;
-        tmp11259 = tmp11255 x tmp11257;
-        tmp11254 = P tmp11259;
-        f in tmp11254;
-        tmp11260 = {
+    tmp11285 = {
+        tmp11288 == 0;
+        tmp11287 = tmp11288 .. _;
+        tmp11290 == 0;
+        tmp11289 = tmp11290 .. _;
+        tmp11286 = tmp11287 -|-> tmp11289;
+        tmp11293 == 0;
+        tmp11292 = tmp11293 .. _;
+        tmp11295 == 0;
+        tmp11294 = tmp11295 .. _;
+        tmp11296 = tmp11292 x tmp11294;
+        tmp11291 = P tmp11296;
+        f in tmp11291;
+        tmp11297 = {
             x in f;
-            tmp11261 = x.1
-          @ tmp11261
+            tmp11298 = x.1
+          @ tmp11298
           };
-        tmp11263 == 1;
-        # f = tmp11264;
-        tmp11262 = tmp11263 .. tmp11264;
-        tmp11260 = tmp11262
+        tmp11300 == 1;
+        # f = tmp11301;
+        tmp11299 = tmp11300 .. tmp11301;
+        tmp11297 = tmp11299
       @ f
       };
-    deref in tmp11248 :: 1000.0 ;
+    deref in tmp11285 :: 1000.0 ;
     (mu
-        tmp11266 = {
-            tmp11267 = {
-                tmp11270 == 0;
-                tmp11269 = tmp11270 .. _;
-                tmp11271 = _ .. _;
-                tmp11268 = tmp11269 -|-> tmp11271;
-                tmp11274 == 0;
-                tmp11273 = tmp11274 .. _;
-                tmp11275 = _ .. _;
-                tmp11276 = tmp11273 x tmp11275;
-                tmp11272 = P tmp11276;
-                f in tmp11272;
-                tmp11277 = {
+        tmp11303 = {
+            tmp11304 = {
+                tmp11307 == 0;
+                tmp11306 = tmp11307 .. _;
+                tmp11308 = _ .. _;
+                tmp11305 = tmp11306 -|-> tmp11308;
+                tmp11311 == 0;
+                tmp11310 = tmp11311 .. _;
+                tmp11312 = _ .. _;
+                tmp11313 = tmp11310 x tmp11312;
+                tmp11309 = P tmp11313;
+                f in tmp11309;
+                tmp11314 = {
                     x in f;
-                    tmp11278 = x.1
-                  @ tmp11278
+                    tmp11315 = x.1
+                  @ tmp11315
                   };
-                tmp11280 == 1;
-                # f = tmp11281;
-                tmp11279 = tmp11280 .. tmp11281;
-                tmp11277 = tmp11279
+                tmp11317 == 1;
+                # f = tmp11318;
+                tmp11316 = tmp11317 .. tmp11318;
+                tmp11314 = tmp11316
               @ f
               };
-            s in tmp11267 :: 1000.0 ;
-            tmp11282 = (s, s)
-          @ tmp11282
+            s in tmp11304 :: 1000.0 ;
+            tmp11319 = (s, s)
+          @ tmp11319
           };
-        p in tmp11266 :: 1000.0 ;
-        tmp11283 = p.1;
-        tmp11285 == 1;
-        tmp11286 == 1;
-        tmp11284 = (tmp11285, tmp11286);
-        tmp11288 == 2;
-        tmp11289 == 3;
-        tmp11287 = (tmp11288, tmp11289);
-        tmp11291 == 3;
-        tmp11292 == 5;
-        tmp11290 = (tmp11291, tmp11292);
-        tmp11294 == 4;
-        tmp11295 == 7;
-        tmp11293 = (tmp11294, tmp11295);
-        tmp11296 = { tmp11284, tmp11290, tmp11293, tmp11287 };
-        tmp11283 = tmp11296;
-        tmp11297 = p.2
-      @ tmp11297
+        p in tmp11303 :: 1000.0 ;
+        tmp11320 = p.1;
+        tmp11322 == 1;
+        tmp11323 == 1;
+        tmp11321 = (tmp11322, tmp11323);
+        tmp11325 == 2;
+        tmp11326 == 3;
+        tmp11324 = (tmp11325, tmp11326);
+        tmp11328 == 3;
+        tmp11329 == 5;
+        tmp11327 = (tmp11328, tmp11329);
+        tmp11331 == 4;
+        tmp11332 == 7;
+        tmp11330 = (tmp11331, tmp11332);
+        tmp11333 = { tmp11327, tmp11330, tmp11324, tmp11321 };
+        tmp11320 = tmp11333;
+        tmp11334 = p.2
+      @ tmp11334
       );
-    deref = tmp11297
+    deref = tmp11334
   @ deref
   );
-tmp11247 = deref.deref;
-# tmp11247 = tmp11246;
-tmp11246 = tmp11245 + tmp11244;
-tmp11242 = tmp11243 .. tmp11244;
-n in tmp11242 :: 100.0 1.._;
+tmp11284 = deref.deref;
+# tmp11284 = tmp11283;
+tmp11283 = tmp11282 + tmp11281;
+tmp11279 = tmp11280 .. tmp11281;
+n in tmp11279 :: 100.0 1.._;
 (mu
     (mu
-        tmp11301 = {
-            tmp11304 == 0;
-            tmp11303 = tmp11304 .. _;
-            tmp11306 == 0;
-            tmp11305 = tmp11306 .. _;
-            tmp11302 = tmp11303 -|-> tmp11305;
-            tmp11309 == 0;
-            tmp11308 = tmp11309 .. _;
-            tmp11311 == 0;
-            tmp11310 = tmp11311 .. _;
-            tmp11312 = tmp11308 x tmp11310;
-            tmp11307 = P tmp11312;
-            f in tmp11307;
-            tmp11313 = {
+        tmp11338 = {
+            tmp11341 == 0;
+            tmp11340 = tmp11341 .. _;
+            tmp11343 == 0;
+            tmp11342 = tmp11343 .. _;
+            tmp11339 = tmp11340 -|-> tmp11342;
+            tmp11346 == 0;
+            tmp11345 = tmp11346 .. _;
+            tmp11348 == 0;
+            tmp11347 = tmp11348 .. _;
+            tmp11349 = tmp11345 x tmp11347;
+            tmp11344 = P tmp11349;
+            f in tmp11344;
+            tmp11350 = {
                 x in f;
-                tmp11314 = x.1
-              @ tmp11314
+                tmp11351 = x.1
+              @ tmp11351
               };
-            tmp11316 == 1;
-            # f = tmp11317;
-            tmp11315 = tmp11316 .. tmp11317;
-            tmp11313 = tmp11315
+            tmp11353 == 1;
+            # f = tmp11354;
+            tmp11352 = tmp11353 .. tmp11354;
+            tmp11350 = tmp11352
           @ f
           };
-        deref in tmp11301 :: 1000.0 ;
+        deref in tmp11338 :: 1000.0 ;
         (mu
-            tmp11319 = {
-                tmp11320 = {
-                    tmp11323 == 0;
-                    tmp11322 = tmp11323 .. _;
-                    tmp11324 = _ .. _;
-                    tmp11321 = tmp11322 -|-> tmp11324;
-                    tmp11327 == 0;
-                    tmp11326 = tmp11327 .. _;
-                    tmp11328 = _ .. _;
-                    tmp11329 = tmp11326 x tmp11328;
-                    tmp11325 = P tmp11329;
-                    f in tmp11325;
-                    tmp11330 = {
+            tmp11356 = {
+                tmp11357 = {
+                    tmp11360 == 0;
+                    tmp11359 = tmp11360 .. _;
+                    tmp11361 = _ .. _;
+                    tmp11358 = tmp11359 -|-> tmp11361;
+                    tmp11364 == 0;
+                    tmp11363 = tmp11364 .. _;
+                    tmp11365 = _ .. _;
+                    tmp11366 = tmp11363 x tmp11365;
+                    tmp11362 = P tmp11366;
+                    f in tmp11362;
+                    tmp11367 = {
                         x in f;
-                        tmp11331 = x.1
-                      @ tmp11331
+                        tmp11368 = x.1
+                      @ tmp11368
                       };
-                    tmp11333 == 1;
-                    # f = tmp11334;
-                    tmp11332 = tmp11333 .. tmp11334;
-                    tmp11330 = tmp11332
+                    tmp11370 == 1;
+                    # f = tmp11371;
+                    tmp11369 = tmp11370 .. tmp11371;
+                    tmp11367 = tmp11369
                   @ f
                   };
-                s in tmp11320 :: 1000.0 ;
-                tmp11335 = (s, s)
-              @ tmp11335
+                s in tmp11357 :: 1000.0 ;
+                tmp11372 = (s, s)
+              @ tmp11372
               };
-            p in tmp11319 :: 1000.0 ;
-            tmp11336 = p.1;
-            tmp11338 == 1;
-            tmp11339 == 1;
-            tmp11337 = (tmp11338, tmp11339);
-            tmp11341 == 2;
-            tmp11342 == 3;
-            tmp11340 = (tmp11341, tmp11342);
-            tmp11344 == 3;
-            tmp11345 == 5;
-            tmp11343 = (tmp11344, tmp11345);
-            tmp11347 == 4;
-            tmp11348 == 7;
-            tmp11346 = (tmp11347, tmp11348);
-            tmp11349 = { tmp11346, tmp11337, tmp11340, tmp11343 };
-            tmp11336 = tmp11349;
-            tmp11350 = p.2
-          @ tmp11350
+            p in tmp11356 :: 1000.0 ;
+            tmp11373 = p.1;
+            tmp11375 == 1;
+            tmp11376 == 1;
+            tmp11374 = (tmp11375, tmp11376);
+            tmp11378 == 2;
+            tmp11379 == 3;
+            tmp11377 = (tmp11378, tmp11379);
+            tmp11381 == 3;
+            tmp11382 == 5;
+            tmp11380 = (tmp11381, tmp11382);
+            tmp11384 == 4;
+            tmp11385 == 7;
+            tmp11383 = (tmp11384, tmp11385);
+            tmp11386 = { tmp11383, tmp11374, tmp11377, tmp11380 };
+            tmp11373 = tmp11386;
+            tmp11387 = p.2
+          @ tmp11387
           );
-        deref = tmp11350
+        deref = tmp11387
       @ deref
       );
-    tmp11300 = deref.deref;
-    p in tmp11300;
-    tmp11351 = p.1;
-    tmp11353 == 1;
-    tmp11352 = n + tmp11353;
-    tmp11351 = tmp11352;
-    tmp11354 = p.2
-  @ tmp11354
+    tmp11337 = deref.deref;
+    p in tmp11337;
+    tmp11388 = p.1;
+    tmp11390 == 1;
+    tmp11389 = n + tmp11390;
+    tmp11388 = tmp11389;
+    tmp11391 = p.2
+  @ tmp11391
   );
-tmp11298 = (n, tmp11354) @ tmp11298 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { tmp11243 == 1;
-tmp11245 == 1;
+tmp11335 = (n, tmp11391) @ tmp11335 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { tmp11280 == 1;
+tmp11282 == 1;
 (mu
-    tmp11248 = {
-        tmp11251 == 0;
-        tmp11250 = tmp11251 .. _;
-        tmp11253 == 0;
-        tmp11252 = tmp11253 .. _;
-        tmp11249 = tmp11250 -|-> tmp11252;
-        tmp11256 == 0;
-        tmp11255 = tmp11256 .. _;
-        tmp11258 == 0;
-        tmp11257 = tmp11258 .. _;
-        tmp11259 = tmp11255 x tmp11257;
-        tmp11254 = P tmp11259;
-        f in tmp11254;
-        tmp11260 = {
+    tmp11285 = {
+        tmp11288 == 0;
+        tmp11287 = tmp11288 .. _;
+        tmp11290 == 0;
+        tmp11289 = tmp11290 .. _;
+        tmp11286 = tmp11287 -|-> tmp11289;
+        tmp11293 == 0;
+        tmp11292 = tmp11293 .. _;
+        tmp11295 == 0;
+        tmp11294 = tmp11295 .. _;
+        tmp11296 = tmp11292 x tmp11294;
+        tmp11291 = P tmp11296;
+        f in tmp11291;
+        tmp11297 = {
             x in f;
-            tmp11261 = x.1
-          @ tmp11261
+            tmp11298 = x.1
+          @ tmp11298
           };
-        tmp11263 == 1;
-        # f = tmp11264;
-        tmp11262 = tmp11263 .. tmp11264;
-        tmp11260 = tmp11262
+        tmp11300 == 1;
+        # f = tmp11301;
+        tmp11299 = tmp11300 .. tmp11301;
+        tmp11297 = tmp11299
       @ f
       };
-    deref in tmp11248 :: 1000.0 ;
+    deref in tmp11285 :: 1000.0 ;
     (mu
-        tmp11266 = {
-            tmp11267 = {
-                tmp11270 == 0;
-                tmp11269 = tmp11270 .. _;
-                tmp11271 = _ .. _;
-                tmp11268 = tmp11269 -|-> tmp11271;
-                tmp11274 == 0;
-                tmp11273 = tmp11274 .. _;
-                tmp11275 = _ .. _;
-                tmp11276 = tmp11273 x tmp11275;
-                tmp11272 = P tmp11276;
-                f in tmp11272;
-                tmp11277 = {
+        tmp11303 = {
+            tmp11304 = {
+                tmp11307 == 0;
+                tmp11306 = tmp11307 .. _;
+                tmp11308 = _ .. _;
+                tmp11305 = tmp11306 -|-> tmp11308;
+                tmp11311 == 0;
+                tmp11310 = tmp11311 .. _;
+                tmp11312 = _ .. _;
+                tmp11313 = tmp11310 x tmp11312;
+                tmp11309 = P tmp11313;
+                f in tmp11309;
+                tmp11314 = {
                     x in f;
-                    tmp11278 = x.1
-                  @ tmp11278
+                    tmp11315 = x.1
+                  @ tmp11315
                   };
-                tmp11280 == 1;
-                # f = tmp11281;
-                tmp11279 = tmp11280 .. tmp11281;
-                tmp11277 = tmp11279
+                tmp11317 == 1;
+                # f = tmp11318;
+                tmp11316 = tmp11317 .. tmp11318;
+                tmp11314 = tmp11316
               @ f
               };
-            s in tmp11267 :: 1000.0 ;
-            tmp11282 = (s, s)
-          @ tmp11282
+            s in tmp11304 :: 1000.0 ;
+            tmp11319 = (s, s)
+          @ tmp11319
           };
-        p in tmp11266 :: 1000.0 ;
-        tmp11283 = p.1;
-        tmp11285 == 1;
-        tmp11286 == 1;
-        tmp11284 = (tmp11285, tmp11286);
-        tmp11288 == 2;
-        tmp11289 == 3;
-        tmp11287 = (tmp11288, tmp11289);
-        tmp11291 == 3;
-        tmp11292 == 5;
-        tmp11290 = (tmp11291, tmp11292);
-        tmp11294 == 4;
-        tmp11295 == 7;
-        tmp11293 = (tmp11294, tmp11295);
-        tmp11296 = { tmp11284, tmp11290, tmp11293, tmp11287 };
-        tmp11283 = tmp11296;
-        tmp11297 = p.2
-      @ tmp11297
+        p in tmp11303 :: 1000.0 ;
+        tmp11320 = p.1;
+        tmp11322 == 1;
+        tmp11323 == 1;
+        tmp11321 = (tmp11322, tmp11323);
+        tmp11325 == 2;
+        tmp11326 == 3;
+        tmp11324 = (tmp11325, tmp11326);
+        tmp11328 == 3;
+        tmp11329 == 5;
+        tmp11327 = (tmp11328, tmp11329);
+        tmp11331 == 4;
+        tmp11332 == 7;
+        tmp11330 = (tmp11331, tmp11332);
+        tmp11333 = { tmp11327, tmp11330, tmp11324, tmp11321 };
+        tmp11320 = tmp11333;
+        tmp11334 = p.2
+      @ tmp11334
       );
-    deref = tmp11297
+    deref = tmp11334
   @ deref
   );
-tmp11247 = deref.deref;
-# tmp11247 = tmp11246;
-tmp11246 = tmp11245 + tmp11244;
-tmp11242 = tmp11243 .. tmp11244;
-n in tmp11242 :: 100.0 1.._;
+tmp11284 = deref.deref;
+# tmp11284 = tmp11283;
+tmp11283 = tmp11282 + tmp11281;
+tmp11279 = tmp11280 .. tmp11281;
+n in tmp11279 :: 100.0 1.._;
 (mu
     (mu
-        tmp11301 = {
-            tmp11304 == 0;
-            tmp11303 = tmp11304 .. _;
-            tmp11306 == 0;
-            tmp11305 = tmp11306 .. _;
-            tmp11302 = tmp11303 -|-> tmp11305;
-            tmp11309 == 0;
-            tmp11308 = tmp11309 .. _;
-            tmp11311 == 0;
-            tmp11310 = tmp11311 .. _;
-            tmp11312 = tmp11308 x tmp11310;
-            tmp11307 = P tmp11312;
-            f in tmp11307;
-            tmp11313 = {
+        tmp11338 = {
+            tmp11341 == 0;
+            tmp11340 = tmp11341 .. _;
+            tmp11343 == 0;
+            tmp11342 = tmp11343 .. _;
+            tmp11339 = tmp11340 -|-> tmp11342;
+            tmp11346 == 0;
+            tmp11345 = tmp11346 .. _;
+            tmp11348 == 0;
+            tmp11347 = tmp11348 .. _;
+            tmp11349 = tmp11345 x tmp11347;
+            tmp11344 = P tmp11349;
+            f in tmp11344;
+            tmp11350 = {
                 x in f;
-                tmp11314 = x.1
-              @ tmp11314
+                tmp11351 = x.1
+              @ tmp11351
               };
-            tmp11316 == 1;
-            # f = tmp11317;
-            tmp11315 = tmp11316 .. tmp11317;
-            tmp11313 = tmp11315
+            tmp11353 == 1;
+            # f = tmp11354;
+            tmp11352 = tmp11353 .. tmp11354;
+            tmp11350 = tmp11352
           @ f
           };
-        deref in tmp11301 :: 1000.0 ;
+        deref in tmp11338 :: 1000.0 ;
         (mu
-            tmp11319 = {
-                tmp11320 = {
-                    tmp11323 == 0;
-                    tmp11322 = tmp11323 .. _;
-                    tmp11324 = _ .. _;
-                    tmp11321 = tmp11322 -|-> tmp11324;
-                    tmp11327 == 0;
-                    tmp11326 = tmp11327 .. _;
-                    tmp11328 = _ .. _;
-                    tmp11329 = tmp11326 x tmp11328;
-                    tmp11325 = P tmp11329;
-                    f in tmp11325;
-                    tmp11330 = {
+            tmp11356 = {
+                tmp11357 = {
+                    tmp11360 == 0;
+                    tmp11359 = tmp11360 .. _;
+                    tmp11361 = _ .. _;
+                    tmp11358 = tmp11359 -|-> tmp11361;
+                    tmp11364 == 0;
+                    tmp11363 = tmp11364 .. _;
+                    tmp11365 = _ .. _;
+                    tmp11366 = tmp11363 x tmp11365;
+                    tmp11362 = P tmp11366;
+                    f in tmp11362;
+                    tmp11367 = {
                         x in f;
-                        tmp11331 = x.1
-                      @ tmp11331
+                        tmp11368 = x.1
+                      @ tmp11368
                       };
-                    tmp11333 == 1;
-                    # f = tmp11334;
-                    tmp11332 = tmp11333 .. tmp11334;
-                    tmp11330 = tmp11332
+                    tmp11370 == 1;
+                    # f = tmp11371;
+                    tmp11369 = tmp11370 .. tmp11371;
+                    tmp11367 = tmp11369
                   @ f
                   };
-                s in tmp11320 :: 1000.0 ;
-                tmp11335 = (s, s)
-              @ tmp11335
+                s in tmp11357 :: 1000.0 ;
+                tmp11372 = (s, s)
+              @ tmp11372
               };
-            p in tmp11319 :: 1000.0 ;
-            tmp11336 = p.1;
-            tmp11338 == 1;
-            tmp11339 == 1;
-            tmp11337 = (tmp11338, tmp11339);
-            tmp11341 == 2;
-            tmp11342 == 3;
-            tmp11340 = (tmp11341, tmp11342);
-            tmp11344 == 3;
-            tmp11345 == 5;
-            tmp11343 = (tmp11344, tmp11345);
-            tmp11347 == 4;
-            tmp11348 == 7;
-            tmp11346 = (tmp11347, tmp11348);
-            tmp11349 = { tmp11346, tmp11337, tmp11340, tmp11343 };
-            tmp11336 = tmp11349;
-            tmp11350 = p.2
-          @ tmp11350
+            p in tmp11356 :: 1000.0 ;
+            tmp11373 = p.1;
+            tmp11375 == 1;
+            tmp11376 == 1;
+            tmp11374 = (tmp11375, tmp11376);
+            tmp11378 == 2;
+            tmp11379 == 3;
+            tmp11377 = (tmp11378, tmp11379);
+            tmp11381 == 3;
+            tmp11382 == 5;
+            tmp11380 = (tmp11381, tmp11382);
+            tmp11384 == 4;
+            tmp11385 == 7;
+            tmp11383 = (tmp11384, tmp11385);
+            tmp11386 = { tmp11383, tmp11374, tmp11377, tmp11380 };
+            tmp11373 = tmp11386;
+            tmp11387 = p.2
+          @ tmp11387
           );
-        deref = tmp11350
+        deref = tmp11387
       @ deref
       );
-    tmp11300 = deref.deref;
-    p in tmp11300;
-    tmp11351 = p.1;
-    tmp11353 == 1;
-    tmp11352 = n + tmp11353;
-    tmp11351 = tmp11352;
-    tmp11354 = p.2
-  @ tmp11354
+    tmp11337 = deref.deref;
+    p in tmp11337;
+    tmp11388 = p.1;
+    tmp11390 == 1;
+    tmp11389 = n + tmp11390;
+    tmp11388 = tmp11389;
+    tmp11391 = p.2
+  @ tmp11391
   );
-tmp11298 = (n, tmp11354) @ tmp11298 }
+tmp11335 = (n, tmp11391) @ tmp11335 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:147)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)

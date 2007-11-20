@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSequencesTest
-Tests run: 87, Failures: 7, Errors: 29, Time elapsed: 55.465 sec
+Tests run: 87, Failures: 7, Errors: 25, Time elapsed: 53.25 sec
 ------------- Standard Output ---------------
 Passed test:animate_sequences.tex:28
 Passed test:animate_sequences.tex:29
@@ -43,241 +43,10 @@ Passed test:animate_sequences.tex:94
 Passed test:animate_sequences.tex:95
 Passed undef test: animate_sequences.tex:96
 Passed test:animate_sequences.tex:100
-  tmp7114 = {
-      tmp7115 = {
-          tmp7118 == 0;                 %% tmp7118:0..0,    
-          tmp7117 = tmp7118 .. _;       %% tmp7117:0.._,    
-          tmp7119 = _ .. _;             %% tmp7119    
-          tmp7116 = tmp7117 -|-> tmp7119; %% tmp7116    
-          tmp7122 == 0;                 %% tmp7122:0..0,    
-          tmp7121 = tmp7122 .. _;       %% tmp7121:0.._,    
-          tmp7123 = _ .. _;             %% tmp7123    
-          tmp7124 = tmp7121 x tmp7123;  %% tmp7124:set(Infinity,null),    
-          tmp7120 = P tmp7124;          %% tmp7120    
-          f in tmp7120;
-          tmp7125 = {
-              x in f :: 3.0 ;
-              tmp7126 = x.1                 %% tmp7126    
-              %%----------
-            @ tmp7126
-            };                          %% tmp7125:set(100.0,null,1.._),    
-          tmp7128 == 1;                 %% tmp7128:1..1,    
-          # f = tmp7129;                %% tmp7129:0.._,    
-          tmp7127 = tmp7128 .. tmp7129; %% tmp7127=tmp7125,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7125 = tmp7127
-        @ f
-        };                          %% tmp7115:set(1000.0,null),    
-      %%---------------
-      s in tmp7115 :: 1000.0 ;
-      tmp7130 = (s, s)              %% tmp7130={1=s, 2=s},    
-    @ tmp7130
-    };                          %% tmp7114:set(1000.0,null),    
-  tmp7133 == 1;                 %% tmp7133:1..1,    
-  tmp7134 == 1;                 %% tmp7134:1..1,    
-  tmp7132 = (tmp7133, tmp7134); %% tmp7132={1=tmp7133, 2=tmp7134},    
-  tmp7136 == 2;                 %% tmp7136:2..2,    
-  tmp7137 == 3;                 %% tmp7137:3..3,    
-  tmp7135 = (tmp7136, tmp7137); %% tmp7135={1=tmp7136, 2=tmp7137},    
-  tmp7139 == 3;                 %% tmp7139:3..3,    
-  tmp7140 == 5;                 %% tmp7140:5..5,    
-  tmp7138 = (tmp7139, tmp7140); %% tmp7138={1=tmp7139, 2=tmp7140},    
-  tmp7141 = { tmp7132, tmp7135, tmp7138 }; %% tmp7141=tmp7131,:set(3.0,3),    
-  tmp7131 = tmp7141;            %% tmp7131:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7114 :: 500.0 ; %% p={1=tmp7131, 2=tmp7142},    
-  tmp7131 = p.1;
-  tmp7142 = p.2                 %% tmp7142    
-@ tmp7142
-))
-  tmp7174 = {
-      tmp7175 = {
-          tmp7178 == 0;                 %% tmp7178:0..0,    
-          tmp7177 = tmp7178 .. _;       %% tmp7177:0.._,    
-          tmp7179 = _ .. _;             %% tmp7179    
-          tmp7176 = tmp7177 -|-> tmp7179; %% tmp7176    
-          tmp7182 == 0;                 %% tmp7182:0..0,    
-          tmp7181 = tmp7182 .. _;       %% tmp7181:0.._,    
-          tmp7183 = _ .. _;             %% tmp7183    
-          tmp7184 = tmp7181 x tmp7183;  %% tmp7184:set(Infinity,null),    
-          tmp7180 = P tmp7184;          %% tmp7180    
-          f in tmp7180;
-          tmp7185 = {
-              x in f :: 3.0 ;
-              tmp7186 = x.1                 %% tmp7186    
-              %%----------
-            @ tmp7186
-            };                          %% tmp7185:set(100.0,null,1.._),    
-          tmp7188 == 1;                 %% tmp7188:1..1,    
-          # f = tmp7189;                %% tmp7189:0.._,    
-          tmp7187 = tmp7188 .. tmp7189; %% tmp7187=tmp7185,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7185 = tmp7187
-        @ f
-        };                          %% tmp7175:set(1000.0,null),    
-      %%---------------
-      s in tmp7175 :: 1000.0 ;
-      tmp7190 = (s, s)              %% tmp7190={1=s, 2=s},    
-    @ tmp7190
-    };                          %% tmp7174:set(1000.0,null),    
-  tmp7193 == 1;                 %% tmp7193:1..1,    
-  tmp7194 == 1;                 %% tmp7194:1..1,    
-  tmp7192 = (tmp7193, tmp7194); %% tmp7192={1=tmp7193, 2=tmp7194},    
-  tmp7196 == 2;                 %% tmp7196:2..2,    
-  tmp7197 == 3;                 %% tmp7197:3..3,    
-  tmp7195 = (tmp7196, tmp7197); %% tmp7195={1=tmp7196, 2=tmp7197},    
-  tmp7199 == 3;                 %% tmp7199:3..3,    
-  tmp7200 == 5;                 %% tmp7200:5..5,    
-  tmp7198 = (tmp7199, tmp7200); %% tmp7198={1=tmp7199, 2=tmp7200},    
-  tmp7201 = { tmp7192, tmp7198, tmp7195 }; %% tmp7201=tmp7191,:set(3.0,3),    
-  tmp7191 = tmp7201;            %% tmp7191:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7174 :: 500.0 ; %% p={1=tmp7191, 2=tmp7202},    
-  tmp7191 = p.1;
-  tmp7202 = p.2                 %% tmp7202    
-@ tmp7202
-))
-  tmp7228 = {
-      tmp7229 = {
-          tmp7232 == 0;                 %% tmp7232:0..0,    
-          tmp7231 = tmp7232 .. _;       %% tmp7231:0.._,    
-          tmp7233 = _ .. _;             %% tmp7233    
-          tmp7230 = tmp7231 -|-> tmp7233; %% tmp7230    
-          tmp7236 == 0;                 %% tmp7236:0..0,    
-          tmp7235 = tmp7236 .. _;       %% tmp7235:0.._,    
-          tmp7237 = _ .. _;             %% tmp7237    
-          tmp7238 = tmp7235 x tmp7237;  %% tmp7238:set(Infinity,null),    
-          tmp7234 = P tmp7238;          %% tmp7234    
-          f in tmp7234;
-          tmp7239 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp7240 = x.1                 %% tmp7240    
-            @ tmp7240
-            };                          %% tmp7239:set(100.0,null,1.._),    
-          tmp7242 == 1;                 %% tmp7242:1..1,    
-          # f = tmp7243;                %% tmp7243:0.._,    
-          tmp7241 = tmp7242 .. tmp7243; %% tmp7241=tmp7239,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7239 = tmp7241
-        @ f
-        };                          %% tmp7229:set(1000.0,null),    
-      %%---------------
-      s in tmp7229 :: 1000.0 ;
-      tmp7244 = (s, s)              %% tmp7244={1=s, 2=s},    
-    @ tmp7244
-    };                          %% tmp7228:set(1000.0,null),    
-  tmp7247 == 1;                 %% tmp7247:1..1,    
-  tmp7248 == 1;                 %% tmp7248:1..1,    
-  tmp7246 = (tmp7247, tmp7248); %% tmp7246={1=tmp7247, 2=tmp7248},    
-  tmp7250 == 2;                 %% tmp7250:2..2,    
-  tmp7251 == 3;                 %% tmp7251:3..3,    
-  tmp7249 = (tmp7250, tmp7251); %% tmp7249={1=tmp7250, 2=tmp7251},    
-  tmp7253 == 3;                 %% tmp7253:3..3,    
-  tmp7254 == 5;                 %% tmp7254:5..5,    
-  tmp7252 = (tmp7253, tmp7254); %% tmp7252={1=tmp7253, 2=tmp7254},    
-  tmp7255 = { tmp7246, tmp7249, tmp7252 }; %% tmp7255=tmp7245,:set(3.0,3),    
-  tmp7245 = tmp7255;            %% tmp7245:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7228 :: 500.0 ; %% p={1=tmp7245, 2=tmp7256},    
-  tmp7245 = p.1;
-  tmp7256 = p.2                 %% tmp7256    
-@ tmp7256
-))
-  tmp7282 = {
-      tmp7283 = {
-          tmp7286 == 0;                 %% tmp7286:0..0,    
-          tmp7285 = tmp7286 .. _;       %% tmp7285:0.._,    
-          tmp7287 = _ .. _;             %% tmp7287    
-          tmp7284 = tmp7285 -|-> tmp7287; %% tmp7284    
-          tmp7290 == 0;                 %% tmp7290:0..0,    
-          tmp7289 = tmp7290 .. _;       %% tmp7289:0.._,    
-          tmp7291 = _ .. _;             %% tmp7291    
-          tmp7292 = tmp7289 x tmp7291;  %% tmp7292:set(Infinity,null),    
-          tmp7288 = P tmp7292;          %% tmp7288    
-          f in tmp7288;
-          tmp7293 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp7294 = x.1                 %% tmp7294    
-            @ tmp7294
-            };                          %% tmp7293:set(100.0,null,1.._),    
-          tmp7296 == 1;                 %% tmp7296:1..1,    
-          # f = tmp7297;                %% tmp7297:0.._,    
-          tmp7295 = tmp7296 .. tmp7297; %% tmp7295=tmp7293,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7293 = tmp7295
-        @ f
-        };                          %% tmp7283:set(1000.0,null),    
-      %%---------------
-      s in tmp7283 :: 1000.0 ;
-      tmp7298 = (s, s)              %% tmp7298={1=s, 2=s},    
-    @ tmp7298
-    };                          %% tmp7282:set(1000.0,null),    
-  tmp7301 == 1;                 %% tmp7301:1..1,    
-  tmp7302 == 1;                 %% tmp7302:1..1,    
-  tmp7300 = (tmp7301, tmp7302); %% tmp7300={1=tmp7301, 2=tmp7302},    
-  tmp7304 == 2;                 %% tmp7304:2..2,    
-  tmp7305 == 3;                 %% tmp7305:3..3,    
-  tmp7303 = (tmp7304, tmp7305); %% tmp7303={1=tmp7304, 2=tmp7305},    
-  tmp7307 == 3;                 %% tmp7307:3..3,    
-  tmp7308 == 5;                 %% tmp7308:5..5,    
-  tmp7306 = (tmp7307, tmp7308); %% tmp7306={1=tmp7307, 2=tmp7308},    
-  tmp7309 = { tmp7306, tmp7303, tmp7300 }; %% tmp7309=tmp7299,:set(3.0,3),    
-  tmp7299 = tmp7309;            %% tmp7299:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7282 :: 500.0 ; %% p={1=tmp7299, 2=tmp7310},    
-  tmp7299 = p.1;
-  tmp7310 = p.2                 %% tmp7310    
-@ tmp7310
-))
-  tmp9585 = {
-      tmp9586 = {
-          tmp9589 == 0;                 %% tmp9589:0..0,    
-          tmp9588 = tmp9589 .. _;       %% tmp9588:0.._,    
-          tmp9590 = _ .. _;             %% tmp9590    
-          tmp9587 = tmp9588 -|-> tmp9590; %% tmp9587    
-          tmp9593 == 0;                 %% tmp9593:0..0,    
-          tmp9592 = tmp9593 .. _;       %% tmp9592:0.._,    
-          tmp9594 = _ .. _;             %% tmp9594    
-          tmp9595 = tmp9592 x tmp9594;  %% tmp9595:set(Infinity,null),    
-          tmp9591 = P tmp9595;          %% tmp9591    
-          f in tmp9591;
-          tmp9596 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp9597 = x.1                 %% tmp9597    
-            @ tmp9597
-            };                          %% tmp9596:set(100.0,null,1.._),    
-          tmp9599 == 1;                 %% tmp9599:1..1,    
-          # f = tmp9600;                %% tmp9600:0.._,    
-          tmp9598 = tmp9599 .. tmp9600; %% tmp9598=tmp9596,:set(100.0,null,1.._),    
-          %%---------------
-          tmp9596 = tmp9598
-        @ f
-        };                          %% tmp9586:set(1000.0,null),    
-      %%---------------
-      s in tmp9586 :: 1000.0 ;
-      tmp9601 = (s, s)              %% tmp9601={1=s, 2=s},    
-    @ tmp9601
-    };                          %% tmp9585:set(1000.0,null),    
-  tmp9604 == 1;                 %% tmp9604:1..1,    
-  tmp9605 == 2;                 %% tmp9605:2..2,    
-  tmp9603 = (tmp9604, tmp9605); %% tmp9603={1=tmp9604, 2=tmp9605},    
-  tmp9607 == 2;                 %% tmp9607:2..2,    
-  tmp9608 == 4;                 %% tmp9608:4..4,    
-  tmp9606 = (tmp9607, tmp9608); %% tmp9606={1=tmp9607, 2=tmp9608},    
-  tmp9610 == 3;                 %% tmp9610:3..3,    
-  tmp9611 == 6;                 %% tmp9611:6..6,    
-  tmp9609 = (tmp9610, tmp9611); %% tmp9609={1=tmp9610, 2=tmp9611},    
-  tmp9612 = { tmp9606, tmp9609, tmp9603 }; %% tmp9612=tmp9602,:set(3.0,3),    
-  tmp9602 = tmp9612;            %% tmp9602:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f, net.sourceforge.czt.z.impl.TupleExprImpl@603c1bde}} in tmp9585 :: 0.4 ; %% p={1=tmp9602, 2=tmp9613},    
-  tmp9602 = p.1;
-  tmp9613 = p.2                 %% tmp9613    
-@ tmp9613
-))
+Passed test:animate_sequences.tex:101
+Passed test:animate_sequences.tex:102
+Passed test:animate_sequences.tex:103
+Passed test:animate_sequences.tex:104
 Passed test:animate_sequences.tex:135
 Passed test:animate_sequences.tex:136
 Passed test:animate_sequences.tex:137
@@ -286,1247 +55,819 @@ Passed test:animate_sequences.tex:139
 Passed undef test: animate_sequences.tex:140
 FAILED undef test (not undefined): animate_sequences.tex:141
 Passed test:animate_sequences.tex:144
-  tmp9965 = {
-      tmp9966 = {
-          tmp9969 == 0;
-          tmp9968 = tmp9969 .. _;
-          tmp9970 = _ .. _;
-          tmp9967 = tmp9968 -|-> tmp9970;
-          tmp9973 == 0;
-          tmp9972 = tmp9973 .. _;
-          tmp9974 = _ .. _;
-          tmp9975 = tmp9972 x tmp9974;
-          tmp9971 = P tmp9975;
-          f in tmp9971;
-          tmp9976 = {
+  tmp10002 = {
+      tmp10003 = {
+          tmp10006 == 0;
+          tmp10005 = tmp10006 .. _;
+          tmp10007 = _ .. _;
+          tmp10004 = tmp10005 -|-> tmp10007;
+          tmp10010 == 0;
+          tmp10009 = tmp10010 .. _;
+          tmp10011 = _ .. _;
+          tmp10012 = tmp10009 x tmp10011;
+          tmp10008 = P tmp10012;
+          f in tmp10008;
+          tmp10013 = {
               x in f;
-              tmp9977 = x.1
-            @ tmp9977
+              tmp10014 = x.1
+            @ tmp10014
             };
-          tmp9979 == 1;
-          # f = tmp9980;
-          tmp9978 = tmp9979 .. tmp9980;
-          tmp9976 = tmp9978
+          tmp10016 == 1;
+          # f = tmp10017;
+          tmp10015 = tmp10016 .. tmp10017;
+          tmp10013 = tmp10015
         @ f
-        };                          %% tmp9966:set(1000.0,null),    
+        };                          %% tmp10003:set(1000.0,null),    
       %%---------------
-      tmp9981 = (s, s);             %% s    
-      s in tmp9966 :: 1000.0 
-    @ tmp9981
-    };                          %% tmp9965:set(1000.0,null),    
+      tmp10018 = (s, s);            %% s    
+      s in tmp10003 :: 1000.0 
+    @ tmp10018
+    };                          %% tmp10002:set(1000.0,null),    
   %%---------------
-  p in tmp9965 :: 1000.0 ;
-  tmp9982 = p.1;                %% tmp9982:set(2.0,2),    
-  tmp9984 == 1;                 %% tmp9984:1..1,    
-  tmp9985 == 3;                 %% tmp9985:3..3,    
-  tmp9983 = (tmp9984, tmp9985); %% tmp9983={1=tmp9984, 2=tmp9985},    
-  tmp9987 == 2;                 %% tmp9987:2..2,    
-  tmp9988 == 5;                 %% tmp9988:5..5,    
-  tmp9986 = (tmp9987, tmp9988); %% tmp9986={1=tmp9987, 2=tmp9988},    
-  tmp9989 = { tmp9986, tmp9983 }; %% tmp9989=tmp9982,:set(2.0,2),    
-  tmp9982 = tmp9989;
-  tmp9990 = p.2                 %% tmp9990    
-@ tmp9990
+  p in tmp10002 :: 1000.0 ;
+  tmp10019 = p.1;               %% tmp10019:set(2.0,2),    
+  tmp10021 == 1;                %% tmp10021:1..1,    
+  tmp10022 == 3;                %% tmp10022:3..3,    
+  tmp10020 = (tmp10021, tmp10022); %% tmp10020={1=tmp10021, 2=tmp10022},    
+  tmp10024 == 2;                %% tmp10024:2..2,    
+  tmp10025 == 5;                %% tmp10025:5..5,    
+  tmp10023 = (tmp10024, tmp10025); %% tmp10023={1=tmp10024, 2=tmp10025},    
+  tmp10026 = { tmp10020, tmp10023 }; %% tmp10026=tmp10019,:set(2.0,2),    
+  tmp10019 = tmp10026;
+  tmp10027 = p.2                %% tmp10027    
+@ tmp10027
 ))
-  tmp10048 = {
-      tmp10049 = {
-          tmp10052 == 0;
-          tmp10051 = tmp10052 .. _;
-          tmp10053 = _ .. _;
-          tmp10050 = tmp10051 -|-> tmp10053;
-          tmp10056 == 0;
-          tmp10055 = tmp10056 .. _;
-          tmp10057 = _ .. _;
-          tmp10058 = tmp10055 x tmp10057;
-          tmp10054 = P tmp10058;
-          f in tmp10054;
-          tmp10059 = {
+  tmp10085 = {
+      tmp10086 = {
+          tmp10089 == 0;
+          tmp10088 = tmp10089 .. _;
+          tmp10090 = _ .. _;
+          tmp10087 = tmp10088 -|-> tmp10090;
+          tmp10093 == 0;
+          tmp10092 = tmp10093 .. _;
+          tmp10094 = _ .. _;
+          tmp10095 = tmp10092 x tmp10094;
+          tmp10091 = P tmp10095;
+          f in tmp10091;
+          tmp10096 = {
               x in f;
-              tmp10060 = x.1
-            @ tmp10060
+              tmp10097 = x.1
+            @ tmp10097
             };
-          tmp10062 == 1;
-          # f = tmp10063;
-          tmp10061 = tmp10062 .. tmp10063;
-          tmp10059 = tmp10061
+          tmp10099 == 1;
+          # f = tmp10100;
+          tmp10098 = tmp10099 .. tmp10100;
+          tmp10096 = tmp10098
         @ f
-        };                          %% tmp10049:set(1000.0,null),    
+        };                          %% tmp10086:set(1000.0,null),    
       %%---------------
-      tmp10064 = (s, s);            %% s    
-      s in tmp10049 :: 1000.0 
-    @ tmp10064
-    };                          %% tmp10048:set(1000.0,null),    
+      tmp10101 = (s, s);            %% s    
+      s in tmp10086 :: 1000.0 
+    @ tmp10101
+    };                          %% tmp10085:set(1000.0,null),    
   %%---------------
-  p in tmp10048 :: 1000.0 ;
-  tmp10065 = p.1;               %% tmp10065:set(5.0,5),    
-  tmp10067 == 1;                %% tmp10067:1..1,    
-  tmp10068 == 3;                %% tmp10068:3..3,    
-  tmp10066 = (tmp10067, tmp10068); %% tmp10066={1=tmp10067, 2=tmp10068},    
-  tmp10070 == 2;                %% tmp10070:2..2,    
-  tmp10071 == 5;                %% tmp10071:5..5,    
-  tmp10069 = (tmp10070, tmp10071); %% tmp10069={1=tmp10070, 2=tmp10071},    
-  tmp10073 == 3;                %% tmp10073:3..3,    
-  tmp10074 == 7;                %% tmp10074:7..7,    
-  tmp10072 = (tmp10073, tmp10074); %% tmp10072={1=tmp10073, 2=tmp10074},    
-  tmp10076 == 4;                %% tmp10076:4..4,    
-  tmp10077 == 6;                %% tmp10077:6..6,    
-  tmp10075 = (tmp10076, tmp10077); %% tmp10075={1=tmp10076, 2=tmp10077},    
-  tmp10079 == 5;                %% tmp10079:5..5,    
-  tmp10080 == 9;                %% tmp10080:9..9,    
-  tmp10078 = (tmp10079, tmp10080); %% tmp10078={1=tmp10079, 2=tmp10080},    
-  tmp10081 = { tmp10072, tmp10066, tmp10069, tmp10078, tmp10075 }; %% tmp10081=tmp10065,:set(5.0,5),    
-  tmp10065 = tmp10081;
-  tmp10082 = p.2                %% tmp10082    
-@ tmp10082
+  p in tmp10085 :: 1000.0 ;
+  tmp10102 = p.1;               %% tmp10102:set(5.0,5),    
+  tmp10104 == 1;                %% tmp10104:1..1,    
+  tmp10105 == 3;                %% tmp10105:3..3,    
+  tmp10103 = (tmp10104, tmp10105); %% tmp10103={1=tmp10104, 2=tmp10105},    
+  tmp10107 == 2;                %% tmp10107:2..2,    
+  tmp10108 == 5;                %% tmp10108:5..5,    
+  tmp10106 = (tmp10107, tmp10108); %% tmp10106={1=tmp10107, 2=tmp10108},    
+  tmp10110 == 3;                %% tmp10110:3..3,    
+  tmp10111 == 7;                %% tmp10111:7..7,    
+  tmp10109 = (tmp10110, tmp10111); %% tmp10109={1=tmp10110, 2=tmp10111},    
+  tmp10113 == 4;                %% tmp10113:4..4,    
+  tmp10114 == 6;                %% tmp10114:6..6,    
+  tmp10112 = (tmp10113, tmp10114); %% tmp10112={1=tmp10113, 2=tmp10114},    
+  tmp10116 == 5;                %% tmp10116:5..5,    
+  tmp10117 == 9;                %% tmp10117:9..9,    
+  tmp10115 = (tmp10116, tmp10117); %% tmp10115={1=tmp10116, 2=tmp10117},    
+  tmp10118 = { tmp10103, tmp10112, tmp10109, tmp10106, tmp10115 }; %% tmp10118=tmp10102,:set(5.0,5),    
+  tmp10102 = tmp10118;
+  tmp10119 = p.2                %% tmp10119    
+@ tmp10119
 ))
 Passed test:animate_sequences.tex:147
-  tmp10194 = {
-      tmp10195 = {
-          tmp10198 == 0;
-          tmp10197 = tmp10198 .. _;
-          tmp10199 = _ .. _;
-          tmp10196 = tmp10197 -|-> tmp10199;
-          tmp10202 == 0;
-          tmp10201 = tmp10202 .. _;
-          tmp10203 = _ .. _;
-          tmp10204 = tmp10201 x tmp10203;
-          tmp10200 = P tmp10204;
-          f in tmp10200;
-          tmp10205 = {
+  tmp10231 = {
+      tmp10232 = {
+          tmp10235 == 0;
+          tmp10234 = tmp10235 .. _;
+          tmp10236 = _ .. _;
+          tmp10233 = tmp10234 -|-> tmp10236;
+          tmp10239 == 0;
+          tmp10238 = tmp10239 .. _;
+          tmp10240 = _ .. _;
+          tmp10241 = tmp10238 x tmp10240;
+          tmp10237 = P tmp10241;
+          f in tmp10237;
+          tmp10242 = {
               x in f;
-              tmp10206 = x.1
-            @ tmp10206
+              tmp10243 = x.1
+            @ tmp10243
             };
-          tmp10208 == 1;
-          # f = tmp10209;
-          tmp10207 = tmp10208 .. tmp10209;
-          tmp10205 = tmp10207
+          tmp10245 == 1;
+          # f = tmp10246;
+          tmp10244 = tmp10245 .. tmp10246;
+          tmp10242 = tmp10244
         @ f
-        };                          %% tmp10195:set(1000.0,null),    
+        };                          %% tmp10232:set(1000.0,null),    
       %%---------------
-      tmp10210 = (s, s);            %% s    
-      s in tmp10195 :: 1000.0 
-    @ tmp10210
-    };                          %% tmp10194:set(1000.0,null),    
+      tmp10247 = (s, s);            %% s    
+      s in tmp10232 :: 1000.0 
+    @ tmp10247
+    };                          %% tmp10231:set(1000.0,null),    
   %%---------------
-  p in tmp10194 :: 1000.0 ;
-  tmp10211 = p.1;               %% tmp10211:set(2.0,2),    
-  tmp10213 == 1;                %% tmp10213:1..1,    
-  tmp10214 == 3;                %% tmp10214:3..3,    
-  tmp10212 = (tmp10213, tmp10214); %% tmp10212={1=tmp10213, 2=tmp10214},    
-  tmp10216 == 2;                %% tmp10216:2..2,    
-  tmp10217 == 5;                %% tmp10217:5..5,    
-  tmp10215 = (tmp10216, tmp10217); %% tmp10215={1=tmp10216, 2=tmp10217},    
-  tmp10218 = { tmp10215, tmp10212 }; %% tmp10218=tmp10211,:set(2.0,2),    
-  tmp10211 = tmp10218;
-  tmp10219 = p.2                %% tmp10219    
-@ tmp10219
+  p in tmp10231 :: 1000.0 ;
+  tmp10248 = p.1;               %% tmp10248:set(2.0,2),    
+  tmp10250 == 1;                %% tmp10250:1..1,    
+  tmp10251 == 3;                %% tmp10251:3..3,    
+  tmp10249 = (tmp10250, tmp10251); %% tmp10249={1=tmp10250, 2=tmp10251},    
+  tmp10253 == 2;                %% tmp10253:2..2,    
+  tmp10254 == 5;                %% tmp10254:5..5,    
+  tmp10252 = (tmp10253, tmp10254); %% tmp10252={1=tmp10253, 2=tmp10254},    
+  tmp10255 = { tmp10249, tmp10252 }; %% tmp10255=tmp10248,:set(2.0,2),    
+  tmp10248 = tmp10255;
+  tmp10256 = p.2                %% tmp10256    
+@ tmp10256
 ))
 Passed test:animate_sequences.tex:151
-  tmp10339 = {
-      tmp10340 = {
-          tmp10343 == 0;
-          tmp10342 = tmp10343 .. _;
-          tmp10344 = _ .. _;
-          tmp10341 = tmp10342 -|-> tmp10344;
-          tmp10347 == 0;
-          tmp10346 = tmp10347 .. _;
-          tmp10348 = _ .. _;
-          tmp10349 = tmp10346 x tmp10348;
-          tmp10345 = P tmp10349;
-          f in tmp10345;
-          tmp10350 = {
+  tmp10376 = {
+      tmp10377 = {
+          tmp10380 == 0;
+          tmp10379 = tmp10380 .. _;
+          tmp10381 = _ .. _;
+          tmp10378 = tmp10379 -|-> tmp10381;
+          tmp10384 == 0;
+          tmp10383 = tmp10384 .. _;
+          tmp10385 = _ .. _;
+          tmp10386 = tmp10383 x tmp10385;
+          tmp10382 = P tmp10386;
+          f in tmp10382;
+          tmp10387 = {
               x in f;
-              tmp10351 = x.1
-            @ tmp10351
+              tmp10388 = x.1
+            @ tmp10388
             };
-          tmp10353 == 1;
-          # f = tmp10354;
-          tmp10352 = tmp10353 .. tmp10354;
-          tmp10350 = tmp10352
+          tmp10390 == 1;
+          # f = tmp10391;
+          tmp10389 = tmp10390 .. tmp10391;
+          tmp10387 = tmp10389
         @ f
-        };                          %% tmp10340:set(1000.0,null),    
+        };                          %% tmp10377:set(1000.0,null),    
       %%---------------
-      tmp10355 = (s, s);            %% s    
-      s in tmp10340 :: 1000.0 
-    @ tmp10355
-    };                          %% tmp10339:set(1000.0,null),    
+      tmp10392 = (s, s);            %% s    
+      s in tmp10377 :: 1000.0 
+    @ tmp10392
+    };                          %% tmp10376:set(1000.0,null),    
   %%---------------
-  p in tmp10339 :: 1000.0 ;
-  tmp10356 = p.1;               %% tmp10356:set(2.0,2),    
-  tmp10358 == 1;                %% tmp10358:1..1,    
-  tmp10359 == 3;                %% tmp10359:3..3,    
-  tmp10357 = (tmp10358, tmp10359); %% tmp10357={1=tmp10358, 2=tmp10359},    
-  tmp10361 == 2;                %% tmp10361:2..2,    
-  tmp10362 == 5;                %% tmp10362:5..5,    
-  tmp10360 = (tmp10361, tmp10362); %% tmp10360={1=tmp10361, 2=tmp10362},    
-  tmp10363 = { tmp10360, tmp10357 }; %% tmp10363=tmp10356,:set(2.0,2),    
-  tmp10356 = tmp10363;
-  tmp10364 = p.2                %% tmp10364    
-@ tmp10364
+  p in tmp10376 :: 1000.0 ;
+  tmp10393 = p.1;               %% tmp10393:set(2.0,2),    
+  tmp10395 == 1;                %% tmp10395:1..1,    
+  tmp10396 == 3;                %% tmp10396:3..3,    
+  tmp10394 = (tmp10395, tmp10396); %% tmp10394={1=tmp10395, 2=tmp10396},    
+  tmp10398 == 2;                %% tmp10398:2..2,    
+  tmp10399 == 5;                %% tmp10399:5..5,    
+  tmp10397 = (tmp10398, tmp10399); %% tmp10397={1=tmp10398, 2=tmp10399},    
+  tmp10400 = { tmp10394, tmp10397 }; %% tmp10400=tmp10393,:set(2.0,2),    
+  tmp10393 = tmp10400;
+  tmp10401 = p.2                %% tmp10401    
+@ tmp10401
 ))
-  tmp10411 = {
-      tmp10412 = {
-          tmp10415 == 0;
-          tmp10414 = tmp10415 .. _;
-          tmp10416 = _ .. _;
-          tmp10413 = tmp10414 -|-> tmp10416;
-          tmp10419 == 0;
-          tmp10418 = tmp10419 .. _;
-          tmp10420 = _ .. _;
-          tmp10421 = tmp10418 x tmp10420;
-          tmp10417 = P tmp10421;
-          f in tmp10417;
-          tmp10422 = {
+  tmp10448 = {
+      tmp10449 = {
+          tmp10452 == 0;
+          tmp10451 = tmp10452 .. _;
+          tmp10453 = _ .. _;
+          tmp10450 = tmp10451 -|-> tmp10453;
+          tmp10456 == 0;
+          tmp10455 = tmp10456 .. _;
+          tmp10457 = _ .. _;
+          tmp10458 = tmp10455 x tmp10457;
+          tmp10454 = P tmp10458;
+          f in tmp10454;
+          tmp10459 = {
               x in f;
-              tmp10423 = x.1
-            @ tmp10423
+              tmp10460 = x.1
+            @ tmp10460
             };
-          tmp10425 == 1;
-          # f = tmp10426;
-          tmp10424 = tmp10425 .. tmp10426;
-          tmp10422 = tmp10424
+          tmp10462 == 1;
+          # f = tmp10463;
+          tmp10461 = tmp10462 .. tmp10463;
+          tmp10459 = tmp10461
         @ f
-        };                          %% tmp10412:set(1000.0,null),    
+        };                          %% tmp10449:set(1000.0,null),    
       %%---------------
-      tmp10427 = (s, s);            %% s    
-      s in tmp10412 :: 1000.0 
-    @ tmp10427
-    };                          %% tmp10411:set(1000.0,null),    
+      tmp10464 = (s, s);            %% s    
+      s in tmp10449 :: 1000.0 
+    @ tmp10464
+    };                          %% tmp10448:set(1000.0,null),    
   %%---------------
-  p in tmp10411 :: 1000.0 ;
-  tmp10428 = p.1;               %% tmp10428:set(2.0,2),    
-  tmp10430 == 1;                %% tmp10430:1..1,    
-  tmp10431 == 3;                %% tmp10431:3..3,    
-  tmp10429 = (tmp10430, tmp10431); %% tmp10429={1=tmp10430, 2=tmp10431},    
-  tmp10433 == 2;                %% tmp10433:2..2,    
-  tmp10434 == 5;                %% tmp10434:5..5,    
-  tmp10432 = (tmp10433, tmp10434); %% tmp10432={1=tmp10433, 2=tmp10434},    
-  tmp10435 = { tmp10432, tmp10429 }; %% tmp10435=tmp10428,:set(2.0,2),    
-  tmp10428 = tmp10435;
-  tmp10436 = p.2                %% tmp10436    
-@ tmp10436
+  p in tmp10448 :: 1000.0 ;
+  tmp10465 = p.1;               %% tmp10465:set(2.0,2),    
+  tmp10467 == 1;                %% tmp10467:1..1,    
+  tmp10468 == 3;                %% tmp10468:3..3,    
+  tmp10466 = (tmp10467, tmp10468); %% tmp10466={1=tmp10467, 2=tmp10468},    
+  tmp10470 == 2;                %% tmp10470:2..2,    
+  tmp10471 == 5;                %% tmp10471:5..5,    
+  tmp10469 = (tmp10470, tmp10471); %% tmp10469={1=tmp10470, 2=tmp10471},    
+  tmp10472 = { tmp10466, tmp10469 }; %% tmp10472=tmp10465,:set(2.0,2),    
+  tmp10465 = tmp10472;
+  tmp10473 = p.2                %% tmp10473    
+@ tmp10473
 ))
-  tmp10494 = {
-      tmp10495 = {
-          tmp10498 == 0;
-          tmp10497 = tmp10498 .. _;
-          tmp10499 = _ .. _;
-          tmp10496 = tmp10497 -|-> tmp10499;
-          tmp10502 == 0;
-          tmp10501 = tmp10502 .. _;
-          tmp10503 = _ .. _;
-          tmp10504 = tmp10501 x tmp10503;
-          tmp10500 = P tmp10504;
-          f in tmp10500;
-          tmp10505 = {
+  tmp10531 = {
+      tmp10532 = {
+          tmp10535 == 0;
+          tmp10534 = tmp10535 .. _;
+          tmp10536 = _ .. _;
+          tmp10533 = tmp10534 -|-> tmp10536;
+          tmp10539 == 0;
+          tmp10538 = tmp10539 .. _;
+          tmp10540 = _ .. _;
+          tmp10541 = tmp10538 x tmp10540;
+          tmp10537 = P tmp10541;
+          f in tmp10537;
+          tmp10542 = {
               x in f;
-              tmp10506 = x.1
-            @ tmp10506
+              tmp10543 = x.1
+            @ tmp10543
             };
-          tmp10508 == 1;
-          # f = tmp10509;
-          tmp10507 = tmp10508 .. tmp10509;
-          tmp10505 = tmp10507
+          tmp10545 == 1;
+          # f = tmp10546;
+          tmp10544 = tmp10545 .. tmp10546;
+          tmp10542 = tmp10544
         @ f
-        };                          %% tmp10495:set(1000.0,null),    
+        };                          %% tmp10532:set(1000.0,null),    
       %%---------------
-      tmp10510 = (s, s);            %% s    
-      s in tmp10495 :: 1000.0 
-    @ tmp10510
-    };                          %% tmp10494:set(1000.0,null),    
+      tmp10547 = (s, s);            %% s    
+      s in tmp10532 :: 1000.0 
+    @ tmp10547
+    };                          %% tmp10531:set(1000.0,null),    
   %%---------------
-  p in tmp10494 :: 1000.0 ;
-  tmp10511 = p.1;               %% tmp10511:set(5.0,5),    
-  tmp10513 == 1;                %% tmp10513:1..1,    
-  tmp10514 == 3;                %% tmp10514:3..3,    
-  tmp10512 = (tmp10513, tmp10514); %% tmp10512={1=tmp10513, 2=tmp10514},    
-  tmp10516 == 2;                %% tmp10516:2..2,    
-  tmp10517 == 5;                %% tmp10517:5..5,    
-  tmp10515 = (tmp10516, tmp10517); %% tmp10515={1=tmp10516, 2=tmp10517},    
-  tmp10519 == 3;                %% tmp10519:3..3,    
-  tmp10520 == 7;                %% tmp10520:7..7,    
-  tmp10518 = (tmp10519, tmp10520); %% tmp10518={1=tmp10519, 2=tmp10520},    
-  tmp10522 == 4;                %% tmp10522:4..4,    
-  tmp10523 == 6;                %% tmp10523:6..6,    
-  tmp10521 = (tmp10522, tmp10523); %% tmp10521={1=tmp10522, 2=tmp10523},    
-  tmp10525 == 5;                %% tmp10525:5..5,    
-  tmp10526 == 9;                %% tmp10526:9..9,    
-  tmp10524 = (tmp10525, tmp10526); %% tmp10524={1=tmp10525, 2=tmp10526},    
-  tmp10527 = { tmp10515, tmp10518, tmp10524, tmp10521, tmp10512 }; %% tmp10527=tmp10511,:set(5.0,5),    
-  tmp10511 = tmp10527;
-  tmp10528 = p.2                %% tmp10528    
-@ tmp10528
+  p in tmp10531 :: 1000.0 ;
+  tmp10548 = p.1;               %% tmp10548:set(5.0,5),    
+  tmp10550 == 1;                %% tmp10550:1..1,    
+  tmp10551 == 3;                %% tmp10551:3..3,    
+  tmp10549 = (tmp10550, tmp10551); %% tmp10549={1=tmp10550, 2=tmp10551},    
+  tmp10553 == 2;                %% tmp10553:2..2,    
+  tmp10554 == 5;                %% tmp10554:5..5,    
+  tmp10552 = (tmp10553, tmp10554); %% tmp10552={1=tmp10553, 2=tmp10554},    
+  tmp10556 == 3;                %% tmp10556:3..3,    
+  tmp10557 == 7;                %% tmp10557:7..7,    
+  tmp10555 = (tmp10556, tmp10557); %% tmp10555={1=tmp10556, 2=tmp10557},    
+  tmp10559 == 4;                %% tmp10559:4..4,    
+  tmp10560 == 6;                %% tmp10560:6..6,    
+  tmp10558 = (tmp10559, tmp10560); %% tmp10558={1=tmp10559, 2=tmp10560},    
+  tmp10562 == 5;                %% tmp10562:5..5,    
+  tmp10563 == 9;                %% tmp10563:9..9,    
+  tmp10561 = (tmp10562, tmp10563); %% tmp10561={1=tmp10562, 2=tmp10563},    
+  tmp10564 = { tmp10555, tmp10549, tmp10561, tmp10558, tmp10552 }; %% tmp10564=tmp10548,:set(5.0,5),    
+  tmp10548 = tmp10564;
+  tmp10565 = p.2                %% tmp10565    
+@ tmp10565
 ))
 ------------- ---------------- ---------------
 ------------- Standard Error -----------------
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17506)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × POWER GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × POWER GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)) × POWER (GIVEN 𝔸_16341 × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)) × POWER (GIVEN 𝔸_16341 × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)) × POWER (GIVEN 𝔸_16341 × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)) × POWER (GIVEN 𝔸_16341 × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341)))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
-Type1 POWER (POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341) × POWER (GIVEN 𝔸_16341 × GIVEN 𝔸_16341))
-Type2 POWER (POWER (GIVEN 𝔸_16341 × GENTYPE X_17514) × POWER (GIVEN 𝔸_16341 × GENTYPE X_17514))
-Type1 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17514)
-Type2 POWER POWER (GIVEN 𝔸_16341 × GENTYPE X_17484)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17478)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × POWER GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × POWER GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)) × POWER (GIVEN 𝔸_16313 × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)) × POWER (GIVEN 𝔸_16313 × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)) × POWER (GIVEN 𝔸_16313 × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)) × POWER (GIVEN 𝔸_16313 × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313)))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
+Type1 POWER (POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313) × POWER (GIVEN 𝔸_16313 × GIVEN 𝔸_16313))
+Type2 POWER (POWER (GIVEN 𝔸_16313 × GENTYPE X_17486) × POWER (GIVEN 𝔸_16313 × GENTYPE X_17486))
+Type1 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17486)
+Type2 POWER POWER (GIVEN 𝔸_16313 × GENTYPE X_17456)
 ------------- ---------------- ---------------
 
-Testcase: animate_sequences.tex:28 took 0.5 sec
-Testcase: animate_sequences.tex:29 took 0.564 sec
-Testcase: animate_sequences.tex:31 took 0.489 sec
-Testcase: animate_sequences.tex:32 took 0.546 sec
-Testcase: animate_sequences.tex:34 took 0.495 sec
-Testcase: animate_sequences.tex:35 took 0.503 sec
-Testcase: animate_sequences.tex:36 took 0.718 sec
-Testcase: animate_sequences.tex:40 took 0.714 sec
-Testcase: animate_sequences.tex:41 took 0.668 sec
-Testcase: animate_sequences.tex:43 took 0.591 sec
+Testcase: animate_sequences.tex:28 took 0.584 sec
+Testcase: animate_sequences.tex:29 took 0.506 sec
+Testcase: animate_sequences.tex:31 took 0.468 sec
+Testcase: animate_sequences.tex:32 took 0.505 sec
+Testcase: animate_sequences.tex:34 took 0.485 sec
+Testcase: animate_sequences.tex:35 took 0.505 sec
+Testcase: animate_sequences.tex:36 took 0.54 sec
+Testcase: animate_sequences.tex:40 took 0.723 sec
+Testcase: animate_sequences.tex:41 took 0.637 sec
+Testcase: animate_sequences.tex:43 took 0.598 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_sequences.tex:44 took 0.685 sec
-Testcase: animate_sequences.tex:46 took 0.583 sec
+Testcase: animate_sequences.tex:44 took 0.586 sec
+Testcase: animate_sequences.tex:46 took 0.796 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_sequences.tex:47 took 0.634 sec
+Testcase: animate_sequences.tex:47 took 0.555 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_sequences.tex:48 took 0.614 sec
-Testcase: animate_sequences.tex:50 took 0.997 sec
-Testcase: animate_sequences.tex:54 took 0.5 sec
+Testcase: animate_sequences.tex:48 took 0.564 sec
+Testcase: animate_sequences.tex:50 took 0.555 sec
+Testcase: animate_sequences.tex:54 took 0.494 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_sequences.tex:55 took 0.505 sec
+Testcase: animate_sequences.tex:55 took 0.512 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_sequences.tex:57 took 0.469 sec
-Testcase: animate_sequences.tex:58 took 0.481 sec
+Testcase: animate_sequences.tex:57 took 0.471 sec
+Testcase: animate_sequences.tex:58 took 0.485 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_sequences.tex:60 took 0.517 sec
-Testcase: animate_sequences.tex:61 took 0.556 sec
-Testcase: animate_sequences.tex:63 took 0.549 sec
-Testcase: animate_sequences.tex:64 took 0.688 sec
-Testcase: animate_sequences.tex:67 took 0.62 sec
-Testcase: animate_sequences.tex:68 took 0.445 sec
-Testcase: animate_sequences.tex:69 took 0.189 sec
-Testcase: animate_sequences.tex:70 took 0.194 sec
-Testcase: animate_sequences.tex:71 took 0.367 sec
-Testcase: animate_sequences.tex:72 took 0.398 sec
-Testcase: animate_sequences.tex:75 took 0.798 sec
-Testcase: animate_sequences.tex:76 took 0.718 sec
-Testcase: animate_sequences.tex:77 took 0.294 sec
-Testcase: animate_sequences.tex:78 took 0.32 sec
-Testcase: animate_sequences.tex:79 took 0.469 sec
-Testcase: animate_sequences.tex:80 took 0.371 sec
-Testcase: animate_sequences.tex:83 took 0.478 sec
-Testcase: animate_sequences.tex:84 took 0.489 sec
-Testcase: animate_sequences.tex:85 took 0.227 sec
-Testcase: animate_sequences.tex:86 took 0.266 sec
-Testcase: animate_sequences.tex:87 took 0.289 sec
-Testcase: animate_sequences.tex:88 took 0.252 sec
-Testcase: animate_sequences.tex:91 took 0.866 sec
-Testcase: animate_sequences.tex:92 took 0.66 sec
-Testcase: animate_sequences.tex:93 took 0.491 sec
-Testcase: animate_sequences.tex:94 took 0.268 sec
-Testcase: animate_sequences.tex:95 took 0.362 sec
-Testcase: animate_sequences.tex:96 took 0.327 sec
-Testcase: animate_sequences.tex:100 took 0.8 sec
-Testcase: animate_sequences.tex:101 took 0.565 sec
-	Caused an ERROR
-Mu expression has no solutions: (mu
-  tmp7114 = {
-      tmp7115 = {
-          tmp7118 == 0;                 %% tmp7118:0..0,    
-          tmp7117 = tmp7118 .. _;       %% tmp7117:0.._,    
-          tmp7119 = _ .. _;             %% tmp7119    
-          tmp7116 = tmp7117 -|-> tmp7119; %% tmp7116    
-          tmp7122 == 0;                 %% tmp7122:0..0,    
-          tmp7121 = tmp7122 .. _;       %% tmp7121:0.._,    
-          tmp7123 = _ .. _;             %% tmp7123    
-          tmp7124 = tmp7121 x tmp7123;  %% tmp7124:set(Infinity,null),    
-          tmp7120 = P tmp7124;          %% tmp7120    
-          f in tmp7120;
-          tmp7125 = {
-              x in f :: 3.0 ;
-              tmp7126 = x.1                 %% tmp7126    
-              %%----------
-            @ tmp7126
-            };                          %% tmp7125:set(100.0,null,1.._),    
-          tmp7128 == 1;                 %% tmp7128:1..1,    
-          # f = tmp7129;                %% tmp7129:0.._,    
-          tmp7127 = tmp7128 .. tmp7129; %% tmp7127=tmp7125,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7125 = tmp7127
-        @ f
-        };                          %% tmp7115:set(1000.0,null),    
-      %%---------------
-      s in tmp7115 :: 1000.0 ;
-      tmp7130 = (s, s)              %% tmp7130={1=s, 2=s},    
-    @ tmp7130
-    };                          %% tmp7114:set(1000.0,null),    
-  tmp7133 == 1;                 %% tmp7133:1..1,    
-  tmp7134 == 1;                 %% tmp7134:1..1,    
-  tmp7132 = (tmp7133, tmp7134); %% tmp7132={1=tmp7133, 2=tmp7134},    
-  tmp7136 == 2;                 %% tmp7136:2..2,    
-  tmp7137 == 3;                 %% tmp7137:3..3,    
-  tmp7135 = (tmp7136, tmp7137); %% tmp7135={1=tmp7136, 2=tmp7137},    
-  tmp7139 == 3;                 %% tmp7139:3..3,    
-  tmp7140 == 5;                 %% tmp7140:5..5,    
-  tmp7138 = (tmp7139, tmp7140); %% tmp7138={1=tmp7139, 2=tmp7140},    
-  tmp7141 = { tmp7132, tmp7135, tmp7138 }; %% tmp7141=tmp7131,:set(3.0,3),    
-  tmp7131 = tmp7141;            %% tmp7131:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7114 :: 500.0 ; %% p={1=tmp7131, 2=tmp7142},    
-  tmp7131 = p.1;
-  tmp7142 = p.2                 %% tmp7142    
-@ tmp7142
-)
-net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp7114 = {
-      tmp7115 = {
-          tmp7118 == 0;                 %% tmp7118:0..0,    
-          tmp7117 = tmp7118 .. _;       %% tmp7117:0.._,    
-          tmp7119 = _ .. _;             %% tmp7119    
-          tmp7116 = tmp7117 -|-> tmp7119; %% tmp7116    
-          tmp7122 == 0;                 %% tmp7122:0..0,    
-          tmp7121 = tmp7122 .. _;       %% tmp7121:0.._,    
-          tmp7123 = _ .. _;             %% tmp7123    
-          tmp7124 = tmp7121 x tmp7123;  %% tmp7124:set(Infinity,null),    
-          tmp7120 = P tmp7124;          %% tmp7120    
-          f in tmp7120;
-          tmp7125 = {
-              x in f :: 3.0 ;
-              tmp7126 = x.1                 %% tmp7126    
-              %%----------
-            @ tmp7126
-            };                          %% tmp7125:set(100.0,null,1.._),    
-          tmp7128 == 1;                 %% tmp7128:1..1,    
-          # f = tmp7129;                %% tmp7129:0.._,    
-          tmp7127 = tmp7128 .. tmp7129; %% tmp7127=tmp7125,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7125 = tmp7127
-        @ f
-        };                          %% tmp7115:set(1000.0,null),    
-      %%---------------
-      s in tmp7115 :: 1000.0 ;
-      tmp7130 = (s, s)              %% tmp7130={1=s, 2=s},    
-    @ tmp7130
-    };                          %% tmp7114:set(1000.0,null),    
-  tmp7133 == 1;                 %% tmp7133:1..1,    
-  tmp7134 == 1;                 %% tmp7134:1..1,    
-  tmp7132 = (tmp7133, tmp7134); %% tmp7132={1=tmp7133, 2=tmp7134},    
-  tmp7136 == 2;                 %% tmp7136:2..2,    
-  tmp7137 == 3;                 %% tmp7137:3..3,    
-  tmp7135 = (tmp7136, tmp7137); %% tmp7135={1=tmp7136, 2=tmp7137},    
-  tmp7139 == 3;                 %% tmp7139:3..3,    
-  tmp7140 == 5;                 %% tmp7140:5..5,    
-  tmp7138 = (tmp7139, tmp7140); %% tmp7138={1=tmp7139, 2=tmp7140},    
-  tmp7141 = { tmp7132, tmp7135, tmp7138 }; %% tmp7141=tmp7131,:set(3.0,3),    
-  tmp7131 = tmp7141;            %% tmp7131:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7114 :: 500.0 ; %% p={1=tmp7131, 2=tmp7142},    
-  tmp7131 = p.1;
-  tmp7142 = p.2                 %% tmp7142    
-@ tmp7142
-)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatForall.nextEvaluation(FlatForall.java:161)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_sequences.tex:102 took 0.552 sec
-	Caused an ERROR
-Mu expression has no solutions: (mu
-  tmp7174 = {
-      tmp7175 = {
-          tmp7178 == 0;                 %% tmp7178:0..0,    
-          tmp7177 = tmp7178 .. _;       %% tmp7177:0.._,    
-          tmp7179 = _ .. _;             %% tmp7179    
-          tmp7176 = tmp7177 -|-> tmp7179; %% tmp7176    
-          tmp7182 == 0;                 %% tmp7182:0..0,    
-          tmp7181 = tmp7182 .. _;       %% tmp7181:0.._,    
-          tmp7183 = _ .. _;             %% tmp7183    
-          tmp7184 = tmp7181 x tmp7183;  %% tmp7184:set(Infinity,null),    
-          tmp7180 = P tmp7184;          %% tmp7180    
-          f in tmp7180;
-          tmp7185 = {
-              x in f :: 3.0 ;
-              tmp7186 = x.1                 %% tmp7186    
-              %%----------
-            @ tmp7186
-            };                          %% tmp7185:set(100.0,null,1.._),    
-          tmp7188 == 1;                 %% tmp7188:1..1,    
-          # f = tmp7189;                %% tmp7189:0.._,    
-          tmp7187 = tmp7188 .. tmp7189; %% tmp7187=tmp7185,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7185 = tmp7187
-        @ f
-        };                          %% tmp7175:set(1000.0,null),    
-      %%---------------
-      s in tmp7175 :: 1000.0 ;
-      tmp7190 = (s, s)              %% tmp7190={1=s, 2=s},    
-    @ tmp7190
-    };                          %% tmp7174:set(1000.0,null),    
-  tmp7193 == 1;                 %% tmp7193:1..1,    
-  tmp7194 == 1;                 %% tmp7194:1..1,    
-  tmp7192 = (tmp7193, tmp7194); %% tmp7192={1=tmp7193, 2=tmp7194},    
-  tmp7196 == 2;                 %% tmp7196:2..2,    
-  tmp7197 == 3;                 %% tmp7197:3..3,    
-  tmp7195 = (tmp7196, tmp7197); %% tmp7195={1=tmp7196, 2=tmp7197},    
-  tmp7199 == 3;                 %% tmp7199:3..3,    
-  tmp7200 == 5;                 %% tmp7200:5..5,    
-  tmp7198 = (tmp7199, tmp7200); %% tmp7198={1=tmp7199, 2=tmp7200},    
-  tmp7201 = { tmp7192, tmp7198, tmp7195 }; %% tmp7201=tmp7191,:set(3.0,3),    
-  tmp7191 = tmp7201;            %% tmp7191:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7174 :: 500.0 ; %% p={1=tmp7191, 2=tmp7202},    
-  tmp7191 = p.1;
-  tmp7202 = p.2                 %% tmp7202    
-@ tmp7202
-)
-net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp7174 = {
-      tmp7175 = {
-          tmp7178 == 0;                 %% tmp7178:0..0,    
-          tmp7177 = tmp7178 .. _;       %% tmp7177:0.._,    
-          tmp7179 = _ .. _;             %% tmp7179    
-          tmp7176 = tmp7177 -|-> tmp7179; %% tmp7176    
-          tmp7182 == 0;                 %% tmp7182:0..0,    
-          tmp7181 = tmp7182 .. _;       %% tmp7181:0.._,    
-          tmp7183 = _ .. _;             %% tmp7183    
-          tmp7184 = tmp7181 x tmp7183;  %% tmp7184:set(Infinity,null),    
-          tmp7180 = P tmp7184;          %% tmp7180    
-          f in tmp7180;
-          tmp7185 = {
-              x in f :: 3.0 ;
-              tmp7186 = x.1                 %% tmp7186    
-              %%----------
-            @ tmp7186
-            };                          %% tmp7185:set(100.0,null,1.._),    
-          tmp7188 == 1;                 %% tmp7188:1..1,    
-          # f = tmp7189;                %% tmp7189:0.._,    
-          tmp7187 = tmp7188 .. tmp7189; %% tmp7187=tmp7185,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7185 = tmp7187
-        @ f
-        };                          %% tmp7175:set(1000.0,null),    
-      %%---------------
-      s in tmp7175 :: 1000.0 ;
-      tmp7190 = (s, s)              %% tmp7190={1=s, 2=s},    
-    @ tmp7190
-    };                          %% tmp7174:set(1000.0,null),    
-  tmp7193 == 1;                 %% tmp7193:1..1,    
-  tmp7194 == 1;                 %% tmp7194:1..1,    
-  tmp7192 = (tmp7193, tmp7194); %% tmp7192={1=tmp7193, 2=tmp7194},    
-  tmp7196 == 2;                 %% tmp7196:2..2,    
-  tmp7197 == 3;                 %% tmp7197:3..3,    
-  tmp7195 = (tmp7196, tmp7197); %% tmp7195={1=tmp7196, 2=tmp7197},    
-  tmp7199 == 3;                 %% tmp7199:3..3,    
-  tmp7200 == 5;                 %% tmp7200:5..5,    
-  tmp7198 = (tmp7199, tmp7200); %% tmp7198={1=tmp7199, 2=tmp7200},    
-  tmp7201 = { tmp7192, tmp7198, tmp7195 }; %% tmp7201=tmp7191,:set(3.0,3),    
-  tmp7191 = tmp7201;            %% tmp7191:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7174 :: 500.0 ; %% p={1=tmp7191, 2=tmp7202},    
-  tmp7191 = p.1;
-  tmp7202 = p.2                 %% tmp7202    
-@ tmp7202
-)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatForall.nextEvaluation(FlatForall.java:161)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_sequences.tex:103 took 0.535 sec
-	Caused an ERROR
-Mu expression has no solutions: (mu
-  tmp7228 = {
-      tmp7229 = {
-          tmp7232 == 0;                 %% tmp7232:0..0,    
-          tmp7231 = tmp7232 .. _;       %% tmp7231:0.._,    
-          tmp7233 = _ .. _;             %% tmp7233    
-          tmp7230 = tmp7231 -|-> tmp7233; %% tmp7230    
-          tmp7236 == 0;                 %% tmp7236:0..0,    
-          tmp7235 = tmp7236 .. _;       %% tmp7235:0.._,    
-          tmp7237 = _ .. _;             %% tmp7237    
-          tmp7238 = tmp7235 x tmp7237;  %% tmp7238:set(Infinity,null),    
-          tmp7234 = P tmp7238;          %% tmp7234    
-          f in tmp7234;
-          tmp7239 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp7240 = x.1                 %% tmp7240    
-            @ tmp7240
-            };                          %% tmp7239:set(100.0,null,1.._),    
-          tmp7242 == 1;                 %% tmp7242:1..1,    
-          # f = tmp7243;                %% tmp7243:0.._,    
-          tmp7241 = tmp7242 .. tmp7243; %% tmp7241=tmp7239,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7239 = tmp7241
-        @ f
-        };                          %% tmp7229:set(1000.0,null),    
-      %%---------------
-      s in tmp7229 :: 1000.0 ;
-      tmp7244 = (s, s)              %% tmp7244={1=s, 2=s},    
-    @ tmp7244
-    };                          %% tmp7228:set(1000.0,null),    
-  tmp7247 == 1;                 %% tmp7247:1..1,    
-  tmp7248 == 1;                 %% tmp7248:1..1,    
-  tmp7246 = (tmp7247, tmp7248); %% tmp7246={1=tmp7247, 2=tmp7248},    
-  tmp7250 == 2;                 %% tmp7250:2..2,    
-  tmp7251 == 3;                 %% tmp7251:3..3,    
-  tmp7249 = (tmp7250, tmp7251); %% tmp7249={1=tmp7250, 2=tmp7251},    
-  tmp7253 == 3;                 %% tmp7253:3..3,    
-  tmp7254 == 5;                 %% tmp7254:5..5,    
-  tmp7252 = (tmp7253, tmp7254); %% tmp7252={1=tmp7253, 2=tmp7254},    
-  tmp7255 = { tmp7246, tmp7249, tmp7252 }; %% tmp7255=tmp7245,:set(3.0,3),    
-  tmp7245 = tmp7255;            %% tmp7245:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7228 :: 500.0 ; %% p={1=tmp7245, 2=tmp7256},    
-  tmp7245 = p.1;
-  tmp7256 = p.2                 %% tmp7256    
-@ tmp7256
-)
-net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp7228 = {
-      tmp7229 = {
-          tmp7232 == 0;                 %% tmp7232:0..0,    
-          tmp7231 = tmp7232 .. _;       %% tmp7231:0.._,    
-          tmp7233 = _ .. _;             %% tmp7233    
-          tmp7230 = tmp7231 -|-> tmp7233; %% tmp7230    
-          tmp7236 == 0;                 %% tmp7236:0..0,    
-          tmp7235 = tmp7236 .. _;       %% tmp7235:0.._,    
-          tmp7237 = _ .. _;             %% tmp7237    
-          tmp7238 = tmp7235 x tmp7237;  %% tmp7238:set(Infinity,null),    
-          tmp7234 = P tmp7238;          %% tmp7234    
-          f in tmp7234;
-          tmp7239 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp7240 = x.1                 %% tmp7240    
-            @ tmp7240
-            };                          %% tmp7239:set(100.0,null,1.._),    
-          tmp7242 == 1;                 %% tmp7242:1..1,    
-          # f = tmp7243;                %% tmp7243:0.._,    
-          tmp7241 = tmp7242 .. tmp7243; %% tmp7241=tmp7239,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7239 = tmp7241
-        @ f
-        };                          %% tmp7229:set(1000.0,null),    
-      %%---------------
-      s in tmp7229 :: 1000.0 ;
-      tmp7244 = (s, s)              %% tmp7244={1=s, 2=s},    
-    @ tmp7244
-    };                          %% tmp7228:set(1000.0,null),    
-  tmp7247 == 1;                 %% tmp7247:1..1,    
-  tmp7248 == 1;                 %% tmp7248:1..1,    
-  tmp7246 = (tmp7247, tmp7248); %% tmp7246={1=tmp7247, 2=tmp7248},    
-  tmp7250 == 2;                 %% tmp7250:2..2,    
-  tmp7251 == 3;                 %% tmp7251:3..3,    
-  tmp7249 = (tmp7250, tmp7251); %% tmp7249={1=tmp7250, 2=tmp7251},    
-  tmp7253 == 3;                 %% tmp7253:3..3,    
-  tmp7254 == 5;                 %% tmp7254:5..5,    
-  tmp7252 = (tmp7253, tmp7254); %% tmp7252={1=tmp7253, 2=tmp7254},    
-  tmp7255 = { tmp7246, tmp7249, tmp7252 }; %% tmp7255=tmp7245,:set(3.0,3),    
-  tmp7245 = tmp7255;            %% tmp7245:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7228 :: 500.0 ; %% p={1=tmp7245, 2=tmp7256},    
-  tmp7245 = p.1;
-  tmp7256 = p.2                 %% tmp7256    
-@ tmp7256
-)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatForall.nextEvaluation(FlatForall.java:161)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_sequences.tex:104 took 0.535 sec
-	Caused an ERROR
-Mu expression has no solutions: (mu
-  tmp7282 = {
-      tmp7283 = {
-          tmp7286 == 0;                 %% tmp7286:0..0,    
-          tmp7285 = tmp7286 .. _;       %% tmp7285:0.._,    
-          tmp7287 = _ .. _;             %% tmp7287    
-          tmp7284 = tmp7285 -|-> tmp7287; %% tmp7284    
-          tmp7290 == 0;                 %% tmp7290:0..0,    
-          tmp7289 = tmp7290 .. _;       %% tmp7289:0.._,    
-          tmp7291 = _ .. _;             %% tmp7291    
-          tmp7292 = tmp7289 x tmp7291;  %% tmp7292:set(Infinity,null),    
-          tmp7288 = P tmp7292;          %% tmp7288    
-          f in tmp7288;
-          tmp7293 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp7294 = x.1                 %% tmp7294    
-            @ tmp7294
-            };                          %% tmp7293:set(100.0,null,1.._),    
-          tmp7296 == 1;                 %% tmp7296:1..1,    
-          # f = tmp7297;                %% tmp7297:0.._,    
-          tmp7295 = tmp7296 .. tmp7297; %% tmp7295=tmp7293,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7293 = tmp7295
-        @ f
-        };                          %% tmp7283:set(1000.0,null),    
-      %%---------------
-      s in tmp7283 :: 1000.0 ;
-      tmp7298 = (s, s)              %% tmp7298={1=s, 2=s},    
-    @ tmp7298
-    };                          %% tmp7282:set(1000.0,null),    
-  tmp7301 == 1;                 %% tmp7301:1..1,    
-  tmp7302 == 1;                 %% tmp7302:1..1,    
-  tmp7300 = (tmp7301, tmp7302); %% tmp7300={1=tmp7301, 2=tmp7302},    
-  tmp7304 == 2;                 %% tmp7304:2..2,    
-  tmp7305 == 3;                 %% tmp7305:3..3,    
-  tmp7303 = (tmp7304, tmp7305); %% tmp7303={1=tmp7304, 2=tmp7305},    
-  tmp7307 == 3;                 %% tmp7307:3..3,    
-  tmp7308 == 5;                 %% tmp7308:5..5,    
-  tmp7306 = (tmp7307, tmp7308); %% tmp7306={1=tmp7307, 2=tmp7308},    
-  tmp7309 = { tmp7306, tmp7303, tmp7300 }; %% tmp7309=tmp7299,:set(3.0,3),    
-  tmp7299 = tmp7309;            %% tmp7299:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7282 :: 500.0 ; %% p={1=tmp7299, 2=tmp7310},    
-  tmp7299 = p.1;
-  tmp7310 = p.2                 %% tmp7310    
-@ tmp7310
-)
-net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp7282 = {
-      tmp7283 = {
-          tmp7286 == 0;                 %% tmp7286:0..0,    
-          tmp7285 = tmp7286 .. _;       %% tmp7285:0.._,    
-          tmp7287 = _ .. _;             %% tmp7287    
-          tmp7284 = tmp7285 -|-> tmp7287; %% tmp7284    
-          tmp7290 == 0;                 %% tmp7290:0..0,    
-          tmp7289 = tmp7290 .. _;       %% tmp7289:0.._,    
-          tmp7291 = _ .. _;             %% tmp7291    
-          tmp7292 = tmp7289 x tmp7291;  %% tmp7292:set(Infinity,null),    
-          tmp7288 = P tmp7292;          %% tmp7288    
-          f in tmp7288;
-          tmp7293 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp7294 = x.1                 %% tmp7294    
-            @ tmp7294
-            };                          %% tmp7293:set(100.0,null,1.._),    
-          tmp7296 == 1;                 %% tmp7296:1..1,    
-          # f = tmp7297;                %% tmp7297:0.._,    
-          tmp7295 = tmp7296 .. tmp7297; %% tmp7295=tmp7293,:set(100.0,null,1.._),    
-          %%---------------
-          tmp7293 = tmp7295
-        @ f
-        };                          %% tmp7283:set(1000.0,null),    
-      %%---------------
-      s in tmp7283 :: 1000.0 ;
-      tmp7298 = (s, s)              %% tmp7298={1=s, 2=s},    
-    @ tmp7298
-    };                          %% tmp7282:set(1000.0,null),    
-  tmp7301 == 1;                 %% tmp7301:1..1,    
-  tmp7302 == 1;                 %% tmp7302:1..1,    
-  tmp7300 = (tmp7301, tmp7302); %% tmp7300={1=tmp7301, 2=tmp7302},    
-  tmp7304 == 2;                 %% tmp7304:2..2,    
-  tmp7305 == 3;                 %% tmp7305:3..3,    
-  tmp7303 = (tmp7304, tmp7305); %% tmp7303={1=tmp7304, 2=tmp7305},    
-  tmp7307 == 3;                 %% tmp7307:3..3,    
-  tmp7308 == 5;                 %% tmp7308:5..5,    
-  tmp7306 = (tmp7307, tmp7308); %% tmp7306={1=tmp7307, 2=tmp7308},    
-  tmp7309 = { tmp7306, tmp7303, tmp7300 }; %% tmp7309=tmp7299,:set(3.0,3),    
-  tmp7299 = tmp7309;            %% tmp7299:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f}} in tmp7282 :: 500.0 ; %% p={1=tmp7299, 2=tmp7310},    
-  tmp7299 = p.1;
-  tmp7310 = p.2                 %% tmp7310    
-@ tmp7310
-)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatForall.nextEvaluation(FlatForall.java:161)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_sequences.tex:107 took 0.864 sec
+Testcase: animate_sequences.tex:60 took 0.491 sec
+Testcase: animate_sequences.tex:61 took 0.508 sec
+Testcase: animate_sequences.tex:63 took 0.388 sec
+Testcase: animate_sequences.tex:64 took 0.375 sec
+Testcase: animate_sequences.tex:67 took 0.412 sec
+Testcase: animate_sequences.tex:68 took 0.422 sec
+Testcase: animate_sequences.tex:69 took 0.416 sec
+Testcase: animate_sequences.tex:70 took 0.189 sec
+Testcase: animate_sequences.tex:71 took 0.254 sec
+Testcase: animate_sequences.tex:72 took 0.409 sec
+Testcase: animate_sequences.tex:75 took 0.592 sec
+Testcase: animate_sequences.tex:76 took 0.735 sec
+Testcase: animate_sequences.tex:77 took 0.299 sec
+Testcase: animate_sequences.tex:78 took 0.29 sec
+Testcase: animate_sequences.tex:79 took 0.422 sec
+Testcase: animate_sequences.tex:80 took 0.38 sec
+Testcase: animate_sequences.tex:83 took 0.498 sec
+Testcase: animate_sequences.tex:84 took 0.503 sec
+Testcase: animate_sequences.tex:85 took 0.214 sec
+Testcase: animate_sequences.tex:86 took 0.208 sec
+Testcase: animate_sequences.tex:87 took 0.286 sec
+Testcase: animate_sequences.tex:88 took 0.478 sec
+Testcase: animate_sequences.tex:91 took 0.544 sec
+Testcase: animate_sequences.tex:92 took 0.667 sec
+Testcase: animate_sequences.tex:93 took 0.26 sec
+Testcase: animate_sequences.tex:94 took 0.254 sec
+Testcase: animate_sequences.tex:95 took 0.359 sec
+Testcase: animate_sequences.tex:96 took 0.332 sec
+Testcase: animate_sequences.tex:100 took 0.524 sec
+Testcase: animate_sequences.tex:101 took 0.522 sec
+Testcase: animate_sequences.tex:102 took 0.982 sec
+Testcase: animate_sequences.tex:103 took 0.661 sec
+Testcase: animate_sequences.tex:104 took 0.536 sec
+Testcase: animate_sequences.tex:107 took 0.816 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1557,7 +898,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:108 took 0.809 sec
+Testcase: animate_sequences.tex:108 took 1.071 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1588,7 +929,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:109 took 0.889 sec
+Testcase: animate_sequences.tex:109 took 0.838 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1619,7 +960,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:110 took 1.079 sec
+Testcase: animate_sequences.tex:110 took 0.844 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1652,7 +993,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:111 took 0.814 sec
+Testcase: animate_sequences.tex:111 took 0.861 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1685,7 +1026,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:114 took 1.105 sec
+Testcase: animate_sequences.tex:114 took 1.133 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1716,7 +1057,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:115 took 1.105 sec
+Testcase: animate_sequences.tex:115 took 1.136 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1747,7 +1088,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:116 took 1.111 sec
+Testcase: animate_sequences.tex:116 took 1.152 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1778,7 +1119,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:117 took 1.118 sec
+Testcase: animate_sequences.tex:117 took 1.149 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1809,7 +1150,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:118 took 1.123 sec
+Testcase: animate_sequences.tex:118 took 1.369 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1840,7 +1181,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:119 took 1.353 sec
+Testcase: animate_sequences.tex:119 took 1.139 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1871,7 +1212,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:120 took 1.126 sec
+Testcase: animate_sequences.tex:120 took 1.135 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1902,40 +1243,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:121 took 1.156 sec
-	Caused an ERROR
-Cannot start iteration through ALL integers
-net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
-	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:265)
-	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
-	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:172)
-	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:105)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
-	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:278)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:278)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_sequences.tex:122 took 1.145 sec
+Testcase: animate_sequences.tex:121 took 1.202 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
@@ -1968,107 +1276,62 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:126 took 0.614 sec
+Testcase: animate_sequences.tex:122 took 1.175 sec
 	Caused an ERROR
-Mu expression has no solutions: (mu
-  tmp9585 = {
-      tmp9586 = {
-          tmp9589 == 0;                 %% tmp9589:0..0,    
-          tmp9588 = tmp9589 .. _;       %% tmp9588:0.._,    
-          tmp9590 = _ .. _;             %% tmp9590    
-          tmp9587 = tmp9588 -|-> tmp9590; %% tmp9587    
-          tmp9593 == 0;                 %% tmp9593:0..0,    
-          tmp9592 = tmp9593 .. _;       %% tmp9592:0.._,    
-          tmp9594 = _ .. _;             %% tmp9594    
-          tmp9595 = tmp9592 x tmp9594;  %% tmp9595:set(Infinity,null),    
-          tmp9591 = P tmp9595;          %% tmp9591    
-          f in tmp9591;
-          tmp9596 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp9597 = x.1                 %% tmp9597    
-            @ tmp9597
-            };                          %% tmp9596:set(100.0,null,1.._),    
-          tmp9599 == 1;                 %% tmp9599:1..1,    
-          # f = tmp9600;                %% tmp9600:0.._,    
-          tmp9598 = tmp9599 .. tmp9600; %% tmp9598=tmp9596,:set(100.0,null,1.._),    
-          %%---------------
-          tmp9596 = tmp9598
-        @ f
-        };                          %% tmp9586:set(1000.0,null),    
-      %%---------------
-      s in tmp9586 :: 1000.0 ;
-      tmp9601 = (s, s)              %% tmp9601={1=s, 2=s},    
-    @ tmp9601
-    };                          %% tmp9585:set(1000.0,null),    
-  tmp9604 == 1;                 %% tmp9604:1..1,    
-  tmp9605 == 2;                 %% tmp9605:2..2,    
-  tmp9603 = (tmp9604, tmp9605); %% tmp9603={1=tmp9604, 2=tmp9605},    
-  tmp9607 == 2;                 %% tmp9607:2..2,    
-  tmp9608 == 4;                 %% tmp9608:4..4,    
-  tmp9606 = (tmp9607, tmp9608); %% tmp9606={1=tmp9607, 2=tmp9608},    
-  tmp9610 == 3;                 %% tmp9610:3..3,    
-  tmp9611 == 6;                 %% tmp9611:6..6,    
-  tmp9609 = (tmp9610, tmp9611); %% tmp9609={1=tmp9610, 2=tmp9611},    
-  tmp9612 = { tmp9606, tmp9609, tmp9603 }; %% tmp9612=tmp9602,:set(3.0,3),    
-  tmp9602 = tmp9612;            %% tmp9602:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f, net.sourceforge.czt.z.impl.TupleExprImpl@603c1bde}} in tmp9585 :: 0.4 ; %% p={1=tmp9602, 2=tmp9613},    
-  tmp9602 = p.1;
-  tmp9613 = p.2                 %% tmp9613    
-@ tmp9613
-)
-net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp9585 = {
-      tmp9586 = {
-          tmp9589 == 0;                 %% tmp9589:0..0,    
-          tmp9588 = tmp9589 .. _;       %% tmp9588:0.._,    
-          tmp9590 = _ .. _;             %% tmp9590    
-          tmp9587 = tmp9588 -|-> tmp9590; %% tmp9587    
-          tmp9593 == 0;                 %% tmp9593:0..0,    
-          tmp9592 = tmp9593 .. _;       %% tmp9592:0.._,    
-          tmp9594 = _ .. _;             %% tmp9594    
-          tmp9595 = tmp9592 x tmp9594;  %% tmp9595:set(Infinity,null),    
-          tmp9591 = P tmp9595;          %% tmp9591    
-          f in tmp9591;
-          tmp9596 = {
-              %%---------------
-              x in f :: 3.0 ;
-              tmp9597 = x.1                 %% tmp9597    
-            @ tmp9597
-            };                          %% tmp9596:set(100.0,null,1.._),    
-          tmp9599 == 1;                 %% tmp9599:1..1,    
-          # f = tmp9600;                %% tmp9600:0.._,    
-          tmp9598 = tmp9599 .. tmp9600; %% tmp9598=tmp9596,:set(100.0,null,1.._),    
-          %%---------------
-          tmp9596 = tmp9598
-        @ f
-        };                          %% tmp9586:set(1000.0,null),    
-      %%---------------
-      s in tmp9586 :: 1000.0 ;
-      tmp9601 = (s, s)              %% tmp9601={1=s, 2=s},    
-    @ tmp9601
-    };                          %% tmp9585:set(1000.0,null),    
-  tmp9604 == 1;                 %% tmp9604:1..1,    
-  tmp9605 == 2;                 %% tmp9605:2..2,    
-  tmp9603 = (tmp9604, tmp9605); %% tmp9603={1=tmp9604, 2=tmp9605},    
-  tmp9607 == 2;                 %% tmp9607:2..2,    
-  tmp9608 == 4;                 %% tmp9608:4..4,    
-  tmp9606 = (tmp9607, tmp9608); %% tmp9606={1=tmp9607, 2=tmp9608},    
-  tmp9610 == 3;                 %% tmp9610:3..3,    
-  tmp9611 == 6;                 %% tmp9611:6..6,    
-  tmp9609 = (tmp9610, tmp9611); %% tmp9609={1=tmp9610, 2=tmp9611},    
-  tmp9612 = { tmp9606, tmp9609, tmp9603 }; %% tmp9612=tmp9602,:set(3.0,3),    
-  tmp9602 = tmp9612;            %% tmp9602:set(3.0,3),    
-  %%---------------
-  p{1={net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f, net.sourceforge.czt.z.impl.TupleExprImpl@603c1bde}} in tmp9585 :: 0.4 ; %% p={1=tmp9602, 2=tmp9613},    
-  tmp9602 = p.1;
-  tmp9613 = p.2                 %% tmp9613    
-@ tmp9613
-)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
+Cannot start iteration through ALL integers
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:265)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:172)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:105)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:278)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatForall.nextEvaluation(FlatForall.java:161)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:278)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:126 took 0.87 sec
+	Caused an ERROR
+Gave up unbounded iteration from 0 by 1 after 10 results.
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:268)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:187)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:105)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.hasNext(PowerSet.java:176)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:117)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:278)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:278)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
@@ -2081,7 +1344,7 @@ net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solution
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:129 took 0.377 sec
+Testcase: animate_sequences.tex:129 took 0.386 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -2105,7 +1368,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:130 took 0.952 sec
+Testcase: animate_sequences.tex:130 took 0.968 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -2129,7 +1392,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:131 took 1.086 sec
+Testcase: animate_sequences.tex:131 took 1.212 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -2153,7 +1416,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:132 took 0.894 sec
+Testcase: animate_sequences.tex:132 took 0.753 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -2177,106 +1440,106 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:135 took 0.705 sec
-Testcase: animate_sequences.tex:136 took 0.347 sec
-Testcase: animate_sequences.tex:137 took 0.69 sec
-Testcase: animate_sequences.tex:138 took 0.642 sec
-Testcase: animate_sequences.tex:139 took 0.507 sec
-Testcase: animate_sequences.tex:140 took 0.326 sec
-Testcase: animate_sequences.tex:141 took 0.33 sec
+Testcase: animate_sequences.tex:135 took 0.35 sec
+Testcase: animate_sequences.tex:136 took 0.292 sec
+Testcase: animate_sequences.tex:137 took 0.521 sec
+Testcase: animate_sequences.tex:138 took 0.512 sec
+Testcase: animate_sequences.tex:139 took 0.512 sec
+Testcase: animate_sequences.tex:140 took 0.32 sec
+Testcase: animate_sequences.tex:141 took 0.342 sec
 	FAILED
-Should be undefined: net.sourceforge.czt.z.impl.ApplExprImpl@c1e1e679
-junit.framework.AssertionFailedError: Should be undefined: net.sourceforge.czt.z.impl.ApplExprImpl@c1e1e679
+Should be undefined: net.sourceforge.czt.z.impl.ApplExprImpl@6ffe319
+junit.framework.AssertionFailedError: Should be undefined: net.sourceforge.czt.z.impl.ApplExprImpl@6ffe319
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:159)
 
-Testcase: animate_sequences.tex:144 took 0.616 sec
-Testcase: animate_sequences.tex:145 took 0.777 sec
+Testcase: animate_sequences.tex:144 took 0.628 sec
+Testcase: animate_sequences.tex:145 took 0.673 sec
 	Caused an ERROR
 Mu expression has no solutions: (mu
-  tmp9965 = {
-      tmp9966 = {
-          tmp9969 == 0;
-          tmp9968 = tmp9969 .. _;
-          tmp9970 = _ .. _;
-          tmp9967 = tmp9968 -|-> tmp9970;
-          tmp9973 == 0;
-          tmp9972 = tmp9973 .. _;
-          tmp9974 = _ .. _;
-          tmp9975 = tmp9972 x tmp9974;
-          tmp9971 = P tmp9975;
-          f in tmp9971;
-          tmp9976 = {
+  tmp10002 = {
+      tmp10003 = {
+          tmp10006 == 0;
+          tmp10005 = tmp10006 .. _;
+          tmp10007 = _ .. _;
+          tmp10004 = tmp10005 -|-> tmp10007;
+          tmp10010 == 0;
+          tmp10009 = tmp10010 .. _;
+          tmp10011 = _ .. _;
+          tmp10012 = tmp10009 x tmp10011;
+          tmp10008 = P tmp10012;
+          f in tmp10008;
+          tmp10013 = {
               x in f;
-              tmp9977 = x.1
-            @ tmp9977
+              tmp10014 = x.1
+            @ tmp10014
             };
-          tmp9979 == 1;
-          # f = tmp9980;
-          tmp9978 = tmp9979 .. tmp9980;
-          tmp9976 = tmp9978
+          tmp10016 == 1;
+          # f = tmp10017;
+          tmp10015 = tmp10016 .. tmp10017;
+          tmp10013 = tmp10015
         @ f
-        };                          %% tmp9966:set(1000.0,null),    
+        };                          %% tmp10003:set(1000.0,null),    
       %%---------------
-      tmp9981 = (s, s);             %% s    
-      s in tmp9966 :: 1000.0 
-    @ tmp9981
-    };                          %% tmp9965:set(1000.0,null),    
+      tmp10018 = (s, s);            %% s    
+      s in tmp10003 :: 1000.0 
+    @ tmp10018
+    };                          %% tmp10002:set(1000.0,null),    
   %%---------------
-  p in tmp9965 :: 1000.0 ;
-  tmp9982 = p.1;                %% tmp9982:set(2.0,2),    
-  tmp9984 == 1;                 %% tmp9984:1..1,    
-  tmp9985 == 3;                 %% tmp9985:3..3,    
-  tmp9983 = (tmp9984, tmp9985); %% tmp9983={1=tmp9984, 2=tmp9985},    
-  tmp9987 == 2;                 %% tmp9987:2..2,    
-  tmp9988 == 5;                 %% tmp9988:5..5,    
-  tmp9986 = (tmp9987, tmp9988); %% tmp9986={1=tmp9987, 2=tmp9988},    
-  tmp9989 = { tmp9986, tmp9983 }; %% tmp9989=tmp9982,:set(2.0,2),    
-  tmp9982 = tmp9989;
-  tmp9990 = p.2                 %% tmp9990    
-@ tmp9990
+  p in tmp10002 :: 1000.0 ;
+  tmp10019 = p.1;               %% tmp10019:set(2.0,2),    
+  tmp10021 == 1;                %% tmp10021:1..1,    
+  tmp10022 == 3;                %% tmp10022:3..3,    
+  tmp10020 = (tmp10021, tmp10022); %% tmp10020={1=tmp10021, 2=tmp10022},    
+  tmp10024 == 2;                %% tmp10024:2..2,    
+  tmp10025 == 5;                %% tmp10025:5..5,    
+  tmp10023 = (tmp10024, tmp10025); %% tmp10023={1=tmp10024, 2=tmp10025},    
+  tmp10026 = { tmp10020, tmp10023 }; %% tmp10026=tmp10019,:set(2.0,2),    
+  tmp10019 = tmp10026;
+  tmp10027 = p.2                %% tmp10027    
+@ tmp10027
 )
 net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp9965 = {
-      tmp9966 = {
-          tmp9969 == 0;
-          tmp9968 = tmp9969 .. _;
-          tmp9970 = _ .. _;
-          tmp9967 = tmp9968 -|-> tmp9970;
-          tmp9973 == 0;
-          tmp9972 = tmp9973 .. _;
-          tmp9974 = _ .. _;
-          tmp9975 = tmp9972 x tmp9974;
-          tmp9971 = P tmp9975;
-          f in tmp9971;
-          tmp9976 = {
+  tmp10002 = {
+      tmp10003 = {
+          tmp10006 == 0;
+          tmp10005 = tmp10006 .. _;
+          tmp10007 = _ .. _;
+          tmp10004 = tmp10005 -|-> tmp10007;
+          tmp10010 == 0;
+          tmp10009 = tmp10010 .. _;
+          tmp10011 = _ .. _;
+          tmp10012 = tmp10009 x tmp10011;
+          tmp10008 = P tmp10012;
+          f in tmp10008;
+          tmp10013 = {
               x in f;
-              tmp9977 = x.1
-            @ tmp9977
+              tmp10014 = x.1
+            @ tmp10014
             };
-          tmp9979 == 1;
-          # f = tmp9980;
-          tmp9978 = tmp9979 .. tmp9980;
-          tmp9976 = tmp9978
+          tmp10016 == 1;
+          # f = tmp10017;
+          tmp10015 = tmp10016 .. tmp10017;
+          tmp10013 = tmp10015
         @ f
-        };                          %% tmp9966:set(1000.0,null),    
+        };                          %% tmp10003:set(1000.0,null),    
       %%---------------
-      tmp9981 = (s, s);             %% s    
-      s in tmp9966 :: 1000.0 
-    @ tmp9981
-    };                          %% tmp9965:set(1000.0,null),    
+      tmp10018 = (s, s);            %% s    
+      s in tmp10003 :: 1000.0 
+    @ tmp10018
+    };                          %% tmp10002:set(1000.0,null),    
   %%---------------
-  p in tmp9965 :: 1000.0 ;
-  tmp9982 = p.1;                %% tmp9982:set(2.0,2),    
-  tmp9984 == 1;                 %% tmp9984:1..1,    
-  tmp9985 == 3;                 %% tmp9985:3..3,    
-  tmp9983 = (tmp9984, tmp9985); %% tmp9983={1=tmp9984, 2=tmp9985},    
-  tmp9987 == 2;                 %% tmp9987:2..2,    
-  tmp9988 == 5;                 %% tmp9988:5..5,    
-  tmp9986 = (tmp9987, tmp9988); %% tmp9986={1=tmp9987, 2=tmp9988},    
-  tmp9989 = { tmp9986, tmp9983 }; %% tmp9989=tmp9982,:set(2.0,2),    
-  tmp9982 = tmp9989;
-  tmp9990 = p.2                 %% tmp9990    
-@ tmp9990
+  p in tmp10002 :: 1000.0 ;
+  tmp10019 = p.1;               %% tmp10019:set(2.0,2),    
+  tmp10021 == 1;                %% tmp10021:1..1,    
+  tmp10022 == 3;                %% tmp10022:3..3,    
+  tmp10020 = (tmp10021, tmp10022); %% tmp10020={1=tmp10021, 2=tmp10022},    
+  tmp10024 == 2;                %% tmp10024:2..2,    
+  tmp10025 == 5;                %% tmp10025:5..5,    
+  tmp10023 = (tmp10024, tmp10025); %% tmp10023={1=tmp10024, 2=tmp10025},    
+  tmp10026 = { tmp10020, tmp10023 }; %% tmp10026=tmp10019,:set(2.0,2),    
+  tmp10019 = tmp10026;
+  tmp10027 = p.2                %% tmp10027    
+@ tmp10027
 )
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
@@ -2308,111 +1571,111 @@ net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solution
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:146 took 0.752 sec
+Testcase: animate_sequences.tex:146 took 0.721 sec
 	Caused an ERROR
 Mu expression has no solutions: (mu
-  tmp10048 = {
-      tmp10049 = {
-          tmp10052 == 0;
-          tmp10051 = tmp10052 .. _;
-          tmp10053 = _ .. _;
-          tmp10050 = tmp10051 -|-> tmp10053;
-          tmp10056 == 0;
-          tmp10055 = tmp10056 .. _;
-          tmp10057 = _ .. _;
-          tmp10058 = tmp10055 x tmp10057;
-          tmp10054 = P tmp10058;
-          f in tmp10054;
-          tmp10059 = {
+  tmp10085 = {
+      tmp10086 = {
+          tmp10089 == 0;
+          tmp10088 = tmp10089 .. _;
+          tmp10090 = _ .. _;
+          tmp10087 = tmp10088 -|-> tmp10090;
+          tmp10093 == 0;
+          tmp10092 = tmp10093 .. _;
+          tmp10094 = _ .. _;
+          tmp10095 = tmp10092 x tmp10094;
+          tmp10091 = P tmp10095;
+          f in tmp10091;
+          tmp10096 = {
               x in f;
-              tmp10060 = x.1
-            @ tmp10060
+              tmp10097 = x.1
+            @ tmp10097
             };
-          tmp10062 == 1;
-          # f = tmp10063;
-          tmp10061 = tmp10062 .. tmp10063;
-          tmp10059 = tmp10061
+          tmp10099 == 1;
+          # f = tmp10100;
+          tmp10098 = tmp10099 .. tmp10100;
+          tmp10096 = tmp10098
         @ f
-        };                          %% tmp10049:set(1000.0,null),    
+        };                          %% tmp10086:set(1000.0,null),    
       %%---------------
-      tmp10064 = (s, s);            %% s    
-      s in tmp10049 :: 1000.0 
-    @ tmp10064
-    };                          %% tmp10048:set(1000.0,null),    
+      tmp10101 = (s, s);            %% s    
+      s in tmp10086 :: 1000.0 
+    @ tmp10101
+    };                          %% tmp10085:set(1000.0,null),    
   %%---------------
-  p in tmp10048 :: 1000.0 ;
-  tmp10065 = p.1;               %% tmp10065:set(5.0,5),    
-  tmp10067 == 1;                %% tmp10067:1..1,    
-  tmp10068 == 3;                %% tmp10068:3..3,    
-  tmp10066 = (tmp10067, tmp10068); %% tmp10066={1=tmp10067, 2=tmp10068},    
-  tmp10070 == 2;                %% tmp10070:2..2,    
-  tmp10071 == 5;                %% tmp10071:5..5,    
-  tmp10069 = (tmp10070, tmp10071); %% tmp10069={1=tmp10070, 2=tmp10071},    
-  tmp10073 == 3;                %% tmp10073:3..3,    
-  tmp10074 == 7;                %% tmp10074:7..7,    
-  tmp10072 = (tmp10073, tmp10074); %% tmp10072={1=tmp10073, 2=tmp10074},    
-  tmp10076 == 4;                %% tmp10076:4..4,    
-  tmp10077 == 6;                %% tmp10077:6..6,    
-  tmp10075 = (tmp10076, tmp10077); %% tmp10075={1=tmp10076, 2=tmp10077},    
-  tmp10079 == 5;                %% tmp10079:5..5,    
-  tmp10080 == 9;                %% tmp10080:9..9,    
-  tmp10078 = (tmp10079, tmp10080); %% tmp10078={1=tmp10079, 2=tmp10080},    
-  tmp10081 = { tmp10072, tmp10066, tmp10069, tmp10078, tmp10075 }; %% tmp10081=tmp10065,:set(5.0,5),    
-  tmp10065 = tmp10081;
-  tmp10082 = p.2                %% tmp10082    
-@ tmp10082
+  p in tmp10085 :: 1000.0 ;
+  tmp10102 = p.1;               %% tmp10102:set(5.0,5),    
+  tmp10104 == 1;                %% tmp10104:1..1,    
+  tmp10105 == 3;                %% tmp10105:3..3,    
+  tmp10103 = (tmp10104, tmp10105); %% tmp10103={1=tmp10104, 2=tmp10105},    
+  tmp10107 == 2;                %% tmp10107:2..2,    
+  tmp10108 == 5;                %% tmp10108:5..5,    
+  tmp10106 = (tmp10107, tmp10108); %% tmp10106={1=tmp10107, 2=tmp10108},    
+  tmp10110 == 3;                %% tmp10110:3..3,    
+  tmp10111 == 7;                %% tmp10111:7..7,    
+  tmp10109 = (tmp10110, tmp10111); %% tmp10109={1=tmp10110, 2=tmp10111},    
+  tmp10113 == 4;                %% tmp10113:4..4,    
+  tmp10114 == 6;                %% tmp10114:6..6,    
+  tmp10112 = (tmp10113, tmp10114); %% tmp10112={1=tmp10113, 2=tmp10114},    
+  tmp10116 == 5;                %% tmp10116:5..5,    
+  tmp10117 == 9;                %% tmp10117:9..9,    
+  tmp10115 = (tmp10116, tmp10117); %% tmp10115={1=tmp10116, 2=tmp10117},    
+  tmp10118 = { tmp10103, tmp10112, tmp10109, tmp10106, tmp10115 }; %% tmp10118=tmp10102,:set(5.0,5),    
+  tmp10102 = tmp10118;
+  tmp10119 = p.2                %% tmp10119    
+@ tmp10119
 )
 net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp10048 = {
-      tmp10049 = {
-          tmp10052 == 0;
-          tmp10051 = tmp10052 .. _;
-          tmp10053 = _ .. _;
-          tmp10050 = tmp10051 -|-> tmp10053;
-          tmp10056 == 0;
-          tmp10055 = tmp10056 .. _;
-          tmp10057 = _ .. _;
-          tmp10058 = tmp10055 x tmp10057;
-          tmp10054 = P tmp10058;
-          f in tmp10054;
-          tmp10059 = {
+  tmp10085 = {
+      tmp10086 = {
+          tmp10089 == 0;
+          tmp10088 = tmp10089 .. _;
+          tmp10090 = _ .. _;
+          tmp10087 = tmp10088 -|-> tmp10090;
+          tmp10093 == 0;
+          tmp10092 = tmp10093 .. _;
+          tmp10094 = _ .. _;
+          tmp10095 = tmp10092 x tmp10094;
+          tmp10091 = P tmp10095;
+          f in tmp10091;
+          tmp10096 = {
               x in f;
-              tmp10060 = x.1
-            @ tmp10060
+              tmp10097 = x.1
+            @ tmp10097
             };
-          tmp10062 == 1;
-          # f = tmp10063;
-          tmp10061 = tmp10062 .. tmp10063;
-          tmp10059 = tmp10061
+          tmp10099 == 1;
+          # f = tmp10100;
+          tmp10098 = tmp10099 .. tmp10100;
+          tmp10096 = tmp10098
         @ f
-        };                          %% tmp10049:set(1000.0,null),    
+        };                          %% tmp10086:set(1000.0,null),    
       %%---------------
-      tmp10064 = (s, s);            %% s    
-      s in tmp10049 :: 1000.0 
-    @ tmp10064
-    };                          %% tmp10048:set(1000.0,null),    
+      tmp10101 = (s, s);            %% s    
+      s in tmp10086 :: 1000.0 
+    @ tmp10101
+    };                          %% tmp10085:set(1000.0,null),    
   %%---------------
-  p in tmp10048 :: 1000.0 ;
-  tmp10065 = p.1;               %% tmp10065:set(5.0,5),    
-  tmp10067 == 1;                %% tmp10067:1..1,    
-  tmp10068 == 3;                %% tmp10068:3..3,    
-  tmp10066 = (tmp10067, tmp10068); %% tmp10066={1=tmp10067, 2=tmp10068},    
-  tmp10070 == 2;                %% tmp10070:2..2,    
-  tmp10071 == 5;                %% tmp10071:5..5,    
-  tmp10069 = (tmp10070, tmp10071); %% tmp10069={1=tmp10070, 2=tmp10071},    
-  tmp10073 == 3;                %% tmp10073:3..3,    
-  tmp10074 == 7;                %% tmp10074:7..7,    
-  tmp10072 = (tmp10073, tmp10074); %% tmp10072={1=tmp10073, 2=tmp10074},    
-  tmp10076 == 4;                %% tmp10076:4..4,    
-  tmp10077 == 6;                %% tmp10077:6..6,    
-  tmp10075 = (tmp10076, tmp10077); %% tmp10075={1=tmp10076, 2=tmp10077},    
-  tmp10079 == 5;                %% tmp10079:5..5,    
-  tmp10080 == 9;                %% tmp10080:9..9,    
-  tmp10078 = (tmp10079, tmp10080); %% tmp10078={1=tmp10079, 2=tmp10080},    
-  tmp10081 = { tmp10072, tmp10066, tmp10069, tmp10078, tmp10075 }; %% tmp10081=tmp10065,:set(5.0,5),    
-  tmp10065 = tmp10081;
-  tmp10082 = p.2                %% tmp10082    
-@ tmp10082
+  p in tmp10085 :: 1000.0 ;
+  tmp10102 = p.1;               %% tmp10102:set(5.0,5),    
+  tmp10104 == 1;                %% tmp10104:1..1,    
+  tmp10105 == 3;                %% tmp10105:3..3,    
+  tmp10103 = (tmp10104, tmp10105); %% tmp10103={1=tmp10104, 2=tmp10105},    
+  tmp10107 == 2;                %% tmp10107:2..2,    
+  tmp10108 == 5;                %% tmp10108:5..5,    
+  tmp10106 = (tmp10107, tmp10108); %% tmp10106={1=tmp10107, 2=tmp10108},    
+  tmp10110 == 3;                %% tmp10110:3..3,    
+  tmp10111 == 7;                %% tmp10111:7..7,    
+  tmp10109 = (tmp10110, tmp10111); %% tmp10109={1=tmp10110, 2=tmp10111},    
+  tmp10113 == 4;                %% tmp10113:4..4,    
+  tmp10114 == 6;                %% tmp10114:6..6,    
+  tmp10112 = (tmp10113, tmp10114); %% tmp10112={1=tmp10113, 2=tmp10114},    
+  tmp10116 == 5;                %% tmp10116:5..5,    
+  tmp10117 == 9;                %% tmp10117:9..9,    
+  tmp10115 = (tmp10116, tmp10117); %% tmp10115={1=tmp10116, 2=tmp10117},    
+  tmp10118 = { tmp10103, tmp10112, tmp10109, tmp10106, tmp10115 }; %% tmp10118=tmp10102,:set(5.0,5),    
+  tmp10102 = tmp10118;
+  tmp10119 = p.2                %% tmp10119    
+@ tmp10119
 )
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
@@ -2444,94 +1707,94 @@ net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solution
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:147 took 0.663 sec
-Testcase: animate_sequences.tex:148 took 0.668 sec
+Testcase: animate_sequences.tex:147 took 0.836 sec
+Testcase: animate_sequences.tex:148 took 0.662 sec
 	Caused an ERROR
 Mu expression has no solutions: (mu
-  tmp10194 = {
-      tmp10195 = {
-          tmp10198 == 0;
-          tmp10197 = tmp10198 .. _;
-          tmp10199 = _ .. _;
-          tmp10196 = tmp10197 -|-> tmp10199;
-          tmp10202 == 0;
-          tmp10201 = tmp10202 .. _;
-          tmp10203 = _ .. _;
-          tmp10204 = tmp10201 x tmp10203;
-          tmp10200 = P tmp10204;
-          f in tmp10200;
-          tmp10205 = {
+  tmp10231 = {
+      tmp10232 = {
+          tmp10235 == 0;
+          tmp10234 = tmp10235 .. _;
+          tmp10236 = _ .. _;
+          tmp10233 = tmp10234 -|-> tmp10236;
+          tmp10239 == 0;
+          tmp10238 = tmp10239 .. _;
+          tmp10240 = _ .. _;
+          tmp10241 = tmp10238 x tmp10240;
+          tmp10237 = P tmp10241;
+          f in tmp10237;
+          tmp10242 = {
               x in f;
-              tmp10206 = x.1
-            @ tmp10206
+              tmp10243 = x.1
+            @ tmp10243
             };
-          tmp10208 == 1;
-          # f = tmp10209;
-          tmp10207 = tmp10208 .. tmp10209;
-          tmp10205 = tmp10207
+          tmp10245 == 1;
+          # f = tmp10246;
+          tmp10244 = tmp10245 .. tmp10246;
+          tmp10242 = tmp10244
         @ f
-        };                          %% tmp10195:set(1000.0,null),    
+        };                          %% tmp10232:set(1000.0,null),    
       %%---------------
-      tmp10210 = (s, s);            %% s    
-      s in tmp10195 :: 1000.0 
-    @ tmp10210
-    };                          %% tmp10194:set(1000.0,null),    
+      tmp10247 = (s, s);            %% s    
+      s in tmp10232 :: 1000.0 
+    @ tmp10247
+    };                          %% tmp10231:set(1000.0,null),    
   %%---------------
-  p in tmp10194 :: 1000.0 ;
-  tmp10211 = p.1;               %% tmp10211:set(2.0,2),    
-  tmp10213 == 1;                %% tmp10213:1..1,    
-  tmp10214 == 3;                %% tmp10214:3..3,    
-  tmp10212 = (tmp10213, tmp10214); %% tmp10212={1=tmp10213, 2=tmp10214},    
-  tmp10216 == 2;                %% tmp10216:2..2,    
-  tmp10217 == 5;                %% tmp10217:5..5,    
-  tmp10215 = (tmp10216, tmp10217); %% tmp10215={1=tmp10216, 2=tmp10217},    
-  tmp10218 = { tmp10215, tmp10212 }; %% tmp10218=tmp10211,:set(2.0,2),    
-  tmp10211 = tmp10218;
-  tmp10219 = p.2                %% tmp10219    
-@ tmp10219
+  p in tmp10231 :: 1000.0 ;
+  tmp10248 = p.1;               %% tmp10248:set(2.0,2),    
+  tmp10250 == 1;                %% tmp10250:1..1,    
+  tmp10251 == 3;                %% tmp10251:3..3,    
+  tmp10249 = (tmp10250, tmp10251); %% tmp10249={1=tmp10250, 2=tmp10251},    
+  tmp10253 == 2;                %% tmp10253:2..2,    
+  tmp10254 == 5;                %% tmp10254:5..5,    
+  tmp10252 = (tmp10253, tmp10254); %% tmp10252={1=tmp10253, 2=tmp10254},    
+  tmp10255 = { tmp10249, tmp10252 }; %% tmp10255=tmp10248,:set(2.0,2),    
+  tmp10248 = tmp10255;
+  tmp10256 = p.2                %% tmp10256    
+@ tmp10256
 )
 net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp10194 = {
-      tmp10195 = {
-          tmp10198 == 0;
-          tmp10197 = tmp10198 .. _;
-          tmp10199 = _ .. _;
-          tmp10196 = tmp10197 -|-> tmp10199;
-          tmp10202 == 0;
-          tmp10201 = tmp10202 .. _;
-          tmp10203 = _ .. _;
-          tmp10204 = tmp10201 x tmp10203;
-          tmp10200 = P tmp10204;
-          f in tmp10200;
-          tmp10205 = {
+  tmp10231 = {
+      tmp10232 = {
+          tmp10235 == 0;
+          tmp10234 = tmp10235 .. _;
+          tmp10236 = _ .. _;
+          tmp10233 = tmp10234 -|-> tmp10236;
+          tmp10239 == 0;
+          tmp10238 = tmp10239 .. _;
+          tmp10240 = _ .. _;
+          tmp10241 = tmp10238 x tmp10240;
+          tmp10237 = P tmp10241;
+          f in tmp10237;
+          tmp10242 = {
               x in f;
-              tmp10206 = x.1
-            @ tmp10206
+              tmp10243 = x.1
+            @ tmp10243
             };
-          tmp10208 == 1;
-          # f = tmp10209;
-          tmp10207 = tmp10208 .. tmp10209;
-          tmp10205 = tmp10207
+          tmp10245 == 1;
+          # f = tmp10246;
+          tmp10244 = tmp10245 .. tmp10246;
+          tmp10242 = tmp10244
         @ f
-        };                          %% tmp10195:set(1000.0,null),    
+        };                          %% tmp10232:set(1000.0,null),    
       %%---------------
-      tmp10210 = (s, s);            %% s    
-      s in tmp10195 :: 1000.0 
-    @ tmp10210
-    };                          %% tmp10194:set(1000.0,null),    
+      tmp10247 = (s, s);            %% s    
+      s in tmp10232 :: 1000.0 
+    @ tmp10247
+    };                          %% tmp10231:set(1000.0,null),    
   %%---------------
-  p in tmp10194 :: 1000.0 ;
-  tmp10211 = p.1;               %% tmp10211:set(2.0,2),    
-  tmp10213 == 1;                %% tmp10213:1..1,    
-  tmp10214 == 3;                %% tmp10214:3..3,    
-  tmp10212 = (tmp10213, tmp10214); %% tmp10212={1=tmp10213, 2=tmp10214},    
-  tmp10216 == 2;                %% tmp10216:2..2,    
-  tmp10217 == 5;                %% tmp10217:5..5,    
-  tmp10215 = (tmp10216, tmp10217); %% tmp10215={1=tmp10216, 2=tmp10217},    
-  tmp10218 = { tmp10215, tmp10212 }; %% tmp10218=tmp10211,:set(2.0,2),    
-  tmp10211 = tmp10218;
-  tmp10219 = p.2                %% tmp10219    
-@ tmp10219
+  p in tmp10231 :: 1000.0 ;
+  tmp10248 = p.1;               %% tmp10248:set(2.0,2),    
+  tmp10250 == 1;                %% tmp10250:1..1,    
+  tmp10251 == 3;                %% tmp10251:3..3,    
+  tmp10249 = (tmp10250, tmp10251); %% tmp10249={1=tmp10250, 2=tmp10251},    
+  tmp10253 == 2;                %% tmp10253:2..2,    
+  tmp10254 == 5;                %% tmp10254:5..5,    
+  tmp10252 = (tmp10253, tmp10254); %% tmp10252={1=tmp10253, 2=tmp10254},    
+  tmp10255 = { tmp10249, tmp10252 }; %% tmp10255=tmp10248,:set(2.0,2),    
+  tmp10248 = tmp10255;
+  tmp10256 = p.2                %% tmp10256    
+@ tmp10256
 )
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
@@ -2563,94 +1826,94 @@ net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solution
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:151 took 0.842 sec
-Testcase: animate_sequences.tex:152 took 0.651 sec
+Testcase: animate_sequences.tex:151 took 0.629 sec
+Testcase: animate_sequences.tex:152 took 0.652 sec
 	Caused an ERROR
 Mu expression has no solutions: (mu
-  tmp10339 = {
-      tmp10340 = {
-          tmp10343 == 0;
-          tmp10342 = tmp10343 .. _;
-          tmp10344 = _ .. _;
-          tmp10341 = tmp10342 -|-> tmp10344;
-          tmp10347 == 0;
-          tmp10346 = tmp10347 .. _;
-          tmp10348 = _ .. _;
-          tmp10349 = tmp10346 x tmp10348;
-          tmp10345 = P tmp10349;
-          f in tmp10345;
-          tmp10350 = {
+  tmp10376 = {
+      tmp10377 = {
+          tmp10380 == 0;
+          tmp10379 = tmp10380 .. _;
+          tmp10381 = _ .. _;
+          tmp10378 = tmp10379 -|-> tmp10381;
+          tmp10384 == 0;
+          tmp10383 = tmp10384 .. _;
+          tmp10385 = _ .. _;
+          tmp10386 = tmp10383 x tmp10385;
+          tmp10382 = P tmp10386;
+          f in tmp10382;
+          tmp10387 = {
               x in f;
-              tmp10351 = x.1
-            @ tmp10351
+              tmp10388 = x.1
+            @ tmp10388
             };
-          tmp10353 == 1;
-          # f = tmp10354;
-          tmp10352 = tmp10353 .. tmp10354;
-          tmp10350 = tmp10352
+          tmp10390 == 1;
+          # f = tmp10391;
+          tmp10389 = tmp10390 .. tmp10391;
+          tmp10387 = tmp10389
         @ f
-        };                          %% tmp10340:set(1000.0,null),    
+        };                          %% tmp10377:set(1000.0,null),    
       %%---------------
-      tmp10355 = (s, s);            %% s    
-      s in tmp10340 :: 1000.0 
-    @ tmp10355
-    };                          %% tmp10339:set(1000.0,null),    
+      tmp10392 = (s, s);            %% s    
+      s in tmp10377 :: 1000.0 
+    @ tmp10392
+    };                          %% tmp10376:set(1000.0,null),    
   %%---------------
-  p in tmp10339 :: 1000.0 ;
-  tmp10356 = p.1;               %% tmp10356:set(2.0,2),    
-  tmp10358 == 1;                %% tmp10358:1..1,    
-  tmp10359 == 3;                %% tmp10359:3..3,    
-  tmp10357 = (tmp10358, tmp10359); %% tmp10357={1=tmp10358, 2=tmp10359},    
-  tmp10361 == 2;                %% tmp10361:2..2,    
-  tmp10362 == 5;                %% tmp10362:5..5,    
-  tmp10360 = (tmp10361, tmp10362); %% tmp10360={1=tmp10361, 2=tmp10362},    
-  tmp10363 = { tmp10360, tmp10357 }; %% tmp10363=tmp10356,:set(2.0,2),    
-  tmp10356 = tmp10363;
-  tmp10364 = p.2                %% tmp10364    
-@ tmp10364
+  p in tmp10376 :: 1000.0 ;
+  tmp10393 = p.1;               %% tmp10393:set(2.0,2),    
+  tmp10395 == 1;                %% tmp10395:1..1,    
+  tmp10396 == 3;                %% tmp10396:3..3,    
+  tmp10394 = (tmp10395, tmp10396); %% tmp10394={1=tmp10395, 2=tmp10396},    
+  tmp10398 == 2;                %% tmp10398:2..2,    
+  tmp10399 == 5;                %% tmp10399:5..5,    
+  tmp10397 = (tmp10398, tmp10399); %% tmp10397={1=tmp10398, 2=tmp10399},    
+  tmp10400 = { tmp10394, tmp10397 }; %% tmp10400=tmp10393,:set(2.0,2),    
+  tmp10393 = tmp10400;
+  tmp10401 = p.2                %% tmp10401    
+@ tmp10401
 )
 net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp10339 = {
-      tmp10340 = {
-          tmp10343 == 0;
-          tmp10342 = tmp10343 .. _;
-          tmp10344 = _ .. _;
-          tmp10341 = tmp10342 -|-> tmp10344;
-          tmp10347 == 0;
-          tmp10346 = tmp10347 .. _;
-          tmp10348 = _ .. _;
-          tmp10349 = tmp10346 x tmp10348;
-          tmp10345 = P tmp10349;
-          f in tmp10345;
-          tmp10350 = {
+  tmp10376 = {
+      tmp10377 = {
+          tmp10380 == 0;
+          tmp10379 = tmp10380 .. _;
+          tmp10381 = _ .. _;
+          tmp10378 = tmp10379 -|-> tmp10381;
+          tmp10384 == 0;
+          tmp10383 = tmp10384 .. _;
+          tmp10385 = _ .. _;
+          tmp10386 = tmp10383 x tmp10385;
+          tmp10382 = P tmp10386;
+          f in tmp10382;
+          tmp10387 = {
               x in f;
-              tmp10351 = x.1
-            @ tmp10351
+              tmp10388 = x.1
+            @ tmp10388
             };
-          tmp10353 == 1;
-          # f = tmp10354;
-          tmp10352 = tmp10353 .. tmp10354;
-          tmp10350 = tmp10352
+          tmp10390 == 1;
+          # f = tmp10391;
+          tmp10389 = tmp10390 .. tmp10391;
+          tmp10387 = tmp10389
         @ f
-        };                          %% tmp10340:set(1000.0,null),    
+        };                          %% tmp10377:set(1000.0,null),    
       %%---------------
-      tmp10355 = (s, s);            %% s    
-      s in tmp10340 :: 1000.0 
-    @ tmp10355
-    };                          %% tmp10339:set(1000.0,null),    
+      tmp10392 = (s, s);            %% s    
+      s in tmp10377 :: 1000.0 
+    @ tmp10392
+    };                          %% tmp10376:set(1000.0,null),    
   %%---------------
-  p in tmp10339 :: 1000.0 ;
-  tmp10356 = p.1;               %% tmp10356:set(2.0,2),    
-  tmp10358 == 1;                %% tmp10358:1..1,    
-  tmp10359 == 3;                %% tmp10359:3..3,    
-  tmp10357 = (tmp10358, tmp10359); %% tmp10357={1=tmp10358, 2=tmp10359},    
-  tmp10361 == 2;                %% tmp10361:2..2,    
-  tmp10362 == 5;                %% tmp10362:5..5,    
-  tmp10360 = (tmp10361, tmp10362); %% tmp10360={1=tmp10361, 2=tmp10362},    
-  tmp10363 = { tmp10360, tmp10357 }; %% tmp10363=tmp10356,:set(2.0,2),    
-  tmp10356 = tmp10363;
-  tmp10364 = p.2                %% tmp10364    
-@ tmp10364
+  p in tmp10376 :: 1000.0 ;
+  tmp10393 = p.1;               %% tmp10393:set(2.0,2),    
+  tmp10395 == 1;                %% tmp10395:1..1,    
+  tmp10396 == 3;                %% tmp10396:3..3,    
+  tmp10394 = (tmp10395, tmp10396); %% tmp10394={1=tmp10395, 2=tmp10396},    
+  tmp10398 == 2;                %% tmp10398:2..2,    
+  tmp10399 == 5;                %% tmp10399:5..5,    
+  tmp10397 = (tmp10398, tmp10399); %% tmp10397={1=tmp10398, 2=tmp10399},    
+  tmp10400 = { tmp10394, tmp10397 }; %% tmp10400=tmp10393,:set(2.0,2),    
+  tmp10393 = tmp10400;
+  tmp10401 = p.2                %% tmp10401    
+@ tmp10401
 )
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
@@ -2682,93 +1945,93 @@ net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solution
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:153 took 0.749 sec
+Testcase: animate_sequences.tex:153 took 0.66 sec
 	Caused an ERROR
 Mu expression has no solutions: (mu
-  tmp10411 = {
-      tmp10412 = {
-          tmp10415 == 0;
-          tmp10414 = tmp10415 .. _;
-          tmp10416 = _ .. _;
-          tmp10413 = tmp10414 -|-> tmp10416;
-          tmp10419 == 0;
-          tmp10418 = tmp10419 .. _;
-          tmp10420 = _ .. _;
-          tmp10421 = tmp10418 x tmp10420;
-          tmp10417 = P tmp10421;
-          f in tmp10417;
-          tmp10422 = {
+  tmp10448 = {
+      tmp10449 = {
+          tmp10452 == 0;
+          tmp10451 = tmp10452 .. _;
+          tmp10453 = _ .. _;
+          tmp10450 = tmp10451 -|-> tmp10453;
+          tmp10456 == 0;
+          tmp10455 = tmp10456 .. _;
+          tmp10457 = _ .. _;
+          tmp10458 = tmp10455 x tmp10457;
+          tmp10454 = P tmp10458;
+          f in tmp10454;
+          tmp10459 = {
               x in f;
-              tmp10423 = x.1
-            @ tmp10423
+              tmp10460 = x.1
+            @ tmp10460
             };
-          tmp10425 == 1;
-          # f = tmp10426;
-          tmp10424 = tmp10425 .. tmp10426;
-          tmp10422 = tmp10424
+          tmp10462 == 1;
+          # f = tmp10463;
+          tmp10461 = tmp10462 .. tmp10463;
+          tmp10459 = tmp10461
         @ f
-        };                          %% tmp10412:set(1000.0,null),    
+        };                          %% tmp10449:set(1000.0,null),    
       %%---------------
-      tmp10427 = (s, s);            %% s    
-      s in tmp10412 :: 1000.0 
-    @ tmp10427
-    };                          %% tmp10411:set(1000.0,null),    
+      tmp10464 = (s, s);            %% s    
+      s in tmp10449 :: 1000.0 
+    @ tmp10464
+    };                          %% tmp10448:set(1000.0,null),    
   %%---------------
-  p in tmp10411 :: 1000.0 ;
-  tmp10428 = p.1;               %% tmp10428:set(2.0,2),    
-  tmp10430 == 1;                %% tmp10430:1..1,    
-  tmp10431 == 3;                %% tmp10431:3..3,    
-  tmp10429 = (tmp10430, tmp10431); %% tmp10429={1=tmp10430, 2=tmp10431},    
-  tmp10433 == 2;                %% tmp10433:2..2,    
-  tmp10434 == 5;                %% tmp10434:5..5,    
-  tmp10432 = (tmp10433, tmp10434); %% tmp10432={1=tmp10433, 2=tmp10434},    
-  tmp10435 = { tmp10432, tmp10429 }; %% tmp10435=tmp10428,:set(2.0,2),    
-  tmp10428 = tmp10435;
-  tmp10436 = p.2                %% tmp10436    
-@ tmp10436
+  p in tmp10448 :: 1000.0 ;
+  tmp10465 = p.1;               %% tmp10465:set(2.0,2),    
+  tmp10467 == 1;                %% tmp10467:1..1,    
+  tmp10468 == 3;                %% tmp10468:3..3,    
+  tmp10466 = (tmp10467, tmp10468); %% tmp10466={1=tmp10467, 2=tmp10468},    
+  tmp10470 == 2;                %% tmp10470:2..2,    
+  tmp10471 == 5;                %% tmp10471:5..5,    
+  tmp10469 = (tmp10470, tmp10471); %% tmp10469={1=tmp10470, 2=tmp10471},    
+  tmp10472 = { tmp10466, tmp10469 }; %% tmp10472=tmp10465,:set(2.0,2),    
+  tmp10465 = tmp10472;
+  tmp10473 = p.2                %% tmp10473    
+@ tmp10473
 )
 net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp10411 = {
-      tmp10412 = {
-          tmp10415 == 0;
-          tmp10414 = tmp10415 .. _;
-          tmp10416 = _ .. _;
-          tmp10413 = tmp10414 -|-> tmp10416;
-          tmp10419 == 0;
-          tmp10418 = tmp10419 .. _;
-          tmp10420 = _ .. _;
-          tmp10421 = tmp10418 x tmp10420;
-          tmp10417 = P tmp10421;
-          f in tmp10417;
-          tmp10422 = {
+  tmp10448 = {
+      tmp10449 = {
+          tmp10452 == 0;
+          tmp10451 = tmp10452 .. _;
+          tmp10453 = _ .. _;
+          tmp10450 = tmp10451 -|-> tmp10453;
+          tmp10456 == 0;
+          tmp10455 = tmp10456 .. _;
+          tmp10457 = _ .. _;
+          tmp10458 = tmp10455 x tmp10457;
+          tmp10454 = P tmp10458;
+          f in tmp10454;
+          tmp10459 = {
               x in f;
-              tmp10423 = x.1
-            @ tmp10423
+              tmp10460 = x.1
+            @ tmp10460
             };
-          tmp10425 == 1;
-          # f = tmp10426;
-          tmp10424 = tmp10425 .. tmp10426;
-          tmp10422 = tmp10424
+          tmp10462 == 1;
+          # f = tmp10463;
+          tmp10461 = tmp10462 .. tmp10463;
+          tmp10459 = tmp10461
         @ f
-        };                          %% tmp10412:set(1000.0,null),    
+        };                          %% tmp10449:set(1000.0,null),    
       %%---------------
-      tmp10427 = (s, s);            %% s    
-      s in tmp10412 :: 1000.0 
-    @ tmp10427
-    };                          %% tmp10411:set(1000.0,null),    
+      tmp10464 = (s, s);            %% s    
+      s in tmp10449 :: 1000.0 
+    @ tmp10464
+    };                          %% tmp10448:set(1000.0,null),    
   %%---------------
-  p in tmp10411 :: 1000.0 ;
-  tmp10428 = p.1;               %% tmp10428:set(2.0,2),    
-  tmp10430 == 1;                %% tmp10430:1..1,    
-  tmp10431 == 3;                %% tmp10431:3..3,    
-  tmp10429 = (tmp10430, tmp10431); %% tmp10429={1=tmp10430, 2=tmp10431},    
-  tmp10433 == 2;                %% tmp10433:2..2,    
-  tmp10434 == 5;                %% tmp10434:5..5,    
-  tmp10432 = (tmp10433, tmp10434); %% tmp10432={1=tmp10433, 2=tmp10434},    
-  tmp10435 = { tmp10432, tmp10429 }; %% tmp10435=tmp10428,:set(2.0,2),    
-  tmp10428 = tmp10435;
-  tmp10436 = p.2                %% tmp10436    
-@ tmp10436
+  p in tmp10448 :: 1000.0 ;
+  tmp10465 = p.1;               %% tmp10465:set(2.0,2),    
+  tmp10467 == 1;                %% tmp10467:1..1,    
+  tmp10468 == 3;                %% tmp10468:3..3,    
+  tmp10466 = (tmp10467, tmp10468); %% tmp10466={1=tmp10467, 2=tmp10468},    
+  tmp10470 == 2;                %% tmp10470:2..2,    
+  tmp10471 == 5;                %% tmp10471:5..5,    
+  tmp10469 = (tmp10470, tmp10471); %% tmp10469={1=tmp10470, 2=tmp10471},    
+  tmp10472 = { tmp10466, tmp10469 }; %% tmp10472=tmp10465,:set(2.0,2),    
+  tmp10465 = tmp10472;
+  tmp10473 = p.2                %% tmp10473    
+@ tmp10473
 )
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
@@ -2800,111 +2063,111 @@ net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solution
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_sequences.tex:154 took 0.711 sec
+Testcase: animate_sequences.tex:154 took 0.702 sec
 	Caused an ERROR
 Mu expression has no solutions: (mu
-  tmp10494 = {
-      tmp10495 = {
-          tmp10498 == 0;
-          tmp10497 = tmp10498 .. _;
-          tmp10499 = _ .. _;
-          tmp10496 = tmp10497 -|-> tmp10499;
-          tmp10502 == 0;
-          tmp10501 = tmp10502 .. _;
-          tmp10503 = _ .. _;
-          tmp10504 = tmp10501 x tmp10503;
-          tmp10500 = P tmp10504;
-          f in tmp10500;
-          tmp10505 = {
+  tmp10531 = {
+      tmp10532 = {
+          tmp10535 == 0;
+          tmp10534 = tmp10535 .. _;
+          tmp10536 = _ .. _;
+          tmp10533 = tmp10534 -|-> tmp10536;
+          tmp10539 == 0;
+          tmp10538 = tmp10539 .. _;
+          tmp10540 = _ .. _;
+          tmp10541 = tmp10538 x tmp10540;
+          tmp10537 = P tmp10541;
+          f in tmp10537;
+          tmp10542 = {
               x in f;
-              tmp10506 = x.1
-            @ tmp10506
+              tmp10543 = x.1
+            @ tmp10543
             };
-          tmp10508 == 1;
-          # f = tmp10509;
-          tmp10507 = tmp10508 .. tmp10509;
-          tmp10505 = tmp10507
+          tmp10545 == 1;
+          # f = tmp10546;
+          tmp10544 = tmp10545 .. tmp10546;
+          tmp10542 = tmp10544
         @ f
-        };                          %% tmp10495:set(1000.0,null),    
+        };                          %% tmp10532:set(1000.0,null),    
       %%---------------
-      tmp10510 = (s, s);            %% s    
-      s in tmp10495 :: 1000.0 
-    @ tmp10510
-    };                          %% tmp10494:set(1000.0,null),    
+      tmp10547 = (s, s);            %% s    
+      s in tmp10532 :: 1000.0 
+    @ tmp10547
+    };                          %% tmp10531:set(1000.0,null),    
   %%---------------
-  p in tmp10494 :: 1000.0 ;
-  tmp10511 = p.1;               %% tmp10511:set(5.0,5),    
-  tmp10513 == 1;                %% tmp10513:1..1,    
-  tmp10514 == 3;                %% tmp10514:3..3,    
-  tmp10512 = (tmp10513, tmp10514); %% tmp10512={1=tmp10513, 2=tmp10514},    
-  tmp10516 == 2;                %% tmp10516:2..2,    
-  tmp10517 == 5;                %% tmp10517:5..5,    
-  tmp10515 = (tmp10516, tmp10517); %% tmp10515={1=tmp10516, 2=tmp10517},    
-  tmp10519 == 3;                %% tmp10519:3..3,    
-  tmp10520 == 7;                %% tmp10520:7..7,    
-  tmp10518 = (tmp10519, tmp10520); %% tmp10518={1=tmp10519, 2=tmp10520},    
-  tmp10522 == 4;                %% tmp10522:4..4,    
-  tmp10523 == 6;                %% tmp10523:6..6,    
-  tmp10521 = (tmp10522, tmp10523); %% tmp10521={1=tmp10522, 2=tmp10523},    
-  tmp10525 == 5;                %% tmp10525:5..5,    
-  tmp10526 == 9;                %% tmp10526:9..9,    
-  tmp10524 = (tmp10525, tmp10526); %% tmp10524={1=tmp10525, 2=tmp10526},    
-  tmp10527 = { tmp10515, tmp10518, tmp10524, tmp10521, tmp10512 }; %% tmp10527=tmp10511,:set(5.0,5),    
-  tmp10511 = tmp10527;
-  tmp10528 = p.2                %% tmp10528    
-@ tmp10528
+  p in tmp10531 :: 1000.0 ;
+  tmp10548 = p.1;               %% tmp10548:set(5.0,5),    
+  tmp10550 == 1;                %% tmp10550:1..1,    
+  tmp10551 == 3;                %% tmp10551:3..3,    
+  tmp10549 = (tmp10550, tmp10551); %% tmp10549={1=tmp10550, 2=tmp10551},    
+  tmp10553 == 2;                %% tmp10553:2..2,    
+  tmp10554 == 5;                %% tmp10554:5..5,    
+  tmp10552 = (tmp10553, tmp10554); %% tmp10552={1=tmp10553, 2=tmp10554},    
+  tmp10556 == 3;                %% tmp10556:3..3,    
+  tmp10557 == 7;                %% tmp10557:7..7,    
+  tmp10555 = (tmp10556, tmp10557); %% tmp10555={1=tmp10556, 2=tmp10557},    
+  tmp10559 == 4;                %% tmp10559:4..4,    
+  tmp10560 == 6;                %% tmp10560:6..6,    
+  tmp10558 = (tmp10559, tmp10560); %% tmp10558={1=tmp10559, 2=tmp10560},    
+  tmp10562 == 5;                %% tmp10562:5..5,    
+  tmp10563 == 9;                %% tmp10563:9..9,    
+  tmp10561 = (tmp10562, tmp10563); %% tmp10561={1=tmp10562, 2=tmp10563},    
+  tmp10564 = { tmp10555, tmp10549, tmp10561, tmp10558, tmp10552 }; %% tmp10564=tmp10548,:set(5.0,5),    
+  tmp10548 = tmp10564;
+  tmp10565 = p.2                %% tmp10565    
+@ tmp10565
 )
 net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
-  tmp10494 = {
-      tmp10495 = {
-          tmp10498 == 0;
-          tmp10497 = tmp10498 .. _;
-          tmp10499 = _ .. _;
-          tmp10496 = tmp10497 -|-> tmp10499;
-          tmp10502 == 0;
-          tmp10501 = tmp10502 .. _;
-          tmp10503 = _ .. _;
-          tmp10504 = tmp10501 x tmp10503;
-          tmp10500 = P tmp10504;
-          f in tmp10500;
-          tmp10505 = {
+  tmp10531 = {
+      tmp10532 = {
+          tmp10535 == 0;
+          tmp10534 = tmp10535 .. _;
+          tmp10536 = _ .. _;
+          tmp10533 = tmp10534 -|-> tmp10536;
+          tmp10539 == 0;
+          tmp10538 = tmp10539 .. _;
+          tmp10540 = _ .. _;
+          tmp10541 = tmp10538 x tmp10540;
+          tmp10537 = P tmp10541;
+          f in tmp10537;
+          tmp10542 = {
               x in f;
-              tmp10506 = x.1
-            @ tmp10506
+              tmp10543 = x.1
+            @ tmp10543
             };
-          tmp10508 == 1;
-          # f = tmp10509;
-          tmp10507 = tmp10508 .. tmp10509;
-          tmp10505 = tmp10507
+          tmp10545 == 1;
+          # f = tmp10546;
+          tmp10544 = tmp10545 .. tmp10546;
+          tmp10542 = tmp10544
         @ f
-        };                          %% tmp10495:set(1000.0,null),    
+        };                          %% tmp10532:set(1000.0,null),    
       %%---------------
-      tmp10510 = (s, s);            %% s    
-      s in tmp10495 :: 1000.0 
-    @ tmp10510
-    };                          %% tmp10494:set(1000.0,null),    
+      tmp10547 = (s, s);            %% s    
+      s in tmp10532 :: 1000.0 
+    @ tmp10547
+    };                          %% tmp10531:set(1000.0,null),    
   %%---------------
-  p in tmp10494 :: 1000.0 ;
-  tmp10511 = p.1;               %% tmp10511:set(5.0,5),    
-  tmp10513 == 1;                %% tmp10513:1..1,    
-  tmp10514 == 3;                %% tmp10514:3..3,    
-  tmp10512 = (tmp10513, tmp10514); %% tmp10512={1=tmp10513, 2=tmp10514},    
-  tmp10516 == 2;                %% tmp10516:2..2,    
-  tmp10517 == 5;                %% tmp10517:5..5,    
-  tmp10515 = (tmp10516, tmp10517); %% tmp10515={1=tmp10516, 2=tmp10517},    
-  tmp10519 == 3;                %% tmp10519:3..3,    
-  tmp10520 == 7;                %% tmp10520:7..7,    
-  tmp10518 = (tmp10519, tmp10520); %% tmp10518={1=tmp10519, 2=tmp10520},    
-  tmp10522 == 4;                %% tmp10522:4..4,    
-  tmp10523 == 6;                %% tmp10523:6..6,    
-  tmp10521 = (tmp10522, tmp10523); %% tmp10521={1=tmp10522, 2=tmp10523},    
-  tmp10525 == 5;                %% tmp10525:5..5,    
-  tmp10526 == 9;                %% tmp10526:9..9,    
-  tmp10524 = (tmp10525, tmp10526); %% tmp10524={1=tmp10525, 2=tmp10526},    
-  tmp10527 = { tmp10515, tmp10518, tmp10524, tmp10521, tmp10512 }; %% tmp10527=tmp10511,:set(5.0,5),    
-  tmp10511 = tmp10527;
-  tmp10528 = p.2                %% tmp10528    
-@ tmp10528
+  p in tmp10531 :: 1000.0 ;
+  tmp10548 = p.1;               %% tmp10548:set(5.0,5),    
+  tmp10550 == 1;                %% tmp10550:1..1,    
+  tmp10551 == 3;                %% tmp10551:3..3,    
+  tmp10549 = (tmp10550, tmp10551); %% tmp10549={1=tmp10550, 2=tmp10551},    
+  tmp10553 == 2;                %% tmp10553:2..2,    
+  tmp10554 == 5;                %% tmp10554:5..5,    
+  tmp10552 = (tmp10553, tmp10554); %% tmp10552={1=tmp10553, 2=tmp10554},    
+  tmp10556 == 3;                %% tmp10556:3..3,    
+  tmp10557 == 7;                %% tmp10557:7..7,    
+  tmp10555 = (tmp10556, tmp10557); %% tmp10555={1=tmp10556, 2=tmp10557},    
+  tmp10559 == 4;                %% tmp10559:4..4,    
+  tmp10560 == 6;                %% tmp10560:6..6,    
+  tmp10558 = (tmp10559, tmp10560); %% tmp10558={1=tmp10559, 2=tmp10560},    
+  tmp10562 == 5;                %% tmp10562:5..5,    
+  tmp10563 == 9;                %% tmp10563:9..9,    
+  tmp10561 = (tmp10562, tmp10563); %% tmp10561={1=tmp10562, 2=tmp10563},    
+  tmp10564 = { tmp10555, tmp10549, tmp10561, tmp10558, tmp10552 }; %% tmp10564=tmp10548,:set(5.0,5),    
+  tmp10548 = tmp10564;
+  tmp10565 = p.2                %% tmp10565    
+@ tmp10565
 )
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
