@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateFreetypesTest
-Tests run: 18, Failures: 0, Errors: 17, Time elapsed: 3.705 sec
+Tests run: 18, Failures: 0, Errors: 17, Time elapsed: 4.034 sec
 ------------- Standard Output ---------------
 GivenSet T.
 GivenValue T.
@@ -34,7 +34,7 @@ GivenSet V.
 GivenSet V.
 ------------- ---------------- ---------------
 
-Testcase: animate_freetypes.tex:46 took 0.236 sec
+Testcase: animate_freetypes.tex:46 took 0.26 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -45,7 +45,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:47 took 0.16 sec
+Testcase: animate_freetypes.tex:47 took 0.179 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -56,7 +56,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:48 took 0.161 sec
+Testcase: animate_freetypes.tex:48 took 0.179 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -67,7 +67,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:49 took 0.199 sec
+Testcase: animate_freetypes.tex:49 took 0.211 sec
 	Caused an ERROR
 Cannot find mode to evaluate: Known~Happy \in U
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: Known~Happy \in U
@@ -76,7 +76,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:50 took 0.211 sec
+Testcase: animate_freetypes.tex:50 took 0.217 sec
 	Caused an ERROR
 Cannot find mode to evaluate: Known~Sad \in U
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: Known~Sad \in U
@@ -85,7 +85,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:51 took 0.202 sec
+Testcase: animate_freetypes.tex:51 took 0.211 sec
 	Caused an ERROR
 Cannot find mode to evaluate: Soon~Unknown \in U
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: Soon~Unknown \in U
@@ -94,7 +94,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:52 took 0.223 sec
+Testcase: animate_freetypes.tex:52 took 0.252 sec
 	Caused an ERROR
 Cannot find mode to evaluate: Soon ( Known~Happy ) \in U
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: Soon ( Known~Happy ) \in U
@@ -103,7 +103,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:53 took 0.227 sec
+Testcase: animate_freetypes.tex:53 took 0.249 sec
 	Caused an ERROR
 Cannot find mode to evaluate: Soon ( Known~Sad ) \in U
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: Soon ( Known~Sad ) \in U
@@ -112,7 +112,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:54 took 0.25 sec
+Testcase: animate_freetypes.tex:54 took 0.261 sec
 	Caused an ERROR
 Cannot find mode to evaluate: Soon ( Soon ( Known~Happy ) ) \in U
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: Soon ( Soon ( Known~Happy ) ) \in U
@@ -121,7 +121,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:55 took 0.453 sec
+Testcase: animate_freetypes.tex:55 took 0.267 sec
 	Caused an ERROR
 Cannot find mode to evaluate: Red \notin \{ x : Feeling | true @ x . 2 \}
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: Red \notin \{ x : Feeling | true @ x . 2 \}
@@ -130,7 +130,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:58 took 0.179 sec
+Testcase: animate_freetypes.tex:58 took 0.412 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -143,22 +143,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:59 took 0.178 sec
-	Caused an ERROR
-null
-java.lang.NullPointerException
-	at net.sourceforge.czt.animation.eval.ExprComparator.exprType(ExprComparator.java:262)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:130)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
-	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_freetypes.tex:60 took 0.165 sec
+Testcase: animate_freetypes.tex:59 took 0.197 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -173,8 +158,23 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:64 took 0.18 sec
-Testcase: animate_freetypes.tex:65 took 0.164 sec
+Testcase: animate_freetypes.tex:60 took 0.183 sec
+	Caused an ERROR
+null
+java.lang.NullPointerException
+	at net.sourceforge.czt.animation.eval.ExprComparator.exprType(ExprComparator.java:262)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:130)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_freetypes.tex:64 took 0.207 sec
+Testcase: animate_freetypes.tex:65 took 0.186 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -185,7 +185,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:66 took 0.165 sec
+Testcase: animate_freetypes.tex:66 took 0.181 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -196,7 +196,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:68 took 0.165 sec
+Testcase: animate_freetypes.tex:68 took 0.183 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -207,7 +207,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_freetypes.tex:69 took 0.166 sec
+Testcase: animate_freetypes.tex:69 took 0.182 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException

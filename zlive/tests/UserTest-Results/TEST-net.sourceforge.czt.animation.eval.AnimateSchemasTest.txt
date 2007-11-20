@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSchemasTest
-Tests run: 37, Failures: 3, Errors: 11, Time elapsed: 14.593 sec
+Tests run: 37, Failures: 3, Errors: 8, Time elapsed: 17.571 sec
 ------------- Standard Output ---------------
 Passed test:animate_schemas.tex:22
 Passed test:animate_schemas.tex:23
@@ -9,6 +9,9 @@ Passed test:animate_schemas.tex:26
 Passed test:animate_schemas.tex:27
 WARNING: changing a id from 26806 to 26805
 Passed test:animate_schemas.tex:28
+Passed test:animate_schemas.tex:31
+Passed test:animate_schemas.tex:32
+Passed test:animate_schemas.tex:33
 Passed test:animate_schemas.tex:36
 Passed test:animate_schemas.tex:37
 Passed test:animate_schemas.tex:66
@@ -34,6 +37,175 @@ WARNING: changing i id from 27143 to 28262
 WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@7a0b8de2
 WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@d663e59e
 WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@d663e59e
+tmp11245 == 1;
+(mu
+    tmp11248 = {
+        tmp11251 == 0;
+        tmp11250 = tmp11251 .. _;
+        tmp11253 == 0;
+        tmp11252 = tmp11253 .. _;
+        tmp11249 = tmp11250 -|-> tmp11252;
+        tmp11256 == 0;
+        tmp11255 = tmp11256 .. _;
+        tmp11258 == 0;
+        tmp11257 = tmp11258 .. _;
+        tmp11259 = tmp11255 x tmp11257;
+        tmp11254 = P tmp11259;
+        f in tmp11254;
+        tmp11260 = {
+            x in f;
+            tmp11261 = x.1
+          @ tmp11261
+          };
+        tmp11263 == 1;
+        # f = tmp11264;
+        tmp11262 = tmp11263 .. tmp11264;
+        tmp11260 = tmp11262
+      @ f
+      };
+    deref in tmp11248 :: 1000.0 ;
+    (mu
+        tmp11266 = {
+            tmp11267 = {
+                tmp11270 == 0;
+                tmp11269 = tmp11270 .. _;
+                tmp11271 = _ .. _;
+                tmp11268 = tmp11269 -|-> tmp11271;
+                tmp11274 == 0;
+                tmp11273 = tmp11274 .. _;
+                tmp11275 = _ .. _;
+                tmp11276 = tmp11273 x tmp11275;
+                tmp11272 = P tmp11276;
+                f in tmp11272;
+                tmp11277 = {
+                    x in f;
+                    tmp11278 = x.1
+                  @ tmp11278
+                  };
+                tmp11280 == 1;
+                # f = tmp11281;
+                tmp11279 = tmp11280 .. tmp11281;
+                tmp11277 = tmp11279
+              @ f
+              };
+            s in tmp11267 :: 1000.0 ;
+            tmp11282 = (s, s)
+          @ tmp11282
+          };
+        p in tmp11266 :: 1000.0 ;
+        tmp11283 = p.1;
+        tmp11285 == 1;
+        tmp11286 == 1;
+        tmp11284 = (tmp11285, tmp11286);
+        tmp11288 == 2;
+        tmp11289 == 3;
+        tmp11287 = (tmp11288, tmp11289);
+        tmp11291 == 3;
+        tmp11292 == 5;
+        tmp11290 = (tmp11291, tmp11292);
+        tmp11294 == 4;
+        tmp11295 == 7;
+        tmp11293 = (tmp11294, tmp11295);
+        tmp11296 = { tmp11284, tmp11290, tmp11293, tmp11287 };
+        tmp11283 = tmp11296;
+        tmp11297 = p.2
+      @ tmp11297
+      );
+    deref = tmp11297
+  @ deref
+  );
+tmp11247 = deref.deref;
+# tmp11247 = tmp11246;
+tmp11246 = tmp11245 + tmp11244;
+tmp11242 = tmp11243 .. tmp11244;
+n in tmp11242 :: 100.0 1.._;
+(mu
+    (mu
+        tmp11301 = {
+            tmp11304 == 0;
+            tmp11303 = tmp11304 .. _;
+            tmp11306 == 0;
+            tmp11305 = tmp11306 .. _;
+            tmp11302 = tmp11303 -|-> tmp11305;
+            tmp11309 == 0;
+            tmp11308 = tmp11309 .. _;
+            tmp11311 == 0;
+            tmp11310 = tmp11311 .. _;
+            tmp11312 = tmp11308 x tmp11310;
+            tmp11307 = P tmp11312;
+            f in tmp11307;
+            tmp11313 = {
+                x in f;
+                tmp11314 = x.1
+              @ tmp11314
+              };
+            tmp11316 == 1;
+            # f = tmp11317;
+            tmp11315 = tmp11316 .. tmp11317;
+            tmp11313 = tmp11315
+          @ f
+          };
+        deref in tmp11301 :: 1000.0 ;
+        (mu
+            tmp11319 = {
+                tmp11320 = {
+                    tmp11323 == 0;
+                    tmp11322 = tmp11323 .. _;
+                    tmp11324 = _ .. _;
+                    tmp11321 = tmp11322 -|-> tmp11324;
+                    tmp11327 == 0;
+                    tmp11326 = tmp11327 .. _;
+                    tmp11328 = _ .. _;
+                    tmp11329 = tmp11326 x tmp11328;
+                    tmp11325 = P tmp11329;
+                    f in tmp11325;
+                    tmp11330 = {
+                        x in f;
+                        tmp11331 = x.1
+                      @ tmp11331
+                      };
+                    tmp11333 == 1;
+                    # f = tmp11334;
+                    tmp11332 = tmp11333 .. tmp11334;
+                    tmp11330 = tmp11332
+                  @ f
+                  };
+                s in tmp11320 :: 1000.0 ;
+                tmp11335 = (s, s)
+              @ tmp11335
+              };
+            p in tmp11319 :: 1000.0 ;
+            tmp11336 = p.1;
+            tmp11338 == 1;
+            tmp11339 == 1;
+            tmp11337 = (tmp11338, tmp11339);
+            tmp11341 == 2;
+            tmp11342 == 3;
+            tmp11340 = (tmp11341, tmp11342);
+            tmp11344 == 3;
+            tmp11345 == 5;
+            tmp11343 = (tmp11344, tmp11345);
+            tmp11347 == 4;
+            tmp11348 == 7;
+            tmp11346 = (tmp11347, tmp11348);
+            tmp11349 = { tmp11346, tmp11337, tmp11340, tmp11343 };
+            tmp11336 = tmp11349;
+            tmp11350 = p.2
+          @ tmp11350
+          );
+        deref = tmp11350
+      @ deref
+      );
+    tmp11300 = deref.deref;
+    p in tmp11300;
+    tmp11351 = p.1;
+    tmp11353 == 1;
+    tmp11352 = n + tmp11353;
+    tmp11351 = tmp11352;
+    tmp11354 = p.2
+  @ tmp11354
+  );
+tmp11298 = (n, tmp11354) @ tmp11298 })
 ------------- ---------------- ---------------
 ------------- Standard Error -----------------
 Type1 POWER POWER (GIVEN 𝔸_25253 × GIVEN 𝔸_25253)
@@ -62,112 +234,49 @@ Type1 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26426)
 Type2 POWER POWER (GIVEN 𝔸_25253 × GENTYPE X_26396)
 ------------- ---------------- ---------------
 
-Testcase: animate_schemas.tex:22 took 0.213 sec
-Testcase: animate_schemas.tex:23 took 0.133 sec
-Testcase: animate_schemas.tex:24 took 0.135 sec
-Testcase: animate_schemas.tex:25 took 0.165 sec
-Testcase: animate_schemas.tex:26 took 0.135 sec
-Testcase: animate_schemas.tex:27 took 0.157 sec
-Testcase: animate_schemas.tex:28 took 0.19 sec
-Testcase: animate_schemas.tex:31 took 0.133 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:275)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:270)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:310)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
-	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:349)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:303)
-	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:365)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:331)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:32 took 0.133 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:275)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:270)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:310)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
-	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:349)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:303)
-	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:365)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:331)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:33 took 0.133 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:275)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:270)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:310)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
-	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:349)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:303)
-	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:365)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:331)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:36 took 0.216 sec
-Testcase: animate_schemas.tex:37 took 0.219 sec
-Testcase: animate_schemas.tex:63 took 0.324 sec
+Testcase: animate_schemas.tex:22 took 0.161 sec
+Testcase: animate_schemas.tex:23 took 0.145 sec
+Testcase: animate_schemas.tex:24 took 0.15 sec
+Testcase: animate_schemas.tex:25 took 0.18 sec
+Testcase: animate_schemas.tex:26 took 0.15 sec
+Testcase: animate_schemas.tex:27 took 0.173 sec
+Testcase: animate_schemas.tex:28 took 0.211 sec
+Testcase: animate_schemas.tex:31 took 0.148 sec
+Testcase: animate_schemas.tex:32 took 0.153 sec
+Testcase: animate_schemas.tex:33 took 0.15 sec
+Testcase: animate_schemas.tex:36 took 0.239 sec
+Testcase: animate_schemas.tex:37 took 0.239 sec
+Testcase: animate_schemas.tex:63 took 0.36 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:66 took 0.323 sec
-Testcase: animate_schemas.tex:69 took 0.42 sec
-Testcase: animate_schemas.tex:72 took 0.39 sec
-Testcase: animate_schemas.tex:75 took 1.186 sec
+Testcase: animate_schemas.tex:66 took 0.352 sec
+Testcase: animate_schemas.tex:69 took 0.472 sec
+Testcase: animate_schemas.tex:72 took 0.431 sec
+Testcase: animate_schemas.tex:75 took 0.996 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:78 took 0.93 sec
+Testcase: animate_schemas.tex:78 took 0.763 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:82 took 0.296 sec
-Testcase: animate_schemas.tex:83 took 0.305 sec
-Testcase: animate_schemas.tex:84 took 0.323 sec
-Testcase: animate_schemas.tex:85 took 0.283 sec
+Testcase: animate_schemas.tex:82 took 0.327 sec
+Testcase: animate_schemas.tex:83 took 0.336 sec
+Testcase: animate_schemas.tex:84 took 0.358 sec
+Testcase: animate_schemas.tex:85 took 0.311 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:275)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:270)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:310)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:283)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:318)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
@@ -180,20 +289,20 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:89 took 0.349 sec
-Testcase: animate_schemas.tex:92 took 0.377 sec
-Testcase: animate_schemas.tex:96 took 0.443 sec
-Testcase: animate_schemas.tex:97 took 0.362 sec
-Testcase: animate_schemas.tex:98 took 0.563 sec
-Testcase: animate_schemas.tex:100 took 0.887 sec
-Testcase: animate_schemas.tex:113 took 0.258 sec
-Testcase: animate_schemas.tex:114 took 0.25 sec
+Testcase: animate_schemas.tex:89 took 0.442 sec
+Testcase: animate_schemas.tex:92 took 0.751 sec
+Testcase: animate_schemas.tex:96 took 0.967 sec
+Testcase: animate_schemas.tex:97 took 0.469 sec
+Testcase: animate_schemas.tex:98 took 0.797 sec
+Testcase: animate_schemas.tex:100 took 1.223 sec
+Testcase: animate_schemas.tex:113 took 0.355 sec
+Testcase: animate_schemas.tex:114 took 0.311 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:275)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:270)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:310)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:283)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:318)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
@@ -204,13 +313,13 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsPred(FlatPredList.java:343)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsSchText(FlatPredList.java:235)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatSetComp.<init>(FlatSetComp.java:64)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:795)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:813)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:570)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:578)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:349)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:357)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
@@ -220,7 +329,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:117 took 0.259 sec
+Testcase: animate_schemas.tex:117 took 0.327 sec
 	Caused an ERROR
 Gave up unbounded iteration from 0 by 1 after 10 results.
 net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
@@ -238,7 +347,7 @@ net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration fr
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:119 took 0.287 sec
+Testcase: animate_schemas.tex:119 took 0.343 sec
 	Caused an ERROR
 Gave up unbounded iteration from 0 by 1 after 10 results.
 net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
@@ -256,7 +365,7 @@ net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration fr
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:121 took 0.284 sec
+Testcase: animate_schemas.tex:121 took 0.318 sec
 	Caused an ERROR
 Gave up unbounded iteration from 0 by 1 after 10 results.
 net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
@@ -274,8 +383,8 @@ net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration fr
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:134 took 0.558 sec
-Testcase: animate_schemas.tex:162 took 1.482 sec
+Testcase: animate_schemas.tex:134 took 0.664 sec
+Testcase: animate_schemas.tex:162 took 1.737 sec
 	Caused an ERROR
 Cannot find mode to evaluate: \# [ [ offheap! : \nat ; [ [ items : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize : \nat ; currsize : \nat | maxsize \geq currsize \\
  currsize =~\# \{ x : items | true @ x . 2 \} ] ; [ items' : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize' : \nat ; currsize' : \nat | maxsize' \geq currsize' \\
@@ -294,91 +403,381 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: 
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:172 took 0.65 sec
+Testcase: animate_schemas.tex:172 took 0.862 sec
 	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:275)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:270)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:310)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
-	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:349)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:303)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsPred(FlatPredList.java:343)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsSchText(FlatPredList.java:235)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatSetComp.<init>(FlatSetComp.java:64)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:795)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:570)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:349)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:303)
-	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:365)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:331)
+Type error in FlatBindSel: {net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f, net.sourceforge.czt.z.impl.TupleExprImpl@604aa7be} . deref
+net.sourceforge.czt.animation.eval.EvalException: Type error in FlatBindSel: {net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@602ca740, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f, net.sourceforge.czt.z.impl.TupleExprImpl@604aa7be} . deref
+	at net.sourceforge.czt.animation.eval.flatpred.FlatBindSel.nextEvaluation(FlatBindSel.java:82)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:173 took 0.831 sec
+Testcase: animate_schemas.tex:173 took 1.185 sec
 	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:275)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:270)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:310)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
-	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:570)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:538)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:565)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:95)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:259)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsSchText(FlatPredList.java:232)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatSetComp.<init>(FlatSetComp.java:64)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetCompExpr(FlattenVisitor.java:656)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetCompExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.SetCompExprImpl.accept(SetCompExprImpl.java:102)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:349)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:303)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsPred(FlatPredList.java:343)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsSchText(FlatPredList.java:235)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatSetComp.<init>(FlatSetComp.java:64)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:795)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:570)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:349)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:303)
-	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:365)
-	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:331)
+Cannot generate members of SetComp: { tmp11243 == 1;
+tmp11245 == 1;
+(mu
+    tmp11248 = {
+        tmp11251 == 0;
+        tmp11250 = tmp11251 .. _;
+        tmp11253 == 0;
+        tmp11252 = tmp11253 .. _;
+        tmp11249 = tmp11250 -|-> tmp11252;
+        tmp11256 == 0;
+        tmp11255 = tmp11256 .. _;
+        tmp11258 == 0;
+        tmp11257 = tmp11258 .. _;
+        tmp11259 = tmp11255 x tmp11257;
+        tmp11254 = P tmp11259;
+        f in tmp11254;
+        tmp11260 = {
+            x in f;
+            tmp11261 = x.1
+          @ tmp11261
+          };
+        tmp11263 == 1;
+        # f = tmp11264;
+        tmp11262 = tmp11263 .. tmp11264;
+        tmp11260 = tmp11262
+      @ f
+      };
+    deref in tmp11248 :: 1000.0 ;
+    (mu
+        tmp11266 = {
+            tmp11267 = {
+                tmp11270 == 0;
+                tmp11269 = tmp11270 .. _;
+                tmp11271 = _ .. _;
+                tmp11268 = tmp11269 -|-> tmp11271;
+                tmp11274 == 0;
+                tmp11273 = tmp11274 .. _;
+                tmp11275 = _ .. _;
+                tmp11276 = tmp11273 x tmp11275;
+                tmp11272 = P tmp11276;
+                f in tmp11272;
+                tmp11277 = {
+                    x in f;
+                    tmp11278 = x.1
+                  @ tmp11278
+                  };
+                tmp11280 == 1;
+                # f = tmp11281;
+                tmp11279 = tmp11280 .. tmp11281;
+                tmp11277 = tmp11279
+              @ f
+              };
+            s in tmp11267 :: 1000.0 ;
+            tmp11282 = (s, s)
+          @ tmp11282
+          };
+        p in tmp11266 :: 1000.0 ;
+        tmp11283 = p.1;
+        tmp11285 == 1;
+        tmp11286 == 1;
+        tmp11284 = (tmp11285, tmp11286);
+        tmp11288 == 2;
+        tmp11289 == 3;
+        tmp11287 = (tmp11288, tmp11289);
+        tmp11291 == 3;
+        tmp11292 == 5;
+        tmp11290 = (tmp11291, tmp11292);
+        tmp11294 == 4;
+        tmp11295 == 7;
+        tmp11293 = (tmp11294, tmp11295);
+        tmp11296 = { tmp11284, tmp11290, tmp11293, tmp11287 };
+        tmp11283 = tmp11296;
+        tmp11297 = p.2
+      @ tmp11297
+      );
+    deref = tmp11297
+  @ deref
+  );
+tmp11247 = deref.deref;
+# tmp11247 = tmp11246;
+tmp11246 = tmp11245 + tmp11244;
+tmp11242 = tmp11243 .. tmp11244;
+n in tmp11242 :: 100.0 1.._;
+(mu
+    (mu
+        tmp11301 = {
+            tmp11304 == 0;
+            tmp11303 = tmp11304 .. _;
+            tmp11306 == 0;
+            tmp11305 = tmp11306 .. _;
+            tmp11302 = tmp11303 -|-> tmp11305;
+            tmp11309 == 0;
+            tmp11308 = tmp11309 .. _;
+            tmp11311 == 0;
+            tmp11310 = tmp11311 .. _;
+            tmp11312 = tmp11308 x tmp11310;
+            tmp11307 = P tmp11312;
+            f in tmp11307;
+            tmp11313 = {
+                x in f;
+                tmp11314 = x.1
+              @ tmp11314
+              };
+            tmp11316 == 1;
+            # f = tmp11317;
+            tmp11315 = tmp11316 .. tmp11317;
+            tmp11313 = tmp11315
+          @ f
+          };
+        deref in tmp11301 :: 1000.0 ;
+        (mu
+            tmp11319 = {
+                tmp11320 = {
+                    tmp11323 == 0;
+                    tmp11322 = tmp11323 .. _;
+                    tmp11324 = _ .. _;
+                    tmp11321 = tmp11322 -|-> tmp11324;
+                    tmp11327 == 0;
+                    tmp11326 = tmp11327 .. _;
+                    tmp11328 = _ .. _;
+                    tmp11329 = tmp11326 x tmp11328;
+                    tmp11325 = P tmp11329;
+                    f in tmp11325;
+                    tmp11330 = {
+                        x in f;
+                        tmp11331 = x.1
+                      @ tmp11331
+                      };
+                    tmp11333 == 1;
+                    # f = tmp11334;
+                    tmp11332 = tmp11333 .. tmp11334;
+                    tmp11330 = tmp11332
+                  @ f
+                  };
+                s in tmp11320 :: 1000.0 ;
+                tmp11335 = (s, s)
+              @ tmp11335
+              };
+            p in tmp11319 :: 1000.0 ;
+            tmp11336 = p.1;
+            tmp11338 == 1;
+            tmp11339 == 1;
+            tmp11337 = (tmp11338, tmp11339);
+            tmp11341 == 2;
+            tmp11342 == 3;
+            tmp11340 = (tmp11341, tmp11342);
+            tmp11344 == 3;
+            tmp11345 == 5;
+            tmp11343 = (tmp11344, tmp11345);
+            tmp11347 == 4;
+            tmp11348 == 7;
+            tmp11346 = (tmp11347, tmp11348);
+            tmp11349 = { tmp11346, tmp11337, tmp11340, tmp11343 };
+            tmp11336 = tmp11349;
+            tmp11350 = p.2
+          @ tmp11350
+          );
+        deref = tmp11350
+      @ deref
+      );
+    tmp11300 = deref.deref;
+    p in tmp11300;
+    tmp11351 = p.1;
+    tmp11353 == 1;
+    tmp11352 = n + tmp11353;
+    tmp11351 = tmp11352;
+    tmp11354 = p.2
+  @ tmp11354
+  );
+tmp11298 = (n, tmp11354) @ tmp11298 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { tmp11243 == 1;
+tmp11245 == 1;
+(mu
+    tmp11248 = {
+        tmp11251 == 0;
+        tmp11250 = tmp11251 .. _;
+        tmp11253 == 0;
+        tmp11252 = tmp11253 .. _;
+        tmp11249 = tmp11250 -|-> tmp11252;
+        tmp11256 == 0;
+        tmp11255 = tmp11256 .. _;
+        tmp11258 == 0;
+        tmp11257 = tmp11258 .. _;
+        tmp11259 = tmp11255 x tmp11257;
+        tmp11254 = P tmp11259;
+        f in tmp11254;
+        tmp11260 = {
+            x in f;
+            tmp11261 = x.1
+          @ tmp11261
+          };
+        tmp11263 == 1;
+        # f = tmp11264;
+        tmp11262 = tmp11263 .. tmp11264;
+        tmp11260 = tmp11262
+      @ f
+      };
+    deref in tmp11248 :: 1000.0 ;
+    (mu
+        tmp11266 = {
+            tmp11267 = {
+                tmp11270 == 0;
+                tmp11269 = tmp11270 .. _;
+                tmp11271 = _ .. _;
+                tmp11268 = tmp11269 -|-> tmp11271;
+                tmp11274 == 0;
+                tmp11273 = tmp11274 .. _;
+                tmp11275 = _ .. _;
+                tmp11276 = tmp11273 x tmp11275;
+                tmp11272 = P tmp11276;
+                f in tmp11272;
+                tmp11277 = {
+                    x in f;
+                    tmp11278 = x.1
+                  @ tmp11278
+                  };
+                tmp11280 == 1;
+                # f = tmp11281;
+                tmp11279 = tmp11280 .. tmp11281;
+                tmp11277 = tmp11279
+              @ f
+              };
+            s in tmp11267 :: 1000.0 ;
+            tmp11282 = (s, s)
+          @ tmp11282
+          };
+        p in tmp11266 :: 1000.0 ;
+        tmp11283 = p.1;
+        tmp11285 == 1;
+        tmp11286 == 1;
+        tmp11284 = (tmp11285, tmp11286);
+        tmp11288 == 2;
+        tmp11289 == 3;
+        tmp11287 = (tmp11288, tmp11289);
+        tmp11291 == 3;
+        tmp11292 == 5;
+        tmp11290 = (tmp11291, tmp11292);
+        tmp11294 == 4;
+        tmp11295 == 7;
+        tmp11293 = (tmp11294, tmp11295);
+        tmp11296 = { tmp11284, tmp11290, tmp11293, tmp11287 };
+        tmp11283 = tmp11296;
+        tmp11297 = p.2
+      @ tmp11297
+      );
+    deref = tmp11297
+  @ deref
+  );
+tmp11247 = deref.deref;
+# tmp11247 = tmp11246;
+tmp11246 = tmp11245 + tmp11244;
+tmp11242 = tmp11243 .. tmp11244;
+n in tmp11242 :: 100.0 1.._;
+(mu
+    (mu
+        tmp11301 = {
+            tmp11304 == 0;
+            tmp11303 = tmp11304 .. _;
+            tmp11306 == 0;
+            tmp11305 = tmp11306 .. _;
+            tmp11302 = tmp11303 -|-> tmp11305;
+            tmp11309 == 0;
+            tmp11308 = tmp11309 .. _;
+            tmp11311 == 0;
+            tmp11310 = tmp11311 .. _;
+            tmp11312 = tmp11308 x tmp11310;
+            tmp11307 = P tmp11312;
+            f in tmp11307;
+            tmp11313 = {
+                x in f;
+                tmp11314 = x.1
+              @ tmp11314
+              };
+            tmp11316 == 1;
+            # f = tmp11317;
+            tmp11315 = tmp11316 .. tmp11317;
+            tmp11313 = tmp11315
+          @ f
+          };
+        deref in tmp11301 :: 1000.0 ;
+        (mu
+            tmp11319 = {
+                tmp11320 = {
+                    tmp11323 == 0;
+                    tmp11322 = tmp11323 .. _;
+                    tmp11324 = _ .. _;
+                    tmp11321 = tmp11322 -|-> tmp11324;
+                    tmp11327 == 0;
+                    tmp11326 = tmp11327 .. _;
+                    tmp11328 = _ .. _;
+                    tmp11329 = tmp11326 x tmp11328;
+                    tmp11325 = P tmp11329;
+                    f in tmp11325;
+                    tmp11330 = {
+                        x in f;
+                        tmp11331 = x.1
+                      @ tmp11331
+                      };
+                    tmp11333 == 1;
+                    # f = tmp11334;
+                    tmp11332 = tmp11333 .. tmp11334;
+                    tmp11330 = tmp11332
+                  @ f
+                  };
+                s in tmp11320 :: 1000.0 ;
+                tmp11335 = (s, s)
+              @ tmp11335
+              };
+            p in tmp11319 :: 1000.0 ;
+            tmp11336 = p.1;
+            tmp11338 == 1;
+            tmp11339 == 1;
+            tmp11337 = (tmp11338, tmp11339);
+            tmp11341 == 2;
+            tmp11342 == 3;
+            tmp11340 = (tmp11341, tmp11342);
+            tmp11344 == 3;
+            tmp11345 == 5;
+            tmp11343 = (tmp11344, tmp11345);
+            tmp11347 == 4;
+            tmp11348 == 7;
+            tmp11346 = (tmp11347, tmp11348);
+            tmp11349 = { tmp11346, tmp11337, tmp11340, tmp11343 };
+            tmp11336 = tmp11349;
+            tmp11350 = p.2
+          @ tmp11350
+          );
+        deref = tmp11350
+      @ deref
+      );
+    tmp11300 = deref.deref;
+    p in tmp11300;
+    tmp11351 = p.1;
+    tmp11353 == 1;
+    tmp11352 = n + tmp11353;
+    tmp11351 = tmp11352;
+    tmp11354 = p.2
+  @ tmp11354
+  );
+tmp11298 = (n, tmp11354) @ tmp11298 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:147)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:237)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.contains(PowerSet.java:102)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:262)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:138)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:262)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:607)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:446)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:332)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:299)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
