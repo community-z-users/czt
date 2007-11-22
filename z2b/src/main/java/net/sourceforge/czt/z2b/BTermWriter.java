@@ -147,17 +147,17 @@ public class BTermWriter
     // with both the B-Core B toolkit and Atelier B.
     if (ops_.size() == 0) {
       // ============== unary prefix operators =============
-      addPrefix("\u2119", "POW");
-      addPrefix("\u0001\uD53D", "POW");
+      addPrefix(ZString.POWER, "POW");
+      addPrefix(ZString.ARITHMOS, "POW");
       ops_.put("dom",    new BOperator("dom"));  // not an operator
       ops_.put("ran",    new BOperator("ran"));  // not an operator
       addPrefix("min",    "min");
       addPrefix("max",    "max");
       addPrefix("seq", "seq");
-      addPrefix("\u22C3", "Union"); // N-ary union
-      addPrefix("\u22C2", "Inter"); // N-ary intersection
+      addPrefix(ZString.BIGCUP, "Union"); // N-ary union
+      addPrefix(ZString.BIGCAP, "Inter"); // N-ary intersection
       addPrefix("#",      "card"); // set cardinality
-      addPrefix("\u00AC", "not"); // logical negation
+      addPrefix(ZString.NOT, "not"); // logical negation
 
       // ============== binary infix operators ================
       // addInfix(".",   ".", 10);
@@ -165,72 +165,71 @@ public class BTermWriter
       addInfix("mod",    "mod", 3);
       addInfix("*",      "*", 3);
       addInfix("div",    "/", 3);
-      addInfix("\u00D7", "*", 3); // cartesian product
+      addInfix(ZString.CROSS, "*", 3); // cartesian product
 
       addInfix("+",      "+", 2); // multiplication
-      addInfix("\u2212", "-", 2); // binary minus
-      addInfix("\\",     "-", 2); // set minus prec=2?
+      addInfix(ZString.MINUS, "-", 2); // binary minus
+      addInfix(ZString.SETMINUS,     "-", 2); // set minus prec=2?
 
       addInfix("..", "..", 1); // integer range
 
-      addInfix("\u2229", "/\\",  0);  // intersection
-      addInfix("\u222A", "\\/", 0);  // union
-      addInfix("\u21A6", "|->", 0); // maps-to
-      addInfix("\u25C1", "<|", 0); // domain restriction
-      addInfix("\u2A64", "<<|", 0); // domain substraction
-      addInfix("\u25B7", "|>", 0); // range restriction
-      addInfix("\u2A65", "|>>", 0); // range subtraction
-      addInfix("\u2295", "<+", 0); // reln. override
+      addInfix(ZString.CAP, "/\\",  0);  // intersection
+      addInfix(ZString.CUP, "\\/", 0);  // union
+      addInfix(ZString.MAPSTO, "|->", 0); // maps-to
+      addInfix(ZString.DRES, "<|", 0); // domain restriction
+      addInfix(ZString.NDRES, "<<|", 0); // domain substraction
+      addInfix(ZString.RRES, "|>", 0); // range restriction
+      addInfix(ZString.NRRES, "|>>", 0); // range subtraction
+      addInfix(ZString.OPLUS, "<+", 0); // reln. override
       // addInfix("+>",  "+>", 0);
       // addInfix("><",  "><", 0);
       // addInfix("circ","circ", 0);
-      addInfix("\u2040", "^", 0); // seq. concatenation
+      addInfix(ZString.CAT, "^", 0); // seq. concatenation
       // addInfix("->",  "->", 0);
       // addInfix("<-",  "<-", 0);
       // addInfix("/|\\","/|\\", 0);
       // addInfix("\\|/","\\|/", 0);
-      addInfix("<",      "<", 0); // integer less than
-      addInfix("\u2264", "<=", 0); // int. less or equals
-      addInfix(">",      ">", 0); // int. greater than
-      addInfix("\u2265", ">=", 0); // int. greater or equal
-      addInfix("\u2260", "/=", 0);  // not equal to
-      addInfix("\u2209", "/:", 0);  // not an element of
+      addInfix(ZString.LESS,      "<", 0); // integer less than
+      addInfix(ZString.LEQ, "<=", 0); // int. less or equals
+      addInfix(ZString.GREATER,      ">", 0); // int. greater than
+      addInfix(ZString.GEQ, ">=", 0); // int. greater or equal
+      addInfix(ZString.NEQ, "/=", 0);  // not equal to
+      addInfix(ZString.NOTMEM, "/:", 0);  // not an element of
 
-      addInfix("\u2194", "<->", -1); // relation
-      addInfix("\u2192", "-->", -1); // total func
-      addInfix("\u21F8", "+->", -1); // partial func
-      addInfix("\u21A3", ">->", -1); // total injection
-      addInfix("\u2914", ">+>", -1); // partial injection
-      addInfix("\u2900", "+->>", -1); // partial surjection
-      addInfix("\u2916", ">->>", -1); // total bijection
-      addInfix("\u21A0", "-->>", -1); // total surjection
+      addInfix(ZString.REL, "<->", -1); // relation
+      addInfix(ZString.FUN, "-->", -1); // total func
+      addInfix(ZString.PFUN, "+->", -1); // partial func
+      addInfix(ZString.INJ, ">->", -1); // total injection
+      addInfix(ZString.PINJ, ">+>", -1); // partial injection
+      addInfix(ZString.PSURJ, "+->>", -1); // partial surjection
+      addInfix(ZString.BIJ, ">->>", -1); // total bijection
+      addInfix(ZString.SURJ, "-->>", -1); // total surjection
       // addInfix("<--", "<--", -1);
       addInfix(",",      "|->", -1); // pairs/tuples
       // NOTE: we treat finite functions/bijections as being identical
       //     to partial functions/bijections, since all types are finite in B
-      addInfix("\u21FB", "+->", -1); // partial func
-      addInfix("\u2915", ">+>", -1); // partial injection
+      addInfix(ZString.PFUN, "+->", -1); // partial func
 
-      addInfix("\u2286", "<:", -2); // subset of or equal to
-      addInfix("\u2282", "<<:", -2); // subset of
+      addInfix(ZString.SUBSETEQ, "<:", -2); // subset of or equal to
+      addInfix(ZString.SUBSET, "<<:", -2); // subset of
       // addInfix("/<:", "/<:", -2);
       // addInfix("/<<:","/<<:", -2);
       // addInfix(":=",  ":=", -2);
 
       addInfix("=",      "=", -4);  // equal to
       // addInfix("==",  "==", -4);
-      addInfix("\u2208", ":", -4);  // membership
-      addInfix("\u21D4", "<=>", -4); // TODO check prec
+      addInfix(ZString.MEM, ":", -4);  // membership
+      addInfix(ZString.IFF, "<=>", -4); // TODO check prec
       // addInfix("::",  "::", -4);
 
       // assert AND_PREC == -5;
-      addInfix("\u2227", "&", -5);
-      addInfix("\u2228", "or", -5);
+      addInfix(ZString.AND, "&", -5);
+      addInfix(ZString.OR, "or", -5);
 
-      addInfix("\u21D2",  "=>", -6);
+      addInfix(ZString.IMP,  "=>", -6);
       // addInfix("==>", "==>", -6);
 
-      addInfix("\u2A3E",   ";", -7); // reln. comp. and sequencing.
+      addInfix(ZString.COMP,   ";", -7); // reln. comp. and sequencing.
       // addInfix("||",  "||", -7);
       // addInfix("[]",  "[]", -7);
 
