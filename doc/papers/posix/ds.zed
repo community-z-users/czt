@@ -41,7 +41,7 @@ After returns the subfile after the given offset.
   file ' = \{\}
 \end{schema}
 
-\begin{schema}{Read}\\
+\begin{schema}{ReadFile}\\
   \Xi DS \\
   offset?, length? : \nat \\
   result! : FILE 
@@ -70,7 +70,7 @@ content of the file by the offset.
   \t2      @ ( 1 \upto offs ) \ndres ( zero~offs \cat f ))
 \end{zed}
 
-\begin{schema}{Write}
+\begin{schema}{WriteFile}
   \Delta DS \\
   offset? : \nat \\
   data? : FILE
