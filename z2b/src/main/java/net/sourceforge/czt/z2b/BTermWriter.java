@@ -618,7 +618,9 @@ public class BTermWriter
     } else {
       // Print:  left(right)
       out_.beginPrec(out_.TIGHTEST);
+      out_.print("(");
       e.getLeftExpr().accept(this);
+      out_.print(")");
       // beginPrec will add the opening "(".
       out_.beginPrec(out_.LOOSEST);
       e.getRightExpr().accept(this);
