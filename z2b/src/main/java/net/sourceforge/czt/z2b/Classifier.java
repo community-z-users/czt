@@ -31,10 +31,11 @@ public class Classifier
   List<NameSectTypeTriple> init_ = new ArrayList<NameSectTypeTriple>();
   List<NameSectTypeTriple> ops_ = new ArrayList<NameSectTypeTriple>();
 
-  public Classifier(SectTypeEnvAnn sectTypeEnvAnn)
+  public Classifier(SectTypeEnvAnn sectTypeEnvAnn, String section)
   {
     for (NameSectTypeTriple triple : sectTypeEnvAnn.getNameSectTypeTriple()) {
-      if (triple.getType() instanceof PowerType) {
+      if (section.equals(triple.getSect()) &&
+          triple.getType() instanceof PowerType) {
         PowerType powerType = (PowerType) triple.getType();
         if (powerType.getType() instanceof SchemaType) {
           SchemaType schemaType = (SchemaType) powerType.getType();

@@ -92,7 +92,7 @@ public class Z2B
   {
     SectTypeEnvAnn ann = (SectTypeEnvAnn)
       manager_.get(new Key(sect.getName(), SectTypeEnvAnn.class));
-    Classifier classifier = new Classifier(ann);
+    Classifier classifier = new Classifier(ann, sect.getName());
     List<NameSectTypeTriple> stateSchemas = classifier.getState();
     List<NameSectTypeTriple> initSchemas = classifier.getInit();
     List<NameSectTypeTriple> opSchemas = classifier.getOps();
