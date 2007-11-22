@@ -1,0 +1,36 @@
+\begin{zsection}
+  \SECTION ss \parents ds
+\end{zsection}
+
+The file storage system allows files to be stored and retrieved using
+file identifiers; the set of all file identifiers is called FID:
+
+\begin{zed}
+  [FID]
+\end{zed}
+
+\begin{schema}{SS}
+  fstore : FID \pfun FILE
+\end{schema}
+
+\begin{schema}{createSS}
+  \Delta SS \\
+  fid : FID
+\where
+  fstore' = fstore \oplus \{ fid \mapsto \emptyset \}
+\end{schema}
+
+\begin{schema}{FramingSS}
+  \Delta SS \\
+  \Delta DS \\
+  fid : FID
+\where
+  fid \in \dom fstore \\
+  file = fstore(fid) \\
+  fstore' = fstore \oplus \{ fid \mapsto file' \}
+\end{schema}
+
+\begin{zed}
+  ReadSS == (FramingSS \land ReadFile) \hide (file, file') \\
+  WriteSS == (FramingSS \land WriteFile) \hide (file, file')
+\end{zed}
