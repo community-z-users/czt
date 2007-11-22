@@ -1,0 +1,79 @@
+\begin{zsection}
+  \SECTION ds \parents standard\_toolkit
+\end{zsection}
+
+Adapted from Carroll Morgan and Bernard Sufrin: Specification of the
+Unix filing system.
+
+The ultimate constituent of the filing system is the byte.
+
+\begin{zed}
+  [BYTE]
+\end{zed}
+
+\begin{axdef}
+  ZERO : BYTE
+\end{axdef}
+A file is a finite sequence of bytes.
+
+\begin{zed}
+  FILE == \seq BYTE
+\end{zed}
+
+After returns the subfile after the given offset.
+
+\begin{zed}
+  \function 42 \leftassoc ( \varg after \varg )
+\end{zed}
+
+\begin{zed}
+  \varg after \varg == (\lambda f : FILE ; offs : \nat \\
+  \t2      @ ( offs + 1 \upto \# f ) \extract f)
+\end{zed}
+
+\begin{schema}{DS}
+  file : FILE
+\end{schema}
+
+\begin{schema}{InitDS}
+  DS~'
+\where
+  file ' = \{\}
+\end{schema}
+
+\begin{schema}{Read}\\
+  \Xi DS \\
+  offset?, length? : \nat \\
+  result! : FILE 
+\where
+  result! = ( 1 \upto length? ) \dres ( file~after~offset? )
+\end{schema}
+
+Auxiliary functions:
+The zero function returns a FILE of size n with zero bytes.
+
+\begin{axdef}
+  zero : \nat \fun FILE 
+\where
+  \forall n : \nat @ zero~n = ( \lambda i : 1 \upto n @ ZERO )
+\end{axdef}
+
+The infix operator shift takes a FILE and an offset and shifts the
+content of the file by the offset.
+
+\begin{zed}
+  \function 42 \leftassoc ( \varg shift \varg )
+\end{zed}
+
+\begin{zed}
+  \varg shift \varg == (\lambda f : FILE ; offs : \nat \\
+  \t2      @ ( 1 \upto offs ) \ndres ( zero~offs \cat f ))
+\end{zed}
+
+\begin{schema}{Write}
+  \Delta DS \\
+  offset? : \nat \\
+  data? : FILE
+\where
+  file' = ( zero~offset? \oplus file ) \oplus ( data?~shift~offset? )
+\end{schema}
