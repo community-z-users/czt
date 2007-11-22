@@ -142,6 +142,7 @@ public class Main
                                 "true");
           }
           FileSource source = new FileSource(args[i]);
+          manager.setProperty("czt.path", new File(args[i]).getParent());
           if (parse(source, manager, syntaxCheckOnly, prove) &&
               output != null) {
             if (output.endsWith("8")) {
