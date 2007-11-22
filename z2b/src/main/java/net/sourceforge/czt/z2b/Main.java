@@ -57,9 +57,10 @@ public class Main
       }
       System.err.println("Reading spec");
       final String input = args[0];
-      URL specURL = new File(input).toURL();
+      File file = new File(input);
       FileSource source = new FileSource(input);
       SectionManager manager = new SectionManager();
+      manager.setProperty("czt.path", file.getParent());
       String name = "spec";
       manager.put(new Key(name, Source.class), source);
       Spec spec = (Spec) manager.get(new Key(name, Spec.class));
@@ -88,7 +89,7 @@ public class Main
 
       // Output the machine to the .mch file
       System.err.println("Writing out the B");
-      BWriter bwriter = createBWriter(specURL);
+      BWriter bwriter = createBWriter(file.toURL());
       mach.print(bwriter);
       bwriter.close();
 
