@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>help</title>
-<style type="text/css">
+<style>
 <!--
 .subtitle {
 	background-color: #CCCCFF;
@@ -63,7 +63,7 @@ a:active {
    		<li><a href="#closing">Closing the workspace</a></li>
    		</ol>
 	</li>
-    <li><a href="#zlive">ZLive</a></li>
+    <li><a href="#zlive"><strong>ZLive</strong></a></li>
     <li><strong>Additional Information</strong>
       <ol>
         <li><a href="#extensionsupport">Supported file Extensions</a></li>
@@ -83,11 +83,12 @@ a:active {
    <div class=""><h4><a name="background">1.2 Background</a></h4></div><hr>
    <p>(Adapted from Andrew Martin's  original CZT proposal)</p>
 
-<p>The Z specification language was adopted as an ISO standard in 2002. It can be used to precisely specify the requirements or behaviour of systems, and analyze that behaviour via proof, animation, test generation etc. However, one of the biggest barriers to the widespread use of the Z specification language seems to be the issue of tool support.
+<p>The Z specification language was adopted as an ISO standard in 2002. It can be used to precisely specify the requirements or behaviour of systems, and analyze that behaviour via proof, animation, test generation etc. However, one of the biggest barriers to the widespread use of the Z specification language seems to be the issue of tool support.</p>
 
-Many projects have constructed Z tools, some of product quality, most as student projects. Few of them are integrated with each other; few support all the new ISO standard; fewer still build together to form the kind of integrated environment that developers are beginning to expect. Many good ideas have been developed to prototype stage, and then have been lost as projects have finished and students or researchers have moved on. The number of times a request for a Z parser arises in the Z newsgroup suggests lots of people are producing tools, most of which will never be seen outside their own institute. An integrated effort will move forward the state of tools, and thereby the take-up of Z. </p>
+<p>Many projects have constructed Z tools, some of product quality, most as student projects. Few of them are integrated with each other; few support all the new ISO standard; fewer still build together to form the kind of integrated environment that developers are beginning to expect. Many good ideas have been developed to prototype stage, and then have been lost as projects have finished and students or researchers have moved on. The number of times a request for a Z parser arises in the Z newsgroup suggests lots of people are producing tools, most of which will never be seen outside their own institute. An integrated effort will move forward the state of tools, and thereby the take-up of Z. </p>
 <p align="center"><a href="#contents">Back to Contents</a></p>
-   <div class=""><h4><a name="objectives">1.3 CZT Objectives</a></h4></div><hr>
+
+<div class=""><h4><a name="objectives">1.3 CZT Objectives</a></h4></div><hr>
    <p>Our objectives are to encourage interchange between existing Z tools (via a standard XML interchange format for Z), and to provide open-source libraries for building and integrating new Z tools. The software we are building includes:</p>
 <ul>
 <li> An XML Schema mark-up for Z.</li>
@@ -104,11 +105,11 @@ Many projects have constructed Z tools, some of product quality, most as student
 <div class=""><h4><a name="formalspec">1.4 Formal Specification</a></h4></div><hr>
 <p><i>From Wikipedia (http://en.wikipedia.org/wiki/Formal_specification), the free encyclopedia</i></p>
 
-<p>A formal specification is a mathematical description of software or hardware that may be used to develop an implementation. It describes what the system should do, not (necessarily) how the system should do it. Given such a specification, it is possible to use formal verification techniques to demonstrate that a candidate system design is correct with respect to the specification. This has the advantage that incorrect candidate system designs can be revised before a major investment has been made in actually implementing the design. An alternative approach is to use provably correct refinement steps to transform a specification into a design, and ultimately into an actual implementation, that is correct by construction.</p>
+<p><i>''A formal specification is a mathematical description of software or hardware that may be used to develop an implementation. It describes what the system should do, not (necessarily) how the system should do it. Given such a specification, it is possible to use formal verification techniques to demonstrate that a candidate system design is correct with respect to the specification. This has the advantage that incorrect candidate system designs can be revised before a major investment has been made in actually implementing the design. An alternative approach is to use provably correct refinement steps to transform a specification into a design, and ultimately into an actual implementation, that is correct by construction.''</i></p>
 
-<p>It is important to note that a design (or implementation) cannot ever be declared ''correct'' in isolation, but only ''correct with respect to a given specification''. Whether the formal specification correctly describes the problem to be solved is a separate issue. It is also a difficult issue to address, since it ultimately concerns the problem constructing abstracted formal representations of an informal concrete problem domain, and such an abstraction step is not amenable to formal proof. However, it is possible to validate a specification by proving ''challenge'' theorems concerning properties that the specification is expected to exhibit. If correct, these theorems reinforce the specifiers understanding of the specification and its relationship with the underlying problem domain. If not, the specification probably needs to be changed to better reflect the domain understanding of those involved with producing (and implementing) the specification.</p>
+<p><i>''It is important to note that a design (or implementation) cannot ever be declared ''correct'' in isolation, but only ''correct with respect to a given specification''. Whether the formal specification correctly describes the problem to be solved is a separate issue. It is also a difficult issue to address, since it ultimately concerns the problem constructing abstracted formal representations of an informal concrete problem domain, and such an abstraction step is not amenable to formal proof. However, it is possible to validate a specification by proving ''challenge'' theorems concerning properties that the specification is expected to exhibit. If correct, these theorems reinforce the specifiers understanding of the specification and its relationship with the underlying problem domain. If not, the specification probably needs to be changed to better reflect the domain understanding of those involved with producing (and implementing) the specification.''</i></p>
 
-<p>The Z notation is an example of a leading formal specification language. Others include the Specification Language(VDM-SL) of the Vienna Development Method and the Abstract Machine Notation (AMN) of the B-Method.</p>
+<p><i>''The Z notation is an example of a leading formal specification language. Others include the Specification Language(VDM-SL) of the Vienna Development Method and the Abstract Machine Notation (AMN) of the B-Method.''</i></p>
 <p align="center"><a href="#contents">Back to Contents</a></p>
 
    <div class="subtitle"><h3><a name="basics">2. Basics</a></h3></div>
@@ -121,7 +122,7 @@ Many projects have constructed Z tools, some of product quality, most as student
    <p>Follow the steps to <strong>Opening a file</strong> "except" before clicking on <strong>OK</strong>, click on the <strong>Language</strong> drop down menu and choose <strong>Standard Z, Object Z, Z Rules, or Circus </strong>as the language to parse the file with.</p>
    <p>By clicking on the <strong>Markup</strong> drop down menu you can choose <strong>Latex, UTF8, UTF16 or XML</strong> as the mark-up to parse the file with.</p>
    <p>Click <strong>OK</strong>.</p>
-   <p><i>Note: These options are chosen automatically depending on the file extension of the file being opened if it has a common extension. Choosing the wrong encoding may result with errors and/or no Z sections found since CZT is expecting to look for information in one way and the file being represented in another. Files without obvious extensions will not have all options chosen automatically (For example *.utf16 can be written in any language which cannot be easily determined).</i></p>
+   <p><i>Note: These options are chosen automatically depending on the file extension of the file being opened if it has a common extension. Choosing the wrong encoding may result with errors and/or no Z sections found since CZT is expecting to look for information in one way and the file being represented in another. Files without obvious extensions will not have all options chosen automatically (For example *.zml can be written in any language which cannot be easily determined).</i></p>
    <p align="center"><a href="#contents">Back to Contents</a></p>
    
    <div class=""><h4><a name="typechecking">2.3 Type-Checking</a></h4></div><hr>
@@ -143,8 +144,10 @@ Many projects have constructed Z tools, some of product quality, most as student
    <p align="center"><a href="#contents">Back to Contents</a></p>
 
    <div class=""><h4><a name="closing">2.6 Closing the workspace</a></h4></div><hr>
-   <p>Closing the workspace will give the user the interface CZT initially starts with, this includes clearing the <strong>Specification Structure Explorer</strong> and clearing the <strong>Output</strong> area.</p>
+   <p><i>Closing the workspace will give the user the interface CZT initially starts with, this includes clearing the <strong>Specification Structure Explorer</strong> and clearing the <strong>Output</strong> area.</i></p>
+   <p>From the main window click <strong>File</strong>, then click <strong>Close</strong></p>
    <p align="center"><a href="#contents">Back to Contents</a></p>
+
      <div class="subtitle"><h3><a name="zlive">3. ZLive</a></h3></div>
     <p><i>The ZLive animator is part of the CZT project that aims at providing a framework for building formal methods tools, especially for the Z specification        language.  This subproject provides an animator for evaluating        Z expressions, predicates and schemas.  It can be used to execute some schemas, to test that given values satisfy a schema, or to generate all solutions of a set or schema.</i></p>
     <p>There are <strong>two ways</strong> to run ZLive, one of which is <strong>ZLiveDefault</strong> and can be run <strong>independantly</strong> but <strong>commands are limited</strong> to general commands which do not correspond to a specification and the <strong>other way</strong> is to run the <strong>ZLive Animator</strong> which <strong>requires</strong> the user to open a specification before it can be run. 
@@ -231,7 +234,7 @@ Many projects have constructed Z tools, some of product quality, most as student
    </tr>
    <tr>
    	<td>zml</td>
-	<td>Standard Z</td>
+	<td>[Undefined]</td>
 	<td>XML</td>
    </tr>
    </table>
@@ -256,15 +259,14 @@ Many projects have constructed Z tools, some of product quality, most as student
    <table border='1' cellpadding="20">
      <tr><td><strong>java -jar czt.jar zlive</strong></td></tr>
    </table>
-   <p>For <strong>more help</strong>, type "-help" as the argument when starting CZT</p>
+   <p>For <strong>more help</strong>, type "-help" without quotes as the argument when starting CZT</p>
    </div><p align="center"><a href="#contents">Back to Contents</a></p>
  <div class=""><h4><a name="glossary">4.3 Glossary</a></h4></div><hr>
  <p><strong>Specification</strong> see <a href="#formalspec">Formal Specification</a></p>
- <p><strong>Section</strong> contains paragraphcs and can have parents that are in seperate files</p>
- <p><strong>Paragraph</strong> ???</p>
- <p><strong>Mark-up</strong> is a way of representing the same information in a different format. For example, a specification written in LaTeX can salso be represented in XML.</p>
- <p><strong>Language</strong></p>
- <p><strong>Schema</strong></p>
+ <p><strong>Section</strong> contains paragraphcs and can have parents that are in separate files</p>
+ <p><strong>Paragraph</strong> a Z construct which defines <strong>names</strong> and <strong>constants</strong></p>
+ <p><strong>Mark-up</strong> is a way of representing the same information in a different format. For example, a specification written in LaTeX can also be represented in XML.</p>
+ <p><strong>Language</strong> many different languages can be used to construct Z specifications some of which are Standard Z, Object Z, Circus and Z Rules.</p>
  <p align="center"><a href="#contents">Back to Contents</a></p>
  </body>
 </html>
