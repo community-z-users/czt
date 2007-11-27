@@ -6,15 +6,15 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.TreeMap;
 
-import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.RandomTester;
 
 /**
@@ -28,9 +28,33 @@ import net.sourceforge.czt.modeljunit.RandomTester;
 public class Parameter
 {
   public static final String DEFAULT_DIRECTORY = System.getProperty("user.dir");
-  public static final String[] ALGORITHM_NAME = 
-  {"Algorithm selection","Random","Greedy"};
   
+  private static TreeMap<Color,String> mapColorLine;
+  
+  public static final Color[] LINE_COVERAG_COLOR ={
+      Color.BLACK,
+      Color.RED,
+      Color.GREEN,
+      Color.BLUE,
+      Color.GRAY,
+      Color.YELLOW,
+      Color.ORANGE,
+      Color.CYAN
+      };
+  public static TreeMap<Color,String> getLineColorList()
+  {
+    String[] name = {"BLACK","RED","GREEN","BLUE","GRAY","YELLO","ORANGE","CYAN"};
+    
+    if(mapColorLine==null)
+    {
+      mapColorLine = new TreeMap<Color,String>();
+      for(int i=0;i<LINE_COVERAG_COLOR.length;i++)
+      {
+        mapColorLine.put(LINE_COVERAG_COLOR[i],name[i]);
+      }
+    }
+    return mapColorLine;
+  }
   // Number of coverage options
   public static final int NUM_COVERAGE = 5;
   /**
@@ -169,6 +193,10 @@ public class Parameter
 
   /**
    * Transition Coverage options
+   * 0. State coverage
+   * 1. Transition coverage
+   * 2. Transition pair coverage
+   * 3. Action coverage
    * */
   private static boolean[] m_bCoverageOption = new boolean[4];
 
@@ -229,15 +257,14 @@ public class Parameter
         ErrorMessage.DisplayErrorMessage("NO MODEL", "No model loaded!");
       return false;
     }
-    if(m_strAlgorithmName == null 
-         || m_strAlgorithmName.equalsIgnoreCase(ALGORITHM_NAME[0]))
-    {
-      if(bShowErrMsg)
-        ErrorMessage.DisplayErrorMessage("NO ALOGRITHM", "No testing algorithm selected!");
-      return false;
-    }
     return true;
   }
+  
+  private static Color[] m_color = {Color.BLACK, Color.RED, Color.GREEN, Color.BLUE};
+  public static void setCoverageColors(Color[] color)
+  { m_color = color; }
+  public static Color[] getCoverageColors()
+  { return m_color; }
   //-------------------- Functions about setting.txt ---------------------
 
   private static File recreateSettingFile()

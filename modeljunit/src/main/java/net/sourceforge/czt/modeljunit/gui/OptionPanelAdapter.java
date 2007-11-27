@@ -57,12 +57,6 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
   {
   }
 
-  public void loadParameters(BufferedReader bufReader)
-  {
-  }
-
-  public void saveParameters(BufferedWriter bufWriter){}
-
   public String generateImportLab()
   {
     return null;

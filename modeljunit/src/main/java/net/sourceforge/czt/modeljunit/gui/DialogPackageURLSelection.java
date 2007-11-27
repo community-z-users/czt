@@ -37,6 +37,7 @@ public class DialogPackageURLSelection extends JDialog
   
   public DialogPackageURLSelection()
   {
+    this.setTitle("Class path dialog");
     this.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();
     // Assign package location

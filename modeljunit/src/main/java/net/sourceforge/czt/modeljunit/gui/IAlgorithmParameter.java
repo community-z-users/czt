@@ -25,16 +25,6 @@ public interface IAlgorithmParameter
   public void initialize(int idx);
 
   /**
-   * Save parameters into configuration file
-   * */
-  public void saveParameters(BufferedWriter bufWriter);
-
-  /**
-   * Load parameters from configuration file
-   * */
-  public void loadParameters(BufferedReader bufReader);
-
-  /**
    * Generate import statement to include libraries
    * @return generated import statement
    */

@@ -107,28 +107,6 @@ public class OptionPanelGreedy extends OptionPanelAdapter
   }
 
   @Override
-  public void loadParameters(BufferedReader bufReader)
-  {
-    m_bufCode = new StringBuffer();
-    try {
-      m_bufCode.append(bufReader.readLine());
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public void saveParameters(BufferedWriter bufWriter)
-  {
-    try {
-      bufWriter.write(m_bufCode.toString());
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-  @Override
   public String generateImportLab()
   {
     m_bufCode = new StringBuffer();

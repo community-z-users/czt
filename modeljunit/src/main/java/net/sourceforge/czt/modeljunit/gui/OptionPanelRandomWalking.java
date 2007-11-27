@@ -98,28 +98,6 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   }
 
   @Override
-  public void loadParameters(BufferedReader bufReader)
-  {
-    m_bufRandomTest = new StringBuffer();
-    try {
-      m_bufRandomTest.append(bufReader.readLine());
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public void saveParameters(BufferedWriter bufWriter)
-  {
-    try {
-      bufWriter.write(m_bufRandomTest.toString());
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-  @Override
   public String generateImportLab()
   {
     m_bufRandomTest = new StringBuffer();

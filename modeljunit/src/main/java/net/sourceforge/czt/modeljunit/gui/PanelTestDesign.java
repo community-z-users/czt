@@ -46,7 +46,8 @@ public class PanelTestDesign extends JPanel
   // There are 5 check boxes about coverage and paint graph 
   private static final int NUM_GRAPH_CHECKBOX = 5;
   
-  private static final int ALGORITHM_NUM = 3;
+  // 0 Random, 1 Greedy,
+  private static final int ALGORITHM_NUM = OptionPanelCreator.NUM_PANE;
   // Model panel
   private JPanel m_panelModel;
 
@@ -212,6 +213,9 @@ public class PanelTestDesign extends JPanel
     // Add algorithm name into combobox
     for(int i=0;i<OptionPanelCreator.NUM_PANE;i++)
       m_combAlgorithmSelection.addItem(m_panelAlgorithm[i].getAlgorithmName());
+    // Set default algorithm name
+    Parameter.setAlgorithmName(OptionPanelCreator.ALGORITHM_NAME[0]);
+    
     m_combAlgorithmSelection.addActionListener(this);
     // Setup slider
     m_sliderAverageTestLength.setValue((int)(1/Parameter.getResetProbability()));
@@ -345,7 +349,6 @@ public class PanelTestDesign extends JPanel
 
   protected void addComponentsToTestGenerationPanel()
   {
-
     m_panelAlgorithmBase.remove(m_algorithmRight);
     m_nCurAlgo = m_combAlgorithmSelection.getSelectedIndex();
     m_algorithmRight = m_panelAlgorithm[m_nCurAlgo];
@@ -398,7 +401,7 @@ public class PanelTestDesign extends JPanel
    * */
   public void actionPerformed(ActionEvent e)
   {
-    // ------------ Algorithm combo-box handler --------------
+    // ------------ Algorithm combobox handler --------------
     if (e.getSource() == this.m_combAlgorithmSelection) 
     {  
       addComponentsToTestGenerationPanel();
@@ -452,9 +455,9 @@ public class PanelTestDesign extends JPanel
   {
     // ------------ Open model from class file --------------
 
-      String[] extensions = {"java", "class"};
+      String[] extensions = {"class"};
       FileChooserFilter javaFileFilter = new FileChooserFilter(extensions,
-          "Java Files");
+          "Java class Files");
       JFileChooser chooser = new JFileChooser();
       if(Parameter.getFileChooserOpenMode() == 0)
         // Open dialog from package location
@@ -525,8 +528,7 @@ public class PanelTestDesign extends JPanel
   {
     // Random walking length
     int length = Integer.valueOf(m_txtLength.getText());
-    if(m_nCurAlgo<1
-        || Parameter.getClassName() == null
+    if(Parameter.getClassName() == null
         || Parameter.getClassName().length()<=0)
       return "";
     StringBuffer buf = new StringBuffer();

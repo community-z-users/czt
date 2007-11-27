@@ -68,16 +68,6 @@ public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
   {
     return m_panelOption.getTester(idx);
   }
-  
-  public void loadParameters(BufferedReader bufReader)
-  {
-    m_panelOption.loadParameters(bufReader);
-  }
-
-  public void saveParameters(BufferedWriter bufWriter)
-  {
-    m_panelOption.saveParameters(bufWriter);
-  }
 
   public String generateImportLab()
   {

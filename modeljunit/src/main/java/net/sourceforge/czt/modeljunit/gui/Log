@@ -193,3 +193,8 @@ every time user click run button
 Finish the PanelCoverage panel. Run test several times when user click run button and update the
 test sequence array list in PanelCoverage. If user changes the walk length, the event handler will
 call TestExeModel update to update data in PanelCoverage.
+
+--- 15th November 07 ----------------
+Add about dialog
+--- 17th November 07 ----------------
+Line chart graph color selection. 

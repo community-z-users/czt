@@ -125,6 +125,7 @@ public class PanelCoverage extends JPanel
     int[] arraySScaleYPos = new int[m_arrayStages.length];
     int[] arrayTScaleYPos = new int[m_arrayStages.length];
     int[] arrayTPScaleYPos = new int[m_arrayStages.length];
+    int[] arrayAScaleYPos = new int[m_arrayStages.length];
     final int AXIS_Y_LENGTH = AXIS_HEIGHT-TOP_SPACE-ARROW_LENGTH;
     for(int i=0; i<m_arrayStages.length; i++)
     {
@@ -142,7 +143,7 @@ public class PanelCoverage extends JPanel
         arraySScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covS.get(i)/100.0));
         arrayTScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covT.get(i)/100.0));
         arrayTPScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covTP.get(i)/100.0));
-        arrayTPScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covA.get(i)/100.0));
+        arrayAScaleYPos[i] = (int)((double)AXIS_HEIGHT - ((double)AXIS_Y_LENGTH * m_covA.get(i)/100.0));
       }
       // Draw scale text
       g2.drawString(Integer.toString(m_arrayStages[i]), nScaleposX, nScaleposY+16);
@@ -150,28 +151,36 @@ public class PanelCoverage extends JPanel
     //System.out.println(isCoverageDrawable(i));
     if(isCoverageDrawable(1))
     {
-      arraySScaleYPos[0] = arrayTScaleYPos[0] = arrayTPScaleYPos[0]= AXIS_HEIGHT;
+      arraySScaleYPos[0] = 
+        arrayTScaleYPos[0] = 
+        arrayTPScaleYPos[0]= 
+        arrayAScaleYPos[0] = AXIS_HEIGHT;
       arrayScaleXPos[0] = LEFT_SPACE;
       // Draw line chart for state coverage
       boolean[] bShowCoverage = Parameter.getCoverageOption();
+      Color[] coverageColor = Parameter.getCoverageColors();
+      // State coverage
       if(bShowCoverage[0])
       {
-        g2.setColor(Color.GREEN);
+        g2.setColor(coverageColor[0]);
         g2.drawPolyline(arrayScaleXPos, arraySScaleYPos, m_covS.size());
       }
+      // Transition coverage
       if(bShowCoverage[1]){
-        g2.setColor(Color.BLUE);
+        g2.setColor(coverageColor[1]);
         g2.drawPolyline(arrayScaleXPos, arrayTScaleYPos, m_covT.size());
       }
+      // Transition pair coverage
       if(bShowCoverage[2])
       {
-        g2.setColor(Color.RED);
+        g2.setColor(coverageColor[2]);
         g2.drawPolyline(arrayScaleXPos, arrayTPScaleYPos, m_covTP.size());
       }
+      // Action coverage
       if(bShowCoverage[3])
       {
-        g2.setColor(Color.BLACK);
-        g2.drawPolyline(arrayScaleXPos, arrayTPScaleYPos, m_covA.size());
+        g2.setColor(coverageColor[3]);
+        g2.drawPolyline(arrayScaleXPos, arrayAScaleYPos, m_covA.size());
       }
     }
   }

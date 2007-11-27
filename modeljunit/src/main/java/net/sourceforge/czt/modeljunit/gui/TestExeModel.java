@@ -80,21 +80,38 @@ public class TestExeModel
     String name[] = Parameter.getClassName().split("\\.");
     m_modelClass = classLoader.loadClass(name[0]);
     try {
-      m_modelObject = (net.sourceforge.czt.modeljunit.FsmModel)m_modelClass.newInstance();
+      m_modelObject = 
+        (net.sourceforge.czt.modeljunit.FsmModel)m_modelClass.newInstance();
     }
-    catch (InstantiationException e) {
-      e.printStackTrace();
+    catch(ClassCastException cce)
+    {
+      ErrorMessage.DisplayErrorMessage
+      ("Wrong class message (ClassCastException", 
+          "Please select FsmModel class." +
+          "\n Error in TestExeModel::loadModelClassFromFile");
+      return;
     }
-    catch (IllegalAccessException e) {
-      e.printStackTrace();
+    catch (InstantiationException ie) 
+    {
+      ErrorMessage.DisplayErrorMessage
+      ("Model have not been initialized (InstantiationException)", 
+          "Can not initialize model." +
+          "\n Error in TestExeModel::loadModelClassFromFile");
+      return;
+    }
+    catch (IllegalAccessException iae) {
+      ErrorMessage.DisplayErrorMessage
+      ("Cannot access model (IllegalAccessException)", 
+          "Can not access model class." +
+          "\n Error in TestExeModel::loadModelClassFromFile");
     }
   }
   
   /** 
    * The array of tester object
    * Using array because we need to separate several tester for different panel.
-   * 0. For automatically run testing.
-   * 1. For manually run testing.
+   * m_tester[0]. For automatically run testing.
+   * m_tester[1]. For manually run testing.
    **/
   private static Tester[] m_tester = new Tester[2];
   public static void setTester(Tester tester, int idx)
@@ -215,7 +232,4 @@ public class TestExeModel
     verbose.append(output);
     return verbose.toString();
   }
-    
-  public static void runTestManual()
-  {}
 }
