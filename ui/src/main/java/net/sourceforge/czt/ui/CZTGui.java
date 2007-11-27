@@ -41,90 +41,89 @@ import java.net.URI;
  */
 public class CZTGui implements ActionListener,HyperlinkListener
 {
-  SectionManager manager;
+  private SectionManager manager;
 
-  String softwarename = "Community Z Tools";
-  Image czticon;
+  private String softwarename = "Community Z Tools";
+  private Image czticon;
 
-  JFileChooser chooser = new JFileChooser();
+  private JFileChooser chooser = new JFileChooser();
 
-  JFrame frame = new JFrame(softwarename);
-  JFrame helpFrame = new JFrame(softwarename+" Help");
-  JEditorPane helpEditor = new JEditorPane();
-  JScrollPane helpScrollPane = new JScrollPane(helpEditor);
+  private JFrame frame = new JFrame(softwarename);
+  private JFrame helpFrame = new JFrame(softwarename+" Help");
+  private JEditorPane helpEditor = new JEditorPane();
+  private JScrollPane helpScrollPane = new JScrollPane(helpEditor);
 
-  JPanel treeViewPanel = new JPanel();
-  JLabel treeViewLabel = new JLabel("Specification Structure Explorer");
-  JTree treeView = null;
+  private JPanel treeViewPanel = new JPanel();
+  private JLabel treeViewLabel = new JLabel("Specification Structure Explorer");
+  private JTree treeView = null;
 
-  JPanel resultPanel = new JPanel();
-  JLabel resultLabel = new JLabel("Output");
+  private JPanel resultPanel = new JPanel();
+  private JLabel resultLabel = new JLabel("Output");
 
-  /*DefaultListModel resultListModel = new DefaultListModel();
-  JList resultList = new JList();
-  **/
-  JTextArea resultConsole = new JTextArea();
+  private JTextArea resultConsole = new JTextArea();
 
-  JTextArea statusBar = new JTextArea("status");
+  private JTextArea statusBar = new JTextArea("status");
 
-  JPanel specificationPanel = new JPanel();
-  JTextField specText = new JTextField(12);
-  JLabel specificationLabel = new JLabel("Specification:");
-  JButton specBrowseButton = new JButton("...");
+  private JPanel specificationPanel = new JPanel();
+  private JTextField specText = new JTextField(12);
+  private JLabel specificationLabel = new JLabel("Specification:");
+  private JButton specBrowseButton = new JButton("...");
 
-  JPanel specMidPanel = new JPanel();
+  private JPanel specMidPanel = new JPanel();
 
-  JPanel languagePanel = new JPanel();
-  JLabel languageLabel = new JLabel("Language: ");
-  String[] languageOptions = {"Standard Z","Object Z","Circus","Z Rules"};
-  JComboBox languageCombo = new JComboBox(languageOptions);
+  private JPanel languagePanel = new JPanel();
+  private JLabel languageLabel = new JLabel("Language: ");
+  private String[] languageOptions = {"Standard Z","Object Z","Circus","Z Rules"};
+  private JComboBox languageCombo = new JComboBox(languageOptions);
 
-  JPanel markupPanel = new JPanel();
-  JLabel markupLabel = new JLabel("Markup: ");
-  String[] markupOptions = {"Latex", "UTF8","UTF16", "XML"};
-  JComboBox markupCombo = new JComboBox(markupOptions);
+  private JPanel markupPanel = new JPanel();
+  private JLabel markupLabel = new JLabel("Markup: ");
+  private String[] markupOptions = {"Latex", "UTF8","UTF16", "XML"};
+  private JComboBox markupCombo = new JComboBox(markupOptions);
 
-  JPanel typecheckPanel = new JPanel();
-  JLabel typecheckLabel = new JLabel("Typecheck? ");
-  JCheckBox typecheckCheckBox = new JCheckBox("", true);
+  private JPanel typecheckPanel = new JPanel();
+  private JLabel typecheckLabel = new JLabel("Typecheck? ");
+  private JCheckBox typecheckCheckBox = new JCheckBox("", true);
 
-  JPanel specOKCancelPanel = new JPanel();
-  JButton specOKButton = new JButton("OK");
-  JButton specCancelButton = new JButton("Cancel");
+  private JPanel specOKCancelPanel = new JPanel();
+  private JButton specOKButton = new JButton("OK");
+  private JButton specCancelButton = new JButton("Cancel");
 
   final JDialog specDialog = new JDialog(frame, "Specification", true);
 
-  JMenuBar menubar = new JMenuBar();
-  JMenu filemenu = new JMenu("File");
-  JMenuItem open = new JMenuItem("Open");
-  JMenu console = new JMenu("Animate");
-  JMenuItem startConsole = new JMenuItem("Start ZLive Default");
-  JMenu startConsoleWith = new JMenu("Start ZLive Animator with");
-  JMenu saveas = new JMenu("Export to");
-  JMenuItem saveasLatex = new JMenuItem("Latex");
-  JMenuItem saveasUnicode8 = new JMenuItem("Unicode(utf8)");
-  JMenuItem saveasUnicode16 = new JMenuItem("Unicode(utf16)");
-  JMenuItem saveasXML = new JMenuItem("XML");
-  JMenuItem close = new JMenuItem("Close");
-  JMenuItem exit = new JMenuItem("Exit");
-  JMenu helpmenu = new JMenu("Help");
-  JMenuItem czthelp = new JMenuItem("CZT Help");
-  JScrollPane scrollResults = new JScrollPane(resultConsole);
-  JScrollPane scrollTreeStructure = new JScrollPane();
-  JSplitPane split = null;
-  File file = null;
-  File fileForExporting = null;
-  FileSource loadSource = null;
-  FileSource saveSource = null;
+  private JMenuBar menubar = new JMenuBar();
+  private JMenu filemenu = new JMenu("File");
+  private JMenuItem open = new JMenuItem("Open");
+  private JMenu console = new JMenu("Animate");
+  private JMenuItem startConsole = new JMenuItem("Start ZLive Default");
+  private JMenu startConsoleWith = new JMenu("Start ZLive Animator with");
+  private JMenu saveas = new JMenu("Export to");
+  private JMenuItem saveasLatex = new JMenuItem("Latex");
+  private JMenuItem saveasUnicode8 = new JMenuItem("Unicode(utf8)");
+  private JMenuItem saveasUnicode16 = new JMenuItem("Unicode(utf16)");
+  private JMenuItem saveasXML = new JMenuItem("XML");
+  private JMenuItem close = new JMenuItem("Close");
+  private JMenuItem exit = new JMenuItem("Exit");
+  private JMenu helpmenu = new JMenu("Help");
+  private JMenuItem czthelp = new JMenuItem("CZT Help");
+  private JScrollPane scrollResults = new JScrollPane(resultConsole);
+  private JScrollPane scrollTreeStructure = new JScrollPane();
+  private JSplitPane split = null;
+  private File file = null;
+  private File fileForExporting = null;
+  private FileSource loadSource = null;
+  private FileSource saveSource = null;
 
   private ZLive zlive_ = new ZLive();;
   private TextUI ui = new TextUI(zlive_, null);
   private boolean animationFirstStart;
-  ArrayList<JMenuItem> zliveSectionMenuItems = new ArrayList<JMenuItem>();
-  //used to stop backspaces at a certain point to avoid deleting the prompt
-  //note: pasting text onto the textarea could result in previously undeletable
-  //text deletable
-  int currentCharCount = 0;
+  private ArrayList<JMenuItem> zliveSectionMenuItems = new ArrayList<JMenuItem>();
+  /**
+   *variable used to keep count of the characters currently displayed
+   *in the output window which can then be used to stop text from being
+   *entered/removed at certain points
+   */
+  private int currentCharCount = 0;
   
   /**
    *  Constructor for the CZTGui object
@@ -171,6 +170,9 @@ public class CZTGui implements ActionListener,HyperlinkListener
     }
   }
 
+  /**
+   *retrieves the home path
+   */
   private String getSettingsFileName()
   {
     String userHome = System.getProperty("user.home");
@@ -191,7 +193,9 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
 
   /**
-   *  Description of the Method
+   *  initialises all the graphical components and add listeners for buttons
+   *  and menu clicks which will then perform operations depends which button
+   *  or menu item clicked
    */
   public void go()
   {
@@ -274,15 +278,24 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
   }
 
-
+  /**
+   *  makes the tree structure view blank
+   */
   private void clearTreeView(){
     treeView = null;
     scrollTreeStructure.setViewportView(treeView);
   }
+  /**
+   *  makes the output text area blank
+   */
   private void clearErrorList(){
     //resultListModel.clear();
     resultConsole.setText("");
   }
+  /**
+   *  resets various graphical components to blank
+   *  and also disconnect opened file sources
+   */
   private void closeProject(){
     file = null;
     specText.setText("");
@@ -290,18 +303,23 @@ public class CZTGui implements ActionListener,HyperlinkListener
     saveas.setEnabled(false);
     close.setEnabled(false);
     startConsoleWith.setEnabled(false);
+    zlive_.reset();
     clearTreeView();
     clearErrorList();
     statusBar.setText("status");
   }
-
+  /**
+   *  displays a success or failed message on the status bar
+   */
   private void successfulSaveMessage(boolean success){
     if(success == true)
       statusBar.setText("Finished exporting to "+fileForExporting.getName());
     if(success == false)
       statusBar.setText("Failed exporting to "+fileForExporting.getName());
   }
-
+  /**
+   *  converts the current specification into a preferred mark up
+   */
   private void saveSpec(String path,String markup){
 
     saveSource = new FileSource(file);
@@ -354,7 +372,10 @@ public class CZTGui implements ActionListener,HyperlinkListener
       printErrors(exception);
     }
   }
-
+  /**
+   *  uses the caught exception to display errors on the output area
+   *  by iterating through the list of errors
+   */
   private void printErrors(CommandException exception)
   {
     Throwable cause = exception.getCause();
@@ -364,21 +385,17 @@ public class CZTGui implements ActionListener,HyperlinkListener
       errors.addAll(((CztErrorList) cause).getErrors());
       Collections.sort(errors);
       for (Object o : errors) {
-        //resultListModel.addElement(o.toString());
         resultConsole.append(o.toString()+"\n");
       }
     }
     else if (cause instanceof IOException) {
       String message = "Input output error: " + cause.getMessage();
-      //resultListModel.addElement(message);
       resultConsole.append(message);
     }
     else {
       String message = cause + getClass().getName();
-      //resultListModel.addElement(message);
       resultConsole.append(message);
     }
-    //resultList.setModel(resultListModel);
   }
 
 
@@ -529,8 +546,11 @@ public class CZTGui implements ActionListener,HyperlinkListener
         resultConsole.append(message);
     }
   }
-  
-  public void execute(/*Console console,**/ JTextArea output, String command)
+  /**
+   * uses the TextUI Class to execute ZLive commands and displays the output
+   * in the output text area
+   */
+  public void execute(JTextArea output, String command)
   {
     if (! command.equals("")) {
       String parts[] = command.split(" ",2);
@@ -539,20 +559,27 @@ public class CZTGui implements ActionListener,HyperlinkListener
       ui.processCmd(parts[0], parts.length > 1 ? parts[1] : "");
       output.append("\n"+out.toString());
     }
-    //output.commandDone();
   }
 
-  //listens for the enter key pressed and executes the command
+  /**
+   * inner Class that listens for the enter key pressed and executes the 
+   * command and also consumes key presses at certain positions of the text area
+   * so that the ZLive prompt and results cannot be removed/modified
+   */
   public class ZLiveConsole implements KeyListener{
-  
-        /** Handle the key typed event from the text field. */
+
+    /**
+     * Handle the key typed event from the text area. 
+     */
     public void keyTyped(KeyEvent e) {
       if(resultConsole.getCaretPosition()<=(currentCharCount-1)){
         e.consume();
       }
     }
 
-    /** Handle the key-pressed event from the text field. */
+    /** 
+     * Handle the key-pressed event from the text area 
+     */
     public void keyPressed(KeyEvent e) {
       if(e.getKeyChar()=='\n'){
         e.consume();
@@ -563,23 +590,29 @@ public class CZTGui implements ActionListener,HyperlinkListener
           e.consume();
         }
       }
-      if(e.getKeyChar()==KeyEvent.VK_DELETE){
+      if(e.getKeyCode()==KeyEvent.VK_DELETE){
         if(resultConsole.getCaretPosition()<=(currentCharCount-1)){
           e.consume();
         }
       }
+      
     }
 
-    /** Handle the key-released event from the text field. */
+    /** 
+     * Handle the key-released event from the text area 
+     */
     public void keyReleased(KeyEvent e) {
 	//no keyReleased events needed
     }
-    
+    /**
+     * retrieves the user input command from the text area
+     * and passes it to the exceute() method
+     */
     public void zliveGo(){
+
       int linecount = resultConsole.getLineCount();
       int offset = 0;
       int length = 0;
-      
       String command = null;
       
       //get contents of the last line and check and execute
@@ -606,7 +639,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     }
   
   }
-  
+
   public void showZLivePrompt(){
     resultConsole.append(zlive_.getCurrentSection()+"> ");
     currentCharCount = resultConsole.getText().length();
