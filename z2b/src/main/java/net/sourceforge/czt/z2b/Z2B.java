@@ -148,8 +148,8 @@ public class Z2B
 
     mach_ = new BMachine(sect.getName());
 
-    // Process all the non-schema definitions from sect
-    sect.getParaList().accept(this);
+    processDefinitions(sect);
+
     // Add state variables
     declareVars(state, mach_.getVariables(), mach_.getInvariant());
     // add any other invariant predicates
@@ -165,6 +165,23 @@ public class Z2B
       ops.add(operation(triple));
     }
     return mach_;
+  }
+
+  /**
+   * Processes all the non-schema definitions from a Z section (including
+   * the ones from parent sections but excluding toolkit sections).
+   */
+  private void processDefinitions(ZSect zsect)
+    throws CommandException
+  {
+    for (Parent parent : zsect.getParent()) {
+      String name = parent.getWord();
+      if (! name.endsWith("toolkit")) {
+        ZSect parentZSect = manager_.get(new Key<ZSect>(name, ZSect.class));
+        processDefinitions(parentZSect);
+      }
+    }
+    zsect.getParaList().accept(this);
   }
 
   /**
