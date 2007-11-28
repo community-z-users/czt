@@ -21,9 +21,9 @@ file identifiers; the set of all file identifiers is called FID:
 
 \begin{schema}{createSS}
   \Delta SS \\
-  fid : FID
+  fid? : FID
 \where
-  fstore' = fstore \oplus \{ fid \mapsto \emptyset \}
+  fstore' = fstore \oplus \{ fid? \mapsto \emptyset \}
 \end{schema}
 
 \begin{schema}{\Phi SS}
