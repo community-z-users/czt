@@ -27,9 +27,13 @@ import net.sourceforge.czt.z.util.ZUtils;
 
 public class Classifier
 {
-  List<NameSectTypeTriple> state_ = new ArrayList<NameSectTypeTriple>();
-  List<NameSectTypeTriple> init_ = new ArrayList<NameSectTypeTriple>();
-  List<NameSectTypeTriple> ops_ = new ArrayList<NameSectTypeTriple>();
+  private int nrOfStateVars_ = -1;
+  private List<NameSectTypeTriple> state_ =
+    new ArrayList<NameSectTypeTriple>();
+  private List<NameSectTypeTriple> init_ =
+    new ArrayList<NameSectTypeTriple>();
+  private List<NameSectTypeTriple> ops_ =
+    new ArrayList<NameSectTypeTriple>();
 
   public Classifier(SectTypeEnvAnn sectTypeEnvAnn, String section)
   {
@@ -46,13 +50,33 @@ public class Classifier
               ZUtils.subsignature(sig, null);
             List<NameTypePair> primed =
               ZUtils.subsignature(sig, NextStroke.class);
-            if (undecorated.size() == sigSize) {
-              state_.add(triple);
-            }
             if (primed.size() == sigSize) {
               init_.add(triple);
+              nrOfStateVars_ = sigSize;
             }
-            if (undecorated.size() == primed.size() && primed.size() > 0) {
+          }
+        }
+      }
+    }
+    for (NameSectTypeTriple triple : sectTypeEnvAnn.getNameSectTypeTriple()) {
+      if (section.equals(triple.getSect()) &&
+          triple.getType() instanceof PowerType) {
+        PowerType powerType = (PowerType) triple.getType();
+        if (powerType.getType() instanceof SchemaType) {
+          SchemaType schemaType = (SchemaType) powerType.getType();
+          Signature sig = schemaType.getSignature();
+          int sigSize = sig.getNameTypePair().size();
+          if (sigSize > 0) {
+            List<NameTypePair> undecorated = 
+              ZUtils.subsignature(sig, null);
+            List<NameTypePair> primed =
+              ZUtils.subsignature(sig, NextStroke.class);
+            if (undecorated.size() == nrOfStateVars_ &&
+                sigSize == nrOfStateVars_ ) {
+              state_.add(triple);
+            }
+            if (undecorated.size() == nrOfStateVars_ &&
+                primed.size()== nrOfStateVars_) {
               ops_.add(triple);
             }
           }
