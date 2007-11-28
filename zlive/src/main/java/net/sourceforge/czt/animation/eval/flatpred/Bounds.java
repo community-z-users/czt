@@ -394,7 +394,7 @@ public class Bounds
     if (lo == null && hi == null)
       return null;
     else
-      return new RangeSet(lo,hi);
+      return new RangeSet(lo, hi, var0.toString());
   }
 
   /** Adds another lower bound for var.

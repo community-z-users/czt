@@ -134,7 +134,7 @@ public class FlatRangeSet extends FlatPred
 
     if (lo != null || up != null) {
       // we have some definite bounds information
-      estimate = new RangeSet(lo,up);
+      estimate = new RangeSet(lo,up, printArg(setArg_));
     }
     if ((estimate == null || estimate.maxSize() == null)
         && lowerArg_ >= 0
@@ -204,8 +204,8 @@ public class FlatRangeSet extends FlatPred
       solutionsReturned_++;
       BigInteger lo = getBound(env, lowerArg_);
       BigInteger up = getBound(env, upperArg_);
-      RangeSet range = new RangeSet(lo, up);
       ZName setName = args_.get(setArg_);
+      RangeSet range = new RangeSet(lo, up, printName(setName));
       if (evalMode_.isInput(setArg_)) {
         Expr otherSet = env.lookup(setName);
         result = range.equals(otherSet);

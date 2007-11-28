@@ -44,6 +44,9 @@ public class RangeSet extends EvalSet
   /** The exact value of the upper bound, or null if not known. */
   protected BigInteger upper_;
 
+  /** The name of this RangeSet ("" if not known) */
+  protected String name_;
+
   protected Factory factory_ = new Factory();
 
   /** Maximum number of next() solutions from the iterators.
@@ -52,12 +55,18 @@ public class RangeSet extends EvalSet
   private static int numIterSize_ = 10;
 
   /** The set of all integers. */
-  public final static RangeSet integers = new RangeSet(null, null);
+  public final static RangeSet integers = new RangeSet(null, null, "ints");
 
   public RangeSet(BigInteger lo, BigInteger up)
   {
+    this(lo, up, "");
+  }
+
+  public RangeSet(BigInteger lo, BigInteger up, String name)
+  {
     lower_ = lo;
     upper_ = up;
+    name_ = name;
   }
 
   /**
@@ -127,7 +136,8 @@ public class RangeSet extends EvalSet
   public boolean contains(Object e)
   {
      if ( !(e instanceof NumExpr))
-       throw new EvalException("Type error: members of FlatRangeSet must be numbers: " + e);
+       throw new EvalException("Type error: members of FlatRangeSet "
+           + name_ + " must be numbers: " + e);
      BigInteger i = ((NumExpr)e).getValue();
      return (lower_ == null || lower_.compareTo(i) <= 0)
          && (upper_ == null || upper_.compareTo(i) >= 0);
@@ -156,7 +166,7 @@ public class RangeSet extends EvalSet
   {
     if (lower_ == null)
       throw new EvalException("No minimum value for sorted iteration through "
-          +this);
+          + " RangeSet " + name_);
     return iterator();
   }
 
@@ -262,11 +272,13 @@ public class RangeSet extends EvalSet
       if ( ! hasNext())
         throw new NoSuchElementException("too many nexts on "+this);
       if (current_ == null)
-        throw new EvalException("Cannot start iteration through ALL integers");
+        throw new EvalException("Cannot start iteration through ALL integers"
+            + " in RangeSet " + name_);
       current_ = current_.add(incr_);
       if (end_ == null && current_.equals(toomany_))
         throw new EvalException("Gave up unbounded iteration from "+
-            start_+" by "+incr_+" after "+numIterSize_+" results.");
+            start_+" by "+incr_+" after "+numIterSize_+" results"
+            + " in RangeSet " + name_);
       return factory_.createNumExpr(temp);
     }
     public boolean hasPrevious()
@@ -444,7 +456,8 @@ public class RangeSet extends EvalSet
       return this;
     else
       return new RangeSet(minNeg(lower_, other.getLower()),
-                          maxPos(upper_, other.getUpper()));
+                          maxPos(upper_, other.getUpper()),
+                          name_ + "_u_" + other.name_);
   }
 
   /** Calculates the 'generous union' of this range with (lo..up).
@@ -454,7 +467,8 @@ public class RangeSet extends EvalSet
   public RangeSet union(BigInteger lo, BigInteger up)
   {
     return new RangeSet(minNeg(lower_, lo),
-                        maxPos(upper_, up));
+                        maxPos(upper_, up),
+                        name_ + "_u");
   }
 
   /** Calculates the exact intersection of two ranges.
@@ -466,7 +480,8 @@ public class RangeSet extends EvalSet
       return this;
     else
       return new RangeSet(maxNeg(lower_, other.getLower()),
-                          minPos(upper_, other.getUpper()));
+                          minPos(upper_, other.getUpper()),
+                          name_ + "_n_" + other.name_);
   }
 
   /** Calculates the exact intersection of this range with (lo..up).
@@ -476,7 +491,8 @@ public class RangeSet extends EvalSet
   public RangeSet intersect(BigInteger lo, BigInteger up)
   {
     return new RangeSet(maxNeg(lower_, lo),
-                        minPos(upper_, up));
+                        minPos(upper_, up),
+                        name_ + "_n");
   }
 
   /** Returns a possibly-null limit as a string. */
