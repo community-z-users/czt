@@ -13,6 +13,12 @@ file identifiers; the set of all file identifiers is called FID:
   fstore : FID \pfun FILE
 \end{schema}
 
+\begin{schema}{InitSS}
+  SS~'
+\where
+  fstore' = \emptyset
+\end{schema}
+
 \begin{schema}{createSS}
   \Delta SS \\
   fid : FID
@@ -20,17 +26,17 @@ file identifiers; the set of all file identifiers is called FID:
   fstore' = fstore \oplus \{ fid \mapsto \emptyset \}
 \end{schema}
 
-\begin{schema}{FramingSS}
+\begin{schema}{\Phi SS}
   \Delta SS \\
   \Delta DS \\
-  fid : FID
+  fid? : FID
 \where
-  fid \in \dom fstore \\
-  file = fstore(fid) \\
-  fstore' = fstore \oplus \{ fid \mapsto file' \}
+  fid? \in \dom fstore \\
+  file = fstore(fid?) \\
+  fstore' = fstore \oplus \{ fid? \mapsto file' \}
 \end{schema}
 
 \begin{zed}
-  ReadSS == (FramingSS \land ReadFile) \hide (file, file') \\
-  WriteSS == (FramingSS \land WriteFile) \hide (file, file')
+  ReadSS == (\Phi SS \land ReadFile) \hide (file, file') \\
+  WriteSS == (\Phi SS \land WriteFile) \hide (file, file')
 \end{zed}
