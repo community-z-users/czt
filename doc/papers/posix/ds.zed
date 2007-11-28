@@ -27,8 +27,8 @@ After returns the subfile after the given offset.
 \end{zed}
 
 \begin{zed}
-  \varg after \varg == (\lambda f : FILE ; offs : \nat \\
-  \t2      @ ( offs + 1 \upto \# f ) \extract f)
+  \varg after \varg ==
+  (\lambda f : FILE ; offs : \nat @ (\lambda i : 1 .. #f - offs @ f(i+offs)))
 \end{zed}
 
 \begin{schema}{DS}
