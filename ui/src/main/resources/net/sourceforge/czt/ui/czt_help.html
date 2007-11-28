@@ -39,9 +39,8 @@ a:active {
    <h1 align="center">Community Z Tools HELP</h1>
    <hr>
 <div class="subtitle"><h2><a name="gettingstarted">Getting Started</a></h2></div>
-<p>This guide introduces you to using Community Z Tools. The tutorials in this guide lead you through the process of analysis which includes parsing, type checking and also animation of Specifications.
+<p>This guide introduces you to using this graphical user interface of the Community Z Tools (CZT). The tutorials in this guide lead you through the process of analysis which includes parsing, type checking and also animation of Specifications.
 
-<p>This guide contains the following chapters:</p>
    
    <h3><a name="contents">Contents</a></h3>
    <ol>
@@ -53,7 +52,7 @@ a:active {
                 <li><a href="#formalspec">Formal Specification</a></li>
 	  </ol>	
 	</li>
-	<li><strong>Basics</strong>
+	<li><strong>Basic software operations</strong>
 		<ol>
 		<li><a href="#openfile">Opening and Parsing a file (specification)</a></li>
    		<li><a href="#specifyingoptions">Specifying the Language and Mark-up to parse a file with</a></li>
@@ -63,8 +62,8 @@ a:active {
    		<li><a href="#closing">Closing the workspace</a></li>
    		</ol>
 	</li>
-    <li><a href="#zlive"><strong>ZLive</strong></a></li>
-    <li><strong>Additional Information</strong>
+    <li><a href="#zlive"><strong>ZLive Animator</strong></a></li>
+    <li><strong>Appendix</strong>
       <ol>
         <li><a href="#extensionsupport">Supported file Extensions</a></li>
         <li><a href="#runningcmdline">Running CZT as a commandline tool</a></li>
@@ -76,16 +75,13 @@ a:active {
 
    <div class="subtitle"><h3>1. Overview</h3></div>
    <div class=""><h4><a name="introduction">1.1 Introduction</a></h4></div><hr>
-   <p>The Community Z Tools (CZT) project is building a set of tools for editing, typechecking and animating formal specifications written in the  Z specification language, with some support for Z extensions such as Object-Z, Circus, and TCOZ. These tools are all built using the CZT Java framework for Z tools.
+   
+   <p>The Community Z Tools (CZT) project is building a set of tools for editing, typechecking and animating formal specifications written in the  Z specification language, with some support for Z extensions such as Object-Z and Circus.</p>
 
-<p>End-user CZT tools are now included in the CZT releases. This includes a jEdit-based Z editor that gives WYSIWYG editing of the Unicode mark-up for Z, template-based insertion of Z constructs for LaTeX and Unicode mark-up, automatic typechecking on each save, a SideKick panel that shows the structure of your Z specification, conversion between the different mark-ups and much much more.</p>
 <p align="center"><a href="#contents">Back to Contents</a></p>
    <div class=""><h4><a name="background">1.2 Background</a></h4></div><hr>
    <p>(Adapted from Andrew Martin's  original CZT proposal)</p>
-
-<p>The Z specification language was adopted as an ISO standard in 2002. It can be used to precisely specify the requirements or behaviour of systems, and analyze that behaviour via proof, animation, test generation etc. However, one of the biggest barriers to the widespread use of the Z specification language seems to be the issue of tool support.</p>
-
-<p>Many projects have constructed Z tools, some of product quality, most as student projects. Few of them are integrated with each other; few support all the new ISO standard; fewer still build together to form the kind of integrated environment that developers are beginning to expect. Many good ideas have been developed to prototype stage, and then have been lost as projects have finished and students or researchers have moved on. The number of times a request for a Z parser arises in the Z newsgroup suggests lots of people are producing tools, most of which will never be seen outside their own institute. An integrated effort will move forward the state of tools, and thereby the take-up of Z. </p>
+<p>The Z specification language was adopted as an ISO standard in 2002. It can be used to precisely specify the requirements or behaviour of systems, and analyze that behaviour via proof, animation, test generation etc.</p>
 <p align="center"><a href="#contents">Back to Contents</a></p>
 
 <div class=""><h4><a name="objectives">1.3 CZT Objectives</a></h4></div><hr>
@@ -95,10 +91,9 @@ a:active {
 <li> Java classes for Z annotated syntax trees (AST).</li>
 <li> Java classes for converting between XML and Java AST.</li>
 <li> Java libraries for the common operations needed in every Z tool (mark-up-converters, parser, type-checker, etc.). A paper describing these has been presented at ZB2005.</li>
-<li> Graphical Z editors, with facilities for easily entering the special Z unicode symbols. Currently we provide jEdit and eclipse plugins.</li>
-<li> A Z animation tool called ZLive, with a customisable graphical user interface.</li>
+        <li> A Z animation tool called ZLive, with a customisable graphical user interface.</li>
 <li> Export tools, to output Z in other notations or for other Z tools.</li>
-<li> Extended versions of the libraries and tools to support Z extensions such as Object-Z and CIRCUS.</li>
+<li> Extended versions of the libraries and tools to support Z extensions such as Object-Z and Circus.</li>
 </ul>
 <p align="center"><a href="#contents">Back to Contents</a></p>
 
@@ -107,15 +102,13 @@ a:active {
 
 <p><i>''A formal specification is a mathematical description of software or hardware that may be used to develop an implementation. It describes what the system should do, not (necessarily) how the system should do it. Given such a specification, it is possible to use formal verification techniques to demonstrate that a candidate system design is correct with respect to the specification. This has the advantage that incorrect candidate system designs can be revised before a major investment has been made in actually implementing the design. An alternative approach is to use provably correct refinement steps to transform a specification into a design, and ultimately into an actual implementation, that is correct by construction.''</i></p>
 
-<p><i>''It is important to note that a design (or implementation) cannot ever be declared ''correct'' in isolation, but only ''correct with respect to a given specification''. Whether the formal specification correctly describes the problem to be solved is a separate issue. It is also a difficult issue to address, since it ultimately concerns the problem constructing abstracted formal representations of an informal concrete problem domain, and such an abstraction step is not amenable to formal proof. However, it is possible to validate a specification by proving ''challenge'' theorems concerning properties that the specification is expected to exhibit. If correct, these theorems reinforce the specifiers understanding of the specification and its relationship with the underlying problem domain. If not, the specification probably needs to be changed to better reflect the domain understanding of those involved with producing (and implementing) the specification.''</i></p>
-
 <p><i>''The Z notation is an example of a leading formal specification language. Others include the Specification Language(VDM-SL) of the Vienna Development Method and the Abstract Machine Notation (AMN) of the B-Method.''</i></p>
 <p align="center"><a href="#contents">Back to Contents</a></p>
 
-   <div class="subtitle"><h3><a name="basics">2. Basics</a></h3></div>
+   <div class="subtitle"><h3><a name="basics">2. Basic software operations</a></h3></div>
    <div class=""><h4><a name="openfile">2.1 Opening and Parsing a file (specification)</a></h4></div><hr>
-   <p><i>Z specifications like programming languages need to be parsed and checked for errors, this may include checking for semantics and syntax errors and also during the process of parsing a specification, the contents contained within it can be determined.</i>
-   <p>From the main window click <strong>File, </strong>then click <strong>Open</strong>,a 'Specification' dialog will pop up, then click <strong>"..."</strong>, an open dialog will pop up, choose the file and click <strong>Open</strong>, then click <strong>OK</strong>s to open and parse the file with default settings. Alternatively, you can <strong>type in the full path</strong> of a file in the <strong>Specification</strong> text area and click <strong>OK</strong>.<p align="center"><a href="#contents">Back to Contents</a></p>
+   <p><i>Z specifications like programming languages can be parsed and checked for errors, this may include checking for semantics and syntax errors and also during the process of parsing a specification, the contents contained within it can be determined.</i>
+   <p>From the main window click <strong>File, </strong>then click <strong>Open</strong>, a 'Specification' dialog will pop up. Then click <strong>"..."</strong>, an open dialog will pop up, choose the file and click <strong>Open</strong>, then click <strong>OK</strong>s to open and parse the file with default settings. Alternatively, you can <strong>type in the full path</strong> of a file in the <strong>Specification</strong> text area and click <strong>OK</strong>.<p align="center"><a href="#contents">Back to Contents</a></p>
    
    <div class=""><h4><a name="specifyingoptions">2.2 Specifying the Language and Mark-up to parse a file with</a></h4></div><hr>
    <p><i>Z specifications can be represented and encoded in different ways. There are many different dialects (languages) that the user can choose to write Z specifications in, therefore in order for CZT to parse a specification the user must let CZT know what dialect they are using. Similarly, the user must let CZT know how their specification is encoded (mark-up) so that CZT knows how to decoded it for parsing.</i></p>
@@ -131,8 +124,8 @@ a:active {
    <table border='1' cellpadding="20">
    <tr><td><strong>{1,3,5} = {(1,3),(1,4)}</strong></td></tr>
    </table>
-   <p><i>This test may cause type errors since the language in question may not have a operation defined for equals(=) between a list of integers and a list of pairs</i></p>
-   <p>To perform <strong>type-checking</strong>, follow the steps to <strong>Opening a file</strong> except <strong>before</strong> clicking on <strong>OK, </strong>click on the <strong>Typecheck?</strong> Checkbox. If the box is checked then type-checking will be performed on the specification otherwise the specification would not be type-checked.</p><p align="center"><a href="#contents">Back to Contents</a></p>
+   <p><i>This term has type errors since a set of integers cannot be compared to a set of pairs</i></p>
+   <p>To perform <strong>type-checking</strong>, follow the steps to <strong>Opening a file</strong> except <strong>before</strong> clicking on <strong>OK, </strong>make sure the <strong>Typecheck?</strong> Checkbox is checked. If the box is checked then type-checking will be performed on the specification otherwise the specification would not be type-checked.</p><p align="center"><a href="#contents">Back to Contents</a></p>
    
    <div class=""><h4><a name="exploringstructure">2.4 Exploring the Structure of a Specification</a></h4></div><hr>
    <p>Once a specification has been opened and parsed, the structure of the specification is <strong>displayed in a tree</strong> format on the <strong>Specification Structure Explorer</strong> panel allowing the user to inspect the <strong>sections and paragraphs</strong> contained in the specification by <strong>expanding or collapsing</strong> the tree.</p><p align="center"><a href="#contents">Back to Contents</a></p>
@@ -148,16 +141,17 @@ a:active {
    <p>From the main window click <strong>File</strong>, then click <strong>Close</strong></p>
    <p align="center"><a href="#contents">Back to Contents</a></p>
 
-     <div class="subtitle"><h3><a name="zlive">3. ZLive</a></h3></div>
-    <p><i>The ZLive animator is part of the CZT project that aims at providing a framework for building formal methods tools, especially for the Z specification        language.  This subproject provides an animator for evaluating        Z expressions, predicates and schemas.  It can be used to execute some schemas, to test that given values satisfy a schema, or to generate all solutions of a set or schema.</i></p>
+     <div class="subtitle"><h3><a name="zlive">3. ZLive Animator</a></h3></div>
+    <p><i>ZLive is an animator for evaluating Z expressions, predicates and schemas.  It can be used to execute some schemas, to test that given values satisfy a schema, or to generate all solutions of a set or schema.</i></p>
     <p>There are <strong>two ways</strong> to run ZLive, one of which is <strong>ZLiveDefault</strong> and can be run <strong>independantly</strong> but <strong>commands are limited</strong> to general commands which do not correspond to a specification and the <strong>other way</strong> is to run the <strong>ZLive Animator</strong> which <strong>requires</strong> the user to open a specification before it can be run. 
     <p>To run <strong>ZLiveDefault</strong>, click <strong>Animate</strong> then click <strong>Start ZLive Default</strong></p>
     <p>To run <strong>ZLive Animator</strong>, click <strong>Animate</strong> then click <strong>Start ZLive Animator with</strong> and <strong>choose a section</strong> to animate</p>
+    <p>Interaction with ZLive animation is done through the <strong>''Output''</strong> window</p>
     <p>For a full <strong>list of commands</strong> type "<strong>help</strong>" on the ZLive prompt</p>
     <p><i>Note: Running the <strong>ZLive Animator</strong> causes the current specification to be parsed again. Also the ZLive Animator can be similarly started by ZLiveDefault by loading a specification from it and setting the section.</i></p>
     <p align="center"><a href="#contents">Back to Contents</a></p>
     
-    <div class="subtitle"><h3>4. Additional Information</h3></div>    
+    <div class="subtitle"><h3>4. Appendix</h3></div>    
    <div class=""><h4><a name="extensionsupport">4.1 Supported file Extensions</a></h4></div><hr>
    <p>In general, CZT supports <strong>all types</strong> of files with <strong>any kind of extension</strong> as long as it contains content that can be read as Z specifications. The most <strong>common</strong> CZT associated file extensions are: </p>
    <p>
@@ -262,11 +256,12 @@ a:active {
    <p>For <strong>more help</strong>, type "-help" without quotes as the argument when starting CZT</p>
    </div><p align="center"><a href="#contents">Back to Contents</a></p>
  <div class=""><h4><a name="glossary">4.3 Glossary</a></h4></div><hr>
- <p><strong>Specification</strong> see <a href="#formalspec">Formal Specification</a></p>
- <p><strong>Section</strong> contains paragraphcs and can have parents that are in separate files</p>
- <p><strong>Paragraph</strong> a Z construct which defines <strong>names</strong> and <strong>constants</strong></p>
- <p><strong>Mark-up</strong> is a way of representing the same information in a different format. For example, a specification written in LaTeX can also be represented in XML.</p>
  <p><strong>Language</strong> many different languages can be used to construct Z specifications some of which are Standard Z, Object Z, Circus and Z Rules.</p>
+ <p><strong>Mark-up</strong> is a way of representing the same information in a different format. For example, a specification written in LaTeX can also be represented in XML.</p>
+ <p><strong>Paragraph</strong> a Z construct which defines <strong>names</strong> and <strong>constants</strong></p>
+ <p><strong>Section</strong> contains paragraphcs and can have parents that are in separate files</p>
+ <p><strong>Specification</strong> see <a href="#formalspec">Formal Specification</a></p>
+  
  <p align="center"><a href="#contents">Back to Contents</a></p>
  </body>
 </html>
