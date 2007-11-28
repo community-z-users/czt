@@ -26,6 +26,14 @@ file identifiers; the set of all file identifiers is called FID:
   fstore' = fstore \oplus \{ fid? \mapsto \emptyset \}
 \end{schema}
 
+\begin{schema}{destroySS}
+  \Delta SS \\
+  fid? : FID
+\where
+  fid? \in \dom fstore \\
+  fstore' = \{ fid? \} \ndres fstore
+\end{schema}
+
 \begin{schema}{\Phi SS}
   \Delta SS \\
   \Delta DS \\
