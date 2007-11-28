@@ -54,9 +54,9 @@ public class Create
    */
   public static Pred andPred(Pred p1, Pred p2)
   {
-    if (p1 == null)
+    if (p1 == null || p1 instanceof TruePred)
       return p2;
-    if (p2 == null)
+    if (p2 == null || p2 instanceof TruePred)
       return p1;
     return factory_.createAndPred(p1,p2,And.Wedge);
   }
