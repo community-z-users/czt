@@ -94,6 +94,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
   private JMenuBar menubar = new JMenuBar();
   private JMenu filemenu = new JMenu("File");
   private JMenuItem open = new JMenuItem("Open");
+  private JMenuItem reload = new JMenuItem("Reload current spec");
   private JMenu console = new JMenu("Animate");
   private JMenuItem startConsole = new JMenuItem("Start ZLive Default");
   private JMenu startConsoleWith = new JMenu("Start ZLive Animator with");
@@ -146,6 +147,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     specDialog.setLocationRelativeTo(frame);
     statusBar.setEditable(false);
     resultConsole.setEditable(true);
+    reload.setEnabled(false);
     saveas.setEnabled(false);
     close.setEnabled(false);
     startConsoleWith.setEnabled(false);
@@ -215,6 +217,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     split.setDividerLocation(400);
 
     open.addActionListener(this);
+    reload.addActionListener(this);
     startConsole.addActionListener(this);
     saveasLatex.addActionListener(this);
     saveasUnicode8.addActionListener(this);
@@ -225,6 +228,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     czthelp.addActionListener(this);
 
     filemenu.add(open);
+    filemenu.add(reload);
     console.add(startConsole);
     console.add(startConsoleWith);
     saveas.add(saveasLatex);
@@ -300,6 +304,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     file = null;
     specText.setText("");
     frame.setTitle(softwarename);
+    reload.setEnabled(false);
     saveas.setEnabled(false);
     close.setEnabled(false);
     startConsoleWith.setEnabled(false);
@@ -410,7 +415,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     zliveSectionMenuItems.clear();
     startConsoleWith.setEnabled(false);
     animationFirstStart = true;
-    
+    reload.setEnabled(true);
     close.setEnabled(true);
 
     String selectedLanguage = "";
@@ -781,6 +786,10 @@ public class CZTGui implements ActionListener,HyperlinkListener
         }
       }
     }
+    if(event.getSource() == reload){
+      loadFile();
+    }
+    
     //if the cancel button is clicked on the spec dialog then hid it
     if (event.getSource() == specCancelButton) {
       specDialog.setVisible(false);
