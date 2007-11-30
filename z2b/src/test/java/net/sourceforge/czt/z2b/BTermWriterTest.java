@@ -111,15 +111,20 @@ public class BTermWriterTest
     testExpr("(\\lambda x:\\nat | x<10 @ x+1)",
         "%(x).(x : NAT & x < 10 | x + 1)");
   }
-  
 
   public void testSetComp1() throws IOException, CommandException
   {
     testExpr("\\{x:\\nat | x<10 \\}",
         "{x | x : NAT & x < 10}");
   }
-}
 
-  
-    
-    
+  public void testImage() throws IOException, CommandException
+  {
+    testExpr("f \\limg \\{ x \\} \\rimg", "f[{x}]");
+  }
+
+  public void testOpFront() throws IOException, CommandException
+  {
+    testExpr("front~x", "front(x)");
+  }
+}

@@ -115,13 +115,13 @@ public class BTermWriter
 
   /** Get the B operator that corresponds to a Z operator, or null. */
   protected BOperator bOp(String zop) {
-    BOperator bop = (BOperator)ops_.get(zop);
+    BOperator bop = ops_.get(zop);
 
     // generate a log message
     String zname = zop;
     if (zop.length() == 1)
-      zname = "\\u" + Integer.toHexString((int)zop.charAt(0));
-    sLogger.fine("bOp("+zname+") returns "+bop);
+      zname = "\\u" + Integer.toHexString((int) zop.charAt(0));
+    sLogger.fine("bOp(" + zname + ") returns " + bop);
     return bop;
   }
 
@@ -152,6 +152,7 @@ public class BTermWriter
       addPrefix(ZString.ARITHMOS, "POW");
       ops_.put("dom",    new BOperator("dom"));  // not an operator
       ops_.put("ran",    new BOperator("ran"));  // not an operator
+      ops_.put("front",  new BOperator("front"));// not an operator
       addPrefix("min",    "min");
       addPrefix("max",    "max");
       addPrefix("seq", "seq");
@@ -596,6 +597,14 @@ public class BTermWriter
       ZName name = func.getZName();
       if (! hasDecorations(name)) {
 	String zop = name.getWord();
+        if ((" _ " + ZString.LIMG + " _ " + ZString.RIMG).equals(zop)) {
+          List<Expr> pair = ((TupleExpr) e.getRightExpr()).getZExprList();
+          pair.get(0).accept(this);
+          out_.print("[");
+          pair.get(1).accept(this);
+          out_.print("]");
+          return e;
+        }
 	op = bOp(zop);
         sLogger.fine("ApplExpr(" + zop + ") --> B " + op);
       }
@@ -616,7 +625,8 @@ public class BTermWriter
         throw new BException("internal error: " + op.name 
           + " has illegal arity " + op.arity);
       }
-    } else {
+    }
+    else {
       // Print:  left(right)
       out_.beginPrec(out_.TIGHTEST);
       out_.print("(");
