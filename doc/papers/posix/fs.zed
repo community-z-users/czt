@@ -88,12 +88,24 @@
   \Xi NS
 \end{schema}
 
-\begin{zed}
-  linkNS == lookupNS[oldname?/name?] \semi createNS[newname?/name?] \\
-  moveNS == linkNS \semi destroyNS[oldname?/name?]
-\end{zed}
+\begin{schema}{linkNS}
+  \Delta NS \\
+  oldname?, newname? : NAME
+\where
+  oldname? \in \dom nstore \\
+  nstore' = nstore \oplus \{ newname? \mapsto nstore (oldname?) \}
+\end{schema}
 
-\begin{zed}
-  linkFS == (\Delta FS \land \Xi SS \land \Xi CS \land linkNS)\semi direncode \\
-  moveFS == (\Delta FS \land \Xi SS \land \Xi CS \land moveNS)\semi direncode
-\end{zed}
+\begin{schema}{moveNS}
+  \Delta NS \\
+  oldname?, newname? : NAME
+\where
+  oldname? \in \dom nstore \\
+  nstore' = (\{ oldname? \} \ndres nstore) \oplus
+            \{ newname? \mapsto nstore(oldname?) \}
+\end{schema}
+
+%\begin{zed}
+%  linkFS == (\Delta FS \land \Xi SS \land \Xi CS \land linkNS)\semi direncode \\
+%  moveFS == (\Delta FS \land \Xi SS \land \Xi CS \land moveNS)\semi direncode
+%\end{zed}
