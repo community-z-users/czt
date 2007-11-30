@@ -187,8 +187,8 @@ public class SpecChecker
                                                 SectTypeEnvAnn.class));
     }
     catch (CommandException e) {
-      assert false : "No type information for section " + parentName;
-      e.printStackTrace();
+      final String msg = "No type information for section " + parentName;
+      throw new RuntimeException(msg, e);
     }
 
     //add the parent's global decls to this section's global type environment
