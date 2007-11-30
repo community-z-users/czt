@@ -44,9 +44,9 @@ After returns the subfile after the given offset.
 \begin{schema}{ReadFile}\\
   \Xi DS \\
   offset?, length? : \nat \\
-  result! : FILE 
+  data! : FILE
 \where
-  result! = ( 1 \upto length? ) \dres ( file~after~offset? )
+  data! = ( 1 \upto length? ) \dres ( file~after~offset? )
 \end{schema}
 
 Auxiliary functions:
