@@ -56,7 +56,8 @@ public class BTermWriter
              SetCompExprVisitor<Term>,
              SetExprVisitor<Term>,
              ProdExprVisitor<Term>,
-             TupleExprVisitor<Term>
+             TupleExprVisitor<Term>,
+             ZNumeralVisitor<Term>
 {
   // Precedences of a few common B operators.
   // NOTE: these must agree with any matching entries in ops_.
@@ -733,6 +734,12 @@ public class BTermWriter
       visitTupleExpr((TupleExpr)pair);
     }
     return e;
+  }
+
+  public Term visitZNumeral(ZNumeral n)
+  {
+    out_.print(n.getValue());
+    return n;
   }
 
   private boolean hasDecorations(ZName zName)
