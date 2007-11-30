@@ -2,12 +2,15 @@
   \SECTION ss \parents ds
 \end{zsection}
 
-The file storage system allows files to be stored and retrieved using
-file identifiers; the set of all file identifiers is called FID:
+In the file storage system, files can be stored and retrieved using
+file identifiers.
 
 \begin{zed}
   [FID]
 \end{zed}
+
+The file storage system is described by a partial function from file
+identifiers to $FILE$.
 
 \begin{schema}{SS}
   fstore : FID \pfun FILE
@@ -19,12 +22,16 @@ file identifiers; the set of all file identifiers is called FID:
   fstore' = \emptyset
 \end{schema}
 
+The operation that creates an empty file is defined by
+
 \begin{schema}{createSS}
   \Delta SS \\
   fid? : FID
 \where
   fstore' = fstore \oplus \{ fid? \mapsto \emptyset \}
 \end{schema}
+
+Destroying a file is defined as
 
 \begin{schema}{destroySS}
   \Delta SS \\
@@ -33,6 +40,9 @@ file identifiers; the set of all file identifiers is called FID:
   fid? \in \dom fstore \\
   fstore' = \{ fid? \} \ndres fstore
 \end{schema}
+
+To be destroyed, the file must exist and the new file store is
+identical to the old except that there is no file referred to by fid.
 
 \begin{schema}{\Phi SS}
   \Delta SS \\
