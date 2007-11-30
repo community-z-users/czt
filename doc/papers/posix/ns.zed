@@ -22,7 +22,7 @@
   name? : NAME \\
   fid : FID
 \where
-  nstore ' = nstore \oplus \{ name? \mapsto fid \}
+  nstore' = nstore \oplus \{ name? \mapsto fid \}
 \end{schema}
 
 \begin{schema}{lookupNS}
@@ -46,7 +46,7 @@
   NS0 \\
   dnames : \power NAME
 \where
-  front \limg dnames \cup \dom nstore \rimg \subseteq dnames
+  \forall f : dnames \cup \dom nstore @ front(f) \in dnames
 \end{schema}
 
 \begin{schema}{InitNS}
@@ -75,7 +75,6 @@
   NS
 \where
   \ran nstore \subseteq \dom fstore \\
-  nstore = (\lambda n : NAME | n \neq \emptyset \land n \in \dom nstore @
-      (dirformat(fstore(nstore(front~n)))) (last~n))
+  nstore = \{ n : NAME; fid : FID | n \neq \emptyset \land n \in \dom nstore \land fid = (dirformat(fstore(nstore(front~n)))) (last~n) \}
     \cup \{ \emptyset \mapsto RootFid \}
 \end{schema}
