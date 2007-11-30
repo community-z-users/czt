@@ -1,0 +1,32 @@
+\begin{zsection}
+  \SECTION as \parents cs
+\end{zsection}
+
+Storage and channel systems together form the access system where
+every channel must refer to an existing file.
+
+\begin{schema}{AS}
+  SS \\
+  CS
+\where
+  \{ fid : FID | (\exists posn : \nat @ (fid, posn) \in \ran cstore) \}
+  \subseteq
+  \dom fstore
+\end{schema}
+
+\begin{schema}{\Phi AS}
+  \Delta AS \\
+  \Delta CHAN \\
+  cid? : CID
+\where
+  cid? \in \dom cstore \\
+  (fid, posn) = cstore(cid?) \\
+  cstore' = cstore \oplus \{ cid? \mapsto (fid', posn') \}
+\end{schema}
+
+\begin{zed}
+  InitAS == InitSS \land InitCS \\
+  ReadAS == (\Phi AS \land ReadCHAN) \hide (offset?, fid, fid', posn, posn') \\
+  WriteAS == (\Phi AS \land WriteCHAN) \hide (offset?, fid, fid', posn, posn') \\
+  SeekAS == (\Phi AS \land SeekCHAN) \hide (fid, fid', posn, posn')
+\end{zed}

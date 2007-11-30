@@ -28,8 +28,11 @@ doc/cztlogo/wordart.png -text
 doc/eclipse-projects.zip -text
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
+doc/papers/posix/as.zed -text
 doc/papers/posix/cs.zed -text
 doc/papers/posix/ds.zed -text
+doc/papers/posix/fs.zed -text
+doc/papers/posix/ns.zed -text
 doc/papers/posix/posix.zed -text
 doc/papers/posix/ss.zed -text
 doc/papers/rules/cztprover1.eps -text
