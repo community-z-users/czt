@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.PrintVisitor;
@@ -326,24 +327,38 @@ public class BTermWriter
   //@ requires s != null;
   protected Pred splitSchText(ZSchText s)
   {
+    final Factory factory = getFactory();
     Pred result = null;
     for (Decl d : s.getZDeclList()) {
       if (d instanceof VarDecl) {
 	VarDecl vdecl = (VarDecl) d;
+        Expr expr = vdecl.getExpr();
+        TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
+        Expr expr2 = null;
+        if (typeAnn != null && typeAnn.getType() instanceof PowerType) {
+          CarrierSet visitor = new CarrierSet();
+          expr2 = (Expr)
+            (((PowerType) typeAnn.getType()).getType().accept(visitor));
+        }
         for (Name name : vdecl.getName()) {
 	  ZName declName = (ZName) name;
-          ZName refName = getFactory().createZName(declName);
-	  Pred ntype = getFactory().createMemPred(refName, vdecl.getExpr());
+          ZName refName = factory.createZName(declName);
+          Pred ntype = factory.createMemPred(refName, expr);
+          if (expr2 != null && ! expr2.equals(expr)) {
+            ntype = Create.andPred(factory.createMemPred(refName, expr2),
+                                   ntype);
+          }
 	  if (result == null) {
 	    result = ntype;
 	  }
           else {
 	    out_.print(",");
-	    result = Create.andPred(result,ntype);
+	    result = Create.andPred(result, ntype);
 	  }
 	  out_.printName(declName);
 	}
-      } else if (d instanceof ConstDecl) {
+      }
+      else if (d instanceof ConstDecl) {
 	ConstDecl cdecl = (ConstDecl)d;
 	ZName n = cdecl.getZName();
 	Pred ntype = Create.eqPred(n, cdecl.getExpr());
