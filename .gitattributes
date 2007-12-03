@@ -379,6 +379,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/FileChooserFilter.ja
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/IAlgorithmParameter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/IView.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Indentation.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/LineColor.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Log -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/OptionPanelAdapter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/OptionPanelCreator.java -text

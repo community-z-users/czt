@@ -47,7 +47,6 @@ public class OptionPanelRandomWalking extends OptionPanelAdapter
   public OptionPanelRandomWalking(String name, String explain, String imgPath)
   {
     super(name, explain, imgPath);
-    // setLayout(new GridLayout(2,3,3,2));
     m_checkRandomSeed = new JCheckBox("Use random seed");
     add(m_checkRandomSeed);
     add(Box.createHorizontalStrut(6));

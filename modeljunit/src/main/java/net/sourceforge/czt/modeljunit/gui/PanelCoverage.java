@@ -158,28 +158,28 @@ public class PanelCoverage extends JPanel
       arrayScaleXPos[0] = LEFT_SPACE;
       // Draw line chart for state coverage
       boolean[] bShowCoverage = Parameter.getCoverageOption();
-      Color[] coverageColor = Parameter.getCoverageColors();
+      
       // State coverage
       if(bShowCoverage[0])
       {
-        g2.setColor(coverageColor[0]);
+        g2.setColor(Color.BLACK);
         g2.drawPolyline(arrayScaleXPos, arraySScaleYPos, m_covS.size());
       }
       // Transition coverage
       if(bShowCoverage[1]){
-        g2.setColor(coverageColor[1]);
+        g2.setColor(Color.ORANGE);
         g2.drawPolyline(arrayScaleXPos, arrayTScaleYPos, m_covT.size());
       }
       // Transition pair coverage
       if(bShowCoverage[2])
       {
-        g2.setColor(coverageColor[2]);
+        g2.setColor(Color.CYAN);
         g2.drawPolyline(arrayScaleXPos, arrayTPScaleYPos, m_covTP.size());
       }
       // Action coverage
       if(bShowCoverage[3])
       {
-        g2.setColor(coverageColor[3]);
+        g2.setColor(Color.YELLOW);
         g2.drawPolyline(arrayScaleXPos, arrayAScaleYPos, m_covA.size());
       }
     }

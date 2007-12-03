@@ -28,35 +28,9 @@ import net.sourceforge.czt.modeljunit.RandomTester;
 public class Parameter
 {
   public static final String DEFAULT_DIRECTORY = System.getProperty("user.dir");
-  
-  private static TreeMap<Color,String> mapColorLine;
-  
-  public static final Color[] LINE_COVERAG_COLOR ={
-      Color.BLACK,
-      Color.RED,
-      Color.GREEN,
-      Color.BLUE,
-      Color.GRAY,
-      Color.YELLOW,
-      Color.ORANGE,
-      Color.CYAN
-      };
-  public static TreeMap<Color,String> getLineColorList()
-  {
-    String[] name = {"BLACK","RED","GREEN","BLUE","GRAY","YELLO","ORANGE","CYAN"};
-    
-    if(mapColorLine==null)
-    {
-      mapColorLine = new TreeMap<Color,String>();
-      for(int i=0;i<LINE_COVERAG_COLOR.length;i++)
-      {
-        mapColorLine.put(LINE_COVERAG_COLOR[i],name[i]);
-      }
-    }
-    return mapColorLine;
-  }
+
   // Number of coverage options
-  public static final int NUM_COVERAGE = 5;
+  public static final int NUM_COVERAGE = 4;
   /**
    * Package related variables
    * */
@@ -83,7 +57,7 @@ public class Parameter
   { m_strPackageName = name; }
   
   /**
-   * Testing parameters
+   * Testing parameters, dot graph
    * */
   private static boolean m_bGenerateGraph;
   public static boolean getGenerateGraph()
@@ -260,11 +234,26 @@ public class Parameter
     return true;
   }
   
-  private static Color[] m_color = {Color.BLACK, Color.RED, Color.GREEN, Color.BLUE};
-  public static void setCoverageColors(Color[] color)
-  { m_color = color; }
-  public static Color[] getCoverageColors()
-  { return m_color; }
+  // 0.State coverage color
+  // 1.Transition coverage color
+  // 2.Transition pair coverage color
+  // 3.Action coverage color
+  private static Color[] m_colorLine;
+  public static void setCoverageLineColors(Color[] color)
+  { m_colorLine = color; }
+  // Lazy initialization the line color
+  public static Color[] getCoverageLineColors()
+  { 
+    if(m_colorLine == null)
+    {
+      m_colorLine = new Color[4];
+      m_colorLine[0] = Color.BLACK;
+      m_colorLine[1] = Color.RED;
+      m_colorLine[2] = Color.GREEN;
+      m_colorLine[3] = Color.BLUE;
+    }
+    return m_colorLine; 
+  }
   //-------------------- Functions about setting.txt ---------------------
 
   private static File recreateSettingFile()
