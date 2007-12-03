@@ -48,6 +48,8 @@ public class BTermWriter
              ExistsPredVisitor<Term>,
              ForallPredVisitor<Term>,
 
+             BindExprVisitor<Term>,
+             SchExprVisitor<Term>,
 	     ZNameVisitor<Term>,
 	     NumExprVisitor<Term>,
 	     ApplExprVisitor<Term>,
@@ -776,6 +778,58 @@ public class BTermWriter
     return false;
   }
 
+  public Term visitBindExpr(BindExpr bindExpr)
+  {
+    List<Decl> decls = bindExpr.getZDeclList();
+    if (! decls.isEmpty()) {
+      createProdExpr(decls).accept(this);
+    }
+    return bindExpr;
+  }
+
+  public Term visitSchExpr(SchExpr schExpr)
+  {
+    final TypeAnn typeAnn = (TypeAnn) schExpr.getAnn(TypeAnn.class);
+    if (typeAnn != null) {
+      final PowerType powerType = (PowerType) typeAnn.getType();
+      final SchemaType schType = (SchemaType) powerType.getType();
+      final Signature sig = schType.getSignature();
+      List<NameTypePair> sets = sig.getNameTypePair();
+      // construct a right associative tree of binary cartesian products
+      if (! sets.isEmpty()) {
+        createProdExpr(sets).accept(this);
+      }
+    }
+    else { // we assume that the schema is normalized!
+      final ZSchText schText = schExpr.getZSchText();
+      List<Decl> decls = schText.getZDeclList();
+      if (! decls.isEmpty()) {
+        createProdExpr(decls).accept(this);
+      }
+    }
+    return schExpr;
+  }
+
+  private Expr createProdExpr(List<? extends Term> list)
+  {
+    return getFactory().createProdExpr(createExprList(list));
+  }
+
+  private Expr createTupleExpr(List<? extends Term> list)
+  {
+    return getFactory().createTupleExpr(createExprList(list));
+  }
+
+  private ZExprList createExprList(List<? extends Term> list)
+  {
+    final GetExprVisitor visitor = new GetExprVisitor();
+    ZExprList result = getFactory().createZExprList();
+    for (Term term : list) {
+      result.add(term.accept(visitor));
+    }
+    return result;
+  }
+
 /*
   // ================ unused  TODO: Add these? =======================
   public Object visitFreetype(Freetype zedObject)
@@ -854,11 +908,6 @@ public class BTermWriter
   }
 
   public Object visitCompExpr(CompExpr zedObject)
-  {
-    return zedObject;
-  }
-
-  public Object visitBindExpr(BindExpr zedObject)
   {
     return zedObject;
   }
@@ -1077,10 +1126,26 @@ public class BTermWriter
   {
     return zedObject;
   }
-
-  public Object visitSchExpr(SchExpr zedObject)
-  {
-    return zedObject;
-  }
 */
+}
+
+class GetExprVisitor
+  implements ConstDeclVisitor<Expr>,
+             NameTypePairVisitor<Expr>,
+             VarDeclVisitor<Expr>
+{
+  public Expr visitConstDecl(ConstDecl constDecl)
+  {
+    return constDecl.getExpr();
+  }
+
+  public Expr visitNameTypePair(NameTypePair pair)
+  {
+    return (Expr) pair.getType().accept(new CarrierSet());
+  }
+
+  public Expr visitVarDecl(VarDecl varDecl)
+  {
+    return varDecl.getExpr();
+  }
 }
