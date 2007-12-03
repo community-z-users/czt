@@ -9,7 +9,7 @@ every channel must refer to an existing file.
   SS \\
   CS
 \where
-  \{ fid : FID | (\exists posn : \nat @ (fid, posn) \in \ran cstore) \}
+  \{ fid : FID | (\exists posn : \nat @ \theta CHAN \in \ran cstore) \}
   \subseteq
   \dom fstore
 \end{schema}
@@ -20,8 +20,8 @@ every channel must refer to an existing file.
   cid? : CID
 \where
   cid? \in \dom cstore \\
-  (fid, posn) = cstore(cid?) \\
-  cstore' = cstore \oplus \{ cid? \mapsto (fid', posn') \}
+  \theta CHAN = cstore(cid?) \\
+  cstore' = cstore \oplus \{ cid? \mapsto \theta CHAN~' \}
 \end{schema}
 
 \begin{zed}

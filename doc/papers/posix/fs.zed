@@ -9,7 +9,7 @@
   usedfids : \power FID
 \where
   usedfids = \ran nstore \cup \{ fid : FID |
-                (\exists posn : \nat @ (fid, posn) \in \ran cstore) \} \\
+                (\exists posn : \nat @ \theta CHAN \in \ran cstore) \} \\
   usedfids \subseteq \dom fstore
 \end{schema}
 
