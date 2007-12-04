@@ -118,6 +118,18 @@ public class BTermWriterTest
         "{x | x : NAT & x < 10}");
   }
 
+  public void testProdExpr() throws IOException, CommandException
+  {
+    testExpr("\\nat \\cross \\nat \\cross \\nat",
+             "NAT * (NAT * NAT)");
+  }
+
+  public void testTupleExpr() throws IOException, CommandException
+  {
+    testExpr("(1,2,3)",
+             "1 |-> (2 |-> 3)");
+  }
+
   public void testImage() throws IOException, CommandException
   {
     testExpr("f \\limg \\{ x \\} \\rimg", "f[{x}]");

@@ -730,17 +730,19 @@ public class BTermWriter
   public Term visitProdExpr(ProdExpr e)
   {
     List<Expr> sets = e.getZExprList();
+    if (sets.size() == 0) {
+      throw new BException("Cannot translate empty cartesian product/schema");
+    }
     if (sets.size() == 2) {
       infixOp(bOp(arg+ZString.CROSS+arg), sets.get(0), sets.get(1));
     }
     else {
-      // construct a right associative tree of binary cartesian products
-      assert sets.size() > 2;
-      int last = sets.size() - 1;
-      Expr prod = sets.get(last);
-      for ( ; last >= 0; last--)
-	prod = getFactory().createProdExpr(sets.get(last), prod);
-      visitProdExpr((ProdExpr)prod);
+      BinExprFactory factory = new BinExprFactory() {
+          public Expr create(Expr e1, Expr e2) {
+            return getFactory().createProdExpr(e1, e2);
+          }
+        };
+      createRightAssociateTree(sets, factory).accept(this);
     }
     return e;
   }
@@ -748,19 +750,34 @@ public class BTermWriter
   public Term visitTupleExpr(TupleExpr e)
   {
     List<Expr> sets = e.getZExprList();
+    if (sets.size() == 0) {
+      throw new BException("Cannot translate empty tuple/binding");
+    }
     if (sets.size() == 2) {
       infixOp(bOp(arg+","+arg), sets.get(0), sets.get(1));
     }
     else {
-      // construct a right associative tree of binary cartesian products
-      assert sets.size() > 2;
-      int last = sets.size() - 1;
-      Expr pair = sets.get(last);
-      for ( ; last >= 0; last--)
-	pair = getFactory().createTupleExpr(sets.get(last), pair);
-      visitTupleExpr((TupleExpr)pair);
+      BinExprFactory factory = new BinExprFactory() {
+          public Expr create(Expr e1, Expr e2) {
+            return getFactory().createTupleExpr(e1, e2);
+          }
+        };
+      createRightAssociateTree(sets, factory).accept(this);
     }
     return e;
+  }
+
+  private Expr createRightAssociateTree(List<Expr> list,
+                                        BinExprFactory factory)
+  {
+    assert list.size() > 0;
+
+    Expr result = list.get(list.size() - 1);
+    for (ListIterator<Expr> iter = list.listIterator(list.size() - 1);
+         iter.hasPrevious();) {
+      result = factory.create(iter.previous(), result);
+    }
+    return result;
   }
 
   public Term visitZNumeral(ZNumeral n)
@@ -778,15 +795,19 @@ public class BTermWriter
     return false;
   }
 
+  // TODO: sort the variables
+  // TODO: handle empty bindings properly
   public Term visitBindExpr(BindExpr bindExpr)
   {
     List<Decl> decls = bindExpr.getZDeclList();
     if (! decls.isEmpty()) {
-      createProdExpr(decls).accept(this);
+      createTupleExpr(decls).accept(this);
     }
     return bindExpr;
   }
 
+  // TODO: sort the variables
+  // TODO: handle empty schemas properly
   public Term visitSchExpr(SchExpr schExpr)
   {
     final TypeAnn typeAnn = (TypeAnn) schExpr.getAnn(TypeAnn.class);
@@ -795,7 +816,6 @@ public class BTermWriter
       final SchemaType schType = (SchemaType) powerType.getType();
       final Signature sig = schType.getSignature();
       List<NameTypePair> sets = sig.getNameTypePair();
-      // construct a right associative tree of binary cartesian products
       if (! sets.isEmpty()) {
         createProdExpr(sets).accept(this);
       }
@@ -1148,4 +1168,9 @@ class GetExprVisitor
   {
     return varDecl.getExpr();
   }
+}
+
+interface BinExprFactory
+{
+  Expr create(Expr e1, Expr e2);
 }
