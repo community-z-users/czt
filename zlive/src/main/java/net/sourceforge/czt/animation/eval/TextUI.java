@@ -54,6 +54,7 @@ import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConjPara;
@@ -326,6 +327,13 @@ public class TextUI {
     catch (ParseException ex) {
       //print any errors
       for (CztError err : ex.getErrorList()) {
+        output_.println(err);
+      }
+    }
+    catch (TypeErrorException ex) {
+      output_.println(ex.getMessage());
+      //print any errors
+      for (ErrorAnn err : ex.getErrors()) {
         output_.println(err);
       }
     }
@@ -661,12 +669,7 @@ public class TextUI {
     List<? extends ErrorAnn> errors =
       TypeCheckUtils.typecheck(term, manager, false, section);
     if (errors.size() > 0) {
-      // Annoying: we have to copy the list to prevent the Java generics
-      // from giving type errors/warnings.
-      List<CztError> errs = new ArrayList<CztError>();
-      for (ErrorAnn err : errors)
-        errs.add(err);
-      throw new ParseException(errs);
+      throw new TypeErrorException("term contains type errors", errors);
     }
     else
       return term;

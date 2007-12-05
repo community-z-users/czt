@@ -33,8 +33,10 @@ import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionType;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleUtils;
@@ -48,6 +50,7 @@ import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -351,6 +354,7 @@ public class ZLive
       // Unifier.printDepth_ = 7;  // for debugging unifications
       Term unfolded = preprocess_.preprocess(section, result.getOriginalTerm());
       LOG.finer("After preprocess,  pred="+termToString(unfolded));
+      result.setUnfoldedTerm(unfolded); // in case typechecking fails...
       // must typecheck, to reestablish the unique-ids invariant.
       typecheck(unfolded);
       LOG.finer("After retypecheck, term="+termToString(unfolded));
@@ -495,18 +499,12 @@ public class ZLive
    *  (bound vars with the same name and scope must have the same id.)
    */
   public void typecheck(Term term)
-  throws EvalException
+  throws EvalException, TypeErrorException
   {
     List<? extends ErrorAnn> errors =
       TypeCheckUtils.typecheck(term, sectman_, false, getCurrentSection());
     if (errors.size() > 0) {
-      StringBuffer buf = new StringBuffer();
-      buf.append("Error: unfolded term contains type errors.\n");
-      //print any errors
-      for (ErrorAnn next : errors) {
-        buf.append(next);
-      }
-      throw new EvalException(buf.toString());
+      throw new TypeErrorException("unfolded term contains type errors", errors);
     }
   }
 
