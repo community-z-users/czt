@@ -135,7 +135,7 @@ better.
 \end{zedrule}
 
 \begin{zedrule}{subset}
-   E1 \subset E2 \iff (\forall x:E1 @ x \in E2) \land E1 \neq E2
+   E1 \subset E2 \iff E1 \subseteq E2 \land E1 \neq E2
 \end{zedrule}
 
 Some rules for easy cases of $\bigcup$.
@@ -229,10 +229,8 @@ implement $\bigcap$ as a primitive?
    E1 \limg E2 \rimg = \{r:E1 | r.1 \in E2 @ r.2\}
 \end{zedrule}
 
-This is a bit complicated, because we have to expand $\dom$ out.
 \begin{zedrule}{reloverride}
    E1 \oplus E2 = ((\dom E2) \ndres E1) \cup E2
-%   E1 \oplus E2 = \{domE2==\{r2:E2@r2.1\}; r1:E1 | r1.1 \notin domE2 @ r1\} \cup E2
 \end{zedrule}
 
 TODO: transitive closure and reflexive transitive closure.
