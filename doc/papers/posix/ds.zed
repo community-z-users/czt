@@ -52,11 +52,9 @@ After returns the subfile after the given offset.
 Auxiliary functions:
 The zero function returns a FILE of size n with zero bytes.
 
-\begin{axdef}
-  zero : \nat \fun FILE 
-\where
-  \forall n : \nat @ zero~n = ( \lambda i : 1 \upto n @ ZERO )
-\end{axdef}
+\begin{zed}
+  zero == (\lambda n : \nat @ ( \lambda i : 1 \upto n @ ZERO ) )
+\end{zed}
 
 The infix operator shift takes a FILE and an offset and shifts the
 content of the file by the offset.
