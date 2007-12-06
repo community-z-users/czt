@@ -49,6 +49,7 @@ public class BTermWriter
              ForallPredVisitor<Term>,
 
              BindExprVisitor<Term>,
+             BindSelExprVisitor<Term>,
              SchExprVisitor<Term>,
 	     ZNameVisitor<Term>,
 	     NumExprVisitor<Term>,
@@ -850,6 +851,21 @@ public class BTermWriter
     return result;
   }
 
+  public Term visitBindSelExpr(BindSelExpr bindSelExpr)
+  {    
+    out_.beginPrec(out_.TIGHTEST);
+    out_.print("(");
+    bindSelExpr.getName().accept(this);
+    out_.print(")");
+    // beginPrec will add the opening "(".
+    out_.beginPrec(out_.LOOSEST);
+    bindSelExpr.getExpr().accept(this);
+    // endPrec will add the closing "(".
+    out_.endPrec(out_.LOOSEST);
+    out_.endPrec(out_.TIGHTEST);
+    return bindSelExpr;
+  }
+
 /*
   // ================ unused  TODO: Add these? =======================
   public Object visitFreetype(Freetype zedObject)
@@ -1053,11 +1069,6 @@ public class BTermWriter
   }
 
   public Object visitSchemaType(SchemaType zedObject)
-  {
-    return zedObject;
-  }
-
-  public Object visitBindSelExpr(BindSelExpr zedObject)
   {
     return zedObject;
   }
