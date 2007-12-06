@@ -57,27 +57,13 @@ public class LookupOracle
     if (table != null) {
       Factory factory = new Factory(new ProverFactory());
       CopyVisitor copyVisitor = new CopyVisitor(factory);
-      Term arg0 = ProverUtils.removeJoker((Term) args.get(0));
-      RefExpr ref;
-      if (arg0 instanceof Name) {
-        ref = factory.createRefExpr((Name) arg0,
-                                    factory.createZExprList(),
-                                    true, false);
-      }
-      else if (arg0 instanceof RefExpr) {
-        ref = (RefExpr) arg0;
-      }
-      else {
-        return null;
-      }
+      RefExpr ref = (RefExpr) ProverUtils.removeJoker((Term) args.get(0));
       Expr rightExpr = (Expr) args.get(1);
       assert ref.getExprList() != null;
       String word = ref.getName().accept(new GetNameWordVisitor());
       DefinitionTable.Definition def = table.lookup(word);
-      // ADDED: equality to CONSTDECL type, since old DefinitionTable only
-      //        dealt with ConstDecl. Latter on, generalise this to VarDecl 
-      //        as well. This check does not affect original code/tests. (Leo)
-      if (def != null && def.getDefinitionType().equals(DefinitionType.CONSTDECL)) {
+      if (def != null &&
+          def.getDefinitionType().equals(DefinitionType.CONSTDECL)) {
         assert def.getDeclNames() != null;
         List<Expr> formals = new ArrayList<Expr>();
         Map<ZName,Expr> formalMap = new HashMap<ZName,Expr>();
