@@ -141,7 +141,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     
     //to let gui know whether zlive has parsed a spec already
     animationFirstStart = true;
-    
+
     chooser.setAcceptAllFileFilterUsed(true);
     chooser.addChoosableFileFilter(new CZTFilter());
     specDialog.setLocationRelativeTo(frame);
@@ -173,7 +173,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
   }
 
   /**
-   *retrieves the home path
+   * Retrieves the home path.
    */
   private String getSettingsFileName()
   {
@@ -183,9 +183,9 @@ public class CZTGui implements ActionListener,HyperlinkListener
   }
 
   /**
-   *  The main program for the CZTGui class
+   * The main program for the CZTGui class.
    *
-   *@param  args  The command line arguments
+   * @param  args  The command line arguments
    */
   public static void main(String[] args)
   {
@@ -195,9 +195,9 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
 
   /**
-   *  initialises all the graphical components and add listeners for buttons
-   *  and menu clicks which will then perform operations depends which button
-   *  or menu item clicked
+   * Initialises all the graphical components and add listeners for buttons
+   * and menu clicks which will then perform operations depends which button
+   * or menu item clicked.
    */
   public void go()
   {
@@ -213,7 +213,8 @@ public class CZTGui implements ActionListener,HyperlinkListener
     helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     helpFrame.setSize(600,600);
 
-    split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeViewPanel, resultPanel);
+    split =
+      new JSplitPane(JSplitPane.VERTICAL_SPLIT, treeViewPanel, resultPanel);
     split.setDividerLocation(400);
 
     open.addActionListener(this);
@@ -283,24 +284,29 @@ public class CZTGui implements ActionListener,HyperlinkListener
   }
 
   /**
-   *  makes the tree structure view blank
+   * Makes the tree structure view blank.
    */
-  private void clearTreeView(){
+  private void clearTreeView()
+  {
     treeView = null;
     scrollTreeStructure.setViewportView(treeView);
   }
+
   /**
-   *  makes the output text area blank
+   * Makes the output text area blank.
    */
-  private void clearErrorList(){
+  private void clearErrorList()
+  {
     //resultListModel.clear();
     resultConsole.setText("");
   }
+
   /**
-   *  resets various graphical components to blank
-   *  and also disconnect opened file sources
+   * Resets various graphical components to blank
+   * and also disconnect opened file sources.
    */
-  private void closeProject(){
+  private void closeProject()
+  {
     file = null;
     specText.setText("");
     frame.setTitle(softwarename);
@@ -313,63 +319,64 @@ public class CZTGui implements ActionListener,HyperlinkListener
     clearErrorList();
     statusBar.setText("status");
   }
-  /**
-   *  displays a success or failed message on the status bar
-   */
-  private void successfulSaveMessage(boolean success){
-    if(success == true)
-      statusBar.setText("Finished exporting to "+fileForExporting.getName());
-    if(success == false)
-      statusBar.setText("Failed exporting to "+fileForExporting.getName());
-  }
-  /**
-   *  converts the current specification into a preferred mark up
-   */
-  private void saveSpec(String path,String markup){
 
+  /**
+   * Displays a success or failed message on the status bar.
+   */
+  private void successfulSaveMessage(boolean success)
+  {
+    if(success == true)
+      statusBar.setText("Finished exporting to " + fileForExporting.getName());
+    else
+      statusBar.setText("Failed exporting to " + fileForExporting.getName());
+  }
+
+  /**
+   * Converts the current specification into a preferred mark up.
+   */
+  private void saveSpec(String path,String markup)
+  {
     saveSource = new FileSource(file);
     Writer writer = null;
 
     try{
       try{
         FileOutputStream stream = new FileOutputStream(path);
-
-    if(markup.equals("latex")){
-    LatexString latex = (LatexString)
-    manager.get(new Key(new FileSource(file).getName(), LatexString.class));
-    writer = new OutputStreamWriter(stream);
-    writer.write(latex.toString());
-    writer.close();
-    successfulSaveMessage(true);
-    }
-
-    if(markup.equals("utf8")){
-    UnicodeString unicode = (UnicodeString)
-    manager.get(new Key(saveSource.getName(), UnicodeString.class));
-    writer = new OutputStreamWriter(stream, "UTF-8");
-    writer.write(unicode.toString());
-    writer.close();
-    successfulSaveMessage(true);
-    }
-
-    if(markup.equals("utf16")){
-    UnicodeString unicode = (UnicodeString)
-    manager.get(new Key(saveSource.getName(), UnicodeString.class));
-    writer = new OutputStreamWriter(stream, "UTF-16");
-    writer.write(unicode.toString());
-    writer.close();
-    successfulSaveMessage(true);
-    }
-
-    if(markup.equals("xml")){
-    XmlString xml = (XmlString)
-    manager.get(new Key(saveSource.getName(), XmlString.class));
-    writer = new OutputStreamWriter(stream, "UTF-8");
-    writer.write(xml.toString());
-    writer.close();
-    successfulSaveMessage(true);
-    }
-      }catch(IOException exception){
+        if (markup.equals("latex")) {
+          final Key key =
+            new Key(new FileSource(file).getName(), LatexString.class);
+          LatexString latex = (LatexString) manager.get(key);
+          writer = new OutputStreamWriter(stream);
+          writer.write(latex.toString());
+          writer.close();
+          successfulSaveMessage(true);
+        }
+        else if (markup.equals("utf8")) {
+          UnicodeString unicode = (UnicodeString)
+            manager.get(new Key(saveSource.getName(), UnicodeString.class));
+          writer = new OutputStreamWriter(stream, "UTF-8");
+          writer.write(unicode.toString());
+          writer.close();
+          successfulSaveMessage(true);
+        }
+        else if (markup.equals("utf16")) {
+          UnicodeString unicode = (UnicodeString)
+            manager.get(new Key(saveSource.getName(), UnicodeString.class));
+          writer = new OutputStreamWriter(stream, "UTF-16");
+          writer.write(unicode.toString());
+          writer.close();
+          successfulSaveMessage(true);
+        }
+        else if (markup.equals("xml")) {
+          XmlString xml = (XmlString)
+            manager.get(new Key(saveSource.getName(), XmlString.class));
+          writer = new OutputStreamWriter(stream, "UTF-8");
+          writer.write(xml.toString());
+          writer.close();
+          successfulSaveMessage(true);
+        }
+      }
+      catch(IOException exception) {
         successfulSaveMessage(false);
       }
     }
@@ -377,9 +384,10 @@ public class CZTGui implements ActionListener,HyperlinkListener
       printErrors(exception);
     }
   }
+
   /**
-   *  uses the caught exception to display errors on the output area
-   *  by iterating through the list of errors
+   * Uses the caught exception to display errors on the output area
+   * by iterating through the list of errors.
    */
   private void printErrors(CommandException exception)
   {
@@ -403,10 +411,6 @@ public class CZTGui implements ActionListener,HyperlinkListener
     }
   }
 
-
-  /**
-   *  Description of the Method
-   */
   private void loadFile()
   {
     statusBar.setText("Reading "+file.getName()+"...done");
@@ -438,16 +442,16 @@ public class CZTGui implements ActionListener,HyperlinkListener
     else
       if(((String)languageCombo.getSelectedItem()).equals("Object Z"))
         selectedLanguage = "oz";
-    else
-      if(((String)languageCombo.getSelectedItem()).equals("Circus"))
-        selectedLanguage = "circus";
-    else
-      if(((String)languageCombo.getSelectedItem()).equals("Z Rules"))
-        selectedLanguage = "zpatt";
+      else
+        if(((String)languageCombo.getSelectedItem()).equals("Circus"))
+          selectedLanguage = "circus";
+        else
+          if(((String)languageCombo.getSelectedItem()).equals("Z Rules"))
+            selectedLanguage = "zpatt";
 
     manager = new SectionManager(selectedLanguage);
     loadSource = new FileSource(file);
-    
+
     manager.setProperty("czt.path", file.getParent());
     zlive_.getSectionManager().setProperty("czt.path", file.getParent());
 
@@ -457,20 +461,19 @@ public class CZTGui implements ActionListener,HyperlinkListener
       loadSource.setEncoding("Default");
     }
     else
-    if(((String)markupCombo.getSelectedItem()).equals("UTF8")){
-      loadSource.setMarkup(Markup.UNICODE);
-      loadSource.setEncoding("utf8");
-    }
-    else
-    if(((String)markupCombo.getSelectedItem()).equals("UTF16")){
-      loadSource.setMarkup(Markup.UNICODE);
-      loadSource.setEncoding("utf16");
-    }
-    else
-    if(((String)markupCombo.getSelectedItem()).equals("XML")){
-      loadSource.setMarkup(Markup.ZML);
-    }
-
+      if(((String)markupCombo.getSelectedItem()).equals("UTF8")){
+        loadSource.setMarkup(Markup.UNICODE);
+        loadSource.setEncoding("utf8");
+      }
+      else
+        if(((String)markupCombo.getSelectedItem()).equals("UTF16")){
+          loadSource.setMarkup(Markup.UNICODE);
+          loadSource.setEncoding("utf16");
+        }
+        else
+          if(((String)markupCombo.getSelectedItem()).equals("XML")){
+            loadSource.setMarkup(Markup.ZML);
+          }
     manager.put(new Key(loadSource.getName(), Source.class), loadSource);
     zlive_.reset();
     zlive_.getSectionManager().put(new Key(loadSource.getName(), Source.class), loadSource);
@@ -488,7 +491,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
     try {
       Spec spec = (Spec)
-      manager.get(new Key(loadSource.getName(), Spec.class));
+        manager.get(new Key(loadSource.getName(), Spec.class));
       TermTreeNode node = new TermTreeNode(0, spec, null);
       if ("circus".equals(selectedLanguage)) {
         node.setToStringVisitor(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
@@ -507,9 +510,9 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
           //add menu items for starting zlive with a prefered specification
           zliveSectionMenuItems.add(new JMenuItem(sectionName));
-          
+
           zlive_.getSectionManager().put(new Key(sectionName, Source.class),loadSource);
-          
+
           if (typecheckCheckBox.isSelected()) {
             manager.get(new Key(sectionName,SectTypeEnvAnn.class));
             //only allow animation if typechecking is done
@@ -521,14 +524,14 @@ public class CZTGui implements ActionListener,HyperlinkListener
           }
         }
       }
-      
-      if(!zliveSectionMenuItems.isEmpty()){
+
+      if(!zliveSectionMenuItems.isEmpty()) {
         for(int i=0;i<zliveSectionMenuItems.size();i++){
-        zliveSectionMenuItems.get(i).addActionListener(this);
-        startConsoleWith.add(zliveSectionMenuItems.get(i));
+          zliveSectionMenuItems.get(i).addActionListener(this);
+          startConsoleWith.add(zliveSectionMenuItems.get(i));
         }
       }
-      
+
       if (nrOfZSects < 1) {
         String msg = "WARNING: No Z sections found in " + loadSource;
         //resultListModel.addElement(msg);
@@ -537,7 +540,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
       }
       //only if no errors
       statusBar.setText("Finished parsing "+file.getName());
-      
+
       saveas.setEnabled(true);
     }
     catch (CommandException exception) {
@@ -546,14 +549,15 @@ public class CZTGui implements ActionListener,HyperlinkListener
     catch (Throwable e) {
       String message =
         "Caught " + e.getClass().getName() + ": " + e.getMessage();
-        //resultListModel.addElement(message);
-        //resultList.setModel(resultListModel);
-        resultConsole.append(message);
+      //resultListModel.addElement(message);
+      //resultList.setModel(resultListModel);
+      resultConsole.append(message);
     }
   }
+
   /**
-   * uses the TextUI Class to execute ZLive commands and displays the output
-   * in the output text area
+   * Uses the TextUI Class to execute ZLive commands and displays the output
+   * in the output text area.
    */
   public void execute(JTextArea output, String command)
   {
@@ -567,12 +571,13 @@ public class CZTGui implements ActionListener,HyperlinkListener
   }
 
   /**
-   * inner Class that listens for the enter key pressed and executes the 
-   * command and also consumes key presses at certain positions of the text area
-   * so that the ZLive prompt and results cannot be removed/modified
+   * Inner Class that listens for the enter key pressed and executes
+   * the command and also consumes key presses at certain positions of
+   * the text area so that the ZLive prompt and results cannot be
+   * removed/modified.
    */
-  public class ZLiveConsole implements KeyListener{
-
+  public class ZLiveConsole implements KeyListener
+  {
     /**
      * Handle the key typed event from the text area. 
      */
@@ -583,7 +588,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     }
 
     /** 
-     * Handle the key-pressed event from the text area 
+     * Handle the key-pressed event from the text area.
      */
     public void keyPressed(KeyEvent e) {
       if(e.getKeyChar()=='\n'){
@@ -600,106 +605,103 @@ public class CZTGui implements ActionListener,HyperlinkListener
           e.consume();
         }
       }
-      
     }
 
     /** 
-     * Handle the key-released event from the text area 
+     * Handle the key-released event from the text area .
      */
-    public void keyReleased(KeyEvent e) {
-	//no keyReleased events needed
+    public void keyReleased(KeyEvent e)
+    {
+      //no keyReleased events needed
     }
-    /**
-     * retrieves the user input command from the text area
-     * and passes it to the exceute() method
-     */
-    public void zliveGo(){
 
+    /**
+     * Retrieves the user input command from the text area
+     * and passes it to the exceute() method.
+     */
+    public void zliveGo()
+    {
       int linecount = resultConsole.getLineCount();
       int offset = 0;
       int length = 0;
       String command = null;
-      
+
       //get contents of the last line and check and execute
-      try{
+      try {
         if(linecount > 1){
           offset = resultConsole.getLineStartOffset(linecount-1);
           length = resultConsole.getLineEndOffset(linecount-1)-offset;
           command = resultConsole.getText(offset,length);
-        }else{
+        }
+        else{
           command = resultConsole.getText();
         }
-        if(command.startsWith(zlive_.getCurrentSection())){
+        if (command.startsWith(zlive_.getCurrentSection())){
           command = command.substring(zlive_.getCurrentSection().length()+2);
           execute(resultConsole,command);
-          if(command.equals(""))
+          if (command.equals(""))
             resultConsole.append("\n");
-          if(command.equals("reset"))
+          if (command.equals("reset"))
             startConsoleWith.setEnabled(false);
           showZLivePrompt();
         }
-      }catch(BadLocationException e){
+      }
+      catch(BadLocationException e){
         e.printStackTrace();
       }
     }
-  
   }
 
-  public void showZLivePrompt(){
+  public void showZLivePrompt()
+  {
     resultConsole.append(zlive_.getCurrentSection()+"> ");
     currentCharCount = resultConsole.getText().length();
   }
-  
+
   public void startZLive(String sectName){
-      try{
-        zlive_.setCurrentSection(sectName);
-      }catch(CommandException ex){
-        resultConsole.append("Error Loading Specification\n");
-      }
-    
+    try{
+      zlive_.setCurrentSection(sectName);
+    }catch(CommandException ex){
+      resultConsole.append("Error Loading Specification\n");
+    }
     resultConsole.setText("");
     showZLivePrompt();
   }
-        
-  /**
-   *  Description of the Method
-   *
-   *@param  event  Description of the Parameter
-   */
+
   public void actionPerformed(ActionEvent event)
   {
-
     for(int i=0;i<zliveSectionMenuItems.size();i++){
       if(event.getSource() == zliveSectionMenuItems.get(i)){
         if(animationFirstStart){
           try{
             zlive_.getSectionManager().get(new Key(loadSource.getName(), Spec.class));
             animationFirstStart = false;
-          }catch(CommandException e){
+          }
+          catch(CommandException e) {
             e.printStackTrace();
           }
         }
         startZLive(event.getActionCommand());
       }
     }
-    
-    if(event.getSource() == startConsole){
+
+    if(event.getSource() == startConsole) {
       startZLive("ZLiveDefault");
     }
 
-    if(event.getSource() == czthelp){
+    if(event.getSource() == czthelp) {
       URL url = this.getClass().getResource("czt_help.html");
       helpEditor.setContentType("text/html");
-      
       try{
-      helpEditor.setPage(url);
-      }catch(IOException e){}
+        helpEditor.setPage(url);
+      }
+      catch(IOException e){}
       helpFrame.setVisible(true);
     }
     /*int n = 0;**/
     //display the spec dialog
     if (event.getSource() == open) {
-      if(!(statusBar.equals("status"))){
+      if (!(statusBar.equals("status"))) {
         statusBar.setText("status");
       }
       specDialog.setVisible(true);
@@ -711,61 +713,61 @@ public class CZTGui implements ActionListener,HyperlinkListener
         specText.setText(chooser.getSelectedFile().getPath());
         String extension = specText.getText();
 
-        if(extension.endsWith("zed")||extension.endsWith("tex")){
+        if(extension.endsWith("zed")||extension.endsWith("tex")) {
           languageCombo.setSelectedItem("Standard Z");
           markupCombo.setSelectedItem("Latex");
         }
-        if(extension.endsWith("zed8")){
+        if (extension.endsWith("zed8")) {
           languageCombo.setSelectedItem("Standard Z");
           markupCombo.setSelectedItem("UTF8");
         }
-        if(extension.endsWith("zed16")){
+        if (extension.endsWith("zed16")) {
           languageCombo.setSelectedItem("Standard Z");
           markupCombo.setSelectedItem("UTF16");
         }
-        if(extension.endsWith("oz")){
+        if (extension.endsWith("oz")) {
           languageCombo.setSelectedItem("Object Z");
           markupCombo.setSelectedItem("Latex");
         }
-        if(extension.endsWith("oz8")){
+        if (extension.endsWith("oz8")) {
           languageCombo.setSelectedItem("Object Z");
           markupCombo.setSelectedItem("UTF8");
         }
-        if(extension.endsWith("oz16")){
+        if (extension.endsWith("oz16")) {
           languageCombo.setSelectedItem("Object Z");
           markupCombo.setSelectedItem("UTF16");
         }
-        if(extension.endsWith("circus")){
+        if (extension.endsWith("circus")) {
           languageCombo.setSelectedItem("Circus");
           markupCombo.setSelectedItem("Latex");
         }
-        if(extension.endsWith("circus8")){
+        if (extension.endsWith("circus8")) {
           languageCombo.setSelectedItem("Circus");
           markupCombo.setSelectedItem("UTF8");
         }
-        if(extension.endsWith("circus16")){
+        if (extension.endsWith("circus16")) {
           languageCombo.setSelectedItem("Circus");
           markupCombo.setSelectedItem("UTF16");
         }
-        if(extension.endsWith("zedpatt")){
+        if (extension.endsWith("zedpatt")) {
           languageCombo.setSelectedItem("Z Rules");
           markupCombo.setSelectedItem("Latex");
         }
-        if(extension.endsWith("zedpatt8")){
+        if (extension.endsWith("zedpatt8")) {
           languageCombo.setSelectedItem("Z Rules");
           markupCombo.setSelectedItem("UTF8");
         }
-        if(extension.endsWith("zedpatt16")){
+        if (extension.endsWith("zedpatt16")) {
           languageCombo.setSelectedItem("Z Rules");
           markupCombo.setSelectedItem("UTF16");
         }
-        if(extension.endsWith("utf8")){
+        if (extension.endsWith("utf8")) {
           markupCombo.setSelectedItem("UTF8");
         }
-        if(extension.endsWith("utf16")){
+        if (extension.endsWith("utf16")) {
           markupCombo.setSelectedItem("UTF16");
         }
-        if(extension.endsWith("xml")||extension.endsWith("zml")){
+        if (extension.endsWith("xml")||extension.endsWith("zml")) {
           markupCombo.setSelectedItem("XML");
         }
       }
@@ -777,9 +779,9 @@ public class CZTGui implements ActionListener,HyperlinkListener
         if (!file.isFile()) {
           file = null;
           JOptionPane.showMessageDialog(frame,
-            "File Does Not Exist",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
+                                        "File Does Not Exist",
+                                        "Error",
+                                        JOptionPane.ERROR_MESSAGE);
         }
         else {
           loadFile();
@@ -789,7 +791,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     if(event.getSource() == reload){
       loadFile();
     }
-    
+
     //if the cancel button is clicked on the spec dialog then hid it
     if (event.getSource() == specCancelButton) {
       specDialog.setVisible(false);
@@ -804,7 +806,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
         saveSpec(fileForExporting.getPath(),"latex");
       }
     }
-        if (event.getSource() == saveasUnicode8) {
+    if (event.getSource() == saveasUnicode8) {
       String[] s = (file.getPath()).split("[.]");
       chooser.setSelectedFile(new File(s[0]+".utf8"));
       int returnValSave = chooser.showSaveDialog(frame);
@@ -813,7 +815,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
         saveSpec(fileForExporting.getPath(),"utf8");
       }
     }
-        if (event.getSource() == saveasUnicode16) {
+    if (event.getSource() == saveasUnicode16) {
       String[] s = (file.getPath()).split("[.]");
       chooser.setSelectedFile(new File(s[0]+".utf16"));
       int returnValSave = chooser.showSaveDialog(frame);
@@ -822,7 +824,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
         saveSpec(fileForExporting.getPath(),"utf16");
       }
     }
-        if (event.getSource() == saveasXML) {
+    if (event.getSource() == saveasXML) {
       String[] s = (file.getPath()).split("[.]");
       chooser.setSelectedFile(new File(s[0]+".xml"));
       int returnValSave = chooser.showSaveDialog(frame);
@@ -837,24 +839,27 @@ public class CZTGui implements ActionListener,HyperlinkListener
     }
     //exit program
     if (event.getSource() == exit) {
-        System.exit(0);
+      System.exit(0);
     }
   }
- 
-         public void hyperlinkUpdate(HyperlinkEvent e) {
-             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                 JEditorPane pane = (JEditorPane) e.getSource();
-                 if (e instanceof HTMLFrameHyperlinkEvent) {
-                     HTMLFrameHyperlinkEvent  evt = (HTMLFrameHyperlinkEvent)e;
-                     HTMLDocument doc = (HTMLDocument)pane.getDocument();
-                     doc.processHTMLFrameHyperlinkEvent(evt);
-                 } else {
-                     try {
-                         pane.setPage(e.getURL());
-                     } catch (Throwable t) {
-                         t.printStackTrace();
-                     }
-                 }
-             }
-         }  
+
+  public void hyperlinkUpdate(HyperlinkEvent e)
+  {
+    if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+      JEditorPane pane = (JEditorPane) e.getSource();
+      if (e instanceof HTMLFrameHyperlinkEvent) {
+        HTMLFrameHyperlinkEvent  evt = (HTMLFrameHyperlinkEvent)e;
+        HTMLDocument doc = (HTMLDocument)pane.getDocument();
+        doc.processHTMLFrameHyperlinkEvent(evt);
+      }
+      else {
+        try {
+          pane.setPage(e.getURL());
+        }
+        catch (Throwable t) {
+          t.printStackTrace();
+        }
+      }
+    }
+  }  
 }
