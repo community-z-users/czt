@@ -29,7 +29,12 @@ import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
@@ -41,12 +46,13 @@ import net.sourceforge.czt.zpatt.ast.JokerDeclList;
 import net.sourceforge.czt.zpatt.visitor.HeadDeclListVisitor;
 import net.sourceforge.czt.zpatt.visitor.JokerDeclListVisitor;
 
-/** A visitor for collecting all ZNames in some schema text.
- *  
- *  TODO: take into account the fact that ids inside a InclDecl
- *        are different to the ids outside.
- *        Eg. [ [x@1 : N | x@1<10] | x@2 > 0 ] should collect x@1 and x@2.
- *        (they are connected via the type annotation on the InclDecl).
+/**
+ * A visitor for collecting all ZNames in some schema text.
+ *
+ * It takes into account the fact that ids inside a InclDecl are
+ * different to the ids outside.  Eg. [ [x@1 : N | x@1<10] | x@2 > 0 ]
+ * collects x@1 and x@2 (they are connected via the type annotation on
+ * the InclDecl).
  */
 public class CollectStateVariablesVisitor
   implements ConstDeclVisitor<Object>,
@@ -78,6 +84,13 @@ public class CollectStateVariablesVisitor
     if (expr instanceof SchExpr) {
       SchExpr schExpr = (SchExpr) expr;
       schExpr.getZSchText().getDeclList().accept(this);
+      final TypeAnn typeAnn = (TypeAnn) schExpr.getAnn(TypeAnn.class);
+      final PowerType powerType = (PowerType) typeAnn.getType();
+      final SchemaType schType = (SchemaType) powerType.getType();
+      final Signature sig = schType.getSignature();
+      for (NameTypePair pair : sig.getNameTypePair()) {
+        variables_.add(pair.getName());
+      }
       return null;
     }
     String message = "Include declaration " + inclDecl + " not supported.";
