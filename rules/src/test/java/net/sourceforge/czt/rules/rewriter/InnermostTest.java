@@ -106,8 +106,7 @@ public class InnermostTest
       throws Exception
     {
       Unifier unifier = new Unifier();
-      Rewriter rewriter = new RewriteVisitor(rules_, manager_, section_);
-      Term rewritten = Strategies.innermost(term, rewriter);
+      Term rewritten = Strategies.innermost(term, rules_, manager_, section_);
       Term expected = expectedResult.accept(new CopyVisitor(factory_));
       boolean result = unifier.unify(expected, rewritten);
       if (! result) {
