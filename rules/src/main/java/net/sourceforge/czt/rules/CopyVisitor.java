@@ -24,13 +24,11 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
-import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.visitor.*;
-import net.sourceforge.czt.parser.util.DefinitionTable;
 
 /**
  * A visitor that copies a term using the given factory.  The main purpose
@@ -86,7 +84,9 @@ public class CopyVisitor
   /** Set the names that should be generalized into
    *  expressions (usually joker expressions) during the copy.
    *  If this is set to null, then no names are generalized.
-   * @param generalize
+   *  
+   *  @param why   Which definition is being unfolded (for debug messages).
+   *  @param generalize
    */
   public void setGeneralize(String why, Map<ZName, Expr> generalize)
   {
@@ -116,9 +116,19 @@ public class CopyVisitor
     return factory_.createJokerExpr(name, null);
   }
 
+  /**
+   *  Copies all the annotations from term to result.
+   *  This is useful to preserve location information and type annotations etc.
+   *  
+   *  Those annotations that are terms are copied using this CopyVisitor,
+   *  while the remaining annotations just have their reference copied across.
+   *  
+   * @param term   The term that is the source of the annotations.
+   * @param result Where to put the annotations.
+   */
   private void visitAnns(Term term, Term result)
   {
-    List anns = result.getAnns();
+    List<Object> anns = result.getAnns();
     for (Object o : term.getAnns()) {
       if (o instanceof Term) {
         anns.add(((Term) o).accept(this));
@@ -234,7 +244,7 @@ public class CopyVisitor
         Expr result = generalize_.get(name);
         String msg = "copy visitor for " + generalizing_ +
           " transforms type " + name + " to expr "+result;
-        //      System.out.println(msg);
+        // System.out.println(msg);
         return result; 
       }
     }
