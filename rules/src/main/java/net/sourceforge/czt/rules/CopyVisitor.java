@@ -96,12 +96,18 @@ public class CopyVisitor
 
   public CopyVisitor()
   {
-    factory_ = new Factory(new ProverFactory());
+    this(new Factory(new ProverFactory()));
   }
 
+  private static boolean checkedVisitorRules = false;
+  
   public CopyVisitor(Factory factory)
   {
     factory_ = factory;
+    if ( ! checkedVisitorRules ) {
+      // do this check just once, rather than thousands of times.
+      VisitorUtils.checkVisitorRules(this);
+    }
   }
 
   /** This allows clients to use this copy visitor's
@@ -126,7 +132,7 @@ public class CopyVisitor
    * @param term   The term that is the source of the annotations.
    * @param result Where to put the annotations.
    */
-  private void visitAnns(Term term, Term result)
+  private void copyOrVisitAnns(Term term, Term result)
   {
     List<Object> anns = result.getAnns();
     for (Object o : term.getAnns()) {
@@ -142,7 +148,7 @@ public class CopyVisitor
   public Term visitTerm(Term term)
   {
     Term result = VisitorUtils.visitTerm(this, term, false);
-    visitAnns(term, result);
+    copyOrVisitAnns(term, result);
     return result;
   }
 
@@ -192,7 +198,7 @@ public class CopyVisitor
     if (pred != null) pred = (Pred) pred.accept(this);
     if (pred == null) pred = factory_.createTruePred();
     result.setPred(pred);
-    visitAnns(zSchText, result);
+    copyOrVisitAnns(zSchText, result);
     return result;
   }
 
