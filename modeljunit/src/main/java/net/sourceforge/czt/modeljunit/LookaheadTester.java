@@ -39,7 +39,7 @@ import net.sourceforge.czt.modeljunit.examples.FSM;
  *
  *  @author Pele Douangsavanh
  */
-public class PessimisticTester extends Tester
+public class LookaheadTester extends Tester
 {
   protected GraphListener graph_;
 
@@ -60,7 +60,10 @@ public class PessimisticTester extends Tester
   }
 
   /**
-   * @param depth the depth of the recursive lookahead
+   * Set the lookahead depth.
+   * Zero means no lookahead, so the choice will be random.
+   *
+   * @param depth the depth of the recursive lookahead (0..)
    */
   public void setDepth(int depth_)
   {
@@ -72,14 +75,14 @@ public class PessimisticTester extends Tester
    *
    * @param model  Must be non-null;
    */
-  public PessimisticTester(Model model)
+  public LookaheadTester(Model model)
   {
     super(model);
     model.addListener("graph");
     transitions_ = (CoverageMetric) model.addListener(new TransitionCoverage());
     actions_ = (CoverageMetric) model.addListener(new ActionCoverage());
     graph_ = (GraphListener) model.getListener("graph");
-    depth_ = 1;
+    depth_ = 3;
     complex_ = false;
   }
 
@@ -87,7 +90,7 @@ public class PessimisticTester extends Tester
    * A convenience constructor that puts a Model wrapper around an FsmModel.
    * @param fsm  Must be non-null.
    */
-  public PessimisticTester(FsmModel fsm)
+  public LookaheadTester(FsmModel fsm)
   {
     this(new Model(fsm));
   }
@@ -249,7 +252,7 @@ public class PessimisticTester extends Tester
   }
 
   public static void main(String[] args) {
-    PessimisticTester tester = new PessimisticTester(new FSM());
+    LookaheadTester tester = new LookaheadTester(new FSM());
     tester.addListener(new VerboseListener());
     tester.generate(10);
   }

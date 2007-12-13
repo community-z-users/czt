@@ -342,9 +342,9 @@ modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/AllRoundTester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/GraphListener.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/ListenerFactory.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/LookaheadTester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/Model.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/ModelListener.java -text
-modeljunit/src/main/java/net/sourceforge/czt/modeljunit/PessimisticTester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/RandomTester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/ResultExtractor.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.java -text
