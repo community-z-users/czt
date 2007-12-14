@@ -272,7 +272,7 @@ public final class ZUtils
   public static Name getSchemaName(Term term)
   {
     Name result = null;
-    if (isSchema(term)) {
+    if (isSchema(term) || isHorizontalDef(term)) {
       AxPara axp = (AxPara) term;
       assert isAxParaSchemaOrHorizDefValid(axp);
       result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getName();
