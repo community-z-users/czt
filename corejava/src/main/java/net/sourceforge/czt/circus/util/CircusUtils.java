@@ -150,7 +150,7 @@ public final class CircusUtils
   public static Name getSchemaName(Para para)
   {
     Name result = null;
-    if (isSchema(para))
+    if (isSchema(para) || ZUtils.isHorizontalDef(para))
     {
       result = ZUtils.getSchemaName(para);
       if (result == null)
@@ -159,7 +159,7 @@ public final class CircusUtils
         assert isActionParaSchemaValid(ap);
         result = ap.getName();
       }
-    }
+    } 
     return result;
   }
   
