@@ -21,9 +21,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 /**
- * @author: Rong Yang
+ * @author Rong Yang
  * date: 28th Nov 2007
- * */
+ */
 public class DialogCoverageLineColor extends JDialog
 {
   public static final Color[] LINE_COVERAG_COLOR ={

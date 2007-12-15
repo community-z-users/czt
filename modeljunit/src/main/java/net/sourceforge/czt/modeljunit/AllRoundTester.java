@@ -62,17 +62,6 @@ public class AllRoundTester extends Tester
     loopTolerance = t;
   }
 
-  /** Uses a greedy random walk to try and test all loops in the model.
-   *
-   * @param maxLength  The number of test steps to do.
-   * @param rand       The random number generator used to choose paths.
-   */
-
-  public void setRandom(Random rand)
-  {
-    test.setRandom(rand);
-  }
-
   public int allRoundTrips()
   {
     int taken = test.generate();

@@ -331,7 +331,7 @@ public class Model
    * True iff the current state is the initial state.
    * (Note that the result is false before the first reset,
    * since the initial and current state are unknown until then).
-   * @return
+   * @return true if current state is the initial state.
    */
   public boolean isInitialState()
   {

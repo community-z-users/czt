@@ -132,7 +132,7 @@ public abstract class Tester
   /**
    *  A convenience method that adds a listener object.
    *  This is equivalent to <code>getModel().addListener(listener)</code>.
-   * @param metric  Must be non-null.
+   * @param listener  Must be non-null.
    * @return     The listener that has been added (now or earlier).
    */
   public ModelListener addListener(ModelListener listener)

@@ -45,14 +45,24 @@ public class LookaheadTesterTest extends TestCase
     transitions = tester.addCoverageMetric(new TransitionCoverage());
     path = new ArrayList<Transition>();
     tester.addListener(new AbstractListener() {
+      private Object lastState = "";
       public String getName()
       {
         return "path listener";
       }
+      @Override
       public void doneTransition(int action, Transition tr)
       {
         path.add(tr);
+        lastState = tr.getEndState();
         //System.out.println(path.size());
+      }
+      @Override
+      public void doneReset(String reason, boolean testing)
+      {
+        Object initial = model_.getCurrentState();
+        path.add(new Transition(lastState, "reset", initial));
+        lastState = initial;
       }
     }
     );
@@ -106,12 +116,11 @@ public class LookaheadTesterTest extends TestCase
     assertEquals(16, transitions.getCoverage());
   }
 
-
   public void testGenerate2()
   {
     tester.setDepth(3);
     tester.generate(19);
-    // 
+    //
     assertEquals(19, path.size());
     assertEquals("(FF, addS1, TF)", path.get(0).toString());
     assertEquals("(TF, addS2, TT)", path.get(1).toString());
@@ -122,19 +131,60 @@ public class LookaheadTesterTest extends TestCase
     assertEquals("(TT, addS1, TT)", path.get(6).toString());
     assertEquals("(TT, addS2, TT)", path.get(7).toString());
     assertEquals("(TT, delS2, TF)", path.get(8).toString());
-    
     assertEquals("(TF, addS1, TF)", path.get(9).toString());
     assertEquals("(TF, delS1, FF)", path.get(10).toString());
     assertEquals("(FF, delS1, FF)", path.get(11).toString());
     assertEquals("(FF, delS2, FF)", path.get(12).toString());
-    
     assertEquals("(FF, addS1, TF)", path.get(13).toString());
     assertEquals("(TF, delS2, TF)", path.get(14).toString());
-    
     assertEquals("(TF, addS2, TT)", path.get(15).toString());
     assertEquals("(TT, delS1, FT)", path.get(16).toString());
     assertEquals("(FT, addS2, FT)", path.get(17).toString());
     assertEquals("(FT, delS1, FT)", path.get(18).toString());
+    assertEquals(16, transitions.getCoverage());
+  }
+
+  public void testMaxLength()
+  {
+    tester.setDepth(3);
+    tester.setMaxLength(4);
+    tester.generate(30);
+    //
+    assertEquals("(FF, addS1, TF)", path.get(0).toString());
+    assertEquals("(TF, addS2, TT)", path.get(1).toString());
+    assertEquals("(TT, delS1, FT)", path.get(2).toString());
+    assertEquals("(FT, delS2, FF)", path.get(3).toString());
+
+    assertEquals("(FF, reset, FF)", path.get(4).toString());
+    assertEquals("(FF, addS2, FT)", path.get(5).toString());
+    assertEquals("(FT, addS1, TT)", path.get(6).toString());
+    assertEquals("(TT, addS1, TT)", path.get(7).toString());
+    assertEquals("(TT, addS2, TT)", path.get(8).toString());
+
+    assertEquals("(TT, reset, FF)", path.get(9).toString());
+    assertEquals("(FF, delS1, FF)", path.get(10).toString());
+    assertEquals("(FF, delS2, FF)", path.get(11).toString());
+    assertEquals("(FF, addS1, TF)", path.get(12).toString());
+    assertEquals("(TF, addS1, TF)", path.get(13).toString());
+
+    assertEquals("(TF, reset, FF)", path.get(14).toString());
+    assertEquals("(FF, addS2, FT)", path.get(15).toString());
+    assertEquals("(FT, addS2, FT)", path.get(16).toString());
+    assertEquals("(FT, delS1, FT)", path.get(17).toString());
+    assertEquals("(FT, addS1, TT)", path.get(18).toString());
+
+    assertEquals("(TT, reset, FF)", path.get(19).toString());
+    assertEquals("(FF, addS1, TF)", path.get(20).toString());
+    assertEquals("(TF, delS1, FF)", path.get(21).toString());
+    assertEquals("(FF, addS1, TF)", path.get(22).toString());
+    assertEquals("(TF, delS2, TF)", path.get(23).toString());
+
+    assertEquals("(TF, reset, FF)", path.get(24).toString());
+    assertEquals("(FF, addS2, FT)", path.get(25).toString());
+    assertEquals("(FT, addS1, TT)", path.get(26).toString());
+    assertEquals("(TT, delS2, TF)", path.get(27).toString());
+    assertEquals("(TF, addS1, TF)", path.get(28).toString());
+
     assertEquals(16, transitions.getCoverage());
   }
 }
