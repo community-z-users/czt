@@ -416,6 +416,7 @@ public class PanelTestDesign extends JPanel
       if (m_panelAlgorithm[m_nCurAlgo] == null)
         System.out.println("Error: Algorithm panel is null");
 
+      m_algorithmRight.setToolTipText(m_panelAlgorithm[m_nCurAlgo].getExplanation());
       // Update the setting
       Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo].getAlgorithmName());
       
@@ -615,7 +616,7 @@ public class PanelTestDesign extends JPanel
       }
       if(m_checkCoverage[2].isSelected())
       {
-        buf.append(Indentation.wrap("CoverageHistory transitionPairCoverage = new TransitionCoverage();"));
+        buf.append(Indentation.wrap("CoverageHistory transitionPairCoverage = new TransitionPairCoverage();"));
         buf.append(Indentation.wrap("tester.addCoverageMetric(transitionPairCoverage);"));
         buf.append(Indentation.SEP);
       }
