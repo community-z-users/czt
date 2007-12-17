@@ -12,7 +12,7 @@
   and Bruno Legeard: <Practical Model-Based Testing: A Tools Approach>,
   Elsevier 2007}}.
 
-  This is a beta-release of ModelJUnit.  Note that it uses the annotations
+  This is a version 1.1 of ModelJUnit.  Note that it uses the annotations
   feature of Java 5.0, so requires JDK 1.5 or higher to run.
 
 
@@ -52,5 +52,8 @@ Documentation
 Using ModelJUnit
 
   See {{{http://www.cs.waikato.ac.nz/~marku/mbt/modeljunit} instructions
-  and examples}} on how to use ModelJUnit to generate tests.
+  and examples}} on how to use ModelJUnit to generate tests.  
+  There are also lots of examples in the 
+  <<<src/main/java/net/sourceforge/czt/modeljunit/examples>>>
+  directory of this distribution.
 

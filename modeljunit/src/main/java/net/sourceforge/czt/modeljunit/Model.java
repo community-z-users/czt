@@ -56,6 +56,12 @@ import junit.framework.Assert;
  */
 public class Model
 {
+  /** The version of ModelJUnit */
+  public static final String getVersion()
+  {
+    return "1.1";
+  }
+
   /** This class defines the finite state machine model of the system under test.
    *  It is null until loadModelClass() has successfully loaded that class.
    */

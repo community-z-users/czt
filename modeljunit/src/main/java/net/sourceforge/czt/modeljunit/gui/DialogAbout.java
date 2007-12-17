@@ -14,13 +14,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import net.sourceforge.czt.modeljunit.Model;
+
 public class DialogAbout extends JDialog
 {
   public DialogAbout(Frame owner)
   {
     super(owner, "About", true);
     setLayout(new BorderLayout());
-    String msg = new String("ModelJUnit GUI\n Director: Mark Utting \n Coding: Rong Yang\nVersion 1.0");
+    String msg = new String("ModelJUnit GUI\n"
+        + " Director: Mark Utting \n"
+        + " Coding: Rong Yang\n"
+        + " Version: " + Model.getVersion());
     JTextArea txt = new JTextArea(msg);
     txt.setEditable(false);
     txt.setBackground(this.getBackground());
