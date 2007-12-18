@@ -223,7 +223,8 @@ public class PanelTestDesign extends JPanel
     m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbability()));
     m_sliderAverageTestLength.setMajorTickSpacing(10);
     //m_sliderAverageTestLength.setPaintTicks(true);
-    m_panelAlgorithmBase.setLayout(new BoxLayout(m_panelAlgorithmBase,BoxLayout.X_AXIS));
+    BoxLayout layout = new BoxLayout(m_panelAlgorithmBase,BoxLayout.X_AXIS);
+    m_panelAlgorithmBase.setLayout(layout);
 
     m_algorithmLeft = new JPanel();
     m_algorithmLeft.setLayout(new GridBagLayout());

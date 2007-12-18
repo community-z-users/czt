@@ -64,7 +64,7 @@ public class LookaheadTester extends Tester
   protected int NEW_TRANS = 10;
 
   /** How worthwhile is it to use a completely new action? */
-  protected int NEW_ACTION = 25;
+  protected int NEW_ACTION = 15;
 
   /** How far should we look ahead? */
   protected int DEPTH = 3;
@@ -100,7 +100,7 @@ public class LookaheadTester extends Tester
    *
    * @param depth the depth of the recursive lookahead (1..n)
    *              This should be reasonably small, otherwise the lookahead
-   *              may be exponentially slow.
+   *              may be exponentially slow.  The default value is 3.
    */
   public void setDepth(int depth)
   {
