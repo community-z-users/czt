@@ -64,5 +64,6 @@ public class PanelResultViewer extends JPanel
   public void updateRunTimeInformation(String str)
   {
     m_txtOutput.append(str);
+    m_txtOutput.paintImmediately(m_txtOutput.getBounds());
   }
  }

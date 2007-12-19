@@ -429,7 +429,7 @@ setJMenuBar(mb);
     // Clear the information in Result viewer text area
     m_panelRV.resetRunTimeInformation();
     // Run test and display test output
-    m_panelRV.updateRunTimeInformation(TestExeModel.runTestAuto());
+    TestExeModel.runTestAuto();
   }
 
   class TabChangeListener implements ChangeListener
