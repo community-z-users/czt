@@ -44,9 +44,15 @@ public class ZLiveResult
   /** An iterator through result_ (if it is an EvalSet) */
   protected ListIterator<Expr> currIter_ = null;
 
-  /** The position in currSet of currMember_ (0 .. n+1).
-   *  Invariant: this is always the value of currSet_.nextIndex() and
-   *  currMember_ (if non-null) is always the value of currSet_.previous().
+  /** The position in currIter_ of currMember_ (0 .. n, for an n-element set)
+   *  Invariant: currPosition_ is always the value of currIter_.nextIndex() and
+   *  currMember_ (if non-null) is always the value of currIter_.previous().
+   *
+   *  So currPosition_==0 means we are *before* the first element,
+   *  and currMember_==null.
+   *
+   *  For a non-empty set of size n, the maximum value of currPosition_ is
+   *  n, with currMember_ being the last element.
    */
   protected int currPosition_ = 0;
 
@@ -229,30 +235,47 @@ public class ZLiveResult
     if (currIter_ == null) {
       throw new RuntimeException("no current set or schema");
     }
+    //System.out.println("moveTo("+position+") starts with currPos="
+    //    + currPosition_ + " and iter.nextIndex()=" + currIter_.nextIndex());
     if (position <= 0) {
-      throw new RuntimeException("no previous solutions");
+      throw new MoveException("no previous solutions");
     }
-    else {
-      while (position < currPosition_ && currIter_.hasPrevious()) {
-        // step backwards
-        currMember_ = currIter_.previous();
-        currPosition_ = currIter_.nextIndex();
-      }
-      while (position > currPosition_ && currIter_.hasNext()) {
-        // step forwards
-        currMember_ = currIter_.next();
-        currPosition_ = currIter_.nextIndex();
-      }
-      if (position > currPosition_) {
-        throw new RuntimeException("no more solutions");
-      }
+    while (position < currPosition_ && currIter_.hasPrevious()) {
+      // step backwards
+      currMember_ = currIter_.previous();
+      currPosition_ = currIter_.nextIndex();
     }
-    // now display the current element
-    if (currPosition_ > 0) {
-      // make sure we have got the element just *before* currPosition_.
-      currIter_.previous();
+    while (position > currPosition_ && currIter_.hasNext()) {
+      // step forwards
       currMember_ = currIter_.next();
       currPosition_ = currIter_.nextIndex();
+    }
+    if (position > currPosition_) {
+      throw new MoveException("no more solutions");
+    }
+    if (position < currPosition_) {
+      throw new MoveException("no previous solutions");
+    }
+    assert currPosition_ == position;
+    // now display the current element
+    // make sure we have got the element just *before* currPosition_.
+    assert currIter_.hasPrevious();
+    currIter_.previous();
+    currMember_ = currIter_.next();
+    currPosition_ = currIter_.nextIndex();
+    assert currPosition_ == position; // should be unchanged
+  }
+
+  /** An exception for the ZLiveResult move method.
+   *  This is thrown when an impossible move is requested.
+   *  For example, when the move attempts to move off the end or
+   *  the beginning of the set.
+   * @author marku
+   */
+  public static class MoveException extends RuntimeException
+  {
+    public MoveException(String msg) {
+      super(msg);
     }
   }
 }

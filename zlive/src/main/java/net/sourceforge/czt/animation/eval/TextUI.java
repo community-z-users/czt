@@ -221,7 +221,10 @@ public class TextUI {
         }
         Expr schema = parseExpr(args,output_);
         Envir env = new Envir().plusAll(inputs);
-        // TODO: prompt user for any missing inputs???
+        // Note: we could prompt the user for any missing inputs here.
+        // But it is more fun, and more general, to see if ZLive can generate
+        // any necessary input values itself.  Also, the user can always
+        // write [Op | input? = ...; input2? = ...] to specify inputs.
         stack_.push(new ZLiveResult(zlive_.getCurrentSection(), schema));
         stack_.peek().setEnvir0(env);
         zlive_.compile(stack_.peek());
@@ -239,9 +242,9 @@ public class TextUI {
           }
           else {
             output_.print("Returned to: ");
-            zlive_.printTerm(output_, stack_.peek().getOriginalTerm(),
-                zlive_.getMarkup());
-            doMove(stack_.peek().currentPosition());
+            zlive_.printTerm(output_, stack_.peek().getOriginalTerm());
+            output_.println();
+            doMove(0);
           }
         }
       }
@@ -340,8 +343,11 @@ public class TextUI {
     catch (SourceLocator.SourceLocatorException ex) {
       output_.println("Cannot find source for section '" + ex.getName() + "'");
     }
+    catch (ZLiveResult.MoveException ex) {
+      output_.println(ex.getMessage());
+    }
     catch (Exception ex) {
-      output_.println("Error: " + ex.getMessage());
+      output_.println("Error: " + ex);
       // ex.printStackTrace();
     }
     output_.flush();
