@@ -51,10 +51,12 @@ public class CarrierSet
 
   /** Don't throw an exception when a variable type is encountered. */
   protected boolean allowVariableTypes_;
+  
+  public static final boolean DEFAULT_ALLOW_VARIABLE_TYPES = false;
 
   public CarrierSet()
   {
-    this(new net.sourceforge.czt.z.impl.ZFactoryImpl(), false);
+    this(new net.sourceforge.czt.z.impl.ZFactoryImpl(), DEFAULT_ALLOW_VARIABLE_TYPES);
   }
 
   public CarrierSet(boolean allowVariableTypes)
@@ -64,7 +66,7 @@ public class CarrierSet
 
   public CarrierSet(ZFactory zFactory)
   {
-    this(zFactory, false);
+    this(zFactory, DEFAULT_ALLOW_VARIABLE_TYPES);
   }
 
   public CarrierSet(ZFactory zFactory, boolean allowVariableTypes)
