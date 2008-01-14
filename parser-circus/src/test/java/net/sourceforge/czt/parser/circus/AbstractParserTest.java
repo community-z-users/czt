@@ -55,16 +55,28 @@ public abstract class AbstractParserTest extends TestCase
   protected static final ParseErrorLogging pel_;
   protected static final ParseErrorLogging pelsm_;
   
-  static {      
+  static {          
+      File shouldDebug = new File("src/test/resources/tests/circus/debug-please");      
+      try{
+      System.out.println("shouldDebug? \n path = " + shouldDebug.getPath() 
+        + "\n abs path = " + shouldDebug.getAbsolutePath() 
+        + "\n can path = " + shouldDebug.getCanonicalPath() 
+        + " \n exists? = " + shouldDebug.exists());
+      }  catch(java.io.IOException e) {  }
+      DEBUG_TESTING = shouldDebug.exists();
       if (DEBUG_TESTING) {
+        System.out.println("Debug mode is on");
         pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
         pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
         TESTS_SOURCEDIR.add("tests/circus/debug");
+        DEBUG_LEVEL = Level.FINEST;
       } else {
+        System.out.println("Debug mode is off");
         TESTS_SOURCEDIR.add("tests/circus");
         // If not debugging testing, then do not do logging.
         pel_ = null;
         pelsm_ = null;
+        DEBUG_LEVEL = Level.WARNING;
       }
   }
   
