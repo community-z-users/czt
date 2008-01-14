@@ -55,7 +55,8 @@
     net.sourceforge.czt.z.ast.Signature usedNameSets,
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ZSignatureList localZParagraphs,
-    ActionSignatureList processActions)
+    ActionSignatureList processActions,
+    StateUpdate stateUpdate)
   {
     return createBasicProcessSignature(name, genFormals,
       newList(
@@ -73,5 +74,24 @@
         // list2 = ActionSignatureList getActionSignatures()
         processActions
       ),
-      kind);
+      kind, 
+      stateUpdate);
+  }
+
+
+  public BasicProcessSignature createBasicProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    net.sourceforge.czt.z.ast.Signature usedChannels,
+    ProcessKind kind,
+    net.sourceforge.czt.z.ast.Signature usedNameSets,
+    net.sourceforge.czt.z.ast.Signature stateSignature,
+    ZSignatureList localZParagraphs,
+    ActionSignatureList processActions)
+  {
+    return createBasicProcessSignature(name, genFormals,
+      paramOrIndexes, usedChannels, kind, usedNameSets, 
+      stateSignature, localZParagraphs, processActions,      
+      createStateUpdate());
   }

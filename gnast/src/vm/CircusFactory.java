@@ -21,6 +21,18 @@
       net.sourceforge.czt.z.ast.Signature usedChannels,
       ProcessKind kind);
 
+  BasicProcessSignature createBasicProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    net.sourceforge.czt.z.ast.Signature usedChannels,
+    ProcessKind kind,
+    net.sourceforge.czt.z.ast.Signature usedNameSets,
+    net.sourceforge.czt.z.ast.Signature stateSignature,
+    ZSignatureList localZParagraphs,
+    ActionSignatureList processActions,
+    StateUpdate stateUpdate);
+
   /** 
    * Follows the strategy from createCircusProcessSignature, but also considering
    * the last four extra elments involved in BasicProcessSignature.
