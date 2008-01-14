@@ -496,10 +496,19 @@ These interfaces represent the AST for Circus.
   <xs:element name="AssignmentPairs" type="CIRCUS:AssignmentPairs">
     <xs:annotation>
       <xs:documentation>
-        Encapsulates two lists used for assignments, either of channels in <code>RenamingProcess</code>,
-        or of variables in assignment command. It represents two lists of equal size for the 
-        left and right hand sides. Moreover, for <code>RenamingProcess</code>, the RHS list
-        can only contain <code>RefExpr</code>, as channels might have generic actuals.
+        Encapsulates two lists used for assignments.
+        <p>
+        Syntactically, that corresponds to either channels in <code>RenamingProcess</code>,
+        or to variables in an assignment command. Semantically, it is also used to determine
+        which (process) state variables were updated, and in which order.
+        </p>
+        <p>
+        It represents two lists of equal size for the left and right hand sides. 
+        Moreover, for <code>RenamingProcess</code>, the RHS list can only contain 
+        <code>RefExpr</code>, as channels might have generic actuals.
+        For state updates, the RHS may be a predicate, in which case it is given as
+        an SchExpr to operate upon the process state.
+        </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -2001,6 +2010,52 @@ These interfaces represent the AST for Circus.
     </xs:complexContent>
   </xs:complexType>
   
+  <xs:element name="StateUpdate" type="CIRCUS:StateUpdate" substitutionGroup="Z:QntPred">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          Process state update is a list of assignment pairs representing
+          how state updates took place sequentially. For complex compositional 
+          operators, such as external choice and parallel composition, there are
+          semantic functions that define how the state merge occurs, which
+          is much like what happens in the UTP.
+        </p>
+        <p>
+          These classes shall never be instantiated by the user manually.
+          They are produced by Circus tools as they go along performing the
+          varied state update forms the language allows.
+        </p>
+        <p>
+          It is a Z quantified predicate extended to contain a list of
+          assignment pairs. Essentially, a tool, say a typechecker, collects 
+          the assignment pairs representing a particular branch of the AST.
+          This can be built backwards as it traverses the AST during typechecking.
+          After that, another tool, say an animator or model checker, can 
+          apply necessary transformations needed to the assignment
+          pairs list so that the merge of information reflect the denotational
+          semantics of a particular construct. The resulting predicate representing
+          the whole state update is then feed into the actual structure of a QntPred,
+          where the SchText is the state components (and invariant), and the predicate
+          is the calculated state merge. (!) 
+        </p>
+        <p>
+          It is part of a BasicProcessSignature.
+          It may also be part of a StateUpdateAnn.
+        </p>        
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+   
+  
+  <xs:element name="StateUpdateAnn" type="CIRCUS:StateUpdateAnn" substitutionGroup="CIRCUS:CircusAnn">
+    <xs:annotation>
+      <xs:documentation>
+        <p>Annotation for StateUpdate instances outside BasicProcessSignature 
+        </p>        
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
   <!-- Process Definition :: Calls --> 
   
   <xs:complexType name="CallProcess">
@@ -2102,6 +2157,8 @@ These interfaces represent the AST for Circus.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  
           
   <!-- Process Definition :: Binary -->
   
@@ -2649,6 +2706,20 @@ These interfaces represent the AST for Circus.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
+  
+  
+  <xs:complexType name="StateUpdate">
+    <xs:complexContent>
+      <xs:extension base="Z:QntPred">
+        <xs:sequence>
+          <!-- At least you must have the types correct, even if absolutely nondeterministically
+              e.g., St == [ x: \nat ].... Op == [ \Delta S ], here x' \in \nat, and that is it.
+            -->
+          <xs:element ref="CIRCUS:AssignmentPairs" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   
   <!-- CSP Communication complexType -->
   <xs:complexType name="Communication">
@@ -3208,6 +3279,15 @@ These interfaces represent the AST for Circus.
               
               Superseeded by SignatureList above in ProcessSignature
               -->
+              
+          <!-- Added StateUpdate to BasicProcess: it must always have at most one -->
+            <xs:element ref="CIRCUS:StateUpdate">
+              <xs:annotation>
+                <xs:appinfo>
+                  <jaxb:property generateElementProperty="true"/>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
           </xs:sequence>
       </xs:extension>
     </xs:complexContent>    
@@ -3264,5 +3344,21 @@ These interfaces represent the AST for Circus.
       <xs:extension base="Z:Ann"/>            
     </xs:complexContent>
   </xs:complexType>  
-    
+  
+  <xs:complexType name="StateUpdateAnn">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusAnn">
+        <xs:sequence>
+           <xs:element ref="CIRCUS:StateUpdate">
+              <xs:annotation>
+                <xs:appinfo>
+                  <jaxb:property generateElementProperty="true"/>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
 </xs:schema>
