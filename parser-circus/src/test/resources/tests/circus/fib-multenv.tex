@@ -12,7 +12,7 @@ basic_process_BEGIN
 \end{circus}
 process_state_and_init
 \begin{circusaction}
-    \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
+    \circstate\ FibState ~~==~~ [~ x, y: \nat ~]  \land [ z: \nat ]\\
     InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~]
 \end{circusaction}
 first_action
@@ -27,7 +27,9 @@ schema_action
 \end{schema}
 recursive_action
 \begin{circusaction}
-    OutFib ~~\circdef~~ \circmu\ X @ (~ \circvar\ next: \nat @ OutFibState \circseq out~!next \then X ~)
+    OutFib ~~\circdef~~ \circmu\ X @ \\
+    	\t1 (~ \circvar\ next: \nat @ \\
+	   \t2 OutFibState \circseq out~!next \then X ~)
 \end{circusaction}
 main_action
 \begin{circusaction}
@@ -38,5 +40,4 @@ before_process_END
     \circend
 \end{circus}
 after_process_END
-
 section_END 
