@@ -402,6 +402,7 @@ modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ListenerFactoryTest.java
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ModelTestCaseTest.java -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/RandomTesterTest.java -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ResetTest.java -text
+parser-circus/src/main/resources/lib/circus.sty -text
 parser-circus/src/main/resources/lib/circus.unicode.latb -text
 parser-circus/src/main/resources/lib/circus_mc_toolkit.tex -text
 parser-circus/src/main/resources/lib/circus_prelude.tex -text
