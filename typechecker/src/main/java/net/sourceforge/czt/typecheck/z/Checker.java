@@ -48,6 +48,7 @@ abstract public class Checker<R>
 
   public Checker(TypeChecker typeChecker)
   {
+    assert typeChecker != null;
     typeChecker_ = typeChecker;
   }
 
@@ -65,7 +66,7 @@ abstract public class Checker<R>
     return null;
   }
 
-  //adds a type annotation created from a type to a Term
+  /** Adds a type annotation created from a type to a Term */
   protected void addTypeAnn(Term term, Type type)
   {
     assert type != null;
@@ -79,7 +80,7 @@ abstract public class Checker<R>
     }
   }
 
-  //adds a signature annotation create from a signature to a Term
+  /** Adds a signature annotation create from a signature to a Term */
   protected void addSignatureAnn(Term term, Signature signature)
   {
     assert signature != null;
@@ -101,6 +102,11 @@ abstract public class Checker<R>
     }
   }
 
+  /** 
+   * Retrieves a TypeAnn from the given term annotations list.
+   * If there isn't one, it is created without a type element
+   * and added to the term's list.
+   */
   protected TypeAnn getTypeAnn(Term term)
   {
     TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
@@ -111,6 +117,12 @@ abstract public class Checker<R>
     return typeAnn;
   }
 
+  /** 
+   * Retrieves the type within a TypeAnn from the given term annotations list,
+   * as defined by GlobalDefs.getTypeFromAnns. The result is either the annotated
+   * type or UnknownType. Finally, the result variable types are resolved using the
+   * #unwrapType method.
+   */
   protected Type2 getType2FromAnns(Term term)
   {
     Type annType = getTypeFromAnns(term);
@@ -118,10 +130,8 @@ abstract public class Checker<R>
     return result;
   }
 
-
-
   /**
-   * Adds an error to the list of error annotation.
+   * Adds an error to the list of error annotation of paragraphs.
    */
   protected void error(ErrorAnn errorAnn)
   {
@@ -402,18 +412,24 @@ abstract public class Checker<R>
   }
 
   /**
-   * Returns the list of errors thrown by retrieving type info.
+   * Returns the list of errors and post check terms in the current paragraph.
    */
   protected List<Object> paraErrors()
   {
     return typeChecker_.paraErrors_;
   }
 
+  /**
+   * Usage before declaration flag.
+   */
   protected boolean useBeforeDecl()
   {
     return typeChecker_.useBeforeDecl_;
   }
 
+  /**
+   * Returns an unique id, which is used to mark ZName instances.
+   */
   protected int id()
   {
     return typeChecker_.id_++;
@@ -511,7 +527,7 @@ abstract public class Checker<R>
     }  
   }
   
-  protected void postCheck()
+  protected List<? extends ErrorAnn> postCheckParaErrors()
   {
     //post-check any previously unresolved expressions
     List<ErrorAnn> paraErrors = factory().list();
@@ -528,9 +544,15 @@ abstract public class Checker<R>
         paraErrors.add(errorAnn);
       }
     }
+    return paraErrors;
+  }
+  
+  protected void postCheck()
+  {
+    List<? extends ErrorAnn> paraErrors = postCheckParaErrors();
     paraErrors().clear();
     errors().addAll(paraErrors);
-  }
+  }  
 
   protected boolean checkPair(NameTypePair first,
                               NameTypePair second,
@@ -691,20 +713,29 @@ abstract public class Checker<R>
       map.put(first.getZName().toString().intern(), first);
     }
   }
-
-  //construct the declarations from a variable declaration if there
-  //are no typing errors, otherwise, raise the errors
+  
   protected List<NameTypePair> checkVarDecl(VarDecl varDecl,
                                             UResult unified,
                                             Type2 exprType,
                                             PowerType vPowerType)
   {
+    return checkDeclNames(varDecl.getName(), 
+      varDecl.getExpr(), unified, exprType, vPowerType);
+  }
+  
+  //construct the declarations from a variable declaration if there
+  //are no typing errors, otherwise, raise the errors
+  protected List<NameTypePair> checkDeclNames(List<Name> declNames, 
+                                              Expr expr,
+                                              UResult unified,
+                                              Type2 exprType,
+                                              PowerType vPowerType)
+  {
     //the list of name type pairs in this VarDecl
     List<NameTypePair> pairs = factory().list();
 
     //if the type is not a power type, raise an error
-    if (unified == FAIL) {
-      Expr expr = varDecl.getExpr();
+    if (unified == FAIL) {      
       Object [] params = {expr, exprType};
       error(expr, ErrorMessage.NON_SET_IN_DECL, params);
     }
@@ -725,8 +756,7 @@ abstract public class Checker<R>
         baseType = vPowerType.getType();
       }
 
-      //get the Names
-      List<Name> declNames = varDecl.getName();
+      //get the Names      
       for (Name declName : declNames) {
         //add a unique ID to this name
         factory().addNameID(declName);
