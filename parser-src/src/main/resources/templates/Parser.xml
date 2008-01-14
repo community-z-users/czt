@@ -1110,7 +1110,7 @@ action code
         ProcessPara pa = factory_.createProcessPara(createZName(pn), factory_.createZNameList(), pp);
         addLocAnn(pa, getLocation(pn.getLocation(), pp));
         return pa;
-    }    
+    }        
     
     /**
      * Checks whether the given predicate is a schema. 
@@ -1122,7 +1122,7 @@ action code
      */
     protected boolean checkCircusStateAnnParaIsSchema(Para p) {      
       // call the CircusUtils version of isSchema to include Schema Actions
-      boolean result = ZUtils.isHorizontalSchema(p) || CircusUtils.isSchema(p);
+      boolean result = parserState_.isValidStatePara(p);
       if (!result) {                               
          parser.report_error(CircusParseMessage.MSG_INVALID_BASICPROCESS_STATE_PARA,
                new Object[0], getLocation(p));
