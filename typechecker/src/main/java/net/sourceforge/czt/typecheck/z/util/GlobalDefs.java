@@ -230,7 +230,9 @@ public class GlobalDefs
 
     if (typeAnn != null) {
       result = typeAnn.getType();
-    }
+      // z.Checker.getTypeAnn could create an empty TypeAnn!    
+      assert result != null;
+    }        
     return result;
   }
 
