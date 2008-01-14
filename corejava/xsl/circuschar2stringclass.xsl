@@ -58,7 +58,7 @@ public interface CircusString extends ZPattString
   String CIRCASSERTREF = "assert";
   String CIRCBEGIN = "begin";
   String CIRCEND = "end";
-  String CIRCSTATE = "state";
+  String CIRCSTATE = "circstate";
   String CIRCSKIP = "Skip";
   String CIRCSTOP = "Stop";
   String CIRCCHAOS = "Chaos";
