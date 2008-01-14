@@ -46,6 +46,7 @@ import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.util.ZUtils;
 
 public class ParserState
   extends net.sourceforge.czt.parser.z.ParserState
@@ -271,13 +272,18 @@ public class ParserState
     return locallyDeclPara_;
   }
   
+  protected boolean isValidStatePara(Para p)
+  {
+     return ZUtils.isHorizontalDef(p) || CircusUtils.isSchema(p);
+  }
+
   /**
    * Adds a &lt;code&gt;CircusStateAnn&lt;/code&gt; annotation to the given paragraph.
    * The code also checks the paragraph is indeed a valid schema, and an error is
    * report if a problem is found.
    */
   public void addCircusStateAnn(Para para) {     
-     assert CircusUtils.isSchema(para) : "Invalid paragraph for process state";
+     assert isValidStatePara(para) : "Invalid paragraph for process state";
      para.getAnns().add(factory_.createCircusStateAnn());
   }
   
