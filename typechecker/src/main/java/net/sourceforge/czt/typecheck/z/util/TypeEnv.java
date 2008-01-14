@@ -57,7 +57,18 @@ public class TypeEnv
     typeInfo_ = new Stack<Map<ZName, NameTypePair>>();
     parameters_ = new Stack<List<ZName>>();
   }
-
+/*  
+  protected TypeEnv(Factory factory, TypeEnv copyFrom)
+  {
+    this(factory);
+    for(Map<ZName, NameTypePair> ti : copyFrom.typeInfo_)
+    {
+      
+    }
+    typeInfo_ = (Stack<Map<ZName, NameTypePair>>)copyFrom.typeInfo_.clone();
+    parameters_ = (Stack<List<ZName>>)copyFrom.parameters_.clone();
+  }
+*/
   public Factory getFactory()
   {
     return factory_;
@@ -134,10 +145,37 @@ public class TypeEnv
 
   public Type getType(ZName zName)
   {
+    return getTypeFromStack(zName, typeInfo_);
+  }
+
+  //gets the pair with the corresponding name
+  protected NameTypePair getPair(ZName zName)
+  {    
+    return getPairFromStack(zName, typeInfo_);
+  }
+  
+  /**
+   * General method that retrieves NameTypePair for the given name from the given type information stack
+   * for Z typechecking that means
+   */
+  protected NameTypePair getPairFromStack(ZName zName, Stack<Map<ZName, NameTypePair>> ti)
+  {
+    NameTypePair result = null;
+    for (Map<ZName, NameTypePair> map : ti) {
+      NameTypePair pair = getX(zName, map);
+      if (pair != null) {
+        result = pair;
+      }
+    }
+    return result;
+  }
+  
+  public Type getTypeFromStack(ZName zName, Stack<Map<ZName, NameTypePair>> ti)
+  {
     Type result = getFactory().createUnknownType();
 
     //get the info for this name
-    NameTypePair pair = getPair(zName);
+    NameTypePair pair = getPairFromStack(zName, ti);
     if (pair != null) {
       result = pair.getType();
       getFactory().merge(zName, pair.getZName());
@@ -147,19 +185,6 @@ public class TypeEnv
     //of it
     if (pair == null) {
       result = getDeltaXiType(zName, result);
-    }
-    return result;
-  }
-
-  //gets the pair with the corresponding name
-  protected NameTypePair getPair(ZName zName)
-  {
-    NameTypePair result = null;
-    for (Map<ZName, NameTypePair> map : typeInfo_) {
-      NameTypePair pair = getX(zName, map);
-      if (pair != null) {
-        result = pair;
-      }
     }
     return result;
   }
