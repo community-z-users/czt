@@ -1360,7 +1360,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 <Anns>
                                     <LocAnn Start="11816" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="9" Col="48"/>
                                 </Anns>
-                                <Word> _ \ _ </Word>
+                                <Word> _ ? _ </Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZExprList/>

@@ -419,6 +419,7 @@ parser-circus/src/test/resources/tests/circus/buffer-refinement-singleenv.xml -t
 parser-circus/src/test/resources/tests/circus/channel-errors.tex -text
 parser-circus/src/test/resources/tests/circus/channels.tex -text
 parser-circus/src/test/resources/tests/circus/communication.xml -text
+parser-circus/src/test/resources/tests/circus/cristiano-circus-rules.xml -text
 parser-circus/src/test/resources/tests/circus/equals-test.tex -text
 parser-circus/src/test/resources/tests/circus/equals-test.xml -text
 parser-circus/src/test/resources/tests/circus/fib-multenv.tex -text

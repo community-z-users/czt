@@ -18,6 +18,8 @@ is FALSE) at net.sourceforge.czt.parser.circus.AbstractParserTest.
 This flag makes the testing suite to look for files 
 under the ".\debug" directory, rather than here.
 
+To switch this flag on/off, just add the file 
+"debug-please" (no extension) to this directory.
 
 Please send bugs, suggestions, or requests to:
 
