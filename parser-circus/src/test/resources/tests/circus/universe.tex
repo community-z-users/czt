@@ -1,0 +1,36 @@
+\begin{zsection}
+  \SECTION\ universe \parents\ circus\_toolkit
+\end{zsection}
+
+% Universe is now defined in the circus prelude
+%Zchar \universe U-0001D54C
+
+%\begin{gendef}[X]
+% \universe : \power~X
+%\end{gendef}
+ 
+ \begin{schema}{P}
+     x:  \universe \\ 
+     y:  \universe
+ \where
+     x =1 \\
+     y = \langle 0, 1 \rangle
+ \end{schema} 
+ 
+ \begin{schema}{S}
+     x:  \universe 
+ \where
+     x =1
+ \end{schema}
+ 
+ \begin{schema}{T}
+    y:  \universe
+\where
+    y = \langle 0, 1 \rangle
+\end{schema}
+
+\begin{schema}{Q}
+      S; T
+ \where
+     true 
+\end{schema}
