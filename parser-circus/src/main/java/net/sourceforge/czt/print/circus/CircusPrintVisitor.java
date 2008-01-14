@@ -1031,4 +1031,12 @@ public class CircusPrintVisitor
   {
     throw new UnsupportedOperationException("Unexpected term CircusCommunicationList.");
   }
+  public Object visitStateUpdate(StateUpdate term)
+  {
+    throw new UnsupportedOperationException("Unexpected term StateUpdate.");
+  }
+  public Object visitStateUpdateAnn(StateUpdateAnn term)
+  {
+    throw new UnsupportedOperationException("Unexpected term StateUpdateAnn.");
+  }
 }
