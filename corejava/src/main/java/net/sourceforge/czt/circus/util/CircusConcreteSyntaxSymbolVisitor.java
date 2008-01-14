@@ -432,6 +432,16 @@ public class CircusConcreteSyntaxSymbolVisitor
     return null;
   }
   
+  public CircusConcreteSyntaxSymbol visitStateUpdate(StateUpdate term)
+  {
+    return null;
+  }
+  
+  public CircusConcreteSyntaxSymbol visitStateUpdateAnn(StateUpdateAnn term)
+  {
+    return null;
+  }
+  
   public interface Utils
     extends IsEmptyNameList
   {
