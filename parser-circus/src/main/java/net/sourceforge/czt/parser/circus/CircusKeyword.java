@@ -83,7 +83,7 @@ public enum CircusKeyword implements Token {
   CIRCPROC(CircusString.CIRCPROC, NewlineCategory.AFTER),          /* \\circprocess    , process     */
   CIRCASSERTREF(CircusString.CIRCASSERTREF, NewlineCategory.AFTER),/* \\circassertref  , assert      */
   CIRCBEGIN(CircusString.CIRCBEGIN, NewlineCategory.AFTER),        /* \\circbegin      , begin       */
-  CIRCSTATE(CircusString.CIRCSTATE, NewlineCategory.AFTER),        /* \\circstate      , state       */
+  CIRCSTATE(CircusString.CIRCSTATE, NewlineCategory.AFTER),        /* \\circstate      , circstate   */
   REPINTERLEAVE(CircusString.REPINTERLEAVE, NewlineCategory.AFTER),/* \\Interleave     , U+2AFC      */   
   REPPARALLEL(CircusString.REPPARALLEL, NewlineCategory.AFTER),    /* \\Parallel       , U+2225      */ 
   REPEXTCHOICE(CircusString.REPEXTCHOICE, NewlineCategory.AFTER),  /* \\Extchoice      , U+25A1      */   
