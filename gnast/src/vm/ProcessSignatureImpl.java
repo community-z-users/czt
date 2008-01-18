@@ -1,9 +1,19 @@
 
-  public net.sourceforge.czt.z.ast.ZName getProcessName()
+  public net.sourceforge.czt.z.ast.Name getProcessName()
+  {
+    return getName();
+  }
+  
+  public net.sourceforge.czt.z.ast.ZName getProcessZName()
   {
     return getZName();
   }
-
+  
+  public void setProcessName(net.sourceforge.czt.z.ast.Name name)
+  {
+    setName(name);
+  }
+  
   public net.sourceforge.czt.circus.ast.ZSignatureList getMainSignatures()
   {
     if (getSignatureList().size() > 0) {

@@ -1,10 +1,20 @@
 
   /**
+   * This is a convenience method for getName.
+   */
+  net.sourceforge.czt.z.ast.Name getProcessName();
+
+  /**
    * This is a convenience method.
    * It returns the ZName if ProcessName is an instance of
-	   * ZName and throws an UnsupportedAstClassException otherwise.
+   * ZName and throws an UnsupportedAstClassException otherwise.
    */
-  net.sourceforge.czt.z.ast.ZName getProcessName();
+  net.sourceforge.czt.z.ast.ZName getProcessZName();
+  
+  /**
+   * This is a convenience method for setName.
+   */  
+  void setProcessName(net.sourceforge.czt.z.ast.Name name);  
 
   /**
    * This is a convenience method. It extract from the list of signature lists the
