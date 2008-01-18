@@ -72,9 +72,28 @@ public class PrintVisitor
     printIds_ = false;
   }
 
-  public void setPrintIds(boolean bool)
+  public boolean setPrintIds(boolean bool)
   {
+    boolean result = printIds_;
     printIds_ = bool;
+    return result;
+  }
+  
+  public boolean getPrintIds() 
+  {
+    return printIds_;
+  }
+  
+  public boolean setPrintUnicode(boolean bool)
+  {
+    boolean result = printUnicode_;
+    printUnicode_ = bool;
+    return result;
+  }
+  
+  public boolean getPrintUnicode() 
+  {
+    return printUnicode_;
   }
 
   /**
@@ -88,6 +107,7 @@ public class PrintVisitor
   public PrintVisitor(boolean unicode)
   {
     printUnicode_ = unicode;
+    printIds_ = false;
   }
 
   public String visitGenericType(GenericType genericType)
@@ -210,22 +230,7 @@ public class PrintVisitor
   {
     return visit(typeAnn.getType());
   }
-
-  protected void unicodeToAscii(String name, StringBuffer result)
-  {
-    for(int i = 0; i < name.length(); i++) {
-      if (Character.isLetterOrDigit(name.codePointAt(i)) ||
-          Character.isSpaceChar(name.codePointAt(i)) ||
-          name.charAt(i) == '_' || name.charAt(i) == '$') {
-        result.append(name.charAt(i));
-      }
-      else {
-        result.append("U+" +
-                      Integer.toHexString(name.codePointAt(i)).toUpperCase());
-      }
-    }
-  }
-
+  
   public String visitZName(ZName zName)
   {
     StringBuffer result = new StringBuffer();
@@ -233,7 +238,7 @@ public class PrintVisitor
       result.append(zName.getWord());
     }
     else {
-      unicodeToAscii(zName.getWord(), result);
+      ZUtils.unicodeToAscii(zName.getWord(), result);
     }
     if (printIds_) {
       result.append("_" + zName.getId());
