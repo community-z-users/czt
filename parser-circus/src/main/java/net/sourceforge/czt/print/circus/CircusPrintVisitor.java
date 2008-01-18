@@ -1039,4 +1039,14 @@ public class CircusPrintVisitor
   {
     throw new UnsupportedOperationException("Unexpected term StateUpdateAnn.");
   }
+
+  public Object visitProcessSignatureAnn(ProcessSignatureAnn term)
+  {
+    throw new UnsupportedOperationException("Unexpected term ProcessSignatureAnn.");
+  }
+
+  public Object visitActionSignatureAnn(ActionSignatureAnn term)
+  {
+    throw new UnsupportedOperationException("Unexpected term ActionSignatureAnn.");
+  }
 }
