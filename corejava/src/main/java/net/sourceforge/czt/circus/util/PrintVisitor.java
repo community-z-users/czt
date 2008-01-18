@@ -266,7 +266,7 @@ public class PrintVisitor
     result.append(" ");
     result.append(term.getCommand());
     result.append(" ");
-    unicodeToAscii(term.getUnicode(), result);
+    ZUtils.unicodeToAscii(term.getUnicode(), result);
     return result.toString();
   }
   

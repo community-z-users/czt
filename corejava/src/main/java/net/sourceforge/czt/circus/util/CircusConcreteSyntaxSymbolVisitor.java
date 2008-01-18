@@ -441,6 +441,16 @@ public class CircusConcreteSyntaxSymbolVisitor
   {
     return null;
   }
+
+  public CircusConcreteSyntaxSymbol visitProcessSignatureAnn(ProcessSignatureAnn term)
+  {
+    return null;
+  }
+
+  public CircusConcreteSyntaxSymbol visitActionSignatureAnn(ActionSignatureAnn term)
+  {
+    return null;
+  }
   
   public interface Utils
     extends IsEmptyNameList
