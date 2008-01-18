@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.impl.TermImpl;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -736,6 +737,57 @@ public final class ZUtils
   {
     return isAndPred(term) && ((AndPred) term).getAnd().equals(And.Chain);
   }
+  
+   /*
+   * The ASCII strings produced are designed to be human-readable,
+   * so are not necessarily in LaTeX markup.
+   */
+  public static void unicodeToAscii(String name, StringBuffer result)
+  {
+    for(int i = 0; i < name.length(); i++) {
+      if (Character.isLetterOrDigit(name.codePointAt(i)) ||
+          Character.isSpaceChar(name.codePointAt(i)) ||
+          name.charAt(i) == '_' || name.charAt(i) == '$') {
+        result.append(name.charAt(i));
+      }
+      else {
+        result.append("U+" +
+                      Integer.toHexString(name.codePointAt(i)).toUpperCase());
+      }
+    }
+  }
+    
+  private static PrintVisitor zPrintVisitor_ = new PrintVisitor();
+  
+  public static String toStringZName(ZName name)
+  {
+    assert !zPrintVisitor_.getPrintIds() : "by default do not print ids at ZUtils";
+    // default is (getPrintUnicode() && !zPrintVisitor_.getPrintIds())
+    return zPrintVisitor_.visit(name);
+  }
+  
+  public static String toStringZName(ZName name, boolean printUnicode, boolean printIds)
+  {     
+    /*
+    try 
+    {
+      assertZPrintVisitor(assertZTermImpl(name).getFactory().getToStringVisitor()).setPrintIds(printIds);      
+      assertZPrintVisitor(assertZTermImpl(name).getFactory().getToStringVisitor()).setPrintUnicode(printUnicode);                       
+    } catch (UnsupportedAstClassException e)
+    {      
+      
+    } 
+    // change flags back  
+     */
+    
+    boolean b1 = zPrintVisitor_.setPrintIds(printIds);
+    boolean b2 = zPrintVisitor_.setPrintUnicode(printUnicode);
+    String result = zPrintVisitor_.visit(name);
+    zPrintVisitor_.setPrintIds(b1);
+    zPrintVisitor_.setPrintUnicode(b2);    
+    
+    return result;
+  }
 
   public static ZBranchList assertZBranchList(Term term)
   {
@@ -837,12 +889,32 @@ public final class ZUtils
     throw new UnsupportedAstClassException(message);
   }
   
+  // useful to get access to the getPrintVisitor() method
   public static ZFactoryImpl assertZFactoryImpl(Object factory) {
     if (factory instanceof ZFactoryImpl) {
       return (ZFactoryImpl) factory;
     }
     final String message = "Expected a ZFactoryImpl but found " + 
       String.valueOf(factory);
+    throw new UnsupportedAstClassException(message);    
+  }
+  
+  // useful to get access to the z.PrintVisitor class, hence set/getPrintIds()
+  public static PrintVisitor assertZPrintVisitor(Object visitor) {
+    if (visitor instanceof PrintVisitor) {
+      return (PrintVisitor) visitor;
+    }
+    final String message = "Expected " + PrintVisitor.class.toString() + 
+      " but found " + String.valueOf(visitor);
+    throw new UnsupportedAstClassException(message);    
+  }
+  
+  public static TermImpl assertZTermImpl(Object term) {
+    if (term instanceof TermImpl) {
+      return (TermImpl) term;
+    }
+    final String message = "Expected the default (Z) implementation of Term" +
+      " but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);    
   }
 }
