@@ -37,11 +37,21 @@ import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 public class Factory
 {
   /** Used for generating unique ids in names. */
+  // TODO: CHECK: made it a long in case of large specs?
   static protected int id_ = 0;
 
   /** The ZFactory that is used to create wrapped types. */
   protected ZFactory zFactory_;
   protected net.sourceforge.czt.z.util.Factory factory_;
+  
+  /** 
+   * ZName ids database: each (unique) id has a list of ZName instances associated with it.
+   *
+   * TODO: CHECK: (ask Tim) 
+   * An invariant for the database is that, although the list of names associated with
+   * each id refers to different ZName instances, their internal name (i.e. getWord())
+   * must be the same.
+   */
   private Map<String,List<ZName>> ids_ = new HashMap<String,List<ZName>>();
 
   public Factory()
@@ -52,10 +62,10 @@ public class Factory
 
   public Factory(ZFactory zFactory)
   {
-    zFactory_ = zFactory;
-    factory_ = new net.sourceforge.czt.z.util.Factory(zFactory_);
+    zFactory_ = zFactory;    
+    factory_ = new net.sourceforge.czt.z.util.Factory(zFactory_);    
   }
-
+  
   public ZFactory getZFactory()
   {
     return zFactory_;
@@ -271,9 +281,14 @@ public class Factory
     return factory_.createSectTypeEnvAnn(triples);
   }
 
-  public ZStrokeList createZStrokeList(ZStrokeList zStrokeList)
+  public ZStrokeList createZStrokeList()
   {
-    return factory_.createZStrokeList(zStrokeList);
+    return factory_.createZStrokeList();
+  }
+
+  public ZStrokeList createZStrokeList(List<? extends Stroke> strokes)
+  {
+    return factory_.createZStrokeList(strokes);
   }
 
   public ZName createZDeclName(String word)
@@ -351,6 +366,34 @@ public class Factory
     return factory_.createZRenameList(pairs);
   }
 
+  /**
+   * <p>
+   * Add a name id to the given name if it is a ZName without 
+   * an ID already associated with it (see {@link #overwriteNameID(Name)}).
+   * Thus, changes are made only if the name does not have an id 
+   * associated with it (i.e., it is not a name declaration).
+   * </p>
+   * <p>
+   * In Z, that is always the case for given sets (GivenPara), 
+   * free types (FreePara, and FreeType), schemas, and abbreviations 
+   * (ConstDecl within AxPara), since they are always declaring names.       
+   * </p>
+   * <p>
+   * Names are also declared for generic type parameters, renaming expressions 
+   * (RenameExpr) (i.e. the new names in S[new/old] are declared), and variable 
+   * declaraions (VarDecl). 
+   * </p>
+   * <p>
+   * There a few special cases, where name IDs are added, but they do not come
+   * directly from the user's specification (see {@link #createZDeclName(String, StrokeList)}). 
+   * For instance, variable types/signatures containing unresolved generic types
+   * also declare the Z Std alpha/beta variables used during generic type inference.
+   * Other places where this occurs are decoration expressions (i.e. schema decoration),
+   * and the merged signature for schema composition and piping.
+   * </p>
+   */ 
+  // TODO: CHECK: createZDeclName/addNameID is also used within createCompSig and createCompPipe of
+  //              of ExprChecker to check singature compatibility within such expressiongs
   public void addNameID(Name declName)
   {
     if (declName instanceof ZName) {
@@ -361,6 +404,23 @@ public class Factory
     }
   }
 
+  /**
+   * <p>
+   * When the name being declared is a ZName, a fresh unique id 
+   * is generated and associated for declName, and the old id is
+   * updated for this name within the id database maintained by 
+   * this factory (see {@link #updateIds(String, String) updateIds}).
+   * </p>
+   * <p>
+   * This special method is usually called by {@link #addNameID(Name) addNameID}.
+   * One exception is typechecking of schema references within the ExprChecker 
+   * RefExpr. In that case, if the referred schema signature already had its
+   * generic types resolved (i.e. it isn't a VariableSignature), then new names
+   * are created and their ids overwritten. As in this name copying process the
+   * old name ids are ``forgotten'', overriting in fact just 
+   * {@link #updateIds(String, String) updateIds} with the uniquely created one.
+   * </p>
+   */     
   public void overwriteNameID(Name declName)
   {
     if (declName instanceof ZName) {
@@ -371,23 +431,50 @@ public class Factory
       setId(zName, id);
     }
   }
+  
+  /**
+   * <p>
+   * Merge the ids from the two names given. That is, the method does nothing
+   * if the IDs are either both null or equal. Otherwise, the id of the newName
+   * is set for the oldName, and the id database for the oldName id is also updated.
+   * </p>
+   * <p>
+   * This is important in the case whilst checking duplicate names that may appear
+   * in different scopes. If the duplication is valid (e.g.,), the ids are merged 
+   * and the first name occurring id (newName id) is updated in the database.
+   * Otherwise, if duplication isn't valid, the update takes place as well, but an
+   * error should be added (see 
+   * {@link net.sourceforge.czt.typecheck.z.Checker#checkForDuplicates(List<NameTypePair>,
+        List<Term>, String)}.)
+   * </p>
+   */   
+  public void merge(ZName oldName, ZName newName)
+  {
+    if (oldName.getId() == null && newName.getId() == null) return;
+    if (oldName.getId() != null && oldName.getId().equals(newName.getId())) return;
+    String newId = newName.getId();
+    String oldId = oldName.getId();
+    updateIds(oldId, newId);
+    setId(oldName, newId);
+  }
 
-  public Integer freshId()
+  /**
+   * Creates a fresh ID seed to be used for unique ids.
+   */
+  protected Integer freshId()
   {
     return new Integer(id_++);
   }
 
-  public void merge(ZName name1, ZName name2)
-  {
-    if (name1.getId() == null && name2.getId() == null) return;
-    if (name1.getId() != null && name1.getId().equals(name2.getId())) return;
-    String newId = name2.getId();
-    String oldId = name1.getId();
-    updateIds(oldId, newId);
-    setId(name1, newId);
-  }
-
-  public void updateIds(String oldId, String newId)
+  /**
+   * Update the id database of names for oldId by associating all such names
+   * with the newId given (see {@link #setId(ZName, String) setId}). If oldId 
+   * is itself unknown (or null), then no update is performed.
+   */     
+  // NOTE: as the IDs database is within the factory, we (Leo) changed 
+  //       this method from public to protected. This way, only through
+  //       the appropriate factory method it is possible update the ids DB.
+  protected void updateIds(String oldId, String newId)
   {
     List<ZName> list = ids_.get(oldId);
     if (list != null) {
@@ -398,19 +485,73 @@ public class Factory
     }
   }
 
-  public void setId(ZName zName, String id)
-  {
+  /**
+   * Associate the given id to given name (see {@link ZName#setId(String)}).
+   * If the id is non-null, the id database is also updated. That is, 
+   * either a new list of names is associated with the id in case it is 
+   * new to the database; otherwise, the given name is added to the list
+   * of names associated with this id.
+   */
+  protected void setId(ZName zName, String id)
+  {     
     zName.setId(id);
     if (id != null) {
       List<ZName> list = ids_.get(id);
       if (list == null) {
         list = list();
       }
+      
+      // check the name ID DB consistency (put to a method to allow room for "special" cases)
+      assert checkNameIDDBInvariant(zName, list);
+      
       list.add(zName);
       ids_.put(id, list);
     }
   }
-
+  
+  /**
+   * Checks the id DB invariant that names within the mapped list for the 
+   * given zName.getId() must the same getWord() result.
+   */
+  protected boolean checkNameIDDBInvariant(ZName zName, List<ZName> list)
+  {
+    assert zName != null && list != null;
+    //do not consider the "deltaxi" special case, though
+    
+    // Name ID database invariant: getWord() equality among mapped names.
+    // zName.getId() != null && !list.isEmpty() ==> zName.getWord().equals(list.get(0).getWord())
+    // 
+    // TODO: CHECK: 
+    // Strokes are NOT taken into account (i.e., GlobalDefs.namesEqual(zName, list.get(0)); why not?)
+    boolean result = (zName.getId() == null || list.isEmpty() || zName.getId().equals("deltaxi")) || 
+      zName.getWord().equals(list.get(0).getWord()); //namesEqual(zName, list.get(0));   
+    assert result : 
+      "Typechecker name id database invariant broken for id " + 
+      String.valueOf(zName.getId()) +
+      ". The given name " + String.valueOf(zName) + " getWord() result differ from " +
+      "other names associated with the same id (e.g., " + 
+      (list.isEmpty() ? "--" : String.valueOf(list.get(0))) +
+      "). This is a serious error and should never happen.";
+    return result;
+  }
+  
+  /**
+   * <p>
+   * In Z, Delta/Xi names are a special case of declared names (i.e. \Delta S)
+   * that have peculiar ID:~they may not yet have (e.g., at first occurrence)
+   * any corresponding ZName associated with them. So if there is not,
+   * we add a fixed (global) id.
+   * </p>
+   * <p>
+   * Other extensions requiring similar features
+   * should extend their corresponding typechecker factory accordingly.
+   * </p>
+   */
+  public void setDeltaXiID(ZName zName)
+  {
+     setId(zName, "deltaxi");
+  }
+     
   public void copyLocAnn(Term src, Term dest)
   {
     Object locAnn = src.getAnn(LocAnn.class);
