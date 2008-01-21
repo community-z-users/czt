@@ -30,6 +30,7 @@ import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * Provides unification of types.
@@ -312,10 +313,12 @@ public class UnificationEnv
       Map<String, NameTypePair> mapA = factory_.hashMap();
       Map<String, NameTypePair> mapB = factory_.hashMap();
       for (NameTypePair pair : sigA.getNameTypePair()) {
-        mapA.put(pair.getZName().toString(), pair);
+        //mapA.put(pair.getZName().toString(), pair);
+        mapA.put(ZUtils.toStringZName(pair.getZName()), pair);
       }
       for (NameTypePair pair : sigB.getNameTypePair()) {
-        mapB.put(pair.getZName().toString(), pair);
+        //mapB.put(pair.getZName().toString(), pair);
+        mapB.put(ZUtils.toStringZName(pair.getZName()), pair);
       }
 
       UResult resultA = unifySignatureAux(mapA, mapB);
