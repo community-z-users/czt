@@ -1,21 +1,21 @@
 /*
   Copyright (C) 2004 Tim Miller
   This file is part of the czt project.
-
+ 
   The czt project contains free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
-
+ 
   The czt project is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-
+ 
   You should have received a copy of the GNU General Public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 package net.sourceforge.czt.typecheck.z;
 
 import java.io.Writer;
@@ -36,6 +36,7 @@ import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * A super class for the *Checker classes in the typechecker.
@@ -45,13 +46,13 @@ abstract public class Checker<R>
 {
   //the information required for the typechecker classes.
   protected TypeChecker typeChecker_;
-
+  
   public Checker(TypeChecker typeChecker)
   {
     assert typeChecker != null;
     typeChecker_ = typeChecker;
   }
-
+  
   /**
    * Double check that this visitor is not being asked to visit a
    * non-Decl object.
@@ -60,49 +61,55 @@ abstract public class Checker<R>
   {
     String position = position(term);
     logger().warning(this.getClass().getName() +
-                     " being asked to visit " +
-                     term.getClass().getName() +
-                     " at location " + position);
+      " being asked to visit " +
+      term.getClass().getName() +
+      " at location " + position);
     return null;
   }
-
+  
   /** Adds a type annotation created from a type to a Term */
   protected void addTypeAnn(Term term, Type type)
   {
     assert type != null;
     TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
-    if (typeAnn == null) {
+    if (typeAnn == null)
+    {
       typeAnn = factory().createTypeAnn(type);
       term.getAnns().add(typeAnn);
     }
-    else {
+    else
+    {
       typeAnn.setType(type);
     }
   }
-
+  
   /** Adds a signature annotation create from a signature to a Term */
   protected void addSignatureAnn(Term term, Signature signature)
   {
     assert signature != null;
     SignatureAnn signatureAnn =
       (SignatureAnn) term.getAnn(SignatureAnn.class);
-    if (signatureAnn == null) {
+    if (signatureAnn == null)
+    {
       signatureAnn = factory().createSignatureAnn(signature);
       term.getAnns().add(signatureAnn);
     }
-    else {
+    else
+    {
       Signature oldSignature = (Signature) signatureAnn.getSignature();
       if (oldSignature instanceof VariableSignature &&
-          variableSignature(oldSignature).getValue() == oldSignature) {
+        variableSignature(oldSignature).getValue() == oldSignature)
+      {
         variableSignature(oldSignature).setValue(signature);
       }
-      else {
+      else
+      {
         signatureAnn.setSignature(signature);
       }
     }
   }
-
-  /** 
+  
+  /**
    * Retrieves a TypeAnn from the given term annotations list.
    * If there isn't one, it is created without a type element
    * and added to the term's list.
@@ -110,14 +117,15 @@ abstract public class Checker<R>
   protected TypeAnn getTypeAnn(Term term)
   {
     TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
-    if (typeAnn == null) {
+    if (typeAnn == null)
+    {
       typeAnn = factory().createTypeAnn();
       addAnn(term, typeAnn);
     }
     return typeAnn;
   }
-
-  /** 
+  
+  /**
    * Retrieves the type within a TypeAnn from the given term annotations list,
    * as defined by GlobalDefs.getTypeFromAnns. The result is either the annotated
    * type or UnknownType. Finally, the result variable types are resolved using the
@@ -129,7 +137,7 @@ abstract public class Checker<R>
     Type2 result = unwrapType(annType);
     return result;
   }
-
+  
   /**
    * Adds an error to the list of error annotation of paragraphs.
    */
@@ -137,17 +145,20 @@ abstract public class Checker<R>
   {
     paraErrors().add(errorAnn);
   }
-
+  
   /**
    * Adds an error as an annotation to the term. Return true if and
    * only if this error is not already added to this term.
    */
   protected boolean addErrorAnn(Term term, ErrorAnn errorAnn)
   {
-    for (Object ann : term.getAnns()) {
-      if (ann instanceof ErrorAnn) {
+    for (Object ann : term.getAnns())
+    {
+      if (ann instanceof ErrorAnn)
+      {
         ErrorAnn existingAnn = (ErrorAnn) ann;
-        if (errorAnn.getErrorMessage().equals(existingAnn.getErrorMessage())) {
+        if (errorAnn.getErrorMessage().equals(existingAnn.getErrorMessage()))
+        {
           return false;
         }
       }
@@ -155,7 +166,7 @@ abstract public class Checker<R>
     term.getAnns().add(errorAnn);
     return true;
   }
-
+  
   /**
    * Adds an error to the list of error messages, and as an annotation
    * to the term.
@@ -165,107 +176,116 @@ abstract public class Checker<R>
     boolean added = addErrorAnn(term, errorAnn);
     if (added) error(errorAnn);
   }
-
+  
   protected void error(Term term, ErrorMessage error, Object [] params)
   {
     ErrorAnn errorAnn = errorAnn(term, error, params);
     error(term, errorAnn);
   }
-
+  
   protected void error(Term term, String error, Object [] params)
   {
     ErrorAnn errorAnn = errorAnn(term, error, params);
     error(term, errorAnn);
   }
-
+  
   protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object [] params)
   {
     ErrorAnn errorAnn = exprChecker().errorAnn(term, error.toString(), params);
     return errorAnn;
   }
-
+  
   protected ErrorAnn errorAnn(Term term, String error, Object [] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
-                                     sectName(), nearestLocAnn(term),
-                                     term, markup());
+      sectName(), nearestLocAnn(term),
+      term, markup());
     return errorAnn;
   }
-
+  
   protected void removeError(Term term)
   {
     List anns = term.getAnns();
-    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
+    for (Iterator iter = anns.iterator(); iter.hasNext(); )
+    {
       Object ann = iter.next();
-      if (ann instanceof ErrorAnn) {
+      if (ann instanceof ErrorAnn)
+      {
         iter.remove();
         paraErrors().remove(ann);
       }
     }
   }
-
+  
   /**
    * Converts a Term to a string.
    */
   protected String format(Term term)
   {
-    try {
+    try
+    {
       Term newTerm = (Term) term.accept(exprChecker().getCarrierSet());
       StringWriter writer = new StringWriter();
       print(newTerm, writer, sectInfo(), sectName(), markup());
       return writer.toString();
     }
-    catch (Exception e) {
+    catch (Exception e)
+    {
       String message = "Cannot be printed";
       e.printStackTrace();
       return message;
     }
   }
-
+  
   protected CarrierSet getCarrierSet()
   {
     return new CarrierSet();
   }
-
+  
   protected void print(Term term,
-                       Writer writer,
-                       SectionManager sectInfo,
-                       String sectName,
-                       Markup markup)
+    Writer writer,
+    SectionManager sectInfo,
+    String sectName,
+    Markup markup)
   {
     PrintUtils.print(term, writer, sectInfo, sectName, markup());
   }
-
+  
   /**
    * Gets the position of a Term from its annotations.
    */
   protected String position(Term term)
   {
     String result = "Unknown location: ";
-
+    
     LocAnn locAnn = nearestLocAnn(term);
-    if (locAnn != null) {
+    if (locAnn != null)
+    {
       result = "\"" + locAnn.getLoc() + "\", ";
       result += "line " + locAnn.getLine() + ": ";
     }
-    else {
+    else
+    {
       result = "No location information";
     }
-
+    
     return result;
   }
-
+  
   /**
    * Finds the closest LocAnn.
    */
   protected LocAnn nearestLocAnn(Term term)
   {
     LocAnn result = (LocAnn) term.getAnn(LocAnn.class);
-
-    if (result == null) {
-      for (int i = 0; i < term.getChildren().length; i++) {
+    
+    if (result == null)
+    {
+      for (int i = 0; i < term.getChildren().length; i++)
+      {
         Object next = term.getChildren()[i];
-        if (next instanceof Term) {
+        if (next instanceof Term)
+        {
           LocAnn nextLocAnn = nearestLocAnn((Term) next);
           return nextLocAnn;
         }
@@ -273,27 +293,27 @@ abstract public class Checker<R>
     }
     return result;
   }
-
+  
   protected UResult unify(Type2 typeA, Type2 typeB)
   {
     return unificationEnv().unify(typeA, typeB);
   }
-
+  
   protected UResult unify(Signature sigA, Signature sigB)
   {
     return unificationEnv().unify(sigA, sigB);
   }
-
+  
   public UResult strongUnify(Type2 typeA, Type2 typeB)
   {
     return unificationEnv().strongUnify(typeA, typeB);
   }
-
+  
   protected CarrierSet carrierSet()
   {
     return typeChecker_.carrierSet_;
   }
-
+  
   /**
    * Returns a Factory for creating Z terms.
    */
@@ -301,7 +321,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.getFactory();
   }
-
+  
   /**
    * Returns the SectTypeEnv for all parent specifications.
    */
@@ -309,7 +329,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.sectTypeEnv_;
   }
-
+  
   /**
    * Returns the TypeEnv for local variable scopes.
    */
@@ -317,15 +337,17 @@ abstract public class Checker<R>
   {
     return typeChecker_.typeEnv_;
   }
-
+  
   /**
    * Returns the TypeEnv for pending global declarations.
+   * See SchTextChecker for detailed documentation over the
+   * differences between typeEnv() and pending().
    */
   protected TypeEnv pending()
   {
     return typeChecker_.pending_;
   }
-
+  
   /**
    * Returns true if and only if the previous type lookup came from
    * the pending environment.
@@ -334,12 +356,12 @@ abstract public class Checker<R>
   {
     return typeChecker_.isPending_;
   }
-
+  
   protected void setIsPending(boolean isPending)
   {
     typeChecker_.isPending_ = isPending;
   }
-
+  
   /**
    * Returns the UnificationEnv for recording unified generic types.
    */
@@ -347,7 +369,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.unificationEnv_;
   }
-
+  
   /**
    * Returns a section manager.
    */
@@ -355,7 +377,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.sectInfo_;
   }
-
+  
   /**
    * Returns the markup.
    */
@@ -363,7 +385,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.markup_;
   }
-
+  
   /**
    * Sets the markup for printing error messages.
    */
@@ -371,7 +393,7 @@ abstract public class Checker<R>
   {
     typeChecker_.markup_ = markup;
   }
-
+  
   /**
    * Sets the markup from the LocAnn of a term, using LATEX if the
    * markup cannot be determined from the location.
@@ -379,13 +401,14 @@ abstract public class Checker<R>
   protected void setMarkup(Term term)
   {
     LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-    if (locAnn != null) {
+    if (locAnn != null)
+    {
       String fileName = locAnn.getLoc();
       Markup markup = ParseUtils.getMarkup(fileName);
       setMarkup(markup == null ? Markup.LATEX : markup);
     }
   }
-
+  
   /**
    * Returns the current section name.
    */
@@ -393,16 +416,16 @@ abstract public class Checker<R>
   {
     return typeChecker_.sectName_.toString();
   }
-
+  
   /**
    * Sets the current section name.
    */
   protected void setSectName(String sectName)
   {
     typeChecker_.sectName_.replace(0, typeChecker_.sectName_.length(),
-                                   sectName);
+      sectName);
   }
-
+  
   /**
    * Returns the list of errors thrown by retrieving type info.
    */
@@ -410,7 +433,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.errors_;
   }
-
+  
   /**
    * Returns the list of errors and post check terms in the current paragraph.
    */
@@ -418,7 +441,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.paraErrors_;
   }
-
+  
   /**
    * Usage before declaration flag.
    */
@@ -426,7 +449,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.useBeforeDecl_;
   }
-
+  
   /**
    * Returns an unique id, which is used to mark ZName instances.
    */
@@ -434,7 +457,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.id_++;
   }
-
+  
   /**
    * Returns the logger instance.
    */
@@ -442,7 +465,7 @@ abstract public class Checker<R>
   {
     return typeChecker_.logger_;
   }
-
+  
   /**
    * Returns the visitors used to typechecker a spec.
    */
@@ -450,42 +473,42 @@ abstract public class Checker<R>
   {
     return typeChecker_.specChecker_;
   }
-
+  
   protected Checker<Signature> paraChecker()
   {
     return typeChecker_.paraChecker_;
   }
-
+  
   protected Checker<List<NameTypePair>> declChecker()
   {
     return typeChecker_.declChecker_;
   }
-
+  
   protected Checker<Type2> exprChecker()
   {
     return typeChecker_.exprChecker_;
   }
-
+  
   protected Checker<UResult> predChecker()
   {
     return typeChecker_.predChecker_;
   }
-
+  
   protected Checker<Signature> schTextChecker()
   {
     return typeChecker_.schTextChecker_;
   }
-
+  
   protected Checker<? extends ErrorAnn> postChecker()
   {
     return typeChecker_.postChecker_;
   }
-
+  
   protected Checker<List<Type2>> charTupleChecker()
   {
     return typeChecker_.charTupleChecker_;
   }
-
+  
   /**
    * Criteria for need of post checking.
    * Refactored from z.SpecChecker.visitZParaList as boolean expression
@@ -499,47 +522,61 @@ abstract public class Checker<R>
   }
   
   /**
+   * <p>
    * General type checking method for ZParaList terms.
    * Refactored from z.SpecChecker.visitZParaList into a separate method.
-   * This enables reuse of functionality for Circus, which has a more 
+   * This enables reuse of functionality for Circus, which has a more
    * complicated ZParaList type checking, as well as further post checking.
    * For instance, Circus allow mutually recursive calls to process and actions.
+   * </p>
+   * <p>
+   * Moreover, top-level paragraphs are added to the sectTypeEnv()
+   * environment of globally declared names.
+   * </p>
    */
   protected void checkParaList(ZParaList list)
   {
-    for (Para para : list) {
+    for (Para para : list)
+    {
       //add the global definitions to the SectTypeEnv
       Signature signature = para.accept(paraChecker());
       List<NameTypePair> pairs = signature.getNameTypePair();
-      for (NameTypePair pair : pairs) {
+      for (NameTypePair pair : pairs)
+      {
         //if the name already exists globally, raise an error
         ZName zName = pair.getZName();
         NameSectTypeTriple duplicate =
           sectTypeEnv().add(zName, pair.getType());
-        if (duplicate != null) {
+        if (duplicate != null)
+        {
           Object [] params = {zName};
           error(zName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
-      }      
-      if (needPostCheck()) {
+      }
+      if (needPostCheck())
+      {
         postCheck();
       }
-    }  
+    }
   }
   
   protected List<? extends ErrorAnn> postCheckParaErrors()
   {
     //post-check any previously unresolved expressions
     List<ErrorAnn> paraErrors = factory().list();
-    for (Object next : paraErrors()) {
-      if (next instanceof Term) {
+    for (Object next : paraErrors())
+    {
+      if (next instanceof Term)
+      {
         Term term = (Term) next;
         ErrorAnn errorAnn = term.accept(postChecker());
-        if (errorAnn != null) {
+        if (errorAnn != null)
+        {
           paraErrors.add(errorAnn);
         }
       }
-      else if (next instanceof ErrorAnn) {
+      else if (next instanceof ErrorAnn)
+      {
         ErrorAnn errorAnn = (ErrorAnn) next;
         paraErrors.add(errorAnn);
       }
@@ -552,23 +589,34 @@ abstract public class Checker<R>
     List<? extends ErrorAnn> paraErrors = postCheckParaErrors();
     paraErrors().clear();
     errors().addAll(paraErrors);
-  }  
-
+  }
+  
+  /**
+   * Checks whether the types on each pairs are unifiable.
+   * If so, just return true. Otherwise, returns false and
+   * add the error message passed to the typechecker. The
+   * term list is useful in building up complex/general
+   * error messages. The first term is the one flagged for
+   * error, whereas the reamining terms are used to format
+   * the error message given.
+   */
   protected boolean checkPair(NameTypePair first,
-                              NameTypePair second,
-                              List<Term> termList,
-                              String errorMessage)
+    NameTypePair second,
+    List<Term> termList,
+    String errorMessage)
   {
     boolean result = true;
     Type2 firstType = unwrapType(first.getType());
     Type2 secondType = unwrapType(second.getType());
     UResult unified = unify(firstType, secondType);
-
+    
     //if the types don't agree, raise an error
-    if (unified == FAIL) {
+    if (unified == FAIL)
+    {
       result = false;
       //terms are not printed in some error messages
-      if (termList.size() > 0) {
+      if (termList.size() > 0)
+      {
         List<Object> params = factory().list();
         params.add(second.getZName());
         params.addAll(termList);
@@ -576,7 +624,8 @@ abstract public class Checker<R>
         params.add(secondType);
         error(termList.get(0), errorMessage, params.toArray());
       }
-      else {
+      else
+      {
         Object [] params =
           new Object [] {second.getZName(), firstType, secondType};
         error(second.getZName(), errorMessage, params);
@@ -584,183 +633,185 @@ abstract public class Checker<R>
     }
     return result;
   }
-
+  
   protected void insertUnsort(List<NameTypePair> pairsA,
-                              List<NameTypePair> pairsB)
+    List<NameTypePair> pairsB)
   {
-    for (NameTypePair pair : pairsB) {
+    for (NameTypePair pair : pairsB)
+    {
       insertUnsort(pairsA, pair);
     }
   }
-
+  
   protected void insertUnsort(List<NameTypePair> pairsA, NameTypePair pair)
   {
-    for (NameTypePair pairA : pairsA) {
-      if (namesEqual(pairA.getZName(), pair.getZName())) {
+    for (NameTypePair pairA : pairsA)
+    {
+      if (namesEqual(pairA.getZName(), pair.getZName()))
+      {
         checkPair(pairA, pair, factory().<Term>list(),
-                  ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
+          ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
         return;
       }
     }
     pairsA.add(pair);
   }
-
+  
   //precondition: pairsA is sorted
   protected void insertSort(List<NameTypePair> pairsA,
-                            List<NameTypePair> pairsB,
-                            Term term)
+    List<NameTypePair> pairsB,
+    Term term)
   {
     insertSort(pairsA, pairsA, factory().list(term),
-               ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
+      ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
   }
-
+  
   //precondition: pairsA is sorted
   protected void insertSort(List<NameTypePair> pairsA,
-                               List<NameTypePair> pairsB,
-                               List<Term> termList,
-                               String errorMessage)
+    List<NameTypePair> pairsB,
+    List<Term> termList,
+    String errorMessage)
   {
-    for (NameTypePair pair : pairsB) {
+    for (NameTypePair pair : pairsB)
+    {
       insertSort(pairsA, pair, termList, errorMessage);
     }
   }
-
+  
   //precondition: pairs is sorted
   protected void insertSort(List<NameTypePair> pairs,
-                            NameTypePair pair,
-                            List<Term> termList,
-                            String errorMessage)
+    NameTypePair pair,
+    List<Term> termList,
+    String errorMessage)
   {
     int i = 0;
     while (i < pairs.size() &&
-           compareTo(pairs.get(i).getZName(), pair.getZName()) < 0) {
+      compareTo(pairs.get(i).getZName(), pair.getZName()) < 0)
+    {
       i++;
     }
-
-    if (namesEqual(pairs.get(i).getZName(), pair.getZName())) {
+    
+    if (namesEqual(pairs.get(i).getZName(), pair.getZName()))
+    {
       checkPair(pairs.get(i), pair, termList, errorMessage);
     }
-    else {
+    else
+    {
       pairs.add(i, pair);
     }
   }
-
+  
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    Term term)
+    Term term)
   {
     checkForDuplicates(pairs, term,
-                       ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
+      ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
   }
-
+  
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    Term term,
-				    ErrorMessage errorMessage)
+    Term term,
+    ErrorMessage errorMessage)
   {
     checkForDuplicates(pairs, term, errorMessage.toString());
   }
-
+  
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    Term term,
-                                    String errorMessage)
+    Term term,
+    String errorMessage)
   {
     List<Term> termList = factory().list();
-    if (term != null) {
+    if (term != null)
+    {
       termList.add(term);
     }
     checkForDuplicates(pairs, termList, errorMessage);
   }
-
+  
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    List<Term> termList,
-                                    String errorMessage)
+    List<Term> termList,
+    String errorMessage)
   {
     Map<String, NameTypePair> map =  factory().hashMap();
-    for (Iterator<NameTypePair> iter = pairs.iterator(); iter.hasNext(); ) {
+    for (Iterator<NameTypePair> iter = pairs.iterator(); iter.hasNext(); )
+    {
       NameTypePair first = iter.next();
-      NameTypePair second = map.get(first.getZName().toString());
-      if (second != null) {
-        Type2 firstType = unwrapType(first.getType());
-        Type2 secondType = unwrapType(second.getType());
-        UResult unified = unify(firstType, secondType);
-
-        //if the types don't agree, raise an error
-        if (unified == FAIL) {
-          //terms are not printed in some error messages
-          if (termList.size() > 0) {
-            List<Object> params = factory().list();
-            params.add(second.getZName());
-            params.addAll(termList);
-            params.add(firstType);
-            params.add(secondType);
-            error(termList.get(0), errorMessage, params.toArray());
-          }
-          else {
-            Object [] params =
-              new Object [] {second.getZName(), firstType, secondType};
-            error(second.getZName(), errorMessage, params);
-          }
-        }
+      //TODO: CHECK: what is the toString() visitor has printIds
+      //             or one name with printUnicode and not the other! on? BUG!
+      //NameTypePair second = map.get(first.getZName().toString());
+      String firstName = ZUtils.toStringZName(first.getZName());
+      NameTypePair second = map.get(firstName);
+      if (second != null)
+      {
+        // check if the types don't match, raise an error
+        checkPair(first, second, termList, errorMessage);
+        
         //merge the ids of the 2 names, and remove the duplicate
         factory().merge(second.getZName(), first.getZName());
         iter.remove();
       }
-      map.put(first.getZName().toString().intern(), first);
+      map.put(firstName.intern(), first);
     }
   }
   
   protected List<NameTypePair> checkVarDecl(VarDecl varDecl,
-                                            UResult unified,
-                                            Type2 exprType,
-                                            PowerType vPowerType)
+    UResult unified,
+    Type2 exprType,
+    PowerType vPowerType)
   {
-    return checkDeclNames(varDecl.getName(), 
+    return checkDeclNames(varDecl.getName(),
       varDecl.getExpr(), unified, exprType, vPowerType);
   }
   
   //construct the declarations from a variable declaration if there
   //are no typing errors, otherwise, raise the errors
-  protected List<NameTypePair> checkDeclNames(List<Name> declNames, 
-                                              Expr expr,
-                                              UResult unified,
-                                              Type2 exprType,
-                                              PowerType vPowerType)
-  {
+  protected List<NameTypePair> checkDeclNames(List<? extends Name> declNames,
+    Expr expr,
+    UResult unified,
+    Type2 exprType,
+    PowerType vType)
+  {    
     //the list of name type pairs in this VarDecl
     List<NameTypePair> pairs = factory().list();
-
+    
     //if the type is not a power type, raise an error
-    if (unified == FAIL) {      
+    if (unified == FAIL)
+    {
       Object [] params = {expr, exprType};
       error(expr, ErrorMessage.NON_SET_IN_DECL, params);
     }
     //otherwise, create the list of name/type pairs
-    else {
+    else
+    {
       Type2 baseType = null;
       //if use-before-decl is switched on and the expr is undeclared,
       //then set IsMem to true
-      if (useBeforeDecl() && exprType instanceof UnknownType){
+      if (useBeforeDecl() && exprType instanceof UnknownType)
+      {
         UnknownType uType = (UnknownType) exprType;
-        if (uType.getZName() != null) {
+        if (uType.getZName() != null)
+        {
           uType.setIsMem(true);
         }
         baseType = uType;
       }
       //otherwise, the type of the variable is the base type of the expr
-      else {
-        baseType = vPowerType.getType();
+      else
+      {
+        baseType = vType.getType();
       }
-
-      //get the Names      
-      for (Name declName : declNames) {
+      
+      //get the Names
+      for (Name declName : declNames)
+      {
         //add a unique ID to this name
         factory().addNameID(declName);
-
+        
         //add the name and its type to the list of NameTypePairs
         NameTypePair pair = factory().createNameTypePair(declName, baseType);
         pairs.add(pair);
@@ -768,18 +819,29 @@ abstract public class Checker<R>
     }
     return pairs;
   }
-
+  
+  protected Type2 getResolvedVariableBaseType(Type2 varType)
+  {
+    Type2 result = varType;
+    if (varType instanceof PowerType)
+    {
+      result = GlobalDefs.powerType(varType).getType();
+    }
+    return result;
+  }
+  
   protected Signature createCompSig(Signature lSig, Signature rSig,
-                                    Term term, String errorMessage)
+    Term term, String errorMessage)
   {
     //b3 and b4 correspond to the variable names "\Beta_3" and
     //"\Beta_4" in the standard
     List<NameTypePair> b3Pairs = factory().list(lSig.getNameTypePair());
     List<NameTypePair> b4Pairs = factory().list(rSig.getNameTypePair());
     List<NameTypePair> rPairs = rSig.getNameTypePair();
-    for (NameTypePair rPair : rPairs) {
+    for (NameTypePair rPair : rPairs)
+    {
       ZName rName = rPair.getZName();
-
+      
       //if the name + nextstoke is in lSig, remove it from b3, and
       //remove name from b4
       ZStrokeList strokes = factory().getZFactory().createZStrokeList();
@@ -788,11 +850,13 @@ abstract public class Checker<R>
       strokes.add(factory().createNextStroke());
       ZName sName = factory().createZDeclName(rName.getWord(), strokes);
       NameTypePair foundPair = findNameTypePair(sName, lSig);
-      if (foundPair != null) {
+      if (foundPair != null)
+      {
         Type2 fType = unwrapType(foundPair.getType());
         Type2 rType = unwrapType(rPair.getType());
         UResult unified = unify(fType, rType);
-        if (unified == FAIL) {
+        if (unified == FAIL)
+        {
           Object [] params = {term, sName, fType, rName, rType};
           error(term, errorMessage, params);
         }
@@ -804,30 +868,34 @@ abstract public class Checker<R>
     Signature result = factory().createSignature(b3Pairs);
     return result;
   }
-
+  
   protected Signature createPipeSig(Signature lSig, Signature rSig,
-                                    Term term, String errorMessage)
+    Term term, String errorMessage)
   {
     //b3 and b4 correspond to the variable names "\Beta_3" and
     //"\Beta_4" in the standard
     List<NameTypePair> b3Pairs = factory().list(lSig.getNameTypePair());
     List<NameTypePair> b4Pairs = factory().list(rSig.getNameTypePair());
     List<NameTypePair> rPairs = rSig.getNameTypePair();
-    for (NameTypePair rPair : rPairs) {
+    for (NameTypePair rPair : rPairs)
+    {
       ZName rName = rPair.getZName();
       ZStrokeList strokes = factory().getZFactory().createZStrokeList();
       strokes.addAll(rName.getZStrokeList());
       int size = strokes.size();
-      if (size > 0 && strokes.get(size - 1) instanceof InStroke) {
+      if (size > 0 && strokes.get(size - 1) instanceof InStroke)
+      {
         OutStroke out = factory().createOutStroke();
         strokes.set(size - 1, out);
         ZName sName = factory().createZDeclName(rName.getWord(), strokes);
         NameTypePair foundPair = findNameTypePair(sName, lSig);
-        if (foundPair != null) {
+        if (foundPair != null)
+        {
           Type2 fType = unwrapType(foundPair.getType());
           Type2 rType = unwrapType(rPair.getType());
           UResult unified = unify(fType, rType);
-          if (unified == FAIL) {
+          if (unified == FAIL)
+          {
             Object [] params = {term, sName, fType, rName, rType};
             error(term, errorMessage, params);
           }
@@ -841,29 +909,34 @@ abstract public class Checker<R>
     Signature result = factory().createSignature(b3Pairs);
     return result;
   }
-
+  
   protected Signature createHideSig(Signature signature,
-                                    List<Name> names, Term term)
+    List<Name> names, Term term)
   {
     //create a new name/type pair list
     List<NameTypePair> pairs = signature.getNameTypePair();
     List<NameTypePair> newPairs = factory().list(pairs);
-
+    
     //iterate over every name, removing it from the signature
-    for (Name name : names) {
+    for (Name name : names)
+    {
       ZName zName = factory().createZName(assertZName(name), false);
       NameTypePair rPair = findNameTypePair(zName, signature);
-
+      
       //if this is name is not in the schema, raise an error
-      if (rPair == null) {
+      if (rPair == null)
+      {
         Object [] params = {term, zName};
         error(term, ErrorMessage.NON_EXISTENT_NAME_IN_HIDEEXPR, params);
       }
       //if it is in the schema, remove it
-      else {
-        for (Iterator pIter = newPairs.iterator(); pIter.hasNext(); ) {
+      else
+      {
+        for (Iterator pIter = newPairs.iterator(); pIter.hasNext(); )
+        {
           NameTypePair nPair = (NameTypePair) pIter.next();
-          if (nPair == rPair) {
+          if (nPair == rPair)
+          {
             pIter.remove();
           }
         }
@@ -872,59 +945,67 @@ abstract public class Checker<R>
     Signature result = factory().createSignature(newPairs);
     return result;
   }
-
+  
   //check for duplicate names in a list of renames
   protected void checkForDuplicateRenames(List<NewOldPair> renamePairs,
-                                          Term term, String errorMessage)
+    Term term, String errorMessage)
   {
     //first check for duplicate renames
     List<ZName> oldNames = factory().list();
-    for (NewOldPair pair : renamePairs) {
+    for (NewOldPair pair : renamePairs)
+    {
       ZName oldName = pair.getZRefName();
       //if the old name is duplicated, raise an error
-      if (oldNames.contains(oldName)) {
+      if (oldNames.contains(oldName))
+      {
         Object [] params = {term, oldName};
         error(term, errorMessage, params);
       }
       oldNames.add(oldName);
     }
   }
-
+  
   //return a list with the rename pairs in 'sources' merged with
   //'targets', renaming any transitive renames
   protected List<NewOldPair> mergeRenamePairs(List<NewOldPair> targets,
-                                              List<NewOldPair> sources)
+    List<NewOldPair> sources)
   {
     List<NewOldPair> result = factory().list();
-    for (NewOldPair pair : targets) {
+    for (NewOldPair pair : targets)
+    {
       NewOldPair newPair = factory().createNewOldPair(pair);
       result.add(newPair);
     }
-    for (NewOldPair source : sources) {
+    for (NewOldPair source : sources)
+    {
       boolean renamed = false;
-      for (NewOldPair target : result) {
+      for (NewOldPair target : result)
+      {
         Name targetNewName = target.getNewName();
         Name sourceOldName = source.getOldName();
-        if (namesEqual(targetNewName, sourceOldName)) {
+        if (namesEqual(targetNewName, sourceOldName))
+        {
           target.setNewName(source.getNewName());
           renamed = true;
         }
       }
-      if (!renamed && !targets.contains(source)) {
+      if (!renamed && !targets.contains(source))
+      {
         targets.add(source);
       }
     }
     return result;
   }
-
+  
   //add IDs to each new name in a list of renaming pairs
   protected void addNameIDs(List<NewOldPair> pairs)
   {
-    for (NewOldPair pair : pairs) {
+    for (NewOldPair pair : pairs)
+    {
       factory().addNameID(pair.getNewName());
     }
   }
-
+  
   //make a tuple from a sequence (section 9.2 of the Z standard)
   protected Type2 mkTuple(List<Type2> list)
   {
@@ -934,64 +1015,70 @@ abstract public class Checker<R>
       factory().createProdType(list);
     return result;
   }
-
+  
   //rename the declarations
   protected Signature rename(Signature signature, List<NewOldPair> renamePairs)
   {
     List<NameTypePair> newPairs = factory().list();
     List<NameTypePair> pairs = signature.getNameTypePair();
-    for (NameTypePair pair : pairs) {
+    for (NameTypePair pair : pairs)
+    {
       NewOldPair namePair = findNewOldPair(pair.getZName(), renamePairs);
-      if (namePair != null) {
+      if (namePair != null)
+      {
         ZName newName = namePair.getZDeclName();
         NameTypePair newPair =
           factory().createNameTypePair(newName, pair.getType());
         newPairs.add(newPair);
       }
-      else {
+      else
+      {
         newPairs.add(pair);
       }
     }
     Signature result = factory().createSignature(newPairs);
     return result;
   }
-
+  
   protected Signature createRenameSig(Signature signature,
-                                      List<NewOldPair> renamePairs,
-                                      Term term, String errorMessage)
+    List<NewOldPair> renamePairs,
+    Term term, String errorMessage)
   {
     checkForDuplicateRenames(renamePairs, term, errorMessage);
     Signature result = rename(signature, renamePairs);
     return result;
   }
-
+  
   protected UResult checkChainRelOp(AndPred andPred)
   {
     UResult result = SUCC;
-
+    
     //if this is a chain relation, unify the RHS of the left pred
     //with the LHS of the right predicate
-    if (And.Chain.equals(andPred.getAnd())) {
+    if (And.Chain.equals(andPred.getAnd()))
+    {
       //get the types of the left and right preds
       Pred leftPred = andPred.getLeftPred();
       Type2 rhsLeft = getRightType(leftPred);
       Pred rightPred = andPred.getRightPred();
       Type2 lhsRight = getLeftType(rightPred);
-
+      
       //if the lhs and rhs do not unify, raise an error
       UResult unified = unify(rhsLeft, lhsRight);
-      if (unified == FAIL) {
+      if (unified == FAIL)
+      {
         Object [] params = {andPred, rhsLeft, lhsRight};
         error(andPred, ErrorMessage.TYPE_MISMATCH_IN_CHAIN_REL, params);
         result = FAIL;
       }
-      else if (unified == PARTIAL) {
+      else if (unified == PARTIAL)
+      {
         result = PARTIAL;
       }
     }
     return result;
   }
-
+  
   protected Type2 getLeftType(Pred pred)
   {
     MemPred memPred = (MemPred) pred;
@@ -999,58 +1086,65 @@ abstract public class Checker<R>
     Type2 result = types.get(0);
     return result;
   }
-
+  
   protected Type2 getRightType(Pred pred)
   {
     Type2 result = null;
-
-    if (pred instanceof MemPred) {
+    
+    if (pred instanceof MemPred)
+    {
       MemPred memPred = (MemPred) pred;
       List<Type2> types = getLeftRightType(memPred);
       result = types.get(1);
     }
-    else if (pred instanceof AndPred) {
+    else if (pred instanceof AndPred)
+    {
       AndPred andPred = (AndPred) pred;
       MemPred memPred = (MemPred) andPred.getRightPred();
       result = getRightType(memPred);
     }
-
+    
     return result;
   }
-
+  
   protected List<Type2> getLeftRightType(MemPred memPred)
   {
     List<Type2> result = factory().list();
-
+    
     Expr leftExpr = memPred.getLeftExpr();
     Expr rightExpr = memPred.getRightExpr();
-
+    
     //if this pred is an equality
     boolean mixfix = memPred.getMixfix().booleanValue();
-    if (mixfix && rightExpr instanceof SetExpr) {
+    if (mixfix && rightExpr instanceof SetExpr)
+    {
       result.add(getType2FromAnns(leftExpr));
       result.add(getBaseType(getType2FromAnns(rightExpr)));
     }
     //if this is a membership
-    else if (!mixfix) {
+    else if (!mixfix)
+    {
       result.add(getType2FromAnns(leftExpr));
       result.add(getType2FromAnns(rightExpr));
     }
     //if this is a relation
-    else {
-      if (leftExpr instanceof TupleExpr) {
+    else
+    {
+      if (leftExpr instanceof TupleExpr)
+      {
         TupleExpr tupleExpr = (TupleExpr) leftExpr;
         result.add(getType2FromAnns(tupleExpr.getZExprList().get(0)));
         result.add(getType2FromAnns(tupleExpr.getZExprList().get(1)));
       }
-      else {
+      else
+      {
         result.add(getType2FromAnns(leftExpr));
       }
     }
-
+    
     return result;
   }
-
+  
   /**
    * Gets the base type of a power type, or returns that the type
    * is unknown.
@@ -1058,19 +1152,21 @@ abstract public class Checker<R>
   public Type2 getBaseType(Type2 type2)
   {
     Type2 result = factory().createUnknownType();
-
+    
     //if it's a PowerType, get the base type
-    if (type2 instanceof PowerType) {
+    if (type2 instanceof PowerType)
+    {
       PowerType powerType = (PowerType) type2;
       result = powerType.getType();
     }
-    else if (type2 instanceof UnknownType) {
+    else if (type2 instanceof UnknownType)
+    {
       result = type2;
     }
-
+    
     return result;
   }
-
+  
   protected GenericType instantiate(GenericType gType)
   {
     assert gType.getOptionalType() == null;
@@ -1082,70 +1178,85 @@ abstract public class Checker<R>
       factory().createGenericType(names, firstType, optionalType);
     return result;
   }
-
+  
   protected Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
-    if (type instanceof GenParamType) {
+    if (type instanceof GenParamType)
+    {
       GenParamType genParamType = (GenParamType) type;
       ZName genName = assertZName(genParamType.getName());
-
+      
       //try to get the type from the UnificationEnv
       Type unificationEnvType = unificationEnv().getType(genName);
-
+      
       //if this type's reference is in the parameters
-      if (isPending() && containsID(typeEnv().getParameters(), genName)) {
+      if (isPending() && containsID(typeEnv().getParameters(), genName))
+      {
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
-               unknownType(unificationEnvType).getZName() == null) {
+        unknownType(unificationEnvType).getZName() == null)
+      {
         VariableType vType = factory().createVariableType();
         result = vType;
         unificationEnv().addGenName(genName, result);
       }
-      else if (unificationEnvType instanceof Type2) {
+      else if (unificationEnvType instanceof Type2)
+      {
         result = (Type2) unificationEnvType;
       }
-      else {
+      else
+      {
         assert false : "Cannot instantiate " + type;
       }
     }
-    else if (type instanceof VariableType) {
+    else if (type instanceof VariableType)
+    {
       VariableType vType = (VariableType) type;
-      if (vType.getValue() != vType) {
+      if (vType.getValue() != vType)
+      {
         result = exprChecker().instantiate(vType.getValue());
       }
-      else {
+      else
+      {
         result = vType;
       }
     }
-    else if (type instanceof PowerType) {
+    else if (type instanceof PowerType)
+    {
       PowerType powerType = (PowerType) type;
       Type2 replaced = exprChecker().instantiate(powerType.getType());
       result = factory().createPowerType(replaced);
     }
-    else if (type instanceof GivenType) {
+    else if (type instanceof GivenType)
+    {
       result = type;
     }
-    else if (type instanceof SchemaType) {
+    else if (type instanceof SchemaType)
+    {
       SchemaType schemaType = (SchemaType) type;
       Signature signature =
         exprChecker().instantiate(schemaType.getSignature());
       result = factory().createSchemaType(signature);
     }
-    else if (type instanceof ProdType) {
+    else if (type instanceof ProdType)
+    {
       ProdType prodType = (ProdType) type;
       List<Type2> newTypes =
         exprChecker().instantiateTypes(prodType.getType());
       result = factory().createProdType(newTypes);
     }
-    else if (type instanceof UnknownType) {
+    else if (type instanceof UnknownType)
+    {
       UnknownType uType = (UnknownType) type;
       ZName uTypeName = uType.getZName();
-      if (uTypeName != null) {
+      if (uTypeName != null)
+      {
         ParameterAnn pAnn = (ParameterAnn) uTypeName.getAnn(ParameterAnn.class);
         List<Type2> types = uType.getType();
-        if (pAnn != null && types.size() == 0) {
+        if (pAnn != null && types.size() == 0)
+        {
           types.addAll(pAnn.getParameters());
         }
         boolean isMem = uType.getIsMem();
@@ -1153,13 +1264,14 @@ abstract public class Checker<R>
         List<NewOldPair> newPairs = factory().list(uType.getPairs());
         result = factory().createUnknownType(uTypeName, isMem, newTypes, newPairs);
       }
-      else {
+      else
+      {
         result = uType;
       }
     }
     return result;
   }
-
+  
   protected Signature instantiate(Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
@@ -1168,15 +1280,18 @@ abstract public class Checker<R>
     Signature result = factory().createSignature(newPairs);
     return result;
   }
-
+  
   protected List<NameTypePair> instantiatePairs(List<NameTypePair> pairs)
   {
     List<NameTypePair> newPairs = factory().list();
-    for (NameTypePair pair : pairs) {
-      if (pair.getType() instanceof GenericType) {
+    for (NameTypePair pair : pairs)
+    {
+      if (pair.getType() instanceof GenericType)
+      {
         newPairs.add(pair);
       }
-      else {
+      else
+      {
         Type replaced =
           exprChecker().instantiate(unwrapType(pair.getType()));
         NameTypePair newPair =
@@ -1186,17 +1301,18 @@ abstract public class Checker<R>
     }
     return newPairs;
   }
-
+  
   protected List<Type2> instantiateTypes(List<Type2> types)
   {
     List<Type2> newTypes = factory().list();
-    for (Type2 type : types) {
+    for (Type2 type : types)
+    {
       Type2 replaced = exprChecker().instantiate(type);
       newTypes.add(replaced);
     }
     return newTypes;
   }
-
+  
   //if there are generics in the current type env, return a new
   //GenericType with this Type2 as the type
   protected Type addGenerics(Type2 type)
@@ -1207,155 +1323,182 @@ abstract public class Checker<R>
       : factory().createGenericType(factory().createZNameList(params), type, null);
     return result;
   }
-
+  
   //add generic types from a list of Names to the TypeEnv
   public void addGenParamTypes(List<Name> declNames)
   {
     typeEnv().addParameters(declNames);
-
+    
     //add each Name and its type
     List<ZName> names = factory().list();
-    for (Name paramName : declNames) {
+    for (Name paramName : declNames)
+    {
       ZName zParamName = assertZName(paramName);
       factory().addNameID(zParamName);
-
+      
       GenParamType genParamType = factory().createGenParamType(zParamName);
       PowerType powerType = factory().createPowerType(genParamType);
-
+      
       //check if a generic parameter type is redeclared
-      if (containsZName(names, zParamName)) {
+      if (containsZName(names, zParamName))
+      {
         Object [] params = {zParamName};
         error(zParamName, ErrorMessage.REDECLARED_GEN, params);
       }
-      else {
+      else
+      {
         names.add(zParamName);
       }
-
+      
       //add the name and type to the TypeEnv
       typeEnv().add(zParamName, powerType);
     }
   }
-
+  
   //for the Z typechecker, this does nothing
   public void addContext(GivenType givenType)
   {
   }
-
+  
   //gets the type of the expression represented by a name
   protected Type getType(Name name)
   {
     assert name instanceof ZName;
     return getType((ZName) name);
   }
-
+  
   //gets the type of the expression represented by a name
   protected Type getType(ZName zName)
   {
     setIsPending(false);
-
+    
     //get the type from the TypeEnv
     Type type = typeEnv().getType(zName);
-
+    
     //if the type environment did not know of this expression.
     //then ask the pending env
-    if (type instanceof UnknownType) {
+    if (type instanceof UnknownType)
+    {
       type = pending().getType(zName);
       if (!(type instanceof UnknownType) ||
-          ((type instanceof UnknownType) &&
-           unknownType(type).getZName() != null) ){
+        ((type instanceof UnknownType) &&
+        unknownType(type).getZName() != null) )
+      {
         setIsPending(true);
       }
     }
-
+    
     //if the pending environment did not know of this expression,
     //then ask the SectTypeEnv
-    if (type instanceof UnknownType) {
+    if (type instanceof UnknownType)
+    {
       Type sectTypeEnvType = sectTypeEnv().getType(zName);
-      if (!instanceOf(sectTypeEnvType, UnknownType.class)) {
+      if (!instanceOf(sectTypeEnvType, UnknownType.class))
+      {
         type = sectTypeEnvType;
       }
-      else {
+      else
+      {
         UnknownType uType = (UnknownType) sectTypeEnvType;
         ZName uTypeName = uType.getZName();
-        if (uTypeName != null && !zName.equals(uTypeName)) {
+        if (uTypeName != null && !zName.equals(uTypeName))
+        {
           type = exprChecker().resolveUnknownType(uType);
         }
       }
     }
-
+    
     //if not in any of the environments, return a variable type with the
     //specified name
     if (type instanceof UnknownType &&
-        unknownType(type).getZName() == null) {
+      unknownType(type).getZName() == null)
+    {
       //add an UndeclaredAnn
       UndeclaredAnn ann = new UndeclaredAnn();
       zName.getAnns().add(ann);
     }
-    else {
+    else
+    {
       //remove an UndeclaredAnn if there is one
       removeAnn(zName, UndeclaredAnn.class);
     }
-
+    
     return type;
   }
-
+  
   protected Type2 resolveUnknownType(Type2 type)
   {
     Type2 result = type;
-    if (sectTypeEnv().getSecondTime() && type instanceof UnknownType) {
+    if (sectTypeEnv().getSecondTime() && type instanceof UnknownType)
+    {
       UnknownType uType = (UnknownType) type;
       ZName uTypeName = uType.getZName();
-      if (uTypeName != null) {
+      if (uTypeName != null)
+      {
         Type refType = getType(uTypeName);
-        if (refType instanceof GenericType) {
+        if (refType instanceof GenericType)
+        {
           ZNameList genNames =
             assertZNameList(genericType(refType).getNameList());
           List<Type2> types = uType.getType();
           unificationEnv().enterScope();
-          if (genNames.size() == types.size()) {
-            for (int i = 0; i < genNames.size(); i++) {
+          if (genNames.size() == types.size())
+          {
+            for (int i = 0; i < genNames.size(); i++)
+            {
               unificationEnv().addGenName(genNames.get(i), types.get(i));
             }
           }
-          else {
-            for (int i = 0; i < genNames.size(); i++) {
+          else
+          {
+            for (int i = 0; i < genNames.size(); i++)
+            {
               unificationEnv().addGenName(genNames.get(i),
-                                          factory().createVariableType());
+                factory().createVariableType());
             }
           }
           refType = exprChecker().instantiate((GenericType) refType);
           unificationEnv().exitScope();
         }
-
-        if (uType.getIsMem() && unwrapType(refType) instanceof PowerType) {
+        
+        if (uType.getIsMem() && unwrapType(refType) instanceof PowerType)
+        {
           result = powerType(unwrapType(refType)).getType();
         }
-        else if (!uType.getIsMem()) {
+        else if (!uType.getIsMem())
+        {
           result = unwrapType(refType);
         }
       }
-
-      if (uType.getPairs().size() > 0 && result instanceof SchemaType) {
+      
+      if (uType.getPairs().size() > 0 && result instanceof SchemaType)
+      {
         Signature signature = schemaType(result).getSignature();
         List<NewOldPair> pairs = uType.getPairs();
         Signature newSig = createRenameSig(signature,
-                                           uType.getPairs(),
-                                           null, null);
+          uType.getPairs(),
+          null, null);
         result = factory().createSchemaType(newSig);
       }
     }
-    else if (sectTypeEnv().getSecondTime()) {
-      if (type instanceof VariableType) {
+    else if (sectTypeEnv().getSecondTime())
+    {
+      if (type instanceof VariableType)
+      {
         result = type;
       }
-      else {
+      else
+      {
         Object [] newChildren = new Object [type.getChildren().length];
-        for (int i = 0; i < type.getChildren().length; i++) {
+        for (int i = 0; i < type.getChildren().length; i++)
+        {
           Object child = type.getChildren()[i];
-          if (child instanceof Type2) {
+          if (child instanceof Type2)
+          {
             newChildren[i] = resolveUnknownType((Type2) child);
           }
-          else {
+          else
+          {
             newChildren[i] = child;
           }
         }
@@ -1365,108 +1508,136 @@ abstract public class Checker<R>
     }
     return result;
   }
-
+  
   //get a name/type pair corresponding with a particular name
   //return null if this name is not in the signature
   protected NameTypePair findNameTypePair(ZName zName,
-                                          Signature signature)
+    Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
     NameTypePair result = findNameTypePair(zName, pairs);
     return result;
   }
-
+  
   protected NewOldPair findNewOldPair(ZName zName,
-                                      List<NewOldPair> pairs)
+    List<NewOldPair> pairs)
   {
     NewOldPair result = null;
-    for (NewOldPair pair : pairs) {
-      if (namesEqual(pair.getZRefName(), zName)) {
+    for (NewOldPair pair : pairs)
+    {
+      if (namesEqual(pair.getZRefName(), zName))
+      {
         result = pair;
         break;
       }
     }
     return result;
   }
-
+  
   protected NameTypePair findNameTypePair(ZName zName,
-                                          List<NameTypePair> pairs)
+    List<NameTypePair> pairs)
   {
     //problem with static import from GlobalDefs
     return GlobalDefs.findNameTypePair(zName, pairs);
   }
-
+  
   protected void removeTypeAnns(Term term)
   {
     Object ann = term.getAnn(TypeAnn.class);
-    if (ann != null) {
+    if (ann != null)
+    {
       removeAnn(term, ann);
     }
-
+    
     //do the same for the children
     Object [] children = term.getChildren();
-    for (int i = 0; i < children.length; i++) {
+    for (int i = 0; i < children.length; i++)
+    {
       Object next = children[i];
-      if (next != null && next instanceof Term) {
+      if (next != null && next instanceof Term)
+      {
         removeTypeAnns((Term) next);
       }
     }
   }
-
+  
   protected void removeErrorAnns(Term term)
   {
     Object ann = term.getAnn(ErrorAnn.class);
-    while (ann != null) {
+    while (ann != null)
+    {
       removeAnn(term, ann);
       ann = term.getAnn(ErrorAnn.class);
     }
   }
-
+  
   protected void removeErrorAndTypeAnns(Term term)
   {
     Object ann = term.getAnn(TypeAnn.class);
-    if (ann != null) {
+    if (ann != null)
+    {
       removeAnn(term, ann);
     }
     ann = term.getAnn(SignatureAnn.class);
-    if (ann != null) {
+    if (ann != null)
+    {
       removeAnn(term, ann);
     }
     ann = term.getAnn(ErrorAnn.class);
-    while (ann != null) {
+    while (ann != null)
+    {
       removeAnn(term, ann);
       ann = term.getAnn(ErrorAnn.class);
     }
-
+    
     //do the same for the children
     Object [] children = term.getChildren();
-    for (int i = 0; i < children.length; i++) {
+    for (int i = 0; i < children.length; i++)
+    {
       Object next = children[i];
-      if (next != null && next instanceof Term) {
+      if (next != null && next instanceof Term)
+      {
         removeErrorAndTypeAnns((Term) next);
       }
     }
   }
-
+  
+  /**
+   * Returns the schema type if the given type is a power type of a
+   * schema type, that is, if the given type is of a reference to a
+   * schema; <code>null</code> otherwise.
+   */
+  protected SchemaType referenceToSchema(Type type)
+  {
+    if (type instanceof PowerType) {
+      PowerType powerType = (PowerType) type;
+      if (powerType.getType() instanceof SchemaType) {
+        return (SchemaType) powerType.getType();
+      }
+    }
+    return null;
+  }
+  
   public String toString(Type type)
   {
     return type.toString();
   }
-
+  
   //print debuging info
   protected boolean debug()
   {
     return typeChecker_.debug_;
   }
-
+  
   protected void setDebug(boolean b)
   {
     typeChecker_.debug_ = b;
   }
-
+  
   protected void debug(String message)
   {
-    if (debug()) {
+    if (debug())
+    {
       System.err.println(message);
     }
   }
