@@ -27,7 +27,24 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 
 /**
- *
+ * <p>
+ * Adds names to the current type environment scope based on the schema
+ * text's declarations. This visitor is used within expressions and 
+ * predicates that contain schema texts. 
+ * </p>
+ * <p>
+ * Together with Checker.addGenParamTypes, which treats generic parameters,
+ * this is the only place where name type pairs are explicit added to the
+ * type environment. Interestingly, for AxPara within ParaChecker, such pairs
+ * are added to the pending() type environment, since schema texts within 
+ * AxPara are treated differently. 
+ * </p>
+ * <p>
+ * Extensions to Z that require addition of global names to the environment,
+ * should follow a similar protocol, which uses the pending() environment as
+ * a spurious type environment used solely for typechecking purposes, and not
+ * refered too later on (i.e. typeEnv() is for global declarations).
+ * </p>
  */
 public class SchTextChecker
   extends Checker<Signature>
