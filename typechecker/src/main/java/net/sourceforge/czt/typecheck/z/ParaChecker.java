@@ -253,6 +253,10 @@ public class ParaChecker
     return signature;
   }
 
+  /**
+   * This visitZSchText method is only used for schema texts related to
+   * an axiomatic definition paragraph. 
+   */
   public Signature visitZSchText(ZSchText zSchText)
   {
     //the list of Names declared in this schema text
