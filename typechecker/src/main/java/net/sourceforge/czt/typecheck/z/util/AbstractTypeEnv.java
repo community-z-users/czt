@@ -141,7 +141,18 @@ abstract public class AbstractTypeEnv
         // These Delta/Xi names are a special case, because there may
         // not be any corresponding ZName.  So if there is not,
         // we add a fixed (global) id.
-        if (zName.getId() == null) factory_.setId(zName, "deltaxi");
+        //
+        // (Leo): To avoid exposing the ID database within the factory,
+        //        we made the methods explicitly mentioning IDs protected.
+        //        Such (rare) special ID cases are the only point where this
+        //        constraint is too strong for type checking. 
+        //        Thus, we added a special method withing the factory to 
+        //        to take care of such rare cases, hence closing access to 
+        //        the ID database. Other extensions requiring similar features
+        //        should extend their corresponding typechecker factory accordingly.
+        if (zName.getId() == null) 
+          //factory_.setId(zName, "deltaxi");
+          factory_.setDeltaXiID(zName);
       }
     }
     return result;
