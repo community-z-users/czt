@@ -141,7 +141,8 @@ public class TypeCheckUtils
                                                 boolean useNameIds,
                                                 String sectName)
   {
-    ZFactory zFactory = new ZFactoryImpl();
+    ZFactory zFactory = new ZFactoryImpl();    
+    //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
     TypeChecker typeChecker =
       new TypeChecker(new Factory(zFactory), sectInfo, useBeforeDecl);
     typeChecker.setPreamble(sectName, sectInfo);
