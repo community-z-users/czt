@@ -1322,20 +1322,4 @@ public class ExprChecker
     }
     return factory().createSignature(pairs);
   }
-
-  /**
-   * Returns the schema type if the given type is a power type of a
-   * schema type, that is, if the given type is of a reference to a
-   * schema; <code>null</code> otherwise.
-   */
-  protected SchemaType referenceToSchema(Type type)
-  {
-    if (type instanceof PowerType) {
-      PowerType powerType = (PowerType) type;
-      if (powerType.getType() instanceof SchemaType) {
-        return (SchemaType) powerType.getType();
-      }
-    }
-    return null;
-  }
 }
