@@ -29,6 +29,7 @@ import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZDeclList;
@@ -72,123 +73,183 @@ public class DeclChecker
   
   /**
    * If declaring Circus formal parameters, we can only accept VarDecl or
-   * QualifiedDecl, but not ConstDecl or InclDecl.
+   * QualifiedDecl, but not ConstDecl or InclDecl. Otherwise, just follow
+   * the Z protocol. When declaring formal parameters, the
+   * {@link #isCheckingCircusFormalParamDecl()} flag must be on.
+   *
+   *@law C.4.4, C.16.1
    */
   public List<NameTypePair> visitZDeclList(ZDeclList term)
   {
-    if (!isCheckingCircusFormalParamDecl())
+    // In case we have formal params, it must be VarDecl or QualifiedDecl.
+    // Otherwise, it doesn't matter and just use the Z protocol.
+    // isCheckingCircusFormalParamDecl() => VarDecl || QualifiedDecl
+    // !isCheckingCircusFormalParamDecl() || VarDecl || QualifiedDecl
+    
+    // use the Z protocol
+    List<NameTypePair> result = term.accept(zDeclChecker_);    
+    
+    // search for the need to add errors in case we are checking formal parameters
+    if (isCheckingCircusFormalParamDecl())
     {
-      return term.accept(zDeclChecker_);
-    }
-    else 
-    {
-      List<NameTypePair> pairs = factory().list();
-      
       //for each declaration in the list, get the declarations from that
       //and make sure they are of the appropriate subtype.
-      for (Decl decl : zDeclList.getDecl()) {
-        if (decl instanceof VarDecl || decl instanceof QualifiedDecl)
-        {
-          List<NameTypePair> nextPairs = decl.accept(declChecker());
-          pairs.addAll(nextPairs);
-        } else
-        {
-          boolean isProcess = true;
-          Name name = getCurrentProcessName();
+      for (Decl decl : term.getDecl()) 
+      {
+        if (!GlobalDefs.instanceOf(decl, VarDecl.class) &&
+            !GlobalDefs.instanceOf(decl, QualifiedDecl.class))        
+        {          
+          boolean isProcess = isWithinProcessParaScope();
+          Name name = (isProcess ? getCurrentProcessName() : getCurrentActionName());        
           if (name == null)
-          {
-            isProcess = false;
-            name = getCurrentActionName();
-          }
-          
-          if (name == null)
-          {            
+          {                       
+            assert !isWithinActionParaScope() : "within action scope but without action name for process " 
+              +  getCurrentProcessName();
             Object[] params = {(isProcess ? "process" : "action")};
             error(decl, ErrorMessage.INVALID_SCOPE_FOR_FORMAL_PARAMS, params);
           }
           else 
           { 
             Object[] params = {(isProcess ? "process" : "action"), 
-              name.toString(), decl.getClass().toString()};
+              name, decl.getClass().toString()};
             error(decl, ErrorMessage.INVALID_DECL_IN_FORMAL_PARAMS, params);
           }          
         }
       }
-      return pairs;
     }
+    return result;
   }
   
   /**
-   * Visiting ChannelDecl accounts for all type of explicit channel declarations
-   * allowed in Circus. That includes synchronisation channels, typed channels,
+   * Accounts for all type of explicit channel declarations allowed in Circus. 
+   * That includes synchronisation channels, typed channels,
    * generically typed channels, and channels from schemas. The only one missing
    * is implicitly declared channels through indexed processes, which are dealt
    * with in ProcessChecker.
-   */
+   *
+   *@law C.4.1, C.4.2, C.4.3(?), C.4.4 (within visitZDeclList general protocol)
+   */    
   public List<NameTypePair> visitChannelDecl(ChannelDecl term)
   {
     // CDeclaration ::= N+
     // CDeclaration ::= N+ : Expression
     // CDeclaration ::= [N+]N+ : Expression
     
-    // retrieve each structure
-    List<NameTypePair> result;
-    Expr expr = term.getExpr();
-    ZNameList declNames = term.getZNameList();
-    ZNameList genParams = term.getZGenFormals();
-    boolean isChannelFrom = declNames.isEmpty();
-    assert expr != null : "ALL channels MUST have a type expression (including synch channels).";
+    List<NameTypePair> result = factory().list();
     
     //we enter a new variable scope for the generic parameters
+    //we do that here, rather than on the ChannelPara level because
+    //all ChannelDecl within the ChannelPara can contain their own 
+    //generic types.
     typeEnv().enterScope();
     
     //add the generic parameter names to the local type env
     //this already checks if names are repeated.
-    addGenParamTypes(genParams);
+    addGenParamTypes(term.getZGenFormals());
     
-    // checks for duplicate names, and adds an error in case one is found.
+    // retrieve structures and find out about the nature of the declaration
+    Expr expr = term.getExpr();
+    ZNameList declNames = term.getZNameList();    
+    boolean isChannelFrom = declNames.isEmpty();    
+    assert expr != null : 
+      "ALL channels MUST have a type expression (including synch channels). This is a dynamic creation error";
+    
+    //we enter a new variable scope for the generic parameters
+    //CZT Z typechecker uses a pending() environment for global names
+    //declared in the current paragraph. That is because global names 
+    //in the current paragraph shall not have their generic types 
+    //instantiated. 
+    pending().enterScope();
+    
+    // checks for duplicate names, and adds an error in case one is found.    
+    // NoRep ln
     checkForDuplicateNames(declNames, ErrorMessage.DUPLICATE_CHANNEL_NAME_IN_CHANDECL);
     
+    // (NotInto ln \Gamma.defNames) is checked at checkParaList()
+    
     //visit the expression
+    // \Gamma \rhd e: Expression, C.4.2
     Type2 exprType = expr.accept(exprChecker());
     
     // if normal channel declaration, it is just like VarDecl:
     // the declaring type must be a power type to be type-correct.
     if (!isChannelFrom)
-    {
-      //expr should be a set expr, just like in varDecl
-      PowerType vPowerType = factory().createPowerType();
-      UResult unified = unify(vPowerType, exprType);
-      
+    {   
+      //expr should be a set expr , just like in varDecl      
+      //ChannelType vChanType = factory().createChannelType();      
+      PowerType vType = factory().createPowerType();
+      UResult unified = unify(vType, exprType);
+            
       //the list of name type pairs in the channel decl name list
-      result = checkDeclNames(declNames, expr, unified, exprType, vPowerType);
+      result.addAll(checkChannelDecl(declNames, expr, unified, exprType, vType));      
     }
     // otherwise, the returning type must be a schema type.
     else
     {
       // If the name in the channelFrom declaration refers to a schema type
-      // the name-type pairs are the result
+      // the name-type pairs are the result      
       SchemaType schemaType = referenceToSchema(exprType);
+      
+      // This is bad: we would need to consider ConstDecl, InclDecl, etc.. :-(
+      //SchExpr schemaExpr = (SchExpr)schemaType.accept(carrierSet());      
+      //schemaExpr.getZSchText().getZDeclList()     
+      
       if (schemaType != null)
-      {
-        result = schemaType.getSignature().getNameTypePair();
+      {  
+        CarrierSet cs = carrierSet();
+        // check each name type pair using checkChannelDecl
+        for(NameTypePair pair : schemaType.getSignature().getNameTypePair())
+        {          
+          Term pairType = pair.getType().accept(cs);
+          // if from a flat schema (i.e. no inclusion)
+          if (pairType instanceof Expr)
+          {
+            Expr channelTypeExpr = (Expr)pairType;
+            PowerType vType = factory().createPowerType();
+            UResult unified = unify(vType, exprType);
+            
+            // only one pair at time, but it reuses the general code for lists. fine.
+            // improve latter if needed (i.e. this construct is rarely used...)
+            result.addAll(checkChannelDecl(factory().list(pair.getName()), channelTypeExpr,
+              unified, exprType, vType));
+          }          
+          else
+          {
+            Object[] params = { expr }; 
+            error(expr, ErrorMessage.INVALID_CHANNEL_FROM_INCLDECL, params);
+          }
+        }
       }
       // otherwise, we have a type error
       else
       {
-        
+        Object[] params = { expr };
+        error(expr, ErrorMessage.INVALID_CHANNEL_FROM_DECL, params);        
       }
     }
     
-    //exit the variable scope
+    //exit the pending scope 
+    pending().exitScope();
+    
+    //exit the typing scope for channels
     typeEnv().exitScope();
+    
+    // add all pairs to the environment after closing the scopes.
+    // this way, the names are available to the calling scope.
+    typeEnv().add(result);
     
     return result;
   }
   
   /**
-   * Visiting ChannelDecl accounts for all type of qualified parameter declarations
-   * allowed in Circus. That includes parameter passing by value, result, or value result. 
+   * Accounts for all type of qualified parameter declarations
+   * allowed in Circus. That includes parameter passing by value, 
+   * result, or value result. To arrive here, the 
+   * {@link #isCheckingCircusFormalParamDecl()} flag must be on.
+   * Checking the qualified declaration is within scope is done by
+   * the visitZDeclList method.
+   *
+   *@law C.16.2, C.16.3, C.16.4, C.16.5
    */  
   public List<NameTypePair> visitQualifiedDecl(QualifiedDecl term)
   {
@@ -196,10 +257,17 @@ public class DeclChecker
     // QualifiedDeclaration :: = res Declaration
     // QualifiedDeclaration :: = valres Declaration
     // QualifiedDeclaration :: = QualifiedDeclaration;QualifiedDeclaration
-
+        
+    Lists<NameTypePair> result = factory().list();
+    
     Expr expr = term.getExpr();
-    // TODO: What about Jokers here?
     ZNameList declNames = term.getZNameList();
+    
+    // TODO: CHECK: should this scoping be condition on whether we are 
+    //              within a process or not? That is, within is localCircusTypeEnv()
+    //              not within is typeEnv(). 
+    // we need a scope for the parameters
+    //typeEnv().enterScope();
     
     //visit the expression
     Type2 exprType = term.getExpr().accept(exprChecker());
@@ -208,12 +276,18 @@ public class DeclChecker
     PowerType vPowerType = factory().createPowerType();
     UResult unified = unify(vPowerType, exprType);
 
-    checkForDuplicateNames(term.getZNameList(), ErrorMessage.DUPLICATE_PARAM_NAME_IN_QUALIFIEDDECL);
+    checkForDuplicateNames(declNames, ErrorMessage.DUPLICATE_PARAM_NAME_IN_QUALIFIEDDECL);
     
     //the list of name type pairs in the channel decl name list
-    List<NameTypePair> result = checkDeclNames(
-      term.getZNameList(), term.getExpr(), unified, exprType, vPowerType);
+    result.addAll(checkDeclNames(
+      declNames, expr, unified, exprType, vPowerType));
 
+    // exists the checking scope
+    //typeEnv().exitScope();
+    
+    // add variables to the calling scope.
+    typeEnv().add(result);
+    
     return result;
   }  
 }

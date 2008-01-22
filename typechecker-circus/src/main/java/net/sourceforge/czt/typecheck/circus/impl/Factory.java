@@ -16,6 +16,7 @@ import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
+import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.CircusNameSet;
@@ -26,10 +27,12 @@ import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.util.CircusString;
+import net.sourceforge.czt.typecheck.z.impl.VariableType;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
@@ -131,6 +134,7 @@ public class Factory
 
   public ChannelSetType createChannelSetType()
   {
+    assert false : "TODO: resolve generics";
     ChannelSetType chanSetType = circusFactory_.createChannelSetType();
     Signature channelsSig = circusFactory_.createSignature();
     chanSetType.setSignature(channelsSig);    
@@ -139,6 +143,7 @@ public class Factory
 
   public ChannelSetType createChannelSetType(Signature channelsSig)
   {
+    assert false : "TODO: resolve generics";    
     ChannelSetType chanSetType = circusFactory_.createChannelSetType(channelsSig);    
     return chanSetType;
   }
@@ -157,6 +162,31 @@ public class Factory
     return nameSetType;
   }
 
+  /**
+   * This is a channel type that has an ALPHA variable type within it.
+   */
+  public ChannelType createChannelType()
+  {
+    assert false : "TODO: resolve generics";
+    // create an underlying variable type as the channel type
+    // that means type inference hasn't been done yet.
+    VariableType vType = createVariableType();
+    ChannelType result = createChannelType(vType);
+    return result;    
+  }
+
+  public ChannelType createChannelType(Type2 type)
+  {    
+    assert false : "TODO: resolve generics";    
+    
+    // innermost corejava AST-impl type with underlying type.
+    ChannelType channelType = factory_.createChannelType(type);
+    
+    // outermost typechecker AST-impl type potentially with variable types.
+    ChanneltType result = new ChannelTypeImpl(channelType);
+    return result;
+  }
+  
   /*public ProcessAnn createProcessAnn(ProcessType type)
   {
     ProcessAnn processAnn = circusFactory_.createProcessAnn(type);

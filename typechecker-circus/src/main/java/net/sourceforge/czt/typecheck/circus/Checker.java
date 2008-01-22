@@ -23,14 +23,17 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.BasicProcessSignature;
+import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
+import net.sourceforge.czt.circus.ast.ProcessType;
+import net.sourceforge.czt.circus.ast.ZSignatureList;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.circus.impl.ChannelInfo;
 import net.sourceforge.czt.typecheck.circus.impl.ProcessInfo;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
-import net.sourceforge.czt.typecheck.circus.util.LocalTypeEnv;
+import net.sourceforge.czt.typecheck.circus.util.TypeEnv;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.z.ast.GenParamType;
 import net.sourceforge.czt.z.ast.Name;
@@ -48,6 +51,10 @@ import net.sourceforge.czt.z.util.ZUtils;
 
 
 /**
+ * Derived superclass of all XXXChecker classes (i.e., one for each syntactic 
+ * category). It provides general facilities for the derived checkers. This 
+ * usually includes typeing environment lookup and update, factory methods,
+ * syntax checks, and so on.
  *
  * @author Leo Freitas
  * @author Manuela Xavier
@@ -64,21 +71,34 @@ public abstract class Checker<R>
     typeChecker_ = typeChecker;
   }
   
-  public void setCircusFormalParametersDecl(boolean val)
-  {
-    typeChecker_.circusFormalParameters_ = val;
-  }
-  
-  public boolean isCheckingCircusFormalParamDecl()
-  {
-    return typeChecker_.circusFormalParameters_;
-  }  
-  
   protected net.sourceforge.czt.typecheck.circus.impl.Factory factory()
   {
     return typeChecker_.getFactory();
   }
   
+  protected boolean shouldCreateLetVar()
+  {
+    return typeChecker_.shouldCreateLetVars_;
+  }
+   
+  /***********************************************************************
+   * Checker accessors per syntactic category
+   **********************************************************************/
+  
+  /* NOTE:
+   * Various checker subclasses, one per syntactic category.
+   * They are presented here in the order they were implemented.
+   */
+    
+  // specChecker() -> DONE
+  // paraChecker() -> DONE
+  
+  protected Checker<ProcessSignature> processChecker()
+  {
+    return typeChecker_.processChecker_;
+  }
+  
+  // TODO
   protected Checker<Signature> signatureChecker()
   {
     return typeChecker_.signatureChecker_;
@@ -96,13 +116,8 @@ public abstract class Checker<R>
   
   protected Checker<List<NameTypePair>> commChecker()
   {
-    return typeChecker_.communicChecker_;
-  }
-  
-  protected Checker<ProcessSignature> processChecker()
-  {
-    return typeChecker_.processChecker_;
-  }
+    return typeChecker_.commChecker_;
+  }  
   
   protected Checker<Boolean> channelDeclChecker()
   {
@@ -113,6 +128,109 @@ public abstract class Checker<R>
   {
     return typeChecker_.channelsUsedChecker_;
   }
+
+  protected Checker<Signature> processParaChecker()
+  {
+    return typeChecker_.processParaChecker_;
+  }
+
+  /** 
+   * General method that checks whether the given name is typed with
+   * the expected type Type class. If the type info stack does not have
+   * type information for the given name, the result is obviously false
+   * regardless of the expected class.
+   */
+  protected boolean isTypedAsExpected(Name name, Class<? extends Type> expected)
+  {
+    assert name != null && expected != null;
+    
+    // NOTE: Originally, Manuela used name comparison (possibly) without 
+    //       considering strokes (see GlobalDefs.compareNames). This does
+    //       not seem to make much sense and it wasn't well motivated. 
+    //       In any case, TypeEnv.getType uses getX, which uses "namesEqual"
+    //       method that does the right name comparison.
+    
+    // retrieve type information for given name
+    Type type = getType(name);        
+    
+    // checks whether it is non-null and of the expected type    
+    return expected.isInstance(type);
+  }
+  
+   /** A name is a nameset if it has NameSetType */
+  public boolean isChannel(Name name)
+  {    
+    return isTypedAsExpected(name, NameSetType.class);
+  }
+  
+  /** A name is a nameset if it has NameSetType */
+  public boolean isNameSet(Name name)
+  {    
+    return isTypedAsExpected(name, NameSetType.class);
+  }
+  
+  /** A name is an action if it has ProcessType */
+  public boolean isProcess(Name name)
+  {
+    return isTypedAsExpected(name, ProcessType.class);    
+  }
+  
+  /** A name is an action if it has ActionType */
+  public boolean isAction(Name name)
+  {
+    return isTypedAsExpected(name, ActionType.class);    
+  }  
+  
+  /**
+   * A name is a parameterised action if it has ActionType
+   * and the formal parameters signature within the action 
+   * signature is not empty.
+   */
+  public boolean isParamAction(Name name) 
+  {    
+    Type type = getType(name);
+    boolean result = isAction(name)
+    if (result)
+    {      
+      ActionType atype = (ActionType)type;
+      result = !atype.getActionSignature().getFormalParams().getNameTypePair().isEmpty();
+    }    
+    return result;
+  }
+  
+  /***********************************************************************
+   * Accessor methods to the various syntactic categories lists
+   **********************************************************************/
+  
+  /*
+  protected List<ChannelInfo> channels()
+  {
+    return typeChecker_.channels_;
+  }
+  
+  protected NameList chansets()
+  {
+    return typeChecker_.chansets_;
+  }
+   
+  protected NameList muProcesses()
+  {
+    return typeChecker_.muProcesses_;
+  }
+  
+  protected NameList muActions()
+  {
+    return typeChecker_.muActions_;
+  }
+  
+  protected NameList actions4PostCheck()
+  {
+    return typeChecker_.actions4PostCheck_;
+  }  
+  */
+  /***********************************************************************
+   * Methods for the various process related information 
+   **********************************************************************/
   
   protected Name getCurrentProcessName()
   {
@@ -132,14 +250,59 @@ public abstract class Checker<R>
   }
   
   /**
-   * This variables control process scoping. That is, one cannot have
-   * nested process declarations.
+   * This flag must be set whenever we are performing typechecking 
+   * over circus formal paramters. This is important to make sure 
+   * only VarDecl or QualifiedDecl is allowed.
+   */
+  protected void setCircusFormalParametersDecl(boolean val)
+  {
+    typeChecker_.circusFormalParameters_ = val;
+  }
+  
+  protected boolean isCheckingCircusFormalParamDecl()
+  {
+    return typeChecker_.circusFormalParameters_;
+  }  
+  
+  /**
+   * Return whether the typechecker is within the scope of a process paragraph.
+   * This is useful to check whether a process declaration can be analysed, or
+   * to avoid nested scopes. The latter is already enforced by the parser.   
    */
   protected boolean isWithinProcessParaScope()
   {
     return typeChecker_.currentProcess_ != null;
+  }    
+  
+   
+  protected void checkProcessParaScope(String paraKind, Name name)
+  {
+    boolean result = isWithinProcessParaScope();
+    if (!result)
+    {
+      Object[] params = { paraKind, name };
+      error(term, ErrorMessage.INVALID_PROCESS_PARA_SCOPE, params);      
+    }
+    return result;
   }
-    
+  
+  /***********************************************************************
+   * Methods for the on-the-fly process related information 
+   **********************************************************************/  
+  
+  protected void setOnTheFlyProcesses(ZParaList procs)
+  {
+    typeChecker_.onTheFlyProcesses_= procs;
+  }
+  
+  protected ZParaList onTheFlyProcesses()
+  {
+    return typeChecker_.onTheFlyProcesses_;
+  }
+  
+  /***********************************************************************
+   * Methods for the various action related information 
+   **********************************************************************/      
   
   protected Name getCurrentActionName()
   {
@@ -156,6 +319,32 @@ public abstract class Checker<R>
     typeChecker_.currentAction_ = name;
   }
   
+  /**
+   * Return whether the typechecker is within the scope of an action paragraph.
+   * That means, the action declaration is within an action paragraph, which in
+   * turn must be within a process paragraph.
+   * This is useful to check whether a action declaration can be analysed, or
+   * to avoid nested scopes. The latter is already enforced by the parser.   
+   */
+  protected boolean isWithinActionParaScope()
+  {
+    return (isWithinProcessParaScope() &&
+            typeChecker_.currentAction_ != null);
+  }   
+  
+  protected void checkActionParaScope(String paraKind, Name name)
+  {
+    if (!isWithinActionParaScope())
+    {
+      Object[] params = { paraKind, name };
+      error(term, ErrorMessage.INVALID_ACTION_PARA_SCOPE, params);      
+    }
+  }
+
+  /***********************************************************************
+   * Methods for the basic process state related information 
+   **********************************************************************/        
+  
   protected Name getStateName()
   {
     return typeChecker_.stateName_;
@@ -171,41 +360,60 @@ public abstract class Checker<R>
     typeChecker_.stateName_ = name;
   }  
   
-  protected void setOnTheFlyProcesses(ZParaList procs)
+  /**
+   * Overrides the old signature with type from pairs the new siganature
+   * with the same name. TODO: ask Tim about name ids business
+   */
+  protected Signature overrideSignature(Signature oldSig, Signature newSig)
   {
-    typeChecker_.onTheFlyProcesses_= procs;
+    Signature result = factory().createSignature();
+    List<NameTypePair> resultPairs = result.getNameTypePair();
+    resultPairs.addAll(oldSig.getNameTypePair());        
+    for(NameTypePair pair : newSig.getNameTypePair())
+    {      
+      GlobalDefs.namesEqual(pair.getName(), )
+      pair.getZName().setId(null)
+      if(!resultPairs.contains(pair))
+      {
+        resultPairs.add(pair);
+      }
+    }
+    return result;
   }
   
-  protected ZParaList onTheFlyProcesses()
+  // do not clone LHS; adds RHS
+  protected Signature joinSignature(Signature sigL, Signature sigR)
   {
-    return typeChecker_.onTheFlyProcesses_;
-  }
-  
-  protected List<ChannelInfo> channels()
-  {
-    return typeChecker_.channels_;
-  }
-  
-  protected NameList chansets()
-  {
-    return typeChecker_.chansets_;
-  }
     
-  protected NameList muProcesses()
-  {
-    return typeChecker_.muProcesses_;
   }
   
-  protected NameList muActions()
-  {
-    return typeChecker_.muActions_;
+  /**
+   * Given the channel decl term, and the result of unifying the underlying 
+   * type with the (possibly) generically instantiated power type it corresponds
+   * to, creates the list of Name type pairs for that channel declaration. 
+   * (see createDeclNames in z.Checker).
+   */
+  protected List<NameTypePair> checkChannelDecl(List<? extends Name> declNames,
+    Expr channelExpr, UResult unified, Type2 exprType, PowerType vType)
+  {    
+    // check each name corresponds to a power type
+    List<NameTypePair> result = checkDeclNames(declNames, 
+      channelExpr, unified, exprType, vType);
+    
+    // wrap up the result base type as a channel type.
+    for(NameTypePair pair : result)
+    {            
+      pair.setType(factory().createChannelType(pair.getType()));
+    }
+    return result;
   }
-  
-  protected NameList actions4PostCheck()
-  {
-    return typeChecker_.actions4PostCheck_;
-  }
-  
+
+// TODO: code below still needs revision 
+   
+  /***********************************************************************
+   * Syntax validation methods 
+   **********************************************************************/        
+    
   protected boolean isChannel(/*String name*/Name name)
   {
     boolean result = false;
@@ -368,18 +576,159 @@ public abstract class Checker<R>
     }    
     return result;
   }
- 
-  protected void addVars(List<NameTypePair> vars)
+   
+//  /**
+//   * Adds the given name type pair into the current type information scope,
+//   * provided the name hasn't been declared in the current scope yet. It also
+//   * adds stroked variations of the given name according to the strokes 
+//   * returned by #getCircusStrokeListForStateVar (i.e. ', ?, !).
+//   * 
+//   * In case there is a naming conflict, the result is null. 
+//   * Otherwise, it contains the list of names that generated the conflict.
+//   * (i.e. "result = null || !result.isEmpty()" is part of the postcondition)
+//   */
+//  public List<ZName> addStateVar(NameTypePair pair)
+//  { 
+//    assert false : "TODO";
+//    ZName varName = pair.getZName();    
+//    Type varType = pair.getType();      
+//    
+//    List<ZName> existingNames = getFactory().list();
+//    NameTypePair existing = getPair(varName);
+//    
+//    
+//    // TODO: take this into account error(term, ErrorMessage.REDECLARED_STATEVAR_NAME, params);
+//    
+//    //if not already declared, add this declaration to the environment
+//    //together with its getCircusStrokeListForStateVar()+1 (=4) variations    
+//    if (existing == null)
+//    { 
+//      // add the original variable name to the scope, say "v"
+//      List<NameTypePair> stateVars = getFactory().list();
+//      stateVars.add(pair);      
+//      
+//      ZStrokeList zsl = getCircusStrokeListForStateVar();
+//      for(Stroke stroke : zsl)
+//      { 
+//        // create a stroked version " v'/v?/v! " with same ID as "v" (just like Z tc does) in getDeltaXiType(...)
+//        ZName strokedName = getFactory().createZName(varName, true);      
+//        strokedName.getZStrokeList().add(stroke);
+//        NameTypePair strokedPair = getFactory().createNameTypePair(strokedName, varType);
+//        
+//        // check whether the pair could have been created previously (very unlikely, but...)
+//        existing = getPair(strokedName);
+//        // if not, add it to the stateVars
+//        if (existing == null)
+//        {
+//          stateVars.add(strokedPair);
+//        }
+//        // otherwise add the name for a complete error message
+//        else
+//        {
+//          existingNames.add(varName);
+//          existing.setType(varType);      
+//        }
+//      } 
+//      
+//      // if no new variable already existed, then add then all to the type environment
+//      if (existing == null)
+//      {
+//        assert (stateVars.size() == zsl.size() + 1) :
+//          "State variable declarations must add " + (zsl.size() + 1) + 
+//          " variables in total.";
+//        
+//        // add all four variations to the type environment.
+//        add(stateVars);
+//      }
+//    }
+//    //otherwise, overwrite the existing declaration, and note that
+//    //this declaration is a duplicate (i.e. result = false)
+//    else
+//    {      WRONG: this should be done later, elsewhere.
+//      existingNames.add(varName);
+//      existing.setType(varType);      
+//    } 
+//    
+//    // if there were some duplicate pair, raise the error
+//    if (/*existing != null ||*/ !existingNames.isEmpty())
+//    {
+//      assert existing != null;
+//      //Object [] params = {existingNames.toString()};
+//      //error(term, ErrorMessage.REDECLARED_STATEVAR_NAME, params);
+//      return existingNames;
+//    }
+//    else
+//    {
+//      return null;
+//    }
+//  }  
+  
+  /**
+   * Get the list of strokes to add for local variable declaration. 
+   * That is, add a variable with each stroke in the list (x', x?, ...), 
+   * rather than one variable with all strokes (x'?...).
+   */
+  protected ZStrokeList getCircusStrokeListForLocalVars()
   {
-    for(NameTypePair var : vars)
-    {
-      typeEnv().add(var);
-      /* TODO: Check: Shouldn't it be:
-      Name primedVar = factory().createZDeclName(var.getZDeclName().getWord(), Arrays.asList(factory().createNextStroke()), null);
-       */
-      ZName primedVar = factory().createZName(var.getZName().getWord() + ZString.PRIME, null, null);
-      typeEnv().add(primedVar, var.getType());
-    }
+      ZStrokeList zsl = getFactory().getZFactory().createZStrokeList();
+      zsl.add(getFactory().createNextStroke());
+      zsl.add(getFactory().createInStroke());
+      zsl.add(getFactory().createOutStroke());
+      return zsl;
+  }
+  
+  /**
+   * Adds local variables to the process scope. That means
+   * adding four new variables for each name type pair given.
+   * For example, for (x, T), we add x, x', x?, x! with type T.
+   * That is needed in order to put right variables into context
+   * for various operations. See B.26 ExtractVars
+   */
+  protected List<NameTypePair> mkLocalVars(NameTypePair pair)
+  {    
+    // add the original variable name "x" to the scope
+    List<NameTypePair> result = factory().list(pair);
+
+    ZName varName = pair.getZName();
+    Type varType  = pair.getType();
+
+    ZStrokeList zsl = getCircusStrokeListForLocalVars();
+    ZStrokeList strokeList = factory().createZStrokeList();
+    for(Stroke stroke : zsl)
+    { 
+      // create new variable with unique ID, hence ZDeclName, combining 
+      // its original strokes with the stroke to add here.
+      strokeList.clear();        
+      strokeList.addAll(pair.getZName().getStrokeList());
+      strokeList.add(stroke);
+      ZName strokedName = factory().createZDeclName(pair.getZName().getWord(), strokeList);        
+      NameTypePair strokedPair = factory().createNameTypePair(strokedName, varType);        
+      result.add(strokedPair);        
+    }    
+    assert (result.size() == zsl.size() + 1) :
+      "Local variable declarations must add " + (zsl.size() + 1) + " variables into scope.";    
+    
+    // add them all into scope
+    typeEnv().add(result);
+    
+    return result;
+  }
+  
+  /**
+   * Retrieves a type projection from a product type from the given offset (inclusive)
+   * with the corresponding number of types. It obbeys the general Java invariant for
+   * indexOf. To retrieve the remainder of the product type from an offset, just call
+   * getProdTypeProjection(type, offset, size - offset).
+   */
+  protected static Type2 getProdTypeProjection(ProdType type, int offset, int count) 
+  {
+    List<Type2> innerTypes = factory().list(type.getType().subList(offset, count));
+    assert !innerTypes.isEmpty() : "type projection resulted in an empty type.";
+    
+    Type2 result = innerTypes.size() > 1 ? 
+      factory().createProdType(innerTypes) : innerTypes.get(0);
+    
+    return result;    
   }
   
   protected ProcessInfo getProcessInfo(Name name)
@@ -391,20 +740,6 @@ public abstract class Checker<R>
       if(proc.getProcessName().equals(name))
       {
         result = proc;
-      }
-    }
-    return result;
-  }
-  
-  protected Type getChannelType(Name name)
-  {
-    Type result = null;
-    for(ChannelInfo chan : channels())
-    {
-      if(GlobalDefs.compareName(name, chan.getChannelType().getDeclName(), true))
-      {
-        result = chan.getChannelType().getType();
-        break;
       }
     }
     return result;
@@ -426,17 +761,16 @@ public abstract class Checker<R>
   }
   
   /**
-   * Método que verifica se o nome passado como parâmetro é
-   * um nome local novo.
-   * @param name  o nome a verificar
-   * @return true caso o nome seja novo (localmente)
-   *         false, caso contrário.
+   * Check whether the given local name is fresh within the current
+   * local type environment scope.
+   *
+   * @param name the name to verify
+   * @return true if local name is fresh, false otherwise
    */
-  protected boolean isNewDef(Name name)
+  protected boolean isLocalNameFresh(Name name)
   {
-    boolean result = true;
-    ZName refName = factory().createZName(ZUtils.assertZName(name));
-    Type typeLocal = typeEnv().getType(refName);
+    boolean result = true;    
+    Type typeLocal = localCircTypeEnv().getType(ZUtils.assertZName(name));    
     if(!(typeLocal instanceof UnknownType))
     {
       result = false;
@@ -584,18 +918,22 @@ public abstract class Checker<R>
     }
     return result;
   }
-  
-  
+    
   //typecheck a file using an instance of this typechecker
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term, SectionInfo sectInfo)
   {
     return TypeCheckUtils.typecheck(termA, sectInfo, markup());
   }
   
-  protected void error(Term term, ErrorMessage error, Object [] params)
+  protected void error(Term term, ErrorMessage errorMsg, Object [] params)
   {
-    ErrorAnn errorAnn = this.errorAnn(term, error, params);
+    ErrorAnn errorAnn = this.errorAnn(term, errorMsg, params);
     error(term, errorAnn);
+  }
+  
+  protected void error(Term term, ErrorMessage errorMsg, List<Object> params)
+  {    
+    error(term, errorMsg, params);
   }
   
   protected void error(Term term,
@@ -623,9 +961,9 @@ public abstract class Checker<R>
   }
   
   //the local TypeEnv
-  protected LocalTypeEnv localCircTypeEnv()
+  protected net.sourceforge.czt.typecheck.circus.util.TypeEnv circusTypeEnv()
   {
-    return typeChecker_.localCircTypeEnv_;
+    return (net.sourceforge.czt.typecheck.circus.util.TypeEnv)typeChecker_.typeEnv_;
   }
   
   //add generic types from a list of Names to the TypeEnv
@@ -657,6 +995,7 @@ public abstract class Checker<R>
   
   protected void addProcessSignatureAnn(CircusProcess term, ProcessSignature psig)
   {
+    assert false : "TODO";
     assert psig != null;
     ProcessSignatureAnn psigAnn = (ProcessSignatureAnn) term.getAnn(ProcessSignatureAnn.class);
     if (psigAnn == null) {
@@ -668,17 +1007,28 @@ public abstract class Checker<R>
     }    
   }
   
-  protected void addActionSignatureAnn(CircusAction term, ActionSignature asig)
+  /** Adds a signature annotation create from a signature to a Term */
+  protected void addActionSignatureAnn(CircusAction term, ActionSignature signature)
   {
-    assert asig != null;
-    ActionSignatureAnn psigAnn = (ActionSignatureAnn) term.getAnn(ActionSignatureAnn.class);
-    if (asigAnn == null) {
-      asigAnn = factory().createActionSignatureAnn(asigAnn);
-      term.getAnns().add(asigAnn);
+    assert signature != null;
+    ActionSignatureAnn signatureAnn =
+      (ActionSignatureAnn) term.getAnn(ActionSignatureAnn.class);
+    if (signatureAnn == null) {
+      signatureAnn = factory().createActionSignatureAnn(signature);
+      term.getAnns().add(signatureAnn);
     }
     else {
-      asigAnn.setActionSignature(asig);
-    }    
+      ActionSignature oldSignature = signatureAnn.getActionSignature();
+      assert false : "Check if this action signature has VariableSignatures within itself";
+//      if (oldSignature instanceof VariableSignature &&
+//          variableSignature(oldSignature).getValue() == oldSignature) {
+//        variableSignature(oldSignature).setValue(signature);
+//      }
+//      else {
+//        signatureAnn.setSignature(signature);
+//      }
+      signatureAnn.setActionSignature(signature);
+    }
   }
   
   protected ProcessSignature joinProcessSignature(ProcessSignature procSigL, ProcessSignature procSigR)
@@ -807,59 +1157,26 @@ public abstract class Checker<R>
     return result;
     
   }
-  
+    
   protected ActionSignature joinActionSignature(ActionSignature actionSigL, ActionSignature actionSigR)
-  {
+  { 
+    // at this point, names are ignored (i.e. must be null)
+    assert actionSigL.getActionName() == null && 
+           actionSigR.getActionName() == null : "cannot join signature with resolved names";
     
-    ActionSignature result = factory().createActionSignature();
+    // create new signnature with all info from LHS
+    ActionSignature result = actionSigL.create(actionSigL.getChildren());
     
-    if(actionSigL.getLocalVarsSignature() != null)
-    {
-      result.setLocalVarsSignature(actionSigL.getLocalVarsSignature());
-    }
-    if(actionSigR.getLocalVarsSignature() != null)
-    {
-      if(result.getLocalVarsSignature() != null)
-      {
-        List<NameTypePair> pairs = actionSigR.getLocalVarsSignature().getNameTypePair();
-        List<NameTypePair> resultPairs = result.getLocalVarsSignature().getNameTypePair();
-        for(NameTypePair pair : pairs)
-        {
-          if(!resultPairs.contains(pair))
-          {
-            resultPairs.add(pair);
-          }
-        }
-        result.setLocalVarsSignature(factory().createSignature(resultPairs));
-      }
-      else
-      {
-        result.setLocalVarsSignature(actionSigR.getLocalVarsSignature());
-      }
-    }
-    if(actionSigL.getParams() != null)
-    {
-      result.setParams(actionSigL.getParams());
-    }
-    if(actionSigR.getParams() != null)
-    {
-      if(result.getParams() != null)
-      {
-        List<NameTypePair> pairs = actionSigR.getParams().getNameTypePair();
-        List<NameTypePair> resultPairs = result.getParams().getNameTypePair();
-        for(NameTypePair pair : pairs)
-        {
-          if(!resultPairs.contains(pair))
-          {
-            resultPairs.add(pair);
-          }
-        }
-        result.setLocalVarsSignature(factory().createSignature(resultPairs));
-      }
-      else
-      {
-        result.setParams(actionSigR.getParams());
-      }
+    // get the signature list structure
+    ZSignatureList zslL = result.getZSignatureList();
+    ZSignatureList zslR = actionSigR.getZSignatureList();    
+    assert zslL.size() == zslR.size() : "ZSignatureList structure is invalid.";
+    
+    for(byte i = 0; i<zslL.size(); i++)
+    {      
+      Signature sL = zslL.get(i);
+      Signature sR = zslR.get(i);
+      zslL.set(i, joinSignature(sL, sR));
     }
     
     return result;
@@ -901,32 +1218,33 @@ public abstract class Checker<R>
    * which would accept declarations like "x: \nat; x: \num" since 
    * both types would unify.
    */
-  protected boolean hasDuplicatedNames(List<Name> declNames)
-  {
-    Set<Name> set = factory().hashSet();
-    set.adddAll(declNames);
-    return (set.size() = declNames.size());
-  }
-  
   protected void checkForDuplicateNames(List<Name> declNames, ErrorMessage errorMsg)
   {
     checkForDuplicateNames(declNames, errorMsg.toString());
   }
   
-  protected void checkForDuplicateNames(List<Name> declNames, String errorMsg)
+  protected void checkForDuplicateNames(List<ZName> declNames, ErrorMessage errorMsg, Object... arguments)
   {
-    if (hasDuplicatedNames(declNames))
-    {
-      assert !declNames.isEmpty() : "Duplicated list of names cannot be empty.";
-      
-      Object [] params = {declNames.toString()};
-      // at the pair.getName() location
-      error(declNames.get(0), errorMsg, params);  
+    Map<String, ZName> map = factory().hashMap();
+    for (Iterator<ZName> iter = declNames.iterator(); iter.hasNext(); ) {
+      ZName first = iter.next();
+      String firstName = ZUtils.toStringZName(first);
+      ZName second = map.get(firstName);
+      if (second != null) {
+        // check if the types don't match, raise an error 
+        checkPair(first, second, termList, errorMessage);
+        
+        //merge the ids of the 2 names, and remove the duplicate
+        factory().merge(second.getZName(), first.getZName());
+        iter.remove();
+      }
+      map.put(firstName.intern(), first);
     }
   }
   
   protected void postActionCallCheck()
   {
+    assert false : "TODO"; 
     List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> 
       paraErrors = postCheckParaErrors();
     paraErrors().clear();

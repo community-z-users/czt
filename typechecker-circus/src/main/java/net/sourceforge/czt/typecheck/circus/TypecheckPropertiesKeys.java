@@ -31,6 +31,49 @@ package net.sourceforge.czt.typecheck.circus;
 public interface TypecheckPropertiesKeys
   extends net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys
 {
-  String PROP_TYPECHECK_SOME_PROP =
-    "typecheck_some_prop";
+  /**
+   * <p>
+   * This property tells whether or not to create special LetVar terms    *
+   * within some variable scopes. That is, a LetVar term  creates a 
+   * syntactic scope of the declared variable type (rather than its 
+   * maximal typechecked type), which is useful for other tools to 
+   * generate type-related proof obligations (e.g., a type is non-empty).
+   * </p>
+   * <p>
+   * If switched off, the typechecked AST is left unchanged. Otherwsie,
+   * the productions affected by this switch are wrapped around a LetVar
+   * term (see Circus.xsd). Obviously, tools handling a typechecked AST
+   * must be aware of the modified AST, in case LetVar is enabled.
+   * </p>
+   * <p>
+   * The productions affected are input prefixing communication and variable
+   * declaration. By default it is disabled, but different tools can change 
+   * it accordingly through a configuration file (TODO).
+   * </p>
+   */
+  String PROP_TYPECHECK_CREATE_LETVAR =
+    "circus_typecheck_create_letvar";
+  
+  /**
+   * <p>
+   * This property tells whether or not to create special LetMu terms   
+   * for mutually recursive actions. That is, a LetMu term  creates an 
+   * array of recursive equations, where each declaring action contains 
+   * its definition on a local environment. This allows syntactic scope 
+   * for mutual recursion to be easily resolved. This is useful for other 
+   * tools to handle mutual recursion.
+   * </p>
+   * <p>
+   * If switched off, the typechecked AST is left unchanged. Otherwsie,
+   * the productions affected by this switch are wrapped around a LetMu
+   * term (see Circus.xsd). Obviously, tools handling a typechecked AST
+   * must be aware of the modified AST, in case LetMu is enabled.
+   * </p>
+   * <p>
+   * By default it is disabled, but different tools can change it accordingly
+   * through a configuration file (TODO).
+   * </p>
+   */
+  String PROP_TYPECHECK_RESOLVE_MUTUAL_REC =
+    "circus_typecheck_resolve_mutual_rec";
 }

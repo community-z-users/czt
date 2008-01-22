@@ -24,6 +24,7 @@ import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.SigmaExpr;
 import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
+import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
 import net.sourceforge.czt.circus.visitor.SigmaExprVisitor;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Signature;
@@ -38,7 +39,7 @@ import net.sourceforge.czt.z.ast.Type2;
 public class ExprChecker  
   extends Checker<Type2>
   implements BasicChannelSetExprVisitor<Type2>, 
-             CircusChannelSet<Type2>,
+             CircusChannelSetVisitor<Type2>,
              SigmaExprVisitor<Type2>
 {
   //a Z expr checker

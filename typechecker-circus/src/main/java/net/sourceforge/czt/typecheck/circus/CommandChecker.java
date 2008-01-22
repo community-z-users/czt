@@ -19,15 +19,31 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import java.util.ArrayList;
-import net.sourceforge.czt.circustools.ast.ActionSignature;
-import static net.sourceforge.czt.z.util.ZUtils.*;
-import static net.sourceforge.czt.typecheck.circus.util.GlobalDefs.*;
-
 import java.util.List;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.circus.ast.*;
-import net.sourceforge.czt.circus.visitor.*;
-import net.sourceforge.czt.z.ast.ZRefNameList;
+import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.AssignmentCommand;
+import net.sourceforge.czt.circus.ast.CircusAction;
+import net.sourceforge.czt.circus.ast.CircusCommand;
+import net.sourceforge.czt.circus.ast.GuardedAction;
+import net.sourceforge.czt.circus.ast.IfGuardedCommand;
+import net.sourceforge.czt.circus.ast.QualifiedDecl;
+import net.sourceforge.czt.circus.ast.SpecStmtCommand;
+import net.sourceforge.czt.circus.ast.VarDeclCommand;
+import net.sourceforge.czt.circus.visitor.AssignmentCommandVisitor;
+import net.sourceforge.czt.circus.visitor.IfGuardedCommandVisitor;
+import net.sourceforge.czt.circus.visitor.SpecStmtCommandVisitor;
+import net.sourceforge.czt.circus.visitor.VarDeclCommandVisitor;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZNameList;
+
 
 /**
  *
@@ -40,10 +56,8 @@ public class CommandChecker
              AssignmentCommandVisitor<ActionSignature>,
              SpecStmtCommandVisitor<ActionSignature>,
              IfGuardedCommandVisitor<ActionSignature>,
-             VarDeclCommandVisitor<ActionSignature>,
-             ParamCommandVisitor<ActionSignature>
-{
-  
+             VarDeclCommandVisitor<ActionSignature>
+{  
   //a Z decl checker
   protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
 
@@ -54,24 +68,17 @@ public class CommandChecker
     zDeclChecker_ =
       new net.sourceforge.czt.typecheck.z.DeclChecker(typeChecker);
   }
-  
-  // ParCommand ::= Command
-//  public Object visitCircusCommand(CircusCommand term)
-//  {
-//    return term.accept(commandChecker());
-//  }
-
+ 
   // Command ::= N+ := Expression+
   //ok - verificado em 15/09/2005 às 15:15
   public ActionSignature visitAssignmentCommand(AssignmentCommand term)
   {    
     assert term.getLHS() != null && term.getRHS() != null;
-    ZRefNameList vars = assertZRefNameList(term.getLHS());    
-    ZExprList exprs = assertZExprList(term.getRHS());    
-
-    if(vars.size() != exprs.size()) {
-      Object [] params = {assertZDeclName(currentAction()).getWord(), 
-              assertZDeclName(currentProcess()).getWord()};
+    ZNameList LHS = term.getAssignmentPairs().getZLHS();
+    ZExprList RHS = term.getAssignmentPairs().getZRHS();
+    
+    if(LHS.size() != RHS.size()) {
+      Object [] params = {getCurrentActionName(), getCurrentProcessName()};
       error(term, ErrorMessage.DIFF_NUM_ASSIG_COMMAND_ERROR, params);
     }
     else {
@@ -109,8 +116,8 @@ public class CommandChecker
     }
         
     ActionSignature actionSignature = factory().createActionSignature();
-    // TODO: Check if this is not needed
-    addActionAnn(term, actionSignature);
+    actionSignature.
+    addActionSignatureAnn(term, actionSignature);
     return actionSignature;
   }
 
@@ -214,6 +221,8 @@ public class CommandChecker
     return actionSignature;
   }
 
+  /*
+  
   // ParCommand ::= (QualifiedDeclaration @ Command)
   // Falta testar!!
   public ActionSignature visitParamCommand(ParamCommand term)
@@ -248,5 +257,5 @@ public class CommandChecker
     
     return actionSignature;
   }
-
+*/
 }

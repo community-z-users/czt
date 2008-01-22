@@ -39,8 +39,11 @@ import net.sourceforge.czt.circus.visitor.ProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTypeVisitor;
 import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
 import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.PowerExpr;
 import net.sourceforge.czt.z.ast.SchText;
 import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZSchText;
@@ -90,26 +93,25 @@ public class CarrierSet
       DEFAULT_ALLOW_VARIABLE_TYPES);
   }
 
-  public CarrierSet(ZFactory zFactory, CircusFactory circusFactory, boolean allowVariableTypes)
+  public CarrierSet(ZFactory zFactory, CircusFactory circusFactory, 
+    boolean allowVariableTypes)
   {
     super(zFactory, allowVariableTypes);
     circusFactory_ = new net.sourceforge.czt.circus.util.Factory(circusFactory);
   }
   
-  protected void checkForNullSignature(Term sig, String message)
-  {
-    //if the signature is null, then the type is undetermined
-    if (sig == null) {
-      throw new UndeterminedTypeException(message);
-    }
-  }
-  
   public Term visitChannelType(ChannelType term)
   {
-    Signature sig = term.getSignature();    
-    checkForNullSignature(sig, "Null signature for ChannelType " + term);            
-    SchText schText = (SchText) sig.accept(this);
-    return schText;
+    Type2 type = term.getType();
+
+    //if the type is null, then the type is undefined
+    if (type == null) {
+      throw new UndeterminedTypeException();
+    }
+    
+    Expr expr = (Expr) type.accept(this);
+    PowerExpr result = zFactory_.createPowerExpr(expr);
+    return result;
   }
   
   /**
@@ -121,25 +123,47 @@ public class CarrierSet
   public Term visitChannelSetType(ChannelSetType term)
   {
     Signature sig = term.getSignature();    
-    checkForNullSignature(sig, "Null signature for ChannelsetType " + term);            
-    SchText schText = (SchText) sig.accept(this);
-    return schText;
+    
+    if (sig == null)
+    {
+      throw new UndeterminedTypeException();
+    }
+    
+    assert false : "TODO: work out how this should be resolved. " +
+      "A channel set maximal type should be a set o pairs, unifiable " +
+      "on the fact all pairs are channel types, even though these types " +
+      "my not unify on their underlying base type (i.e., { (c, \\nat), (d, \\power \\num) }).";
+    //circusFactory_.createSigmaExpr()
+//    (SchText)term.getSignature().acccept(this);
+//    Signature signature = schemaType.getSignature();
+//    SchText schText = (SchText) signature.accept(this);
+//    SchExpr result = zFactory_.createSchExpr(schText);
+//    return result;
+//    
+//    checkForNullSignature(sig, "Null signature for ChannelsetType " + term);            
+//    SchText schText = (SchText) sig.accept(this);
+//    return schText;
+    return null;
   }
 
   public Term visitNameSetType(NameSetType term)
   {
-    Signature sig = term.getSignature();    
-    checkForNullSignature(sig, "Null signature for NamesetType " + term);            
-    SchText schText = (SchText) sig.accept(this);
-    return schText;
+    assert false : "see channel set type";
+//    term.getSignature()
+//    Signature sig = term.getSignature();    
+//    checkForNullSignature(sig, "Null signature for NamesetType " + term);            
+//    SchText schText = (SchText) sig.accept(this);
+//    return schText;
+    return null;
   }
   
   public Term visitProcessType(ProcessType term)
   {
-    ProcessSignature sig = term.getProcessSignature();
-    checkForNullSignature(sig, "Null signature for ProcessType " + term);            
-    ProcessSignature result = (ProcessSignature)sig.accept(this);
-    return result;
+//    ProcessSignature sig = term.getProcessSignature();    
+//    ProcessSignature result = (ProcessSignature)sig.accept(this);
+//    return result;
+    assert false : "TODO: what should this return? an empty process? or just ProcessSignature?";
+    return null;
   }
   
   private Signature schTextToSignature(ZSchText term)
@@ -149,6 +173,7 @@ public class CarrierSet
       assert d instanceof VarDecl : "Cannot convert a non-VarDecl ZSchText to Signature";
       VarDecl vd = (VarDecl)d;
       //?      
+      assert false;
     }
     return null;
   }
@@ -156,9 +181,8 @@ public class CarrierSet
   public Term visitProcessSignature(ProcessSignature term)
   {
     SchText paramOrIndexes = (SchText)term.getParamOrIndexes().accept(this);    
-    Signature paramOrIndexesCarrier = schTextToSignature(ZUtils.assertZSchText(paramOrIndexes));
-    
-    ProcessSignature result = circusFactory_.createProcessSignature(
+    Signature paramOrIndexesCarrier = schTextToSignature(ZUtils.assertZSchText(paramOrIndexes));     
+    ProcessSignature result = circusFactory_.createCircusProcessSignature(
       term.getProcessName(), term.getGenFormals(), paramOrIndexesCarrier, term.getKind());
     return result;
   }

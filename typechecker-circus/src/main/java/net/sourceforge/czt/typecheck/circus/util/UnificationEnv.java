@@ -11,6 +11,7 @@
 package net.sourceforge.czt.typecheck.circus.util;
 
 import net.sourceforge.czt.circus.ast.ActionType;
+import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
@@ -66,6 +67,10 @@ public class UnificationEnv
     {
       result = unifyActionType(actionType(typeA), actionType(typeB));
     }
+    else if (isChannelType(typeA) && isChannelType(typeB))
+    {
+      result = unifyChannelType(channelType(typeA), channelType(typeB));
+    }
     else
       result = super.unify(typeA, typeB);
     return result;
@@ -81,6 +86,16 @@ public class UnificationEnv
     return (ActionType)type;
   }
   
+  public boolean isChannelType(Type2 type)
+  {
+    return (type instanceof ChannelType);
+  }
+  
+  public ChannelType channelType(Type2 type)
+  {
+    return (ChannelType)type;
+  }
+  
   protected UResult unifyActionType(ActionType typeA, ActionType typeB)
   {
     Signature sigA = typeA.getActionSignature().getLocalVars();
@@ -93,5 +108,10 @@ public class UnificationEnv
       result = unifySignature(sigA, sigB);
     }
     return result;
+  }
+  
+  protected UResult unifyChannelType(ChannelType typeA, ChannelType typeB)
+  {
+    return unify(typeA.getType(), typeB.getType());    
   }
 }

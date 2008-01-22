@@ -44,6 +44,7 @@ import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
@@ -51,12 +52,18 @@ import net.sourceforge.czt.z.ast.ZNameList;
 
 
 /**
+ * <p>
  * This visitor adds signature annotations to the paragraphs being checked.
  * That is, if no signature annotation is present, one is added. If one is present
  * and contains variable types, those variable types are updated with the new one.
  * Otherwise, if there are no variable types on an old signature, it is just overridden
- * with the updated signature. Clash of global name clashing is caught at
+ * with the updated signature. 
+ * </p>
+ * <p>
+ * Clash of global name clashing is caught at
  * #z.Checker.checkParaList, which is called within #z.SpecChecker.visitZParaList.
+ * At that time, global names are added to the sectTypeEnv() environment.
+ * </p>
  *
  * @author Leo Freitas
  * @author Manuela Xavier
@@ -66,9 +73,7 @@ public class ParaChecker
   implements
   ChannelParaVisitor<Signature>,
   ChannelSetParaVisitor<Signature>,
-  ProcessParaVisitor<Signature>,
-  ActionParaVisitor<Signature>,
-  NameSetParaVisitor<Signature>,
+  ProcessParaVisitor<Signature>,  
   TransformerParaVisitor<Signature>
 {
   
@@ -76,21 +81,11 @@ public class ParaChecker
   
   public ParaChecker(TypeChecker typeChecker)
   {
-    super(typeChecker);
-    isWithinProcessParaScope_ = false;
+    super(typeChecker);    
     zParaChecker_ =
       new net.sourceforge.czt.typecheck.z.ParaChecker(typeChecker);
-  }
-  
-  protected void checkProcessParaScope(String paraKind, Name name)
-  {
-    if (!isWithinProcessParaScope())
-    {
-      Object[] params = { paraKind, aName };
-      error(term, ErrorMessage.INVALID_PROCESS_PARA_SCOPE, params);
-    }
-  }
-  
+  }  
+    
   /**
    * For a general terms (i.e. all other Para subclasses), we just apply Z typechecking
    */
@@ -104,6 +99,8 @@ public class ParaChecker
    * Type checks all ChannelDecl within the given ChannelPara using
    * the circus.DeclChecker, and then adds the resulting signature as
    * an annotation within the given term.
+   *
+   *@law C.3.3
    */
   public Signature visitChannelPara(ChannelPara term)
   {
@@ -112,6 +109,8 @@ public class ParaChecker
     // visit all ChannelDecl within the ZDeclList of term
     // this uses the quite elegant (yet intricated) typechecker architecture
     // to use: z.DeclChecker.visitZDeclList(), and circus.DeclChecker.visitChannelDecl().
+    //
+    // \Gamma \rhd cd : CDeclaration    
     List<NameTypePair> pairs = term.getZDeclList().accept(declChecker());
     
     //create the signature for this paragraph and add it as an annotation
@@ -123,6 +122,27 @@ public class ParaChecker
     return signature;
   }
   
+  /**
+   * <p>
+   * First, it extracts the channel set name and declaration
+   * from the given paragraph, where the (possibly empty) generic
+   * formals are added into a new typing scope. 
+   * </p>
+   * <p>
+   * Next, the channel set
+   * declaration is checked with the ExprChecker. Note this is a slight
+   * discrepancy in the Circus AST: ChannelSet is a subclass of Term that
+   * contains an expression, which can either be a general Z expression or
+   * a channel set display (i.e. BasicChannelSetExpr). 
+   * </p>
+   * <p>
+   * Finally, the resulting
+   * channelset type is wrapped up as a power type and returned as a signature
+   * fromthe channel set name to this power type.
+   * </p>
+   *
+   *@law C.3.2
+   */
   public Signature visitChannelSetPara(ChannelSetPara term)
   {
     // CircusParagraph ::= chanset N == CSExpression
@@ -138,12 +158,16 @@ public class ParaChecker
     //this already checks if names are repeated.
     addGenParamTypes(genParams);
     
+    // n \notin \Gamma.defNames is checked by checkParaList() at the SpecChecker.
+    
     // check this channel set
+    // // \Gamma \rhd cs : CSExpression
     ChannelSetType csType = (ChannelSetType)cs.accept(exprChecker());
     
     // create signature with the declared name
-    // TODO: CHECK: Should it be a power type (i.e. factory().createPowerType(csType))?
-    NameTypePair pair = factory().createNameTypePair(csName, csType);
+    // like other set types, it is wrapped within a power type
+    PowerType pType = factory().createPowerType(csType);
+    NameTypePair pair = factory().createNameTypePair(csName, pType);
     Signature result = factory().createSignature(pair);
     
     typeEnv().exitScope();
@@ -153,12 +177,50 @@ public class ParaChecker
     return result;
   }
   
+  /**
+   * <p>
+   * First, it extracts the process name and declaration
+   * from the given paragraph, where the (possibly empty) generic
+   * formals are added into a new typing scope. As nested processes
+   * are not allowed, a check for current scopping is also made, where
+   * the current process name being typechecked is remembered. Since we
+   * also have basic (i.e., locally) defined processes, a local type 
+   * environment is also used to track used channels, implicit channels,
+   * and state information. 
+   * </p>
+   * <p>
+   * Next, the process declaration is checked with the ProcessChecker,
+   * where it returns a ProcessSignature containing all the collected 
+   * information for the process. Process subclasses have different 
+   * structures (i.e., global processes have a CircusProcessSignature, 
+   * for what basic - local - processes have a BasicProcessSignature).
+   * After typechecking the process declaration, we also need to update
+   * the ProcessSignature with the process name and used channels, which
+   * are NOT updated by the ProcessChecker.
+   * </p>
+   * <p>
+   * After that, (possibly declared) implicit channels are added. Those
+   * arise through IndexedProcesses, which can be either directly declared,
+   * declared on-the-fly, or being renamed. This accounts for the 
+   * MSc B.35, B.40, B.41 functions. Moreover, postcheck over the local
+   * typing environment is performed to resolve mutual recursion.
+   * </p>
+   * <p>
+   * Finally, both local and global typing environments are popped,
+   * the current process name scope is closed, and the resulting 
+   * signature is wrapped up with the process name and its type, 
+   * which is formed by the collected ProcessSignature.
+   * </p>
+   *
+   *@law C.3.4, C.6.1--C.6.8(?) TODO: CHECK:
+   */
   public Signature visitProcessPara(ProcessPara term)
   {
     // CircusParagraph ::= ProcessDeclaration
     // ProcessDeclaration ::= process N \defs ProcessDefinition
     // ProcessDeclaration ::= process N[N+] \defs ProcessDefinition
     
+    // Unpack the process paragraph
     Name pName = term.getName();
     ZNameList pGenFormals = term.getZGenFormals();
     CircusProcess process = term.getCircusProcess();
@@ -176,7 +238,7 @@ public class ParaChecker
     //we enter a new variable scope for the generic parameters
     typeEnv().enterScope();
     
-    //for keeping actions and process state
+    //for keeping actions, process state, and implicit channels
     localCircTypeEnv().enterScope();
     
     //add the generic parameter names to the type env
@@ -184,19 +246,17 @@ public class ParaChecker
     
     // checks the process: everything is ready, but the process name.
     ProcessSignature sigProc = process.accept(processChecker());
-    sigProc.setProcessName(pName);
+    sigProc.setProcessName(pName);    
     
-    
-    // pega os canais usados pelo processo e adiciona os possíveis canais implicitos
+    // retrieve the used channels within this process (see MSc. B.33 FindCP)     
     List<NameTypePair> usedChans = localCircTypeEnv().getUsedChans();
+    Signature usedChanSig = factory().createSignature(usedChans);
+    sigProc.setUsedChannels(usedChanSig);    
     
-    //TODO: add ZExprList getUsedChans(), where the result is a RefExpr of the
-    //      (possibly generic instantiated) channel name. That means changing
-    //      Circus.xsd
-    //addImplicitChans(usedChans);
-    //getProcessInfo(nameProc).setUsedChans(usedChans);
+    // calculate possibly implicit channels within the used ones
+    addImplicitChans(usedChans);       
     
-    // checks mutually recursive calls.
+    // TODO: CHECK THIS WORKS checks mutually recursive calls.
     // Manuela: the Circus type rules do not treat this.
     postActionCallCheck();
     
@@ -218,100 +278,8 @@ public class ParaChecker
     return result;
   }
   
-  // ok - verificado em 25/09/2005 às 10:29
-  public Signature visitActionPara(ActionPara term)
-  {
-    // PParagraph ::= N \defs ActionDefinition
-    
-    // retrieve the paragraph structure
-    Name aName = term.getName();
-    CircusAction action = term.getCircusAction();
-    
-    // check process paragraph scope.
-    checkProcessParaScope("action paragraph", aName);
-    
-    // check if name has been previously declared (?)
-    // TODO: CHECK: this should be done at a kind of checkParaList for BasicProcesses.
-    if(!isNewDef(aName))
-    {
-      Object [] params = {getCurrentProcessName(), aName};
-      error(term, ErrorMessage.REDECLARED_DEF, params);
-    }
-    
-    setCurrentAction(aName);
-    
-    // TODO: CHECK: done by PROCESS CHECKER?
-    if(!localCircTypeEnv().addAction(actionName))
-    {
-      Object [] params = {actionName.getWord(), assertZDeclName(currentProcess()).getWord()};
-      error(term, ErrorMessage.REDECLARED_ACTION_NAME, params);
-    }
-        
-    typeEnv().enterScope();
-    
-    ActionSignature aSig = action.accept(actionChecker());
-    aSig.setActionName(aName);
-    
-    typeEnv().exitScope();
-    
-    ActionType actionType = factory().createActionType(aSig);    
-    NameTypePair pair = factory().createNameTypePair(actionName, actionType);
-    Signature result = factory().createSignature(pair);
-    
-    // adiciona a ação no escopo do processo
-    // TODO: CHECK: done by PROCESS CHECKER?
-    //typeEnv().add(allPairs);
-    
-    //seta o tipo da ação no ambiente local. Impostante essa informação para postCheck
-    localCircTypeEnv().setActionType(aName, actionType);
-        
-    addSignatureAnn(term, result);
-    
-    return result;
-  }
-  
-  // PParagraph ::= nameset N == NSExpression
-  //ok - verificado em 25/09/2005 às 10:30
-  public Signature visitNameSetPara(NameSetPara term)
-  {
-    
-    // retrieve the paragraph structure
-    Name nsName = term.getName();
-    NameSet ns = term.getNameSet();
-    
-    // check process paragraph scope.
-    checkProcessParaScope("name set paragraph", nsName);
-        
-    Type2 nsType = ns.accept(exprChecker());
-    
-    //TODO: CHECK: is this really needed here? Or shoulbe be trated at checkParaList in ProcessChecker?
-    if (!localCircTypeEnv().addNameSet(name))
-    {
-      Object [] params = {name.getWord()};
-      error(term, ErrorMessage.REDECLARED_NAMESET_NAME, params);
-    }
-    
-    // check if name has been previously declared (?)
-    // TODO: CHECK: this should be done at a kind of checkParaList for BasicProcesses.
-    if(!isNewDef(nsName))
-    {
-      Object [] params = {getCurrentProcessName(), nsName};
-      error(term, ErrorMessage.REDECLARED_DEF, params);
-    }
-
-    NameTypePair pair = factory().createNameTypePair(nsName, nsType);
-    Signature result = factory().createSignature(pair);
-        
-    // adiciona o conjunto de nomes no escopo do processo
-    //typeEnv().add(pair);
-    
-    addSignatureAnn(term, result);
-    
-    return result;
-  }
-  
   public Signature visitTransformerPara(TransformerPara term)
-  {
+  {    
     UResult unify = term.getTransformerPred().accept(predChecker());
         
     // if not unifiable, this should be a UnknownType.
@@ -333,48 +301,50 @@ public class ParaChecker
    */
   private void addImplicitChans(List<NameTypePair> chans)
   {
-    for(NameTypePair chan : chans)
-    {
-      ZDeclName chanName = chan.getZDeclName();
-      Type chanType = chan.getType();
-      
-      Type type = sectTypeEnv().getType(factory().createZRefName(chanName));
-      if (sectTypeEnv().add(chanName, chanType) != null)
-      {
-        if (unify(unwrapType(type), unwrapType(chanType)) != SUCC)
-        {
-          // muitas vezes, porcausa da instanciação, o tipo de um canal genérico
-          // passa a ser diferente.
-          if(!isGenericChannel(chanName))
-          {
-            Object [] params = {assertZDeclName(currentProcess()).getWord(), chanName.getWord()};
-            error(chanName, ErrorMessage.REDECLARED_GLOBAL_NAME_WITH_DIFF_TYPE, params);
-            break;
-          }
-        }
-        else
-        {
-          if(!isChannel(chanName))
-          {
-            Object [] params = {chanName.getWord()};
-            error(chanName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
-            break;
-          }
-        }
-      }
-      else
-      {
-        List<DeclName> genericImplicitChans = localCircTypeEnv().getGenericImplicitChans();
-        if(genericImplicitChans.contains(chanName))
-        {
-          // E OS PARAMETROS ??
-          addGenChannel(chanName, chanType, null);
-        }
-        else
-        {
-          addChannel(chanName, chanType);
-        }
-      }
-    }
+    assert false : "TODO";
+//    
+//    for(NameTypePair chan : chans)
+//    {
+//      ZDeclName chanName = chan.getZDeclName();
+//      Type chanType = chan.getType();
+//      
+//      Type type = sectTypeEnv().getType(factory().createZRefName(chanName));
+//      if (sectTypeEnv().add(chanName, chanType) != null)
+//      {
+//        if (unify(unwrapType(type), unwrapType(chanType)) != SUCC)
+//        {
+//          // muitas vezes, porcausa da instanciação, o tipo de um canal genérico
+//          // passa a ser diferente.
+//          if(!isGenericChannel(chanName))
+//          {
+//            Object [] params = {assertZDeclName(currentProcess()).getWord(), chanName.getWord()};
+//            error(chanName, ErrorMessage.REDECLARED_GLOBAL_NAME_WITH_DIFF_TYPE, params);
+//            break;
+//          }
+//        }
+//        else
+//        {
+//          if(!isChannel(chanName))
+//          {
+//            Object [] params = {chanName.getWord()};
+//            error(chanName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
+//            break;
+//          }
+//        }
+//      }
+//      else
+//      {
+//        List<DeclName> genericImplicitChans = localCircTypeEnv().getGenericImplicitChans();
+//        if(genericImplicitChans.contains(chanName))
+//        {
+//          // E OS PARAMETROS ??
+//          addGenChannel(chanName, chanType, null);
+//        }
+//        else
+//        {
+//          addChannel(chanName, chanType);
+//        }
+//      }
+//    }
   }    
 }

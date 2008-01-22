@@ -57,7 +57,9 @@ import net.sourceforge.czt.circus.visitor.ParallelProcessIdxVisitor;
 import net.sourceforge.czt.circus.visitor.ParallelProcessIteVisitor;
 import net.sourceforge.czt.circus.visitor.ParallelProcessVisitor;
 import net.sourceforge.czt.circus.visitor.ParamProcessVisitor;
+import net.sourceforge.czt.circus.visitor.Process1Visitor;
 import net.sourceforge.czt.circus.visitor.Process2Visitor;
+import net.sourceforge.czt.circus.visitor.ProcessDVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessIdxVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessIteVisitor;
 import net.sourceforge.czt.circus.visitor.RenameProcessVisitor;
@@ -68,6 +70,7 @@ import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.DeclList;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GivenType;
 import net.sourceforge.czt.z.ast.InclDecl;
@@ -149,22 +152,46 @@ public class ProcessChecker extends Checker<ProcessSignature>
       new net.sourceforge.czt.typecheck.z.DeclChecker(typeChecker);
   }
   
-  // Parameterised process 
-  
-  public ProcessSignature visitParamProcess(ParamProcess term)
-  {    
-    // ParamProcess ::= Declaration @ Process
-    DeclList decls = term.getZDeclList();            
-    CircusProcess process = term.getCircusProcess();
-    
+  protected void declareFormalParams(DeclList delcs)
+  {
     // sets we are handling formal parameters declaration,
     // hence, only VarDecl and QualifiedDecl apply.
     setCircusFormalParametersDecl(true);
     List<NameTypePaiir> declPairs = decls.accept(declChecker());    
     setCircusFormalParametersDecl(false);
+  }
+  
+  //ok - verificado em 15/09/2005 às 19:03
+  public ProcessSignature visitProcess1(Process1 term)
+  {
+    ProcessSignature signature = term.getCircusProcess().accept(processChecker());
+  
+    addProcessSignatureAnn(term, signature);
+    return signature;
+  }
+  
+  //ok - verificado em 15/09/2005 às 19:03
+  public ProcessSignature visitProcess2(Process2 term)
+  {
+    ProcessSignature procSigL = term.getLeftProc().accept(processChecker());
+    ProcessSignature procSigR = term.getRightProc().accept(processChecker());    
+    ProcessSignature result = joinProcessSignature(procSigL, procSigR);
+    addProcessSignatureAnn(term, result);
+    return result;
+  }
+
+  // Parameterised process 
+  
+  public ProcessSignature visitParamProcess(ParamProcess term)
+  {    
+    // ParamProcess ::= Declaration @ Process
+    DeclList decls = term.getDeclList();
+    CircusProcess process = term.getCircusProcess();
+    
+    declareFormalParams(decls);
     
     // check there are no non-unifiable duplicates within the list of Z names.
-    checkForDuplicateNames(declPairs, ErrorMessage.DUPLICATE_PARAM_IN_PROCESS);    
+    checkForDuplicateNames(declPairs, ErrorMessage.DUPLICATE_FORMALPARAM_IN_PROCESS, "parameterised");    
         
     typeEnv().enterScope();
 
@@ -172,40 +199,28 @@ public class ProcessChecker extends Checker<ProcessSignature>
     
     Signature paramSig = factory().createSignature(declPairs);
     ProcessSignature procSig = process.accept(processChecker());        
-    progSig.setParamsOrIndexes(paramsSig);
-    CircusFactoryImpl
+    progSig.setParamsOrIndexes(paramsSig);    
     typeEnv().exitScope();
     
     addProcessSignatureAnn(term, procSig);
     
     return procSig;
   }  
-  
-  //ok - verificado em 15/09/2005 às 19:03
-  public ProcessSignature visitProcess1(Process1 term)
-  {
-    ProcessSignature signature = term.getCircusProcess().accept(processChecker());
-    addProcessAnn(term, signature);
-    return signature;
-  }
-
-  //ok - verificado em 15/09/2005 às 19:03
-  public ProcessSignature visitProcess2(Process2 term)
-  {
-    ProcessSignature procSigL = term.getLeftProc().accept(processChecker());
-    ProcessSignature procSigR = term.getRightProc().accept(processChecker());    
-    ProcessSignature result = joinProcessSignature(procSigL, procSigR);
-    addProcessAnn(term, result);
-    return result;
-  }
 
   // ParamProcess ::= Declaration \odot Process
   //ok - verificado em 15/09/2005 às 19:05
   public ProcessSignature visitIndexedProcess(IndexedProcess term)
   {
-    ZDeclList zdl = term.getZDeclList();        
+    DeclList decls = term.getZDeclList();        
     CircusProcess proc = term.getCircusProcess();
     
+    declareFormalParams(decls);
+    
+    // check there are no non-unifiable duplicates within the list of Z names.
+    checkForDuplicateNames(declPairs, ErrorMessage.DUPLICATE_FORMALPARAM_IN_PROCESS, "indexed");    
+    
+/* TODO:
+ *    
     List<NameTypePair> allPairs = new ArrayList<NameTypePair>();
     List<Object> paramsError = new ArrayList<Object>();
     paramsError.add(assertZDeclName(currentProcess()).getWord());
@@ -241,8 +256,10 @@ public class ProcessChecker extends Checker<ProcessSignature>
     // adiciona os canais usados...
     localCircTypeEnv().addUsedChans(implicitChans);
     //
-    
-    addProcessAnn(term, signature);
+ 
+ *
+ */   
+    addProcessSignatureAnn(term, signature);
         
     return signature;
   }  
@@ -435,12 +452,10 @@ public class ProcessChecker extends Checker<ProcessSignature>
     return procSignature;
   }
   
-  //ok - verificado em 15/09/2005 às 19:18
-//  public Object visitProcessD(ProcessD term)
-//  {
-//    return term.accept(processChecker());
-//  }
   
+  // Process ::= \Extchoice Declaration @ Process
+  // Process ::= \Intchoice Declaration @ Process
+  // Process ::= \Semi Declaration @ Process  
   //ok - verificado em 15/09/2005 às 19:21
   public ProcessSignature visitProcessIte(ProcessIte term)
   {
@@ -491,51 +506,6 @@ public class ProcessChecker extends Checker<ProcessSignature>
 
     return procSignature;
   }
-  
-  // existe?!?
-  //ok   TODO: As ProcessIdx is a child of ProcessIte, it will go there directly.
-//  public Object visitProcessIdx(ProcessIdx term)
-//  {
-//    ProcessSignature procSignature = (ProcessSignature)visitProcessIte(term);
-//    return procSignature;
-//  }
-  
-  // existe?!?
-  //ok
-//  public Object visitParProcessIte(ParProcessIte term)
-//  {
-//    return visitProcessIte(term);
-//  }
-  
-  // Process ::= \Extchoice Declaration @ Process
-  //ok - verificado em 15/09/2005 às 19:24
-//  public Object visitExtChoiceProcessIte(ExtChoiceProcessIte term)
-//  {
-//    ProcessSignature procSignature = (ProcessSignature)visitProcessIte(term);
-//    addProcessAnn(term, procSignature);
-//    
-//    return procSignature;
-//  }
-
-  // Process ::= \Intchoice Declaration @ Process
-  //ok - verificado em 15/09/2005 às 19:25
-//  public Object visitIntChoiceProcessIte(IntChoiceProcessIte term)
-//  {
-//    ProcessSignature procSignature = (ProcessSignature)visitProcessIte(term);
-//    addProcessAnn(term, procSignature);
-//    
-//    return procSignature;
-//  }
-
-  // Process ::= \Semi Declaration @ Process
-  //ok - verificado em 15/09/2005 às 19:25
-//  public Object visitSeqProcessIte(SeqProcessIte term)
-//  {
-//    ProcessSignature procSignature = (ProcessSignature)visitProcessIte(term);
-//    addProcessAnn(term, procSignature);
-//    
-//    return procSignature;
-//  }
 
   // Process ::= \Parallel Declaration @ |[CSExpression]| Process
   //ok - verificado em 15/09/2005 às 19:27
@@ -674,7 +644,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
     RefName chanName = term.getCommunication().getChanName();
     CircusProcess proc = term.getCircusProcess();
     
-    List<NameTypePair> inputVars = term.getCommunication().accept(communicChecker());
+    List<NameTypePair> inputVars = term.getCommunication().accept(commChecker());
 
     typeEnv().enterScope();
 
@@ -948,7 +918,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
       }
       
       if(isGenericChannel(chanName)) {
-        localCircTypeEnv().addGenericImplicitChan(newChanName);
+        circusTypeEnv().addUsedChannels(true, newChanName);
       }
     }
     return result;

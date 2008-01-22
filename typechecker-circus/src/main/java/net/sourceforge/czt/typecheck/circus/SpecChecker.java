@@ -109,6 +109,9 @@ public class SpecChecker extends Checker<Object>
     {
       postProcessCallCheck();
     }
+    
+    // ZParaList is the only production here that DOES NOT return 
+    // a List<NameTypeTripple>, just like in the zSpeckChecker.
     return null;    
   }    
 }
