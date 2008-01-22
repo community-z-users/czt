@@ -1606,10 +1606,15 @@ These interfaces represent the AST for Circus.
         Because ActionProcessSignature requires a list of Z Signatures,        
         So, we add through GnAST the following convenience methods:               
           <ul>
-            <li>Signature getFormalParams() = getSignatureList().get(0)</li>
-            <li>Signature getUsedChannels() = getSignatureList().get(1)</li>
-            <li>Signature getLocalVars()    = getSignatureList().get(2)</li>
+            <li>Signature getFormalParams()      = getSignatureList().get(0)</li>            
+            <li>Signature getLocalVars()         = getSignatureList().get(1)</li>
+            <li>ZSignatureList getUsedNameSets() = getSignatureList().get(2)</li>
           </ul>          
+        One can also access the communication list containing all the 
+        communications involved in this action. That is, all the 
+        channel uses with resolved generic types and communication pattern.
+        Note the communication pattern collective type may differ (and may be
+        non-unifiable) from the channel declared type (e.g., c: X x Y x Z, c?x?w).
         </p>
       </xs:documentation>
     </xs:annotation>
@@ -3119,7 +3124,8 @@ These interfaces represent the AST for Circus.
   <xs:complexType name="CircusType">
     <xs:complexContent>
       <xs:extension base="Z:Type2">
-        <xs:sequence>          
+        <xs:sequence> 
+          <xs:element ref="Z:Name"/>
           <xs:element ref="Z:Signature">
             <xs:annotation>
               <xs:appinfo>
@@ -3131,6 +3137,20 @@ These interfaces represent the AST for Circus.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
+  
+  <!-- The first name type pair is the channel set/name set name and type, 
+       whereas the remainder name type pairs represent the 
+       communication pattern. So c?x?y   c: N1 x N2 x N3               
+
+       getSignature().getNameTypePair().get(0) = NameTypePair(ZName("c"), ProdType(List<N1, N2, N3>))
+          getChannelName() = getSignature().getNameTypePair().get(0).getName()
+          getChannelType() = getSignature().getNameTypePair().get(0).getType()
+
+       getSignature().getNameTypePair().sublist(1, getSignature().getNameTypePair().size()) = 
+          List<NameTypePair(ZName("x"), Type2("N1")), NameTypePair(ZName("y"), ProdType(List<N2, N3>))>
+
+          getCommunicationPattern = getSignature().getNameTypePair().sublist(1, getSignature().getNameTypePair().size())               
+   -->
   <!--
   <xs:complexType name="ChannelSetType">
     <xs:complexContent>
@@ -3434,13 +3454,19 @@ These interfaces represent the AST for Circus.
           </xs:element>
           
           Signature getFormalParams() = getSignatureList().get(0)
-          Signature getLocalVars()    = getSignatureList().get(1)
-          Signature getUsedChannels() = getSignatureList().get(2)          
+          Signature getLocalVars()    = getSignatureList().get(1)          
+          Signature getUsedNameSets() = getSignatureList().get(2)
           
           We leave it unbounded to allow further extension with new lists within the 
           list of SignatureLists!
           -->           
-          <xs:element ref="CIRCUS:SignatureList"/>
+          <xs:element ref="CIRCUS:SignatureList">
+            <xs:annotation>
+                <xs:appinfo>
+                  <jaxb:property generateElementProperty="true"/>
+                </xs:appinfo>
+            </xs:annotation>
+          </xs:element>           
           <xs:element ref="CIRCUS:CommunicationList">
             <xs:annotation>
                 <xs:appinfo>
