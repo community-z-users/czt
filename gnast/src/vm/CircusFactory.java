@@ -47,3 +47,15 @@
       net.sourceforge.czt.z.ast.Signature stateSignature,
       ZSignatureList localZParagraphs,
       ActionSignatureList processActions); 
+
+  /**
+   * Creates the synchronisation channel name. This creates a ZName without strokes or ID
+   * and with CircusString.CIRCUSSYNCH string as the name.
+   */
+  ZName createSynchName();
+
+  /**
+   * Creates the synchronisation channel type. It creates a power type of a given type 
+   * containing createSynchName() as the given type name.
+   */
+  PowerType createSynchType();

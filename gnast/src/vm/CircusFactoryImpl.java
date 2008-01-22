@@ -95,3 +95,18 @@
       stateSignature, localZParagraphs, processActions,      
       createStateUpdate());
   }
+
+  private final ZName synchNameWithoutID_ = createZName(
+    net.sourceforge.czt.circus.util.CircusString.CIRCUSSYNCH, 
+    createZStrokeList(), null);
+
+  public ZName createSynchName()
+  {
+    return synchNameWithoutID_;
+  }
+  
+  public PowerType createSynchType()
+  {       
+    PowerType result = createPowerType(createGivenType(createSynchName()));
+    return result;
+  }

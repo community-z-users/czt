@@ -12,8 +12,18 @@
   public void setActionName(net.sourceforge.czt.z.ast.Name name)
   {
     setName(name);
+  }  
+
+  public boolean isActionPara()
+  {
+    return (getName() != null);
   }
-  
+
+  public boolean isParamAction()
+  {
+    return (!getFormalParams().getNameTypePair().isEmpty());
+  }
+
   public net.sourceforge.czt.circus.ast.ZSignatureList getZSignatureList()
   {
     net.sourceforge.czt.circus.ast.SignatureList sigList = getSignatureList();
@@ -25,56 +35,39 @@
 
   public net.sourceforge.czt.z.ast.Signature getFormalParams()
   {
-    if (getZSignatureList().size() > 0) {
-      return getZSignatureList().get(0);
+    if (getZSignatureList().size() > FORMAL_PARAMS_INDEX ) {
+      return getZSignatureList().get(FORMAL_PARAMS_INDEX );
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   } 
   
   public void setFormalParams(net.sourceforge.czt.z.ast.Signature sig)
   {
-    if (getZSignatureList().size() > 0) {
+    if (getZSignatureList().size() > FORMAL_PARAMS_INDEX ) {
       assert sig != null;
-      getZSignatureList().set(0, sig);
+      getZSignatureList().set(FORMAL_PARAMS_INDEX , sig);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
-  }  
- 
+  }   
+
   public net.sourceforge.czt.z.ast.Signature getLocalVars()
   {
-    if (getZSignatureList().size() > 1) {
-      return getZSignatureList().get(1);
+    if (getZSignatureList().size() > LOCAL_VARS_INDEX) {
+      return getZSignatureList().get(LOCAL_VARS_INDEX);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
   
   public void setLocalVars(net.sourceforge.czt.z.ast.Signature sig)
   {
-    if (getZSignatureList().size() > 1) {
+    if (getZSignatureList().size() > LOCAL_VARS_INDEX) {
       assert sig != null;
-      getZSignatureList().set(1, sig);
+      getZSignatureList().set(LOCAL_VARS_INDEX, sig);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
-  }  
-  
-  public net.sourceforge.czt.z.ast.Signature getUsedChannels()      
+  }    
+
+  public net.sourceforge.czt.circus.ast.CircusCommunicationList getUsedCommunications()      
   {
-    if (getZSignatureList().size() > 2) {
-      return getZSignatureList().get(2);
-    }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
-  }
-  
-  public void setUsedChannels(net.sourceforge.czt.z.ast.Signature sig)
-  {
-    if (getZSignatureList().size() > 2) {
-      assert sig != null;
-      getZSignatureList().set(2, sig);
-    }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
-  }
-  
-  public boolean isActionPara()
-  {
-    return (getName() != null);
+    return net.sourceforge.czt.circus.util.CircusUtils.assertCircusCommunicationList(getCommunicationList());
   }
