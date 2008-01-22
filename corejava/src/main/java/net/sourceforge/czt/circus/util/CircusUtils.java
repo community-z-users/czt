@@ -11,6 +11,7 @@ package net.sourceforge.czt.circus.util;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
@@ -18,6 +19,10 @@ import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.CircusStateAnn;
+import net.sourceforge.czt.circus.ast.CommPattern;
+import net.sourceforge.czt.circus.ast.DotField;
+import net.sourceforge.czt.circus.ast.Field;
+import net.sourceforge.czt.circus.ast.InputField;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ParamQualifier;
@@ -316,4 +321,47 @@ public final class CircusUtils
       "Expected a CircusCommunicationList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
+  
+  /**
+   * <p>
+   * Returns the communication type based on the pattern of the given list of communication fields.
+   * </p>
+   * <p>
+   * It returns: 
+   * <ul>
+   *    <li><code>CommPattern.Synch</code> if the list of fields is empty.
+   *    <li><code>CommPattern.Input</code> if the list of fields is not empty and contain only instances of <code>InputField</code>.
+   *    <li><code>CommPattern.Output</code> if the list of fields is not empty and contain instances of either <code>DotField</code> or <code>OutputField</code>.
+   *    <li><code>CommPattern.Mixed</code> if the list of fields is not empty and contain at least one <code>InputField</code> and either one <code>DotField</code> or one <code>OutputField</code>.
+   *    <li><code>CommPattern.Mixed</code> with a parser error if the list of fields is not empty but neither of the above patterns hold.
+   * </ul>
+   * </p>
+   */
+    public static CommPattern retrieveCommPattern(List<Field> fields) {
+      CommPattern result = null;
+      if (fields.isEmpty()) {
+        result = CommPattern.Synch;
+      } else {        
+        int input = 0;
+        int output = 0;
+        for (Field f : fields) {
+          if (f instanceof InputField)
+            input++;
+          else if (f instanceof DotField)
+            output++;
+        }
+        if (input > 0 && output > 0)
+          result = CommPattern.Mixed;
+        else if (input > 0 && output == 0)
+          result = CommPattern.Input;
+        else if (input == 0 && output > 0)
+          result = CommPattern.Output;                        
+      }
+      assert result != null : 
+        "Invalid communication pattern. The communication is neither of synchronisation, " +
+        "input, output, or mixed pattern format. This can only happen with specialised " +
+        "implementations of Field that do not obbey follow any available CommPattern type, " +
+        "and should never happen.";
+      return result;
+    }
 }
