@@ -1,5 +1,6 @@
   static final int FORMAL_PARAMS_INDEX = 0;
   static final int LOCAL_VARS_INDEX    = 1;
+  static final int USED_NAMESETS_INDEX = 2;
 
   /**
    * This is a convenience method for getName.
@@ -68,6 +69,22 @@
    * a UnsupportedAstClassException from getMainSignatures().
    */    
   void setLocalVars(net.sourceforge.czt.z.ast.Signature sig);
+
+  /**
+   * This is a convenience method. It represents the non-null (possibly empty)
+   * signature of used name sets for this action signature (i.e. parallel actions).
+   * It returns the Signature from getZSignatureList().get(USED_NAMESETS_INDEX). It may throw a
+   * a UnsupportedAstClassException from getZSignatureList().
+   */
+  net.sourceforge.czt.z.ast.Signature getUsedNameSets();  
+  
+  /**
+   * This is a convenience method. It sets the given non-null (possibly empty)  
+   * signature of used name sets for this action signature (i.e. parallel actions).
+   * It is the same as getZSignatureList().set(USED_NAMESETS_INDEX, sig). It may throw a
+   * a UnsupportedAstClassException from getMainSignatures().
+   */    
+  void setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig);
 
   /**
    * This is a convenience method. It represents the non-null (possibly empty)

@@ -59,3 +59,11 @@
    * containing createSynchName() as the given type name.
    */
   PowerType createSynchType();
+  
+  /**
+   * Creates an empty action signature. That is, an action signature with null name,
+   * empty communication list, empty local variables and formal parameters. Note that
+   * The signature itself is not totally empty since getZSignatureList() returns a list
+   * containing the two empty signatures for formal parameters and local variables.
+   */
+  ActionSignature createEmptyActionSignature();

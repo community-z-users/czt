@@ -66,6 +66,23 @@
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }    
+  
+  public net.sourceforge.czt.z.ast.Signature getUsedNameSets()
+  {
+    if (getZSignatureList().size() > USED_NAMESETS_INDEX) {
+      return getZSignatureList().get(USED_NAMESETS_INDEX);
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+  } 
+  
+  public void setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig)
+  {
+    if (getZSignatureList().size() > USED_NAMESETS_INDEX ) {
+      assert sig != null;
+      getZSignatureList().set(USED_NAMESETS_INDEX , sig);
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
+  }
 
   public net.sourceforge.czt.circus.ast.CircusCommunicationList getUsedCommunications()      
   {

@@ -110,3 +110,17 @@
     PowerType result = createPowerType(createGivenType(createSynchName()));
     return result;
   }
+
+  public ActionSignature createEmptyActionSignature()
+  {
+    // create an empty signature, but with the right place holders.
+    ActionSignature result = createActionSignature(
+      null, createZSignatureList(
+        newList(
+          createSignature(),  // empty formal paramenters
+          createSignature())  // empty local variables
+        ),            
+        createCircusCommunicationList() // empty communications
+    );
+    return result;   
+  }  
