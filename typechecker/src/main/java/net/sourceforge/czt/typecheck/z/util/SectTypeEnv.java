@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
+import static net.sourceforge.czt.z.util.ZUtils.*;
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
@@ -308,7 +309,7 @@ public class SectTypeEnv
   {
     NameSectTypeTriple result = super.getX(zName, map);
     //System.out.println(count++); //12075, current test set
-    assert (result == null || GlobalDefs.namesEqual(result.getZName(), zName)) :
+    assert (result == null || namesEqual(result.getZName(), zName)) :
       "getX invariant broken at SectTypeEnv: requested name " + zName + 
       " differs from name found (" + result.getZName() + ").";
     return result;

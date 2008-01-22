@@ -606,7 +606,7 @@ abstract public class Checker<R>
    * error, whereas the reamining terms are used to format
    * the error message given.
    */
-    protected boolean checkPair(NameTypePair first,
+  protected boolean checkPair(NameTypePair first,
     NameTypePair second,
     List<Term> termList,
     String errorMessage)

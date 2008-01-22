@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static net.sourceforge.czt.z.util.ZUtils.*;
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.impl.ListTermImpl;
@@ -524,14 +525,18 @@ public class Factory
     // TODO: CHECK: 
     // Strokes are NOT taken into account (i.e., GlobalDefs.namesEqual(zName, list.get(0)); why not?)
     boolean result = (zName.getId() == null || list.isEmpty() || zName.getId().equals("deltaxi")) || 
-      zName.getWord().equals(list.get(0).getWord()); //namesEqual(zName, list.get(0));   
+      //zName.getWord().equals(list.get(0).getWord()); 
+      namesEqual(zName, list.get(0));   
     assert result : 
       "Typechecker name id database invariant broken for id " + 
       String.valueOf(zName.getId()) +
       ". The given name " + String.valueOf(zName) + " getWord() result differ from " +
       "other names associated with the same id (e.g., " + 
       (list.isEmpty() ? "--" : String.valueOf(list.get(0))) +
-      "). This is a serious error and should never happen.";
+      ", id " + list.get(0).getId() + 
+          (list.get(0).getZStrokeList().isEmpty() ? "" : 
+            ", storkes " +  list.get(0).getZStrokeList().get(0).getClass()) 
+      + "). " +  "This is a serious error and should never happen.";
     return result;
   }
   
