@@ -1049,4 +1049,9 @@ public class CircusPrintVisitor
   {
     throw new UnsupportedOperationException("Unexpected term ActionSignatureAnn.");
   }
+  
+  public Object visitCommunicationType(CommunicationType term)
+  {
+    throw new UnsupportedOperationException("Unexpected term CommunicationType.");
+  }
 }
