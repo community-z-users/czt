@@ -525,8 +525,8 @@ public class Factory
     // TODO: CHECK: 
     // Strokes are NOT taken into account (i.e., GlobalDefs.namesEqual(zName, list.get(0)); why not?)
     boolean result = (zName.getId() == null || list.isEmpty() || zName.getId().equals("deltaxi")) || 
-      //zName.getWord().equals(list.get(0).getWord()); 
-      namesEqual(zName, list.get(0));   
+      zName.getWord().equals(list.get(0).getWord()); 
+      //namesEqual(zName, list.get(0));   
     assert result : 
       "Typechecker name id database invariant broken for id " + 
       String.valueOf(zName.getId()) +
