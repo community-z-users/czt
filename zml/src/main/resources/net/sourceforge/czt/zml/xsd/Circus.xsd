@@ -1182,6 +1182,13 @@ These interfaces represent the AST for Circus.
         The semantics of dot (c.x) and output (c!x) is equivalent. 
         However, for some applications/tools, their evaluation can be done differently.
         </p>
+        <p>
+        Communications are annotated by the type checker with a CommunicationType, which
+        includes the declared channel name/type pair, as well as the communication pattern
+        signature. This is useful because the communication pattern type might not necessarily
+        be the same as the type of the channel. Also, we mark the channel within the communication 
+        as a generic, implicit or normal channel.
+        </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1405,16 +1412,38 @@ These interfaces represent the AST for Circus.
   
   ChannelPara has a signature containing a generic type should have Type, where [X, Y] 
   are part of GenericType, and the references to X and Y are GENTYPE X/Y. 
-  Thus, ChannelType is a Type2 and contains a Signature of the names and types it represents.
+  Thus, ChannelType is a Type2 and contains a the type of each names it represents.
+  It works similarly to PowerType in Z, as far as type inference is concerned. 
+  That is, it contains 
   -->
-  <xs:element name="ChannelType" type="CIRCUS:CircusType" substitutionGroup="Z:Type2">
+  <xs:element name="ChannelType" type="CIRCUS:ChannelType" substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>
+        <p>
         A channel type is like a generic type, where the type can be <code>null</code> for synchronisation channels.
         The <code>OptionalType</code> is the resolved type after instantiation via generic actuals or type inference.
+        </p>
+        <p>
+        It contains an underlying base type, which corresponds to the maximal type of the declared channel type.
+        One should also look at the CommunicationType, which contains the actual signature of the communication
+        related to the channel type. For instance, in a declaration like "channel [X] c: X \cross X", the type
+        will be ChannelType(GenericType(List(ZName("X")), ProdType(List(X, X)))).
+        </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>      
+  
+  <xs:element name="CommunicationType" type="CIRCUS:CommunicationType" substitutionGroup="Z:Type2">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+        In a declaration like "channel [X] c: X \cross X", the type will be ChannelType(GenericType(List(X), ProdType(List(X, X)))).
+        Whenever it is used, a communication involving "c" may have different signatures. For instance, "c!0!2" 
+        and "c[\nat]?x". Thus, a communication breaks down the structure to the underlying fields. This is the type for SigmaExpr.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>    
   
   <xs:element name="ChannelSetType" type="CIRCUS:CircusType" substitutionGroup="Z:Type2">
     <xs:annotation>
@@ -1578,8 +1607,8 @@ These interfaces represent the AST for Circus.
         So, we add through GnAST the following convenience methods:               
           <ul>
             <li>Signature getFormalParams() = getSignatureList().get(0)</li>
-            <li>Signature getLocalVars()    = getSignatureList().get(1)</li>
-            <li>Signature getUsedChannels() = getSignatureList().get(2)</li>
+            <li>Signature getUsedChannels() = getSignatureList().get(1)</li>
+            <li>Signature getLocalVars()    = getSignatureList().get(2)</li>
           </ul>          
         </p>
       </xs:documentation>
@@ -2761,8 +2790,10 @@ These interfaces represent the AST for Circus.
           </xs:element>
           <xs:element ref="CIRCUS:FieldList"/>
         </xs:sequence>
-        <xs:attribute name="CommKind" type="CIRCUS:CommKind" use="optional" default="Synch"/>
+        <xs:attribute name="CommUsage" type="CIRCUS:CommUsage" use="optional" default="Normal"/>
+        <xs:attribute name="CommPattern" type="CIRCUS:CommPattern" use="optional" default="Synch"/>
         <xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
+        <xs:attribute name="Implicit" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
@@ -2773,14 +2804,22 @@ These interfaces represent the AST for Circus.
       Output= !getFields().isEmpty() && forall getField().get(i) instanceof OutputField || getField().get(i) instanceof DotField
       Mixed = !getFields().isEmpty() && there are more than one class: InputField, (OutputField/DotField).
   -->
-  <xs:simpleType name="CommKind">
+  <xs:simpleType name="CommPattern">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Synch"/>
       <xs:enumeration value="Input"/>
       <xs:enumeration value="Output"/>
       <xs:enumeration value="Mixed"/>
     </xs:restriction>
-  </xs:simpleType>
+  </xs:simpleType>  
+  
+  <!-- We may have either normal, generic, or implicit communication -->
+  <xs:simpleType name="CommUsage">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Normal"/>
+      <xs:enumeration value="Generic"/>
+    </xs:restriction>
+  </xs:simpleType>  
 
   <!-- CSP Communication parameters complexType -->
   
@@ -3125,6 +3164,51 @@ These interfaces represent the AST for Circus.
     </xs:complexContent>
   </xs:complexType>    
   -->
+  
+  <xs:complexType name="ChannelType">
+    <xs:complexContent>
+      <xs:extension base="Z:Type2">
+        <xs:sequence>
+          <xs:element ref="Z:Type2">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Type"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CommunicationType">
+    <xs:complexContent>
+      <xs:extension base="Z:Type2">
+        <xs:sequence>
+          <!-- The first name type pair is the channel name and type, 
+               whereas the remainder name type pairs represent the 
+               communication pattern. So c?x?y   c: N1 x N2 x N3               
+               
+               getSignature().getNameTypePair().get(0) = NameTypePair(ZName("c"), ProdType(List<N1, N2, N3>))
+                  getChannelName() = getSignature().getNameTypePair().get(0).getName()
+                  getChannelType() = getSignature().getNameTypePair().get(0).getType()
+                  
+               getSignature().getNameTypePair().sublist(1, getSignature().getNameTypePair().size()) = 
+                  List<NameTypePair(ZName("x"), Type2("N1")), NameTypePair(ZName("y"), ProdType(List<N2, N3>))>
+                  
+                  getCommunicationPattern = getSignature().getNameTypePair().sublist(1, getSignature().getNameTypePair().size())               
+           -->
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <xs:complexType name="ProcessType">
     <xs:complexContent>
       <xs:extension base="Z:Type2">
@@ -3161,7 +3245,7 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <!-- maybe this is useless here: ActionSignature within actions do not have names -->
+          <!-- maybe this is useless here: ActionSignature within actions do not have names? But they do within ActionPara -->
           <xs:element ref="Z:Name"/>
         </xs:sequence>
       </xs:extension>
@@ -3355,8 +3439,15 @@ These interfaces represent the AST for Circus.
           
           We leave it unbounded to allow further extension with new lists within the 
           list of SignatureLists!
-          -->          
+          -->           
           <xs:element ref="CIRCUS:SignatureList"/>
+          <xs:element ref="CIRCUS:CommunicationList">
+            <xs:annotation>
+                <xs:appinfo>
+                  <jaxb:property generateElementProperty="true"/>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
