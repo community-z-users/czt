@@ -21,7 +21,7 @@ package net.sourceforge.czt.typecheck.oz;
 import java.util.List;
 
 import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
-import static net.sourceforge.czt.z.util.ZUtils.*;
+//import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -31,6 +31,7 @@ import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.typecheck.z.*;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * An <code>OpChecker</code> instance visits the OpExprs instances in
@@ -92,7 +93,7 @@ public class OpExprChecker
     if (deltaList != null) {
       List<Name> deltaNames = deltaList.getName();
       for (Name deltaName : deltaNames) {
-        ZName zDeltaName = assertZName(deltaName);
+        ZName zDeltaName = ZUtils.assertZName(deltaName);
         if (!containsZName(primary(),
                            factory().createZName(zDeltaName, false))) {
           Object [] params = {zDeltaName};
@@ -138,7 +139,7 @@ public class OpExprChecker
     else if (vClassType.getValue() instanceof ClassType) {
       ClassType classType = (ClassType) vClassType.getValue();
       Name promName = opPromExpr.getName();
-      ZName zPromName = assertZName(promName);
+      ZName zPromName = ZUtils.assertZName(promName);
       NameSignaturePair opDef = findOperation(zPromName, classType);
 
       //if the name is not found, and use-before-decl is enabled,
@@ -148,7 +149,7 @@ public class OpExprChecker
         List<Operation> ops = classPara().getOperation();
         for (Operation op : ops) {
           ZName opName = op.getZName();
-          if (namesEqual(opName, zPromName)) {
+          if (ZUtils.namesEqual(opName, zPromName)) {
             Signature opSignature = op.accept(paraChecker());
             opDef =
               factory().createNameSignaturePair(opName, opSignature);

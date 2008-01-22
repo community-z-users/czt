@@ -21,11 +21,12 @@ package net.sourceforge.czt.typecheck.oz;
 import java.util.List;
 
 import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
-import static net.sourceforge.czt.z.util.ZUtils.*;
+//import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
@@ -420,7 +421,7 @@ public class ParaChecker
       //add the primary variable names to the subclass's signature
       List<Name> primaryNames = classRefType.getPrimary();
       for (Name primaryName : primaryNames) {
-        ZName zPrimaryName = assertZName(primaryName);
+        ZName zPrimaryName = ZUtils.assertZName(primaryName);
         current.getPrimary().add(zPrimaryName);
         primary().add(zPrimaryName);
       }

@@ -21,8 +21,8 @@ package net.sourceforge.czt.typecheck.oz;
 import java.io.Writer;
 import java.util.List;
 
+//import static net.sourceforge.czt.z.util.ZUtils.*;
 import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
-import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -36,6 +36,7 @@ import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * A super class for the *Checker classes in the typechecker.
@@ -208,7 +209,7 @@ abstract public class Checker<R>
 
       //get and visit the list of declarations
       DeclList declList = zSchText.getDeclList();
-      insert(pairs, declList.accept(declChecker()));
+      ZUtils.insert(pairs, declList.accept(declChecker()));
       //pairs.addAll(declList.accept(declChecker()));
 
       //we use a different downcasting environment because we do not
@@ -675,7 +676,7 @@ abstract public class Checker<R>
   {
     List<Name> newPrimaryNames = factory().list();
     for (Name primaryName : primaryNames) {
-      ZName zPrimaryName = assertZName(primaryName);
+      ZName zPrimaryName = ZUtils.assertZName(primaryName);
       NewOldPair renamePair = findNewOldPair(zPrimaryName, renamePairs);
       if (renamePair == null) {
         newPrimaryNames.add(zPrimaryName);
@@ -902,7 +903,7 @@ abstract public class Checker<R>
     Type2 result = factory().createUnknownType();
     Type refType = getType(classRef.getName());
     if (refType instanceof GenericType) {
-      ZNameList names = assertZNameList(genericType(refType).getNameList());
+      ZNameList names = ZUtils.assertZNameList(genericType(refType).getNameList());
       List<Type2> types = classRef.getType();
       if (names.size() == types.size()) {
         unificationEnv().enterScope();

@@ -27,6 +27,8 @@ import net.sourceforge.czt.oz.util.OzString;
 
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
+import static net.sourceforge.czt.z.util.ZUtils.*;
+
 public class GlobalDefs
   extends net.sourceforge.czt.typecheck.z.util.GlobalDefs
 {
