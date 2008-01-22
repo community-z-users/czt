@@ -123,7 +123,7 @@ public class ParaChecker
       List<NameTypePair> newDecls = signature.getNameTypePair();
       checkForDuplicates(newDecls, null);
       typeEnv().add(newDecls);
-      insert(attrDecls, newDecls);
+      ZUtils.insert(attrDecls, newDecls);
     }
     
     //check that each attribute is unique within the class
@@ -131,8 +131,8 @@ public class ParaChecker
       ZName first = attrDecls.get(i).getZName();
       for (int j = i + 1; j < attrDecls.size(); j++) {
         ZName second = attrDecls.get(j).getZName();
-        if (namesEqual(first, second) &&
-            !idsEqual(first.getId(), second.getId())) {
+        if (ZUtils.namesEqual(first, second) &&
+            !ZUtils.idsEqual(first.getId(), second.getId())) {
           Object [] params = {second, className()};
           error(second, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
         }
@@ -140,7 +140,7 @@ public class ParaChecker
     }
 
     //add the declarations to the class signature
-    insert(classType.getAttribute(), attrDecls);
+    ZUtils.insert(classType.getAttribute(), attrDecls);
 
     //check for incompatible overriding
     checkForDuplicates(classType.getAttribute(), className(),
@@ -179,7 +179,7 @@ public class ParaChecker
     if (existingInitPair == null) {
       Type2 boolType = factory().createBoolType();
       NameTypePair initPair = factory().createNameTypePair(initName, boolType);
-      insert(classType.getState().getNameTypePair(), initPair);
+      ZUtils.insert(classType.getState().getNameTypePair(), initPair);
     }
 
     //the list of operation names declared by this paragraph
@@ -248,8 +248,8 @@ public class ParaChecker
     DeclList sDeclList = secondaryDecl.getDeclList();
     List<NameTypePair> pPairs = pDeclList.accept(declChecker());
     List<NameTypePair> sPairs = sDeclList.accept(declChecker());
-    insert(pairs, pPairs);
-    insert(pairs, sPairs);
+    ZUtils.insert(pairs, pPairs);
+    ZUtils.insert(pairs, sPairs);
 
     //add the names in the primary decls to the list of primary
     //names
@@ -265,7 +265,7 @@ public class ParaChecker
 
     //add the pairs to the signature
     ClassType selfType = getSelfType();
-    insert(selfType.getState().getNameTypePair(), pairs);
+    ZUtils.insert(selfType.getState().getNameTypePair(), pairs);
 
     //typecheck the predicate
     Pred pred = state.getPred();
@@ -382,7 +382,7 @@ public class ParaChecker
       //class paragraph.
       ClassRef classRef = classRefType.getThisClass();
       ZName superName = getZName(expr);
-      if (!namesEqual(superName, classRef.getName())) {
+      if (!ZUtils.namesEqual(superName, classRef.getName())) {
         Object [] params = {expr};
         error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
       }
@@ -392,7 +392,7 @@ public class ParaChecker
       List<ClassRef> currentSuperClasses = current.getSuperClass();
       List<ClassRef> superClasses = getSuperClasses(classRefType);
       for (ClassRef superClass : superClasses) {
-        if (namesEqual(className(), superClass.getName())) {
+        if (ZUtils.namesEqual(className(), superClass.getName())) {
           Object [] params = {className()};
           error(expr, ErrorMessage.CYCLIC_INHERITANCE, params);
         }

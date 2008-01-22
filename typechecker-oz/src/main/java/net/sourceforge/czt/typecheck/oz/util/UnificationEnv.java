@@ -29,6 +29,7 @@ import net.sourceforge.czt.typecheck.z.impl.VariableType;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * Provides unification of types.
@@ -317,7 +318,7 @@ public class UnificationEnv
   {
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
-      if (namesEqual(name, classRef.getName())) {
+      if (ZUtils.namesEqual(name, classRef.getName())) {
         result = classRef;
       }
     }

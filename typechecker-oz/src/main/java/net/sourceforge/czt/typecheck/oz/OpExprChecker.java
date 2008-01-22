@@ -94,7 +94,7 @@ public class OpExprChecker
       List<Name> deltaNames = deltaList.getName();
       for (Name deltaName : deltaNames) {
         ZName zDeltaName = ZUtils.assertZName(deltaName);
-        if (!containsZName(primary(),
+        if (!ZUtils.containsZName(primary(),
                            factory().createZName(zDeltaName, false))) {
           Object [] params = {zDeltaName};
           error(deltaName, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
@@ -207,7 +207,7 @@ public class OpExprChecker
     Signature rSig = rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = factory().list(lSig.getNameTypePair());
-    insert(newPairs, rSig.getNameTypePair());
+    ZUtils.insert(newPairs, rSig.getNameTypePair());
     checkForDuplicates(newPairs, opExpr2,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
     Signature signature = factory().createSignature(newPairs);
@@ -362,7 +362,7 @@ public class OpExprChecker
     Signature rSig = rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = factory().list(lSig.getNameTypePair());
-    insert(newPairs, rSig.getNameTypePair());
+    ZUtils.insert(newPairs, rSig.getNameTypePair());
     checkForDuplicates(newPairs, scopeEnrichOpExpr,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
 
