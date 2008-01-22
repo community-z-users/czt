@@ -183,6 +183,11 @@ abstract public class Checker<R>
     error(term, errorAnn);
   }
   
+  protected void error(Term term, ErrorMessage error, List<Object> params)
+  {
+    error(term, error, params.toArray());
+  }
+    
   protected void error(Term term, String error, Object [] params)
   {
     ErrorAnn errorAnn = errorAnn(term, error, params);
@@ -340,8 +345,9 @@ abstract public class Checker<R>
   
   /**
    * Returns the TypeEnv for pending global declarations.
-   * See SchTextChecker for detailed documentation over the
-   * differences between typeEnv() and pending().
+   * That is, all those global names declared in the current paragraph.
+   * See SchTextChecker for more documentation on the differences 
+   * between typeEnv() and pending().
    */
   protected TypeEnv pending()
   {
@@ -600,7 +606,7 @@ abstract public class Checker<R>
    * error, whereas the reamining terms are used to format
    * the error message given.
    */
-  protected boolean checkPair(NameTypePair first,
+    protected boolean checkPair(NameTypePair first,
     NameTypePair second,
     List<Term> termList,
     String errorMessage)
@@ -615,7 +621,7 @@ abstract public class Checker<R>
     {
       result = false;
       //terms are not printed in some error messages
-      if (termList.size() > 0)
+      if (termList != null && termList.size() > 0)
       {
         List<Object> params = factory().list();
         params.add(second.getZName());
@@ -734,7 +740,7 @@ abstract public class Checker<R>
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
-    List<Term> termList,
+    List<Term> termList,  
     String errorMessage)
   {
     Map<String, NameTypePair> map =  factory().hashMap();
