@@ -64,6 +64,19 @@ abstract public class AbstractTypeEnv
     return useNameIds_;
   }
 
+  /**
+   * <p>
+   * Given the name and the map where it may belongs as a key, find 
+   * the corresponding value if the name is indeed a key of this map.
+   * Otherwise, if it isn't a key in the map, the result is null.
+   * </p>
+   * <p>
+   * One should observe the invariant that, if X is non-null it MUST
+   * contain a reference to the name it was associated with. For instance,
+   * if X is NameTypePair, GlobalDefs.namesEqual(X.getZName(). zName) = true.
+   * This invariant is added in SectTypeEnv and TypeEnv.
+   * </p>
+   */
   protected <X> X getX(ZName zName, Map<ZName, X> map)
   {
     X result = null;

@@ -302,12 +302,23 @@ public class SectTypeEnv
       System.err.println(", (" + entry.getValue().getType() + ")))");
     }
   }
+  
+  //private static int count = 1;
+  protected NameSectTypeTriple getX(ZName zName, Map<ZName, NameSectTypeTriple> map)
+  {
+    NameSectTypeTriple result = super.getX(zName, map);
+    //System.out.println(count++); //12075, current test set
+    assert (result == null || GlobalDefs.namesEqual(result.getZName(), zName)) :
+      "getX invariant broken at SectTypeEnv: requested name " + zName + 
+      " differs from name found (" + result.getZName() + ").";
+    return result;
+  }
 
   //get a triple whose name matches a specified name and it
   //defined in a currently visible scope.
   private NameSectTypeTriple getTriple(ZName zName)
   {
-    NameSectTypeTriple result = getX(zName, typeInfo_);
+    NameSectTypeTriple result = getX(zName, typeInfo_);    
     if (result != null && !visibleSections_.contains(result.getSect())) {
       result = null;
     }

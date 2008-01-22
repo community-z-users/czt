@@ -129,14 +129,14 @@ public class TypeEnv
   public void add(ZName zName, Type type)
   {
     NameTypePair pair = getFactory().createNameTypePair(zName, type);
-    add(pair);
-  }
+    add(pair);  
+  }  
   
   /**
    * Adds a name and type pair to the type information map at the current scope.
    */
   public void add(NameTypePair pair)
-  {
+  {    
     typeInfo_.peek().put(pair.getZName(), pair);
   }
   
@@ -149,6 +149,17 @@ public class TypeEnv
       add(pair);
     }
   }
+  
+  //private static int count = 1;  
+  protected NameTypePair getX(ZName zName, Map<ZName, NameTypePair> map)
+  {
+    NameTypePair result = super.getX(zName, map);
+    //System.out.println(count++); //36016, current test set
+    assert (result == null || GlobalDefs.namesEqual(result.getZName(), zName)) :
+      "getX invariant broken at TypeEnv: requested name " + zName + 
+      " differs from name found (" + result.getZName() + ").";
+    return result;
+  }
 
   /**
    * Add a name into the environment, overriding an existing name in
@@ -158,7 +169,7 @@ public class TypeEnv
   {
     //override if this is in the top scope
     Map<ZName, NameTypePair> map = typeInfo_.peek();
-    NameTypePair pair = getX(zName, map);
+    NameTypePair pair = getX(zName, map);    
     if (pair != null) {
       pair.setType(type);
       return;
@@ -211,7 +222,7 @@ public class TypeEnv
   {
     NameTypePair result = null;
     for (Map<ZName, NameTypePair> map : ti) {
-      NameTypePair pair = getX(zName, map);
+      NameTypePair pair = getX(zName, map);      
       if (pair != null) {
         result = pair;
       }
