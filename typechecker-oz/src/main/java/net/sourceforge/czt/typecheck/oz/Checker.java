@@ -318,7 +318,7 @@ abstract public class Checker<R>
         else {
           typeEnv().add(pair);
           //target.add(pair);
-          insert(target, pair);
+          ZUtils.insert(target, pair);
         }
       }
     }
@@ -336,7 +336,7 @@ abstract public class Checker<R>
         Signature existingSignature = existing.getSignature();
         List<NameTypePair> conjoinedPairs =
           factory().list(sourceSignature.getNameTypePair());
-        insert(conjoinedPairs, existingSignature.getNameTypePair());
+        ZUtils.insert(conjoinedPairs, existingSignature.getNameTypePair());
         //conjoinedPairs.addAll(existingSignature.getNameTypePair());
         List<Term> params = factory().list();
         params.add(expr);
@@ -385,8 +385,8 @@ abstract public class Checker<R>
     for (NameTypePair pairA : pairsA) {
       NameTypePair pairB = findNameTypePair(pairA.getZName(), sigB);
       if (pairB != null) {
-        insert(signature.getNameTypePair(), pairA);
-        insert(signature.getNameTypePair(), pairB);
+        ZUtils.insert(signature.getNameTypePair(), pairA);
+        ZUtils.insert(signature.getNameTypePair(), pairB);
         //signature.getNameTypePair().add(pairA);
         //signature.getNameTypePair().add(pairB);
       }
@@ -399,14 +399,14 @@ abstract public class Checker<R>
   {
     //merge the attributes
     List<NameTypePair> attrDecls = newType.getAttribute();
-    insert(attrDecls, oldType.getAttribute());
+    ZUtils.insert(attrDecls, oldType.getAttribute());
     //attrDecls.addAll(oldType.getAttribute());
     checkForDuplicates(attrDecls, term, ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //merge the state signature
     List<NameTypePair> stateDecls = newType.getState().getNameTypePair();
     //stateDecls.addAll(oldType.getState().getNameTypePair());
-    insert(stateDecls, oldType.getState().getNameTypePair());
+    ZUtils.insert(stateDecls, oldType.getState().getNameTypePair());
     checkForDuplicates(stateDecls, term, ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //merge the operations
@@ -440,7 +440,7 @@ abstract public class Checker<R>
     //if there is already a pair, check it is compatible with the new definition
     if (existing != null) {
       List<NameTypePair> pairs = factory().list(signature.getNameTypePair());
-      insert(pairs, existing.getSignature().getNameTypePair());
+      ZUtils.insert(pairs, existing.getSignature().getNameTypePair());
       //pairs.addAll(existing.getSignature().getNameTypePair());
       checkForDuplicates(pairs, opName, ErrorMessage.INCOMPATIBLE_OP_OVERRIDING);
       Signature newSig = factory().createSignature(pairs);
@@ -468,7 +468,7 @@ abstract public class Checker<R>
       ZName first = zNames.get(i);
       for (int j = i + 1; j < zNames.size(); j++) {
         ZName second = zNames.get(j);
-        if (namesEqual(first, second)) {
+        if (ZUtils.namesEqual(first, second)) {
           Object [] params = {second, className()};
           error(second, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
         }
@@ -505,8 +505,8 @@ abstract public class Checker<R>
       ZName first = declNames.get(i);
       for (int j = i + 1; j < declNames.size(); j++) {
         ZName second = declNames.get(j);
-        if (namesEqual(first, second) &&
-            !idsEqual(first.getId(), second.getId())) {
+        if (ZUtils.namesEqual(first, second) &&
+            !ZUtils.idsEqual(first.getId(), second.getId())) {
           Object [] params = {first, term};
           error(first, errorMessage, params);
         }
@@ -518,8 +518,8 @@ abstract public class Checker<R>
       for (ZName visibleName : visibilityList) {
         boolean found = false;
         for (ZName featureName : declNames) {
-          if (namesEqual(featureName, visibleName) &&
-              !namesEqual(className(), visibleName)) {
+          if (ZUtils.namesEqual(featureName, visibleName) &&
+              !ZUtils.namesEqual(className(), visibleName)) {
             found = true;
             break;
           }
@@ -633,7 +633,7 @@ abstract public class Checker<R>
     }
     //create the signature
     //    b3Pairs.addAll(b4Pairs);
-    insert(b3Pairs, b4Pairs);
+    ZUtils.insert(b3Pairs, b4Pairs);
     Signature result = factory().createSignature(b3Pairs);
     return result;
   }
@@ -852,7 +852,7 @@ abstract public class Checker<R>
   {
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
-      if (namesEqual(zName, classRef.getName())) {
+      if (ZUtils.namesEqual(zName, classRef.getName())) {
         result = classRef;
       }
     }
@@ -941,7 +941,7 @@ abstract public class Checker<R>
       //they are compatible
       for (ClassRef lClassRef : lClassType.getClasses()) {
         for (ClassRef rClassRef : rClassType.getClasses()) {
-          if (namesEqual(lClassRef.getName(), rClassRef.getName())) {
+          if (ZUtils.namesEqual(lClassRef.getName(), rClassRef.getName())) {
             assert lClassRef.getType().size() == rClassRef.getType().size();
             for (int i = 0; i < lClassRef.getType().size(); i++) {
               Type2 lrType = lClassRef.getType().get(i);
@@ -969,15 +969,15 @@ abstract public class Checker<R>
         if (!isSelfName(lPair.getZName())) {
           NameTypePair rPair = findNameTypePair(lPair.getZName(), rsPairs);
           if (rPair != null) {
-            insert(state.getNameTypePair(), lPair);
-            insert(state.getNameTypePair(), rPair);
+            ZUtils.insert(state.getNameTypePair(), lPair);
+            ZUtils.insert(state.getNameTypePair(), rPair);
             //state.getNameTypePair().add(lPair);
             //state.getNameTypePair().add(rPair);
           }
           rPair = findNameTypePair(lPair.getZName(), raPairs);
           if (rPair != null) {
-            insert(stateAndAttrs, lPair);
-            insert(stateAndAttrs, rPair);
+            ZUtils.insert(stateAndAttrs, lPair);
+            ZUtils.insert(stateAndAttrs, rPair);
             //stateAndAttrs.add(lPair);
             //stateAndAttrs.add(rPair);
           }
@@ -988,15 +988,15 @@ abstract public class Checker<R>
       for (NameTypePair lPair : laPairs) {
         NameTypePair rPair = findNameTypePair(lPair.getZName(), raPairs);
         if (rPair != null) {
-          insert(attrs, lPair);
-          insert(attrs, rPair);
+          ZUtils.insert(attrs, lPair);
+          ZUtils.insert(attrs, rPair);
           //attrs.add(lPair);
           //attrs.add(rPair);
         }
         rPair = findNameTypePair(lPair.getZName(), rsPairs);
         if (rPair != null) {
-          insert(stateAndAttrs, lPair);
-          insert(stateAndAttrs, rPair);
+          ZUtils.insert(stateAndAttrs, lPair);
+          ZUtils.insert(stateAndAttrs, rPair);
           //stateAndAttrs.add(lPair);
           //stateAndAttrs.add(rPair);
         }
@@ -1111,7 +1111,7 @@ abstract public class Checker<R>
       for (NewOldPair classRefPair : newClassRefPairs) {
         Name classRefNewName = classRefPair.getNewName();
         Name renameOldName = renamePair.getOldName();
-        if (namesEqual(classRefNewName, renameOldName)) {
+        if (ZUtils.namesEqual(classRefNewName, renameOldName)) {
           classRefPair.setNewName(renamePair.getNewName());
           renamed = true;
         }
