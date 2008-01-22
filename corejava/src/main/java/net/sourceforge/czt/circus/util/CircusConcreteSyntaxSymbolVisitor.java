@@ -451,6 +451,11 @@ public class CircusConcreteSyntaxSymbolVisitor
   {
     return null;
   }
+    
+  public CircusConcreteSyntaxSymbol visitCommunicationType(CommunicationType term)
+  {
+    return null;
+  }
   
   public interface Utils
     extends IsEmptyNameList

@@ -612,12 +612,14 @@ public class PrintVisitor
       result.append(visit(term.getLocalVars()));//Signature
       result.append("]");
     }
-    if (!term.getUsedChannels().getNameTypePair().isEmpty())
+    /*
+    if (!term.getUsedCommunications().getNameTypePair().isEmpty())
     {
       result.append(" @ C[");
       result.append(visit(term.getUsedChannels()));
       result.append("]");
     }
+     */
     result.append(" }");
     return result.toString();
   }

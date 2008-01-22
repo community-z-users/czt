@@ -15,6 +15,7 @@ import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.Model;
@@ -77,6 +78,8 @@ public final class CircusUtils
   
   public static final String DEFAULT_IMPLICIT_ACTION_NAME_PREFIX = "$$implicitAct";
   public static final String DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX = "$$implicitProc";
+  
+  public static final String DEFAULT_IMPLICIT_DOTEXPR_NAME_PREFIX = "$$!";
     
   /**
    * Default number of multisynchronisation occurrences for particular communication pattern.
@@ -300,6 +303,17 @@ public final class CircusUtils
     }
     final String message =
       "Expected a ActionTransformerPred but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }
+  
+  public static CircusCommunicationList assertCircusCommunicationList(Term term)
+  {
+    if (term instanceof CircusCommunicationList)
+    {
+      return (CircusCommunicationList) term;
+    }
+    final String message =
+      "Expected a CircusCommunicationList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 }
