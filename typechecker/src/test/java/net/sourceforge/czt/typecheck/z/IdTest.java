@@ -198,6 +198,42 @@ public class IdTest
     assertTrue(first.equals(list.get(3)));
     assertTrue(first.equals(list.get(4)));
   }
+    
+  public void test6() throws Exception
+  {
+    net.sourceforge.czt.typecheck.z.impl.Factory factory = new net.sourceforge.czt.typecheck.z.impl.Factory();    
+    
+    net.sourceforge.czt.z.util.ZUtils.assertZPrintVisitor(
+      net.sourceforge.czt.z.util.ZUtils.assertZFactoryImpl(
+        factory.getZFactory()).getToStringVisitor()).setPrintIds(true);
+    
+    //factory.createInStroke();
+    java.util.List<net.sourceforge.czt.z.ast.ZName> list = factory.list(
+      factory.createZDeclName("x"), 
+      factory.createZDeclName("y"), 
+      factory.createZDeclName("a"),
+      factory.createZDeclName("x", factory.createZStrokeList(factory.list(factory.createNumStroke(0)))),
+      factory.createZDeclName("x", factory.createZStrokeList(factory.list(factory.createInStroke()))),
+      factory.createZDeclName("b"), 
+      factory.createZDeclName("c"));
+    
+    java.util.List<net.sourceforge.czt.z.ast.ZName> list2 = factory.list(
+      factory.createZName("d"), 
+      factory.createZName("z"), 
+      factory.createZName("x"),
+      factory.createZName("x", factory.createZStrokeList(factory.list(factory.createNumStroke(9)))),
+      factory.createZName("x", factory.createZStrokeList(factory.list(factory.createNumStroke(0)))),
+      factory.createZName("x", factory.createZStrokeList(factory.list(factory.createOutStroke()))),
+      factory.createZName("b", factory.createZStrokeList(factory.list(factory.createNumStroke(2)))),
+      factory.createZName("c"));
+    
+    System.out.println("\n\nList of names BEFORE sorting : " + list);
+    list = net.sourceforge.czt.z.util.ZUtils.sortNames(list);
+    System.out.println("\nList of names AFTER sorting  : " + list);
+    System.out.println("\nNow lets insert              : " + list2);    
+    net.sourceforge.czt.z.util.ZUtils.insertNames(list, list2);
+    System.out.println("\nList of names AFTER inserting: " + list);    
+  }
 
   public static class NameCollector
     implements TermVisitor<Object>,

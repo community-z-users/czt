@@ -161,6 +161,7 @@ public class TypeCheckerTest
       SectionManager manager = getManager();
       List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
       try {
+        System.out.println("Test normal: " + file_);
         Term term = parse(file_, manager);
         errors = typecheck(term, manager);
       }
@@ -203,6 +204,7 @@ public class TypeCheckerTest
       SectionManager manager = getManager();
       List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
       try {
+        System.out.println("Test normal: " + file_);
         Term term = parse(file_, manager);
         if (term == null) {
           fail("Parser returned null");
