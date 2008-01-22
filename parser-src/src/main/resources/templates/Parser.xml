@@ -965,52 +965,7 @@ action code
                             new Object[0], getLocation(result));
       } 
       return result;
-    }
-    
-    /**
-     * &lt;p&gt;
-     * Returns the communication type based on the pattern of the given list of communication fields.
-     * &lt;/p&gt;
-     * &lt;p&gt;       
-     * It returns: 
-     * &lt;ul&gt;
-     *    &lt;li&gt;&lt;code&gt;CommKind.Synch&lt;/code&gt; if the list of fields is empty.
-     *    &lt;li&gt;&lt;code&gt;CommKind.Input&lt;/code&gt; if the list of fields is not empty and contain only instances of &lt;code&gt;InputField&lt;/code&gt;.
-     *    &lt;li&gt;&lt;code&gt;CommKind.Output&lt;/code&gt; if the list of fields is not empty and contain instances of either &lt;code&gt;DotField&lt;/code&gt; or &lt;code&gt;OutputField&lt;/code&gt;.
-     *    &lt;li&gt;&lt;code&gt;CommKind.Mixed&lt;/code&gt; if the list of fields is not empty and contain at least one &lt;code&gt;InputField&lt;/code&gt; and either one &lt;code&gt;DotField&lt;/code&gt; or one &lt;code&gt;OutputField&lt;/code&gt;.
-     *    &lt;li&gt;&lt;code&gt;CommKind.Mixed&lt;/code&gt; with a parser error if the list of fields is not empty but neither of the above patterns hold.
-     * &lt;/ul&gt;
-     * &lt;/p&gt;
-     */
-    private CommKind retrieveCommKind(List&lt;Field&gt; fields) {
-      CommKind result;
-      if (fields.isEmpty()) {
-        result = CommKind.Synch;
-      } else {        
-        int input = 0;
-        int output = 0;
-        for (Field f : fields) {
-          if (f instanceof InputField)
-            input++;
-          else if (f instanceof DotField)
-            output++;
-        }
-        if (input &gt; 0 &amp;&amp; output &gt; 0)
-          result = CommKind.Mixed;
-        else if (input &gt; 0 &amp;&amp; output == 0)
-          result = CommKind.Input;
-        else if (input == 0 &amp;&amp; output &gt; 0)
-          result = CommKind.Output;
-        else {
-          // This should never happen.
-          result = CommKind.Mixed; // thrown an error.
-          assert false; // at least one field must have been checked.
-          parser.report_error(CircusParseMessage.MSG_UNKNOWN_COMMUNICATION_PATTERN,
-                              new Object[0], getLocation(fields.get(0)));
-        }                
-      }
-      return result;
-    }
+    }    
         
     /**
      * Checks whether the given lists have the same size. It returns a parser error if the 
@@ -4804,8 +4759,14 @@ communication ::=
         DECORWORD:dw optCommFields:ocf
         {:
             /* RefExpr: mixfix=false, explicit=false */
-            RESULT = factory_.createCommunication(factory_.createRefExpr(createZName(dw)), 
-                factory_.createCircusFieldList(ocf), retrieveCommKind(ocf), CircusUtils.DEFAULT_MULTISYNCH);
+            RESULT = factory_.createCommunication(
+                factory_.createRefExpr(createZName(dw)),  // channel name
+                factory_.createCircusFieldList(ocf),      // communication fields
+                CommUsage.Normal,                         // channel communication usage
+                CircusUtils.retrieveCommPattern(ocf),     // communication pattern
+                CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
+                false                                     // not implicit
+            );
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
@@ -4814,8 +4775,15 @@ communication ::=
         DECORWORD:dw LSQUARE expressionList:el RSQUARE commFields:cf
         {:
             /* RefExpr: mixfix=false, explicit=true */
-            RESULT = factory_.createCommunication(factory_.createRefExpr(createZName(dw), el, Boolean.FALSE, Boolean.TRUE), 
-                factory_.createCircusFieldList(cf), retrieveCommKind(cf), CircusUtils.DEFAULT_MULTISYNCH);
+            RESULT = factory_.createCommunication(
+              factory_.createRefExpr(createZName(dw),     // channel name with generic parameters
+                  el, Boolean.FALSE, Boolean.TRUE), 
+                factory_.createCircusFieldList(cf),       // communication fields       
+                CommUsage.Generic,                        // channel communication usage
+                CircusUtils.retrieveCommPattern(cf),      // communication pattern
+                CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
+                false                                     // not implicit
+            );
             addLocAnn(RESULT, dw.getLocation());
         :}
         ;
