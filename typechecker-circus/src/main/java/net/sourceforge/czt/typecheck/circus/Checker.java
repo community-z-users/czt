@@ -23,6 +23,8 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.BasicProcessSignature;
+import net.sourceforge.czt.circus.ast.CallAction;
+import net.sourceforge.czt.circus.ast.CallProcess;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusProcess;
@@ -245,8 +247,20 @@ public abstract class Checker<R>
   protected Name setCurrentProcessName(Name name)
   {
     Name old = typeChecker_.currentProcess_;
-    typeChecker_.currentProcess_ = name;
+    typeChecker_.currentProcessName_ = name;
     return old;
+  }
+  
+  protected CircusProcess getCurrentProcess()
+  {
+    return typeChecker_.currentProcess_;
+  }    
+  
+  protected CircusProcess setCurrentProcess(CircusProcess process)
+  {
+    CircusProcess old = typeChecker_.currentProcess_;
+    typeChecker_.currentProcess_ = process;
+    return old;    
   }
   
   /**
@@ -271,7 +285,8 @@ public abstract class Checker<R>
    */
   protected boolean isWithinProcessParaScope()
   {
-    return typeChecker_.currentProcess_ != null;
+    return typeChecker_.currentProcessName_ != null &&
+           typeChecker_.currentProcess_ != null;
   }    
   
    
@@ -306,7 +321,7 @@ public abstract class Checker<R>
   
   protected Name getCurrentActionName()
   {
-    return typeChecker_.currentAction_;
+    return typeChecker_.currentActionName_;
   }
   
   protected ZName getCurrentZActionName()
@@ -314,9 +329,23 @@ public abstract class Checker<R>
     return ZUtils.assertZName(getCurrentActionName());
   }
   
-  protected void setCurrentActionName(Name name)
+  protected Name setCurrentActionName(Name name)
   {
-    typeChecker_.currentAction_ = name;
+    Name old = typeChecker_.currentActionName_;
+    typeChecker_.currentActionName_ = name;
+    return old;
+  }
+  
+  protected CircusAction getCurrentAction()
+  {
+    return typeChecker_.currentAction_;
+  }
+  
+  protected CircusProcess setCurrentProcess(CircusProcess process)
+  {
+    CircusProcess old = typeChecker_.currentProcess_;
+    typeChecker_.currentProcess_ = process;
+    return old;    
   }
   
   /**
@@ -329,14 +358,15 @@ public abstract class Checker<R>
   protected boolean isWithinActionParaScope()
   {
     return (isWithinProcessParaScope() &&
+            typeChecker_.currentActionName_ != null &&
             typeChecker_.currentAction_ != null);
   }   
   
-  protected void checkActionParaScope(String paraKind, Name name)
+  protected void checkActionParaScope(String paraKind)
   {
     if (!isWithinActionParaScope())
     {
-      Object[] params = { paraKind, name };
+      Object[] params = { paraKind, getCurrentProcessName() };
       error(term, ErrorMessage.INVALID_ACTION_PARA_SCOPE, params);      
     }
   }
@@ -360,32 +390,26 @@ public abstract class Checker<R>
     typeChecker_.stateName_ = name;
   }  
   
-  /**
-   * Overrides the old signature with type from pairs the new siganature
-   * with the same name. TODO: ask Tim about name ids business
-   */
-  protected Signature overrideSignature(Signature oldSig, Signature newSig)
-  {
-    Signature result = factory().createSignature();
-    List<NameTypePair> resultPairs = result.getNameTypePair();
-    resultPairs.addAll(oldSig.getNameTypePair());        
-    for(NameTypePair pair : newSig.getNameTypePair())
-    {      
-      GlobalDefs.namesEqual(pair.getName(), )
-      pair.getZName().setId(null)
-      if(!resultPairs.contains(pair))
-      {
-        resultPairs.add(pair);
-      }
-    }
-    return result;
-  }
-  
-  // do not clone LHS; adds RHS
-  protected Signature joinSignature(Signature sigL, Signature sigR)
-  {
-    
-  }
+//  /**
+//   * Overrides the old signature with type from pairs the new siganature
+//   * with the same name. TODO: ask Tim about name ids business
+//   */
+//  protected Signature overrideSignature(Signature oldSig, Signature newSig)
+//  {
+//    Signature result = factory().createSignature();
+//    List<NameTypePair> resultPairs = result.getNameTypePair();
+//    resultPairs.addAll(oldSig.getNameTypePair());        
+//    for(NameTypePair pair : newSig.getNameTypePair())
+//    {      
+//      GlobalDefs.namesEqual(pair.getName(), )
+//      pair.getZName().setId(null)
+//      if(!resultPairs.contains(pair))
+//      {
+//        resultPairs.add(pair);
+//      }
+//    }
+//    return result;
+//  }
   
   /**
    * Given the channel decl term, and the result of unifying the underlying 
@@ -724,11 +748,15 @@ public abstract class Checker<R>
   {
     List<Type2> innerTypes = factory().list(type.getType().subList(offset, count));
     assert !innerTypes.isEmpty() : "type projection resulted in an empty type.";
-    
     Type2 result = innerTypes.size() > 1 ? 
       factory().createProdType(innerTypes) : innerTypes.get(0);
     
     return result;    
+  }
+  
+  protected NameTypePair lastUsedChannel()
+  {
+    throw new UnsupportedOperationException("cannot call last used channel directly, but only through a Communication checker");
   }
   
   protected ProcessInfo getProcessInfo(Name name)
@@ -1157,27 +1185,193 @@ public abstract class Checker<R>
     return result;
     
   }
-    
-  protected ActionSignature joinActionSignature(ActionSignature actionSigL, ActionSignature actionSigR)
-  { 
-    // at this point, names are ignored (i.e. must be null)
-    assert actionSigL.getActionName() == null && 
-           actionSigR.getActionName() == null : "cannot join signature with resolved names";
-    
-    // create new signnature with all info from LHS
-    ActionSignature result = actionSigL.create(actionSigL.getChildren());
-    
-    // get the signature list structure
-    ZSignatureList zslL = result.getZSignatureList();
-    ZSignatureList zslR = actionSigR.getZSignatureList();    
-    assert zslL.size() == zslR.size() : "ZSignatureList structure is invalid.";
-    
-    for(byte i = 0; i<zslL.size(); i++)
-    {      
-      Signature sL = zslL.get(i);
-      Signature sR = zslR.get(i);
-      zslL.set(i, joinSignature(sL, sR));
+  
+    /**
+   * <p>
+   * These isometric resolution matrixes are used to figure out where is the
+   * problem for parameterised calls, if any. To do this, we check the signature
+   * of the calling action type against the CallAction expressions.
+   * </p>
+   * <p>
+   * The first CALL_TYPE matrix distinguishes normal calls from either non-parameterised 
+   * calls or wrong number of parameters, where an inconclusive solutions leads
+   * to the next CALL_PARAMS matrix. 
+   * </p>
+   * <p>
+   * Finally, the CALL_PARAMS matrix further distinguishes normal parameterised calls 
+   * from call with either wrong number of parameters, or non-unifiable calling types
+   * with respect to the action signature.
+   * </p>
+   * <p>
+   * This trick avoids too many if/else statements, clarifies the code, and
+   * allegedly is faster in general since ifs are all resolved at once (this case 
+   * at each matrix). The same solution applies for action and process calls.
+   * </p>
+   */
+  protected enum CallResolution { 
+      NormalCall, 
+      NormalParamCall, 
+      NotParameterisedCall, 
+      WrongNumberParameters, 
+      IncompatibleParamType,
+      Inconclusive
+  };
+  
+  protected static final CallResolution[][] CALL_TYPE = 
+      {                             /* sig.isEmpty                           !sig.isEmpty  */
+        /* call.isEmpty          */  { CallResolution.NormalCall           , CallResolution.WrongNumberParameters },  
+        /* !call.isEmpty         */  { CallResolution.NotParameterisedCall , CallResolution.Inconclusive          } 
+      };//                                                        |        
+        //                                       |----------------|
+        //                                       v 
+  //protected static final CallResolution[][] CALL_PARAMS = 
+  //    {                             /* sig.size  = call.size                 sig.size != call.size */
+  //      /* paramUnify(sig, call) */  { CallResolution.NormalParamCall      , CallResolution.WrongNumberParameters },  
+  //      /* !paramUnify(sig, call)*/  { CallResolution.IncompatibleParamType, CallResolution.WrongNumberParameters } 
+  //   };
+  // PS: to maximise number of error detection, we do not use the CALL_PARAMS. It is here mostly for documenetaion.
+  
+  protected List<? extends Type2> resolveActualParameters(ZExprList actuals)
+  {    
+    List<? extends Type2> result = factory().list();
+    for(Expr expr : actuals)
+    {
+      Type2 type = expr.accept(exprChecker());
+      result.add(type);            
     }
+    assert result.size() == actuals.size() : "number of resolved actuals differ from given actuals";
+    return result;
+  }
+  
+  protected boolean checkCallParameters(Term call, List<NameTypePair> resolvedFormals, ZExprList actuals)
+  {    
+    boolean result;
+    
+    assert isWithinProcessParaScope() : "calls must be at least within process scope";
+        
+    // check the kind of call
+    boolean isActionCall = isWithinActionParaScope();
+    assert isActionCall ? (call instanceof CallAction) : (call instanceof CallProcess);
+    
+    // create a default error list
+    List<Object> params = factory().list(getCurrentProcessName());
+    if (isActionCall) { params.add(getCurrentActionName()); }
+    params.add(call);
+    
+    // retrieve the type of call being checked.
+    CallResolution callRes = CALL_TYPE[actuals.isEmpty() ? 0 : 1][resolvedFormals.isEmpty() ? 0 : 1];                    
+    switch (callRes)
+    {
+      case NormalCall:
+        result = true; // all is well.
+        break;
+      case NotParameterisedCall:                
+        error(call, (isActionCall ? ErrorMessage.IS_NOT_PARAM_ACTION_IN_ACTION_CALL :
+                                    ErrorMessage.IS_NOT_PARAM_PROCESS_IN_PROC_CALL), params);
+        break;
+      case Inconclusive:        
+        // deliberately check for the actuals, even if sizes are incompatible
+        // this maximases the number of errors discovered. returns null if failed.
+        List<? extends Type2> resolvedActuals = resolveActualParameters(resolvedFormals, actuals);            
+                
+        if (resolvedFormals.size() == resolvedActuals.size())
+        {
+          // case NormalParamCall:
+          result = true; // assume everything will be ok from here.
+          // case IncompatibleParamType: 
+          for(int i = 0; i < resolvedFormals.size(); i++)
+          {
+            NameTypePair pair = resolvedFormals.get(i);
+            Type2 expectedFormal = GlobalDefs.unwrapType(pair.getType());
+            Type2 foundActual = GlobalDefs.unwrapType(resolvedActuals.get(i));            
+            if(foundActual instanceof UnknownType) 
+            {
+              params.add(i+1);
+              params.add(expectedFormal);
+              error(actionName, (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_UNDECLARED_VAR :
+                                                ErrorMessage.PARAM_PROC_CALL_UNDECLARED_VAR), params);
+              result = false;              
+            }
+            else 
+            {
+              UResult unified = unify(foundActual, expectedFormal);
+              if (!unified.equals(UResult.SUCC))
+              {
+                params.add(pair.getName());
+                params.add(expectedFormal);
+                params.add(foundActual);
+                params.add(i+1);
+                error(actionName, (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_NOT_UNIFY :
+                                                  ErrorMessage.PARAM_PROC_CALL_NOT_UNIFY), params);
+                result = false;
+              }              
+              // else, this param is ok, result is true.
+            }           
+          }
+          // if error is found, result will be false.
+        }
+        // else, leave the next case to catch wrong parameters number.                        
+        else
+        {
+          //case WrongNumberParameters:
+          params.add(resolvedFormals.size());
+          params.add(actuals.size());
+          error(call, (isActionCall ? ErrorMessage.ACTION_CALL_DIFF_NUMBER_EXPRS :
+                                      ErrorMessage.PROC_CALL_DIFF_NUMBER_EXPRS), params);
+        }
+        break;
+      case WrongNumberParameters:
+        params.add(resolvedFormals.size());        
+        error(call, (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_WITHOUT_EXPRS :
+                                    ErrorMessage.PARAM_PROC_CALL_WITHOUT_EXPRS), params);
+        break;        
+      default:
+        // takes care of NormalParamCall and IncompatibleParamType  
+        // --- and NormalParamCall and IncompatibleParamType, which should only be dealt with in the inner case
+        throw new AssertionError("should never reach this point in call type resolution --- " + callRes);            
+    }
+    return result;
+  }
+    
+  protected ActionSignature joinActionSignature(CircusAction term, 
+     ActionSignature actionSigL, ActionSignature actionSigR)
+  {     
+    // at this point, names are ignored (i.e. must be null)
+    if (actionSigL.getActionName() != null || 
+        actionSigR.getActionName() != null)
+    {
+      Object[] params = { 
+          getCurrentProcessName(),
+          getCurrentActionName(),
+          "resolved action names"
+      };      
+      error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);      
+    }
+    
+    // formal parameters must be empty for joint signatures    
+    // on-the-fly actions are just calls, so should not have formal parameters.
+    if (!actionSigL.getFormalParams().getNameTypePair().isEmpty() ||
+        !actionSigR.getFormalParams().getNameTypePair().isEmpty())
+    {
+      Object[] params = { 
+          getCurrentProcessName(),
+          getCurrentActionName(),
+          "non-empty formal parameters"
+      };
+      error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);      
+    }
+    
+    // create an empty signature as the result, but with proper place holders
+    // so that getFormalParams
+    // keep the action name unknown (null)
+    ActionSignature result = factory().createEmptyActionSignature();
+    
+    // local variables are ignored, since the scope is local ;-)
+    // formal parameters are ignored, sine they cannot appear during signature join
+    
+    // join the communications of each side
+    result.getUsedCommunications().addAll(actionSigL.getUsedCommunications());
+    result.getUsedCommunications().addAll(actionSigR.getUsedCommunications());
     
     return result;
     

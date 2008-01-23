@@ -56,6 +56,12 @@ public class PredChecker
     zPredChecker_ = new net.sourceforge.czt.typecheck.z.PredChecker(typeChecker);
   }
 
+  /**
+   * For all other predicate terms, use the standard Z typechecking rules 
+   * within the  checking environment for Circus.
+   *
+   *@law C.18.7
+   */
   public UResult visitTerm(Term term)
   {
     return term.accept(zPredChecker_);

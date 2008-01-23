@@ -51,7 +51,12 @@ public class ExprChecker
     zExprChecker_ = new net.sourceforge.czt.typecheck.z.ExprChecker(typeChecker);
   }
 
-  /** For all Z and other expressions use Z typechecking */
+  /**
+   * For all other expression terms, use the standard Z typechecking rules 
+   * within the checking environment for Circus. This also includes expression lists.
+   *
+   *@law C.18.1, C.18.2, C.18.5, C.18.7
+   */
   public Type2 visitTerm(Term term)
   {
     return term.accept(zExprChecker_);

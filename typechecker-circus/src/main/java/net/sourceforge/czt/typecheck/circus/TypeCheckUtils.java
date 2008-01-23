@@ -24,14 +24,14 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.parser.circus.ParseUtils;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.typecheck.circus.impl.Factory;
-import net.sourceforge.czt.typecheck.z.TypeCheckCommand;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZFactory;
@@ -45,39 +45,154 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 public class TypeCheckUtils 
     extends net.sourceforge.czt.typecheck.z.TypeCheckUtils {
   
-  private static final TypeCheckUtils utils_ = new TypeCheckUtils();
+  private static final TypeCheckUtils instance_ = new TypeCheckUtils();
   
-  protected TypeCheckUtils() {
+  /**
+   * Do not generate instances of this class.
+   * You should use the static methods directly.
+   */
+  protected TypeCheckUtils()
+  {
+    super();
   }
   
   /**
-   * Typecheck and type annotate a file.
-   * @param term the <code>Term</code> to typecheck.
+   * Typecheck and type annotate a term, with no default section 
+   * and not allowing names to be used before they are declared.
+   * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * returns the list of ErrorAnns in the AST added by the typechecker.
+   * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-      SectionManager sectInfo) {
-    return typecheck(term, sectInfo, utils_.useBeforeDeclDefault());
+                                                   SectionManager sectInfo)
+  {
+    return typecheck(term, sectInfo, false);
   }
   
   /**
-   * Typecheck and type annotate a file.
+   * Typecheck and type annotate a term, with no default section.
+   * @param term the <code>Term</code> to typecheck (typically a Spec).
+   * @param sectInfo the <code>SectionManager</code> object to use.
+   * @param useBeforeDecl allow use of variables before declaration
+   * @return the list of ErrorAnns in the AST added by the typechecker.
+   */
+  public static List<? extends ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl)
+  {
+    return typecheck(term, sectInfo, useBeforeDecl, null);
+  }
+  
+  /**
+   * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
-   * returns the list of ErrorAnns in the AST added by the typechecker.
+   * @param sectName the section within which this term should be checked.
+   * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-      SectionManager sectInfo,
-      boolean useBeforeDecl) {
-    return utils_.lTypecheck(term, sectInfo, useBeforeDecl, null);
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   String sectName)
+  {    
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, false, sectName);
+  }
+  
+  /**
+   * Typecheck and type annotate a Term, in the context of a given section.
+   * @param term the <code>Term</code> to typecheck.
+   * @param sectInfo the <code>SectionManager</code> object to use.
+   * @param useBeforeDecl allow use of variables before declaration
+   * @param useNameIds use name ids as part of the name
+   * @return the list of ErrorAnns in the AST added by the typechecker.
+   */
+  public static List<? extends ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   boolean useNameIds)
+  {    
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, null);
+  }
+  
+  /**
+   * Typecheck and type annotate a Term, in the context of a given section.
+   * @param term the <code>Term</code> to typecheck.
+   * @param sectInfo the <code>SectionManager</code> object to use.
+   * @param useBeforeDecl allow use of variables before declaration
+   * @param useNameIds use name ids as part of the name
+   * @param sectName the section within which this term should be checked.
+   * @return the list of ErrorAnns in the AST added by the typechecker.
+   */
+  public static List<? extends ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   boolean useNameIds,
+                                                   String sectName)
+  {    
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, sectName);
+  }
+  
+  /** An internal method of the typechecker. */
+  protected List<? extends ErrorAnn> lTypecheck(Term term,
+                                                SectionManager sectInfo,
+                                                boolean useBeforeDecl,
+                                                boolean useNameIds,
+                                                String sectName)
+  {
+    ZFactory zFactory = new ZFactoryImpl();
+    CircusFactory circusFactory = new CircusFactoryImpl();    
+    //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
+    TypeChecker typeChecker = new TypeChecker(
+      new net.sourceforge.czt.typecheck.circus.impl.Factory(zFactory, circusFactory ), 
+      sectInfo, useBeforeDecl);
+    typeChecker.setPreamble(sectName, sectInfo);
+    typeChecker.setUseNameIds(useNameIds);
+    term.accept(typeChecker);
+    return typeChecker.errors();
+  }
+  
+  /** A convenience method for parsing an arbitrary input specification.
+   *  Note that source.setMarkup(...) allows you to specify which markup format
+   *  the specification is using: LATEX or UNICODE etc.
+   *  @param  source The string or file to be parsed.
+   *  @param  sectInfo The section manager or SectionManager to use during parsing.
+   *  @return A non-typechecked term.
+   */
+  protected Term parse(Source source, SectionManager sectInfo)
+    throws IOException, net.sourceforge.czt.parser.util.ParseException,
+      net.sourceforge.czt.base.util.UnmarshalException
+  {
+    return ParseUtils.parse(source, sectInfo);
   }  
+  
+  /** A convenience method for parsing a file.
+   *  It uses the file name extension to guess which Z markup to parse.
+   *  @param  file The path to the file to be parsed.
+   *  @param  sectInfo The section manager or SectionManager to use during parsing.
+   *  @return a non-typechecked term.
+   */
+  protected Term parse(String file, SectionManager sectInfo)
+    throws IOException, net.sourceforge.czt.parser.util.ParseException,
+           net.sourceforge.czt.base.util.UnmarshalException
+  {
+    return parse(new FileSource(file), sectInfo);
+  }  
+  
+  protected String name()
+  {
+    return "circustypecheck";
+  }
 
+  protected boolean printBenchmarkTimesDefault()
+  {
+    return true;
+  }
+  
   public static void main(String[] args)
     throws IOException, net.sourceforge.czt.base.util.UnmarshalException
   {    
-    utils_.run(args);
+    instance_.run(args);
   }
   
    /**
@@ -90,50 +205,10 @@ public class TypeCheckUtils
     return new TypeCheckCommand();
   }
 
-  /** An internal method of the typechecker. */
-  /** An internal method of the typechecker. */
-  protected List<? extends ErrorAnn> lTypecheck(Term term,
-                                                SectionManager sectInfo,
-                                                boolean useBeforeDecl,
-                                                String sectName)
-  {
-    ZFactory zFactory = new ZFactoryImpl();
-    CircusFactory circusFactory = new CircusFactoryImpl();
-    TypeChecker typeChecker = new TypeChecker(new Factory(zFactory, circusFactory),
-                                              sectInfo,
-                                              useBeforeDecl);
-    typeChecker.setPreamble(sectName, sectInfo);
-    typeChecker.visitTerm(term);
-    return typeChecker.errors();
-  }
-  
-  protected Term parse(Source src, SectionManager sectInfo)
-    throws IOException, net.sourceforge.czt.parser.util.ParseException,
-           net.sourceforge.czt.base.util.UnmarshalException
-  {
-    try {
-      return ParseUtils.parse(src, sectInfo);
-    }
-    catch (net.sourceforge.czt.base.util.UnmarshalException ex) {
-      throw new RuntimeException(ex);
-    }
-  }
-
-  protected Term parse(String file, SectionManager sectInfo)
-    throws IOException, net.sourceforge.czt.parser.util.ParseException,
-           net.sourceforge.czt.base.util.UnmarshalException
-  {
-    return parse(new FileSource(file), sectInfo);
-  }
-
-  protected String name()
-  {
-    return "circustypecheck";
-  }
-
   protected List<String> toolkits()
   {
     List<String> toolkits = super.toolkits();
+    toolkits.add("circus_prelude");
     toolkits.add("circus_toolkit");
     return toolkits;
   }
@@ -143,6 +218,14 @@ public class TypeCheckUtils
     return true;
   }
 
+  /** @return a fresh new section manager. */
+//  protected SectionManager getSectionManager()
+//  {
+//    SectionManager sectionManager = new SectionManager();
+//    sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
+//    return sectionManager;
+//  }
+  
   protected SectionManager getSectionManager()
   {
     SectionManager sectionManager = new SectionManager();
@@ -158,9 +241,5 @@ public class TypeCheckUtils
   protected JaxbXmlWriter getJaxbXmlWriter()
   {
     return new net.sourceforge.czt.circus.jaxb.JaxbXmlWriter();
-  }
-  
-  protected static Command getCommand() {
-    return new net.sourceforge.czt.typecheck.circus.TypeCheckCommand();
-  }
+  }  
 }

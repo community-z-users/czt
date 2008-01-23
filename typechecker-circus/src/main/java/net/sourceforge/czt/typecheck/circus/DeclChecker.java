@@ -234,10 +234,6 @@ public class DeclChecker
     //exit the typing scope for channels
     typeEnv().exitScope();
     
-    // add all pairs to the environment after closing the scopes.
-    // this way, the names are available to the calling scope.
-    typeEnv().add(result);
-    
     return result;
   }
   

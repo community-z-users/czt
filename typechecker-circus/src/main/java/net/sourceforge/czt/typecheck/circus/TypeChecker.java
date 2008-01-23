@@ -58,13 +58,13 @@ public class TypeChecker
    * The name of the current process being typechecked - null if we are 
    * not typechecking a process paragraph.
    */
-  protected Name currentProcess_;
+  protected Name currentProcessName_;
 
   /**
    * The name of the current action being typechecked - null if we are
    * not typechecking a action paragraph.
    */
-  protected Name currentAction_;
+  protected Name currentActionName_;
 
   /**
    * The name of the current state process
@@ -142,8 +142,8 @@ public class TypeChecker
     commChecker_ = new CommunicationChecker(this);
     processChecker_ = new ProcessChecker(this);
     
-    currentProcess_ = null;
-    currentAction_ = null;
+    currentProcessName_ = null;
+    currentActionName_ = null;
     stateName_ = null;
     onTheFlyProcesses_ = null;
     circusFormalParameters_ = false;

@@ -87,7 +87,14 @@ public class ParaChecker
   }  
     
   /**
-   * For a general terms (i.e. all other Para subclasses), we just apply Z typechecking
+   * For all other paragraph terms, use the standard Z typechecking rules 
+   * within the checking environment for Circus. Note this is slightly 
+   * different from top-level Z paragraph within a process. For those,
+   * we need to take into account the process scoping rules, hence we use
+   * a ProcessParaChecker. For instance, the SchText for the process state
+   * is handled in there, and not here.
+   *
+   *@law C.18.3, C.18.4
    */
   public Signature visitTerm(Term term)
   {
@@ -105,13 +112,20 @@ public class ParaChecker
   public Signature visitChannelPara(ChannelPara term)
   {
     // CircusParagraph ::= channel CDeclaration
-    
+       
     // visit all ChannelDecl within the ZDeclList of term
     // this uses the quite elegant (yet intricated) typechecker architecture
     // to use: z.DeclChecker.visitZDeclList(), and circus.DeclChecker.visitChannelDecl().
     //
     // \Gamma \rhd cd : CDeclaration    
     List<NameTypePair> pairs = term.getZDeclList().accept(declChecker());
+    
+    // check for duplicates within the ChannelPara scope.
+    checkForDuplicates(pairs, null);
+    
+    // add all pairs to the environment after closing the scopes.
+    // this way, the names are available to the calling (global) scope.
+    typeEnv().add(pairs);
     
     //create the signature for this paragraph and add it as an annotation
     Signature signature = factory().createSignature(pairs);
@@ -163,6 +177,7 @@ public class ParaChecker
     // check this channel set
     // // \Gamma \rhd cs : CSExpression
     ChannelSetType csType = (ChannelSetType)cs.accept(exprChecker());
+    csType.setName(csName);
     
     // create signature with the declared name
     // like other set types, it is wrapped within a power type
@@ -171,6 +186,9 @@ public class ParaChecker
     Signature result = factory().createSignature(pair);
     
     typeEnv().exitScope();
+    
+    // add this to the global environment.
+    typeEnv().add(pair);
     
     addSignatureAnn(term, result);
     
@@ -229,17 +247,15 @@ public class ParaChecker
     // this opens a process para scope, which is cleared at the end.
     // ActionPara can only be checked within an opened process para scope.
     Name old = setCurrentProcessName(pName);
+    setCurrentProcess(process);
     if (old != null)
     {
       Object[] params = { pName, old };
       error(term, ErrorMessage.NESTED_PROCESSPARA_SCOPE, params);
-    } 
+    }
     
     //we enter a new variable scope for the generic parameters
     typeEnv().enterScope();
-    
-    //for keeping actions, process state, and implicit channels
-    localCircTypeEnv().enterScope();
     
     //add the generic parameter names to the type env
     addGenParamTypes(pGenFormals);
@@ -260,18 +276,21 @@ public class ParaChecker
     // Manuela: the Circus type rules do not treat this.
     postActionCallCheck();
     
-    // close environment scopes.
-    localCircTypeEnv().exitScope();
+    // close environment scopes.    
     typeEnv().exitScope();
     
     // clears the process para scope.
     old = setCurrentProcessName(null);
     assert old == pName : "Invalid process para scoping for " + pName;
+    setCurrentProcess(null);
     
     // create the process type with corresponding signature.
     ProcessType procType = factory().createProcessType(sigProc);
     NameTypePair pair = factory().createNameTypePair(pName, procType);
     Signature result = factory().createSignature(factorry().list(pair));
+    
+    // add to the global list
+    typeEnv().add(pair);
     
     addSignatureAnn(term, result);
     
@@ -279,14 +298,22 @@ public class ParaChecker
   }
   
   public Signature visitTransformerPara(TransformerPara term)
-  {    
-    UResult unify = term.getTransformerPred().accept(predChecker());
+  { 
+    UResult solved = term.getTransformerPred().accept(predChecker());
+    
+    if (solved.equals(UResult.PARTIAL))
+    {
+      term.getTransformerPred().accept(predChecker());
+    }
         
     // if not unifiable, this should be a UnknownType.
     Type2 type = getType2FromAnns(term);
     
     NameTypePair pair = factory().createNameTypePair(term.getName(), type);
     Signature result = factory().createSignature(pair);
+    
+    // add to global environment.
+    typeEnv().add(pair);
     
     addSignatureAnn(term, result);
     

@@ -116,9 +116,9 @@ public class Factory
     return processType;
   }
   
-  public ActionSignature createActionSignature()
+  public ActionSignature createEmptyActionSignature()
   {
-    return circusFactory_.createActionSignature();
+    return circusFactory_.createEmptyActionSignature();
   }
   
   public ActionType createActionType()

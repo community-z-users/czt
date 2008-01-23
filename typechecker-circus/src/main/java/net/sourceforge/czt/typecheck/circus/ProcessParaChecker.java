@@ -23,7 +23,9 @@ import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
 
+
 /**
+ * TODO: CHECK? processParaChecker().addContext(type); ??
  *
  * @author leo
  */

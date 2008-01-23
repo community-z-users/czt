@@ -22,10 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusFieldList;
+import net.sourceforge.czt.circus.ast.CommPattern;
+import net.sourceforge.czt.circus.ast.CommUsage;
 import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circus.ast.DotField;
 import net.sourceforge.czt.circus.ast.Field;
 import net.sourceforge.czt.circus.ast.InputField;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.CommunicationVisitor;
 import net.sourceforge.czt.circus.visitor.DotFieldVisitor;
 import net.sourceforge.czt.circus.visitor.InputFieldVisitor;
@@ -58,7 +61,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
    * Pointer to the current field position within a communication list.
    * Synchronisation does not consider the value of this field.
    */
-  private int fieldPos_ = 0; 
+  private int fieldPosition_ = 0; 
   
   /**
    * Number of fields in a communication. For synchronisation, this value MUST be zero.
@@ -74,6 +77,11 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   private Boolean isProdType_ = null;
   
   /**
+   * Communication pattern as detected by the parser.
+   */
+  private CommPattern commPattern_ = null;
+  
+  /**
    * Communication channel name.
    */
   private Name channelName_ = null;
@@ -82,6 +90,14 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
    * Communication channel type after generic parameters have been resolved.
    */
   private ChannelType channelType_ = null;  
+  
+  /**
+   * This variable points to the resolved channelName/Type pair for 
+   * the last communication analysed. It is inially null, but remains
+   * with the last computed value. This way the calling visitor
+   * knows what to extract from the resolved type of this comm.
+   */
+  private NameTypePair lastUsedChannel_ = null;
   
   /**
    * Synchronisation channel name
@@ -118,6 +134,75 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     return result;
   }
   
+  protected NameTypePair lastUsedChannel()
+  {
+    assert lastUsedChannel_ != null : "cannot query for last used channel information before analysing any";
+    return lastUsedChannel_;
+  }
+  
+  protected boolean channelFieldsWellFormed()
+  {
+    assert isProdType_ != null : "cannot check fields before knowing nature of channel type.";
+    
+    // this should never happen, unless the visitInputField is called
+    // from a different point from visitCommunication.
+    boolean fieldsFormatInv =    
+      // if not product type, we must be the first field
+      ((!isProdType_ && fieldPosition_ == 0) ||
+      // otherwise, our position must be within the product type size.
+       (isProdType_ && fieldPosition_ < 
+        prodType(channelType_).getType().size()));
+    return fieldsFormatInv;
+  }  
+  
+  protected Type2 getFieldTypeProjection() 
+  {    
+    assert isProdType_ != null : "cannot project on unknown channel type";
+    assert fieldPosition_ < fieldCount_ : "no next field type to project on channel type";
+    
+    Typ2 result;
+    if (isProdType_) 
+    {
+      // if the last field is being checked, get the remainder type; otherwise get just one
+      ProdType type = prodType(channelType_);
+      int count = (fieldPosition_ == fieldCount - 1) ? (type.getType().size() - fieldPosition_) : 1;    
+      result = getProdTypeProjection(type.getType(), fieldPosition_, count);
+    } 
+    else
+    {
+      result = channelType_;
+    }
+    return result;
+  }
+  
+  /**
+   * Removes from the given pairs all those that do not correspond to input variables.
+   * That is, remove all those output fields fresshly added names. This is useful to
+   * know which variables have been added to the action signature.
+   */
+  protected List<NameTypePair> filterInputs(List<NameTypePair> pairs)
+  {
+    List<NameTypePair> result = factory().list();
+    for(NameTypePair pair : pairs)
+    {
+      if (!pair.getZName().getWord().startsWith(FRESH_INTERNAL_NAME_PREFIX))
+        result.add(pair);      
+    }
+    return result;
+  }
+  
+  /**
+   * Auxiliary methods to create fresh DotField names for their NameTypePair result
+   */
+  private static int freshDotId = 0;
+  private static final String FRESH_INTERNAL_NAME_PREFIX = 
+    CircusUtils.DEFAULT_IMPLICIT_DOTEXPR_NAME_PREFIX;
+    
+  private String createFreshDotFieldName()
+  {    
+    String result = FRESH_NAME_PREFIX + channelName_.toString() + (freshDotId++);    
+    return result;
+  }
   
   private enum CommFormatResolution { WellFormedSynch, WellFormedComm, CommNoFields, FieldSynch };  
   private static final CommFormatResolution[][] COMM_FORMAT_MATRIX =      
@@ -140,12 +225,16 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     
     // get the channel name from the expression.
     channelName_ = term.getChannelExpr().getName();
+    commPattern_ = term.getCommPattern();
 
-    // communications can only appear within a process paragrph
-    checkProcessParaScope("communication", channelName_);
+    // communications can only appear within an action paragrph
+    checkActionParaScope("communication over " + channelName_);    
     
-    // form the basis for all error messages: process where comm. appears + channel name.
-    List<Term> params = factory().list(getCurrentProcessName(), channelName_);
+    // form the basis for all error messages: action where comm. appears + channel name.
+    List<Term> params = factory().list(
+      getCurrentProcessName(), 
+      getCurrentActionName(),
+      channelName_);
     
     // typecheck the channel reference expression - resolve generic types
     RefExpr channelExpr = term.getChannelExpr();
@@ -168,15 +257,18 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       // in the case analysis, nothing else is reported. otherwise, we check
       // this flag after it to see whether to raise an extra error or not.
       boolean commFormatInv = true;
-      
+            
       isProdType_ = isProdTypeComm();
       assert isProdType_ != null;
       
       switch (commFormat)
       {
-        case WellFormedSynch:
-          // synchronisation isn't a product type, and field count is 0
-          commFormatInv = (!isProdType_ && fieldCount_ == 0);
+        case WellFormedSynch:          
+          // synchronisation isn't a product type, and field count is 0.
+          // also, check that the parsed CommPattern flag is correct.
+          commFormatInv = (!isProdType_ && fieldCount_ == 0 &&
+                           commPattern_.equals(CommPattern.Synch) &&
+                           term.getCommUsage().equals(CommUsage.Normal));
           if (commFormatInv)
           {
             result.add(factory().createNameTypePair(synchName_, synchType_));
@@ -194,20 +286,23 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
           //      
           //       the trouble is that it will generate non-unifiable SigmaExpr.
           //       (e.g., { ("c", (x, (y.1, y.2))), ("c", (x, y, z)) } )
-          commFormatInv = (fieldCount_ == 1 || 
+          commFormatInv = ((fieldCount_ == 1 || 
                            (isProdType_ && 
-                            fieldCount_ == prodType(baseType).getType().size()));
+                            fieldCount_ == prodType(baseType).getType().size())) &&
+                           !commPattern_.equals(CommPattern.Synch));
           
           // if there is a format error, raise it; otherwise carry on.
           if (commFormatInv)           
           {
             // lets deal with generic instantiation at communication .
             ZExprList zGenActuals = channelExpr.getExprList() == null ? null : 
-              ZUtils.assertZExprList(channelExpr.getExprList());            
-            
+              ZUtils.assertZExprList(channelExpr.getExprList());                        
+          
+            // TODO: CHECK: z.ExprChecker.visitRefExpr for way to deal with generics here
             if(zGenActuals != null && !zGenActuals.isEmpty()) 
             {
               assert false : "Not treating generic channels yet";
+              term.setCommUsage(CommUsage.Generic);
 //              if(!isGenericChannel(this.channelName_)) {
 //                error(term, ErrorMessage.IS_NOT_GENERIC_CHANNEL, params);
 //              }
@@ -246,20 +341,18 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
             //       We decided to allow the reference to "x" right after it has 
             //       declared. That is, the pair is added to type environment 
             //       by the InputField, rather than the PrefixAction
-            for(Field fields : fields) {
-              
-              // analyse the communication field
-              result.addAll(field.accept(commChecker()));
-              fieldPosition_++;              
-            }    
+            result.addAll(fields.accept(commChecker()));                
             
             assert (result.size() == fieldCount_) :
               "Invalid field list typechecking: wrong field count.";
             
-            // check whether any of the input variables were declared with the same name.            
-            assert false : "this is wrong! same names with unifiable types are not allowed. add method for this checkForDuplicateNames";
-            checkForDuplicates(result, term);                        
-            
+            // check whether any of the input variables were declared with the same name.
+            // Here, this sufices because PrefixAction should have opened a new scope, hence
+            // no name id unification is needed neither happens (as it does for InclDecl).
+            // e.g., S == [x: \nat]; T == [S; x: \num] would unify the ids for two decl names x
+            //       whereas in State == [x: \nat]; A = c?x -> x := x +1, we override the schema name
+            //       since "x" in "x := x+1" comes from the input rather than the state name.
+            checkForDuplicates(result, term);                                    
           }                 
           break;
           
@@ -289,75 +382,64 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     }
     
     // add this instantiated channel as a used channel in the calling scope.
-    NameTypePair usedChannel = factory().createNameTypePair(channelName_, channelType_);
-    circusTypeEnv().addUsedChannels(false, usedChannel);
+    lastUsedChannel_ = factory().createNameTypePair(channelName_, channelType_);
+    circusTypeEnv().addUsedChannels(false, lastUsedChannel_);
     
     // add the used channel name and its instantiated type to the communication
     // signature. if there is an error, we add a null element.
     Signature signature = factory().createSignature(result);
     signature.getNameTypePair().add(0, usedChannel);
-    
-    //CommunicationType commType = factory().createCommunicationType(channelName_)
-    //addTypeAnn(term, commType);
-    
+        
     // a signature to the Communication term. first element is the channel type.    
     addSignatureAnn(term, signature);
+        
+    CommunicationType commType = factory().createCommunicationTyppe(lastUsedChannel_, result);
+    addTypeAnn(term, commType);
     
-    // reset the prod type flag
+    // reset the attributes only valid for communication field analysis.
+    // note that lastUsedChannel_ remains valid, so that the calling visitor
+    // knows what to extract from the resolved type of this comm.
+    commPattern_ = null;
     isProdType_ = null;
+    channelName_ = null;
+    channelType_ = null;
+    fieldPosition_ = 0;
+    fieldCount_ = 0;
       
     return result;
   } 
   
-  protected boolean channelFieldsWellFormed()
+  /**
+   * Typechecks each field within the field list, and increment the current field
+   * position being analysed.
+   *
+   *@law C.14.1, C.14.2
+   */
+  public List<NameTypePair> visitCircusFieldList(CircusFieldList term)
   {
-    assert isProdType_ != null : "cannot check fields before knowing nature of channel type.";
-    
-    // this should never happen, unless the visitInputField is called
-    // from a different point from visitCommunication.
-    boolean fieldsFormatInv =    
-      // if not product type, we must be the first field
-      ((!isProdType_ && fieldPosition_ == 0) ||
-      // otherwise, our position must be within the product type size.
-       (isProdType_ && fieldPosition_ < 
-        prodType(channelType_).getType().size()));
-    return fieldsFormatInv;
-  }  
-  
-  protected Type2 getFieldTypeProjection() 
-  {    
-    assert isProdType_ != null : "cannot project on unknown channel type";
-    assert fieldPosition_ < fieldCount_ : "no next field type to project on channel type";
-    
-    Typ2 result;
-    if (isProdType_) 
-    {
-      // if the last field is being checked, get the remainder type; otherwise get just one
-      ProdType type = prodType(channelType_);
-      int count = (fieldPosition_ == fieldCount - 1) ? (type.getType().size() - fieldPosition_) : 1;    
-      result = getProdTypeProjection(type.getType(), fieldPosition_, count);
-    } 
-    else
-    {
-      result = channelType_;
+    List<NameTypePair> result = factory().list();
+    for(Field field : term) 
+    {              
+      // analyse each communication field
+      result.addAll(field.accept(commChecker()));
+      fieldPosition_++;                    
     }
     return result;
   }
-  
-  protected Type2 getOutputFieldTypeProjection() 
-  {    
-    assert isProdType_ != null && isProdType_ : "cannot project a non-product channel type";
-    assert fieldPosition_ < fieldCount_ : "no next field type to project out product channel type";
-    
-    // if the last field is being checked, get the remainder type; otherwise get just one
-    ProdType type = prodType(channelType_);
-    int count = (fieldPosition_ == fieldCount - 1) ? (type.getType().size() - fieldPosition_) : 1;    
-    return getProdTypeProjection(type.getType(), fieldPosition_, count);
-  }
-  
-  // CParameter ::= ?N
-  // CParameter ::= ?N : Predicate
-  //ok - verificado em 15/09/2005 às 14:38
+
+  /**
+   * First checks the field is within a process scope, and that the whole
+   * communication fields invariant holds. Then, get the right type projection 
+   * from the channel type depending on the current field position. Next, declare
+   * the new local (4) variables with their corresponding type in the current 
+   * scope openned by a prefixing action. Note this might override the state 
+   * variables in case the names are the same. Next, type check the predicate
+   * restriction in the enriched environment. Finally, returns a list of name type 
+   * pairs containing the (4) local variable names and corresponding projected type. 
+   * These pairs are used others to have a complete communication signature.
+   * 
+   *@law C.15.1, C.15.2
+   */
   public List<NameTypePair> visitInputField(InputField term)
   {
     Name varName = term.getVariableName();
@@ -365,10 +447,13 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     List<NameTypePair> result = factory().list();
         
     // communications can only appear within a process paragrph
-    checkProcessParaScope("input field communication", channelName_);
+    checkActionParaScope("input field communication on channel " + channelName_);
     
     // form the basis for all error messages: process where comm. appears + channel name.
-    List<Term> params = factory().list(getCurrentProcessName(), channelName_, 
+    List<Term> params = factory().list(
+      getCurrentProcessName(), 
+      getCurrentActionName(),
+      channelName_, 
       "input variable " + varName);        
     
     if (channelFieldsWellFormed())
@@ -408,27 +493,33 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       error(term, ErrorMessage.FAILED_FIELD_INVARIANT, params);      
     }
     return result;
-  }
+  }  
   
-  private static int freshDotId = 0;
-  private static final String FRESH_INTERNAL_NAME_PREFIX = "$$!";
-  protected String createFreshDotFieldName()
-  {    
-    String result = FRESH_NAME_PREFIX + channelName_.toString() + (freshDotId++);    
-    return result;
-  }
-  
-  // CParameter ::= .Expression
-  //ok - verificado em 15/09/2005 às 14:35
+  /**
+   * First checks the field is within a process scope, and that the whole
+   * communication fields invariant holds. Next, type check the output/dot 
+   * field expression. Then, get the right type projection from the channel 
+   * type depending on the current field position. After that, checks 
+   * whether the projected channel type unifies with the given field expression.
+   * Finally, returns a singleton name type pair in the list containing a 
+   * fresh variable name and its projected type. This pair can be used by 
+   * others to have a complete communication signature.
+   *
+   *@law C.15.3, C.15.4
+   */
   public List<NameTypePair> visitDotField(DotField term)
   {    
     List<NameTypePair> result = factory().list();
    
     // communications can only appear within a process paragrph
-    checkProcessParaScope("output field communication", channelName_);
+    checkActionParaScope("output field communication on channel " + channelName_);
     
     // form the basis for all error messages: process where comm. appears + channel name.
-    List<Term> params = factory().list(getCurrentProcessName(), channelName_, "output field");
+    List<Term> params = factory().list(
+      getCurrentProcessName(), 
+      getCurrentActionName(),
+      channelName_, 
+      "output field");       
     
     if (channelFieldsWellFormed())
     {
@@ -445,14 +536,15 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
         Type2 foundU = unwrapType(exprType);
         UResult unified = unify(foundU, expectedU);        
         if (unified.equals(UResult.FAIL))
-        {
-          Object [] params = {getCurrentProcessName(), channelName_, expectedU, foundU};
+        {          
+          Object [] params = {getCurrentProcessName(), getCurrentActionName(), 
+            channelName_, expectedU, foundU};
           error(term, ErrorMessage.CHANNEL_PARAM_NOT_UNIFY, params);
         }
         else 
         {
           NameTypePair ntp = factory().createNameTypePair(
-            factory().createZDeclName(createFreshDotFieldName()), expectedU)
+            factory().createZDeclName(createFreshDotFieldName()), expectedU);
           result.add(ntp);
         }
       }
@@ -465,24 +557,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     return result;
   }
   
-  /**
-   * Removes from the given pairs all those that do not correspond to input variables.
-   * That is, remove all those output fields fresshly added names. This is useful to
-   * know which variables have been added to the action signature.
-   */
-  protected List<NameTypePair> filterInputs(List<NameTypePair> pairs)
-  {
-    List<NameTypePair> result = factory().list();
-    for(NameTypePair pair : pairs)
-    {
-      if (!pair.getZName().getWord().startsWith(FRESH_INTERNAL_NAME_PREFIX))
-        result.add(pair);      
-    }
-    return result;
-  }
-
-  /*
-   * Método auxiliar que instancia o tipo de um canal genérico
+   /* Método auxiliar que instancia o tipo de um canal genérico
    */
 //  private Type replaceChannelType(DeclName genName, Type typeExpr, Type typeChan) {
 //    Type result = null;
