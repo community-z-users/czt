@@ -215,7 +215,7 @@ public class TypeChecker
     }
   }
 
-  protected void setUseNameIds(boolean useNameIds)
+  public void setUseNameIds(boolean useNameIds)
   {
     sectTypeEnv_.setUseNameIds(useNameIds);
     typeEnv_.setUseNameIds(useNameIds);

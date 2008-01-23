@@ -1624,6 +1624,24 @@ abstract public class Checker<R>
     return null;
   }
   
+  /**
+   * Creates a Signature with new IDs for all names in the given
+   * Signature.
+   */
+  protected Signature createNewIds(Signature signature)
+  {
+    List<NameTypePair> pairs = factory().list();
+    List<NameTypePair> oldPairs = signature.getNameTypePair();
+    for (NameTypePair pair : oldPairs) {
+      ZName oldName = pair.getZName();
+      ZName newName = factory().createZName(oldName, false);
+      //add a unique ID to this name
+      factory().overwriteNameID(newName);
+      pairs.add(factory().createNameTypePair(newName, pair.getType()));
+    }
+    return factory().createSignature(pairs);
+  }
+  
   public String toString(Type type)
   {
     return type.toString();
