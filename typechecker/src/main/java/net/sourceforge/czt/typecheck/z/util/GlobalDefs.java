@@ -36,6 +36,8 @@ public class GlobalDefs
   public static final UResult PARTIAL = UResult.PARTIAL;
   public static final UResult FAIL = UResult.FAIL;
   
+  public static final Factory ZFACTORRY = new Factory();
+  
   /**
    * Create an empty Set.
    * @return the empty set
@@ -239,9 +241,8 @@ public class GlobalDefs
    * @ @return the <code>Type</code> of the term.
    */
   public static Type getTypeFromAnns(Term term)
-  {
-    Factory factory = new Factory();
-    Type result = factory.createUnknownType();
+  {    
+    Type result = ZFACTORRY.createUnknownType();
     TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
     
     if (typeAnn != null)
