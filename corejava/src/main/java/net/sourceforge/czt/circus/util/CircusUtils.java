@@ -6,7 +6,6 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-
 package net.sourceforge.czt.circus.util;
 
 import java.math.BigInteger;
@@ -17,7 +16,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
-import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.CommPattern;
 import net.sourceforge.czt.circus.ast.DotField;
@@ -53,65 +51,56 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public final class CircusUtils
 {
-  
+
   /**
    * Do not create instances of this class.
    */
   private CircusUtils()
   {
   }
-  
   public static final Factory FACTORY = new Factory();
-  
   /** The name of the basic Circus toolkit. */
   public static final String CIRCUS_TOOLKIT = "circus_toolkit";
-  
   /** The name of the Circus prelude. */
   public static final String CIRCUS_PRELUDE = "circus_prelude";
-  
   /**
    * Every basic process main action is named with this internal name.
    * Internal names start with a double dollar sign.
    * The typechecker must guaranttee that no such names are mentioned by the user.
    */
   public static final String DEFAULT_MAIN_ACTION_NAME = "$$mainAction";
-  
   /**
    * Default name of state for stateless processes.
    */
   public static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt";
-  
   public static final String DEFAULT_IMPLICIT_ACTION_NAME_PREFIX = "$$implicitAct";
   public static final String DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX = "$$implicitProc";
-  
   public static final String DEFAULT_IMPLICIT_DOTEXPR_NAME_PREFIX = "$$!";
-    
   /**
    * Default number of multisynchronisation occurrences for particular communication pattern.
    * At the moment this feature is still experimental, and may disapear in the future.
    */
   public static final BigInteger DEFAULT_MULTISYNCH = BigInteger.ZERO;
-  
   /**
    * Default model for RefinementConjPara is failures-divergences.
    */
   public static final Model DEFAULT_REFINEMENT_MODEL = Model.FlDv;
-  
   /**
    * Default parameter qualifier for process and actions is by value.
    */
   public static final ParamQualifier DEFAULT_PARAMETER_QUALIFIER = ParamQualifier.Value;
-  
   /* NOTE: add the type for SYNCH given type. The OZ typechecker uses
    *       a special OIDType AST class. I will assume this is not needed for us.
-   */ 
-  
+   */
   /** Name for synchronisation channel type (ID is added by type checker to this instance */
-  public static final ZName SYNCH_CHANNEL_NAME = FACTORY.createZName(CircusString.CIRCUSSYNCH);
-  
+  public static final ZName SYNCH_CHANNEL_TYPE_NAME = FACTORY.createZName(CircusString.CIRCUSSYNCH);
   /** Power type of the given type for synchronisation type names. ID is added to the synch name of this instance */
-  public static final PowerType SYNCH_CHANNEL_TYPE = FACTORY.createPowerType(FACTORY.createGivenType(SYNCH_CHANNEL_NAME)); 
+  public static final PowerType SYNCH_CHANNEL_TYPE = FACTORY.createPowerType(FACTORY.createGivenType(SYNCH_CHANNEL_TYPE_NAME));
   
+  // look in the typechecker factory for a version with IDs
+  public static final ZName TRANSFORMER_TYPE_NAME = FACTORY.createZName(CircusString.CIRCUSTRANSFORMER);  
+  public static final PowerType TRANSFORMER_TYPE = FACTORY.createPowerType(FACTORY.createGivenType(TRANSFORMER_TYPE_NAME));
+    
   /** 
    *  Reference expression of the given type for synchronisation names. 
    *  An ID is added to the synch name of this instance. 
@@ -121,8 +110,15 @@ public final class CircusUtils
    *  check it before use in order to add  the proper powertype to the 
    *  synch_channeel_expr used.
    */
-  public static final RefExpr SYNCH_CHANNEL_EXPR = FACTORY.createRefExpr(SYNCH_CHANNEL_NAME); 
+  public static final RefExpr SYNCH_CHANNEL_EXPR = FACTORY.createRefExpr(SYNCH_CHANNEL_TYPE_NAME);
+  public static final RefExpr TRANSFORMER_EXPR = FACTORY.createRefExpr(TRANSFORMER_TYPE_NAME);
 
+  /**
+   * Concrete syntax symbol visitor that can be used everywhere.
+   */
+  public static final CircusConcreteSyntaxSymbolVisitor 
+    CIRCUS_CONCRETE_SYNTAXSYMBOL_VISITOR = new CircusConcreteSyntaxSymbolVisitor();
+  
   /**
    * Returns true if the <code>ActionPara</code> is indeed a schema expression action
    * with a non-null <code>Name</code>.
@@ -132,7 +128,7 @@ public final class CircusUtils
     return (ap.getName() != null) &&
       (ap.getCircusAction() instanceof SchExprAction);
   }
-  
+
   /**
    * Checks whether the given <code>Para</code> term is a schema or not.
    * That is, it checks whether either: it is an <code>AxPara</code> term
@@ -146,11 +142,11 @@ public final class CircusUtils
     {
       // If it is not an AxPara schema, it can still be a SchExprAction one.
       result = (para instanceof ActionPara) &&
-        (((ActionPara)para).getCircusAction() instanceof SchExprAction);
+        (((ActionPara) para).getCircusAction() instanceof SchExprAction);
     }
     return result;
   }
-  
+
   /**
    * If the given paragraph <code>isSchema(para)</code>, returns
    * the declared schema name. Otherwise, the method returns null.
@@ -163,55 +159,55 @@ public final class CircusUtils
       result = ZUtils.getSchemaName(para);
       if (result == null)
       {
-        ActionPara ap = (ActionPara)para;
+        ActionPara ap = (ActionPara) para;
         assert isActionParaSchemaValid(ap);
         result = ap.getName();
       }
-    } 
+    }
     return result;
   }
-  
+
   public static boolean isChannelFromDecl(ChannelDecl term)
   {
-    return (term.getNameList() == null && term.getExpr() instanceof RefExpr);
+    return (term.getZGenFormals().isEmpty() && term.getExpr() instanceof RefExpr);
   }
-  
+
   public static boolean isOnTheFly(Term term)
   {
     // if it is already from a getCircusAction/Process() with an annotation...
     boolean result = (term.getAnn(OnTheFlyDefAnn.class) != null);
-    
+
     // if not or if the term does not have an OnTheFlyDefAnn
     if (!result)
     {
       // select the appropriate element within a Para
       if (term instanceof ActionPara)
       {
-        term = ((ActionPara)term).getCircusAction();
+        term = ((ActionPara) term).getCircusAction();
       }
       else if (term instanceof ProcessPara)
       {
-        term = ((ProcessPara)term).getCircusProcess();
-      }      
-      result = term.getAnn(OnTheFlyDefAnn.class) != null;      
+        term = ((ProcessPara) term).getCircusProcess();
+      }
+      result = term.getAnn(OnTheFlyDefAnn.class) != null;
     }
     return result;
   }
-  
-  public static boolean isCircusState(Term term)
+
+  public static boolean isStatePara(Term term)
   {
     return term.getAnn(CircusStateAnn.class) != null;
   }
-  
+
   public static boolean isCircusInnerProcessPara(Para term)
   {
     return !ZUtils.isZPara(term) &&
       ((term instanceof ActionPara) ||
       (term instanceof NameSetPara) ||
       ((term instanceof TransformerPara) &&
-      ((TransformerPara)term).getTransformerPred() instanceof ActionTransformerPred));
+      ((TransformerPara) term).getTransformerPred() instanceof ActionTransformerPred));
   }
-  
+
   public static boolean isCircusGlobalPara(Para term)
   {
     return !ZUtils.isZPara(term) &&
@@ -219,8 +215,8 @@ public final class CircusUtils
       (term instanceof ProcessPara) ||
       (term instanceof ChannelSetPara) ||
       ((term instanceof TransformerPara) &&
-      ((TransformerPara)term).getTransformerPred() instanceof ProcessTransformerPred));
-  }     
+      ((TransformerPara) term).getTransformerPred() instanceof ProcessTransformerPred));
+  }
 
   /**
    * From a given ZSect term, this method extract all the implicitly declared 
@@ -231,42 +227,56 @@ public final class CircusUtils
    * UnsupportedAstClassException. These situations should never happen wihtin
    * a well-implemented parser/typechecker.
    */
-  public static Map<ZName, CircusProcess> getZSectImplicitProcessPara(ZSect term) {
+  public static Map<ZName, CircusProcess> getZSectImplicitProcessPara(ZSect term)
+  {
     HashMap<ZName, CircusProcess> result = new HashMap<ZName, CircusProcess>();
-    ZParaList implicitProcPara = getZSectImplicitProcessParaList(term);
-    for (Para p : implicitProcPara) {
+    ZParaList implicitProcPara = getZSectImplicitProcessParaList(term.getName(),
+      term.getZParaList());
+    for (Para p : implicitProcPara)
+    {
       if (!(p instanceof ProcessPara))
-        throw new UnsupportedAstClassException("Unsupported on-the-fly paragraph class " + p.getClass().getName() + " within ZSect" + term.getName());
-      ProcessPara pp = (ProcessPara)p;
-      
+      {
+        throw new UnsupportedAstClassException("Unsupported on-the-fly paragraph class " + p.getClass().
+          getName() + " within ZSect" + term.getName());
+      }
+      ProcessPara pp = (ProcessPara) p;
+
       CircusProcess old = result.put(pp.getZName(), pp.getCircusProcess());
       if (old != null)
-        throw new UnsupportedAstClassException("Duplicated name for on-the-fly process definition with ZSect" + 
-            term.getName() +": " + pp.getZName());      
-    }    
+      {
+        throw new UnsupportedAstClassException("Duplicated name for on-the-fly process definition with ZSect" +
+          term.getName() + ": " + pp.getZName());
+      }
+    }
     return result;
   }
-    
-  public static ZParaList /*List<ProcessPara>*/ getZSectImplicitProcessParaList(ZSect term) 
+
+  public static ZParaList /*List<ProcessPara>*/ getZSectImplicitProcessParaList(String sectName,
+    ZParaList term)
   {
-    ZParaList result = FACTORY.createZParaList();        
-    for(Para p : term.getZParaList()) {
-      if ((p instanceof ProcessPara) && 
-         ((ProcessPara)p).getZName().getWord().startsWith(DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX)) 
+    ZParaList result = FACTORY.createZParaList();
+    for (Para p : term)
+    {
+      if ((p instanceof ProcessPara) &&
+        ((ProcessPara) p).getZName().getWord().startsWith(DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX))
       {
-        ProcessPara pp = (ProcessPara)p;
-        
-        if (pp.getCircusProcess().getAnn(OnTheFlyDefAnn.class) == null) 
-          throw new UnsupportedAstClassException("Invalid on-the-fly process definition within ZSect " + term.getName());      
-        if (pp.getZGenFormals() != null && !pp.getZGenFormals().isEmpty()) 
-          throw new UnsupportedAstClassException("On-the-fly process definition within ZSect " + term.getName() + " cannot have formal generic parameters.");      
-        
+        ProcessPara pp = (ProcessPara) p;
+
+        if (pp.getCircusProcess().getAnn(OnTheFlyDefAnn.class) == null)
+        {
+          throw new UnsupportedAstClassException("Invalid on-the-fly process definition within ZSect " + sectName);
+        }
+        if (pp.getZGenFormals() != null && !pp.getZGenFormals().isEmpty())
+        {
+          throw new UnsupportedAstClassException("On-the-fly process definition within ZSect " + sectName + " cannot have formal generic parameters.");
+        }
+
         result.add(pp);
       }
     }
     return result;
   }
-  
+
   public static CircusFieldList assertCircusFieldList(Term term)
   {
     if (term instanceof CircusFieldList)
@@ -277,7 +287,7 @@ public final class CircusUtils
       String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
-  
+
   public static CircusFactoryImpl assertCircusFactoryImpl(Object factory)
   {
     if (factory instanceof CircusFactoryImpl)
@@ -288,7 +298,7 @@ public final class CircusUtils
       String.valueOf(factory);
     throw new UnsupportedAstClassException(message);
   }
-  
+
   public static ActionTransformerPred assertActionTransformerPred(Term term)
   {
     if (term instanceof ActionTransformerPred)
@@ -299,7 +309,7 @@ public final class CircusUtils
       "Expected a ActionTransformerPred but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
-  
+
   public static ProcessTransformerPred assertProcessTransformerPred(Term term)
   {
     if (term instanceof ProcessTransformerPred)
@@ -310,7 +320,7 @@ public final class CircusUtils
       "Expected a ActionTransformerPred but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
-  
+
   public static CircusCommunicationList assertCircusCommunicationList(Term term)
   {
     if (term instanceof CircusCommunicationList)
@@ -321,7 +331,7 @@ public final class CircusUtils
       "Expected a CircusCommunicationList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
-  
+
   /**
    * <p>
    * Returns the communication type based on the pattern of the given list of communication fields.
@@ -337,31 +347,46 @@ public final class CircusUtils
    * </ul>
    * </p>
    */
-    public static CommPattern retrieveCommPattern(List<Field> fields) {
-      CommPattern result = null;
-      if (fields.isEmpty()) {
-        result = CommPattern.Synch;
-      } else {        
-        int input = 0;
-        int output = 0;
-        for (Field f : fields) {
-          if (f instanceof InputField)
-            input++;
-          else if (f instanceof DotField)
-            output++;
-        }
-        if (input > 0 && output > 0)
-          result = CommPattern.Mixed;
-        else if (input > 0 && output == 0)
-          result = CommPattern.Input;
-        else if (input == 0 && output > 0)
-          result = CommPattern.Output;                        
-      }
-      assert result != null : 
-        "Invalid communication pattern. The communication is neither of synchronisation, " +
-        "input, output, or mixed pattern format. This can only happen with specialised " +
-        "implementations of Field that do not obbey follow any available CommPattern type, " +
-        "and should never happen.";
-      return result;
+  public static CommPattern retrieveCommPattern(List<Field> fields)
+  {
+    CommPattern result = null;
+    if (fields.isEmpty())
+    {
+      result = CommPattern.Synch;
     }
+    else
+    {
+      int input = 0;
+      int output = 0;
+      for (Field f : fields)
+      {
+        if (f instanceof InputField)
+        {
+          input++;
+        }
+        else if (f instanceof DotField)
+        {
+          output++;
+        }
+      }
+      if (input > 0 && output > 0)
+      {
+        result = CommPattern.Mixed;
+      }
+      else if (input > 0 && output == 0)
+      {
+        result = CommPattern.Input;
+      }
+      else if (input == 0 && output > 0)
+      {
+        result = CommPattern.Output;
+      }
+    }
+    assert result != null :
+      "Invalid communication pattern. The communication is neither of synchronisation, " +
+      "input, output, or mixed pattern format. This can only happen with specialised " +
+      "implementations of Field that do not obbey follow any available CommPattern type, " +
+      "and should never happen.";
+    return result;
+  }  
 }
