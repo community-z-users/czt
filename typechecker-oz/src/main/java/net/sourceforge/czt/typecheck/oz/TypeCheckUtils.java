@@ -83,13 +83,24 @@ public class TypeCheckUtils
                                                    boolean useStrongTyping)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useStrongTyping, null);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, useStrongTyping, null);
   }
 
+  public static List<? extends ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   boolean sortDeclNames,
+                                                   boolean useStrongTyping)
+  {
+    TypeCheckUtils utils = new TypeCheckUtils();
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useStrongTyping, null);
+  }
+  
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
+                                                boolean sortDeclNames,
                                                 boolean useStrongTyping,
                                                 String sectName)
   {
@@ -98,6 +109,7 @@ public class TypeCheckUtils
     TypeChecker typeChecker = new TypeChecker(new Factory(zFactory, ozFactory),
                                               sectInfo,
                                               useBeforeDecl,
+                                              sortDeclNames,
                                               useStrongTyping);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.visitTerm(term);
