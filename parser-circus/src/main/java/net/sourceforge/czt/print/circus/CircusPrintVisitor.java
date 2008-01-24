@@ -249,7 +249,7 @@ public class CircusPrintVisitor
         // local para cannot be on-the-fly
         if (CircusUtils.isOnTheFly(next)) {
             warnLocalOnTheFly(next, term);
-        } else if (CircusUtils.isCircusState(next)) {
+        } else if (CircusUtils.isStatePara(next)) {
             // if it is state, it can only appear once
             if (processedState_) {
                 warnDuplicatedState(next);
@@ -308,7 +308,7 @@ public class CircusPrintVisitor
         if (!CircusUtils.isOnTheFly(term)) {
             visit(term.getCallExpr());
             printActualParams(term.getZActuals(),
-                CallKind.Index.equals(term.getCallKind()));
+                CallUsage.Index.equals(term.getCallUsage()));
         } else {
             throw new PrintException("On-the-fly process calls must be processed by the AstToPrintTreeVisitor.");
         }
@@ -502,7 +502,7 @@ public class CircusPrintVisitor
     public Object visitActionPara(ActionPara term) {
         throw new PrintException("Unexpected term ActionPara");
    /* print(CircusToken.CIRCUSACTION);
-    if (CircusUtils.isCircusState(term)) {
+    if (CircusUtils.isStatePara(term)) {
         if (processedState_) {
             warnDuplicatedState(term);
         } else {

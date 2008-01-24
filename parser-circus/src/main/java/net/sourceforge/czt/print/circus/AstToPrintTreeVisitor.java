@@ -114,7 +114,7 @@ public class AstToPrintTreeVisitor
   {
     List<Object> list = new ArrayList<Object>();
     list.add(CircusToken.CIRCUSACTION);
-    if (CircusUtils.isCircusState(term))
+    if (CircusUtils.isStatePara(term))
     {
       if (processedState_)
       {
@@ -168,7 +168,7 @@ public class AstToPrintTreeVisitor
       {
         getWM().warnLocalOnTheFly(next, term);
       }
-      else if (CircusUtils.isCircusState(next))
+      else if (CircusUtils.isStatePara(next))
       {
         // if it is state, it can only appear once
         if (processedState_)
