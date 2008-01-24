@@ -1,5 +1,5 @@
-  static final int USED_NAMESETS_INDEX   = USED_CHANNELS_INDEX+1;
-  static final int STATE_SIGNATURE_INDEX = USED_CHANNELS_INDEX+2;
+  static final int USED_NAMESETS_INDEX   = FORMAL_PARAMS_INDEX+1;
+  static final int STATE_SIGNATURE_INDEX = FORMAL_PARAMS_INDEX+2;
   
   static final int ZLOCAL_SIGNATURES_INDEX = MAIN_SIGNATURES_INDEX+1;
   static final int ACTION_SIGNATURES_INDEX = MAIN_SIGNATURES_INDEX+2;  
@@ -51,5 +51,3 @@
    * ZSignatureList and throws a UnsupportedAstClassException otherwise.
    */
   net.sourceforge.czt.circus.ast.ActionSignatureList getActionSignatures();
-
-

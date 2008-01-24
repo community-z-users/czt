@@ -1,5 +1,4 @@
   static final int FORMAL_PARAMS_INDEX = 0;
-  static final int USED_CHANNELS_INDEX = 1;
 
   static final int MAIN_SIGNATURES_INDEX = 0;
 
@@ -36,7 +35,7 @@
 
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
-   * signature of param or indexes of a process. The difference is given by the getKind() method.  
+   * signature of param or indexes of a process. The difference is given by the getUsage() method.  
    * It returns the Signature from getMainSignatures().get(FORMAL_PARAMS_INDEX). It may throw a
    * a UnsupportedAstClassException from getMainSignatures().
    */
@@ -52,17 +51,9 @@
 
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
-   * signature of used channels by this process. This (possibly) includes channels used 
-   * by its actions, in case it is a BasicProcessSignature.
-   * It returns the Signature from getMainSignatures().get(USED_CHANNELS_INDEX). It may throw a
-   * a UnsupportedAstClassException from getMainSignatures().
+   * list of used channels within the communications of this action. This includes 
+   * generic, implicit, or normal communications. It may throw a UnsupportedAstClassException 
+   * from getCommunicationList().
    */
-  net.sourceforge.czt.z.ast.Signature getUsedChannels();
+  net.sourceforge.czt.circus.ast.CircusCommunicationList getUsedCommunications();
 
-  /**
-   * This is a convenience method. It sets the given non-null (possibly empty)  
-   * signature of the used channels signature of this process.
-   * It is the same as getMainSignatures().set(USED_CHANNELS_INDEX, sig). It may throw a
-   * a UnsupportedAstClassException from getMainSignatures().
-   */
-  void setUsedChannels(net.sourceforge.czt.z.ast.Signature sig);

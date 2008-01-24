@@ -10,6 +10,24 @@
   /** Creates an empty BasicChannelSet. This is a convenience method */
   CircusChannelSet createEmptyCircusChannelSet();
   
+  /**
+   * Creates the synchronisation channel name. This creates a ZName without strokes or ID
+   * and with CircusString.CIRCUSSYNCH string as the name.
+   */
+  ZName createSynchName();
+
+  /**
+   * Creates the synchronisation channel type. It creates a power type of a given type 
+   * containing createSynchName() as the given type name.
+   */
+  PowerType createSynchType();
+  
+  ActionSignature createActionSignature(
+    net.sourceforge.czt.z.ast.Name actionName, 
+    net.sourceforge.czt.z.ast.Signature formals, 
+    net.sourceforge.czt.z.ast.Signature localVars, 
+    CommunicationList usedChannels);    
+
   /** 
    * Creates a CircusProcessSignature properly packing the last two signatures
    * within the rather complex AST structure underneath.
@@ -18,16 +36,17 @@
       net.sourceforge.czt.z.ast.Name name, 
       net.sourceforge.czt.z.ast.ZNameList genFormals,
       net.sourceforge.czt.z.ast.Signature paramOrIndexes,
-      net.sourceforge.czt.z.ast.Signature usedChannels,
-      ProcessKind kind);
+      CommunicationList usedChannels,
+      ProcessUsage usage);
 
   BasicProcessSignature createBasicProcessSignature(
     net.sourceforge.czt.z.ast.Name name,
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
-    net.sourceforge.czt.z.ast.Signature usedChannels,
-    ProcessKind kind,
+    CommunicationList usedChannels,
+    ProcessUsage usage,
     net.sourceforge.czt.z.ast.Signature usedNameSets,
+    net.sourceforge.czt.z.ast.ZNameList declTransformerPara,    
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ZSignatureList localZParagraphs,
     ActionSignatureList processActions,
@@ -41,24 +60,13 @@
       net.sourceforge.czt.z.ast.Name name, 
       net.sourceforge.czt.z.ast.ZNameList genFormals,
       net.sourceforge.czt.z.ast.Signature paramOrIndexes,
-      net.sourceforge.czt.z.ast.Signature usedChannels,
-      ProcessKind kind,
+      CommunicationList usedChannels,
+      ProcessUsage usage,
       net.sourceforge.czt.z.ast.Signature usedNameSets,
+      net.sourceforge.czt.z.ast.ZNameList declTransformerPara,
       net.sourceforge.czt.z.ast.Signature stateSignature,
       ZSignatureList localZParagraphs,
       ActionSignatureList processActions); 
-
-  /**
-   * Creates the synchronisation channel name. This creates a ZName without strokes or ID
-   * and with CircusString.CIRCUSSYNCH string as the name.
-   */
-  ZName createSynchName();
-
-  /**
-   * Creates the synchronisation channel type. It creates a power type of a given type 
-   * containing createSynchName() as the given type name.
-   */
-  PowerType createSynchType();
   
   /**
    * Creates an empty action signature. That is, an action signature with null name,
@@ -67,3 +75,7 @@
    * containing the two empty signatures for formal parameters and local variables.
    */
   ActionSignature createEmptyActionSignature();
+  
+  ProcessSignature createEmptyCircusProcessSignature();
+  
+  BasicProcessSignature createEmptyBasicProcessSignature();

@@ -14,7 +14,7 @@
     List<net.sourceforge.czt.z.ast.Para> result = new ArrayList<net.sourceforge.czt.z.ast.Para>();
     for(net.sourceforge.czt.z.ast.Para para : getZParaList())
     {
-      if (net.sourceforge.czt.circus.util.CircusUtils.isCircusState(para))
+      if (net.sourceforge.czt.circus.util.CircusUtils.isStatePara(para))
       {
         result.add(para);
       }
@@ -26,7 +26,7 @@
     net.sourceforge.czt.z.ast.Para r = result.get(0);
     
     assert result.size() == 1 && 
-           net.sourceforge.czt.circus.util.CircusUtils.isCircusState(r);
+           net.sourceforge.czt.circus.util.CircusUtils.isStatePara(r);
     
     // state  is actionPara ==> OnTheFlyAction    
     assert (!(r instanceof net.sourceforge.czt.circus.ast.ActionPara) || 
@@ -78,13 +78,21 @@
     {
       if (para instanceof net.sourceforge.czt.circus.ast.ActionPara)
       {
-        net.sourceforge.czt.circus.ast.ActionPara ap = (net.sourceforge.czt.circus.ast.ActionPara)para;
-        if (ap.getCircusAction().getAnn(net.sourceforge.czt.circus.ast.OnTheFlyDefAnn.class) != null)
+        if (net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(para))
         {
-          result.add(ap);
+          result.add((ActionPara)para);
         }
       }
     }
     return java.util.Collections.unmodifiableList(result);
   }  
 
+  public net.sourceforge.czt.z.ast.Name getStateParaName()
+  {
+    return net.sourceforge.czt.circus.util.CircusUtils.getSchemaName(getStatePara());
+  }
+
+  public net.sourceforge.czt.z.ast.ZName getStateParaZName()
+  {
+    return net.sourceforge.czt.z.util.ZUtils.assertZName(getStateParaName());
+  }
