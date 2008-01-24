@@ -18,13 +18,9 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
-import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZParaList;
@@ -55,20 +51,19 @@ public class SpecChecker extends Checker<Object>
     zSpecChecker_ = new net.sourceforge.czt.typecheck.z.SpecChecker(typeChecker);   
       
     /* NOTE: add the type for SYNCH given type. The OZ typechecker uses
-     *       a special OIDType AST class. I will assume this is not needed for us.
+     *       a special OIDType AST class. This is not needed for us because
+     *       we assume the user won't add a given type with the same name
+     *       (which contains special chars, e.g., $$SYNCH).
      *    
      *       CircusUtils has the same name and type available, but without 
-     *       the proper ID as created by the typechecker. We update this here.
-     */ 
-    ZName synchName = factory().createSynchName();
-    PowerType synchType = factory().createSynchType(); 
-    NameSectTypeTriple triple =
-      factory().createNameSectTypeTriple(synchName, CircusUtils.CIRCUS_PRELUDE, synchType);
-    
-    // update ID for CircusUtils global instance of SYNCH channels
-    CircusUtils.SYNCH_CHANNEL_NAME.setId(synchName.getId());
-    
-    sectTypeEnv().add(triple);
+     *       the proper ID as created by the typechecker. We update this in Factory.
+     */     
+    NameSectTypeTriple synchTriple = factory().createNameSectTypeTriple(
+      factory().createSynchName(), CircusUtils.CIRCUS_PRELUDE, factory().createSynchType());
+    NameSectTypeTriple transformerTriple = factory().createNameSectTypeTriple(
+      factory().createTransformerName(), CircusUtils.CIRCUS_PRELUDE, 
+      factory().createTransformerType());    
+    sectTypeEnv().add(factory().list(synchTriple, transformerTriple));
   }
 
   /**
@@ -76,6 +71,7 @@ public class SpecChecker extends Checker<Object>
    * reach the global Checker.visitTerm, which cathes and flags it 
    * as an AST error.
    */
+  @Override
   public Object visitTerm(Term term)
   {
     // for all other terms, just use th zSpecChecker.
@@ -87,6 +83,7 @@ public class SpecChecker extends Checker<Object>
    * This typechecks all top-level elements as well as on-the-fly processes.
    * It also performs post processings for mutually recursive processes.
    */
+  @Override
   public Object visitZParaList(ZParaList term)
   {
     // typecheck all paragraphs: both top-level and implicitly declared processes.
@@ -102,13 +99,7 @@ public class SpecChecker extends Checker<Object>
      *       page 51 of Manuela MSc's. 
      */    
     // set the implicitly declared processes list, which is important for calls
-    setOnTheFlyProcesses(CircusUtils.getZSectImplicitProcessPara(term));
-    
-    // postcheck is needed for the case of mutually recursive processes: A \defs B e B \defs A ...
-    if (needPostCheck())
-    {
-      postProcessCallCheck();
-    }
+    setOnTheFlyProcesses(CircusUtils.getZSectImplicitProcessParaList(sectName(), term));
     
     // ZParaList is the only production here that DOES NOT return 
     // a List<NameTypeTripple>, just like in the zSpeckChecker.

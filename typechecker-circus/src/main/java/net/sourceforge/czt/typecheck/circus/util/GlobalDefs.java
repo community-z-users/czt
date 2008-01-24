@@ -10,12 +10,13 @@
 
 package net.sourceforge.czt.typecheck.circus.util;
 
-import java.util.EnumSet;
+import java.util.Map;
+import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.CommPattern;
-import net.sourceforge.czt.z.ast.Name;
-import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.circus.ast.CommunicationList;
+import net.sourceforge.czt.circus.ast.NameSetType;
+import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.ZNameList;
-import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * 
@@ -29,6 +30,16 @@ public class GlobalDefs
   public static final KindOfProcess INDEX = KindOfProcess.INDEX;
   public static final KindOfProcess GEN = KindOfProcess.GEN;  
 
+  //non-safe typecast
+  public static ActionType actionType(Object o)
+  {
+    return (ActionType) o;
+  }
+  
+  public static NameSetType nameSetType(Object o)
+  {
+    return (NameSetType) o;
+  }
   
   /**
    * This is a convenience method. It filters the getUsedCommunications() communication list

@@ -1,32 +1,32 @@
 /*
-  Copyright (C) 2007 Leo Freitas
-  This file is part of the czt project.
-
-  The czt project contains free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
-
-  The czt project is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+Copyright (C) 2007 Leo Freitas
+This file is part of the czt project.
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
+import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.SigmaExpr;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
 import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
 import net.sourceforge.czt.circus.visitor.SigmaExprVisitor;
 import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
 
@@ -36,9 +36,9 @@ import net.sourceforge.czt.z.ast.Type2;
  *
  * @author Leo Freitas
  */
-public class ExprChecker  
+public class ExprChecker
   extends Checker<Type2>
-  implements BasicChannelSetExprVisitor<Type2>, 
+  implements BasicChannelSetExprVisitor<Type2>,
              CircusChannelSetVisitor<Type2>,
              SigmaExprVisitor<Type2>
 {
@@ -49,19 +49,24 @@ public class ExprChecker
   {
     super(typeChecker);
     zExprChecker_ = new net.sourceforge.czt.typecheck.z.ExprChecker(typeChecker);
+    
+    // adds type annotation to these circus expressions 
+    CircusUtils.SYNCH_CHANNEL_EXPR.accept(this);
+    CircusUtils.TRANSFORMER_EXPR.accept(this);  
   }
 
   /**
    * For all other expression terms, use the standard Z typechecking rules 
    * within the checking environment for Circus. This also includes expression lists.
-   *
-   *@law C.18.1, C.18.2, C.18.5, C.18.7
+   *   
+   * @law C.18.1, C.18.2, C.18.5, C.18.7
    */
+  @Override
   public Type2 visitTerm(Term term)
   {
     return term.accept(zExprChecker_);
   }
-  
+
   /**
    * The type of channel set displays is a signature containing name-type 
    * pairs of each channel element within the display. So, for example, 
@@ -71,20 +76,21 @@ public class ExprChecker
    * <br>
    * POWER_TYPE(CHANNELSET_TYPE(SIGNATURE(<(x,POWER_TYPE(\arithmos)), (y, POWER_TYPE(\arithmos))>)))   * 
    */
+  @Override
   public Type2 visitBasicChannelSetExpr(BasicChannelSetExpr term)
   {
     // check all communications within the channel set display
     List<NameTypePair> pairs = term.getCommunication().accept(commChecker());
-    
+
     // create channel set type with the found pairs as its signature
     Signature channelSetSig = factory().createSignature(pairs);
-    ChannelSetType cstype = factory().createChannelSetType(channelSetSig);    
-    
+    ChannelSetType cstype = factory().createChannelSetType(null, channelSetSig);
+
     // create product type of the collected channel set type as the result.
     PowerType result = factory().createPowerType(cstype);
-    
+
     addTypeAnn(term, result);
-    
+
     return result;
   }
 
@@ -129,40 +135,42 @@ public class ExprChecker
    * condition generation as well.
    * </p>
    */
+  @Override
   public Type2 visitSigmaExpr(SigmaExpr term)
   {
-    // check both the channel and the value types within the SigmaExpr
-    Type2 channelType = term.getChannel().accept(exprChecker());
-    Type2 valueType = term.getValue().accept(exprChecker());
-    
-    // these types MUST be unifiable, otherwise we have a communication outside
-    // its type-domain (ex: c: \nat ...   c.\true)    
-    UResult unified = unificationEnv().unify(channelType, valueType);        
-    if (unified == FAIL)
-    {
-      Object [] params = {term.getChannel().toStirng(),
-        channelType.toString(), valueType.toString()};
-      error(term, ErrorMessage.CANNOT_UNIFY_SIGMAEXPR, params);
-    }    
-    Type2 result = factory().createProdType(factory().list(channelType, valueType));
-    //Type2 result = factory().createPowerType(prodType);
-    
-    addTypeAnn(term, result);
-    
-    return result;
+//    // check both the channel and the value types within the SigmaExpr
+//    Type2 channelType = term.getChannel().accept(exprChecker());
+//    Type2 valueType = term.getValue().accept(exprChecker());
+//    
+//    // these types MUST be unifiable, otherwise we have a communication outside
+//    // its type-domain (ex: c: \nat ...   c.\true)    
+//    UResult unified = unificationEnv().unify(channelType, valueType);        
+//    if (unified.equals(UResult.FAIL))
+//    {
+//      Object [] params = {term.getChannel().toStirng(),
+//        channelType.toString(), valueType.toString()};
+//      error(term, ErrorMessage.CANNOT_UNIFY_SIGMAEXPR, params);
+//    }    
+//    Type2 result = factory().createProdType(factory().list(channelType, valueType));
+//    //Type2 result = factory().createPowerType(prodType);
+//    
+//    addTypeAnn(term, result);
+//    
+//    return result;
+    return null;
   }
-  
 //  // CSExpression
 //  /* TODO: Check... these seems wrong as term.accept(paraChecker())
 //           will return a Signature rather than a Type2. if this is right,
 //           the visiting protocol became mixed up without a clear reason.
-   public Type2 visitCircusChannelSet(CircusChannelSet term)
+  public Type2 visitCircusChannelSet(CircusChannelSet term)
   {
-    Type2 type = term.getExpr().accept(exprChecker());        
-    Signature sig = type.accept(signatureChecker());
-    ChannelSetType result = factory().createChannelSetType(sig);
-    addTypeAnn(term, result);    
-    return result;
+//    Type2 type = term.getExpr().accept(exprChecker());
+//    Signature sig = type.accept(signatureChecker());
+//    ChannelSetType result = factory().createChannelSetType(sig);
+//    addTypeAnn(term, result);
+//    return result;
+    return  null;
   }
 //  
 //  // NSExpression

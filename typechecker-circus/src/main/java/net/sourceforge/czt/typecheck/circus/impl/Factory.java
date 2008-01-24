@@ -27,8 +27,10 @@ import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.util.CircusString;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.typecheck.z.impl.VariableType;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
@@ -46,16 +48,17 @@ public class Factory
 {
   /** The CircusToolsFactory that is used to create wrapped types. */
   protected CircusFactory circusFactory_;
-  
-  private final ZName synchNameWithID_;
-
+    
   public Factory()
   {
     super();
     //zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     circusFactory_ = new CircusFactoryImpl();
-    //creates a SYNCH_CHANNEL NAME with ID.
-    synchNameWithID_ = createZDeclName(CircusString.CIRCUSSYNCH);
+    
+    //creates a synchronisation channel and transformer paragraph type names with ID.    
+    //i.e., all ZNames in CircusUtils MUST be initialised here ;-)
+    overwriteNameID(CircusUtils.SYNCH_CHANNEL_TYPE_NAME);
+    overwriteNameID(CircusUtils.TRANSFORMER_TYPE_NAME);        
   }
 
   public Factory(ZFactory zFactory)
@@ -85,7 +88,8 @@ public class Factory
 
   public BasicChannelSetExpr createBasicChannelSet(List<Communication> comms)
   {
-    BasicChannelSetExpr result = circusFactory_.createBasicChannelSetExpr(comms);
+    BasicChannelSetExpr result = circusFactory_.createBasicChannelSetExpr(
+      circusFactory_.createCircusCommunicationList(comms));
     return result;
   }
  
@@ -95,20 +99,20 @@ public class Factory
     return result;
   }
 
-  public ProcessSignature createProcessSignature()
+  public ProcessSignature createEmptyCircusProcessSignature()
   {
-    return circusFactory_.createProcessSignature();
+    return circusFactory_.createEmptyCircusProcessSignature();
   }
   
-  public BasicProcessSignature createBasicProcessSignature()
+  public BasicProcessSignature createEmptyBasicProcessSignature()
   {
-    return circusFactory_.createBasicProcessSignature();
+    return circusFactory_.createEmptyBasicProcessSignature();
   }
 
-  public ProcessType createProcessType()
-  {    
-    return createProcessType(circusFactory_.createProcessSignature());
-  }
+//  public ProcessType createProcessType()
+//  {    
+//    return createProcessType(createEmptyProcessSignature());
+//  }
 
   public ProcessType createProcessType(ProcessSignature procSig)
   {
@@ -123,7 +127,7 @@ public class Factory
   
   public ActionType createActionType()
   {    
-    return createActionType(circusFactory_.createActionSignature());
+    return createActionType(createEmptyActionSignature());
   }
 
   public ActionType createActionType(ActionSignature actionSig)
@@ -141,10 +145,10 @@ public class Factory
     return chanSetType;
   }
 
-  public ChannelSetType createChannelSetType(Signature channelsSig)
+  public ChannelSetType createChannelSetType(Name name, Signature channelsSig)
   {
     assert false : "TODO: resolve generics";    
-    ChannelSetType chanSetType = circusFactory_.createChannelSetType(channelsSig);    
+    ChannelSetType chanSetType = circusFactory_.createChannelSetType(name, channelsSig);    
     return chanSetType;
   }
   
@@ -156,9 +160,9 @@ public class Factory
     return nameSetType;
   }
 
-  public NameSetType createNameSetType(Signature namesSig)
+  public NameSetType createNameSetType(Name name, Signature namesSig)
   {
-    NameSetType nameSetType = circusFactory_.createNameSetType(namesSig);    
+    NameSetType nameSetType = circusFactory_.createNameSetType(name, namesSig);    
     return nameSetType;
   }
 
@@ -180,10 +184,10 @@ public class Factory
     assert false : "TODO: resolve generics";    
     
     // innermost corejava AST-impl type with underlying type.
-    ChannelType channelType = factory_.createChannelType(type);
+    ChannelType channelType = circusFactory_.createChannelType(type);
     
     // outermost typechecker AST-impl type potentially with variable types.
-    ChanneltType result = new ChannelTypeImpl(channelType);
+    ChannelType result = new ChannelTypeImpl(channelType);
     return result;
   }
   
@@ -212,13 +216,22 @@ public class Factory
   
   public ZName createSynchName()
   {
-    return synchNameWithID_;
+    return CircusUtils.SYNCH_CHANNEL_TYPE_NAME;
   }
   
+  public ZName createTransformerName()
+  {
+    return CircusUtils.TRANSFORMER_TYPE_NAME;
+  }  
+  
   public PowerType createSynchType()
-  {       
-    PowerType result = createPowerType(createGivenType(createSynchName()));
-    return result;
+  {           
+    return CircusUtils.SYNCH_CHANNEL_TYPE;
+  }
+  
+  public PowerType createTransformerType()
+  {           
+    return CircusUtils.TRANSFORMER_TYPE;
   }
   
   public Signature createSignature(NameTypePair pair)

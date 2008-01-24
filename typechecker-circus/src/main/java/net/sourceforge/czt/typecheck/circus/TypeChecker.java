@@ -18,17 +18,15 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
-import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.CircusAction;
+import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
-import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.typecheck.circus.impl.ChannelInfo;
-import net.sourceforge.czt.typecheck.circus.impl.ProcessInfo;
 import net.sourceforge.czt.typecheck.circus.util.CarrierSet;
-import net.sourceforge.czt.typecheck.circus.util.GenChannelDeclChecker;
-import net.sourceforge.czt.typecheck.circus.util.ChannelsUsedChecker;
 import net.sourceforge.czt.typecheck.circus.util.TypeEnv;
 import net.sourceforge.czt.typecheck.circus.util.UnificationEnv;
 import net.sourceforge.czt.typecheck.z.SchTextChecker;
@@ -65,6 +63,9 @@ public class TypeChecker
    * not typechecking a action paragraph.
    */
   protected Name currentActionName_;
+  
+  protected CircusProcess currentProcess_;
+  protected CircusAction currentAction_;
 
   /**
    * The name of the current state process
@@ -101,23 +102,27 @@ public class TypeChecker
   protected Checker<List<NameTypePair>> commChecker_;
   protected Checker<ProcessSignature> processChecker_;
   protected Checker<Signature> processParaChecker_;
+  protected BasicProcessChecker basicProcessChecker_;
   // auxiliar visitor to typechecker a channel declaration
   protected Checker<Boolean> channelDeclChecker_;
   // auxiliar visitor to find used channels into a process
   protected Checker<NameList> channelsUsedChecker_;
+  protected boolean shouldCreateLetMu_;
+  protected CircusConcreteSyntaxSymbolVisitor concreteSyntaxSymbolVisitor_;
 
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, false);
+    this(factory, sectInfo, false, false);
   }
 
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo,
-                     boolean useBeforeDecl)
+                     boolean useBeforeDecl,
+                     boolean sortDeclNames)
   {
     // create all the checkers as default - for Z
-    super(factory, sectInfo, useBeforeDecl);     
+    super(factory, sectInfo, useBeforeDecl, sortDeclNames);     
     
     // override the default creation with those for Circus.
     unificationEnv_ = new UnificationEnv(factory);
@@ -136,29 +141,34 @@ public class TypeChecker
     postChecker_ = new PostChecker(this);                    
     signatureChecker_ = new SignatureChecker(this);
     processParaChecker_ = new ProcessParaChecker(this);
+    basicProcessChecker_ = new BasicProcessChecker(this);
     
     actionChecker_ = new ActionChecker(this);
     commandChecker_ = new CommandChecker(this);
     commChecker_ = new CommunicationChecker(this);
     processChecker_ = new ProcessChecker(this);
     
+    concreteSyntaxSymbolVisitor_ = CircusUtils.CIRCUS_CONCRETE_SYNTAXSYMBOL_VISITOR;
+    
     currentProcessName_ = null;
     currentActionName_ = null;
+    currentProcess_ = null;
+    currentAction_ = null;
     stateName_ = null;
     onTheFlyProcesses_ = null;
     circusFormalParameters_ = false;
     shouldCreateLetVars_ = false;
+    shouldCreateLetMu_ = false;    
 
-    channels_ = new ArrayList<ChannelInfo>();
-    
-    chansets_ = getFactory().createZNameList();    
-    muProcesses_ = getFactory().createZNameList();    
-    muActions_ = getFactory().createZNameList();    
-    actions4PostCheck_ = getFactory().createZNameList();    
-    
-    // auxiliar visitors
-    channelDeclChecker_ = new GenChannelDeclChecker(this);
-    channelsUsedChecker_ = new ChannelsUsedChecker(this);
+//    channels_ = new ArrayList<ChannelInfo>();
+//    chansets_ = getFactory().createZNameList();    
+//    muProcesses_ = getFactory().createZNameList();    
+//    muActions_ = getFactory().createZNameList();    
+//    actions4PostCheck_ = getFactory().createZNameList();    
+//    
+//    // auxiliar visitors
+//    channelDeclChecker_ = new GenChannelDeclChecker(this);
+//    channelsUsedChecker_ = new ChannelsUsedChecker(this);
     
     // override default type environment classes to be 
     // a Circus type environment, which allows extra info for checkers.

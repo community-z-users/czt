@@ -14,5 +14,7 @@ parser/doc/changes.rss
 parser/doc/favicon.ico
 parser/doc/images
 parser/doc/skin
+typechecker-circus/nbproject
+typechecker-circus/target
 typechecker/doc
 zlive/doc/api

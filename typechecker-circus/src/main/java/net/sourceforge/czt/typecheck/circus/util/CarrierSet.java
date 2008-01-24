@@ -100,6 +100,7 @@ public class CarrierSet
     circusFactory_ = new net.sourceforge.czt.circus.util.Factory(circusFactory);
   }
   
+  @Override
   public Term visitChannelType(ChannelType term)
   {
     Type2 type = term.getType();
@@ -182,9 +183,11 @@ public class CarrierSet
   {
     SchText paramOrIndexes = (SchText)term.getParamOrIndexes().accept(this);    
     Signature paramOrIndexesCarrier = schTextToSignature(ZUtils.assertZSchText(paramOrIndexes));     
-    ProcessSignature result = circusFactory_.createCircusProcessSignature(
-      term.getProcessName(), term.getGenFormals(), paramOrIndexesCarrier, term.getKind());
-    return result;
+    //ProcessSignature result = circusFactory_.createCircusProcessSignature(
+    //  term.getProcessName(), term.getGenFormals(), paramOrIndexesCarrier, term.getKind());
+    //return result;
+    assert false ;
+    return null;
   }
   
   public Term visitBasicProcessSignature(BasicProcessSignature term)
@@ -195,11 +198,12 @@ public class CarrierSet
   public Term visitActionType(ActionType term)
   {
     ActionSignature sig = term.getActionSignature();
-    checkForNullSignature(sig, "Null signature for ActionType " + term);            
+    //checkForNullSignature(sig, "Null signature for ActionType " + term);            
     SchText schText = (SchText) sig.accept(this);
     return schText;
   }  
   
+  @Override
   public Term visitActionSignature(ActionSignature term)
   {
     return null;

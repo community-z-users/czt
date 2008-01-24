@@ -18,26 +18,14 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
+import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.BasicProcess;
+import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
-import net.sourceforge.czt.circus.visitor.AlphabetisedParallelProcessIteVisitor;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
-import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
-import net.sourceforge.czt.circus.visitor.HideProcessVisitor;
-import net.sourceforge.czt.circus.visitor.IndexedProcessVisitor;
-import net.sourceforge.czt.circus.visitor.InterleaveProcessIdxVisitor;
-import net.sourceforge.czt.circus.visitor.InterleaveProcessIteVisitor;
-import net.sourceforge.czt.circus.visitor.InterleaveProcessVisitor;
-import net.sourceforge.czt.circus.visitor.ParallelProcessIdxVisitor;
-import net.sourceforge.czt.circus.visitor.ParallelProcessIteVisitor;
-import net.sourceforge.czt.circus.visitor.ParallelProcessVisitor;
-import net.sourceforge.czt.circus.visitor.ParamProcessVisitor;
-import net.sourceforge.czt.circus.visitor.Process1Visitor;
-import net.sourceforge.czt.circus.visitor.Process2Visitor;
-import net.sourceforge.czt.circus.visitor.ProcessDVisitor;
-import net.sourceforge.czt.circus.visitor.ProcessIdxVisitor;
-import net.sourceforge.czt.circus.visitor.ProcessIteVisitor;
-import net.sourceforge.czt.circus.visitor.RenameProcessVisitor;
-import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ZParaList;
 
 /**
  * This visitor produces a ProocessSignature for each Circus process class.
@@ -210,105 +198,57 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //        
 //    return signature;
 //  }  
-//  
-//  // Process ::= begin PParagraph* state StateParagraph PParagraph* @ Action end
-//  // Process ::= begin PParagraph* @ Action end
-//  //ok - verificado em 15/09/2005 às 19:11
-//  public ProcessSignature visitBasicProcess(BasicProcess term)
-//  {
-//    BasicProcessSignature procSignature = factory().createBasicProcessSignature();
-//    
-//    RefName state = term.getStateSchema();
-//    
-//    if(state != null) {
-//      setStateName(assertZRefName(state).getDecl());
-//    }
-//    localCircTypeEnv().getOnTheFlyActions().addAll(term.getOnTheFlyActionPara());
-//    
-//    List<Para> zParas = term.getZPara();
-//    List<NameTypePair> pairs = new ArrayList<NameTypePair>();
-//    
-//    for(Para zPara : zParas){
-//
-//      Signature signature = zPara.accept(paraChecker());
-//
-//      if(state != null && isSchExprAction(zPara)) {
-//        NameTypePair pairSig = (NameTypePair)signature.getNameTypePair().get(0);
-//        ZDeclName actionName = pairSig.getZDeclName();
-//        SchemaType schType = (SchemaType)((PowerType)pairSig.getType()).getType();
-//        Signature vars = schType.getSignature();
-//        
-//        // cria um actionSignature aqui pois é um caso especial de zPara que
-//        // o parser não tem como identificar se é ou não uma ação.
-//        // Se o esquema referencia o estado, é ação!
-//        ActionSignature actSig = factory().createActionSignature();
-//        actSig.setActionName(actionName);
-//        actSig.setLocalVarsSignature(vars);
-//        // adiciona a ação na lista de ações do TypeChecker
-//        if(!localCircTypeEnv().addAction(actionName)) {
-//          Object [] params = {actionName.getWord(), assertZDeclName(currentProcess()).getWord()};
-//          error(term, ErrorMessage.REDECLARED_ACTION_NAME, params);
-//        }
-//
-//        // armazena o parágrafo como uma ação na assinatura do processo
-//        procSignature.getActionsSignature().add(actSig);
-//
-////        ActionType actType = factory().createActionType(actSig);
-////        typeEnv().add(actionName, actType);
-//
-//        typeEnv().add(pairSig);
-//        
-//      }
-//      else {
-//        procSignature.getLocalZDeclsSignature().add(signature);
-//
-//        pairs = (List<NameTypePair>)signature.getNameTypePair();
-//        typeEnv().add(pairs);
-//
-//        if(state != null && procSignature.getStateSignature() == null) {
-//          for(NameTypePair pair : pairs){
-//            if(pair.getDeclName().equals(assertZRefName(state).getDecl())) {
-//              List<NameTypePair> listPair = new ArrayList<NameTypePair>();
-//              listPair.add(pair);
-//              Signature stateSig = factory().createSignature(listPair);
-//              procSignature.setStateSignature(stateSig);
-//              addVarsState(pair, term);
-//              break;
-//            }
-//          }
-//        }
-//      } 
-//    }
-//
-//    List<ActionPara> actions = term.getCircusActionPara();
-//    
-//    for(ActionPara action : actions) {
-//      Signature signature = action.accept(paraChecker());
-//      ActionType actionType = (ActionType)((NameTypePair)signature.getNameTypePair().get(0)).getType();
-//      ActionSignature actionSignature = actionType.getActionSignature();
-//      procSignature.getActionsSignature().add(actionSignature);
-//    }
-//    
-//    List<NameSetPara> namesets = term.getCircusNameSetPara();
-//    
-//    for(NameSetPara nameset : namesets) {
-//      Signature namesetSignature = nameset.accept(paraChecker());
-//      DeclName name = ((NameTypePair)namesetSignature.getNameTypePair().get(0)).getDeclName();
-//      procSignature.getDeclNameSets().add(name);
-//    }
-//    
-//    CircusAction mainAction = term.getMainAction();
-//    ActionSignature mainActionSig = mainAction.accept(actionChecker());
-//    ActionSignature mainSignature = cloneActionSignature(mainActionSig);
-//    mainSignature.setActionName(factory().createZDeclName("$$mainAction", null, null));
-//    
-//    procSignature.getActionsSignature().add(mainSignature);
-//    
-//    addProcessAnn(term, procSignature);
-//
-//    return procSignature;
-//    
-//  }
+//   
+  
+  public ProcessSignature visitZParaList(ZParaList term)
+  {
+    // just to double check.
+    checkProcessParaScope(term, null);    
+    assert getCurrentBasicProcess() != null : "Cannot check paragraph list outside basic process";
+    
+    boolean basicProcessFormatInv = true;
+    
+    // sets the visitor current signature as a fresh signature.
+    BasicProcessSignature result = factory().createEmptyBasicProcessSignature();
+    basicProcessChecker().setCurrentBasicProcessSignature(result);
+    
+    for(Para para : term)
+    {
+      assert CircusUtils.isCircusInnerProcessPara(para) : 
+        "invalid process paragraph for " + getCurrentProcessName();
+      
+      // check and fill the basic process signature
+      para.accept(basicProcessChecker());
+    }
+    
+    // clear the visitor's current signature.
+    basicProcessChecker().setCurrentBasicProcessSignature(null);
+    
+    // no sig annotation need to be added here.
+    return result;
+  }
+  
+  @Override
+  public ProcessSignature visitBasicProcess(BasicProcess term)
+  {
+    checkProcessParaScope(term, null);
+    
+    // check the paragraph list of a basic process. 
+    // this includes the main action, state paragraph,
+    // on-the-fly actions, and other usual circus and paragraphs.
+    ProcessSignature processSignature = term.getZParaList().accept(processChecker());
+    
+    //procSignature.setParamOrIndexes(null); <- ParamProcess
+    //procSignature.setGenFormals(null);     <- ProcessPara
+    //procSignature.setProcessName(null);    <- ProcessPara+addProcSignature
+    //procSignature.setStateUpdate(null);    <- ??
+        
+    // adds the signature and the current process name 
+    addProcessSignatureAnn(term, processSignature);
+
+    return processSignature;
+    
+  }
 //
 //  // Process ::= N
 //  // Process ::= N(Expression+)
@@ -869,27 +809,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //      }
 //    }
 //    return result;
-//  }
-//
-//  private void addVarsState(NameTypePair pair, BasicProcess term) {
-//    ZDeclName stateName = pair.getZDeclName();
-//    SchemaType schType = (SchemaType)((PowerType)pair.getType()).getType();
-//    List<NameTypePair> varsState = schType.getSignature().getNameTypePair();
-//    for(NameTypePair varState : varsState) {
-//      if(!localCircTypeEnv().addStateVar(varState)){
-//        Object [] params = {varState.getZDeclName().getWord(), stateName.getWord()};
-//        error(term, ErrorMessage.REDECLARED_LOCAL_NAME, params);
-//      } 
-//    }
-//
-//    ZDeclName delta = factory().createZDeclName(ZString.DELTA + stateName.getWord(), null, null);
-//    typeEnv().add(delta, pair.getType());
-//    ZDeclName xi = factory().createZDeclName(ZString.XI + stateName.getWord(), null, null);
-//    typeEnv().add(xi, pair.getType());
-//    // TODO: Check strokes here! Seems very strange.
-//    ZDeclName prime = factory().createZDeclName(stateName.getWord() + "'", null, null);
-//    typeEnv().add(prime, pair.getType());
-//  }
+//  }//
 //
 //  // TALVEZ FOSSE MAIS INTERESSANTE AQUI UM VISITOR... TALVEZ EU ESTEJA AMARRANDO
 //  // O CÓDIGO E QUALQUER ALTERAÇÃO NA ESTRUTURA, QUEBRA ESTE MÉTODO...

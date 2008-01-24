@@ -1,0 +1,12 @@
+\begin{zsection}
+  \SECTION InputPrefixStateOverride \parents circus\_toolkit
+\end{zsection}
+
+The $x$ in $c?x$ overrides the state $x$, hence is the output value is the one
+being communicated
+\begin{circus}
+   \circhannel\ c: \nat \cross \nat \\ 
+   \circprocess\ P \circdefs\ \circbegin \\
+        \t1 \circstate S == [~ x: \nat ~] \\
+        \t1 A \circdefs\ c?x!x \then\ x := x + 1 \circseq d!x \then \Skip
+\end{circus}

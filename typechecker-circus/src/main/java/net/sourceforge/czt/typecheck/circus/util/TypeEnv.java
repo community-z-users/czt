@@ -13,18 +13,8 @@ package net.sourceforge.czt.typecheck.circus.util;
 import java.util.Map;
 import java.util.Stack;
 import java.util.List;
-import java.util.ArrayList;
-import net.sourceforge.czt.circus.ast.NameSetType;
-import net.sourceforge.czt.z.ast.Stroke;
-import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.circus.ast.ActionPara;
-import net.sourceforge.czt.circus.ast.ActionType;
-import net.sourceforge.czt.typecheck.circus.impl.ActionInfo;
-import net.sourceforge.czt.typecheck.circus.impl.Factory;
-import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
-import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
@@ -73,11 +63,13 @@ public class TypeEnv
   /**
    * 
    */
+  @Override
   public net.sourceforge.czt.typecheck.circus.impl.Factory getFactory()
   {
     return (net.sourceforge.czt.typecheck.circus.impl.Factory)factory_;
   }
   
+  @Override
   public void enterScope()
   {    
     super.enterScope();
@@ -87,6 +79,7 @@ public class TypeEnv
     genericImplicitChans_.push(genericImplicitChans);    
   }
 
+  @Override
   public void exitScope()
   {    
     usedChans_.pop();

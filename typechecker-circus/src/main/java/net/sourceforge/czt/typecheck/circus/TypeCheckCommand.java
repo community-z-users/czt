@@ -36,8 +36,9 @@ public class TypeCheckCommand
                                                SectionManager manager) {
     boolean useBeforeDecl =
       getBooleanProperty(manager, PROP_TYPECHECK_USE_BEFORE_DECL);
-    //boolean strong =
-    //  getBooleanProperty(manager, PROP_TYPECHECK_SOME_PROP);
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl);
+    boolean sortDeclNames = 
+      getBooleanProperty(manager, PROP_TYPECHECK_SORT_DECL_NAMES);
+    // add other properties later
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, sortDeclNames);
   }
 }

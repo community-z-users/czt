@@ -20,25 +20,18 @@ package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.ast.ActionPara;
-import net.sourceforge.czt.circus.ast.ActionSignature;
-import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.ChannelPara;
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
-import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusProcess;
-import net.sourceforge.czt.circus.ast.NameSet;
-import net.sourceforge.czt.circus.ast.NameSetPara;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.TransformerPara;
-import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
-import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.typecheck.z.util.UResult;
@@ -46,8 +39,8 @@ import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
-import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 
 
@@ -75,16 +68,47 @@ public class ParaChecker
   ChannelSetParaVisitor<Signature>,
   ProcessParaVisitor<Signature>,  
   TransformerParaVisitor<Signature>
-{
+{   
+  /**
+   * Flag to control whether the visitTerm is for a paragraph within or outside a process.  
+   */
+  private boolean isCheckingProcessZPara_;
   
+  /**
+   * Transformer paragraph name.
+   */
+  protected final ZName transformerName_;
+  
+  /**
+   * Transformer paragraph (spurious) type.
+   */
+  protected final Type2 transformerType_;
+
+  
+  /**
+   * Reference to a Z paragraph checker for checking Z paragraphs
+   */
   protected net.sourceforge.czt.typecheck.z.ParaChecker zParaChecker_;
   
   public ParaChecker(TypeChecker typeChecker)
   {
     super(typeChecker);    
-    zParaChecker_ =
-      new net.sourceforge.czt.typecheck.z.ParaChecker(typeChecker);
+    isCheckingProcessZPara_ = false;
+    zParaChecker_ = new net.sourceforge.czt.typecheck.z.ParaChecker(typeChecker);    
+    transformerName_ = factory().createTransformerName();
+    transformerType_ = checkUnificationSpecialType(transformerName_, CircusUtils.TRANSFORMER_TYPE);
   }  
+  
+  /**
+   * This flag controls whether or not the general {@link #visitTerm(Term)}
+   * method is checking a Z paragraph within the current process, or a 
+   * Z paragraph in the global (section) scope.
+   * @param val flag to set 
+   */
+  protected void setCheckingProcessZPara(boolean val)
+  {
+    isCheckingProcessZPara_ = val;
+  }
     
   /**
    * For all other paragraph terms, use the standard Z typechecking rules 
@@ -96,9 +120,10 @@ public class ParaChecker
    *
    *@law C.18.3, C.18.4
    */
+  @Override
   public Signature visitTerm(Term term)
   {
-    // CircusParagraph ::= Paragraph
+    // TODO: do something with isCheckingProcessZPara_ if needed.
     return term.accept(zParaChecker_);
   }
   
@@ -109,6 +134,7 @@ public class ParaChecker
    *
    *@law C.3.3
    */
+  @Override
   public Signature visitChannelPara(ChannelPara term)
   {
     // CircusParagraph ::= channel CDeclaration
@@ -123,15 +149,16 @@ public class ParaChecker
     // check for duplicates within the ChannelPara scope.
     checkForDuplicates(pairs, null);
     
-    // add all pairs to the environment after closing the scopes.
-    // this way, the names are available to the calling (global) scope.
-    typeEnv().add(pairs);
-    
     //create the signature for this paragraph and add it as an annotation
     Signature signature = factory().createSignature(pairs);
     
     //creates a new, overrides existing, or updates variable signatures.
     addSignatureAnn(term, signature);
+    
+    // add all pairs to the environment after closing the scopes.
+    // this way, the names are available to the calling (global) scope.
+    typeEnv().add(pairs);
+    
     
     return signature;
   }
@@ -157,6 +184,7 @@ public class ParaChecker
    *
    *@law C.3.2
    */
+  @Override
   public Signature visitChannelSetPara(ChannelSetPara term)
   {
     // CircusParagraph ::= chanset N == CSExpression
@@ -185,12 +213,16 @@ public class ParaChecker
     NameTypePair pair = factory().createNameTypePair(csName, pType);
     Signature result = factory().createSignature(pair);
     
+    // add channel set power type to ChannelSet
+    addTypeAnn(term.getChannelSet(), pType);
+    // add signature to ChannelSetPara
+    addSignatureAnn(term, result);   
+    
+    
     typeEnv().exitScope();
     
     // add this to the global environment.
     typeEnv().add(pair);
-    
-    addSignatureAnn(term, result);
     
     return result;
   }
@@ -232,6 +264,7 @@ public class ParaChecker
    *
    *@law C.3.4, C.6.1--C.6.8(?) TODO: CHECK:
    */
+  @Override
   public Signature visitProcessPara(ProcessPara term)
   {
     // CircusParagraph ::= ProcessDeclaration
@@ -264,13 +297,14 @@ public class ParaChecker
     ProcessSignature sigProc = process.accept(processChecker());
     sigProc.setProcessName(pName);    
     
-    // retrieve the used channels within this process (see MSc. B.33 FindCP)     
-    List<NameTypePair> usedChans = localCircTypeEnv().getUsedChans();
-    Signature usedChanSig = factory().createSignature(usedChans);
-    sigProc.setUsedChannels(usedChanSig);    
+    // TODO!
+    // retrieve the used channels within this process (see MSc. B.33 FindCP)         
+    //List<NameTypePair> usedChans = circusTypeEnv().getUsedChans();
+    //Signature usedChanSig = factory().createSignature(usedChans);
+    //sigProc.setUsedChannels(usedChanSig);    
     
     // calculate possibly implicit channels within the used ones
-    addImplicitChans(usedChans);       
+    //addImplicitChans(usedChans);       
     
     // TODO: CHECK THIS WORKS checks mutually recursive calls.
     // Manuela: the Circus type rules do not treat this.
@@ -287,35 +321,45 @@ public class ParaChecker
     // create the process type with corresponding signature.
     ProcessType procType = factory().createProcessType(sigProc);
     NameTypePair pair = factory().createNameTypePair(pName, procType);
-    Signature result = factory().createSignature(factorry().list(pair));
+    Signature result = factory().createSignature(factory().list(pair));
+    
+    // add process type to CircusProcess
+    addTypeAnn(term.getCircusProcess(), procType);
+    
+    // add signature to ProcessPara
+    addSignatureAnn(term, result);           
     
     // add to the global list
     typeEnv().add(pair);
     
-    addSignatureAnn(term, result);
-    
     return result;
   }
   
+  @Override
   public Signature visitTransformerPara(TransformerPara term)
   { 
+    // for transformer para, no need to put into context early, since
+    // no reference to such names is possible. so let the checkForDuplicates
+    // at the process level check it.
+    
     UResult solved = term.getTransformerPred().accept(predChecker());
     
     if (solved.equals(UResult.PARTIAL))
     {
       term.getTransformerPred().accept(predChecker());
     }
-        
-    // if not unifiable, this should be a UnknownType.
-    Type2 type = getType2FromAnns(term);
     
-    NameTypePair pair = factory().createNameTypePair(term.getName(), type);
+    NameTypePair pair = factory().createNameTypePair(term.getName(), transformerType_);
     Signature result = factory().createSignature(pair);
     
-    // add to global environment.
-    typeEnv().add(pair);
+    // add transformer pred type to TransformerPred
+    addTypeAnn(term.getTransformerPred(), transformerType_);
     
-    addSignatureAnn(term, result);
+    // add signature to TransformerPara
+    addSignatureAnn(term, result);   
+    
+    // add to global environment.ssss
+    typeEnv().add(pair);
     
     return result;
   }

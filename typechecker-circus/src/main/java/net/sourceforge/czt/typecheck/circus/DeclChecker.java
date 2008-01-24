@@ -18,20 +18,24 @@
  */
 package net.sourceforge.czt.typecheck.circus;
 
-import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.QualifiedDecl;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
 import net.sourceforge.czt.circus.visitor.QualifiedDeclVisitor;
+import net.sourceforge.czt.typecheck.z.util.CarrierSet;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
-import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
@@ -66,6 +70,7 @@ public class DeclChecker
   /**
    * Visits all Z declaration paragraphs. They are:  VarDecl, ConstDecl, InclDecl, and ZDeclList.
    */
+  @Override
   public List<NameTypePair> visitTerm(Term decl)
   {
     return decl.accept(zDeclChecker_);
@@ -79,6 +84,7 @@ public class DeclChecker
    *
    *@law C.4.4, C.16.1
    */
+  @Override
   public List<NameTypePair> visitZDeclList(ZDeclList term)
   {
     // In case we have formal params, it must be VarDecl or QualifiedDecl.
@@ -129,6 +135,7 @@ public class DeclChecker
    *
    *@law C.4.1, C.4.2, C.4.3(?), C.4.4 (within visitZDeclList general protocol)
    */    
+  @Override
   public List<NameTypePair> visitChannelDecl(ChannelDecl term)
   {
     // CDeclaration ::= N+
@@ -149,10 +156,10 @@ public class DeclChecker
     
     // retrieve structures and find out about the nature of the declaration
     Expr expr = term.getExpr();
-    ZNameList declNames = term.getZNameList();    
-    boolean isChannelFrom = declNames.isEmpty();    
-    assert expr != null : 
-      "ALL channels MUST have a type expression (including synch channels). This is a dynamic creation error";
+    ZNameList declNames = term.getZChannelNameList();
+    assert expr != null : "ALL channels MUST have a type expression " +
+      "(including synch channels). This is a dynamic creation error";    
+    boolean isChannelFrom = CircusUtils.isChannelFromDecl(term);    
     
     //we enter a new variable scope for the generic parameters
     //CZT Z typechecker uses a pending() environment for global names
@@ -175,8 +182,7 @@ public class DeclChecker
     // the declaring type must be a power type to be type-correct.
     if (!isChannelFrom)
     {   
-      //expr should be a set expr , just like in varDecl      
-      //ChannelType vChanType = factory().createChannelType();      
+      //expr should be a set expr , just like in varDecl            
       PowerType vType = factory().createPowerType();
       UResult unified = unify(vType, exprType);
             
@@ -226,7 +232,7 @@ public class DeclChecker
         Object[] params = { expr };
         error(expr, ErrorMessage.INVALID_CHANNEL_FROM_DECL, params);        
       }
-    }
+    }    
     
     //exit the pending scope 
     pending().exitScope();
@@ -247,6 +253,7 @@ public class DeclChecker
    *
    *@law C.16.2, C.16.3, C.16.4, C.16.5
    */  
+  @Override
   public List<NameTypePair> visitQualifiedDecl(QualifiedDecl term)
   {
     // QualifiedDeclaration :: = val Declaration
@@ -254,7 +261,7 @@ public class DeclChecker
     // QualifiedDeclaration :: = valres Declaration
     // QualifiedDeclaration :: = QualifiedDeclaration;QualifiedDeclaration
         
-    Lists<NameTypePair> result = factory().list();
+    List<NameTypePair> result = factory().list();
     
     Expr expr = term.getExpr();
     ZNameList declNames = term.getZNameList();

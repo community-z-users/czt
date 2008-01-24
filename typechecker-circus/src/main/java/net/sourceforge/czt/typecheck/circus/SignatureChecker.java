@@ -124,7 +124,7 @@ public class SignatureChecker
    * where the variable names have been constructed using #freshStrName. 
    * The resulting list must have the same size as the given list.
    */
-  protected <T extends Type> List<NameTypePair> createNameTypePairsFromType(T... list)
+  protected <T extends Type> List<NameTypePair> createNameTypePairsFromType(List<T> list)
   {
     List<NameTypePair> result = factory().list();    
     for(T type : list)
@@ -163,7 +163,7 @@ public class SignatureChecker
   public Signature visitType2(Type2 term)
   {
     // this covers: GivenType, GenParamType, VariableType, 
-    List<NameTypePair> pairs = createNameTypePairsFromType(term);
+    List<NameTypePair> pairs = createNameTypePairsFromType(factory().list(term));
     Signature result = factory().createSignature(pairs);
     return result;
   }
@@ -172,13 +172,13 @@ public class SignatureChecker
   public Signature visitUnknownType(UnknownType unknownType)
   {
     Signature result = visitType2(unknownType); // ?
-    throw new UndeterminedTypeException("Cannot extract the signature of a unknown type.");
+    throw new UndeterminedTypeException();
     //return result;
   }  
   
   public Signature visitChannelType(ChannelType term)
   {
-    return term.getSignature();
+    return factory().createSignature();//term.getSignature();
   }
   
   public Signature visitChannelSetType(ChannelSetType term)

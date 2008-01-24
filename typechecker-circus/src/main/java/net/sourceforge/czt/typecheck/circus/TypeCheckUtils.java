@@ -80,7 +80,22 @@ public class TypeCheckUtils
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl)
   {
-    return typecheck(term, sectInfo, useBeforeDecl, null);
+    return typecheck(term, sectInfo, useBeforeDecl, false, null);
+  }
+  
+  /**
+   * Typecheck and type annotate a term, with no default section.
+   * @param term the <code>Term</code> to typecheck (typically a Spec).
+   * @param sectInfo the <code>SectionManager</code> object to use.
+   * @param useBeforeDecl allow use of variables before declaration
+   * @return the list of ErrorAnns in the AST added by the typechecker.
+   */
+  public static List<? extends ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   boolean sortDeclNames)
+  {
+    return typecheck(term, sectInfo, useBeforeDecl, sortDeclNames, null);
   }
   
   /**
@@ -94,9 +109,10 @@ public class TypeCheckUtils
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
+                                                   boolean sortDeclNames,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, false, sectName);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, false, sectName);
   }
   
   /**
@@ -110,9 +126,10 @@ public class TypeCheckUtils
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
+                                                   boolean sortDeclNames,
                                                    boolean useNameIds)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, null);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, null);
   }
   
   /**
@@ -127,16 +144,18 @@ public class TypeCheckUtils
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
+                                                   boolean sortDeclNames,
                                                    boolean useNameIds,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, sectName);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, sectName);
   }
   
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
+                                                boolean sortDeclNames,
                                                 boolean useNameIds,
                                                 String sectName)
   {
@@ -145,7 +164,7 @@ public class TypeCheckUtils
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
     TypeChecker typeChecker = new TypeChecker(
       new net.sourceforge.czt.typecheck.circus.impl.Factory(zFactory, circusFactory ), 
-      sectInfo, useBeforeDecl);
+      sectInfo, useBeforeDecl, sortDeclNames);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
     term.accept(typeChecker);
@@ -213,19 +232,6 @@ public class TypeCheckUtils
     return toolkits;
   }
 
-  protected boolean useBeforeDeclDefault()
-  {
-    return true;
-  }
-
-  /** @return a fresh new section manager. */
-//  protected SectionManager getSectionManager()
-//  {
-//    SectionManager sectionManager = new SectionManager();
-//    sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
-//    return sectionManager;
-//  }
-  
   protected SectionManager getSectionManager()
   {
     SectionManager sectionManager = new SectionManager();

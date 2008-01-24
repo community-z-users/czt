@@ -21,10 +21,8 @@ package net.sourceforge.czt.typecheck.circus;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionTransformerPred;
-import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
-import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.visitor.ActionTransformerPredVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTransformerPredVisitor;
 import net.sourceforge.czt.typecheck.z.util.UResult;
@@ -62,27 +60,29 @@ public class PredChecker
    *
    *@law C.18.7
    */
+  @Override
   public UResult visitTerm(Term term)
   {
     return term.accept(zPredChecker_);
   }    
 
+  @Override
   public UResult visitProcessTransformerPred(ProcessTransformerPred term)  
   {
     ProcessSignature psSpec = term.getSpec().accept(processChecker());
     ProcessSignature psImpl = term.getImpl().accept(processChecker());
     
-    ProcessType ptSpec = factory().createProcessType(psSpec);
-    ProcessType ptImpl = factory().createProcessType(psImpl);
-    UResult result = unificationEnv().unify(ptSpec, ptImpl);
-    
-    // TODO: CHECK: we need to handle PARTIAL. Recheck? See z.PredChecker() on this.
-    if (result == SUCC)
-    {    
-      ProdType resultType = factory().createProdType(ptSpec, ptImpl);    
-      addTypeAnn(term, resultType);
-    }    
-    return result;
+//    ProcessType ptSpec = factory().createProcessType(psSpec);
+//    ProcessType ptImpl = factory().createProcessType(psImpl);
+//    UResult result = unificationEnv().unify(ptSpec, ptImpl);
+//    
+//    // TODO: CHECK: we need to handle PARTIAL. Recheck? See z.PredChecker() on this.
+//    if (resultSUCC)
+//    {    
+//      ProdType resultType = factory().createProdType(ptSpec, ptImpl);    
+//      addTypeAnn(term, resultType);
+//    }    
+    return UResult.SUCC;
   }
 
   public UResult visitActionTransformerPred(ActionTransformerPred term)
@@ -90,17 +90,17 @@ public class PredChecker
     ActionSignature asSpec = term.getSpec().accept(actionChecker());
     ActionSignature asImpl = term.getImpl().accept(actionChecker());
     
-    ActionType atSpec = factory().createProcessType(asSpec);
-    ActionType atImpl = factory().createProcessType(asImpl);
-    UResult result = unificationEnv().unify(atSpec, atImpl);
+//    ActionType atSpec = factory().createProcessType(asSpec);
+//    ActionType atImpl = factory().createProcessType(asImpl);
+//    UResult result = unificationEnv().unify(atSpec, atImpl);
+//    
+//    // TODO: CHECK: we need to handle PARTIAL. Recheck? See z.PredChecker() on this.
+//    if (result == SUCC)
+//    {    
+//      ProdType resultType = factory().createProdType(atSpec, atImpl);    
+//      addTypeAnn(term, resultType);
+//    }
     
-    // TODO: CHECK: we need to handle PARTIAL. Recheck? See z.PredChecker() on this.
-    if (result == SUCC)
-    {    
-      ProdType resultType = factory().createProdType(atSpec, atImpl);    
-      addTypeAnn(term, resultType);
-    }
-    
-    return result;
+    return UResult.SUCC;
   }
 }

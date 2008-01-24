@@ -484,6 +484,7 @@ typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypeCheckR
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypecheckPropertiesKeys.java -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_en.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_pt.properties -text
+typechecker-circus/test/resources/tests/circus/VarDeclCallScope.error -text
 typechecker-oz/src/main/resources/net/sourceforge/czt/typecheck/oz/ErrorMessage_en.properties -text
 typechecker-oz/src/test/resources/oz/DuplicateNameInDistOpExpr-DistConjOpExpr.error -text
 typechecker-oz/src/test/resources/oz/DuplicateNameInDistOpExpr-DistExChoiceOpExpr.error -text
