@@ -51,21 +51,24 @@ public class TypeCheckerTest
 {
   //allow use before declaration
   protected boolean useBeforeDecl_ = false;
+  
+  protected boolean sortDeclNames_ = false;
 
   public static Test suite()
   {
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
-    TypeCheckerTest checkerTest = new TypeCheckerTest(false);
+    TypeCheckerTest checkerTest = new TypeCheckerTest(false, false);
     checkerTest.collectTests(suite, "z/");
-    checkerTest = new TypeCheckerTest(true);
+    checkerTest = new TypeCheckerTest(true, false);
     checkerTest.collectTests(suite, "z/useBeforeDecl/");
     return suite;
   }
 
-  public TypeCheckerTest(boolean useBeforeDecl)
+  public TypeCheckerTest(boolean useBeforeDecl, boolean sortDeclNames)
   {
     useBeforeDecl_ = useBeforeDecl;
+    sortDeclNames_ = sortDeclNames;
   }
 
   //test all the files from a directory
@@ -120,7 +123,7 @@ public class TypeCheckerTest
                                                SectionManager manager)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_);
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_, sortDeclNames_);
     /*
     Spec spec = (Spec) term;
     String value = useBeforeDecl_ ? "true" : "false";
@@ -160,9 +163,14 @@ public class TypeCheckerTest
     {
       SectionManager manager = getManager();
       List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
+      Term term = null;
       try {
         System.out.println("Test normal: " + file_);
-        Term term = parse(file_, manager);
+        term = parse(file_, manager);
+//        if (sortDeclNames_)
+//        {
+//          System.out.println("\nPrinting parsed spec before sorting decl names:\n\n" + term);
+//        }
         errors = typecheck(term, manager);
       }
       catch (RuntimeException e) {
@@ -183,7 +191,11 @@ public class TypeCheckerTest
              "\n\tFile: " + file_ +
              "\n\tException: " + errorAnn.getErrorMessage().toString() +
 	     "\nError: " + errorAnn.toString());
-      }
+      } 
+//      else if (sortDeclNames_ && term != null)
+//      {
+//        System.out.println("\nPrinting typechecked spec to see sorted decl names :\n\n" + term);
+//      }
     }
   }
 
