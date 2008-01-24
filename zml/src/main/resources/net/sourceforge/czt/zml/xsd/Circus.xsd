@@ -423,7 +423,7 @@ These interfaces represent the AST for Circus.
     rather than a simple Name. There are two approaches for the implementation of process/action calls.
     We have taken the first one in order to simplify the implementation of visitor of different tools.
     
-    The first demands specialised CallKind attribute on CallProcess, whereas the second introduces specialised classes      
+    The first demands specialised CallUsage attribute on CallProcess, whereas the second introduces specialised classes      
     for each special production. For processes, these are actual parameters, indexes, and actual types. For action 
     these are actual parameters, and command parameters.
     
@@ -451,7 +451,7 @@ These interfaces represent the AST for Circus.
         An empty list of generic actuals means that refering process is not generic.
         An empty list of expressions means a simple process call of the grammar rules <b>N, N[Expr+]</b>,
         where <b>N</b> is the process name.
-        If the list of expressions is not empty, then the <code>CallKind</code> attribute defines if this is an indexed 
+        If the list of expressions is not empty, then the <code>CallUsage</code> attribute defines if this is an indexed 
         process instantiation call, a parameterised process call.
         It represents the grammar rules: <b>N(Expr+), N lfloor Expr+ rfloor</b>
         </p>
@@ -468,7 +468,7 @@ These interfaces represent the AST for Circus.
                          The call type defines whether the expressions are actual parameters or indexes.</li>          
         </ul>
         The case for parameterised and indexed process is not present in the grammar. 
-        The default value of CallKind is <b>Param</b> and need to be inspected only for the case where the 
+        The default value of CallUsage is <b>Param</b> and need to be inspected only for the case where the 
         second expression list demands attention.
         </p>
       </xs:documentation>
@@ -1548,10 +1548,9 @@ These interfaces represent the AST for Circus.
           <li>
             ZSignatureList getMainSignatures() = getSignatureList().get(0):
             <ul>
-              <li>a) Signature getParamOrIndexes() = getSignatureList().get(0).get(0)</li>
-              <li>b) Signature getUsedChannels()   = getSignatureList().get(0).get(1)</li>
-              <li>c) Signature getUsedNameSets()   = getSignatureList().get(0).get(2) (for BasicProcessSignature only)</li>
-              <li>d) Signature getStateSignature() = getSignatureList().get(0).get(3) (for BasicProcessSignature only)</li>
+              <li>a) Signature getParamOrIndexes() = getSignatureList().get(0).get(0)</li>              
+              <li>b) Signature getUsedNameSets()   = getSignatureList().get(0).get(1) (for BasicProcessSignature only)</li>
+              <li>c) Signature getStateSignature() = getSignatureList().get(0).get(2) (for BasicProcessSignature only)</li>
             </ul>
           </li>
           <li>
@@ -1569,7 +1568,13 @@ These interfaces represent the AST for Circus.
           </li>          
           <li>
             ActionSignatureList getActionSignatures() = getSignatureList().get(2) (for BasicProcessSignature only)
-          </li>            
+          </li> 
+          <li>
+            CircusCommunicationList getUsedCommunication() (for BasicProcessSignature only)            
+          </li> 
+          <li>
+            ZNameList getTransformerParaName() (for BasicProcessSignature only)            
+          </li> 
         </ul>
         </p>
       </xs:documentation>
@@ -2137,11 +2142,11 @@ These interfaces represent the AST for Circus.
             </xs:annotation>
           </xs:element>       
         </xs:sequence>
-        <xs:attribute name="CallKind" type="CIRCUS:CallKind" use="optional" default="Param"/>
+        <xs:attribute name="CallUsage" type="CIRCUS:CallUsage" use="optional" default="Param"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
-  <xs:simpleType name="CallKind">
+  <xs:simpleType name="CallUsage">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Param"/>
       <xs:enumeration value="Index"/>
@@ -3314,17 +3319,15 @@ These interfaces represent the AST for Circus.
           So, we add through GnAST the following convenience methods:
           
           ZSignatureList getMainSignatures() = getSignatureList().get(0)
-            a) Signature getParamOrIndexes() = getSignatureList().get(0).get(0)
-            b) Signature getUsedChannels()   = getSignatureList().get(0).get(1)
-            c) Signature getUsedNameSets()   = getSignatureList().get(0).get(2) (for BasicProcessSignature only)
-            d) Signature getStateSignature() = getSignatureList().get(0).get(3) (for BasicProcessSignature only)
+            a) Signature getParamOrIndexes() = getSignatureList().get(0).get(0)            
+            b) Signature getUsedNameSets()   = getSignatureList().get(0).get(1) (for BasicProcessSignature only)
+            c) Signature getStateSignature() = getSignatureList().get(0).get(2) (for BasicProcessSignature only)
             
           
           The Signature returned by the above projections correspond to: 
-            a) non-null (possibly empty) signature of param or indexes of a process 
-            b) non-null (possibly empty) signature used channels as list of name type pairs within Signature
-            c) non-null (possibly empty) signature used name sets as list of name type pairs within Signature
-            d) non-null (possibly empty) signature of process state (empty = default state as [ | true]).
+            a) non-null (possibly empty) signature of param or indexes of a process             
+            b) non-null (possibly empty) signature used name sets as list of name type pairs within Signature
+            c) non-null (possibly empty) signature of process state (empty = default state as [ | true]).
             
           ZSignatureList getLocalZSignatures()= getSignatureList().get(1)       (for BasicProcessSignature only)   
             This represents the local Z paragraphs within the basic process.
@@ -3334,16 +3337,24 @@ These interfaces represent the AST for Circus.
           We leave it unbounded to allow further extension with new lists within the 
           list of SignatureLists!
           -->
-          <xs:element ref="CIRCUS:SignatureList" minOccurs="2" maxOccurs="unbounded"/>
+          <xs:element ref="CIRCUS:SignatureList" minOccurs="2" maxOccurs="unbounded"/>        
+        <!-- Communication list for used channels -->
+        <xs:element ref="CIRCUS:CommunicationList">
+        <xs:annotation>
+            <xs:appinfo>
+              <jaxb:property generateElementProperty="true"/>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>        
         </xs:sequence>
-        <xs:attribute name="Kind" type="CIRCUS:ProcessKind" use="optional" default="Parameterised"/>
-      </xs:extension>
+        <xs:attribute name="Usage" type="CIRCUS:ProcessUsage" use="optional" default="Parameterised"/>        
+      </xs:extension>            
     </xs:complexContent>
   </xs:complexType>   
 
   <!-- A process might have neither formal parameters nor indexes, hence minOccurs="0" for Signature below. 
         Or it might have either of them (i.e. formal parameters or indexes) but never both. -->
-  <xs:simpleType name="ProcessKind">
+  <xs:simpleType name="ProcessUsage">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Parameterised"/>
       <xs:enumeration value="Indexed"/>
@@ -3357,59 +3368,16 @@ These interfaces represent the AST for Circus.
   <xs:complexType name="BasicProcessSignature">
     <xs:complexContent>
       <xs:extension base="CIRCUS:ProcessSignature">
-          <xs:sequence>   
-              <!-- 
-              For stateless processes, the typechecker must create an empty signature for the SchemaType.
-              Moreover, it must also resolve any pending generic actual from either the schema or the process.              
-              <xs:element ref="Z:SchemaType">
-                <xs:annotation>
-                  <xs:appinfo>
-                    <jaxb:property name="StateType"
-                      generateElementProperty="true"/>
-                  </xs:appinfo>
-                </xs:annotation>
-              </xs:element>
-              
-              Refactored into SignatureList in ProcessSignature.
-              -->               
-              <!-- 
-              Contains a list of all local paragraphs that are Z paragraphs.
-              This includes the implicitly declared state.              
-              <xs:element ref="Z:Signature" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                  <xs:appinfo>
-                    <jaxb:property name="ZSignature"/>
-                  </xs:appinfo>
-                </xs:annotation>
-              </xs:element> 
-              
-              Superseeded by SignatureList above in ProcessSignature
-              -->
-              
-              <!--
-              Contains a list of all actions pragraphs of the process.
-              This includes the implicitly declared actions.
-              <xs:element ref="CIRCUS:ActionSignature" minOccurs="0" maxOccurs="unbounded"/>                
-              Superseeded by SignatureList above in ProcessSignature
-              -->
-              
-              <!--
-              Contains a list of all name set paragraphs of the process.
-              Use concrete (rather than allowing Joker) names here 
-              
-              <xs:element ref="Z:NameList">                
-                <xs:annotation>
-                  <xs:appinfo>
-                    <jaxb:property name="NameSet"
-                      generateElementProperty="true"/>
-                  </xs:appinfo>
-                </xs:annotation>
-              </xs:element>
-              
-              Superseeded by SignatureList above in ProcessSignature
-              -->
-              
-          <!-- Added StateUpdate to BasicProcess: it must always have at most one -->
+        <xs:sequence>                         
+            <!-- ZNameList for declared TransformerPara -->
+            <xs:element ref="Z:ZNameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="TransformerParaName"
+                 generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
             <xs:element ref="CIRCUS:StateUpdate">
               <xs:annotation>
                 <xs:appinfo>
@@ -3417,7 +3385,7 @@ These interfaces represent the AST for Circus.
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>    
   </xs:complexType>
