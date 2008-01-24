@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.z.ast.*;
 
 import net.sourceforge.czt.typecheck.z.impl.*;

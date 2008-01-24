@@ -25,4 +25,24 @@ package net.sourceforge.czt.typecheck.z.util;
 public class UndeterminedTypeException
   extends RuntimeException
 {
+
+  public UndeterminedTypeException(Throwable cause)
+  {
+    super(cause);
+  }
+
+  public UndeterminedTypeException(String message, Throwable cause)
+  {
+    super(message, cause);
+  }
+
+  public UndeterminedTypeException(String message)
+  {
+    super(message);
+  }
+
+  public UndeterminedTypeException()
+  {
+  }
+  
 }

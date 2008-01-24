@@ -122,9 +122,9 @@ public class TypeChecker
 
   //allow variable use before declaration
   protected boolean useBeforeDecl_ = false;
-
-  //used for generating unique ids in names
-  protected int id_ = 0;
+  
+  //allow decl names to be alphabetically sorted
+  protected boolean sortDeclNames_ = false;
 
   //the markup to use for error reporting
   protected Markup markup_;
@@ -145,12 +145,13 @@ public class TypeChecker
   public TypeChecker(Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, false);
+    this(factory, sectInfo, false, false);
   }
 
   public TypeChecker(Factory factory,
                      SectionManager sectInfo,
-                     boolean useBeforeDecl)
+                     boolean useBeforeDecl,
+                     boolean sortDeclNames)
   {
     sectInfo_ = sectInfo;
     sectTypeEnv_ = new SectTypeEnv(factory);
@@ -163,7 +164,7 @@ public class TypeChecker
     errors_ = factory.list();
     paraErrors_ = factory.list();
     useBeforeDecl_ = useBeforeDecl;
-    id_ = 0;
+    sortDeclNames_ = sortDeclNames;    
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);

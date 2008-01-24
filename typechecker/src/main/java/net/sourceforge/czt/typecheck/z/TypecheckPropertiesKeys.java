@@ -31,8 +31,16 @@ package net.sourceforge.czt.typecheck.z;
 public interface TypecheckPropertiesKeys
 {
   /** When this property is <code>true</code>, the typechecker
-   *  will check that names are declared before they are used.
+   *  will allow that names are used before they are declared.
    */
   String PROP_TYPECHECK_USE_BEFORE_DECL =
     "typecheck_use_before_decl";
+  
+  /** 
+   *  When this property is <code>true</code>, the typechecker
+   *  will alphabetically sort names in declaration lists. That is, 
+   *  names in VarDecl, and IncDecl within DeclLists, etc.
+   */
+  String PROP_TYPECHECK_SORT_DECL_NAMES =
+    "typecheck_sort_decl_names";  
 }

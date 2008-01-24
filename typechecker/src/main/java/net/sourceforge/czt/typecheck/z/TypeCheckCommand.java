@@ -42,6 +42,8 @@ public class TypeCheckCommand
   {
     boolean useBeforeDecl =
       getBooleanProperty(manager, PROP_TYPECHECK_USE_BEFORE_DECL);
+    boolean sortDeclNames =
+      getBooleanProperty(manager, PROP_TYPECHECK_SORT_DECL_NAMES);
     return TypeCheckUtils.typecheck(term, manager, useBeforeDecl);
   }
 

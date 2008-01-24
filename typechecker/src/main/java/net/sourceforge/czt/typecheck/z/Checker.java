@@ -457,12 +457,12 @@ abstract public class Checker<R>
   }
   
   /**
-   * Returns an unique id, which is used to mark ZName instances.
+   * Usage before declaration flag.
    */
-  protected int id()
+  protected boolean sortDeclNames()
   {
-    return typeChecker_.id_++;
-  }
+    return typeChecker_.sortDeclNames_;
+  }  
   
   /**
    * Returns the logger instance.

@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 
+import net.sourceforge.czt.z.util.ZUtils;
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
@@ -63,6 +64,9 @@ public class DeclChecker
     //the list of name type pairs in this VarDecl
     List<NameTypePair> pairs = checkVarDecl(varDecl, unified,
                                             exprType, vPowerType);
+    
+    if (sortDeclNames()) { pairs = ZUtils.sort(pairs); }
+    
     return pairs;
   }
 
