@@ -4019,54 +4019,54 @@ processCall ::=
         /* Nongenertic parameterised process call with instantiations */
         DECORWORD:dw actualParameters:ap
         {:
-            /* The CallKind is Param and the generic actuals are empty */
+            /* The CallUsage is Param and the generic actuals are empty */
             /* RefExpr: mixfix = false, explicit = false */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)), ap, CallKind.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)), ap, CallUsage.Param);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Genertic parameterised process call with instantiations */
         DECORWORD:dw genericActuals:ga actualParameters:ap
         {:
-            /* The CallKind is Param and both generic actuals and indexes are not null */
+            /* The CallUsage is Param and both generic actuals and indexes are not null */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
-              createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), ap, CallKind.Param);
+              createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Param);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Nongeneric indexed process call with instantiations */
         DECORWORD:dw actualIndexes:ai
         {:
-            /* The CallKind is Index and the generic actuals are empty */            
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)), ai, CallKind.Index);
+            /* The CallUsage is Index and the generic actuals are empty */            
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)), ai, CallUsage.Index);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Generic indexed process call with instantiations */
         DECORWORD:dw genericActuals:ga actualIndexes:ai
         {:
-            /* The CallKind is Index and both generic actuals and indexes are not null */
+            /* The CallUsage is Index and both generic actuals and indexes are not null */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
-              createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallKind.Index);
+              createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |        
         /* Generic parameterless process call with instantiation */
         DECORWORD:dw genericActuals:ga
         {:
-            /* The CallKind is irrelevant and the parameters are empty */
+            /* The CallUsage is irrelevant and the parameters are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
               createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
-              factory_.createZExprList(), CallKind.Param);
+              factory_.createZExprList(), CallUsage.Param);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |        
         /* Nongeneric parameterless process call */
         DECORWORD:dw
         {:
-            /* The CallKind is irrelevant and both generic actuals and parameters are empty */
+            /* The CallUsage is irrelevant and both generic actuals and parameters are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)),
-                factory_.createZExprList(), CallKind.Param);
+                factory_.createZExprList(), CallUsage.Param);
             addLocAnn(RESULT, dw.getLocation());
         :}
         ;
@@ -4095,8 +4095,8 @@ parenthesisedProcess ::=
             Decorword pn = createImplicitlyDeclProcUniqueName(pp);                        
             ProcessPara pa = createImplicitProcessPara(pn, pp);            
             parserState_.addImplicitlyDeclProcessPara(pa);
-            /* The CallKind is Param and the generic actuals are the same as the  */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn)), ap, CallKind.Param);
+            /* The CallUsage is Param and the generic actuals are the same as the  */
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn)), ap, CallUsage.Param);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}        
         |
@@ -4107,9 +4107,9 @@ parenthesisedProcess ::=
             Decorword pn = createImplicitlyDeclProcUniqueName(pp);                        
             ProcessPara pa = createImplicitProcessPara(pn, pp);            
             parserState_.addImplicitlyDeclProcessPara(pa);
-            /* The CallKind is Param and the generic actuals are the same as the  */
+            /* The CallUsage is Param and the generic actuals are the same as the  */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn), 
-                ga, Boolean.FALSE, Boolean.TRUE), ap, CallKind.Param);
+                ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Param);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}
         |
@@ -4120,8 +4120,8 @@ parenthesisedProcess ::=
             Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             parserState_.addImplicitlyDeclProcessPara(pa);
-            /* The CallKind is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn)), ai, CallKind.Index);
+            /* The CallUsage is Param and the generic actuals are empty */
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn)), ai, CallUsage.Index);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :} 
         |
@@ -4132,9 +4132,9 @@ parenthesisedProcess ::=
             Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             parserState_.addImplicitlyDeclProcessPara(pa);
-            /* The CallKind is Param and the generic actuals are empty */
+            /* The CallUsage is Param and the generic actuals are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn), 
-                ga, Boolean.FALSE, Boolean.TRUE), ai, CallKind.Index);
+                ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :}
         |          
