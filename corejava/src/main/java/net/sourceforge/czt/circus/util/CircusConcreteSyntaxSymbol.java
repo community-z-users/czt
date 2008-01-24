@@ -138,10 +138,30 @@ public enum CircusConcreteSyntaxSymbol
   
   /* Circus Lists */
   FIELD_LIST("List of communication fields"),
+  COMMUNICATION_LIST("List of communication expressions"),
+  PROCESS_SIGNATURE_LIST("Process signature list"),
+  ACTION_SIGNATURE_LIST("Action signature list"),
+  Z_SIGNATURE_LIST("Z signature list"),
+  CIRCUS_ACTION_LIST("Circus action list"),  
+  
+  /* Circus signatures */
+  ACTION_SIGNATURE("Action signature"),
+  PROCESS_SIGNATURE("Process signature"),
+  
+  CHANNEL_TYPE("Channel type"),
+  CHANNELSET_TYPE("Channel set type"),
+  NAMESET_TYPE("Name set type"),
+  PROCESS_TYPE("Process type"),
+  ACTION_TYPE("Process type"),
+  COMMUNICATION_TYPE("Communication type") ,
+    
+  STATE_UPDATE("State update"),
+  ASSIGNMENT_PAIRS("Assignment pairs"),
   
   TRANSFORMER_PARA("Term transformer paragraph"),
   PROCESS_TRANSFORMER_PRED("Process transformer predicate"),
   ACTION_TRANSFORMER_PRED("Action transformer predicate");
+  
   
   private final String description_;
   
