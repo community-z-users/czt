@@ -41,10 +41,10 @@ import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.NameSetType;
-import net.sourceforge.czt.circus.ast.ProcessKind;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.ProcessUsage;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
@@ -88,7 +88,6 @@ import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -631,8 +630,8 @@ public class PrintVisitor
     result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));
     // Print parameters or indexes signature if they exist
     if (term.getParamOrIndexes() != null && !term.getParamOrIndexes().getNameTypePair().isEmpty())
-    {
-      result.append(term.getKind().equals(ProcessKind.Parameterised) ? "P [" : "I [");
+    {      
+      result.append(term.getUsage().equals(ProcessUsage.Parameterised) ? "P [" : "I [");
       result.append(visit(term.getParamOrIndexes()));
       result.append("]");
     }
