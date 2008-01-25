@@ -56,9 +56,9 @@ public class TypeCheckerTest
   {
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
-    TypeCheckerTest checkerTest = new TypeCheckerTest(false, false);
+    TypeCheckerTest checkerTest = new TypeCheckerTest(false);
     checkerTest.collectTests(suite, "z/");
-    checkerTest = new TypeCheckerTest(true, false);
+    checkerTest = new TypeCheckerTest(true);
     checkerTest.collectTests(suite, "z/useBeforeDecl/");
     return suite;
   }
