@@ -149,6 +149,12 @@ public class TypeChecker
   }
 
   public TypeChecker(Factory factory,
+                     SectionManager sectInfo, boolean useBeforeDecl)
+  {
+    this(factory, sectInfo, useBeforeDecl, false);
+  }
+
+  public TypeChecker(Factory factory,
                      SectionManager sectInfo,
                      boolean useBeforeDecl,
                      boolean sortDeclNames)
