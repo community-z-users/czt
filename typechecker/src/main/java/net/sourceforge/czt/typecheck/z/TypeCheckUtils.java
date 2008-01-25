@@ -107,6 +107,24 @@ public class TypeCheckUtils
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
+                                                   boolean useBeforeDecl,                                                  
+                                                   String sectName)
+  {
+    TypeCheckUtils utils = new TypeCheckUtils();
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, false, sectName);
+  }
+  
+  /**
+   * Typecheck and type annotate a Term, in the context of a given section.
+   * @param term the <code>Term</code> to typecheck.
+   * @param sectInfo the <code>SectionManager</code> object to use.
+   * @param useBeforeDecl allow use of variables before declaration
+   * @param sortDeclNames sort names in declarations
+   * @param sectName the section within which this term should be checked.
+   * @return the list of ErrorAnns in the AST added by the typechecker.
+   */
+  public static List<? extends ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
                                                    boolean useBeforeDecl,
                                                    boolean sortDeclNames,
                                                    String sectName)
