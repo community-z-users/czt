@@ -52,8 +52,6 @@ public class TypeCheckerTest
   //allow use before declaration
   protected boolean useBeforeDecl_ = false;
   
-  protected boolean sortDeclNames_ = false;
-
   public static Test suite()
   {
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
@@ -67,15 +65,9 @@ public class TypeCheckerTest
 
   public TypeCheckerTest(boolean useBeforeDecl)
   {
-    this(useBeforeDecl, false);
-  }
-  
-  public TypeCheckerTest(boolean useBeforeDecl, boolean sortDeclNames)
-  {
     useBeforeDecl_ = useBeforeDecl;
-    sortDeclNames_ = sortDeclNames;
-  }
-
+  }  
+  
   //test all the files from a directory
   protected void collectTests(TestSuite suite, String directoryName)
   {
@@ -128,7 +120,7 @@ public class TypeCheckerTest
                                                SectionManager manager)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_, sortDeclNames_);
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_);
     /*
     Spec spec = (Spec) term;
     String value = useBeforeDecl_ ? "true" : "false";
@@ -172,10 +164,6 @@ public class TypeCheckerTest
       try {
         System.out.println("Test normal: " + file_);
         term = parse(file_, manager);
-//        if (sortDeclNames_)
-//        {
-//          System.out.println("\nPrinting parsed spec before sorting decl names:\n\n" + term);
-//        }
         errors = typecheck(term, manager);
       }
       catch (RuntimeException e) {
@@ -197,10 +185,6 @@ public class TypeCheckerTest
              "\n\tException: " + errorAnn.getErrorMessage().toString() +
 	     "\nError: " + errorAnn.toString());
       } 
-//      else if (sortDeclNames_ && term != null)
-//      {
-//        System.out.println("\nPrinting typechecked spec to see sorted decl names :\n\n" + term);
-//      }
     }
   }
 
