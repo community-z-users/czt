@@ -77,60 +77,7 @@ public class TypeCheckUtils
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl)
   {
-    return typecheck(term, sectInfo, useBeforeDecl, false, null);
-  }
-
-  /**
-   * Typecheck and type annotate a term, with no default section.
-   * @param term the <code>Term</code> to typecheck (typically a Spec).
-   * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
-   * @param sortDeclNames sort names in declarations
-   * @return the list of ErrorAnns in the AST added by the typechecker.
-   */
-  public static List<? extends ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
-                                                   boolean sortDeclNames)
-  {
-    return typecheck(term, sectInfo, useBeforeDecl, sortDeclNames, null);
-  }  
-  
-  /**
-   * Typecheck and type annotate a Term, in the context of a given section.
-   * @param term the <code>Term</code> to typecheck.
-   * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
-   * @param sortDeclNames sort names in declarations
-   * @param sectName the section within which this term should be checked.
-   * @return the list of ErrorAnns in the AST added by the typechecker.
-   */
-  public static List<? extends ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean useBeforeDecl,                                                  
-                                                   String sectName)
-  {
-    TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, false, sectName);
-  }
-  
-  /**
-   * Typecheck and type annotate a Term, in the context of a given section.
-   * @param term the <code>Term</code> to typecheck.
-   * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
-   * @param sortDeclNames sort names in declarations
-   * @param sectName the section within which this term should be checked.
-   * @return the list of ErrorAnns in the AST added by the typechecker.
-   */
-  public static List<? extends ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
-                                                   boolean sortDeclNames,
-                                                   String sectName)
-  {
-    TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, false, sectName);
+    return typecheck(term, sectInfo, useBeforeDecl, null);
   }
 
   /**
@@ -138,18 +85,33 @@ public class TypeCheckUtils
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
-   * @param sortDeclNames sort names in declarations
+   * @param sectName the section within which this term should be checked.
+   * @return the list of ErrorAnns in the AST added by the typechecker.
+   */
+  public static List<? extends ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   String sectName)
+  {
+    TypeCheckUtils utils = new TypeCheckUtils();
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, sectName);
+  }
+
+  /**
+   * Typecheck and type annotate a Term, in the context of a given section.
+   * @param term the <code>Term</code> to typecheck.
+   * @param sectInfo the <code>SectionManager</code> object to use.
+   * @param useBeforeDecl allow use of variables before declaration
    * @param useNameIds use name ids as part of the name
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
-                                                   boolean sortDeclNames,
                                                    boolean useNameIds)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, null);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, null);
   }
 
 
@@ -158,7 +120,6 @@ public class TypeCheckUtils
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
-   * @param sortDeclNames sort names in declarations
    * @param useNameIds use name ids as part of the name
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
@@ -166,26 +127,24 @@ public class TypeCheckUtils
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
-                                                   boolean sortDeclNames,
                                                    boolean useNameIds,
                                                    String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, sectName);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, sectName);
   }
 
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
-                                                boolean sortDeclNames,
                                                 boolean useNameIds,
                                                 String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();    
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
     TypeChecker typeChecker =
-      new TypeChecker(new Factory(zFactory), sectInfo, useBeforeDecl, sortDeclNames);
+      new TypeChecker(new Factory(zFactory), sectInfo, useBeforeDecl);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
     term.accept(typeChecker);
@@ -237,7 +196,6 @@ public class TypeCheckUtils
     System.err.println("       -p     print the AST");
     System.err.println("       -t     print global type declarations");
     System.err.println("       -b     print benchmarking times");
-    System.err.println("       -r     sort names within declarations");
   }
 
   protected boolean useBeforeDeclDefault()
@@ -246,11 +204,6 @@ public class TypeCheckUtils
   }
 
   protected boolean printBenchmarkTimesDefault()
-  {
-    return false;
-  }
-  
-  protected boolean sortDeclNamesDefault()
   {
     return false;
   }
@@ -312,7 +265,6 @@ public class TypeCheckUtils
     List<String> files = new java.util.ArrayList<String>();
     boolean syntaxOnly = false;
     boolean useBeforeDecl = useBeforeDeclDefault();
-    boolean sortDeclNames = sortDeclNamesDefault();
     boolean printTypes = false;
     boolean printZml = false;
     boolean printBenchmark = printBenchmarkTimesDefault();
@@ -342,9 +294,6 @@ public class TypeCheckUtils
             break;
           case 'i':
             useNameIds = true;
-            break;
-          case 'r':
-            sortDeclNames = true;
             break;
           default:
             printUsage();
@@ -394,7 +343,7 @@ public class TypeCheckUtils
       //if the parse succeeded, typecheck the term
       if (term != null && !syntaxOnly) {
         List<? extends ErrorAnn> errors =
-          this.lTypecheck(term, manager, useBeforeDecl, sortDeclNames, useNameIds, null);
+          this.lTypecheck(term, manager, useBeforeDecl, useNameIds, null);
 
         //print any errors
         for (Object next : errors) {
