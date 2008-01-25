@@ -63,9 +63,7 @@ public class DeclChecker
 
     //the list of name type pairs in this VarDecl
     List<NameTypePair> pairs = checkVarDecl(varDecl, unified,
-                                            exprType, vPowerType);
-    
-    if (sortDeclNames()) { pairs = ZUtils.sort(pairs); }
+                                            exprType, vPowerType);   
     
     return pairs;
   }
