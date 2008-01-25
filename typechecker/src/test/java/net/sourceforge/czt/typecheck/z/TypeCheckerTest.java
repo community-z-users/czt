@@ -65,6 +65,11 @@ public class TypeCheckerTest
     return suite;
   }
 
+  public TypeCheckerTest(boolean useBeforeDecl)
+  {
+    this(useBeforeDecl, false);
+  }
+  
   public TypeCheckerTest(boolean useBeforeDecl, boolean sortDeclNames)
   {
     useBeforeDecl_ = useBeforeDecl;
