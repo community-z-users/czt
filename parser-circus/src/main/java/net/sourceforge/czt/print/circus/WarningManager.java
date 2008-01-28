@@ -18,7 +18,7 @@ import net.sourceforge.czt.z.ast.Para;
  * @author leo
  */
 public class WarningManager extends
-    net.sourceforge.czt.parser.util.WarningManager {
+    net.sourceforge.czt.z.util.WarningManager {
     
     public WarningManager() {
         super();

@@ -28,7 +28,7 @@ import java.util.Properties;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.util.WarningManager;
+import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.z.util.ZString;
@@ -152,12 +152,12 @@ public class CircusPrintVisitor
     }
     
     public Object visitChannelDecl(ChannelDecl term) {
-        if (CircusUtils.isChannelFromDecl(term)) {
-            print(CircusKeyword.CIRCCHANFROM);
-            printGenericFormals(term.getNameList().get(0));
-            assert term.getExpr() != null;
-            visit(term.getExpr());
-        } else {
+//        if (CircusUtils.isChannelFromDecl(term)) {
+//            print(CircusKeyword.CIRCCHANFROM);
+//            printGenericFormals(term.getNameList().get(0));
+//            assert term.getExpr() != null;
+//            visit(term.getExpr());
+//        } else {
             print(CircusKeyword.CIRCCHAN);
             printGenericFormals(term.getNameList().get(0));
             visit(term.getNameList().get(1));
@@ -165,7 +165,7 @@ public class CircusPrintVisitor
                 print(ZKeyword.COLON);
                 visit(term.getExpr());
             }
-        }
+//        }
         print(ZToken.NL);
         return null;
     }
