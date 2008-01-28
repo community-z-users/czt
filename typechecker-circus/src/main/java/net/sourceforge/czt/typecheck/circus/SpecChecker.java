@@ -58,12 +58,12 @@ public class SpecChecker extends Checker<Object>
      *       CircusUtils has the same name and type available, but without 
      *       the proper ID as created by the typechecker. We update this in Factory.
      */     
-    NameSectTypeTriple synchTriple = factory().createNameSectTypeTriple(
-      factory().createSynchName(), CircusUtils.CIRCUS_PRELUDE, factory().createSynchType());
-    NameSectTypeTriple transformerTriple = factory().createNameSectTypeTriple(
-      factory().createTransformerName(), CircusUtils.CIRCUS_PRELUDE, 
-      factory().createTransformerType());    
-    sectTypeEnv().add(factory().list(synchTriple, transformerTriple));
+//    NameSectTypeTriple synchTriple = factory().createNameSectTypeTriple(
+//      factory().createSynchName(), CircusUtils.CIRCUS_PRELUDE, factory().createSynchType());
+//    NameSectTypeTriple transformerTriple = factory().createNameSectTypeTriple(
+//      factory().createTransformerName(), CircusUtils.CIRCUS_PRELUDE, 
+//      factory().createTransformerType());    
+//    sectTypeEnv().add(factory().list(synchTriple, transformerTriple));
   }
 
   /**
