@@ -28,6 +28,7 @@ import net.sourceforge.czt.circus.ast.Field;
 import net.sourceforge.czt.circus.ast.InputField;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.CircusCommunicationListVisitor;
+import net.sourceforge.czt.circus.visitor.CircusFieldListVisitor;
 import net.sourceforge.czt.circus.visitor.CommunicationVisitor;
 import net.sourceforge.czt.circus.visitor.DotFieldVisitor;
 import net.sourceforge.czt.circus.visitor.InputFieldVisitor;
@@ -55,6 +56,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   implements CommunicationVisitor<List<NameTypePair>>,
              DotFieldVisitor<List<NameTypePair>>,
              InputFieldVisitor<List<NameTypePair>>,
+             CircusFieldListVisitor<List<NameTypePair>>,
              CircusCommunicationListVisitor<List<NameTypePair>>
 {
 
@@ -163,7 +165,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     }
     else
     {
-      result = channelType_;
+      result = channelType_.getType();
     }
     return result;
   }
@@ -380,13 +382,13 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
 
     // add this instantiated channel as a used channel in the calling scope.
     lastUsedChannel_ = factory().createNameTypePair(channelName_, channelType_);
-    circusTypeEnv().addUsedChannels(false, lastUsedChannel_);
-
+    //circusTypeEnv().addUsedChannels(false, lastUsedChannel_);
+   
     // add the used channel name and its instantiated type to the communication
     // signature. if there is an error, we add a null element.
     Signature signature = factory().createSignature(result);
     signature.getNameTypePair().add(0, lastUsedChannel_);
-
+    
     // a signature to the Communication term. first element is the channel type.    
     addSignatureAnn(term, signature);
 
