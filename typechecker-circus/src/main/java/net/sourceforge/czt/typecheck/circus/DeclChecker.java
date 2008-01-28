@@ -92,6 +92,8 @@ public class DeclChecker
     // isCheckingCircusFormalParamDecl() => VarDecl || QualifiedDecl
     // !isCheckingCircusFormalParamDecl() || VarDecl || QualifiedDecl
     
+    
+    
     // use the Z protocol
     List<NameTypePair> result = term.accept(zDeclChecker_);    
     
@@ -159,8 +161,7 @@ public class DeclChecker
     ZNameList declNames = term.getZChannelNameList();
     assert expr != null : "ALL channels MUST have a type expression " +
       "(including synch channels). This is a dynamic creation error";    
-    boolean isChannelFrom = CircusUtils.isChannelFromDecl(term);    
-    
+        
     //we enter a new variable scope for the generic parameters
     //CZT Z typechecker uses a pending() environment for global names
     //declared in the current paragraph. That is because global names 
@@ -177,6 +178,9 @@ public class DeclChecker
     //visit the expression
     // \Gamma \rhd e: Expression, C.4.2
     Type2 exprType = expr.accept(exprChecker());
+    
+    // if it is a schema reference
+    boolean isChannelFrom = referenceToSchema(exprType) != null;
     
     // if normal channel declaration, it is just like VarDecl:
     // the declaring type must be a power type to be type-correct.
