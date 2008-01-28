@@ -155,11 +155,6 @@ public class ParaChecker
     //creates a new, overrides existing, or updates variable signatures.
     addSignatureAnn(term, signature);
     
-    // add all pairs to the environment after closing the scopes.
-    // this way, the names are available to the calling (global) scope.
-    typeEnv().add(pairs);
-    
-    
     return signature;
   }
   
@@ -220,9 +215,6 @@ public class ParaChecker
     
     
     typeEnv().exitScope();
-    
-    // add this to the global environment.
-    typeEnv().add(pair);
     
     return result;
   }
@@ -306,10 +298,6 @@ public class ParaChecker
     // calculate possibly implicit channels within the used ones
     //addImplicitChans(usedChans);       
     
-    // TODO: CHECK THIS WORKS checks mutually recursive calls.
-    // Manuela: the Circus type rules do not treat this.
-    postActionCallCheck();
-    
     // close environment scopes.    
     typeEnv().exitScope();
     
@@ -328,9 +316,6 @@ public class ParaChecker
     
     // add signature to ProcessPara
     addSignatureAnn(term, result);           
-    
-    // add to the global list
-    typeEnv().add(pair);
     
     return result;
   }
@@ -357,9 +342,6 @@ public class ParaChecker
     
     // add signature to TransformerPara
     addSignatureAnn(term, result);   
-    
-    // add to global environment.ssss
-    typeEnv().add(pair);
     
     return result;
   }
