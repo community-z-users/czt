@@ -24,6 +24,7 @@ import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
+import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Signature;
@@ -218,8 +219,10 @@ public class ProcessChecker extends Checker<ProcessSignature>
     
     for(Para para : term)
     {
-      assert CircusUtils.isCircusInnerProcessPara(para) : 
-        "invalid process paragraph for " + getCurrentProcessName();
+      // Leave this assertion out. If not processed, the checker will get it anyway.
+      //assert CircusUtils.isCircusInnerProcessPara(para) || 
+      //       GlobalDefs.isIgnorePara(para): 
+      //  "invalid process paragraph for " + getCurrentProcessName();
           
       // check and fill the basic process signature
       Signature paraSig = para.accept(basicProcessChecker());      
