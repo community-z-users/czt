@@ -21,6 +21,7 @@ import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.CircusNameSet;
 import net.sourceforge.czt.circus.ast.Communication;
+import net.sourceforge.czt.circus.ast.CommunicationList;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
@@ -52,27 +53,30 @@ public class Factory
   public Factory()
   {
     super();
-    //zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    circusFactory_ = new CircusFactoryImpl();
-    
-    //creates a synchronisation channel and transformer paragraph type names with ID.    
-    //i.e., all ZNames in CircusUtils MUST be initialised here ;-)
-    overwriteNameID(CircusUtils.SYNCH_CHANNEL_TYPE_NAME);
-    overwriteNameID(CircusUtils.TRANSFORMER_TYPE_NAME);        
+    init(new CircusFactoryImpl());     
   }
 
   public Factory(ZFactory zFactory)
   {
     super(zFactory);
-    //zFactory_ = zFactory;
-    circusFactory_ = new CircusFactoryImpl();
+    init(new CircusFactoryImpl());     
   }
 
   public Factory(ZFactory zFactory, CircusFactory circusFactory)
   {
     super(zFactory);
-    //zFactory_ = zFactory;
+    init(circusFactory);         
+  }
+  
+  private void init(CircusFactory circusFactory)
+  {
+    //zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     circusFactory_ = circusFactory;
+    
+    //creates a synchronisation channel and transformer paragraph type names with ID.    
+    //i.e., all ZNames in CircusUtils MUST be initialised here ;-)
+    overwriteNameID(CircusUtils.SYNCH_CHANNEL_TYPE_NAME);
+    overwriteNameID(CircusUtils.TRANSFORMER_TYPE_NAME);   
   }
 
   public CircusFactory getCircusFactory()
@@ -119,6 +123,12 @@ public class Factory
     ProcessType processType = circusFactory_.createProcessType(procSig);    
     return processType;
   }
+  
+  public ActionSignature createActionSignature(Name actionName,
+    Signature formals, Signature usedNameSets, CommunicationList commList)
+  {
+    return circusFactory_.createActionSignature(actionName, formals, usedNameSets, commList);
+  }  
   
   public ActionSignature createEmptyActionSignature()
   {
