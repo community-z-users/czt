@@ -219,7 +219,52 @@ public class TypeCheckUtils
   public static void main(String[] args)
     throws IOException, net.sourceforge.czt.base.util.UnmarshalException
   {    
-    instance_.run(args);
+    //instance_.run(args);
+    instance_.typeCheckCommandTest(args[0]);
+  }
+  
+  private void typeCheckCommandTest(String file)
+  {
+    System.out.println("Testing TypeCheckCommand for CIRCUS:");
+    
+    net.sourceforge.czt.parser.circus.SpecialLatexParser.SimpleFormatterForCircus sfc = 
+      new net.sourceforge.czt.parser.circus.SpecialLatexParser.SimpleFormatterForCircus(true, true,
+        false, false, true);
+    
+    java.util.logging.ConsoleHandler ch = new java.util.logging.ConsoleHandler();
+    ch.setLevel(java.util.logging.Level.ALL);        
+    ch.setFormatter(sfc);       
+    java.util.logging.FileHandler fh = null;
+    try{
+      fh = new java.util.logging.FileHandler("TypeCheckUtils.TypeCheckCommandTest.log");
+      fh.setLevel(java.util.logging.Level.ALL);
+      fh.setFormatter(sfc);          
+    } catch (IOException e) {
+
+    }
+    SectionManager manager = new SectionManager("circus");    
+    
+    java.util.logging.Logger logger = java.util.logging.Logger.getLogger(manager.getClass().getName());    
+    logger.addHandler(ch);
+    logger.addHandler(fh);
+    logger.setLevel(java.util.logging.Level.ALL);
+    
+    try{
+      Spec spec = (Spec)instance_.parse(file, manager);
+      for (Sect s : spec.getSect())
+      {
+        if (s instanceof ZSect)
+        {
+          ZSect zs = (ZSect)s;          
+          SectTypeEnvAnn result = (SectTypeEnvAnn)manager.get(new Key(zs.getName(), SectTypeEnvAnn.class));
+          break;
+        }
+      }
+    }
+    catch(Throwable e)
+    {
+      throw new RuntimeException(e);
+    }
   }
   
    /**
