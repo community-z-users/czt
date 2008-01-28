@@ -2,6 +2,7 @@
 attic/bsh/parseCircus.bsh -text
 attic/parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusLaw.java -text
+corejava/src/main/java/net/sourceforge/czt/z/util/WarningManager.java -text
 corejava/src/main/xml/circuspattchar.xml -text
 corejava/src/test/java/net/sourceforge/czt/circuspatt/impl/LawTest.java -text
 corejava/src/test/java/net/sourceforge/czt/circuspatt/impl/MockActionLawsTest.java -text

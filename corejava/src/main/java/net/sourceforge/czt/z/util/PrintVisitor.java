@@ -58,7 +58,8 @@ public class PrintVisitor
              ZNameVisitor<String>,
              ZNumeralVisitor<String>,
              ZStrokeListVisitor<String>,
-             LocAnnVisitor<String>
+             LocAnnVisitor<String>,
+             NameTypePairVisitor<String>
 {
   protected boolean printUnicode_;
   protected boolean printIds_;
@@ -211,6 +212,16 @@ public class PrintVisitor
       visitList(sectTypeEnvAnn.getNameSectTypeTriple(), "\n") +
       "]";
   }
+  
+  public String visitNameTypePair(NameTypePair pair)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visit(pair.getName()));
+    result.append(" : ");
+    result.append(visit(pair.getType()));
+    result.append("\n");
+    return result.toString();
+  }
 
   public String visitSignature(Signature signature)
   {
@@ -218,9 +229,7 @@ public class PrintVisitor
     boolean first = true;
     for (NameTypePair pair : signature.getNameTypePair()) {
       if (! first) result.append("; ");
-      result.append(visit(pair.getName()));
-      result.append(" : ");
-      result.append(visit(pair.getType()));
+      result.append(visit(pair));
       first = false;
     }
     return result.toString();
