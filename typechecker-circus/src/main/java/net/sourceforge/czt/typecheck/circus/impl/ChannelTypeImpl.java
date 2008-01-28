@@ -47,7 +47,7 @@ public class ChannelTypeImpl extends Type2Impl implements ChannelType
 
   public Type2 getType()
   {
-    assert false : "TODO: do I need VariableChannelType ? maybe not";
+    //assert false : "TODO: do I need VariableChannelType ? maybe not";
     ChannelType channelType = (ChannelType) term_;
     Type2 result = channelType.getType();
     if (result instanceof VariableType) {

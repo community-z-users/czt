@@ -181,7 +181,7 @@ public class Factory
    */
   public ChannelType createChannelType()
   {
-    assert false : "TODO: resolve generics";
+    //assert false : "TODO: resolve generics";
     // create an underlying variable type as the channel type
     // that means type inference hasn't been done yet.
     VariableType vType = createVariableType();
@@ -189,10 +189,9 @@ public class Factory
     return result;    
   }
 
+  //TODO: Check how the generics business will be solved. Maybe the inner type should be Type (rather than Type2)?
   public ChannelType createChannelType(Type2 type)
-  {    
-    assert false : "TODO: resolve generics";    
-    
+  {        
     // innermost corejava AST-impl type with underlying type.
     ChannelType channelType = circusFactory_.createChannelType(type);
     
