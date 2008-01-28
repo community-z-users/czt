@@ -251,12 +251,12 @@ public class TypeCheckUtils
     
     try{
       Spec spec = (Spec)instance_.parse(file, manager);
-      for (Sect s : spec.getSect())
+      for (net.sourceforge.czt.z.ast.Sect s : spec.getSect())
       {
         if (s instanceof ZSect)
         {
           ZSect zs = (ZSect)s;          
-          SectTypeEnvAnn result = (SectTypeEnvAnn)manager.get(new Key(zs.getName(), SectTypeEnvAnn.class));
+          SectTypeEnvAnn result = (SectTypeEnvAnn)manager.get(new net.sourceforge.czt.session.Key(zs.getName(), SectTypeEnvAnn.class));
           break;
         }
       }
