@@ -10,7 +10,7 @@
   <entry key="net.sourceforge.czt.parser.util.OpTable">net.sourceforge.czt.parser.util.OpTableCommand</entry>
   <entry key="net.sourceforge.czt.parser.util.DefinitionTable">net.sourceforge.czt.parser.util.DefinitionTableService</entry>
   <entry key="net.sourceforge.czt.parser.util.JokerTable">net.sourceforge.czt.parser.util.JokerTableCommand</entry>
-  <entry key="net.sourceforge.czt.z.ast.SectTypeEnvAnn">net.sourceforge.czt.typecheck.z.TypeCheckCommand</entry>
+  <entry key="net.sourceforge.czt.z.ast.SectTypeEnvAnn">net.sourceforge.czt.typecheck.circus.TypeCheckCommand</entry>
   <entry key="net.sourceforge.czt.base.ast.Term">net.sourceforge.czt.parser.util.TermCommand</entry>
   <entry key="net.sourceforge.czt.print.util.LatexString">net.sourceforge.czt.print.circus.LatexPrinterCommand</entry>
   <entry key="net.sourceforge.czt.print.util.OldLatexString">net.sourceforge.czt.print.z.OldLatexPrinterCommand</entry>
