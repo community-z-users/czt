@@ -63,13 +63,18 @@ public abstract class TermImpl
     return s.hashCode();
   }
 
-  public List getAnns()
+  public List<Object> getAnns()
   {
     return term_ != null ? term_.getAnns() : null;
   }
 
-  public Object getAnn(Class aClass)
+  public <T> T getAnn(Class<T> aClass)
   {
     return term_ != null ? term_.getAnn(aClass) : null;
+  }
+  
+  public String toString()
+  {
+    return term_.toString();
   }
 }
