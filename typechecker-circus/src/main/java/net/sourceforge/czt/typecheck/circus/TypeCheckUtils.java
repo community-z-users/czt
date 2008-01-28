@@ -24,7 +24,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
-import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.parser.circus.ParseUtils;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.session.Command;
@@ -149,6 +148,15 @@ public class TypeCheckUtils
                                                    String sectName)
   {    
     return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, sectName);
+  }
+  
+  protected List<? extends ErrorAnn> lTypecheck(Term term,
+                                                SectionManager sectInfo,
+                                                boolean useBeforeDecl,
+                                                boolean useNameIds,
+                                                String sectName)
+  {
+    return lTypecheck(term, sectInfo, useBeforeDecl, false, useNameIds, sectName);
   }
   
   /** An internal method of the typechecker. */
