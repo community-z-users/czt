@@ -19,16 +19,18 @@
 
 package net.sourceforge.czt.typecheck.circus;
 
-import net.sourceforge.czt.util.CztLogger;
-
 public class TypeCheckResources
   extends net.sourceforge.czt.typecheck.z.TypeCheckResources
 {
-  protected static final String MESSAGES =
+  protected static final String CIRCUS_ERROR_MESSAGES =
     "/net/sourceforge/czt/typecheck/circus/ErrorMessage_en.properties";
 
+  protected static final String CIRCUS_WARNING_MESSAGES =
+    "/net/sourceforge/czt/typecheck/circus/WarningMessage_en.properties";
+
   static {
-    addFile(MESSAGES);
+    addFile(CIRCUS_ERROR_MESSAGES);
+    addFile(CIRCUS_WARNING_MESSAGES);
   }
 }
 

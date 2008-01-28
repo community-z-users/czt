@@ -110,6 +110,8 @@ public class TypeChecker
   protected boolean shouldCreateLetMu_;
   protected CircusConcreteSyntaxSymbolVisitor concreteSyntaxSymbolVisitor_;
 
+  protected WarningManager warningManager_;
+  
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo)
   {
@@ -148,6 +150,7 @@ public class TypeChecker
     commChecker_ = new CommunicationChecker(this);
     processChecker_ = new ProcessChecker(this);
     
+    warningManager_ = new WarningManager(TypeChecker.class);
     concreteSyntaxSymbolVisitor_ = CircusUtils.CIRCUS_CONCRETE_SYNTAXSYMBOL_VISITOR;
     
     currentProcessName_ = null;
@@ -179,6 +182,11 @@ public class TypeChecker
   public net.sourceforge.czt.typecheck.circus.impl.Factory getFactory()
   {
     return (net.sourceforge.czt.typecheck.circus.impl.Factory) super.getFactory();
+  }
+
+  public WarningManager getWarningManager()
+  {
+    return warningManager_;
   }
   
   public boolean setCreateLetVar(boolean val)
