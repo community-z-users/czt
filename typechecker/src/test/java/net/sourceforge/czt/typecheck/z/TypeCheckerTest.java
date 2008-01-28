@@ -92,7 +92,7 @@ public class TypeCheckerTest
           fail(fileName + " does not specify an exception name");
         }
         String exception = fileName.substring(0, index);
-        suite.addTest(new TestError(fullPath, exception));
+        suite.addTest(createErrorTest(fullPath, exception));        
       }
       //if the file name does not end with error, then we have a
       //normal case
@@ -101,7 +101,17 @@ public class TypeCheckerTest
       }
     }
   }
+  
+  protected TestCase createNormalTest(String fullpath)
+  {
+    return new TestNormal(fullpath);
+  }
 
+  protected TestCase createErrorTest(String fullpath, String exception)
+  {
+    return new TestError(fullpath, exception);
+  }
+  
   protected SectionManager getManager()
   {
     return new SectionManager();
