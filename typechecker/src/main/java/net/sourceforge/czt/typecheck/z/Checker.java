@@ -573,7 +573,7 @@ abstract public class Checker<R>
     for (Object next : paraErrors())
     {
       if (next instanceof Term)
-      {
+      { 
         Term term = (Term) next;
         ErrorAnn errorAnn = term.accept(postChecker());
         if (errorAnn != null)
@@ -1640,6 +1640,22 @@ abstract public class Checker<R>
       pairs.add(factory().createNameTypePair(newName, pair.getType()));
     }
     return factory().createSignature(pairs);
+  }
+  
+  protected ErrorAnn createUndeclaredNameError(ZName zName)
+  {
+    Object [] params = {zName};
+    ErrorAnn errorAnn =
+      errorAnn(zName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
+    if (zName.getZStrokeList().size() > 0) {
+      ZName testName = factory().createZName(zName, false);
+      ZStrokeList sl = testName.getZStrokeList();
+      sl.remove(sl.size() - 1);
+      if (exprChecker().getType(testName) != null) {
+	errorAnn.setInfo(ErrorMessage.SPACE_NEEDED.toString());
+      }
+    }
+    return errorAnn;
   }
   
   public String toString(Type type)

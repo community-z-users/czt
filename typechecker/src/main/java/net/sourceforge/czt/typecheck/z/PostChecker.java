@@ -111,22 +111,6 @@ public class PostChecker
     return null;
   }
 
-  private ErrorAnn createUndeclaredNameError(ZName zName)
-  {
-    Object [] params = {zName};
-    ErrorAnn errorAnn =
-      errorAnn(zName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
-    if (zName.getZStrokeList().size() > 0) {
-      ZName testName = factory().createZName(zName, false);
-      ZStrokeList sl = testName.getZStrokeList();
-      sl.remove(sl.size() - 1);
-      if (exprChecker().getType(testName) != null) {
-	errorAnn.setInfo(ErrorMessage.SPACE_NEEDED.toString());
-      }
-    }
-    return errorAnn;
-  }
-
   public ErrorAnn visitRefExpr(RefExpr refExpr)
   {
     ZName zName = refExpr.getZName();
