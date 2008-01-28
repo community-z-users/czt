@@ -18,7 +18,14 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
+import java.util.List;
 import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.QualifiedDecl;
+import net.sourceforge.czt.circus.ast.VarDeclCommand;
+import net.sourceforge.czt.circus.visitor.VarDeclCommandVisitor;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.VarDecl;
 
 
 /**
@@ -28,12 +35,11 @@ import net.sourceforge.czt.circus.ast.ActionSignature;
  */
 public class CommandChecker
   extends Checker<ActionSignature>
-  /*implements //CircusCommandVisitor,
-      SpecStmtCommandVisitor<ActionSignature>,      // C.17.1, C.17.4, C.17.5
-      AssignmentCommandVisitor<ActionSignature>,
-             
-             IfGuardedCommandVisitor<ActionSignature>,
-             VarDeclCommandVisitor<ActionSignature>*/
+  implements //CircusCommandVisitor,
+      //SpecStmtCommandVisitor<ActionSignature>,      // C.17.1, C.17.4, C.17.5
+      //AssignmentCommandVisitor<ActionSignature>,
+      //IfGuardedCommandVisitor<ActionSignature>,
+      VarDeclCommandVisitor<ActionSignature>
 {  
   //a Z decl checker
   protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
@@ -156,47 +162,45 @@ public class CommandChecker
 //  }
 //
 //  // Command ::= var Declaration @ Action
-//  //ok - vericado em 15/09/2005 às 16:04
-//  public ActionSignature visitVarDeclCommand(VarDeclCommand term)
-//  {
-//    List<NameTypePair> allPairs = new ArrayList<NameTypePair>();
-//    
-//    ZDeclList decls = term.getZDeclList();
-//    CircusAction action = term.getCircusAction();
-//    
-//    typeEnv().enterScope();
-////    localCircTypeEnv().enterScope();
-//  
-//    List<Object> paramsError = new ArrayList<Object>();
-//    paramsError.add(assertZDeclName(currentAction()).getWord());
-//    paramsError.add(assertZDeclName(currentProcess()).getWord());
-//    for(Decl d : decls){
-//      if (!(d instanceof VarDecl))
-//          throw new UnsupportedOperationException("Variable declaration command accepts only VarDecl!");
-//      VarDecl decl = (VarDecl)d;
-//      List<NameTypePair> pairs = decl.accept(declChecker());
-//      allPairs = checkDecls(allPairs, pairs, term, ErrorMessage.REDECLARED_PARAM_IN_PROCESS, paramsError);
-//    }
-//    // ADICIONAR AS VARIAÇÕES DAS VARIAVEIS DECLARADAS TAMBÉM
-////    typeEnv().add(allPairs);
-//    addVars(allPairs);
-//    
-//    ActionSignature actionSig = action.accept(actionChecker());
-////    List<NameTypePair> usedChans = localCircTypeEnv().getUsedChans();
-//    
-////    localCircTypeEnv().exitScope();
-//    typeEnv().exitScope();
-//    
-//    ActionSignature actionSignature = cloneActionSignature(actionSig);
-//    actionSignature.setLocalVarsSignature(factory().createSignature(allPairs));
-//
-//    // adiciona os canais usados...
-////    localCircTypeEnv().addUsedChans(usedChans);
-//    
-//    addActionAnn(term, actionSignature);
-//    
-//    return actionSignature;
-//  }
+  public ActionSignature visitVarDeclCommand(VarDeclCommand term)
+  {
+    // check within an action paragraph scope.
+    checkActionParaScope(term, null);
+
+    for(Decl decl : term.getZDeclList())
+    {      
+      if (!(decl instanceof VarDecl || decl instanceof QualifiedDecl))
+      {
+        Object[] params = { getCurrentProcessName(), getCurrentActionName(), decl };
+        warningManager().warn(WarningMessage.INVALID_DECL_IN_VARDECLCOMMAND, params);
+        break;
+      }      
+    }
+    
+    // enter the local variable declaration scope
+    typeEnv().enterScope();
+
+    // get the declared variables.
+    List<NameTypePair> declPairs = term.getZDeclList().accept(declChecker());
+    
+    // add variables to the state - current scope only.
+    List<NameTypePair> allVars = addLocalVars(declPairs);
+
+    // signature of inner action
+    ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
+  
+    // clone the signature
+    ActionSignature varDeclCmdSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
+    
+    // updates the local variable signature for the prefixed action.
+    varDeclCmdSig.getLocalVars().getNameTypePair().addAll(0, declPairs);
+    
+    typeEnv().exitScope();
+    
+    addActionSignatureAnn(term, varDeclCmdSig);
+    
+    return varDeclCmdSig;
+  }
 //
 //  /*
 //  

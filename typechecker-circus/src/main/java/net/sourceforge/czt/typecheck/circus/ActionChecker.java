@@ -1,21 +1,18 @@
 /*
-  Copyright (C) 2007 Leo Freitas
-  This file is part of the czt project.
-
-  The czt project contains free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
-
-  The czt project is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+Copyright (C) 2007 Leo Freitas
+This file is part of the czt project.
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
@@ -27,10 +24,12 @@ import net.sourceforge.czt.circus.ast.BasicAction;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
+import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusCommand;
 import net.sourceforge.czt.circus.ast.GuardedAction;
 import net.sourceforge.czt.circus.ast.HideAction;
 import net.sourceforge.czt.circus.ast.InterleaveAction;
+import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ParallelAction;
@@ -44,6 +43,7 @@ import net.sourceforge.czt.circus.visitor.CircusCommandVisitor;
 import net.sourceforge.czt.circus.visitor.GuardedActionVisitor;
 import net.sourceforge.czt.circus.visitor.HideActionVisitor;
 import net.sourceforge.czt.circus.visitor.InterleaveActionVisitor;
+import net.sourceforge.czt.circus.visitor.MuActionVisitor;
 import net.sourceforge.czt.circus.visitor.ParallelActionVisitor;
 import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
@@ -69,6 +69,7 @@ import net.sourceforge.czt.z.ast.ZRenameList;
 
 // TODO: CHECK: aSig.getFormalParams() could just be within getLocalVars(). add the qualification of the decl as an ann
 import net.sourceforge.czt.z.util.ZUtils;
+
 /**
  * <p> bla bla bla </p>
  * <p>
@@ -111,34 +112,34 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @author Manuela
  */
 public class ActionChecker
-  extends Checker<ActionSignature> 
-  implements 
-             // DONE
-             SchExprActionVisitor<ActionSignature>,                  //  C.12.3
-             CallActionVisitor<ActionSignature>,                     //  C.12.4, C.12.19
-             CircusCommandVisitor<ActionSignature>,                  //  C.12.5
-             BasicActionVisitor<ActionSignature>,
-               //SkipActionVisitor,                                      C.12.6
-               //StopActionVisitor,                                      C.12.7
-               //ChaosActionVisitor,                                     C.12.8
-             SubstitutionActionVisitor<ActionSignature>,             //  C.12.9     
-             PrefixingActionVisitor<ActionSignature>,                //  C.12.10
-             GuardedActionVisitor<ActionSignature>,                  //  C.12.11
-             Action2Visitor<ActionSignature>,                        
-               //SeqActionIteVisitor,                                    C.12.12
-               //ExtChoiceActionIteVisitor,                              C.12.13
-               //IntChoiceActionIteVisitor,                              C.12.14
-               //ParActionIteVisitor (i.e. interleave, no name set),     C.12.15  
-             InterleaveActionVisitor<ActionSignature>,               //  C.12.16
-             ParallelActionVisitor<ActionSignature>,                 //  C.12.17             
-             HideActionVisitor<ActionSignature>//,                     //  C.12.18
-        
+  extends Checker<ActionSignature>
+  implements
+  // DONE
+  SchExprActionVisitor<ActionSignature>, //  C.12.3
+  CallActionVisitor<ActionSignature>, //  C.12.4, C.12.19
+  CircusCommandVisitor<ActionSignature>, //  C.12.5
+  BasicActionVisitor<ActionSignature>,
+  //SkipActionVisitor,                                      C.12.6
+  //StopActionVisitor,                                      C.12.7
+  //ChaosActionVisitor,                                     C.12.8
+  SubstitutionActionVisitor<ActionSignature>, //  C.12.9     
+  PrefixingActionVisitor<ActionSignature>, //  C.12.10
+  GuardedActionVisitor<ActionSignature>, //  C.12.11
+  Action2Visitor<ActionSignature>,
+  //SeqActionIteVisitor,                                    C.12.12
+  //ExtChoiceActionIteVisitor,                              C.12.13
+  //IntChoiceActionIteVisitor,                              C.12.14
+  //ParActionIteVisitor (i.e. interleave, no name set),     C.12.15  
+  InterleaveActionVisitor<ActionSignature>, //  C.12.16
+  ParallelActionVisitor<ActionSignature>, //  C.12.17             
+  HideActionVisitor<ActionSignature>,                     //  C.12.18
+  MuActionVisitor<ActionSignature>            // C.12.21
 //             // TODO
 //             //Action1Visitor<ActionSignature>,                          
 //             
 //             
 //             //ActionDVisitor,
-//             MuActionVisitor<ActionSignature>,
+//             
 //             
 //             
 //             
@@ -158,7 +159,7 @@ public class ActionChecker
 //             AlphabetisedParallelActionVisitor<ActionSignature>,
 //             
 {
-  
+
   //a Z decl checker
   protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
 
@@ -174,68 +175,37 @@ public class ActionChecker
    * Returns an empty action signature. It covers Skip, Stop, and Chaos.
    *
    *@law C.12.3
-   */    
+   */
   @Override
   public ActionSignature visitSchExprAction(SchExprAction term)
   {
     // Action ::= Schema-Exp    
     checkActionParaScope(term, null);
-    
-    ActionSignature actionSignature = factory().createEmptyActionSignature();
-    
+
     // type check the schema expressions
     // TODO: CHECK: should use processParaChecker?
-    Type type = term.getExpr().accept(exprChecker());    
-    
+    Type type = term.getExpr().accept(exprChecker());
+
     SchemaType schType = referenceToSchema(type);
     if (schType != null)
     {
-      Signature signature = schType.getSignature();
-      
-      // resolve any variable type
-      if (!(signature instanceof VariableSignature)) {
-        Signature sig = createNewIds(signature);
-        SchemaType newSchemaType = factory().createSchemaType(sig);
-        type = factory().createPowerType(newSchemaType);
-        signature = sig;
-      }            
-      
-      // make sure all names are in (process) scope
-      for(NameTypePair pair : signature.getNameTypePair())
-      {
-        Type2 expected = GlobalDefs.unwrapType(getType(pair.getName()));
-        
-        if (expected instanceof UnknownType)
-        {          
-          Object[] params = { getCurrentProcessName(), getCurrentActionName(), term };
-          error(term, ErrorMessage.SCHEXPR_ACTION_UNKNOWN_VAR, params);
-        
-        }
-        else
-        {
-          Type2 found = GlobalDefs.unwrapType(pair.getType());        
-          UResult unified = unify(found, expected);        
-          if (unified.equals(UResult.FAIL))
-          {
-            Object[] params = { getCurrentProcessName(), getCurrentActionName(), 
-              term, expected, found };
-            error(term, ErrorMessage.SCHEXPR_ACTION_FAIL_UNIFY, params);
-          }
-        }        
-      }      
+      // checks the schema expression
+      List<ErrorAnn> varScopeErrors = checkStateVarsScopeInSchExprAction(term, schType);
+      raiseErrors(term, varScopeErrors);
     }
     // not a schema expression in a schema expression action
     else
     {
-      Object[] params = { getCurrentProcessName(), getCurrentActionName(), term, type };
+      Object[] params = {getCurrentProcessName(), getCurrentActionName(), term, type };
       error(term, ErrorMessage.NON_SCHEXPR_IN_SCHEXPR_ACTION, params);
     }
-    
+
+    ActionSignature actionSignature = factory().createEmptyActionSignature();
     addActionSignatureAnn(term, actionSignature);
 
     return actionSignature;
   }
-  
+
   /**
    * This visiting method represents all forms of action call. They are:
    * simple calls A, parameterised calls A(el), or on-the-fly calls, 
@@ -246,120 +216,103 @@ public class ActionChecker
    * Tools building actions on-the-fly dynamically MUST follow the protocol.
    *
    *@law C.12.4, C.12.19
-   */    
+   */
   //ok - verificado em 15/09/2005 às 17:02
   public ActionSignature visitCallAction(CallAction term)
   {
     // NOTE: Most of this code follows the pattern from z.ExprChecker.visitRefExpr.
-    
+
     // Action ::= N
     // Action ::= N(Expression+)
     // Action ::= (Declaration @ Action)(Expression+)
     // Action ::= (\mu N @ ParAction)(Expression+)
-    
+
     // retrieve the type of this name.
     Name call = term.getName();
-    
+
     checkActionParaScope(term, call);
-    
+
     Type type = getType(call);
-        
+
     boolean addedPostChecking = false;
     //add this reference for post checking --- this is CZT's approach
-    if (!GlobalDefs.containsObject(paraErrors(), term)) {
+    if (!GlobalDefs.containsObject(paraErrors(), term))
+    {
       // TODO: double check on this as manuela's solution is different from CZT's'
       //       in hers, this is only added within a particular case when the 
       //       action type is unknown and the current action name is different from 
       //       the one being called.
       if (!ZUtils.namesEqual(getCurrentActionName(), call))
       {
-        paraErrors().add(term);      
+        paraErrors().add(term);
         //addAction4PostCheck(getCurrentActionName());
         addedPostChecking = true; // see this flag below.
       }
     }
-    
+
     //if this is undeclared, create an unknown type with this CallAction
     //i.e., getType(call) may add a UndeclaredAdd to call
     Object undecAnn = call.getAnn(UndeclaredAnn.class);
-    
+
     //if we are using name IDs, then read the type off the name if it
     //is not in the type environment    
     // TODO: CHECK: ask Tim, this is a known name then?
-    if (undecAnn != null && sectTypeEnv().getUseNameIds()) {      
+    if (undecAnn != null && sectTypeEnv().getUseNameIds())
+    {
       type = GlobalDefs.getTypeFromAnns(term);
-      if (!(type instanceof UnknownType)) {
+      if (!(type instanceof UnknownType))
+      {
         GlobalDefs.removeAnn(call, UndeclaredAnn.class);
         undecAnn = null;
       }
     }
-    
+
     // if name is unknown, add the call to its list of associated names.
-    if (undecAnn != null) 
+    if (undecAnn != null)
     {
       assert type instanceof UnknownType;
       UnknownType uType = (UnknownType) type;
       uType.setZName(ZUtils.assertZName(call));
-      
+
       // post checking ?      
       if (!addedPostChecking)
       {
-        paraErrors().add(term);      
+        paraErrors().add(term);
         //addAction4PostCheck(getCurrentActionName());
         addedPostChecking = true;
       }
-      //else  TODO: CHECK this part in manuelas code
-      //{
-      //  // tratamento especial para o caso de chamada recursiva
-      //  List<NameTypePair> params = localCircTypeEnv().getActionInfo(actionDecl).getParams();
-      //  // chama um método auxiliar que irá verificar se a chamada está correta
-      //  checkCallAction(term, params);
-      //}
+    //else  TODO: CHECK this part in manuelas code
+    //{
+    //  // tratamento especial para o caso de chamada recursiva
+    //  List<NameTypePair> params = localCircTypeEnv().getActionInfo(actionDecl).getParams();
+    //  // chama um método auxiliar que irá verificar se a chamada está correta
+    //  checkCallAction(term, params);
+    //}
     }
-    
+
     if (type instanceof GenericType)
     {
       assert false : "TODO: generic calls? actions can't be generic, actually? or can thouhj gen formals from process?";
-       if (!isPending())
-       {
-          
-       }
-       else
-       {
-          
-       }
-    }   
-    
-    // if the name is of a declared action type
-    if (type instanceof ActionType)
-    {
-      ActionType aType = (ActionType)type;
-      ActionSignature aSig = aType.getActionSignature();
-      
-      // if the signature refers to the call name, we are on
-      if (ZUtils.namesEqual(call, aSig.getActionName()))
+      if (!isPending())
       {
-        ZExprList actuals = term.getZExprList();
-        List<NameTypePair> resolvedFormals = aSig.getFormalParams().getNameTypePair();                
-                
-        checkCallParameters(term, resolvedFormals, actuals);
-        
+
       }
-      // otherwise this is a awkward (type checker protocol) error. (?)
       else
       {
-        Object [] params = { getCurrentProcessName(), getCurrentActionName() };
-        error(term, ErrorMessage.IS_NOT_ACTION_NAME, params);       
-      }            
-    }        
+
+      }
+    }
+
+    List<ErrorAnn> callErrors = checkCallActionConsistency(GlobalDefs.unwrapType(type), term);
+    raiseErrors(term, callErrors);
     
     // calls have empty signatures.
     ActionSignature actionSignature = factory().createEmptyActionSignature();
     addActionSignatureAnn(term, actionSignature);
-    
+
     return actionSignature;
   }
-  
+
   /**
    * Forward command checking to the appropriate checker. This links C.12 with C.17.
    *
@@ -369,24 +322,24 @@ public class ActionChecker
   public ActionSignature visitCircusCommand(CircusCommand term)
   {
     return term.accept(commandChecker());
-  }  
+  }
 
   /**
    * Returns an empty action signature. It covers Skip, Stop, and Chaos.
    *
    *@law C.12.6, C.12.7, C.12.8
-   */  
+   */
   // Action ::= Skip | Stop | Chaos
   public ActionSignature visitBasicAction(BasicAction term)
-  {    
+  {
     checkActionParaScope(term, null);
-    
+
     // \Gamma \rhd Skip | Stop | Chaos : Action 
     ActionSignature actionSignature = factory().createEmptyActionSignature();
-    addActionSignatureAnn(term, actionSignature);    
+    addActionSignatureAnn(term, actionSignature);
     return actionSignature;
-  }  
-  
+  }
+
   /**
    * This isometric resolution matrix is used to figure out where is the
    * problem for substitution names, if any. The line 0 represents the case
@@ -394,8 +347,20 @@ public class ActionChecker
    * The same applies for columns and OLD names. This trick avoids too many
    * if/else statements.
    */
-  private enum SubstResolution { Go, Old, New, Both };  
-  private static final SubstResolution[][] SUBST_MATRIX = 
+  private enum SubstResolution
+  {
+
+    Go, Old, New, Both
+  }
+
+  
+  
+         ;
+
+  private static final  SubstResolution  
+  
+    
+      [][] SUBST_MATRIX = 
       {                    /* old name ok          old name bad */
         /* new name ok  */  { SubstResolution.Go,  SubstResolution.Old },  
         /* new name bad */  { SubstResolution.New, SubstResolution.Both } 
@@ -408,73 +373,80 @@ public class ActionChecker
   public ActionSignature visitSubstitutionAction(SubstitutionAction term)
   { 
     checkActionParaScope(term, null);
-           
+
     // the parser enforces              #ln1 = #ln2
-    ZRenameList zrl = term.getZRenameList();    
+    ZRenameList zrl = term.getZRenameList();
     int i = 0;
     SubstResolution resolution;
     boolean hasError = false;
-    for(NewOldPair nop : zrl) 
-    {       
+    for (NewOldPair nop : zrl)
+    {
       // check both ln1 and ln2 are known local variables,   
       // (Into lnX \dom(\Gamma.localVars)) for X= {1,2}        
       ZName newName = nop.getZDeclName();
       ZName oldName = nop.getZRefName();
-      
+
       assert false : "TODO";
       // retrieve the resolution from the valid subsitution list
       // TODO: DECISION: do not stop in case of error, but report it; or stop it?
       resolution = null; //SUBST_MATRIX[(isLocalVar(newName) ? 1 : 0)]
-                         //            [(isLocalVar(oldName) ? 1 : 0)];        
+      //            [(isLocalVar(oldName) ? 1 : 0)];        
       if (resolution.equals(SubstResolution.Go))
       {
         assert false : "TODO";
-        /*
-        Type2 expectedU = unwrapType(typeEnv().getType(oldName));
-        Type2 foundU = unwrapType(typeEnv().getType(newName));
-        // TODO: CHECK: should we add this to the unification environment
-        if(foundU instanceof UnknownType) {
-          Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), 
-                              assertZDeclName(actionSignature.getActionName()).getWord(), newName.getWord()};
-          error(term, ErrorMessage.RENAME_ACTION_UNDECLARED_VAR, params);
-        } 
-        else if(expectedU instanceof UnknownType) {
-          Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), 
-                              assertZDeclName(actionSignature.getActionName()).getWord(), oldName.getWord()};
-          error(term, ErrorMessage.RENAME_ACTION_UNDECLARED_VAR, params);
-        }
-        // TODO: CHECK: could this result be partial?
-        else if (unify(foundU, expectedU) != SUCC) {
-          Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), 
-                              assertZDeclName(actionSignature.getActionName()).getWord(), expectedU, foundU, i+1};
-          error(term, ErrorMessage.ACTION_RENAME_NOT_UNIFY, params);
-          break;
-        }
-         **/
+      /*
+      Type2 expectedU = unwrapType(typeEnv().getType(oldName));
+      Type2 foundU = unwrapType(typeEnv().getType(newName));
+      // TODO: CHECK: should we add this to the unification environment
+      if(foundU instanceof UnknownType) {
+      Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), 
+      assertZDeclName(actionSignature.getActionName()).getWord(), newName.getWord()};
+      error(term, ErrorMessage.RENAME_ACTION_UNDECLARED_VAR, params);
       } 
+      else if(expectedU instanceof UnknownType) {
+      Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), 
+      assertZDeclName(actionSignature.getActionName()).getWord(), oldName.getWord()};
+      error(term, ErrorMessage.RENAME_ACTION_UNDECLARED_VAR, params);
+      }
+      // TODO: CHECK: could this result be partial?
+      else if (unify(foundU, expectedU) != SUCC) {
+      Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), 
+      assertZDeclName(actionSignature.getActionName()).getWord(), expectedU, foundU, i+1};
+      error(term, ErrorMessage.ACTION_RENAME_NOT_UNIFY, params);
+      break;
+      }
+       **/
+      }
       else
       {
-         String name = "";
-         switch (resolution) 
-         {
-           case New: name = newName.toString();  break;
-           case Old: name = oldName.toString();  break;
-           case Both: name = newName.toString() + " and " + 
-                             oldName.toString(); break;
-         }           
-         Object [] params = { resolution, name, (i+1), getCurrentActionName(), getCurrentProcessName() };
-         //error(term, ErrorMessage.NOT_LOCAL_VAR_NAME_IN_SUBST_ACTION, params);                     
-      }        
-      i++;        
+        String name = "";
+        switch (resolution)
+        {
+          case New:
+            name = newName.toString();
+            break;
+          case Old:
+            name = oldName.toString();
+            break;
+          case Both:
+            name = newName.toString() + " and " +
+              oldName.toString();
+            break;
+        }
+        Object[] params = {resolution, name, (i + 1), getCurrentActionName(),
+          getCurrentProcessName()
+        };
+      //error(term, ErrorMessage.NOT_LOCAL_VAR_NAME_IN_SUBST_ACTION, params);                     
+      }
+      i++;
     }
-    
+
     // check the action to substitute,  \Gamma \rhd a: Action
     ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
-    addActionSignatureAnn(term, actionSignature);        
-    return actionSignature;    
+    addActionSignatureAnn(term, actionSignature);
+    return actionSignature;
   }
-  
-  
+
   /**
    * Returns an action signature containing the list  . It covers Skip, Stop, and Chaos.
    *@law C.12.10
@@ -483,39 +455,42 @@ public class ActionChecker
   public ActionSignature visitPrefixingAction(PrefixingAction term)
   {
     checkActionParaScope(term, null);
-    
+
     // enter the scope for input fields
     typeEnv().enterScope();
-    
+
     // typecheck the communication part returning a list of name type pairs
     // it returns the input variables that need to be declared.
     // * calculate (VarsC c \Gamma)
-    List<NameTypePair> comSig = term.getCommunication().accept(commChecker());    
-    List<NameTypePair> inputVars = ((CommunicationChecker)commChecker()).filterInputs(comSig); 
-    
+    List<NameTypePair> comSig = term.getCommunication().accept(commChecker());
+    List<NameTypePair> inputVars = ((CommunicationChecker) commChecker()).filterInputs(comSig);
+
     // Adds input variables into S1. The oplus at the signature level is implemented down below.
     // * create \Gamma' = (\Gamma \oplus (VarsC c \Gamma)) 
     // 
     // NOTE: variables should be added locally at the input field 
     //addLocalVars(inputVars);
-    
+
     // type check given action in scope enriched with input variables
     // * checks \Gamma' \rhd a : Action
     ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
+
+    // clone the signature.
+    ActionSignature prefixSignature = (ActionSignature)actionSignature.create(actionSignature.getChildren());
     
     // updates the local variable signature for the prefixed action.
-    actionSignature.getLocalVars().getNameTypePair().addAll(0, inputVars);
-    
+    prefixSignature.getLocalVars().getNameTypePair().addAll(0, inputVars);
+
     // should contain the communication expressions!
-    actionSignature.getUsedCommunications().add(0, term.getCommunication());    
-    
+    prefixSignature.getUsedCommunications().add(0, term.getCommunication());
+
     // close input variables scope after analysing the entailing action
     typeEnv().exitScope();
- 
-    addActionSignatureAnn(term, actionSignature);    
+
+    addActionSignatureAnn(term, prefixSignature);
     return actionSignature;
   }
-  
+
   /**
    * First checks the predicate in the guard, where possible partial evaluation
    * is considered, and then checkes the guarded action itself.
@@ -527,18 +502,18 @@ public class ActionChecker
   public ActionSignature visitGuardedAction(GuardedAction term)
   {
     checkActionParaScope(term, null);
-    
+
     Pred pred = term.getPred();
     UResult solved = pred.accept(predChecker());
-    
+
     if (solved.equals(UResult.PARTIAL))
     {
       pred.accept(predChecker());
     }
-    
+
     ActionSignature signature = term.getCircusAction().accept(actionChecker());
     addActionSignatureAnn(term, signature);
-    
+
     return signature;
   }
 
@@ -560,61 +535,61 @@ public class ActionChecker
   public ActionSignature visitAction2(Action2 term)
   {
     // check within an action paragraph scope.
-    checkActionParaScope(term, null);    
-    
+    checkActionParaScope(term, null);
+
     // check each side
     ActionSignature actionSigL = term.getLeftAction().accept(actionChecker());
-    ActionSignature actionSigR = term.getRightAction().accept(actionChecker());    
-    
+    ActionSignature actionSigR = term.getRightAction().accept(actionChecker());
+
     // join the signatures, if possible (i.e. parsed specs shall always be).    
-    ActionSignature result = joinActionSignature(term, actionSigL, actionSigR);    
-    
+    ActionSignature result = joinActionSignature(term, actionSigL, actionSigR);
+
     // annotate the term with given signature.
     addActionSignatureAnn(term, result);
-    
-    return result;
-  }    
-  
-  protected NameSetType typeCheckNameSet(NameSet term)
-  { 
-    NameSetType result = (NameSetType)term.accept(exprChecker());
-    
-    assert false : "sort out name set and channel set update within action signature";
-    
-    //typeEnv().addUsedNameSets(...);
-    
+
     return result;
   }
-  
+
+  protected NameSetType typeCheckNameSet(NameSet term)
+  {
+    NameSetType result = (NameSetType) term.accept(exprChecker());
+
+    assert false : "sort out name set and channel set update within action signature";
+
+    //typeEnv().addUsedNameSets(...);
+
+    return result;
+  }
+
   protected ChannelSetType typeCheckChannelSet(ChannelSet term)
   {
     // TODO: CHECK: on-the-fly channel sets could be added latter? i.e. those built without channelsetpara
-    ChannelSetType result = (ChannelSetType)term.accept(exprChecker());
-    
+    ChannelSetType result = (ChannelSetType) term.accept(exprChecker());
+
     assert false : "sort out name set and channel set update within action signature";
     // adicionando os canais usados...
     //localCircTypeEnv().addUsedChans(result.getChannels().getNameTypePair());
     //typeEnv().addUsedChannelSets(...);
-    
+
     return result;
   }
-    
+
   /**
    * Partial.
    *@law C.12.16
    */
   public ActionSignature visitInterleaveAction(InterleaveAction term)
-  {    
+  {
     // check the name sets
     typeCheckNameSet(term.getLeftNameSet());
     typeCheckNameSet(term.getRightNameSet());
-    
+
     // check each side
     ActionSignature actionSignature = visitAction2(term);
-    addActionSignatureAnn(term, actionSignature);    
+    addActionSignatureAnn(term, actionSignature);
     return actionSignature;
   }
-  
+
   /**
    * Partial.
    *@law C.12.17
@@ -624,30 +599,14 @@ public class ActionChecker
     // check the channel and name sets
     typeCheckChannelSet(term.getChannelSet());
     typeCheckNameSet(term.getLeftNameSet());
-    typeCheckNameSet(term.getRightNameSet());    
-    
+    typeCheckNameSet(term.getRightNameSet());
+
     ActionSignature actionSignature = visitAction2(term);
     addActionSignatureAnn(term, actionSignature);
-    
+
     return actionSignature;
   }
-  
-  /**
-   * Auxiliary method used by other visitors. Not directly implementing any
-   * Action1, like Action2 directly implements ExtChoice, for instance.
-   */
-  public ActionSignature visitAction1(Action1 term)
-  {
-    // check within an action paragraph scope.
-    checkActionParaScope(term, null);    
-    
-    // check the action itself and add signature
-    ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());    
-    addActionSignatureAnn(term, actionSignature);
-    return actionSignature;
-    
-  }
-  
+
   /**
    * Typechecks the channel set and the inner action, checking both action and
    * process scopes. Creates and returns a signature containing the used 
@@ -657,37 +616,78 @@ public class ActionChecker
    */
   public ActionSignature visitHideAction(HideAction term)
   {
+    // check within an action paragraph scope.
+    checkActionParaScope(term, null);
+
     typeCheckChannelSet(term.getChannelSet());
+
+    ChannelSetType typeCS = (ChannelSetType) term.getChannelSet().accept(exprChecker());
+
+    // check the action itself and add signature
+    ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
     
-    ChannelSetType typeCS = (ChannelSetType)term.getChannelSet().accept(exprChecker());
+    // updated used channel sets
     
-    ActionSignature actionSignature = visitAction1(term);
     addActionSignatureAnn(term, actionSignature);
-    
+
     return actionSignature;
   }
-    
 //  //ok - verificado em 15/09/2005 às 17:02
 ////  public Object visitActionD(ActionD term)
 ////  { // Loop!      
 ////    return term.accept(actionChecker());
 ////  }
 //  
-//  // Action ::= \mu N @ Action
-//  //ok - verificado em 15/09/2005 às 17:03
-//  public ActionSignature visitMuAction(MuAction term)
-//  {
-//    DeclName name = term.getDeclName();
-//    CircusAction action = term.getCircusAction();
-//    
-//    addMuAction(name);
-//    ActionSignature signature = action.accept(actionChecker());
-//    removeMuAction(name);
-//    
-//    addActionSignatureAnn(term, signature);
-//    
-//    return signature;
-//  }
+  // Action ::= \mu N @ Action
+  //ok - verificado em 15/09/2005 às 17:03
+  public ActionSignature visitMuAction(MuAction term)
+  {
+    ZName aName = term.getZName();
+    CircusAction action = term.getCircusAction();
+    
+    // check within an action paragraph scope.
+    checkActionParaScope(term, aName);
+
+    // open scope for recursive variable
+    typeEnv().enterScope();
+    
+    // add recursive variable to the type environment
+    // the action type for the call just has an empty
+    // signature, like CallAction does.
+    ActionSignature aSig = factory().createEmptyActionSignature();
+    aSig.setActionName(aName);
+    ActionType aType = factory().createActionType(aSig);    
+    NameTypePair recVarPair = factory().createNameTypePair(aName, aType);    
+    typeEnv().add(recVarPair);
+    
+    // this action signature is set into "action" through the addActionSignatureAnn
+    // method present in all other visitors. So, "action" already have the signature
+    // annotation with "aName" associated with it.
+    ActionSignature actionSignature = checkActionDecl(aName, action, term);
+    
+    // For the MuAction, the signature is the same, but updated 
+    // with outer action name . TODO: check if we need a stacked environment here.
+    ActionSignature muSignature = factory().createActionSignature(null,
+      actionSignature.getFormalParams(),
+      actionSignature.getLocalVars(),
+      actionSignature.getCommunicationList());
+
+    // exit recursive variable scope
+    typeEnv().exitScope();
+    
+    // update the action type for the call action
+    aType.setActionSignature(actionSignature);   
+    // add action type to CircusAction 
+    addTypeAnn(action, aType);
+    
+    // now, update the muSignature with the current action name.    
+    ActionType actionType = factory().createActionType(muSignature);    
+    addActionSignatureAnn(term, muSignature);
+    addTypeAnn(term, actionType);
+    
+    // check the action itself and add signature
+    return muSignature;
+  }
 //
 //  
 //  
