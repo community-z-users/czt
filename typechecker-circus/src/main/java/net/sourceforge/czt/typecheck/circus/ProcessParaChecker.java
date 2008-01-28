@@ -9,11 +9,11 @@
 
 package net.sourceforge.czt.typecheck.circus;
 
+import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionType;
-import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.NameSetPara;
 import net.sourceforge.czt.circus.ast.NameSetType;
@@ -21,13 +21,11 @@ import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
-import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.ZUtils;
 
 
 /**
@@ -61,6 +59,25 @@ public class ProcessParaChecker extends Checker<Signature>
     ((ParaChecker)paraChecker()).setCheckingProcessZPara(true);
     Signature result = term.accept(paraChecker());
     ((ParaChecker)paraChecker()).setCheckingProcessZPara(false);
+        
+    List<NameTypePair> pairs = result.getNameTypePair();
+    for (NameTypePair pair : pairs)
+    {
+      //if the name already exists globally, raise an error
+      ZName zName = pair.getZName();      
+      Type type = typeEnv().getType(zName);
+      
+      // if the type is known for this name at the process's global scope,
+      // then we have duplicated declaration. TODO: check this with a test case.
+      if (!(type instanceof UnknownType))
+      {        
+        Object [] params = { zName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
+        error(term, ErrorMessage.REDECLARED_DEF, params);
+      }
+    }      
+    
+    // add it to the process scope early
+    typeEnv().add(pairs);    
     
     return result;
   }
@@ -104,77 +121,28 @@ public class ProcessParaChecker extends Checker<Signature>
    */
   @Override
   public Signature visitActionPara(ActionPara term)
-  {    
-    // retrieve the paragraph structure
-    ZName aName = term.getZName();
-    CircusAction action = term.getCircusAction();
-       
-    // check process paragraph scope.
-    checkProcessParaScope(term, aName);
-    
-    ActionSignature aSig;
-    
-    // TODO: CHECK: not sure if this is a good idea because it may annotate
-    //              aName with an UnderclaredAnn ? Not if directly from typeEnv()
-    //              rather than Checker.getType(aName);    
-    Type type = typeEnv().getType(aName);
-    if (type instanceof UnknownType)
-    {
-      // set current action name being checked.
-      // this opens a action para scope, which is cleared at the end.
-      // Actions can only be checked within an opened action para scope.
-      Name old = setCurrentActionName(aName);
-      setCurrentAction(action);
-      if (old != null)
-      {
-        Object[] params = { getCurrentProcessName(), aName, old };
-        error(term, ErrorMessage.NESTED_ACTIONPARA_SCOPE, params);
-      }
-
-      // enter scope for local variables within an action paragraph    
-      // since these are local to the process, they must be within 
-      // the type environment.
-      typeEnv().enterScope();
-
-      // check the declared action updating its name on the returned action signature
-      aSig = action.accept(actionChecker());
-      assert ZUtils.namesEqual(aSig.getActionName(), aName) : 
-        "action signature built outside proper action para scope: found: " + 
-        aSig.getActionName() + "; expected: " + aName;
-
-      // closes local vars and formal parameters scope
-      typeEnv().exitScope();
-
-      // clears the process para scope.
-      old = setCurrentActionName(null);
-      assert old == aName : "Invalid action para scoping for " + aName;
-      setCurrentAction(null);
-      
-    }
-    else
-    {
-      aSig = factory().createEmptyActionSignature();
-      aSig.setActionName(aName);
-      Object [] params = {aName, "action paragraph", getCurrentProcessName() };
-      error(term, ErrorMessage.REDECLARED_DEF, params);      
-    }
+  { 
+    // check the inner action - also used in MuAction
+    // it also checks for duplicate names.
+    ActionSignature aSig = checkActionDecl(term.getZName(), term.getCircusAction(), term);
     
     // wraps up the action type
     ActionType actionType = factory().createActionType(aSig);    
-    NameTypePair pair = factory().createNameTypePair(aName, actionType);
+    NameTypePair pair = factory().createNameTypePair(term.getZName(), actionType);
     Signature result = factory().createSignature(pair);
     
     // add action type to CircusAction
     addTypeAnn(term.getCircusAction(), actionType);
+    
     // add signature to ActionPara
     addSignatureAnn(term, result);
-    
+  
     // put this paragraph into the BasicProcess scope early,
     // so that some forms of mutual recursion may be resolved directly.
     // i.e., allow the name to be into scope at early stage?
     // TODO: CHECK: what if we get duplicated names?
     typeEnv().add(pair);
-    
+        
     return result;
   }
   
@@ -225,6 +193,7 @@ public class ProcessParaChecker extends Checker<Signature>
     // check process paragraph scope.
     checkProcessParaScope(term, nsName);
     
+    // checking for duplicates
     Type type = typeEnv().getType(nsName);
     if (type instanceof UnknownType)
     {
@@ -238,7 +207,7 @@ public class ProcessParaChecker extends Checker<Signature>
     }
     else
     {
-      Object [] params = { nsName, "name set paragraph", getCurrentProcessName() };
+      Object [] params = { nsName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
       error(term, ErrorMessage.REDECLARED_DEF, params);
     }
     assert (type instanceof NameSetType || type instanceof UnknownType);

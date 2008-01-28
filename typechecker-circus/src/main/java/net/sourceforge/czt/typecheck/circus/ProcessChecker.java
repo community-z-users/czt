@@ -18,14 +18,17 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
-import net.sourceforge.czt.circus.ast.ActionSignature;
+import java.util.List;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
+import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.visitor.ZParaListVisitor;
 
 /**
  * This visitor produces a ProocessSignature for each Circus process class.
@@ -39,6 +42,7 @@ import net.sourceforge.czt.z.ast.ZParaList;
  */
 public class ProcessChecker extends Checker<ProcessSignature>
   implements 
+      ZParaListVisitor<ProcessSignature>,
       BasicProcessVisitor<ProcessSignature>       // C.8.1
 //             // Parameterised process 
 //             ParamProcessVisitor<ProcessSignature>,               
@@ -216,11 +220,20 @@ public class ProcessChecker extends Checker<ProcessSignature>
     {
       assert CircusUtils.isCircusInnerProcessPara(para) : 
         "invalid process paragraph for " + getCurrentProcessName();
-      
+          
       // check and fill the basic process signature
-      para.accept(basicProcessChecker());
+      Signature paraSig = para.accept(basicProcessChecker());      
     }
     
+    // TODO: CHECK THIS WORKS checks mutually recursive calls.
+    // Manuela: the Circus type rules do not treat this.
+    //postActionCallCheck();
+    
+    // for mutually recursive actions.
+    if (needPostCheck())
+    {
+      postCheck();
+    }    
     // clear the visitor's current signature.
     basicProcessChecker().setCurrentBasicProcessSignature(null);
     
