@@ -15,7 +15,11 @@ import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.CommPattern;
 import net.sourceforge.czt.circus.ast.CommunicationList;
 import net.sourceforge.czt.circus.ast.NameSetType;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.ZNameList;
 
 /**
@@ -24,12 +28,7 @@ import net.sourceforge.czt.z.ast.ZNameList;
  */
 public class GlobalDefs
   extends net.sourceforge.czt.typecheck.z.util.GlobalDefs
-{
-  public static final KindOfProcess NORMAL = KindOfProcess.NORMAL;
-  public static final KindOfProcess PARAM = KindOfProcess.PARAM;
-  public static final KindOfProcess INDEX = KindOfProcess.INDEX;
-  public static final KindOfProcess GEN = KindOfProcess.GEN;  
-
+{  
   //non-safe typecast
   public static ActionType actionType(Object o)
   {
@@ -39,6 +38,14 @@ public class GlobalDefs
   public static NameSetType nameSetType(Object o)
   {
     return (NameSetType) o;
+  }
+  
+  public static boolean isIgnorePara(Para term)
+  {
+    return 
+      (term instanceof NarrPara) ||
+      (term instanceof LatexMarkupPara) ||
+      (term instanceof UnparsedPara);      
   }
   
   /**
