@@ -39,6 +39,7 @@ public class TypeCheckCommand
     boolean sortDeclNames = 
       getBooleanProperty(manager, PROP_TYPECHECK_SORT_DECL_NAMES);
     // add other properties later
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, sortDeclNames);
+    
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, false);
   }
 }
