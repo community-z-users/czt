@@ -15,31 +15,48 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.typecheck.circus;
 
+import java.util.List;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.circus.ast.CallAction;
+import net.sourceforge.czt.circus.visitor.CallActionVisitor;
+import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
+import net.sourceforge.czt.typecheck.z.util.ParameterAnn;
+import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.ZName;
+
 /**
+ * <p>
  * At the end of the typechecker, this checker visits any previously
  * unresolved SetExprs and RefExprs (expressions that may introduce a
  * variable type into their type) to ensure that all implicit
  * parameters have been determined.
+ * </p>
+ * <p>
+ * In Circus, due to the presence of mutually recurisve calls,
+ * we also have post checking for action and process calls. 
+ * </p>
  */
 public class PostChecker
   extends Checker<net.sourceforge.czt.typecheck.z.ErrorAnn>
-/*implements CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
-CallActionVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>*/
+implements //CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
+  CallActionVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>
 {
 
-  protected net.sourceforge.czt.typecheck.z.PostChecker zPostChecker;
+  protected net.sourceforge.czt.typecheck.z.PostChecker zPostChecker_;
 
   public PostChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
-    zPostChecker =
+    zPostChecker_ =
       new net.sourceforge.czt.typecheck.z.PostChecker(typeChecker);
   }
 
-//  public net.sourceforge.czt.typecheck.z.ErrorAnn visitTerm(Term term)
-//  {
-//    return term.accept(zPostChecker);
-//  }
+  public net.sourceforge.czt.typecheck.z.ErrorAnn visitTerm(Term term)
+  {
+    return term.accept(zPostChecker_);
+  }
 //
 //  public net.sourceforge.czt.typecheck.z.ErrorAnn visitCallProcess(CallProcess term)
 //  {
@@ -69,40 +86,47 @@ CallActionVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>*/
 //    return errorAnn;
 //  }
 //
-//  public net.sourceforge.czt.typecheck.z.ErrorAnn visitCallAction(CallAction term)
-//  {
-//    ActionSignature actionSignature = factory().createActionSignature();
-//    ZRefName actionRef = assertZRefName(term.getRefName());
-//    ZDeclName actionDecl = factory().createZDeclName(actionRef);
-//    net.sourceforge.czt.typecheck.z.ErrorAnn errorAnn = null;
-//
-////    Type typeRefName = (Type)typeEnv().getType(actionRef);
-//
-//    if (!localCircTypeEnv().isAction(actionDecl))
-//    {
-//      Object[] params = {actionDecl.getWord()};
-//      errorAnn = errorAnn(term, ErrorMessage.IS_NOT_ACTION_NAME, params);
-//    }
-//    else
-//    {
-////      ActionType actionType = (ActionType)typeRefName;
-//      ActionType actionType = localCircTypeEnv().getActionType(actionDecl);
-//      actionSignature = actionType.getActionSignature();
-//
-//      DeclName currentAct = (DeclName) actions4PostCheck().remove(0);
-//      setCurrentAction(currentAct);
-//
-//      List<NameTypePair> params = null;
-//      if (actionSignature.getParams() != null)
-//      {
-//        params = actionSignature.getParams().getNameTypePair();
-//      }
-//      // chama um método auxiliar que irá verificar se a chamada está correta
-//      errorAnn = checkCallAction(term, params);
-//    }
-//
-//    return errorAnn;
-//  }
+  
+  @Override
+  public net.sourceforge.czt.typecheck.z.ErrorAnn visitCallAction(CallAction term)
+  {    
+    boolean added;
+    net.sourceforge.czt.typecheck.z.ErrorAnn result;
+    ZName zName = term.getZName();
+    UndeclaredAnn uAnn = zName.getAnn(UndeclaredAnn.class);
+    final boolean nameIsUndeclared = uAnn != null;
+    if (nameIsUndeclared) 
+    {            
+      result = createUndeclaredNameError(zName);
+      GlobalDefs.removeAnn(zName, uAnn);      
+      added = addErrorAnn(term, result);
+    }
+    else
+    {
+      Type type = getType(zName);
+      List<ErrorAnn> callErrors = checkCallActionConsistency(GlobalDefs.unwrapType(type), term);      
+      
+      // add the errors to all terms.
+      added = false;
+      result = null;
+      for(ErrorAnn e : callErrors)
+      {
+        boolean r = addErrorAnn(term, e);
+        added = added || r;
+      }
+      
+      // accumulate all post check errors at once.
+      if (added)
+      {        
+        Object[] params = { getConcreteSyntaxSymbol(term), term, getCurrentProcessName(), callErrors.size() };
+        result = errorAnn(term, ErrorMessage.POSTCHECKING_CALL_ERROR, params);
+        // cast it as a Circus ErrorAnn
+        ((ErrorAnn)result).addCallErrors(callErrors);
+      }
+    }      
+    return added ? result : null;
+  }
+  
 //
 //  // TODO: Check: it seems a bug here because the received parameter is assigned inside this method.
 //  //              this does not come out in the result. That is the assignments on the parameter errorann is lost!!!

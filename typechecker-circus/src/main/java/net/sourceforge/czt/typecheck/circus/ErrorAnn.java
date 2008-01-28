@@ -19,6 +19,9 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -40,6 +43,8 @@ import net.sourceforge.czt.typecheck.circus.util.CarrierSet;
  */
 public class ErrorAnn
     extends net.sourceforge.czt.typecheck.z.ErrorAnn {
+  
+  private List<ErrorAnn> callErrors_ = new ArrayList<ErrorAnn>();
   
   private static String RESOURCE_NAME =
       "net.sourceforge.czt.typecheck.circus.TypeCheckResources";
@@ -70,4 +75,42 @@ public class ErrorAnn
       Markup markup) {
     PrintUtils.print(term, writer, sectInfo, sectName, markup_);
   }
+  
+  /**
+   * In the case of inner errors raised during postchecking for calls,
+   * add them to the originating message.
+   * 
+   * @return the compound error string.
+   */
+  @Override
+  public String getMessage()
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(super.getMessage());
+    for(ErrorAnn e : callErrors_)
+    {
+      result.append("\n------------------------------\n");
+      result.append(e.getMessage());
+    }
+    if (!callErrors_.isEmpty())
+    {
+      result.append("\n------------------------------\n");
+    }
+    return result.toString();
+  }
+  
+  protected List<ErrorAnn> callErrors()
+  {
+    return Collections.unmodifiableList(callErrors_);
+  }
+  
+  protected void addCallErrors(List<ErrorAnn> list)
+  {
+    callErrors_.addAll(list);
+  }
+  
+  protected void clearCallErrors()
+  {
+    callErrors_.clear();
+  }  
 }
