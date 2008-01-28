@@ -32,7 +32,6 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.SchemaType;
-import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 
 /**
@@ -138,7 +137,9 @@ public class BasicProcessChecker extends Checker<Signature>
   {
     assert getCurrentBasicProcess() != null && getCurrentBasicProcesssignature() != null;
     
-    assert ZUtils.isZPara(term) : "invalid Z paragraph within process " + getCurrentProcessName();
+    // Leave this assertion out. If not processed, the checker will get it anyway.      
+    //assert ZUtils.isZPara(term) || GlobalDefs.isIgnorePara(term) : 
+    //  "invalid Z paragraph within process " + getCurrentProcessName();
     
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());                
