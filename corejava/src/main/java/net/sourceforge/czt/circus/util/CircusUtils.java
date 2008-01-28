@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
-import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.CommPattern;
@@ -166,12 +165,7 @@ public final class CircusUtils
     }
     return result;
   }
-
-  public static boolean isChannelFromDecl(ChannelDecl term)
-  {
-    return (term.getZGenFormals().isEmpty() && term.getExpr() instanceof RefExpr);
-  }
-
+  
   public static boolean isOnTheFly(Term term)
   {
     // if it is already from a getCircusAction/Process() with an annotation...

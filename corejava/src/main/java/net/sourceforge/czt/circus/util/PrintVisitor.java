@@ -27,10 +27,12 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.BasicProcess;
+import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.ChannelPara;
 import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
+import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circus.ast.DotField;
@@ -47,9 +49,11 @@ import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ProcessUsage;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
+import net.sourceforge.czt.circus.visitor.CallActionVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
 
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
+import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
@@ -119,6 +123,7 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
 public class PrintVisitor
   extends net.sourceforge.czt.z.util.PrintVisitor
   implements 
+  ChannelTypeVisitor<String>,
   ChannelSetTypeVisitor<String>,
   ProcessTypeVisitor<String>,
   ActionTypeVisitor<String>,
@@ -157,7 +162,8 @@ public class PrintVisitor
   ChannelDeclVisitor<String>,
   ZNameListVisitor<String>,
   SchExprActionVisitor<String>,
-  SpecVisitor<String>
+  SpecVisitor<String>,
+  CallActionVisitor<String>
 {
   
   private int tabCount = 0;
@@ -542,19 +548,14 @@ public class PrintVisitor
     //addNLAndTabs(result);
     return result.toString();
   }
-  /*
+  
   public String visitChannelType(ChannelType term)
   {
-    StringBuilder result =  new StringBuilder("CHANNEL_TYPE ");
-    result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ", ", "]"));
-    if (term.getResolvedType() != null)
-      result.append(visit(term.getResolvedType()));
-    else if (term.getDeclaredType() != null)
-      result.append(visit(term.getDeclaredType()));
-    else
-      result.append(" SYNCH");//TODO:Check this
+    StringBuilder result =  new StringBuilder("CHANNEL_TYPE[");
+    result.append(visit(term.getType()));
+    result.append("]");    
     return result.toString();
-  }*/
+  }
   
   public String visitChannelSetType(ChannelSetType term)
   {
@@ -711,6 +712,14 @@ public class PrintVisitor
   public String visitDotField(DotField term)
   {
     return (term instanceof OutputField ? "!" : ".") + visit(term.getExpr());
+  }
+  
+  public String visitCallAction(CallAction term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visit(term.getName()));
+    result.append(visitList(term.getZExprList(), "(", ", ", ")"));    
+    return result.toString();
   }
 
   private static FindProcessPara findPP_ = new FindProcessPara();
