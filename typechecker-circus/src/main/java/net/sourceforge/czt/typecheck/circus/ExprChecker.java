@@ -48,11 +48,7 @@ public class ExprChecker
   public ExprChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
-    zExprChecker_ = new net.sourceforge.czt.typecheck.z.ExprChecker(typeChecker);
-    
-    // adds type annotation to these circus expressions 
-//    CircusUtils.SYNCH_CHANNEL_EXPR.accept(this);
-//    CircusUtils.TRANSFORMER_EXPR.accept(this);  
+    zExprChecker_ = new net.sourceforge.czt.typecheck.z.ExprChecker(typeChecker);    
   }
 
   /**
