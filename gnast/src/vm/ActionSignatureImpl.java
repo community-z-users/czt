@@ -41,11 +41,11 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   } 
   
-  public void setFormalParams(net.sourceforge.czt.z.ast.Signature sig)
+  public net.sourceforge.czt.z.ast.Signature setFormalParams(net.sourceforge.czt.z.ast.Signature sig)
   {
     if (getZSignatureList().size() > FORMAL_PARAMS_INDEX ) {
       assert sig != null;
-      getZSignatureList().set(FORMAL_PARAMS_INDEX , sig);
+      return getZSignatureList().set(FORMAL_PARAMS_INDEX , sig);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }   
@@ -58,11 +58,11 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
   
-  public void setLocalVars(net.sourceforge.czt.z.ast.Signature sig)
+  public net.sourceforge.czt.z.ast.Signature setLocalVars(net.sourceforge.czt.z.ast.Signature sig)
   {
     if (getZSignatureList().size() > LOCAL_VARS_INDEX) {
       assert sig != null;
-      getZSignatureList().set(LOCAL_VARS_INDEX, sig);
+      return getZSignatureList().set(LOCAL_VARS_INDEX, sig);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }    
@@ -75,11 +75,11 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   } 
   
-  public void setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig)
+  public net.sourceforge.czt.z.ast.Signature setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig)
   {
     if (getZSignatureList().size() > USED_NAMESETS_INDEX ) {
       assert sig != null;
-      getZSignatureList().set(USED_NAMESETS_INDEX , sig);
+      return getZSignatureList().set(USED_NAMESETS_INDEX , sig);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }

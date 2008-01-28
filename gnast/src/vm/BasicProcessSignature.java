@@ -16,9 +16,10 @@
    * This is a convenience method. It sets the given non-null (possibly empty)  
    * signature of the name sets used by this basic process.
    * It is the same as getMainSignatures().set(USED_NAMESETS_INDEX, sig). It may throw a
-   * a UnsupportedAstClassException from getMainSignatures().
+   * a UnsupportedAstClassException from getMainSignatures(). The result is the old value 
+   * previously stored (if any).
    */
-  void setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig);
+  net.sourceforge.czt.z.ast.Signature setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig);
 
   /**
    * This is a convenience method. It represents the non-null (possibly empty, [ | true ])
@@ -32,9 +33,10 @@
    * This is a convenience method. It sets the given non-null (possibly empty)  
    * signature of the state signature of this basic process.
    * It is the same as getMainSignatures().set(STATE_SIGNATURE_INDEX, sig). It may throw a
-   * a UnsupportedAstClassException from getMainSignatures().
+   * a UnsupportedAstClassException from getMainSignatures(). The result is the old value 
+   * previously stored (if any).
    */
-  void setStateSignature(net.sourceforge.czt.z.ast.Signature sig);
+  net.sourceforge.czt.z.ast.Signature setStateSignature(net.sourceforge.czt.z.ast.Signature sig);
 
   /**
    * This is a convenience method. It extract from the list of signature lists the

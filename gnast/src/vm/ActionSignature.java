@@ -50,9 +50,10 @@
    * This is a convenience method. It sets the given non-null (possibly empty)  
    * signature of the formal parameters signature of this action.
    * It is the same as getZSignatureList().set(FORMAL_PARAMS_INDEX, sig). It may throw a
-   * a UnsupportedAstClassException from getMainSignatures().
+   * a UnsupportedAstClassException from getMainSignatures(). The result is the old value 
+   * previously stored (if any).
    */  
-  void setFormalParams(net.sourceforge.czt.z.ast.Signature sig);
+  net.sourceforge.czt.z.ast.Signature setFormalParams(net.sourceforge.czt.z.ast.Signature sig);
  
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
@@ -66,9 +67,10 @@
    * This is a convenience method. It sets the given non-null (possibly empty)  
    * signature of the local variables signature of this action.
    * It is the same as getZSignatureList().set(LOCAL_VARS_INDEX, sig). It may throw a
-   * a UnsupportedAstClassException from getMainSignatures().
+   * a UnsupportedAstClassException from getMainSignatures(). The result is the old value 
+   * previously stored (if any).
    */    
-  void setLocalVars(net.sourceforge.czt.z.ast.Signature sig);
+  net.sourceforge.czt.z.ast.Signature setLocalVars(net.sourceforge.czt.z.ast.Signature sig);
 
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
@@ -82,9 +84,10 @@
    * This is a convenience method. It sets the given non-null (possibly empty)  
    * signature of used name sets for this action signature (i.e. parallel actions).
    * It is the same as getZSignatureList().set(USED_NAMESETS_INDEX, sig). It may throw a
-   * a UnsupportedAstClassException from getMainSignatures().
+   * a UnsupportedAstClassException from getMainSignatures(). The result is the old value 
+   * previously stored (if any).
    */    
-  void setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig);
+  net.sourceforge.czt.z.ast.Signature setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig);
 
   /**
    * This is a convenience method. It represents the non-null (possibly empty)

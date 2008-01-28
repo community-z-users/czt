@@ -7,11 +7,11 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
 
-  public void setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig)
+  public net.sourceforge.czt.z.ast.Signature setUsedNameSets(net.sourceforge.czt.z.ast.Signature sig)
   {
     if (getMainSignatures().size() > USED_NAMESETS_INDEX) {
       assert sig != null;
-      getMainSignatures().set(USED_NAMESETS_INDEX, sig);
+      return getMainSignatures().set(USED_NAMESETS_INDEX, sig);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
@@ -24,11 +24,11 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
   
-  public void setStateSignature(net.sourceforge.czt.z.ast.Signature sig)
+  public net.sourceforge.czt.z.ast.Signature setStateSignature(net.sourceforge.czt.z.ast.Signature sig)
   {
     if (getMainSignatures().size() > STATE_SIGNATURE_INDEX) {
       assert sig != null;
-      getMainSignatures().set(STATE_SIGNATURE_INDEX, sig);
+      return getMainSignatures().set(STATE_SIGNATURE_INDEX, sig);
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
