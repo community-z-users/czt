@@ -23,17 +23,21 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionSignatureAnn;
+import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CallProcess;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusProcess;
+import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
+import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbol;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
 import net.sourceforge.czt.z.ast.Expr;
@@ -48,8 +52,10 @@ import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZStrokeList;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -142,6 +148,11 @@ public abstract class Checker<R>
     return typeChecker_.concreteSyntaxSymbolVisitor_;
   }
 
+  protected WarningManager warningManager()
+  {
+    return typeChecker_.warningManager_;
+  }
+  
   // TODO
   protected Checker<Signature> signatureChecker()
   {
@@ -315,11 +326,16 @@ public abstract class Checker<R>
     {
       List<Object> params = factory().list();
       params.add(getCurrentProcessName());
-      params.add(term.accept(concreteSyntaxSymbolVisitor()));
+      params.add(getConcreteSyntaxSymbol(term));
       params.add(name != null ? name : "");
       error(term, ErrorMessage.INVALID_PROCESS_PARA_SCOPE, params);
     }
     return result;
+  }
+  
+  protected CircusConcreteSyntaxSymbol getConcreteSyntaxSymbol(Term term)
+  {
+    return term.accept(concreteSyntaxSymbolVisitor());
   }
 
   /***********************************************************************
@@ -397,7 +413,7 @@ public abstract class Checker<R>
     {
       List<Object> params = factory().list();
       params.add(getCurrentProcessName());
-      params.add(term.accept(concreteSyntaxSymbolVisitor()));
+      params.add(getConcreteSyntaxSymbol(term));
       params.add(name != null ? name : "");
       error(term, ErrorMessage.INVALID_ACTION_PARA_SCOPE, params);
     }
@@ -509,6 +525,16 @@ public abstract class Checker<R>
     zsl.add(factory().createOutStroke());
     return zsl;
   }
+  
+  protected List<NameTypePair> addLocalVars(List<NameTypePair> pairs)
+  {
+    List<NameTypePair> result = factory().list();
+    for(NameTypePair pair : pairs)
+    {
+      result.addAll(addLocalVars(pair));
+    }
+    return result;
+  }
 
   /**
    * Adds local variables to the process scope. That means
@@ -526,12 +552,11 @@ public abstract class Checker<R>
     Type varType = pair.getType();
 
     ZStrokeList zsl = getCircusStrokeListForLocalVars();
-    ZStrokeList strokeList = factory().createZStrokeList();
     for (Stroke stroke : zsl)
     {
       // create new variable with unique ID, hence ZDeclName, combining 
       // its original strokes with the stroke to add here.
-      strokeList.clear();
+      ZStrokeList strokeList = factory().createZStrokeList();    
       strokeList.addAll(pair.getZName().getZStrokeList());
       strokeList.add(stroke);
       ZName strokedName = factory().createZDeclName(pair.getZName().getWord(),
@@ -556,17 +581,16 @@ public abstract class Checker<R>
    * @param signature state paragraph signature
    * @return resulting signature with all state variables (and their variants) added to the process global scope.
    */
-  protected Signature addStateVars(Signature signature)
+  protected Signature addStateVars(SchemaType schemaType)
   {    
     List<NameTypePair> result = factory().list();
     
     // for each pair add 4 variables into global scope
-    for(NameTypePair pair : signature.getNameTypePair())      
+    for(NameTypePair pair : schemaType.getSignature().getNameTypePair())      
     {
       result.addAll(addLocalVars(pair));
     }
     
-    // TODO: ask Tim: do we need to "createNewIds(signature)" here?
     Signature sig = factory().createSignature(result);
     return sig;
   }
@@ -1363,10 +1387,22 @@ public abstract class Checker<R>
     return result;
   }
 
-  protected boolean checkCallParameters(Term call,
+  /**
+   * Checks the given call, either an action or process call, is well formed.
+   * That includes checking number of parameters, their types, the structure 
+   * of the underlying call, and so on. The resulting value is a list of error
+   * annotatiosn that MUST be raise by whoever call this method.   
+   * See checkCallActionConsistency for more detailed documentation.
+   * 
+   * @param call the call term
+   * @param resolvedFormals the resolved formals
+   * @param actuals the resolved actuals
+   * @return list of error annotations to be raised by the callee.
+   */
+  protected List<ErrorAnn> checkCallParameters(Term call,
     List<NameTypePair> resolvedFormals, ZExprList actuals)
   {
-    boolean result;
+    List<ErrorAnn> result = factory().list();
 
     assert isWithinProcessParaScope() : "calls must be at least within process scope";
 
@@ -1389,13 +1425,12 @@ public abstract class Checker<R>
     switch (callRes)
     {
       case NormalCall:
-        result = true; // all is well.
+        // all is well. - empty result
         break;
       case NotParameterisedCall:
-        error(call,
+        result.add(errorAnn(call, 
           (isActionCall ? ErrorMessage.IS_NOT_PARAM_ACTION_IN_ACTION_CALL : ErrorMessage.IS_NOT_PARAM_PROCESS_IN_PROC_CALL),
-          params);
-        result = false;
+          params.toArray()));
         break;
       case Inconclusive:
         // deliberately check for the actuals, even if sizes are incompatible
@@ -1405,7 +1440,9 @@ public abstract class Checker<R>
         if (resolvedFormals.size() == resolvedActuals.size())
         {
           // case NormalParamCall:
-          result = true; // assume everything will be ok from here.
+          // assume everything will be ok from here -- result is empty
+          assert result.isEmpty() : "Non empty list of errors in call parameter check, when it should be empty.";
+          
           // case IncompatibleParamType: 
           for (int i = 0; i < resolvedFormals.size(); i++)
           {
@@ -1416,10 +1453,11 @@ public abstract class Checker<R>
             {
               params.add(i + 1);
               params.add(expectedFormal);
-              error(call,
-                (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_UNDECLARED_VAR : ErrorMessage.PARAM_PROC_CALL_UNDECLARED_VAR),
-                params);
-              result = false;
+              ErrorAnn err = errorAnn(call,
+                (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_UNDECLARED_VAR : 
+                                ErrorMessage.PARAM_PROC_CALL_UNDECLARED_VAR),
+                params.toArray());
+              result.add(err);
             }
             else
             {
@@ -1430,10 +1468,11 @@ public abstract class Checker<R>
                 params.add(expectedFormal);
                 params.add(foundActual);
                 params.add(i + 1);
-                error(call,
-                  (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_NOT_UNIFY : ErrorMessage.PARAM_PROC_CALL_NOT_UNIFY),
-                  params);
-                result = false;
+                ErrorAnn err = errorAnn(call,
+                  (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_NOT_UNIFY : 
+                                  ErrorMessage.PARAM_PROC_CALL_NOT_UNIFY),
+                  params.toArray());
+                result.add(err);
               }
             // else, this param is ok, result is true.
             }
@@ -1446,18 +1485,20 @@ public abstract class Checker<R>
           //case WrongNumberParameters:
           params.add(resolvedFormals.size());
           params.add(actuals.size());
-          error(call,
-            (isActionCall ? ErrorMessage.ACTION_CALL_DIFF_NUMBER_EXPRS : ErrorMessage.PROC_CALL_DIFF_NUMBER_EXPRS),
-            params);
-          result = false;
+          ErrorAnn err = errorAnn(call,
+            (isActionCall ? ErrorMessage.ACTION_CALL_DIFF_NUMBER_EXPRS : 
+                            ErrorMessage.PROC_CALL_DIFF_NUMBER_EXPRS),
+            params.toArray());
+          result.add(err);
         }
         break;
       case WrongNumberParameters:
         params.add(resolvedFormals.size());
-        error(call,
-          (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_WITHOUT_EXPRS : ErrorMessage.PARAM_PROC_CALL_WITHOUT_EXPRS),
-          params);
-        result = false;
+        ErrorAnn err = errorAnn(call,
+          (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_WITHOUT_EXPRS : 
+                          ErrorMessage.PARAM_PROC_CALL_WITHOUT_EXPRS),
+          params.toArray());
+        result.add(err);
         break;
       default:
         // takes care of NormalParamCall and IncompatibleParamType  
@@ -1467,20 +1508,105 @@ public abstract class Checker<R>
     return result;
   }
 
+  /**
+   * Checks the consistency of the call by checking that the call type from the
+   * current type environment correspond to the call name itself. It also checks
+   * the call actual parameters for type consistency with respect to the declared
+   * formals from the action type. This method is also used at post checking to
+   * guarantee mutually recursive actions are well typed. 
+   * <p>
+   * As during  postchecking it is not allowed to add error annotations, we 
+   * return an error annotation, if any.  This solution is not the neatest, 
+   * but the simplest. Tha is, instead of having two different methods, one for
+   * post checking and one for normal checking, doing the same work, we generalise 
+   * it and make the error ann result. Whoever call this method MUST raise the
+   * error, if any.
+   * </p>
+   * 
+   * to the 
+   * @param callType
+   * @param term
+   */
+  protected List<ErrorAnn> checkCallActionConsistency(Type2 callType, CallAction term)
+  {
+    List<ErrorAnn> result = factory().list();
+    if (callType instanceof ActionType)
+    {
+      ActionType aType = (ActionType) callType;
+      ActionSignature aSig = aType.getActionSignature();
+
+      // if the signature refers to the call name, we are on
+      if (ZUtils.namesEqual(term.getName(), aSig.getActionName()))
+      {
+        ZExprList actuals = term.getZExprList();
+        List<NameTypePair> resolvedFormals = aSig.getFormalParams().getNameTypePair();
+        List<ErrorAnn> callParamErrors = checkCallParameters(term, resolvedFormals, actuals);
+        result.addAll(callParamErrors);
+      }
+      // otherwise this is a awkward (type checker protocol) error. (?)
+      else
+      {
+        Object[] params = {getCurrentProcessName(), getCurrentActionName(), term};
+        result.add(errorAnn(term, ErrorMessage.IS_NOT_ACTION_NAME, params));
+      }
+    }
+    else
+    {
+      // still give a chance to recover.
+      Object[] params = {getCurrentProcessName(), getCurrentActionName(), term};
+      SchemaType schemaType = referenceToSchema(callType);
+      if (schemaType != null) 
+      {
+        // checks the schema expression
+        List<ErrorAnn> stateScopeErrors = checkStateVarsScopeInSchExprAction(term, schemaType);
+        result.addAll(stateScopeErrors);
+        
+        // TODO: have a parameterised typechecking to make this an error or not?
+        warningManager().warn(WarningMessage.SCHEXPR_CALL_ACTION_WITHOUT_BRAKET, params);        
+      }
+      else
+      {        
+        result.add(errorAnn(term, ErrorMessage.IS_NOT_ACTION_NAME, params));
+      }
+    }
+    return result;
+  }
+  
+  /**
+   * Raise all the errors from the given list that were generated during 
+   * the typechecking of the given term. This is to be called by all visiting
+   * methods that used any of the general methods returning list of errors. 
+   * This is important to avoid concurrent modification exceptions within 
+   * the Z PostChecking protocol. 
+   * 
+   * @param term
+   * @param list
+   */
+  protected void raiseErrors(Term term, List<ErrorAnn> list)
+  {
+    // raise all the errors from the list by adding them to the paraErrors()
+    for(ErrorAnn e : list)
+    {
+      error(term, e);
+    }
+  }
+
   protected ActionSignature joinActionSignature(CircusAction term,
     ActionSignature actionSigL, ActionSignature actionSigR)
   {
+    // CHANGED: we could have MuAction with different names associated with the signature(?) TODO: CHECK:
+    //
     // at this point, names are ignored (i.e. must be null)
-    if (actionSigL.getActionName() != null ||
-      actionSigR.getActionName() != null)
-    {
-      Object[] params = {
-        getCurrentProcessName(),
-        getCurrentActionName(),
-        "resolved action names"
-      };
-      error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);
-    }
+    //if (actionSigL.getActionName() != null ||
+    //  actionSigR.getActionName() != null)
+    //{
+    //  Object[] params = {
+    //    getCurrentProcessName(),
+    //    getCurrentActionName(),
+    //    "resolved action names"
+    //  };
+    //  error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);
+    //}
 
     // formal parameters must be empty for joint signatures    
     // on-the-fly actions are just calls, so should not have formal parameters.
@@ -1517,19 +1643,13 @@ public abstract class Checker<R>
    * which would accept declarations like "x: \nat; x: \num" since 
    * both types would unify.
    */
-  protected void checkForDuplicateNames(List<Name> declNames,
+  protected void checkForDuplicateNames(ZNameList declNames,
     ErrorMessage errorMsg)
-  {
-    checkForDuplicateNames(declNames, errorMsg);
-  }
-
-  protected void checkForDuplicateNames(List<ZName> declNames,
-    ErrorMessage errorMsg, Object... arguments)
-  {
+  {    
     Map<String, ZName> map = factory().hashMap();
-    for (Iterator<ZName> iter = declNames.iterator(); iter.hasNext();)
+    for (Iterator<Name> iter = declNames.iterator(); iter.hasNext();)
     {
-      ZName first = iter.next();
+      ZName first = ZUtils.assertZName(iter.next());
       String firstName = ZUtils.toStringZName(first);
       ZName second = map.get(firstName);
       if (second != null)
@@ -1542,11 +1662,108 @@ public abstract class Checker<R>
     }
   }
 
-  protected void postActionCallCheck()
+  protected ActionSignature checkActionDecl(ZName aName, CircusAction action, Term term)
   {
-    assert false : "TODO";
-    List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> paraErrors = postCheckParaErrors();
-    paraErrors().clear();
-    paraErrors().addAll(paraErrors);
+    // check process paragraph scope.
+    checkProcessParaScope(term, aName);
+    
+    ActionSignature aSig;
+    
+    // TODO: CHECK: not sure if this is a good idea because it may annotate
+    //              aName with an UnderclaredAnn ? Not if directly from typeEnv()
+    //              rather than Checker.getType(aName);    
+    Type type = typeEnv().getType(aName);
+    if ((type instanceof UnknownType) || (term instanceof MuAction))
+    {
+      // set current action name being checked.
+      // this opens a action para scope, which is cleared at the end.
+      // Actions can only be checked within an opened action para scope.
+      Name old = setCurrentActionName(aName);
+      CircusAction oldAction = setCurrentAction(action);
+      // nesting is allowed only for MuAction.
+      if (old != null && !(term instanceof MuAction))
+      {
+        Object[] params = { getCurrentProcessName(), aName, old };
+        error(term, ErrorMessage.NESTED_ACTIONPARA_SCOPE, params);
+      }
+
+      // enter scope for local variables within an action paragraph    
+      // since these are local to the process, they must be within 
+      // the type environment.
+      typeEnv().enterScope();
+
+      // check the declared action updating its name on the returned action signature
+      aSig = action.accept(actionChecker());
+      assert ZUtils.namesEqual(aSig.getActionName(), aName) : 
+        "action signature built outside proper action para scope: found: " + 
+        aSig.getActionName() + "; expected: " + aName;
+
+      // closes local vars and formal parameters scope
+      typeEnv().exitScope();
+
+      // restors the process para scope.
+      old = setCurrentActionName(old);
+      oldAction = setCurrentAction(oldAction);
+      assert old == aName && 
+             oldAction == action : "Invalid action para scoping for " + aName;      
+    }
+    else
+    {
+      aSig = factory().createEmptyActionSignature();
+      aSig.setActionName(aName);
+      Object [] params = {aName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
+      error(term, ErrorMessage.REDECLARED_DEF, params);      
+    }        
+    return aSig;
+  }
+  
+  /**
+   * Checks the scope of the the schema type associated with the given action.
+   * That is, checks the declared varaibles are within process scope (e.g., 
+   * state or local variables). We are deliberately allowing SchExpr in call 
+   * actions to be typechecked as schemas, even if they are not surounded by
+   * the adequate brackets. Thus, we accept the given term as CircusAction.
+   * 
+   * @param term
+   * @param schType
+   * @return either the given schType, or in the case of variable signature, a new schema type with new ids.
+   */
+  protected List<ErrorAnn> checkStateVarsScopeInSchExprAction(CircusAction term, SchemaType schType)
+  {    
+    List<ErrorAnn> result = factory().list();
+    Signature signature = schType.getSignature();
+
+    // resolve any variable type
+    if (!(signature instanceof VariableSignature))
+    {
+      Signature sig = createNewIds(signature);      
+      schType.setSignature(sig);
+      signature = sig;
+    }
+
+    // make sure all names are in (process) scope
+    for (NameTypePair pair : signature.getNameTypePair())
+    {
+      Type2 expected = GlobalDefs.unwrapType(getType(pair.getName()));
+
+      if (expected instanceof UnknownType)
+      {
+        Object[] params = {getCurrentProcessName(), getCurrentActionName(), term, pair.getName()};
+        result.add(errorAnn(term, ErrorMessage.SCHEXPR_ACTION_VAR_OUT_OF_SCOPE, params));
+      }
+      else
+      {
+        Type2 found = GlobalDefs.unwrapType(pair.getType());
+        UResult unified = unify(found, expected);
+        if (unified.equals(UResult.FAIL))
+        {
+          Object[] params = {getCurrentProcessName(), getCurrentActionName(),
+            term, expected, found
+          };
+          result.add(errorAnn(term, ErrorMessage.SCHEXPR_ACTION_FAIL_UNIFY, params));
+        }
+      }
+    }
+    return result;
   }
 }
