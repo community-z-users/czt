@@ -35,6 +35,8 @@ import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbol;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
+import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
@@ -434,13 +436,18 @@ public abstract class Checker<R>
   protected Type2 checkUnificationSpecialType(ZName name, Type2 expected)
   {
     assert name != null && expected != null;
+    
+    // just check the circus prelude is visible.? Only 
+    assert sectTypeEnv().visibleSections().contains(CircusUtils.CIRCUS_PRELUDE) : 
+      "Circus prelude not yet loaded in global type environment";
+    
     Type2 found = GlobalDefs.unwrapType(sectTypeEnv().getType(name));
     
     assert !(found instanceof UnknownType) : "Special type " + name + 
       " must be known in the sect type environment before creating the checker.";
     
     UResult resolved = unify(expected, found);
-    if (resolved.equals(UResult.SUCC))
+    if (!resolved.equals(UResult.SUCC))
     {
       throw new UndeterminedTypeException("Could not unify special type " + name + 
         "with SectTypeEnv information.\n\tExpected: " + expected + "\n\tFound: " + found);
@@ -502,10 +509,13 @@ public abstract class Checker<R>
     // wrap up the result base type as a channel type.
     for (NameTypePair pair : result)
     {
+      if (pair.getType() instanceof net.sourceforge.czt.z.ast.GenericType)
+      {
+        assert false : "TODO: resolve generic channel types";
+      }
       Type2 type = GlobalDefs.unwrapType(pair.getType());
       ChannelType cType = factory().createChannelType(type);
       pair.setType(cType);
-      
       // add channel type annotation to channel name
       addTypeAnn(pair.getName(), cType);
     }
@@ -565,7 +575,7 @@ public abstract class Checker<R>
         varType);
       result.add(strokedPair);
     }
-    assert (result.size() == zsl.size()) :
+    assert (result.size() == zsl.size()+1) :
       "Local variable declarations must add " + (zsl.size() + 1) + " variables into scope.";
 
     // add them all into scope
@@ -1407,8 +1417,13 @@ public abstract class Checker<R>
     assert isWithinProcessParaScope() : "calls must be at least within process scope";
 
     // check the kind of call
-    boolean isActionCall = isWithinActionParaScope();
-    assert isActionCall ? (call instanceof CallAction) : (call instanceof CallProcess);
+    //boolean isActionCall = isWithinActionParaScope(); // at post checking this isn't true :-(
+    //assert isActionCall ? (call instanceof CallAction) : (call instanceof CallProcess);
+    
+    // TODO: decouple the code a bit more so that we can have postchecking code separated from normal code on calls.
+    boolean isActionCall = (call instanceof CallAction);
+    assert (call instanceof CallAction) || 
+           (call instanceof CallProcess) : "unknown kind of call to check parameters " + call;
 
     // create a default error list
     List<Object> params = factory().list();
