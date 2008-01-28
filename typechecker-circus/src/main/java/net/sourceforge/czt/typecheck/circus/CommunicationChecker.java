@@ -36,6 +36,7 @@ import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ProdType;
@@ -99,20 +100,38 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   /**
    * Synchronisation channel name
    */
-  protected final ZName synchName_;
+  private final ZName synchName_;
   
   /**
    * Synchronisation channel (spurious) type.
    */
-  protected final Type2 synchType_;
+  private Type2 synchType_;
 
   /** Creates a new instance of CommunicationChecker */
   public CommunicationChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
     synchName_ = factory().createSynchName();        
-    synchType_ = checkUnificationSpecialType(synchName_, CircusUtils.SYNCH_CHANNEL_TYPE);
+    synchType_ = null;      
   }  
+  
+  /**
+   * Returns the synchronisation type for channels. The first time this type is 
+   * looked up, the circus_prelude section must be visible.
+   * 
+   * @return
+   */
+  protected Type2 synchType()
+  {
+    if (synchType_ == null)
+    {
+      synchType_ = checkUnificationSpecialType(synchName_, CircusUtils.SYNCH_CHANNEL_TYPE);    
+      
+      // adds type annotation to these circus expressions 
+      CircusUtils.SYNCH_CHANNEL_EXPR.accept(exprChecker());
+    }
+    return synchType_;
+  }
   
   protected boolean isProdTypeComm()
   {
@@ -255,7 +274,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       // decide whether this is a well formed communication, or 
       // else if it isn't, raise an error.
       CommFormatResolution commFormat =
-        COMM_FORMAT_MATRIX[(fields.isEmpty() ? 0 : 1)][(channelType_.equals(synchType_) ? 0 : 1)];
+        COMM_FORMAT_MATRIX[(fields.isEmpty() ? 0 : 1)][(channelType_.equals(synchType()) ? 0 : 1)];
 
       isProdType_ = isProdTypeComm();
       assert isProdType_ != null;
@@ -270,7 +289,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
             term.getCommUsage().equals(CommUsage.Normal));
           if (commFormatInv)
           {
-            result.add(factory().createNameTypePair(synchName_, synchType_));
+            result.add(factory().createNameTypePair(synchName_, synchType()));
           }
           break;
 

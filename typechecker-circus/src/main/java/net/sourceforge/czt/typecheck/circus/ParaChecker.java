@@ -36,6 +36,7 @@ import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
@@ -77,12 +78,12 @@ public class ParaChecker
   /**
    * Transformer paragraph name.
    */
-  protected final ZName transformerName_;
+  private final ZName transformerName_;
   
   /**
    * Transformer paragraph (spurious) type.
    */
-  protected final Type2 transformerType_;
+  private Type2 transformerType_;
 
   
   /**
@@ -96,8 +97,25 @@ public class ParaChecker
     isCheckingProcessZPara_ = false;
     zParaChecker_ = new net.sourceforge.czt.typecheck.z.ParaChecker(typeChecker);    
     transformerName_ = factory().createTransformerName();
-    transformerType_ = checkUnificationSpecialType(transformerName_, CircusUtils.TRANSFORMER_TYPE);
+    transformerType_ = null;
   }  
+  
+  /**
+   * Returns the synchronisation type for channels. The first time this type is 
+   * looked up, the circus_prelude section must be visible.
+   * 
+   * @return
+   */
+  protected Type2 transformerType()
+  {
+    if (transformerType_ == null)
+    {
+      transformerType_ = checkUnificationSpecialType(transformerName_, CircusUtils.TRANSFORMER_TYPE);    
+      // adds type annotation to these circus expressions 
+      CircusUtils.TRANSFORMER_EXPR.accept(exprChecker());              
+    }
+    return transformerType_;
+  }
   
   /**
    * This flag controls whether or not the general {@link #visitTerm(Term)}
@@ -334,11 +352,11 @@ public class ParaChecker
       term.getTransformerPred().accept(predChecker());
     }
     
-    NameTypePair pair = factory().createNameTypePair(term.getName(), transformerType_);
+    NameTypePair pair = factory().createNameTypePair(term.getName(), transformerType());
     Signature result = factory().createSignature(pair);
     
     // add transformer pred type to TransformerPred
-    addTypeAnn(term.getTransformerPred(), transformerType_);
+    addTypeAnn(term.getTransformerPred(), transformerType());
     
     // add signature to TransformerPara
     addSignatureAnn(term, result);   
