@@ -23,7 +23,8 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-circus</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <artifactId>typechecker-circus</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
