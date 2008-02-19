@@ -35,7 +35,6 @@ public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
 
   public void warn(WarningMessage wm, Object... arguments)
   {
-    String message = wm.getMessage() + "\n\n\t" + wm.getExplanation();
-    warn(message, arguments);
+    warn(wm.getFullMessage(), arguments);
   }
 }
