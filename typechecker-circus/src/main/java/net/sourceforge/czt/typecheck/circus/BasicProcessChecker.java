@@ -126,10 +126,10 @@ public class BasicProcessChecker extends Checker<Signature>
     }
   }
   
-  protected void raiseBasicProcessParaTypeError(Para term, Type2 type)
+  protected void raiseBasicProcessParaTypeError(Para term, String expected, Type2 found)
   {  
     Object[] params = { getCurrentProcessName(), 
-       getConcreteSyntaxSymbol(term), type };      
+       getConcreteSyntaxSymbol(term), expected, found };      
     error(term, ErrorMessage.BASIC_PROCESS_PARA_WRONG_TYPE, params);
   }
 
@@ -182,7 +182,7 @@ public class BasicProcessChecker extends Checker<Signature>
       }
       else
       {        
-        raiseBasicProcessParaTypeError(term, type);
+        raiseBasicProcessParaTypeError(term, "ActionType", type);
       }
     }
     // for action para this will contain one element with the action name.
@@ -208,7 +208,7 @@ public class BasicProcessChecker extends Checker<Signature>
     }
     else
     {        
-      raiseBasicProcessParaTypeError(term, type);
+      raiseBasicProcessParaTypeError(term, "NameSetType", type);
     }    
     return paraSig;
   }

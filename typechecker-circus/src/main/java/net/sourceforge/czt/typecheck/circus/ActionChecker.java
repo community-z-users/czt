@@ -197,7 +197,7 @@ public class ActionChecker
     else
     {
       Object[] params = {getCurrentProcessName(), getCurrentActionName(), term, type };
-      error(term, ErrorMessage.NON_SCHEXPR_IN_SCHEXPR_ACTION, params);
+      error(term, ErrorMessage.SCHEXPR_ACTION_WITHOUT_SCHEXPR, params);
     }
 
     ActionSignature actionSignature = factory().createEmptyActionSignature();

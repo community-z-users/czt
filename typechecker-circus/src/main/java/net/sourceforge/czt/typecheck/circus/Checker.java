@@ -36,7 +36,6 @@ import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbol;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
@@ -326,8 +325,7 @@ public abstract class Checker<R>
     boolean result = isWithinProcessParaScope();
     if (!result)
     {
-      List<Object> params = factory().list();
-      params.add(getCurrentProcessName());
+      List<Object> params = factory().list();      
       params.add(getConcreteSyntaxSymbol(term));
       params.add(name != null ? name : "");
       error(term, ErrorMessage.INVALID_PROCESS_PARA_SCOPE, params);
@@ -1120,7 +1118,7 @@ public abstract class Checker<R>
       if (names.contains(zdn.getWord()))
       {
         Object[] params = {declName};
-        error(declName, ErrorMessage.REDECLARED_GEN, params);
+        error(declName, net.sourceforge.czt.typecheck.z.ErrorMessage.REDECLARED_GEN, params);
       }
       else
       {
@@ -1443,10 +1441,15 @@ public abstract class Checker<R>
         // all is well. - empty result
         break;
       case NotParameterisedCall:
-        result.add(errorAnn(call, 
-          (isActionCall ? ErrorMessage.IS_NOT_PARAM_ACTION_IN_ACTION_CALL : ErrorMessage.IS_NOT_PARAM_PROCESS_IN_PROC_CALL),
-          params.toArray()));
-        break;
+      case WrongNumberParameters:
+        params.add(resolvedFormals.size());
+        params.add(actuals.size());
+        ErrorAnn err0 = errorAnn(call,
+            (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_DIFF_NUMBER_EXPRS : 
+                            ErrorMessage.PARAM_PROC_CALL_DIFF_NUMBER_EXPRS),
+            params.toArray());
+          result.add(err0);
+        break;                
       case Inconclusive:
         // deliberately check for the actuals, even if sizes are incompatible
         // this maximases the number of errors discovered. returns null if failed.
@@ -1468,11 +1471,11 @@ public abstract class Checker<R>
             {
               params.add(i + 1);
               params.add(expectedFormal);
-              ErrorAnn err = errorAnn(call,
+              ErrorAnn err1 = errorAnn(call,
                 (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_UNDECLARED_VAR : 
                                 ErrorMessage.PARAM_PROC_CALL_UNDECLARED_VAR),
                 params.toArray());
-              result.add(err);
+              result.add(err1);
             }
             else
             {
@@ -1480,14 +1483,14 @@ public abstract class Checker<R>
               if (!unified.equals(UResult.SUCC))
               {
                 params.add(pair.getName());
-                params.add(expectedFormal);
-                params.add(foundActual);
                 params.add(i + 1);
-                ErrorAnn err = errorAnn(call,
+                params.add(expectedFormal);
+                params.add(foundActual);                
+                ErrorAnn err2 = errorAnn(call,
                   (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_NOT_UNIFY : 
                                   ErrorMessage.PARAM_PROC_CALL_NOT_UNIFY),
                   params.toArray());
-                result.add(err);
+                result.add(err2);
               }
             // else, this param is ok, result is true.
             }
@@ -1500,21 +1503,13 @@ public abstract class Checker<R>
           //case WrongNumberParameters:
           params.add(resolvedFormals.size());
           params.add(actuals.size());
-          ErrorAnn err = errorAnn(call,
-            (isActionCall ? ErrorMessage.ACTION_CALL_DIFF_NUMBER_EXPRS : 
-                            ErrorMessage.PROC_CALL_DIFF_NUMBER_EXPRS),
+          ErrorAnn err3 = errorAnn(call,
+            (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_DIFF_NUMBER_EXPRS : 
+                            ErrorMessage.PARAM_PROC_CALL_DIFF_NUMBER_EXPRS),
             params.toArray());
-          result.add(err);
+          result.add(err3);
         }
-        break;
-      case WrongNumberParameters:
-        params.add(resolvedFormals.size());
-        ErrorAnn err = errorAnn(call,
-          (isActionCall ? ErrorMessage.PARAM_ACTION_CALL_WITHOUT_EXPRS : 
-                          ErrorMessage.PARAM_PROC_CALL_WITHOUT_EXPRS),
-          params.toArray());
-        result.add(err);
-        break;
+        break;      
       default:
         // takes care of NormalParamCall and IncompatibleParamType  
         // --- and NormalParamCall and IncompatibleParamType, which should only be dealt with in the inner case
@@ -1773,7 +1768,7 @@ public abstract class Checker<R>
         if (unified.equals(UResult.FAIL))
         {
           Object[] params = {getCurrentProcessName(), getCurrentActionName(),
-            term, expected, found
+            term, pair.getName(), expected, found
           };
           result.add(errorAnn(term, ErrorMessage.SCHEXPR_ACTION_FAIL_UNIFY, params));
         }
