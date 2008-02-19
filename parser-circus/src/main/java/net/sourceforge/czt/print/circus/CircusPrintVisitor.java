@@ -19,17 +19,13 @@
 
 package net.sourceforge.czt.print.circus;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Iterator;
 import java.util.Properties;
+import net.sourceforge.czt.circus.ast.OutputFieldAnn;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.z.util.WarningManager;
-import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.circus.util.CircusString;
@@ -619,14 +615,12 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitOutputField(OutputField term) {
-        print(ZToken.OUTSTROKE);
-        visit(term.getExpr());
+    public Object visitOutputField(OutputFieldAnn term) {
         return null;
     }
     
-    public Object visitDotField(DotField term) {
-        print(ZKeyword.DOT);
+    public Object visitDotField(DotField term) {        
+        print(term.getAnn(OutputFieldAnn.class) != null ? ZToken.OUTSTROKE : ZKeyword.DOT);
         visit(term.getExpr());
         return null;
     }
@@ -1053,5 +1047,11 @@ public class CircusPrintVisitor
   public Object visitCommunicationType(CommunicationType term)
   {
     throw new UnsupportedOperationException("Unexpected term CommunicationType.");
+  }
+
+  @Override
+  public Object visitOutputFieldAnn(OutputFieldAnn term)
+  {
+    throw new UnsupportedOperationException("Unexpected term OutputFieldAnn.");
   }
 }
