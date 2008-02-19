@@ -1,0 +1,120 @@
+% Adapted from LLNCS.DEM Springer-Verlag for LNCS, version 2.3 for LaTeX2e
+\documentclass{llncs}
+\usepackage{czt}  %% for the Standard Z specification macros
+\begin{document}
+\pagestyle{headings}  % switches on printing of running heads
+%
+\title{Testing a Z Specification of Posix}
+\titlerunning{Testing a Z Spec of Posix}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Mark Utting\inst{1} \and Petra Malik\inst{2}}
+%
+\authorrunning{Utting and Malik}   % abbreviated author list (for running head)
+%
+%%%% list of authors for the TOC (use if author list has to be modified)
+%\tocauthor{Mark Utting, Petra Malik}
+%
+\institute{Department of Computer Science, The University of Waikato, NZ\\
+\email{marku@cs.waikato.ac.nz},\\
+% WWW home page: \texttt{http://www.cs.waikato.ac.nz/\homedir marku}
+\and
+Faculty of Engineering,
+Victoria University of Wellington, NZ
+\email{petra.malik@mcs.vuw.ac.nz}
+}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+We refactor Morgan and Suffrin's original Z specification of the
+Posix file system, to break it into Z sections and make it conform
+to the Z Standard.  We develop a simple framework for testing Z
+specifications, and use this framework to test the first few levels
+of the specification.  The tests are written in standard Z, and are
+executable by the CZT animator, ZLive.
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+TODO: Give a brief overview of the grand challenge and introduce the Posix example.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Posix Standardized}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section, we describe the refactored Posix specification.
+The main change was to break up the original specification into
+sections.  Figure~\ref{fig:sects} shows the structure of the
+resulting Z sections, using a notation similar to a UML class diagram.
+
+We also decided to explicitly specify the allowable values of $BYTE$ and
+$ZERO$, to make it easier to express test values.
+
+\input{ds.zed}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{How to Test a Z Specification}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This section introduces a simple framework for expressing tests
+of a Z specification that is written in the usual Z state-based style.
+
+TODO: introduce some testing theory in Z syntax and show how we can
+use membership, subset and schema conjunction and negation to 
+express positive tests and negative tests.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The ZLive Animator}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+One of the tools available in the CZT system is the ZLive animator.
+It is the successor to the Jaza animator for Z~\ref{utting:jaza}.
+
+TODO: brief description of how ZLive works, and a trivial example.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Testing the DS Specification}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{dstest.zed}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Testing the SS Specification}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+TODO: describe how we can use a framing schema to `promote' the DS tests
+up to this level.  Give examples.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Testing is useful, especially when the execution of the tests can
+be automated.
+
+The refactored Z specification of Posix may be a useful starting point
+for other researchers who want to work on refinement or proofs
+about the Posix case study.  It is available from the CZT sourceforge
+website...
+
+
+%
+% ---- Bibliography ----
+%
+\begin{thebibliography}{5}
+%
+\bibitem {clarke}
+TODO...
+
+\end{thebibliography}
+\end{document}

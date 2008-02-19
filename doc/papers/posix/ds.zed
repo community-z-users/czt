@@ -2,9 +2,6 @@
   \SECTION ds \parents standard\_toolkit
 \end{zsection}
 
-Adapted from Carroll Morgan and Bernard Sufrin: Specification of the
-Unix filing system.
-
 The ultimate constituent of the filing system is the byte.
 
 \begin{zed}
@@ -18,7 +15,9 @@ A file is a finite sequence of bytes.
   FILE == \seq BYTE
 \end{zed}
 
-After returns the subfile after the given offset.
+The $after$ operator returns the subfile that starts after a given offset.
+This was written as $file \circ suc^{offset}$ in the original specification.
+\emph{TODO: why did we/someone change this?}
 
 \begin{zed}
   \function 42 \leftassoc ( \varg after \varg )
@@ -26,7 +25,7 @@ After returns the subfile after the given offset.
 
 \begin{zed}
   \varg after \varg ==
-  (\lambda f : FILE ; offs : \nat @ (\lambda i : 1 .. #f - offs @ f(i+offs)))
+  (\lambda f : FILE ; offs : \nat @ (\lambda i : 1 .. \#f - offs @ f(i+offs)))
 \end{zed}
 
 \begin{schema}{DS}

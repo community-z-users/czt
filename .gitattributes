@@ -32,7 +32,9 @@ doc/papers/ifm/mc.arch.stages.eps -text
 doc/papers/posix/as.zed -text
 doc/papers/posix/cs.zed -text
 doc/papers/posix/ds.zed -text
+doc/papers/posix/dstest.zed -text
 doc/papers/posix/fs.zed -text
+doc/papers/posix/master.tex -text
 doc/papers/posix/ns.zed -text
 doc/papers/posix/posix.zed -text
 doc/papers/posix/ss.zed -text

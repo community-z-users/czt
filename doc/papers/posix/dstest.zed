@@ -1,0 +1,129 @@
+\begin{zsection}
+  \SECTION dstest \parents ds
+\end{zsection}
+
+This section contains several positive and negative tests
+for the DS specification of POSIX files.
+
+\begin{zed}
+\vdash? \lblot file' == \langle \rangle \rblot \in InitDS
+\end{zed}
+
+\begin{zed}
+\vdash? \lblot file' == \langle 3 \rangle \rblot \notin InitDS
+\end{zed}
+
+\begin{zed}
+  eg1 == \langle 1, 255 \rangle
+\end{zed}
+
+\begin{theorem}{ReadTest0\_0}
+\vdash? \lblot file==eg1, offset?==0, length?==0, \\
+            data!==\langle \rangle, file'==eg1 \rblot \in ReadFile
+\end{theorem}
+
+\begin{zed} %ReadTest0\_3
+\vdash? \lblot file==eg1, offset?==0, length?==3, \\
+            data!==\langle 1, 255 \rangle, file'==eg1 \rblot \in ReadFile
+\end{zed}
+
+\begin{zed} %ReadTest1\_1
+\vdash? \lblot file==eg1, offset?==1, length?==1, \\
+            data!==\langle 255 \rangle, file'==eg1 \rblot \in ReadFile
+\end{zed}
+
+\begin{zed} %ReadTest3\_2
+\vdash? \lblot file==eg1, offset?==3, length?==2, \\
+            data!==\langle \rangle, file'==eg1 \rblot \in ReadFile
+\end{zed}
+
+Here are the results from ZLive.
+\begin{verbatim}
+dstest> conjectures
+Conjecture on line 7
+true
+Conjecture on line 11
+true
+Conjecture on line 19
+true
+Conjecture on line 24
+true
+Conjecture on line 29
+false
+Conjecture on line 34
+false
+\end{verbatim}
+
+To investigate why two of these tests failed, we give ZLive
+just the input test values, and ask it to show any one of the
+solutions for the schema.  We get this output:
+
+\begin{verbatim}
+dstest> do [ReadFile | file=eg1; offset?=1; length?=1]
+1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , 
+ file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
+ offset? == 1 , length? == 1 , data! == \{ ( 1 , 255 ) \} \rblot
+\end{verbatim}
+ 
+Oops, ReadTest1\_1 should have had 255 in $data!$ rather than $1$.
+
+
+\begin{verbatim}
+dstest> do [ReadFile | file=eg1; offset?=3; length?=2]
+1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \} ,
+ file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
+ offset? == 3 , length? == 2 , data! == \{ \} \rblot
+\end{verbatim}
+
+Ah, of course!  Reading past the end of the file should return empty
+$data!$, rather than zeroes.  (When designing this test, Mark was 
+incorrectly thinking of the behaviour of the Write command past the end
+of the file, which inserts zeroes automatically. 
+
+Once these two errors in the test values are corrected,
+all the tests evaluate to true.
+
+
+\subsection{Negative Tests for ReadFile}
+
+\begin{zed}
+ \vdash?  ([offset? == \negate 1] \land ReadFile) = \{\}
+\end{zed}
+
+\footnote{CZT gives some really interesting and non-obvious error messages
+  if we omit the (..) parentheses!  The parser assumes that $ReadFile=\{\}$
+  is a predicate, which makes the typechecker interpret $[offset?==\negate 1]$
+  as a predicate rather than a schema expression, so it complains about 
+  Undeclared identifier $offset?$~!}
+
+We do the same test for $length?$.  This test also illustrates that
+we can write test values inside the $ReadFile$ schema.
+
+Which is easier to understand?
+
+\begin{zed}
+ \vdash?  [ReadFile | length? = \negate 1] = \{\}
+\end{zed}
+
+\begin{zed}
+ \vdash?  [ReadFile | file=eg1; file' \neq eg1] = \{\}
+\end{zed}
+
+\begin{zed}
+ \vdash?  [ReadFile | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
+\end{zed}
+
+
+\subsection{Positive Tests for WriteFile}
+
+TODO:
+
+\begin{schema}{WriteFile2}
+  \Delta DS \\
+  offset? : \nat \\
+  data? : FILE
+\where
+  file' = ( zero~offset? \oplus file ) \oplus ( data?~shift~offset? )
+\end{schema}
+
+

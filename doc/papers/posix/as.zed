@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION as \parents cs
+  \SECTION as \parents cs, expansion\_rules, simplification\_rules
 \end{zsection}
 
 Storage and channel systems together form the access system where
