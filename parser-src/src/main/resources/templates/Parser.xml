@@ -4879,7 +4879,7 @@ commField ::=
         /* Output communicatio as in: c!e */
         OUTSTROKE:out expression:e
         {:
-            RESULT = factory_.createOutputField(e);
+            RESULT = factory_.getCircusFactory().createOutputField(e);
             addLocAnn(RESULT, getLocation(out, e));
         :}
         |
