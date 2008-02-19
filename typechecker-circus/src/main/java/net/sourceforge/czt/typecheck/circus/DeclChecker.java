@@ -109,18 +109,30 @@ public class DeclChecker
         {          
           boolean isProcess = isWithinProcessParaScope();
           Name name = (isProcess ? getCurrentProcessName() : getCurrentActionName());        
+          List<Object> params = factory().list();
+          
+          if (isProcess)
+          { 
+            params.add("process");
+            params.add(getCurrentProcessName());
+          }
+          else
+          {
+            params.add("action");
+            params.add(getCurrentProcessName());
+            //params.add(getCurrentActionName());
+          }
           if (name == null)
           {                       
             assert !isWithinActionParaScope() : "within action scope but without action name for process " 
-              +  getCurrentProcessName();
-            Object[] params = {(isProcess ? "process" : "action")};
-            error(decl, ErrorMessage.INVALID_SCOPE_FOR_FORMAL_PARAMS, params);
+              +  getCurrentProcessName();                        
+            error(decl, ErrorMessage.FORMAL_PARAMS_INVALID_SCOPE, params);
           }
           else 
           { 
-            Object[] params = {(isProcess ? "process" : "action"), 
-              name, decl.getClass().toString()};
-            error(decl, ErrorMessage.INVALID_DECL_IN_FORMAL_PARAMS, params);
+            params.add("VarDecl or QualifiedDecl");
+            params.add(decl.getClass().getName());            
+            error(decl, ErrorMessage.FORMAL_PARAMS_INVALID_DECL, params);
           }          
         }
       }
@@ -171,7 +183,7 @@ public class DeclChecker
     
     // checks for duplicate names, and adds an error in case one is found.    
     // NoRep ln
-    checkForDuplicateNames(declNames, ErrorMessage.DUPLICATE_CHANNEL_NAME_IN_CHANDECL);
+    checkForDuplicateNames(declNames, ErrorMessage.CHANDECL_DUPLICATE_CHANNEL_NAME);
     
     // (NotInto ln \Gamma.defNames) is checked at checkParaList()
     
@@ -225,16 +237,16 @@ public class DeclChecker
           }          
           else
           {
-            Object[] params = { expr }; 
-            error(expr, ErrorMessage.INVALID_CHANNEL_FROM_INCLDECL, params);
+            Object[] params = { expr, exprType, pair.getName(), pairType }; 
+            error(expr, ErrorMessage.CHANNEL_FROM_INVALID_INCLDECL, params);
           }
         }
       }
       // otherwise, we have a type error
       else
       {
-        Object[] params = { expr };
-        error(expr, ErrorMessage.INVALID_CHANNEL_FROM_DECL, params);        
+        Object[] params = { expr, exprType }; 
+        error(expr, ErrorMessage.CHANNEL_FROM_INVALID_DECL, params);        
       }
     }    
     
@@ -283,7 +295,7 @@ public class DeclChecker
     PowerType vPowerType = factory().createPowerType();
     UResult unified = unify(vPowerType, exprType);
 
-    checkForDuplicateNames(declNames, ErrorMessage.DUPLICATE_PARAM_NAME_IN_QUALIFIEDDECL);
+    checkForDuplicateNames(declNames, ErrorMessage.QUALIFIEDDECL_DUPLICATE_PARAM_NAME);
     
     //the list of name type pairs in the channel decl name list
     result.addAll(checkDeclNames(
