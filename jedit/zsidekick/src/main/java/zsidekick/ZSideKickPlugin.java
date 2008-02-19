@@ -32,5 +32,9 @@ public class ZSideKickPlugin
   public static final String PROP_USE_BEFORE_DECL =
     "ZSideKickPlugin.useBeforeDecl";
   public static final String PROP_USE_STRONG_TYPING =
-    "ZSideKickPlugin.useStrongTyping";
+    "ZSideKickPlugin.useStrongTyping";  
+  public static final String PROP_DEBUG_ZSIDEKICK = 
+    "ZSideKickPlugin.debug";
+  public static final String DEBUG_LOG_FILENAME=
+    "JEdit-SectionManager.log";
 }

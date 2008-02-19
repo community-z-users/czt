@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sourceforge.czt.session.SectionManager;
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.textarea.TextAreaPainter;
 import errorlist.*;
@@ -35,6 +39,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
 public class CztParser
@@ -47,6 +52,8 @@ public class CztParser
   private String extension_;
   private Markup markup_;
   private WffHighlight wffHighlight_= new WffHighlight();
+  private boolean debug_ = false;
+  private Logger logger_ = CztLogger.getLogger(SectionManager.class);
 
   public CztParser(String extension, Markup markup)
   {
@@ -79,12 +86,18 @@ public class CztParser
     setProperties(manager, buffer);
     return manager;
   }
-
+  
+  protected void setFileLogger()
+  {
+    CztLogger.setFileHandler(logger_, Level.CONFIG, ZSideKickPlugin.DEBUG_LOG_FILENAME);    
+  }
+    
   public SideKickParsedData parse(Buffer buffer,
                                   DefaultErrorSource errorSource)
   {
     ParsedData data = new ParsedData(buffer.getName());
     try {
+      if (debug_) { setFileLogger(); }
       SectionManager manager = getManager(buffer);
       final String name = buffer.getPath();
       final String path = new File(name).getParent();
@@ -99,11 +112,12 @@ public class CztParser
       Spec spec = (Spec) manager.get(new Key(name, Spec.class));
       if (spec.getSect().size() > 0) {
         data.addData(spec, manager, wffHighlight_, buffer);
-        if (! buffer.getBooleanProperty("zsidekick.disable-typechecking")) {
+        if (! buffer.getBooleanProperty("zsidekick.disable-typechecking")) {          
           for (Sect sect : spec.getSect()) {
-            if (sect instanceof ZSect) {
-              manager.get(new Key(((ZSect) sect).getName(),
-                                  SectTypeEnvAnn.class));
+            if (sect instanceof ZSect) {                            
+              logger_.config("Command for SectTypeEnvAnn is "+manager.getCommand(SectTypeEnvAnn.class));
+              // typecheck the section.
+              manager.get(new Key(((ZSect) sect).getName(), SectTypeEnvAnn.class));              
             }
           }
         }
@@ -217,6 +231,9 @@ public class CztParser
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_TYPECHECK_USE_STRONG_TYPING, value);
 
+    propname = ZSideKickPlugin.PROP_DEBUG_ZSIDEKICK;
+    debug_ = jEdit.getBooleanProperty(propname);
+    
     int width = buffer.getIntegerProperty("maxLineLen", 0);
     if (width > 0) {
       manager.setProperty(PROP_TXT_WIDTH, "" + width);
