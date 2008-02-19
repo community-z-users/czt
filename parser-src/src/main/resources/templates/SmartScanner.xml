@@ -62,6 +62,31 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   //i.e. SCH, GENSCH, CLASS, OPSCH
   private boolean inBoxName = false;
 
+<add:circus>
+  //indicates whether the previous token is CIRCBEGIN - that is, if a
+  //basic process is starting -, since communication only take place
+  //within an action declaration
+  private boolean inCircusBasicProcess = false;
+  
+  //after their names, actions MUST have a CIRCDEF token, which is 
+  //marked by this flag. That is, it is true whenever we have started
+  //a basic process and have encountered a CIRCDEF. It is switched off
+  //either when CIRCEND (i.e. end of basic process) or END
+  //(i.e. end of a general paragraph) is reached. The former happens
+  //when declaring basic processes within a single circus latex environment,
+  //whereas the latter happens when using multiple circusaction latex environments
+  //to declared basic processes. 
+  //
+  //Whenever both inCircusBasicProcess and inActionDef are enabled, and
+  //the next token is a DECORWORD, then, just like in colon declaration for Z,
+  //we need to lookahead to see whether the DECORWORD is part of a communication
+  //or not. That is, we need to lookahead until the flag is switched off, in which
+  //case nothing changes; or we find a PREFIXTHEN token, in which case the DECORWORD
+  //is rebranded as CIRCUSNAME and the remainder fileds are parsed appropriately.
+  //
+  private boolean inActionDef = false;
+</add:circus>  
+  
   private TokenStack dumb_;
 
   <class/>(net.sourceforge.czt.java_cup.runtime.Scanner dumbscanner)
@@ -77,13 +102,31 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       //don't look ahead if the previous token was a box token
       inBoxName = false;
     }
-    else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
+    else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) 
+    {
+<add:circus>
+      // if within a basic process and within an action definition
+      // then lookahead for potential prefix communication.          
+      if (inCircusBasicProcess &amp;&amp; inActionDef &amp;&amp; isChannelName())
+      {
+        // unfortunately, in the case of processes defined within the same
+        // circus environment, there is no effecient way of discerning when
+        // the action definition has finished. On the other hand, if using
+        // circusaction environments, we can know when they finish by looking
+        // for a END symbol.
+        
+        //result.sym = Sym.CIRCUSNAME;
+      }
+      else
+</add:circus>
       //if this is a colon decl, convert the DECORWORD to a DECLWORD
-      if (isColonDecl()) {
+      if (isColonDecl()) 
+      {
         result.sym = Sym.DECLWORD;
       }
 <add:oz>
-      else {
+      else
+      {
         LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
         Symbol currsym = dumb_.pop();
         tokens.addLast(currsym);
@@ -118,9 +161,38 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
              result.sym == Sym.CLASS ||
              result.sym == Sym.OPSCH ||
 </add:oz>
-             result.sym == Sym.GENSCH) {
+             result.sym == Sym.GENSCH) 
+    {
         inBoxName = true;
     } 
+<add:circus>
+    // if starting a basic process, mark it true and not def. action yet
+    else if (result.sym == Sym.CIRCBEGIN)
+    {
+       inCircusBasicProcess = true;
+       inActionDef = false;
+    }
+    // if finishing a basic process, mark it fakse and not def. action yet
+    else if (result.sym == Sym.CIRCEND)
+    {
+       inCircusBasicProcess = false;
+       inActionDef = false;
+    }
+    // if defining an action and within a basic process, mark def. action true
+    // CIRCDEF might appear outside basic process - ex. other processes definitions.
+    else if (result.sym == Sym.CIRCDEF &amp;&amp; inCircusBasicProcess)
+    {       
+       inActionDef = true;
+    }
+    // if terminating some definition within a basic process, then 
+    // mark def. action false. This only happens when we have circusaction 
+    // latex environments, as within a single circus latex environment, paragraphs
+    // are terminated/separated by new lines!
+    else if (result.sym == Sym.END &amp;&amp; inCircusBasicProcess)
+    {
+       inActionDef = false;
+    }
+</add:circus>    
     return result;
   }
 
@@ -150,13 +222,79 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
         doLookahead = true;
       }
     }
-
     if (currsym.sym == Sym.COLON &amp;&amp; doLookahead) {
       isColonDecl = true;
     }
     pushList(tokens, isColonDecl);
     return isColonDecl;
   }
+  
+<add:circus>
+  private boolean isChannelName() 
+    throws Exception 
+  {
+    boolean result = false;
+    boolean doLookahead   = true;
+    
+    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+    Symbol currsym = dumb_.pop();
+    tokens.addLast(currsym);
+    
+    //skip any newlines
+    while (currsym.sym == Sym.NL) {
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+    }
+    
+    //skip any actual parameters on generic channels
+    if (currsym.sym == Sym.LSQUARE) {
+      while (currsym.sym != Sym.RSQUARE) {
+        currsym = dumb_.pop();
+        tokens.addLast(currsym);
+      }
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+    }
+    
+    while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+      doLookahead = false;
+      while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
+            currsym.sym == Sym.LISTARG || currsym.sym == Sym.DECLWORD ||
+	    currsym.sym == Sym.NL) {
+        currsym = dumb_.pop();
+        tokens.addLast(currsym);
+        doLookahead = true;
+      }
+    }
+    
+    /*
+    //if the next token is a DEFFREE or DEFEQUAL, return a DEFNAME
+    if (currsym.sym == Sym.DEFFREE || currsym.sym == Sym.DEFEQUAL) {
+      result.sym = Sym.DEFNAME;
+    }
+    //if the next token is a SDEF, return an OPNAME
+    else if (currsym.sym == Sym.SDEF) {
+      result.sym = Sym.OPNAME;
+    }
+    */
+    
+    
+    
+    
+    // if we did lookahead and found a PREFIXTHEN, mark this as channelname
+    if (currsym.sym == Sym.PREFIXTHEN &amp;&amp; doLookahead) {
+      result = true;
+    }
+    
+    // push the tokens back, where tokens remain DECORWORDs 
+    pushList(tokens, false);
+    
+    // return the result to the next_token() call
+    return result;
+  } 
+</add:circus>  
 
   private void pushList(List &lt; Symbol &gt; tokens, boolean isColonDecl)
   {
