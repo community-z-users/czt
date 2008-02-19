@@ -22,6 +22,7 @@ import net.sourceforge.czt.circus.ast.Field;
 import net.sourceforge.czt.circus.ast.InputField;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
+import net.sourceforge.czt.circus.ast.OutputFieldAnn;
 import net.sourceforge.czt.circus.ast.ParamQualifier;
 import net.sourceforge.czt.circus.ast.TransformerPara;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
@@ -126,6 +127,12 @@ public final class CircusUtils
   {
     return (ap.getName() != null) &&
       (ap.getCircusAction() instanceof SchExprAction);
+  }
+  
+  public static boolean isOutputField(Term term)
+  {
+    return (term instanceof DotField && 
+            term.getAnn(OutputFieldAnn.class) != null);
   }
 
   /**
