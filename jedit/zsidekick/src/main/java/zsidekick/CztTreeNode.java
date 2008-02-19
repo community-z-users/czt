@@ -58,7 +58,8 @@ public class CztTreeNode
   {
     super(createAsset(term, dialect, buffer));
     term_ = term;
-    if (buffer.getBooleanProperty("zsidekick.show-complete-tree")) {
+    if (dialect.equals("circus") ||
+        buffer.getBooleanProperty("zsidekick.show-complete-tree")) {
       Object[] children = term.getChildren();
       for (Object o : children) {
         if (o instanceof Term) {
