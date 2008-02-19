@@ -1238,16 +1238,6 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="OutputField" type="CIRCUS:DotField" substitutionGroup="CIRCUS:DotField">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-          A field that is part of a communication and contains an expression.
-          It represents the grammar rule <b>!Expr</b>.        
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>       
   
   <!-- Circus declarations -->  
   <xs:element name="QualifiedDecl" type="CIRCUS:QualifiedDecl" substitutionGroup="Z:Decl">
@@ -1739,6 +1729,14 @@
         It must be included into <code>ParamAction</code> and <code>ParamProcess</code> by 
         the parser whenever an on-the-fly definition occurs. It is also used for on-the-fly
         schema definitions.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="OutputFieldAnn" type="CIRCUS:CircusAnn" substitutionGroup="CIRCUS:CircusAnn">
+    <xs:annotation>
+      <xs:documentation>
+        Marks a dot field as an output field. That is, c!x instead of c.x
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -2811,8 +2809,8 @@
     Invariant: 
       Synch = getFields().isEmpty() 
       Input = !getFields().isEmpty() && forall getField().get(i) instanceof InputField            
-      Output= !getFields().isEmpty() && forall getField().get(i) instanceof OutputField || getField().get(i) instanceof DotField
-      Mixed = !getFields().isEmpty() && there are more than one class: InputField, (OutputField/DotField).
+      Output= !getFields().isEmpty() && forall getField().get(i) instanceof DotField
+      Mixed = !getFields().isEmpty() && there are more than one class: InputField, DotField).
   -->
   <xs:simpleType name="CommPattern">
     <xs:restriction base="xs:string">
