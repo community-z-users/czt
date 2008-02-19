@@ -194,6 +194,21 @@ action code
       addLocAnn(result, decorword.getLocation());
       return result;
     }
+    
+<add:circus>
+    private ZName createZName(Decorword decorword, boolean acceptStrokes)
+    {
+      // !acceptStrokes => decorword.getStrokes().isEmpty()
+      boolean validStrokes = (acceptStrokes || decorword.getStrokes().isEmpty());
+      if (!validStrokes)
+      {
+        final Object[] params = { decorword.getWord() };
+        parser.report_error(CircusParseMessage.MSG_CIRCNAME_DOESNOT_ALLOW_STROKES,
+                            params, decorword.getLocation());
+      }
+      return createZName(decorword);
+    }
+</add:circus>    
 
     private Operator createOperator(Decorword decorword)
       throws ParseException
@@ -1047,7 +1062,7 @@ action code
      * Creates an implicit action paragraph with location annotation for the given name and action.
      */
     protected ActionPara createImplicitActionPara(Decorword an, CircusAction ca) {            
-        ActionPara ap = factory_.createActionPara(createZName(an),  ca);
+        ActionPara ap = factory_.createActionPara(createZName(an, false),  ca);
         addLocAnn(ap, getLocation(an.getLocation(), ca));
         return ap;
     }
@@ -1062,7 +1077,7 @@ action code
      */
     protected ProcessPara createImplicitProcessPara(Decorword pn, CircusProcess pp) {            
         /* On-the-fly process have no generic formals/actuals*/
-        ProcessPara pa = factory_.createProcessPara(createZName(pn), factory_.createZNameList(), pp);
+        ProcessPara pa = factory_.createProcessPara(createZName(pn, false), factory_.createZNameList(), pp);
         addLocAnn(pa, getLocation(pn.getLocation(), pp));
         return pa;
     }        
@@ -1847,7 +1862,7 @@ non terminal ZBranchList branchList;
 non terminal Branch branch;
 
 non terminal ZNameList
-    nameList,
+    nameList,    
     declWordList;
 
 non terminal Name
@@ -2103,7 +2118,7 @@ non terminal ParamQualifier
   
 non terminal Transformation
   refines;
-  
+ 
 /// Circus action definition ///////////////////////////////////////////////        
 non terminal CircusAction
     actionDesc,
@@ -3354,20 +3369,23 @@ circusInnerProcPara ::=
         
 /// Circus declaration list (no opName) ////////////////////////////////
 
-/* Used where declWordList should be used, but no operator templates are allowed,
+/* 
+ * Used where declWordList should be used, but no operator templates are allowed,
  * such as channelDecl, circus qualified parameters, or variable declarations.
+ * Also, to avoid confusion and problems with communication fields, we also do not
+ * allow circusDeclWordList 
  */
 circusDeclWordList ::=
     circusDeclWordList:cdwl COMMA DECLWORD:dw
     {: 
-       ZName dn = createZName(dw);
+       ZName dn = createZName(dw, false);
        cdwl.add(dn); 
        RESULT = cdwl;
     :}
     |
     DECLWORD:dw
     {:
-       ZName dn = createZName(dw);
+       ZName dn = createZName(dw, false);
        RESULT = factory_.createZNameList();
        RESULT.add(dn); 
     :}    
@@ -3519,7 +3537,9 @@ channelFromDecl ::=
         /* Generic channels declared through generic Z schemas with generic actuals */
         optFormalParameters:ofp DECORWORD:dw genericActuals:ga
         {:  
-           RefExpr re = factory_.createRefExpr(createZName(dw), ga, Boolean.FALSE, Boolean.TRUE);
+           // NOTE: channel from declarations does not allow decorated schema names!
+           
+           RefExpr re = factory_.createRefExpr(createZName(dw, false), ga, Boolean.FALSE, Boolean.TRUE);
            ZNameList znl = factory_.createZNameList();
            RESULT = factory_.createChannelDecl(factory_.list(ofp, znl), re);
            addLocAnn(RESULT, getLocation(ofp, ga));
@@ -3528,7 +3548,7 @@ channelFromDecl ::=
         /* Channels declared through Z schemas */                
         optFormalParameters:ofp DECORWORD:dw
         {:
-           RefExpr re = factory_.createRefExpr(createZName(dw));/*same as: FALSE, FALSE*/
+           RefExpr re = factory_.createRefExpr(createZName(dw, false));/*same as: FALSE, FALSE*/
            ZNameList znl = factory_.createZNameList();
            RESULT = factory_.createChannelDecl(factory_.list(ofp, znl), re);
            addLocAnn(RESULT, getLocation(ofp, dw.getLocation()));
@@ -4021,7 +4041,7 @@ processCall ::=
         {:
             /* The CallUsage is Param and the generic actuals are empty */
             /* RefExpr: mixfix = false, explicit = false */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)), ap, CallUsage.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw, false)), ap, CallUsage.Param);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
@@ -4030,7 +4050,7 @@ processCall ::=
         {:
             /* The CallUsage is Param and both generic actuals and indexes are not null */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
-              createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Param);
+              createZName(dw, false), ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Param);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
@@ -4038,7 +4058,7 @@ processCall ::=
         DECORWORD:dw actualIndexes:ai
         {:
             /* The CallUsage is Index and the generic actuals are empty */            
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)), ai, CallUsage.Index);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw, false)), ai, CallUsage.Index);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
@@ -4047,7 +4067,7 @@ processCall ::=
         {:
             /* The CallUsage is Index and both generic actuals and indexes are not null */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
-              createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
+              createZName(dw, false), ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |        
@@ -4056,7 +4076,7 @@ processCall ::=
         {:
             /* The CallUsage is irrelevant and the parameters are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
-              createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
+              createZName(dw, false), ga, Boolean.FALSE, Boolean.TRUE), 
               factory_.createZExprList(), CallUsage.Param);
             addLocAnn(RESULT, dw.getLocation());
         :}
@@ -4065,7 +4085,7 @@ processCall ::=
         DECORWORD:dw
         {:
             /* The CallUsage is irrelevant and both generic actuals and parameters are empty */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)),
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw, false)),
                 factory_.createZExprList(), CallUsage.Param);
             addLocAnn(RESULT, dw.getLocation());
         :}
@@ -4096,7 +4116,7 @@ parenthesisedProcess ::=
             ProcessPara pa = createImplicitProcessPara(pn, pp);            
             parserState_.addImplicitlyDeclProcessPara(pa);
             /* The CallUsage is Param and the generic actuals are the same as the  */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn)), ap, CallUsage.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn, false)), ap, CallUsage.Param);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}        
         |
@@ -4108,7 +4128,7 @@ parenthesisedProcess ::=
             ProcessPara pa = createImplicitProcessPara(pn, pp);            
             parserState_.addImplicitlyDeclProcessPara(pa);
             /* The CallUsage is Param and the generic actuals are the same as the  */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn), 
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn, false), 
                 ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Param);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}
@@ -4121,7 +4141,7 @@ parenthesisedProcess ::=
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             parserState_.addImplicitlyDeclProcessPara(pa);
             /* The CallUsage is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn)), ai, CallUsage.Index);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn, false)), ai, CallUsage.Index);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :} 
         |
@@ -4133,7 +4153,7 @@ parenthesisedProcess ::=
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             parserState_.addImplicitlyDeclProcessPara(pa);
             /* The CallUsage is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn), 
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(pn, false), 
                 ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :}
@@ -4717,14 +4737,14 @@ actionCall ::=
         /* Parameterised action call */
         DECORWORD:dw actualParameters:ap 
         {:            
-            RESULT = factory_.createCallAction(createZName(dw), ap);
+            RESULT = factory_.createCallAction(createZName(dw, false), ap);
             addLocAnn(RESULT, dw.getLocation());
         :} 
         | 
         /* Action call */
         DECORWORD:dw 
         {:
-            RESULT = factory_.createCallAction(createZName(dw), factory_.createZExprList());
+            RESULT = factory_.createCallAction(createZName(dw, false), factory_.createZExprList());
             addLocAnn(RESULT, dw.getLocation());
         :} 
         ;
@@ -4744,7 +4764,7 @@ parenthesisedAction ::=
             Decorword an = createImplicitlyDeclActUniqueName(pa);                        
             ActionPara ap = createImplicitActionPara(an, pa);            
             parserState_.addImplicitlyDeclActionPara(ap);            
-            RESULT = factory_.createCallAction(createZName(an), el);
+            RESULT = factory_.createCallAction(createZName(an, false), el);
             addLocAnn(RESULT, getLocation(lp1, el.get(el.size()-1)));
         :}               
         ;
@@ -4760,7 +4780,7 @@ communication ::=
         {:
             /* RefExpr: mixfix=false, explicit=false */
             RESULT = factory_.createCommunication(
-                factory_.createRefExpr(createZName(dw)),  // channel name
+                factory_.createRefExpr(createZName(dw, false)),  // channel name
                 factory_.createCircusFieldList(ocf),      // communication fields
                 CommUsage.Normal,                         // channel communication usage
                 CircusUtils.retrieveCommPattern(ocf),     // communication pattern
@@ -4776,7 +4796,7 @@ communication ::=
         {:
             /* RefExpr: mixfix=false, explicit=true */
             RESULT = factory_.createCommunication(
-              factory_.createRefExpr(createZName(dw),     // channel name with generic parameters
+              factory_.createRefExpr(createZName(dw, false),     // channel name with generic parameters
                   el, Boolean.FALSE, Boolean.TRUE), 
                 factory_.createCircusFieldList(cf),       // communication fields       
                 CommUsage.Generic,                        // channel communication usage
