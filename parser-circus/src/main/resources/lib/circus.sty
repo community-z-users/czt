@@ -53,8 +53,6 @@
 
 %\RequirePackage{my-a4}
 
-\newenvironment{circus}{\begin{zed}}{\end{zed}}
-
 %-- New BREAK Commmands from oz.sty -- (BEGIN) LEO
 
 \newcount\interzedlinepenalty   \interzedlinepenalty=10000  %never break
@@ -119,11 +117,6 @@
     \newcounter{circusmuCtr}
     \newcounter{circusvarCtr}
 \fi
-
-\newenvironment{circus}{\begin{zed} \ifuseCircusCounters \stepcounter{circusCtr} \fi}{\end{zed}\ignorespacesafterend}
-%\newenvironment{circus}{\begin{zed}}{\end{zed}}
-\newenvironment{circusop}{\ifuseCircusCounters \stepcounter{circusopCtr}\fi}{}
-\newenvironment{circusaction}{\ifuseCircusCounters \stepcounter{circusactionCtr} \fi \begin{zed}}{\end{zed}}
 
 \newcommand{\circbegin}{\mathbf{begin}}
 \newcommand{\circchannel}{\mathbf{channel}\ifuseCircusCounters \stepcounter{circuschannelCtr}\fi}
@@ -191,30 +184,30 @@
 %      {\hspace{#1}\begin{boxedminipage}{0.8\linewidth}}%
 %      {\end{boxedminipage}\ignorespacesafterend}%
 %  }{%
-    \newenvironment{circusprocess}[1][10pt]%
-      {\hspace{#1}\begin{minipage}{0.8\linewidth}}%
-      {\end{minipage}\ignorespacesafterend}
+%    \newenvironment{circusprocess}[1][10pt]%
+%      {\hspace{#1}\begin{minipage}{0.8\linewidth}}%
+%      {\end{minipage}\ignorespacesafterend}
 %  }
 
-\newenvironment{procheader}%
-    {\zedindent=0pt\begin{zed}\circprocess\ }%
-    {\end{zed}\zedindent=\leftmargini\ignorespacesafterend}
+%\newenvironment{procheader}%
+%    {\zedindent=0pt\begin{zed}\circprocess\ }%
+%    {\end{zed}\zedindent=\leftmargini\ignorespacesafterend}
 
-\newenvironment{circusaction}%
-    {\begin{zed}}%
-    {\end{zed}\ignorespacesafterend}
+\newenvironment{circus}{\begin{zed}\ifuseCircusCounters \stepcounter{circusCtr} \fi}{\end{zed}\ignorespacesafterend}
+    
+\newenvironment{circusop}{\ifuseCircusCounters \stepcounter{circusopCtr}\fi}{}
 
-\newenvironment{mainaction}%
-    {\begin{zed}@}%
-    {\\ \hspace{-\zedindent}\circend\end{zed}\ignorespacesafterend}
+\newenvironment{circusaction}{\begin{zed}\ifuseCircusCounters \stepcounter{circusactionCtr} \fi}{\end{zed}\ignorespacesafterend}
+
+%\newenvironment{mainaction}%
+%    {\begin{zed}@}%
+%    {\\ \hspace{-\zedindent}\circend\end{zed}\ignorespacesafterend}
 
 \newcommand{\circdef}{\defs}
 \newcommand{\circhide}{\hide}
 
-% Additions by Frank Zeyda to provisionally process CZT Circus LaTeX output.
-
-\newcommand{\lcircguard}{(}
-\newcommand{\rcircguard}{)}
+\newcommand{\lcircguard}{\langle}
+\newcommand{\rcircguard}{\rangle}
 
 \newcommand{\lcircrename}{[}
 \newcommand{\rcircrename}{]}
@@ -222,6 +215,6 @@
 \newcommand{\universe}{\mathbb U}
 
 % Hack: reduce space after schema by overriding \endzed in zed.sty. This file should be included AFTER zed.sty.
-\renewcommand{\endzed}{\crcr\egroup$$\vspace{-2em}\global\@ignoretrue}
+%\renewcommand{\endzed}{\crcr\egroup$$\vspace{-2em}\global\@ignoretrue}
 
 \setlength{\zedtab}{1.3em}
