@@ -8,12 +8,10 @@ Unix filing system.
 The ultimate constituent of the filing system is the byte.
 
 \begin{zed}
-  [BYTE]
+  BYTE == 0 \upto 255 \\
+  ZERO == 0
 \end{zed}
 
-\begin{axdef}
-  ZERO : BYTE
-\end{axdef}
 A file is a finite sequence of bytes.
 
 \begin{zed}
