@@ -36,7 +36,6 @@ import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Name;
-import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ProdType;
@@ -72,6 +71,11 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
    * synchronisation channel name and its type.
    */
   private int fieldCount_ = 0;
+  
+  private int inputFieldCount_ = 0;
+  private int outputFieldCount_ = 0;
+  private int expectedCount_ = 0;
+  
   /**
    * Flag determining whether the communication channel is of product type or not.
    * Before field evaluation the value is null. During field evaluation the value is t/f
@@ -81,6 +85,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
    * Communication pattern as detected by the parser.
    */
   private CommPattern commPattern_ = null;
+  private CommUsage commUsage_ = null;
   /**
    * Communication channel name.
    */
@@ -114,6 +119,23 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     synchName_ = factory().createSynchName();        
     synchType_ = null;      
   }  
+  
+  protected void resetAttributes()
+  {
+    // note that lastUsedChannel_, synchType_ and synchName_ remains valid, 
+    // so that the calling visitor knows what to extract from the resolved type 
+    // of this comm.
+    commPattern_ = null;
+    isProdType_ = null;
+    channelName_ = null;
+    channelType_ = null;
+    commUsage_ = null;
+    fieldPosition_ = 0;
+    fieldCount_ = 0;
+    inputFieldCount_ = 0;
+    outputFieldCount_ = 0;
+    expectedCount_ = 0;
+  }
   
   /**
    * Returns the synchronisation type for channels. The first time this type is 
@@ -245,6 +267,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     // get the channel name from the expression.
     channelName_ = term.getChannelExpr().getName();
     commPattern_ = term.getCommPattern();
+    commUsage_   = term.getCommUsage();
 
     // communications can only appear within an action paragrph
     checkActionParaScope(term, channelName_);    
@@ -265,18 +288,28 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     boolean commFormatInv = true;
 
     if (type instanceof ChannelType)
-    {
+    {           
       fieldPosition_ = 0;
+      inputFieldCount_ = 0;
+      outputFieldCount_ = 0;
       channelType_ = (ChannelType) type;
       CircusFieldList fields = term.getCircusFieldList();
-      fieldCount_ = fields.size();
-
+      fieldCount_ = fields.size();      
+      
       // decide whether this is a well formed communication, or 
       // else if it isn't, raise an error.
       CommFormatResolution commFormat =
         COMM_FORMAT_MATRIX[(fields.isEmpty() ? 0 : 1)][(channelType_.equals(synchType()) ? 0 : 1)];
 
       isProdType_ = isProdTypeComm();
+      
+      //      if product type -> get the product type size
+      // else if synch type   -> 0 
+      // else                 -> 1
+      expectedCount_ = isProdType_ ? 
+        GlobalDefs.prodType(channelType_.getType()).getType().size() : 
+          commFormat.equals(CommFormatResolution.WellFormedSynch) ? 0 : 1;
+          
       assert isProdType_ != null;
 
       switch (commFormat)
@@ -286,7 +319,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
           // also, check that the parsed CommPattern flag is correct.
           commFormatInv = (!isProdType_ && fieldCount_ == 0 &&
             commPattern_.equals(CommPattern.Synch) &&
-            term.getCommUsage().equals(CommUsage.Normal));
+            commUsage_.equals(CommUsage.Normal));
           if (commFormatInv)
           {
             result.add(factory().createNameTypePair(synchName_, synchType()));
@@ -306,8 +339,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
           //       (e.g., { ("c", (x, (y.1, y.2))), ("c", (x, y, z)) } )
           commFormatInv = ((fieldCount_ == 1 ||
             (isProdType_ &&
-            fieldCount_ == GlobalDefs.prodType(channelType_.getType()).getType().
-            size())) &&
+            fieldCount_ == expectedCount_)) &&
             !commPattern_.equals(CommPattern.Synch));
 
           // if there is a format error, raise it; otherwise carry on.
@@ -361,8 +393,13 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
             //       by the InputField, rather than the PrefixAction
             result.addAll(fields.accept(commChecker()));
 
-            assert (result.size() == fieldCount_) :
-              "Invalid field list typechecking: wrong field count.";
+            // 4 = NUMBER_OF_VARIABLES_ADDED, e.g. c?x --> x, x', x?, x!: typeOf(c)            
+            // so, if channel fields are well formed, then the field count must match.
+            assert (!channelFieldsWellFormed() ||
+                    (result.size() == ((inputFieldCount_ * 4) + outputFieldCount_))) :
+              "Invalid field list typechecking: wrong number of variables w.r.t. field count.\n\t" +
+              "Expected: " + ((inputFieldCount_ * 4) + outputFieldCount_) + " variables\n\t" +
+              "Found   : " + result.size();
 
             // check whether any of the input variables were declared with the same name.
             // Here, this sufices because PrefixAction should have opened a new scope, hence
@@ -377,12 +414,18 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
         case CommNoFields:
           // typed channels must have fields.
           assert fields.isEmpty();
-          error(term, ErrorMessage.CHANNEL_NEEDS_CPARAMS, params);
+          params.add(fieldCount_);
+          params.add(fields.size());          
+          params.add(" "); 
+          error(term, ErrorMessage.COMM_CHANNEL_FIELDS_ERROR, params);
           break;
         case FieldSynch:
           // synchronisation channels cannot have fields.
           assert !fields.isEmpty();
-          error(term, ErrorMessage.SYNCH_CHANNEL_WITH_CPARAMS_ERROR, params);
+          params.add(fieldCount_);
+          params.add(fields.size());          
+          params.add("--- synchronisation channels cannot have fields");
+          error(term, ErrorMessage.COMM_CHANNEL_FIELDS_ERROR, params);
           break;
       }
     }
@@ -393,10 +436,19 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
 
     // check invariant for good channels.
     if (!commFormatInv)
-    {
+    { 
       params.add(channelType_);
-      params.add(fieldCount_);
-      error(term, ErrorMessage.NUMBER_CPARAMS_INCOMPATIBLE_CHANNEL_TYPE, params);
+      params.add(expectedCount_);
+      params.add(fieldCount_);      
+      if (commPattern_.equals(CommPattern.Synch) && !commUsage_.equals(CommUsage.Normal))
+      {
+        params.add("\n\tCommunication via synchronisation channels does not allow generic actuals.");
+      }
+      else
+      {
+        params.add(" ");
+      }
+      error(term, ErrorMessage.COMM_FIELDS_DONT_UNIFY, params);
     }
 
     // add this instantiated channel as a used channel in the calling scope.
@@ -415,16 +467,9 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       createCommunicationType(signature);
     addTypeAnn(term, commType);
 
-    // reset the attributes only valid for communication field analysis.
-    // note that lastUsedChannel_ remains valid, so that the calling visitor
-    // knows what to extract from the resolved type of this comm.
-    commPattern_ = null;
-    isProdType_ = null;
-    channelName_ = null;
-    channelType_ = null;
-    fieldPosition_ = 0;
-    fieldCount_ = 0;
-
+    // reset the attributes only valid for communication field analysis.   
+    resetAttributes();
+    
     return result;
   }
   
@@ -482,6 +527,8 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
 
     if (channelFieldsWellFormed())
     {
+      inputFieldCount_++;
+      
       // if the result type is a ProdType, it could be either because:
       //  a) fieldPos = 1, in c?x!z where the channel is typed as ((N x N) x N)
       //  b) fieldPos = 2, in c?x where the channel is typed (N x N) and so on.
@@ -518,9 +565,10 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       params.add(getCurrentProcessName());
       params.add(getCurrentActionName());
       params.add(channelName_);
-      params.add("input variable " + varName);
+      params.add(channelType_);
       params.add(fieldPosition_);
-      error(term, ErrorMessage.FAILED_FIELD_INVARIANT, params);
+      params.add("input");
+      error(term, ErrorMessage.COMM_FIELD_FAILED_INVARIANT, params);
     }
     return result;
   }
@@ -550,9 +598,14 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     params.add(getCurrentProcessName());
     params.add(getCurrentActionName());
     params.add(channelName_);
+    params.add(channelType_);
 
+    // TODO: URGENT: BACK FROM HERE - sort out out/dot field problem!
+    
     if (channelFieldsWellFormed())
     {
+      outputFieldCount_++;
+      
       // typecheck the expression
       Type2 exprType = term.getExpr().accept(exprChecker());
 
@@ -566,10 +619,12 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
         Type2 foundU = GlobalDefs.unwrapType(exprType);
         UResult unified = unify(foundU, expectedU);
         if (unified.equals(UResult.FAIL))
-        {
+        {          
+          params.add(fieldPosition_);
           params.add(expectedU);
           params.add(foundU);
-          error(term, ErrorMessage.CHANNEL_PARAM_NOT_UNIFY, params);
+          params.add(CircusUtils.isOutputField(term) ? "Output" : "Dot");
+          error(term, ErrorMessage.COMM_DOTFIELD_DONT_UNIFY, params);
         }
         else
         {
@@ -580,10 +635,10 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       }
     }
     else
-    {
-      params.add("output field");
-      params.add(fieldPosition_);
-      error(term, ErrorMessage.FAILED_FIELD_INVARIANT, params);
+    {      
+      params.add(fieldPosition_);      
+      params.add(CircusUtils.isOutputField(term) ? "output" : "dot");
+      error(term, ErrorMessage.COMM_FIELD_FAILED_INVARIANT, params);
     }
     return result;
   }
