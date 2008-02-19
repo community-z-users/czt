@@ -207,6 +207,26 @@ public class TypeCheckUtils
   {
     return false;
   }
+  
+  protected boolean syntaxOnlyDefault()
+  {
+    return false;
+  }
+  
+  protected boolean printTypesDefault()
+  {
+    return false;
+  }
+    
+  protected boolean printZMLDefault()
+  {
+    return false;
+  }
+  
+  protected boolean useNameIdsDefault()
+  {
+    return false;
+  }
 
   /** The list of known toolkits.
    *  This is used internally to avoid printing the types of toolkit names.
@@ -263,12 +283,12 @@ public class TypeCheckUtils
     }
 
     List<String> files = new java.util.ArrayList<String>();
-    boolean syntaxOnly = false;
+    boolean syntaxOnly = syntaxOnlyDefault();
     boolean useBeforeDecl = useBeforeDeclDefault();
-    boolean printTypes = false;
-    boolean printZml = false;
+    boolean printTypes = printTypesDefault();
+    boolean printZml = printZMLDefault();
     boolean printBenchmark = printBenchmarkTimesDefault();
-    boolean useNameIds = false;
+    boolean useNameIds = useNameIdsDefault();
 
     for (int i = 0; i < args.length; i++) {
       if (args[i].startsWith("-")) {
