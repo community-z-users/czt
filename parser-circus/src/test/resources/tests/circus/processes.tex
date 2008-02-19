@@ -153,7 +153,7 @@ The typechecker will infer the type types of channels from $HCS$ in the definiti
     \circchannelset\ HCS1 == \lchanset c \rchanset \\
     \circchannelset\ HCS == HCS0 \cup HCS1 \\
 %    \circprocess\ H \circdef BASIC[\nat] \circhide \lchanset a[\nat], b[\nat] \rchanset \\
-    \circprocess\ [X, Y] H_1 \circdef BASIC[X \setminus Y] \circhide HCS
+    \circprocess\ [X, Y] H1 \circdef BASIC[X \setminus Y] \circhide HCS
 \end{circus}
 %
 \begin{verbatim}
@@ -163,7 +163,7 @@ The typechecker will infer the type types of channels from $HCS$ in the definiti
          \circchannelset\ HCS == HCS0 \cup HCS1 \\
          \circprocess\ H \circdef BASIC[\nat] \circhide
                                \lchanset a[\nat], b[\nat] \rchanset \\
-         \circprocess\ [X, Y] H_1 \circdef BASIC[X \setminus Y]
+         \circprocess\ [X, Y] H1 \circdef BASIC[X \setminus Y]
                                  \circhide HCS
      end{circus}
 \end{verbatim}
@@ -181,12 +181,12 @@ the type checker will issue an error since calls to generic process must contain
 to infer the needed types.
 %
 \begin{circus}
-    \circprocess\ [X, Y]\ IL \circdef H \interleave H_1[X, Y]
+    \circprocess\ [X, Y]\ IL \circdef H \interleave H1[X, Y]
 \end{circus}
 %
 \begin{verbatim}
      begin{circus}
-        \circprocess\ [X, Y]\ IL \circdef H \interleave H_1[X, Y]
+        \circprocess\ [X, Y]\ IL \circdef H \interleave H1[X, Y]
      end{circus}
 \end{verbatim}
 
@@ -219,13 +219,13 @@ to infer the needed types.
 \subsubsection{Internal choice}
 
 \begin{circus}
-    \circprocess\ [X, Y]\ IC \circdef BASIC[X] \intchoice H_1[Y \cross X, X \fun Y]
+    \circprocess\ [X, Y]\ IC \circdef BASIC[X] \intchoice H1[Y \cross X, X \fun Y]
 \end{circus}
 %
 \begin{verbatim}
      begin{circus}
         \circprocess\ [X, Y]\ IC \circdef BASIC[X] \intchoice
-                                          H_1[Y \cross X, X \fun Y]
+                                          H1[Y \cross X, X \fun Y]
      end{circus}
 \end{verbatim}
 
@@ -315,7 +315,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
 %\]
 \begin{circus}
     \circprocess\ IC\_EC\_SC   \circdef SC \circseq SC \extchoice EC \intchoice IC[\nat, \nat] \\
-    \circprocess\ IC\_EC\_SC_0 \circdef (~(SC \circseq SC) \extchoice EC) \intchoice IC[\nat, \nat]
+    \circprocess\ IC\_EC\_SC0 \circdef (~(SC \circseq SC) \extchoice EC) \intchoice IC[\nat, \nat]
 \end{circus}
 %
 %\begin{verbatim}
@@ -333,7 +333,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
 %\]
 \begin{circus}
     \circprocess\ SC\_IC\_EC   \circdef SC \circseq (SC \extchoice EC \intchoice IC[\nat, \nat]) \\
-    \circprocess\ SC\_IC\_EC_0 \circdef SC \circseq ((SC \extchoice EC) \intchoice IC[\nat, \nat])
+    \circprocess\ SC\_IC\_EC0 \circdef SC \circseq ((SC \extchoice EC) \intchoice IC[\nat, \nat])
 \end{circus}
 
 %\[
@@ -344,17 +344,17 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
 %\]
 \begin{circus}
     \circprocess\ EC\_SC\_IC   \circdef SC \circseq SC \extchoice (EC \intchoice IC[\nat, \nat]) \\
-    \circprocess\ EC\_SC\_IC_0 \circdef (SC \circseq SC) \extchoice (EC \intchoice IC[\nat, \nat])
+    \circprocess\ EC\_SC\_IC0 \circdef (SC \circseq SC) \extchoice (EC \intchoice IC[\nat, \nat])
 \end{circus}
 
 \begin{circus}
     \circprocess\ IC\_SC\_EC   \circdef SC \circseq (SC \extchoice EC) \intchoice IC[\nat, \nat] \\
-    \circprocess\ IC\_SC\_EC_0 \circdef (SC \circseq (SC \extchoice EC)) \intchoice IC[\nat, \nat]
+    \circprocess\ IC\_SC\_EC0 \circdef (SC \circseq (SC \extchoice EC)) \intchoice IC[\nat, \nat]
 \end{circus}
 
 \begin{circus}
     \circprocess\ IL\_\_EC\_SC\_\_IC\_SC   \circdef SC \circseq SC \extchoice EC \interleave EC \intchoice EC \circseq SC \\
-    \circprocess\ IL\_\_EC\_SC\_\_IC\_SC_0 \circdef ((SC \circseq SC) \extchoice EC) \interleave (EC \intchoice (EC \circseq SC))
+    \circprocess\ IL\_\_EC\_SC\_\_IC\_SC0 \circdef ((SC \circseq SC) \extchoice EC) \interleave (EC \intchoice (EC \circseq SC))
 \end{circus}
 
 \subsubsection{Some examples with hard new lines and spaces}
@@ -364,13 +364,13 @@ such as the \verb'\\' and \verb'\tN' symbols. This enables pretty printing and s
 not affect parsing.
 %
 \begin{circus}
-    \circprocess\ [X, Y]\ IC_2 \circdef BASIC[X] \intchoice \\ \t5 H_1[Y \cross X, X \fun Y]
+    \circprocess\ [X, Y]\ IC2 \circdef BASIC[X] \intchoice \\ \t5 H1[Y \cross X, X \fun Y]
 \end{circus}
 %
 \begin{verbatim}
      begin{circus}
-        \circprocess\ [X, Y]\ IC \circdef BASIC[X] \intchoice \\
-                                     \t5  H_1[Y \cross X, X \fun Y]
+        \circprocess\ [X, Y]\ IC2 \circdef BASIC[X] \intchoice \\
+                                     \t5  H1[Y \cross X, X \fun Y]
      end{circus}
 \end{verbatim}
 %
