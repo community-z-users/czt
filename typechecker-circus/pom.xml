@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.sourceforge.czt</groupId>
@@ -9,56 +9,66 @@
   <artifactId>typechecker-circus</artifactId>
   <packaging>jar</packaging>
   <name>CZT Circus Typechecker</name>
-  <description>
-    Provides classes for typechecking a Circus specification.
-  </description>
+  <description>Provides classes for typechecking Circus specifications.</description>
+  <profiles>
+        <profile>
+            <id>netbeans-public</id>
+            <activation>
+                <property>
+                    <name>netbeans.execution</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>lib</classpathPrefix>
+                                    <mainClass>net.sourceforge.czt.typecheck.circus.TypeCheckUtils</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>nb</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>directory</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptor>${basedir}/src/main/assemblies/netbeans-run.xml</descriptor>
+                                    <finalName>executable</finalName>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>                           
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
       <artifactId>parser-circus</artifactId>      
-      <version>${czt.version}</version>
     </dependency>    
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker</artifactId>            
     </dependency> 
     <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-      </dependency> 
-    <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>session</artifactId>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <testResources>
-      <testResource>
-        <directory>tests</directory>
-      </testResource>
-    </testResources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>**/UnificationEnvTest.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+      <artifactId>typechecker</artifactId>
+      <type>test-jar</type>
+    </dependency> 
+  </dependencies>  
+  <properties>
+        <netbeans.hint.useExternalMaven>true</netbeans.hint.useExternalMaven>
+    </properties>  
 </project>
