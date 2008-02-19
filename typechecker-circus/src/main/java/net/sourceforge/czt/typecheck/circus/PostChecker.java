@@ -90,6 +90,8 @@ implements //CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
   @Override
   public net.sourceforge.czt.typecheck.z.ErrorAnn visitCallAction(CallAction term)
   {    
+    assert isWithinProcessParaScope() : "Action post checking requires process scope";
+    
     boolean added;
     net.sourceforge.czt.typecheck.z.ErrorAnn result;
     ZName zName = term.getZName();
@@ -118,7 +120,7 @@ implements //CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
       // accumulate all post check errors at once.
       if (added)
       {        
-        Object[] params = { getConcreteSyntaxSymbol(term), term, getCurrentProcessName(), callErrors.size() };
+        Object[] params = { getCurrentProcessName(), getConcreteSyntaxSymbol(term), term, callErrors.size() };
         result = errorAnn(term, ErrorMessage.POSTCHECKING_CALL_ERROR, params);
         // cast it as a Circus ErrorAnn
         ((ErrorAnn)result).addCallErrors(callErrors);
