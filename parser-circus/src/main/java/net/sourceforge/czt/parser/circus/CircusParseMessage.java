@@ -53,7 +53,9 @@ public enum CircusParseMessage {
       "Only Z paragraphs are valid within Z unboxed paragraph environment but a {0} was found at {1}."),   
       
   MSG_INVALID_CIRCUS_PARA_IN_ZED("Invalid Circus {0} paragraph within ZED environment. It must be declared within a {1} environment."),      
-  MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon.");  
+  MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon."),
+  
+  MSG_CIRCNAME_DOESNOT_ALLOW_STROKES("Circus name {0} does not accept strokes.");  
   
   private final String message_;
   private final String explanation_;
