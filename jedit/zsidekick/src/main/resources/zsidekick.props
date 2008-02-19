@@ -59,6 +59,7 @@ options.zsidekick.ignoreUnknownLatexCommands=Allow latex commands that do not ha
 options.zsidekick.resetButton=Reset all options to be Z Standard conforming
 options.zsidekick.useBeforeDecl=Allow use of variables before their declaration
 options.zsidekick.useStrongTyping=Use strong typing for typechecking Object-Z specifications
+options.zsidekick.debugZsideKick=Switch to debug mode; it logs information on JEdit-SectionManager.log
 
 # SideKick parsers
 sidekick.parser.z.label=Z
