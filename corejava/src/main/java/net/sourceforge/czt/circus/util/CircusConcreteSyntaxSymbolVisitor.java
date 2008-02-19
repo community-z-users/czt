@@ -9,6 +9,7 @@
 package net.sourceforge.czt.circus.util;
 
 import net.sourceforge.czt.circus.ast.*;
+import net.sourceforge.czt.circus.ast.OutputFieldAnn;
 import net.sourceforge.czt.circus.visitor.*;
 
 import net.sourceforge.czt.z.ast.RefExpr;
@@ -212,7 +213,10 @@ public class CircusConcreteSyntaxSymbolVisitor
 
   public CircusConcreteSyntaxSymbol visitDotField(DotField term)
   {
-    return CircusConcreteSyntaxSymbol.DOT_FIELD;
+    boolean isOutputField = term.getAnn(OutputFieldAnn.class) != null;    
+    return isOutputField ? 
+        CircusConcreteSyntaxSymbol.OUT_FIELD : 
+        CircusConcreteSyntaxSymbol.DOT_FIELD;
   }
 
   public CircusConcreteSyntaxSymbol visitExtChoiceActionIte(ExtChoiceActionIte term)
@@ -253,11 +257,6 @@ public class CircusConcreteSyntaxSymbolVisitor
   public CircusConcreteSyntaxSymbol visitCommunication(Communication term)
   {
     return CircusConcreteSyntaxSymbol.COMMUNICATION;
-  }
-
-  public CircusConcreteSyntaxSymbol visitOutputField(OutputField term)
-  {
-    return CircusConcreteSyntaxSymbol.OUT_FIELD;
   }
 
   public CircusConcreteSyntaxSymbol visitActionPara(ActionPara term)
@@ -534,5 +533,11 @@ public class CircusConcreteSyntaxSymbolVisitor
     extends StandardZ
     implements Utils
   {
+  }
+
+  @Override
+  public CircusConcreteSyntaxSymbol visitOutputFieldAnn(OutputFieldAnn term)
+  {
+    return null;
   }
 }

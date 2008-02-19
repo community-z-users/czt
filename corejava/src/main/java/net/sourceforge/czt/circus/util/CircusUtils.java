@@ -335,8 +335,8 @@ public final class CircusUtils
    * <ul>
    *    <li><code>CommPattern.Synch</code> if the list of fields is empty.
    *    <li><code>CommPattern.Input</code> if the list of fields is not empty and contain only instances of <code>InputField</code>.
-   *    <li><code>CommPattern.Output</code> if the list of fields is not empty and contain instances of either <code>DotField</code> or <code>OutputField</code>.
-   *    <li><code>CommPattern.Mixed</code> if the list of fields is not empty and contain at least one <code>InputField</code> and either one <code>DotField</code> or one <code>OutputField</code>.
+   *    <li><code>CommPattern.Output</code> if the list of fields is not empty and contain instances of either <code>DotField</code>.
+   *    <li><code>CommPattern.Mixed</code> if the list of fields is not empty and contain at least one <code>InputField</code> and either one <code>DotField</code>.
    *    <li><code>CommPattern.Mixed</code> with a parser error if the list of fields is not empty but neither of the above patterns hold.
    * </ul>
    * </p>

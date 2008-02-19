@@ -37,7 +37,7 @@ import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circus.ast.DotField;
 import net.sourceforge.czt.circus.ast.InputField;
-import net.sourceforge.czt.circus.ast.OutputField;
+import net.sourceforge.czt.circus.ast.OutputFieldAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.ActionType;
@@ -284,9 +284,11 @@ public class PrintVisitor
     result.append(term.size());
     result.append(")[");
     openTabScope(result);
-    int i = term.size() - 1; int j = 0;
+    int i = term.size() - 1; int j = 1;
     for(Para p : term) {      
       if (p == null) result.append("FOUND NULL @ " + j + "  ");
+      result.append(j);
+      result.append("::");
       result.append(visit(p));
       if (i > 0) {
         addNLAndTabs(result);
@@ -564,35 +566,77 @@ public class PrintVisitor
   
   public String visitProcessType(ProcessType term)
   {
-    return "PROCESS_TYPE [" + visit(term.getProcessSignature()) + "]";
+    return "PROCESS_TYPE [" + NLAndTabs() + visit(term.getProcessSignature()) + NLAndTabs() + "]";
   }
   
   public String visitActionType(ActionType term)
   {
-    return "ACTION_TYPE [" + visit(term.getActionSignature()) + "]";
+    return "ACTION_TYPE [" + NLAndTabs() + visit(term.getActionSignature()) + NLAndTabs() + "]";
   }
   
   public String visitNameSetType(NameSetType term)
   {
-    return "NAMESET_TYPE [" + visit(term.getSignature()) + "]";
-  }
-  
+    return "NAMESET_TYPE ["+ visit(term.getSignature()) + "]";
+  }  
+    
   public String visitProcessSignature(ProcessSignature term)
   {
-    return visitProcess(term);
+    StringBuilder result = new StringBuilder();
+    result.append(visit(term.getProcessName()));    
+    result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));
+    
+    // Print parameters or indexes signature if they exist
+    if (term.getParamOrIndexes() != null && !term.getParamOrIndexes().getNameTypePair().isEmpty())
+    {      
+      result.append(term.getUsage().equals(ProcessUsage.Parameterised) ? "_P(" : "_I(");
+      result.append(visit(term.getParamOrIndexes()));
+      result.append(")");
+    }
+    
+    openTabScope(result);
+    result.append("Used channels: ");
+      openTabScope(result);
+        addNLAndTabs(result);
+        result.append(visitListNL(term.getUsedCommunications(), ","));        
+      closeTabScope(result);
+    closeTabScope(result);
+    
+    return result.toString();
   }
   
   public String visitBasicProcessSignature(BasicProcessSignature term)
-  {
-    StringBuilder result = new StringBuilder("TODO: " + visitProcess(term));
-    //if (term.getStateType() != null)
-    //{
-    //  result.append(visit(term.getStateType()));//SchemaType
-    //}
-    ///final String sep = NLAndTabs();
-    //result.append(visitList(term.getZSignature(), "ZDeclSig : ["+ sep, sep, "]\n"));//List<Signature>
-    //result.append(visitList(term.getActionSignature(), "ActionSig: ["+ sep, sep, "]\n"));//List<Signature>
-    //result.append(visitList(term.getUsedNameSets(), "NameSet  : [", ", ", "]\n"));//ZNameList
+  { 
+    StringBuilder result = new StringBuilder();
+        
+    String baseClass = visitProcessSignature(term);
+    result.append(baseClass);
+    
+    openTabScope(result);
+      result.append("State signature...:");
+      addNLAndTabs(result);
+      result.append(visit(term.getStateSignature()));
+      addNLAndTabs(result);
+      
+      result.append("Used name sets....:");
+      addNLAndTabs(result);
+      result.append(visit(term.getUsedNameSets()));
+      addNLAndTabs(result);
+
+      result.append("Decl. Transformers:");
+      result.append(visitList(term.getTransformerParaName(), ","));
+      addNLAndTabs(result);
+      
+      result.append("Local Z signatures:");
+      openTabScope(result);      
+        result.append(visitListNL(term.getLocalZSignatures(), ","));
+      closeTabScope(result);
+      
+      result.append("Action signatures:");
+      openTabScope(result);      
+        result.append(visitListNL(term.getActionSignatures(), ","));
+      closeTabScope(result);      
+    closeTabScope(result);
+    
     return result.toString();
   }
   
@@ -621,21 +665,6 @@ public class PrintVisitor
     }
      */
     result.append(" }");
-    return result.toString();
-  }
-  
-  protected String visitProcess(ProcessSignature term)
-  {
-    StringBuilder result = new StringBuilder("Process: ");
-    result.append(visit(term.getProcessName()));
-    result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));
-    // Print parameters or indexes signature if they exist
-    if (term.getParamOrIndexes() != null && !term.getParamOrIndexes().getNameTypePair().isEmpty())
-    {      
-      result.append(term.getUsage().equals(ProcessUsage.Parameterised) ? "P [" : "I [");
-      result.append(visit(term.getParamOrIndexes()));
-      result.append("]");
-    }
     return result.toString();
   }
   
@@ -711,7 +740,8 @@ public class PrintVisitor
   
   public String visitDotField(DotField term)
   {
-    return (term instanceof OutputField ? "!" : ".") + visit(term.getExpr());
+    boolean isOutputField = term.getAnn(OutputFieldAnn.class) != null;
+    return (isOutputField ? "~!" : "~.") + visit(term.getExpr());
   }
   
   public String visitCallAction(CallAction term)
@@ -767,5 +797,20 @@ public class PrintVisitor
       term.accept(this);
       return Collections.unmodifiableList(processPara_);
     }
+  }
+  
+  protected String visitListNL(List<? extends Term> list, String separator)
+  {
+    final StringBuilder result = new StringBuilder();
+    String sep = "";
+    for (Term term : list) {
+      String string = visit(term);
+      if (string != null) {
+        result.append(sep + string);
+        sep = separator;        
+        addNLAndTabs(result);
+      }
+    }
+    return result.toString();
   }
 }
