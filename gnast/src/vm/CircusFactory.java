@@ -79,3 +79,5 @@
   ProcessSignature createEmptyCircusProcessSignature();
   
   BasicProcessSignature createEmptyBasicProcessSignature();
+
+  DotField createOutputField(net.sourceforge.czt.z.ast.Expr e);

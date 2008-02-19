@@ -163,3 +163,10 @@
       createStateUpdate());     // state update information
     return result;   
   }  
+
+  public DotField createOutputField(net.sourceforge.czt.z.ast.Expr e)
+  {
+    DotField result = createDotField(e);
+    result.getAnns().add(createOutputFieldAnn());
+    return result;
+  }
