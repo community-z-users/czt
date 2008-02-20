@@ -255,7 +255,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       currsym = dumb_.pop();
       tokens.addLast(currsym);
     }
-    
+    /*
     while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
       currsym = dumb_.pop();
       tokens.addLast(currsym);
@@ -268,7 +268,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
         doLookahead = true;
       }
     }
-    
+    */
     /*
     //if the next token is a DEFFREE or DEFEQUAL, return a DEFNAME
     if (currsym.sym == Sym.DEFFREE || currsym.sym == Sym.DEFEQUAL) {
@@ -282,11 +282,12 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     
     
     
-    
+    /*
     // if we did lookahead and found a PREFIXTHEN, mark this as channelname
     if (currsym.sym == Sym.PREFIXTHEN &amp;&amp; doLookahead) {
       result = true;
     }
+    */
     
     // push the tokens back, where tokens remain DECORWORDs 
     pushList(tokens, false);
