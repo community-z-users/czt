@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.TreeMap;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Markup;
@@ -70,7 +69,7 @@ public class SpecialLatexScanner {
   public static void main(String[] args) 
   {
     try {
-      Map<String, Object> map= DebugUtils.getFieldMap2(Sym.class);
+     /* Map<String, Object> map= DebugUtils.getFieldMap2(Sym.class);
       
       System.out.println(map);
       map.keySet().retainAll(collectCircusSymbolNames());      
@@ -86,8 +85,7 @@ public class SpecialLatexScanner {
       System.out.println("vals equal? " +
           (flip.keySet().containsAll(map.values()) && 
           flip.keySet().size() == map.values().size()));
-      
-      
+      */
             
             
       //Object o = DebugUtils.getFieldMap(Sym.class).get(new Integer(Sym.DECORWORD));      
