@@ -5,13 +5,13 @@
 This section contains several positive and negative tests
 for the DS specification of POSIX files.
 
-\begin{zed}
+\begin{theorem}{Init}
 \vdash? \lblot file' == \langle \rangle \rblot \in InitDS
-\end{zed}
+\end{theorem}
 
-\begin{zed}
+\begin{theorem}{InitNeg}
 \vdash? \lblot file' == \langle 3 \rangle \rblot \notin InitDS
-\end{zed}
+\end{theorem}
 
 \begin{zed}
   eg1 == \langle 1, 255 \rangle
@@ -22,20 +22,20 @@ for the DS specification of POSIX files.
             data!==\langle \rangle, file'==eg1 \rblot \in ReadFile
 \end{theorem}
 
-\begin{zed} %ReadTest0\_3
+\begin{theorem}{ReadTest0\_3}
 \vdash? \lblot file==eg1, offset?==0, length?==3, \\
             data!==\langle 1, 255 \rangle, file'==eg1 \rblot \in ReadFile
-\end{zed}
+\end{theorem}
 
-\begin{zed} %ReadTest1\_1
+\begin{theorem}{ReadTest1\_1}
 \vdash? \lblot file==eg1, offset?==1, length?==1, \\
             data!==\langle 255 \rangle, file'==eg1 \rblot \in ReadFile
-\end{zed}
+\end{theorem}
 
-\begin{zed} %ReadTest3\_2
+\begin{theorem}{ReadTest3\_2}
 \vdash? \lblot file==eg1, offset?==3, length?==2, \\
             data!==\langle \rangle, file'==eg1 \rblot \in ReadFile
-\end{zed}
+\end{theorem}
 
 Here are the results from ZLive.
 \begin{verbatim}
@@ -86,9 +86,9 @@ all the tests evaluate to true.
 
 \subsection{Negative Tests for ReadFile}
 
-\begin{zed}
+\begin{theorem}{BadOffset}
  \vdash?  ([offset? == \negate 1] \land ReadFile) = \{\}
-\end{zed}
+\end{theorem}
 
 \footnote{CZT gives some really interesting and non-obvious error messages
   if we omit the (..) parentheses!  The parser assumes that $ReadFile=\{\}$
@@ -101,17 +101,17 @@ we can write test values inside the $ReadFile$ schema.
 
 Which is easier to understand?
 
-\begin{zed}
+\begin{theorem}{BadLength}
  \vdash?  [ReadFile | length? = \negate 1] = \{\}
-\end{zed}
+\end{theorem}
 
-\begin{zed}
+\begin{theorem}{BadOutFile}
  \vdash?  [ReadFile | file=eg1; file' \neq eg1] = \{\}
-\end{zed}
+\end{theorem}
 
-\begin{zed}
+\begin{theorem}{BadData}
  \vdash?  [ReadFile | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
-\end{zed}
+\end{theorem}
 
 
 \subsection{Positive Tests for WriteFile}
