@@ -28,6 +28,10 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 
+<add:circus>
+import java.util.EnumSet;
+</add:circus>
+
 /**
  * &lt;p&gt;
  *   Looks ahead in the token stream to resolve some Z ambiguities.
@@ -85,6 +89,69 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   //is rebranded as CIRCUSNAME and the remainder fileds are parsed appropriately.
   //
   private boolean inActionDef = false;
+  
+  // Set of names collected from CircusToken and CircusKeyword that we should stop
+  // lookahead for communication patterns. That is, all circus tokens different from 
+  // PREFIXCOLON and PREFIXTHEN
+  private static final Set&lt; String &gt; CIRCUS_TOKENS_STOP_LOOKAHEAD = collectCircusSymbolNames();
+  
+  // To avoid delayed lookups, collect the symbol table (symbols as keys) for all 
+  // symbols to stop the lookahead. We do that by retaining all collected names 
+  // and then flipping the resulting map.
+  private static final Map&lt; Object, String &gt; CIRCUS_SYMBOL_MAP_STOP_LOOKAHEAD = retainAllCircusNames(CIRCUS_TOKENS_STOP_LOOKAHEAD);
+  
+  private static Set&lt; String &gt; collectCircusSymbolNames()
+  {
+    Set&lt; String &gt; result = new HashSet();
+    EnumSet CIRCUS_TOKENS = EnumSet.allOf(CircusToken.class);
+    EnumSet CIRCUS_KEYWORDS = EnumSet.allOf(CircusKeyword.class);
+    CIRCUS_KEYWORDS.remove(CircusKeyword.PREFIXTHEN);
+    CIRCUS_KEYWORDS.remove(CircusKeyword.PREFIXCOLON);            
+    
+    Iterator&lt; CircusToken &gt; it = CIRCUS_TOKENS.iterator();
+    while (it.hasNext())
+    {
+      boolean ok = result.add(it.next().getName());
+      assert ok : "invalid CircusToken at smart scanning";
+    }
+    Iterator&lt; CircusKeyword &gt; it2 = CIRCUS_KEYWORDS.iterator();
+    while (it2.hasNext())
+    {
+      boolean ok = result.add(it2.next().getName());
+      assert ok : "invalid CircusKeyword at smart scanning";
+    }
+    
+    assert result.size() == CIRCUS_TOKENS.size() + CIRCUS_KEYWORDS.size();
+    
+    return result;
+  }
+  
+  private static &lt;K, V&gt; Map&lt;V, K&gt; flipMap(Map&lt;K, V&gt; m)
+  {
+    Map&lt;V, K&gt; result = new HashMap&lt;V, K&gt;();
+    Iterator&lt;Map.Entry&lt;K, V&gt;&gt; it = m.entrySet().iterator();
+    while (it.hasNext())
+    {
+      Map.Entry&lt;K, V&gt; entry = it.next();      
+      result.put(entry.getValue(), entry.getKey());
+    }    
+    assert 
+      ((m.keySet().containsAll(result.values()) &amp;&amp; m.keySet().size() == result.values().size()) &amp;&amp;
+      (result.keySet().containsAll(m.values()) &amp;&amp; result.keySet().size() == m.values().size())) : "map flipping failed";
+    return result;
+  }
+    
+  private static Map&lt; Object, String &gt; retainAllCircusNames(Set&lt; String &gt; namesToRetain)
+  {
+    // get the symbol table as NAME = INT_VALUE
+    Map&lt; String, Object &gt; result = DebugUtils.getFieldMap2(Sym.class);
+    
+    // retain all names from given set
+    result.keySet().retainAll(namesToRetain);      
+    
+    // flip the map as the result.
+    return flipMap(result);
+  }
 </add:circus>  
   
   private TokenStack dumb_;
@@ -109,13 +176,14 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       // then lookahead for potential prefix communication.          
       if (inCircusBasicProcess &amp;&amp; inActionDef &amp;&amp; isChannelName())
       {
+        System.out.println("\tIn DECORWORD of a basic process after action def");        
         // unfortunately, in the case of processes defined within the same
         // circus environment, there is no effecient way of discerning when
         // the action definition has finished. On the other hand, if using
         // circusaction environments, we can know when they finish by looking
         // for a END symbol.
-        
-        //result.sym = Sym.CIRCUSNAME;
+
+        //result.sym = Sym.CIRCUSNAME;        
       }
       else
 </add:circus>
@@ -126,7 +194,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       }
 <add:oz>
       else
-      {
+      {  
         LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
         Symbol currsym = dumb_.pop();
         tokens.addLast(currsym);
@@ -171,18 +239,21 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     {
        inCircusBasicProcess = true;
        inActionDef = false;
+       System.out.println("\tSwitching on basic process flag and off the action def flag");
     }
     // if finishing a basic process, mark it fakse and not def. action yet
     else if (result.sym == Sym.CIRCEND)
     {
        inCircusBasicProcess = false;
        inActionDef = false;
+       System.out.println("\tSwitching off basic process and action def flag");
     }
     // if defining an action and within a basic process, mark def. action true
     // CIRCDEF might appear outside basic process - ex. other processes definitions.
     else if (result.sym == Sym.CIRCDEF &amp;&amp; inCircusBasicProcess)
     {       
        inActionDef = true;
+       System.out.println("\tSwitching on action def flag");
     }
     // if terminating some definition within a basic process, then 
     // mark def. action false. This only happens when we have circusaction 
@@ -191,6 +262,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     else if (result.sym == Sym.END &amp;&amp; inCircusBasicProcess)
     {
        inActionDef = false;
+       System.out.println("\tSwitching off action def flag");
     }
 </add:circus>    
     return result;
@@ -234,7 +306,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     throws Exception 
   {
     boolean result = false;
-    boolean doLookahead   = true;
+    boolean doLookahead = true;
     
     LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
     Symbol currsym = dumb_.pop();
@@ -248,6 +320,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     
     //skip any actual parameters on generic channels
     if (currsym.sym == Sym.LSQUARE) {
+      System.out.println("\tWithin isChannelName for generic channel");
       while (currsym.sym != Sym.RSQUARE) {
         currsym = dumb_.pop();
         tokens.addLast(currsym);
@@ -256,6 +329,10 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       tokens.addLast(currsym);
     }
     /*
+    CIRCUS_SYMBOL_MAP_STOP_LOOKAHEAD.keySet().contains(currsym.sym)
+    get_sym(currsym)
+    CIRCUS_TOKENS_STOP_LOOKAHEAD.contains(get_sym(currsym
+    
     while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
       currsym = dumb_.pop();
       tokens.addLast(currsym);
@@ -309,24 +386,26 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       dumb_.push(symbol);
     }
   }
-
-  private Object get_sym(Symbol symbol)
-  {
-    Map symbolMap = DebugUtils.getFieldMap(Sym.class);
-    Object sym = symbolMap.get(new Integer(symbol.sym));
+  
+  private Map&lt; Object, String &gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);  
+  
+  /**
+   * Returns the String representation for the given Symbol sym field.
+   * That is, the declared name for that symbol. This declared name can
+   * then be used to lookup the Token interface enum implementations for
+   * the various extensions. 
+   */
+  private String get_sym(Symbol symbol)
+  { 
+    String sym = symbolMap_.get(new Integer(symbol.sym));
     return sym;
   }
 
-  private Object get_info(Symbol symbol)
+  private String get_info(Symbol symbol)
   {
-    String result = null;
-    Map symbolMap = DebugUtils.getFieldMap(Sym.class);
-    Object sym = symbolMap.get(new Integer(symbol.sym));
+    String result = get_sym(symbol);    
     if (symbol.value != null) {
-      result = sym.toString() + "(" + symbol.value + ")";
-    }
-    else {
-      result = sym.toString();
+      result += "(" + symbol.value + ")";
     }
     return result;
   }
