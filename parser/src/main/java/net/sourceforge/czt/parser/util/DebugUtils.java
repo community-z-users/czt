@@ -104,6 +104,12 @@ public final class DebugUtils
         else {
           result += value.substring(0, maxLength) + "...'";
         }
+//        if (symbol.value instanceof Decorword)
+//        {
+//          Decorword dw = (Decorword)symbol.value;
+//          result += " with LocInfo(at line " + dw.getLocation().getLine() 
+//                    + " column " + dw.getLocation().getColumn() + ")";
+//        }
       }
       System.out.println(result);
     }
