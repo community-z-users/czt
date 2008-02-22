@@ -29,7 +29,13 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.parser.util.*;
 
 <add:circus>
-import java.util.EnumSet;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.ZStrokeList;
 </add:circus>
 
 /**
@@ -67,91 +73,98 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   private boolean inBoxName = false;
 
 <add:circus>
-  //indicates whether the previous token is CIRCBEGIN - that is, if a
-  //basic process is starting -, since communication only take place
-  //within an action declaration
+  private boolean debug_ = false;
+  
+  /**
+   * Indicates whether the previous token is CIRCBEGIN - that is, if a
+   * basic process is starting -, since communication only take place
+   * within an action declaration
+   */
   private boolean inCircusBasicProcess = false;
   
-  //after their names, actions MUST have a CIRCDEF token, which is 
-  //marked by this flag. That is, it is true whenever we have started
-  //a basic process and have encountered a CIRCDEF. It is switched off
-  //either when CIRCEND (i.e. end of basic process) or END
-  //(i.e. end of a general paragraph) is reached. The former happens
-  //when declaring basic processes within a single circus latex environment,
-  //whereas the latter happens when using multiple circusaction latex environments
-  //to declared basic processes. 
-  //
-  //Whenever both inCircusBasicProcess and inActionDef are enabled, and
-  //the next token is a DECORWORD, then, just like in colon declaration for Z,
-  //we need to lookahead to see whether the DECORWORD is part of a communication
-  //or not. That is, we need to lookahead until the flag is switched off, in which
-  //case nothing changes; or we find a PREFIXTHEN token, in which case the DECORWORD
-  //is rebranded as CIRCUSNAME and the remainder fileds are parsed appropriately.
-  //
+  /**
+   * Indicates whether the previous token is CIRCUSACTION - that is, if a
+   * BasicProcess defined with multiple LaTeX environments has passed a 
+   * begin{circusaction}.
+   */
+  private boolean inCircusActionEnv = false;
+  
+  /**
+   * After their names, actions MUST have a CIRCDEF token, which is 
+   * marked by this flag. That is, it is true whenever we have started
+   * a basic process and have encountered a CIRCDEF. It is switched off
+   * either when CIRCEND (i.e. end of basic process) or END
+   * (i.e. end of a general paragraph) is reached. The former happens
+   * when declaring basic processes within a single circus latex environment,
+   * whereas the latter happens when using multiple circusaction latex environments
+   * to declared basic processes. 
+   * 
+   * Whenever both inCircusBasicProcess and inActionDef are enabled, and
+   * the next token is a DECORWORD, then, just like in colon declaration for Z,
+   * we need to lookahead to see whether the DECORWORD is part of a communication
+   * or not. That is, we need to lookahead until the flag is switched off, in which
+   * case nothing changes; or we find a PREFIXTHEN token, in which case the DECORWORD
+   * is rebranded as CIRCUSNAME and the remainder fileds are parsed appropriately.
+   */ 
   private boolean inActionDef = false;
   
-  // Set of names collected from CircusToken and CircusKeyword that we should stop
-  // lookahead for communication patterns. That is, all circus tokens different from 
-  // PREFIXCOLON and PREFIXTHEN
-  private static final Set&lt; String &gt; CIRCUS_TOKENS_STOP_LOOKAHEAD = collectCircusSymbolNames();
+  /**
+   * Each communication can only have one channel name. Nevertheless, because Circus
+   * (and CSP) allows expressions with DECORWORDs as outputs or input predicates, we 
+   * may have DECORWORDs in beteween the CHANNELNAME and the PREFIXTHEN token. Thus,
+   * this flag enables us to avoid capturing those as CHANNELNAMEs.
+   *
+   * ex: c?x!(x+1)?z \prefixcolon (z > x).y \then \Skip
+   *
+   * is tokenised as:
+   *
+   * CHANNELNAME("c"), 
+   * INSTROKE, 
+   * FIELDNAME("x"),
+   * OUTSTROKE,
+   * LPAREN,
+   * DECORWORD("x"),
+   * ....
+   * FIELDNAME("z"),
+   * PREFIXCOLON,
+   * LPAREN
+   * DECORWORD("z")
+   * ...
+   * RPAREN
+   * CHANNELDOT
+   * FIELDNAME("y")
+   * PREFIXTHEN
+   * SKIP
+   *
+   * Also note that because of such expressions, one could have 
+   * decorated names (as Z expressions!) in communication fields:
+   *
+   * ex: c.(x?)!(y!)!(z?) \then \Skip
+   */
+  private boolean waitingPrefixThen = false;
   
-  // To avoid delayed lookups, collect the symbol table (symbols as keys) for all 
-  // symbols to stop the lookahead. We do that by retaining all collected names 
-  // and then flipping the resulting map.
-  private static final Map&lt; Object, String &gt; CIRCUS_SYMBOL_MAP_STOP_LOOKAHEAD = retainAllCircusNames(CIRCUS_TOKENS_STOP_LOOKAHEAD);
-  
-  private static Set&lt; String &gt; collectCircusSymbolNames()
-  {
-    Set&lt; String &gt; result = new HashSet();
-    EnumSet CIRCUS_TOKENS = EnumSet.allOf(CircusToken.class);
-    EnumSet CIRCUS_KEYWORDS = EnumSet.allOf(CircusKeyword.class);
-    CIRCUS_KEYWORDS.remove(CircusKeyword.PREFIXTHEN);
-    CIRCUS_KEYWORDS.remove(CircusKeyword.PREFIXCOLON);            
-    
-    Iterator&lt; CircusToken &gt; it = CIRCUS_TOKENS.iterator();
-    while (it.hasNext())
-    {
-      boolean ok = result.add(it.next().getName());
-      assert ok : "invalid CircusToken at smart scanning";
-    }
-    Iterator&lt; CircusKeyword &gt; it2 = CIRCUS_KEYWORDS.iterator();
-    while (it2.hasNext())
-    {
-      boolean ok = result.add(it2.next().getName());
-      assert ok : "invalid CircusKeyword at smart scanning";
-    }
-    
-    assert result.size() == CIRCUS_TOKENS.size() + CIRCUS_KEYWORDS.size();
-    
-    return result;
-  }
-  
-  private static &lt;K, V&gt; Map&lt;V, K&gt; flipMap(Map&lt;K, V&gt; m)
-  {
-    Map&lt;V, K&gt; result = new HashMap&lt;V, K&gt;();
-    Iterator&lt;Map.Entry&lt;K, V&gt;&gt; it = m.entrySet().iterator();
-    while (it.hasNext())
-    {
-      Map.Entry&lt;K, V&gt; entry = it.next();      
-      result.put(entry.getValue(), entry.getKey());
-    }    
-    assert 
-      ((m.keySet().containsAll(result.values()) &amp;&amp; m.keySet().size() == result.values().size()) &amp;&amp;
-      (result.keySet().containsAll(m.values()) &amp;&amp; result.keySet().size() == m.values().size())) : "map flipping failed";
-    return result;
-  }
-    
-  private static Map&lt; Object, String &gt; retainAllCircusNames(Set&lt; String &gt; namesToRetain)
-  {
-    // get the symbol table as NAME = INT_VALUE
-    Map&lt; String, Object &gt; result = DebugUtils.getFieldMap2(Sym.class);
-    
-    // retain all names from given set
-    result.keySet().retainAll(namesToRetain);      
-    
-    // flip the map as the result.
-    return flipMap(result);
-  }
+  /**
+   * DECORWORDs within a BasicChannelSetExpr must be analysed just like in 
+   * a communication of a prefixing action. That is because a BasicChannelSetExpr
+   * contains a list of communications.
+   */
+  //private boolean inBasicChannelSet = false;
+
+  /**
+   *  Set of Z Symbol table names. Note that because of the order they appear in 
+   *  the Parser.xml, some numbers are actually different in Z and Circus! 
+   *  Ex: 73 in Z is TEXT, and in Circus CIRCREFINES; whereas in Circus TEXT is 130
+   * 
+   *  One way to simplify this would be to impose an order for the symbols in Parser.xml
+   *  However, this compromises precedences for CUP (I think) - so we use this solution here.
+   * 
+   *  These names are used to know whether to carry looking ahead or not.
+   *  private static final Set&lt; String &gt; Z_SYMBOL_NAMES = SymMap.getMap().keySet();
+   * 
+   *  NOTE: do it differently - use Circus Only symbol names. This shall avoid 
+   *        any need to change anything in the future.
+   */
+  private static final Set&lt; String &gt; CIRCUS_SYMBOL_NAMES_ONLY = CircusSymMap.CIRCUS_SYMBOL_NAMES_ONLY;
 </add:circus>  
   
   private TokenStack dumb_;
@@ -171,21 +184,40 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     }
     else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) 
     {
-<add:circus>
-      // if within a basic process and within an action definition
-      // then lookahead for potential prefix communication.          
-      if (inCircusBasicProcess &amp;&amp; inActionDef &amp;&amp; isChannelName())
+<add:circus>      
+      // if within a basic process, within an action definition, and
+      // haven't yet found a DECORWORD that became a CHANNELNAME token
+      // (i.e. !waitingPrefixThen), then lookahead for potential communication.
+      // 
+      // This is important to avoid multiple DECORWORD being changed as 
+      // CHANNELNAMEs. This may happen if we have communication fields 
+      // with parenthesised expressions, or channels with generic actuals.
+      //
+      // pass the result symbol because we may need to change its DECORWORD representation.
+      // ex: DECORDWORD("c?") becomes CHANNELNAME("c") + INSTROKE
+      //
+      if (inCircusBasicProcess &amp;&amp; inActionDef &amp;&amp; 
+          !waitingPrefixThen &amp;&amp; isChannelName(result))
       {
-        System.out.println("\tIn DECORWORD of a basic process after action def");        
+        debug("\tIn DECORWORD of a basic process after action def");        
+        
         // unfortunately, in the case of processes defined within the same
         // circus environment, there is no effecient way of discerning when
         // the action definition has finished. On the other hand, if using
         // circusaction environments, we can know when they finish by looking
-        // for a END symbol.
-
-        //result.sym = Sym.CIRCUSNAME;        
+        // for a END symbol. See isChannelName for details
+        
+        debugFlags(result);        
+        assert checkChannelName(result) : "not valid channel name transformation in smart scanner at prefixing action";
       }
-      else
+      //else if (inBasicChannelSet)
+      //{        
+      //  updateCommunicationInBasicChannelSetExpr(result);
+      //  inBasicChannelSet = false;
+      //  debugFlags(result);
+      //  assert checkChannelName(result) : "not valid channel name transformation in smart scanner at basic channel set expression";
+      //}
+      else 
 </add:circus>
       //if this is a colon decl, convert the DECORWORD to a DECLWORD
       if (isColonDecl()) 
@@ -235,35 +267,114 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     } 
 <add:circus>
     // if starting a basic process, mark it true and not def. action yet
+    // unless the CIRCBEGIN is followed by a CIRCSPOT, in which case we 
+    // have single environment process with just the main action
+    // ex: \begin{circus} \circprocess P \circdef \circbegin \circspot \Skip \circend \end{circus}
     else if (result.sym == Sym.CIRCBEGIN)
-    {
+    { 
+       // reset the flags accordingly
        inCircusBasicProcess = true;
+       inCircusActionEnv = false;
        inActionDef = false;
-       System.out.println("\tSwitching on basic process flag and off the action def flag");
+       waitingPrefixThen = false;
+       
+       // lookahead to see if we find a CIRCSPOT after NL
+       LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+       Symbol currsym = dumb_.pop();
+       tokens.addLast(currsym);
+
+       //skip any newlines
+       while (currsym.sym == Sym.NL) {
+         currsym = dumb_.pop();
+         tokens.addLast(currsym);
+       }
+
+       // check if is a main action definition or not
+       inActionDef = currsym.sym == Sym.CIRCSPOT;
+
+       // push the tokens back without changing any DECORWORD.
+       pushList(tokens, false);  
+
+       debugFlags(result);
     }
     // if finishing a basic process, mark it fakse and not def. action yet
     else if (result.sym == Sym.CIRCEND)
     {
        inCircusBasicProcess = false;
-       inActionDef = false;
-       System.out.println("\tSwitching off basic process and action def flag");
+       inCircusActionEnv = false;
+       inActionDef = false;       
+       waitingPrefixThen = false;
+       debugFlags(result);
     }
     // if defining an action and within a basic process, mark def. action true
     // CIRCDEF might appear outside basic process - ex. other processes definitions.
     else if (result.sym == Sym.CIRCDEF &amp;&amp; inCircusBasicProcess)
     {       
        inActionDef = true;
-       System.out.println("\tSwitching on action def flag");
+       waitingPrefixThen = false;
+       debugFlags(result);
     }
     // if terminating some definition within a basic process, then 
     // mark def. action false. This only happens when we have circusaction 
     // latex environments, as within a single circus latex environment, paragraphs
     // are terminated/separated by new lines!
     else if (result.sym == Sym.END &amp;&amp; inCircusBasicProcess)
-    {
+    {       
+       inCircusActionEnv = false;
        inActionDef = false;
-       System.out.println("\tSwitching off action def flag");
+       waitingPrefixThen = false;
+       debugFlags(result);
     }
+    // if within a multiple LaTeX environment basic process definition, 
+    // switch the inCircusActionEnv true, and inActionDef is false.
+    // Also, to cope with the case of main action within CIRCUSACTION
+    // we need to lookahead for a CIRCSPOT - in which case inActionDef is true.    
+    else if (result.sym == Sym.CIRCUSACTION &amp;&amp; inCircusBasicProcess)
+    {
+      inCircusActionEnv = true;
+      waitingPrefixThen = false;
+      
+      LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+      Symbol currsym = dumb_.pop();
+      tokens.addLast(currsym);
+      
+      //skip any newlines
+      while (currsym.sym == Sym.NL) {
+        currsym = dumb_.pop();
+        tokens.addLast(currsym);
+      }
+      
+      // check if is a main action definition or not
+      inActionDef = currsym.sym == Sym.CIRCSPOT;
+      
+      // push the tokens back without changing any DECORWORD.
+      pushList(tokens, false);  
+      
+      debugFlags(result);
+    }    
+    // When we find a PREFIXTHEN, reset its waiting flag. 
+    // This is important to avoid problems when having chained prefixes.
+    // ex:  c \then d \then A
+    else if (result.sym == Sym.PREFIXTHEN) //&amp;&amp; inCircusBasicProcess
+    {
+      waitingPrefixThen = false;
+      debugFlags(result);
+    }
+    // When declaring a basic channel set expression, change inner elements
+    // DECORWORDs accordingly to CHANNELNAME and FIELDNAME.
+    //else if (result.sym == Sym.LCIRCCHANSET)
+    //{
+    //  inBasicChannelSet = true;
+    //  debugFlags(result);
+    //}  
+    // Although the processing of DECORWORDs after a LCIRCCHANSET may reset
+    // the inBasicChannelSet flag, we still need to cope with the empty case
+    // ex: \circchannelset\ C0 == \lchanset \rchanset 
+    //else if (result.sym == Sym.RCIRCCHANSET)
+    //{
+    //  inBasicChannelSet = false;
+    //  debugFlags(result);
+    //}
 </add:circus>    
     return result;
   }
@@ -301,79 +412,6 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     return isColonDecl;
   }
   
-<add:circus>
-  private boolean isChannelName() 
-    throws Exception 
-  {
-    boolean result = false;
-    boolean doLookahead = true;
-    
-    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
-    Symbol currsym = dumb_.pop();
-    tokens.addLast(currsym);
-    
-    //skip any newlines
-    while (currsym.sym == Sym.NL) {
-      currsym = dumb_.pop();
-      tokens.addLast(currsym);
-    }
-    
-    //skip any actual parameters on generic channels
-    if (currsym.sym == Sym.LSQUARE) {
-      System.out.println("\tWithin isChannelName for generic channel");
-      while (currsym.sym != Sym.RSQUARE) {
-        currsym = dumb_.pop();
-        tokens.addLast(currsym);
-      }
-      currsym = dumb_.pop();
-      tokens.addLast(currsym);
-    }
-    /*
-    CIRCUS_SYMBOL_MAP_STOP_LOOKAHEAD.keySet().contains(currsym.sym)
-    get_sym(currsym)
-    CIRCUS_TOKENS_STOP_LOOKAHEAD.contains(get_sym(currsym
-    
-    while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
-      currsym = dumb_.pop();
-      tokens.addLast(currsym);
-      doLookahead = false;
-      while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
-            currsym.sym == Sym.LISTARG || currsym.sym == Sym.DECLWORD ||
-	    currsym.sym == Sym.NL) {
-        currsym = dumb_.pop();
-        tokens.addLast(currsym);
-        doLookahead = true;
-      }
-    }
-    */
-    /*
-    //if the next token is a DEFFREE or DEFEQUAL, return a DEFNAME
-    if (currsym.sym == Sym.DEFFREE || currsym.sym == Sym.DEFEQUAL) {
-      result.sym = Sym.DEFNAME;
-    }
-    //if the next token is a SDEF, return an OPNAME
-    else if (currsym.sym == Sym.SDEF) {
-      result.sym = Sym.OPNAME;
-    }
-    */
-    
-    
-    
-    /*
-    // if we did lookahead and found a PREFIXTHEN, mark this as channelname
-    if (currsym.sym == Sym.PREFIXTHEN &amp;&amp; doLookahead) {
-      result = true;
-    }
-    */
-    
-    // push the tokens back, where tokens remain DECORWORDs 
-    pushList(tokens, false);
-    
-    // return the result to the next_token() call
-    return result;
-  } 
-</add:circus>  
-
   private void pushList(List &lt; Symbol &gt; tokens, boolean isColonDecl)
   {
     for (int i = tokens.size() - 1; i >= 0; i--) {
@@ -387,6 +425,297 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     }
   }
   
+<add:circus>
+  private void debug(String s)
+  {
+    if (debug_) { System.out.println(s); }
+  }
+  
+  private void debugFlags(Symbol symbol)
+  {
+    Throwable t = new Throwable();          
+    debug(symbol);
+    debug("\tBASIC_PROCESS_DEF = " + (inCircusBasicProcess ? "T" :"F") + 
+                 "; ACTION_DEF = " + (inActionDef ? "T" : "F") +
+          "; CIRCUS_ACTION_ENV = " + (inCircusActionEnv ? "T" : "F") +
+          "; WAITING_PREFIXTHEN = " + (waitingPrefixThen ? "T" : "F") 
+          // + "; IN_BASIC_CHANSET = " + (inBasicChannelSet ? "T" : "F")
+          + " at line " + t.getStackTrace()[1].getLineNumber() + " of " + t.getStackTrace()[1].getMethodName()
+          );
+  }
+  
+  private void debug(Symbol symbol)
+  {
+    debug("\tSymbol " + symbol.sym + ": " + get_sym_info(symbol) + "[L" + symbol.left + ";R"+ symbol.right + "] - " + 
+        (symbol.value != null ? symbol.value.getClass() : "null value") + 
+        (symbol.value instanceof Decorword ? "\n\t" + ((Decorword)symbol.value).getLocation() : ""));
+  }  
+  
+  /**
+   * Channel name symbols cannot have strokes on its Decorword value.
+   */
+  private boolean checkChannelName(Symbol symbol)
+  {
+    return (symbol.sym == Sym.CHANNELNAME &amp;&amp; 
+          (symbol.value instanceof Decorword) &amp;&amp; 
+          ((Decorword)symbol.value).getStrokes().isEmpty());
+  } 
+  
+  /**  
+   * Create symbol out of the given stroke. Accept NextStroke and NumStroke
+   * for simplicity - the parser will raise the problem later.
+   */
+  private Symbol toToken(Stroke stroke, int left, int right)
+  {
+    if (stroke instanceof InStroke) {
+      return new Symbol(Sym.INSTROKE, left, right);
+    }
+    else if (stroke instanceof OutStroke) {
+      return new Symbol(Sym.OUTSTROKE, left, right);
+    }
+    else if (stroke instanceof NextStroke) {
+      return new Symbol(Sym.NEXTSTROKE, left, right);
+    }
+    else if (stroke instanceof NumStroke) {
+      NumStroke numStroke = (NumStroke) stroke;
+      return new Symbol(Sym.NUMSTROKE, left, right, numStroke.getDigit().getValue());
+    }
+    else {
+      throw new CztException("Unexpected stroke ");
+    }
+  }
+  
+  // depending on the case, we need to push symbols onto different places.
+  //interface TokenPusher { void push(Symbol symbol); }
+  
+  /**
+   * Given a Decorword (from a Symbol), and a list of symbols, update the list of
+   * symbols with any strokes from the Decorword. That is done backwards since the
+   * tokens list is actually a stack. We also update the location information for
+   * the converted strokes so that they correspond to the right position in the 
+   * original input stream. The result Decorword should be used to update the 
+   * value of the calling symbol.
+   */
+  private void processDecorwordStrokes(/*TokenPusher tp*/ LinkedList&lt;Symbol&gt; tokens, Symbol symbol)
+  { 
+    assert (symbol.value instanceof Decorword) : "not Decorword symbol in processDecorwordStrokes(";
+    
+    // if there are strokes to add to the list of tokens
+    Decorword dw = ((Decorword)symbol.value);
+    ZStrokeList zsl = dw.getStrokes();
+    
+    if (!zsl.isEmpty())
+    {
+      // get the decorword "word-part" size to offset the symbol column position        
+      int dwSize = dw.getWord().length() + zsl.size() - 1;
+
+      Symbol sym;
+      
+      // adding last-to-first stroke at the front of the tokens list thus 
+      // reconstructing the list of tokens properly - also offset the symbol.right
+      ListIterator&lt;Stroke&gt; li = zsl.listIterator(zsl.size());
+      while (li.hasPrevious())        
+      {          
+        Stroke s = li.previous();
+        sym = toToken(s, symbol.left, symbol.right+dwSize);
+        //tp.push(sym);
+        tokens.addFirst(sym);
+
+        // remove the offset size of each stroke.
+        dwSize--;
+      }        
+
+      // update the decorword accordingly - no need for location update
+      symbol.value = new Decorword(dw.getWord(), dw.getLocation());
+    }    
+  }
+  
+  /**
+   * Pushes the list of symbols collected during the check for communication token stream
+   * back into the main lexer. Depending on the value of isChannelName, it changes decorwords
+   * to properly represent the target symbol to FIELDNAME.
+   *
+   */
+  private void pushCommPatternList(List &lt; Symbol &gt; tokens, boolean isChannelName)
+  {
+    // if within gen actuals - or renaming of expressions for that matter, just don't 
+    // change any name within the L/RSQUARE tokens.
+    int withinGenActuals = 0;
+    int withinParenExpr  = 0;
+    
+    for (int i = tokens.size() - 1; i >= 0; i--) 
+    {
+      Symbol symbol = tokens.get(i);
+      
+      // check whether to consider changing DECORWORDs or not.
+      if (isChannelName)
+      {
+        // check whether to ignore DECORWORDs within (possibly nested) "[...]"
+        withinGenActuals = symbol.sym == Sym.RSQUARE ? withinGenActuals + 1 :
+                           symbol.sym == Sym.LSQUARE ? withinGenActuals - 1 :
+                           withinGenActuals;
+        
+        // check whether to change DOTs within (possibly nested) "(...)" 
+        // parenthesised expressions. This is useful to differentiate Z 
+        // binding/tuple selection expressions within a communication.
+        withinParenExpr  = symbol.sym == Sym.RPAREN ? withinParenExpr + 1 :
+                           symbol.sym == Sym.LPAREN ? withinParenExpr - 1 :
+                           withinParenExpr;
+                           
+        // only change symbols whenever not within brackets 
+        if (withinGenActuals == 0 &amp;&amp; withinParenExpr == 0)
+        {
+          // if it is a DECORWORRD, change it to a FIELDNAME
+          // and process any strokes found
+          if (symbol.sym == Sym.DECORWORD)
+          {
+            symbol.sym = Sym.FIELDNAME;
+            LinkedList &lt; Symbol &gt; strokes = new LinkedList&lt; Symbol &gt;();
+            processDecorwordStrokes(strokes, symbol);
+
+            // add the field's strokes to the dumb_ TokenStack.
+            Symbol strokeSymbol;
+            for (int j = strokes.size() - 1; j >= 0; j--) 
+            {          
+              strokeSymbol = strokes.get(j);
+              dumb_.push(strokeSymbol);
+            }          
+          }
+          // if a DOT (output) field, change it accordingly.
+          else if (symbol.sym == Sym.DOT)
+          {
+            symbol.sym = Sym.CHANNELDOT;
+          }
+        }        
+      }
+      dumb_.push(symbol);
+    }    
+  }
+  
+  /**
+   * Looks ahead from the current DECORDWORD symbol until a Circus symbol is found. 
+   * If the symbol found is a symbol to lookahead, it returns true and the symbol 
+   * at the point of call should be changed to CHANNELNAME. Any strokes within the
+   * channel name are added to the token stack. Also, any field names for the communication,
+   * as well as theirs strokes, are also added to the stack. DECORWORDs within
+   * expressions and generic actuals are left unchanged.    
+   *
+   *@param symbol the symbol to start looking ahead
+   *@param tokens the list of tokens modified by this method. They ought to be pushed back onto the token stack
+   *@param symbolsToLookahead the list of Sym values to match the lookahead once the search stops. For
+   *                          prefixing action that is PREFIXCOLON or PREFIXTHEN, whereas for basic channel
+   *                          set expression that is RCIRCCHANSET.
+   */  
+  
+  /**
+   * Looks ahead from the current DECORDWORD symbol at the right place
+   * (i.e., within a basic process after an action declaration) until
+   * a Circus symbol is found (see isCommunicationPattern). That is, it
+   * checks if the symbol forms a communication pattern for PREFIXTHEN
+   * as the symbol to lookahead. As PREFIXTHEN could be chained, another
+   * flag is also set here in order to avoid changing genuine DECORWORDs
+   * within the communication pattern (i.e. those on expressions) to
+   * FIELDNAME or CHANNELNAME.
+   */
+  private boolean isChannelName(Symbol symbol) 
+    throws Exception 
+  {
+    // look ahead on the right place only, please
+    assert inCircusBasicProcess &amp;&amp; inActionDef : "invalid point to lookahead for channel name";
+
+    // assume it is not channel name
+    boolean result = false;    
+    
+    debug(symbol);
+    
+    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();    
+    
+    // get the next symbol
+    Symbol currsym = dumb_.pop();
+    tokens.addLast(currsym);
+  
+    // while finding non Circus symbols, then carry on looking ahead    
+    // and also, in case of a quite messy spec that reaches EOF too early
+    while (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) &amp;&amp; 
+           currsym.sym != Sym.EOF)
+    {    
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+    }
+    
+    // if found a Circus symbol, the result depends on what the symbol is.
+    result = (currsym.sym == Sym.PREFIXTHEN || currsym.sym == Sym.PREFIXCOLON);
+    
+    // update the calling symbol to become a channel name, adding any
+    // strokes to the list of tokens. Repeated strokes (i.e. c??x) will 
+    // be caught by the parser as an error.
+    if (result)
+    {       
+      // update the symbol to be channel name and add any possible strokes
+      symbol.sym   = Sym.CHANNELNAME;      
+      processDecorwordStrokes(tokens, symbol);      
+      // debug(symbol); - debugFlags called outside will do it.
+    }
+      
+    // push the tokens back, chaning them to FIELDNAME according to the result.
+    pushCommPatternList(tokens, result);
+    
+    // if is a channel name, we are waiting for the PREFIXTHEN symbol.
+    // until that point, there is no need to search for DECORWORDs
+    // to be changed as CHANNELNAME. This may happen within fields with
+    // complex expressions. (e.g., read?i!(ring~i) \then Skip, DECORWORD("ring")).
+    waitingPrefixThen = result;    
+    
+    // return the result to the next_token() call    
+    return result;
+  } 
+  
+  // NOTE: BasicChannelSetExpr does not accept fields (for now) - so easy = list of names!
+  /**
+   * Looks ahead from the current DECORWORD symbol whenever the previous one was
+   * a LCIRCCHANSET token. That is, right after starting a BasicChannelSetExpr, 
+   * we need to update the communication list within it. This is an easier producation
+   * as we need to just look for RCIRCCHANSET.
+   */
+//  private void updateCommunicationInBasicChannelSetExpr(Symbol symbol)
+//    throws Exception
+//  {
+//    assert inBasicChannelSet : "cannot update communications outside a basic channel set expression";
+//    assert symbol.value instanceof Decorword : "invalid communication a basic channel set expression - not DECORWORD";
+//    
+//    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+//    
+//    // get the next symbol
+//    Symbol currsym = dumb_.pop();
+//    tokens.addLast(currsym);
+//    
+//    //skip any newlines
+//    while (currsym.sym == Sym.NL) {
+//      currsym = dumb_.pop();
+//      tokens.addLast(currsym);
+//    }
+//    
+//    //skip any formal parameters
+//    if (currsym.sym == Sym.LSQUARE) 
+//    {
+//      while (currsym.sym != Sym.RSQUARE) {
+//        currsym = dumb_.pop();
+//        tokens.addLast(currsym);
+//      }
+//      currsym = dumb_.pop();
+//      tokens.addLast(currsym);
+//    }
+//        
+//    if (!isCommPattern)
+//    {
+//      CztLogger.getLogger(<class/>.class).warning("Could not find closing basic channel set bracket token (RCIRCCHANSET) at \n\t" + ((Decorword)symbol.value).getLocation());
+//    }
+//    
+//    // push the tokens back, chaning them to CHANNELNAME according to the result.
+//    pushCommPatternList(tokens, isCommPattern);    
+//  }
+</add:circus>  
+  
   private Map&lt; Object, String &gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);  
   
   /**
@@ -395,15 +724,15 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
    * then be used to lookup the Token interface enum implementations for
    * the various extensions. 
    */
-  private String get_sym(Symbol symbol)
+  private String get_sym_name(Symbol symbol)
   { 
     String sym = symbolMap_.get(new Integer(symbol.sym));
     return sym;
   }
 
-  private String get_info(Symbol symbol)
+  private String get_sym_info(Symbol symbol)
   {
-    String result = get_sym(symbol);    
+    String result = get_sym_name(symbol);    
     if (symbol.value != null) {
       result += "(" + symbol.value + ")";
     }
