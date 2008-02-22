@@ -40,7 +40,7 @@
     \t1 InputCmd ~~==~~ [~ \Delta BufferState; x?: \nat | size < maxbuff \land buff' = buff \cat \langle x? \rangle \land size' = size + 1 ~] \\
     \t1 OutputCmd ~~==~~ [~\Delta BufferState | size > 0 \land buff'= tail~buff \land size' = size - 1 ~] \\
     \t1 Output ~~\circdef~~ \lcircguard size > 0 \rcircguard \circguard output~!(head~buff) \then OutputCmd \\
-  @ BufferInit \circseq\ (~\circmu X @ (~Input \extchoice Output~) \circseq\ X~) \\
+  \circspot BufferInit \circseq\ (~\circmu X \circspot (~Input \extchoice Output~) \circseq\ X~) \\
   \circend
 \end{circus}
 
@@ -74,9 +74,9 @@
     \t1 NoNewCache ~~==~~ [~ \Delta ControllerState | size = 1 \land size' = 0 \land bot' = bot \land top' = top~] \\
     \t1 StoreNewCache ~~==~ [~ \Delta ControllerState; x?: \nat | size > 1 \land size' = size - 1 \land cache' = x? bot' = (bot + 1) \mod maxring \land top' = top ~] \\
     \t1 OutputController ~~\circdef~~ \lcircguard size > 0 \rcircguard \circguard output~!cache \then (~(\lcircguard size > 1 \rcircguard \circguard read.bot~?x \then StoreNewCache) \extchoice (\lcircguard size = 1 \rcircguard \circguard NoNewCache)~) \\
-    \t1 ControllerCycle ~~\circdef~~ \circmu\ X @ (~ InputController \extchoice OutputController ~) \circseq X
+    \t1 ControllerCycle ~~\circdef~~ \circmu\ X \circspot (~ InputController \extchoice OutputController ~) \circseq X
   \also %
-   @ InitController \circseq ControllerCycle \\
+   \circspot InitController \circseq ControllerCycle \\
   \circend
 \end{circus}
 
@@ -95,10 +95,10 @@ passed by value to $val\_$).
   \circprocess\ RingCell \circdef \circbegin
   \also
     \t1 \circstate\ CellState ~~==~~ [~ val\_: \nat ~] \\
-    \t1 Read \circdef rd~!val\_ \then Skip \\
+    \t1 Read \circdef rd~!val\_ \then \Skip \\
     \t1 CellWrite ~~==~~ [~ \Delta CellState; x?: \nat | val\_' = x? ~] \\
     \t1 Write \circdef wrt~?x \then CellWrite \\
-    @ Write \circseq (~\circmu\ X @ ( Read \extchoice Write ) \circseq\ X~) \\
+    \circspot Write \circseq (~\circmu\ X \circspot ( Read \extchoice Write ) \circseq\ X~) \\
   \circend
 \end{circus}
 %
@@ -128,7 +128,7 @@ generic processes and renaming are used together.
 %
 Note that
 \begin{circus}
-  \circprocess\ IRingCellJustTesting \circdef (~i: RingIndex @ RingCell~) \lcircrename rd\_i, wrt\_i := read, write \rcircrename
+  \circprocess\ IRingCellJustTesting \circdef (~i: RingIndex \circspot RingCell~) \lcircrename rd\_i, wrt\_i := read, write \rcircrename
   \also
   \circprocess\ IRingCellJustTesting \circdef (P \extchoice Q) \lcircrename c\_i := d \rcircrename
 

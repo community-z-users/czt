@@ -209,7 +209,7 @@ available soon. The bottom line is that apart from
     % missing parenthesis errors are the harder to find and the worst in error generation!
 
 \begin{circusaction}
-    ControllerAction \circdef ControllerInit \circseq (\circmu\ X @ ((InputController \extchoice OutputController) \circseq X)) \\
+    ControllerAction \circdef ControllerInit \circseq (\circmu\ X \circspot ((InputController \extchoice OutputController) \circseq X)) \\
 \end{circusaction}
 
 
@@ -227,12 +227,12 @@ available soon. The bottom line is that apart from
 
 \begin{circusaction}
    StoreRing \circdef write~?i~?x \then StoreRingCmd \\
-   NewCacheRing \circdef read~?i~!(ring~i) \then Skip \\
-   RingAction \circdef \circmu\ X @ ((StoreRing \extchoice NewCacheRing) \circseq X)
+   NewCacheRing \circdef read~?i~!(ring~i) \then \Skip \\
+   RingAction \circdef \circmu\ X \circspot ((StoreRing \extchoice NewCacheRing) \circseq X)
 \end{circusaction}
 
 \begin{circusaction}
-    \t1 @
+    \t1 \circspot
 
    % The production is : circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car
    % Why did you use two (identical) channelSets as if it was an Alphabetised parallel action (which does not exist)?

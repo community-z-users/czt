@@ -34,22 +34,22 @@ Examples from Manuela Xavier MSc thesis.
 
 \begin{axdef}
    cookieValue, cookieQuantity: \nat
-\end{axdef} 
+\end{axdef}
 
 \begin{circus}
-    \circprocess\ CookieMachine \circdef \circbegin \\    
-    \circstate\ State ~~==~~ [~ money, quantity: \nat ~]  \\   
+    \circprocess\ CookieMachine \circdef \circbegin \\
+    \circstate\ State ~~==~~ [~ money, quantity: \nat ~]  \\
     InitState ~~==~~ [~ State~' | money' = 0 \land quantity' = cookieQuantity ~] \\
     InputMoney ~~==~~ [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~] \\
     Input ~~\circdef~~ \lcircguard money \leq cookieValue \rcircguard  \circguard\ in~?x \then InputMoney \\
-    OutputCookieOk ~~==~~ [~ \Delta State; o!: COOKIE | money \geq cookieValue \land 
+    OutputCookieOk ~~==~~ [~ \Delta State; o!: COOKIE | money \geq cookieValue \land
         quantity > 0 \land money' = money - cookieValue \land quantity' = quantity - 1\land o! = ok ~] \\
     OutputCookieNotOk ~~==~~ [~ \Delta State; o!: COOKIE | money \geq cookieValue \land
         quantity = 0 \land money' = money \land o! = notok ~] \\
     OutputCookie ~~==~~ OutputCookieOk \lor OutputCookieNotOk \\
     Output ~~\circdef~~ \lcircguard money \geq cookieValue \rcircguard \circguard\ \\
-        \t1 (\circvar\ o: COOKIE @ OutputCookie \circseq (out~!o \then change~!money \then Skip)) \\
-    \t1 @ StateInit \circseq (\circmu\ X @ (Input \extchoice Output) \circseq X) \\
+        \t1 (\circvar\ o: COOKIE \circspot OutputCookie \circseq (out~!o \then change~!money \then \Skip)) \\
+    \t1 \circspot StateInit \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X) \\
    \circend
 \end{circus}
 

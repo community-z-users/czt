@@ -27,13 +27,13 @@ schema_action
 \end{schema}
 recursive_action
 \begin{circusaction}
-    OutFib ~~\circdef~~ \circmu\ X @ \\
-    	\t1 (~ \circvar\ next: \nat @ \\
+    OutFib ~~\circdef~~ \circmu\ X \circspot \\
+    	\t1 (~ \circvar\ next: \nat \circspot \\
 	   \t2 OutFibState \circseq out~!next \then X ~)
 \end{circusaction}
 main_action
 \begin{circusaction}
-    @ InitFib ~\circseq~ OutFib
+    \circspot InitFib ~\circseq~ OutFib
 \end{circusaction}
 before_process_END
 \begin{circus}

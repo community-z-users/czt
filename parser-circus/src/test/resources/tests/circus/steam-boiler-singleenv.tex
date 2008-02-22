@@ -915,8 +915,8 @@ the current time, modulo the cycle time.
    on an alternative command. Thus, we have introduced the negation of the first guard in the alternative below.
 
    Another interpretation could be that this is a Z $if-then-else$ statement. If that is the
-   case, the first action would not parse as $startcycle \then Skip$ is not an expressions,
-   whereas the second would parse but would be type incorrect, since $Skip$ is not an
+   case, the first action would not parse as $startcycle \then \Skip$ is not an expressions,
+   whereas the second would parse but would be type incorrect, since $\Skip$ is not an
    expression but an action.
 \end{addedstuff}
 
@@ -929,10 +929,10 @@ the current time, modulo the cycle time.
      \t1 \circstate\ TimeState == [~ time: Time ~] \\ %
      \t1 TimeOp == [~ \Delta TimeState | time' \geq time ~] \\
      \t1 TCycle \circdef (~time := time + 1 \mod cycletime ~) \circseq \\ %
-            \t3 (\circif\       time = 0 \circthen startcycle \then Skip\ \circelse\ time \neq 0 \circthen Skip\ \circfi) \circseq \\ %
+            \t3 (\circif\       time = 0 \circthen startcycle \then \Skip\ \circelse\ time \neq 0 \circthen \Skip\ \circfi) \circseq \\ %
             \t3 clocktick \then TCycle
             \\
-      \t1 @ time := cyclelimit \circseq TCycle \\
+      \t1 \circspot time := cyclelimit \circseq TCycle \\
    \circend
 \end{circus}
 The action \( \processname{TCycle}\, \)\/ increments the \( time \)\/
@@ -1932,17 +1932,17 @@ sequence of events.
             \t2 failuresrepairs~!(noacks, repairs) \then pumps~?pumpstate \then \\
             \t2 pumpState := pumpstate \circseq AnalyserCycle \\
     \t1 OfferInformation \circdef \\
-            \t2 emergencystop.EmergencyStop \then Skip \\ \t2 \extchoice \\ %
-            \t2 sbwaiting.SteamBoilerWaiting \then Skip \\ \t2 \extchoice \\
-            \t2 vzero.RateZero \then Skip \\ \t2 \extchoice \\ %
-            \t2 \lcircguard LevelBelowMin \rcircguard \circguard\ levelbelowmin \then Skip \\ \t2 \extchoice \\
-            \t2 \lcircguard LevelAboveMax \rcircguard \circguard\ levelabovemax \then Skip \\ \t2 \extchoice \\ %
-            \t2 levelokay.LevelInRange \then Skip \\ \t2 \extchoice \\ %
-            \t2 physicalunitsready.PhysicalUnitsReady \then Skip \\ \t2 \extchoice  \\ %
-            \t2 failures.(\lnot AllPhysicalUnitsOkay) \then Skip \\ \t2 \extchoice \\
-            \t2 qfailure.QFailed \then Skip \\ \t2 \extchoice \\ %
-            \t2 nonqfailure.OtherPhysicalUnitsFail \then Skip \\
-    \t1 @ InitAnalyserState \circseq\ AnalyserCycle \\
+            \t2 emergencystop.EmergencyStop \then \Skip \\ \t2 \extchoice \\ %
+            \t2 sbwaiting.SteamBoilerWaiting \then \Skip \\ \t2 \extchoice \\
+            \t2 vzero.RateZero \then \Skip \\ \t2 \extchoice \\ %
+            \t2 \lcircguard LevelBelowMin \rcircguard \circguard\ levelbelowmin \then \Skip \\ \t2 \extchoice \\
+            \t2 \lcircguard LevelAboveMax \rcircguard \circguard\ levelabovemax \then \Skip \\ \t2 \extchoice \\ %
+            \t2 levelokay.LevelInRange \then \Skip \\ \t2 \extchoice \\ %
+            \t2 physicalunitsready.PhysicalUnitsReady \then \Skip \\ \t2 \extchoice  \\ %
+            \t2 failures.(\lnot AllPhysicalUnitsOkay) \then \Skip \\ \t2 \extchoice \\
+            \t2 qfailure.QFailed \then \Skip \\ \t2 \extchoice \\ %
+            \t2 nonqfailure.OtherPhysicalUnitsFail \then \Skip \\
+    \t1 \circspot InitAnalyserState \circseq\ AnalyserCycle \\
     \circend
 \end{circus}
 
@@ -2155,7 +2155,7 @@ This completes the description of the \( \mathsl{Controller} \, \).
 \begin{circus}
     \circprocess\ Controller \circdef \circbegin \\
         \t1 \circstate\ ModeState == [~ mode: Mode ~] \\
-        \t1 EnterMode \circdef m: Mode @ reportmode~!m \then mode := m \\
+        \t1 EnterMode \circdef m: Mode \circspot reportmode~!m \then mode := m \\
         \t1 ControllerCycle \circdef startexec \then startreport \then NewModeAnalysis \circseq\ \\
                 \t2 AdjustLevel \circseq endreport \then ControllerCycle \\
         \t1 NewModeAnalysis \circdef emergencystop.\true \then EnterMode~(\freetypeemergencyStop)
@@ -2167,7 +2167,7 @@ This completes the description of the \( \mathsl{Controller} \, \).
                 \t3\ \ \circelse\ mode = \freetypenormal \circthen NormalModeAnalysis \\
                 \t3\ \ \circelse\ mode = \freetypedegraded \circthen DegradedModeAnalysis \\
                 \t3\ \ \circelse\ mode = \freetyperescue \circthen RescueModeAnalysis \\
-                \t3\ \ \circelse\ (mode \notin Mode \setminus \{ \freetypeemergencyStop \}) \circthen Skip \\
+                \t3\ \ \circelse\ (mode \notin Mode \setminus \{ \freetypeemergencyStop \}) \circthen \Skip \\
                 \t3 \circfi \\
         \t1 InitModeAnalysis \circdef sbwaiting.\true \then (~ vzero.\true \then \\
             \t2 (~ qfailure.\false \then (~ physicalunitsready.\true \then (~ levelokay.\true \then \\
@@ -2175,17 +2175,17 @@ This completes the description of the \( \mathsl{Controller} \, \).
                 \t3\ \ failures.\true \then EnterMode~(\freetypedegraded)~) \extchoice \\
                 \t3 levelokay.\false \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
                 \t2 physicalunitsready.\false \then (~ levelokay.\true \then \\
-                \t3  sendprogready \then Skip \extchoice levelokay.\false \then Skip~) ~) \extchoice \\
+                \t3  sendprogready \then \Skip \extchoice levelokay.\false \then \Skip~) ~) \extchoice \\
                 \t4 qfailure.\true \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
                 \t5 vzero.\false \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
-                \t2 sbwaiting.\false \then Skip \\
-        \t1 NormalModeAnalysis \circdef failures.\false \then Skip \extchoice \\
+                \t2 sbwaiting.\false \then \Skip \\
+        \t1 NormalModeAnalysis \circdef failures.\false \then \Skip \extchoice \\
             \t3 qfailure.\true \then EnterMode~(\freetyperescue) \extchoice \\
             \t3 nonqfailure.\true \then EnterMode~(\freetypedegraded) \\
         \t1 DegradedModeAnalysis \circdef qfailure.\false \then \\
-                \t3 ( failures.\true \then Skip \extchoice failures.\false \then EnterMode~(\freetypenormal) ~) \\
+                \t3 ( failures.\true \then \Skip \extchoice failures.\false \then EnterMode~(\freetypenormal) ~) \\
                 \t3\ \extchoice qfailure.\true \then EnterMode~(\freetyperescue) \\
-        \t1 RescueModeAnalysis \circdef qfailure.\true \then Skip \extchoice \\
+        \t1 RescueModeAnalysis \circdef qfailure.\true \then \Skip \extchoice \\
             \t2 qfailure.\false \then ( failures.\false \then EnterMode~(\freetypenormal) \\
                 \t5 \extchoice failures.\true \then EnterMode~(\freetypedegraded)~) \\
         \t1 AdjustLevel \circdef  levelbelowmin \then RaiseLevel \extchoice \\ %
@@ -2193,21 +2193,21 @@ This completes the description of the \( \mathsl{Controller} \, \).
             \t2 levelokay.\true \then RetainLevel \\
         \t1 RaiseLevel \circdef StartPumps \circseq\ \\
             \t2 \circif mode = \freetypeinitialisation \circthen CloseValve \\
-            \t2 \circelse mode \neq \freetypeinitialisation \circthen Skip \\
+            \t2 \circelse mode \neq \freetypeinitialisation \circthen \Skip \\
             \t2 \circfi  \\
         \t1 ReduceLevel \circdef StopPumps \circseq\ \\
             \t2 \circif mode = \freetypeinitialisation \circthen OpenValve \\
-            \t2\ \ \circelse mode \neq \freetypeinitialisation \circthen Skip \\
+            \t2\ \ \circelse mode \neq \freetypeinitialisation \circthen \Skip \\
             \t2 \circfi  \\
         \t1 RetainLevel \circdef StopPumps \circseq\ \\
             \t2 \circif mode = \freetypeinitialisation \circthen CloseValve \\
-            \t2\ \ \circelse mode \neq \freetypeinitialisation \circthen Skip \\
+            \t2\ \ \circelse mode \neq \freetypeinitialisation \circthen \Skip \\
             \t2 \circfi  \\
-        \t1 StartPumps \circdef startpumps \then Skip        \\ %
-        \t1 StopPumps \circdef stoppumps \then Skip         \\ %
-        \t1 OpenValve \circdef openvalve \then Skip         \\ %
-        \t1 CloseValve \circdef closevalve \then Skip \\
-        \t1 @ mode := \freetypeinitialisation \circseq ControllerCycle \\
+        \t1 StartPumps \circdef startpumps \then \Skip        \\ %
+        \t1 StopPumps \circdef stoppumps \then \Skip         \\ %
+        \t1 OpenValve \circdef openvalve \then \Skip         \\ %
+        \t1 CloseValve \circdef closevalve \then \Skip \\
+        \t1 \circspot mode := \freetypeinitialisation \circseq ControllerCycle \\
     \circend
 \end{circus}
 
@@ -2321,12 +2321,12 @@ Reports are added to the various message components as they arrive.
             \t3 output~!( \theta OutputMsg ) \then \\
             \t3 pumps~!pumpState \then Reporter \\
         \t1 ALTERNATIVE\_TidyUp \circdef endreport \then \\
-            \t3 (\circvar\ nopairsX, repairsX: \power UnitFailure @ \\
-                \t4 failuresrepairs~?x \prefixcolon x = (nopairsX, repairsX) \then \\
+            \t3 (\circvar\ nopairsX, repairsX: \power UnitFailure \circspot \\
+                \t4 failuresrepairs~?x \prefixcolon (x = (nopairsX, repairsX)) \then \\
                 \t4 \lschexpract FailuresRepairs[nopairsX/nopairs, repairsX/repairs] \rschexpract ) \circseq \\
             \t3 output~!( \theta OutputMsg ) \then \\
             \t3 pumps~!pumpState \then Reporter \\
-        \t1 GatherReports \circdef \Extchoice m: Nonemergency @ reportmode.m \then mode := m
+        \t1 GatherReports \circdef \Extchoice m: Nonemergency \circspot reportmode.m \then mode := m
                     \\ %
                     \t3 \extchoice
                     \\ %
@@ -2347,7 +2347,7 @@ Reports are added to the various message components as they arrive.
                     \t3 \extchoice
                     \\ %
                     \t3 closevalve \then signals := signals \cup \{ \freetypecloseValve \} \\
-        \t1 @ startreport \then ReportService \\
+        \t1 \circspot startreport \then ReportService \\
         \circend
 \end{circus}
 
@@ -2453,7 +2453,7 @@ It is easy to code this requirement in CSP.
 \end{addedstuff}
 \begin{circus}
    \circprocess\ WaitForSBWaiting \circdef \circbegin \\
-   \t1 @ startexec \then \\
+   \t1 \circspot startexec \then \\
         \t2 startreport \then \\
             \t3 emergencystop.\false \then \\
                 \t4 sbwaiting.\false \then \\
@@ -2478,12 +2478,17 @@ It is easy to code this requirement in CSP.
 \end{addedstuff}
 
 \begin{circus}
-   \circprocess\ Deadlock \circdef \circbegin @ Stop \circend \\
+   \circprocess\ Deadlock \circdef \circbegin \circspot \Stop \circend \\
    \circprocess\ ControllerStop \circdef \\
         \t1 Controller \\
+% 22-Feb-2008: According to Ana, channel set expressions should not allow fields
+%              so, for parsing purposes, I am just leaving all values anyway.
+%            \t2 \lpar \lchanset levelabovemax, levelbelowmin, \\
+%                            \t3  sbwaiting.\true, \\
+%                            \t3  emergencystop.\true \rchanset \rpar \\
             \t2 \lpar \lchanset levelabovemax, levelbelowmin, \\
-                            \t3  sbwaiting.\true, \\
-                            \t3  emergencystop.\true \rchanset \rpar \\
+                            \t3  sbwaiting, \\
+                            \t3  emergencystop \rchanset \rpar \\
         \t2 Deadlock %
 \end{circus}
 %

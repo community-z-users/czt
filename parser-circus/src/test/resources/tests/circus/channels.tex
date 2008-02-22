@@ -152,7 +152,7 @@ As before, names with decorations must have hard spaces before hitting a
 %
 %        \vdots \\
 %
-%        c?x \then d!x \then Skip \lpar \lchanset c, d \rchanset \rpar c.v \then d?x \then Skip
+%        c?x \then d!x \then \Skip \lpar \lchanset c, d \rchanset \rpar c.v \then d?x \then \Skip
 %    \]
 %
 %    Could the typechecker infer the types of both $c$ and $d$ to be the
@@ -164,7 +164,7 @@ As before, names with decorations must have hard spaces before hitting a
 %    as in:
 %
 %    \[
-%       c[\nat]?x \then d[\nat]!x \then Skip \lpar \lchanset[\nat], d[\nat] \rchanset \rpar c[\nat].v \then d[\nat]?x \then Skip
+%       c[\nat]?x \then d[\nat]!x \then \Skip \lpar \lchanset[\nat], d[\nat] \rchanset \rpar c[\nat].v \then d[\nat]?x \then \Skip
 %    \]
 %
 %    This involves a clumsy and too verbose specification, but simpler
@@ -228,12 +228,12 @@ define a schema named $S$ with two channels $a$ and $b$
 With the $\circchannelfrom$ keyword, we can declare these channels as well.
 %
 \begin{circus}
-   \circchannelfrom\ S 
+   \circchannelfrom\ S
 \end{circus}%
 %
 \begin{verbatim}
      begin{circus}
-        \circchannelfrom\ S 
+        \circchannelfrom\ S
      end{circus}%
 \end{verbatim}
 %
@@ -348,7 +348,7 @@ Channel sets are given as a name and a corresponding channel set expression.
     \circchannelset\ C1 == \lchanset a, b, c, d \rchanset \\
     \circchannelset\ C2 == \lchanset x, y, x1, y1 \rchanset \\
 % Generic channels are not working yet
-%    \circchannelset\ [A, B] C3 == \lchanset x_2[A \cross B]~, y_2[A \fun B], x_1[A], y_1[B] \rchanset \\
+    \circchannelset\ [A, B] C3 == \lchanset x2[A \cross B], y2[A \fun B], x1[A], y1[B] \rchanset \\
     \circchannelset\ C4 == (C1 \cup C2 \cap C3) \setminus (C0 \cup C1 \cup C)
 \end{circus}%
 %

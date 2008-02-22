@@ -161,7 +161,7 @@ available soon. The bottom line is that apart from
     % We need a different LaTeX markup. It typesets just like ";", however.
 
     % missing parenthesis errors are the harder to find and the worst in error generation!
-    ControllerAction \circdef ControllerInit \circseq (\circmu\ X @ ((InputController \extchoice OutputController) \circseq X)) \\
+    ControllerAction \circdef ControllerInit \circseq (\circmu\ X \circspot ((InputController \extchoice OutputController) \circseq X)) \\
 
     StoreRingCmd == [~
             \Xi ControllerState
@@ -175,10 +175,10 @@ available soon. The bottom line is that apart from
             ring' = ring \oplus \{ i? \mapsto x? \} ~] \\
 
    StoreRing \circdef write~?i~?x \then StoreRingCmd \\
-   NewCacheRing \circdef read~?i~!(ring~i) \then Skip \\
+   NewCacheRing \circdef read~?i~!(ring~i) \then \Skip \\
 
-   RingAction \circdef \circmu\ X @ ((StoreRing \extchoice NewCacheRing) \circseq X) \\
-    \t1 @
+   RingAction \circdef \circmu\ X \circspot ((StoreRing \extchoice NewCacheRing) \circseq X) \\
+    \t1 \circspot
 
    % The production is : circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car
    % Why did you use two (identical) channelSets as if it was an Alphabetised parallel action (which does not exist)?

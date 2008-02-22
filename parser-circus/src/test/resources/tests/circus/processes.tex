@@ -507,7 +507,7 @@ Parameteri
 %%
 %%        \vdots \\
 %%
-%%        c?x \then d!x \then Skip [|c, d|] c.v \then d?x \then Skip
+%%        c?x \then d!x \then \Skip [|c, d|] c.v \then d?x \then \Skip
 %%    \]
 %%
 %%    Could the typechecker infer the types of both $c$ and $d$ to be the
@@ -519,7 +519,7 @@ Parameteri
 %%    as in:
 %%
 %%    \[
-%%       c[\nat]?x \then d[\nat]!x \then Skip [|c[\nat], d[\nat]|] c[\nat].v \then d[\nat]?x \then Skip
+%%       c[\nat]?x \then d[\nat]!x \then \Skip [|c[\nat], d[\nat]|] c[\nat].v \then d[\nat]?x \then \Skip
 %%    \]
 %%
 %%    This involves a clumsy and too verbose specification, but simpler

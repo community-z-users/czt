@@ -37,6 +37,6 @@
 	IncMin ~~==~~ [~ \Delta AState | minute' = (minute + 1) mod \ 60 ~] \\
 	Def ~~==~~ [~ second', minute': \nat | second' = 0 \land minute' = 0´\land 1 \in \emptyset ~] \\
 	Run ~~\circdef~~ \Skip  \\
-	\t1 @ (\alpha(AInit) \circseq\ (\circmu\ X @ (Run \circseq\ X))) \\
+	\t1 \circspot (\alpha(AInit) \circseq\ (\circmu\ X \circspot (Run \circseq\ X))) \\
 	\circend
 \end{circus}
