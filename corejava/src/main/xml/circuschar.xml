@@ -30,6 +30,7 @@
       <char id="PREFIXCOLON" hex="2236" description="prefix input field colon"/>
       <char id="CIRCDEF" hex="2259" description="Spivey's like definition symbol (or just \defs?)"/>
       <char id="CIRCINDEX" hex="2299" description="Process indexing spot or 2A00"/>
+      <char id="CIRCSPOT" hex="2219" description="Circus spot (bullet separator) or 25E6"/>      
       <char id="CIRCMU" hex="00B5" description="recursive (least fixed-point) operator"/>
       <char id="CIRCTHEN" hex="27FC" description="then for if guarded command"/>
       <char id="CIRCELSE" hex="25AF" description="else for if guarded command"/>
