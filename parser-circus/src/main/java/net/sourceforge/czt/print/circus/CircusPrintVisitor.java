@@ -95,7 +95,7 @@ public class CircusPrintVisitor
     protected void printProcessD(ProcessD term, boolean indexes) {
         if (!CircusUtils.isOnTheFly(term)) {
             printFormalParameters(term.getZDeclList());
-            print(indexes ? CircusKeyword.CIRCINDEX : ZKeyword.SPOT);
+            print(indexes ? CircusKeyword.CIRCINDEX : CircusKeyword.CIRCSPOT);
             visit(term.getCircusProcess());
         } else {
             throw new PrintException("On-the-fly parameterised process (" +
@@ -106,7 +106,7 @@ public class CircusPrintVisitor
     protected void printActionD(ActionD term) {
         if (!CircusUtils.isOnTheFly(term)) {
             printFormalParameters(term.getZDeclList());
-            print(ZKeyword.SPOT);
+            print(CircusKeyword.CIRCSPOT);
             visit(term.getCircusAction());
         } else {
             throw new PrintException("On-the-fly parameterised action (" +
@@ -282,7 +282,7 @@ public class CircusPrintVisitor
      
     if (term.getMainAction() != null) {
         print(CircusToken.CIRCUSACTION);
-        print(ZKeyword.SPOT);
+        print(CircusKeyword.CIRCSPOT);
         visit(term.getMainAction());
         print(ZToken.NL);
     } else {
@@ -424,7 +424,7 @@ public class CircusPrintVisitor
             print(CircusToken.LPAR);
             visit(term.getChannelSet());
             print(CircusToken.RPAR);
-            print(ZKeyword.SPOT);
+            print(CircusKeyword.CIRCSPOT);
             visit(term.getCircusProcess());
         } else {
             throw new PrintException("On-the-fly replicated parallel process must be processed by the AstToPrintTreeVisitor.");
@@ -550,7 +550,7 @@ public class CircusPrintVisitor
         printLPAREN(term);
         print(CircusKeyword.CIRCMU);
         visit(term.getName());
-        print(ZKeyword.SPOT);
+        print(CircusKeyword.CIRCSPOT);
         visit(term.getCircusAction());
         printRPAREN(term);
         return null;
@@ -737,7 +737,7 @@ public class CircusPrintVisitor
             visit(term.getChannelSet());
             print(CircusToken.RPAR);
             printFormalParameters(term.getZDeclList());
-            print(ZKeyword.SPOT);
+            print(CircusKeyword.CIRCSPOT);
             print(CircusToken.LPAR);
             visit(term.getNameSet());
             print(CircusToken.RPAR);
@@ -760,7 +760,7 @@ public class CircusPrintVisitor
             print(CircusToken.LINTER);
             visit(term.getNameSet());
             print(CircusToken.RINTER);
-            print(ZKeyword.SPOT);
+            print(CircusKeyword.CIRCSPOT);
             visit(term.getCircusAction());
         } else {
             throw new PrintException("On-the-fly replicated interleave action must be processed by the AstToPrintTreeVisitor.");
@@ -776,7 +776,7 @@ public class CircusPrintVisitor
         printLPAREN(term);
         print(CircusKeyword.CIRCVAR);
         visit(term.getDeclList());
-        print(ZKeyword.SPOT);
+        print(CircusKeyword.CIRCSPOT);
         visit(term.getCircusAction());
         printRPAREN(term);
         return null;
