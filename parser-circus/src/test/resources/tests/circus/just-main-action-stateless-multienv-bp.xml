@@ -9,7 +9,7 @@
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Start="2" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="1" Length="16" Col="0"/>
+            <LocAnn Start="2" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="1" Length="386" Col="0"/>
         </Anns>
         <Name>basic_processes2</Name>
         <Parent>
@@ -102,7 +102,7 @@
                         </NarrPara>
                         <NarrPara>
                             <Anns>
-                                <LocAnn Start="332" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="16" Length="4" Col="18"/>
+                                <LocAnn Start="341" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="16" Length="4" Col="18"/>
                             </Anns>
                             <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -142,7 +142,7 @@
                         </AxPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="294" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="18" Col="4"/>
+                                <LocAnn Start="294" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="27" Col="4"/>
                             </Anns>
                             <ZName>
                                 <Word>$$mainAction</Word>
@@ -150,22 +150,22 @@
                             </ZName>
                             <ns3:PrefixingAction>
                                 <Anns>
-                                    <LocAnn Start="294" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="18" Col="4"/>
+                                    <LocAnn Start="294" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="27" Col="4"/>
                                     <ns3:OnTheFlyDefAnn/>
                                 </Anns>
                                 <ns3:SkipAction>
                                     <Anns>
-                                        <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="4" Col="18"/>
+                                        <LocAnn Start="316" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="5" Col="26"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" CommKind="Output">
+                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
-                                        <LocAnn Start="296" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="3" Col="6"/>
+                                        <LocAnn Start="304" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="3" Col="14"/>
                                     </Anns>
                                     <RefExpr Mixfix="false" Explicit="false">
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="296" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="3" Col="6"/>
+                                                <LocAnn Start="304" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="3" Col="14"/>
                                             </Anns>
                                             <Word>out</Word>
                                             <ZStrokeList/>
@@ -175,15 +175,15 @@
                                     <ns3:CircusFieldList>
                                         <ns3:DotField>
                                             <Anns>
-                                                <LocAnn Start="299" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="2" Col="9"/>
+                                                <LocAnn Start="307" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="2" Col="17"/>
                                             </Anns>
                                             <NumExpr>
                                                 <Anns>
-                                                    <LocAnn Start="300" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="1" Col="10"/>
+                                                    <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="1" Col="18"/>
                                                 </Anns>
                                                 <ZNumeral Value="0">
                                                     <Anns>
-                                                        <LocAnn Start="300" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="1" Col="10"/>
+                                                        <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="1" Col="18"/>
                                                     </Anns>
                                                 </ZNumeral>
                                             </NumExpr>
@@ -195,6 +195,12 @@
                     </ZParaList>
                 </ns3:BasicProcess>
             </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="387" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="20" Length="1" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"> </Content>
+            </NarrPara>
         </ZParaList>
     </ZSect>
 </Spec>

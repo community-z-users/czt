@@ -24,7 +24,7 @@
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Start="520" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="19" Length="201" Col="0"/>
+            <LocAnn Start="520" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="19" Length="209" Col="0"/>
         </Anns>
         <Name>circus_procdesc_errors</Name>
         <Parent>
@@ -62,14 +62,14 @@
                     <Anns>
                         <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Col="43"/>
                     </Anns>
-                    <ns3:CallProcess CallKind="Param">
+                    <ns3:CallProcess CallUsage="Param">
                         <Anns>
-                            <LocAnn Start="686" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Length="1" Col="50"/>
+                            <LocAnn Start="694" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Length="1" Col="58"/>
                         </Anns>
                         <RefExpr Mixfix="false" Explicit="false">
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="686" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Length="1" Col="50"/>
+                                    <LocAnn Start="694" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Length="1" Col="58"/>
                                 </Anns>
                                 <Word>P</Word>
                                 <ZStrokeList/>
@@ -111,7 +111,7 @@
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="701" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="25" Length="20" Col="12"/>
+                    <LocAnn Start="709" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="25" Length="20" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

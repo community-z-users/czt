@@ -2,7 +2,7 @@
 <Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ZSect>
         <Anns>
-            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="0" Length="387" Col="0"/>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="0" Length="395" Col="0"/>
         </Anns>
         <Name>test</Name>
         <Parent>
@@ -76,7 +76,7 @@
             </NarrPara>
             <ns3:ProcessPara>
                 <Anns>
-                    <LocAnn Start="166" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="9" Length="203" Col="4"/>
+                    <LocAnn Start="166" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="9" Length="211" Col="4"/>
                 </Anns>
                 <ZName>
                     <Anns>
@@ -88,7 +88,7 @@
                 <ZNameList/>
                 <ns3:BasicProcess>
                     <Anns>
-                        <LocAnn Start="191" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="9" Length="178" Col="29"/>
+                        <LocAnn Start="191" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="9" Length="186" Col="29"/>
                     </Anns>
                     <ZParaList>
                         <AxPara Box="OmitBox">
@@ -189,7 +189,7 @@
                                                 <LocAnn Start="327" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="11" Length="5" Col="66"/>
                                             </Anns>
                                         </ns3:SkipAction>
-                                        <ns3:Communication MultiSych="0" CommKind="Output">
+                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="315" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="11" Length="2" Col="54"/>
                                             </Anns>
@@ -222,7 +222,7 @@
                                             </ns3:CircusFieldList>
                                         </ns3:Communication>
                                     </ns3:PrefixingAction>
-                                    <ns3:Communication MultiSych="0" CommKind="Output">
+                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="299" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="11" Length="2" Col="38"/>
                                         </Anns>
@@ -258,7 +258,7 @@
                                         </ns3:CircusFieldList>
                                     </ns3:Communication>
                                 </ns3:PrefixingAction>
-                                <ns3:Communication MultiSych="0" CommKind="Output">
+                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
                                         <LocAnn Start="284" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="11" Length="2" Col="23"/>
                                     </Anns>
@@ -297,7 +297,7 @@
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="12" Length="3" Col="12"/>
+                                <LocAnn Start="349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="12" Length="11" Col="12"/>
                             </Anns>
                             <ZName>
                                 <Word>$$mainAction</Word>
@@ -305,12 +305,12 @@
                             </ZName>
                             <ns3:CallAction>
                                 <Anns>
-                                    <LocAnn Start="349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="12" Length="3" Col="12"/>
+                                    <LocAnn Start="349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="12" Length="11" Col="12"/>
                                     <ns3:OnTheFlyDefAnn/>
                                 </Anns>
                                 <ZName>
                                     <Anns>
-                                        <LocAnn Start="351" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="12" Length="1" Col="14"/>
+                                        <LocAnn Start="359" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="12" Length="1" Col="22"/>
                                     </Anns>
                                     <Word>A</Word>
                                     <ZStrokeList/>
@@ -323,7 +323,7 @@
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="383" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="14" Length="4" Col="12"/>
+                    <LocAnn Start="391" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="14" Length="4" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

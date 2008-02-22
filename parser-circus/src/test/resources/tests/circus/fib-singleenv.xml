@@ -15,7 +15,7 @@
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Start="133" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="7" Length="686" Col="0"/>
+            <LocAnn Start="133" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="7" Length="710" Col="0"/>
         </Anns>
         <Name>fibsec</Name>
         <Parent>
@@ -82,7 +82,7 @@
             </NarrPara>
             <ns3:ProcessPara>
                 <Anns>
-                    <LocAnn Start="295" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="16" Length="490" Col="4"/>
+                    <LocAnn Start="295" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="16" Length="514" Col="4"/>
                 </Anns>
                 <ZName>
                     <Anns>
@@ -94,7 +94,7 @@
                 <ZNameList/>
                 <ns3:BasicProcess>
                     <Anns>
-                        <LocAnn Start="326" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="16" Length="459" Col="35"/>
+                        <LocAnn Start="326" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="16" Length="483" Col="35"/>
                     </Anns>
                     <ZParaList>
                         <AxPara Box="OmitBox">
@@ -341,7 +341,7 @@
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" CommKind="Output">
+                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="502" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="19" Length="3" Col="39"/>
                                         </Anns>
@@ -356,8 +356,9 @@
                                             <ZExprList/>
                                         </RefExpr>
                                         <ns3:CircusFieldList>
-                                            <ns3:OutputField>
+                                            <ns3:DotField>
                                                 <Anns>
+                                                    <ns3:OutputFieldAnn/>
                                                     <LocAnn Start="506" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="19" Length="2" Col="43"/>
                                                 </Anns>
                                                 <NumExpr>
@@ -370,11 +371,11 @@
                                                         </Anns>
                                                     </ZNumeral>
                                                 </NumExpr>
-                                            </ns3:OutputField>
+                                            </ns3:DotField>
                                         </ns3:CircusFieldList>
                                     </ns3:Communication>
                                 </ns3:PrefixingAction>
-                                <ns3:Communication MultiSych="0" CommKind="Output">
+                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
                                         <LocAnn Start="489" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="19" Length="3" Col="26"/>
                                     </Anns>
@@ -389,8 +390,9 @@
                                         <ZExprList/>
                                     </RefExpr>
                                     <ns3:CircusFieldList>
-                                        <ns3:OutputField>
+                                        <ns3:DotField>
                                             <Anns>
+                                                <ns3:OutputFieldAnn/>
                                                 <LocAnn Start="493" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="19" Length="2" Col="30"/>
                                             </Anns>
                                             <NumExpr>
@@ -403,7 +405,7 @@
                                                     </Anns>
                                                 </ZNumeral>
                                             </NumExpr>
-                                        </ns3:OutputField>
+                                        </ns3:DotField>
                                     </ns3:CircusFieldList>
                                 </ns3:Communication>
                             </ns3:PrefixingAction>
@@ -652,7 +654,7 @@
                         </AxPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="634" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="97" Col="5"/>
+                                <LocAnn Start="634" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="113" Col="5"/>
                             </Anns>
                             <ZName>
                                 <Anns>
@@ -663,29 +665,29 @@
                             </ZName>
                             <ns3:MuAction>
                                 <Anns>
-                                    <LocAnn Start="654" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="77" Col="25"/>
+                                    <LocAnn Start="654" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="93" Col="25"/>
                                 </Anns>
                                 <ns3:VarDeclCommand>
                                     <Anns>
-                                        <LocAnn Start="670" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="61" Col="41"/>
+                                        <LocAnn Start="678" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="69" Col="49"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="667" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="67" Col="38"/>
+                                                <LocAnn Start="675" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="75" Col="46"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <ZDeclList>
                                         <Anns>
-                                            <LocAnn Start="680" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="10" Col="55"/>
+                                            <LocAnn Start="688" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="10" Col="63"/>
                                         </Anns>
                                         <VarDecl>
                                             <Anns>
-                                                <LocAnn Start="680" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="10" Col="55"/>
+                                                <LocAnn Start="688" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="10" Col="63"/>
                                             </Anns>
                                             <ZNameList>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="680" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="51"/>
+                                                        <LocAnn Start="688" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="59"/>
                                                     </Anns>
                                                     <Word>next</Word>
                                                     <ZStrokeList/>
@@ -693,11 +695,11 @@
                                             </ZNameList>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="686" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="57"/>
+                                                    <LocAnn Start="694" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="65"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="686" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="57"/>
+                                                        <LocAnn Start="694" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="65"/>
                                                     </Anns>
                                                     <Word>?</Word>
                                                     <ZStrokeList/>
@@ -708,15 +710,15 @@
                                     </ZDeclList>
                                     <ns3:SeqAction>
                                         <Anns>
-                                            <LocAnn Start="693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="38" Col="64"/>
+                                            <LocAnn Start="709" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="38" Col="80"/>
                                         </Anns>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="11" Col="64"/>
+                                                <LocAnn Start="709" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="11" Col="80"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="11" Col="64"/>
+                                                    <LocAnn Start="709" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="11" Col="80"/>
                                                 </Anns>
                                                 <Word>OutFibState</Word>
                                                 <ZStrokeList/>
@@ -725,29 +727,29 @@
                                         </ns3:CallAction>
                                         <ns3:PrefixingAction>
                                             <Anns>
-                                                <LocAnn Start="714" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="17" Col="85"/>
+                                                <LocAnn Start="730" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="17" Col="101"/>
                                             </Anns>
                                             <ns3:CallAction>
                                                 <Anns>
-                                                    <LocAnn Start="730" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="1" Col="101"/>
+                                                    <LocAnn Start="746" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="1" Col="117"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="730" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="1" Col="101"/>
+                                                        <LocAnn Start="746" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="1" Col="117"/>
                                                     </Anns>
                                                     <Word>X</Word>
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZExprList/>
                                             </ns3:CallAction>
-                                            <ns3:Communication MultiSych="0" CommKind="Output">
+                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
-                                                    <LocAnn Start="714" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="3" Col="85"/>
+                                                    <LocAnn Start="730" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="3" Col="101"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="714" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="3" Col="85"/>
+                                                            <LocAnn Start="730" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="3" Col="101"/>
                                                         </Anns>
                                                         <Word>out</Word>
                                                         <ZStrokeList/>
@@ -755,24 +757,25 @@
                                                     <ZExprList/>
                                                 </RefExpr>
                                                 <ns3:CircusFieldList>
-                                                    <ns3:OutputField>
+                                                    <ns3:DotField>
                                                         <Anns>
-                                                            <LocAnn Start="718" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="5" Col="89"/>
+                                                            <ns3:OutputFieldAnn/>
+                                                            <LocAnn Start="734" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="5" Col="105"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="719" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="90"/>
+                                                                <LocAnn Start="735" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="106"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="719" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="90"/>
+                                                                    <LocAnn Start="735" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="4" Col="106"/>
                                                                 </Anns>
                                                                 <Word>next</Word>
                                                                 <ZStrokeList/>
                                                             </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
-                                                    </ns3:OutputField>
+                                                    </ns3:DotField>
                                                 </ns3:CircusFieldList>
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
@@ -789,7 +792,7 @@
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="741" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="27" Col="5"/>
+                                <LocAnn Start="757" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="35" Col="5"/>
                             </Anns>
                             <ZName>
                                 <Word>$$mainAction</Word>
@@ -797,16 +800,16 @@
                             </ZName>
                             <ns3:SeqAction>
                                 <Anns>
-                                    <LocAnn Start="741" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="27" Col="5"/>
+                                    <LocAnn Start="757" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="35" Col="5"/>
                                     <ns3:OnTheFlyDefAnn/>
                                 </Anns>
                                 <ns3:CallAction>
                                     <Anns>
-                                        <LocAnn Start="743" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="7" Col="7"/>
+                                        <LocAnn Start="767" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="7" Col="15"/>
                                     </Anns>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="743" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="7" Col="7"/>
+                                            <LocAnn Start="767" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="7" Col="15"/>
                                         </Anns>
                                         <Word>InitFib</Word>
                                         <ZStrokeList/>
@@ -815,11 +818,11 @@
                                 </ns3:CallAction>
                                 <ns3:CallAction>
                                     <Anns>
-                                        <LocAnn Start="762" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="6" Col="26"/>
+                                        <LocAnn Start="786" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="6" Col="34"/>
                                     </Anns>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="762" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="6" Col="26"/>
+                                            <LocAnn Start="786" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="6" Col="34"/>
                                         </Anns>
                                         <Word>OutFib</Word>
                                         <ZStrokeList/>
@@ -833,7 +836,7 @@
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="799" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="24" Length="20" Col="12"/>
+                    <LocAnn Start="823" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="24" Length="20" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

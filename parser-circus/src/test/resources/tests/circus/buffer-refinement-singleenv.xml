@@ -18,7 +18,7 @@ your own commands)
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Start="625" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="10" Length="6885" Col="0"/>
+            <LocAnn Start="625" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="10" Length="6910" Col="0"/>
         </Anns>
         <Name>mysection</Name>
         <Parent>
@@ -389,7 +389,7 @@ available soon. The bottom line is that apart from
             </NarrPara>
             <ns3:ProcessPara>
                 <Anns>
-                    <LocAnn Start="1497" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="44" Length="5997" Col="4"/>
+                    <LocAnn Start="1497" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="44" Length="6022" Col="4"/>
                 </Anns>
                 <ZName>
                     <Anns>
@@ -401,7 +401,7 @@ available soon. The bottom line is that apart from
                 <ZNameList/>
                 <ns3:BasicProcess>
                     <Anns>
-                        <LocAnn Start="1527" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="44" Length="5967" Col="34"/>
+                        <LocAnn Start="1527" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="44" Length="5992" Col="34"/>
                     </Anns>
                     <ZParaList>
                         <AxPara Box="OmitBox">
@@ -2773,7 +2773,7 @@ available soon. The bottom line is that apart from
                                                     </ZName>
                                                     <ZExprList/>
                                                 </ns3:CallAction>
-                                                <ns3:Communication MultiSych="0" CommKind="Output">
+                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                                     <Anns>
                                                         <LocAnn Start="3986" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="106" Length="5" Col="57"/>
                                                     </Anns>
@@ -2884,7 +2884,7 @@ available soon. The bottom line is that apart from
                                             </MemPred>
                                         </ns3:GuardedAction>
                                     </ns3:ExtChoiceAction>
-                                    <ns3:Communication MultiSych="0" CommKind="Input">
+                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
                                         <Anns>
                                             <LocAnn Start="3820" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="103" Length="5" Col="62"/>
                                         </Anns>
@@ -3043,7 +3043,7 @@ available soon. The bottom line is that apart from
                                                 </SetExpr>
                                             </MemPred>
                                         </ns3:GuardedAction>
-                                        <ns3:Communication MultiSych="0" CommKind="Input">
+                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
                                             <Anns>
                                                 <LocAnn Start="4131" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="109" Length="5" Col="62"/>
                                             </Anns>
@@ -4350,7 +4350,7 @@ available soon. The bottom line is that apart from
                                                     </ZName>
                                                     <ZExprList/>
                                                 </ns3:CallAction>
-                                                <ns3:Communication MultiSych="0" CommKind="Output">
+                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                                     <Anns>
                                                         <LocAnn Start="5518" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="147" Length="4" Col="57"/>
                                                     </Anns>
@@ -4460,7 +4460,7 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                             </MemPred>
                                         </ns3:GuardedAction>
-                                        <ns3:Communication MultiSych="0" CommKind="Output">
+                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="5440" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="146" Length="6" Col="60"/>
                                             </Anns>
@@ -4475,8 +4475,9 @@ available soon. The bottom line is that apart from
                                                 <ZExprList/>
                                             </RefExpr>
                                             <ns3:CircusFieldList>
-                                                <ns3:OutputField>
+                                                <ns3:DotField>
                                                     <Anns>
+                                                        <ns3:OutputFieldAnn/>
                                                         <LocAnn Start="5447" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="146" Length="6" Col="67"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false" Explicit="false">
@@ -4492,7 +4493,7 @@ available soon. The bottom line is that apart from
                                                         </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                </ns3:OutputField>
+                                                </ns3:DotField>
                                             </ns3:CircusFieldList>
                                         </ns3:Communication>
                                     </ns3:PrefixingAction>
@@ -4690,7 +4691,7 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                             </MemPred>
                                         </ns3:GuardedAction>
-                                        <ns3:Communication MultiSych="0" CommKind="Output">
+                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="5745" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="151" Length="6" Col="60"/>
                                             </Anns>
@@ -4705,8 +4706,9 @@ available soon. The bottom line is that apart from
                                                 <ZExprList/>
                                             </RefExpr>
                                             <ns3:CircusFieldList>
-                                                <ns3:OutputField>
+                                                <ns3:DotField>
                                                     <Anns>
+                                                        <ns3:OutputFieldAnn/>
                                                         <LocAnn Start="5752" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="151" Length="6" Col="67"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false" Explicit="false">
@@ -4722,7 +4724,7 @@ available soon. The bottom line is that apart from
                                                         </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                </ns3:OutputField>
+                                                </ns3:DotField>
                                             </ns3:CircusFieldList>
                                         </ns3:Communication>
                                     </ns3:PrefixingAction>
@@ -4831,7 +4833,7 @@ available soon. The bottom line is that apart from
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="6417" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="121" Col="4"/>
+                                <LocAnn Start="6417" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="129" Col="4"/>
                             </Anns>
                             <ZName>
                                 <Anns>
@@ -4842,7 +4844,7 @@ available soon. The bottom line is that apart from
                             </ZName>
                             <ns3:SeqAction>
                                 <Anns>
-                                    <LocAnn Start="6443" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="95" Col="30"/>
+                                    <LocAnn Start="6443" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="103" Col="30"/>
                                 </Anns>
                                 <ns3:CallAction>
                                     <Anns>
@@ -4859,38 +4861,38 @@ available soon. The bottom line is that apart from
                                 </ns3:CallAction>
                                 <ns3:MuAction>
                                     <Anns>
-                                        <LocAnn Start="6468" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="70" Col="55"/>
+                                        <LocAnn Start="6468" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="78" Col="55"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="6467" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="73" Col="54"/>
+                                                <LocAnn Start="6467" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="81" Col="54"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <ns3:SeqAction>
                                         <Anns>
-                                            <LocAnn Start="6483" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="55" Col="70"/>
+                                            <LocAnn Start="6491" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="55" Col="78"/>
                                             <ParenAnn>
                                                 <Anns>
-                                                    <LocAnn Start="6481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="58" Col="68"/>
+                                                    <LocAnn Start="6489" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="58" Col="76"/>
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
                                         <ns3:ExtChoiceAction>
                                             <Anns>
-                                                <LocAnn Start="6483" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="43" Col="70"/>
+                                                <LocAnn Start="6491" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="43" Col="78"/>
                                                 <ParenAnn>
                                                     <Anns>
-                                                        <LocAnn Start="6482" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="45" Col="69"/>
+                                                        <LocAnn Start="6490" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="45" Col="77"/>
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
                                             <ns3:CallAction>
                                                 <Anns>
-                                                    <LocAnn Start="6483" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="15" Col="70"/>
+                                                    <LocAnn Start="6491" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="15" Col="78"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="6483" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="15" Col="70"/>
+                                                        <LocAnn Start="6491" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="15" Col="78"/>
                                                     </Anns>
                                                     <Word>InputController</Word>
                                                     <ZStrokeList/>
@@ -4899,11 +4901,11 @@ available soon. The bottom line is that apart from
                                             </ns3:CallAction>
                                             <ns3:CallAction>
                                                 <Anns>
-                                                    <LocAnn Start="6510" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="16" Col="97"/>
+                                                    <LocAnn Start="6518" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="16" Col="105"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="6510" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="16" Col="97"/>
+                                                        <LocAnn Start="6518" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="16" Col="105"/>
                                                     </Anns>
                                                     <Word>OutputController</Word>
                                                     <ZStrokeList/>
@@ -4913,11 +4915,11 @@ available soon. The bottom line is that apart from
                                         </ns3:ExtChoiceAction>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="6537" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="1" Col="124"/>
+                                                <LocAnn Start="6545" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="1" Col="132"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="6537" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="1" Col="124"/>
+                                                    <LocAnn Start="6545" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="163" Length="1" Col="132"/>
                                                 </Anns>
                                                 <Word>X</Word>
                                                 <ZStrokeList/>
@@ -4937,28 +4939,28 @@ available soon. The bottom line is that apart from
                         </ns3:ActionPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <LocAnn Start="6551" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="256" Col="4"/>
+                                <LocAnn Start="6559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="256" Col="4"/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="6551" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="256" Col="4"/>
+                                    <LocAnn Start="6559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="256" Col="4"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="6551" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="256" Col="17"/>
+                                            <LocAnn Start="6559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="256" Col="17"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="6551" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="12" Col="4"/>
+                                                <LocAnn Start="6559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="12" Col="4"/>
                                             </Anns>
                                             <Word>StoreRingCmd</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
                                             <Anns>
-                                                <LocAnn Start="6567" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="240" Col="20"/>
+                                                <LocAnn Start="6575" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="165" Length="240" Col="20"/>
                                             </Anns>
                                             <ZSchText>
                                                 <ZDeclList>
@@ -4968,11 +4970,11 @@ available soon. The bottom line is that apart from
                                                     <InclDecl>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="6583" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="166" Length="19" Col="12"/>
+                                                                <LocAnn Start="6591" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="166" Length="19" Col="12"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="6583" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="166" Length="19" Col="12"/>
+                                                                    <LocAnn Start="6591" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="166" Length="19" Col="12"/>
                                                                 </Anns>
                                                                 <Word>?ControllerState</Word>
                                                                 <ZStrokeList/>
@@ -4983,11 +4985,11 @@ available soon. The bottom line is that apart from
                                                     <InclDecl>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="6633" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="168" Length="16" Col="12"/>
+                                                                <LocAnn Start="6641" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="168" Length="16" Col="12"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="6633" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="168" Length="16" Col="12"/>
+                                                                    <LocAnn Start="6641" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="168" Length="16" Col="12"/>
                                                                 </Anns>
                                                                 <Word>?RingState</Word>
                                                                 <ZStrokeList/>
@@ -4997,12 +4999,12 @@ available soon. The bottom line is that apart from
                                                     </InclDecl>
                                                     <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Start="6680" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="20" Col="15"/>
+                                                            <LocAnn Start="6688" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="20" Col="15"/>
                                                         </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="6680" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="2" Col="12"/>
+                                                                    <LocAnn Start="6688" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="2" Col="12"/>
                                                                 </Anns>
                                                                 <Word>i</Word>
                                                                 <ZStrokeList>
@@ -5012,15 +5014,15 @@ available soon. The bottom line is that apart from
                                                         </ZNameList>
                                                         <ApplExpr Mixfix="true">
                                                             <Anns>
-                                                                <LocAnn Start="6685" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="15" Col="19"/>
+                                                                <LocAnn Start="6693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="15" Col="19"/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                 <Anns>
-                                                                    <LocAnn Start="6687" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="5" Col="19"/>
+                                                                    <LocAnn Start="6695" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="5" Col="19"/>
                                                                 </Anns>
                                                                 <ZName>
                                                                     <Anns>
-                                                                        <LocAnn Start="6687" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="5" Col="19"/>
+                                                                        <LocAnn Start="6695" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="5" Col="19"/>
                                                                     </Anns>
                                                                     <Word> _ .. _ </Word>
                                                                     <ZStrokeList/>
@@ -5031,21 +5033,21 @@ available soon. The bottom line is that apart from
                                                                 <ZExprList>
                                                                     <NumExpr>
                                                                         <Anns>
-                                                                            <LocAnn Start="6685" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="1" Col="17"/>
+                                                                            <LocAnn Start="6693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="1" Col="17"/>
                                                                         </Anns>
                                                                         <ZNumeral Value="1">
                                                                             <Anns>
-                                                                                <LocAnn Start="6685" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="1" Col="17"/>
+                                                                                <LocAnn Start="6693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="1" Col="17"/>
                                                                             </Anns>
                                                                         </ZNumeral>
                                                                     </NumExpr>
                                                                     <RefExpr Mixfix="false" Explicit="false">
                                                                         <Anns>
-                                                                            <LocAnn Start="6693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="7" Col="25"/>
+                                                                            <LocAnn Start="6701" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="7" Col="25"/>
                                                                         </Anns>
                                                                         <ZName>
                                                                             <Anns>
-                                                                                <LocAnn Start="6693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="7" Col="25"/>
+                                                                                <LocAnn Start="6701" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="170" Length="7" Col="25"/>
                                                                             </Anns>
                                                                             <Word>maxring</Word>
                                                                             <ZStrokeList/>
@@ -5058,12 +5060,12 @@ available soon. The bottom line is that apart from
                                                     </VarDecl>
                                                     <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Start="6731" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="172" Length="9" Col="15"/>
+                                                            <LocAnn Start="6739" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="172" Length="9" Col="15"/>
                                                         </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="6731" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="172" Length="2" Col="12"/>
+                                                                    <LocAnn Start="6739" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="172" Length="2" Col="12"/>
                                                                 </Anns>
                                                                 <Word>x</Word>
                                                                 <ZStrokeList>
@@ -5073,11 +5075,11 @@ available soon. The bottom line is that apart from
                                                         </ZNameList>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="6736" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="172" Length="4" Col="17"/>
+                                                                <LocAnn Start="6744" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="172" Length="4" Col="17"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="6736" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="172" Length="4" Col="17"/>
+                                                                    <LocAnn Start="6744" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="172" Length="4" Col="17"/>
                                                                 </Anns>
                                                                 <Word>?</Word>
                                                                 <ZStrokeList/>
@@ -5088,15 +5090,15 @@ available soon. The bottom line is that apart from
                                                 </ZDeclList>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Start="6765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="39" Col="18"/>
+                                                        <LocAnn Start="6773" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="39" Col="18"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false" Explicit="false">
                                                         <Anns>
-                                                            <LocAnn Start="6765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="5" Col="12"/>
+                                                            <LocAnn Start="6773" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="5" Col="12"/>
                                                         </Anns>
                                                         <ZName>
                                                             <Anns>
-                                                                <LocAnn Start="6765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="5" Col="12"/>
+                                                                <LocAnn Start="6773" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="5" Col="12"/>
                                                             </Anns>
                                                             <Word>ring</Word>
                                                             <ZStrokeList>
@@ -5109,15 +5111,15 @@ available soon. The bottom line is that apart from
                                                         <ZExprList>
                                                             <ApplExpr Mixfix="true">
                                                                 <Anns>
-                                                                    <LocAnn Start="6773" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="31" Col="25"/>
+                                                                    <LocAnn Start="6781" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="31" Col="25"/>
                                                                 </Anns>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="6778" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="6" Col="25"/>
+                                                                        <LocAnn Start="6786" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="6" Col="25"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="6778" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="6" Col="25"/>
+                                                                            <LocAnn Start="6786" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="6" Col="25"/>
                                                                         </Anns>
                                                                         <Word> _ ? _ </Word>
                                                                         <ZStrokeList/>
@@ -5128,11 +5130,11 @@ available soon. The bottom line is that apart from
                                                                     <ZExprList>
                                                                         <RefExpr Mixfix="false" Explicit="false">
                                                                             <Anns>
-                                                                                <LocAnn Start="6773" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="4" Col="20"/>
+                                                                                <LocAnn Start="6781" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="4" Col="20"/>
                                                                             </Anns>
                                                                             <ZName>
                                                                                 <Anns>
-                                                                                    <LocAnn Start="6773" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="4" Col="20"/>
+                                                                                    <LocAnn Start="6781" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="4" Col="20"/>
                                                                                 </Anns>
                                                                                 <Word>ring</Word>
                                                                                 <ZStrokeList/>
@@ -5141,20 +5143,20 @@ available soon. The bottom line is that apart from
                                                                         </RefExpr>
                                                                         <SetExpr>
                                                                             <Anns>
-                                                                                <LocAnn Start="6785" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="19" Col="32"/>
+                                                                                <LocAnn Start="6793" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="19" Col="32"/>
                                                                             </Anns>
                                                                             <ZExprList>
                                                                                 <ApplExpr Mixfix="true">
                                                                                     <Anns>
-                                                                                        <LocAnn Start="6788" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="13" Col="38"/>
+                                                                                        <LocAnn Start="6796" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="13" Col="38"/>
                                                                                     </Anns>
                                                                                     <RefExpr Mixfix="false" Explicit="false">
                                                                                         <Anns>
-                                                                                            <LocAnn Start="6791" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="7" Col="38"/>
+                                                                                            <LocAnn Start="6799" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="7" Col="38"/>
                                                                                         </Anns>
                                                                                         <ZName>
                                                                                             <Anns>
-                                                                                                <LocAnn Start="6791" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="7" Col="38"/>
+                                                                                                <LocAnn Start="6799" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="7" Col="38"/>
                                                                                             </Anns>
                                                                                             <Word> _ ? _ </Word>
                                                                                             <ZStrokeList/>
@@ -5165,11 +5167,11 @@ available soon. The bottom line is that apart from
                                                                                         <ZExprList>
                                                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                                                 <Anns>
-                                                                                                    <LocAnn Start="6788" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="2" Col="35"/>
+                                                                                                    <LocAnn Start="6796" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="2" Col="35"/>
                                                                                                 </Anns>
                                                                                                 <ZName>
                                                                                                     <Anns>
-                                                                                                        <LocAnn Start="6788" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="2" Col="35"/>
+                                                                                                        <LocAnn Start="6796" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="2" Col="35"/>
                                                                                                     </Anns>
                                                                                                     <Word>i</Word>
                                                                                                     <ZStrokeList>
@@ -5180,11 +5182,11 @@ available soon. The bottom line is that apart from
                                                                                             </RefExpr>
                                                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                                                 <Anns>
-                                                                                                    <LocAnn Start="6799" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="2" Col="46"/>
+                                                                                                    <LocAnn Start="6807" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="2" Col="46"/>
                                                                                                 </Anns>
                                                                                                 <ZName>
                                                                                                     <Anns>
-                                                                                                        <LocAnn Start="6799" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="2" Col="46"/>
+                                                                                                        <LocAnn Start="6807" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="174" Length="2" Col="46"/>
                                                                                                     </Anns>
                                                                                                     <Word>x</Word>
                                                                                                     <ZStrokeList>
@@ -5212,40 +5214,40 @@ available soon. The bottom line is that apart from
                         </AxPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="6817" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="49" Col="3"/>
+                                <LocAnn Start="6825" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="49" Col="3"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="6817" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="9" Col="3"/>
+                                    <LocAnn Start="6825" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="9" Col="3"/>
                                 </Anns>
                                 <Word>StoreRing</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:PrefixingAction>
                                 <Anns>
-                                    <LocAnn Start="6836" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="30" Col="22"/>
+                                    <LocAnn Start="6844" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="30" Col="22"/>
                                 </Anns>
                                 <ns3:CallAction>
                                     <Anns>
-                                        <LocAnn Start="6854" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="12" Col="40"/>
+                                        <LocAnn Start="6862" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="12" Col="40"/>
                                     </Anns>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="6854" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="12" Col="40"/>
+                                            <LocAnn Start="6862" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="12" Col="40"/>
                                         </Anns>
                                         <Word>StoreRingCmd</Word>
                                         <ZStrokeList/>
                                     </ZName>
                                     <ZExprList/>
                                 </ns3:CallAction>
-                                <ns3:Communication MultiSych="0" CommKind="Input">
+                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
                                     <Anns>
-                                        <LocAnn Start="6836" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="5" Col="22"/>
+                                        <LocAnn Start="6844" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="5" Col="22"/>
                                     </Anns>
                                     <RefExpr Mixfix="false" Explicit="false">
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="6836" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="5" Col="22"/>
+                                                <LocAnn Start="6844" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="5" Col="22"/>
                                             </Anns>
                                             <Word>write</Word>
                                             <ZStrokeList/>
@@ -5255,11 +5257,11 @@ available soon. The bottom line is that apart from
                                     <ns3:CircusFieldList>
                                         <ns3:InputField>
                                             <Anns>
-                                                <LocAnn Start="6842" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="2" Col="28"/>
+                                                <LocAnn Start="6850" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="2" Col="28"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="6843" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="1" Col="29"/>
+                                                    <LocAnn Start="6851" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="1" Col="29"/>
                                                 </Anns>
                                                 <Word>i</Word>
                                                 <ZStrokeList/>
@@ -5268,11 +5270,11 @@ available soon. The bottom line is that apart from
                                         </ns3:InputField>
                                         <ns3:InputField>
                                             <Anns>
-                                                <LocAnn Start="6845" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="2" Col="31"/>
+                                                <LocAnn Start="6853" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="2" Col="31"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="6846" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="1" Col="32"/>
+                                                    <LocAnn Start="6854" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="176" Length="1" Col="32"/>
                                                 </Anns>
                                                 <Word>x</Word>
                                                 <ZStrokeList/>
@@ -5285,32 +5287,32 @@ available soon. The bottom line is that apart from
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="6874" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="50" Col="3"/>
+                                <LocAnn Start="6882" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="51" Col="3"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="6874" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="12" Col="3"/>
+                                    <LocAnn Start="6882" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="12" Col="3"/>
                                 </Anns>
                                 <Word>NewCacheRing</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:PrefixingAction>
                                 <Anns>
-                                    <LocAnn Start="6896" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="28" Col="25"/>
+                                    <LocAnn Start="6904" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="29" Col="25"/>
                                 </Anns>
                                 <ns3:SkipAction>
                                     <Anns>
-                                        <LocAnn Start="6920" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="49"/>
+                                        <LocAnn Start="6928" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="5" Col="49"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" CommKind="Mixed">
+                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
                                     <Anns>
-                                        <LocAnn Start="6896" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="25"/>
+                                        <LocAnn Start="6904" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="25"/>
                                     </Anns>
                                     <RefExpr Mixfix="false" Explicit="false">
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="6896" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="25"/>
+                                                <LocAnn Start="6904" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="25"/>
                                             </Anns>
                                             <Word>read</Word>
                                             <ZStrokeList/>
@@ -5320,37 +5322,38 @@ available soon. The bottom line is that apart from
                                     <ns3:CircusFieldList>
                                         <ns3:InputField>
                                             <Anns>
-                                                <LocAnn Start="6901" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="2" Col="30"/>
+                                                <LocAnn Start="6909" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="2" Col="30"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="6902" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="1" Col="31"/>
+                                                    <LocAnn Start="6910" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="1" Col="31"/>
                                                 </Anns>
                                                 <Word>i</Word>
                                                 <ZStrokeList/>
                                             </ZName>
                                             <TruePred/>
                                         </ns3:InputField>
-                                        <ns3:OutputField>
+                                        <ns3:DotField>
                                             <Anns>
-                                                <LocAnn Start="6904" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="8" Col="33"/>
+                                                <ns3:OutputFieldAnn/>
+                                                <LocAnn Start="6912" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="8" Col="33"/>
                                             </Anns>
                                             <ApplExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Start="6906" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="6" Col="35"/>
+                                                    <LocAnn Start="6914" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="6" Col="35"/>
                                                     <ParenAnn>
                                                         <Anns>
-                                                            <LocAnn Start="6905" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="8" Col="34"/>
+                                                            <LocAnn Start="6913" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="8" Col="34"/>
                                                         </Anns>
                                                     </ParenAnn>
                                                 </Anns>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="6906" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="35"/>
+                                                        <LocAnn Start="6914" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="35"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="6906" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="35"/>
+                                                            <LocAnn Start="6914" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="4" Col="35"/>
                                                         </Anns>
                                                         <Word>ring</Word>
                                                         <ZStrokeList/>
@@ -5359,11 +5362,11 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="6911" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="1" Col="40"/>
+                                                        <LocAnn Start="6919" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="1" Col="40"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="6911" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="1" Col="40"/>
+                                                            <LocAnn Start="6919" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="177" Length="1" Col="40"/>
                                                         </Anns>
                                                         <Word>i</Word>
                                                         <ZStrokeList/>
@@ -5371,51 +5374,51 @@ available soon. The bottom line is that apart from
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </ApplExpr>
-                                        </ns3:OutputField>
+                                        </ns3:DotField>
                                     </ns3:CircusFieldList>
                                 </ns3:Communication>
                             </ns3:PrefixingAction>
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="6934" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="80" Col="3"/>
+                                <LocAnn Start="6943" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="88" Col="3"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="6934" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="10" Col="3"/>
+                                    <LocAnn Start="6943" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="10" Col="3"/>
                                 </Anns>
                                 <Word>RingAction</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:MuAction>
                                 <Anns>
-                                    <LocAnn Start="6954" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="60" Col="23"/>
+                                    <LocAnn Start="6963" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="68" Col="23"/>
                                 </Anns>
                                 <ns3:SeqAction>
                                     <Anns>
-                                        <LocAnn Start="6969" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="45" Col="38"/>
+                                        <LocAnn Start="6986" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="45" Col="46"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="6967" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="48" Col="36"/>
+                                                <LocAnn Start="6984" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="48" Col="44"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <ns3:ExtChoiceAction>
                                         <Anns>
-                                            <LocAnn Start="6969" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="33" Col="38"/>
+                                            <LocAnn Start="6986" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="33" Col="46"/>
                                             <ParenAnn>
                                                 <Anns>
-                                                    <LocAnn Start="6968" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="35" Col="37"/>
+                                                    <LocAnn Start="6985" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="35" Col="45"/>
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="6969" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="9" Col="38"/>
+                                                <LocAnn Start="6986" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="9" Col="46"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="6969" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="9" Col="38"/>
+                                                    <LocAnn Start="6986" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="9" Col="46"/>
                                                 </Anns>
                                                 <Word>StoreRing</Word>
                                                 <ZStrokeList/>
@@ -5424,11 +5427,11 @@ available soon. The bottom line is that apart from
                                         </ns3:CallAction>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="6990" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="12" Col="59"/>
+                                                <LocAnn Start="7007" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="12" Col="67"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="6990" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="12" Col="59"/>
+                                                    <LocAnn Start="7007" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="12" Col="67"/>
                                                 </Anns>
                                                 <Word>NewCacheRing</Word>
                                                 <ZStrokeList/>
@@ -5438,11 +5441,11 @@ available soon. The bottom line is that apart from
                                     </ns3:ExtChoiceAction>
                                     <ns3:CallAction>
                                         <Anns>
-                                            <LocAnn Start="7013" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="1" Col="82"/>
+                                            <LocAnn Start="7030" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="1" Col="90"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="7013" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="1" Col="82"/>
+                                                <LocAnn Start="7030" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="1" Col="90"/>
                                             </Anns>
                                             <Word>X</Word>
                                             <ZStrokeList/>
@@ -5452,7 +5455,7 @@ available soon. The bottom line is that apart from
                                 </ns3:SeqAction>
                                 <ZName>
                                     <Anns>
-                                        <LocAnn Start="6963" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="1" Col="32"/>
+                                        <LocAnn Start="6972" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="179" Length="1" Col="32"/>
                                     </Anns>
                                     <Word>X</Word>
                                     <ZStrokeList/>
@@ -5493,7 +5496,7 @@ available soon. The bottom line is that apart from
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="7028" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="180" Length="449" Col="8"/>
+                                <LocAnn Start="7045" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="180" Length="457" Col="8"/>
                             </Anns>
                             <ZName>
                                 <Word>$$mainAction</Word>
@@ -5501,25 +5504,25 @@ available soon. The bottom line is that apart from
                             </ZName>
                             <ns3:HideAction>
                                 <Anns>
-                                    <LocAnn Start="7028" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="180" Length="449" Col="8"/>
+                                    <LocAnn Start="7045" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="180" Length="457" Col="8"/>
                                     <ns3:OnTheFlyDefAnn/>
                                 </Anns>
                                 <ns3:ParallelAction>
                                     <Anns>
-                                        <LocAnn Start="7278" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="184" Length="156" Col="4"/>
+                                        <LocAnn Start="7303" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="184" Length="156" Col="4"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="7277" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="184" Length="158" Col="3"/>
+                                                <LocAnn Start="7302" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="184" Length="158" Col="3"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <ns3:CallAction>
                                         <Anns>
-                                            <LocAnn Start="7278" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="184" Length="16" Col="4"/>
+                                            <LocAnn Start="7303" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="184" Length="16" Col="4"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="7278" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="184" Length="16" Col="4"/>
+                                                <LocAnn Start="7303" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="184" Length="16" Col="4"/>
                                             </Anns>
                                             <Word>ControllerAction</Word>
                                             <ZStrokeList/>
@@ -5528,11 +5531,11 @@ available soon. The bottom line is that apart from
                                     </ns3:CallAction>
                                     <ns3:CallAction>
                                         <Anns>
-                                            <LocAnn Start="7424" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="10" Col="4"/>
+                                            <LocAnn Start="7449" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="10" Col="4"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="7424" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="10" Col="4"/>
+                                                <LocAnn Start="7449" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="10" Col="4"/>
                                             </Anns>
                                             <Word>RingAction</Word>
                                             <ZStrokeList/>
@@ -5541,20 +5544,20 @@ available soon. The bottom line is that apart from
                                     </ns3:CallAction>
                                     <ns3:CircusNameSet>
                                         <Anns>
-                                            <LocAnn Start="7310" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="37" Col="8"/>
+                                            <LocAnn Start="7335" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="37" Col="8"/>
                                         </Anns>
                                         <SetExpr>
                                             <Anns>
-                                                <LocAnn Start="7310" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="37" Col="8"/>
+                                                <LocAnn Start="7335" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="37" Col="8"/>
                                             </Anns>
                                             <ZExprList>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="7313" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="4" Col="11"/>
+                                                        <LocAnn Start="7338" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="4" Col="11"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7313" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="4" Col="11"/>
+                                                            <LocAnn Start="7338" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="4" Col="11"/>
                                                         </Anns>
                                                         <Word>size</Word>
                                                         <ZStrokeList/>
@@ -5563,11 +5566,11 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="7319" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="8" Col="17"/>
+                                                        <LocAnn Start="7344" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="8" Col="17"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7319" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="8" Col="17"/>
+                                                            <LocAnn Start="7344" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="8" Col="17"/>
                                                         </Anns>
                                                         <Word>ringsize</Word>
                                                         <ZStrokeList/>
@@ -5576,11 +5579,11 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="7329" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="5" Col="27"/>
+                                                        <LocAnn Start="7354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="5" Col="27"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7329" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="5" Col="27"/>
+                                                            <LocAnn Start="7354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="5" Col="27"/>
                                                         </Anns>
                                                         <Word>cache</Word>
                                                         <ZStrokeList/>
@@ -5589,11 +5592,11 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="7336" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="3" Col="34"/>
+                                                        <LocAnn Start="7361" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="3" Col="34"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7336" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="3" Col="34"/>
+                                                            <LocAnn Start="7361" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="3" Col="34"/>
                                                         </Anns>
                                                         <Word>top</Word>
                                                         <ZStrokeList/>
@@ -5602,11 +5605,11 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="7341" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="3" Col="39"/>
+                                                        <LocAnn Start="7366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="3" Col="39"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7341" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="3" Col="39"/>
+                                                            <LocAnn Start="7366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="185" Length="3" Col="39"/>
                                                         </Anns>
                                                         <Word>bot</Word>
                                                         <ZStrokeList/>
@@ -5618,20 +5621,20 @@ available soon. The bottom line is that apart from
                                     </ns3:CircusNameSet>
                                     <ns3:CircusNameSet>
                                         <Anns>
-                                            <LocAnn Start="7402" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="187" Length="10" Col="8"/>
+                                            <LocAnn Start="7427" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="187" Length="10" Col="8"/>
                                         </Anns>
                                         <SetExpr>
                                             <Anns>
-                                                <LocAnn Start="7402" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="187" Length="10" Col="8"/>
+                                                <LocAnn Start="7427" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="187" Length="10" Col="8"/>
                                             </Anns>
                                             <ZExprList>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="7405" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="187" Length="4" Col="11"/>
+                                                        <LocAnn Start="7430" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="187" Length="4" Col="11"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7405" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="187" Length="4" Col="11"/>
+                                                            <LocAnn Start="7430" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="187" Length="4" Col="11"/>
                                                         </Anns>
                                                         <Word>ring</Word>
                                                         <ZStrokeList/>
@@ -5643,21 +5646,21 @@ available soon. The bottom line is that apart from
                                     </ns3:CircusNameSet>
                                     <ns3:CircusChannelSet>
                                         <Anns>
-                                            <LocAnn Start="7359" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="31" Col="8"/>
+                                            <LocAnn Start="7384" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="31" Col="8"/>
                                         </Anns>
                                         <ns3:BasicChannelSetExpr>
                                             <Anns>
-                                                <LocAnn Start="7359" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="31" Col="8"/>
+                                                <LocAnn Start="7384" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="31" Col="8"/>
                                             </Anns>
                                             <ns3:CircusCommunicationList>
-                                                <ns3:Communication MultiSych="0" CommKind="Synch">
+                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
                                                     <Anns>
-                                                        <LocAnn Start="7369" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="5" Col="18"/>
+                                                        <LocAnn Start="7394" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="5" Col="18"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false" Explicit="false">
                                                         <ZName>
                                                             <Anns>
-                                                                <LocAnn Start="7369" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="5" Col="18"/>
+                                                                <LocAnn Start="7394" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="5" Col="18"/>
                                                             </Anns>
                                                             <Word>write</Word>
                                                             <ZStrokeList/>
@@ -5666,14 +5669,14 @@ available soon. The bottom line is that apart from
                                                     </RefExpr>
                                                     <ns3:CircusFieldList/>
                                                 </ns3:Communication>
-                                                <ns3:Communication MultiSych="0" CommKind="Synch">
+                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
                                                     <Anns>
-                                                        <LocAnn Start="7369" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="5" Col="18"/>
+                                                        <LocAnn Start="7394" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="5" Col="18"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false" Explicit="false">
                                                         <ZName>
                                                             <Anns>
-                                                                <LocAnn Start="7369" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="5" Col="18"/>
+                                                                <LocAnn Start="7394" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="5" Col="18"/>
                                                             </Anns>
                                                             <Word>write</Word>
                                                             <ZStrokeList/>
@@ -5682,14 +5685,14 @@ available soon. The bottom line is that apart from
                                                     </RefExpr>
                                                     <ns3:CircusFieldList/>
                                                 </ns3:Communication>
-                                                <ns3:Communication MultiSych="0" CommKind="Synch">
+                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
                                                     <Anns>
-                                                        <LocAnn Start="7376" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="4" Col="25"/>
+                                                        <LocAnn Start="7401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="4" Col="25"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false" Explicit="false">
                                                         <ZName>
                                                             <Anns>
-                                                                <LocAnn Start="7376" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="4" Col="25"/>
+                                                                <LocAnn Start="7401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="186" Length="4" Col="25"/>
                                                             </Anns>
                                                             <Word>read</Word>
                                                             <ZStrokeList/>
@@ -5704,21 +5707,21 @@ available soon. The bottom line is that apart from
                                 </ns3:ParallelAction>
                                 <ns3:CircusChannelSet>
                                     <Anns>
-                                        <LocAnn Start="7446" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="31" Col="26"/>
+                                        <LocAnn Start="7471" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="31" Col="26"/>
                                     </Anns>
                                     <ns3:BasicChannelSetExpr>
                                         <Anns>
-                                            <LocAnn Start="7446" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="31" Col="26"/>
+                                            <LocAnn Start="7471" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="31" Col="26"/>
                                         </Anns>
                                         <ns3:CircusCommunicationList>
-                                            <ns3:Communication MultiSych="0" CommKind="Synch">
+                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
                                                 <Anns>
-                                                    <LocAnn Start="7456" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="5" Col="36"/>
+                                                    <LocAnn Start="7481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="5" Col="36"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7456" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="5" Col="36"/>
+                                                            <LocAnn Start="7481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="5" Col="36"/>
                                                         </Anns>
                                                         <Word>write</Word>
                                                         <ZStrokeList/>
@@ -5727,14 +5730,14 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                                 <ns3:CircusFieldList/>
                                             </ns3:Communication>
-                                            <ns3:Communication MultiSych="0" CommKind="Synch">
+                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
                                                 <Anns>
-                                                    <LocAnn Start="7456" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="5" Col="36"/>
+                                                    <LocAnn Start="7481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="5" Col="36"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7456" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="5" Col="36"/>
+                                                            <LocAnn Start="7481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="5" Col="36"/>
                                                         </Anns>
                                                         <Word>write</Word>
                                                         <ZStrokeList/>
@@ -5743,14 +5746,14 @@ available soon. The bottom line is that apart from
                                                 </RefExpr>
                                                 <ns3:CircusFieldList/>
                                             </ns3:Communication>
-                                            <ns3:Communication MultiSych="0" CommKind="Synch">
+                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
                                                 <Anns>
-                                                    <LocAnn Start="7463" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="4" Col="43"/>
+                                                    <LocAnn Start="7488" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="4" Col="43"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="7463" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="4" Col="43"/>
+                                                            <LocAnn Start="7488" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="188" Length="4" Col="43"/>
                                                         </Anns>
                                                         <Word>read</Word>
                                                         <ZStrokeList/>
@@ -5769,7 +5772,7 @@ available soon. The bottom line is that apart from
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="7508" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="190" Length="2" Col="12"/>
+                    <LocAnn Start="7533" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\buffer-refinement-singleenv.tex" Line="190" Length="2" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 </Content>

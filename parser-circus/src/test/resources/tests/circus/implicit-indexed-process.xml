@@ -118,7 +118,7 @@
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns3:CallProcess CallKind="Index">
+                <ns3:CallProcess CallUsage="Index">
                     <Anns>
                         <LocAnn Start="210" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="65" Col="29"/>
                     </Anns>
@@ -182,7 +182,7 @@
                         </ParenAnn>
                         <ns3:OnTheFlyDefAnn/>
                     </Anns>
-                    <ns3:CallProcess CallKind="Param">
+                    <ns3:CallProcess CallUsage="Param">
                         <Anns>
                             <LocAnn Start="250" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\implicit-indexed-process.tex" Line="10" Length="9" Col="69"/>
                         </Anns>

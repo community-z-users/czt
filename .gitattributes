@@ -433,6 +433,7 @@ parser-circus/src/test/resources/tests/circus/fib-multenv.tex -text
 parser-circus/src/test/resources/tests/circus/fib-multenv.xml -text
 parser-circus/src/test/resources/tests/circus/fib-singleenv.tex -text
 parser-circus/src/test/resources/tests/circus/fib-singleenv.xml -text
+parser-circus/src/test/resources/tests/circus/frank-clawz.xml -text
 parser-circus/src/test/resources/tests/circus/implicit-indexed-process.xml -text
 parser-circus/src/test/resources/tests/circus/indexed-process.xml -text
 parser-circus/src/test/resources/tests/circus/just-main-action-stateless-bp.tex -text
@@ -452,6 +453,7 @@ parser-circus/src/test/resources/tests/circus/steam-boiler-singleenv.pdf -text s
 parser-circus/src/test/resources/tests/circus/steam-boiler-singleenv.tex -text
 parser-circus/src/test/resources/tests/circus/steam-boiler-singleenv.xml -text
 parser-circus/src/test/resources/tests/circus/test-extchoice.xml -text
+parser-circus/src/test/resources/tests/circus/universe.xml -text
 parser-oz/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
 parser-src/pom.xml -text
 parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text

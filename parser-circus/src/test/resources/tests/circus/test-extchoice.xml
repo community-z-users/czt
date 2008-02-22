@@ -34,7 +34,7 @@
                         </ZNameList>
                         <RefExpr Mixfix="false" Explicit="false">
                             <ZName>
-                                <Word>SYNCH</Word>
+                                <Word>$$SYNCH</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZExprList/>
@@ -52,7 +52,7 @@
             </NarrPara>
             <ns3:ProcessPara>
                 <Anns>
-                    <LocAnn Start="75" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="308" Col="4"/>
+                    <LocAnn Start="75" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="316" Col="4"/>
                 </Anns>
                 <ZName>
                     <Anns>
@@ -64,7 +64,7 @@
                 <ZNameList/>
                 <ns3:BasicProcess>
                     <Anns>
-                        <LocAnn Start="100" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="283" Col="29"/>
+                        <LocAnn Start="100" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="291" Col="29"/>
                     </Anns>
                     <ZParaList>
                         <AxPara Box="OmitBox">
@@ -371,7 +371,7 @@
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="3" Col="12"/>
+                                <LocAnn Start="366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="11" Col="12"/>
                             </Anns>
                             <ZName>
                                 <Word>$$mainAction</Word>
@@ -379,12 +379,12 @@
                             </ZName>
                             <ns3:CallAction>
                                 <Anns>
-                                    <LocAnn Start="366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="3" Col="12"/>
+                                    <LocAnn Start="366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="11" Col="12"/>
                                     <ns3:OnTheFlyDefAnn/>
                                 </Anns>
                                 <ZName>
                                     <Anns>
-                                        <LocAnn Start="368" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="1" Col="14"/>
+                                        <LocAnn Start="376" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="1" Col="22"/>
                                     </Anns>
                                     <Word>A</Word>
                                     <ZStrokeList/>
@@ -397,7 +397,7 @@
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="397" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="11" Length="4" Col="12"/>
+                    <LocAnn Start="405" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="11" Length="4" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

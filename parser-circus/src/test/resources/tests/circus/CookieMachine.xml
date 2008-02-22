@@ -26,7 +26,7 @@ Examples from Manuela Xavier MSc thesis.
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Start="552" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="21" Length="1488" Col="0"/>
+            <LocAnn Start="552" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="21" Length="1504" Col="0"/>
         </Anns>
         <Name>circus_cookies</Name>
         <Parent>
@@ -238,19 +238,19 @@ Examples from Manuela Xavier MSc thesis.
             </AxPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="859" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="36" Length="5" Col="11"/>
+                    <LocAnn Start="859" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="36" Length="4" Col="11"/>
                 </Anns>
-                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 </Content>
             </NarrPara>
             <ns3:ProcessPara>
                 <Anns>
-                    <LocAnn Start="884" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="39" Length="1122" Col="4"/>
+                    <LocAnn Start="883" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="39" Length="1139" Col="4"/>
                 </Anns>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="898" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="39" Length="13" Col="18"/>
+                        <LocAnn Start="897" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="39" Length="13" Col="18"/>
                     </Anns>
                     <Word>CookieMachine</Word>
                     <ZStrokeList/>
@@ -258,52 +258,52 @@ Examples from Manuela Xavier MSc thesis.
                 <ZNameList/>
                 <ns3:BasicProcess>
                     <Anns>
-                        <LocAnn Start="921" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="39" Length="1085" Col="41"/>
+                        <LocAnn Start="920" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="39" Length="1102" Col="41"/>
                     </Anns>
                     <ZParaList>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <LocAnn Start="956" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="40" Col="16"/>
+                                <LocAnn Start="951" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="40" Col="16"/>
                                 <ns3:CircusStateAnn/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="956" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="40" Col="16"/>
+                                    <LocAnn Start="951" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="40" Col="16"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="956" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="40" Col="24"/>
+                                            <LocAnn Start="951" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="40" Col="24"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="956" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="5" Col="16"/>
+                                                <LocAnn Start="951" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="5" Col="16"/>
                                             </Anns>
                                             <Word>State</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
                                             <Anns>
-                                                <LocAnn Start="969" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="27" Col="29"/>
+                                                <LocAnn Start="964" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="27" Col="29"/>
                                             </Anns>
                                             <ZSchText>
                                                 <ZDeclList>
                                                     <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Start="972" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="21" Col="47"/>
+                                                            <LocAnn Start="967" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="21" Col="47"/>
                                                         </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="972" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="5" Col="32"/>
+                                                                    <LocAnn Start="967" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="5" Col="32"/>
                                                                 </Anns>
                                                                 <Word>money</Word>
                                                                 <ZStrokeList/>
                                                             </ZName>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="979" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="8" Col="39"/>
+                                                                    <LocAnn Start="974" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="8" Col="39"/>
                                                                 </Anns>
                                                                 <Word>quantity</Word>
                                                                 <ZStrokeList/>
@@ -311,11 +311,11 @@ Examples from Manuela Xavier MSc thesis.
                                                         </ZNameList>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="989" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="4" Col="49"/>
+                                                                <LocAnn Start="984" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="4" Col="49"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="989" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="4" Col="49"/>
+                                                                    <LocAnn Start="984" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="40" Length="4" Col="49"/>
                                                                 </Anns>
                                                                 <Word>?</Word>
                                                                 <ZStrokeList/>
@@ -332,28 +332,28 @@ Examples from Manuela Xavier MSc thesis.
                         </AxPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <LocAnn Start="1009" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="76" Col="4"/>
+                                <LocAnn Start="1001" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="76" Col="4"/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="1009" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="76" Col="4"/>
+                                    <LocAnn Start="1001" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="76" Col="4"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="1009" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="76" Col="16"/>
+                                            <LocAnn Start="1001" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="76" Col="16"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="1009" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="9" Col="4"/>
+                                                <LocAnn Start="1001" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="9" Col="4"/>
                                             </Anns>
                                             <Word>InitState</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
                                             <Anns>
-                                                <LocAnn Start="1026" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="59" Col="21"/>
+                                                <LocAnn Start="1018" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="59" Col="21"/>
                                             </Anns>
                                             <ZSchText>
                                                 <ZDeclList>
@@ -363,15 +363,15 @@ Examples from Manuela Xavier MSc thesis.
                                                     <InclDecl>
                                                         <DecorExpr>
                                                             <Anns>
-                                                                <LocAnn Start="1029" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="7" Col="24"/>
+                                                                <LocAnn Start="1021" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="7" Col="24"/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                 <Anns>
-                                                                    <LocAnn Start="1029" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="5" Col="24"/>
+                                                                    <LocAnn Start="1021" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="5" Col="24"/>
                                                                 </Anns>
                                                                 <ZName>
                                                                     <Anns>
-                                                                        <LocAnn Start="1029" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="5" Col="24"/>
+                                                                        <LocAnn Start="1021" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="5" Col="24"/>
                                                                     </Anns>
                                                                     <Word>State</Word>
                                                                     <ZStrokeList/>
@@ -380,7 +380,7 @@ Examples from Manuela Xavier MSc thesis.
                                                             </RefExpr>
                                                             <NextStroke>
                                                                 <Anns>
-                                                                    <LocAnn Start="1035" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="1" Col="30"/>
+                                                                    <LocAnn Start="1027" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="1" Col="30"/>
                                                                 </Anns>
                                                             </NextStroke>
                                                         </DecorExpr>
@@ -388,19 +388,19 @@ Examples from Manuela Xavier MSc thesis.
                                                 </ZDeclList>
                                                 <AndPred And="Wedge">
                                                     <Anns>
-                                                        <LocAnn Start="1039" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="43" Col="45"/>
+                                                        <LocAnn Start="1031" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="43" Col="45"/>
                                                     </Anns>
                                                     <MemPred Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Start="1039" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="10" Col="41"/>
+                                                            <LocAnn Start="1031" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="10" Col="41"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1039" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="6" Col="34"/>
+                                                                <LocAnn Start="1031" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="6" Col="34"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1039" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="6" Col="34"/>
+                                                                    <LocAnn Start="1031" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="6" Col="34"/>
                                                                 </Anns>
                                                                 <Word>money</Word>
                                                                 <ZStrokeList>
@@ -413,11 +413,11 @@ Examples from Manuela Xavier MSc thesis.
                                                             <ZExprList>
                                                                 <NumExpr>
                                                                     <Anns>
-                                                                        <LocAnn Start="1048" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="1" Col="43"/>
+                                                                        <LocAnn Start="1040" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="1" Col="43"/>
                                                                     </Anns>
                                                                     <ZNumeral Value="0">
                                                                         <Anns>
-                                                                            <LocAnn Start="1048" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="1" Col="43"/>
+                                                                            <LocAnn Start="1040" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="1" Col="43"/>
                                                                         </Anns>
                                                                     </ZNumeral>
                                                                 </NumExpr>
@@ -426,15 +426,15 @@ Examples from Manuela Xavier MSc thesis.
                                                     </MemPred>
                                                     <MemPred Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Start="1056" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="26" Col="61"/>
+                                                            <LocAnn Start="1048" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="26" Col="61"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1056" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="9" Col="51"/>
+                                                                <LocAnn Start="1048" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="9" Col="51"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1056" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="9" Col="51"/>
+                                                                    <LocAnn Start="1048" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="9" Col="51"/>
                                                                 </Anns>
                                                                 <Word>quantity</Word>
                                                                 <ZStrokeList>
@@ -447,11 +447,11 @@ Examples from Manuela Xavier MSc thesis.
                                                             <ZExprList>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="1068" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="14" Col="63"/>
+                                                                        <LocAnn Start="1060" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="14" Col="63"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="1068" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="14" Col="63"/>
+                                                                            <LocAnn Start="1060" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="41" Length="14" Col="63"/>
                                                                         </Anns>
                                                                         <Word>cookieQuantity</Word>
                                                                         <ZStrokeList/>
@@ -470,28 +470,28 @@ Examples from Manuela Xavier MSc thesis.
                         </AxPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <LocAnn Start="1094" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="97" Col="4"/>
+                                <LocAnn Start="1086" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="97" Col="4"/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="1094" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="97" Col="4"/>
+                                    <LocAnn Start="1086" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="97" Col="4"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="1094" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="97" Col="17"/>
+                                            <LocAnn Start="1086" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="97" Col="17"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="1094" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="10" Col="4"/>
+                                                <LocAnn Start="1086" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="10" Col="4"/>
                                             </Anns>
                                             <Word>InputMoney</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
                                             <Anns>
-                                                <LocAnn Start="1112" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="79" Col="22"/>
+                                                <LocAnn Start="1104" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="79" Col="22"/>
                                             </Anns>
                                             <ZSchText>
                                                 <ZDeclList>
@@ -501,11 +501,11 @@ Examples from Manuela Xavier MSc thesis.
                                                     <InclDecl>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1115" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="12" Col="25"/>
+                                                                <LocAnn Start="1107" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="12" Col="25"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1115" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="12" Col="25"/>
+                                                                    <LocAnn Start="1107" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="12" Col="25"/>
                                                                 </Anns>
                                                                 <Word>?State</Word>
                                                                 <ZStrokeList/>
@@ -515,12 +515,12 @@ Examples from Manuela Xavier MSc thesis.
                                                     </InclDecl>
                                                     <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Start="1129" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="8" Col="41"/>
+                                                            <LocAnn Start="1121" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="8" Col="41"/>
                                                         </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1129" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="2" Col="39"/>
+                                                                    <LocAnn Start="1121" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="2" Col="39"/>
                                                                 </Anns>
                                                                 <Word>x</Word>
                                                                 <ZStrokeList>
@@ -530,11 +530,11 @@ Examples from Manuela Xavier MSc thesis.
                                                         </ZNameList>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1133" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="4" Col="43"/>
+                                                                <LocAnn Start="1125" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="4" Col="43"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1133" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="4" Col="43"/>
+                                                                    <LocAnn Start="1125" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="4" Col="43"/>
                                                                 </Anns>
                                                                 <Word>?</Word>
                                                                 <ZStrokeList/>
@@ -545,21 +545,21 @@ Examples from Manuela Xavier MSc thesis.
                                                 </ZDeclList>
                                                 <AndPred And="Wedge">
                                                     <Anns>
-                                                        <LocAnn Start="1140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="48" Col="73"/>
+                                                        <LocAnn Start="1132" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="48" Col="73"/>
                                                     </Anns>
                                                     <MemPred Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Start="1140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="22" Col="50"/>
+                                                            <LocAnn Start="1132" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="22" Col="50"/>
                                                         </Anns>
                                                         <TupleExpr>
                                                             <ZExprList>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="1140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="5" Col="50"/>
+                                                                        <LocAnn Start="1132" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="5" Col="50"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="1140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="5" Col="50"/>
+                                                                            <LocAnn Start="1132" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="5" Col="50"/>
                                                                         </Anns>
                                                                         <Word>money</Word>
                                                                         <ZStrokeList/>
@@ -568,11 +568,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                 </RefExpr>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="1151" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="11" Col="61"/>
+                                                                        <LocAnn Start="1143" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="11" Col="61"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="1151" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="11" Col="61"/>
+                                                                            <LocAnn Start="1143" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="11" Col="61"/>
                                                                         </Anns>
                                                                         <Word>cookieValue</Word>
                                                                         <ZStrokeList/>
@@ -583,11 +583,11 @@ Examples from Manuela Xavier MSc thesis.
                                                         </TupleExpr>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1146" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="4" Col="56"/>
+                                                                <LocAnn Start="1138" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="4" Col="56"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1146" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="4" Col="56"/>
+                                                                    <LocAnn Start="1138" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="4" Col="56"/>
                                                                 </Anns>
                                                                 <Word> _ ? _ </Word>
                                                                 <ZStrokeList/>
@@ -597,15 +597,15 @@ Examples from Manuela Xavier MSc thesis.
                                                     </MemPred>
                                                     <MemPred Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Start="1169" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="19" Col="86"/>
+                                                            <LocAnn Start="1161" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="19" Col="86"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1169" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="6" Col="79"/>
+                                                                <LocAnn Start="1161" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="6" Col="79"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1169" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="6" Col="79"/>
+                                                                    <LocAnn Start="1161" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="6" Col="79"/>
                                                                 </Anns>
                                                                 <Word>money</Word>
                                                                 <ZStrokeList>
@@ -618,15 +618,15 @@ Examples from Manuela Xavier MSc thesis.
                                                             <ZExprList>
                                                                 <ApplExpr Mixfix="true">
                                                                     <Anns>
-                                                                        <LocAnn Start="1178" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="10" Col="94"/>
+                                                                        <LocAnn Start="1170" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="10" Col="94"/>
                                                                     </Anns>
                                                                     <RefExpr Mixfix="false" Explicit="false">
                                                                         <Anns>
-                                                                            <LocAnn Start="1184" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="1" Col="94"/>
+                                                                            <LocAnn Start="1176" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="1" Col="94"/>
                                                                         </Anns>
                                                                         <ZName>
                                                                             <Anns>
-                                                                                <LocAnn Start="1184" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="1" Col="94"/>
+                                                                                <LocAnn Start="1176" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="1" Col="94"/>
                                                                             </Anns>
                                                                             <Word> _ + _ </Word>
                                                                             <ZStrokeList/>
@@ -637,11 +637,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                         <ZExprList>
                                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1178" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="5" Col="88"/>
+                                                                                    <LocAnn Start="1170" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="5" Col="88"/>
                                                                                 </Anns>
                                                                                 <ZName>
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1178" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="5" Col="88"/>
+                                                                                        <LocAnn Start="1170" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="5" Col="88"/>
                                                                                     </Anns>
                                                                                     <Word>money</Word>
                                                                                     <ZStrokeList/>
@@ -650,11 +650,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                             </RefExpr>
                                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1186" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="2" Col="96"/>
+                                                                                    <LocAnn Start="1178" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="2" Col="96"/>
                                                                                 </Anns>
                                                                                 <ZName>
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1186" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="2" Col="96"/>
+                                                                                        <LocAnn Start="1178" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="42" Length="2" Col="96"/>
                                                                                     </Anns>
                                                                                     <Word>x</Word>
                                                                                     <ZStrokeList>
@@ -678,44 +678,44 @@ Examples from Manuela Xavier MSc thesis.
                         </AxPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="1200" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="101" Col="4"/>
+                                <LocAnn Start="1192" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="101" Col="4"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="1200" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="5" Col="4"/>
+                                    <LocAnn Start="1192" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="5" Col="4"/>
                                 </Anns>
                                 <Word>Input</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:GuardedAction>
                                 <Anns>
-                                    <LocAnn Start="1231" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="70" Col="35"/>
+                                    <LocAnn Start="1223" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="70" Col="35"/>
                                 </Anns>
                                 <ns3:PrefixingAction>
                                     <Anns>
-                                        <LocAnn Start="1279" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="22" Col="83"/>
+                                        <LocAnn Start="1271" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="22" Col="83"/>
                                     </Anns>
                                     <ns3:CallAction>
                                         <Anns>
-                                            <LocAnn Start="1291" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="10" Col="95"/>
+                                            <LocAnn Start="1283" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="10" Col="95"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="1291" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="10" Col="95"/>
+                                                <LocAnn Start="1283" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="10" Col="95"/>
                                             </Anns>
                                             <Word>InputMoney</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" CommKind="Input">
+                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
                                         <Anns>
-                                            <LocAnn Start="1279" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="2" Col="83"/>
+                                            <LocAnn Start="1271" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="2" Col="83"/>
                                         </Anns>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="1279" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="2" Col="83"/>
+                                                    <LocAnn Start="1271" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="2" Col="83"/>
                                                 </Anns>
                                                 <Word>in</Word>
                                                 <ZStrokeList/>
@@ -725,11 +725,11 @@ Examples from Manuela Xavier MSc thesis.
                                         <ns3:CircusFieldList>
                                             <ns3:InputField>
                                                 <Anns>
-                                                    <LocAnn Start="1282" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="2" Col="86"/>
+                                                    <LocAnn Start="1274" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="2" Col="86"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1283" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="1" Col="87"/>
+                                                        <LocAnn Start="1275" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="1" Col="87"/>
                                                     </Anns>
                                                     <Word>x</Word>
                                                     <ZStrokeList/>
@@ -741,17 +741,17 @@ Examples from Manuela Xavier MSc thesis.
                                 </ns3:PrefixingAction>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Start="1231" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="22" Col="35"/>
+                                        <LocAnn Start="1223" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="22" Col="35"/>
                                     </Anns>
                                     <TupleExpr>
                                         <ZExprList>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="1231" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="5" Col="35"/>
+                                                    <LocAnn Start="1223" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="5" Col="35"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1231" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="5" Col="35"/>
+                                                        <LocAnn Start="1223" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="5" Col="35"/>
                                                     </Anns>
                                                     <Word>money</Word>
                                                     <ZStrokeList/>
@@ -760,11 +760,11 @@ Examples from Manuela Xavier MSc thesis.
                                             </RefExpr>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="1242" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="11" Col="46"/>
+                                                    <LocAnn Start="1234" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="11" Col="46"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1242" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="11" Col="46"/>
+                                                        <LocAnn Start="1234" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="11" Col="46"/>
                                                     </Anns>
                                                     <Word>cookieValue</Word>
                                                     <ZStrokeList/>
@@ -775,11 +775,11 @@ Examples from Manuela Xavier MSc thesis.
                                     </TupleExpr>
                                     <RefExpr Mixfix="false" Explicit="false">
                                         <Anns>
-                                            <LocAnn Start="1237" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="4" Col="41"/>
+                                            <LocAnn Start="1229" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="4" Col="41"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="1237" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="4" Col="41"/>
+                                                <LocAnn Start="1229" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="4" Col="41"/>
                                             </Anns>
                                             <Word> _ ? _ </Word>
                                             <ZStrokeList/>
@@ -791,28 +791,28 @@ Examples from Manuela Xavier MSc thesis.
                         </ns3:ActionPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <LocAnn Start="1310" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="185" Col="4"/>
+                                <LocAnn Start="1302" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="184" Col="4"/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="1310" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="185" Col="4"/>
+                                    <LocAnn Start="1302" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="184" Col="4"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="1310" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="185" Col="21"/>
+                                            <LocAnn Start="1302" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="184" Col="21"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="1310" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="14" Col="4"/>
+                                                <LocAnn Start="1302" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="14" Col="4"/>
                                             </Anns>
                                             <Word>OutputCookieOk</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
                                             <Anns>
-                                                <LocAnn Start="1332" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="163" Col="26"/>
+                                                <LocAnn Start="1324" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="162" Col="26"/>
                                             </Anns>
                                             <ZSchText>
                                                 <ZDeclList>
@@ -822,11 +822,11 @@ Examples from Manuela Xavier MSc thesis.
                                                     <InclDecl>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1335" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="12" Col="29"/>
+                                                                <LocAnn Start="1327" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="12" Col="29"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1335" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="12" Col="29"/>
+                                                                    <LocAnn Start="1327" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="12" Col="29"/>
                                                                 </Anns>
                                                                 <Word>?State</Word>
                                                                 <ZStrokeList/>
@@ -836,12 +836,12 @@ Examples from Manuela Xavier MSc thesis.
                                                     </InclDecl>
                                                     <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Start="1349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="10" Col="45"/>
+                                                            <LocAnn Start="1341" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="10" Col="45"/>
                                                         </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="2" Col="43"/>
+                                                                    <LocAnn Start="1341" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="2" Col="43"/>
                                                                 </Anns>
                                                                 <Word>o</Word>
                                                                 <ZStrokeList>
@@ -851,11 +851,11 @@ Examples from Manuela Xavier MSc thesis.
                                                         </ZNameList>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1353" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="6" Col="47"/>
+                                                                <LocAnn Start="1345" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="6" Col="47"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1353" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="6" Col="47"/>
+                                                                    <LocAnn Start="1345" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="6" Col="47"/>
                                                                 </Anns>
                                                                 <Word>COOKIE</Word>
                                                                 <ZStrokeList/>
@@ -866,33 +866,33 @@ Examples from Manuela Xavier MSc thesis.
                                                 </ZDeclList>
                                                 <AndPred And="Wedge">
                                                     <Anns>
-                                                        <LocAnn Start="1362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="130" Col="86"/>
+                                                        <LocAnn Start="1354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="129" Col="86"/>
                                                     </Anns>
                                                     <AndPred And="Wedge">
                                                         <Anns>
-                                                            <LocAnn Start="1362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="117" Col="56"/>
+                                                            <LocAnn Start="1354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="116" Col="56"/>
                                                         </Anns>
                                                         <AndPred And="Wedge">
                                                             <Anns>
-                                                                <LocAnn Start="1362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="86" Col="21"/>
+                                                                <LocAnn Start="1354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="85" Col="21"/>
                                                             </Anns>
                                                             <AndPred And="Wedge">
                                                                 <Anns>
-                                                                    <LocAnn Start="1362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="51" Col="79"/>
+                                                                    <LocAnn Start="1354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="50" Col="79"/>
                                                                 </Anns>
                                                                 <MemPred Mixfix="true">
                                                                     <Anns>
-                                                                        <LocAnn Start="1362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="22" Col="56"/>
+                                                                        <LocAnn Start="1354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="22" Col="56"/>
                                                                     </Anns>
                                                                     <TupleExpr>
                                                                         <ZExprList>
                                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="5" Col="56"/>
+                                                                                    <LocAnn Start="1354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="5" Col="56"/>
                                                                                 </Anns>
                                                                                 <ZName>
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="5" Col="56"/>
+                                                                                        <LocAnn Start="1354" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="5" Col="56"/>
                                                                                     </Anns>
                                                                                     <Word>money</Word>
                                                                                     <ZStrokeList/>
@@ -901,11 +901,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                             </RefExpr>
                                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1373" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="11" Col="67"/>
+                                                                                    <LocAnn Start="1365" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="11" Col="67"/>
                                                                                 </Anns>
                                                                                 <ZName>
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1373" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="11" Col="67"/>
+                                                                                        <LocAnn Start="1365" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="11" Col="67"/>
                                                                                     </Anns>
                                                                                     <Word>cookieValue</Word>
                                                                                     <ZStrokeList/>
@@ -916,11 +916,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                     </TupleExpr>
                                                                     <RefExpr Mixfix="false" Explicit="false">
                                                                         <Anns>
-                                                                            <LocAnn Start="1368" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="4" Col="62"/>
+                                                                            <LocAnn Start="1360" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="4" Col="62"/>
                                                                         </Anns>
                                                                         <ZName>
                                                                             <Anns>
-                                                                                <LocAnn Start="1368" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="4" Col="62"/>
+                                                                                <LocAnn Start="1360" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="44" Length="4" Col="62"/>
                                                                             </Anns>
                                                                             <Word> _ ? _ </Word>
                                                                             <ZStrokeList/>
@@ -930,17 +930,17 @@ Examples from Manuela Xavier MSc thesis.
                                                                 </MemPred>
                                                                 <MemPred Mixfix="true">
                                                                     <Anns>
-                                                                        <LocAnn Start="1401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="12" Col="8"/>
+                                                                        <LocAnn Start="1392" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="12" Col="8"/>
                                                                     </Anns>
                                                                     <TupleExpr>
                                                                         <ZExprList>
                                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="8" Col="8"/>
+                                                                                    <LocAnn Start="1392" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="8" Col="8"/>
                                                                                 </Anns>
                                                                                 <ZName>
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="8" Col="8"/>
+                                                                                        <LocAnn Start="1392" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="8" Col="8"/>
                                                                                     </Anns>
                                                                                     <Word>quantity</Word>
                                                                                     <ZStrokeList/>
@@ -949,11 +949,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                             </RefExpr>
                                                                             <NumExpr>
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1412" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="19"/>
+                                                                                    <LocAnn Start="1403" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="19"/>
                                                                                 </Anns>
                                                                                 <ZNumeral Value="0">
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1412" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="19"/>
+                                                                                        <LocAnn Start="1403" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="19"/>
                                                                                     </Anns>
                                                                                 </ZNumeral>
                                                                             </NumExpr>
@@ -961,11 +961,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                     </TupleExpr>
                                                                     <RefExpr Mixfix="false" Explicit="false">
                                                                         <Anns>
-                                                                            <LocAnn Start="1410" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="17"/>
+                                                                            <LocAnn Start="1401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="17"/>
                                                                         </Anns>
                                                                         <ZName>
                                                                             <Anns>
-                                                                                <LocAnn Start="1410" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="17"/>
+                                                                                <LocAnn Start="1401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="17"/>
                                                                             </Anns>
                                                                             <Word> _ &gt; _ </Word>
                                                                             <ZStrokeList/>
@@ -976,15 +976,15 @@ Examples from Manuela Xavier MSc thesis.
                                                             </AndPred>
                                                             <MemPred Mixfix="true">
                                                                 <Anns>
-                                                                    <LocAnn Start="1420" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="28" Col="34"/>
+                                                                    <LocAnn Start="1411" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="28" Col="34"/>
                                                                 </Anns>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="1420" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="6" Col="27"/>
+                                                                        <LocAnn Start="1411" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="6" Col="27"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="1420" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="6" Col="27"/>
+                                                                            <LocAnn Start="1411" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="6" Col="27"/>
                                                                         </Anns>
                                                                         <Word>money</Word>
                                                                         <ZStrokeList>
@@ -997,15 +997,15 @@ Examples from Manuela Xavier MSc thesis.
                                                                     <ZExprList>
                                                                         <ApplExpr Mixfix="true">
                                                                             <Anns>
-                                                                                <LocAnn Start="1429" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="19" Col="42"/>
+                                                                                <LocAnn Start="1420" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="19" Col="42"/>
                                                                             </Anns>
                                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1435" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="42"/>
+                                                                                    <LocAnn Start="1426" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="42"/>
                                                                                 </Anns>
                                                                                 <ZName>
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1435" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="42"/>
+                                                                                        <LocAnn Start="1426" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="42"/>
                                                                                     </Anns>
                                                                                     <Word> _ ? _ </Word>
                                                                                     <ZStrokeList/>
@@ -1016,11 +1016,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                                 <ZExprList>
                                                                                     <RefExpr Mixfix="false" Explicit="false">
                                                                                         <Anns>
-                                                                                            <LocAnn Start="1429" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="5" Col="36"/>
+                                                                                            <LocAnn Start="1420" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="5" Col="36"/>
                                                                                         </Anns>
                                                                                         <ZName>
                                                                                             <Anns>
-                                                                                                <LocAnn Start="1429" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="5" Col="36"/>
+                                                                                                <LocAnn Start="1420" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="5" Col="36"/>
                                                                                             </Anns>
                                                                                             <Word>money</Word>
                                                                                             <ZStrokeList/>
@@ -1029,11 +1029,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                                     </RefExpr>
                                                                                     <RefExpr Mixfix="false" Explicit="false">
                                                                                         <Anns>
-                                                                                            <LocAnn Start="1437" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="11" Col="44"/>
+                                                                                            <LocAnn Start="1428" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="11" Col="44"/>
                                                                                         </Anns>
                                                                                         <ZName>
                                                                                             <Anns>
-                                                                                                <LocAnn Start="1437" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="11" Col="44"/>
+                                                                                                <LocAnn Start="1428" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="11" Col="44"/>
                                                                                             </Anns>
                                                                                             <Word>cookieValue</Word>
                                                                                             <ZStrokeList/>
@@ -1049,15 +1049,15 @@ Examples from Manuela Xavier MSc thesis.
                                                         </AndPred>
                                                         <MemPred Mixfix="true">
                                                             <Anns>
-                                                                <LocAnn Start="1455" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="24" Col="72"/>
+                                                                <LocAnn Start="1446" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="24" Col="72"/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                 <Anns>
-                                                                    <LocAnn Start="1455" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="9" Col="62"/>
+                                                                    <LocAnn Start="1446" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="9" Col="62"/>
                                                                 </Anns>
                                                                 <ZName>
                                                                     <Anns>
-                                                                        <LocAnn Start="1455" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="9" Col="62"/>
+                                                                        <LocAnn Start="1446" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="9" Col="62"/>
                                                                     </Anns>
                                                                     <Word>quantity</Word>
                                                                     <ZStrokeList>
@@ -1070,15 +1070,15 @@ Examples from Manuela Xavier MSc thesis.
                                                                 <ZExprList>
                                                                     <ApplExpr Mixfix="true">
                                                                         <Anns>
-                                                                            <LocAnn Start="1467" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="12" Col="83"/>
+                                                                            <LocAnn Start="1458" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="12" Col="83"/>
                                                                         </Anns>
                                                                         <RefExpr Mixfix="false" Explicit="false">
                                                                             <Anns>
-                                                                                <LocAnn Start="1476" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="83"/>
+                                                                                <LocAnn Start="1467" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="83"/>
                                                                             </Anns>
                                                                             <ZName>
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1476" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="83"/>
+                                                                                    <LocAnn Start="1467" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="83"/>
                                                                                 </Anns>
                                                                                 <Word> _ ? _ </Word>
                                                                                 <ZStrokeList/>
@@ -1089,11 +1089,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                             <ZExprList>
                                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1467" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="8" Col="74"/>
+                                                                                        <LocAnn Start="1458" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="8" Col="74"/>
                                                                                     </Anns>
                                                                                     <ZName>
                                                                                         <Anns>
-                                                                                            <LocAnn Start="1467" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="8" Col="74"/>
+                                                                                            <LocAnn Start="1458" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="8" Col="74"/>
                                                                                         </Anns>
                                                                                         <Word>quantity</Word>
                                                                                         <ZStrokeList/>
@@ -1102,11 +1102,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                                 </RefExpr>
                                                                                 <NumExpr>
                                                                                     <Anns>
-                                                                                        <LocAnn Start="1478" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="85"/>
+                                                                                        <LocAnn Start="1469" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="85"/>
                                                                                     </Anns>
                                                                                     <ZNumeral Value="1">
                                                                                         <Anns>
-                                                                                            <LocAnn Start="1478" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="85"/>
+                                                                                            <LocAnn Start="1469" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="1" Col="85"/>
                                                                                         </Anns>
                                                                                     </ZNumeral>
                                                                                 </NumExpr>
@@ -1119,15 +1119,15 @@ Examples from Manuela Xavier MSc thesis.
                                                     </AndPred>
                                                     <MemPred Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Start="1485" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="7" Col="95"/>
+                                                            <LocAnn Start="1476" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="7" Col="95"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1485" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="92"/>
+                                                                <LocAnn Start="1476" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="92"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1485" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="92"/>
+                                                                    <LocAnn Start="1476" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="92"/>
                                                                 </Anns>
                                                                 <Word>o</Word>
                                                                 <ZStrokeList>
@@ -1140,11 +1140,11 @@ Examples from Manuela Xavier MSc thesis.
                                                             <ZExprList>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="1490" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="97"/>
+                                                                        <LocAnn Start="1481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="97"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="1490" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="97"/>
+                                                                            <LocAnn Start="1481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="45" Length="2" Col="97"/>
                                                                         </Anns>
                                                                         <Word>ok</Word>
                                                                         <ZStrokeList/>
@@ -1163,28 +1163,28 @@ Examples from Manuela Xavier MSc thesis.
                         </AxPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <LocAnn Start="1504" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="146" Col="4"/>
+                                <LocAnn Start="1495" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="146" Col="4"/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="1504" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="146" Col="4"/>
+                                    <LocAnn Start="1495" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="146" Col="4"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="1504" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="146" Col="24"/>
+                                            <LocAnn Start="1495" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="146" Col="24"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="1504" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="17" Col="4"/>
+                                                <LocAnn Start="1495" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="17" Col="4"/>
                                             </Anns>
                                             <Word>OutputCookieNotOk</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
                                             <Anns>
-                                                <LocAnn Start="1529" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="121" Col="29"/>
+                                                <LocAnn Start="1520" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="121" Col="29"/>
                                             </Anns>
                                             <ZSchText>
                                                 <ZDeclList>
@@ -1194,11 +1194,11 @@ Examples from Manuela Xavier MSc thesis.
                                                     <InclDecl>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1532" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="12" Col="32"/>
+                                                                <LocAnn Start="1523" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="12" Col="32"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1532" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="12" Col="32"/>
+                                                                    <LocAnn Start="1523" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="12" Col="32"/>
                                                                 </Anns>
                                                                 <Word>?State</Word>
                                                                 <ZStrokeList/>
@@ -1208,12 +1208,12 @@ Examples from Manuela Xavier MSc thesis.
                                                     </InclDecl>
                                                     <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Start="1546" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="10" Col="48"/>
+                                                            <LocAnn Start="1537" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="10" Col="48"/>
                                                         </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1546" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="2" Col="46"/>
+                                                                    <LocAnn Start="1537" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="2" Col="46"/>
                                                                 </Anns>
                                                                 <Word>o</Word>
                                                                 <ZStrokeList>
@@ -1223,11 +1223,11 @@ Examples from Manuela Xavier MSc thesis.
                                                         </ZNameList>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="6" Col="50"/>
+                                                                <LocAnn Start="1541" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="6" Col="50"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="6" Col="50"/>
+                                                                    <LocAnn Start="1541" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="6" Col="50"/>
                                                                 </Anns>
                                                                 <Word>COOKIE</Word>
                                                                 <ZStrokeList/>
@@ -1238,29 +1238,29 @@ Examples from Manuela Xavier MSc thesis.
                                                 </ZDeclList>
                                                 <AndPred And="Wedge">
                                                     <Anns>
-                                                        <LocAnn Start="1559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="88" Col="42"/>
+                                                        <LocAnn Start="1550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="88" Col="42"/>
                                                     </Anns>
                                                     <AndPred And="Wedge">
                                                         <Anns>
-                                                            <LocAnn Start="1559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="71" Col="21"/>
+                                                            <LocAnn Start="1550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="71" Col="21"/>
                                                         </Anns>
                                                         <AndPred And="Wedge">
                                                             <Anns>
-                                                                <LocAnn Start="1559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="50" Col="82"/>
+                                                                <LocAnn Start="1550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="50" Col="82"/>
                                                             </Anns>
                                                             <MemPred Mixfix="true">
                                                                 <Anns>
-                                                                    <LocAnn Start="1559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="22" Col="59"/>
+                                                                    <LocAnn Start="1550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="22" Col="59"/>
                                                                 </Anns>
                                                                 <TupleExpr>
                                                                     <ZExprList>
                                                                         <RefExpr Mixfix="false" Explicit="false">
                                                                             <Anns>
-                                                                                <LocAnn Start="1559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="5" Col="59"/>
+                                                                                <LocAnn Start="1550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="5" Col="59"/>
                                                                             </Anns>
                                                                             <ZName>
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="5" Col="59"/>
+                                                                                    <LocAnn Start="1550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="5" Col="59"/>
                                                                                 </Anns>
                                                                                 <Word>money</Word>
                                                                                 <ZStrokeList/>
@@ -1269,11 +1269,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                         </RefExpr>
                                                                         <RefExpr Mixfix="false" Explicit="false">
                                                                             <Anns>
-                                                                                <LocAnn Start="1570" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="11" Col="70"/>
+                                                                                <LocAnn Start="1561" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="11" Col="70"/>
                                                                             </Anns>
                                                                             <ZName>
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1570" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="11" Col="70"/>
+                                                                                    <LocAnn Start="1561" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="11" Col="70"/>
                                                                                 </Anns>
                                                                                 <Word>cookieValue</Word>
                                                                                 <ZStrokeList/>
@@ -1284,11 +1284,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                 </TupleExpr>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="1565" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="4" Col="65"/>
+                                                                        <LocAnn Start="1556" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="4" Col="65"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="1565" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="4" Col="65"/>
+                                                                            <LocAnn Start="1556" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="46" Length="4" Col="65"/>
                                                                         </Anns>
                                                                         <Word> _ ? _ </Word>
                                                                         <ZStrokeList/>
@@ -1298,15 +1298,15 @@ Examples from Manuela Xavier MSc thesis.
                                                             </MemPred>
                                                             <MemPred Mixfix="true">
                                                                 <Anns>
-                                                                    <LocAnn Start="1597" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="12" Col="17"/>
+                                                                    <LocAnn Start="1588" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="12" Col="17"/>
                                                                 </Anns>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="1597" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="8" Col="8"/>
+                                                                        <LocAnn Start="1588" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="8" Col="8"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="1597" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="8" Col="8"/>
+                                                                            <LocAnn Start="1588" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="8" Col="8"/>
                                                                         </Anns>
                                                                         <Word>quantity</Word>
                                                                         <ZStrokeList/>
@@ -1317,11 +1317,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                     <ZExprList>
                                                                         <NumExpr>
                                                                             <Anns>
-                                                                                <LocAnn Start="1608" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="1" Col="19"/>
+                                                                                <LocAnn Start="1599" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="1" Col="19"/>
                                                                             </Anns>
                                                                             <ZNumeral Value="0">
                                                                                 <Anns>
-                                                                                    <LocAnn Start="1608" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="1" Col="19"/>
+                                                                                    <LocAnn Start="1599" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="1" Col="19"/>
                                                                                 </Anns>
                                                                             </ZNumeral>
                                                                         </NumExpr>
@@ -1331,15 +1331,15 @@ Examples from Manuela Xavier MSc thesis.
                                                         </AndPred>
                                                         <MemPred Mixfix="true">
                                                             <Anns>
-                                                                <LocAnn Start="1616" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="14" Col="34"/>
+                                                                <LocAnn Start="1607" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="14" Col="34"/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                 <Anns>
-                                                                    <LocAnn Start="1616" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="6" Col="27"/>
+                                                                    <LocAnn Start="1607" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="6" Col="27"/>
                                                                 </Anns>
                                                                 <ZName>
                                                                     <Anns>
-                                                                        <LocAnn Start="1616" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="6" Col="27"/>
+                                                                        <LocAnn Start="1607" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="6" Col="27"/>
                                                                     </Anns>
                                                                     <Word>money</Word>
                                                                     <ZStrokeList>
@@ -1352,11 +1352,11 @@ Examples from Manuela Xavier MSc thesis.
                                                                 <ZExprList>
                                                                     <RefExpr Mixfix="false" Explicit="false">
                                                                         <Anns>
-                                                                            <LocAnn Start="1625" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="5" Col="36"/>
+                                                                            <LocAnn Start="1616" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="5" Col="36"/>
                                                                         </Anns>
                                                                         <ZName>
                                                                             <Anns>
-                                                                                <LocAnn Start="1625" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="5" Col="36"/>
+                                                                                <LocAnn Start="1616" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="5" Col="36"/>
                                                                             </Anns>
                                                                             <Word>money</Word>
                                                                             <ZStrokeList/>
@@ -1369,15 +1369,15 @@ Examples from Manuela Xavier MSc thesis.
                                                     </AndPred>
                                                     <MemPred Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Start="1637" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="10" Col="51"/>
+                                                            <LocAnn Start="1628" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="10" Col="51"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1637" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="2" Col="48"/>
+                                                                <LocAnn Start="1628" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="2" Col="48"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1637" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="2" Col="48"/>
+                                                                    <LocAnn Start="1628" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="2" Col="48"/>
                                                                 </Anns>
                                                                 <Word>o</Word>
                                                                 <ZStrokeList>
@@ -1390,11 +1390,11 @@ Examples from Manuela Xavier MSc thesis.
                                                             <ZExprList>
                                                                 <RefExpr Mixfix="false" Explicit="false">
                                                                     <Anns>
-                                                                        <LocAnn Start="1642" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="5" Col="53"/>
+                                                                        <LocAnn Start="1633" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="5" Col="53"/>
                                                                     </Anns>
                                                                     <ZName>
                                                                         <Anns>
-                                                                            <LocAnn Start="1642" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="5" Col="53"/>
+                                                                            <LocAnn Start="1633" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="47" Length="5" Col="53"/>
                                                                         </Anns>
                                                                         <Word>notok</Word>
                                                                         <ZStrokeList/>
@@ -1413,36 +1413,36 @@ Examples from Manuela Xavier MSc thesis.
                         </AxPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <LocAnn Start="1659" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="57" Col="4"/>
+                                <LocAnn Start="1650" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="57" Col="4"/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="1659" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="57" Col="4"/>
+                                    <LocAnn Start="1650" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="57" Col="4"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="1659" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="57" Col="19"/>
+                                            <LocAnn Start="1650" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="57" Col="19"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="1659" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="12" Col="4"/>
+                                                <LocAnn Start="1650" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="12" Col="4"/>
                                             </Anns>
                                             <Word>OutputCookie</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <OrExpr>
                                             <Anns>
-                                                <LocAnn Start="1679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="37" Col="39"/>
+                                                <LocAnn Start="1670" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="37" Col="39"/>
                                             </Anns>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="1679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="14" Col="24"/>
+                                                    <LocAnn Start="1670" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="14" Col="24"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1679" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="14" Col="24"/>
+                                                        <LocAnn Start="1670" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="14" Col="24"/>
                                                     </Anns>
                                                     <Word>OutputCookieOk</Word>
                                                     <ZStrokeList/>
@@ -1451,11 +1451,11 @@ Examples from Manuela Xavier MSc thesis.
                                             </RefExpr>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="1699" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="17" Col="44"/>
+                                                    <LocAnn Start="1690" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="17" Col="44"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1699" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="17" Col="44"/>
+                                                        <LocAnn Start="1690" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="48" Length="17" Col="44"/>
                                                     </Anns>
                                                     <Word>OutputCookieNotOk</Word>
                                                     <ZStrokeList/>
@@ -1469,40 +1469,40 @@ Examples from Manuela Xavier MSc thesis.
                         </AxPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="1725" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="178" Col="4"/>
+                                <LocAnn Start="1716" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="187" Col="4"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="1725" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="6" Col="4"/>
+                                    <LocAnn Start="1716" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="6" Col="4"/>
                                 </Anns>
                                 <Word>Output</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:GuardedAction>
                                 <Anns>
-                                    <LocAnn Start="1757" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="146" Col="36"/>
+                                    <LocAnn Start="1748" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="155" Col="36"/>
                                 </Anns>
                                 <ns3:VarDeclCommand>
                                     <Anns>
-                                        <LocAnn Start="1821" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="82" Col="13"/>
+                                        <LocAnn Start="1812" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="91" Col="13"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="1820" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="85" Col="12"/>
+                                                <LocAnn Start="1811" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="94" Col="12"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <ZDeclList>
                                         <Anns>
-                                            <LocAnn Start="1831" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="9" Col="24"/>
+                                            <LocAnn Start="1822" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="9" Col="24"/>
                                         </Anns>
                                         <VarDecl>
                                             <Anns>
-                                                <LocAnn Start="1831" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="9" Col="24"/>
+                                                <LocAnn Start="1822" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="9" Col="24"/>
                                             </Anns>
                                             <ZNameList>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1831" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="1" Col="23"/>
+                                                        <LocAnn Start="1822" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="1" Col="23"/>
                                                     </Anns>
                                                     <Word>o</Word>
                                                     <ZStrokeList/>
@@ -1510,11 +1510,11 @@ Examples from Manuela Xavier MSc thesis.
                                             </ZNameList>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="1834" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="26"/>
+                                                    <LocAnn Start="1825" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="26"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1834" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="26"/>
+                                                        <LocAnn Start="1825" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="26"/>
                                                     </Anns>
                                                     <Word>COOKIE</Word>
                                                     <ZStrokeList/>
@@ -1525,15 +1525,15 @@ Examples from Manuela Xavier MSc thesis.
                                     </ZDeclList>
                                     <ns3:SeqAction>
                                         <Anns>
-                                            <LocAnn Start="1843" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="60" Col="35"/>
+                                            <LocAnn Start="1842" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="61" Col="43"/>
                                         </Anns>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="1843" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="12" Col="35"/>
+                                                <LocAnn Start="1842" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="12" Col="43"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="1843" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="12" Col="35"/>
+                                                    <LocAnn Start="1842" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="12" Col="43"/>
                                                 </Anns>
                                                 <Word>OutputCookie</Word>
                                                 <ZStrokeList/>
@@ -1542,30 +1542,30 @@ Examples from Manuela Xavier MSc thesis.
                                         </ns3:CallAction>
                                         <ns3:PrefixingAction>
                                             <Anns>
-                                                <LocAnn Start="1866" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="37" Col="58"/>
+                                                <LocAnn Start="1865" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="38" Col="66"/>
                                                 <ParenAnn>
                                                     <Anns>
-                                                        <LocAnn Start="1865" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="39" Col="57"/>
+                                                        <LocAnn Start="1864" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="40" Col="65"/>
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
                                             <ns3:PrefixingAction>
                                                 <Anns>
-                                                    <LocAnn Start="1879" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="24" Col="71"/>
+                                                    <LocAnn Start="1878" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="25" Col="79"/>
                                                 </Anns>
                                                 <ns3:SkipAction>
                                                     <Anns>
-                                                        <LocAnn Start="1899" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="4" Col="91"/>
+                                                        <LocAnn Start="1898" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="5" Col="99"/>
                                                     </Anns>
                                                 </ns3:SkipAction>
-                                                <ns3:Communication MultiSych="0" CommKind="Output">
+                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                                     <Anns>
-                                                        <LocAnn Start="1879" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="71"/>
+                                                        <LocAnn Start="1878" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="79"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false" Explicit="false">
                                                         <ZName>
                                                             <Anns>
-                                                                <LocAnn Start="1879" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="71"/>
+                                                                <LocAnn Start="1878" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="79"/>
                                                             </Anns>
                                                             <Word>change</Word>
                                                             <ZStrokeList/>
@@ -1573,35 +1573,36 @@ Examples from Manuela Xavier MSc thesis.
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <ns3:CircusFieldList>
-                                                        <ns3:OutputField>
+                                                        <ns3:DotField>
                                                             <Anns>
-                                                                <LocAnn Start="1886" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="78"/>
+                                                                <ns3:OutputFieldAnn/>
+                                                                <LocAnn Start="1885" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="86"/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false" Explicit="false">
                                                                 <Anns>
-                                                                    <LocAnn Start="1887" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="5" Col="79"/>
+                                                                    <LocAnn Start="1886" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="5" Col="87"/>
                                                                 </Anns>
                                                                 <ZName>
                                                                     <Anns>
-                                                                        <LocAnn Start="1887" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="5" Col="79"/>
+                                                                        <LocAnn Start="1886" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="5" Col="87"/>
                                                                     </Anns>
                                                                     <Word>money</Word>
                                                                     <ZStrokeList/>
                                                                 </ZName>
                                                                 <ZExprList/>
                                                             </RefExpr>
-                                                        </ns3:OutputField>
+                                                        </ns3:DotField>
                                                     </ns3:CircusFieldList>
                                                 </ns3:Communication>
                                             </ns3:PrefixingAction>
-                                            <ns3:Communication MultiSych="0" CommKind="Output">
+                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
-                                                    <LocAnn Start="1866" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="3" Col="58"/>
+                                                    <LocAnn Start="1865" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="3" Col="66"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="1866" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="3" Col="58"/>
+                                                            <LocAnn Start="1865" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="3" Col="66"/>
                                                         </Anns>
                                                         <Word>out</Word>
                                                         <ZStrokeList/>
@@ -1609,24 +1610,25 @@ Examples from Manuela Xavier MSc thesis.
                                                     <ZExprList/>
                                                 </RefExpr>
                                                 <ns3:CircusFieldList>
-                                                    <ns3:OutputField>
+                                                    <ns3:DotField>
                                                         <Anns>
-                                                            <LocAnn Start="1870" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="2" Col="62"/>
+                                                            <ns3:OutputFieldAnn/>
+                                                            <LocAnn Start="1869" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="2" Col="70"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="1871" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="1" Col="63"/>
+                                                                <LocAnn Start="1870" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="1" Col="71"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="1871" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="1" Col="63"/>
+                                                                    <LocAnn Start="1870" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="1" Col="71"/>
                                                                 </Anns>
                                                                 <Word>o</Word>
                                                                 <ZStrokeList/>
                                                             </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
-                                                    </ns3:OutputField>
+                                                    </ns3:DotField>
                                                 </ns3:CircusFieldList>
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
@@ -1634,17 +1636,17 @@ Examples from Manuela Xavier MSc thesis.
                                 </ns3:VarDeclCommand>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Start="1757" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="22" Col="36"/>
+                                        <LocAnn Start="1748" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="22" Col="36"/>
                                     </Anns>
                                     <TupleExpr>
                                         <ZExprList>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="1757" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="5" Col="36"/>
+                                                    <LocAnn Start="1748" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="5" Col="36"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1757" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="5" Col="36"/>
+                                                        <LocAnn Start="1748" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="5" Col="36"/>
                                                     </Anns>
                                                     <Word>money</Word>
                                                     <ZStrokeList/>
@@ -1653,11 +1655,11 @@ Examples from Manuela Xavier MSc thesis.
                                             </RefExpr>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="1768" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="11" Col="47"/>
+                                                    <LocAnn Start="1759" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="11" Col="47"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1768" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="11" Col="47"/>
+                                                        <LocAnn Start="1759" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="11" Col="47"/>
                                                     </Anns>
                                                     <Word>cookieValue</Word>
                                                     <ZStrokeList/>
@@ -1668,11 +1670,11 @@ Examples from Manuela Xavier MSc thesis.
                                     </TupleExpr>
                                     <RefExpr Mixfix="false" Explicit="false">
                                         <Anns>
-                                            <LocAnn Start="1763" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="4" Col="42"/>
+                                            <LocAnn Start="1754" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="4" Col="42"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="1763" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="4" Col="42"/>
+                                                <LocAnn Start="1754" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="49" Length="4" Col="42"/>
                                             </Anns>
                                             <Word> _ ? _ </Word>
                                             <ZStrokeList/>
@@ -1684,7 +1686,7 @@ Examples from Manuela Xavier MSc thesis.
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="1918" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="71" Col="8"/>
+                                <LocAnn Start="1918" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="87" Col="8"/>
                             </Anns>
                             <ZName>
                                 <Word>$$mainAction</Word>
@@ -1692,16 +1694,16 @@ Examples from Manuela Xavier MSc thesis.
                             </ZName>
                             <ns3:SeqAction>
                                 <Anns>
-                                    <LocAnn Start="1918" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="71" Col="8"/>
+                                    <LocAnn Start="1918" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="87" Col="8"/>
                                     <ns3:OnTheFlyDefAnn/>
                                 </Anns>
                                 <ns3:CallAction>
                                     <Anns>
-                                        <LocAnn Start="1920" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="9" Col="10"/>
+                                        <LocAnn Start="1928" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="9" Col="18"/>
                                     </Anns>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="1920" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="9" Col="10"/>
+                                            <LocAnn Start="1928" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="9" Col="18"/>
                                         </Anns>
                                         <Word>StateInit</Word>
                                         <ZStrokeList/>
@@ -1710,33 +1712,33 @@ Examples from Manuela Xavier MSc thesis.
                                 </ns3:CallAction>
                                 <ns3:MuAction>
                                     <Anns>
-                                        <LocAnn Start="1940" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="49" Col="30"/>
+                                        <LocAnn Start="1948" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="57" Col="38"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="1939" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="51" Col="29"/>
+                                                <LocAnn Start="1947" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="59" Col="37"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <ns3:SeqAction>
                                         <Anns>
-                                            <LocAnn Start="1954" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="35" Col="44"/>
+                                            <LocAnn Start="1970" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="35" Col="60"/>
                                         </Anns>
                                         <ns3:ExtChoiceAction>
                                             <Anns>
-                                                <LocAnn Start="1954" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="23" Col="44"/>
+                                                <LocAnn Start="1970" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="23" Col="60"/>
                                                 <ParenAnn>
                                                     <Anns>
-                                                        <LocAnn Start="1953" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="25" Col="43"/>
+                                                        <LocAnn Start="1969" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="25" Col="59"/>
                                                     </Anns>
                                                 </ParenAnn>
                                             </Anns>
                                             <ns3:CallAction>
                                                 <Anns>
-                                                    <LocAnn Start="1954" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="5" Col="44"/>
+                                                    <LocAnn Start="1970" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="5" Col="60"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1954" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="5" Col="44"/>
+                                                        <LocAnn Start="1970" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="5" Col="60"/>
                                                     </Anns>
                                                     <Word>Input</Word>
                                                     <ZStrokeList/>
@@ -1745,11 +1747,11 @@ Examples from Manuela Xavier MSc thesis.
                                             </ns3:CallAction>
                                             <ns3:CallAction>
                                                 <Anns>
-                                                    <LocAnn Start="1971" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="6" Col="61"/>
+                                                    <LocAnn Start="1987" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="6" Col="77"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="1971" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="6" Col="61"/>
+                                                        <LocAnn Start="1987" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="6" Col="77"/>
                                                     </Anns>
                                                     <Word>Output</Word>
                                                     <ZStrokeList/>
@@ -1759,11 +1761,11 @@ Examples from Manuela Xavier MSc thesis.
                                         </ns3:ExtChoiceAction>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="1988" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="1" Col="78"/>
+                                                <LocAnn Start="2004" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="1" Col="94"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="1988" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="1" Col="78"/>
+                                                    <LocAnn Start="2004" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="1" Col="94"/>
                                                 </Anns>
                                                 <Word>X</Word>
                                                 <ZStrokeList/>
@@ -1773,7 +1775,7 @@ Examples from Manuela Xavier MSc thesis.
                                     </ns3:SeqAction>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="1949" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="1" Col="39"/>
+                                            <LocAnn Start="1957" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="51" Length="1" Col="47"/>
                                         </Anns>
                                         <Word>X</Word>
                                         <ZStrokeList/>
@@ -1786,7 +1788,7 @@ Examples from Manuela Xavier MSc thesis.
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="2020" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="53" Length="20" Col="12"/>
+                    <LocAnn Start="2036" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="53" Length="20" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

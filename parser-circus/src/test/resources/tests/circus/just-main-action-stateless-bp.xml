@@ -9,7 +9,7 @@
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Start="2" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="1" Length="298" Col="0"/>
+            <LocAnn Start="2" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="1" Length="307" Col="0"/>
         </Anns>
         <Name>basic_processes1</Name>
         <Parent>
@@ -76,7 +76,7 @@
             </NarrPara>
             <ns3:ProcessPara>
                 <Anns>
-                    <LocAnn Start="176" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="108" Col="4"/>
+                    <LocAnn Start="176" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="117" Col="4"/>
                 </Anns>
                 <ZName>
                     <Anns>
@@ -88,27 +88,27 @@
                 <ZNameList/>
                 <ns3:BasicProcess>
                     <Anns>
-                        <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                        <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="63" Col="58"/>
                     </Anns>
                     <ZParaList>
                         <AxPara Box="OmitBox">
                             <Anns>
                                 <ns3:CircusStateAnn/>
-                                <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                                <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="63" Col="58"/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                                    <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="63" Col="58"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                                            <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="63" Col="58"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="54" Col="58"/>
+                                                <LocAnn Start="230" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="10" Length="63" Col="58"/>
                                             </Anns>
                                             <Word>$$defaultSt</Word>
                                             <ZStrokeList/>
@@ -125,7 +125,7 @@
                         </AxPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="249" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="18" Col="4"/>
+                                <LocAnn Start="249" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="27" Col="4"/>
                             </Anns>
                             <ZName>
                                 <Word>$$mainAction</Word>
@@ -133,22 +133,22 @@
                             </ZName>
                             <ns3:PrefixingAction>
                                 <Anns>
-                                    <LocAnn Start="249" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="18" Col="4"/>
+                                    <LocAnn Start="249" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="27" Col="4"/>
                                     <ns3:OnTheFlyDefAnn/>
                                 </Anns>
                                 <ns3:SkipAction>
                                     <Anns>
-                                        <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="4" Col="18"/>
+                                        <LocAnn Start="271" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="5" Col="26"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" CommKind="Output">
+                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
-                                        <LocAnn Start="251" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="3" Col="6"/>
+                                        <LocAnn Start="259" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="3" Col="14"/>
                                     </Anns>
                                     <RefExpr Mixfix="false" Explicit="false">
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="251" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="3" Col="6"/>
+                                                <LocAnn Start="259" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="3" Col="14"/>
                                             </Anns>
                                             <Word>out</Word>
                                             <ZStrokeList/>
@@ -158,15 +158,15 @@
                                     <ns3:CircusFieldList>
                                         <ns3:DotField>
                                             <Anns>
-                                                <LocAnn Start="254" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="2" Col="9"/>
+                                                <LocAnn Start="262" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="2" Col="17"/>
                                             </Anns>
                                             <NumExpr>
                                                 <Anns>
-                                                    <LocAnn Start="255" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="1" Col="10"/>
+                                                    <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="1" Col="18"/>
                                                 </Anns>
                                                 <ZNumeral Value="0">
                                                     <Anns>
-                                                        <LocAnn Start="255" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="1" Col="10"/>
+                                                        <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="11" Length="1" Col="18"/>
                                                     </Anns>
                                                 </ZNumeral>
                                             </NumExpr>
@@ -180,7 +180,7 @@
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="298" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="13" Length="2" Col="12"/>
+                    <LocAnn Start="307" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-bp.tex" Line="13" Length="2" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 </Content>

@@ -122,7 +122,7 @@
                     <Anns>
                         <LocAnn Start="213" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="10" Length="46" Col="32"/>
                     </Anns>
-                    <ns3:CallProcess CallKind="Param">
+                    <ns3:CallProcess CallUsage="Param">
                         <Anns>
                             <LocAnn Start="250" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="10" Length="9" Col="69"/>
                         </Anns>
@@ -189,7 +189,7 @@
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns3:CallProcess CallKind="Index">
+                <ns3:CallProcess CallUsage="Index">
                     <Anns>
                         <LocAnn Start="325" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="7" Col="29"/>
                     </Anns>
