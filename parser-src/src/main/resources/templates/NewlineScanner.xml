@@ -80,6 +80,9 @@ public class <class/>
     /* Special cases for communication patterns - just like a DECORWORD */
     map.put("CHANNELNAME", ZToken.DECORWORD.getNewlineCategory());
     map.put("FIELDNAME", ZToken.DECORWORD.getNewlineCategory());
+    
+    /* For CHANNELDOT don't accept new lines, which is different from the Z DOT */
+    map.put("CHANNELDOT", NewlineCategory.NEITHER);
 </add:circus>
     for (String s : SymMap.getMap().keySet()) {
       if (! map.containsKey(s)) {
