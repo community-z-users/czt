@@ -1,6 +1,7 @@
 % Adapted from LLNCS.DEM Springer-Verlag for LNCS, version 2.3 for LaTeX2e
 \documentclass{llncs}
 \usepackage{czt}  %% for the Standard Z specification macros
+\usepackage{graphics}
 %
 \begin{document}
 \pagestyle{headings}  % switches on printing of running heads
@@ -139,7 +140,158 @@ other changes we made.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 This section introduces a simple framework for expressing tests
-of a Z specification that is written in the usual Z state-based style.
+of a Z specification.  We assume that the specification is written in the
+common Z \emph{sequential} style, with a state schema, an initialisation
+schema, several operation schemas, as well as various auxiliary definitions
+and schemas.
+
+The first question that must be asked is why we do not use an existing
+testing framework for Z, such as the Test Template Framework
+(TTF)~\cite{Stocks93,carrington94} or Heirons' Z-to-FSM
+approach~\cite{hierons97}.  The difference is that these all aim at
+generating tests \emph{from} a Z specification, in order to test some
+implementation of that specification.  But in this paper, we want to design
+some tests that actually test the Z specification itself.  So the goal of
+those approaches is \emph{verification} (of some implementation), whereas
+our goal is \emph{validation} (of the Z specification).  This results in
+quite a different style of testing.  
+
+One difference is that when testing an implementation, we can control its
+inputs but not its outputs, whereas when testing a Z specification we can
+ask arbitrary questions about inputs or outputs.  So when validating a Z
+specification, we can use a richer variety of tests.  Another difference is
+that when validating a specification, we want to design both positive
+tests, which test that a given behaviour is allowed by the specification,
+and negative tests, which test that a given behaviour is not allowed by the
+specification.  In contrast, when testing an implementation of the
+specification, we use only positive tests, because refinement means that
+the implementation is free to add behaviour that is outside the
+precondition of the specification.
+
+To illustrate our testing framework, we shall use a simple example
+specification given by the following specification, which defines
+the shape shown in Figure~\ref{fig:wedge}.
+Our tests will be written using standard Z conjecture paragraphs,
+so that they can be checked by theorem provers or by the ZLive
+animator.  We use one or more Z sections for the specification,
+and then group the tests into separate Z sections that have the
+specification as a parent.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{wedge}
+  \caption{A graph of the solutions to the Wedge schema}
+  \label{fig:wedge}
+\end{figure}
+
+\begin{zsection}
+  \SECTION wedge \parents standard\_toolkit
+\end{zsection}
+\begin{zed}
+  State == [x:\num] \\
+  Wedge == [\Delta State | x*x + x'*x' \leq 25; x + x' \leq 5; 0 \leq x']
+\end{zed}
+
+\subsection{Positive Tests}
+
+The first kind of testing we want to do is positive tests to check that an
+operation has a desired input-output behaviour.  When specifying
+tests, it is important to specify the expected output values as well as the
+input values, so we write all the inputs and output values as a Z binding
+and use a membership test.  Here are two examples that test the
+non-deterministic output behaviour of Wedge when the input $x=0$.
+Since 2007, the Z standard requires conjectures to be written within
+a \LaTeX\ \emph{theorem} environment, and allows each conjecture to be
+given a name.  Our naming convention for tests is typically to use the name
+of the operation being tested, followed by some information about the input
+and output values that are being tested.
+
+\begin{zsection}
+  \SECTION WedgeTests \parents wedge
+\end{zsection}
+
+\begin{theorem}{Wedge0Min}
+\vdash? \quad \lblot x==0, x'==0 \rblot \in Wedge
+\end{theorem}
+
+\begin{theorem}{Wedge0Max}
+\vdash? \quad \lblot x==0, x'==5 \rblot \in Wedge
+\end{theorem}
+
+Alternatively, we may prefer to group a set of tests together, and test
+them all in one conjecture.  We can do this by naming the test tuples, and
+testing them all using a subset conjecture.
+
+\begin{zed}
+  Wedge0Min == \lblot x==0, x'==0 \rblot \\
+  Wedge0Max == \lblot x==0, x'==5 \rblot
+\end{zed}
+
+\begin{theorem}{WedgePos}
+  \vdash? \quad \{Wedge0Min, Wedge0Max\} \subseteq Wedge
+\end{theorem}
+
+
+\subsection{Negative Tests}
+
+It is also useful to perform \emph{negative} tests to validate an
+operation.  For example, we may want to check that an input value is
+outside the precondition of the operation, or check that a certain output
+can never be produced by the operation.  The idea is to validate the
+specification by showing that its behaviour is squeezed in between the set
+of positive tests and the set of negative tests.  The more positive and
+negative tests that we design, the more sure we can be that we have
+specified the desired behaviour, rather than allowing too many or too few
+behaviours.
+
+We can write negative tests using a negated membership test ($test \notin
+Op$) or, equivalently, test that the tuple is a member of the negated
+schema ($test \in \lnot Op$).
+Our conjecture naming convention is the same as for positive tests, but
+we prefix the name with $Not$ to indicate that it is a negative tests.
+
+\begin{zsection}
+  \SECTION NotWedgeTests \parents wedge
+\end{zsection}
+
+\begin{theorem}{NotWedge0Neg}
+\vdash? \quad \lblot x==0, x'==\negate 1 \rblot \notin Wedge
+\end{theorem}
+
+\begin{theorem}{NotWedge06}
+\vdash? \quad \lblot x==0, x'==6 \rblot \in \lnot Wedge
+\end{theorem}
+
+We can also test just the precondition of the operation.
+\begin{theorem}{NotWedgePre6}
+\vdash? \quad \lblot x==6 \rblot \notin \pre Wedge
+\end{theorem}
+
+As we did for positive tests, we may also combine several negative tests
+into a group.  In this case, our conjecture may be written as $tests
+\subseteq \lnot Op$, or equivalently we may check that the intersection of
+the negative test suite and the operation is empty, $tests \land Op =
+\emptyset$.  The latter style is often more convenient, since it allows us
+to write $tests$ using schema notation, and to omit variables that we are
+not interested in (because the schema conjunction will expand the type of
+$tests$ to match the type of $Op$).  For example, the following two negative
+test suites check that 6 can never be an input for $Wedge$, and that 6 can
+never be an output of $Wedge$.
+
+\begin{theorem}{NotWedgeIn6}
+\vdash? \quad [State | x=6] \land Wedge = \emptyset
+\end{theorem}
+
+\begin{theorem}{NotWedgeOut6}
+\vdash? \quad [State' | x'=6] \land Wedge = \emptyset
+\end{theorem}
+
+It is sometimes convenient to write these kinds of negative test values
+\emph{within} the operation schema (e.g., $[Wedge | x=6] = \emptyset$),
+which can make the tests even more concise.
+
+
+\subsection{Promoting Tests}
 
 TODO: introduce some testing theory in Z syntax and show how we can
 use membership, subset and schema conjunction and negation to 
