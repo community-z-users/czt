@@ -2811,6 +2811,7 @@
       Input = !getFields().isEmpty() && forall getField().get(i) instanceof InputField            
       Output= !getFields().isEmpty() && forall getField().get(i) instanceof DotField
       Mixed = !getFields().isEmpty() && there are more than one class: InputField, DotField).
+      ChannelSet = getFields().isEmpty && the communication belongs to a BasicChannelSetExpr communication list
   -->
   <xs:simpleType name="CommPattern">
     <xs:restriction base="xs:string">
@@ -2818,6 +2819,7 @@
       <xs:enumeration value="Input"/>
       <xs:enumeration value="Output"/>
       <xs:enumeration value="Mixed"/>
+      <xs:enumeration value="ChannelSet"/>      
     </xs:restriction>
   </xs:simpleType>  
   
