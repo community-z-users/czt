@@ -94,6 +94,7 @@ public enum CircusKeyword implements Token {
    **************************************************/ 
   CIRCDEF(CircusString.CIRCDEF, NewlineCategory.BOTH),            /* \\circdef        , U+2259 */            
   CIRCINDEX(CircusString.CIRCINDEX, NewlineCategory.BOTH),        /* \\circindex      , U+2299 */            
+  CIRCSPOT(CircusString.CIRCSPOT, NewlineCategory.BOTH),          /* \\circspot       , U+2219 */            
   CIRCTHEN(CircusString.CIRCTHEN, NewlineCategory.BOTH),          /* \\circthen       , U+27FC */
   CIRCELSE(CircusString.CIRCELSE, NewlineCategory.BOTH),          /* \\circelse       , U+25AF */
   PREFIXTHEN(CircusString.PREFIXTHEN, NewlineCategory.BOTH),      /* \\then           , U+27F6 */

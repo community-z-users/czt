@@ -12,28 +12,22 @@ package net.sourceforge.czt.parser.circus;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.XmlWriter;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.parser.util.OpTable;
+import net.sourceforge.czt.parser.circus.LatexScanner;
+import net.sourceforge.czt.parser.circus.Sym;
+import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.session.Command;
-import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionInfo;
@@ -73,12 +67,12 @@ public class SpecialLatexParser {
                 SHOW_TIMESTAMP, SHOW_RECORDED_MESSAGE,
                 SHOW_SOURCE_METHOD, SHOW_DIRECTORY, SHOW_STACK_TRACE);
         ConsoleHandler ch = new ConsoleHandler();
-        ch.setLevel(Level.ALL);        
+        ch.setLevel(Level.FINEST);        
         ch.setFormatter(sfc);       
         FileHandler fh = null;
         try{
           fh = new FileHandler("SpecialLatexParser.log");
-          fh.setLevel(Level.ALL);
+          fh.setLevel(Level.FINEST);
           fh.setFormatter(sfc);          
         } catch (IOException e) {
           
@@ -86,37 +80,37 @@ public class SpecialLatexParser {
       /*
       logger = CztLogger.getLogger(KeywordScanner.class);
       logger.addHandler(ch);
-      logger.setLevel(Level.ALL);*/
+      logger.setLevel(Level.FINEST);*/
        
       logger = CztLogger.getLogger(Latex2Unicode.class);
       logger.addHandler(ch);
       logger.addHandler(fh);
-      logger.setLevel(Level.ALL);      
+      logger.setLevel(Level.FINEST);      
        
       logger = CztLogger.getLogger(LatexMarkupParser.class);
       logger.addHandler(ch);
       logger.addHandler(fh);
-      logger.setLevel(Level.ALL);
+      logger.setLevel(Level.FINEST);
        
       logger = CztLogger.getLogger(LatexParser.class);
       logger.addHandler(ch);
       logger.addHandler(fh);
-      logger.setLevel(Level.ALL);
+      logger.setLevel(Level.FINEST);
       
       logger = CztLogger.getLogger(Parser.class);
       logger.addHandler(ch);
       logger.addHandler(fh);
-      logger.setLevel(Level.ALL);
+      logger.setLevel(Level.FINEST);
       
       logger = CztLogger.getLogger(net.sourceforge.czt.print.circus.Unicode2Latex.class);
       logger.addHandler(ch);
       logger.addHandler(fh);
-      logger.setLevel(Level.ALL);
+      logger.setLevel(Level.FINEST);
 
       logger = CztLogger.getLogger(UnicodeParser.class);
       logger.addHandler(ch);
       logger.addHandler(fh);
-      logger.setLevel(Level.ALL);
+      logger.setLevel(Level.FINEST);
       
       sm = new SectionManager();                                  
       sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser\\src\\main\\resources\\lib;" +
@@ -193,12 +187,14 @@ public class SpecialLatexParser {
       out.close();   
     }
     
+    private static final Object delayer_ = new Object();
+    
     /**
      * Converts latex to zml.
      */
     public static void main(String[] args) {
         String usage = "\nUsage: net.sourceforge.czt.parser.circus.SpecialLatexParser"
-                + " [ -in <texInputfile>] [ -printLatex] [ -printUnicode] [ -reparseLatex] [ -printZML]";
+                + " [ -in <texInputfile>] [ -tokenise] [ -printLatex] [ -printUnicode] [ -reparseLatex] [ -printZML]";
         long time = System.currentTimeMillis();       
         try {
             String filename = null;
@@ -206,6 +202,7 @@ public class SpecialLatexParser {
             boolean printLatex = false;
             boolean printUnicode = false;
             boolean printZML = false;
+            boolean tokenise = false;
             for (int i = 0; i < args.length; i++) {
                 if ("-in".equals(args[i])) {
                     if (i < args.length) {
@@ -215,16 +212,18 @@ public class SpecialLatexParser {
                         return;
                     }
                 } else  if ("-printLatex".equals(args[i])) {
-                   //printLatex = true;
-                  System.out.println("Ignoring LaTeX printing at the moment! (TODO: BasicProcesses)");
+                  printLatex = true;
+                  //System.out.println("Ignoring LaTeX printing at the moment! (TODO: BasicProcesses)");
                 } else  if ("-printUnicode".equals(args[i])) {
-                   //printUnicode = true;
-                  System.out.println("Ignoring Unicode printing at the moment! (TODO: BasicProcesses)");
+                  printUnicode = true;
+                  //System.out.println("Ignoring Unicode printing at the moment! (TODO: BasicProcesses)");
                 } else  if ("-printZML".equals(args[i])) {
                    printZML = true;
                 } else  if ("-reparseLatex".equals(args[i])) {
-                   //reparseLatex = true;
-                   System.out.println("Ignoring reparsing from LaTeX at the moment! (TODO)");
+                   reparseLatex = true;
+                   //System.out.println("Ignoring reparsing from LaTeX at the moment! (TODO)");
+                } else if ("-tokenise".equals(args[i])) {
+                   tokenise = true;
                 } else {
                     System.err.println(usage);
                     return;
@@ -236,12 +235,26 @@ public class SpecialLatexParser {
               System.err.println(usage);
               return;
             }
+            if (tokenise)
+            {  
+              System.out.println("----STARTING  LATEX TOKENISING----");
+              LatexScanner scanner = new LatexScanner(new FileSource(filename), sm, new Properties());      
+              DebugUtils.scan(scanner, Sym.class);              
+              System.out.println("----FINISHING LATEX TOKENISING----");
+              System.out.println("\n\n\n");
+            }
+            
             System.out.println("----STARTING LATEX PARSING----");
             time = System.currentTimeMillis();
             Term term = parseLatexFile(filename, sm);
             time = System.currentTimeMillis() - time;            
-            if (term != null) {               
-               System.out.println("----FINISHED LATEX PARSING----(" +  time + "msecs)");
+            if (term != null) {                             
+              for(Handler h : logger.getHandlers())
+              {
+                h.flush();
+              }
+              synchronized(delayer_){ delayer_.wait(200); }
+              System.out.println("----FINISHED LATEX PARSING----(" +  time + "msecs)");
               /*
                 for(Sect sect : ((Spec)term).getSect()) {
                     if (sect instanceof ZSect) {

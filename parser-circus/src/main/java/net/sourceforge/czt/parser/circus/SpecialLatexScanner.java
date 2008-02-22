@@ -91,8 +91,17 @@ public class SpecialLatexScanner {
       //Object o = DebugUtils.getFieldMap(Sym.class).get(new Integer(Sym.DECORWORD));      
       //System.out.println("SmartScanner.get_sym() = " + o.getClass() + " " + o);
       
+//      System.out.println("Circus Symbol Table \n\t" + new TreeMap(DebugUtils.getFieldMap(Sym.class)));
+//      System.out.println("Z      Symbol Table \n\t" + new TreeMap(DebugUtils.getFieldMap(net.sourceforge.czt.parser.z.Sym.class)));            
+//      System.out.println("\n\n");      
+//      Map<String, Object>  circusMap = DebugUtils.getFieldMap2(Sym.class);
+//      Map<String, Object>  zMap = DebugUtils.getFieldMap2(net.sourceforge.czt.parser.z.Sym.class);
+//      circusMap.keySet().removeAll(zMap.keySet());
+//      System.out.println("Circus only Symbol Table \n\t" + new TreeMap(flipMap(circusMap)));      
+      
       SectionInfo sectInfo_ = new SectionManager("circus");
-      Source source = new FileSource(args[0]);
+      assert args[0].equals("-in");
+      Source source = new FileSource(args[1]); // args[0] = -in
       source.setMarkup(Markup.LATEX);      
       LatexScanner scanner = new LatexScanner(source, sectInfo_, new Properties());      
       DebugUtils.scan(scanner, Sym.class);
