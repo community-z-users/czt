@@ -1392,7 +1392,7 @@ action code
 </add:circus>
 
     // could be useful for other parsers as well
-    protected void logProductionResult(Term term, String from, LocInfo loc) {
+    protected void logProductionResult(Object term, String from, LocInfo loc) {
         CztLogger.getLogger(<class/>.class).fine("PRODUCTION RESULT: " +
             " from " + from + " @ " + loc + "=>\n" + term); 
     }
@@ -1715,10 +1715,10 @@ terminal LocInfo
          */      
          
         // Keychars
-        CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, 
+        CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCSPOT, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, 
         PREFIXCOLON, CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING, 
         EXTCHOICE, REPEXTCHOICE, INTCHOICE, REPINTCHOICE, CIRCASSIGN, CIRCSIMULATES,
-        _CIRCGUARD, _REPSEQ, 
+        CHANNELDOT, _CIRCGUARD, _REPSEQ, 
         
         /* Note:
          *
@@ -1793,7 +1793,7 @@ terminal Decorword
         DEFNAME, OPNAME,
 </add:oz>
 <add:circus>
-        CHANNELNAME, FIELDNAME,
+        CHANNELNAME, FIELDNAME, 
 </add:circus>
         DECORWORD, DECLWORD;
 
@@ -2144,6 +2144,7 @@ non terminal Pred
    
 /// Circus communication /////////////////////////////////////////////////         
 non terminal Communication
+    chanSetComm,
     communication;
 
 non terminal List&lt;Field&gt;    
@@ -2259,7 +2260,7 @@ precedence left         TEXT;
 precedence left         <add:tcoz>LPAREN,</add:tcoz> RPAREN;
 precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL <add:circus>, CIRCDEF</add:circus>;
-precedence left         ALL, EXI, EXIONE, SPOT <add:circus>, CIRCINDEX </add:circus>;
+precedence left         ALL, EXI, EXIONE, SPOT <add:circus>, CIRCSPOT, CIRCINDEX </add:circus>;
 <add:oz>
 precedence left         DCNJ, DGCH, DSQC;
 precedence left         ASSOPARALLEL;
@@ -2580,7 +2581,7 @@ paragraphList ::=
                         "paragraph";                    
 
                     // raise a scoping warning if needed                          
-                    addBasicProcessScopePostCheckFor(msg, getLocation(p));
+                    addBasicProcessScopePostCheckFor("MULTIPLE ENV - " + msg, getLocation(p));
                     parserState_.addLocallyDeclPara(p);                            
                 } else {                
                     //assert ZUtils.isZPara(para);                        
@@ -2732,7 +2733,7 @@ unboxedParagraphList ::=
                     }
                     if (add) {
                         // raise a scoping warning if needed                          
-                        addBasicProcessScopePostCheckFor(msg, loc);
+                        addBasicProcessScopePostCheckFor("SINGLE ENV - " + msg, loc);
                         parserState_.addLocallyDeclPara(para);
                         it.remove();
                     }
@@ -2837,7 +2838,7 @@ unboxedParagraphItem ::=
         singleCircusParagraphItem:scpi
         {:
             RESULT = scpi;            
-            //logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM", getLocation(scpi));
+            logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM", getLocation(scpi));
         :}
         */
 </add:circus>        
@@ -3170,7 +3171,7 @@ circusMultiEnvParagraphList ::=
         CIRCUS:circ singleCircusParagraphItemList:ppl END:end
         {: 
            RESULT = ppl; 
-           //logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-LIST", getLocation(circ, end));
+           logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-LIST", getLocation(circ, end));
         :}
         |                
         CIRCUSACTION:circ circusInnerProcParaList:ppl END:end        
@@ -3213,7 +3214,7 @@ singleCircusParagraphItemList ::=
            // see unboxedParagraphItem
            if (cpi != null) {
              RESULT.add(cpi);                                 
-             //logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM", getLocation(cpi));
+             logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM", getLocation(cpi));
            }
         :}
         ;   
@@ -3785,38 +3786,38 @@ processDesc ::=
  */
 paramProcess ::=
         /* Parameterised process */        
-        circusParamDeclList:dp SPOT:sp processDesc:p
+        circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createParamProcess(p, dp);
             addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         |
         /* Replicated processes productions in precendence order */
-        REPINTERLEAVE:ri circusParamDeclList:dp SPOT:sp processDesc:p
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createInterleaveProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR SPOT:sp processDesc:p
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createParallelProcessIte(p, dp, cs);
             addLocAnn(RESULT, getLocation(rp, p));
         :}
         | 
-        REPINTCHOICE:ri circusParamDeclList:dp SPOT:sp processDesc:p
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createIntChoiceProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPEXTCHOICE:re circusParamDeclList:dp SPOT:sp processDesc:p
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createExtChoiceProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(re, p));
         :}
         | 
-        ZCOMP:rs circusParamDeclList:dp SPOT:sp processDesc:p
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createSeqProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
@@ -3828,7 +3829,7 @@ paramProcess ::=
          * error_count threshold).
          */
         |
-        circusParamDeclList:dp SPOT:sp error:e
+        circusParamDeclList:dp CIRCSPOT:sp error:e
         {:
             RESULT = factory_.createParamProcess(null, dp);
             addLocAnn(RESULT, getLocation(eleft, eright));
@@ -3836,7 +3837,7 @@ paramProcess ::=
               new Object[] { "parameterised process" }, getLocation(eleft, eright));            
         :}
         |
-        REPINTERLEAVE:ri circusParamDeclList:dp SPOT:sp error:e
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp error:e
         {:
             RESULT = factory_.createInterleaveProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(ri, sp));
@@ -3845,7 +3846,7 @@ paramProcess ::=
                 getLocation(eleft, eright));            
         :}
         | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR SPOT:sp error:e
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp error:e
         {:
             RESULT = factory_.createParallelProcessIte(null, dp, cs);
             addLocAnn(RESULT, getLocation(rp, cs));
@@ -3854,7 +3855,7 @@ paramProcess ::=
                 getLocation(eleft, eright));            
         :}
         | 
-        REPINTCHOICE:ri circusParamDeclList:dp SPOT:sp error:e
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp error:e
         {:
             RESULT = factory_.createIntChoiceProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(ri, sp));
@@ -3864,7 +3865,7 @@ paramProcess ::=
 
         :}
         | 
-        REPEXTCHOICE:re circusParamDeclList:dp SPOT:sp error:e
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp error:e
         {:
             RESULT = factory_.createExtChoiceProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(re, sp));
@@ -3873,7 +3874,7 @@ paramProcess ::=
                 getLocation(eleft, eright));            
         :}
         | 
-        ZCOMP:rs circusParamDeclList:dp SPOT:sp error:e
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp error:e
         {:
             RESULT = factory_.createSeqProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(rs, sp));
@@ -4349,21 +4350,21 @@ circusBasicProcess ::=
                   parserState_.clearSectBasicProcessScopeWarnings();
                }
                
-               //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " BEFORE UPDATE", loc);   
+               // logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " BEFORE UPDATE", loc);   
                
                // Updates the basic process structures with collected 
                // information (i.e. ipl, state para, on the fly, main action, etc.)
                if (updateBasicProcessInformation(from, loc)) {
-                    //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);   
+                    logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);   
                     
                     RESULT = parserState_.cloneBasicProcessWithAnns();                    
                     
-                    //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
+                    logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
                }
                // If exit fails, a warning is mentioned, not an error, so continue regardless
                exitBasicProcessScope(from, loc);
            }
-           //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
+           // logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
            
            // if there were any warning collected for the list of paragraphs
            // declared outside the multiple environment scope, raise then.           
@@ -4372,7 +4373,7 @@ circusBasicProcess ::=
         ;        
 
 circusBasicProcessMainAction ::=
-        SPOT:s circusAction:ca
+        CIRCSPOT:s circusAction:ca
         {:      
            final String from = "CIRCUS BP MAIN ACTION";
            LocInfo loc = getLocation(s, ca);
@@ -4548,26 +4549,26 @@ actionDesc ::=
  */
 paramAction ::=
         //TODO:DESIGN: shall we allow actionDesc here instead of circusAction? 
-        circusParamDeclList:cp SPOT circusAction:pa
+        circusParamDeclList:cp CIRCSPOT:sp circusAction:pa
         {:
             RESULT = factory_.createParamAction(pa, cp);
             addLocAnn(RESULT, getLocation(getLocation(cpleft, cpright), getLocation(pa)));
         :}
         |
         /* Replicated action productions in precendence order */
-        REPINTERLEAVE:ri circusParamDeclList:dp LINTER nameSet:ns RINTER SPOT:sp circusAction:ca
+        REPINTERLEAVE:ri circusParamDeclList:dp LINTER nameSet:ns RINTER CIRCSPOT:sp circusAction:ca
         {:
             RESULT = factory_.createInterleaveActionIte(ca, dp, ns);
             addLocAnn(RESULT, getLocation(ri, ca));
         :}
         |
-        REPINTERLEAVE:ri circusParamDeclList:dp SPOT:sp circusAction:ca
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
             RESULT = factory_.createInterleaveActionIte(ca, dp, createEmptyNameSet());
             addLocAnn(RESULT, getLocation(ri, ca));
         :}
         |
-        LPAR:lp channelSet:cs RPAR circusParamDeclList:dp SPOT:sp LPAR nameSet:ns RPAR circusAction:ca
+        LPAR:lp channelSet:cs RPAR circusParamDeclList:dp CIRCSPOT:sp LPAR nameSet:ns RPAR circusAction:ca
         {:
             // Namesets first because of common parent for parallel actions,
             // and interleave has no channel set but has a name set.
@@ -4575,7 +4576,7 @@ paramAction ::=
             addLocAnn(RESULT, getLocation(lp, ca));
         :}
         |
-        LPAR:lp channelSet:cs RPAR circusParamDeclList:dp SPOT:sp circusAction:ca
+        LPAR:lp channelSet:cs RPAR circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
             // Namesets first because of common parent for parallel actions,
             // and interleave has no channel set but has a name set.
@@ -4583,19 +4584,19 @@ paramAction ::=
             addLocAnn(RESULT, getLocation(lp, ca));
         :}
         |
-        REPINTCHOICE:ri circusParamDeclList:dp SPOT:sp circusAction:ca
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
             RESULT = factory_.createIntChoiceActionIte(ca, dp);
             addLocAnn(RESULT, getLocation(ri, ca));
         :}
         |
-        REPEXTCHOICE:re circusParamDeclList:dp SPOT:sp circusAction:ca
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
             RESULT = factory_.createExtChoiceActionIte(ca, dp);
             addLocAnn(RESULT, getLocation(re, ca));
         :}
         |
-        ZCOMP:rs circusParamDeclList:dp SPOT:sp circusAction:ca
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
             RESULT = factory_.createSeqActionIte(ca, dp);
             addLocAnn(RESULT, getLocation(rs, ca));
@@ -4642,7 +4643,7 @@ cspAction ::=
           addLocAnn(RESULT, cc);
         :}
         |
-        CIRCMU:cm name:n SPOT circusAction:ca
+        CIRCMU:cm name:n CIRCSPOT circusAction:ca
         {:
             RESULT = factory_.createMuAction(ca, n);
             addLocAnn(RESULT, getLocation(cm, ca));
@@ -4785,7 +4786,7 @@ guard ::=
 
 communication ::=
         /* Synchronisation or communication without generic parameters */
-        DECORWORD:dw optCommFields:ocf
+        CHANNELNAME:dw optCommFields:ocf
         {:
             /* RefExpr: mixfix=false, explicit=false */
             RESULT = factory_.createCommunication(
@@ -4798,10 +4799,9 @@ communication ::=
             );
             addLocAnn(RESULT, dw.getLocation());
         :}
-        |
-        //TODO: Generic names on channels are known to be tricky (the production is being confused somehow. Leave for later.
+        |        
         /* Generic channels cannot be through synchronisation, hence commFields cannot be optional */
-        DECORWORD:dw LSQUARE expressionList:el RSQUARE commFields:cf
+        CHANNELNAME:dw LSQUARE expressionList:el RSQUARE commFields:cf
         {:
             /* RefExpr: mixfix=false, explicit=true */
             RESULT = factory_.createCommunication(
@@ -4814,6 +4814,22 @@ communication ::=
                 false                                     // not implicit
             );
             addLocAnn(RESULT, dw.getLocation());
+        :}
+        |
+        DECORWORD:dw error:e
+        {:
+           RESULT = factory_.createCommunication(
+                factory_.createRefExpr(createCircusName(dw)),  // channel name
+                factory_.createCircusFieldList(),         // empty communication fields
+                CommUsage.Normal,                         // channel communication usage
+                CommPattern.Mixed,                        // assume mixed
+                CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
+                false                                     // not implicit
+            );
+            addLocAnn(RESULT, dw.getLocation());
+            final Object[] params = { dw.getWord() };
+            parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
+                                params, dw.getLocation());                                
         :}
         ;
 
@@ -4841,65 +4857,41 @@ commFields ::=
 
 // Strangelly enough, this productions for FDR allows quite funny
 // rules, such as c?expr, or lamda and if terms within a communication pattern.
-// We decided to leave then out as they seem to be uncessary.
+// We decided to leave then out as they seem to be uncessary - they fall into an
+// ambigous part of the grammar that is allowed by the parser but catched by the
+// CSP_m compiler.
+//
+// With further analysis, and the FM08 paper of M.Leushel, it became clearer
+// that the FDR way of handling CSP_m is very tricky indeed. There are many
+// irregular and awkward cases. We have normalise them here. 
 commField ::=
         /**
-         * For fields, something very tricky happens: strokes!
-         * Channel names are just refName (hence DECORDWORD), which
-         * means strokes are scanned accordingly. 
-         * So, "c?x" is different from "c~?x" as:
-         * (DECORWORD, "c?"), (DECORDWORD, "x")and
-         * (DECORWORD, "c"), (INSTROKE, "?"), (DECORDWORD, "x").
+         * We perform smart scanning on communication (i.e., lookahead for
+         * PREFIXTHEN and PREFIXCOLON) to see how to treat the DECORWORDs.
+         * If they have strokes, we add the strokes to the token stack, then
+         * clear the strokes from the DECORWORD. The parser will then tokenise
+         * the token stream and raise the right errors, it any. 
          *
-         * In this situation we run out of luck because all possible
-         * solutions around it do create trouble somewhere else.
+         * That means, CHANNELNAME and FIELDNAME (the lookahead DECORWORDs)
+         * DO NOT HAVE any strokes. This solution is needed to cope with
+         * awkward cases in the combination of Z and CSP.
+         * ex: c??x!!.y!?z  --- (c?) ? (x!!) . (y!) ? (z)
          *
-         * Option 1) New Unicode for "?" (input field)
-         * ---------
-         *
-         * That means LaTeX typeset as: "c\commIn x". 
-         * This also incurrs change in the KeywordScanner (or ContextFreeScanner) 
-         * to recognise this new type of "word-glue".
-         *
-         * Option 2) Channel names without strokes
-         * ---------
-         *
-         * Doesn't change the fact the scanner will recognise "c?" as
-         * one DECORWORD, which means no good will be done here.
-         * This in fact is the harder solution, as it demands various
-         * chamnges in both ContextFree and Latex2Unicode scanners.
-         * As a consequence, everywhere that channel appear, require
-         * new productions for refName/declName and corresponding lists.
-         * ABSOLUTE NIGHTMARE! Forget it.
-         *
-         * Option 3) Using INSTROKE to represent input field
-         * ---------
-         *
-         * That means disapearing with CIRCCOMMQUERY (easy) and using
-         * INSTROKE instead. This does not require any change anywhere else.
-         * The price to pay, is that the LaTeX must have a hard space as "c~?x".
-         *
-         * That is somehow similar to what happens with DOT. The difference
-         * is that "?" and "!" are more complicated because they can be lexed
-         * as either part of a DECORWORD or as STROKES.
-         *      
-         * Option 4) Changing communication production to use CHANWORD
-         * ---------
-         *
-         * If we choose to change the scanner to use CHANWORD, which is 
-         * WORD + a selection of strokes only, this might be the closest
-         * tidiest and simplest solution. TODO:CHECK IT.
-         *
-         */
+         * The initial solution was to keep it as close to CSP and Z as possible
+         * and we needed to have special hard spaces at various places. But this
+         * did not solved the problem that output/dot fields were being confused
+         * with binding/tuple selection expressions, and only the type checker
+         * could distinguish what is what. That lead to the more sophisticated
+         * solution with no stroked names and smart scanning.         
         /* Input communicatio as in: c?x */
-        INSTROKE:in DECORWORD:dw
+        INSTROKE:in FIELDNAME:dw
         {:
             RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
-        :}
+        :}                
         |
         /* Input communicatio as in: c?x : P */
-        INSTROKE:in DECORWORD:dw PREFIXCOLON predicate:p
+        INSTROKE:in FIELDNAME:dw PREFIXCOLON LPAREN predicate:p RPAREN
         {:
             RESULT = factory_.createInputField(createCircusName(dw), p);
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
@@ -4914,18 +4906,48 @@ commField ::=
         |
         // Differently from FDR, we allow expressions to appear at dot fields as well.
         /* Output communicaion as in: c.e */
-        DOT:dt expression:e
-        {:
-            // TODO: Create loads of examples with this comparing it
-            //       with the dot field ambiguity.
-            //
-            //       That is mainly to say when should the DOT be treated
-            //       as a tuple selection or not. Surprisingly there was
-            //       no conflict, but maybe we might need some sort of
-            //       precedence setting for this.
-            // TODO:URGENT!
+        CHANNELDOT:dt expression:e
+        {:            
             RESULT = factory_.createDotField(e);
             addLocAnn(RESULT, getLocation(dt, e));
+        :}
+        |        
+        INSTROKE:in FIELDNAME:dw PREFIXCOLON error:e
+        {:
+            RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
+            addLocAnn(RESULT, getLocation(in, dw.getLocation()));
+            final Object[] params = { dw.getWord() };
+            parser.report_error(CircusParseMessage.MSG_COMMPATTERN_PREFIXCOLON_NOT_RECOGNISED,
+                                params, dw.getLocation());                                
+        :}
+        |
+        INSTROKE:in DECORWORD:dw error:e
+        {:
+            RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
+            addLocAnn(RESULT, getLocation(in, dw.getLocation()));
+            final Object[] params = { dw.getWord() };
+            parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
+                                params, dw.getLocation());                                
+        :}
+        |
+        CHANNELDOT:in DECORWORD:dw error:e
+        {:
+            RESULT = factory_.getCircusFactory().createDotField(
+              factory_.createRefExpr(createCircusName(dw)));
+            addLocAnn(RESULT, getLocation(in, dw.getLocation()));
+            final Object[] params = { dw.getWord() };
+            parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
+                                params, dw.getLocation());                                
+        :}
+        |
+        OUTSTROKE:in DECORWORD:dw error:e
+        {:
+            RESULT = factory_.getCircusFactory().createOutputField(
+              factory_.createRefExpr(createCircusName(dw)));
+            addLocAnn(RESULT, getLocation(in, dw.getLocation()));
+            final Object[] params = { dw.getWord() };
+            parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
+                                params, dw.getLocation());                                
         :}
         ;
         
@@ -4960,7 +4982,7 @@ command ::=
         /* Variable declaration 
          * TODO:DESIGN: shall variable declarations accept schema inclusion?
          */
-        CIRCVAR:cv declPart:dp SPOT circusAction:ca 
+        CIRCVAR:cv declPart:dp CIRCSPOT circusAction:ca 
         {:
             RESULT = factory_.createVarDeclCommand(dp, ca);
             addLocAnn(RESULT, getLocation(cv, ca));
@@ -5430,6 +5452,14 @@ refName ::=
            addLocAnn(RESULT, getLocation(iwleft, iwright));
         :}
         </add:oz>
+        <add:circus>
+        |
+        /* a field name can be an expression */
+        FIELDNAME:dw
+        {:
+           RESULT = createCircusName(dw);
+        :}
+        </add:circus>
         |
         LPAREN:lparen opName:on RPAREN:rparen
         {:
@@ -6089,18 +6119,48 @@ optCommunicationList ::=
         ;
 
 communicationList ::=
-        communicationList:cl COMMA communication:c
+        communicationList:cl COMMA chanSetComm:c
         {:      
            cl.add(c);
            RESULT = cl;
         :}
         |
-        communication:c
+        chanSetComm:c
         {:
            RESULT = factory_.list(c);
            RESULT.add(c);
         :}
         ;  
+        
+chanSetComm ::=
+        DECORWORD:dw LSQUARE expressionList:el RSQUARE
+        {:
+            RESULT = factory_.createCommunication(
+              factory_.createRefExpr(createCircusName(dw),     // channel name with generic parameters
+                  el, Boolean.FALSE, Boolean.TRUE), 
+                factory_.createCircusFieldList(),         // communication fields       
+                CommUsage.Generic,                        // channel communication usage
+                CommPattern.ChannelSet,                   // communication pattern
+                CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
+                false                                     // not implicit
+            );
+            addLocAnn(RESULT, dw.getLocation());
+        :}
+        |
+        DECORWORD:dw
+        {:
+            /* RefExpr: mixfix=false, explicit=false */
+            RESULT = factory_.createCommunication(
+                factory_.createRefExpr(createCircusName(dw)),  // channel name
+                factory_.createCircusFieldList(),      // communication fields
+                CommUsage.Normal,                         // channel communication usage
+                CommPattern.ChannelSet,                   // communication pattern,
+                CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
+                false                                     // not implicit
+            );
+            addLocAnn(RESULT, dw.getLocation());
+        :}
+        ;
 </add:circus>
 
 func_appl ::=
