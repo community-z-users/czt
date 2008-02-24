@@ -42,8 +42,34 @@ executable by the CZT animator, ZLive.
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: Give a brief overview of the grand challenge and introduce the
-Posix example. \cite{Hoa03}
+In~\cite{Hoa03}, Hoare proposes a grand challenge for computer
+science---a verifying compiler---and inspired researchers from all
+over the world to work jointly towards this ambitous goal.  The
+verified software repository~\cite{BicHoaWoo06} is a means to record
+and coordinate these efforts.  The repository contains an evolving
+collection of tools related to software verification as well as case
+studies.
+
+The pilot case studies for the verified software repository are
+carefully chosen.  They are sufficiently complex to be challenging and
+of industrial relevance but small enough to be completed within a few
+years.  They provide examples of specified and verified code and can
+be used as benchmarks to exercise and test current and future
+verification tools.
+
+The Mondex case study was tackled as a first challenge in 2006.
+Several teams using a variety of techniques and tools were working on
+a fully automated proof of the Mondex smart-card banking application.
+A verifiable filesystem has been proposed~\cite{JosHol07} as another
+mini challenge.  An initial small subset of POSIX was chosen and
+participants of the ABZ 2008 conference were challenged to contribute
+to this project.
+
+This paper discusses a simple framework for testing Z specifications.
+The framework has been used to test the first few levels of a
+refactored version of Morgan and Suffrin's original Z specification of
+the Posix file system. TODO: ...
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
