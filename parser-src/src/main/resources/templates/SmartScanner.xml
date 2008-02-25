@@ -73,7 +73,14 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   private boolean inBoxName = false;
 
 <add:circus>
-  private boolean debug_ = false;
+  private boolean debug_ = true;
+  
+  private static final int DEBUG_FEW    = 000;
+  private static final int DEBUG_FINE   = 100;
+  private static final int DEBUG_FINER  = 200;
+  private static final int DEBUG_FINEST = 300;
+  private static final int DEBUG_ALL    = 400;  
+  private int debugLevel = DEBUG_FEW;
   
   /**
    * Indicates whether the previous token is CIRCBEGIN - that is, if a
@@ -199,7 +206,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       if (inCircusBasicProcess &amp;&amp; inActionDef &amp;&amp; 
           !waitingPrefixThen &amp;&amp; isChannelName(result))
       {
-        debug("\tIn DECORWORD of a basic process after action def");        
+        debug("\tIn DECORWORD of a basic process after action def", DEBUG_FINER);
         
         // unfortunately, in the case of processes defined within the same
         // circus environment, there is no effecient way of discerning when
@@ -207,14 +214,14 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
         // circusaction environments, we can know when they finish by looking
         // for a END symbol. See isChannelName for details
         
-        debugFlags(result);        
+        debugFlags(result, DEBUG_FINEST);        
         assert checkChannelName(result) : "not valid channel name transformation in smart scanner at prefixing action";
       }
       //else if (inBasicChannelSet)
       //{        
       //  updateCommunicationInBasicChannelSetExpr(result);
       //  inBasicChannelSet = false;
-      //  debugFlags(result);
+      //  debugFlags(result, DEBUG_FINEST);
       //  assert checkChannelName(result) : "not valid channel name transformation in smart scanner at basic channel set expression";
       //}
       else 
@@ -295,7 +302,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
        // push the tokens back without changing any DECORWORD.
        pushList(tokens, false);  
 
-       debugFlags(result);
+       debugFlags(result, DEBUG_FINEST);
     }
     // if finishing a basic process, mark it fakse and not def. action yet
     else if (result.sym == Sym.CIRCEND)
@@ -304,7 +311,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
        inCircusActionEnv = false;
        inActionDef = false;       
        waitingPrefixThen = false;
-       debugFlags(result);
+       debugFlags(result, DEBUG_FINEST);
     }
     // if defining an action and within a basic process, mark def. action true
     // CIRCDEF might appear outside basic process - ex. other processes definitions.
@@ -312,7 +319,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     {       
        inActionDef = true;
        waitingPrefixThen = false;
-       debugFlags(result);
+       debugFlags(result, DEBUG_FINEST);
     }
     // if terminating some definition within a basic process, then 
     // mark def. action false. This only happens when we have circusaction 
@@ -323,7 +330,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
        inCircusActionEnv = false;
        inActionDef = false;
        waitingPrefixThen = false;
-       debugFlags(result);
+       debugFlags(result, DEBUG_FINEST);
     }
     // if within a multiple LaTeX environment basic process definition, 
     // switch the inCircusActionEnv true, and inActionDef is false.
@@ -350,7 +357,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       // push the tokens back without changing any DECORWORD.
       pushList(tokens, false);  
       
-      debugFlags(result);
+      debugFlags(result, DEBUG_FINEST);
     }    
     // When we find a PREFIXTHEN, reset its waiting flag. 
     // This is important to avoid problems when having chained prefixes.
@@ -358,14 +365,14 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     else if (result.sym == Sym.PREFIXTHEN) //&amp;&amp; inCircusBasicProcess
     {
       waitingPrefixThen = false;
-      debugFlags(result);
+      debugFlags(result, DEBUG_FINE);
     }
     // When declaring a basic channel set expression, change inner elements
     // DECORWORDs accordingly to CHANNELNAME and FIELDNAME.
     //else if (result.sym == Sym.LCIRCCHANSET)
     //{
     //  inBasicChannelSet = true;
-    //  debugFlags(result);
+    //  debugFlags(result, DEBIG_FINEST);
     //}  
     // Although the processing of DECORWORDs after a LCIRCCHANSET may reset
     // the inBasicChannelSet flag, we still need to cope with the empty case
@@ -373,7 +380,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     //else if (result.sym == Sym.RCIRCCHANSET)
     //{
     //  inBasicChannelSet = false;
-    //  debugFlags(result);
+    //  debugFlags(result, DEBIG_FINEST);
     //}
 </add:circus>    
     return result;
@@ -426,30 +433,52 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   }
   
 <add:circus>
-  private void debug(String s)
+  private void debug(String s, int level)
   {
-    if (debug_) { System.out.println(s); }
+    if (debug_ &amp;&amp; debugLevel >= level)
+    {       
+      System.out.println(s); 
+    }
   }
   
-  private void debugFlags(Symbol symbol)
+  private void debugFlags(Symbol symbol, int level)
   {
-    Throwable t = new Throwable();          
-    debug(symbol);
+    Throwable t = new Throwable();
+    debug(symbol, 1, level); // show who called debugFlags
     debug("\tBASIC_PROCESS_DEF = " + (inCircusBasicProcess ? "T" :"F") + 
                  "; ACTION_DEF = " + (inActionDef ? "T" : "F") +
           "; CIRCUS_ACTION_ENV = " + (inCircusActionEnv ? "T" : "F") +
           "; WAITING_PREFIXTHEN = " + (waitingPrefixThen ? "T" : "F") 
           // + "; IN_BASIC_CHANSET = " + (inBasicChannelSet ? "T" : "F")
-          + " at line " + t.getStackTrace()[1].getLineNumber() + " of " + t.getStackTrace()[1].getMethodName()
-          );
+          + " at line " + t.getStackTrace()[1].getLineNumber() + " of " + t.getStackTrace()[1].getMethodName(),
+          level);
   }
   
-  private void debug(Symbol symbol)
+  private void debug(Symbol symbol, int level)
+  { 
+    debug(symbol, 1, level); // show who called debugFlags
+  }
+  
+  private void debug(Symbol symbol, int throwableOffset, int level)
   {
+    Throwable t = new Throwable();
+    StackTraceElement[] steArray = t.getStackTrace();
+    StackTraceElement ste = steArray.length > (throwableOffset+1) ? steArray[throwableOffset + 1] : steArray[steArray.length-1];
     debug("\tSymbol " + symbol.sym + ": " + get_sym_info(symbol) + "[L" + symbol.left + ";R"+ symbol.right + "] - " + 
-        (symbol.value != null ? symbol.value.getClass() : "null value") + 
-        (symbol.value instanceof Decorword ? "\n\t" + ((Decorword)symbol.value).getLocation() : ""));
+        (symbol.value != null ? symbol.value.getClass() : "null value") +
+        " at line " + ste.getLineNumber() + " of " + ste.getMethodName(), level);
+        //+  (symbol.value instanceof Decorword ? "\n\t" + ((Decorword)symbol.value).getLocation() : ""));
   }  
+  
+  private void debug(List &lt; Symbol &gt; tokens, int level)
+  {
+    debug("***DEBUG-TOKENS-LIST-BEGIN", level);
+    for (int i = tokens.size() - 1; i >= 0; i--) 
+    {      
+      debug(tokens.get(i), 1, level);
+    }
+    debug("***DEBUG-TOKENS-LIST-END", level);
+  }
   
   /**
    * Channel name symbols cannot have strokes on its Decorword value.
@@ -543,6 +572,8 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     int withinGenActuals = 0;
     int withinParenExpr  = 0;
     
+    boolean changed = false;
+    
     for (int i = tokens.size() - 1; i >= 0; i--) 
     {
       Symbol symbol = tokens.get(i);
@@ -561,7 +592,8 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
         withinParenExpr  = symbol.sym == Sym.RPAREN ? withinParenExpr + 1 :
                            symbol.sym == Sym.LPAREN ? withinParenExpr - 1 :
                            withinParenExpr;
-                           
+                
+        debug("PUSH-COMM-SYM: P" + withinParenExpr + " G" + withinGenActuals + "   " + get_sym_info(symbol), DEBUG_FINE);
         // only change symbols whenever not within brackets 
         if (withinGenActuals == 0 &amp;&amp; withinParenExpr == 0)
         {
@@ -569,6 +601,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
           // and process any strokes found
           if (symbol.sym == Sym.DECORWORD)
           {
+            changed = true;
             symbol.sym = Sym.FIELDNAME;
             LinkedList &lt; Symbol &gt; strokes = new LinkedList&lt; Symbol &gt;();
             processDecorwordStrokes(strokes, symbol);
@@ -584,12 +617,17 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
           // if a DOT (output) field, change it accordingly.
           else if (symbol.sym == Sym.DOT)
           {
+            changed = true;
             symbol.sym = Sym.CHANNELDOT;
           }
         }        
       }
       dumb_.push(symbol);
-    }    
+    } 
+    if (changed)
+    {
+      debug(tokens, DEBUG_FINE);
+    }
   }
   
   /**
@@ -626,7 +664,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     // assume it is not channel name
     boolean result = false;    
     
-    debug(symbol);
+    debug(symbol, DEBUG_FINER);
     
     LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();    
     
@@ -636,15 +674,18 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   
     // while finding non Circus symbols, then carry on looking ahead    
     // and also, in case of a quite messy spec that reaches EOF too early
-    while (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) &amp;&amp; 
-           currsym.sym != Sym.EOF)
+    //
+    // PREFIXCOLON is a special case: we still need to look forward
+    while (currsym.sym == Sym.PREFIXCOLON ||
+           (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) &amp;&amp; 
+           currsym.sym != Sym.EOF))
     {    
       currsym = dumb_.pop();
       tokens.addLast(currsym);
     }
     
     // if found a Circus symbol, the result depends on what the symbol is.
-    result = (currsym.sym == Sym.PREFIXTHEN || currsym.sym == Sym.PREFIXCOLON);
+    result = (currsym.sym == Sym.PREFIXTHEN);// || currsym.sym == Sym.PREFIXCOLON);
     
     // update the calling symbol to become a channel name, adding any
     // strokes to the list of tokens. Repeated strokes (i.e. c??x) will 
@@ -654,7 +695,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       // update the symbol to be channel name and add any possible strokes
       symbol.sym   = Sym.CHANNELNAME;      
       processDecorwordStrokes(tokens, symbol);      
-      // debug(symbol); - debugFlags called outside will do it.
+      // debug(symbol, DEBUG_FINER); - debugFlags called outside will do it.
     }
       
     // push the tokens back, chaning them to FIELDNAME according to the result.
