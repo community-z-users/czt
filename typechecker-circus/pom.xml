@@ -9,7 +9,29 @@
   <artifactId>typechecker-circus</artifactId>
   <packaging>jar</packaging>
   <name>CZT Circus Typechecker</name>
+  <!-- 
+    changed IDE editor settings to use UTF-8, rather than windows-1252.
+    this was creating an error within the javac "unmappable character to UTF-8".
+  -->     
   <description>Provides classes for typechecking Circus specifications.</description>
+  <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>RELEASE</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>RELEASE</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
   <profiles>
         <profile>
             <id>netbeans-public</id>
