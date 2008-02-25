@@ -90,7 +90,9 @@
     <module>session</module>
     <module>typechecker</module>
     <module>typechecker-oz</module>
+<!--
     <module>typechecker-circus</module>
+-->
     <module>rules</module>
     <module>ui</module>
     <module>util</module>
@@ -242,6 +244,7 @@
         <type>test-jar</type>
         <scope>test</scope>
       </dependency>
+<!--
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>typechecker-circus</artifactId>
@@ -254,6 +257,7 @@
         <type>test-jar</type>
         <scope>test</scope>
       </dependency>
+-->
 
       <!-- CZT Rules -->
       <dependency>
