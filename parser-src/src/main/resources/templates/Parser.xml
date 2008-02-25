@@ -2616,7 +2616,7 @@ paragraphList ::=
            //    "tokens to be consumed, even if stored indirectly as in here.";           
            pl.addAll(ucpl);
            RESULT = pl;           
-           logProductionResult(RESULT, "MULTIPLE-CIRCUS-PARAGRAPH-LIST", null);
+           //logProductionResult(RESULT, "MULTIPLE-CIRCUS-PARAGRAPH-LIST", null);
         :}
 </add:circus>                
         |
@@ -3171,7 +3171,7 @@ circusMultiEnvParagraphList ::=
         CIRCUS:circ singleCircusParagraphItemList:ppl END:end
         {: 
            RESULT = ppl; 
-           logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-LIST", getLocation(circ, end));
+           //logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-LIST", getLocation(circ, end));
         :}
         |                
         CIRCUSACTION:circ circusInnerProcParaList:ppl END:end        
@@ -3713,7 +3713,7 @@ processPara ::=
            
            addLocAnn(RESULT, loc);
            checkStateDeclNotRepeated(RESULT);           
-           logProductionResult(RESULT, "PROCESS PARA " + from, loc);
+           //logProductionResult(RESULT, "PROCESS PARA " + from, loc);
            
            // if there were any warning collected for the list of paragraphs
            // declared outside the multiple environment scope, raise then
