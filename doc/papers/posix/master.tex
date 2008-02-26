@@ -233,15 +233,15 @@ of the operation being tested, followed by some information about the input
 and output values that are being tested.
 
 \begin{zsection}
-  \SECTION WedgeTests \parents wedge
+  \SECTION wedgeTests \parents wedge
 \end{zsection}
 
 \begin{theorem}{Wedge0Min}
-\vdash? \quad \lblot x==0, x'==0 \rblot \in Wedge
+\vdash? ~~ \lblot x==0, x'==0 \rblot \in Wedge
 \end{theorem}
 
 \begin{theorem}{Wedge0Max}
-\vdash? \quad \lblot x==0, x'==5 \rblot \in Wedge
+\vdash? ~~ \lblot x==0, x'==5 \rblot \in Wedge
 \end{theorem}
 
 Alternatively, we may prefer to group a set of tests together, and test
@@ -254,7 +254,7 @@ testing them all using a subset conjecture.
 \end{zed}
 
 \begin{theorem}{WedgePos}
-  \vdash? \quad \{Wedge0Min, Wedge0Max\} \subseteq Wedge
+  \vdash? ~~ \{Wedge0Min, Wedge0Max\} \subseteq Wedge
 \end{theorem}
 
 
@@ -277,20 +277,20 @@ Our conjecture naming convention is the same as for positive tests, but
 we prefix the name with $Not$ to indicate that it is a negative tests.
 
 \begin{zsection}
-  \SECTION NotWedgeTests \parents wedge
+  \SECTION notWedgeTests \parents wedge
 \end{zsection}
 
 \begin{theorem}{NotWedge0Neg}
-\vdash? \quad \lblot x==0, x'==\negate 1 \rblot \notin Wedge
+\vdash? ~~ \lblot x==0, x'==\negate 1 \rblot \notin Wedge
 \end{theorem}
 
 \begin{theorem}{NotWedge06}
-\vdash? \quad \lblot x==0, x'==6 \rblot \in \lnot Wedge
+\vdash? ~~ \lblot x==0, x'==6 \rblot \in \lnot Wedge
 \end{theorem}
 
 We can also test just the precondition of the operation.
 \begin{theorem}{NotWedgePre6}
-\vdash? \quad \lblot x==6 \rblot \notin \pre Wedge
+\vdash? ~~ \lblot x==6 \rblot \notin \pre Wedge
 \end{theorem}
 
 As we did for positive tests, we may also combine several negative tests
@@ -305,11 +305,11 @@ test suites check that 6 can never be an input for $Wedge$, and that 6 can
 never be an output of $Wedge$.
 
 \begin{theorem}{NotWedgeIn6}
-\vdash? \quad [State | x=6] \land Wedge = \emptyset
+\vdash? ~~ ([State | x=6] \land Wedge) = \emptyset
 \end{theorem}
 
 \begin{theorem}{NotWedgeOut6}
-\vdash? \quad [State' | x'=6] \land Wedge = \emptyset
+\vdash? ~~ ([State~' | x'=6] \land Wedge) = \emptyset
 \end{theorem}
 
 It is sometimes convenient to write these kinds of negative test values
@@ -319,9 +319,82 @@ which can make the tests even more concise.
 
 \subsection{Promoting Tests}
 
-TODO: introduce some testing theory in Z syntax and show how we can
-use membership, subset and schema conjunction and negation to 
-express positive tests and negative tests.
+A heavily-used pattern in the Posix Z specification is the use of
+\emph{promotion} to lift the operations of one data type up to work on a
+more complex data type.  It is useful to be able to promote the tests
+of those operations as well.  To illustrate an elegant way of doing this,
+we shall promote the $Wedge$ tests up to the following function space:
+
+\begin{zsection}
+  \SECTION manyStates \parents wedge
+\end{zsection}
+
+\begin{schema}{ManyStates}
+  states : \nat \fun \num
+\end{schema}
+
+\begin{schema}{\Phi ManyStates}
+  \Delta State \\
+  \Delta ManyStates \\
+  curr? : \nat
+\where
+  (curr? \mapsto x) \in states \\
+  states' = states \oplus \{curr? \mapsto x'\}
+\end{schema}
+
+We promote the $Wedge$ operation up to the $ManyStates$ level simply by
+conjoining $Wedge$ with the \emph{framing schema} $\Phi ManyStates$.
+The effect is to apply the $Wedge$ operation to just the $curr?$ element of
+the $states$ function. 
+
+\begin{zed}
+  ManyWedge == \Phi ManyStates \land Wedge
+\end{zed}
+
+
+We use the same framing schema to promote the tests.  But to ensure that
+all inputs of the promoted operation are given, we use a specialised
+version of the framing schema that also specifies a test value for the
+$curr?$ input.
+
+\begin{zsection}
+  \SECTION manyStatesTest \parents manyStates, wedgeTests
+\end{zsection}
+
+\begin{zed}
+  \Phi ManyStatesTest == [\Phi ManyStates; curr? == 1]
+\end{zed}
+
+\begin{theorem}{ManyWedgePos}
+  \vdash? ~~ (\{Wedge0Min, Wedge0Max\} \land \Phi ManyStatesTest)
+      \subseteq ManyWedge
+\end{theorem}
+
+In fact, this style of promoted test theorem will always be true,
+because for any test suite $OpTests$ of an operation $Op$,
+and any promoted operation defined as $Op_P == Op \land \Phi P$,
+it is true that:
+\[
+   (OpTests \in Op) \land (\Phi PTests \subseteq \Phi P)
+   \implies (OpTests \land \Phi PTests \subseteq Op_P)
+\]
+
+\textbf{Proof:} follows from the monotonicity of $\subseteq$ and schema
+conjunction.
+
+However, there is a possibility that some of the promoted tests
+will be inconsistent with the framing schema (either $\Phi P$ or $\Phi
+PTests$), which would mean that the set $OpTests \land \Phi PTests$
+would be empty or smaller than our original set of tests $Optests$.
+If we want to check that all of the original tests can be promoted without
+being lost, we can check the conjecture 
+$(OpTests \land \Phi PTests) = Optests$.
+
+If this is not true, we may want to check each test vector $v \in Optests$
+separately.  We can define the promoted vector as 
+$pv == (\mu \Phi PTests | \theta \{v\} = v)$.
+Then we can test $pv \in Op_P$. 
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
