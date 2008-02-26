@@ -57,21 +57,33 @@ public enum CircusParseMessage {
   
   MSG_COMMPATTERN_NOT_RECOGNISED("Channel or field name ''{0}'' in communication pattern could not be recognised"),
   MSG_COMMPATTERN_PREFIXCOLON_NOT_RECOGNISED("Possible missing parenthesis around predicate for input field ''{0}''"),
-  MSG_CIRCNAME_DOESNOT_ALLOW_STROKES("Circus name ''{0}'' does not accept strokes.");  
+  MSG_CIRCNAME_DOESNOT_ALLOW_STROKES("Circus name ''{0}'' does not accept strokes."),
+  
+  MSG_WRONG_NUMBER_FIELD_STROKES("Wrong number of fields in communication pattern." +
+      "\n\tChannel.: {0}" +
+      "\n\tExpected: {1}" +
+      "\n\tFound...: {2}", //+
+//      "\n\tSymbol..: {3}",
+    "\n\tThe number of fields in a communication pattern is determined by the right scanning " +
+    "\n\tof tokens, and a mismatch has been found. This usually happens due to missing parenthesis " +
+    "\n\tin output field expressions, or input field restriction predicates.")
+    //+ "\n\tIf the counters are negative, some processing error must have occurred at the SmartScanner.")
+  ;    
   
   private final String message_;
   private final String explanation_;
+  private boolean flagged_;
 
   CircusParseMessage(String message)
   {
-    message_ = message;
-    explanation_ = null;
+    this(message, null);
   }
 
   CircusParseMessage(String message, String explanation)
-  {
+  {    
     message_ = message;
     explanation_ = explanation;
+    flagged_ = false;
   }
 
   String getMessage()
@@ -81,6 +93,20 @@ public enum CircusParseMessage {
 
   String getExplanation()
   {
-    return explanation_;
-  }   
+    String result = explanation_;
+    flagged_ = true;
+    return result;
+  }
+  
+  boolean alreadyFlagged()
+  {
+    return flagged_;
+  }
+  
+  String getFullMessage()
+  {
+    String result = getMessage();
+    if (!flagged_) result += getExplanation();
+    return result;
+  }  
 }

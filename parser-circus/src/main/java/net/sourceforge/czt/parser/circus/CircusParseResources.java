@@ -21,7 +21,7 @@ public class CircusParseResources extends ListResourceBundle
     int i = 0;
     for (CircusParseMessage msg : CircusParseMessage.values()) {
       result[i][0] = msg.toString();
-      result[i][1] = msg.getMessage();
+      result[i][1] = msg.getFullMessage();
       i++;
     }
     return result;
