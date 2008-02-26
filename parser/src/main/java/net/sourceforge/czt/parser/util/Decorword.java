@@ -34,11 +34,14 @@ import net.sourceforge.czt.z.util.ZChar;
  */
 public class Decorword
 {
-  private Factory factory_ = new Factory();
+  // the factory can be static - Leo 
+  private final static Factory factory_ = new Factory();
   private String name_;
   private String word_;
   private ZStrokeList strokes_;
   private LocInfo locInfo_;
+  
+  private Object extraInfo_ = null;
 
   /**
    * @throws IllegalArgumentException if the list of strokes
@@ -129,6 +132,16 @@ public class Decorword
     return locInfo_;
   }
 
+  public <T> void setExtraInfo(T o)
+  {
+    extraInfo_ = o;
+  }
+  
+  public <T> T getExtraInfo()
+  {
+     return (T)extraInfo_;
+  }  
+  
   public String toString()
   {
     return name_;

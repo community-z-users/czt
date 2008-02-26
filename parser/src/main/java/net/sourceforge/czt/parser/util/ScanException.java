@@ -28,6 +28,7 @@ public class ScanException
   implements CztError
 {
   private LocInfo locInfo_;
+  private String symbolInfo_;
 
   /**
    * Constructs a new exception with the specified detail message
@@ -38,6 +39,18 @@ public class ScanException
     super(message);
     if (locInfo == null) throw new NullPointerException();
     locInfo_ = locInfo;
+    symbolInfo_ = null;
+  }
+  
+  public ScanException(String message, String symbol_info, LocInfo locInfo)
+  {
+    this(message, locInfo);
+    symbolInfo_ = symbol_info;
+  }
+  
+  public LocInfo getLocation()
+  {
+    return locInfo_;
   }
 
   public int getLine()
@@ -73,6 +86,11 @@ public class ScanException
   public String getInfo()
   {
     return null;
+  }
+  
+  public String getSymbolInfo()
+  {
+    return symbolInfo_;
   }
 
   public String toString()
