@@ -1718,7 +1718,7 @@ terminal LocInfo
         CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCSPOT, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, 
         PREFIXCOLON, CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING, 
         EXTCHOICE, REPEXTCHOICE, INTCHOICE, REPINTCHOICE, CIRCASSIGN, CIRCSIMULATES,
-        CHANNELDOT, _CIRCGUARD, _REPSEQ, 
+        CHANNELIN, CHANNELOUT, CHANNELDOT, _CIRCGUARD, _REPSEQ, 
         
         /* Note:
          *
@@ -1793,7 +1793,7 @@ terminal Decorword
         DEFNAME, OPNAME,
 </add:oz>
 <add:circus>
-        CHANNELNAME, FIELDNAME, 
+        CHANNELNAME, FIELDNAME, CHANNELERROR, 
 </add:circus>
         DECORWORD, DECLWORD;
 
@@ -2332,6 +2332,13 @@ precedence left         CHAN, SENSOR, ACTUATOR;
 </add:tcoz>
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
+<add:circus>
+// Just like FDR, we make ?/!/. fields right associative. Since the
+// smart scanner renames these tokens accordingly, we can now do it.
+// So far, it seems irrelevant --- couldn't find a example where it 
+// made a difference yet. This is harmless.
+precedence right        CHANNELIN, CHANNELOUT, CHANNELDOT;
+</add:circus>
 precedence left         _RENAME;
 <add:pattern>
 precedence left         RULELINE;
@@ -2348,7 +2355,13 @@ precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
 precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
 </add:circus>
-precedence left         DECORWORD <add:oz>, INITWORD</add:oz>;
+precedence left         DECORWORD                        
+                        <add:circus>
+                          // Do we need to add these precedences for Circus?
+                          // adding just for consistency wrt DECORWORD
+                          , CHANNELNAME, FIELDNAME, CHANNELERROR
+                        </add:circus>
+                        <add:oz>, INITWORD</add:oz>;
 
 
 /// specifications /////////////////////////////////////////////////////////
@@ -4816,6 +4829,28 @@ communication ::=
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
+        CHANNELERROR:ce error:e
+        {:
+           LocInfo loc = ce.getLocation();
+           RESULT = factory_.createCommunication(
+                factory_.createRefExpr(createCircusName(ce)),  // channel name
+                factory_.createCircusFieldList(),         // empty communication fields
+                CommUsage.Normal,                         // channel communication usage
+                CommPattern.Mixed,                        // assume mixed
+                CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
+                false                                     // not implicit
+            );            
+            addLocAnn(RESULT, loc);
+            Pair&lt;Integer, Integer&gt; counters = ce.getExtraInfo();
+            if (counters == null)
+            {
+              counters = new Pair&lt;Integer, Integer&gt;(-1, -1);
+            }
+            final Object[] params = { ce.getWord(), counters.getFirst(), counters.getSecond() };
+            parser.report_error(CircusParseMessage.MSG_WRONG_NUMBER_FIELD_STROKES,
+                                params, loc);
+        :}
+        |
         DECORWORD:dw error:e
         {:
            RESULT = factory_.createCommunication(
@@ -4884,21 +4919,21 @@ commField ::=
          * could distinguish what is what. That lead to the more sophisticated
          * solution with no stroked names and smart scanning.         
         /* Input communicatio as in: c?x */
-        INSTROKE:in FIELDNAME:dw
+        CHANNELIN:in FIELDNAME:dw
         {:
             RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
         :}                
         |
         /* Input communicatio as in: c?x : P */
-        INSTROKE:in FIELDNAME:dw PREFIXCOLON LPAREN predicate:p RPAREN
+        CHANNELIN:in FIELDNAME:dw PREFIXCOLON LPAREN predicate:p RPAREN
         {:
             RESULT = factory_.createInputField(createCircusName(dw), p);
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
         :}
         |
         /* Output communicatio as in: c!e */
-        OUTSTROKE:out expression:e
+        CHANNELOUT:out expression:e
         {:
             RESULT = factory_.getCircusFactory().createOutputField(e);
             addLocAnn(RESULT, getLocation(out, e));
@@ -4911,8 +4946,16 @@ commField ::=
             RESULT = factory_.createDotField(e);
             addLocAnn(RESULT, getLocation(dt, e));
         :}
-        |        
-        INSTROKE:in FIELDNAME:dw PREFIXCOLON error:e
+        |     
+        /* 
+         * This production catches the case where parenthesis around the predicate
+         * were missing. The same is not possible for OUTSTROKE/CHANNELDOT because
+         * there isn't any special symbol before the production - and we don't want
+         * to mess around with the very complex 'expression' production. 
+         *
+         * See the SmartScanner.pushCommPatternList for more details on this.
+         */
+        CHANNELIN:in FIELDNAME:dw PREFIXCOLON error:e
         {:
             RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
@@ -4921,7 +4964,7 @@ commField ::=
                                 params, dw.getLocation());                                
         :}
         |
-        INSTROKE:in DECORWORD:dw error:e
+        CHANNELIN:in DECORWORD:dw error:e
         {:
             RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
@@ -4940,7 +4983,7 @@ commField ::=
                                 params, dw.getLocation());                                
         :}
         |
-        OUTSTROKE:in DECORWORD:dw error:e
+        CHANNELOUT:in DECORWORD:dw error:e
         {:
             RESULT = factory_.getCircusFactory().createOutputField(
               factory_.createRefExpr(createCircusName(dw)));

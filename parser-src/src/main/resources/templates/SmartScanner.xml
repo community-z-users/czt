@@ -73,14 +73,14 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   private boolean inBoxName = false;
 
 <add:circus>
-  private boolean debug_ = true;
+  private boolean debug_ = false;
   
   private static final int DEBUG_FEW    = 000;
   private static final int DEBUG_FINE   = 100;
   private static final int DEBUG_FINER  = 200;
   private static final int DEBUG_FINEST = 300;
   private static final int DEBUG_ALL    = 400;  
-  private int debugLevel = DEBUG_FEW;
+  private int debugLevel = DEBUG_FINE;
   
   /**
    * Indicates whether the previous token is CIRCBEGIN - that is, if a
@@ -150,6 +150,36 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
    */
   private boolean waitingPrefixThen = false;
   
+  /** the count on the number of strokes per field name changed must match.
+   * otherwise, we have more field names than strokes, which is a problem.
+   * this may happen whenever a expression in an output field is not 
+   * parenthesised. For input prefix restriction, this is not a problem 
+   * because the parser can add the spurious/erroneous production
+   * INSTROKE:in FIELDNAME:dw PREFIXCOLON error:e . For output/dot prefixing, 
+   * and input without PREFIXCOLON, we need to make this count.
+   *
+   * ex: without this cound "c!n1+1?x \then \Skip" is wrongly tokenised as:
+   *
+   *CHANNELNAME(c)
+   *OUTSTROKE
+   *FIELDNAME(n1)
+   *FIELDNAME(+)
+   *NUMERAL(1)
+   *INSTROKE
+   *FIELDNAME(x)
+   *PREFIXTHEN
+   *CIRCSKIP
+   *
+   * and later parsed as one OutField(ApplExpr(ApplExpr(ApplExpr(n1, +), 1?), x))
+   * that is: c!(((n1~(+))~1?)~x), which the typechecker will clearly give an error.
+   *
+   * we try to catch more cases at the scanning because we know there was more
+   * FIELDNAME tokens than XXXSTROKE tokens. That is, we count strokes and fields
+   * to see if they match. Note that expressions count as one output field.
+   */
+  private int strokeCount = 0;
+  private int fieldCount = 0;
+  
   /**
    * DECORWORDs within a BasicChannelSetExpr must be analysed just like in 
    * a communication of a prefixing action. That is because a BasicChannelSetExpr
@@ -215,7 +245,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
         // for a END symbol. See isChannelName for details
         
         debugFlags(result, DEBUG_FINEST);        
-        assert checkChannelName(result) : "not valid channel name transformation in smart scanner at prefixing action";
+        assert checkChannelName(result) : "not valid channel name transformation in smart scanner at prefixing action \n\t" + get_sym_info(result);
       }
       //else if (inBasicChannelSet)
       //{        
@@ -284,7 +314,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
        inCircusActionEnv = false;
        inActionDef = false;
        waitingPrefixThen = false;
-       
+              
        // lookahead to see if we find a CIRCSPOT after NL
        LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
        Symbol currsym = dumb_.pop();
@@ -448,9 +478,11 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     debug("\tBASIC_PROCESS_DEF = " + (inCircusBasicProcess ? "T" :"F") + 
                  "; ACTION_DEF = " + (inActionDef ? "T" : "F") +
           "; CIRCUS_ACTION_ENV = " + (inCircusActionEnv ? "T" : "F") +
-          "; WAITING_PREFIXTHEN = " + (waitingPrefixThen ? "T" : "F") 
-          // + "; IN_BASIC_CHANSET = " + (inBasicChannelSet ? "T" : "F")
-          + " at line " + t.getStackTrace()[1].getLineNumber() + " of " + t.getStackTrace()[1].getMethodName(),
+          "; WAITING_PREFIXTHEN = " + (waitingPrefixThen ? "T" : "F") +
+          "; FIELD_COUNT = " + fieldCount +
+          "; STROKE_COUNT = " + strokeCount +
+          //"; IN_BASIC_CHANSET = " + (inBasicChannelSet ? "T" : "F") +
+          " at line " + t.getStackTrace()[1].getLineNumber() + " of " + t.getStackTrace()[1].getMethodName(),
           level);
   }
   
@@ -485,7 +517,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
    */
   private boolean checkChannelName(Symbol symbol)
   {
-    return (symbol.sym == Sym.CHANNELNAME &amp;&amp; 
+    return ((symbol.sym == Sym.CHANNELNAME || symbol.sym == Sym.CHANNELERROR) &amp;&amp; 
           (symbol.value instanceof Decorword) &amp;&amp; 
           ((Decorword)symbol.value).getStrokes().isEmpty());
   } 
@@ -496,11 +528,11 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
    */
   private Symbol toToken(Stroke stroke, int left, int right)
   {
-    if (stroke instanceof InStroke) {
-      return new Symbol(Sym.INSTROKE, left, right);
+    if (stroke instanceof InStroke) {      
+      return new Symbol(Sym.CHANNELIN, left, right);
     }
     else if (stroke instanceof OutStroke) {
-      return new Symbol(Sym.OUTSTROKE, left, right);
+      return new Symbol(Sym.CHANNELOUT, left, right);
     }
     else if (stroke instanceof NextStroke) {
       return new Symbol(Sym.NEXTSTROKE, left, right);
@@ -549,6 +581,9 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
         sym = toToken(s, symbol.left, symbol.right+dwSize);
         //tp.push(sym);
         tokens.addFirst(sym);
+        
+        // count flatten strokes 
+        strokeCount ++;
 
         // remove the offset size of each stroke.
         dwSize--;
@@ -574,9 +609,12 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     
     boolean changed = false;
     
+    Symbol symbol = null;
+    Symbol previousSymbolOnStack = null;
+    
     for (int i = tokens.size() - 1; i >= 0; i--) 
     {
-      Symbol symbol = tokens.get(i);
+      symbol = tokens.get(i);
       
       // check whether to consider changing DECORWORDs or not.
       if (isChannelName)
@@ -593,8 +631,11 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
                            symbol.sym == Sym.LPAREN ? withinParenExpr - 1 :
                            withinParenExpr;
                 
-        debug("PUSH-COMM-SYM: P" + withinParenExpr + " G" + withinGenActuals + "   " + get_sym_info(symbol), DEBUG_FINE);
-        // only change symbols whenever not within brackets 
+        debug("PUSH-COMM-SYM: P" + withinParenExpr + " G" + withinGenActuals + 
+              " F" + fieldCount + " S" + strokeCount + "  " + 
+              get_sym_info(symbol), DEBUG_FINE);
+        
+        // change symbols only when not within brackets 
         if (withinGenActuals == 0 &amp;&amp; withinParenExpr == 0)
         {
           // if it is a DECORWORRD, change it to a FIELDNAME
@@ -602,27 +643,71 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
           if (symbol.sym == Sym.DECORWORD)
           {
             changed = true;
-            symbol.sym = Sym.FIELDNAME;
+            // count field change
+            fieldCount++;            
+            symbol.sym = Sym.FIELDNAME;            
+            
+            // process (flatten) field name strokes into the token stack
             LinkedList &lt; Symbol &gt; strokes = new LinkedList&lt; Symbol &gt;();
             processDecorwordStrokes(strokes, symbol);
 
             // add the field's strokes to the dumb_ TokenStack.
-            Symbol strokeSymbol;
+            Symbol strokeSymbol;            
             for (int j = strokes.size() - 1; j >= 0; j--) 
             {          
               strokeSymbol = strokes.get(j);
               dumb_.push(strokeSymbol);
-            }          
+            }            
           }
-          // if a DOT (output) field, change it accordingly.
+          // if a DOT (output/input) field, change it accordingly and count strokes
           else if (symbol.sym == Sym.DOT)
           {
             changed = true;
+            strokeCount++;
             symbol.sym = Sym.CHANNELDOT;
           }
+          else if (symbol.sym == Sym.INSTROKE)
+          {
+            changed = true;
+            strokeCount++;
+            symbol.sym = Sym.CHANNELIN;
+          }
+          else if (symbol.sym == Sym.OUTSTROKE)
+          {
+            changed = true;
+            strokeCount++;
+            symbol.sym = Sym.CHANNELOUT;
+          }
+          // if closing the last parenthesis of a field expression,
+          // or if the field expression is a number (special case 
+          // of expression where parenthesis are not mandatory),
+          // then consider the whole expression as a fieldCount
+          //
+          // ex: c.0 \then \Skip 
+          else if (symbol.sym == Sym.LPAREN || 
+                   symbol.sym == Sym.NUMERAL)
+          {
+            fieldCount++;
+          }
+          // on the other hand, in the case of a prefix colon, we need
+          // to ignore one such counts, since it also requires a parenthesis
+          // ex: c?x \prefixcolon (x > 0)!(x+1) \then \Skip
+          //     counts as one field: x; (x+1) 
+          //     shouldn't be counted: (x>0)
+          else if (symbol.sym == Sym.PREFIXCOLON &amp;&amp; 
+                   previousSymbolOnStack != null &amp;&amp;
+                   previousSymbolOnStack.sym == Sym.LPAREN)
+          {
+            fieldCount--;
+          }              
         }        
       }
       dumb_.push(symbol);
+      
+      // save previous symbol so that we know how to count field names.
+      // that is, if previousSymbolOnStack is LPAREN, and we hit PREFIXCOLON
+      // the parenthesis was for a predicate on an input prefix
+      previousSymbolOnStack = symbol;
     } 
     if (changed)
     {
@@ -705,7 +790,29 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     // until that point, there is no need to search for DECORWORDs
     // to be changed as CHANNELNAME. This may happen within fields with
     // complex expressions. (e.g., read?i!(ring~i) \then Skip, DECORWORD("ring")).
-    waitingPrefixThen = result;    
+    waitingPrefixThen = result;
+    
+    if (result &amp;&amp; fieldCount != strokeCount)
+    {      
+      symbol.sym = Sym.CHANNELERROR;            
+      Decorword channelName = (Decorword)symbol.value;
+      
+      // if this is a Decorword, add the information to it
+      if (channelName != null)
+      {
+        channelName.setExtraInfo(new Pair&lt;Integer, Integer&gt;(strokeCount, fieldCount));
+      }      
+      debug(symbol, DEBUG_FEW);
+      //warningManager_ = new WarningManager(<class/>);
+      //warningManager_.warn(WarningMessage.WRONG_NUMBER_FIELD_STROKES, 
+      //  channelName, strokeCount, fieldCount, get_sym_name(symbol), 
+      //  channelName != null ? channelName.getLocation() : 
+      //    new LocInfoImpl(null, symbol.left, symbol.right));      
+    }    
+    
+    // reset  stroke and field name count
+    strokeCount = 0;
+    fieldCount = 0;
     
     // return the result to the next_token() call    
     return result;
