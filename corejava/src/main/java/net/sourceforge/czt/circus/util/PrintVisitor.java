@@ -411,12 +411,12 @@ public class PrintVisitor
   
   public String visitRefExpr(RefExpr term)
   {
-    StringBuilder result = new StringBuilder("RefExpr{");
+    StringBuilder result = new StringBuilder("RefExpr(");
     result.append(visit(term.getName()));
     result.append(visitList(term.getZExprList(), "[", ", ", "]"));
-    result.append(", MF=" +term.getMixfix());
-    result.append(", EX=" +term.getExplicit());
-    result.append("}");
+    result.append(term.getMixfix() ? ", MF=T" : "");
+    result.append(term.getExplicit() ? ", EX=T" : "");
+    result.append(")");
     //addNLAndTabs(result);
     return result.toString();
   }
@@ -741,7 +741,7 @@ public class PrintVisitor
   public String visitDotField(DotField term)
   {
     boolean isOutputField = term.getAnn(OutputFieldAnn.class) != null;
-    return (isOutputField ? "~!" : "~.") + visit(term.getExpr());
+    return (isOutputField ? "!" : ".") + visit(term.getExpr());
   }
   
   public String visitCallAction(CallAction term)
