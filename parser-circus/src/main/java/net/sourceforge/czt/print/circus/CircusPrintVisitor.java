@@ -609,8 +609,7 @@ public class CircusPrintVisitor
     
     public Object visitCommunication(Communication term) {
         //boolean needHardSpace = term.getChannelExpr().getZExprList().isEmpty();
-        visit(term.getChannelExpr());
-        printDecorword("~");//hard space please
+        visit(term.getChannelExpr());      
         visit(term.getFieldList());
         return null;
     }
