@@ -56,6 +56,7 @@ public class PrintVisitor
              SignatureVisitor<String>,
              TypeAnnVisitor<String>,
              ZNameVisitor<String>,
+             ZNameListVisitor<String>,
              ZNumeralVisitor<String>,
              ZStrokeListVisitor<String>,
              LocAnnVisitor<String>,
@@ -109,6 +110,11 @@ public class PrintVisitor
   {
     printUnicode_ = unicode;
     printIds_ = false;
+  }
+  
+  public String visitZNameList(ZNameList term)
+  {
+    return visitList(term, ", ");
   }
 
   public String visitGenericType(GenericType genericType)
