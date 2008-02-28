@@ -420,7 +420,7 @@ abstract public class Checker<R>
    */
   protected String sectName()
   {
-    return typeChecker_.sectName_.toString();
+    return typeChecker_.getSectName().toString();
   }
   
   /**
@@ -428,8 +428,8 @@ abstract public class Checker<R>
    */
   protected void setSectName(String sectName)
   {
-    typeChecker_.sectName_.replace(0, typeChecker_.sectName_.length(),
-      sectName);
+    //typeChecker_.sectName_.replace(0, typeChecker_.sectName_.length(), sectName);
+    typeChecker_.setSectName(sectName);
   }
   
   /**

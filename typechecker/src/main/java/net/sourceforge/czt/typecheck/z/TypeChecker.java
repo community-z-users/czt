@@ -112,7 +112,7 @@ public class TypeChecker
   protected SectionManager sectInfo_;
 
   //for storing the name of the current section
-  protected StringBuffer sectName_ = new StringBuffer("Specification");
+  private StringBuffer sectName_ = new StringBuffer("Specification");
 
   //the list of errors thrown by retrieving type info
   protected List<ErrorAnn> errors_;
@@ -180,6 +180,16 @@ public class TypeChecker
     postChecker_ = new PostChecker(this);
     charTupleChecker_ = new CharTupleChecker(this);
   }
+  
+  protected void setSectName(String sectName)
+  {
+    sectName_.replace(0, sectName_.length(), sectName);
+  }
+  
+  protected String getSectName()
+  {
+    return sectName_.toString();
+  }
 
   /**
    * <p>
@@ -200,16 +210,16 @@ public class TypeChecker
   protected void setPreamble(String sectName, SectionManager sectInfo)
   {
     if (sectName != null && sectInfo != null) {
-      sectName_.replace(0, sectName_.length(), sectName);
-      sectTypeEnv_.setSection(sectName_.toString());
+      setSectName(sectName);
+      sectTypeEnv_.setSection(getSectName().toString());
 
       SectTypeEnvAnn sectTypeEnvAnn = null;
       try {
-        sectTypeEnvAnn = (SectTypeEnvAnn) sectInfo.get(new Key(sectName_.toString(),
+        sectTypeEnvAnn = (SectTypeEnvAnn) sectInfo.get(new Key(getSectName().toString(),
                                                                SectTypeEnvAnn.class));
       }
       catch (CommandException e) {
-        logger_.warning("Could not parse and typecheck parent section " + sectName_.toString() +
+        logger_.warning("Could not parse and typecheck parent section " + getSectName().toString() +
           " because a command exception was thrown: " + e);
       }
       if (sectTypeEnvAnn != null) {
