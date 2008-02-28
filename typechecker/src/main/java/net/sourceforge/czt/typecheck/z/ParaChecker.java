@@ -259,19 +259,13 @@ public class ParaChecker
    */
   public Signature visitZSchText(ZSchText zSchText)
   {
-    //the list of Names declared in this schema text
-    List<NameTypePair> gPairs = factory().list();
-
     //get and visit the list of declarations
-    DeclList declList = zSchText.getDeclList();
+    DeclList declList = zSchText.getDeclList();    
     List<NameTypePair> pairs = declList.accept(declChecker());
-    for (NameTypePair pair : pairs) {
-      ZName gName = pair.getZName();
-      Type gType = addGenerics((Type2) pair.getType());
-      NameTypePair gPair = factory().createNameTypePair(gName, gType);
-      gPairs.add(gPair);
-    }
-
+    
+    //the list of Names declared in this schema text
+    List<NameTypePair> gPairs = addGenerics(pairs);        
+    
     pending().enterScope();
     pending().add(gPairs);
 

@@ -516,6 +516,121 @@ abstract public class Checker<R>
   }
   
   /**
+   * Return the result result of the typechecking process -- FALSE if
+   * there are any error messages, TRUE otherwise.
+   */
+  protected Boolean getResult()
+  {
+    Boolean result = Boolean.TRUE;
+    if (errors().size() > 0) {
+      result = Boolean.FALSE;
+    }
+    return result;
+  }
+  
+  /** 
+   * <p>
+   * General type checking method for ZSect terms.
+   * Refactored from z.SpecChecker.visitZSect into a separate method.
+   * This enables reuse of functionality for other extensions, say
+   * when overriding the setSectName method to be properly implemented.
+   * For instance, Circus has a warning manager that needs to know when
+   * the current section being typechecked so that the pretty printing of
+   * the warning message arguments can be done.
+   * </p>
+   * @param zSect the Z section term to typecheck
+   * @return the typpes declared by the given zSect parameter
+   */
+  protected List<NameSectTypeTriple> checkZSect(ZSect zSect)
+  {
+    final String prevSectName = sectName();
+
+    //set the section name
+    setSectName(zSect.getName());
+
+    //set the markup for this section
+    setMarkup(zSect);
+
+    //if this section has already been declared, raise an error
+    if (sectTypeEnv().isChecked(sectName()) &&
+        !sectTypeEnv().getUseNameIds()) {
+      Object [] params = {zSect.getName()};
+      error(zSect, ErrorMessage.REDECLARED_SECTION, params);
+    }
+
+    //set this as the new section in SectTypeEnv
+    sectTypeEnv().setSection(sectName());
+
+    //get and visit the parent sections of the current section
+    List<Parent> parents = zSect.getParent();
+    List<String> names = factory().list();
+    for (Parent parent : parents) {
+      parent.accept(specChecker());
+      if (names.contains(parent.getWord())) {
+        Object [] params = {parent.getWord(), sectName()};
+        error(parent, ErrorMessage.REDECLARED_PARENT, params);
+      }
+      else if (parent.getWord().equals(sectName())) {
+        Object [] params = {parent.getWord()};
+        error(parent, ErrorMessage.SELF_PARENT, params);
+      }
+      else {
+        names.add(parent.getWord());
+      }
+    }
+
+    //get and visit the paragraphs of the current section
+    zSect.getParaList().accept(this);
+
+    if ((useBeforeDecl() && sectTypeEnv().getSecondTime()) ||
+        sectTypeEnv().getUseNameIds()) {
+      try {
+        SectTypeEnvAnn sectTypeEnvAnn =
+          (SectTypeEnvAnn) sectInfo().get(new Key(sectName(), SectTypeEnvAnn.class));
+        assert sectTypeEnvAnn != null;
+        sectTypeEnv().overwriteTriples(sectTypeEnvAnn.getNameSectTypeTriple());
+      }
+      catch (CommandException e) {
+        assert false : "No SectTypeEnvAnn for " + sectName();
+      }
+    }
+    else {
+      SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
+      sectInfo().put(new Key(sectName(), SectTypeEnvAnn.class),
+                     sectTypeEnvAnn, new java.util.HashSet());
+    }
+
+    if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
+      errors().clear();
+      paraErrors().clear();
+      removeErrorAndTypeAnns(zSect);
+      sectTypeEnv().setSecondTime(true);
+      zSect.accept(specChecker());
+    }
+    else {
+      sectTypeEnv().setSecondTime(false);
+    }
+
+    //annotate this section with the type info from this section
+    //and its parents
+    SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
+    addAnn(zSect, sectTypeEnvAnn);
+
+    setSectName(prevSectName);
+    sectTypeEnv().setSection(sectName());
+
+    //get the result and return it
+    Boolean typecheckResult = getResult();
+    if (typecheckResult == Boolean.FALSE) {
+      removeTypeAnns(zSect);
+    }
+
+    //create the SectTypeEnvAnn and add it to the section information
+    List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
+    return result;
+  }
+    
+  /**
    * Criteria for need of post checking.
    * Refactored from z.SpecChecker.visitZParaList as boolean expression
    * to be reused by other implementations, for instance, the post checking
@@ -1318,16 +1433,49 @@ abstract public class Checker<R>
     }
     return newTypes;
   }
-  
-  //if there are generics in the current type env, return a new
-  //GenericType with this Type2 as the type
+   
+  /**
+   * Add generic types (i.e., wrap up the given type as a generic type of those
+   * in the type environment) if necessary - not resolve them yet. That is, if
+   * typeEnv().getParameters().size() != 0 create a GenericType with null optional
+   * type (i.e., generic actuals have not been resolved yet. Otherwise, if
+   * typeEnv().getParameters().size() == 0, just return the given type.
+   * @param type the type to possibly wrap around as a generic type
+   * @return the possibly modified type.
+   */  
   protected Type addGenerics(Type2 type)
   {
+    //if there are generics in the current type env, return a new
+    //GenericType with this Type2 as the type
     List<ZName> params = typeEnv().getParameters();
     Type result = params.size() == 0
       ? type
       : factory().createGenericType(factory().createZNameList(params), type, null);
     return result;
+  }
+  
+  /**
+   * Check whether to wrap the list of name type pairs as generic types.
+   * This method simply calls #addGenerics(Type2).
+   * @param pairs the name type pairs to search for generic type wrapping.
+   * @return the list of name type pairs possibly wrapped as generic if needed.
+   */
+  protected List<NameTypePair> addGenerics(List<NameTypePair> pairs)
+  { 
+    List<NameTypePair> gPairs = factory().list();
+    for (NameTypePair pair : pairs) {
+      ZName gName = pair.getZName();
+      Type gType = pair.getType();
+      // as the only Type that is not Type2 is GenericType, 
+      // then add generics only if the pair type is a Type2      
+      if (gType instanceof Type2)
+      {
+        gType = addGenerics((Type2) gType);
+      }
+      NameTypePair gPair = factory().createNameTypePair(gName, gType);
+      gPairs.add(gPair);
+    }
+    return gPairs;
   }
   
   //add generic types from a list of Names to the TypeEnv
