@@ -1548,8 +1548,8 @@
               <ul>
                 <li>a) non-null (possibly empty) signature of param or indexes of a process </li>
                 <li>b) non-null (possibly empty) signature of process state (empty = default state as [ | true]).</li>
-                <li>c) non-null (possibly empty) signature used channels as list of name type pairs within Signature.</li>
-                <li>d) non-null (possibly empty) signature used name sets as list of name type pairs within Signature.</li>              
+                <li>c) non-null (possibly empty) signature used channels as list of name type pairs within Signature - generic channels may have multiple entries with their instantiated types</li>
+                <li>d) non-null (possibly empty) signature used name sets as list of name type pairs within Signature.</li>                              
               </ul>
             </li>
             <li>
@@ -1560,10 +1560,10 @@
               ActionSignatureList getActionSignatures() = getSignatureList().get(2) (for BasicProcessSignature only)
             </li> 
             <li>
-              CircusCommunicationList getUsedCommunication() (for BasicProcessSignature only)            
+              CircusCommunicationList getUsedCommunication() 
             </li> 
             <li>
-              ZNameList getTransformerParaName() (for BasicProcessSignature only)            
+              ZNameList getTransformerParaName() (for BasicProcessSignature only)
             </li> 
           </ul>
         </p>
