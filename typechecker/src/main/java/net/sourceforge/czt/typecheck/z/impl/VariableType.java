@@ -185,6 +185,7 @@ public class VariableType
     if (getValue() != this) {
       return getValue().accept(v);
     }
-    throw new IllegalArgumentException();
+    return super.accept(v);
+    //throw new IllegalArgumentException();
   }
 }

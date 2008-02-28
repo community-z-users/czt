@@ -57,14 +57,24 @@ public class Factory
 
   public Factory()
   {
-    zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    factory_ = new net.sourceforge.czt.z.util.Factory(zFactory_);
+    this(new net.sourceforge.czt.z.impl.ZFactoryImpl());     
   }
 
   public Factory(ZFactory zFactory)
   {
-    zFactory_ = zFactory;    
-    factory_ = new net.sourceforge.czt.z.util.Factory(zFactory_);    
+    this(zFactory, new net.sourceforge.czt.z.util.Factory(zFactory));
+  }
+  
+  /**
+   * This constructor allows one to give a different util.Factory class,
+   * which will allow different extension factories to create the Z objects.
+   * @param zFactory
+   * @param factory
+   */
+  public Factory(ZFactory zFactory, net.sourceforge.czt.z.util.Factory factory)
+  {
+    zFactory_ = zFactory;
+    factory_ = factory;
   }
   
   public ZFactory getZFactory()
