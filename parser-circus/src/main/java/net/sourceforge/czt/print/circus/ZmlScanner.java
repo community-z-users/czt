@@ -19,10 +19,9 @@
 
 package net.sourceforge.czt.print.circus;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Iterator;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.print.z.ZmlScanner.SymbolCollector;
 
@@ -47,5 +46,10 @@ public class ZmlScanner
     CircusPrintVisitor visitor = new CircusPrintVisitor(collector, manager);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
+  }
+  
+  public ZmlScanner(Iterator<Token> iter)
+  {
+    super(iter);
   }
 }

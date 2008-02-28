@@ -19,36 +19,27 @@
 
 package net.sourceforge.czt.print.circus;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
-import net.sourceforge.czt.java_cup.runtime.Symbol;
-
+import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.session.SectionManager;
+
 
 public class UnicodePrinterCommand
-  implements Command
-{
-  public boolean compute(String name, SectionManager manager)
-    throws CommandException
+  extends net.sourceforge.czt.print.z.UnicodePrinterCommand
+{   
+  protected Term preprocess(Term term,
+                            SectionManager manager,
+                            String section)
+    throws PrintException
   {
-    try {
-      final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
-      PrintUtils.printUnicode(term, writer, manager);
-      writer.close();
-      manager.put(new Key(name, UnicodeString.class),
-                  new UnicodeString(writer.toString(), "circus"));
-      return true;
-    }
-    catch (IOException e) {
-      throw new CommandException(e);
-    }
+    PrintUtils.warningManager_.setCurrentSectName(section);
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager, PrintUtils.warningManager_);
+    return toPrintTree(toPrintTree, term, section);
+  }
+
+  protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
+  {
+    return new TokenSequenceVisitor(props, PrintUtils.warningManager_);
   }
 }
