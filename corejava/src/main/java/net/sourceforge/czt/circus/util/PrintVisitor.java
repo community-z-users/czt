@@ -442,12 +442,12 @@ public class PrintVisitor
 
   public String visitRefExpr(RefExpr term)
   {
-    StringBuilder result = new StringBuilder("RefExpr(");
+    boolean hasMixfix = term.getMixfix();
+    StringBuilder result = new StringBuilder(hasMixfix ? "RefExpr(" : "");      
     result.append(visit(term.getName()));
-    result.append(visitList(term.getZExprList(), "[", ", ", "]"));
-    result.append(term.getMixfix() ? ", MF=T" : "");
-    result.append(term.getExplicit() ? ", EX=T" : "");
-    result.append(")");
+    result.append(visitList(term.getZExprList(), "[", ", ", "]"));    
+    result.append(term.getExplicit() ? "_E_" : "");
+    result.append(hasMixfix ? ")" : "");
     //addNLAndTabs(result);
     return result.toString();
   }
@@ -630,8 +630,7 @@ public class PrintVisitor
 
     openTabScope(result);
     result.append("Used channels: ");
-    openTabScope(result);
-    addNLAndTabs(result);
+    openTabScope(result);    
     result.append(visitListNL(term.getUsedCommunications(), ","));
     closeTabScope(result);
     closeTabScope(result);
@@ -772,8 +771,7 @@ public class PrintVisitor
       result.append("_G_");
     }
     result.append(visit(term.getChannelExpr()));
-    result.append(visitList(term.getCircusFieldList(), ""));
-    result.append("]");
+    result.append(visitList(term.getCircusFieldList(), ""));    
     return result.toString();
   }
 
