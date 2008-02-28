@@ -53,7 +53,7 @@ public class CommandChecker
   }
  
 //  // Command ::= N+ := Expression+
-//  //ok - verificado em 15/09/2005 às 15:15
+//  //ok - verificado em 15/09/2005 s 15:15
 //  public ActionSignature visitAssignmentCommand(AssignmentCommand term)
 //  {    
 //    assert term.getLHS() != null && term.getRHS() != null;
@@ -107,7 +107,7 @@ public class CommandChecker
 //  // Command ::= N+ : [Predicate, Predicate]
 //  // Command ::= [Predicate]
 //  // Command ::= {Predicate}
-//  //ok - verificado em 15/09/2005 às 15:17
+//  //ok - verificado em 15/09/2005 s 15:17
 //  public ActionSignature visitSpecStmtCommand(SpecStmtCommand term)
 //  {      
 //    ZRefNameList frameVars = term.getFrame() == null ? factory().createZRefNameList() : assertZRefNameList(term.getFrame());
@@ -141,7 +141,7 @@ public class CommandChecker
 //  }
 //
 //  // Command ::= if GuardedActions fi
-//  //ok - verificado em 15/09/2005 às 15:35
+//  //ok - verificado em 15/09/2005 ï¿½s 15:35
 //  public ActionSignature visitIfGuardedCommand(IfGuardedCommand term)
 //  {
 //    ActionSignature actionSignature = factory().createActionSignature();

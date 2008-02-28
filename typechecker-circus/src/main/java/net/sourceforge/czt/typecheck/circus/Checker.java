@@ -36,6 +36,7 @@ import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbol;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
@@ -152,6 +153,18 @@ public abstract class Checker<R>
   protected WarningManager warningManager()
   {
     return typeChecker_.warningManager_;
+  }
+  
+  protected void setMarkup(Markup markup)
+  {
+    super.setMarkup(markup);
+    warningManager().setMarkup(markup);
+  }
+  
+  protected void setSectName(String sectName)
+  {
+    super.setSectName(sectName);
+    warningManager().setCurrentSectName(sectName);
   }
   
   // TODO
@@ -609,9 +622,9 @@ public abstract class Checker<R>
    * indexOf. To retrieve the remainder of the product type from an offset, just call
    * getProdTypeProjection(type, offset, size - offset).
    */
-  protected Type2 getProdTypeProjection(ProdType type, int offset, int count)
+  protected Type2 getProdTypeProjection(List<Type2> prodTypes, int offset, int count)
   {
-    List<Type2> innerTypes = factory().list(type.getType().subList(offset, count));
+    List<Type2> innerTypes = factory().list(prodTypes.subList(offset, offset + count));
     assert !innerTypes.isEmpty() : "type projection resulted in an empty type.";
     Type2 result = innerTypes.size() > 1 ? factory().createProdType(innerTypes) : innerTypes.get(0);
 
@@ -1059,7 +1072,7 @@ public abstract class Checker<R>
 //    }
 //    return result;
 //  }
-  protected void error(Term term, ErrorMessage errorMsg, Object[] params)
+  protected void error(Term term, ErrorMessage errorMsg, Object... params)
   {
     ErrorAnn errorAnn = this.errorAnn(term, errorMsg, params);
     error(term, errorAnn);
@@ -1067,7 +1080,7 @@ public abstract class Checker<R>
 
   protected void error(Term term, ErrorMessage errorMsg, List<Object> params)
   {
-    error(term, errorMsg, params);
+    error(term, errorMsg, params.toArray());
   }
 
   @Override
@@ -1079,7 +1092,7 @@ public abstract class Checker<R>
     error(term, errorAnn);
   }
 
-  protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object[] params)
+  protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object... params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
       sectName(), nearestLocAnn(term),
@@ -1088,7 +1101,7 @@ public abstract class Checker<R>
   }
 
   @Override
-  protected ErrorAnn errorAnn(Term term, String error, Object[] params)
+  protected ErrorAnn errorAnn(Term term, String error, Object... params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
       sectName(), nearestLocAnn(term),

@@ -217,7 +217,7 @@ public class ActionChecker
    *
    *@law C.12.4, C.12.19
    */
-  //ok - verificado em 15/09/2005 às 17:02
+  //ok - verificado em 15/09/2005 ï¿½s 17:02
   public ActionSignature visitCallAction(CallAction term)
   {
     // NOTE: Most of this code follows the pattern from z.ExprChecker.visitRefExpr.
@@ -285,7 +285,7 @@ public class ActionChecker
     //{
     //  // tratamento especial para o caso de chamada recursiva
     //  List<NameTypePair> params = localCircTypeEnv().getActionInfo(actionDecl).getParams();
-    //  // chama um método auxiliar que irá verificar se a chamada está correta
+    //  // chama um mï¿½todo auxiliar que irï¿½ verificar se a chamada estï¿½ correta
     //  checkCallAction(term, params);
     //}
     }
@@ -632,14 +632,14 @@ public class ActionChecker
 
     return actionSignature;
   }
-//  //ok - verificado em 15/09/2005 às 17:02
+//  //ok - verificado em 15/09/2005 ï¿½s 17:02
 ////  public Object visitActionD(ActionD term)
 ////  { // Loop!      
 ////    return term.accept(actionChecker());
 ////  }
 //  
   // Action ::= \mu N @ Action
-  //ok - verificado em 15/09/2005 às 17:03
+  //ok - verificado em 15/09/2005 ï¿½s 17:03
   public ActionSignature visitMuAction(MuAction term)
   {
     ZName aName = term.getZName();
@@ -693,7 +693,7 @@ public class ActionChecker
 //  
 //  
 //  
-//  //ok - verificado em 15/09/2005 às 17:47
+//  //ok - verificado em 15/09/2005 s 17:47
 //  public ActionSignature visitActionIte(ActionIte term)
 //  {  
 //    ZDeclList decs = term.getZDeclList();
@@ -744,13 +744,13 @@ public class ActionChecker
 //  }
 //
 //  // Action ::= Declaration @ Action
-//  //ok - verificado em 15/09/2005 às 18:12
+//  //ok - verificado em 15/09/2005 s 18:12
 //  public ActionSignature visitParamAction(ParamAction term)
 //  {
 //  
 //// FROM old call action.    
 ////    if(assertZDeclName(actionDecl).getWord().startsWith("$$implicitAction_")) {
-////      // pegar da lista de ações implícitos, fazer a verificação e incluir no
+////      // pegar da lista de aï¿½ï¿½es implï¿½citos, fazer a verificaï¿½ï¿½o e incluir no
 ////      // TypeEnv!!
 ////      List<ActionPara> implicitActions = (List<ActionPara>)localCircTypeEnv().getOnTheFlyActions();
 ////      for(ActionPara implicitAction : implicitActions) {
@@ -760,7 +760,7 @@ public class ActionChecker
 ////      }
 ////    }
 ////    
-////    // verifica se é uma chamada a uma ação mu
+////    // verifica se ï¿½ uma chamada a uma aï¿½ï¿½o mu
 ////    if(isMuAction(actionDecl)) {
 ////      if(!(term.getZExprList().isEmpty())) {
 ////        Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), assertZDeclName(actionDecl).getWord()};
@@ -784,7 +784,7 @@ public class ActionChecker
 //      allPairs = checkDecls(allPairs, pairs, term, ErrorMessage.REDECLARED_PARAM_IN_ACTION, paramsError);
 //    }
 //    
-//    // atualiza informações sobre a ação
+
 //    ActionInfo actionInfo = localCircTypeEnv().getActionInfo(currentAction());
 //    actionInfo.setIsParam(true);
 //    actionInfo.setParams(allPairs);
@@ -804,7 +804,7 @@ public class ActionChecker
 //  }
 //  
 //  // existe ?!?
-//  //ok - verificado em 15/09/2005 às 17:50
+//  //ok - verificado em 15/09/2005 s 17:50
 ////  public Object visitParActionIte(ParActionIte term)
 ////  {
 ////    ActionSignature actionSignature = (ActionSignature)visitActionIte(term);
@@ -814,7 +814,7 @@ public class ActionChecker
 ////  }
 //  
 //  // Action ::= \Extchoice Declaration @ Action
-//  //ok - verificado em 15/09/2005 às 17:50
+//  //ok - verificado em 15/09/2005 s 17:50
 ////  public Object visitExtChoiceActionIte(ExtChoiceActionIte term)
 ////  {
 ////    ActionSignature actionSignature = (ActionSignature)visitActionIte(term);
@@ -824,7 +824,7 @@ public class ActionChecker
 ////  }
 ////  
 ////  // Action ::= \Intchoice Declaration @ Action
-////  //ok - verificado em 15/09/2005 às 17:50
+////  //ok - verificado em 15/09/2005 s 17:50
 ////  public Object visitIntChoiceActionIte(IntChoiceActionIte term)
 ////  {
 ////    ActionSignature actionSignature = (ActionSignature)visitActionIte(term);
@@ -834,7 +834,7 @@ public class ActionChecker
 ////  }
 ////
 ////  // Action ::= \Semi Declaration @ Action
-////  //ok - verificado em 15/09/2005 às 17:50
+////  //ok - verificado em 15/09/2005 s 17:50
 ////  public Object visitSeqActionIte(SeqActionIte term)
 ////  {
 ////    ActionSignature actionSignature = (ActionSignature)visitActionIte(term);
@@ -845,7 +845,7 @@ public class ActionChecker
 //
 //  // Action ::= \Parallel Declaration @ |[NSExpression | CSExpression]| Action
 //  // Action ::= \Parallel Declaration @ |[CSExpression]| Action
-//  //ok - verificado em 15/09/2005 às 17:52
+//  //ok - verificado em 15/09/2005 s 17:52
 //  public ActionSignature visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term)
 //  {
 //    ChanSetType typeCS = (ChanSetType)term.getChannelSet().accept(exprChecker());
@@ -863,7 +863,7 @@ public class ActionChecker
 //
 //  // Action ::= \Interleave Declaration @ Action
 //  // Action ::= \Interleave Declaration @ ||[NSExpression]|| Action
-//  //ok - verificado em 15/09/2005 às 17:53
+//  //ok - verificado em 15/09/2005 ï¿½s 17:53
 //  public ActionSignature visitInterleaveActionIte(InterleaveActionIte term)
 //  {
 //    NameSetType typeNS = (NameSetType)term.getNameSet().accept(exprChecker());
@@ -876,7 +876,7 @@ public class ActionChecker
 //
 //  // Action ::= |[CSExpression]| Declaration @ |[NSExpression]| Action
 //  // Action ::= |[CSExpression]| Declaration @ Action
-//  //ok - verificado em 15/09/2005 às 17:52
+//  //ok - verificado em 15/09/2005 s 17:52
 //  public ActionSignature visitParallelActionIte(ParallelActionIte term)
 //  {
 //    ChanSetType typeCS = (ChanSetType)term.getChannelSet().accept(exprChecker());
@@ -893,7 +893,7 @@ public class ActionChecker
 //  }
 //  
 //  // Action ::= Action \extchoice Action
-//  //ok - verificado em 15/09/2005 às 18:00
+//  //ok - verificado em 15/09/2005 s 18:00
 ////  public Object visitExtChoiceAction(ExtChoiceAction term)
 ////  {
 ////    ActionSignature actionSignature = (ActionSignature)visitAction2(term);
@@ -903,7 +903,7 @@ public class ActionChecker
 ////  }
 ////
 ////  // Action ::= Action \intchoice Action
-////  //ok - verificado em 15/09/2005 às 18:01
+////  //ok - verificado em 15/09/2005 s 18:01
 ////  public Object visitIntChoiceAction(IntChoiceAction term)
 ////  {
 ////    ActionSignature actionSignature = (ActionSignature)visitAction2(term);
@@ -913,7 +913,7 @@ public class ActionChecker
 ////  }
 ////
 ////  // Action ::= Action ; Action
-////  //ok - verificado em 15/09/2005 às 18:01
+////  //ok - verificado em 15/09/2005 s 18:01
 ////  public Object visitSeqAction(SeqAction term)
 ////  {
 ////    ActionSignature actionSignature = (ActionSignature)visitAction2(term);
@@ -923,7 +923,7 @@ public class ActionChecker
 ////  }
 ////  
 ////  //existe?!?
-////  //ok - verificado em 15/09/2005 às 18:02
+////  //ok - verificado em 15/09/2005 s 18:02
 ////  public Object visitParAction(ParAction term)
 ////  {
 ////    return visitAction2(term);
@@ -932,7 +932,7 @@ public class ActionChecker
 //
 //  // Action ::= Action |[CSExpression || CSExpression]| Action
 //  // Action ::= Action |[NSExpression | CSExpression || CSExpression | NSExpression]| Action
-//  //ok - verificado em 15/09/2005 às 18:
+//  //ok - verificado em 15/09/2005 s 18:
 //  public ActionSignature visitAlphabetisedParallelAction(AlphabetisedParallelAction term)
 //  {
 //    List<NameTypePair> allPairs = new ArrayList<NameTypePair>();

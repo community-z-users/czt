@@ -80,7 +80,7 @@ implements //CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
 //      {
 //        paramsOrIndexes = procSignature.getParamsOrIndexes().getNameTypePair();
 //      }
-//      // chama um método auxiliar que irá verificar se a chamada está correta
+//      // chama um mtodo auxiliar que ir verificar se a chamada est correta
 //      errorAnn = checkCallProcess(term, paramsOrIndexes);
 //    }
 //    return errorAnn;
@@ -356,7 +356,7 @@ implements //CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
 //    for(Expr expr : exprs) {
 //    Type2 type = expr.accept(exprChecker());
 //    if(!(type instanceof PowerType)) {
-//    // ERRO. A EXPRESSÃO DEVE SER UM CONJUNTO
+//    // ERRO. A EXPRESSO DEVE SER UM CONJUNTO
 //    Object [] params = {assertZDeclName(currentProcess()).getWord(), procDecl.getWord()};
 //    errorAnn = errorAnn(term, ErrorMessage.IS_NOT_POWER_TYPE_IN_GEN_PROCESS, params);
 //    break;

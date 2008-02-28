@@ -150,7 +150,8 @@ public class TypeChecker
     commChecker_ = new CommunicationChecker(this);
     processChecker_ = new ProcessChecker(this);
     
-    warningManager_ = new WarningManager(TypeChecker.class);
+    warningManager_ = new WarningManager(TypeChecker.class, sectInfo);
+    warningManager_.setMarkup(markup_);
     concreteSyntaxSymbolVisitor_ = CircusUtils.CIRCUS_CONCRETE_SYNTAXSYMBOL_VISITOR;
     
     currentProcessName_ = null;

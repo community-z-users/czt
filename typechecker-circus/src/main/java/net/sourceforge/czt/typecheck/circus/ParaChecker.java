@@ -365,10 +365,10 @@ public class ParaChecker
   }
   
   /* TODO: 
-   * Método auxiliar que adiciona os canais implicitos passados como parâmetro
-   * no ambiente global, caso tais canais já não tenham sido declarados com
+   * Mtodo auxiliar que adiciona os canais implicitos passados como parï¿½metro
+   * no ambiente global, caso tais canais j no tenham sido declarados com
    * mesmo nome e tipos diferentes.
-   * @param chans  a lista de canais implícitos a adicionar no ambiente
+   * @param chans  a lista de canais implcitos a adicionar no ambiente
    */
   private void addImplicitChans(List<NameTypePair> chans)
   {
@@ -384,7 +384,7 @@ public class ParaChecker
 //      {
 //        if (unify(unwrapType(type), unwrapType(chanType)) != SUCC)
 //        {
-//          // muitas vezes, porcausa da instanciação, o tipo de um canal genérico
+//          // muitas vezes, porcausa da instanciao, o tipo de um canal genrico
 //          // passa a ser diferente.
 //          if(!isGenericChannel(chanName))
 //          {

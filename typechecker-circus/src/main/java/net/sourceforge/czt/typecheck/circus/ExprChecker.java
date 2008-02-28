@@ -178,7 +178,7 @@ public class ExprChecker
 //  // CSExpression ::= CSExpression \cup CSExpression
 //  // CSExpression ::= CSExpression \cap CSExpression
 //  // CSExpression ::= CSExpression \setminus CSExpression
-//  //ok - verificado em 15/09/2005 às 13:12
+//  //ok - verificado em 15/09/2005 s 13:12
 //  // TODO: Does it allow any Z expression now, including function applications?
 //  public Type2 visitApplChannelSet(ApplChannelSet term)
 //  {
@@ -267,7 +267,7 @@ public class ExprChecker
 //  }
 //
 //  // CSExpression ::= N
-//  //ok - verificado em 15/09/2005 às 11:10
+//  //ok - verificado em 15/09/2005 s 11:10
 //  public Type2 visitRefChannelSet(RefChannelSet term)
 //  {
 //    RefName chansetRef = term.getRefName();
@@ -289,7 +289,7 @@ public class ExprChecker
 //
 //  // CSExpression ::= {| |}
 //  // CSExpression ::= {| N+ |}
-//  //ok - verificado em 15/09/2005 às 11:09
+//  //ok - verificado em 15/09/2005 s 11:09
 //  public Type2 visitBasicChannelSet(BasicChannelSet term)
 //  {
 //    ZRefNameList chanDecls = term.getRefNameList() == null ? factory().createZRefNameList() : term.getZRefNameList();
@@ -320,7 +320,7 @@ public class ExprChecker
 //  // NSExpression ::= NSExpression \cup NSExpression
 //  // NSExpression ::= NSExpression \cap NSExpression
 //  // NSExpression ::= NSExpression \setminus NSExpression
-//  //ok - verificado em 15/09/2005 às 13:14
+//  //ok - verificado em 15/09/2005 s 13:14
 //  public Type2 visitApplNameSet(ApplNameSet term)
 //  {
 //      /*
@@ -403,7 +403,7 @@ public class ExprChecker
 //  }
 //
 //  // NSExpression ::= N
-//  //ok - verificado em 15/09/2005 às 13:15
+//  //ok - verificado em 15/09/2005 s 13:15
 //  public Type2 visitRefNameSet(RefNameSet term)
 //  {
 //    RefName namesetRef = term.getRefName();
@@ -427,7 +427,7 @@ public class ExprChecker
 //
 //  // NSExpression ::= {}
 //  // NSExpression ::= {N+}
-//  //ok - verificado em 15/09/2005 às 13:16
+//  //ok - verificado em 15/09/2005 s 13:16
 //  public Type2 visitBasicNameSet(BasicNameSet term)
 //  {
 //    ZRefNameList nameDecls = term.getRefNameList() == null ? factory().createZRefNameList() : term.getZRefNameList();

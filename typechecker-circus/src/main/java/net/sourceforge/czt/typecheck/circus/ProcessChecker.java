@@ -101,7 +101,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //    setCircusFormalParametersDecl(false);
 //  }
 //  
-//  //ok - verificado em 15/09/2005 às 19:03
+//  //ok - verificado em 15/09/2005 s 19:03
 //  public ProcessSignature visitProcess1(Process1 term)
 //  {
 //    ProcessSignature signature = term.getCircusProcess().accept(processChecker());
@@ -110,7 +110,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //    return signature;
 //  }
 //  
-//  //ok - verificado em 15/09/2005 às 19:03
+//  //ok - verificado em 15/09/2005 s 19:03
 //  public ProcessSignature visitProcess2(Process2 term)
 //  {
 //    ProcessSignature procSigL = term.getLeftProc().accept(processChecker());
@@ -148,7 +148,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }  
 //
 //  // ParamProcess ::= Declaration \odot Process
-//  //ok - verificado em 15/09/2005 às 19:05
+//  //ok - verificado em 15/09/2005 s 19:05
 //  public ProcessSignature visitIndexedProcess(IndexedProcess term)
 //  {
 //    DeclList decls = term.getZDeclList();        
@@ -176,7 +176,6 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //      allPairs = checkDecls(allPairs, pairs, term, ErrorMessage.REDECLARED_INDEX_IN_PROCESS, paramsError);
 //    }
 //
-//    // atualiza informações sobre o processo
 //    ProcessInfo procInfo = getProcessInfo(currentProcess());
 //    procInfo.setKindOfProcess(KindOfProcess.INDEX);
 //    procInfo.setParamsOrIndexes(allPairs);
@@ -274,7 +273,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  // Process ::= (Declaration \odot Process) \lfloor Expression+ \rfloor
 //  // Process ::= (\mu N @ Declaration @ Process)(Expression+)
 //  // Process ::= (\mu N @ Declaration \odot Process) \lfloor Expression+ \rfloor
-//  //ok - verificado em 15/09/2005 às 19:18
+//  //ok - verificado em 15/09/2005 s 19:18
 //  public ProcessSignature visitCallProcess(CallProcess term)
 //  {
 //
@@ -284,13 +283,13 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //    
 //    String nameRefProc = procDecl.getWord();
 //    if(nameRefProc.startsWith("$$implicitProcess_")) {
-//      // pegar da lista de processos implicitos, fazer a verificação e incluir no
+//      // pegar da lista de processos implicitos, fazer a verificao e incluir no
 //      //SectTypeEnv!!
 //      List<ProcessPara> implicitProcs = (List<ProcessPara>)onTheFlyProcesses();
 //      for(ProcessPara implicitProc : implicitProcs) {
 //        if(nameRefProc.equals(assertZDeclName(implicitProc.getDeclName()).getWord())) {
 //          Signature implicitProcSig = implicitProc.accept(paraChecker());
-//          // a assinatura de um processo sempre terá apenas um par
+//          // a assinatura de um processo sempre terï¿½ apenas um par
 //          NameTypePair pair = (NameTypePair)implicitProcSig.getNameTypePair().get(0);
 //          //if the name already exists globally, raise an error
 //          if (sectTypeEnv().add(pair.getZDeclName(), pair.getType()) != null) {
@@ -301,14 +300,14 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //      }
 //    }
 //    
-//    // verifica se é uma chamada a um processo mu
+//    // verifica se uma chamada a um processo mu
 //    if(isMuProcess(procDecl)) {         
 //      ZExprList zActuals = term.getActuals() == null ? null : assertZExprList(term.getActuals());      
 //      if(zActuals != null && !zActuals.isEmpty()) {
 //        Object [] params = {assertZDeclName(currentProcess()).getWord(), procDecl.getWord()};
 //        error(term, ErrorMessage.MU_PROC_CALL_ERROR, params);
 //      }
-//    }// caso não seja uma chamada ao processo mu
+//    }// caso nï¿½o seja uma chamada ao processo mu
 //    else {
 //      Type typeRefName = (Type)sectTypeEnv().getType(assertZRefName(procRef));
 //
@@ -329,7 +328,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //          if(procSignature.getParamsOrIndexes() != null) {
 //            paramsOrIndexes = procSignature.getParamsOrIndexes().getNameTypePair();
 //          }
-//          // chama um método auxiliar que irá verificar se a chamada está correta
+//          // chama um mï¿½todo auxiliar que irï¿½ verificar se a chamada estï¿½ correta
 //          checkCallProcess(term, paramsOrIndexes);
 //        }
 //      } 
@@ -344,7 +343,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //        else {
 //          // tratamento especial para o caso de chamada recursiva          
 //          List<NameTypePair> paramsOrIndexes = getProcessInfo(procDecl).getParamsOrIndexes();
-//          // chama um método auxiliar que irá verificar se a chamada está correta
+//          // chama um mï¿½todo auxiliar que irï¿½ verificar se a chamada estï¿½ correta
 //          checkCallProcess(term, paramsOrIndexes);
 //        }
 //      }
@@ -359,7 +358,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  // Process ::= \Extchoice Declaration @ Process
 //  // Process ::= \Intchoice Declaration @ Process
 //  // Process ::= \Semi Declaration @ Process  
-//  //ok - verificado em 15/09/2005 às 19:21
+//  //ok - verificado em 15/09/2005 ï¿½s 19:21
 //  public ProcessSignature visitProcessIte(ProcessIte term)
 //  {
 //    ZDeclList decs = term.getZDeclList();
@@ -411,7 +410,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }
 //
 //  // Process ::= \Parallel Declaration @ |[CSExpression]| Process
-//  //ok - verificado em 15/09/2005 às 19:27
+//  //ok - verificado em 15/09/2005 ï¿½s 19:27
 //  public ProcessSignature visitAlphabetisedParallelProcessIte(AlphabetisedParallelProcessIte term)
 //  {
 //    ChanSetType typeCS = (ChanSetType)term.getChannelSet().accept(exprChecker());
@@ -426,7 +425,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }
 //
 //  // Process ::= \Interleave Declaration @ Process
-//  //ok - verificado em 15/09/2005 às 19:28
+//  //ok - verificado em 15/09/2005 ï¿½s 19:28
 ////  public Object visitInterleaveProcessIte(InterleaveProcessIte term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcessIte(term);
@@ -436,7 +435,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 ////  }
 //
 //  // Process ::= |[CSExpression]| Declaration @ Process
-//  //ok - verificado em 15/09/2005 às 19:28
+//  //ok - verificado em 15/09/2005 ï¿½s 19:28
 //  public ProcessSignature visitParallelProcessIte(ParallelProcessIte term)
 //  {
 //    ChanSetType typeCS = (ChanSetType)term.getChannelSet().accept(exprChecker());
@@ -451,7 +450,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //    return procSignature;
 //  }
 //  
-//  //não existe mais
+//  //nï¿½o existe mais
 ////  public Object visitIntChoiceProcessIdx(IntChoiceProcessIdx term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcessIdx(term);
@@ -460,7 +459,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 ////    return procSignature;
 ////  }
 //
-//  //não existe mais
+//  //nï¿½o existe mais
 ////  public Object visitExtChoiceProcessIdx(ExtChoiceProcessIdx term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcessIdx(term);
@@ -469,7 +468,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 ////    return procSignature;
 ////  }
 //
-//  //não existe mais
+//  //nï¿½o existe mais
 //  public ProcessSignature visitAlphabetisedParallelProcessIdx(AlphabetisedParallelProcessIdx term)
 //  {
 //    ChanSetType typeCS = (ChanSetType)term.getChannelSet().accept(exprChecker());
@@ -484,13 +483,13 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //    return procSignature;
 //  }
 //
-//  //não existe mais
+//  //nï¿½o existe mais
 ////  public Object visitParProcessIdx(ParProcessIdx term)
 ////  {
 ////    return visitProcessIdx(term);
 ////  }
 ////  
-//  //não existe mais
+//  //nï¿½o existe mais
 ////  public Object visitSeqProcessIdx(SeqProcessIdx term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcessIdx(term);
@@ -499,7 +498,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 ////    return procSignature;
 ////  }
 //
-//  //não existe mais
+//  //nï¿½o existe mais
 //  public ProcessSignature visitParallelProcessIdx(ParallelProcessIdx term)
 //  {
 //    ChanSetType typeCS = (ChanSetType)term.getChannelSet().accept(exprChecker());
@@ -514,7 +513,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //    return procSignature;
 //  }
 //
-//  //não existe mais
+//  //nï¿½o existe mais
 ////  public Object visitInterleaveProcessIdx(InterleaveProcessIdx term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcessIdx(term);
@@ -525,7 +524,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //
 //  // Process ::= \mu N @ Process
 //  // Process ::= \mu N @ ParamProcess
-//  //ok - verificado em 15/09/2005 às 19:31
+//  //ok - verificado em 15/09/2005 ï¿½s 19:31
 //  public ProcessSignature visitMuProcess(MuProcess term)
 //  {
 //    DeclName name = term.getDeclName();
@@ -541,7 +540,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }
 //  
 //  // Process ::= Communication -> Process
-//  //ok - verificado em 15/09/2005 às 19:32
+//  //ok - verificado em 15/09/2005 ï¿½s 19:32
 //  public ProcessSignature visitPrefixingProcess(PrefixingProcess term)
 //  {
 //    RefName chanName = term.getCommunication().getChanName();
@@ -551,7 +550,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //
 //    typeEnv().enterScope();
 //
-//    // ADICIONAR NO AMBIENTE AS VARIAÇÕES DAS VARIÁVEIS DECLARADAS
+//    // ADICIONAR NO AMBIENTE AS VARIAï¿½ï¿½ES DAS VARIï¿½VEIS DECLARADAS
 ////    typeEnv().add(inputVars);
 //    addVars(inputVars);
 //
@@ -565,7 +564,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }
 //
 //  // Process ::= Predicate & Process
-//  //ok - verificado em 15/09/2005 às 19:36
+//  //ok - verificado em 15/09/2005 ï¿½s 19:36
 //  public ProcessSignature visitGuardedProcess(GuardedProcess term)
 //  {
 //    term.getPred().accept(predChecker());
@@ -576,7 +575,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }
 //
 //  // Process ::= Process \ CSExpression
-//  //ok - verificado em 15/09/2005 às 19:36
+//  //ok - verificado em 15/09/2005 ï¿½s 19:36
 //  public ProcessSignature visitHideProcess(HideProcess term)
 //  {
 //    ChanSetType typeCS = (ChanSetType)term.getChannelSet().accept(exprChecker());
@@ -591,7 +590,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }
 //  
 //  // Process ::= Process[N+ := N+]
-//  //ok - verificado em 15/09/2005 às 19:38
+//  //ok - verificado em 15/09/2005 ï¿½s 19:38
 //  public ProcessSignature visitRenameProcess(RenameProcess term)
 //  {
 //    ProcessSignature procSignature = term.getCircusProcess().accept(processChecker());
@@ -675,7 +674,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }
 //  
 //  // Process ::= Process \extchoice Process
-//  //ok - verificado em 15/09/2005 às 19:39
+//  //ok - verificado em 15/09/2005 ï¿½s 19:39
 ////  public Object visitExtChoiceProcess(ExtChoiceProcess term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcess2(term);
@@ -685,7 +684,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 ////  }
 //
 //  // Process ::= Process \intchoice Process
-//  //ok - verificado em 15/09/2005 às 19:39
+//  //ok - verificado em 15/09/2005 ï¿½s 19:39
 ////  public Object visitIntChoiceProcess(IntChoiceProcess term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcess2(term);
@@ -694,14 +693,14 @@ public class ProcessChecker extends Checker<ProcessSignature>
 ////    return procSignature;
 ////  }
 //
-//  //não existe
+//  //nï¿½o existe
 ////  public Object visitParProcess(ParProcess term)
 ////  {
 ////    return visitProcess2(term);
 ////  }
 //
 //  // Process ::= Process ; Process
-//  //ok - verificado em 15/09/2005 às 19:39
+//  //ok - verificado em 15/09/2005 ï¿½s 19:39
 ////  public Object visitSeqProcess(SeqProcess term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcess2(term);
@@ -711,7 +710,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 ////  }
 //
 //  // Process ::= Process \interleave Process
-//  //ok - verificado em 15/09/2005 às 19:39
+//  //ok - verificado em 15/09/2005 ï¿½s 19:39
 ////  public Object visitInterleaveProcess(InterleaveProcess term)
 ////  {
 ////    ProcessSignature procSignature = (ProcessSignature)visitProcess2(term);
@@ -721,7 +720,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 ////  }
 //
 //  // Process ::= Process |[CSExpression]| Process
-//  //ok - verificado em 15/09/2005 às 19:41
+//  //ok - verificado em 15/09/2005 ï¿½s 19:41
 //  public ProcessSignature visitParallelProcess(ParallelProcess term)
 //  {
 //    ChanSetType typeCS = (ChanSetType)term.getChannelSet().accept(exprChecker());
@@ -736,7 +735,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }
 //
 //  // Process ::= Process |[CSExpression | CSExpression]| Process
-//  //ok - verificado em 15/09/2005 às 19:42
+//  //ok - verificado em 15/09/2005 ï¿½s 19:42
 //  public ProcessSignature visitAlphabetisedParallelProcess(AlphabetisedParallelProcess term)
 //  {
 //    List<NameTypePair> allPairs = new ArrayList<NameTypePair>();
@@ -754,7 +753,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //    return procSignature;
 //  }
 //
-//  // MÉTODOS AUXILIARES
+//  // Mï¿½TODOS AUXILIARES
 //  
 //  private boolean checkCallProcessParamTypes(DeclName procName, List<NameTypePair> decs, List<Type2> types){
 //    boolean result = true;
@@ -828,7 +827,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //  }//
 //
 //  // TALVEZ FOSSE MAIS INTERESSANTE AQUI UM VISITOR... TALVEZ EU ESTEJA AMARRANDO
-//  // O CÓDIGO E QUALQUER ALTERAÇÃO NA ESTRUTURA, QUEBRA ESTE MÉTODO...
+//  // O Cï¿½DIGO E QUALQUER ALTERAï¿½ï¿½O NA ESTRUTURA, QUEBRA ESTE Mï¿½TODO...
 //  private boolean isSchExprAction(Para para) {
 //    boolean result = false;
 //    
@@ -980,7 +979,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //            Type2 type = expr.accept(exprChecker());
 //            // TODO: Check: Why is this check for power type here? Can't generic actuals be of other types?
 //            if(!(type instanceof PowerType)) {
-//              // ERRO. A EXPRESSÃO DEVE SER UM CONJUNTO
+//              // ERRO. A EXPRESSï¿½O DEVE SER UM CONJUNTO
 //              Object [] params = {assertZDeclName(currentProcess()).getWord(), procDecl.getWord()};
 //              error(term, ErrorMessage.IS_NOT_POWER_TYPE_IN_GEN_PROCESS, params);
 //              break;
