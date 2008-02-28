@@ -51,6 +51,18 @@ public class WarningManager {
         sectWarnings_ = new TreeMap<String, List<String>>();
     }
     
+    /**
+     * Derived classes can change the formatting to take into account, say,
+     * pretty printing.
+     * @param message
+     * @param arguments
+     * @return
+     */
+    protected String format(String message, Object... arguments)
+    {
+      return MessageFormat.format(message, arguments);
+    }
+    
     public Map<String, List<String>> getZSectWarnings() {
         return Collections.unmodifiableSortedMap(sectWarnings_);
     }
@@ -75,7 +87,7 @@ public class WarningManager {
     }
     
     public void warn(String message, Object... arguments) {
-      final String msg = MessageFormat.format(message, arguments);      
+      final String msg = format(message, arguments);
       final String sect = getCurrentSectName();
       if (!sectWarnings_.containsKey(sect)) {          
           sectWarnings_.put(sect, new ArrayList<String>());        
