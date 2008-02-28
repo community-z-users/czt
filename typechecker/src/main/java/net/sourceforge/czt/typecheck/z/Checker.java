@@ -1300,6 +1300,16 @@ abstract public class Checker<R>
     return result;
   }
   
+  /**
+   * Instantiates the given type by dissecting its structure, one by one.
+   * That is, instantiation is done depending on the kind of type. For instance,
+   * a power type is instantiated by replacing its inner type by its inner type
+   * instantiated version. This method is called within #instantiate(GenericType)
+   * or at ExprChecker.visitRefExpr. It corresponds to implicit generic actuals
+   * instantiation.
+   * @param type argument to instantiate inner types
+   * @return the instantiated version of the given type
+   */
   protected Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
@@ -1332,6 +1342,9 @@ abstract public class Checker<R>
         assert false : "Cannot instantiate " + type;
       }
     }
+    // a variable type (i.e., those created on-the-fly to be used 
+    // during type inference) is instantiated by instantiating its 
+    // inner value if existent, or doing nothing otherwise.
     else if (type instanceof VariableType)
     {
       VariableType vType = (VariableType) type;
@@ -1344,16 +1357,21 @@ abstract public class Checker<R>
         result = vType;
       }
     }
+    // a power type is instantiated by instantiating its inner type
     else if (type instanceof PowerType)
     {
       PowerType powerType = (PowerType) type;
       Type2 replaced = exprChecker().instantiate(powerType.getType());
       result = factory().createPowerType(replaced);
     }
+    // a given type cannot be instantiated and is returned directly
     else if (type instanceof GivenType)
     {
       result = type;
     }
+    // a schema type is instantiated by instantiating its signature
+    // i.e., instantiating all types within the signature's list of 
+    //       name type pairs.
     else if (type instanceof SchemaType)
     {
       SchemaType schemaType = (SchemaType) type;
@@ -1361,6 +1379,7 @@ abstract public class Checker<R>
         exprChecker().instantiate(schemaType.getSignature());
       result = factory().createSchemaType(signature);
     }
+    // a product type is instantiated by instantiating all its inner types
     else if (type instanceof ProdType)
     {
       ProdType prodType = (ProdType) type;

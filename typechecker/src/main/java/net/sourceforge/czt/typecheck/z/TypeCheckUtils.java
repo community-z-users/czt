@@ -27,7 +27,9 @@ import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.MarshalException;
 import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -244,17 +246,58 @@ public class TypeCheckUtils
     return toolkits;
   }
 
-  protected void printTypes(SectTypeEnvAnn sectTypeEnvAnn)
+  /**
+   * Calls PrintUtils.print(term, writer, sectInfo, sectName, markup).
+   * Different extensions may use different versions of PrintUtils.
+   * @param term
+   * @param writer
+   * @param sectInfo
+   * @param sectName
+   * @param markup
+   */
+  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)
+  {
+    PrintUtils.print(term, writer, sectInfo, sectName, markup);
+  }
+  
+  /**
+   * Tries calling printTerm(term, writer, sectInfo, sectName, markup) on a local String writer
+   * to see whether it is possible to pretty print the term given. If that fails (throws an
+   * exception), the PrintVisitor is used by just calling term.toString().
+   * @param term
+   * @param sectInfo
+   * @param sectName
+   * @param markup
+   * @return
+   */   
+  protected String printTerm(Term term, SectionManager sectInfo, String sectName, Markup markup)
+  {
+    String result;    
+    try 
+    {
+      StringWriter writer = new StringWriter();
+      printTerm(term, writer, sectInfo, sectName, markup);
+      writer.flush();
+      result = writer.toString();
+    } catch(/*CztException*/ Throwable e)      
+    {
+      result = term.toString();
+    }
+    return result;
+  }
+  
+  protected void printTypes(SectTypeEnvAnn sectTypeEnvAnn, SectionManager sectInfo, Markup markup)
   {
     List<NameSectTypeTriple> triples = sectTypeEnvAnn.getNameSectTypeTriple();
-    String prevSect = "";
+    String prevSect = "";    
     for (NameSectTypeTriple triple : triples) {
-      if (!toolkits().contains(triple.getSect())) {
-        if (!prevSect.equals(triple.getSect())) {
-          System.out.println("section " + triple.getSect());
+      String currSect = triple.getSect();
+      if (!toolkits().contains(currSect)) {
+        if (!prevSect.equals(currSect)) {
+          System.out.println("section " + currSect);
         }
-        System.out.println("\t" + triple.getZName() +
-                           " : " + triple.getType());
+        System.out.println("\t" + printTerm(triple.getZName(), sectInfo, currSect, markup) +
+                          " : " + printTerm(triple.getType(), sectInfo, currSect, markup));
         prevSect = triple.getSect();
       }
     }
@@ -386,8 +429,9 @@ public class TypeCheckUtils
         if (printTypes) {
           SectTypeEnvAnn sectTypeEnvAnn =
             (SectTypeEnvAnn) term.getAnn(SectTypeEnvAnn.class);
-          if (sectTypeEnvAnn != null) {
-            printTypes(sectTypeEnvAnn);
+          if (sectTypeEnvAnn != null) 
+          {
+            printTypes(sectTypeEnvAnn, manager, markup);
           }
           else {
             System.err.println("No type information available");
