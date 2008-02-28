@@ -75,7 +75,9 @@ public final class CircusUtils
   public static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt";
   public static final String DEFAULT_IMPLICIT_ACTION_NAME_PREFIX = "$$implicitAct";
   public static final String DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX = "$$implicitProc";
-  public static final String DEFAULT_IMPLICIT_DOTEXPR_NAME_PREFIX = "$$!";
+  public static final String DEFAULT_IMPLICIT_DOTEXPR_NAME_PREFIX = "$$Dot";
+  public static final String DEFAULT_IMPLICIT_NAMESET_NAME_PREFIX = "$$implicitNS";
+  public static final String DEFAULT_IMPLICIT_CHANSET_NAME_PREFIX = "$$implicitCS";
   /**
    * Default number of multisynchronisation occurrences for particular communication pattern.
    * At the moment this feature is still experimental, and may disapear in the future.

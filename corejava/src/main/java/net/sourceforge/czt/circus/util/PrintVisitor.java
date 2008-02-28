@@ -1,22 +1,18 @@
 /*
-  Copyright (C) 2006 Mark Utting
-  This file is part of the czt project.
- 
-  The czt project contains free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
- 
-  The czt project is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
- 
-  You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+Copyright (C) 2006 Mark Utting
+This file is part of the czt project.
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.czt.circus.util;
 
 import java.util.ArrayList;
@@ -34,7 +30,9 @@ import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
+import net.sourceforge.czt.circus.ast.CommUsage;
 import net.sourceforge.czt.circus.ast.Communication;
+import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.DotField;
 import net.sourceforge.czt.circus.ast.InputField;
 import net.sourceforge.czt.circus.ast.OutputFieldAnn;
@@ -46,6 +44,7 @@ import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.ProcessUsage;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
@@ -54,6 +53,7 @@ import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
 
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
+import net.sourceforge.czt.circus.visitor.CommunicationTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
@@ -66,6 +66,7 @@ import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
 import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
+import net.sourceforge.czt.circus.visitor.CircusCommunicationListVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.CommunicationVisitor;
 import net.sourceforge.czt.circus.visitor.InputFieldVisitor;
@@ -79,7 +80,6 @@ import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.FalsePred;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.MemPred;
-import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.Para;
@@ -122,8 +122,9 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  */
 public class PrintVisitor
   extends net.sourceforge.czt.z.util.PrintVisitor
-  implements 
+  implements
   ChannelTypeVisitor<String>,
+  CommunicationTypeVisitor<String>,
   ChannelSetTypeVisitor<String>,
   ProcessTypeVisitor<String>,
   ActionTypeVisitor<String>,
@@ -163,47 +164,56 @@ public class PrintVisitor
   ZNameListVisitor<String>,
   SchExprActionVisitor<String>,
   SpecVisitor<String>,
-  CallActionVisitor<String>
+  CallActionVisitor<String>,
+  CircusCommunicationListVisitor<String>
 {
-  
+
   private int tabCount = 0;
-  
-  public String stringOfChar(char c, int count) {
-      StringBuilder sb = new StringBuilder("");
-      while (count > 0) {
-          sb.append(c);
-          count--;
-      }
-      return sb.toString();
+
+  public String stringOfChar(char c, int count)
+  {
+    StringBuilder sb = new StringBuilder("");
+    while (count > 0)
+    {
+      sb.append(c);
+      count--;
+    }
+    return sb.toString();
   }
 
-  private String NLAndTabs() {
+  private String NLAndTabs()
+  {
     return "\n" + stringOfChar('\t', tabCount);
   }
-  
-  private void addNLAndTabs(StringBuilder builder) {
+
+  private void addNLAndTabs(StringBuilder builder)
+  {
     builder.append(NLAndTabs());
   }
-  
-  private void openTabScope(StringBuilder builder) {
-    tabCount++;    
+
+  private void openTabScope(StringBuilder builder)
+  {
+    tabCount++;
     addNLAndTabs(builder);
   }
-  
-  private void closeTabScope(StringBuilder builder) {
+
+  private void closeTabScope(StringBuilder builder)
+  {
     tabCount--;
     addNLAndTabs(builder);
   }
-  
+
   public String visitSpec(Spec term)
   {
     StringBuilder result = new StringBuilder("SPEC-" + term.getVersion());
-    result.append("{#");    
+    result.append("{#");
     openTabScope(result);
     int i = term.getSect().size() - 1;
-    for(Sect s : term.getSect()) {      
+    for (Sect s : term.getSect())
+    {
       result.append(visit(s));
-      if (i > 0) {
+      if (i > 0)
+      {
         addNLAndTabs(result);
       }
       i--;
@@ -213,7 +223,7 @@ public class PrintVisitor
     addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitZSect(ZSect term)
   {
     StringBuilder result = new StringBuilder("SECTION[" + term.getName());
@@ -221,45 +231,49 @@ public class PrintVisitor
     result.append("]{");
     openTabScope(result);
     result.append(visit(term.getZParaList()));
-    closeTabScope(result);    
+    closeTabScope(result);
     result.append("}");
     addNLAndTabs(result);
     return result.toString();
   }
-  
-  protected String visitNarrText(String header, List text) {
+
+  protected String visitNarrText(String header, List text)
+  {
     int size = text.size();
     StringBuilder result = new StringBuilder(header + "(" + size + ")={");
-    if (size > 0) {
+    if (size > 0)
+    {
       String s = text.get(0).toString();
       s = s.replaceAll("\n", "NL");
       result.append(s.substring(0, Math.min(50, s.length())));
     }
-    result.append("...}");    
+    result.append("...}");
     return result.toString();
   }
-  
+
   public String visitNarrPara(NarrPara term)
   {
     return visitNarrText("NarrPara", term.getContent());
   }
-  
-  public String  visitNarrSect(NarrSect term) {
+
+  public String visitNarrSect(NarrSect term)
+  {
     return visitNarrText("NarrSect", term.getContent());
   }
-  
+
   public String visitLatexMarkupPara(LatexMarkupPara term)
   {
     StringBuilder result = new StringBuilder("LaTeXMarkUpPara(");
     result.append(term.getDirective().size());
     result.append(")[");
-    for(Directive directive : term.getDirective()) {
+    for (Directive directive : term.getDirective())
+    {
       result.append(visit(directive));
     }
     result.append("]");
-    return result.toString();    
+    return result.toString();
   }
-  
+
   public String visitDirective(Directive term)
   {
     StringBuffer result = new StringBuffer("%%Z");
@@ -267,14 +281,15 @@ public class PrintVisitor
     {
       result.append(term.getType().toString().toLowerCase());
     }
-    result.append(term.getUnicode().length() == 1 || term.getUnicode().startsWith("U+") ? "char" : "word");
+    result.append(term.getUnicode().length() == 1 || term.getUnicode().
+      startsWith("U+") ? "char" : "word");
     result.append(" ");
     result.append(term.getCommand());
     result.append(" ");
     ZUtils.unicodeToAscii(term.getUnicode(), result);
     return result.toString();
   }
-  
+
   public String visitZParaList(ZParaList term)
   {
     // Avoided visitList as this list may contain lists, and
@@ -284,21 +299,28 @@ public class PrintVisitor
     result.append(term.size());
     result.append(")[");
     openTabScope(result);
-    int i = term.size() - 1; int j = 1;
-    for(Para p : term) {      
-      if (p == null) result.append("FOUND NULL @ " + j + "  ");
+    int i = term.size() - 1;
+    int j = 1;
+    for (Para p : term)
+    {
+      if (p == null)
+      {
+        result.append("FOUND NULL @ " + j + "  ");
+      }
       result.append(j);
       result.append("::");
       result.append(visit(p));
-      if (i > 0) {
+      if (i > 0)
+      {
         addNLAndTabs(result);
       }
-      i--; j++;
+      i--;
+      j++;
     }
     closeTabScope(result);
     result.append("]");
-    addNLAndTabs(result);            
-    return result.toString();    
+    addNLAndTabs(result);
+    return result.toString();
 //    int j = 0;
 //    for(Para p: term) {
 //      System.out.println("j = " + j + " ; " + p != null ? p.getClass().getName() : "null");
@@ -306,54 +328,63 @@ public class PrintVisitor
 //    }
 //    return "";
   }
-  
+
   public String visitZDeclList(ZDeclList term)
   {
     StringBuilder result = new StringBuilder("ZDeclList(");
     result.append(term.size());
     result.append(")[");
     openTabScope(result);
-    int i = term.size() - 1; int j = 0;
-    for(Decl d : term) {
-      if (d == null) result.append("FOUND NULL @ " + j + "  ");
+    int i = term.size() - 1;
+    int j = 0;
+    for (Decl d : term)
+    {
+      if (d == null)
+      {
+        result.append("FOUND NULL @ " + j + "  ");
+      }
       result.append(visit(d));
-      if (i > 0) {        
+      if (i > 0)
+      {
         addNLAndTabs(result);
       }
-      i--; j++;
+      i--;
+      j++;
     }
     closeTabScope(result);
     result.append("]");
     addNLAndTabs(result);
-    return result.toString();     
+    return result.toString();
   }
-  
+
   public String visitZNameList(ZNameList term)
   {
-    StringBuilder result = new StringBuilder("ZNameList(");
-    result.append(term.size());
-    result.append(")[");
-    openTabScope(result);
-    int i = term.size() - 1; int j = 0;
-    for(Name n : term) {
-      if (n == null) result.append("FOUND NULL @ " + j + "  ");
-      result.append(visit(n));
-      if (i > 0) {        
-        addNLAndTabs(result);
-      }
-      i--; j++;
-    }
-    closeTabScope(result);
-    result.append("]");
-    addNLAndTabs(result);
-    return result.toString();          
+    return super.visitZNameList(term);
+  /*
+  StringBuilder result = new StringBuilder("ZNameList(");
+  result.append(term.size());
+  result.append(")[");
+  openTabScope(result);
+  int i = term.size() - 1; int j = 0;
+  for(Name n : term) {
+  if (n == null) result.append("FOUND NULL @ " + j + "  ");
+  result.append(visit(n));
+  if (i > 0) {        
+  addNLAndTabs(result);
   }
-  
-  
+  i--; j++;
+  }
+  closeTabScope(result);
+  result.append("]");
+  addNLAndTabs(result);
+  return result.toString();          
+   */
+  }
+
   public String visitChannelDecl(ChannelDecl term)
   {
     StringBuilder result = new StringBuilder("ChannelDecl[");
-    result.append(visitList(term.getZGenFormals(), "[" , ", ", "]"));
+    result.append(visitList(term.getZGenFormals(), "[", ", ", "]"));
     openTabScope(result);
     result.append(visitList(term.getZChannelNameList(), ", "));
     result.append(" : ");
@@ -363,10 +394,10 @@ public class PrintVisitor
     //addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitChannelPara(ChannelPara term)
-  {    
-    StringBuilder result = new StringBuilder("ChannelPara[");    
+  {
+    StringBuilder result = new StringBuilder("ChannelPara[");
     openTabScope(result);
     result.append(visit(term.getZDeclList()));
     closeTabScope(result);
@@ -374,7 +405,7 @@ public class PrintVisitor
     //addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitChannelSetPara(ChannelSetPara term)
   {
     StringBuilder result = new StringBuilder("ChannelSetPara[");
@@ -387,28 +418,28 @@ public class PrintVisitor
     result.append("]");
     //addNLAndTabs(result);
     return result.toString();
-  }  
-  
+  }
+
   public String visitCircusChannelSet(CircusChannelSet term)
   {
     return visit(term.getExpr());
   }
-  
+
   public String visitBasicChannelSetExpr(BasicChannelSetExpr term)
   {
     return visitList(term.getCommunication(), "{ ", ", ", " }");
   }
-  
+
   public String visitVarDecl(VarDecl term)
   {
     StringBuilder result = new StringBuilder("VarDecl[");
     result.append(visitList(term.getZNameList(), "", ", ", ": "));
-    result.append(visit(term.getExpr()));        
+    result.append(visit(term.getExpr()));
     result.append("]");
     //addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitRefExpr(RefExpr term)
   {
     StringBuilder result = new StringBuilder("RefExpr(");
@@ -420,29 +451,29 @@ public class PrintVisitor
     //addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitTupleExpr(TupleExpr term)
   {
     return visitList(term.getZExprList(), "TupleExpr(", ", ", ")");
   }
-  
+
   public String visitApplExpr(ApplExpr term)
   {
     StringBuilder result = new StringBuilder("ApplExpr{LHS=");
     result.append(visit(term.getLeftExpr()));
     result.append(",\n RHS=");
     result.append(visit(term.getRightExpr()));
-    result.append(",\n MF=" +term.getMixfix());
+    result.append(",\n MF=" + term.getMixfix());
     result.append("}");
     //addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitSetExpr(SetExpr term)
   {
     return visitList(term.getZExprList(), "SetExpr(", ", ", ")");
   }
-  
+
   public String visitAndPred(AndPred term)
   {
     StringBuilder result = new StringBuilder("AndPred{LHS=");
@@ -453,12 +484,12 @@ public class PrintVisitor
     result.append(visit(term.getRightPred()));
     result.append(",");
     addNLAndTabs(result);
-    result.append("AND=" +term.getAnd());
+    result.append("AND=" + term.getAnd());
     result.append("}");
     addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitMemPred(MemPred term)
   {
     StringBuilder result = new StringBuilder("MemPred{LHS=");
@@ -474,22 +505,22 @@ public class PrintVisitor
     addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitTruePred(TruePred term)
   {
     return "true";
   }
-  
+
   public String visitFalsePred(FalsePred term)
   {
     return "false";
   }
-  
+
   public String visitParent(Parent term)
   {
     return term.getWord();
   }
-  
+
   /** Schema or generic schema definition (vertical).
    *      AxPara.Box          = SchBox
    *      AxPara.decl         = generics
@@ -550,96 +581,100 @@ public class PrintVisitor
     //addNLAndTabs(result);
     return result.toString();
   }
-  
+
   public String visitChannelType(ChannelType term)
   {
-    StringBuilder result =  new StringBuilder("CHANNEL_TYPE[");
-    result.append(visit(term.getType()));
-    result.append("]");    
-    return result.toString();
+    return "CHANNEL_TYPE " + visit(term.getType());
   }
-  
+
+  public String visitCommunicationType(CommunicationType term)
+  {
+    return "COMM_TYPE " + visit(term.getSignature());
+  }
+
   public String visitChannelSetType(ChannelSetType term)
   {
-    return "CHANSET_TYPE [" + visit(term.getSignature()) + "]";
+    return "CHANSET_TYPE " + visit(term.getSignature());
   }
-  
+
   public String visitProcessType(ProcessType term)
   {
     return "PROCESS_TYPE [" + NLAndTabs() + visit(term.getProcessSignature()) + NLAndTabs() + "]";
   }
-  
+
   public String visitActionType(ActionType term)
   {
     return "ACTION_TYPE [" + NLAndTabs() + visit(term.getActionSignature()) + NLAndTabs() + "]";
   }
-  
+
   public String visitNameSetType(NameSetType term)
   {
-    return "NAMESET_TYPE ["+ visit(term.getSignature()) + "]";
-  }  
-    
+    return "NAMESET_TYPE " + visit(term.getSignature());
+  }
+
   public String visitProcessSignature(ProcessSignature term)
   {
     StringBuilder result = new StringBuilder();
-    result.append(visit(term.getProcessName()));    
-    result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));
-    
+    result.append(visit(term.getProcessName()));
+    result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[",
+      ",", "]"));
+
     // Print parameters or indexes signature if they exist
-    if (term.getParamOrIndexes() != null && !term.getParamOrIndexes().getNameTypePair().isEmpty())
-    {      
+    if (term.getParamOrIndexes() != null && !term.getParamOrIndexes().
+      getNameTypePair().isEmpty())
+    {
       result.append(term.getUsage().equals(ProcessUsage.Parameterised) ? "_P(" : "_I(");
       result.append(visit(term.getParamOrIndexes()));
       result.append(")");
     }
-    
+
     openTabScope(result);
     result.append("Used channels: ");
-      openTabScope(result);
-        addNLAndTabs(result);
-        result.append(visitListNL(term.getUsedCommunications(), ","));        
-      closeTabScope(result);
+    openTabScope(result);
+    addNLAndTabs(result);
+    result.append(visitListNL(term.getUsedCommunications(), ","));
     closeTabScope(result);
-    
+    closeTabScope(result);
+
     return result.toString();
   }
-  
+
   public String visitBasicProcessSignature(BasicProcessSignature term)
-  { 
+  {
     StringBuilder result = new StringBuilder();
-        
+
     String baseClass = visitProcessSignature(term);
     result.append(baseClass);
-    
-    openTabScope(result);
-      result.append("State signature...:");
-      addNLAndTabs(result);
-      result.append(visit(term.getStateSignature()));
-      addNLAndTabs(result);
-      
-      result.append("Used name sets....:");
-      addNLAndTabs(result);
-      result.append(visit(term.getUsedNameSets()));
-      addNLAndTabs(result);
 
-      result.append("Decl. Transformers:");
-      result.append(visitList(term.getTransformerParaName(), ","));
-      addNLAndTabs(result);
-      
-      result.append("Local Z signatures:");
-      openTabScope(result);      
-        result.append(visitListNL(term.getLocalZSignatures(), ","));
-      closeTabScope(result);
-      
-      result.append("Action signatures:");
-      openTabScope(result);      
-        result.append(visitListNL(term.getActionSignatures(), ","));
-      closeTabScope(result);      
+    openTabScope(result);
+    result.append("State signature...:");
+    addNLAndTabs(result);
+    result.append(visit(term.getStateSignature()));
+    addNLAndTabs(result);
+
+    result.append("Used name sets....:");
+    addNLAndTabs(result);
+    result.append(visit(term.getUsedNameSets()));
+    addNLAndTabs(result);
+
+    result.append("Decl. Transformers:");
+    result.append(visitList(term.getTransformerParaName(), ","));
+    addNLAndTabs(result);
+
+    result.append("Local Z signatures:");
+    openTabScope(result);
+    result.append(visitListNL(term.getLocalZSignatures(), ","));
     closeTabScope(result);
-    
+
+    result.append("Action signatures:");
+    openTabScope(result);
+    result.append(visitListNL(term.getActionSignatures(), ","));
+    closeTabScope(result);
+    closeTabScope(result);
+
     return result.toString();
   }
-  
+
   public String visitActionSignature(ActionSignature term)
   {
     StringBuilder result = new StringBuilder("{ ");
@@ -656,27 +691,26 @@ public class PrintVisitor
       result.append(visit(term.getLocalVars()));//Signature
       result.append("]");
     }
-    /*
-    if (!term.getUsedCommunications().getNameTypePair().isEmpty())
+    if (term.getUsedCommunications() != null)
     {
       result.append(" @ C[");
-      result.append(visit(term.getUsedChannels()));
+      result.append(visit(term.getUsedCommunications()));
       result.append("]");
     }
-     */
     result.append(" }");
     return result.toString();
   }
-  
+
   public String visitProcessPara(ProcessPara term)
   {
     StringBuilder result = new StringBuilder("ProcessPara(" + visit(term.getName()) + ")");
-    result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));
+    result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[",
+      ",", "]"));
     result.append(" == ");
     result.append(visit(term.getCircusProcess()));
     return result.toString();
   }
-  
+
   public String visitActionPara(ActionPara term)
   {
     StringBuilder result = new StringBuilder("ActionPara(" + visit(term.getName()) + ")");
@@ -684,14 +718,14 @@ public class PrintVisitor
     result.append(visit(term.getCircusAction()));
     return result.toString();
   }
-  
+
   public String visitSchExprAction(SchExprAction term)
   {
     return visit(term.getExpr());
   }
-  
+
   public String visitBasicProcess(BasicProcess term)
-  {    
+  {
     StringBuilder result = new StringBuilder("BasicProcess(hC=");
     result.append(term.hashCode());
     result.append(")[");
@@ -712,7 +746,7 @@ public class PrintVisitor
     result.append(visit(term.getMainAction()));
     addNLAndTabs(result);
     result.append("\tTotal paras=" + (paraCnt+ontheflyCnt));
-    */
+     */
     result.append(visit(term.getZParaList()));
     addNLAndTabs(result);
     result.append("\tTotal paras=" + (term.getZParaList().size()));
@@ -721,39 +755,50 @@ public class PrintVisitor
     //addNLAndTabs(result);
     return result.toString();
   }
-    
+
+  public String visitCircusCommunicationList(CircusCommunicationList term)
+  {
+    return visitList(term, ", ");
+  }
+
   public String visitCommunication(Communication term)
   {
-     StringBuilder result = new StringBuilder("Comm[");
-     result.append(visit(term.getChannelExpr()));
-     result.append(visitList(term.getCircusFieldList(), ""));
-     result.append("]");
-     return result.toString();
+    StringBuilder result = new StringBuilder();
+    
+    Boolean explicit = term.getChannelExpr().getExplicit();
+    if (term.getCommUsage().equals(CommUsage.Generic) && 
+        explicit != null && !explicit)
+    {
+      result.append("_G_");
+    }
+    result.append(visit(term.getChannelExpr()));
+    result.append(visitList(term.getCircusFieldList(), ""));
+    result.append("]");
+    return result.toString();
   }
-  
+
   public String visitInputField(InputField term)
   {
-    return "?" + term.getVariableZName() + 
-        (term.getRestriction() instanceof TruePred ? "" : " : " + 
-        visit(term.getRestriction()));
+    return "?" + term.getVariableZName() +
+      (term.getRestriction() instanceof TruePred ? "" : " : " +
+      visit(term.getRestriction()));
   }
-  
+
   public String visitDotField(DotField term)
   {
     boolean isOutputField = term.getAnn(OutputFieldAnn.class) != null;
     return (isOutputField ? "!" : ".") + visit(term.getExpr());
   }
-  
+
   public String visitCallAction(CallAction term)
   {
     StringBuilder result = new StringBuilder();
     result.append(visit(term.getName()));
-    result.append(visitList(term.getZExprList(), "(", ", ", ")"));    
+    result.append(visitList(term.getZExprList(), "(", ", ", ")"));
     return result.toString();
   }
-
   private static FindProcessPara findPP_ = new FindProcessPara();
-  
+
   public String printProcessPara(Term term)
   {
     StringBuilder result = new StringBuilder();
@@ -761,35 +806,35 @@ public class PrintVisitor
     result.append("----------------------------------------\n");
     result.append("Found " + pps.size() + " process paras  \n");
     result.append("----------------------------------------");
-    for(ProcessPara pp : pps)
+    for (ProcessPara pp : pps)
     {
       result.append("\n");
       result.append(visit(pp));
-      
+
     }
     result.append("\n----------------------------------------\n");
     return result.toString();
   }
-  
+
   static class FindProcessPara implements
     TermVisitor<Object>,
     ProcessParaVisitor<Object>
   {
-    
+
     List<ProcessPara> processPara_ = new ArrayList<ProcessPara>();
-    
+
     public Object visitProcessPara(ProcessPara term)
     {
       processPara_.add(term);
       return term;
     }
-    
+
     public Object visitTerm(Term term)
     {
       VisitorUtils.visitTerm(this, term);
       return term;
     }
-    
+
     List<ProcessPara> collectProcessParaFrom(Term term)
     {
       assert term != null : "Invalid (null) term";
@@ -798,16 +843,18 @@ public class PrintVisitor
       return Collections.unmodifiableList(processPara_);
     }
   }
-  
+
   protected String visitListNL(List<? extends Term> list, String separator)
   {
     final StringBuilder result = new StringBuilder();
     String sep = "";
-    for (Term term : list) {
+    for (Term term : list)
+    {
       String string = visit(term);
-      if (string != null) {
+      if (string != null)
+      {
         result.append(sep + string);
-        sep = separator;        
+        sep = separator;
         addNLAndTabs(result);
       }
     }
