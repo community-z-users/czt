@@ -28,6 +28,7 @@ import net.sourceforge.czt.parser.circus.LatexScanner;
 import net.sourceforge.czt.parser.circus.Sym;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionInfo;
@@ -166,14 +167,14 @@ public class SpecialLatexParser {
       throws IOException {
         logger.fine("Print term to LaTex file " + filename + PRINT_LATEX_EXT);
         FileWriter writer = new FileWriter( filename + PRINT_LATEX_EXT );        
-        PrintUtils.printLatex(term, writer, sectInfo);
+        PrintUtils.print(term, writer, (SectionManager)sectInfo, Markup.LATEX);
     }
     
     public static void printUnicode(Term term, String filename, SectionInfo sectInfo)  
       throws IOException {
         logger.fine("Print term to Unicode file " + filename + PRINT_UNICODE_EXT);
         FileWriter writer = new FileWriter( filename + PRINT_UNICODE_EXT );        
-        PrintUtils.printUnicode(term, writer, sectInfo);
+        PrintUtils.print(term, writer, (SectionManager)sectInfo, Markup.UNICODE);
     }
     
     public static void printZML(Term term, String filename) throws IOException {
