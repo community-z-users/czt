@@ -212,7 +212,7 @@ specification as a parent.
   \SECTION wedge \parents standard\_toolkit
 \end{zsection}
 \begin{zed}
-  State == [x:\num] \\
+  State == [x: \negate 10 \upto 10] \\
   Wedge == [\Delta State | x*x + x'*x' \leq 25; x + x' \leq 5; 0 \leq x']
 \end{zed}
 
@@ -287,6 +287,9 @@ we prefix the name with $Not$ to indicate that it is a negative tests.
 \end{theorem}
 
 We can also test just the precondition of the operation.
+%% Note: ZLive cannot evaluate this if the type of x is any integer
+%% because it requires enumerating pre Wedge, and then there is no
+%% lower bound on x'.
 \begin{theorem}{NotWedgePre6}
 \vdash? ~~ \lblot x==6 \rblot \notin \pre Wedge
 \end{theorem}
@@ -352,15 +355,16 @@ the $states$ function.
 
 We use the same framing schema to promote the tests.  But to ensure that
 all inputs of the promoted operation are given, we use a specialised
-version of the framing schema that also specifies a test value for the
-$curr?$ input.
+version of the framing schema that also specifies an initial value
+for the $states$ mapping and which $curr?$ input will be tested.
 
 \begin{zsection}
   \SECTION manyStatesTest \parents manyStates, wedgeTests
 \end{zsection}
 
 \begin{zed}
-  \Phi ManyStatesTest == [\Phi ManyStates; curr? == 1]
+  \Phi ManyStatesTest ==
+    [\Phi ManyStates; curr? == 1 | states = \{0 \mapsto 3, 1 \mapsto x\}]
 \end{zed}
 
 \begin{theorem}{ManyWedgePos}
