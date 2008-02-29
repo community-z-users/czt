@@ -47,14 +47,15 @@ This was written as $file \circ suc^{offset}$ in the original specification.
 \end{schema}
 
 Auxiliary functions:
-The zero function returns a FILE of size n with zero bytes.
+The $zero$ function returns a FILE containing $n$ ZERO bytes.
 
 \begin{zed}
   zero == (\lambda n : \nat @ ( \lambda i : 1 \upto n @ ZERO ) )
 \end{zed}
 
-The infix operator shift takes a FILE and an offset and shifts the
-content of the file by the offset.
+The infix operator $shift$ takes a FILE and an offset and shifts the
+content of the file by the offset, adding ZERO bytes into the beginning of
+the file.
 
 \begin{zed}
   \function 42 \leftassoc ( \varg shift \varg )
