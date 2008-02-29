@@ -1732,7 +1732,7 @@ terminal LocInfo
          *              UNICODE as ANDALSO, which is 0026, and CircChar has no
          *              entry for this token!
          *              Nevertheless, I still nedd the CIRCGUARD token for 
-         *              handling precendences apropriately, hence _CIRCGUARD!
+         *              handling precedences apropriately, hence _CIRCGUARD!
          *
          * REPSEQ    => Similarly, as all the UNICODE chars for big ";" I could find
          *              (relational composition COMP = U2A3E, and
@@ -3811,7 +3811,7 @@ paramProcess ::=
             addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         |
-        /* Replicated processes productions in precendence order */
+        /* Replicated processes productions in precedence order */
         REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createInterleaveProcessIte(p, dp);
@@ -3917,7 +3917,7 @@ indexedProcess ::=
             RESULT = factory_.createIndexedProcess(p, dp);
             addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
-        /* Indexed processes productions in precendence order */
+        /* Indexed processes productions in precedence order */
         |         
         REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
@@ -4014,7 +4014,7 @@ process ::=
         circusBasicProcess:bp
         {: RESULT = bp; :}
         |
-        /* Processes operator productions in precendence order */
+        /* Processes operator productions in precedence order */
         process:p CIRCHIDING:h channelSet:cs
         {:
            RESULT = factory_.createHideProcess(p, cs);
@@ -4056,7 +4056,7 @@ process ::=
         {: 
             RESULT = pc;
         :} 
-        |
+        |        
         /* Parenthesised processes */
         parenthesisedProcess:pp 
         {:           
@@ -4099,6 +4099,26 @@ processCall ::=
               createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
             addLocAnn(RESULT, dw.getLocation());
         :}
+        /** If we try renaming of calls without parenthesis, the other production is always given preference :-(( 
+        |
+        DECORWORD:dw channelRenaming:cr 
+        {: 
+         System.out.println("OXENTE");
+          RESULT = factory_.createRenameProcess(
+              factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)),
+                factory_.createZExprList(), CallUsage.Param), cr);
+            addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
+        :} %prec _RENAME     
+        |
+        DECORWORD:dw genericActuals:ga channelRenaming:cr 
+        {:         
+            RESULT = factory_.createRenameProcess(
+              factory_.createCallProcess(factory_.createRefExpr(
+                createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
+                factory_.createZExprList(), CallUsage.Param), cr);
+            addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
+        :} %prec _RENAME     
+        */
         |        
         /* Generic parameterless process call with instantiation */
         DECORWORD:dw genericActuals:ga
@@ -4137,7 +4157,7 @@ parenthesisedProcess ::=
            RESULT = p;
         :}  
         |
-        /* Non-generic on-the-fly paremeterised process call */
+        /* Non-generic on-the-fly parameterised process call */
         LPAREN:lp1 paramProcess:pp RPAREN:rp1 actualParameters:ap
         {:  
             addParenthesisAnn(lp1, pp, rp1);            
@@ -4149,7 +4169,7 @@ parenthesisedProcess ::=
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}        
         |
-        /* Generic on-the-fly paremeterised process call */
+        /* Generic on-the-fly parematerised process call */
         formalParameters:fp LPAREN:lp1 paramProcess:pp RPAREN:rp1 genericActuals:ga actualParameters:ap
         {:
             addParenthesisAnn(lp1, pp, rp1);            
@@ -4575,7 +4595,7 @@ paramAction ::=
             addLocAnn(RESULT, getLocation(getLocation(cpleft, cpright), getLocation(pa)));
         :}
         |
-        /* Replicated action productions in precendence order */
+        /* Replicated action productions in precedence order */
         REPINTERLEAVE:ri circusParamDeclList:dp LINTER nameSet:ns RINTER CIRCSPOT:sp circusAction:ca
         {:
             RESULT = factory_.createInterleaveActionIte(ca, dp, ns);
@@ -4669,7 +4689,7 @@ cspAction ::=
             addLocAnn(RESULT, getLocation(cm, ca));
         :}
         |
-        /* Action operator productions in precendence order */
+        /* Action operator productions in precedence order */
         circusAction:ca CIRCHIDING:h channelSet:cs
         {:
            RESULT = factory_.createHideAction(ca, cs);
@@ -5037,18 +5057,19 @@ command ::=
         /* Iteration */
         CIRCDO:cdo guardedCommands:gcs CIRCOD:cod
         {:
-            RESULT = factory_.createIfGuardedCommand(factory_.createCircusActionList(gcs));
-                //createWhileGuardedCommand(gcs);
-            addLocAnn(RESULT, getLocation(cdo, cod));            
-            //TODO: 
-            //throw new UnsupportedOperationException("Wrapper AST creation not yet available in the Circus Parser.");
+            RESULT = factory_.createDoGuardedCommand(factory_.createCircusActionList(gcs));                
+            addLocAnn(RESULT, getLocation(cdo, cod));                        
         :}
         |
-        /* Variable declaration 
-         * TODO:DESIGN: shall variable declarations accept schema inclusion?
-         */
+        /* Variable declaration */
         CIRCVAR:cv declPart:dp CIRCSPOT circusAction:ca 
         {:
+            // TODO:DESIGN: shall variable declarations accept schema inclusion?
+            
+            // TODO:DESIGN: also shall we raise a warning here or in the typechecker
+            //              about decorated variable names? They mess up things pretty much.
+            //              At the type checker then, since there is the place where they are
+            //              specially trated
             RESULT = factory_.createVarDeclCommand(dp, ca);
             addLocAnn(RESULT, getLocation(cv, ca));
         :}        
