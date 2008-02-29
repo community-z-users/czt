@@ -81,7 +81,12 @@ public class Factory
   {
     return zFactory_;
   }
-
+  
+  /**
+   * calls cloneTerm with an empty list of ....
+   * @param term
+   * @return
+   */
   public static Term cloneTerm(Term term)
   {
     List<Term> listTerm = new ArrayList<Term>();
@@ -89,6 +94,12 @@ public class Factory
     return cloneTerm(term, listTerm);
   }
 
+  /**
+   * Clones the given term 
+   * @param term
+   * @param listTerm
+   * @return
+   */
   public static Term cloneTerm(Term term, List<Term> listTerm)
   {
     Object[] children = term.getChildren();
