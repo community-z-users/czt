@@ -1253,6 +1253,15 @@
   </xs:element>      
   
   <!-- Circus Commands -->
+  <xs:element name="CircusGuardedCommand" type="CIRCUS:CircusGuardedCommand" abstract="true" substitutionGroup="CIRCUS:CircusCommand">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          Abstract base class for IfGuardedCommand and DoGuardedCommand
+        </p>        
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>    
   <xs:element name="SpecStmtCommand" type="CIRCUS:SpecStmtCommand" substitutionGroup="CIRCUS:CircusCommand">
     <xs:annotation>
       <xs:documentation>
@@ -1278,13 +1287,25 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="IfGuardedCommand" type="CIRCUS:IfGuardedCommand" substitutionGroup="CIRCUS:CircusCommand">
+  <xs:element name="IfGuardedCommand" type="CIRCUS:CircusGuardedCommand" substitutionGroup="CIRCUS:CircusGuardedCommand">
     <xs:annotation>
       <xs:documentation>
         <p>
           Command declaring a if statement containing guarded actions in Dijkstra's style.
           Although semantically different, we can represent the AST for the production of guarded actions 
           from the BNF of if commands with the <code>GuardedAction</code> AST class, hence minimising the 
+          AST classes. 
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element> 
+  <xs:element name="DoGuardedCommand" type="CIRCUS:CircusGuardedCommand" substitutionGroup="CIRCUS:CircusGuardedCommand">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          Command declaring a do (while) statement containing guarded actions in Dijkstra's style.
+          Although semantically different, we can represent the AST for the production of guarded actions 
+          from the BNF of do commands with the <code>GuardedAction</code> AST class, hence minimising the 
           AST classes. 
         </p>
       </xs:documentation>
@@ -2954,7 +2975,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="IfGuardedCommand">
+  <xs:complexType name="CircusGuardedCommand">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
