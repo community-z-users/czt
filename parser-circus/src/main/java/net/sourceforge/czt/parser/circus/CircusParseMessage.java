@@ -66,7 +66,7 @@ public enum CircusParseMessage {
 //      "\n\tSymbol..: {3}",
     "\n\tThe number of fields in a communication pattern is determined by the right scanning " +
     "\n\tof tokens, and a mismatch has been found. This usually happens due to missing parenthesis " +
-    "\n\tin output field expressions, or input field restriction predicates.")
+    "\n\tin output field expressions, input field restriction predicates, or field separators with fields.")
     //+ "\n\tIf the counters are negative, some processing error must have occurred at the SmartScanner.")
   ;    
   
