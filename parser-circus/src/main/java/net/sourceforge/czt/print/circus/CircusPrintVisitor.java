@@ -791,7 +791,7 @@ public class CircusPrintVisitor
     public Object visitIfGuardedCommand(IfGuardedCommand term) {
         printLPAREN(term);
         print(ZKeyword.IF);
-        Iterator<? extends CircusAction> it = term.getGuardedAction().iterator();
+        Iterator<? extends CircusAction> it = term.getGuardedActionList().iterator();
         while (it.hasNext()) {            
             GuardedAction ga = (GuardedAction)it.next();
             visit(ga.getPred());
@@ -803,10 +803,33 @@ public class CircusPrintVisitor
             }
         }
         // For a single guard, let the if on the same line as the fi
-        if (term.getGuardedAction().size() > 1) {
+        if (term.getGuardedActionList().size() > 1) {
             print(ZToken.NL);
         }
         print(CircusKeyword.CIRCFI);
+        printRPAREN(term);
+        return null;
+    }
+    
+    public Object visitDoGuardedCommand(DoGuardedCommand term) {
+        printLPAREN(term);
+        print(CircusKeyword.CIRCDO);
+        Iterator<? extends CircusAction> it = term.getGuardedActionList().iterator();
+        while (it.hasNext()) {            
+            GuardedAction ga = (GuardedAction)it.next();
+            visit(ga.getPred());
+            print(CircusKeyword.CIRCTHEN);
+            visit(ga.getCircusAction());
+            if (it.hasNext()) {
+                print(ZToken.NL);
+                print(CircusKeyword.CIRCELSE);
+            }
+        }
+        // For a single guard, let the if on the same line as the fi
+        if (term.getGuardedActionList().size() > 1) {
+            print(ZToken.NL);
+        }
+        print(CircusKeyword.CIRCOD);
         printRPAREN(term);
         return null;
     }
