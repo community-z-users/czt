@@ -38,7 +38,7 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
 
-  public void setParamOrIndexes(net.sourceforge.czt.z.ast.Signature sig)
+  public net.sourceforge.czt.z.ast.Signature setParamOrIndexes(net.sourceforge.czt.z.ast.Signature sig)
   {
     if (getMainSignatures().size() > FORMAL_PARAMS_INDEX) {
       assert sig != null;
@@ -47,7 +47,23 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
 
-  public net.sourceforge.czt.circus.ast.CircusCommunicationList getUsedCommunications()      
+  public net.sourceforge.czt.z.ast.Signature getUsedChannels()
+  {
+    if (getMainSignatures().size() > USED_CHANNELS_INDEX) {
+      return getMainSignatures().get(USED_CHANNELS_INDEX);
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
+  }
+
+  public net.sourceforge.czt.z.ast.Signature setUsedChannels(net.sourceforge.czt.z.ast.Signature sig)
+  {
+    if (getMainSignatures().size() > USED_CHANNELS_INDEX) {
+      assert sig != null;
+      getMainSignatures().set(USED_CHANNELS_INDEX, sig);
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
+  }
+    public net.sourceforge.czt.circus.ast.CircusCommunicationList getUsedCommunications()      
   {
     return net.sourceforge.czt.circus.util.CircusUtils.assertCircusCommunicationList(getCommunicationList());
   }
