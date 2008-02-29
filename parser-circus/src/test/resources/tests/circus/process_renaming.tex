@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION\ process\_renaming \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ [X] g: X \cross \nat \\
+   \circchannel\ c, d: \nat \cross \nat
+\end{circus}
+
+Note that calls MUST be parenthesised to have renaming working
+%
+\begin{circus}
+   \circprocess\ RenamingProcess1 \circdef (A \extchoice B) \lcircrename c := g[\nat] \rcircrename \\
+   \circprocess\ RenamingProcess2 \circdef (A) \lcircrename c := d \rcircrename
+\end{circus}
