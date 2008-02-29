@@ -1175,19 +1175,23 @@
         </p>
         <p>
           A communication can be either a communication for synchronisation, input, output, or mixed.
+          A communication can also appear in a channel set expression, in which case no fields are allowed.
           Synchronisation has no fields. Input and Output has only input or output fields respectively. 
           Mixed communication has both input and output fields, such as <code>c?x:P!v -> A</code>.
         </p>
         <p>
           The semantics of dot (c.x) and output (c!x) is equivalent. 
           However, for some applications/tools, their evaluation can be done differently.
+          Except for references (without generics) and numerals, expressions MUST be 
+          surrounded by parenthesis. Similarly, predicates on input prefix restrictions
+          must also be surrounded by parenthesis.
         </p>
         <p>
           Communications are annotated by the type checker with a CommunicationType, which
           includes the declared channel name/type pair, as well as the communication pattern
           signature. This is useful because the communication pattern type might not necessarily
           be the same as the type of the channel. Also, we mark the channel within the communication 
-          as a generic, implicit or normal channel.
+          as a generic, indexed or normal channel.
         </p>
       </xs:documentation>
     </xs:annotation>
@@ -2801,7 +2805,7 @@
         <xs:attribute name="CommUsage" type="CIRCUS:CommUsage" use="optional" default="Normal"/>
         <xs:attribute name="CommPattern" type="CIRCUS:CommPattern" use="optional" default="Synch"/>
         <xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
-        <xs:attribute name="Implicit" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="Indexed" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
@@ -2823,7 +2827,15 @@
     </xs:restriction>
   </xs:simpleType>  
   
-  <!-- We may have either normal, generic, or implicit communication -->
+  <!-- 
+  We may have either normal, or generic. As generic channels can 
+  be either implicit or explicit. An extra method is added via
+  GnAST for this. For the XML, the way to distinguish it is to 
+  check whether the RefExpr name contains expressions or not.
+  
+  Implicit generic means channels declared with generic formals
+  but used without instantiating then.
+  -->
   <xs:simpleType name="CommUsage">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Normal"/>
@@ -3202,6 +3214,8 @@
             </xs:annotation>
           </xs:element>
         </xs:sequence>
+        <!-- Determines whether the type represented by this channel requires indexing or not -->
+        <xs:attribute name="NeedIndexing" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
