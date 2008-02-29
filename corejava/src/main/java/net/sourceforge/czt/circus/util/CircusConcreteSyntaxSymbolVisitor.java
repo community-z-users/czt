@@ -323,6 +323,11 @@ public class CircusConcreteSyntaxSymbolVisitor
   {
     return CircusConcreteSyntaxSymbol.ALT_CMD;
   }
+  
+  public CircusConcreteSyntaxSymbol visitDoGuardedCommand(DoGuardedCommand term)
+  {
+    return CircusConcreteSyntaxSymbol.ALT_CMD;
+  }
 
   public CircusConcreteSyntaxSymbol visitParallelProcessIte(ParallelProcessIte term)
   {
