@@ -17,6 +17,7 @@ package net.sourceforge.czt.circus.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -768,7 +769,11 @@ public class PrintVisitor
     if (term.getCommUsage().equals(CommUsage.Generic) && 
         explicit != null && !explicit)
     {
-      result.append("_G_");
+      result.append("G_");
+    }
+    if (term.getIndexed())
+    {
+      result.append("I_");
     }
     result.append(visit(term.getChannelExpr()));
     result.append(visitList(term.getCircusFieldList(), ""));    
