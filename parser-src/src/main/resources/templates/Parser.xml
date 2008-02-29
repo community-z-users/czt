@@ -875,22 +875,30 @@ action code
     /**
      * Creates an empty (basic) channel set expression
      */
-    protected Expr createEmptyChannelSetExpr() {
-      return factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList());
+    protected Expr createEmptyChannelSetExpr(LocInfo loc) 
+    {
+      Expr result = factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList());
+      addLocAnn(result, loc);
+      return result;
     }
     
     /**
      * Creates an empty channel set (i.e. ChannelSet with an empty basic channel set expression).
      */
-    protected ChannelSet createEmptyChannelSet() {
-      return factory_.createCircusChannelSet(factory_.createSetExpr(factory_.createZExprList()));
+    protected ChannelSet createEmptyChannelSet(LocInfo loc)
+    {
+      ChannelSet result = factory_.createCircusChannelSet(factory_.createSetExpr(factory_.createZExprList()));
+      addLocAnn(result, loc);
+      return result;
     }
     
     /**
      * Creates an empty name set (i.e. NameSet with an empty set expression).
      */
-    protected NameSet createEmptyNameSet() {
-      return factory_.createCircusNameSet(factory_.createSetExpr(factory_.createZExprList()));
+    protected NameSet createEmptyNameSet(LocInfo loc) {
+      NameSet result = factory_.createCircusNameSet(factory_.createSetExpr(factory_.createZExprList()));
+      addLocAnn(result, loc);
+      return result;
     }  
     
     /**
@@ -993,14 +1001,13 @@ action code
      * lists are of a different size. This method is called either through channel renaming or 
      * an assignment command.
      */
-    protected boolean checkListSizesAreEqual(int line, int column, 
+    protected boolean checkListSizesAreEqual(LocInfo loc,
         List&lt;?&gt; l, List&lt;?&gt; r) {
         boolean result = l.size() == r.size();
         if (!result) {
           parser.report_error(CircusParseMessage.MSG_UNBALANCED_LISTS,
               new Object[] { l.size(), l.getClass().getTypeParameters()[0].getName(),
-                  r.size(), r.getClass().getTypeParameters()[0].getName() }, 
-                  getLocation(line, column));
+                  r.size(), r.getClass().getTypeParameters()[0].getName() }, loc);
         }
         return result;
     }
@@ -1010,17 +1017,18 @@ action code
      * elements for each list, which must have the same size. If the lists are not of the same 
      * size, the returned list is empty and a parsing error is generated.
      */
-    protected AssignmentPairs createAssignmentPairs(int line, int column,
+    protected AssignmentPairs createAssignmentPairs(LocInfo loc,
         ZNameList rnl, ZExprList el) {
         AssignmentPairs result = factory_.createAssignmentPairs();        
-        if (checkListSizesAreEqual(line, column, rnl, el)) {        
+        if (checkListSizesAreEqual(loc, rnl, el)) {        
           result.setLHS(rnl);
           result.setRHS(el);
         }
         if (rnl.isEmpty()) {        
           parser.report_error(CircusParseMessage.MSG_EMPTY_ASSIGNMENT,
-              new Object[0], getLocation(line, column));          
+              new Object[0], loc);          
         }
+        addLocAnn(result, loc);
         return result;
     }
     
@@ -1030,17 +1038,18 @@ action code
      * If the lists are not of the same size, the returned list is empty and a parsing error 
      * is generated.
      */
-    protected AssignmentPairs createChannelRenamingPairs(int line, int column,
+    protected AssignmentPairs createChannelRenamingPairs(LocInfo loc,
         ZNameList rnl, ZExprList el) {
-        AssignmentPairs result = createAssignmentPairs(line, column, rnl, el);
+        AssignmentPairs result = createAssignmentPairs(loc, rnl, el);
         int i = 0;
         for(Expr e : el) {
           if (!(e instanceof RefExpr)) {          
             parser.report_error(CircusParseMessage.MSG_INVALID_CHANNEL_RENAMING_EXPR,
-              new Object[] { rnl.get(i), i+1, e.getClass().getName() }, getLocation(line, column));
+              new Object[] { rnl.get(i), i+1, e.getClass().getName() }, loc);
           }
           i++;
         }
+        addLocAnn(result, loc);
         return result;
     }
 
@@ -1073,11 +1082,6 @@ action code
         return ap;
     }
     
-    protected ProcessPara createProcessPara(ZName name, ZNameList fp, CircusProcess cp) {
-        ProcessPara pp = factory_.createProcessPara(name, fp, cp);
-        return pp;
-    }
-       
     /**
      * Creates an implicit process paragraph with location annotation for the given name and action.
      */
@@ -3629,6 +3633,8 @@ channelSetPara ::=
 channelSet ::=                
         expression:e
         {:                  
+           // NOTE: The validation below makes sure that if this is a channel set extension,
+           //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.           
            Expr eValid = validateChannelSetExpr(e);           
            RESULT = factory_.createCircusChannelSet(eValid);
            addLocAnn(RESULT, getLocation(e));
@@ -4506,7 +4512,8 @@ channelRenaming ::=
             /* Must ensure that: 1) sizes of lists are equal; 2) second list contains only RefExpr.
              * RefExpr are possible in the case of generically defined channels.
              */
-            RESULT = createChannelRenamingPairs(rnlleft, rnlright, factory_.createZNameList(rnl), el);                        
+            RESULT = createChannelRenamingPairs(getLocation(rnlleft, rnlright), 
+              factory_.createZNameList(rnl), el);
             addLocAnn(RESULT, getLocation(lsq, rsq));
         :}        
         ;
@@ -4577,7 +4584,7 @@ paramAction ::=
         |
         REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
-            RESULT = factory_.createInterleaveActionIte(ca, dp, createEmptyNameSet());
+            RESULT = factory_.createInterleaveActionIte(ca, dp, createEmptyNameSet(ri));
             addLocAnn(RESULT, getLocation(ri, ca));
         :}
         |
@@ -4589,11 +4596,11 @@ paramAction ::=
             addLocAnn(RESULT, getLocation(lp, ca));
         :}
         |
-        LPAR:lp channelSet:cs RPAR circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
+        LPAR:lp channelSet:cs RPAR:rp circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
             // Namesets first because of common parent for parallel actions,
             // and interleave has no channel set but has a name set.
-            RESULT = factory_.createParallelActionIte(ca, dp, createEmptyNameSet(), cs);
+            RESULT = factory_.createParallelActionIte(ca, dp, createEmptyNameSet(rp), cs);
             addLocAnn(RESULT, getLocation(lp, ca));
         :}
         |
@@ -4678,7 +4685,7 @@ cspAction ::=
         circusAction:cal INTERLEAVE:il circusAction:car
         {:
             RESULT = factory_.createInterleaveAction(factory_.list(cal, car), 
-              factory_.list(createEmptyNameSet(), createEmptyNameSet()));
+              factory_.list(createEmptyNameSet(getLocation(cal, il)), createEmptyNameSet(getLocation(il, car))));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
@@ -4688,10 +4695,25 @@ cspAction ::=
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
-        circusAction:cal LPAR:lp channelSet:cs RPAR:rp circusAction:car
+        circusAction:cal LPAR:lp BAR:bl channelSet:cs BAR:br RPAR:rp circusAction:car
         {:        
             RESULT = factory_.createParallelAction(factory_.list(cal, car), 
-              factory_.list(createEmptyNameSet(), createEmptyNameSet()), cs);
+              factory_.list(createEmptyNameSet(getLocation(lp, bl)), createEmptyNameSet(getLocation(br, rp))), cs);
+            addLocAnn(RESULT, getLocation(cal, car));
+        :}
+        |
+        circusAction:cal LSQUARE:lp nameSet:nsl BAR channelSet:csl BAR BAR channelSet:csr BAR nameSet:nsr RSQUARE:rp circusAction:car
+        {:
+            RESULT = factory_.createAlphabetisedParallelAction(factory_.list(cal, car), 
+              factory_.list(nsl, nsr), factory_.list(csl, csr));              
+            addLocAnn(RESULT, getLocation(cal, car));
+        :}
+        |
+        circusAction:cal LSQUARE:lp BAR:bl channelSet:csl BAR BAR channelSet:csr BAR:br RSQUARE:rp circusAction:car
+        {:
+            RESULT = factory_.createAlphabetisedParallelAction(factory_.list(cal, car), 
+              factory_.list(createEmptyNameSet(getLocation(lp, bl)), createEmptyNameSet(getLocation(br, rp))), 
+              factory_.list(csl, csr));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
@@ -4821,7 +4843,7 @@ communication ::=
               factory_.createRefExpr(createCircusName(dw),     // channel name with generic parameters
                   el, Boolean.FALSE, Boolean.TRUE), 
                 factory_.createCircusFieldList(cf),       // communication fields       
-                CommUsage.Generic,                        // channel communication usage
+                CommUsage.Generic,                // channel communication usage
                 CircusUtils.retrieveCommPattern(cf),      // communication pattern
                 CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
                 false                                     // not implicit
@@ -5001,7 +5023,7 @@ command ::=
         refNameList:rnl CIRCASSIGN:ca expressionList:el
         {:            
             RESULT = factory_.createAssignmentCommand(
-              createAssignmentPairs(caleft, caright, factory_.createZNameList(rnl), el));                        
+              createAssignmentPairs(ca, factory_.createZNameList(rnl), el));                        
             addLocAnn(RESULT, getLocation(rnlleft, rnlright, rnl.get(0), el));
         :}
         |
@@ -6143,10 +6165,8 @@ term ::=
         // NOTE: It must be an optExpressionList because of generic actuals on channel names.
         LCIRCCHANSET:lc optCommunicationList:ocl RCIRCCHANSET:rc
         {:
-           CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: " + ocl);
-           // NOTE: The validation below makes sure that if this is a channel set extension,
-           //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.           
-           RESULT = validateChannelSetExpr(createBasicChannelSetExpr(getLocation(lc, rc), ocl));                      
+           CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: " + ocl);           
+           RESULT = createBasicChannelSetExpr(getLocation(lc, rc), ocl);                      
            addLocAnn(RESULT, getLocation(lc, rc));
         :}
 </add:circus>
@@ -6170,8 +6190,7 @@ communicationList ::=
         |
         chanSetComm:c
         {:
-           RESULT = factory_.list(c);
-           RESULT.add(c);
+           RESULT = factory_.list(c);           
         :}
         ;  
         
@@ -6182,7 +6201,7 @@ chanSetComm ::=
               factory_.createRefExpr(createCircusName(dw),     // channel name with generic parameters
                   el, Boolean.FALSE, Boolean.TRUE), 
                 factory_.createCircusFieldList(),         // communication fields       
-                CommUsage.Generic,                        // channel communication usage
+                CommUsage.Generic,                // channel communication usage
                 CommPattern.ChannelSet,                   // communication pattern
                 CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
                 false                                     // not implicit
