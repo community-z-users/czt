@@ -212,8 +212,8 @@ specification as a parent.
   \SECTION wedge \parents standard\_toolkit
 \end{zsection}
 \begin{zed}
-  State == [x: \negate 10 \upto 10] \\
-  Wedge == [\Delta State | x*x + x'*x' \leq 25; x + x' \leq 5; 0 \leq x']
+  State == [n: \negate 10 \upto 10] \\
+  Wedge == [\Delta State | n*n + n'*n' \leq 25; n + n' \leq 5; 0 \leq n']
 \end{zed}
 
 \subsection{Positive Tests}
@@ -235,11 +235,11 @@ and output values that are being tested.
 \end{zsection}
 
 \begin{theorem}{Wedge0Min}
-\vdash? ~~ \lblot x==0, x'==0 \rblot \in Wedge
+\vdash? ~~ \lblot n==0, n'==0 \rblot \in Wedge
 \end{theorem}
 
 \begin{theorem}{Wedge0Max}
-\vdash? ~~ \lblot x==0, x'==5 \rblot \in Wedge
+\vdash? ~~ \lblot n==0, n'==5 \rblot \in Wedge
 \end{theorem}
 
 Alternatively, we may prefer to group a set of tests together, and test
@@ -247,8 +247,8 @@ them all in one conjecture.  We can do this by naming the test tuples, and
 testing them all using a subset conjecture.
 
 \begin{zed}
-  Wedge0Min == \lblot x==0, x'==0 \rblot \\
-  Wedge0Max == \lblot x==0, x'==5 \rblot
+  Wedge0Min == \lblot n==0, n'==0 \rblot \\
+  Wedge0Max == \lblot n==0, n'==5 \rblot
 \end{zed}
 
 \begin{theorem}{WedgePos}
@@ -279,19 +279,19 @@ we prefix the name with $Not$ to indicate that it is a negative tests.
 \end{zsection}
 
 \begin{theorem}{NotWedge0Neg}
-\vdash? ~~ \lblot x==0, x'==\negate 1 \rblot \notin Wedge
+\vdash? ~~ \lblot n==0, n'==\negate 1 \rblot \notin Wedge
 \end{theorem}
 
 \begin{theorem}{NotWedge06}
-\vdash? ~~ \lblot x==0, x'==6 \rblot \in \lnot Wedge
+\vdash? ~~ \lblot n==0, n'==6 \rblot \in \lnot Wedge
 \end{theorem}
 
 We can also test just the precondition of the operation.
 %% Note: ZLive cannot evaluate this if the type of x is any integer
 %% because it requires enumerating pre Wedge, and then there is no
-%% lower bound on x'.
+%% lower bound on $n'$.
 \begin{theorem}{NotWedgePre6}
-\vdash? ~~ \lblot x==6 \rblot \notin \pre Wedge
+\vdash? ~~ \lblot n==6 \rblot \notin \pre Wedge
 \end{theorem}
 
 As we did for positive tests, we may also combine several negative tests
@@ -306,11 +306,11 @@ test suites check that 6 can never be an input for $Wedge$, and that 6 can
 never be an output of $Wedge$.
 
 \begin{theorem}{NotWedgeIn6}
-\vdash? ~~ ([State | x=6] \land Wedge) = \emptyset
+\vdash? ~~ ([State | n=6] \land Wedge) = \emptyset
 \end{theorem}
 
 \begin{theorem}{NotWedgeOut6}
-\vdash? ~~ ([State~' | x'=6] \land Wedge) = \emptyset
+\vdash? ~~ ([State~' | n'=6] \land Wedge) = \emptyset
 \end{theorem}
 
 It is sometimes convenient to write these kinds of negative test values
@@ -339,8 +339,8 @@ we shall promote the $Wedge$ tests up to the following function space:
   \Delta ManyStates \\
   curr? : \nat
 \where
-  (curr? \mapsto x) \in states \\
-  states' = states \oplus \{curr? \mapsto x'\}
+  (curr? \mapsto n) \in states \\
+  states' = states \oplus \{curr? \mapsto n'\}
 \end{schema}
 
 We promote the $Wedge$ operation up to the $ManyStates$ level simply by
@@ -364,9 +364,13 @@ for the $states$ mapping and which $curr?$ input will be tested.
 
 \begin{zed}
   \Phi ManyStatesTest ==
-    [\Phi ManyStates; curr? == 1 | states = \{0 \mapsto 3, 1 \mapsto x\}]
+    [\Phi ManyStates; curr? == 1 | states = \{0 \mapsto 3, 1 \mapsto n\}]
 \end{zed}
 
+%% NOTE: this fails if State contains x, because of a scoping
+%% error in the unfolding or in the translation to FlatPreds.
+%% Probably an 'x' in the ZLive preprocess rules gets accidentally
+%% bound to the 'x' from the State schema.
 \begin{theorem}{ManyWedgePos}
   \vdash? ~~ (\{Wedge0Min, Wedge0Max\} \land \Phi ManyStatesTest)
       \subseteq ManyWedge
