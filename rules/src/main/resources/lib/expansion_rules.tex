@@ -197,6 +197,13 @@ schema construction expressions.
   v = [v2; v2~' | P]
 \end{zedrule}
 
+%% TODO: generalize this to work on expression lists
+\begin{zedrule}{SchemaSet}
+  \{E1,E2\} :: \power [D | true]
+\derives
+  \{E1,E2\} = [D | \theta [D|true] = E1 \lor \theta [D|true] = E2 ]
+\end{zedrule}
+
 
 Predicates:
 
