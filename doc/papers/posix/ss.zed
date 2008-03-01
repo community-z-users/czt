@@ -55,6 +55,6 @@ identical to the old except that there is no file referred to by fid.
 \end{schema}
 
 \begin{zed}
-  ReadSS == (\Phi SS \land ReadFile) \hide (file, file') \\
-  WriteSS == (\Phi SS \land WriteFile) \hide (file, file')
+  readSS == (\Phi SS \land readFILE) \hide (file, file') \\
+  writeSS == (\Phi SS \land writeFILE) \hide (file, file')
 \end{zed}

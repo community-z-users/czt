@@ -26,7 +26,7 @@ every channel must refer to an existing file.
 
 \begin{zed}
   InitAS == InitSS \land InitCS \\
-  ReadAS == (\Phi AS \land ReadCHAN) \hide (offset?, fid, fid', posn, posn') \\
-  WriteAS == (\Phi AS \land WriteCHAN) \hide (offset?, fid, fid', posn, posn') \\
-  SeekAS == (\Phi AS \land SeekCHAN) \hide (fid, fid', posn, posn')
+  readAS == (\Phi AS \land readCHAN) \hide (offset?, fid, fid', posn, posn') \\
+  writeAS == (\Phi AS \land writeCHAN) \hide (offset?, fid, fid', posn, posn') \\
+  seekAS == (\Phi AS \land seekCHAN) \hide (fid, fid', posn, posn')
 \end{zed}

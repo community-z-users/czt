@@ -19,22 +19,22 @@ for the DS specification of POSIX files.
 
 \begin{theorem}{ReadTest0\_0}
 \vdash? \lblot file==eg1, offset?==0, length?==0, \\
-            data!==\langle \rangle, file'==eg1 \rblot \in ReadFile
+            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
 \begin{theorem}{ReadTest0\_3}
 \vdash? \lblot file==eg1, offset?==0, length?==3, \\
-            data!==\langle 1, 255 \rangle, file'==eg1 \rblot \in ReadFile
+            data!==\langle 1, 255 \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
 \begin{theorem}{ReadTest1\_1}
 \vdash? \lblot file==eg1, offset?==1, length?==1, \\
-            data!==\langle 255 \rangle, file'==eg1 \rblot \in ReadFile
+            data!==\langle 255 \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
 \begin{theorem}{ReadTest3\_2}
 \vdash? \lblot file==eg1, offset?==3, length?==2, \\
-            data!==\langle \rangle, file'==eg1 \rblot \in ReadFile
+            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
 Here are the results from ZLive.
@@ -59,7 +59,7 @@ just the input test values, and ask it to show any one of the
 solutions for the schema.  We get this output:
 
 \begin{verbatim}
-dstest> do [ReadFile | file=eg1; offset?=1; length?=1]
+dstest> do [readFILE | file=eg1; offset?=1; length?=1]
 1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , 
  file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
  offset? == 1 , length? == 1 , data! == \{ ( 1 , 255 ) \} \rblot
@@ -69,7 +69,7 @@ Oops, ReadTest1\_1 should have had 255 in $data!$ rather than $1$.
 
 
 \begin{verbatim}
-dstest> do [ReadFile | file=eg1; offset?=3; length?=2]
+dstest> do [readFILE | file=eg1; offset?=3; length?=2]
 1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \} ,
  file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
  offset? == 3 , length? == 2 , data! == \{ \} \rblot
@@ -84,41 +84,41 @@ Once these two errors in the test values are corrected,
 all the tests evaluate to true.
 
 
-\subsection{Negative Tests for ReadFile}
+\subsection{Negative Tests for $readFILE$}
 
 \begin{theorem}{BadOffset}
- \vdash?  ([offset? == \negate 1] \land ReadFile) = \{\}
+ \vdash?  ([offset? == \negate 1] \land readFILE) = \{\}
 \end{theorem}
 
 \footnote{CZT gives some really interesting and non-obvious error messages
-  if we omit the (..) parentheses!  The parser assumes that $ReadFile=\{\}$
+  if we omit the (..) parentheses!  The parser assumes that $readFILE=\{\}$
   is a predicate, which makes the typechecker interpret $[offset?==\negate 1]$
   as a predicate rather than a schema expression, so it complains about 
   Undeclared identifier $offset?$~!}
 
 We do the same test for $length?$.  This test also illustrates that
-we can write test values inside the $ReadFile$ schema.
+we can write test values inside the $readFILE$ schema.
 
 Which is easier to understand?
 
 \begin{theorem}{BadLength}
- \vdash?  [ReadFile | length? = \negate 1] = \{\}
+ \vdash?  [readFILE | length? = \negate 1] = \{\}
 \end{theorem}
 
 \begin{theorem}{BadOutFile}
- \vdash?  [ReadFile | file=eg1; file' \neq eg1] = \{\}
+ \vdash?  [readFILE | file=eg1; file' \neq eg1] = \{\}
 \end{theorem}
 
 \begin{theorem}{BadData}
- \vdash?  [ReadFile | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
+ \vdash?  [readFILE | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
 \end{theorem}
 
 
-\subsection{Positive Tests for WriteFile}
+\subsection{Positive Tests for $writeFILE$}
 
 TODO:
 
-\begin{schema}{WriteFile2}
+\begin{schema}{writeFILE2}
   \Delta DS \\
   offset? : \nat \\
   data? : FILE

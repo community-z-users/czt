@@ -18,23 +18,23 @@ A channel remembers the current position in the file:
   fid' = fid
 \end{schema}
 
-\begin{schema}{ReadCHAN}
-  ReadSS \\
+\begin{schema}{readCHAN}
+  readSS \\
   \Delta CHAN
 \where
   offset? = posn \\
   posn' = posn + #data!
 \end{schema}
 
-\begin{schema}{WriteCHAN}
-  WriteSS \\
+\begin{schema}{writeCHAN}
+  writeSS \\
   \Delta CHAN
 \where
   offset? = posn \\
   posn' = posn + #data?
 \end{schema}
 
-\begin{schema}{SeekCHAN}
+\begin{schema}{seekCHAN}
   \Delta SS \\
   \Delta CHAN \\
   newposn? : \nat

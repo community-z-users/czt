@@ -38,7 +38,7 @@ This was written as $file \circ suc^{offset}$ in the original specification.
   file ' = \{\}
 \end{schema}
 
-\begin{schema}{ReadFile}\\
+\begin{schema}{readFILE}\\
   \Xi DS \\
   offset?, length? : \nat \\
   data! : FILE
@@ -66,7 +66,7 @@ the file.
   \t2      @ ( 1 \upto offs ) \ndres ( zero~offs \cat f ))
 \end{zed}
 
-\begin{schema}{WriteFile}
+\begin{schema}{writeFILE}
   \Delta DS \\
   offset? : \nat \\
   data? : FILE
