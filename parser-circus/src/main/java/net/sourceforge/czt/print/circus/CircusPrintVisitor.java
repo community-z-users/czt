@@ -187,7 +187,7 @@ public class CircusPrintVisitor
     
     public Object visitBasicChannelSetExpr(BasicChannelSetExpr term) {
         print(CircusToken.LCIRCCHANSET);
-        printTermList(term.getCommunication());
+        printTermList(term.getCircusCommunicationList());
         print(CircusToken.RCIRCCHANSET);
         return null;
     }
@@ -1075,5 +1075,11 @@ public class CircusPrintVisitor
   public Object visitOutputFieldAnn(OutputFieldAnn term)
   {
     throw new UnsupportedOperationException("Unexpected term OutputFieldAnn.");
+  }
+
+  @Override
+  public Object visitProofObligationAnn(ProofObligationAnn term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 }
