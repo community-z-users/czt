@@ -1409,6 +1409,25 @@
   
   <!-- Additional top-level types in Circus -->
   
+  <xs:element name="CircusType" type="CIRCUS:CircusType" abstract="true" 
+    substitutionGroup="Z:Type2">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract Circus type. It is the base class for all Circus types, 
+        and it contains resolved generics - just like Z.Type2.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>      
+  
+  <xs:element name="CircusSigType" type="CIRCUS:CircusSigType" abstract="true" 
+    substitutionGroup="CIRCUS:CircusType">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract Circus type that contains a signature. 
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>      
+  
   <!-- DESIGN CLARIFICATION:
   
   In Standard Z, the BNF for the type system includes Type, Type2, and Signature. 
@@ -1431,7 +1450,7 @@
   It works similarly to PowerType in Z, as far as type inference is concerned. 
   That is, it contains 
   -->
-  <xs:element name="ChannelType" type="CIRCUS:ChannelType" substitutionGroup="Z:Type2">
+  <xs:element name="ChannelType" type="CIRCUS:ChannelType" substitutionGroup="CIRCUS:CircusType">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1448,7 +1467,7 @@
     </xs:annotation>
   </xs:element>      
   
-  <xs:element name="CommunicationType" type="CIRCUS:CommunicationType" substitutionGroup="Z:Type2">
+  <xs:element name="CommunicationType" type="CIRCUS:CircusSigType" substitutionGroup="CIRCUS:CircusSigType">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1460,7 +1479,7 @@
     </xs:annotation>
   </xs:element>    
   
-  <xs:element name="ChannelSetType" type="CIRCUS:CircusType" substitutionGroup="Z:Type2">
+  <xs:element name="ChannelSetType" type="CIRCUS:CircusSigType" substitutionGroup="CIRCUS:CircusSigType">
     <xs:annotation>
       <xs:documentation>
         A channel set type contains the signature of the set of names it represents, where synchronisation channels have null type.
@@ -1469,7 +1488,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>  
-  <xs:element name="ProcessType" type="CIRCUS:ProcessType" substitutionGroup="Z:Type2">
+  <xs:element name="ProcessType" type="CIRCUS:ProcessType" substitutionGroup="CIRCUS:CircusType">
     <xs:annotation>
       <xs:documentation>
         A process type contains its signature.
@@ -1480,6 +1499,20 @@
   
   <!-- Additional process-level types in Circus -->
 
+  <xs:element name="ActionType" type="CIRCUS:ActionType" substitutionGroup="CIRCUS:CircusType">
+    <xs:annotation>
+      <xs:documentation>
+        An action type contains the action signature.              
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>    
+  <xs:element name="NameSetType" type="CIRCUS:CircusSigType" substitutionGroup="CIRCUS:CircusSigType">
+    <xs:annotation>
+      <xs:documentation>
+        A name set type contains the signature of the set of names it represents.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
   
   <xs:element name="SigmaExpr" type="CIRCUS:SigmaExpr" substitutionGroup="Z:Expr">
     <xs:annotation>
@@ -1500,21 +1533,6 @@
         </p>
       </xs:documentation>
     </xs:annotation>     
-  </xs:element>
-  
-  <xs:element name="ActionType" type="CIRCUS:ActionType" substitutionGroup="Z:Type2">
-    <xs:annotation>
-      <xs:documentation>
-        An action type contains the action signature.              
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>    
-  <xs:element name="NameSetType" type="CIRCUS:CircusType" substitutionGroup="Z:Type2">
-    <xs:annotation>
-      <xs:documentation>
-        A name set type contains the signature of the set of names it represents.
-      </xs:documentation>
-    </xs:annotation>
   </xs:element>  
   
   <!-- Additional top-level signatures in Circus -->
@@ -1563,7 +1581,7 @@
             <li>
               ZSignatureList getMainSignatures() = getSignatureList().get(0):
               <ul>
-                <li>a) Signature getParamOrIndexes() = getSignatureList().get(0).get(0)</li>              
+                <li>a) Signature getFormalParamOrIndexes() = getSignatureList().get(0).get(0)</li>              
                 <li>b) Signature getUsedNameSets()   = getSignatureList().get(0).get(1) (for BasicProcessSignature only)</li>
                 <li>c) Signature getStateSignature() = getSignatureList().get(0).get(2) (for BasicProcessSignature only)</li>
               </ul>
@@ -1770,6 +1788,16 @@
     <xs:annotation>
       <xs:documentation>
         Annotation used for implicitly declared channnels via indexed processes.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ProofObligationAnn" type="CIRCUS:ProofObligationAnn" substitutionGroup="CIRCUS:CircusAnn">
+    <xs:annotation>
+      <xs:documentation>
+        Annotation used for attaching proof obligations to terms. For instance, the typechecker
+        adds a proof obligation annotation to expressions in iterated declarations to make sure
+        they are not infinite.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -3161,9 +3189,14 @@
   
   <xs:complexType name="CircusType">
     <xs:complexContent>
-      <xs:extension base="Z:Type2">
-        <xs:sequence> 
-          <xs:element ref="Z:Name"/>
+      <xs:extension base="Z:Type2"/>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="CircusSigType">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusType">
+        <xs:sequence>           
           <xs:element ref="Z:Signature">
             <xs:annotation>
               <xs:appinfo>
@@ -3221,11 +3254,39 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>    
+  <xs:complexType name="CommunicationType">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusType">
+        <xs:sequence>
+           The first name type pair is the channel name and type, 
+               whereas the remainder name type pairs represent the 
+               communication pattern. So c?x?y   c: N1 x N2 x N3               
+               
+               getSignature().getNameTypePair().get(0) = NameTypePair(ZName("c"), ProdType(List<N1, N2, N3>))
+                  getChannelName() = getSignature().getNameTypePair().get(0).getName()
+                  getChannelType() = getSignature().getNameTypePair().get(0).getType()
+                  
+               getSignature().getNameTypePair().sublist(1, getSignature().getNameTypePair().size()) = 
+                  List<NameTypePair(ZName("x"), Type2("N1")), NameTypePair(ZName("y"), ProdType(List<N2, N3>))>
+                  
+                  getCommunicationPattern = getSignature().getNameTypePair().sublist(1, getSignature().getNameTypePair().size())               
+           
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   -->
   
   <xs:complexType name="ChannelType">
     <xs:complexContent>
-      <xs:extension base="Z:Type2">
+      <xs:extension base="CIRCUS:CircusType">
         <xs:sequence>
           <xs:element ref="Z:Type2">
             <xs:annotation>
@@ -3239,39 +3300,11 @@
         <xs:attribute name="NeedIndexing" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="CommunicationType">
-    <xs:complexContent>
-      <xs:extension base="Z:Type2">
-        <xs:sequence>
-          <!-- The first name type pair is the channel name and type, 
-               whereas the remainder name type pairs represent the 
-               communication pattern. So c?x?y   c: N1 x N2 x N3               
-               
-               getSignature().getNameTypePair().get(0) = NameTypePair(ZName("c"), ProdType(List<N1, N2, N3>))
-                  getChannelName() = getSignature().getNameTypePair().get(0).getName()
-                  getChannelType() = getSignature().getNameTypePair().get(0).getType()
-                  
-               getSignature().getNameTypePair().sublist(1, getSignature().getNameTypePair().size()) = 
-                  List<NameTypePair(ZName("x"), Type2("N1")), NameTypePair(ZName("y"), ProdType(List<N2, N3>))>
-                  
-                  getCommunicationPattern = getSignature().getNameTypePair().sublist(1, getSignature().getNameTypePair().size())               
-           -->
-          <xs:element ref="Z:Signature">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
+  </xs:complexType>  
   
   <xs:complexType name="ProcessType">
     <xs:complexContent>
-      <xs:extension base="Z:Type2">
+      <xs:extension base="CIRCUS:CircusType">
         <xs:sequence>
           <xs:element ref="CIRCUS:ProcessSignature">
             <xs:annotation>
@@ -3287,7 +3320,7 @@
   
   <xs:complexType name="ActionType">
     <xs:complexContent>
-      <xs:extension base="Z:Type2">
+      <xs:extension base="CIRCUS:CircusType">
         <xs:sequence>
           <xs:element ref="CIRCUS:ActionSignature">
             <xs:annotation>
@@ -3334,7 +3367,7 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>          
-          getParamOrIndexes() = getSignature(0)          
+          getFormalParamOrIndexes() = getSignature(0)          
           getUsedChannels()   = getSignature(1)
           --> 
           <!--
@@ -3354,7 +3387,7 @@
           So, we add through GnAST the following convenience methods:
           
           ZSignatureList getMainSignatures() = getSignatureList().get(0)
-            a) Signature getParamOrIndexes() = getSignatureList().get(0).get(0)            
+            a) Signature getFormalParamOrIndexes() = getSignatureList().get(0).get(0)            
             b) Signature getUsedNameSets()   = getSignatureList().get(0).get(1) (for BasicProcessSignature only)
             c) Signature getStateSignature() = getSignatureList().get(0).get(2) (for BasicProcessSignature only)
             
@@ -3490,6 +3523,15 @@
     </xs:complexContent>
   </xs:complexType>  
   
+  <xs:complexType name="ProofObligationAnn">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusAnn">            
+         <xs:sequence>
+           <xs:element ref="Z:Pred"/>
+         </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="ActionSignatureAnn">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusAnn">            
