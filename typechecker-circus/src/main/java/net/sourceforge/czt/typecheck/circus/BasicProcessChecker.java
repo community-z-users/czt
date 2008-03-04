@@ -176,9 +176,16 @@ public class BasicProcessChecker extends Checker<Signature>
       Type2 type = getType2FromAnns(term.getCircusAction());
       if (type instanceof ActionType)
       {   
+        ActionType aType = (ActionType)type;
+               
+        // get the action signature for this basic process
         // TODO:? unify paraSig with term's? nah. leave it
         basicProcessSig_.getActionSignatures().add(
-          GlobalDefs.actionType(type).getActionSignature());
+          aType.getActionSignature());
+                
+        // get the action communications
+        basicProcessSig_.getUsedCommunications().addAll(
+          aType.getActionSignature().getUsedCommunications());        
       }
       else
       {        
