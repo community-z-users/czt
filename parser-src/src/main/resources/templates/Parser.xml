@@ -6211,6 +6211,7 @@ communicationList ::=
         |
         chanSetComm:c
         {:
+           c.setCommPattern(CommPattern.ChannelSet);
            RESULT = factory_.list(c);           
         :}
         ;  
