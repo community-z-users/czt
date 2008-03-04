@@ -20,8 +20,10 @@ package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
 import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusProcess;
+import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.circus.util.CircusUtils;
@@ -64,8 +66,14 @@ public class TypeChecker
    */
   protected Name currentActionName_;
   
+  protected Name currentNameSetName_;  
+  
+  protected Name currentChannelSetName_;  
+  
   protected CircusProcess currentProcess_;
   protected CircusAction currentAction_;
+  protected NameSet currentNameSet_;
+  protected ChannelSet currentChannelSet_;
 
   /**
    * The name of the current state process
@@ -94,6 +102,8 @@ public class TypeChecker
   
   // flag for whether the delcarations being checked are for circus formal parameters
   protected boolean circusFormalParameters_ = false;
+  
+  protected boolean circusQualifiedParams_ = false;
     
   //the visitors used to typechecker a Circus program
   protected Checker<Signature> signatureChecker_;
@@ -156,11 +166,16 @@ public class TypeChecker
     
     currentProcessName_ = null;
     currentActionName_ = null;
+    currentNameSetName_ = null;
+    currentChannelSetName_ = null;
     currentProcess_ = null;
     currentAction_ = null;
+    currentNameSet_ = null;
+    currentChannelSet_ = null;
     stateName_ = null;
     onTheFlyProcesses_ = null;
     circusFormalParameters_ = false;
+    circusQualifiedParams_ = false;
     shouldCreateLetVars_ = false;
     shouldCreateLetMu_ = false;    
 

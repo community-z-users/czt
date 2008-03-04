@@ -34,12 +34,15 @@ import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
@@ -127,6 +130,33 @@ public class ParaChecker
   {
     isCheckingProcessZPara_ = val;
   }
+  
+  // don't generalise - error messages are specific
+  protected ChannelSetType typeCheckChannelSet(Name name, ChannelSet term)
+  {        
+    Type2 type = term.accept(exprChecker());    
+    Type2 innerType = type;    
+    if (type instanceof PowerType)
+    {
+      innerType = GlobalDefs.powerType(type).getType();
+    }
+        
+    ChannelSetType result = factory().createChannelSetType();
+    UResult unified = unify(innerType, result);
+    
+    // if doesn't unify, then raise an error 
+    if (unified.equals(UResult.FAIL))
+    {
+      // within the ChannelSetPara, it must be a declaration
+      List<Object> params = factory().list();
+      params.add("channel set");
+      params.add(name);      
+      params.add(term);
+      params.add(type);           
+      error(term, ErrorMessage.NON_CHANNELSET_IN_POWEREXPR, params);      
+    }
+    return result;
+  }
     
   /**
    * For all other paragraph terms, use the standard Z typechecking rules 
@@ -202,37 +232,36 @@ public class ParaChecker
   {
     // CircusParagraph ::= chanset N == CSExpression
     
-    Name csName = term.getName();
+    ZName csName = term.getZName();
     ZNameList genParams = term.getZGenFormals();
-    ChannelSet cs = term.getChannelSet();
-    
-    //we enter a new variable scope for the generic parameters
+    ChannelSet cs = term.getChannelSet();    
+             
+    //we enter a new variable scope for the generic parameters    
     typeEnv().enterScope();
-    
+
     //add the generic parameter names to the type env
     //this already checks if names are repeated.
     addGenParamTypes(genParams);
-    
+
     // n \notin \Gamma.defNames is checked by checkParaList() at the SpecChecker.
-    
+
     // check this channel set
     // // \Gamma \rhd cs : CSExpression
-    ChannelSetType csType = (ChannelSetType)cs.accept(exprChecker());
-    csType.setName(csName);
-    
+    ChannelSetType csType = typeCheckChannelSet(csName, cs);
+
     // create signature with the declared name
     // like other set types, it is wrapped within a power type
-    PowerType pType = factory().createPowerType(csType);
+    PowerType pType = factory().createPowerType(GlobalDefs.unwrapType(csType));
     NameTypePair pair = factory().createNameTypePair(csName, pType);
     Signature result = factory().createSignature(pair);
-    
+
     // add channel set power type to ChannelSet
-    addTypeAnn(term.getChannelSet(), pType);
+    addTypeAnn(term.getChannelSet(), pType);     
+
+    typeEnv().exitScope();    
+    
     // add signature to ChannelSetPara
     addSignatureAnn(term, result);   
-    
-    
-    typeEnv().exitScope();
     
     return result;
   }

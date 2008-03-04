@@ -21,10 +21,13 @@ import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -40,6 +43,35 @@ public class ProcessParaChecker extends Checker<Signature>
   public ProcessParaChecker(TypeChecker typeChecker)
   {
     super(typeChecker);        
+  }
+  
+  // don't generalise - error messages are specific
+  protected NameSetType typeCheckNameSet(NameSet term)
+  {
+    Type2 type = term.accept(exprChecker());    
+    Type2 innerType = type;
+    if (type instanceof PowerType)
+    {
+      innerType = GlobalDefs.powerType(type).getType();
+    }
+    
+    NameSetType result = factory().createNameSetType();
+    UResult unified = unify(innerType, result);
+    
+    // if doesn't unify, then raise an error 
+    if (unified.equals(UResult.FAIL))
+    {
+      // within the ActionChecker, it must be for an action use 
+      // rather than at declaration point.      
+      List<Object> params = factory().list();
+      params.add(getCurrentProcessName());
+      params.add("name set");
+      params.add(getCurrentNameSetName());
+      params.add(term);
+      params.add(type);
+      error(term, ErrorMessage.NON_NAMESET_IN_SETEXPR, params);
+    }
+    return result;    
   }
   
   /**
@@ -117,7 +149,7 @@ public class ProcessParaChecker extends Checker<Signature>
    * which is formed by the collected ProcessSignature.
    * </p>
    * 
-   * @law C.10.2
+   * @law C.10.2, C.11.1, C.11.2
    */
   @Override
   public Signature visitActionPara(ActionPara term)
@@ -185,44 +217,50 @@ public class ProcessParaChecker extends Checker<Signature>
    */
   @Override
   public Signature visitNameSetPara(NameSetPara term)
-  {    
+  {     
     // retrieve the paragraph structure
     ZName nsName = term.getZName();
-    NameSet ns = term.getNameSet();
-    
+    NameSet ns = term.getNameSet();    
+    Signature result;
+        
     // check process paragraph scope.
     checkProcessParaScope(term, nsName);
     
-    // checking for duplicates
+    // TODO: CHECK: if this redeclared business is needed
     Type type = typeEnv().getType(nsName);
     if (type instanceof UnknownType)
     {
-      type = ns.accept(exprChecker());      
-      if (type instanceof NameSetType)
+      // set current name set being checked.      
+      Name old = setCurrentNameSetName(nsName);
+      NameSet oldNameSet = setCurrentNameSet(ns);      
+      if (old != null)
       {
-        // is this name on the type really needed/useful? TODO: CHECK:
-        // maybe for name set references in parallel constructs?
-        ((NameSetType)type).setName(nsName);        
+        Object[] params = { getCurrentProcessName(), nsName, old };
+        error(term, ErrorMessage.NESTED_NAMESETPARA_SCOPE, params);
       }
+      NameSetType nsType = typeCheckNameSet(ns);
+      
+      PowerType pType = factory().createPowerType(GlobalDefs.unwrapType(nsType));
+      NameTypePair pair = factory().createNameTypePair(nsName, pType);
+      result = factory().createSignature(pair);
+      
+      // add it to the process scope early
+      typeEnv().add(pair);
+
+      // restors the process para scope.
+      old = setCurrentNameSetName(old);
+      oldNameSet = setCurrentNameSet(oldNameSet);
+      assert old == nsName && 
+             oldNameSet == ns : "Invalid name set para scoping for " + nsName;
     }
     else
     {
+      result = factory().createSignature();      
       Object [] params = { nsName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
-      error(term, ErrorMessage.REDECLARED_DEF, params);
+      error(term, ErrorMessage.REDECLARED_DEF, params);      
     }
-    assert (type instanceof NameSetType || type instanceof UnknownType);
-    
-    PowerType pType = factory().createPowerType(GlobalDefs.unwrapType(type));
-    NameTypePair pair = factory().createNameTypePair(nsName, pType);
-    Signature result = factory().createSignature(pair);
-            
-    // add nameset power type to NameSet
-    addTypeAnn(term.getNameSet(), pType);
     // add signature to NameSetPara
     addSignatureAnn(term, result);   
-    
-    // add it to the process scope early
-    typeEnv().add(pair);
     
     return result;
   }

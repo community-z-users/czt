@@ -21,14 +21,23 @@ import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.SigmaExpr;
-import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.circus.ast.CircusNameSet;
+import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
 import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
+import net.sourceforge.czt.circus.visitor.CircusNameSetVisitor;
 import net.sourceforge.czt.circus.visitor.SigmaExprVisitor;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
+import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.visitor.SetExprVisitor;
 
 /**
  * Visitor that checks Circus expressions. They are channel set display expressions,
@@ -38,17 +47,43 @@ import net.sourceforge.czt.z.ast.Type2;
  */
 public class ExprChecker
   extends Checker<Type2>
-  implements BasicChannelSetExprVisitor<Type2>,
-             CircusChannelSetVisitor<Type2>,
-             SigmaExprVisitor<Type2>
-{
+  implements 
+    BasicChannelSetExprVisitor<Type2>,  // C.5.1, C.5.2
+    CircusChannelSetVisitor<Type2>,     // C.5.1, C.5.2, C.5.3, C.5.4, C.5.5, C.5.6 
+    SetExprVisitor<Type2>,              // C.9.1, C.9.2 - inner expressions    
+    CircusNameSetVisitor<Type2>,        // C.9.1, C.9.2, C.9.3, C.9.4, C.9.5, C.9.6 
+    SigmaExprVisitor<Type2>
+{  
+  
+  /**
+   * Flag whether checking name set expressions or not.
+   */
+  private boolean isWithinNameSet_;
+  private boolean isWithinChannelSet_;                  
+  
+  protected boolean inProcessPara_;
+  protected boolean inActionPara_;
+  protected boolean inNameSetPara_;
+  protected boolean inChannelSetPara_;
+  
   //a Z expr checker
   protected net.sourceforge.czt.typecheck.z.ExprChecker zExprChecker_;
 
   public ExprChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
+    resetFlags();
     zExprChecker_ = new net.sourceforge.czt.typecheck.z.ExprChecker(typeChecker);    
+  }
+  
+  private void resetFlags()
+  {
+    isWithinNameSet_ = false;
+    isWithinChannelSet_ = false;
+    inProcessPara_ = false;
+    inActionPara_ = false;
+    inNameSetPara_ = false;
+    inChannelSetPara_ = false;
   }
 
   /**
@@ -56,13 +91,14 @@ public class ExprChecker
    * within the checking environment for Circus. This also includes expression lists.
    *   
    * @law C.18.1, C.18.2, C.18.5, C.18.7
+   * @law C.9.3, C.9.4, C.9.5, C.9.6 - for inner expressions
    */
   @Override
   public Type2 visitTerm(Term term)
   {
     return term.accept(zExprChecker_);
-  }
-
+  } 
+  
   /**
    * The type of channel set displays is a signature containing name-type 
    * pairs of each channel element within the display. So, for example, 
@@ -71,23 +107,244 @@ public class ExprChecker
    * hence the resulting type is 
    * <br>
    * POWER_TYPE(CHANNELSET_TYPE(SIGNATURE(<(x,POWER_TYPE(\arithmos)), (y, POWER_TYPE(\arithmos))>)))   * 
+   * 
+   * @law C.5.1, C.5.2
    */
   @Override
   public Type2 visitBasicChannelSetExpr(BasicChannelSetExpr term)
-  {
+  {    
+    assert isWithinChannelSet_ : "cannot check basic channel set expressions outside channelsets.";
+    
     // check all communications within the channel set display
-    List<NameTypePair> pairs = term.getCommunication().accept(commChecker());
+    List<NameTypePair> pairs = term.getCommunicationList().accept(commChecker());
 
     // create channel set type with the found pairs as its signature
     Signature channelSetSig = factory().createSignature(pairs);
-    ChannelSetType cstype = factory().createChannelSetType(null, channelSetSig);
+    ChannelSetType cstype = factory().createChannelSetType(channelSetSig);
 
     // create product type of the collected channel set type as the result.
     PowerType result = factory().createPowerType(cstype);
-
     addTypeAnn(term, result);
 
     return result;
+  }
+  
+  /**
+   * 
+   * @param term
+   * @return
+   * @law C.5.1, C.5.2, C.5.3, C.5.4, C.5.5, C.5.6 
+   */
+  @Override
+  public Type2 visitCircusChannelSet(CircusChannelSet term)
+  {
+    // channel sets must be either within a NameSetPara 
+    // (when declared) or an ActionPara (when used).
+    checkChannelSetScope(term);
+    
+    // flag we are checking a nameset expression
+    isWithinChannelSet_ = true;    
+    inProcessPara_ = isWithinProcessParaScope();
+    inActionPara_ = isWithinActionParaScope();
+    inChannelSetPara_ = isWithinChannelSetParaScope();
+    
+    // typecheck all the elements using Z typechecker 
+    Expr csExpr = term.getExpr();    
+    Type2 innerType = factory().createUnknownType();
+    Type2 type = csExpr.accept(exprChecker());
+    
+    if (type instanceof PowerType)
+    {
+      innerType = GlobalDefs.powerType(type).getType();
+    }
+    else
+    {
+      List<Object> params = factory().list();
+      params.add((inProcessPara_ ? "process" : (inActionPara_ ? "action" : 
+        (inChannelSetPara_ ? "channel set" : "???"))));
+      params.add((inActionPara_ ? 
+        (getCurrentProcessName().toString() + "\n\tAction...: " +
+         getCurrentActionName().toString()) :
+        (inProcessPara_ ? getCurrentProcessName() :
+            (inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
+      params.add(csExpr);
+      params.add(type);            
+      error(csExpr, ErrorMessage.NON_CHANNELSET_IN_POWEREXPR, params);
+    }
+    
+    // create a variable power type and unify it with the result found
+    PowerType vPowerType = factory().createPowerType();
+    UResult unified = unify(vPowerType, type);
+    
+    //if the expr type is not a set, raise an error
+    if (!unified.equals(UResult.FAIL)) 
+    {
+      innerType = vPowerType.getType();
+    }
+    
+    // if not from a name set expression, raise the error
+    if (!(innerType instanceof ChannelSetType))
+    {      
+      List<Object> params = factory().list();      
+      params.add((inProcessPara_ ? "process" : (inActionPara_ ? "action" : 
+        (inChannelSetPara_ ? "channel set" : "???"))));
+      params.add((inActionPara_ ? 
+        (getCurrentProcessName().toString() + "\n\tAction...: " +
+         getCurrentActionName().toString()) :
+        (inProcessPara_ ? getCurrentProcessName() :
+            (inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
+      params.add(type);      
+      error(term, ErrorMessage.INVALID_CHANNELSET_TYPE, params);
+    }      
+    addTypeAnn(term, type);    
+    
+    // clear all flags about circus expressions
+    resetFlags();
+    return type;  
+  }
+  
+  /**
+   * 
+   * @param term
+   * @return
+   * @law C.9.1, C.9.2 - inner expressions
+   */
+  public Type2 visitSetExpr(SetExpr term)
+  {
+    Type2 result;
+    
+    // if typechecking name sets, check each element individually
+    if (isWithinNameSet_)
+    { 
+      // check whether it has been typechecked before - e.g., reuse of reference
+      result = getType2FromAnns(term);      
+      
+      // if not, then typecheck it
+      if (result instanceof UnknownType)
+      { 
+        int i = 1;
+        List<NameTypePair> pairs = factory().list();
+        
+        // search each expression element 
+        for(Expr expr : term.getZExprList())
+        {
+          Type2 found = expr.accept(exprChecker());
+          // only RefExpr are allowed
+          if (expr instanceof RefExpr)
+          {          
+            NameTypePair ntp = factory().createNameTypePair(
+              ((RefExpr)expr).getName(), found);
+            pairs.add(ntp);
+          }
+          else
+          {
+            List<Object> params = factory().list();
+            params.add(getCurrentProcessName());
+            params.add((inActionPara_ ? "action" : (inNameSetPara_ ? "name set" : "???")));
+            params.add((inActionPara_ ? getCurrentActionName() : 
+              (inNameSetPara_ ? getCurrentNameSetName() : "error")));
+            params.add(expr);
+            params.add(i);   
+            params.add(found);
+            error(term, ErrorMessage.TYPE_MISMATCH_IN_NAMESET_EXPR, params);
+          }
+          i++;
+        }
+        // create a power type of the name set type. unification should 
+        // sort this out nicely. For empty name sets, the pairs will be empty, fine.
+        result = factory().createPowerType(factory().createNameSetType(
+          factory().createSignature(pairs)));      
+      }
+          
+      // if resulting type is not a power of a name set type, raise an error
+      if (!(result instanceof PowerType) || 
+          !(GlobalDefs.powerType(result).getType() instanceof NameSetType))
+      {        
+        List<Object> params = factory().list();   
+        params.add(getCurrentProcessName());
+        params.add((inActionPara_ ? "action" : (inNameSetPara_ ? "name set" : "???")));
+        params.add((inActionPara_ ? getCurrentActionName() : 
+          (inNameSetPara_ ? getCurrentNameSetName() : "error")));
+        params.add(term);
+        params.add(result);           
+        error(term, ErrorMessage.NON_NAMESET_IN_SETEXPR, params);
+      }
+      
+      // add the type annotation
+      addTypeAnn(term, result);
+    }
+    // otherwise, just follow the Z protocol
+    else
+    {
+      result = term.accept(zExprChecker_);
+    }
+    return result;
+  }
+ 
+  /**
+   * 
+   * @param term
+   * @return
+   * @law C.9.1, C.9.2, C.9.3, C.9.4, C.9.5, C.9.6 
+   */
+  public Type2 visitCircusNameSet(CircusNameSet term)
+  {    
+    // channel sets must be either within a NameSetPara 
+    // (when declared) or an ActionPara (when used).
+    checkNameSetScope(term);
+    
+    // flag we are checking a nameset expression
+    isWithinNameSet_ = true;    
+    inActionPara_ = isWithinActionParaScope();
+    inNameSetPara_ = isWithinNameSetParaScope();
+    
+    // typecheck all the elements using Z typechecker 
+    Expr nsExpr = term.getExpr();    
+    Type2 innerType = factory().createUnknownType();
+    Type2 type = nsExpr.accept(exprChecker());
+    
+    if (type instanceof PowerType)
+    {
+      innerType = GlobalDefs.powerType(type).getType();
+    }
+    else
+    {
+      List<Object> params = factory().list();
+      params.add(getCurrentProcessName());
+      params.add((inActionPara_ ? "action" : (inNameSetPara_ ? "name set" : "???")));
+      params.add((inActionPara_ ? getCurrentActionName() : 
+        (inNameSetPara_ ? getCurrentNameSetName() : "error")));
+      params.add(nsExpr);
+      params.add(type);           
+      error(nsExpr, ErrorMessage.NON_NAMESET_IN_SETEXPR, params);
+    }
+    
+    // create a variable power type and unify it with the result found
+    PowerType vPowerType = factory().createPowerType();
+    UResult unified = unify(vPowerType, type);
+    
+    //if the expr type is not a set, raise an error
+    if (!unified.equals(UResult.FAIL)) 
+    {
+      innerType = vPowerType.getType();
+    }
+    
+    // if not from a name set expression, raise the error
+    if (!(innerType instanceof NameSetType))
+    {      
+      List<Object> params = factory().list();
+      params.add(getCurrentProcessName());
+      params.add((inActionPara_ ? "action" : (inNameSetPara_ ? "name set" : "???")));
+      params.add((inActionPara_ ? getCurrentActionName() : 
+        (inNameSetPara_ ? getCurrentNameSetName() : "error")));
+      params.add(type);      
+      error(term, ErrorMessage.INVALID_NAMESET_TYPE, params);
+    }      
+    addTypeAnn(term, type);    
+    
+    // clear all flags about circus expressions
+    resetFlags();
+    return type;  
   }
 
   /**
@@ -130,8 +387,7 @@ public class ExprChecker
    * (e.g. all tools using the CSP side of Circus), MUST provide such verification 
    * condition generation as well.
    * </p>
-   */
-  @Override
+   */  
   public Type2 visitSigmaExpr(SigmaExpr term)
   {
 //    // check both the channel and the value types within the SigmaExpr
@@ -153,308 +409,7 @@ public class ExprChecker
 //    addTypeAnn(term, result);
 //    
 //    return result;
+    assert false : "TODO";
     return null;
   }
-//  // CSExpression
-//  /* TODO: Check... these seems wrong as term.accept(paraChecker())
-//           will return a Signature rather than a Type2. if this is right,
-//           the visiting protocol became mixed up without a clear reason.
-  public Type2 visitCircusChannelSet(CircusChannelSet term)
-  {
-//    Type2 type = term.getExpr().accept(exprChecker());
-//    Signature sig = type.accept(signatureChecker());
-//    ChannelSetType result = factory().createChannelSetType(sig);
-//    addTypeAnn(term, result);
-//    return result;
-    return  null;
-  }
-//  
-//  // NSExpression
-//  public Type2 visitNameSet(NameSet term)
-//  {
-//    return null;
-//  }*/
-//
-//  // CSExpression ::= CSExpression \cup CSExpression
-//  // CSExpression ::= CSExpression \cap CSExpression
-//  // CSExpression ::= CSExpression \setminus CSExpression
-//  //ok - verificado em 15/09/2005 s 13:12
-//  // TODO: Does it allow any Z expression now, including function applications?
-//  public Type2 visitApplChannelSet(ApplChannelSet term)
-//  {
-//    /*
-//    List<NameTypePair> allPairs = list();
-//    
-//    TupleExpr tupleExpr = (TupleExpr)((ApplExpr)term.getExpr()).getRightExpr();
-//    
-//    List<Expr> exprs = tupleExpr.getExpr();
-//    ChannelSet exprChanSet = null;
-//    for (Expr expr : exprs) {
-//      if (expr instanceof RefExpr) {
-//        exprChanSet = factory().createRefChannelSet(((RefExpr)expr).getRefName());
-//      } else if (expr instanceof SetExpr) {
-//        List<RefExpr> refExprs = ((SetExpr)expr).getExpr();
-//        ListTerm newExprs = listTerm();
-//        for(RefExpr refExpr : refExprs) {
-//          newExprs.add(refExpr.getRefName());
-//        }
-////        exprChanSet = factory().createBasicChannelSet(((SetExpr)expr).getExpr());
-//        exprChanSet = factory().createBasicChannelSet(newExprs);
-//      } else {
-//        exprChanSet = factory().createApplChannelSet(expr);
-//      }
-//      Signature sig = ((ChanSetType)exprChanSet.accept(exprChecker())).getChannels();
-//      List<NameTypePair> pairs = sig.getNameTypePair();
-//      for(NameTypePair pair : pairs) {
-//        if(!allPairs.contains(pair)) {
-//          allPairs.add(pair);
-//        }
-//      }
-//    }
-//   
-//    Signature channelsSig = factory().createSignature(allPairs);
-//    ChanSetType type = factory().createChanSetType(channelsSig);
-//    
-//    addTypeAnn(term, type);
-//
-//    return type;
-//     */  
-//    List<NameTypePair> allPairs = new ArrayList<NameTypePair>();
-//    
-//    TupleExpr tupleExpr = (TupleExpr)((ApplExpr)term.getExpr()).getRightExpr();
-//    
-//    /*List<Expr>*/ ZExprList exprs = tupleExpr.getZExprList();
-//    ChannelSet exprChanSet = null;        
-//    for (Expr expr : exprs) {
-//      if (expr instanceof RefExpr) {
-//        exprChanSet = factory().createRefChannelSet(((RefExpr)expr).getRefName());
-//      } else if (expr instanceof SetExpr) {
-//        ZExprList refExprs = ((SetExpr)expr).getZExprList();        
-//        ZRefNameList newExprs = factory().createZRefNameList();        
-//        for(Expr rexpr : refExprs) {
-//          if (!(rexpr instanceof RefExpr))
-//              throw new UnsupportedOperationException("Circus typechecker only supports simple set operators for application expressions of channel sets.");
-//          RefExpr refExpr = (RefExpr)rexpr;
-//          newExprs.add(refExpr.getZRefName());
-//          // TODO: Opps... what about the generic types from refExpr.getExprList()?
-//        }
-//        exprChanSet = factory().createBasicChannelSet(newExprs);
-//      } else {
-//        exprChanSet = factory().createApplChannelSet(expr);
-//      }
-//      // TODO: Here something seems wrong. If you call it this way with the "Object" protocol in
-//      //       visitChannelSet, it will return a Signature from paraChecker and not a ChanSetType.
-//      //       Note that paraChecker() does not even implement ChannelSetVisitor, but ChannelSetParaVisitor!
-//      //       So, You do need a ChannelSet environment that is updated by
-//      //       the paraChecker() visitor. That is, when you find a ChannelSetPara, it is included into
-//      //       the environment, and from this environment you have a look from here!
-//      Signature sig = null; //((ChanSetType)exprChanSet.accept(exprChecker())).getChannels();
-//      
-//      List<NameTypePair> pairs = sig.getNameTypePair();
-//      for(NameTypePair pair : pairs) {
-//        if(!allPairs.contains(pair)) {
-//          allPairs.add(pair);
-//        }
-//      }
-//    }
-//   
-//    Signature channelsSig = factory().createSignature(allPairs);
-//    ChanSetType type = factory().createChanSetType(channelsSig);
-//    
-//    addTypeAnn(term, type);
-//
-//    return type;
-//  }
-//
-//  // CSExpression ::= N
-//  //ok - verificado em 15/09/2005 s 11:10
-//  public Type2 visitRefChannelSet(RefChannelSet term)
-//  {
-//    RefName chansetRef = term.getRefName();
-//    Signature channelsSig = factory().createSignature(new ArrayList<NameTypePair>());
-//    ChanSetType type = factory().createChanSetType(channelsSig);
-//    
-//    if(!isChannelSet(chansetRef)){
-//      Object [] params = {assertZRefName(chansetRef).getWord()};
-//      error(term, ErrorMessage.IS_NOT_CHANSET_NAME, params);
-//    }
-//    else{
-//      type = (ChanSetType)sectTypeEnv().getType(assertZRefName(chansetRef));
-//    }
-//    
-//    addTypeAnn(term, type);
-//
-//    return type;
-//  }
-//
-//  // CSExpression ::= {| |}
-//  // CSExpression ::= {| N+ |}
-//  //ok - verificado em 15/09/2005 s 11:09
-//  public Type2 visitBasicChannelSet(BasicChannelSet term)
-//  {
-//    ZRefNameList chanDecls = term.getRefNameList() == null ? factory().createZRefNameList() : term.getZRefNameList();
-//    List<NameTypePair> pairs = new ArrayList<NameTypePair>();
-//    
-//    for(RefName chanDecl : chanDecls) {      
-//      if(!isChannel(assertZRefName(chanDecl).getDecl())){ 
-//        Object [] params = {assertZRefName(chanDecl).getWord()};
-//        error(term, ErrorMessage.IS_NOT_CHANNEL_IN_CHANSET, params);
-//      } 
-//      else {
-//        Type typeChan = getChannelType(assertZRefName(chanDecl).getDecl());
-//        // TODO: Why not to consider the strokes of chanDecl?
-//        DeclName nameChan = factory().createZDeclName(assertZRefName(chanDecl).getWord(), null, null);
-//        NameTypePair pair = factory().createNameTypePair(nameChan, typeChan);
-//        pairs.add(pair);
-//      }
-//    }
-//
-//    Signature channelsSig = factory().createSignature(pairs);
-//    Type2 type = factory().createChanSetType(channelsSig);
-//    
-//    addTypeAnn(term, type);
-//
-//    return type;
-//  }
-//
-//  // NSExpression ::= NSExpression \cup NSExpression
-//  // NSExpression ::= NSExpression \cap NSExpression
-//  // NSExpression ::= NSExpression \setminus NSExpression
-//  //ok - verificado em 15/09/2005 s 13:14
-//  public Type2 visitApplNameSet(ApplNameSet term)
-//  {
-//      /*
-//    List<NameTypePair> allPairs = list();
-//    
-//    TupleExpr tupleExpr = (TupleExpr)((ApplExpr)term.getExpr()).getRightExpr();
-//    
-//    List<Expr> exprs = tupleExpr.getExpr();
-//    NameSet exprNameSet = null;
-//    for (Expr expr : exprs) {
-//      if (expr instanceof RefExpr) {
-//        exprNameSet = factory().createRefNameSet(((RefExpr)expr).getRefName());
-//      } else if (expr instanceof SetExpr) {
-//        //exprNameSet = factory().createBasicNameSet(((SetExpr)expr).getExprList());
-//      } else {
-//        exprNameSet = factory().createApplNameSet(expr);
-//      }
-//      Signature sig = ((NameSetType)exprNameSet.accept(exprChecker())).getNames();
-//      List<NameTypePair> pairs = sig.getNameTypePair();
-//      for(NameTypePair pair : pairs) {
-//        if(!allPairs.contains(pair)) {
-//          allPairs.add(pair);
-//        }
-//      }
-//    }
-//   
-//    Signature namesSig = factory().createSignature(allPairs);
-//    NameSetType type = factory().createNameSetType(namesSig);
-//    
-//    addTypeAnn(term, type);
-//
-//    return type;*/
-//      
-//    List<NameTypePair> allPairs = new ArrayList<NameTypePair>();
-//    TupleExpr tupleExpr = (TupleExpr)((ApplExpr)term.getExpr()).getRightExpr();
-//    ZExprList exprs = tupleExpr.getZExprList();
-//    
-//    NameSet exprNameSet = null;
-//    for (Expr expr : exprs) {
-//      if (expr instanceof RefExpr) {
-//        exprNameSet = factory().createRefNameSet(((RefExpr)expr).getRefName());
-//      } else if (expr instanceof SetExpr) {
-//        ZExprList refExprs = ((SetExpr)expr).getZExprList();
-//        ZRefNameList newNames = factory().createZRefNameList();        
-//        for(Expr rexpr : refExprs) {
-//          if (!(rexpr instanceof RefExpr))
-//              throw new UnsupportedOperationException("Circus typechecker only supports simple set operators for application expressions of name sets.");
-//          RefExpr refExpr = (RefExpr)rexpr;
-//          newNames.add(refExpr.getZRefName());
-//          // TODO: Opps... what about the generic types from refExpr.getExprList()?
-//        }
-//        exprNameSet = factory().createBasicNameSet(newNames);        
-//        // TODO: This wouldn't work because nameset expects a list of names and not expressions!
-//        //exprNameSet = factory().createBasicNameSet(((SetExpr)expr).getExprList());
-//      } else {          
-//        exprNameSet = factory().createApplNameSet(expr);
-//      }
-//      // TODO: Here something seems wrong. If you call it this way with the "Object" protocol in
-//      //       visitNameSet, it will return null!!.
-//      //       Note that paraChecker() does not even implement ChannelSetVisitor, but ChannelSetParaVisitor!
-//      //       So, You do need a NameSet environment that is updated by the visitor who checks NameSetPara.
-//      //       In LocalTypeEnv, you have getNameSets returning a list of DeclName.
-//      //       You would need something that returns the actual name set declaration for you to retrieve its signature from.
-//      Signature sig = null; //((NameSetType)exprNameSet.accept(exprChecker())).getNames();            
-//      List<NameTypePair> pairs = sig.getNameTypePair();
-//      for(NameTypePair pair : pairs) {
-//        if(!allPairs.contains(pair)) {
-//          allPairs.add(pair);
-//        }
-//      }
-//    }
-//    Signature namesSig = factory().createSignature(allPairs);
-//    NameSetType type = factory().createNameSetType(namesSig);
-//    
-//    addTypeAnn(term, type);
-//
-//    return type;
-//        
-//    
-//  }
-//
-//  // NSExpression ::= N
-//  //ok - verificado em 15/09/2005 s 13:15
-//  public Type2 visitRefNameSet(RefNameSet term)
-//  {
-//    RefName namesetRef = term.getRefName();
-//    Type2 type = factory().createNameSetType();
-//    ZDeclName name = factory().createZDeclName(assertZRefName(namesetRef));
-//    
-//    if(!localCircTypeEnv().isNameSet(name)){
-//      Object [] params = {name.getWord()};
-//      error(term, ErrorMessage.IS_NOT_NAMESET_NAME, params);
-//    }
-//    else{
-//        // TODO: Check This unwrapType call wasn't present at first, but it is needed
-//        //       for the visiting protocol to work properly.
-//      type = unwrapType(typeEnv().getType(assertZRefName(namesetRef)));      
-//    }
-//
-//    addTypeAnn(term, type);
-//
-//    return type;
-//  }
-//
-//  // NSExpression ::= {}
-//  // NSExpression ::= {N+}
-//  //ok - verificado em 15/09/2005 s 13:16
-//  public Type2 visitBasicNameSet(BasicNameSet term)
-//  {
-//    ZRefNameList nameDecls = term.getRefNameList() == null ? factory().createZRefNameList() : term.getZRefNameList();
-//    NameSetType result = factory().createNameSetType();
-//    List<NameTypePair> pairs = new ArrayList<NameTypePair>();
-//    
-//    for(RefName nameDecl : nameDecls) {
-//      ZRefName zrn = assertZRefName(nameDecl);      
-//      if(isLovalVar(nameDecl)) {
-//        DeclName name = zrn.getDecl();
-//        Type type = typeEnv().getType(zrn);
-//        NameTypePair pair = factory().createNameTypePair(name, type);
-//        pairs.add(pair);
-//      } 
-//      else {
-//        Object [] params = {assertZDeclName(currentProcess()).getWord(), 
-//                zrn.getWord()};
-//        error(term, ErrorMessage.IS_NOT_LOCAL_VAR_NAME_IN_NAMESET, params);
-//        break;
-//      }
-//    }
-//
-//    Signature namesSig = factory().createSignature(pairs);
-//    Type2 type = factory().createNameSetType(namesSig);
-//   
-//    addTypeAnn(term, type);
-//
-//    return type;
-//  }
 }
