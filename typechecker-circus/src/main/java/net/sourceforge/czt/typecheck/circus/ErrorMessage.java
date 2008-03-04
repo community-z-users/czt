@@ -32,6 +32,8 @@ public enum ErrorMessage
   INVALID_ACTION_PARA_SCOPE,
   NESTED_PROCESSPARA_SCOPE,
   NESTED_ACTIONPARA_SCOPE,
+  INVALID_NAMESET_SCOPE,
+  INVALID_CHANNELSET_SCOPE,
   
   // Process/action call - actual parameters check
   PARAM_PROC_CALL_UNDECLARED_VAR,
@@ -43,6 +45,7 @@ public enum ErrorMessage
   
   // Process/action call - consistency check
   IS_NOT_ACTION_NAME,      
+  ACTION_CALL_GENTYPE,
   
   // Basic process state variables 
   SCHEXPR_ACTION_VAR_OUT_OF_SCOPE,
@@ -68,12 +71,13 @@ public enum ErrorMessage
   CHANNEL_FROM_INVALID_INCLDECL,
   
   // Duplicate names in Circus declarations
-  CHANDECL_DUPLICATE_CHANNEL_NAME,  
-  QUALIFIEDDECL_DUPLICATE_PARAM_NAME,
+  DUPLICATE_NAME_DECLARATION_LIST,
   
   /** Messages within ProcessChecker.java */  
   
   /** Messages within ProcessParaChecker.java */  
+  
+  NESTED_NAMESETPARA_SCOPE,
   
   /** Messages within BasicProcessChecker.java */  
   
@@ -82,16 +86,34 @@ public enum ErrorMessage
   /** Messages within ActionChecker.java */  
   
   SCHEXPR_ACTION_WITHOUT_SCHEXPR,  
+  TYPE_MISMATCH_IN_CIRCUS_DECL,
+  NOT_LOCAL_VAR_NAME_IN_SUBST_ACTION,
+  ACTION_SUBSTITUTION_DONT_UNIFY,
+  INVALID_DECL_IN_ACTIONITE,
   
-  /** Messages within CommunicationChecker.java */  
+  /** CommandChecker.java  */
+
+  INVALID_DECL_IN_VARDECLCOMMAND,
+  
+  /** Messages within CommunicationChecker.java */    
   
   COMM_CHANNEL_FIELDS_ERROR,
   //COMM_SYNCH_CHANNEL_WITH_FIELDS,
   IS_NOT_CHANNEL_NAME,
+  IS_NOT_CHANNEL_NAME_IN_CHANNELSET,
+  NON_CHANNELSET_IN_COMMLIST,
   COMM_FIELDS_DONT_UNIFY,
   COMM_DOTFIELD_DONT_UNIFY,
   COMM_FIELD_FAILED_INVARIANT,
 
+  /** Messages within ExprChecker.java */    
+  
+  INVALID_CHANNELSET_TYPE,
+  INVALID_NAMESET_TYPE,
+  NON_NAMESET_IN_SETEXPR,
+  NON_CHANNELSET_IN_POWEREXPR,
+  TYPE_MISMATCH_IN_NAMESET_EXPR,
+    
   /** Messages within PostChecker.java */  
   
   POSTCHECKING_CALL_ERROR;

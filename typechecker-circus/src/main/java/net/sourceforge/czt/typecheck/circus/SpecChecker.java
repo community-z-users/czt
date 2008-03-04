@@ -18,11 +18,14 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
+import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
 
 /**
  * This visitor checks specification level terms, performs post checking 
@@ -33,7 +36,7 @@ import net.sourceforge.czt.z.visitor.ZParaListVisitor;
  * @author Manuela 
  */
 public class SpecChecker extends Checker<Object>
-  implements ZParaListVisitor<Object>
+  implements ZParaListVisitor<Object>, ZSectVisitor<Object>
 {  
   //a Z spec checker
   protected net.sourceforge.czt.typecheck.z.SpecChecker zSpecChecker_;
@@ -74,6 +77,14 @@ public class SpecChecker extends Checker<Object>
   {
     // for all other terms, just use th zSpecChecker.
     return term.accept(zSpecChecker_);
+  }
+  
+  public Object visitZSect(ZSect zSect)
+  {    
+    //reuse the general Checker protocol - needed to do it this way
+    //to enable setSectName for WarningManager to be called rightly.
+    List<NameSectTypeTriple> result = checkZSect(zSect);
+    return result;
   }
   
   /**
