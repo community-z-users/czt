@@ -181,7 +181,7 @@ public class CarrierSet
   
   public Term visitProcessSignature(ProcessSignature term)
   {
-    SchText paramOrIndexes = (SchText)term.getParamOrIndexes().accept(this);    
+    SchText paramOrIndexes = (SchText)term.getFormalParamsOrIndexes().accept(this);    
     Signature paramOrIndexesCarrier = schTextToSignature(ZUtils.assertZSchText(paramOrIndexes));     
     //ProcessSignature result = circusFactory_.createCircusProcessSignature(
     //  term.getProcessName(), term.getGenFormals(), paramOrIndexesCarrier, term.getKind());
