@@ -27,12 +27,20 @@ import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CallProcess;
+import net.sourceforge.czt.circus.ast.ChannelSet;
+import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusProcess;
+import net.sourceforge.czt.circus.ast.CircusType;
+import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.MuAction;
+import net.sourceforge.czt.circus.ast.NameSet;
+import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
+import net.sourceforge.czt.circus.ast.ProcessType;
+import net.sourceforge.czt.circus.ast.QualifiedDecl;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbol;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.circus.util.CircusUtils;
@@ -42,23 +50,28 @@ import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
+import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GenParamType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
-import net.sourceforge.czt.z.ast.ProdType;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * Derived superclass of all XXXChecker classes (i.e., one for each syntactic 
@@ -277,7 +290,7 @@ public abstract class Checker<R>
     return typeChecker_.currentProcessName_;
   }
 
-  protected ZName getCurrentZProcessName()
+  protected ZName getCurrentProcessZName()
   {
     return ZUtils.assertZName(getCurrentProcessName());
   }
@@ -306,20 +319,55 @@ public abstract class Checker<R>
     typeChecker_.currentProcess_ = process;
     return old;
   }
+  
+  protected Name getCurrentChannelSetName()
+  {
+    return typeChecker_.currentChannelSetName_;
+  }
 
+  protected ZName getCurrentChannelSetZName()
+  {
+    return ZUtils.assertZName(getCurrentChannelSetName());
+  }
+
+  protected Name setCurrentChannelSetName(Name name)
+  {
+    Name old = typeChecker_.currentChannelSetName_;
+    typeChecker_.currentChannelSetName_ = name;
+    return old;
+  }
+  
+  protected ChannelSet getCurrentChannelSet()
+  {
+    return typeChecker_.currentChannelSet_;
+  }
+
+  protected ChannelSet setCurrentChannelSet(ChannelSet channelSet)
+  {
+    ChannelSet old = typeChecker_.currentChannelSet_;
+    typeChecker_.currentChannelSet_ = channelSet;
+    return old;
+  }
+  
   /**
    * This flag must be set whenever we are performing typechecking 
    * over circus formal paramters. This is important to make sure 
    * only VarDecl or QualifiedDecl is allowed.
    */
-  protected void setCircusFormalParametersDecl(boolean val)
+  protected void setCircusFormalParametersDecl(boolean params, boolean qualified)
   {
-    typeChecker_.circusFormalParameters_ = val;
+    typeChecker_.circusFormalParameters_ = params;
+    typeChecker_.circusQualifiedParams_  = qualified;
   }
 
   protected boolean isCheckingCircusFormalParamDecl()
   {
     return typeChecker_.circusFormalParameters_;
+  }
+  
+  protected boolean isQualifiedParamAllowed()
+  {
+    return typeChecker_.circusQualifiedParams_; 
   }
 
   /**
@@ -332,6 +380,12 @@ public abstract class Checker<R>
     return typeChecker_.currentProcessName_ != null &&
       typeChecker_.currentProcess_ != null;
   }
+  
+  protected boolean isWithinChannelSetParaScope()
+  {
+    return (typeChecker_.currentChannelSetName_ != null &&
+      typeChecker_.currentChannelSet_ != null);
+  }
 
   protected boolean checkProcessParaScope(Term term, Name name)
   {
@@ -340,8 +394,32 @@ public abstract class Checker<R>
     {
       List<Object> params = factory().list();      
       params.add(getConcreteSyntaxSymbol(term));
-      params.add(name != null ? name : "");
+      params.add(name != null ? name : "???");
       error(term, ErrorMessage.INVALID_PROCESS_PARA_SCOPE, params);
+    }
+    return result;
+  }  
+  
+  protected boolean checkChannelSetScope(Term term)
+  {
+    // when used
+    boolean inProcessPara = isWithinProcessParaScope();        
+    boolean inActionPara  = isWithinActionParaScope();
+    // when declared
+    boolean inChannelSetPara = isWithinChannelSetParaScope();    
+    boolean result = (inProcessPara || inChannelSetPara || inActionPara);
+    if (!result)
+    {
+      List<Object> params = factory().list();            
+      params.add((inProcessPara ? "process" : (inActionPara ? "action" : 
+        (inChannelSetPara ? "channel set" : "???"))));
+      params.add((inActionPara ? 
+        (getCurrentProcessName().toString() + "\n\tAction...:" +
+         getCurrentActionName().toString()) :
+        (inProcessPara ? getCurrentProcessName() :
+            (inChannelSetPara ? getCurrentChannelSetName() : "error"))));
+      params.add(getConcreteSyntaxSymbol(term));      
+      error(term, ErrorMessage.INVALID_CHANNELSET_SCOPE, params);      
     }
     return result;
   }
@@ -372,7 +450,7 @@ public abstract class Checker<R>
     return typeChecker_.currentActionName_;
   }
 
-  protected ZName getCurrentZActionName()
+  protected ZName getCurrentActionZName()
   {
     return ZUtils.assertZName(getCurrentActionName());
   }
@@ -393,6 +471,35 @@ public abstract class Checker<R>
   {
     CircusAction old = typeChecker_.currentAction_;
     typeChecker_.currentAction_ = action;
+    return old;
+  }
+  
+  protected Name getCurrentNameSetName()
+  {
+    return typeChecker_.currentNameSetName_;
+  }
+
+  protected ZName getCurrentNameSetZName()
+  {
+    return ZUtils.assertZName(getCurrentNameSetName());
+  }
+
+  protected Name setCurrentNameSetName(Name name)
+  {
+    Name old = typeChecker_.currentNameSetName_;
+    typeChecker_.currentNameSetName_ = name;
+    return old;
+  }
+  
+  protected NameSet getCurrentNameSet()
+  {
+    return typeChecker_.currentNameSet_;
+  }
+
+  protected NameSet setCurrentNameSet(NameSet nameSet)
+  {
+    NameSet old = typeChecker_.currentNameSet_;
+    typeChecker_.currentNameSet_ = nameSet;
     return old;
   }
   
@@ -419,17 +526,50 @@ public abstract class Checker<R>
       typeChecker_.currentActionName_ != null &&
       typeChecker_.currentAction_ != null);
   }
-
-  protected void checkActionParaScope(Term term, Name name)
+  
+  protected boolean isWithinNameSetParaScope()
   {
-    if (!isWithinActionParaScope())
+    return (isWithinProcessParaScope() &&
+      typeChecker_.currentNameSetName_ != null &&
+      typeChecker_.currentNameSet_ != null);
+  }  
+
+  protected boolean checkActionParaScope(Term term, Name name)
+  {    
+    boolean result = isWithinActionParaScope();
+    if (!result)
     {
       List<Object> params = factory().list();
       params.add(getCurrentProcessName());
       params.add(getConcreteSyntaxSymbol(term));
-      params.add(name != null ? name : "");
+      params.add(name != null ? name : "???");
       error(term, ErrorMessage.INVALID_ACTION_PARA_SCOPE, params);
     }
+    return result;
+  }
+  
+  /**
+   * Checks whether the given name set is within either a NameSetPara or
+   * action para scopes. That is, a name set can only appear at its 
+   * declaration or when used in an action.
+   * @param term
+   */
+  protected boolean checkNameSetScope(Term term)
+  {
+    boolean inActionPara = isWithinActionParaScope();
+    boolean inNameSetPara = isWithinNameSetParaScope();    
+    boolean result = (inActionPara || inNameSetPara);
+    if (!result)
+    {
+      List<Object> params = factory().list();
+      params.add(getCurrentProcessName());
+      params.add((inActionPara ? "action" : (inNameSetPara ? "name set" : "???")));
+      params.add((inActionPara ? getCurrentActionName() : 
+        (inNameSetPara ? getCurrentNameSetName() : "error")));
+      params.add(getConcreteSyntaxSymbol(term));      
+      error(term, ErrorMessage.INVALID_NAMESET_SCOPE, params);      
+    }
+    return result;
   }
 
   /**
@@ -517,7 +657,8 @@ public abstract class Checker<R>
     List<NameTypePair> result = checkDeclNames(declNames,
       channelExpr, unified, exprType, vType);
 
-    // wrap up the result base type as a channel type.
+    // wrap up the result base type as a channel type or generic channel type
+    // depending on the current value of typeEnv().getParameters().size(). see #addGenerics
     for (NameTypePair pair : result)
     {
       if (pair.getType() instanceof net.sourceforge.czt.z.ast.GenericType)
@@ -526,9 +667,63 @@ public abstract class Checker<R>
       }
       Type2 type = GlobalDefs.unwrapType(pair.getType());
       ChannelType cType = factory().createChannelType(type);
-      pair.setType(cType);
+      Type gType = addGenerics(cType);
+      pair.setType(gType);
       // add channel type annotation to channel name
-      addTypeAnn(pair.getName(), cType);
+      addTypeAnn(pair.getName(), gType);
+      
+      // add it to the pending environment
+      pending().add(pair);
+    }
+    return result;
+  }
+  
+  @Override
+  protected Type2 instantiate(Type2 type)
+  {
+    Type2 result = factory().createUnknownType();
+    if (type instanceof ChannelType)      
+    {
+      ChannelType chanType = (ChannelType) type;
+      Type2 replaced = instantiate(chanType.getType());
+      result = factory().createChannelType(replaced);
+    }
+    else if (type instanceof CommunicationType)
+    {
+      CommunicationType commType = (CommunicationType) type;
+      Signature signature = instantiate(commType.getSignature());
+      result = factory().createCommunicationType(signature);
+    }
+    else if (type instanceof ChannelSetType)
+    {
+      ChannelSetType csType = (ChannelSetType) type;
+      Signature signature = instantiate(csType.getSignature());
+      result = factory().createChannelSetType(signature);
+    }
+    else if (type instanceof ProcessType)
+    {
+      ProcessType pType = (ProcessType) type;
+      ProcessSignature procSig = null;
+      assert false : "not yet";
+      result = factory().createProcessType(procSig);
+    }
+    else if (type instanceof ActionType)
+    {
+      ActionType aType = (ActionType) type;
+      ActionSignature actionSig = null;
+      assert false : "not yet";
+      result = factory().createActionType(actionSig);
+    }
+    else if (type instanceof NameSetType)
+    {
+      NameSetType nsType = (NameSetType) type;
+      Signature signature = instantiate(nsType.getSignature());
+      result = factory().createNameSetType(signature);
+    }
+    // otherwise, look for Z types.
+    else
+    {
+      result = super.instantiate(type);
     }
     return result;
   }
@@ -595,6 +790,16 @@ public abstract class Checker<R>
     return result;
   }
   
+  public boolean isLocalVar(ZName name)
+  {   
+    // if the type is known, it is a local variable only if not a Circus Type
+    Type type = typeEnv().getType(name);    
+    boolean result = (type != null &&      
+      !(type instanceof UnknownType) &&
+      !(type instanceof CircusType));
+   return result;
+  }
+  
   /**
    * Adds to the current scope all variables from a state paragraph's signature.
    * That is, it calls {@link #addLocalVars(List;lt&NameTypePair;gt&)} for all 
@@ -639,54 +844,7 @@ public abstract class Checker<R>
   /***********************************************************************
    * Syntax validation methods 
    **********************************************************************/
-//  protected boolean isChannel(/*String name*/Name name)
-//  {
-//    boolean result = false;
-//    for (ChannelInfo channel : channels())
-//    {
-//      Name decl = channel.getChannelType().getDeclName();
-//      if (GlobalDefs.compareName(decl, name, true))
-//      {
-//        result = true;
-//        break;
-//      }
-//    }
-//    return result;
-//  }
-//  
-//  // TODO: Check: why String at times and DeclName at other times?
-//  protected boolean isGenericChannel(Name name)
-//  {
-//    boolean result = false;
-//    for (ChannelInfo channel : channels())
-//    {
-//      Name decl = channel.getChannelType().getDeclName();
-//      if (GlobalDefs.compareName(decl, name, true))
-//      {
-//        if(channel.isGeneric())
-//        {
-//          result = true;
-//          break;
-//        }
-//      }
-//    }
-//    return result;
-//  }
-//  
-//  protected List<Name> getGenParamsChannel(Name name)
-//  {
-//    List<Name> result = new ArrayList<Name>();
-//    for (ChannelInfo channel : channels())
-//    {
-//      Name decl = channel.getChannelType().getDeclName();
-//      if (GlobalDefs.compareName(decl, name, true))
-//      {
-//        result = channel.getParams();
-//        break;
-//      }
-//    }
-//    return result;
-//  }
+
 //  
 //  protected boolean isProcess(Name name)
 //  {
@@ -1039,39 +1197,7 @@ public abstract class Checker<R>
 //    return result;
 //  }
 //  
-//  public boolean isLovalVar(Name name)
-//  {
-//    boolean result = true;
-//    ZName zrn = ZUtils.assertZName(name);
-//    Type type = typeEnv().getType(zrn);
-//    if(!(type instanceof UnknownType))
-//    {
-//      ZName declName = factory().createZName(zrn.getWord());
-//      if(localCircTypeEnv().isAction(declName) || localCircTypeEnv().isNameSet(declName))
-//      {
-//        result = false;
-//      }
-//    }
-//    else
-//    {
-//      result = false;
-//    }
-//    return result;
-//  }
-//  
-//  public boolean isLocalVars(List<Name> names)
-//  {
-//    boolean result = true;
-//    for(Name name : names)
-//    {
-//      result = isLovalVar(name);
-//      if(!result)
-//      {
-//        break;
-//      }
-//    }
-//    return result;
-//  }
+
   protected void error(Term term, ErrorMessage errorMsg, Object... params)
   {
     ErrorAnn errorAnn = this.errorAnn(term, errorMsg, params);
@@ -1593,8 +1719,8 @@ public abstract class Checker<R>
       }
     }
     return result;
-  }
-  
+  }  
+
   /**
    * Raise all the errors from the given list that were generated during 
    * the typechecking of the given term. This is to be called by all visiting
@@ -1666,10 +1792,10 @@ public abstract class Checker<R>
    * which would accept declarations like "x: \nat; x: \num" since 
    * both types would unify.
    */
-  protected void checkForDuplicateNames(ZNameList declNames,
-    ErrorMessage errorMsg)
+  protected void checkForDuplicateNames(ZNameList declNames, Term term)
   {    
     Map<String, ZName> map = factory().hashMap();
+    int i = 1;
     for (Iterator<Name> iter = declNames.iterator(); iter.hasNext();)
     {
       ZName first = ZUtils.assertZName(iter.next());
@@ -1680,11 +1806,38 @@ public abstract class Checker<R>
         //merge the ids of the 2 names, and remove the duplicate
         factory().merge(second, first);
         iter.remove();
+        
+        Object[] params = { getConcreteSyntaxSymbol(term), second, i};
+        error(term, ErrorMessage.DUPLICATE_NAME_DECLARATION_LIST, params);
       }
       map.put(firstName.intern(), first);
+      i++;
+    }    
+  }
+  
+  protected void checkForDuplicateNames(List<NameTypePair> pairs, Term term)
+  {
+    ZNameList znl = factory().createZNameList();
+    for(NameTypePair ntp : pairs)
+    {
+      znl.add(ntp.getName());
     }
+    checkForDuplicateNames(pairs, term);
   }
 
+  /**
+   * Given an action name and its body, checks it for consistency. First checks
+   * if it is within a process paragraph scope. This sets the typechecker state for  the
+   * current action name to be the one given, provided such name is Unknown or a MuAction
+   * (i.e., the name is not being redeclared or it is of a MuAction being currently declared).
+   * Next, nesting of actions is checked, where only MuActions are allowed to declared
+   * nested action contexts. Finally, the action is checked and its signature returned.
+   * 
+   * @param aName the action name to declare
+   * @param action the action definition associated with the name
+   * @param term the term where the definition is being added (e.g., ActionPara, MuAction)
+   * @return the typechecked action signature for the given action
+   */
   protected ActionSignature checkActionDecl(ZName aName, CircusAction action, Term term)
   {
     // check process paragraph scope.
@@ -1692,6 +1845,7 @@ public abstract class Checker<R>
     
     ActionSignature aSig;
     
+    // TODO: CHECK: if this redeclared business is needed
     // TODO: CHECK: not sure if this is a good idea because it may annotate
     //              aName with an UnderclaredAnn ? Not if directly from typeEnv()
     //              rather than Checker.getType(aName);    
@@ -1738,7 +1892,7 @@ public abstract class Checker<R>
       error(term, ErrorMessage.REDECLARED_DEF, params);      
     }        
     return aSig;
-  }
+  }  
   
   /**
    * Checks the scope of the the schema type associated with the given action.
@@ -1789,4 +1943,118 @@ public abstract class Checker<R>
     }
     return result;
   }
+  
+  protected boolean easilyFinite(Expr expr)
+  {
+    // set displays are always finite, hence easily decidable
+    boolean result = (expr instanceof SetExpr);
+    if (!result)
+    {
+      // if this is a range (i.e. _ .. _), then it is also finite
+      result = ZUtils.isFcnOpApplExpr(expr) && 
+        ZUtils.getApplExprName(expr).getZName().getWord().equals(
+        ZString.ARG_TOK+ ZString.DOT + ZString.DOT +ZString.ARG_TOK);
+    }
+    return result;
+  }
+  
+  protected void addFinitenessProoofObligation(Term term, Expr expr)
+  {
+    Expr finiteExpr = factory().getZFactory().createRefExpr(
+      factory().createZName(ZString.FINSET + ZString.ARG_TOK), 
+      factory().getCircusFactory().createZExprList(factory().list(expr)), 
+      true, false);
+    Pred pred = factory().getCircusFactory().createMemPred(            
+      factory().list(expr, finiteExpr), false);            
+    CircusUtils.addProofObligationAnn(term, pred);
+  }
+  
+  protected boolean isValidDeclClass(Decl decl)
+  {
+     // if it isn't the case that Decl is either VarDecl or
+     // an allowed QualifiedDecl point, then raise the errors
+     return ((GlobalDefs.instanceOf(decl, VarDecl.class) || 
+       (isQualifiedParamAllowed() && 
+       GlobalDefs.instanceOf(decl, QualifiedDecl.class))));
+  }
+  
+  /**
+   * Typechecks a declaration list for a circus production within the given term.
+   * That is, either a declaration of a parameterised process/action/command or
+   * iterated process/action. It checks for valid kinds of Decl classes allowed
+   * by each case raising the appropriate error if needed. It cares about the case
+   * whether finite declarations should be considered (i.e., adds a proof obligation
+   * to the declaring expression and raise a warning if not possible decide automatically;
+   * see #easilyFinite(Term) for that.). 
+   * <p>
+   * After that, the parameters are checked by the DeclChecker accordingly.
+   * Potential generic types from a process declaration is added to the resulting 
+   * list of name type pairs. Finally, the list is checked for duplicate names
+   * or type mismatches. 
+   * </p>
+   * @param term term where decls come from
+   * @param decls the decls to type check
+   * @param considerFiniteness flag to consider finiteness or not
+   * @param errorMessage the error message to raise in case an invalid Decl is found 
+   * @param errorParams the error parameters for errorMessage and WarningMessage.POTENTIALLY_INFINITE_INDEX in case considerFiniteness is true.
+   * @return a list of name type pairs for the declared parameters considering potential generic types from the process scope.
+   */
+  protected List<NameTypePair> typeCheckCircusDeclList(Term term, 
+    ZDeclList decls, boolean considerFiniteness, 
+    ErrorMessage errorMessage, List<Object> errorParams)
+  {
+    // any circus declaration must at least be within some process scope.
+    checkProcessParaScope(term, null);
+    
+    // flags to the DeclCheck we are declaring parameters - not allowing qualified Decl
+    setCircusFormalParametersDecl(true, false);
+    
+    int i = 1;
+    for(Decl d : decls)
+    {
+      if (!isValidDeclClass(d))
+      {
+        // check if the iterators are finite, raising a warning if not.
+        VarDecl vd = (VarDecl)d;
+        Expr vdExpr = vd.getExpr();
+        if (considerFiniteness && !easilyFinite(vdExpr))
+        {          
+          errorParams.add(i);
+          errorParams.add(vd.getZNameList());
+          errorParams.add(vdExpr);
+          warningManager().warn(WarningMessage.POTENTIALLY_INFINITE_INDEX, errorParams);                      
+          addFinitenessProoofObligation(term, vdExpr);          
+        }
+      }
+      else
+      {
+        errorParams.add(d);
+        errorParams.add(i);
+        errorParams.add(getConcreteSyntaxSymbol(d));        
+        error(term, errorMessage, errorParams);        
+      }
+      i++;
+    }
+    
+    // check the parameters
+    List<NameTypePair> pairs = decls.accept(declChecker());    
+    
+    // return the flags back to normal after checking the parameters
+    setCircusFormalParametersDecl(false, false);
+    
+    //Add the potential generics to the parameters type
+    List<NameTypePair> gParams = addGenerics(pairs);
+    
+    // check for duplicate in the names
+    checkForDuplicateNames(gParams, term);
+        
+    // check for type mismatches in the parameters signature
+    checkForDuplicates(gParams, factory().<Term>list(
+      getCurrentProcessName(),  
+      (isWithinActionParaScope() ? 
+        getCurrentActionName() : factory().createZName("none"))), 
+      ErrorMessage.TYPE_MISMATCH_IN_CIRCUS_DECL.toString());    
+    
+    return gParams;
+  }  
 }
