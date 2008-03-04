@@ -36,10 +36,11 @@ import net.sourceforge.czt.z.ast.VarDecl;
 public class CommandChecker
   extends Checker<ActionSignature>
   implements //CircusCommandVisitor,
+      VarDeclCommandVisitor<ActionSignature>          // C.16.1, C.17.3
       //SpecStmtCommandVisitor<ActionSignature>,      // C.17.1, C.17.4, C.17.5
       //AssignmentCommandVisitor<ActionSignature>,
-      //IfGuardedCommandVisitor<ActionSignature>,
-      VarDeclCommandVisitor<ActionSignature>
+      //IfGuardedCommandVisitor<ActionSignature>,      
+      
 {  
   //a Z decl checker
   protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
@@ -50,6 +51,44 @@ public class CommandChecker
     super(typeChecker);
     zDeclChecker_ =
       new net.sourceforge.czt.typecheck.z.DeclChecker(typeChecker);
+  }
+  
+  /**
+   * Typechecks variable declaration commands, as well as qualified commands.
+   * @param term
+   * @return
+   * @law C.16.1, C.17.3
+   */
+  public ActionSignature visitVarDeclCommand(VarDeclCommand term)
+  {
+    checkActionParaScope(term, null);
+    
+    List<NameTypePair> gParams = typeCheckCircusDeclList(
+      term, term.getZDeclList(), true, 
+      ErrorMessage.INVALID_DECL_IN_VARDECLCOMMAND, 
+      factory().<Object>list(getCurrentProcessName(), getCurrentActionName()));
+  
+    // put the declared parameters into the action's scope
+    typeEnv().enterScope();
+    
+    // add variables to the state - and current scope only.
+    List<NameTypePair> allVars = addLocalVars(gParams);    
+    
+    // check the inner action now with the parameters in scope
+    ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
+    
+    // clone the signature
+    //ActionSignature varDeclCmdSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
+    ActionSignature varDeclCmdSig = (ActionSignature)factory().cloneTerm(actionSignature);
+    
+    // updates the local variable signature for the prefixed action.
+    varDeclCmdSig.getLocalVars().getNameTypePair().addAll(0, allVars);
+        
+    typeEnv().exitScope();    
+        
+    // add signature to the term
+    addActionSignatureAnn(term, varDeclCmdSig);
+    return varDeclCmdSig;       
   }
  
 //  // Command ::= N+ := Expression+
@@ -162,45 +201,8 @@ public class CommandChecker
 //  }
 //
 //  // Command ::= var Declaration @ Action
-  public ActionSignature visitVarDeclCommand(VarDeclCommand term)
-  {
-    // check within an action paragraph scope.
-    checkActionParaScope(term, null);
-
-    for(Decl decl : term.getZDeclList())
-    {      
-      if (!(decl instanceof VarDecl || decl instanceof QualifiedDecl))
-      {
-        Object[] params = { getCurrentProcessName(), getCurrentActionName(), decl };
-        warningManager().warn(WarningMessage.INVALID_DECL_IN_VARDECLCOMMAND, params);
-        break;
-      }      
-    }
-    
-    // enter the local variable declaration scope
-    typeEnv().enterScope();
-
-    // get the declared variables.
-    List<NameTypePair> declPairs = term.getZDeclList().accept(declChecker());
-    
-    // add variables to the state - current scope only.
-    List<NameTypePair> allVars = addLocalVars(declPairs);
-
-    // signature of inner action
-    ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
   
-    // clone the signature
-    ActionSignature varDeclCmdSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
-    
-    // updates the local variable signature for the prefixed action.
-    varDeclCmdSig.getLocalVars().getNameTypePair().addAll(0, declPairs);
-    
-    typeEnv().exitScope();
-    
-    addActionSignatureAnn(term, varDeclCmdSig);
-    
-    return varDeclCmdSig;
-  }
+  
 //
 //  /*
 //  

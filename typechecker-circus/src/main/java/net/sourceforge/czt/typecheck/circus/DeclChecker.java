@@ -22,7 +22,6 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.QualifiedDecl;
-import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
 import net.sourceforge.czt.circus.visitor.QualifiedDeclVisitor;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
@@ -100,12 +99,12 @@ public class DeclChecker
     // search for the need to add errors in case we are checking formal parameters
     if (isCheckingCircusFormalParamDecl())
     {
+      int i = 1;
       //for each declaration in the list, get the declarations from that
       //and make sure they are of the appropriate subtype.
       for (Decl decl : term.getDecl()) 
       {
-        if (!GlobalDefs.instanceOf(decl, VarDecl.class) &&
-            !GlobalDefs.instanceOf(decl, QualifiedDecl.class))        
+        if (!isValidDeclClass(decl))        
         {          
           boolean isProcess = isWithinProcessParaScope();
           Name name = (isProcess ? getCurrentProcessName() : getCurrentActionName());        
@@ -125,16 +124,19 @@ public class DeclChecker
           if (name == null)
           {                       
             assert !isWithinActionParaScope() : "within action scope but without action name for process " 
-              +  getCurrentProcessName();                        
+              +  getCurrentProcessName();
+            params.add(i);
             error(decl, ErrorMessage.FORMAL_PARAMS_INVALID_SCOPE, params);
           }
           else 
           { 
             params.add("VarDecl or QualifiedDecl");
-            params.add(decl.getClass().getName());            
+            params.add(decl.getClass().getName());
+            params.add(i);
             error(decl, ErrorMessage.FORMAL_PARAMS_INVALID_DECL, params);
           }          
         }
+        i++;
       }
     }
     return result;
@@ -183,7 +185,7 @@ public class DeclChecker
     
     // checks for duplicate names, and adds an error in case one is found.    
     // NoRep ln
-    checkForDuplicateNames(declNames, ErrorMessage.CHANDECL_DUPLICATE_CHANNEL_NAME);
+    checkForDuplicateNames(declNames, term);
     
     // (NotInto ln \Gamma.defNames) is checked at checkParaList()
     
@@ -203,6 +205,9 @@ public class DeclChecker
       UResult unified = unify(vType, exprType);
             
       //the list of name type pairs in the channel decl name list
+      // possibly adds generics if needed - i.e., if term.getZGenFormals() was not
+      // empty, typeEnv().getParameters().size() != 0 and z.Checker.addGenerics
+      // will wrap the vType as GenericType.
       result.addAll(checkChannelDecl(declNames, expr, unified, exprType, vType));      
     }
     // otherwise, the returning type must be a schema type.
@@ -248,7 +253,7 @@ public class DeclChecker
         Object[] params = { expr, exprType }; 
         error(expr, ErrorMessage.CHANNEL_FROM_INVALID_DECL, params);        
       }
-    }    
+    }            
     
     //exit the pending scope 
     pending().exitScope();
@@ -295,7 +300,7 @@ public class DeclChecker
     PowerType vPowerType = factory().createPowerType();
     UResult unified = unify(vPowerType, exprType);
 
-    checkForDuplicateNames(declNames, ErrorMessage.QUALIFIEDDECL_DUPLICATE_PARAM_NAME);
+    checkForDuplicateNames(declNames, term);
     
     //the list of name type pairs in the channel decl name list
     result.addAll(checkDeclNames(
