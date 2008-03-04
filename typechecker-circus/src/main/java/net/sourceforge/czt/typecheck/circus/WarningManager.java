@@ -14,6 +14,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.circus.PrintUtils;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 
 /**
@@ -66,7 +67,7 @@ public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
           try 
           {
             StringWriter writer = new StringWriter();          
-            PrintUtils.print((Term)arguments[i], writer, sectInfo_, getCurrentSectName(), getMarkup());
+            PrintUtils.print((Term)arguments[i], writer, (SectionManager)sectInfo_, getCurrentSectName(), getMarkup());
             values[i] = writer.toString();
           } catch (CztException e)
           {

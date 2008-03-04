@@ -21,9 +21,9 @@ public enum WarningMessage {
     "The warning is mostly for other tools, which will also need to care about such special case."),
   INVALID_DECL_IN_VARDECLCOMMAND("Variable declaration command does accept ''{2}''." +
     "\n\tProcess: {0}" +
-    "\n\tAction: {1}",
+    "\n\tAction.: {1}",
     "Variable declaration commands only accept a list of (possibly qualified) variables.\n\t" +
-    "That is, schema inclusions, constant declarations, and other forms are not allowed."),
+    "That is, schema inclusions, constant declarations, and other forms are not allowed."),  
   INVALID_COMMUNICATION_PATTERN_WRT_CHANNEL_TYPE("Invalid field list encountered during typechecking: wrong number of variables w.r.t. field count." +
     "\n\tProcess...: {0}" +
     "\n\tAction....: {1}" +
@@ -34,7 +34,16 @@ public enum WarningMessage {
     "does not match the expected count. That can only happen because of a type mismatch on some\n\t" +
     "output prefix expression with respect to the remainder type dimensions of a particular\n\t" +
     "communication pattern (e.g., c?x!y, where c has A x B x C type, but y has a type not unifiable with B x C).\n\t" +
-    "This generates a type error. If you see this warning without a type error, please report this as a bug.")
+    "This generates a type error. If you see this warning without a type error, please report this as a bug."),
+  POTENTIALLY_INFINITE_INDEX("Potentially infinite type on iterated index on declaration." +
+    "\n\tProcess...: {0}" +
+    "\n\tAction....: {1}" +
+    "\n\tPosition..: {2}" +
+    "\n\tNames.....: {3}" +
+    "\n\tExpression: {4}", 
+    "The types of iterated declarations in Circus must be finite. As the typechecker cannot decide " +
+    "\n\tthis automatically, this warning is raised instead. The typechecker adds a ProofObligationAnn " +
+    "\n\tto the corresponding expression for other tools to process it.")
   ;
   
   private final String message_;
