@@ -35,6 +35,7 @@ import net.sourceforge.czt.circus.visitor.InputFieldVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.z.ast.GenericType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
@@ -331,6 +332,19 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       };
   
   /**
+   * If a communication term is generically typed, then we need to clone it 
+   * with the actual generic type for the communication list used and update
+   * the term accordingly.
+   * @param term
+   * @return
+   */
+  protected boolean isGenericallyTyped(Communication term)
+  {    
+    Type type = getType(term.getChannelExpr().getName());
+    return (type instanceof GenericType);
+  }
+  
+  /**
    *
    * @law C.13.1, C.13.2, C.13.3
    */
@@ -423,43 +437,8 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
 
           // if there is a format error, raise it (done after the case statement); otherwise carry on.
           if (commFormatInv)
-          {
-            // lets deal with generic instantiation at communication .
-            ZExprList zGenActuals = channelExpr.getExprList() == null ? null : ZUtils.assertZExprList(channelExpr.getExprList());
-
-            // TODO: CHECK: z.ExprChecker.visitRefExpr for way to deal with generics here
-            if (zGenActuals != null && !zGenActuals.isEmpty())
-            {
-              assert false : "Not treating generic channels yet";
-              term.setCommUsage(CommUsage.Generic);
-//              if(!isGenericChannel(this.channelName_)) {
-//                error(term, ErrorMessage.IS_NOT_GENERIC_CHANNEL, params);
-//              }
-//              else {
-//                ZExprList exprs = zGenActuals;
-//                List<DeclName> genParams = getGenParamsChannel(this.channelName_);
-//                if(exprs.size() != genParams.size()) {
-//                  error(term, ErrorMessage.DIFF_NUMBER_IN_GENERIC_CHANNEL_INSTATIATION, params);
-//                }
-//                else {
-//                  int i = 0;
-//                  for(Expr expr : exprs) {
-//                    Type2 typeExpr = expr.accept(exprChecker());
-//                    DeclName genName = genParams.get(i);
-//                    if(typeExpr instanceof PowerType) {
-//                      Type2 type = ((PowerType)typeExpr).getType();
-//                      this.channelType_ = replaceChannelType(genName, type, this.channelType_);
-//                    } else {
-//                      error(term, ErrorMessage.EXPR_TYPE_IS_NOT_POWERSET, params);
-//                      break;
-//                    }
-//                    i++;
-//                  }
-//                }
-//              }
-            }            
-            
-            // finally, analyse each communication field.
+          {          
+            // analyse each communication field.
             // 
             // NOTE: Manuela's original implementation mistakenly put fields into
             //       a local-local scope (i.e. c?x!x), so that output fields could
@@ -525,8 +504,19 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     }
 
     // check invariant for good channels.
-    if (!commFormatInv)
+    if (commFormatInv)
     { 
+      comm_ = (Communication)factory().cloneTerm(term);
+      
+      // for generically typed communications, clone their type and themselves
+      // to go to the used channels and communication lists
+      if (isGenericallyTyped(term))
+      {
+        channelType_ = (ChannelType)factory().cloneTerm(channelType_);        
+      }
+    } 
+    else
+    {
       params.add(channelType_);
       params.add(expectedCount_);
       params.add(fieldCount_);      
@@ -540,10 +530,10 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       }
       error(term, ErrorMessage.COMM_FIELDS_DONT_UNIFY, params);
     }
-
+    
     // add this instantiated channel as a used channel in the calling scope.
-    lastUsedChannel_ = factory().createNameTypePair(channelName_, channelType_);
-    //circusTypeEnv().addUsedChannels(false, lastUsedChannel_);
+    lastUsedChannel_ = factory().createNameTypePair(channelName_, channelType_);    
+    circusTypeEnv().addUsedChannels(comm_.getIndexed(), lastUsedChannel_);    
    
     // add the used channel name and its instantiated type to the communication
     // signature. if there is an error, we add a null element.
@@ -551,12 +541,14 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     signature.getNameTypePair().add(0, lastUsedChannel_);
     
     // a signature to the Communication term. first element is the channel type.    
-    addSignatureAnn(term, signature);
+    //addSignatureAnn(term, signature);
 
+    // communication has been cloned, so add the type and put it into the environment.
     CommunicationType commType = factory().getCircusFactory().
-      createCommunicationType(signature);
-    addTypeAnn(term, commType);
-
+      createCommunicationType(signature);    
+    addTypeAnn(comm_, commType);    
+    circusTypeEnv().addUsedCommunication(comm_);   
+    
     // reset the attributes only valid for communication field analysis.   
     resetAttributes();
     
@@ -566,12 +558,67 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   @Override
   public List<NameTypePair> visitCircusCommunicationList(CircusCommunicationList term)
   {
+    // Communication lists typechecking requests can only come from ChannelSets
+    checkChannelSetScope(term);    
+    
+    int i = 1;
     List<NameTypePair> result = factory().list();
     for(Communication comm : term)
-    {
-      //Type2 commType getType2FromAnns(comm);
-    }   
-    assert false : "TODO";
+    { 
+      // if already typechecked, get its value - e.g., if refered within a different channel set.
+      // get the type from the commExpr rather than comm because we don't have fields        
+      RefExpr commExpr = comm.getChannelExpr();      
+      Type2 type = getType2FromAnns(commExpr); 
+
+      // if not the right pattern, don't worry about type checking inside
+      if (comm.getCommPattern().equals(CommPattern.ChannelSet))
+      {           
+        // if type is unknown
+        if (type instanceof UnknownType)      
+        {
+          // typecheck the channel reference expression - resolve generic types        
+          type = commExpr.accept(exprChecker());
+        }
+      }
+      else
+      {
+        List<Object> params = factory().list();    
+        params.add((((ExprChecker)exprChecker()).inProcessPara_ ? "process" : 
+          (((ExprChecker)exprChecker()).inActionPara_ ? "action" : 
+          (((ExprChecker)exprChecker()).inChannelSetPara_ ? "channel set" : "???"))));
+        params.add((((ExprChecker)exprChecker()).inActionPara_ ? 
+          (getCurrentProcessName().toString() + "\n\tAction...:" +
+           getCurrentActionName().toString()) :
+          (((ExprChecker)exprChecker()).inProcessPara_ ? getCurrentProcessName() :
+              (((ExprChecker)exprChecker()).inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
+        params.add(comm);
+        params.add(i);
+        error(comm, ErrorMessage.NON_CHANNELSET_IN_COMMLIST, params);                
+      }
+      
+      // if type not a channel type, raise an error;       
+      // otherwise, we are done for t his comm
+      if (!(type instanceof ChannelType))
+      {
+        List<Object> params = factory().list();    
+        params.add((((ExprChecker)exprChecker()).inProcessPara_ ? "process" : 
+          (((ExprChecker)exprChecker()).inActionPara_ ? "action" : 
+          (((ExprChecker)exprChecker()).inChannelSetPara_ ? "channel set" : "???"))));
+        params.add((((ExprChecker)exprChecker()).inActionPara_ ? 
+          (getCurrentProcessName().toString() + "\n\tAction...:" +
+           getCurrentActionName().toString()) :
+          (((ExprChecker)exprChecker()).inProcessPara_ ? getCurrentProcessName() :
+              (((ExprChecker)exprChecker()).inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
+        params.add(commExpr);
+        params.add(i);
+        params.add(type);
+        error(term, ErrorMessage.IS_NOT_CHANNEL_NAME_IN_CHANNELSET, params);
+      }
+      
+      NameTypePair ntp = factory().createNameTypePair(commExpr.getName(), type);
+      result.add(ntp);
+      i++;
+    }       
     return result;
   }  
 
