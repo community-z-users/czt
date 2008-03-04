@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CircusFactory;
@@ -26,8 +27,10 @@ import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.circus.ParseUtils;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.print.circus.PrintUtils;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
@@ -219,6 +222,12 @@ public class TypeCheckUtils
   protected boolean printTypesDefault()
   {
     return true;
+  }
+  
+  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  
+  {
+    //PrintUtils.print(term, writer, sectInfo, sectName, markup);
+    super.printTerm(term, writer, sectInfo, sectName, markup);
   }
   
   public static void main(String[] args)
