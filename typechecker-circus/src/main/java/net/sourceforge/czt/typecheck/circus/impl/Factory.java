@@ -22,6 +22,7 @@ import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.CircusNameSet;
 import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circus.ast.CommunicationList;
+import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
@@ -29,6 +30,7 @@ import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
 import net.sourceforge.czt.typecheck.z.impl.VariableType;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
@@ -39,32 +41,33 @@ import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 /**
  *
- * @author Manuela
+ * @author Leo Freitas
  */
 public class Factory 
   extends net.sourceforge.czt.typecheck.z.impl.Factory
 {
+  
   /** The CircusToolsFactory that is used to create wrapped types. */
   protected CircusFactory circusFactory_;
     
   public Factory()
   {
-    super();
-    init(new CircusFactoryImpl());     
+    this(new ZFactoryImpl(), new CircusFactoryImpl());
   }
 
   public Factory(ZFactory zFactory)
   {
-    super(zFactory);
-    init(new CircusFactoryImpl());     
+    this(zFactory, new CircusFactoryImpl());    
   }
 
   public Factory(ZFactory zFactory, CircusFactory circusFactory)
   {
-    super(zFactory);
+    // use the circus.util.Factory to create Z objects ;-)
+    super(zFactory, new net.sourceforge.czt.circus.util.Factory(circusFactory));
     init(circusFactory);         
   }
   
@@ -77,6 +80,13 @@ public class Factory
     //i.e., all ZNames in CircusUtils MUST be initialised here ;-)
     overwriteNameID(CircusUtils.SYNCH_CHANNEL_TYPE_NAME);
     overwriteNameID(CircusUtils.TRANSFORMER_TYPE_NAME);   
+  }
+  
+  private static int freshId_ = 0;
+  public String createFreshName(String prefix)
+  {
+    String result = prefix + (freshId_++);
+    return result;
   }
 
   public CircusFactory getCircusFactory()
@@ -148,31 +158,23 @@ public class Factory
 
   public ChannelSetType createChannelSetType()
   {
-    assert false : "TODO: resolve generics";
-    ChannelSetType chanSetType = circusFactory_.createChannelSetType();
-    Signature channelsSig = circusFactory_.createSignature();
-    chanSetType.setSignature(channelsSig);    
-    return chanSetType;
+    return createChannelSetType(createVariableSignature());
   }
-
-  public ChannelSetType createChannelSetType(Name name, Signature channelsSig)
-  {
-    assert false : "TODO: resolve generics";    
-    ChannelSetType chanSetType = circusFactory_.createChannelSetType(name, channelsSig);    
-    return chanSetType;
+  
+  public ChannelSetType createChannelSetType(Signature csSig)
+  { 
+    ChannelSetType channelSetType = circusFactory_.createChannelSetType(csSig);    
+    return channelSetType;
   }
   
   public NameSetType createNameSetType()
-  {
-    NameSetType nameSetType = circusFactory_.createNameSetType();
-    Signature namesSig = circusFactory_.createSignature();
-    nameSetType.setSignature(namesSig);    
-    return nameSetType;
+  {     
+    return createNameSetType(createVariableSignature());
   }
 
-  public NameSetType createNameSetType(Name name, Signature namesSig)
-  {
-    NameSetType nameSetType = circusFactory_.createNameSetType(name, namesSig);    
+  public NameSetType createNameSetType(Signature namesSig)
+  { 
+    NameSetType nameSetType = circusFactory_.createNameSetType(namesSig);    
     return nameSetType;
   }
 
@@ -193,10 +195,30 @@ public class Factory
   public ChannelType createChannelType(Type2 type)
   {        
     // innermost corejava AST-impl type with underlying type.
-    ChannelType channelType = circusFactory_.createChannelType(type);
+    ChannelType channelType = circusFactory_.createChannelType(type, false);
     
     // outermost typechecker AST-impl type potentially with variable types.
     ChannelType result = new ChannelTypeImpl(channelType);
+    return result;
+  }
+  
+  public CommunicationType createCommunicationType()
+  {
+    //assert false : "TODO: resolve generics";
+    // create an underlying variable type as the channel type
+    // that means type inference hasn't been done yet.
+    VariableSignature vSig = createVariableSignature();
+    CommunicationType result = createCommunicationType(vSig);
+    return result;    
+  }
+  
+  public CommunicationType createCommunicationType(Signature signature)
+  {
+    // innermost corejava AST-impl type with underlying type.
+    CommunicationType commType = circusFactory_.createCommunicationType();
+    
+    // outermost typechecker AST-impl type potentially with variable types.
+    CommunicationType result = new CommunicationTypeImpl(commType);
     return result;
   }
   
