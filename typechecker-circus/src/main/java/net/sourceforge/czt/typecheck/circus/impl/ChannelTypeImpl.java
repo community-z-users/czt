@@ -104,4 +104,16 @@ public class ChannelTypeImpl extends Type2Impl implements ChannelType
     }
     return hashCode;
   }
+  
+  @Override
+  public Boolean getNeedIndexing()
+  {
+    return ((ChannelType) term_).getNeedIndexing();
+  }
+
+  @Override
+  public void setNeedIndexing(Boolean needIndexing)
+  {
+    ((ChannelType) term_).setNeedIndexing(needIndexing);
+  }
 } 
