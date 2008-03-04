@@ -428,7 +428,7 @@ public class PrintVisitor
 
   public String visitBasicChannelSetExpr(BasicChannelSetExpr term)
   {
-    return visitList(term.getCommunication(), "{ ", ", ", " }");
+    return visitList(term.getCircusCommunicationList(), "{ ", ", ", " }");
   }
 
   public String visitVarDecl(VarDecl term)
@@ -621,11 +621,11 @@ public class PrintVisitor
       ",", "]"));
 
     // Print parameters or indexes signature if they exist
-    if (term.getParamOrIndexes() != null && !term.getParamOrIndexes().
+    if (term.getFormalParamsOrIndexes() != null && !term.getFormalParamsOrIndexes().
       getNameTypePair().isEmpty())
     {
       result.append(term.getUsage().equals(ProcessUsage.Parameterised) ? "_P(" : "_I(");
-      result.append(visit(term.getParamOrIndexes()));
+      result.append(visit(term.getFormalParamsOrIndexes()));
       result.append(")");
     }
 

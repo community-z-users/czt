@@ -545,4 +545,10 @@ public class CircusConcreteSyntaxSymbolVisitor
   {
     return null;
   }
+  
+  @Override
+  public CircusConcreteSyntaxSymbol visitProofObligationAnn(ProofObligationAnn term)
+  {
+    return null;
+  }
 }

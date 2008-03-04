@@ -24,12 +24,14 @@ import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.OutputFieldAnn;
 import net.sourceforge.czt.circus.ast.ParamQualifier;
+import net.sourceforge.czt.circus.ast.ProofObligationAnn;
 import net.sourceforge.czt.circus.ast.TransformerPara;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -392,4 +394,50 @@ public final class CircusUtils
       "and should never happen.";
     return result;
   }  
+  
+  public static void addProofObligationAnn(Term term, Pred pred)  
+  {
+    assert term != null && pred != null;
+    ProofObligationAnn poAnn = (ProofObligationAnn) term.getAnn(ProofObligationAnn.class);
+    if (poAnn == null)
+    {
+      poAnn = FACTORY.createProofObligationAnn(pred);
+      term.getAnns().add(poAnn);
+    }
+    else
+    {
+      poAnn.setPred(pred);
+    }
+  }
+  
+  /**
+   * Determines whether this communication is implicitly generically typed.
+   * That is, its channel reference was declared with a generic type and no
+   * generic actuals had been given (e.g., [X] gen \in X; gen.0).
+   * 
+   * To check this, it relies on a type annotation for the term. 
+   * If not present, the result is null and can't be deduced. 
+   * If present, the result accurately determines 
+   * @return 
+   */  
+//  public static Boolean isImplicitlyGenericallyTyped(Communication term)
+//  {
+//    Boolean result = null;
+//    TypeAnn typeAnn = term.getAnn(TypeAnn.class);
+//    if (typeAnn != null)
+//    {
+//      term.getChannelExpr().getZExprList().isEmpty();
+//      if (typeAnn.getType() instanceof CommunicationType)
+//      {
+//        CommunicationType commType = (CommunicationType)typeAnn.getType();
+//        commType.
+//      }
+//      else
+//    }
+//    boolean result = typeAnn != null typeAnn.getType() instanceof GenericType
+//    !term.getChannelExpr().getExplicit()
+//    !getChannelExpr().getExplicit() &&
+//    getChannelExpr().getZExprList().isEmpty()
+//  }
+
 }
