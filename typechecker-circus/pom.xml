@@ -76,6 +76,10 @@
         </profile>
     </profiles>
   <dependencies>
+     <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava</artifactId>      
+    </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser-circus</artifactId>      
