@@ -11,7 +11,12 @@
 package net.sourceforge.czt.typecheck.circus.util;
 
 import net.sourceforge.czt.circus.ast.ActionType;
+import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
+import net.sourceforge.czt.circus.ast.CommunicationType;
+import net.sourceforge.czt.circus.ast.NameSetType;
+import net.sourceforge.czt.circus.ast.CircusSigType;
+import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
@@ -24,7 +29,7 @@ import net.sourceforge.czt.z.ast.Type2;
 //
 /**
  *
- * @author Manuela
+ * @author Leo
  */
 public class UnificationEnv
   extends net.sourceforge.czt.typecheck.z.util.UnificationEnv
@@ -43,7 +48,15 @@ public class UnificationEnv
   public UResult unify(Type2 typeA, Type2 typeB)
   {
     UResult result = FAIL;
-    if (isActionType(typeA) && isSchemaType(typeB))
+    if (isProcessType(typeA) && isProcessType(typeB))
+    {
+      result = unifyProcessType(processType(typeA), processType(typeB));
+    }
+    else if (isActionType(typeA) && isActionType(typeB))
+    {
+      result = unifyActionType(actionType(typeA), actionType(typeB));
+    }
+    else if (isActionType(typeA) && isSchemaType(typeB))
     {
       result = unifySignature(actionType(typeA).getActionSignature().getLocalVars(),
         schemaType(typeB).getSignature());
@@ -63,17 +76,35 @@ public class UnificationEnv
       result = unifySignature(actionType(typeB).getActionSignature().getLocalVars(),
         schemaType(powerType(typeA).getType()).getSignature());
     }
-    else if (isActionType(typeA) && isActionType(typeB))
-    {
-      result = unifyActionType(actionType(typeA), actionType(typeB));
-    }
     else if (isChannelType(typeA) && isChannelType(typeB))
     {
       result = unifyChannelType(channelType(typeA), channelType(typeB));
     }
+    else if (isCommunicationType(typeA) && isCommunicationType(typeB))
+    {
+      result = unifyCircusSigType(communicationType(typeA), communicationType(typeB));
+    }
+    else if (isChannelSetType(typeA) && isChannelSetType(typeB))
+    {
+      result = unifyCircusSigType(channelSetType(typeA), channelSetType(typeB));
+    }
+    else if (isNameSetType(typeA) && isNameSetType(typeB))
+    {
+      result = unifyCircusSigType(nameSetType(typeA), nameSetType(typeB));
+    }
     else
       result = super.unify(typeA, typeB);
     return result;
+  }
+  
+  public boolean isProcessType(Type2 type)
+  {
+    return (type instanceof ProcessType);
+  }
+  
+  public ProcessType processType(Type2 type)
+  {
+    return (ProcessType)type;
   }
   
   public boolean isActionType(Type2 type)
@@ -96,15 +127,61 @@ public class UnificationEnv
     return (ChannelType)type;
   }
   
-  protected UResult unifyActionType(ActionType typeA, ActionType typeB)
+  public boolean isCommunicationType(Type2 type)
   {
-    Signature sigA = typeA.getActionSignature().getLocalVars();
-    Signature sigB = typeB.getActionSignature().getLocalVars();
+    return (type instanceof CommunicationType);
+  }
+  
+  public CommunicationType communicationType(Type2 type)
+  {
+    return (CommunicationType)type;
+  }
+  
+  public boolean isChannelSetType(Type2 type)
+  {
+    return (type instanceof ChannelSetType);
+  }
+  
+  public ChannelSetType channelSetType(Type2 type)
+  {
+    return (ChannelSetType)type;
+  }
+  
+  public boolean isNameSetType(Type2 type)
+  {
+    return (type instanceof NameSetType);
+  }
+  
+  public NameSetType nameSetType(Type2 type)
+  {
+    return (NameSetType)type;
+  }
+  
+  protected UResult unifyProcessType(ProcessType typeA, ProcessType typeB)
+  {
+    Signature sigA = typeA.getProcessSignature().getFormalParamsOrIndexes();
+    Signature sigB = typeB.getProcessSignature().getFormalParamsOrIndexes();
     UResult result = unifySignature(sigA, sigB);
     if (result == SUCC)
     {
-      sigA = typeA.getActionSignature().getFormalParams();
-      sigB = typeB.getActionSignature().getFormalParams();
+      //TODO: CHECK: do we need to worry about GenFormals here?
+      //sigA = typeA.getProcessSignature().getGenFormals();
+      //sigB = typeB.getProcessSignature().getGenFormals();
+      result = unifySignature(sigA, sigB);
+    }
+    assert false : "TODO";
+    return result;    
+  }
+  
+  protected UResult unifyActionType(ActionType typeA, ActionType typeB)
+  {
+    Signature sigA = typeA.getActionSignature().getFormalParams();
+    Signature sigB = typeB.getActionSignature().getFormalParams();
+    UResult result = unifySignature(sigA, sigB);
+    if (result == SUCC)
+    {
+      sigA = typeA.getActionSignature().getLocalVars();
+      sigB = typeB.getActionSignature().getLocalVars();
       result = unifySignature(sigA, sigB);
     }
     return result;
@@ -113,5 +190,10 @@ public class UnificationEnv
   protected UResult unifyChannelType(ChannelType typeA, ChannelType typeB)
   {
     return unify(typeA.getType(), typeB.getType());    
+  }
+  
+  protected UResult unifyCircusSigType(CircusSigType typeA, CircusSigType typeB)
+  {
+    return unify(typeA.getSignature(), typeB.getSignature());    
   }
 }
