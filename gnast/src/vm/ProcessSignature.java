@@ -40,7 +40,7 @@
    * It returns the Signature from getMainSignatures().get(FORMAL_PARAMS_INDEX). It may throw a
    * a UnsupportedAstClassException from getMainSignatures().
    */
-  net.sourceforge.czt.z.ast.Signature getParamOrIndexes();
+  net.sourceforge.czt.z.ast.Signature getFormalParamsOrIndexes();
 
   /**
    * This is a convenience method. It sets the given non-null (possibly empty)  
@@ -49,7 +49,7 @@
    * a UnsupportedAstClassException from getMainSignatures(). The result is the old value 
    * previously stored (if any).
    */
-  net.sourceforge.czt.z.ast.Signature setParamOrIndexes(net.sourceforge.czt.z.ast.Signature sig);
+  net.sourceforge.czt.z.ast.Signature setFormalParamsOrIndexes(net.sourceforge.czt.z.ast.Signature sig);
 
   /**
    * This is a convenience method. It represents the non-null (possibly empty)

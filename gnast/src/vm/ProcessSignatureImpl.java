@@ -30,7 +30,7 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
 
-  public net.sourceforge.czt.z.ast.Signature getParamOrIndexes()
+  public net.sourceforge.czt.z.ast.Signature getFormalParamsOrIndexes()
   {
     if (getMainSignatures().size() > FORMAL_PARAMS_INDEX) {
       return getMainSignatures().get(FORMAL_PARAMS_INDEX);
@@ -38,7 +38,7 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(); 
   }
 
-  public net.sourceforge.czt.z.ast.Signature setParamOrIndexes(net.sourceforge.czt.z.ast.Signature sig)
+  public net.sourceforge.czt.z.ast.Signature setFormalParamsOrIndexes(net.sourceforge.czt.z.ast.Signature sig)
   {
     if (getMainSignatures().size() > FORMAL_PARAMS_INDEX) {
       assert sig != null;
