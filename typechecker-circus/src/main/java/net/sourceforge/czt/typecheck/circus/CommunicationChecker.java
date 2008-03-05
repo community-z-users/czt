@@ -467,7 +467,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
               params.add(inputFieldCount_);
               params.add(outputFieldCount_);
               params.add(result.size());
-              warningManager().warn(WarningMessage.INVALID_COMMUNICATION_PATTERN_WRT_CHANNEL_TYPE, params);              
+              warningManager().warn(term, WarningMessage.INVALID_COMMUNICATION_PATTERN_WRT_CHANNEL_TYPE, params);              
             }           
 
             // check whether any of the input variables were declared with the same name.
@@ -506,13 +506,13 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     // check invariant for good channels.
     if (commFormatInv)
     { 
-      comm_ = (Communication)factory().cloneTerm(term);
+      comm_ = (Communication)factory().shallowCloneTerm(term);
       
       // for generically typed communications, clone their type and themselves
       // to go to the used channels and communication lists
       if (isGenericallyTyped(term))
       {
-        channelType_ = (ChannelType)factory().cloneTerm(channelType_);        
+        channelType_ = (ChannelType)factory().shallowCloneTerm(channelType_);        
       }
     } 
     else

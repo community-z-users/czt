@@ -94,6 +94,19 @@ public abstract class Checker<R>
     assert typeChecker != null;
     typeChecker_ = typeChecker;
   }
+  
+  /**
+   * Overrides the default Z protocol to use the warning manager
+   * @param term
+   * @return
+   */
+  public R visitTerm(Term term)
+  {    
+    warningManager().warn(term, WarningMessage.UNKNOWN_TERM, 
+      this.getClass().getName(), 
+      getConcreteSyntaxSymbol(term));    
+    return null;
+  }
 
   /**
    * Gives access to the typechecking factory for all checkers. 
@@ -1221,8 +1234,7 @@ public abstract class Checker<R>
   protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object... params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
-      sectName(), nearestLocAnn(term),
-      markup());
+      sectName(), GlobalDefs.nearestLocAnn(term), markup());
     return errorAnn;
   }
 
@@ -1230,7 +1242,7 @@ public abstract class Checker<R>
   protected ErrorAnn errorAnn(Term term, String error, Object... params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
-      sectName(), nearestLocAnn(term),
+      sectName(), GlobalDefs.nearestLocAnn(term),
       markup());
     return errorAnn;
   }
@@ -1711,7 +1723,7 @@ public abstract class Checker<R>
         result.addAll(stateScopeErrors);
         
         // TODO: have a parameterised typechecking to make this an error or not?
-        warningManager().warn(WarningMessage.SCHEXPR_CALL_ACTION_WITHOUT_BRAKET, params);        
+        warningManager().warn(term, WarningMessage.SCHEXPR_CALL_ACTION_WITHOUT_BRAKET, params);        
       }
       else
       {        
@@ -2022,7 +2034,7 @@ public abstract class Checker<R>
           errorParams.add(i);
           errorParams.add(vd.getZNameList());
           errorParams.add(vdExpr);
-          warningManager().warn(WarningMessage.POTENTIALLY_INFINITE_INDEX, errorParams);                      
+          warningManager().warn(term, WarningMessage.POTENTIALLY_INFINITE_INDEX, errorParams);                      
           addFinitenessProoofObligation(term, vdExpr);          
         }
       }

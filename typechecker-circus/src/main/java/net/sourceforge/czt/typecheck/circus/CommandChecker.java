@@ -79,7 +79,7 @@ public class CommandChecker
     
     // clone the signature
     //ActionSignature varDeclCmdSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
-    ActionSignature varDeclCmdSig = (ActionSignature)factory().cloneTerm(actionSignature);
+    ActionSignature varDeclCmdSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);
     
     // updates the local variable signature for the prefixed action.
     varDeclCmdSig.getLocalVars().getNameTypePair().addAll(0, allVars);
