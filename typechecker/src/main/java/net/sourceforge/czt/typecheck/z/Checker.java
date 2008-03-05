@@ -256,49 +256,6 @@ abstract public class Checker<R>
     PrintUtils.print(term, writer, sectInfo, sectName, markup());
   }
   
-  /**
-   * Gets the position of a Term from its annotations.
-   */
-  protected String position(Term term)
-  {
-    String result = "Unknown location: ";
-    
-    LocAnn locAnn = nearestLocAnn(term);
-    if (locAnn != null)
-    {
-      result = "\"" + locAnn.getLoc() + "\", ";
-      result += "line " + locAnn.getLine() + ": ";
-    }
-    else
-    {
-      result = "No location information";
-    }
-    
-    return result;
-  }
-  
-  /**
-   * Finds the closest LocAnn.
-   */
-  protected LocAnn nearestLocAnn(Term term)
-  {
-    LocAnn result = (LocAnn) term.getAnn(LocAnn.class);
-    
-    if (result == null)
-    {
-      for (int i = 0; i < term.getChildren().length; i++)
-      {
-        Object next = term.getChildren()[i];
-        if (next instanceof Term)
-        {
-          LocAnn nextLocAnn = nearestLocAnn((Term) next);
-          return nextLocAnn;
-        }
-      }
-    }
-    return result;
-  }
-  
   protected UResult unify(Type2 typeA, Type2 typeB)
   {
     return unificationEnv().unify(typeA, typeB);

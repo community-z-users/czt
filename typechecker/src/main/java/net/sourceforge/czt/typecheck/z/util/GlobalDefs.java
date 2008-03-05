@@ -345,4 +345,47 @@ public class GlobalDefs
   {
     return (VariableSignature) o;
   }
+  
+  /**
+   * Gets the position of a Term from its annotations.
+   */
+  public static String position(Term term)
+  {    
+    String result = "Unknown location: ";
+    
+    LocAnn locAnn = nearestLocAnn(term);
+    if (locAnn != null)
+    {
+      result = "\"" + locAnn.getLoc() + "\", ";
+      result += "line " + locAnn.getLine() + ": ";
+    }
+    else
+    {
+      result = "No location information";
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Finds the closest LocAnn.
+   */
+  public static LocAnn nearestLocAnn(Term term)
+  {
+    LocAnn result = (LocAnn) term.getAnn(LocAnn.class);
+    
+    if (result == null)
+    {
+      for (int i = 0; i < term.getChildren().length; i++)
+      {
+        Object next = term.getChildren()[i];
+        if (next instanceof Term)
+        {
+          LocAnn nextLocAnn = nearestLocAnn((Term) next);
+          return nextLocAnn;
+        }
+      }
+    }
+    return result;
+  }
 }
