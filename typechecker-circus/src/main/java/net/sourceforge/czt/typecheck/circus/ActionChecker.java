@@ -16,6 +16,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
+import java.util.ListIterator;
 import net.sourceforge.czt.circus.ast.Action2;
 import net.sourceforge.czt.circus.ast.ActionD;
 import net.sourceforge.czt.circus.ast.ActionIte;
@@ -61,6 +62,7 @@ import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor;
+import net.sourceforge.czt.typecheck.circus.impl.Factory;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
@@ -247,7 +249,7 @@ public class ActionChecker
     
     // clone the signature
     //ActionSignature actionDSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
-    ActionSignature actionDSig = (ActionSignature)factory().cloneTerm(actionSignature);
+    ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);
     
     // updates the local variable signature for the prefixed action.
     actionDSig.setFormalParams(factory().createSignature(gParams));
@@ -271,35 +273,62 @@ public class ActionChecker
     return actionSignature;
   }
   
-  protected ActionSignature typeCheckParActionIte(ParActionIte term)
+  protected ActionSignature typeCheckParActionIte(ParActionIte term, ChannelSet cs)
   {
-    NameSetType nstL = typeCheckNameSet(term.getNameSet());
-    ActionSignature result = typeCheckActionIte(term);
-    assert false: "TODO";
-    // result.getUsedNameSets().add(??);
-    return result;
+    // type check name set and channel set
+    NameSet ns = term.getNameSet();
+    NameSetType nstL = typeCheckNameSet(ns);    
+    
+    // null for interleaving
+    if (cs != null)
+    {
+      ChannelSetType cst = typeCheckChannelSet(cs);        
+    }
+    
+    // typecheck inner action
+    ActionSignature actionSignature = typeCheckActionIte(term);
+    
+    // clone signature and update name sets used
+    ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);    
+    actionDSig.getUsedNameSets().add(0, ns);
+    
+    // null for interleaving
+    if (cs != null)
+    {
+      actionDSig.getUsedChannelSets().add(0, cs);
+    }
+    
+    return actionDSig;
   }
   
   protected ActionSignature typeCheckParAction(ParAction term, List<ChannelSet> channelSets)
   {
-    // check each side
+    // check the name sets
+    NameSet nsL = term.getLeftNameSet();
+    NameSet nsR = term.getRightNameSet();    
+    NameSetType nstL = typeCheckNameSet(nsL);
+    NameSetType nstR = typeCheckNameSet(nsR);
+    
+    // typecheck inner actions
     ActionSignature actionSignature = visitAction2(term);
         
-    // check the name sets
-    NameSetType nstL = typeCheckNameSet(term.getLeftNameSet());
-    NameSetType nstR = typeCheckNameSet(term.getRightNameSet());
+    // clone signature and update name sets used - L first; R next
+    // i.e., add the last one first at the head then the next, gives this order
+    ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);        
+    actionDSig.getUsedNameSets().add(0, nsR);
+    actionDSig.getUsedNameSets().add(0, nsL);
         
     // check the channel sets
-    for(ChannelSet cs : channelSets)
+    for(ListIterator<ChannelSet> lit = 
+        channelSets.listIterator(channelSets.size()); 
+        lit.hasPrevious() ; ) 
     {
-      ChannelSetType cst = typeCheckChannelSet(cs);
-      
-    }
-
-    //actionSignature.getUsedNameSets().getNameTypePair().add(0, ntp);
-    //factory().createNameTypePair(nstL.getName(), nstL);
+      ChannelSet cs = lit.previous();
+      ChannelSetType cst = typeCheckChannelSet(cs);      
+      actionDSig.getUsedChannelSets().add(0, cs);
+    }    
         
-    return actionSignature;
+    return actionDSig;
   }
   
   /**
@@ -593,7 +622,8 @@ public class ActionChecker
     ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
 
     // clone the signature.
-    ActionSignature prefixSignature = (ActionSignature)actionSignature.create(actionSignature.getChildren());
+    //ActionSignature prefixSignature = (ActionSignature)actionSignature.create(actionSignature.getChildren());
+    ActionSignature prefixSignature = (ActionSignature)factory().shallowCloneTerm(actionSignature);
     
     // updates the local variable signature for the prefixed action.
     prefixSignature.getLocalVars().getNameTypePair().addAll(0, inputVars);
@@ -605,7 +635,7 @@ public class ActionChecker
     typeEnv().exitScope();
 
     addActionSignatureAnn(term, prefixSignature);
-    return actionSignature;
+    return prefixSignature;
   }
 
   /**
@@ -709,18 +739,20 @@ public class ActionChecker
     // check within an action paragraph scope.
     checkActionParaScope(term, null);
 
-    typeCheckChannelSet(term.getChannelSet());
-
-    ChannelSetType typeCS = (ChannelSetType) term.getChannelSet().accept(exprChecker());
+    ChannelSet cs = term.getChannelSet();
+    ChannelSetType csType = typeCheckChannelSet(cs);
 
     // check the action itself and add signature
     ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
     
-    // updated used channel sets
+    // clone signature and update name sets used
+    ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);
+    actionDSig.getUsedChannelSets().add(0, cs);
     
-    addActionSignatureAnn(term, actionSignature);
+    // add signature to the term
+    addActionSignatureAnn(term, actionDSig);
 
-    return actionSignature;
+    return actionDSig;
   }
 
   /**
@@ -754,25 +786,28 @@ public class ActionChecker
     // annotation with "aName" associated with it.
     ActionSignature actionSignature = checkActionDecl(aName, action, term);
     
-    // For the MuAction, the signature is the same, but updated 
-    // with outer action name . TODO: check if we need a stacked environment here.
-    ActionSignature muSignature = factory().createActionSignature(null,
-      actionSignature.getFormalParams(),
-      actionSignature.getLocalVars(),
-      actionSignature.getCommunicationList());
-
     // exit recursive variable scope
     typeEnv().exitScope();
     
     // update the action type for the call action
-    aType.setActionSignature(actionSignature);   
+    aType.setActionSignature(actionSignature);
+    
     // add action type to CircusAction 
     addTypeAnn(action, aType);
     
-    // now, update the muSignature with the current action name.    
-    ActionType actionType = factory().createActionType(muSignature);    
-    addActionSignatureAnn(term, muSignature);
-    addTypeAnn(term, actionType);
+    // For the MuAction, the signature is the same, but updated 
+    // with outer action name . TODO: check if we need a stacked environment here.
+    //ActionSignature muSignature = factory().createActionSignature(null,
+    //  actionSignature.getFormalParams(),
+    //  actionSignature.getLocalVars(),
+    //  actionSignature.getCommunicationList());
+    ActionSignature muSignature = actionSignature;// (ActionSignature)factory().shallowCloneTerm(actionSignature);
+
+    // update the mu signature with the action name.
+    //muSignature.setActionName(aName);        
+        
+    // add the signature to the term
+    addActionSignatureAnn(term, muSignature);    
     
     // check the action itself and add signature
     return muSignature;
@@ -800,8 +835,8 @@ public class ActionChecker
    * * @law C.12.25, C.12.26
    */
   public ActionSignature visitParActionIte(ParActionIte term)
-  {   
-    ActionSignature actionDSig = typeCheckParActionIte(term);
+  {     
+    ActionSignature actionDSig = typeCheckParActionIte(term, null);    
     addActionSignatureAnn(term, actionDSig);
     return actionDSig;    
   }
@@ -814,12 +849,10 @@ public class ActionChecker
    * @law C.12.27
    */   
   public ActionSignature visitParallelActionIte(ParallelActionIte term)
-  {
-    assert false: "TODO";
-    ChannelSetType cst = typeCheckChannelSet(term.getChannelSet());
-    ActionSignature actionSignature = typeCheckParActionIte(term);
-    //actionSignature.getUsedChannelSets().add(cst);
-    return actionSignature;
+  { 
+    ActionSignature actionDSig = typeCheckParActionIte(term, term.getChannelSet());
+    addActionSignatureAnn(term, actionDSig);    
+    return actionDSig;
   }
   
   /**
@@ -831,11 +864,9 @@ public class ActionChecker
    */   
   public ActionSignature visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term)
   {
-    assert false: "TODO";
-    ChannelSetType cst = typeCheckChannelSet(term.getChannelSet());
-    ActionSignature actionSignature = typeCheckParActionIte(term);
-    //actionSignature.getUsedChannelSets().add(cst);
-    return actionSignature;
+    ActionSignature actionDSig = typeCheckParActionIte(term, term.getChannelSet());
+    addActionSignatureAnn(term, actionDSig);    
+    return actionDSig;
   }  
 
 //  // Action ::= Declaration @ Action
@@ -845,8 +876,7 @@ public class ActionChecker
 //  
 //// FROM old call action.    
 ////    if(assertZDeclName(actionDecl).getWord().startsWith("$$implicitAction_")) {
-////      // pegar da lista de a��es impl�citos, fazer verificacao e incluir no
-////      // TypeEnv!!
+////      // pegar da lista de acoes implicitos, fazer verificacao e incluir no TypeEnv!!
 ////      List<ActionPara> implicitActions = (List<ActionPara>)localCircTypeEnv().getOnTheFlyActions();
 ////      for(ActionPara implicitAction : implicitActions) {
 ////        if(compareDeclName(actionDecl, implicitAction.getDeclName(), true)) {
