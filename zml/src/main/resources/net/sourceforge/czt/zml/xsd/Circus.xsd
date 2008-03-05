@@ -1540,27 +1540,15 @@
   <xs:element name="CircusSignature" type="CIRCUS:CircusSignature" abstract="true">
     <xs:annotation>
       <xs:documentation>
-        Abstract Circus signature term.
+        Abstract Circus signature: it contains a name.
       </xs:documentation>
     </xs:annotation>
   </xs:element>  
   
-  <xs:element name="ProcessSignature" type="CIRCUS:ProcessSignature" abstract="true" 
+  <xs:element name="ProcessSignature" type="CIRCUS:ProcessSignature" 
               substitutionGroup="CIRCUS:CircusSignature">
     <xs:annotation>
-      <xs:documentation>
-        <p>
-          Abstract process signature class used by both CircusProcessSignature and
-          BasicProcessSignature.
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  <xs:element name="CircusProcessSignature" type="CIRCUS:ProcessSignature" 
-              substitutionGroup="CIRCUS:ProcessSignature">
-    <xs:annotation>
-      <xs:documentation>
+      <xs:documentation>        
         <p>
           A process signature consists of the process name, possibly empty generic formal parameters, 
           possibly empty formal parameters or indexes, and the channels usage.
@@ -1610,23 +1598,15 @@
             </li> 
           </ul>
         </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  <xs:element name="BasicProcessSignature" type="CIRCUS:BasicProcessSignature" 
-              substitutionGroup="CIRCUS:ProcessSignature">
-    <xs:annotation>
-      <xs:documentation>
         <p>
           Extends process signature to contain information about basic processes.
           Those are declarations of state variables, local variables, actions, and name sets.
           Local variables comes from either <code>VarDeclCommand</code>, or action formal parameters.
           In the case of a stateless process, the state variables signatures is empty (as oposed to null).
         </p>
-      </xs:documentation>      
+      </xs:documentation>
     </xs:annotation>
-  </xs:element>     
+  </xs:element>
   
   <!-- Additional process-level signatures in Circus -->
   
@@ -1657,7 +1637,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>  
-  
+    
   <!-- Lists used by Circus elements -->
   
   <xs:element name="ActionList" type="CIRCUS:ActionList" abstract="true">
@@ -1673,6 +1653,41 @@
       <xs:documentation>
         A list with (concrete) Circus actions. An alternative implementation
         would be a list with action jokers.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+   <xs:element name="NameSetList" type="CIRCUS:NameSetList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract name set list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="CircusNameSetList" type="CIRCUS:CircusNameSetList"
+              substitutionGroup="CIRCUS:NameSetList">
+    <xs:annotation>
+      <xs:documentation>
+        A list with (concrete) Circus name sets An alternative implementation
+        would be a list with name set jokers.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+   <xs:element name="ChannelSetList" type="CIRCUS:ChannelSetList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract name set list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="CircusChannelSetList" type="CIRCUS:CircusChannelSetList"
+              substitutionGroup="CIRCUS:ChannelSetList">
+    <xs:annotation>
+      <xs:documentation>
+        A list with (concrete) Circus name sets An alternative implementation
+        would be a list with name set jokers.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1741,11 +1756,11 @@
               substitutionGroup="CIRCUS:SignatureList">
     <xs:annotation>
       <xs:documentation>
-        An signature list with action signatures.
+        An signature list with process signatures.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  
+    
   <!-- Term Annotations defined by Circus -->
   
   <xs:element name="CircusAnn" type="CIRCUS:CircusAnn" abstract="true" substitutionGroup="Z:Ann">
@@ -1820,7 +1835,49 @@
     </xs:annotation>
   </xs:element>
   
-  <!-- TODO: CHECK: would channels need something similar, as the have generic types also? -->
+  <xs:element name="StateUpdate" type="CIRCUS:StateUpdate" substitutionGroup="Z:QntPred">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          Process state update is a list of assignment pairs representing
+          how state updates took place sequentially. For complex compositional 
+          operators, such as external choice and parallel composition, there are
+          semantic functions that define how the state merge occurs, which
+          is much like what happens in the UTP.
+        </p>
+        <p>
+          These classes shall never be instantiated by the user manually.
+          They are produced by Circus tools as they go along performing the
+          varied state update forms the language allows.
+        </p>
+        <p>
+          It is a Z quantified predicate extended to contain a list of
+          assignment pairs. Essentially, a tool, say a typechecker, collects 
+          the assignment pairs representing a particular branch of the AST.
+          This can be built backwards as it traverses the AST during typechecking.
+          After that, another tool, say an animator or model checker, can 
+          apply necessary transformations needed to the assignment
+          pairs list so that the merge of information reflect the denotational
+          semantics of a particular construct. The resulting predicate representing
+          the whole state update is then feed into the actual structure of a QntPred,
+          where the SchText is the state components (and invariant), and the predicate
+          is the calculated state merge. (!) 
+        </p>
+        <p>
+          It is part of a ProcessSignature. It is also be part of a StateUpdateAnn.
+        </p>        
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  
+  <xs:element name="StateUpdateAnn" type="CIRCUS:StateUpdateAnn" substitutionGroup="CIRCUS:CircusAnn">
+    <xs:annotation>
+      <xs:documentation>
+        <p>Annotation for StateUpdate instances outside ProcessSignature 
+        </p>        
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   
   <!-- ***************************************************************** -->
   <!-- Definitions of complexTypes in the order of usage by the elements -->
@@ -1952,10 +2009,7 @@
   <xs:complexType name="BasicChannelSetExpr">
     <xs:complexContent>
       <xs:extension base="Z:Expr">
-        <xs:sequence>
-          <!--
-          <xs:element ref="CIRCUS:Communication" minOccurs="0" maxOccurs="unbounded"/>
-          -->
+        <xs:sequence>        
           <xs:element ref="CIRCUS:CommunicationList"/>
         </xs:sequence>
       </xs:extension>
@@ -1980,10 +2034,7 @@
   <xs:complexType name="ProcessD">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>        
-          <!-- Accommodate Z.xsd changes: using Z Standard DeclPart from (12.7.2)
-          <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/> 
-          -->
+        <xs:sequence>                 
           <!-- 
           In Circus, the only possibility is QualifiedDecl and the parser must rule others out.
           ConstDecl and InclDecl are to be avoided, as parameters in CSP do not come from schemas.
@@ -2124,52 +2175,6 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:element name="StateUpdate" type="CIRCUS:StateUpdate" substitutionGroup="Z:QntPred">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-          Process state update is a list of assignment pairs representing
-          how state updates took place sequentially. For complex compositional 
-          operators, such as external choice and parallel composition, there are
-          semantic functions that define how the state merge occurs, which
-          is much like what happens in the UTP.
-        </p>
-        <p>
-          These classes shall never be instantiated by the user manually.
-          They are produced by Circus tools as they go along performing the
-          varied state update forms the language allows.
-        </p>
-        <p>
-          It is a Z quantified predicate extended to contain a list of
-          assignment pairs. Essentially, a tool, say a typechecker, collects 
-          the assignment pairs representing a particular branch of the AST.
-          This can be built backwards as it traverses the AST during typechecking.
-          After that, another tool, say an animator or model checker, can 
-          apply necessary transformations needed to the assignment
-          pairs list so that the merge of information reflect the denotational
-          semantics of a particular construct. The resulting predicate representing
-          the whole state update is then feed into the actual structure of a QntPred,
-          where the SchText is the state components (and invariant), and the predicate
-          is the calculated state merge. (!) 
-        </p>
-        <p>
-          It is part of a BasicProcessSignature.
-          It may also be part of a StateUpdateAnn.
-        </p>        
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  
-  <xs:element name="StateUpdateAnn" type="CIRCUS:StateUpdateAnn" substitutionGroup="CIRCUS:CircusAnn">
-    <xs:annotation>
-      <xs:documentation>
-        <p>Annotation for StateUpdate instances outside BasicProcessSignature 
-        </p>        
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
   <!-- Process Definition :: Calls --> 
   
   <xs:complexType name="CallProcess">
@@ -2230,11 +2235,7 @@
   <xs:complexType name="RenameProcess">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>                   
-          <!-- Accommodate Z.xsd changes: RenameList 
-          <xs:element name="OldNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>                      
-          <xs:element name="NewNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>
-          -->
+        <xs:sequence>                            
           <xs:element ref="CIRCUS:AssignmentPairs">
             <xs:annotation>
               <xs:appinfo>
@@ -2494,10 +2495,7 @@
   <xs:complexType name="ActionD">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
-        <xs:sequence>        
-          <!-- Accommodate Z.xsd changes: using Z Standard DeclPart from (12.7.2)
-          <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/> 
-          -->
+        <xs:sequence>                  
           <!-- 
           In Circus, the only possibility is QualifiedDecl and the parser must rule others out.
           ConstDecl and InclDecl are to be avoided, as parameters in CSP do not come from schemas.
@@ -2539,10 +2537,7 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusAction">
         <xs:sequence>
-          <xs:element ref="Z:Name"/>
-          <!-- Accommodate Z.xsd changes to use ExprList (Z Standard 12.2.12) 
-          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>                  
-          -->
+          <xs:element ref="Z:Name"/>          
           <xs:element ref="Z:ExprList"/>
         </xs:sequence>        
       </xs:extension>
@@ -2753,6 +2748,38 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <xs:complexType name="NameSetList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="CircusNameSetList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:NameSetList">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:NameSet" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ChannelSetList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="CircusChannelSetList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:ChannelSetList">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:ChannelSet" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  
   <xs:complexType name="CommunicationList">
     <xs:complexContent>
       <xs:extension base="Z:Term"/>
@@ -2819,15 +2846,25 @@
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>  
-  
+  </xs:complexType>   
   
   <xs:complexType name="StateUpdate">
     <xs:complexContent>
       <xs:extension base="Z:QntPred">
         <xs:sequence>
-          <!-- At least you must have the types correct, even if absolutely nondeterministically
-              e.g., St == [ x: \nat ].... Op == [ \Delta S ], here x' \in \nat, and that is it.
+          <!-- 
+            TODO: DESIGN: is this really here? CHECK: come back when doing compiler.
+          
+            At least you must have the types correct, even if absolutely nondeterministically
+            e.g., St == [ x: \nat ].... Op == [ \Delta St | P ] 
+                  StateUpdate=(\forall \Delta St; St_0 @ P[x_0/x']) \circspot x := x_0
+            
+            That is, we have for all state variables, constants updated according to the 
+            state update operation. In this way, all state updates can be normalised to
+            assignment of logical constants - see Op. Sem. paper
+            
+            As we must have at least one assignment pair for the state invariant, 
+            minOccurs is set to 1.
             -->
           <xs:element ref="CIRCUS:AssignmentPairs" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -2958,31 +2995,15 @@
   <xs:complexType name="SpecStmtCommand">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
-        <xs:sequence>
-          <!-- <xs:element name="Frame" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/> -->
+        <xs:sequence>          
           <xs:element ref="Z:NameList">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="Frame"/>
+                <jaxb:property name="Frame"
+                               generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
-          </xs:element>
-          <!--
-          <xs:element ref="Z:Pred">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Pre"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Pred">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Post"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          -->
+          </xs:element>          
           <xs:element ref="Z:Pred" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
@@ -3018,17 +3039,7 @@
   <xs:complexType name="VarDeclCommand">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
-        <xs:sequence>          
-          <!-- Modified for consistency with other DeclList places.
-               Accommodate Z.xsd changes: using Z Standard DeclPart from (12.7.2)                
-          <xs:element ref="Z:VarDecl" minOccurs="1" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Declarations"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>          
-          !-->
+        <xs:sequence>                    
           <!-- 
           In Circus, the possibilites are VarDecl and InclDecl only and the parser must rule out ConstDecl.
           Implementations should consider at least VarDecl, and InclDecl could be avoid for simplicity.
@@ -3102,25 +3113,7 @@
   <xs:complexType name="ProcessTransformerPred">
     <xs:complexContent>
       <xs:extension base="CIRCUS:TransformerPred">
-        <xs:sequence>          
-          <!--
-          <xs:element ref="CIRCUS:CircusProcess">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Spec"
-                  generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="CIRCUS:CircusProcess">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Impl"
-                  generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>          
-          -->
+        <xs:sequence>                   
           <xs:element ref="CIRCUS:CircusProcess" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>        
       </xs:extension>
@@ -3148,11 +3141,7 @@
   <xs:complexType name="LetVarAction">
     <xs:complexContent>
       <xs:extension base="CIRCUS:LetAction">
-        <xs:sequence>                             
-          <!-- 
-          In Circus, the possibilites are VarDecl, ConstDecl, and InclDecl.
-          TODO:DESIGN: Maybe remove InclDecl, as ConstDecl is just syntactic sugar.          
-          -->
+        <xs:sequence>                                       
           <xs:element ref="Z:DeclList"/>
           <!-- Invariant: getDeclarations().size()==getValues.size() -->          
           <xs:element ref="Z:ExprList"/>            
@@ -3348,8 +3337,29 @@
   <xs:complexType name="ProcessSignature">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusSignature">
-        <xs:sequence>              
-          <!-- Use concrete (rather than allowing Joker) names here -->
+        <xs:sequence>               
+          <!--
+          List<NameList> getNameList(), where NameList can be:
+            + ZNameList     - list of concrete Z names
+            + JokerNameList - list of joker names
+            
+          Methods available:
+            a) List<NameList> getNameList()             = method by GnAST
+            b) ZNameList      getGenFormals()           = ZUtils.assertZNameList(getNameList().get(GENFORMALS_INDEX));            
+            c) ZNameList      getTransformerParaName()  = ZUtils.assertZNameList(getNameList().get(TRANSFORMER_INDEX));            
+          
+          Indexes:
+            GENFORMALS_INDEX  = 0;
+            TRANSFORMER_INDEX = 1;
+            
+          PS: We leave getNameList() unbounded to allow further extension with new lists if needed,
+              where minOccurs MUST be at least TRANSFORMER_INDEX+1 (2)
+          
+          <xs:element ref="Z:NameList" minOccurs="2" maxOccurs="2"/>
+          
+          DESIGN: as TransformerPara has a special GIVEN type (like Synchronisation does)
+                  it will be part of the getLocalZSignatures() - see below.
+          -->          
           <xs:element ref="Z:ZNameList">
             <xs:annotation>
               <xs:appinfo>
@@ -3358,62 +3368,134 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          
           <!--     
-          <xs:element ref="Z:Signature" minOccurs="0">          
+          List<SignatureList> getSignatureList(), where SignatureList can be:
+            + ZSignatureList             - list of Z Signature
+            + ActionSignatureList        - list of Circus ActionSignature
+            + NameSetSignatureList       - list of Circus NameSetSignature
+            + ChannnelSetSignatureList   - list of Circus ChannelSetSignature
+            + CommunicationSignatureList - list of Circus CommunicationSignature
+          
+          Methods available:  
+            a) List<SignatureList>         getSignatureList()           = method by GnAST
+            b) ZSignatureList              getMainSignatures()          = getSignatureList().get(MAIN_SIGNATURES_INDEX);
+               1) Signature                   getFormalParamOrIndexes()     = getMainSignatures().get(FORMAL_PARAMS_INDEX);              
+               2) Signature                   getUsedChannels()             = getMainSignatures().get(USED_CHANNELS_INDEX);
+               3) Signature                   getStateSignature()           = getMainSignatures().get(STATE_SIGNATURE_INDEX);
+            c) ZSignatureList              getLocalZSignatures()        = getSignatureList().get(ZLOCAL_SIGNATURES_INDEX);
+            d) ActionSignatureList         getActionSignatures()        = getSignatureList().get(ACTION_SIGNATURES_INDEX);          
+            e) CommunicationSignatureList  getUsedCommunications()      = getSignatureList().get(COMM_SIGNATURES_INDEX);            
+            f) NameSetSignatureList        getUsedNameSets()            = getSignatureList().get(NAMESET_SIGNATURES_INDEX);
+            g) ChannelSetSignatureList     getUsedChannelSets()         = getSignatureList().get(CHANNEL_SIGNATURES_INDEX);
+            h) ProcessSignatureList        getProcessSignatures()       = getSignatureList().get(PROCESS_SIGNATURES_INDEX);
+            i) boolean                     isBasicProcess()             = getProcessSignatures().isEmpty();            
+            
+          Types not provided by GnAST :
+            NameSetSignatureList      : Map[ZName, List[NameSet]]
+            ChannelSetSignatureList   : Map[ZName, List[ChannelSet]]
+            CommunicationSignatureList: Map[ZName, List[Communication]]            
+          
+          Meaning: GLOBAL_INVAIRNAT: all methods return a non-null value
+          
+            a) access method by GnAST - automatically
+            
+            b) access method by GnAST - manually via vm
+               1) formal parameters or indexes, depending on getUsage()
+               2) used channels and their declared types, which could be generic
+               3) state signature as declared by \circstate\ expressions
+                  (i.e., it does not include local variables added to the state)
+                  
+                  INVARIANT: isBasicProcess() || getStateSignature().isEmpty()
+                  (i.e., only basic process can have state signatures, which can be empty)
+                  
+            c) list of Z signatures for Z paragraphs, commands, and TransformerPara declared within a basic process
+               (i.e., VarDeclCommand will add variables to the process state scope, but not to
+                      the process state signature)
+            
+               INVARIANT: isBasicProcess() || getLocalZSignatures().isEmpty()
+               (i.e., only basic process can have local paragraphs, which can be empty)
+               
+            d) list of Circus ActionSignature for actions declared within a basic process               
+            
+               INVARIANT: IF isBasicProcess() THEN 
+                              !getActionSignatures().isEmpty() 
+                          ELSE
+                              getActionSignatures().isEmpty()  
+               (i.e., only basic process can have actions, which cannot be empty because 
+                      they have at least the main action)
+            
+            e) list of used communications by each action (Map[ZName, List[Communication]])
+               (i.e., the communications in each pair are annotated as a power type of CommunicationType.
+                      CommunicationType contains the instantiated channel type as well as the type of
+                      each field, which may be different from the channel type; 
+                      e.g., suppose that "[X, Y] c \in X \cross Y" and "c.0.1" is used, 
+                            the communication type is: CommType[c:\arithmos \cross \arithmos; i: \nat; j: \nat])
+                      
+               INVARIANT: isBasicProcess() || getUsedNameSets().isEmpty()
+               (i.e., only basic process can have name sets, which can be empty)             
+                      
+            f) list of used name sets by each action (Map[ZName, List[NameSet]])
+               (i.e., the name sets in each pair are annotated as a power type of NameSetType)
+                      
+               INVARIANT: isBasicProcess() || getUsedNameSets().isEmpty()
+               (i.e., only basic process can have name sets, which can be empty)
+               
+             g) list of used channel sets by each action (Map[ZName, List[ChannelSet]])
+                (i.e., the channel sets in each pair are annotated as a power type of ChannelSetType)
+                      
+               NOTE: parallel processes can have channel sets, which are mapped to the process name
+               
+             h) list of process signatures related to this process
+                (i.e., a compound processes, ultimatelly formed by basic processes)
+                
+             i) auxiliary method to add invariants (as assertions) to other methods
+               
+          NOTE: Tools that semantically represent all processes as basic process can
+                use the information on getProcessSignatures() to collect all basic 
+                process information and build a merged signature according to the 
+                Circus refinement calculus.
+             
+          Indexes:
+            MAIN_SIGNATURES_INDEX   = 0;
+                  FORMAL_PARAMS_INDEX   = 0;
+                  USED_CHANNELS_INDEX   = 1;                  
+                  STATE_SIGNATURE_INDEX = 2;
+            ZLOCAL_SIGNATURES_INDEX = 1;
+            ACTION_SIGNATURES_INDEX = 2;  
+            COMM_SIGNATURES_INDEX   = 3;
+            PROCESS_SIGNATURES_INDEX= 4;
+            NAMESET_SIGNATURES_INDEX= 5;
+            CHANNEL_SIGNATURES_INDEX= 6;
+          
+          PS: We leave getSignatureList() unbounded to allow further extension with new lists if needed,
+              where minOccurs MUST be at least CHANNEL_SIGNATURES_INDEX=+1 (6)
+          -->
+          <xs:element ref="CIRCUS:SignatureList" minOccurs="2" maxOccurs="unbounded"/>
+          <!-- 
+          Process channel sets only - 
+          
+          INVARIANT: !isBasicProcess() || getProcessChannelSets().isEmpty()
+          (i.e., only parallel processes, which are not basic processes, can have them)
+          -->
+          <xs:element ref="CIRCUS:ChannelSetList">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="ParamOrIndexes"
-                  generateElementProperty="true"/>
+                <jaxb:property name="ProcessChannelSets"
+                               generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
-          </xs:element>          
-          getFormalParamOrIndexes() = getSignature(0)          
-          getUsedChannels()   = getSignature(1)
-          --> 
+          </xs:element>
           <!--
-          Because BasicProcessSignature needs yet another Signature,
-          we added a SignatureList to the main complex types :(
-          Maybe this should be 
-          
-          getZSignature() = getSignature(2) for BasicProcessSignature!
-          
-          <xs:element ref="Z:Signature" minOccurs="2" maxOccurs="2"/>                              
-          
-          <xs:element ref="CIRCUS:SignatureList"/>
-          -->          
-          <!--
-          Wow! Because BasicProcessSignature uses yet another SignatureList, 
-          we need  more than one SignatureList, so we have a list of signature lists!
-          So, we add through GnAST the following convenience methods:
-          
-          ZSignatureList getMainSignatures() = getSignatureList().get(0)
-            a) Signature getFormalParamOrIndexes() = getSignatureList().get(0).get(0)            
-            b) Signature getUsedNameSets()   = getSignatureList().get(0).get(1) (for BasicProcessSignature only)
-            c) Signature getStateSignature() = getSignatureList().get(0).get(2) (for BasicProcessSignature only)
-            
-          
-          The Signature returned by the above projections correspond to: 
-            a) non-null (possibly empty) signature of param or indexes of a process             
-            b) non-null (possibly empty) signature used name sets as list of name type pairs within Signature
-            c) non-null (possibly empty) signature of process state (empty = default state as [ | true]).
-            
-          ZSignatureList getLocalZSignatures()= getSignatureList().get(1)       (for BasicProcessSignature only)   
-            This represents the local Z paragraphs within the basic process.
-            
-          ActionSignatureList getActionSignatures() = getSignatureList().get(2) (for BasicProcessSignature only)
-            
-          We leave it unbounded to allow further extension with new lists within the 
-          list of SignatureLists!
+          The state update is a quantified predicate containing
           -->
-          <xs:element ref="CIRCUS:SignatureList" minOccurs="2" maxOccurs="unbounded"/>        
-          <!-- Communication list for used channels -->
-          <xs:element ref="CIRCUS:CommunicationList">
+          <xs:element ref="CIRCUS:StateUpdate">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
-          </xs:element>        
+          </xs:element>
         </xs:sequence>
         <xs:attribute name="Usage" type="CIRCUS:ProcessUsage" use="optional" default="Parameterised"/>        
       </xs:extension>            
@@ -3427,74 +3509,15 @@
       <xs:enumeration value="Parameterised"/>
       <xs:enumeration value="Indexed"/>
     </xs:restriction>
-  </xs:simpleType>  
+  </xs:simpleType>     
   
-  <!-- 
-  We need the "empty" complex type here just because we add via GnAST the
-  necessary convinience methods to access the right signature lists mentioned above.
-  --> 
-  <xs:complexType name="BasicProcessSignature">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:ProcessSignature">
-        <xs:sequence>                         
-          <!-- ZNameList for declared TransformerPara -->
-          <xs:element ref="Z:ZNameList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="TransformerParaName"
-                               generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="CIRCUS:StateUpdate">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>    
-  </xs:complexType>
-  
-  <!-- TODO: flattening signature elements to a list for updated JAXB -->
   <xs:complexType name="ActionSignature">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusSignature">
         <xs:sequence>
           <!-- 
-          <xs:element ref="Z:Signature">            
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="FormalParams"
-                  generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Signature">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LocalVars"
-                  generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Signature" minOccurs="0">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="UsedChannels"
-                  generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          
           Signature getFormalParams() = getSignatureList().get(0)
-          Signature getLocalVars()    = getSignatureList().get(1)          
-          Signature getUsedNameSets() = getSignatureList().get(2)
-          
-          We leave it unbounded to allow further extension with new lists within the 
-          list of SignatureLists!
+          Signature getLocalVars()    = getSignatureList().get(1)
           -->           
           <xs:element ref="CIRCUS:SignatureList">
             <xs:annotation>
@@ -3502,8 +3525,22 @@
                 <jaxb:property generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
-          </xs:element>           
+          </xs:element>          
           <xs:element ref="CIRCUS:CommunicationList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:ChannelSetList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:NameSetList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property generateElementProperty="true"/>
