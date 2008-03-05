@@ -22,7 +22,6 @@ package net.sourceforge.czt.typecheck.circus.util;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionType;
-import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusFactory;
@@ -31,7 +30,6 @@ import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
-import net.sourceforge.czt.circus.visitor.BasicProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
@@ -68,7 +66,6 @@ public class CarrierSet
     ActionTypeVisitor<Term>, 
     NameSetTypeVisitor<Term>,
     ProcessSignatureVisitor<Term>,
-    BasicProcessSignatureVisitor<Term>,
     ActionSignatureVisitor<Term>
 {    
   protected net.sourceforge.czt.circus.util.Factory circusFactory_;
@@ -190,11 +187,6 @@ public class CarrierSet
     return null;
   }
   
-  public Term visitBasicProcessSignature(BasicProcessSignature term)
-  {
-    return null;
-  }
-
   public Term visitActionType(ActionType term)
   {
     ActionSignature sig = term.getActionSignature();
