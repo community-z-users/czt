@@ -11,10 +11,11 @@
 package net.sourceforge.czt.typecheck.circus.impl;
 
 import java.util.List;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
-import net.sourceforge.czt.circus.ast.BasicProcessSignature;
+import net.sourceforge.czt.circus.ast.ChannelSetList;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
@@ -23,6 +24,7 @@ import net.sourceforge.czt.circus.ast.CircusNameSet;
 import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circus.ast.CommunicationList;
 import net.sourceforge.czt.circus.ast.CommunicationType;
+import net.sourceforge.czt.circus.ast.NameSetList;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
@@ -82,6 +84,27 @@ public class Factory
     overwriteNameID(CircusUtils.TRANSFORMER_TYPE_NAME);   
   }
   
+  /**
+   * For now, overrides the deep clonning of terms and just use
+   * shallow, term.create(term.getChildren()) cloning. 
+   * @param term
+   * @return
+   */
+  public <T extends Term> T shallowCloneTerm(T term)
+  {
+    return (T)term.create(term.getChildren());
+  }
+  
+  /**
+   * Calls the super.cloneTerm(term).
+   * @param term
+   * @return
+   */
+  public Term deepCloneTerm(Term term)
+  {
+    return Factory.cloneTerm(term);
+  }
+  
   private static int freshId_ = 0;
   public String createFreshName(String prefix)
   {
@@ -113,16 +136,11 @@ public class Factory
     return result;
   }
 
-  public ProcessSignature createEmptyCircusProcessSignature()
+  public ProcessSignature createEmptyProcessSignature()
   {
-    return circusFactory_.createEmptyCircusProcessSignature();
+    return circusFactory_.createEmptyProcessSignature();
   }
   
-  public BasicProcessSignature createEmptyBasicProcessSignature()
-  {
-    return circusFactory_.createEmptyBasicProcessSignature();
-  }
-
 //  public ProcessType createProcessType()
 //  {    
 //    return createProcessType(createEmptyProcessSignature());
@@ -135,11 +153,22 @@ public class Factory
   }
   
   public ActionSignature createActionSignature(Name actionName,
-    Signature formals, Signature usedNameSets, CommunicationList commList)
+    Signature formals, Signature localVars, Signature usedChannels, 
+    CommunicationList commList)
   {
-    return circusFactory_.createActionSignature(actionName, formals, usedNameSets, commList);
+    return createActionSignature(actionName, formals, localVars, 
+      usedChannels, commList, circusFactory_.createCircusChannelSetList(),
+      circusFactory_.createCircusNameSetList());
   }  
   
+  public ActionSignature createActionSignature(Name actionName,
+    Signature formals, Signature localVars, Signature usedChannels, 
+    CommunicationList commList, ChannelSetList usedChannelSets, NameSetList usedNameSets)
+  {
+    return circusFactory_.createActionSignature(actionName, formals, 
+      localVars, usedChannels, commList, usedChannelSets, usedNameSets);
+  }  
+
   public ActionSignature createEmptyActionSignature()
   {
     return circusFactory_.createEmptyActionSignature();
