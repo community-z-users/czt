@@ -40,19 +40,16 @@ public class CircusConcreteSyntaxSymbolVisitor
     utils_ = utils;
   }
 
-  public CircusConcreteSyntaxSymbol visitBasicProcessSignature(BasicProcessSignature term)
+  public CircusConcreteSyntaxSymbol visitProcessSignature(ProcessSignature term)
   {
-    return CircusConcreteSyntaxSymbol.PROCESS_SIGNATURE;
+    return term.isBasicProcessSignature() ?
+      CircusConcreteSyntaxSymbol.BASIC_PROCESS_SIGNATURE :
+      CircusConcreteSyntaxSymbol.PROCESS_SIGNATURE;
   }
 
   public CircusConcreteSyntaxSymbol visitChannelSetType(ChannelSetType term)
   {
     return CircusConcreteSyntaxSymbol.CHANNELSET_TYPE;
-  }
-
-  public CircusConcreteSyntaxSymbol visitProcessSignature(ProcessSignature term)
-  {
-    return CircusConcreteSyntaxSymbol.PROCESS_SIGNATURE;
   }
 
   public CircusConcreteSyntaxSymbol visitProcessType(ProcessType term)
@@ -159,6 +156,18 @@ public class CircusConcreteSyntaxSymbolVisitor
   public CircusConcreteSyntaxSymbol visitCircusFieldList(CircusFieldList term)
   {
     return CircusConcreteSyntaxSymbol.FIELD_LIST;
+  }
+  
+  @Override
+  public CircusConcreteSyntaxSymbol visitCircusChannelSetList(CircusChannelSetList term)
+  {
+    return CircusConcreteSyntaxSymbol.CHANNELSET_LIST;
+  }
+  
+  @Override
+  public CircusConcreteSyntaxSymbol visitCircusNameSetList(CircusNameSetList term)
+  {
+    return CircusConcreteSyntaxSymbol.NAMESET_LIST;
   }
 
   public CircusConcreteSyntaxSymbol visitSigmaExpr(SigmaExpr term)
@@ -484,11 +493,6 @@ public class CircusConcreteSyntaxSymbolVisitor
     return CircusConcreteSyntaxSymbol.PROCESS_SIGNATURE_LIST;
   }
 
-  public CircusConcreteSyntaxSymbol visitCircusProcessSignature(CircusProcessSignature term)
-  {
-    return CircusConcreteSyntaxSymbol.PROCESS_SIGNATURE;
-  }
-  
   public CircusConcreteSyntaxSymbol visitCommunicationType(CommunicationType term)
   {
     return CircusConcreteSyntaxSymbol.COMMUNICATION_TYPE;
@@ -498,35 +502,47 @@ public class CircusConcreteSyntaxSymbolVisitor
   {
     return CircusConcreteSyntaxSymbol.STATE_UPDATE;
   }
-
+  
   public CircusConcreteSyntaxSymbol visitCircusStateAnn(CircusStateAnn term)
   {
-    return null;
+    return CircusConcreteSyntaxSymbol.CIRCUS_STATE_ANN;
   }
   
   public CircusConcreteSyntaxSymbol visitImplicitChannelAnn(ImplicitChannelAnn term)
   {
-    return null;
+    return CircusConcreteSyntaxSymbol.IMPLICIT_CHANNEL_ANN;
   }
   
   public CircusConcreteSyntaxSymbol visitOnTheFlyDefAnn(OnTheFlyDefAnn term)
   {
-    return null;
+    return CircusConcreteSyntaxSymbol.ONTHEFLY_ANN;
   }
   
   public CircusConcreteSyntaxSymbol visitStateUpdateAnn(StateUpdateAnn term)
   {
-    return null;
+    return CircusConcreteSyntaxSymbol.STATE_UPDATE_ANN;
   }
 
   public CircusConcreteSyntaxSymbol visitProcessSignatureAnn(ProcessSignatureAnn term)
   {
-    return null;
+    return CircusConcreteSyntaxSymbol.PROCESS_SIGNATURE_ANN;
   }
 
   public CircusConcreteSyntaxSymbol visitActionSignatureAnn(ActionSignatureAnn term)
   {
-    return null;
+    return CircusConcreteSyntaxSymbol.ACTION_SIGNATURE_ANN;
+  }
+  
+  @Override
+  public CircusConcreteSyntaxSymbol visitOutputFieldAnn(OutputFieldAnn term)
+  {
+    return CircusConcreteSyntaxSymbol.OUTPUTFIELD_ANN;
+  }
+  
+  @Override
+  public CircusConcreteSyntaxSymbol visitProofObligationAnn(ProofObligationAnn term)
+  {
+    return CircusConcreteSyntaxSymbol.PROOF_OBLIGATION_ANN;
   }
 
   public interface Utils
@@ -538,17 +554,5 @@ public class CircusConcreteSyntaxSymbolVisitor
     extends StandardZ
     implements Utils
   {
-  }
-
-  @Override
-  public CircusConcreteSyntaxSymbol visitOutputFieldAnn(OutputFieldAnn term)
-  {
-    return null;
-  }
-  
-  @Override
-  public CircusConcreteSyntaxSymbol visitProofObligationAnn(ProofObligationAnn term)
-  {
-    return null;
   }
 }

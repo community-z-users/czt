@@ -45,6 +45,8 @@ import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.NameSetPara;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
+import net.sourceforge.czt.circus.ast.CircusNameSetList;
+import net.sourceforge.czt.circus.ast.CircusChannelSetList;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
@@ -334,6 +336,28 @@ public final class CircusUtils
     }
     final String message =
       "Expected a CircusCommunicationList but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }  
+  
+  public static CircusChannelSetList assertCircusChannelSetList(Term term)
+  {
+    if (term instanceof CircusChannelSetList)
+    {
+      return (CircusChannelSetList) term;
+    }
+    final String message =
+      "Expected a CircusChannelSetList but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }
+  
+  public static CircusNameSetList assertCircusNameSetList(Term term)
+  {
+    if (term instanceof CircusNameSetList)
+    {
+      return (CircusNameSetList) term;
+    }
+    final String message =
+      "Expected a CircusNameSetList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 

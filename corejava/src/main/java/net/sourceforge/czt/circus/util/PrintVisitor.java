@@ -43,7 +43,6 @@ import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
-import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.ProcessUsage;
@@ -61,7 +60,6 @@ import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessSignatureVisitor;
-import net.sourceforge.czt.circus.visitor.BasicProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
@@ -131,7 +129,6 @@ public class PrintVisitor
   ActionTypeVisitor<String>,
   NameSetTypeVisitor<String>,
   ProcessSignatureVisitor<String>,
-  BasicProcessSignatureVisitor<String>,
   ActionSignatureVisitor<String>,
   BasicProcessVisitor<String>,
   ProcessParaVisitor<String>,
@@ -631,14 +628,15 @@ public class PrintVisitor
 
     openTabScope(result);
     result.append("Used channels: ");
-    openTabScope(result);    
-    result.append(visitListNL(term.getUsedCommunications(), ","));
+    openTabScope(result);        
+    assert false : "add communications please";
+    //result.append(visitListNL(term.getUsedCommunications(), ","));
     closeTabScope(result);
     closeTabScope(result);
 
     return result.toString();
   }
-
+/*
   public String visitBasicProcessSignature(BasicProcessSignature term)
   {
     StringBuilder result = new StringBuilder();
@@ -674,7 +672,7 @@ public class PrintVisitor
 
     return result.toString();
   }
-
+*/
   public String visitActionSignature(ActionSignature term)
   {
     StringBuilder result = new StringBuilder("{ ");

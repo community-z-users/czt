@@ -143,10 +143,13 @@ public enum CircusConcreteSyntaxSymbol
   ACTION_SIGNATURE_LIST("Action signature list"),
   Z_SIGNATURE_LIST("Z signature list"),
   CIRCUS_ACTION_LIST("Circus action list"),  
+  CHANNELSET_LIST("Channel set list"),
+  NAMESET_LIST("Name set list"),
   
   /* Circus signatures */
   ACTION_SIGNATURE("Action signature"),
   PROCESS_SIGNATURE("Process signature"),
+  BASIC_PROCESS_SIGNATURE("Basic process signature"),
   
   CHANNEL_TYPE("Channel type"),
   CHANNELSET_TYPE("Channel set type"),
@@ -160,7 +163,18 @@ public enum CircusConcreteSyntaxSymbol
   
   TRANSFORMER_PARA("Term transformer paragraph"),
   PROCESS_TRANSFORMER_PRED("Process transformer predicate"),
-  ACTION_TRANSFORMER_PRED("Action transformer predicate");
+  ACTION_TRANSFORMER_PRED("Action transformer predicate"),
+  
+  /** Circus annotations */
+  CIRCUS_STATE_ANN("Circus state annotation"),
+  IMPLICIT_CHANNEL_ANN("Implicit channel annotation"),
+  ONTHEFLY_ANN("On-the-fly paragraph annotation"),
+  STATE_UPDATE_ANN("State update annotation"),
+  PROCESS_SIGNATURE_ANN("Process signature annotation"),
+  ACTION_SIGNATURE_ANN("Action signature annotation"),
+  OUTPUTFIELD_ANN("Output field annotation"),
+  PROOF_OBLIGATION_ANN("Proof obligation annotation")
+  ;
   
   
   private final String description_;
