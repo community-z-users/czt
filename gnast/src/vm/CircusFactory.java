@@ -1,15 +1,15 @@
   /** Creates a parameterless call action. This is a convenience method */
   CallAction createCallAction(net.sourceforge.czt.z.ast.Name name);
-  
+
   /** Creates a parameterless call process with empty generic actuals. This is a convenience method */
   CallProcess createCallProcess(net.sourceforge.czt.z.ast.Name name);
-  
+
   /** Creates an empty BasicNameSet. This is a convenience method */
   CircusNameSet createEmptyCircusNameSet();
 
   /** Creates an empty BasicChannelSet. This is a convenience method */
   CircusChannelSet createEmptyCircusChannelSet();
-  
+
   /**
    * Creates the synchronisation channel name. This creates a ZName without strokes or ID
    * and with CircusString.CIRCUSSYNCH string as the name.
@@ -21,63 +21,92 @@
    * containing createSynchName() as the given type name.
    */
   PowerType createSynchType();
-  
-  ActionSignature createActionSignature(
-    net.sourceforge.czt.z.ast.Name actionName, 
-    net.sourceforge.czt.z.ast.Signature formals, 
-    net.sourceforge.czt.z.ast.Signature localVars, 
-    CommunicationList usedChannels);    
 
-  /** 
-   * Creates a CircusProcessSignature properly packing the last two signatures
-   * within the rather complex AST structure underneath.
-   */  
-  CircusProcessSignature createCircusProcessSignature(
-      net.sourceforge.czt.z.ast.Name name, 
-      net.sourceforge.czt.z.ast.ZNameList genFormals,
-      net.sourceforge.czt.z.ast.Signature paramOrIndexes,
-      CommunicationList usedChannels,
-      ProcessUsage usage);
+  /**
+   * Convenience method that creates a DotField and annotates it with an OutputFieldAnn
+   */
+  DotField createOutputField(net.sourceforge.czt.z.ast.Expr e);
 
-  BasicProcessSignature createBasicProcessSignature(
-    net.sourceforge.czt.z.ast.Name name,
-    net.sourceforge.czt.z.ast.ZNameList genFormals,
-    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
-    CommunicationList usedChannels,
-    ProcessUsage usage,
-    net.sourceforge.czt.z.ast.Signature usedNameSets,
-    net.sourceforge.czt.z.ast.ZNameList declTransformerPara,    
-    net.sourceforge.czt.z.ast.Signature stateSignature,
-    ZSignatureList localZParagraphs,
-    ActionSignatureList processActions,
-    StateUpdate stateUpdate);
-
-  /** 
-   * Follows the strategy from createCircusProcessSignature, but also considering
-   * the last four extra elments involved in BasicProcessSignature.
-   */  
-  BasicProcessSignature createBasicProcessSignature(
-      net.sourceforge.czt.z.ast.Name name, 
-      net.sourceforge.czt.z.ast.ZNameList genFormals,
-      net.sourceforge.czt.z.ast.Signature paramOrIndexes,
-      CommunicationList usedChannels,
-      ProcessUsage usage,
-      net.sourceforge.czt.z.ast.Signature usedNameSets,
-      net.sourceforge.czt.z.ast.ZNameList declTransformerPara,
-      net.sourceforge.czt.z.ast.Signature stateSignature,
-      ZSignatureList localZParagraphs,
-      ActionSignatureList processActions); 
-  
   /**
    * Creates an empty action signature. That is, an action signature with null name,
-   * empty communication list, empty local variables and formal parameters. Note that
+   * empty communication, channel set and name set lists; as well as empty local variables 
+   * and formal parameters and used channels signature. Note that
    * The signature itself is not totally empty since getZSignatureList() returns a list
    * containing the two empty signatures for formal parameters and local variables.
    */
   ActionSignature createEmptyActionSignature();
-  
-  ProcessSignature createEmptyCircusProcessSignature();
-  
-  BasicProcessSignature createEmptyBasicProcessSignature();
 
-  DotField createOutputField(net.sourceforge.czt.z.ast.Expr e);
+  /**
+   * Convenience method that adds the signatures passed to the SignatureList for
+   * the main ActionSignature constructor.
+   */
+  ActionSignature createActionSignature(
+    net.sourceforge.czt.z.ast.Name actionName,
+    net.sourceforge.czt.z.ast.Signature formals,
+    net.sourceforge.czt.z.ast.Signature localVars,
+    net.sourceforge.czt.z.ast.Signature usedChannels,
+    CommunicationList usedComms,
+    ChannelSetList usedChannelSets,
+    NameSetList usedNameSets);
+
+  /**
+   * Creates an empty process signature. That is, an process signature with null name,
+   * empty generic formals, empty formal parameters or indexes, empty list of 
+   * process signatures, empty list of action signatures, empty list of process 
+   * channel sets, empty state update, and Parameterised as default usage.
+   */
+  ProcessSignature createEmptyProcessSignature();
+
+  /** 
+   * Creates a ProcessSignature properly packing the various parameters
+   * within the rather complex AST structure underneath. This is useful
+   * for a general process (i.e. extenal choice or call process).
+   */
+  ProcessSignature createProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    ProcessSignatureList processSignatures,
+    ProcessUsage usage);
+
+  /** 
+   * Creates a ProcessSignature properly packing the various parameters
+   * within the rather complex AST structure underneath. This is useful
+   * for a parallel or hiding processes, which contain channel sets explicitly.
+   */
+  ProcessSignature createChannelSetProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    ProcessSignatureList processSignatures,
+    ChannelSetList channelSets,
+    ProcessUsage usage);
+
+  /** 
+   * Creates a ProcessSignature properly packing the various parameters
+   * within the rather complex AST structure underneath. This is useful
+   * for a basic processes with state update information, like those with
+   * assignment commands or schema expression actions.
+   */
+  ProcessSignature createBasicProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    net.sourceforge.czt.z.ast.Signature stateSignature,
+    ActionSignatureList actionSignatures,
+    StateUpdate stateUpdate,
+    ProcessUsage usage);
+
+  /** 
+   * Creates a ProcessSignature properly packing the various parameters
+   * within the rather complex AST structure underneath. This is useful
+   * for a basic processes in general. An empty state update information 
+   * is added (i.e., nothing from the stateSignature goes into it!).
+   */
+  ProcessSignature createBasicProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    net.sourceforge.czt.z.ast.Signature stateSignature,
+    ActionSignatureList actionSignatures,
+    ProcessUsage usage);
