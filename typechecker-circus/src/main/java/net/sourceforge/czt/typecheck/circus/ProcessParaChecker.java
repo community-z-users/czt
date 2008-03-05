@@ -129,8 +129,7 @@ public class ProcessParaChecker extends Checker<Signature>
    * Next, the action declaration is checked with the ActionChecker,
    * where it returns an ActionSignature containing all the collected 
    * information for the action. Process subclasses have different 
-   * structures (i.e., global processes have a CircusProcessSignature, 
-   * for what basic - local - processes have a BasicProcessSignature).
+   * structures.
    * After typechecking the process declaration, we also need to update
    * the ProcessSignature with the process name and used channels, which
    * are NOT updated by the ProcessChecker.
@@ -193,8 +192,7 @@ public class ProcessParaChecker extends Checker<Signature>
    * Next, the action declaration is checked with the ActionChecker,
    * where it returns an ActionSignature containing all the collected 
    * information for the action. Process subclasses have different 
-   * structures (i.e., global processes have a CircusProcessSignature, 
-   * for what basic - local - processes have a BasicProcessSignature).
+   * structures.
    * After typechecking the process declaration, we also need to update
    * the ProcessSignature with the process name and used channels, which
    * are NOT updated by the ProcessChecker.

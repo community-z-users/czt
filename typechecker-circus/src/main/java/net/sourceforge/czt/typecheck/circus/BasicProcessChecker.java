@@ -17,15 +17,14 @@ package net.sourceforge.czt.typecheck.circus;
 
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.ActionType;
-import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.NameSetPara;
 import net.sourceforge.czt.circus.ast.NameSetType;
+import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.TransformerPara;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
-import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
@@ -58,7 +57,7 @@ public class BasicProcessChecker extends Checker<Signature>
 {
 
   private boolean processedState_;
-  private BasicProcessSignature basicProcessSig_;
+  private ProcessSignature basicProcessSig_;
 
   public BasicProcessChecker(TypeChecker tc)
   {
@@ -73,13 +72,13 @@ public class BasicProcessChecker extends Checker<Signature>
    * has already been processed or not.
    * @param sig
    */
-  protected void setCurrentBasicProcessSignature(BasicProcessSignature sig)
+  protected void setCurrentBasicProcessSignature(ProcessSignature sig)
   {
     basicProcessSig_ = sig;
     processedState_ = false;
   }
   
-  protected BasicProcessSignature getCurrentBasicProcesssignature()
+  protected ProcessSignature getCurrentBasicProcesssignature()
   {
     return basicProcessSig_;
   }
@@ -118,11 +117,9 @@ public class BasicProcessChecker extends Checker<Signature>
       processedState_ = true;
     }
     else
-    { 
-      String position = position(term);
-      logger().warning(getClass().getName() +
-        " being asked to process state paragraph twice " +
-        " at location " + position); 
+    {       
+      warningManager().warn(term, WarningMessage.DUPLICATED_PROCESS_STATE, 
+        getCurrentProcessName(), getConcreteSyntaxSymbol(term));
     }
   }
   
@@ -151,7 +148,8 @@ public class BasicProcessChecker extends Checker<Signature>
     } 
     else
     {
-      basicProcessSig_.getLocalZSignatures().add(paraSig);
+      assert false : "TODO";
+      ///basicProcessSig_.getLocalZSignatures().add(paraSig);
     }
     return paraSig;
   }
@@ -182,10 +180,11 @@ public class BasicProcessChecker extends Checker<Signature>
         // TODO:? unify paraSig with term's? nah. leave it
         basicProcessSig_.getActionSignatures().add(
           aType.getActionSignature());
-                
+          
+        assert false : "TODO";
         // get the action communications
-        basicProcessSig_.getUsedCommunications().addAll(
-          aType.getActionSignature().getUsedCommunications());        
+        //basicProcessSig_.getUsedCommunications().addAll(
+        //  aType.getActionSignature().getUsedCommunications());        
       }
       else
       {        
@@ -209,9 +208,9 @@ public class BasicProcessChecker extends Checker<Signature>
     Type2 type = getType2FromAnns(term.getNameSet());
     if (type instanceof NameSetType)
     {   
+      assert false : "TODO";
       // TODO:? unify paraSig with term's? nah. leave it
-      basicProcessSig_.getUsedNameSets().getNameTypePair().addAll(paraSig.getNameTypePair());
-      //  .getSignature());
+      //basicProcessSig_.getUsedNameSets().getNameTypePair().addAll(paraSig.getNameTypePair());      
     }
     else
     {        
@@ -232,7 +231,8 @@ public class BasicProcessChecker extends Checker<Signature>
     // other transformers are added.
     for(NameTypePair pair : paraSig.getNameTypePair())
     {
-      basicProcessSig_.getTransformerParaName().add(pair.getZName());
+      assert false : "TODO";
+      //basicProcessSig_.getTransformerParaName().add(pair.getZName());
     }    
     return paraSig;
   }

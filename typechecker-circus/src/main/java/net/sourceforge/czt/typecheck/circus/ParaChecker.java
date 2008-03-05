@@ -281,8 +281,7 @@ public class ParaChecker
    * Next, the process declaration is checked with the ProcessChecker,
    * where it returns a ProcessSignature containing all the collected 
    * information for the process. Process subclasses have different 
-   * structures (i.e., global processes have a CircusProcessSignature, 
-   * for what basic - local - processes have a BasicProcessSignature).
+   * structures.
    * After typechecking the process declaration, we also need to update
    * the ProcessSignature with the process name and used channels, which
    * are NOT updated by the ProcessChecker.

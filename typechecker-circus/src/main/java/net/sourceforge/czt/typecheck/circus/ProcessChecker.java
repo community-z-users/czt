@@ -18,14 +18,9 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
-import java.util.List;
 import net.sourceforge.czt.circus.ast.BasicProcess;
-import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
-import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
-import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
-import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.ZParaList;
@@ -33,8 +28,8 @@ import net.sourceforge.czt.z.visitor.ZParaListVisitor;
 
 /**
  * This visitor produces a ProocessSignature for each Circus process class.
- * This could be either a CircusProcessSignature or BasicProcessSignature,
- * depending whether we have a process description or a basic process with 
+ * This could be either a ProcessSignature, depending whether we have a 
+ * process description or a basic process with 
  * state and actions. This follows the Parser "processDesc" non-terminal
  * production.
  *
@@ -213,7 +208,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
     boolean basicProcessFormatInv = true;
     
     // sets the visitor current signature as a fresh signature.
-    BasicProcessSignature result = factory().createEmptyBasicProcessSignature();
+    ProcessSignature result = factory().createEmptyProcessSignature();
     basicProcessChecker().setCurrentBasicProcessSignature(result);
     
     for(Para para : term)

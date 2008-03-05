@@ -28,7 +28,6 @@ import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
-import net.sourceforge.czt.circus.visitor.BasicProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
@@ -93,7 +92,6 @@ public class SignatureChecker
                ActionTypeVisitor<Signature>, 
                NameSetTypeVisitor<Signature>,
                ProcessSignatureVisitor<Signature>,
-               //BasicProcessSignatureVisitor<Signature>,
                ActionSignatureVisitor<Signature>
 {
   
