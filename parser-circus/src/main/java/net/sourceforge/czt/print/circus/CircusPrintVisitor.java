@@ -21,7 +21,32 @@ package net.sourceforge.czt.print.circus;
 
 import java.util.Iterator;
 import java.util.Properties;
+import net.sourceforge.czt.circus.ast.AlphabetisedParallelProcessIdx;
+import net.sourceforge.czt.circus.ast.CallAction;
+import net.sourceforge.czt.circus.ast.CallProcess;
+import net.sourceforge.czt.circus.ast.ChannelDecl;
+import net.sourceforge.czt.circus.ast.ChannelSetType;
+import net.sourceforge.czt.circus.ast.CommunicationType;
+import net.sourceforge.czt.circus.ast.ExtChoiceActionIte;
+import net.sourceforge.czt.circus.ast.ExtChoiceProcessIte;
+import net.sourceforge.czt.circus.ast.GuardedAction;
+import net.sourceforge.czt.circus.ast.HideProcess;
+import net.sourceforge.czt.circus.ast.ImplicitChannelAnn;
+import net.sourceforge.czt.circus.ast.IntChoiceProcess;
+import net.sourceforge.czt.circus.ast.IntChoiceProcessIdx;
 import net.sourceforge.czt.circus.ast.OutputFieldAnn;
+import net.sourceforge.czt.circus.ast.ParallelAction;
+import net.sourceforge.czt.circus.ast.ParamAction;
+import net.sourceforge.czt.circus.ast.ParamProcess;
+import net.sourceforge.czt.circus.ast.ProcessPara;
+import net.sourceforge.czt.circus.ast.ProcessSignature;
+import net.sourceforge.czt.circus.ast.ProcessSignatureList;
+import net.sourceforge.czt.circus.ast.ProofObligationAnn;
+import net.sourceforge.czt.circus.ast.QualifiedDecl;
+import net.sourceforge.czt.circus.ast.SeqProcess;
+import net.sourceforge.czt.circus.ast.SkipAction;
+import net.sourceforge.czt.circus.ast.TransformerPara;
+import net.sourceforge.czt.circus.ast.ZSignatureList;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.util.Token;
@@ -901,10 +926,6 @@ public class CircusPrintVisitor
         throw new UnsupportedOperationException("Unexpected term ProcessSignature.");
     }
     
-    public Object visitBasicProcessSignature(BasicProcessSignature term) {
-        throw new UnsupportedOperationException("Unexpected term BasicProcessSignature.");
-    }
-    
     public Object visitActionSignature(ActionSignature term) {
         throw new UnsupportedOperationException("Unexpected term ActionSignature.");
     }
@@ -1013,11 +1034,6 @@ public class CircusPrintVisitor
         return null;
     }
 
-  public Object visitCircusProcessSignature(CircusProcessSignature term)  
-  {
-    throw new UnsupportedOperationException("Unexpected term CircusProcessSignature.");
-  }
-
   public Object visitImplicitChannelAnn(ImplicitChannelAnn term)
   {
     throw new UnsupportedOperationException("Unexpected term ImplicitChannelAnn.");
@@ -1079,6 +1095,168 @@ public class CircusPrintVisitor
 
   @Override
   public Object visitProofObligationAnn(ProofObligationAnn term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitQualifiedDecl(QualifiedDecl term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitCallProcess(CallProcess term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitTransformerPara(TransformerPara term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitProcessPara(ProcessPara term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitIntChoiceProcess(IntChoiceProcess term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitParallelAction(ParallelAction term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitGuardedAction(GuardedAction term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitChannelDecl(ChannelDecl term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitExtChoiceActionIte(ExtChoiceActionIte term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitParamProcess(ParamProcess term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitAlphabetisedParallelProcessIdx(AlphabetisedParallelProcessIdx term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitCallAction(CallAction term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitExtChoiceProcessIte(ExtChoiceProcessIte term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitImplicitChannelAnn(ImplicitChannelAnn term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitCircusNameSetList(CircusNameSetList term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitSkipAction(SkipAction term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitParamAction(ParamAction term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitIntChoiceProcessIdx(IntChoiceProcessIdx term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitCommunicationType(CommunicationType term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitZSignatureList(ZSignatureList term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitChannelSetType(ChannelSetType term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitProcessSignature(ProcessSignature term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitProofObligationAnn(ProofObligationAnn term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitHideProcess(HideProcess term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitSeqProcess(SeqProcess term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitCircusChannelSetList(CircusChannelSetList term)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object visitProcessSignatureList(ProcessSignatureList term)
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
