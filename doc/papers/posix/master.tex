@@ -2,6 +2,7 @@
 \documentclass{llncs}
 \usepackage{czt}  %% for the Standard Z specification macros
 \usepackage{graphics}
+\usepackage{url}
 %
 \begin{document}
 \pagestyle{headings}  % switches on printing of running heads
@@ -61,19 +62,28 @@ The Mondex case study was tackled as a first challenge in 2006.
 Several teams using a variety of techniques and tools were working on
 a fully automated proof of the Mondex smart-card banking application.
 A verifiable filesystem has been proposed~\cite{JosHol07} as another
-mini challenge.  An initial small subset of POSIX was chosen and
-participants of the ABZ 2008 conference were challenged to contribute
-to this project.
+mini challenge.  An initial small subset of POSIX has been
+chosen~\cite{FreFuWoo07} and participants of the ABZ 2008 conference
+were challenged to contribute to this project.
 
 This paper discusses a simple framework for testing Z specifications.
-The framework has been used to test the first few levels of a
-refactored version of Morgan and Suffrin's Z specification of
-the Posix file system~\cite{MorSufTOSE84}.  TODO: ...
+The framework has been used to obtain positive and negative tests for
+the first few levels of a refactored version of Morgan and Suffrin's Z
+specification of the Posix file system~\cite{MorSufTOSE84}.  The tests
+were executed and checked by the CZT animator ZLive.
 
+The structure of this paper is as follows.  Section~\ref{sect:posix}
+describes the refactored POSIX specification.  In
+section~\ref{sect:framework}, we present our testing framework.
+Section~\ref{sect:zlive} gives an overview of the CZT animator ZLive,
+which is used to execute the tests.  In Section~\ref{sect:ds}, the
+tests for the data system are explained.  Section~\ref{sect:ss} shows
+how promotion can be used to derive tests for the storage system.
+Finally, Section~\ref{sect:conclusions} gives a conclusion.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Posix Standardized}
+\section{Posix Standardized}\label{sect:posix}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this section, we describe the refactored Posix specification.
@@ -160,7 +170,7 @@ changes.  TODO: describe the other changes we made.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{How to Test a Z Specification}
+\section{How to Test a Z Specification}\label{sect:framework}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 This section introduces a simple framework for expressing tests
@@ -404,7 +414,7 @@ Then we can test $pv \in Op_P$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The ZLive Animator}
+\section{The ZLive Animator}\label{sect:zlive}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 One of the tools available in the CZT system is the ZLive animator.
@@ -414,14 +424,14 @@ TODO: brief description of how ZLive works, and a trivial example.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Testing the DS Specification}
+\section{Testing the DS Specification}\label{sect:ds}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \input{dstest.zed}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Testing the SS Specification}
+\section{Testing the SS Specification}\label{sect:ss}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 TODO: describe how we can use a framing schema to `promote' the DS tests
@@ -429,16 +439,17 @@ up to this level.  Give examples.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}
+\section{Conclusions}\label{sect:conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Testing is useful, especially when the execution of the tests can
-be automated.
+In this paper, we have presented a framework for testing Z
+specifications.  Testing is a useful task, especially when the
+execution of the tests can be automated.
 
 The refactored Z specification of Posix may be a useful starting point
 for other researchers who want to work on refinement or proofs
 about the Posix case study.  It is available from the CZT sourceforge
-website...
+website~\cite{CZT}.
 
 
 %
