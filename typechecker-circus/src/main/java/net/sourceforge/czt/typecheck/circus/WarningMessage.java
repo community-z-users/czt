@@ -10,6 +10,8 @@ package net.sourceforge.czt.typecheck.circus;
  * @author leo
  */
 public enum WarningMessage {
+  // NOTE: in "\n\tXXX.......":, the "XXX.......".length()= 10 for beautification (see WarningManager loc info)
+  
   SCHEXPR_CALL_ACTION_WITHOUT_BRAKET(
     "Missing schema expression action brackets." +
       "\n\tProcess...: {0}" +
@@ -43,7 +45,19 @@ public enum WarningMessage {
     "\n\tExpression: {4}", 
     "The types of iterated declarations in Circus must be finite. As the typechecker cannot decide " +
     "\n\tthis automatically, this warning is raised instead. The typechecker adds a ProofObligationAnn " +
-    "\n\tto the corresponding expression for other tools to process it.")
+    "\n\tto the corresponding expression for other tools to process it. This should never happen for parsed terms."),
+  DUPLICATED_PROCESS_STATE(
+        "Attempt to treat paragraph as process state after it has been found." +
+        "\n\tProcess...: {0}" +
+        "\n\tParagraph.: {1}",
+        "Each basic process can only contain one state paragraph, yet typechecking\n\t" +
+        "found two instances of paragraphs being treated as process state. This can\n\t" +
+        "only happen because of an ill-formed term."),
+  UNKNOWN_TERM("Typechecker is being asked to visit a unknown term" +
+    "\n\tChecker...: {0}" +
+    "\n\tTerm......: {1}", 
+    "A unknown term can only be found if some type rule is missing or an ill-formed term\n\t" +
+    "is given to typecheck. This should never happen for parsed terms.")    
   ;
   
   private final String message_;

@@ -15,6 +15,7 @@ import net.sourceforge.czt.print.circus.PrintUtils;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.util.CztException;
 
 /**
@@ -100,13 +101,27 @@ public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
     markup_ = markup;
   }
 
-  public void warn(WarningMessage wm, List<Object> params)
+  public void warn(Term term, WarningMessage wm, List<Object> params)
   {
-    warn(wm, params.toArray());
+    warn(term, wm, params.toArray());
   }
 
-  public void warn(WarningMessage wm, Object... arguments)
+  public void warn(Term term, WarningMessage wm, Object... arguments)
   {
-    warn(wm.getFullMessage(), arguments);
+    warn(term, wm.getFullMessage(), arguments);
+  }
+  
+  public void warn(Term term, String message, Object... arguments) 
+  {
+    StringBuilder sb = new StringBuilder();
+    String s = createWarning(message, arguments);
+    sb.append(s);
+    if (term != null)
+    {
+      // "Location..".length() = 10, for beautification
+      sb.append("\n\tLocation..: ");      
+      sb.append(GlobalDefs.position(term));
+    }
+    doWarn(sb.toString());
   }
 }
