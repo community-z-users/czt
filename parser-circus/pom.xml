@@ -34,7 +34,7 @@
                                 <manifest>
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>lib</classpathPrefix>
-                                    <mainClass>net.sourceforge.czt.parser.circus.SpecialLatexScanner</mainClass>
+                                    <mainClass>net.sourceforge.czt.parser.circus.SpecialLatexParser</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -155,5 +155,8 @@
             </includes>            
         </testResource>
     </testResources> -->
-  </build>
+  </build>  
+  <properties>
+        <netbeans.hint.useExternalMaven>true</netbeans.hint.useExternalMaven>
+    </properties>
 </project>
