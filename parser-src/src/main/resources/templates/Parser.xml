@@ -2353,7 +2353,7 @@ precedence left         LSQUARE, RSQUARE;
 <add:circus>
 /* TODO: Need to test funny cases to see whether this precedences are really useful. 
  */
-precedence nonassoc     LCIRCRENAME, RCIRCRENAME;
+precedence nonassoc     LCIRCRENAME, RCIRCRENAME; // it doesn't matter if put before _RENAME
 precedence nonassoc     LSCHEXPRACT, RSCHEXPRACT;
 precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
 precedence nonassoc     CIRCLINST, CIRCRINST;
@@ -3780,6 +3780,24 @@ processPara ::=
         ;        
 
 processDesc ::=
+        DECORWORD:dw channelRenaming:cr 
+        {: 
+          //System.out.println("OXENTE");
+          RESULT = factory_.createRenameProcess(
+              factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)),
+                factory_.createZExprList(), CallUsage.Param), cr);
+            addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
+        :} %prec _RENAME  
+        |
+        DECORWORD:dw genericActuals:ga channelRenaming:cr 
+        {:         
+            RESULT = factory_.createRenameProcess(
+              factory_.createCallProcess(factory_.createRefExpr(
+                createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
+                factory_.createZExprList(), CallUsage.Param), cr);
+            addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
+        :} %prec _RENAME
+        |
         paramProcess:pp
         {:
             RESULT = pp;
@@ -4099,11 +4117,16 @@ processCall ::=
               createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
             addLocAnn(RESULT, dw.getLocation());
         :}
-        /** If we try renaming of calls without parenthesis, the other production is always given preference :-(( 
+        /** 
+        If we try renaming of calls without parenthesis, the other parenthesisedProcess:pp
+        production is always given preference, regardless of our careful choice of precedences :-(( 
+        
+        So, instead, I added the production to the root of processDesc, which gives the  intended result.
+        Nevertheless, there still some unwanted glitches - see test/circus/process_renaming.tex
         |
         DECORWORD:dw channelRenaming:cr 
         {: 
-         System.out.println("OXENTE");
+          //System.out.println("OXENTE");
           RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)),
                 factory_.createZExprList(), CallUsage.Param), cr);
@@ -4217,6 +4240,7 @@ parenthesisedProcess ::=
         /* Process channel renaming */ 
         LPAREN:lp process:pp RPAREN:rp channelRenaming:cr 
         {: 
+            //System.out.println("VIXE");
             addParenthesisAnn(lp, pp, rp);
             RESULT = factory_.createRenameProcess(pp, cr);
             addLocAnn(RESULT, getLocation(lp, rp));
