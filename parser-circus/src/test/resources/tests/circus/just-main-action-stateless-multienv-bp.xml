@@ -158,7 +158,7 @@
                                         <LocAnn Start="316" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="5" Col="26"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
                                         <LocAnn Start="304" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="3" Col="14"/>
                                     </Anns>

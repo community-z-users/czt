@@ -708,7 +708,7 @@ Examples from Manuela Xavier MSc thesis.
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                         <Anns>
                                             <LocAnn Start="1271" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="43" Length="2" Col="83"/>
                                         </Anns>
@@ -1558,7 +1558,7 @@ Examples from Manuela Xavier MSc thesis.
                                                         <LocAnn Start="1898" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="5" Col="99"/>
                                                     </Anns>
                                                 </ns3:SkipAction>
-                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                     <Anns>
                                                         <LocAnn Start="1878" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="6" Col="79"/>
                                                     </Anns>
@@ -1595,7 +1595,7 @@ Examples from Manuela Xavier MSc thesis.
                                                     </ns3:CircusFieldList>
                                                 </ns3:Communication>
                                             </ns3:PrefixingAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="1865" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\CookieMachine.tex" Line="50" Length="3" Col="66"/>
                                                 </Anns>

@@ -1022,7 +1022,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                             <LocAnn Start="11582" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="30" Col="27"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11592" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="37"/>
                                 </Anns>
@@ -1038,23 +1038,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                <Anns>
-                                    <LocAnn Start="11592" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="37"/>
-                                </Anns>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="11592" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="37"/>
-                                        </Anns>
-                                        <Word>a</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <ns3:CircusFieldList/>
-                            </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11595" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="40"/>
                                 </Anns>
@@ -1070,7 +1054,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11598" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="43"/>
                                 </Anns>
@@ -1086,7 +1070,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11601" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="46"/>
                                 </Anns>
@@ -1127,7 +1111,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                             <LocAnn Start="11643" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="32" Col="27"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11653" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="37"/>
                                 </Anns>
@@ -1143,23 +1127,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                <Anns>
-                                    <LocAnn Start="11653" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="37"/>
-                                </Anns>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="11653" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="37"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <ns3:CircusFieldList/>
-                            </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11656" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="40"/>
                                 </Anns>
@@ -1175,7 +1143,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11659" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="43"/>
                                 </Anns>
@@ -1191,7 +1159,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11663" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="47"/>
                                 </Anns>
@@ -1247,7 +1215,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                             <LocAnn Start="11752" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="62" Col="34"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Generic" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11762" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="44"/>
                                 </Anns>
@@ -1297,57 +1265,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Generic" CommPattern="ChannelSet">
-                                <Anns>
-                                    <LocAnn Start="11762" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="44"/>
-                                </Anns>
-                                <RefExpr Mixfix="false" Explicit="true">
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="11762" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="44"/>
-                                        </Anns>
-                                        <Word>x2</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList>
-                                        <ProdExpr>
-                                            <Anns>
-                                                <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="10" Col="56"/>
-                                            </Anns>
-                                            <ZExprList>
-                                                <RefExpr Mixfix="false" Explicit="false">
-                                                    <Anns>
-                                                        <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="47"/>
-                                                    </Anns>
-                                                    <ZName>
-                                                        <Anns>
-                                                            <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="47"/>
-                                                        </Anns>
-                                                        <Word>A</Word>
-                                                        <ZStrokeList/>
-                                                    </ZName>
-                                                    <ZExprList/>
-                                                </RefExpr>
-                                                <RefExpr Mixfix="false" Explicit="false">
-                                                    <Anns>
-                                                        <LocAnn Start="11774" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="56"/>
-                                                    </Anns>
-                                                    <ZName>
-                                                        <Anns>
-                                                            <LocAnn Start="11774" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="56"/>
-                                                        </Anns>
-                                                        <Word>B</Word>
-                                                        <ZStrokeList/>
-                                                    </ZName>
-                                                    <ZExprList/>
-                                                </RefExpr>
-                                            </ZExprList>
-                                        </ProdExpr>
-                                    </ZExprList>
-                                </RefExpr>
-                                <ns3:CircusFieldList/>
-                            </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Generic" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11778" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="60"/>
                                 </Anns>
@@ -1404,7 +1322,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Generic" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11792" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="74"/>
                                 </Anns>
@@ -1434,7 +1352,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Generic" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="11799" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="81"/>
                                 </Anns>

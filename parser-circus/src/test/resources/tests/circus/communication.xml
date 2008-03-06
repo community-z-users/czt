@@ -189,7 +189,7 @@
                                                 <LocAnn Start="327" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="11" Length="5" Col="66"/>
                                             </Anns>
                                         </ns3:SkipAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="315" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="11" Length="2" Col="54"/>
                                             </Anns>
@@ -222,7 +222,7 @@
                                             </ns3:CircusFieldList>
                                         </ns3:Communication>
                                     </ns3:PrefixingAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="299" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="11" Length="2" Col="38"/>
                                         </Anns>
@@ -258,7 +258,7 @@
                                         </ns3:CircusFieldList>
                                     </ns3:Communication>
                                 </ns3:PrefixingAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
                                         <LocAnn Start="284" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="11" Length="2" Col="23"/>
                                     </Anns>

@@ -392,7 +392,7 @@ first_action
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="560" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="19" Length="3" Col="38"/>
                                         </Anns>
@@ -426,7 +426,7 @@ first_action
                                         </ns3:CircusFieldList>
                                     </ns3:Communication>
                                 </ns3:PrefixingAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
                                         <LocAnn Start="547" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="19" Length="3" Col="25"/>
                                     </Anns>
@@ -803,7 +803,7 @@ recursive_action
                                                 </ZName>
                                                 <ZExprList/>
                                             </ns3:CallAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="906" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="31" Length="3" Col="29"/>
                                                 </Anns>

@@ -460,7 +460,7 @@
                                         <LocAnn Start="1256" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="56" Length="5" Col="36"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                     <Anns>
                                         <LocAnn Start="1242" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="56" Length="2" Col="22"/>
                                     </Anns>
@@ -529,7 +529,7 @@
                                         <LocAnn Start="1311" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="58" Length="5" Col="38"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Mixed">
                                     <Anns>
                                         <LocAnn Start="1295" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="58" Length="2" Col="22"/>
                                     </Anns>
@@ -614,7 +614,7 @@
                                         <LocAnn Start="1359" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="59" Length="5" Col="38"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Mixed">
                                     <Anns>
                                         <LocAnn Start="1343" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="59" Length="2" Col="22"/>
                                     </Anns>
@@ -707,7 +707,7 @@
                                     </ZName>
                                     <ZExprList/>
                                 </ns3:CallAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Mixed">
                                     <Anns>
                                         <LocAnn Start="1398" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="61" Length="1" Col="22"/>
                                     </Anns>
@@ -804,7 +804,7 @@
                                             <LocAnn Start="1505" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="65" Length="5" Col="38"/>
                                         </Anns>
                                     </ns3:SkipAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                         <Anns>
                                             <LocAnn Start="1497" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="65" Length="1" Col="30"/>
                                         </Anns>
@@ -821,7 +821,7 @@
                                         <ns3:CircusFieldList/>
                                     </ns3:Communication>
                                 </ns3:PrefixingAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                     <Anns>
                                         <LocAnn Start="1489" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="65" Length="1" Col="22"/>
                                     </Anns>
@@ -918,7 +918,7 @@ environment we omit the slash before the begin/end environment.
                                         <LocAnn Start="3193" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="120" Length="5" Col="40"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Mixed">
                                     <Anns>
                                         <LocAnn Start="3175" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="120" Length="1" Col="22"/>
                                     </Anns>
@@ -1012,7 +1012,7 @@ environment we omit the slash before the begin/end environment.
                                         <LocAnn Start="3252" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="122" Length="5" Col="38"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Mixed">
                                     <Anns>
                                         <LocAnn Start="3236" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="122" Length="1" Col="22"/>
                                     </Anns>
@@ -1099,7 +1099,7 @@ environment we omit the slash before the begin/end environment.
                                         <LocAnn Start="3318" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="124" Length="5" Col="45"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
                                         <LocAnn Start="3295" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="124" Length="1" Col="22"/>
                                     </Anns>
@@ -1267,7 +1267,7 @@ environment we omit the slash before the begin/end environment.
                                         <LocAnn Start="4670" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="172" Length="5" Col="59"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Mixed">
                                     <Anns>
                                         <LocAnn Start="4633" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="172" Length="2" Col="22"/>
                                     </Anns>
@@ -1406,7 +1406,7 @@ environment we omit the slash before the begin/end environment.
                                             <LocAnn Start="4793" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="175" Length="5" Col="69"/>
                                         </Anns>
                                     </ns3:SkipAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Mixed">
                                         <Anns>
                                             <LocAnn Start="4746" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="175" Length="2" Col="22"/>
                                         </Anns>
@@ -1592,7 +1592,7 @@ environment we omit the slash before the begin/end environment.
                                         </ns3:CircusFieldList>
                                     </ns3:Communication>
                                 </ns3:PrefixingAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                     <Anns>
                                         <LocAnn Start="4710" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="174" Length="2" Col="22"/>
                                     </Anns>
@@ -1686,7 +1686,7 @@ environment we omit the slash before the begin/end environment.
                                         <LocAnn Start="5914" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="216" Length="5" Col="69"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Generic" CommPattern="Mixed">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="Mixed">
                                     <Anns>
                                         <LocAnn Start="5868" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="216" Length="1" Col="23"/>
                                     </Anns>
@@ -1821,7 +1821,7 @@ environment we omit the slash before the begin/end environment.
                                         <LocAnn Start="5977" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="218" Length="5" Col="41"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
                                         <LocAnn Start="5959" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="218" Length="1" Col="23"/>
                                     </Anns>

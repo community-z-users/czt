@@ -611,7 +611,7 @@
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                         <Anns>
                                             <LocAnn Start="1111" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="38" Length="5" Col="77"/>
                                         </Anns>
@@ -1269,7 +1269,7 @@
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="1464" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="41" Length="6" Col="72"/>
                                         </Anns>
@@ -3195,7 +3195,7 @@
                                                     </ZName>
                                                     <ZExprList/>
                                                 </ns3:CallAction>
-                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                     <Anns>
                                                         <LocAnn Start="2862" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="5" Col="217"/>
                                                     </Anns>
@@ -3297,7 +3297,7 @@
                                             </MemPred>
                                         </ns3:GuardedAction>
                                     </ns3:ExtChoiceAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                         <Anns>
                                             <LocAnn Start="2732" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="72" Length="5" Col="87"/>
                                         </Anns>
@@ -4082,7 +4082,7 @@
                                                     </ZName>
                                                     <ZExprList/>
                                                 </ns3:CallAction>
-                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Mixed">
+                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Mixed">
                                                     <Anns>
                                                         <LocAnn Start="3334" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="4" Col="149"/>
                                                     </Anns>
@@ -4233,7 +4233,7 @@
                                             </MemPred>
                                         </ns3:GuardedAction>
                                     </ns3:ExtChoiceAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="3267" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="75" Length="6" Col="82"/>
                                         </Anns>
@@ -4603,7 +4603,7 @@ passed by value to $val\_$).
                                         <LocAnn Start="4206" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="97" Length="5" Col="38"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                     <Anns>
                                         <LocAnn Start="4190" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="97" Length="2" Col="22"/>
                                     </Anns>
@@ -4789,7 +4789,7 @@ passed by value to $val\_$).
                                     </ZName>
                                     <ZExprList/>
                                 </ns3:CallAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                     <Anns>
                                         <LocAnn Start="4313" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="99" Length="3" Col="23"/>
                                     </Anns>
@@ -5177,7 +5177,7 @@ generic processes and renaming are used together.
                                     <LocAnn Start="5662" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="31" Col="51"/>
                                 </Anns>
                                 <ns3:CircusCommunicationList>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                         <Anns>
                                             <LocAnn Start="5672" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="61"/>
                                         </Anns>
@@ -5193,23 +5193,7 @@ generic processes and renaming are used together.
                                         </RefExpr>
                                         <ns3:CircusFieldList/>
                                     </ns3:Communication>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                        <Anns>
-                                            <LocAnn Start="5672" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="61"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false" Explicit="false">
-                                            <ZName>
-                                                <Anns>
-                                                    <LocAnn Start="5672" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="61"/>
-                                                </Anns>
-                                                <Word>read</Word>
-                                                <ZStrokeList/>
-                                            </ZName>
-                                            <ZExprList/>
-                                        </RefExpr>
-                                        <ns3:CircusFieldList/>
-                                    </ns3:Communication>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                         <Anns>
                                             <LocAnn Start="5678" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="67"/>
                                         </Anns>
@@ -5238,7 +5222,7 @@ generic processes and renaming are used together.
                                 <LocAnn Start="5718" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="31" Col="107"/>
                             </Anns>
                             <ns3:CircusCommunicationList>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                     <Anns>
                                         <LocAnn Start="5728" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
                                     </Anns>
@@ -5254,23 +5238,7 @@ generic processes and renaming are used together.
                                     </RefExpr>
                                     <ns3:CircusFieldList/>
                                 </ns3:Communication>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                    <Anns>
-                                        <LocAnn Start="5728" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
-                                    </Anns>
-                                    <RefExpr Mixfix="false" Explicit="false">
-                                        <ZName>
-                                            <Anns>
-                                                <LocAnn Start="5728" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="4" Col="117"/>
-                                            </Anns>
-                                            <Word>read</Word>
-                                            <ZStrokeList/>
-                                        </ZName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <ns3:CircusFieldList/>
-                                </ns3:Communication>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                     <Anns>
                                         <LocAnn Start="5734" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\reactive-buffer-singleenv.tex" Line="125" Length="5" Col="123"/>
                                     </Anns>

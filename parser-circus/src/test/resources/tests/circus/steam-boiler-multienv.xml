@@ -1482,6 +1482,9 @@ repeating.
                                             </ParenAnn>
                                         </Anns>
                                         <ns3:AssignmentPairs>
+                                            <Anns>
+                                                <LocAnn Start="36850" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="3" Col="26"/>
+                                            </Anns>
                                             <ZNameList>
                                                 <ZName>
                                                     <Anns>
@@ -1586,7 +1589,7 @@ repeating.
                                                             <LocAnn Start="36957" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="958" Length="5" Col="62"/>
                                                         </Anns>
                                                     </ns3:SkipAction>
-                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                         <Anns>
                                                             <LocAnn Start="36940" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="958" Length="10" Col="45"/>
                                                         </Anns>
@@ -1711,7 +1714,7 @@ repeating.
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                         <Anns>
                                             <LocAnn Start="37044" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="959" Length="9" Col="16"/>
                                         </Anns>
@@ -1798,6 +1801,9 @@ This process has eight paragraphs in total, where two (\textit{i.e.,} the state 
                                         <LocAnn Start="37279" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="965" Col="13"/>
                                     </Anns>
                                     <ns3:AssignmentPairs>
+                                        <Anns>
+                                            <LocAnn Start="37284" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="965" Length="3" Col="18"/>
+                                        </Anns>
                                         <ZNameList>
                                             <ZName>
                                                 <Anns>
@@ -15513,7 +15519,7 @@ about pump commands must also be replaced.
                             <LocAnn Start="69939" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1867" Length="167" Col="4"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="69949" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1867" Length="13" Col="14"/>
                                 </Anns>
@@ -15529,23 +15535,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                <Anns>
-                                    <LocAnn Start="69949" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1867" Length="13" Col="14"/>
-                                </Anns>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="69949" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1867" Length="13" Col="14"/>
-                                        </Anns>
-                                        <Word>emergencystop</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <ns3:CircusFieldList/>
-                            </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="69964" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1867" Length="8" Col="29"/>
                                 </Anns>
@@ -15561,7 +15551,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="69974" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1867" Length="13" Col="39"/>
                                 </Anns>
@@ -15577,7 +15567,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="69989" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1867" Length="13" Col="54"/>
                                 </Anns>
@@ -15593,7 +15583,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="70004" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1867" Length="9" Col="69"/>
                                 </Anns>
@@ -15609,7 +15599,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="70037" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1868" Length="11" Col="14"/>
                                 </Anns>
@@ -15625,7 +15615,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="70050" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1868" Length="18" Col="27"/>
                                 </Anns>
@@ -15641,7 +15631,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="70070" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1868" Length="8" Col="47"/>
                                 </Anns>
@@ -15657,7 +15647,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="70080" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1868" Length="9" Col="57"/>
                                 </Anns>
@@ -15673,7 +15663,7 @@ about pump commands must also be replaced.
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="70091" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="1868" Length="5" Col="68"/>
                                 </Anns>
@@ -18322,7 +18312,7 @@ sequence of events.
                                                     </RefExpr>
                                                 </AndExpr>
                                             </ns3:SchExprAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                 <Anns>
                                                     <LocAnn Start="78251" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2096" Length="5" Col="48"/>
                                                 </Anns>
@@ -18353,7 +18343,7 @@ sequence of events.
                                                 </ns3:CircusFieldList>
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                             <Anns>
                                                 <LocAnn Start="78234" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2096" Length="10" Col="31"/>
                                             </Anns>
@@ -18406,7 +18396,7 @@ sequence of events.
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                         <Anns>
                                             <LocAnn Start="78391" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2097" Length="9" Col="60"/>
                                         </Anns>
@@ -18493,6 +18483,9 @@ sequence of events.
                                                     <LocAnn Start="78608" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2100" Col="16"/>
                                                 </Anns>
                                                 <ns3:AssignmentPairs>
+                                                    <Anns>
+                                                        <LocAnn Start="78618" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2100" Length="3" Col="26"/>
+                                                    </Anns>
                                                     <ZNameList>
                                                         <ZName>
                                                             <Anns>
@@ -18519,7 +18512,7 @@ sequence of events.
                                                     </ZExprList>
                                                 </ns3:AssignmentPairs>
                                             </ns3:AssignmentCommand>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                 <Anns>
                                                     <LocAnn Start="78565" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2099" Length="5" Col="57"/>
                                                 </Anns>
@@ -18550,7 +18543,7 @@ sequence of events.
                                                 </ns3:CircusFieldList>
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="78524" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2099" Length="15" Col="16"/>
                                             </Anns>
@@ -18679,7 +18672,7 @@ sequence of events.
                                                                             <LocAnn Start="78746" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2102" Length="5" Col="50"/>
                                                                         </Anns>
                                                                     </ns3:SkipAction>
-                                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                         <Anns>
                                                                             <LocAnn Start="78712" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2102" Length="13" Col="16"/>
                                                                         </Anns>
@@ -18724,7 +18717,7 @@ sequence of events.
                                                                             <LocAnn Start="78827" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2103" Length="5" Col="51"/>
                                                                         </Anns>
                                                                     </ns3:SkipAction>
-                                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                         <Anns>
                                                                             <LocAnn Start="78792" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2103" Length="9" Col="16"/>
                                                                         </Anns>
@@ -18770,7 +18763,7 @@ sequence of events.
                                                                         <LocAnn Start="78892" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2104" Length="5" Col="37"/>
                                                                     </Anns>
                                                                 </ns3:SkipAction>
-                                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                     <Anns>
                                                                         <LocAnn Start="78871" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2104" Length="5" Col="16"/>
                                                                     </Anns>
@@ -18820,7 +18813,7 @@ sequence of events.
                                                                         <LocAnn Start="79008" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2105" Length="5" Col="86"/>
                                                                     </Anns>
                                                                 </ns3:SkipAction>
-                                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                                     <Anns>
                                                                         <LocAnn Start="78988" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2105" Length="13" Col="66"/>
                                                                     </Anns>
@@ -18870,7 +18863,7 @@ sequence of events.
                                                                     <LocAnn Start="79122" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2106" Length="5" Col="86"/>
                                                                 </Anns>
                                                             </ns3:SkipAction>
-                                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                                 <Anns>
                                                                     <LocAnn Start="79102" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2106" Length="13" Col="66"/>
                                                                 </Anns>
@@ -18916,7 +18909,7 @@ sequence of events.
                                                             <LocAnn Start="79197" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2107" Length="5" Col="45"/>
                                                         </Anns>
                                                     </ns3:SkipAction>
-                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                         <Anns>
                                                             <LocAnn Start="79168" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2107" Length="9" Col="16"/>
                                                         </Anns>
@@ -18962,7 +18955,7 @@ sequence of events.
                                                         <LocAnn Start="79287" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2108" Length="5" Col="60"/>
                                                     </Anns>
                                                 </ns3:SkipAction>
-                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                     <Anns>
                                                         <LocAnn Start="79243" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2108" Length="18" Col="16"/>
                                                     </Anns>
@@ -19008,7 +19001,7 @@ sequence of events.
                                                     <LocAnn Start="79378" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2109" Length="5" Col="60"/>
                                                 </Anns>
                                             </ns3:SkipAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="79334" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2109" Length="8" Col="16"/>
                                                 </Anns>
@@ -19064,7 +19057,7 @@ sequence of events.
                                                 <LocAnn Start="79445" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2110" Length="5" Col="39"/>
                                             </Anns>
                                         </ns3:SkipAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="79422" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2110" Length="8" Col="16"/>
                                             </Anns>
@@ -19110,7 +19103,7 @@ sequence of events.
                                             <LocAnn Start="79532" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2111" Length="5" Col="57"/>
                                         </Anns>
                                     </ns3:SkipAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="79491" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2111" Length="11" Col="16"/>
                                         </Anns>
@@ -19275,23 +19268,7 @@ The \( \mathsl{Analyser} \, \)\/ is added to the \( \mathsl{Timer} \,
                             <LocAnn Start="80093" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2129" Length="30" Col="43"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                <Anns>
-                                    <LocAnn Start="80103" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2129" Length="10" Col="53"/>
-                                </Anns>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="80103" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2129" Length="10" Col="53"/>
-                                        </Anns>
-                                        <Word>startcycle</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <ns3:CircusFieldList/>
-                            </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="80103" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2129" Length="10" Col="53"/>
                                 </Anns>
@@ -19689,7 +19666,7 @@ Added \LaTeX\ markup directives for the next free type:
                             <LocAnn Start="81673" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2168" Length="79" Col="12"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="81683" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2168" Length="10" Col="22"/>
                                 </Anns>
@@ -19705,23 +19682,7 @@ Added \LaTeX\ markup directives for the next free type:
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                <Anns>
-                                    <LocAnn Start="81683" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2168" Length="10" Col="22"/>
-                                </Anns>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="81683" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2168" Length="10" Col="22"/>
-                                        </Anns>
-                                        <Word>startpumps</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <ns3:CircusFieldList/>
-                            </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="81695" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2168" Length="9" Col="34"/>
                                 </Anns>
@@ -19737,7 +19698,7 @@ Added \LaTeX\ markup directives for the next free type:
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="81706" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2168" Length="9" Col="45"/>
                                 </Anns>
@@ -19753,7 +19714,7 @@ Added \LaTeX\ markup directives for the next free type:
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="81717" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2168" Length="10" Col="56"/>
                                 </Anns>
@@ -19769,7 +19730,7 @@ Added \LaTeX\ markup directives for the next free type:
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="81729" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2168" Length="13" Col="68"/>
                                 </Anns>
@@ -19829,23 +19790,7 @@ Added \LaTeX\ markup directives for the next free type:
                                         <LocAnn Start="81820" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2170" Length="29" Col="12"/>
                                     </Anns>
                                     <ns3:CircusCommunicationList>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                            <Anns>
-                                                <LocAnn Start="81830" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2170" Length="9" Col="22"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false" Explicit="false">
-                                                <ZName>
-                                                    <Anns>
-                                                        <LocAnn Start="81830" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2170" Length="9" Col="22"/>
-                                                    </Anns>
-                                                    <Word>startexec</Word>
-                                                    <ZStrokeList/>
-                                                </ZName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                            <ns3:CircusFieldList/>
-                                        </ns3:Communication>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                             <Anns>
                                                 <LocAnn Start="81830" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2170" Length="9" Col="22"/>
                                             </Anns>
@@ -20037,6 +19982,9 @@ reports this fact.
                                             <LocAnn Start="83195" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2215" Col="61"/>
                                         </Anns>
                                         <ns3:AssignmentPairs>
+                                            <Anns>
+                                                <LocAnn Start="83200" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2215" Length="3" Col="66"/>
+                                            </Anns>
                                             <ZNameList>
                                                 <ZName>
                                                     <Anns>
@@ -20063,7 +20011,7 @@ reports this fact.
                                             </ZExprList>
                                         </ns3:AssignmentPairs>
                                     </ns3:AssignmentCommand>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="83175" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2215" Length="10" Col="41"/>
                                         </Anns>
@@ -20195,7 +20143,7 @@ participation in the \( \event{startreport} \, \)\/ event.
                                                 </ZName>
                                                 <ZExprList/>
                                             </ns3:CallAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                 <Anns>
                                                     <LocAnn Start="84086" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2235" Length="11" Col="49"/>
                                                 </Anns>
@@ -20212,7 +20160,7 @@ participation in the \( \event{startreport} \, \)\/ event.
                                                 <ns3:CircusFieldList/>
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                             <Anns>
                                                 <LocAnn Start="84070" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2235" Length="9" Col="33"/>
                                             </Anns>
@@ -20260,7 +20208,7 @@ participation in the \( \event{startreport} \, \)\/ event.
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                         <Anns>
                                             <LocAnn Start="84167" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2236" Length="9" Col="33"/>
                                         </Anns>
@@ -20328,7 +20276,7 @@ participation in the \( \event{startreport} \, \)\/ event.
                                             </RefExpr>
                                         </ZExprList>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="84236" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2237" Length="13" Col="33"/>
                                         </Anns>
@@ -20692,7 +20640,7 @@ participation in the \( \event{startreport} \, \)\/ event.
                                             </ns3:GuardedAction>
                                         </ns3:CircusActionList>
                                     </ns3:IfGuardedCommand>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="84335" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2239" Length="13" Col="8"/>
                                         </Anns>
@@ -20899,7 +20847,7 @@ degraded mode.
                                                                                     </RefExpr>
                                                                                 </ZExprList>
                                                                             </ns3:CallAction>
-                                                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                                 <Anns>
                                                                                     <LocAnn Start="87132" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2304" Length="8" Col="15"/>
                                                                                 </Anns>
@@ -20969,7 +20917,7 @@ degraded mode.
                                                                                     </RefExpr>
                                                                                 </ZExprList>
                                                                             </ns3:CallAction>
-                                                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                                 <Anns>
                                                                                     <LocAnn Start="87212" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2305" Length="8" Col="15"/>
                                                                                 </Anns>
@@ -21006,7 +20954,7 @@ degraded mode.
                                                                             </ns3:Communication>
                                                                         </ns3:PrefixingAction>
                                                                     </ns3:ExtChoiceAction>
-                                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                         <Anns>
                                                                             <LocAnn Start="87091" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2303" Length="9" Col="70"/>
                                                                         </Anns>
@@ -21076,7 +21024,7 @@ degraded mode.
                                                                             </RefExpr>
                                                                         </ZExprList>
                                                                     </ns3:CallAction>
-                                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                         <Anns>
                                                                             <LocAnn Start="87292" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2306" Length="9" Col="12"/>
                                                                         </Anns>
@@ -21113,7 +21061,7 @@ degraded mode.
                                                                     </ns3:Communication>
                                                                 </ns3:PrefixingAction>
                                                             </ns3:ExtChoiceAction>
-                                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                 <Anns>
                                                                     <LocAnn Start="87057" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2303" Length="18" Col="36"/>
                                                                 </Anns>
@@ -21175,7 +21123,7 @@ degraded mode.
                                                                                 <LocAnn Start="87473" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2308" Length="5" Col="33"/>
                                                                             </Anns>
                                                                         </ns3:SkipAction>
-                                                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                                             <Anns>
                                                                                 <LocAnn Start="87453" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2308" Length="13" Col="13"/>
                                                                             </Anns>
@@ -21192,7 +21140,7 @@ degraded mode.
                                                                             <ns3:CircusFieldList/>
                                                                         </ns3:Communication>
                                                                     </ns3:PrefixingAction>
-                                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                         <Anns>
                                                                             <LocAnn Start="87414" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2307" Length="9" Col="47"/>
                                                                         </Anns>
@@ -21237,7 +21185,7 @@ degraded mode.
                                                                             <LocAnn Start="87513" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2308" Length="5" Col="73"/>
                                                                         </Anns>
                                                                     </ns3:SkipAction>
-                                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                         <Anns>
                                                                             <LocAnn Start="87490" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2308" Length="9" Col="50"/>
                                                                         </Anns>
@@ -21274,7 +21222,7 @@ degraded mode.
                                                                     </ns3:Communication>
                                                                 </ns3:PrefixingAction>
                                                             </ns3:ExtChoiceAction>
-                                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                                 <Anns>
                                                                     <LocAnn Start="87379" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2307" Length="18" Col="12"/>
                                                                 </Anns>
@@ -21311,7 +21259,7 @@ degraded mode.
                                                             </ns3:Communication>
                                                         </ns3:PrefixingAction>
                                                     </ns3:ExtChoiceAction>
-                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                         <Anns>
                                                             <LocAnn Start="87032" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2303" Length="8" Col="11"/>
                                                         </Anns>
@@ -21381,7 +21329,7 @@ degraded mode.
                                                             </RefExpr>
                                                         </ZExprList>
                                                     </ns3:CallAction>
-                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                         <Anns>
                                                             <LocAnn Start="87551" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2309" Length="8" Col="12"/>
                                                         </Anns>
@@ -21418,7 +21366,7 @@ degraded mode.
                                                     </ns3:Communication>
                                                 </ns3:PrefixingAction>
                                             </ns3:ExtChoiceAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="86999" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2302" Length="5" Col="57"/>
                                                 </Anns>
@@ -21488,7 +21436,7 @@ degraded mode.
                                                     </RefExpr>
                                                 </ZExprList>
                                             </ns3:CallAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="87636" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2310" Length="5" Col="12"/>
                                                 </Anns>
@@ -21525,7 +21473,7 @@ degraded mode.
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
                                     </ns3:ExtChoiceAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="86974" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2302" Length="9" Col="32"/>
                                         </Anns>
@@ -21570,7 +21518,7 @@ degraded mode.
                                             <LocAnn Start="87742" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2311" Length="5" Col="35"/>
                                         </Anns>
                                     </ns3:SkipAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="87719" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2311" Length="9" Col="12"/>
                                         </Anns>
@@ -21651,7 +21599,7 @@ already have entered the emergency-stop mode.
                                                 <LocAnn Start="88201" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2322" Length="5" Col="54"/>
                                             </Anns>
                                         </ns3:SkipAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="88179" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2322" Length="8" Col="32"/>
                                             </Anns>
@@ -21721,7 +21669,7 @@ already have entered the emergency-stop mode.
                                                 </RefExpr>
                                             </ZExprList>
                                         </ns3:CallAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="88238" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2323" Length="8" Col="16"/>
                                             </Anns>
@@ -21792,7 +21740,7 @@ already have entered the emergency-stop mode.
                                             </RefExpr>
                                         </ZExprList>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="88318" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2324" Length="11" Col="16"/>
                                         </Anns>
@@ -21887,7 +21835,7 @@ emergency-stop mode.
                                                     <LocAnn Start="89172" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2341" Length="5" Col="43"/>
                                                 </Anns>
                                             </ns3:SkipAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="89151" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2341" Length="8" Col="22"/>
                                                 </Anns>
@@ -21957,7 +21905,7 @@ emergency-stop mode.
                                                     </RefExpr>
                                                 </ZExprList>
                                             </ns3:CallAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="89189" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2341" Length="8" Col="60"/>
                                                 </Anns>
@@ -21994,7 +21942,7 @@ emergency-stop mode.
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
                                     </ns3:ExtChoiceAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="89103" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2340" Length="8" Col="36"/>
                                         </Anns>
@@ -22064,7 +22012,7 @@ emergency-stop mode.
                                             </RefExpr>
                                         </ZExprList>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="89278" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2342" Length="8" Col="32"/>
                                         </Anns>
@@ -22142,7 +22090,7 @@ emergency-stop mode.
                                             <LocAnn Start="89823" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2354" Length="5" Col="61"/>
                                         </Anns>
                                     </ns3:SkipAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="89802" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2354" Length="8" Col="40"/>
                                         </Anns>
@@ -22225,7 +22173,7 @@ emergency-stop mode.
                                                     </RefExpr>
                                                 </ZExprList>
                                             </ns3:CallAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="89884" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2355" Length="8" Col="40"/>
                                                 </Anns>
@@ -22295,7 +22243,7 @@ emergency-stop mode.
                                                     </RefExpr>
                                                 </ZExprList>
                                             </ns3:CallAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="89969" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2356" Length="8" Col="31"/>
                                                 </Anns>
@@ -22332,7 +22280,7 @@ emergency-stop mode.
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
                                     </ns3:ExtChoiceAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="89860" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2355" Length="8" Col="16"/>
                                         </Anns>
@@ -22418,7 +22366,7 @@ what has to be done: raise, reduce, or retain the level.
                                             </ZName>
                                             <ZExprList/>
                                         </ns3:CallAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                             <Anns>
                                                 <LocAnn Start="90249" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2364" Length="13" Col="34"/>
                                             </Anns>
@@ -22452,7 +22400,7 @@ what has to be done: raise, reduce, or retain the level.
                                             </ZName>
                                             <ZExprList/>
                                         </ns3:CallAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                             <Anns>
                                                 <LocAnn Start="90313" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2365" Length="13" Col="16"/>
                                             </Anns>
@@ -22487,7 +22435,7 @@ what has to be done: raise, reduce, or retain the level.
                                         </ZName>
                                         <ZExprList/>
                                     </ns3:CallAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="90379" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2366" Length="9" Col="16"/>
                                         </Anns>
@@ -23028,7 +22976,7 @@ simple matters.
                                         <LocAnn Start="91955" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2398" Length="5" Col="49"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                     <Anns>
                                         <LocAnn Start="91938" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2398" Length="10" Col="32"/>
                                     </Anns>
@@ -23066,7 +23014,7 @@ simple matters.
                                         <LocAnn Start="92021" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2399" Length="5" Col="47"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                     <Anns>
                                         <LocAnn Start="92005" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2399" Length="9" Col="31"/>
                                     </Anns>
@@ -23104,7 +23052,7 @@ simple matters.
                                         <LocAnn Start="92088" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2400" Length="5" Col="47"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                     <Anns>
                                         <LocAnn Start="92072" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2400" Length="9" Col="31"/>
                                     </Anns>
@@ -23142,7 +23090,7 @@ simple matters.
                                         <LocAnn Start="92157" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2401" Length="5" Col="49"/>
                                     </Anns>
                                 </ns3:SkipAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                     <Anns>
                                         <LocAnn Start="92140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2401" Length="10" Col="32"/>
                                     </Anns>
@@ -23233,6 +23181,9 @@ This completes the description of the \( \mathsl{Controller} \, \).
                                         <LocAnn Start="92403" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2410" Col="17"/>
                                     </Anns>
                                     <ns3:AssignmentPairs>
+                                        <Anns>
+                                            <LocAnn Start="92408" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2410" Length="3" Col="22"/>
+                                        </Anns>
                                         <ZNameList>
                                             <ZName>
                                                 <Anns>
@@ -24044,6 +23995,9 @@ some tidying up is required.
                                                     <LocAnn Start="95885" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2505" Col="43"/>
                                                 </Anns>
                                                 <ns3:AssignmentPairs>
+                                                    <Anns>
+                                                        <LocAnn Start="95890" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2505" Length="3" Col="48"/>
+                                                    </Anns>
                                                     <ZNameList>
                                                         <ZName>
                                                             <Anns>
@@ -24070,7 +24024,7 @@ some tidying up is required.
                                                     </ZExprList>
                                                 </ns3:AssignmentPairs>
                                             </ns3:AssignmentCommand>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="95854" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2505" Length="10" Col="12"/>
                                                 </Anns>
@@ -24194,7 +24148,7 @@ the message to the physical units, and then telling the \(
                                             </ZName>
                                             <ZExprList/>
                                         </ns3:CallAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                             <Anns>
                                                 <LocAnn Start="96950" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2529" Length="15" Col="40"/>
                                             </Anns>
@@ -24225,7 +24179,7 @@ the message to the physical units, and then telling the \(
                                             </ns3:CircusFieldList>
                                         </ns3:Communication>
                                     </ns3:PrefixingAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                         <Anns>
                                             <LocAnn Start="96934" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2529" Length="9" Col="24"/>
                                         </Anns>
@@ -24263,7 +24217,7 @@ the message to the physical units, and then telling the \(
                                             </ZName>
                                             <ZExprList/>
                                         </ns3:CallAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="97067" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2531" Length="5" Col="12"/>
                                             </Anns>
@@ -24300,7 +24254,7 @@ the message to the physical units, and then telling the \(
                                             </ns3:CircusFieldList>
                                         </ns3:Communication>
                                     </ns3:PrefixingAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="97016" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2530" Length="6" Col="12"/>
                                         </Anns>
@@ -24489,7 +24443,7 @@ the message to the physical units, and then telling the \(
                                                     </ZRenameList>
                                                 </RenameExpr>
                                             </ns3:SchExprAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                 <Anns>
                                                     <LocAnn Start="97252" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2535" Length="15" Col="12"/>
                                                 </Anns>
@@ -24575,7 +24529,7 @@ the message to the physical units, and then telling the \(
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
                                     </ns3:VarDeclCommand>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                         <Anns>
                                             <LocAnn Start="97148" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2533" Length="9" Col="37"/>
                                         </Anns>
@@ -24613,7 +24567,7 @@ the message to the physical units, and then telling the \(
                                             </ZName>
                                             <ZExprList/>
                                         </ns3:CallAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="97481" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2538" Length="5" Col="8"/>
                                             </Anns>
@@ -24650,7 +24604,7 @@ the message to the physical units, and then telling the \(
                                             </ns3:CircusFieldList>
                                         </ns3:Communication>
                                     </ns3:PrefixingAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                         <Anns>
                                             <LocAnn Start="97434" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2537" Length="6" Col="8"/>
                                         </Anns>
@@ -24752,6 +24706,9 @@ Reports are added to the various message components as they arrive.
                                                                 <LocAnn Start="97712" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2542" Col="87"/>
                                                             </Anns>
                                                             <ns3:AssignmentPairs>
+                                                                <Anns>
+                                                                    <LocAnn Start="97717" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2542" Length="3" Col="92"/>
+                                                                </Anns>
                                                                 <ZNameList>
                                                                     <ZName>
                                                                         <Anns>
@@ -24778,7 +24735,7 @@ Reports are added to the various message components as they arrive.
                                                                 </ZExprList>
                                                             </ns3:AssignmentPairs>
                                                         </ns3:AssignmentCommand>
-                                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                             <Anns>
                                                                 <LocAnn Start="97693" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2542" Length="10" Col="68"/>
                                                             </Anns>
@@ -24823,6 +24780,9 @@ Reports are added to the various message components as they arrive.
                                                                 <LocAnn Start="97823" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2546" Col="36"/>
                                                             </Anns>
                                                             <ns3:AssignmentPairs>
+                                                                <Anns>
+                                                                    <LocAnn Start="97831" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2546" Length="3" Col="44"/>
+                                                                </Anns>
                                                                 <ZNameList>
                                                                     <ZName>
                                                                         <Anns>
@@ -24891,7 +24851,7 @@ Reports are added to the various message components as they arrive.
                                                                 </ZExprList>
                                                             </ns3:AssignmentPairs>
                                                         </ns3:AssignmentCommand>
-                                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                             <Anns>
                                                                 <LocAnn Start="97803" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2546" Length="13" Col="16"/>
                                                             </Anns>
@@ -24918,6 +24878,9 @@ Reports are added to the various message components as they arrive.
                                                             <LocAnn Start="97973" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2550" Col="33"/>
                                                         </Anns>
                                                         <ns3:AssignmentPairs>
+                                                            <Anns>
+                                                                <LocAnn Start="97983" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2550" Length="3" Col="43"/>
+                                                            </Anns>
                                                             <ZNameList>
                                                                 <ZName>
                                                                     <Anns>
@@ -24971,7 +24934,7 @@ Reports are added to the various message components as they arrive.
                                                             </ZExprList>
                                                         </ns3:AssignmentPairs>
                                                     </ns3:AssignmentCommand>
-                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                         <Anns>
                                                             <LocAnn Start="97956" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2550" Length="10" Col="16"/>
                                                         </Anns>
@@ -24998,6 +24961,9 @@ Reports are added to the various message components as they arrive.
                                                         <LocAnn Start="98121" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2554" Col="32"/>
                                                     </Anns>
                                                     <ns3:AssignmentPairs>
+                                                        <Anns>
+                                                            <LocAnn Start="98131" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2554" Length="3" Col="42"/>
+                                                        </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
@@ -25051,7 +25017,7 @@ Reports are added to the various message components as they arrive.
                                                         </ZExprList>
                                                     </ns3:AssignmentPairs>
                                                 </ns3:AssignmentCommand>
-                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                     <Anns>
                                                         <LocAnn Start="98105" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2554" Length="9" Col="16"/>
                                                     </Anns>
@@ -25078,6 +25044,9 @@ Reports are added to the various message components as they arrive.
                                                     <LocAnn Start="98271" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2558" Col="32"/>
                                                 </Anns>
                                                 <ns3:AssignmentPairs>
+                                                    <Anns>
+                                                        <LocAnn Start="98279" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2558" Length="3" Col="40"/>
+                                                    </Anns>
                                                     <ZNameList>
                                                         <ZName>
                                                             <Anns>
@@ -25146,7 +25115,7 @@ Reports are added to the various message components as they arrive.
                                                     </ZExprList>
                                                 </ns3:AssignmentPairs>
                                             </ns3:AssignmentCommand>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                 <Anns>
                                                     <LocAnn Start="98255" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2558" Length="9" Col="16"/>
                                                 </Anns>
@@ -25173,6 +25142,9 @@ Reports are added to the various message components as they arrive.
                                                 <LocAnn Start="98418" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2562" Col="33"/>
                                             </Anns>
                                             <ns3:AssignmentPairs>
+                                                <Anns>
+                                                    <LocAnn Start="98426" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2562" Length="3" Col="41"/>
+                                                </Anns>
                                                 <ZNameList>
                                                     <ZName>
                                                         <Anns>
@@ -25241,7 +25213,7 @@ Reports are added to the various message components as they arrive.
                                                 </ZExprList>
                                             </ns3:AssignmentPairs>
                                         </ns3:AssignmentCommand>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                             <Anns>
                                                 <LocAnn Start="98401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2562" Length="10" Col="16"/>
                                             </Anns>
@@ -25363,7 +25335,7 @@ Reports are added to the various message components as they arrive.
                                     </ZName>
                                     <ZExprList/>
                                 </ns3:CallAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                     <Anns>
                                         <LocAnn Start="98529" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2565" Length="11" Col="18"/>
                                     </Anns>
@@ -25459,7 +25431,7 @@ from deadlock and livelock.
                                         <LocAnn Start="99286" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2588" Length="80" Col="12"/>
                                     </Anns>
                                     <ns3:CircusCommunicationList>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                             <Anns>
                                                 <LocAnn Start="99296" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2588" Length="11" Col="22"/>
                                             </Anns>
@@ -25475,23 +25447,7 @@ from deadlock and livelock.
                                             </RefExpr>
                                             <ns3:CircusFieldList/>
                                         </ns3:Communication>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                            <Anns>
-                                                <LocAnn Start="99296" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2588" Length="11" Col="22"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false" Explicit="false">
-                                                <ZName>
-                                                    <Anns>
-                                                        <LocAnn Start="99296" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2588" Length="11" Col="22"/>
-                                                    </Anns>
-                                                    <Word>startreport</Word>
-                                                    <ZStrokeList/>
-                                                </ZName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                            <ns3:CircusFieldList/>
-                                        </ns3:Communication>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                             <Anns>
                                                 <LocAnn Start="99309" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2588" Length="10" Col="35"/>
                                             </Anns>
@@ -25507,7 +25463,7 @@ from deadlock and livelock.
                                             </RefExpr>
                                             <ns3:CircusFieldList/>
                                         </ns3:Communication>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                             <Anns>
                                                 <LocAnn Start="99321" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2588" Length="9" Col="47"/>
                                             </Anns>
@@ -25523,7 +25479,7 @@ from deadlock and livelock.
                                             </RefExpr>
                                             <ns3:CircusFieldList/>
                                         </ns3:Communication>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                             <Anns>
                                                 <LocAnn Start="99332" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2588" Length="16" Col="58"/>
                                             </Anns>
@@ -25539,7 +25495,7 @@ from deadlock and livelock.
                                             </RefExpr>
                                             <ns3:CircusFieldList/>
                                         </ns3:Communication>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                             <Anns>
                                                 <LocAnn Start="99350" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2588" Length="6" Col="76"/>
                                             </Anns>
@@ -26024,7 +25980,7 @@ It is easy to code this requirement in CSP.
                                                                 </ZName>
                                                                 <ZExprList/>
                                                             </ns3:CallAction>
-                                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                                 <Anns>
                                                                     <LocAnn Start="102637" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2691" Length="9" Col="36"/>
                                                                 </Anns>
@@ -26041,7 +25997,7 @@ It is easy to code this requirement in CSP.
                                                                 <ns3:CircusFieldList/>
                                                             </ns3:Communication>
                                                         </ns3:PrefixingAction>
-                                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                             <Anns>
                                                                 <LocAnn Start="102580" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2690" Length="10" Col="32"/>
                                                             </Anns>
@@ -26058,7 +26014,7 @@ It is easy to code this requirement in CSP.
                                                             <ns3:CircusFieldList/>
                                                         </ns3:Communication>
                                                     </ns3:PrefixingAction>
-                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                                         <Anns>
                                                             <LocAnn Start="102528" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2689" Length="9" Col="28"/>
                                                         </Anns>
@@ -26075,7 +26031,7 @@ It is easy to code this requirement in CSP.
                                                         <ns3:CircusFieldList/>
                                                     </ns3:Communication>
                                                 </ns3:PrefixingAction>
-                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                     <Anns>
                                                         <LocAnn Start="102474" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2688" Length="9" Col="23"/>
                                                     </Anns>
@@ -26111,7 +26067,7 @@ It is easy to code this requirement in CSP.
                                                     </ns3:CircusFieldList>
                                                 </ns3:Communication>
                                             </ns3:PrefixingAction>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                                 <Anns>
                                                     <LocAnn Start="102424" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2687" Length="9" Col="20"/>
                                                 </Anns>
@@ -26147,7 +26103,7 @@ It is easy to code this requirement in CSP.
                                                 </ns3:CircusFieldList>
                                             </ns3:Communication>
                                         </ns3:PrefixingAction>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Output">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Output">
                                             <Anns>
                                                 <LocAnn Start="102373" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2686" Length="13" Col="16"/>
                                             </Anns>
@@ -26183,7 +26139,7 @@ It is easy to code this requirement in CSP.
                                             </ns3:CircusFieldList>
                                         </ns3:Communication>
                                     </ns3:PrefixingAction>
-                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                         <Anns>
                                             <LocAnn Start="102335" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2685" Length="11" Col="12"/>
                                         </Anns>
@@ -26200,7 +26156,7 @@ It is easy to code this requirement in CSP.
                                         <ns3:CircusFieldList/>
                                     </ns3:Communication>
                                 </ns3:PrefixingAction>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Synch">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
                                     <Anns>
                                         <LocAnn Start="102303" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2684" Length="9" Col="17"/>
                                     </Anns>
@@ -26364,7 +26320,7 @@ It is easy to code this requirement in CSP.
                                 <LocAnn Start="104472" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2727" Length="149" Col="18"/>
                             </Anns>
                             <ns3:CircusCommunicationList>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                     <Anns>
                                         <LocAnn Start="104482" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2727" Length="13" Col="28"/>
                                     </Anns>
@@ -26380,23 +26336,7 @@ It is easy to code this requirement in CSP.
                                     </RefExpr>
                                     <ns3:CircusFieldList/>
                                 </ns3:Communication>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                    <Anns>
-                                        <LocAnn Start="104482" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2727" Length="13" Col="28"/>
-                                    </Anns>
-                                    <RefExpr Mixfix="false" Explicit="false">
-                                        <ZName>
-                                            <Anns>
-                                                <LocAnn Start="104482" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2727" Length="13" Col="28"/>
-                                            </Anns>
-                                            <Word>levelabovemax</Word>
-                                            <ZStrokeList/>
-                                        </ZName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <ns3:CircusFieldList/>
-                                </ns3:Communication>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                     <Anns>
                                         <LocAnn Start="104497" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2727" Length="13" Col="43"/>
                                     </Anns>
@@ -26412,7 +26352,7 @@ It is easy to code this requirement in CSP.
                                     </RefExpr>
                                     <ns3:CircusFieldList/>
                                 </ns3:Communication>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                     <Anns>
                                         <LocAnn Start="104550" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2728" Length="9" Col="34"/>
                                     </Anns>
@@ -26428,7 +26368,7 @@ It is easy to code this requirement in CSP.
                                     </RefExpr>
                                     <ns3:CircusFieldList/>
                                 </ns3:Communication>
-                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                     <Anns>
                                         <LocAnn Start="104598" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="2729" Length="13" Col="33"/>
                                     </Anns>

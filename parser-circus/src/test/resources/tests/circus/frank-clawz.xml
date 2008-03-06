@@ -1383,6 +1383,9 @@
                                                                         <LocAnn Start="2103" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="63" Col="64"/>
                                                                     </Anns>
                                                                     <ns3:AssignmentPairs>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2107" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="63" Length="3" Col="68"/>
+                                                                        </Anns>
                                                                         <ZNameList>
                                                                             <ZName>
                                                                                 <Anns>
@@ -1409,7 +1412,7 @@
                                                                         </ZExprList>
                                                                     </ns3:AssignmentPairs>
                                                                 </ns3:AssignmentCommand>
-                                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                                     <Anns>
                                                                         <LocAnn Start="2049" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="63" Length="44" Col="10"/>
                                                                     </Anns>
@@ -1449,6 +1452,9 @@
                                                                         <LocAnn Start="2191" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="64" Col="67"/>
                                                                     </Anns>
                                                                     <ns3:AssignmentPairs>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2195" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="64" Length="3" Col="71"/>
+                                                                        </Anns>
                                                                         <ZNameList>
                                                                             <ZName>
                                                                                 <Anns>
@@ -1475,7 +1481,7 @@
                                                                         </ZExprList>
                                                                     </ns3:AssignmentPairs>
                                                                 </ns3:AssignmentCommand>
-                                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                                     <Anns>
                                                                         <LocAnn Start="2134" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="64" Length="47" Col="10"/>
                                                                     </Anns>
@@ -1516,6 +1522,9 @@
                                                                     <LocAnn Start="2276" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="65" Col="64"/>
                                                                 </Anns>
                                                                 <ns3:AssignmentPairs>
+                                                                    <Anns>
+                                                                        <LocAnn Start="2280" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="65" Length="3" Col="68"/>
+                                                                    </Anns>
                                                                     <ZNameList>
                                                                         <ZName>
                                                                             <Anns>
@@ -1542,7 +1551,7 @@
                                                                     </ZExprList>
                                                                 </ns3:AssignmentPairs>
                                                             </ns3:AssignmentCommand>
-                                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                                 <Anns>
                                                                     <LocAnn Start="2222" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="65" Length="44" Col="10"/>
                                                                 </Anns>
@@ -1583,6 +1592,9 @@
                                                                 <LocAnn Start="2364" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="66" Col="67"/>
                                                             </Anns>
                                                             <ns3:AssignmentPairs>
+                                                                <Anns>
+                                                                    <LocAnn Start="2368" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="66" Length="3" Col="71"/>
+                                                                </Anns>
                                                                 <ZNameList>
                                                                     <ZName>
                                                                         <Anns>
@@ -1609,7 +1621,7 @@
                                                                 </ZExprList>
                                                             </ns3:AssignmentPairs>
                                                         </ns3:AssignmentCommand>
-                                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                             <Anns>
                                                                 <LocAnn Start="2307" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="66" Length="47" Col="10"/>
                                                             </Anns>
@@ -1650,6 +1662,9 @@
                                                             <LocAnn Start="2449" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="67" Col="64"/>
                                                         </Anns>
                                                         <ns3:AssignmentPairs>
+                                                            <Anns>
+                                                                <LocAnn Start="2453" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="67" Length="3" Col="68"/>
+                                                            </Anns>
                                                             <ZNameList>
                                                                 <ZName>
                                                                     <Anns>
@@ -1676,7 +1691,7 @@
                                                             </ZExprList>
                                                         </ns3:AssignmentPairs>
                                                     </ns3:AssignmentCommand>
-                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                         <Anns>
                                                             <LocAnn Start="2395" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="67" Length="44" Col="10"/>
                                                         </Anns>
@@ -1717,6 +1732,9 @@
                                                         <LocAnn Start="2537" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="68" Col="67"/>
                                                     </Anns>
                                                     <ns3:AssignmentPairs>
+                                                        <Anns>
+                                                            <LocAnn Start="2541" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="68" Length="3" Col="71"/>
+                                                        </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
@@ -1743,7 +1761,7 @@
                                                         </ZExprList>
                                                     </ns3:AssignmentPairs>
                                                 </ns3:AssignmentCommand>
-                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                     <Anns>
                                                         <LocAnn Start="2480" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="68" Length="47" Col="10"/>
                                                     </Anns>
@@ -1784,6 +1802,9 @@
                                                     <LocAnn Start="2622" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="69" Col="64"/>
                                                 </Anns>
                                                 <ns3:AssignmentPairs>
+                                                    <Anns>
+                                                        <LocAnn Start="2626" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="69" Length="3" Col="68"/>
+                                                    </Anns>
                                                     <ZNameList>
                                                         <ZName>
                                                             <Anns>
@@ -1810,7 +1831,7 @@
                                                     </ZExprList>
                                                 </ns3:AssignmentPairs>
                                             </ns3:AssignmentCommand>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                 <Anns>
                                                     <LocAnn Start="2568" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="69" Length="44" Col="10"/>
                                                 </Anns>
@@ -1851,6 +1872,9 @@
                                                 <LocAnn Start="2710" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="70" Col="67"/>
                                             </Anns>
                                             <ns3:AssignmentPairs>
+                                                <Anns>
+                                                    <LocAnn Start="2714" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="70" Length="3" Col="71"/>
+                                                </Anns>
                                                 <ZNameList>
                                                     <ZName>
                                                         <Anns>
@@ -1877,7 +1901,7 @@
                                                 </ZExprList>
                                             </ns3:AssignmentPairs>
                                         </ns3:AssignmentCommand>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                             <Anns>
                                                 <LocAnn Start="2653" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="70" Length="47" Col="10"/>
                                             </Anns>
@@ -2053,6 +2077,9 @@
                                                                         <LocAnn Start="3001" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="77" Col="64"/>
                                                                     </Anns>
                                                                     <ns3:AssignmentPairs>
+                                                                        <Anns>
+                                                                            <LocAnn Start="3005" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="77" Length="3" Col="68"/>
+                                                                        </Anns>
                                                                         <ZNameList>
                                                                             <ZName>
                                                                                 <Anns>
@@ -2079,7 +2106,7 @@
                                                                         </ZExprList>
                                                                     </ns3:AssignmentPairs>
                                                                 </ns3:AssignmentCommand>
-                                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                                     <Anns>
                                                                         <LocAnn Start="2947" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="77" Length="44" Col="10"/>
                                                                     </Anns>
@@ -2119,6 +2146,9 @@
                                                                         <LocAnn Start="3089" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="78" Col="67"/>
                                                                     </Anns>
                                                                     <ns3:AssignmentPairs>
+                                                                        <Anns>
+                                                                            <LocAnn Start="3093" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="78" Length="3" Col="71"/>
+                                                                        </Anns>
                                                                         <ZNameList>
                                                                             <ZName>
                                                                                 <Anns>
@@ -2145,7 +2175,7 @@
                                                                         </ZExprList>
                                                                     </ns3:AssignmentPairs>
                                                                 </ns3:AssignmentCommand>
-                                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                                     <Anns>
                                                                         <LocAnn Start="3032" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="78" Length="47" Col="10"/>
                                                                     </Anns>
@@ -2186,6 +2216,9 @@
                                                                     <LocAnn Start="3174" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="79" Col="64"/>
                                                                 </Anns>
                                                                 <ns3:AssignmentPairs>
+                                                                    <Anns>
+                                                                        <LocAnn Start="3178" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="79" Length="3" Col="68"/>
+                                                                    </Anns>
                                                                     <ZNameList>
                                                                         <ZName>
                                                                             <Anns>
@@ -2212,7 +2245,7 @@
                                                                     </ZExprList>
                                                                 </ns3:AssignmentPairs>
                                                             </ns3:AssignmentCommand>
-                                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                                 <Anns>
                                                                     <LocAnn Start="3120" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="79" Length="44" Col="10"/>
                                                                 </Anns>
@@ -2253,6 +2286,9 @@
                                                                 <LocAnn Start="3262" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="80" Col="67"/>
                                                             </Anns>
                                                             <ns3:AssignmentPairs>
+                                                                <Anns>
+                                                                    <LocAnn Start="3266" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="80" Length="3" Col="71"/>
+                                                                </Anns>
                                                                 <ZNameList>
                                                                     <ZName>
                                                                         <Anns>
@@ -2279,7 +2315,7 @@
                                                                 </ZExprList>
                                                             </ns3:AssignmentPairs>
                                                         </ns3:AssignmentCommand>
-                                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                             <Anns>
                                                                 <LocAnn Start="3205" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="80" Length="47" Col="10"/>
                                                             </Anns>
@@ -2320,6 +2356,9 @@
                                                             <LocAnn Start="3347" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="81" Col="64"/>
                                                         </Anns>
                                                         <ns3:AssignmentPairs>
+                                                            <Anns>
+                                                                <LocAnn Start="3351" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="81" Length="3" Col="68"/>
+                                                            </Anns>
                                                             <ZNameList>
                                                                 <ZName>
                                                                     <Anns>
@@ -2346,7 +2385,7 @@
                                                             </ZExprList>
                                                         </ns3:AssignmentPairs>
                                                     </ns3:AssignmentCommand>
-                                                    <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                    <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                         <Anns>
                                                             <LocAnn Start="3293" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="81" Length="44" Col="10"/>
                                                         </Anns>
@@ -2387,6 +2426,9 @@
                                                         <LocAnn Start="3435" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="82" Col="67"/>
                                                     </Anns>
                                                     <ns3:AssignmentPairs>
+                                                        <Anns>
+                                                            <LocAnn Start="3439" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="82" Length="3" Col="71"/>
+                                                        </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
@@ -2413,7 +2455,7 @@
                                                         </ZExprList>
                                                     </ns3:AssignmentPairs>
                                                 </ns3:AssignmentCommand>
-                                                <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                     <Anns>
                                                         <LocAnn Start="3378" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="82" Length="47" Col="10"/>
                                                     </Anns>
@@ -2454,6 +2496,9 @@
                                                     <LocAnn Start="3520" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="83" Col="64"/>
                                                 </Anns>
                                                 <ns3:AssignmentPairs>
+                                                    <Anns>
+                                                        <LocAnn Start="3524" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="83" Length="3" Col="68"/>
+                                                    </Anns>
                                                     <ZNameList>
                                                         <ZName>
                                                             <Anns>
@@ -2480,7 +2525,7 @@
                                                     </ZExprList>
                                                 </ns3:AssignmentPairs>
                                             </ns3:AssignmentCommand>
-                                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                                 <Anns>
                                                     <LocAnn Start="3466" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="83" Length="44" Col="10"/>
                                                 </Anns>
@@ -2521,6 +2566,9 @@
                                                 <LocAnn Start="3608" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="84" Col="67"/>
                                             </Anns>
                                             <ns3:AssignmentPairs>
+                                                <Anns>
+                                                    <LocAnn Start="3612" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="84" Length="3" Col="71"/>
+                                                </Anns>
                                                 <ZNameList>
                                                     <ZName>
                                                         <Anns>
@@ -2547,7 +2595,7 @@
                                                 </ZExprList>
                                             </ns3:AssignmentPairs>
                                         </ns3:AssignmentCommand>
-                                        <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="Input">
+                                        <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Input">
                                             <Anns>
                                                 <LocAnn Start="3551" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\frank-clawz.tex" Line="84" Length="47" Col="10"/>
                                             </Anns>

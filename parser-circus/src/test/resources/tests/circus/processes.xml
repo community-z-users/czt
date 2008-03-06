@@ -275,7 +275,7 @@ The typechecker will infer the type types of channels from $HCS$ in the definiti
                             <LocAnn Start="5417" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="24" Col="29"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="5427" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="1" Col="39"/>
                                 </Anns>
@@ -291,23 +291,7 @@ The typechecker will infer the type types of channels from $HCS$ in the definiti
                                 </RefExpr>
                                 <ns3:CircusFieldList/>
                             </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                <Anns>
-                                    <LocAnn Start="5427" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="1" Col="39"/>
-                                </Anns>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="5427" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="1" Col="39"/>
-                                        </Anns>
-                                        <Word>a</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <ns3:CircusFieldList/>
-                            </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="5430" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="151" Length="1" Col="42"/>
                                 </Anns>
@@ -348,23 +332,7 @@ The typechecker will infer the type types of channels from $HCS$ in the definiti
                             <LocAnn Start="5526" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="21" Col="29"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
-                                <Anns>
-                                    <LocAnn Start="5536" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="1" Col="39"/>
-                                </Anns>
-                                <RefExpr Mixfix="false" Explicit="false">
-                                    <ZName>
-                                        <Anns>
-                                            <LocAnn Start="5536" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="1" Col="39"/>
-                                        </Anns>
-                                        <Word>c</Word>
-                                        <ZStrokeList/>
-                                    </ZName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <ns3:CircusFieldList/>
-                            </ns3:Communication>
-                            <ns3:Communication MultiSych="0" Implicit="false" CommUsage="Normal" CommPattern="ChannelSet">
+                            <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
                                     <LocAnn Start="5536" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="152" Length="1" Col="39"/>
                                 </Anns>
