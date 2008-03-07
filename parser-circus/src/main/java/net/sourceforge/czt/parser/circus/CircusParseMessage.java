@@ -59,6 +59,8 @@ public enum CircusParseMessage {
   MSG_COMMPATTERN_PREFIXCOLON_NOT_RECOGNISED("Possible missing parenthesis around predicate for input field ''{0}''"),
   MSG_CIRCNAME_DOESNOT_ALLOW_STROKES("Circus name ''{0}'' does not accept strokes."),
   
+  MSG_NOT_VARDECL_IN_PARAMACTION("Parameterised actions can only contain variable declaration but a ''{0}'' has been found."),
+  MSG_NESTED_PARAMACTION("Nested action parameters are not allowed."),
   MSG_WRONG_NUMBER_FIELD_STROKES("Wrong number of fields in communication pattern." +
       "\n\tChannel.: {0}" +
       "\n\tExpected: {1}" +
