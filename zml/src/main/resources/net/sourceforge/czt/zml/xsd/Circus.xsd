@@ -1553,57 +1553,126 @@
           A process signature consists of the process name, possibly empty generic formal parameters, 
           possibly empty formal parameters or indexes, and the channels usage.
           Generic actuals must be resolved while type checking similarly to Z and ObjectZ (see ClassSignature and oz.TypeChecker).
-        </p>
+        </p>        
         <p>
-          The channels usage is a function from channel name to a set of usage flags.
-          These flags can be either IN, OUT, SYNCH or HIDE.
-          In the case of HIDE, all other flags are irrelevant.        
-          These usage flags are built up by collecting the channel usage from action signatures.
-        </p>
-        <p>
+          List[SignatureList] getSignatureList(), where SignatureList can be:
+            + ZSignatureList             - list of Z Signature
+            + ActionSignatureList        - list of Circus ActionSignature
+            + NameSetSignatureList       - list of Circus NameSetSignature
+            + ChannnelSetSignatureList   - list of Circus ChannelSetSignature
+            + CommunicationSignatureList - list of Circus CommunicationSignature
+          
+          Methods available:  
+            a) List[SignatureList]         getSignatureList()           = method by GnAST
+            b) ZSignatureList              getMainSignatures()          = getSignatureList().get(MAIN_SIGNATURES_INDEX);
+               1) Signature                   getFormalParamOrIndexes()     = getMainSignatures().get(FORMAL_PARAMS_INDEX);              
+               2) Signature                   getUsedChannels()             = getMainSignatures().get(USED_CHANNELS_INDEX);
+               3) Signature                   getStateSignature()           = getMainSignatures().get(STATE_SIGNATURE_INDEX);
+            c) ZSignatureList              getLocalZSignatures()        = getSignatureList().get(ZLOCAL_SIGNATURES_INDEX);
+            d) ActionSignatureList         getActionSignatures()        = getSignatureList().get(ACTION_SIGNATURES_INDEX);          
+            e) CommunicationSignatureList  getUsedCommunications()      = getSignatureList().get(COMM_SIGNATURES_INDEX);            
+            f) NameSetSignatureList        getUsedNameSets()            = getSignatureList().get(NAMESET_SIGNATURES_INDEX);
+            g) ChannelSetSignatureList     getUsedChannelSets()         = getSignatureList().get(CHANNEL_SIGNATURES_INDEX);
+            h) ProcessSignatureList        getProcessSignatures()       = getSignatureList().get(PROCESS_SIGNATURES_INDEX);
+            i) boolean                     isBasicProcess()             = getProcessSignatures().isEmpty();            
+            
+          Types not provided by GnAST :
+            NameSetSignatureList      : Map[ZName, List[NameSet]]
+            ChannelSetSignatureList   : Map[ZName, List[ChannelSet]]
+            CommunicationSignatureList: Map[ZName, List[Communication]]            
+          
+          Meaning: GLOBAL_INVAIRNAT: all methods return a non-null value
+          
+            a) access method by GnAST - automatically
+            
+            b) access method by GnAST - manually via vm
+               1) formal parameters or indexes, depending on getUsage()
+               2) used channels and their declared types, which could be generic
+               3) state signature as declared by \circstate\ expressions
+                  (i.e., it does not include local variables added to the state)
+                  
+                  INVARIANT: isBasicProcess() || getStateSignature().isEmpty()
+                  (i.e., only basic process can have state signatures, which can be empty)
+                  
+            c) list of Z signatures for Z paragraphs, commands, and TransformerPara declared within a basic process
+               (i.e., VarDeclCommand will add variables to the process state scope, but not to
+                      the process state signature)
+            
+               INVARIANT: isBasicProcess() || getLocalZSignatures().isEmpty()
+               (i.e., only basic process can have local paragraphs, which can be empty)
+               
+            d) list of Circus ActionSignature for actions declared within a basic process               
+            
+               INVARIANT: IF isBasicProcess() THEN 
+                              !getActionSignatures().isEmpty() 
+                          ELSE
+                              getActionSignatures().isEmpty()  
+               (i.e., only basic process can have actions, which cannot be empty because 
+                      they have at least the main action)
+            
+            e) list of used communications by each action (Map[ZName, List[Communication]])
+               (i.e., the communications in each pair are annotated as a power type of CommunicationType.
+                      CommunicationType contains the instantiated channel type as well as the type of
+                      each field, which may be different from the channel type; 
+                      e.g., suppose that "[X, Y] c \in X \cross Y" and "c.0.1" is used, 
+                            the communication type is: CommType[c:\arithmos \cross \arithmos; i: \nat; j: \nat])
+                      
+               INVARIANT: isBasicProcess() || getUsedNameSets().isEmpty()
+               (i.e., only basic process can have name sets, which can be empty)             
+                      
+            f) list of used name sets by each action (Map[ZName, List[NameSet]])
+               (i.e., the name sets in each pair are annotated as a power type of NameSetType)
+                      
+               INVARIANT: isBasicProcess() || getUsedNameSets().isEmpty()
+               (i.e., only basic process can have name sets, which can be empty)
+               
+             g) list of used channel sets by each action (Map[ZName, List[ChannelSet]])
+                (i.e., the channel sets in each pair are annotated as a power type of ChannelSetType)
+                      
+               NOTE: parallel processes can have channel sets, which are mapped to the process name
+               
+             h) list of process signatures related to this process
+                (i.e., a compound processes, ultimatelly formed by basic processes)
+                
+             i) auxiliary method to add invariants (as assertions) to other methods
+               
+          NOTE: Tools that semantically represent all processes as basic process can
+                use the information on getProcessSignatures() to collect all basic 
+                process information and build a merged signature according to the 
+                Circus refinement calculus.
+             
+          Indexes:
+            MAIN_SIGNATURES_INDEX   = 0;
+                  FORMAL_PARAMS_INDEX   = 0;
+                  USED_CHANNELS_INDEX   = 1;                  
+                  STATE_SIGNATURE_INDEX = 2;
+            ZLOCAL_SIGNATURES_INDEX = 1;
+            ACTION_SIGNATURES_INDEX = 2;  
+            COMM_SIGNATURES_INDEX   = 3;
+            PROCESS_SIGNATURES_INDEX= 4;
+            NAMESET_SIGNATURES_INDEX= 5;
+            CHANNEL_SIGNATURES_INDEX= 6;
+          
+          PS: We leave getSignatureList() unbounded to allow further extension with new lists if needed,
+              where minOccurs MUST be at least CHANNEL_SIGNATURES_INDEX=+1 (6)
+          
+          Process channel sets only - 
+          
+          INVARIANT: !isBasicProcess() || getProcessChannelSets().isEmpty()
+          (i.e., only parallel processes, which are not basic processes, can have them)
+          
           Because BasicProcessSignature uses yet another SignatureList, 
           we need  more than one SignatureList, so we have a list of signature lists!
           So, we add through GnAST the following convenience methods:       
           
           <ul>
             <li>
-              ZSignatureList getMainSignatures() = getSignatureList().get(0):
               <ul>
-                <li>a) Signature getFormalParamOrIndexes() = getSignatureList().get(0).get(0)</li>              
-                <li>b) Signature getUsedNameSets()   = getSignatureList().get(0).get(1) (for BasicProcessSignature only)</li>
-                <li>c) Signature getStateSignature() = getSignatureList().get(0).get(2) (for BasicProcessSignature only)</li>
+                <li></li>                              
               </ul>
-            </li>
-            <li>
-              The Signature returned by the above projections correspond to: 
-              <ul>
-                <li>a) non-null (possibly empty) signature of param or indexes of a process </li>
-                <li>b) non-null (possibly empty) signature of process state (empty = default state as [ | true]).</li>
-                <li>c) non-null (possibly empty) signature used channels as list of name type pairs within Signature - generic channels may have multiple entries with their instantiated types</li>
-                <li>d) non-null (possibly empty) signature used name sets as list of name type pairs within Signature.</li>                              
-              </ul>
-            </li>
-            <li>
-              ZSignatureList getLocalZSignatures()= getSignatureList().get(1)       (for BasicProcessSignature only).
-              This represents the local Z paragraphs within the basic process.
-            </li>          
-            <li>
-              ActionSignatureList getActionSignatures() = getSignatureList().get(2) (for BasicProcessSignature only)
-            </li> 
-            <li>
-              CircusCommunicationList getUsedCommunication() 
-            </li> 
-            <li>
-              ZNameList getTransformerParaName() (for BasicProcessSignature only)
-            </li> 
+            </li>            
           </ul>
-        </p>
-        <p>
-          Extends process signature to contain information about basic processes.
-          Those are declarations of state variables, local variables, actions, and name sets.
-          Local variables comes from either <code>VarDeclCommand</code>, or action formal parameters.
-          In the case of a stateless process, the state variables signatures is empty (as oposed to null).
-        </p>
+        </p>        
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1615,18 +1684,14 @@
     <xs:annotation>
       <xs:documentation>
         <p>
-          An action signature consists of the action name, formal parameters, and the channels usage.             
-          The channels usage is function from channel name to a set of usage flags.
-          These flags can be either IN, OUT, SYNCH or HIDE.
-          In the case of HIDE, all other flags are irrelevant.                
+          An action signature consists of the action name, formal parameters, 
+          the channels used, the communications, channel sets and name sets used.
         </p>
         <p>
-          Because ActionProcessSignature requires a list of Z Signatures,        
-          So, we add through GnAST the following convenience methods:               
           <ul>
-            <li>Signature getFormalParams()      = getSignatureList().get(0)</li>            
-            <li>Signature getLocalVars()         = getSignatureList().get(1)</li>
-            <li>ZSignatureList getUsedNameSets() = getSignatureList().get(2)</li>
+            <li>Signature getFormalParams() = getSignatureList().get(0)</li>            
+            <li>Signature getLocalVars()    = getSignatureList().get(1)</li>
+            <li>Signature getUsedChannels() = getSignatureList().get(2)</li>
           </ul>          
           One can also access the communication list containing all the 
           communications involved in this action. That is, all the 
@@ -3516,8 +3581,10 @@
       <xs:extension base="CIRCUS:CircusSignature">
         <xs:sequence>
           <!-- 
-          Signature getFormalParams() = getSignatureList().get(0)
-          Signature getLocalVars()    = getSignatureList().get(1)
+          List[Signature] getSignatureList()
+          Signature getFormalParams() = getSignatureList().get(FORMAL_PARAMS_INDEX)
+          Signature getLocalVars()    = getSignatureList().get(LOCAL_VARS_INDEX)
+          Signature getUsedChannels() = getSignatureList().get(USED_CHANNELS_INDEX)
           -->           
           <xs:element ref="CIRCUS:SignatureList">
             <xs:annotation>
@@ -3548,6 +3615,7 @@
             </xs:annotation>
           </xs:element>
         </xs:sequence>
+        <xs:attribute name="SignatureOfMuAction" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
