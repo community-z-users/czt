@@ -321,7 +321,7 @@ public class PrintVisitor
     return result.toString();
 //    int j = 0;
 //    for(Para p: term) {
-//      System.out.println("j = " + j + " ; " + p != null ? p.getClass().getName() : "null");
+//      System.out.println("j = " + j + " ; " + p != null ? p.getClass().getSimpleName() : "null");
 //      j++;
 //    }
 //    return "";
