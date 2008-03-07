@@ -31,12 +31,12 @@ Victoria University of Wellington, NZ
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-We refactor Morgan and Suffrin's original Z specification of the
-Posix file system, to break it into Z sections and make it conform
-to the Z Standard.  We develop a simple framework for testing Z
-specifications, and use this framework to test the first few levels
-of the specification.  The tests are written in standard Z, and are
-executable by the CZT animator, ZLive.
+  We refactor Morgan and Suffrin's original Z specification of the Posix
+  file system, to break it into Z sections and make it conform to the Z
+  Standard.  We propose a simple framework for validation testing of Z
+  specifications, and illustrate this framework by testing the first few
+  levels of the specification.  The tests are written in standard Z, and
+  are executable by the CZT animator, ZLive.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,8 +66,8 @@ mini challenge.  An initial small subset of POSIX has been
 chosen~\cite{FreFuWoo07} and participants of the ABZ 2008 conference
 were challenged to contribute to this project.
 
-This paper discusses a simple framework for testing Z specifications.
-The framework has been used to obtain positive and negative tests for
+This paper proposes a simple framework for testing Z specifications.
+The framework has been used to develop positive and negative tests for
 the first few levels of a refactored version of Morgan and Suffrin's Z
 specification of the Posix file system~\cite{MorSufTOSE84}.  The tests
 were executed and checked by the CZT animator ZLive.
@@ -418,9 +418,38 @@ Then we can test $pv \in Op_P$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 One of the tools available in the CZT system is the ZLive animator.
-It is the successor to the Jaza animator for Z~\cite{utting:jaza}.
+It is the successor to the Jaza animator for Z~\cite{utting:jaza},
+and its command line interface is largely backwards compatible with that of
+Jaza.  However, the animation algorithm of ZLive is quite different and
+more general.  It is based on an extension of the \emph{Z mode} system
+developed at Melbourne University by Winikoff and
+others~\cite{kazmierczak:animation98,winikoff:modes-subtypes98}.
 
-TODO: brief description of how ZLive works, and a trivial example.
+When an expression or predicate is evaluated in ZLive, it is
+parsed and typechecked, and then unfolded and simplified using
+the \emph{transformation rules} system of CZT~\cite{utting:rules07}.
+This unfolds schema operators, expands definitions and performs a
+variety of simplifications.  For example, the test $\lblot n==0, n'==0
+\rblot \in Wedge$ is unfolded to:
+\[
+  \lblot n == 0 , n' == 0 \rblot \in \\
+ [ n :~\negate 10 \upto 10; n' :~\negate 10 \upto 10 | \\
+   \t2 n * n + n' * n'  \leq 25; n + n' \leq 5; 0 \leq n' ]
+\]
+
+The resulting term is then translated into a sequence of primitive
+relations, each of which corresponds to a single Z operator.
+For example, the term $n * n + n' * n'  \leq 25$ is 
+translated into:
+\[
+\begin{array}{l@{\quad}l}
+   FlatMult(n, n, tmp1),       & \% n * n = tmp1 \\
+   FlatMult(n', n', tmp2),     & \% n' * n' = tmp2 \%\\
+   FlatPlus(tmp1, tmp2, tmp3), & \% tmp1 + tmp2 = tmp3 \\
+   FlatLessThanEq(tmp3, 25)    & \% tmp3 \leq 25
+\end{array}
+\]
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
