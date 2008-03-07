@@ -3873,38 +3873,38 @@ processDesc ::=
 // The SVN revision prior to this change is 6684 - channel renaming for non-parenthesised calls 
 paramProcess ::=
         /* Parameterised process */        
-        circusParamDeclList:dp CIRCSPOT:sp process:p
+        circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createParamProcess(p, dp);
             addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         |
         /* Replicated processes productions in precedence order */
-        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp process:p
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createInterleaveProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp process:p
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createParallelProcessIte(p, dp, cs);
             addLocAnn(RESULT, getLocation(rp, p));
         :}
         | 
-        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp process:p
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createIntChoiceProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp process:p
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createExtChoiceProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(re, p));
         :}
         | 
-        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp process:p
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createSeqProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
@@ -3980,38 +3980,38 @@ paramProcess ::=
  * confusing if replicated indexed processes were to be in process.
  */        
 indexedProcess ::=  
-        circusParamDeclList:dp CIRCINDEX:ci process:p
+        circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {: 
             RESULT = factory_.createIndexedProcess(p, dp);
             addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         /* Indexed processes productions in precedence order */
         |         
-        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci process:p
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createInterleaveProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci process:p
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createParallelProcessIdx(p, dp, cs);
             addLocAnn(RESULT, getLocation(rp, p));
         :}
         | 
-        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci process:p
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createIntChoiceProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci process:p
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createExtChoiceProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(re, p));
         :}
         | 
-        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci process:p
+        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createSeqProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
@@ -4694,16 +4694,22 @@ actionDesc ::=
 //        declarations, or in fact any explicit nesting among parameterised or replicated actions,
 //        or parameterised commands.
 //
-// The SVN revision prior to this change is 6684 - channel renaming for non-parenthesised calls 
+// The SVN revision prior to this (6694) change is 6684 - channel renaming for non-parenthesised calls 
+//
+//DESIGN: There are some tricky linguistic issues with this decision
+//        that we are leaving for the Typechecker. Originally, we were
+//        not supporting nested parameters to avoid higher order calls.
+//        On the other hand, there is the case between process parameters
+//        and indexes to decide. Leave it open in the parser. i.e., go back to actionDesc.
 paramAction ::=
         /* Parameterised actions and commands */
-        circusParamCommandDeclList:cp CIRCSPOT:sp circusAction:pa
+        circusParamCommandDeclList:cp CIRCSPOT:sp circusAction:ca
         {:
             // NOTE: ParamAction covers both parameterised actions and commands
             //       the parser allows both here, whereas the type checker 
             //       guarantees the consistency among declarations and inner action/command.
-            RESULT = createParamAction(pa, cp);
-            addLocAnn(RESULT, getLocation(getLocation(cpleft, cpright), getLocation(pa)));
+            RESULT = createParamAction(ca, cp);
+            addLocAnn(RESULT, getLocation(getLocation(cpleft, cpright), getLocation(ca)));
         :}
         |
         /* Replicated action productions in precedence order */
@@ -4718,6 +4724,7 @@ paramAction ::=
             RESULT = factory_.createInterleaveActionIte(ca, dp, createEmptyNameSet(ri));
             addLocAnn(RESULT, getLocation(ri, ca));
         :}
+        // CONFLICT ON paramAction:ca; ok with circusAction:ca
         |
         LPAR:lp channelSet:cs RPAR circusParamDeclList:dp CIRCSPOT:sp LPAR nameSet:ns RPAR circusAction:ca
         {:
@@ -4725,7 +4732,7 @@ paramAction ::=
             // and interleave has no channel set but has a name set.
             RESULT = factory_.createParallelActionIte(ca, dp, ns, cs);
             addLocAnn(RESULT, getLocation(lp, ca));
-        :}
+        :}        
         |
         LPAR:lp channelSet:cs RPAR:rp circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
@@ -4752,8 +4759,9 @@ paramAction ::=
             RESULT = factory_.createSeqActionIte(ca, dp);
             addLocAnn(RESULT, getLocation(rs, ca));
         :} %prec _REPSEQ                
-        |
         /* nested paramAction is not allowed */
+        |        
+        // REMOVED FOR NOW FROM PARSER - leave it for typechecker
         circusParamCommandDeclList:cp CIRCSPOT:sp circusParamCommandDeclList:cp2 CIRCSPOT:sp2 circusAction:pa
         {:            
             LocInfo loc = getLocation(getLocation(cpleft, cpright), getLocation(cp2left, cp2right));
@@ -4762,7 +4770,7 @@ paramAction ::=
             addLocAnn(RESULT, loc);            
             parser.report_error(CircusParseMessage.MSG_NESTED_PARAMACTION,
                           new Object[0], loc);
-        :}        
+        :}            
         ;
         
 circusAction ::=                
