@@ -2,22 +2,19 @@
   \SECTION ds \parents standard\_toolkit
 \end{zsection}
 
-The ultimate constituent of the filing system is the byte.
+% The ultimate constituent of the filing system is the byte.
+% A file is a finite sequence of bytes.
 
 \begin{zed}
   BYTE == 0 \upto 255 \\
-  ZERO == 0
-\end{zed}
-
-A file is a finite sequence of bytes.
-
-\begin{zed}
+  ZERO == 0 \\
   FILE == \seq BYTE
 \end{zed}
 
 The $after$ operator returns the subfile that starts after a given offset.
-This was written as $file \circ suc^{offset}$ in the original specification.
-\emph{TODO: why did we/someone change this?}
+We write this as an explicit definition (==) rather than axiomatically,
+because it is clearer, avoids possible inconsistency, and is easier
+to evaluate.
 
 \begin{zed}
   \function 42 \leftassoc ( \varg after \varg )
@@ -62,8 +59,8 @@ the file.
 \end{zed}
 
 \begin{zed}
-  \varg shift \varg == (\lambda f : FILE ; offs : \nat \\
-  \t2      @ ( 1 \upto offs ) \ndres ( zero~offs \cat f ))
+  \varg shift \varg == (\lambda f : FILE ; offs : \nat
+        @ ( 1 \upto offs ) \ndres ( zero~offs \cat f ))
 \end{zed}
 
 \begin{schema}{writeFILE}

@@ -19,25 +19,30 @@ for the DS specification of POSIX files.
 
 \begin{theorem}{ReadTest0\_0}
 \vdash? \lblot file==eg1, offset?==0, length?==0, \\
-            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
+\t1            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
 \begin{theorem}{ReadTest0\_3}
 \vdash? \lblot file==eg1, offset?==0, length?==3, \\
-            data!==\langle 1, 255 \rangle, file'==eg1 \rblot \in readFILE
+\t1            data!==\langle 1, 255 \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
 \begin{theorem}{ReadTest1\_1}
 \vdash? \lblot file==eg1, offset?==1, length?==1, \\
-            data!==\langle 255 \rangle, file'==eg1 \rblot \in readFILE
+\t1            data!==\langle 255 \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
 \begin{theorem}{ReadTest3\_2}
 \vdash? \lblot file==eg1, offset?==3, length?==2, \\
-            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
+\t1            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
-Here are the results from ZLive.
+Here are the results from ZLive.\footnote{We plan to display the
+conjecture names rather than just the line numbers.  However, the Z
+standard does not pass the conjecture names from the \LaTeX\ markup to
+the Unicode markup, so getting access to the names within the parser
+and ZLive will require some extensions to the standard.}
+
 \begin{verbatim}
 dstest> conjectures
 Conjecture on line 7
@@ -81,7 +86,7 @@ incorrectly thinking of the behaviour of the Write command past the end
 of the file, which inserts zeroes automatically. 
 
 Once these two errors in the test values are corrected,
-all the tests evaluate to true.
+all tests give true.
 
 
 \subsection{Negative Tests for $readFILE$}
@@ -90,16 +95,15 @@ all the tests evaluate to true.
  \vdash?  ([offset? == \negate 1] \land readFILE) = \{\}
 \end{theorem}
 
-\footnote{CZT gives some really interesting and non-obvious error messages
-  if we omit the (..) parentheses!  The parser assumes that $readFILE=\{\}$
-  is a predicate, which makes the typechecker interpret $[offset?==\negate 1]$
-  as a predicate rather than a schema expression, so it complains about 
-  Undeclared identifier $offset?$~!}
+%\footnote{CZT gives some really interesting and non-obvious error messages
+%  if we omit the (..) parentheses!  The parser assumes that $readFILE=\{\}$
+%  is a predicate, which makes the typechecker interpret $[offset?==\negate 1]$
+%  as a predicate rather than a schema expression, so it complains about 
+%  Undeclared identifier $offset?$~!}
 
-We do the same test for $length?$.  This test also illustrates that
-we can write test values inside the $readFILE$ schema.
-
-Which is easier to understand?
+We do the same test for $length?$.  This test also illustrates how
+we can write test values inside the $readFILE$ schema, which can 
+sometimes be more convenient.
 
 \begin{theorem}{BadLength}
  \vdash?  [readFILE | length? = \negate 1] = \{\}
