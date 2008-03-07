@@ -902,6 +902,39 @@ action code
     }  
     
     /**
+     * &lt;p&gt;
+     * This method characterises parameterised commands and actions according to the
+     * expected (specific and disjoint) structure both have, yet they share the same
+     * AST class due to their similar nature and to minimize AST numbers. This choice
+     * is similar to AxPara in Z, which represents various Z boxes.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The protocol is as follows: parameterised commands MUST have a CircusCommand
+     * as its inner term, and VarDecl and QualifiedDecl are allowed; whereas parameterised 
+     * actions have a CircusAction as its inner term, and only VarDecl is allowed.
+     * &lt;/p&gt;
+     */
+    protected ParamAction createParamAction(CircusAction pa, DeclList cp)
+    {
+      boolean allowedQualifiedDecl = (pa instanceof CircusCommand);
+      
+      // if this is not a qualified command, then check for non VarDecl elements
+      if (!allowedQualifiedDecl &amp;&amp; (cp instanceof ZDeclList))
+      {
+        for(Decl d : ZUtils.assertZDeclList(cp))
+        {
+          if (!(d instanceof VarDecl))
+          {          
+            parser.report_error(CircusParseMessage.MSG_NOT_VARDECL_IN_PARAMACTION,
+                          new Object[] { d.getClass().getSimpleName() }, getLocation(cp));
+          }
+        }
+      }      
+      ParamAction result = factory_.createParamAction(pa, cp);
+      return result;
+    }    
+    
+    /**
      * Returns whether the given expression is an empty set as a reference to
      * &lt;code&gt;ZString.EMPTYSET&lt;/code&gt;.
      */
@@ -959,7 +992,7 @@ action code
 //        CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
 //            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage(),  
 //            new Object[] { errorIdx, size-1, isEmpty ? "empty" : zrl.get(errorIdx), 
-//              isEmpty ? "null" : zrl.get(errorIdx).getClass().getName(), loc }));       
+//              isEmpty ? "null" : zrl.get(errorIdx).getClass().getSimpleName(), loc }));       
 //      } 
       BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList(cl));      
       if (loc != null) { addLocAnn(result, loc); }      
@@ -1045,7 +1078,7 @@ action code
         for(Expr e : el) {
           if (!(e instanceof RefExpr)) {          
             parser.report_error(CircusParseMessage.MSG_INVALID_CHANNEL_RENAMING_EXPR,
-              new Object[] { rnl.get(i), i+1, e.getClass().getName() }, loc);
+              new Object[] { rnl.get(i), i+1, e.getClass().getSimpleName() }, loc);
           }
           i++;
         }
@@ -2114,20 +2147,24 @@ non terminal AssignmentPairs
 /// Circus parameters definition /////////////////////////////////////////////    
     
 non terminal DeclList
-  circusParamDeclList;
+  circusParamDeclList,
+  circusParamCommandDeclList;
   
 non terminal ZDeclList
-    circusParamZDeclList;  
+    circusParamZDeclList,
+    circusParamCommandZDeclList;
 
 non terminal ZNameList
     circusDeclWordList;    
     
+non terminal Decl    
+  circusCommandDecl;
+  
 non terminal QualifiedDecl  
   qualifiedDecl;
 
 non terminal ParamQualifier     
-  circusQualifier,
-  optCircusQualifier;    
+  circusQualifier;    
   
 non terminal Transformation
   refines;
@@ -3814,6 +3851,7 @@ processDesc ::=
         :}          
         ;        
 
+// DESIGN:        
 /* Moved replicated productions out of process because they are not
  * compatible with parenthesised processes. That is, we cannot have 
  * "\circprocess P \circdef (\Interleave i: \nat @ B)", because it would 
@@ -3821,40 +3859,52 @@ processDesc ::=
  * normalises on-the-fly replicated/parameterised process calls, which gets 
  * quite confusing if replicated processes were to be in process.
  */
+//DESIGN: We MUST NOT allow processDesc here in the place of process
+//        that is to avoid actions like P \circdef (i: \power \nat @ (i: \nat @ Q)),
+//        which would have a funny signature of (non-unifiable yet valid(?)) formal 
+//        parameters. Note that on-the-fly nested parameters are fine, as in
+//        P \circdef (i: \power~\nat @ (i: \nat @ Q)(0)), because the process of P
+//        is just a call, hence the formal parameters signature of P is i: \power~\arithmos.
+//
+//        One consequence of this is that one cannot have explicit nesting parameterised process
+//        declarations, or in fact any explicit nesting among parameterised, replicated and indexed
+//        processes. 
+//
+// The SVN revision prior to this change is 6684 - channel renaming for non-parenthesised calls 
 paramProcess ::=
         /* Parameterised process */        
-        circusParamDeclList:dp CIRCSPOT:sp processDesc:p
+        circusParamDeclList:dp CIRCSPOT:sp process:p
         {:
             RESULT = factory_.createParamProcess(p, dp);
             addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         |
         /* Replicated processes productions in precedence order */
-        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp process:p
         {:
             RESULT = factory_.createInterleaveProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp processDesc:p
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp process:p
         {:
             RESULT = factory_.createParallelProcessIte(p, dp, cs);
             addLocAnn(RESULT, getLocation(rp, p));
         :}
         | 
-        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp process:p
         {:
             RESULT = factory_.createIntChoiceProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp processDesc:p
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp process:p
         {:
             RESULT = factory_.createExtChoiceProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(re, p));
         :}
         | 
-        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp processDesc:p
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp process:p
         {:
             RESULT = factory_.createSeqProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
@@ -3919,7 +3969,7 @@ paramProcess ::=
               new Object[] { "replicated parameterised sequential composition process" }, 
                 getLocation(eleft, eright));            
         :}  %prec _REPSEQ  
-        /* Note: Add further productions here if needed. */
+        /* Note: Add further error productions here if needed. */
         ;
         
 /* Moved replicated indexed productions out of process because they are not
@@ -3930,38 +3980,38 @@ paramProcess ::=
  * confusing if replicated indexed processes were to be in process.
  */        
 indexedProcess ::=  
-        circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        circusParamDeclList:dp CIRCINDEX:ci process:p
         {: 
             RESULT = factory_.createIndexedProcess(p, dp);
             addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         /* Indexed processes productions in precedence order */
         |         
-        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci process:p
         {:
             RESULT = factory_.createInterleaveProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci processDesc:p
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci process:p
         {:
             RESULT = factory_.createParallelProcessIdx(p, dp, cs);
             addLocAnn(RESULT, getLocation(rp, p));
         :}
         | 
-        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci process:p
         {:
             RESULT = factory_.createIntChoiceProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
         | 
-        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci process:p
         {:
             RESULT = factory_.createExtChoiceProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(re, p));
         :}
         | 
-        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci process:p
         {:
             RESULT = factory_.createSeqProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
@@ -4025,7 +4075,7 @@ indexedProcess ::=
               new Object[] { "replicated indexed parameterised sequential composition process" }, 
                 getLocation(eleft, eright));                                    
         :} %prec _REPSEQ   
-        /* Note: Add further productions here if needed. */
+        /* Note: Add further error productions here if needed. */
         ;
         
 process ::=               
@@ -4279,19 +4329,48 @@ renamingProcesses ::=
 
 /// Circus parameters declaration ////////////////////////////////
 
-/* Just follows the rules for declPart but restricted to QualifiedDecl */
+/* Just follows the rules for declPart but restricted to VarDecl */
 circusParamDeclList ::=
-        circusParamZDeclList:cdl
-        {: RESULT = cdl; :}
+        circusParamZDeclList:zdl
+        {:
+           RESULT = zdl;
+           addLocAnn(zdl, getLocation(getLocation(zdl.get(0)),
+                                      getLocation(zdl.get(zdl.size() - 1))));
+        :}
         ;
 
 circusParamZDeclList ::=
-        qualifiedDecl:qd
-        {: RESULT = factory_.createZDeclList(factory_.list(qd)); :}
+        varDecl:vd
+        {: RESULT = factory_.createZDeclList(factory_.list(vd)); :}
         |
-        circusParamZDeclList:cdl SEMICOLON qualifiedDecl:qd
+        circusParamZDeclList:zdl sep varDecl:vd
         {:
-           cdl.add(qd);
+           zdl.add(vd);
+           RESULT = zdl;
+        :}
+        ;
+        
+/* Just follows the rules for circusParamDeclList but extended to QualifiedDecl */
+circusCommandDecl ::=
+        varDecl:vd
+        {: RESULT = vd; :}
+        |
+        qualifiedDecl:cd
+        {: RESULT = cd; :}
+        ;
+        
+circusParamCommandDeclList ::=
+        circusParamCommandZDeclList:cdl
+        {: RESULT = cdl; :}
+        ;
+
+circusParamCommandZDeclList ::=
+        circusCommandDecl:cd
+        {: RESULT = factory_.createZDeclList(factory_.list(cd)); :}
+        |
+        circusParamCommandZDeclList:cdl SEMICOLON circusCommandDecl:cd
+        {:
+           cdl.add(cd);
            RESULT = cdl;
         :}
         ;  
@@ -4302,20 +4381,12 @@ circusParamZDeclList ::=
  * either because formal parameters cannot be operators.
  */  
 qualifiedDecl ::=       
-        optCircusQualifier:ocq circusDeclWordList:cdwl COLON:colon expression:e
+        circusQualifier:cq circusDeclWordList:cdwl COLON:colon expression:e
         {:
-           RESULT = factory_.createQualifiedDecl(cdwl, e, ocq);
+           RESULT = factory_.createQualifiedDecl(cdwl, e, cq);
            addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(e)));
         :}        
         ;
-
-optCircusQualifier ::=
-        circusQualifier:cq
-        {: RESULT = cq; :}
-        |
-        //empty
-        {: RESULT = CircusUtils.DEFAULT_PARAMETER_QUALIFIER; :}
-        ;      
         
 circusQualifier ::=
         CIRCVAL
@@ -4603,7 +4674,8 @@ actionDesc ::=
         circusAction:ca
         {: RESULT = ca; :}                    
         ;
-       
+  
+// DESIGN:        
 /* Moved replicated productions out of cspAction because they are not
  * compatible with parenthesised actions. That is, we cannot have 
  * "A \circdef (i: \nat @ B)", because it would make no sense in
@@ -4611,11 +4683,26 @@ actionDesc ::=
  * (replicated) parameterised action calls, which gets quite confusing if 
  * replicated actions were to be a cspAction.
  */
+//DESIGN: We MUST NOT allow actionDesc here in the place of circusAction.
+//        that is to avoid actions like A \circdef (i: \power \nat @ (i: \nat @ B)),
+//        which would have a funny signature of (non-unifiable yet valid(?)) formal
+//        parameters. Note that on-the-fly nested parameters are fine, as in
+//        A \circdef (i: \power~\nat @ (i: \nat @ B)(0)), because the action of A
+//        is just a call, hence the formal parameters signature of A is i: \power~\arithmos.
+//
+//        One consequence of this is that one cannot have explicit nesting parameterised action
+//        declarations, or in fact any explicit nesting among parameterised or replicated actions,
+//        or parameterised commands.
+//
+// The SVN revision prior to this change is 6684 - channel renaming for non-parenthesised calls 
 paramAction ::=
-        //TODO:DESIGN: shall we allow actionDesc here instead of circusAction? 
-        circusParamDeclList:cp CIRCSPOT:sp circusAction:pa
+        /* Parameterised actions and commands */
+        circusParamCommandDeclList:cp CIRCSPOT:sp circusAction:pa
         {:
-            RESULT = factory_.createParamAction(pa, cp);
+            // NOTE: ParamAction covers both parameterised actions and commands
+            //       the parser allows both here, whereas the type checker 
+            //       guarantees the consistency among declarations and inner action/command.
+            RESULT = createParamAction(pa, cp);
             addLocAnn(RESULT, getLocation(getLocation(cpleft, cpright), getLocation(pa)));
         :}
         |
@@ -4665,6 +4752,17 @@ paramAction ::=
             RESULT = factory_.createSeqActionIte(ca, dp);
             addLocAnn(RESULT, getLocation(rs, ca));
         :} %prec _REPSEQ                
+        |
+        /* nested paramAction is not allowed */
+        circusParamCommandDeclList:cp CIRCSPOT:sp circusParamCommandDeclList:cp2 CIRCSPOT:sp2 circusAction:pa
+        {:            
+            LocInfo loc = getLocation(getLocation(cpleft, cpright), getLocation(cp2left, cp2right));
+            // as we don't have the action, just use skip
+            RESULT = createParamAction(pa, cp);
+            addLocAnn(RESULT, loc);            
+            parser.report_error(CircusParseMessage.MSG_NESTED_PARAMACTION,
+                          new Object[0], loc);
+        :}        
         ;
         
 circusAction ::=                
@@ -5086,14 +5184,20 @@ command ::=
         :}
         |
         /* Variable declaration */
-        CIRCVAR:cv declPart:dp CIRCSPOT circusAction:ca 
+        CIRCVAR:cv circusParamZDeclList:dp CIRCSPOT circusAction:ca 
         {:
-            // TODO:DESIGN: shall variable declarations accept schema inclusion?
+            // DESIGN: we do not allow schema inclusion. only variable declaration.
             
-            // TODO:DESIGN: also shall we raise a warning here or in the typechecker
-            //              about decorated variable names? They mess up things pretty much.
-            //              At the type checker then, since there is the place where they are
-            //              specially trated
+            // NOTE: Variable names with decorations should not be allowed here,
+            //       as they mess up their interpretation when added to the state
+            //       (e.g., for var x: \nat TC includes x, x', x?, x! , if we allow
+            //       var x?: \nat TC will include x?, x?', x??, x!?). Also it makes
+            //       prefixing very confusing too (e.g., in "c?x??!x!?z", what should
+            //       be the communication pattern? "c ? (x??) ! (x!) ? z"? The smart
+            //       scanner makes sure, by differentiating DECORWORD into CHANNELNAME
+            //       and FIELDNAME by ensuring no decorated names are allowed as either
+            //       terminal. So, the above tokenises as "c ? (x) ??! (x) !? z", which
+            //       then is clearly a parsing error. 
             RESULT = factory_.createVarDeclCommand(dp, ca);
             addLocAnn(RESULT, getLocation(cv, ca));
         :}        
@@ -5160,8 +5264,8 @@ nameSubstitution ::=
         :}
         ;        
         
-// NOTE: Shall it allow basic process here? i.e. shall "process" not contain "circusBasicProc" 
-//       and this production should then go to processDesc?
+// TODO: CHECK Shall it allow basic process here? i.e. shall "process" not contain "circusBasicProc" 
+//       and this production should then go to processDesc? (Seems ok - 07/Mar/2008).
 processRefPara ::=
         name:n CIRCASSERTREF process:spec refines:r process:impl
         {:
