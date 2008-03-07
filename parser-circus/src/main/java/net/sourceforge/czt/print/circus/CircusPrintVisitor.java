@@ -124,7 +124,7 @@ public class CircusPrintVisitor
             visit(term.getCircusProcess());
         } else {
             throw new PrintException("On-the-fly parameterised process (" +
-                term.getClass().getName() + ") must be processed by the AstToPrintTreeVisitor.");
+                term.getClass().getSimpleName() + ") must be processed by the AstToPrintTreeVisitor.");
         }
     }
     
@@ -135,7 +135,7 @@ public class CircusPrintVisitor
             visit(term.getCircusAction());
         } else {
             throw new PrintException("On-the-fly parameterised action (" +
-                term.getClass().getName() + ") must be processed by the AstToPrintTreeVisitor.");
+                term.getClass().getSimpleName() + ") must be processed by the AstToPrintTreeVisitor.");
         }
     }
     
