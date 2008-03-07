@@ -30,15 +30,22 @@
   /**
    * Creates an empty action signature. That is, an action signature with null name,
    * empty communication, channel set and name set lists; as well as empty local variables 
-   * and formal parameters and used channels signature. Note that
-   * The signature itself is not totally empty since getZSignatureList() returns a list
+   * and formal parameters and used channels signature. The MuAction signature flag is off.
+   * Note that the signature itself is not totally empty since getZSignatureList() returns a list
    * containing the two empty signatures for formal parameters and local variables.
    */
   ActionSignature createEmptyActionSignature();
+  
+  /**
+   * The initial action signature for a MuAction just contain its name. That is, it is
+   * an empty action signature with the given name and the MuAction signature flag on.
+   * Also, it requires that the given name is not null. It throws an IllegalArgumentException if it is. 
+   */
+  ActionSignature createInitialMuActionSignature(net.sourceforge.czt.z.ast.Name actionName);
 
   /**
    * Convenience method that adds the signatures passed to the SignatureList for
-   * the main ActionSignature constructor.
+   * the main ActionSignature constructor. The MuAction signature flag is off.
    */
   ActionSignature createActionSignature(
     net.sourceforge.czt.z.ast.Name actionName,

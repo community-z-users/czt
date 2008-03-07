@@ -51,21 +51,55 @@
     result.getAnns().add(createOutputFieldAnn());
     return result;
   }
+  
+  protected ActionSignature createCompleteActionSignature(
+    net.sourceforge.czt.z.ast.Name actionName,
+    net.sourceforge.czt.z.ast.Signature formals,
+    net.sourceforge.czt.z.ast.Signature localVars,
+    net.sourceforge.czt.z.ast.Signature usedChannels,
+    CommunicationList usedComms,
+    ChannelSetList usedChannelSets,
+    NameSetList usedNameSets, 
+    boolean signatureOfMuAction)
+  {
+    ActionSignature result = createActionSignature(
+      actionName,
+      createZSignatureList(newList(formals, localVars, usedChannels)),
+      usedComms, usedChannelSets, usedNameSets, signatureOfMuAction);
+    return result;
+  }
 
   public ActionSignature createEmptyActionSignature()
   {
     // create an empty signature, but with the right place holders.
-    ActionSignature result = createActionSignature(
-      null, // action name
-      createSignature(), // empty formal paramenters
-      createSignature(), // empty local variables
-      createSignature(), // empty channels
-      createCircusCommunicationList(), // empty communications
-      createCircusChannelSetList(), // empty channel sets 
-      createCircusNameSetList() // empty name sets
+    ActionSignature result = createCompleteActionSignature(
+      null,                              // null action name
+      createSignature(),                 // empty formal paramenters
+      createSignature(),                 // empty local variables
+      createSignature(),                 // empty channels
+      createCircusCommunicationList(),   // empty communications
+      createCircusChannelSetList(),      // empty channel sets 
+      createCircusNameSetList(),         // empty name sets
+      false                              // not for a MuAction
       );
     return result;
   }
+  
+  public ActionSignature createInitialMuActionSignature(net.sourceforge.czt.z.ast.Name actionName)
+  {
+    if (actionName == null)
+    {
+        throw new IllegalArgumentException("Invalid (null) MuAction name");
+    } 
+    return createCompleteActionSignature(actionName,
+      createSignature(),                 // empty formal paramenters
+      createSignature(),                 // empty local variables
+      createSignature(),                 // empty channels
+      createCircusCommunicationList(),   // empty communications
+      createCircusChannelSetList(),      // empty channel sets 
+      createCircusNameSetList(),         // empty name sets
+      true);
+  }  
 
   public ActionSignature createActionSignature(
     net.sourceforge.czt.z.ast.Name actionName,
@@ -76,11 +110,9 @@
     ChannelSetList usedChannelSets,
     NameSetList usedNameSets)
   {
-    ActionSignature result = createActionSignature(
-      actionName,
-      createZSignatureList(newList(formals, localVars, usedChannels)),
-      usedComms, usedChannelSets, usedNameSets);
-    return result;
+    return createCompleteActionSignature(actionName, formals, 
+        localVars, usedChannels, usedComms, usedChannelSets, 
+        usedNameSets, false);
   }
 
   protected ProcessSignature createCompleteProcessSignature(

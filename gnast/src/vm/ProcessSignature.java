@@ -4,6 +4,7 @@
   final static int MAIN_SIGNATURES_INDEX    = 0;
   final static int PROCESS_SIGNATURES_INDEX = 1;
   final static int ACTION_SIGNATURES_INDEX  = 2;
+  final static int LOCALZ_SIGNATURES_INDEX  = 3;
   
   /**
    * This is a convenience method for getName.
@@ -95,13 +96,24 @@
   net.sourceforge.czt.circus.ast.ActionSignatureList getActionSignatures();
 
   /**
+   * This is a convenience method. It extract from the list of signature lists the
+   * one containing ZSignatureList objects only.
+   * It returns the ZSignatureList if getSignatureList().get(LOCALZ_SIGNATURES_INDEX) is an instance of
+   * ZSignatureList and throws a UnsupportedAstClassException otherwise.
+   */
+  net.sourceforge.czt.circus.ast.ZSignatureList getBasicProcessLocalZSignatures();
+  
+  
+  /**
    * This is a convenience method. It represents the non-null (possibly empty)
-   * list of declared local paragraphs within a process. 
+   * list of declared local paragraphs within a basic process or across multiple
+   * basic processes. 
    * 
-   * This method calculates on-the-fly the local paragraphs from all actions of this
-   * processes, if it is a basic process. It is empty otherwise. That is, it maps
-   * action names to a list of name type pairs of declared names and their types,
-   * and is calculated through getActionSignatures() 
+   * This method calculates on-the-fly the local paragraphs from all basic processes of this
+   * process. If it is an basic process already, only one element is present. That is, for basic 
+   * process this is just the process name mapped to its getBasicProcessLocalZSignatures(). 
+   * For non-basic processes, it maps the process names to a ZSignature list of each constituent
+   * process from getProcessSignatures() that is a basic process, and this is done recursively.
    */
   java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.ZSignatureList> getLocalZSignatures();
 
@@ -149,3 +161,4 @@
    * action names to a list of name sets, and is calculated through getActionSignatures().
    */
   java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.CircusNameSetList> getUsedNameSets();
+

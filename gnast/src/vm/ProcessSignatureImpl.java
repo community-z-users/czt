@@ -1,5 +1,4 @@
-
-public net.sourceforge.czt.z.ast.Name getProcessName()
+  public net.sourceforge.czt.z.ast.Name getProcessName()
   {
     return getName();
   }
@@ -89,6 +88,20 @@ public net.sourceforge.czt.z.ast.Name getProcessName()
   {
     return getProcessSignatures().isEmpty();
   }
+  
+  public net.sourceforge.czt.circus.ast.ZSignatureList getBasicProcessLocalZSignatures()
+  {
+    if (getSignatureList().size() > LOCALZ_SIGNATURES_INDEX)
+    {
+      net.sourceforge.czt.circus.ast.SignatureList sigList = getSignatureList().
+        get(LOCALZ_SIGNATURES_INDEX);
+      if (sigList instanceof net.sourceforge.czt.circus.ast.ZSignatureList)
+      {
+        return (net.sourceforge.czt.circus.ast.ZSignatureList) sigList;
+      }
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+  }
 
   public net.sourceforge.czt.circus.ast.ActionSignatureList getActionSignatures()
   {
@@ -103,16 +116,33 @@ public net.sourceforge.czt.z.ast.Name getProcessName()
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
+  
+  protected <K, V> void addToMapAndCheckConsistency(java.util.Map<K,V> map, K key, V value)
+  {
+    V old = map.put(key, value);
+    if (old != null)
+      throw new net.sourceforge.czt.util.CztException("Illegal value for " + getProcessZName() + ". " + 
+        "The key " + key + " already had a previous value assigned.");
+  }
 
   public java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.ZSignatureList> getLocalZSignatures()
   {
     java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.ZSignatureList> result = new java.util.HashMap<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.ZSignatureList>();
-    // only collect local signatures of basic processes
+    // for basic processes this is just one entry 
     if (isBasicProcessSignature())
+    {      
+      addToMapAndCheckConsistency(result, getProcessZName(), getBasicProcessLocalZSignatures());
+    }
+    // for other processes this includes all entries of all of its inner basic processes.
+    else
     {
-      for (net.sourceforge.czt.circus.ast.ActionSignature aSig : getActionSignatures())
+      for (net.sourceforge.czt.circus.ast.ProcessSignature pSig : getProcessSignatures())
       {
-        result.put(aSig.getActionZName(), aSig.getZSignatureList());
+        for(java.util.Map.Entry<net.sourceforge.czt.z.ast.ZName, 
+            net.sourceforge.czt.circus.ast.ZSignatureList> entry : pSig.getLocalZSignatures().entrySet())
+        {
+          addToMapAndCheckConsistency(result, entry.getKey(), entry.getValue());
+        }                  
       }
     }
     return result;
@@ -174,3 +204,4 @@ public net.sourceforge.czt.z.ast.Name getProcessName()
     }
     return result;
   }
+
