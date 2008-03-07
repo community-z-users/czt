@@ -102,10 +102,12 @@ public class ParserState
    * productions so that they are always related to the current basic
    * process being parsed.</p>
    *
-   * <p>REFACTORED: This is in fact the getOnTheFlyPara() of current process</p>*/
-   private List<ActionPara> implicitlyDeclActPara_ =
-      new ArrayList<ActionPara>();
-      
+   * <p>This is in fact the getOnTheFlyPara() of current process</p>
+   * REFACTORED: use position and put then in the order they appear
+   */
+   //private List<ActionPara> implicitlyDeclActPara_ =
+   //   new ArrayList<ActionPara>();
+   
    private List<Para> locallyDeclPara_ =
       new ArrayList<Para>();   
   
@@ -136,15 +138,10 @@ public class ParserState
    * Clears the implicitly declared actions cache for the current
    * <code>BasicProcess/code>.  It also resets the unique name seed to
    * zero.
-   */
-  public void clearBasicProcessOnTheFlyCache()
-  {           
-    implicitlyActUniqueNameSeed_ = 0;    
-    implicitlyDeclActPara_.clear();
-  }
-  
-  public void clearBasicProcessLocalParaCache()
-  {               
+   */  
+  protected void clearBasicProcessParaCache()
+  { 
+    implicitlyActUniqueNameSeed_ = 0;        
     locallyDeclPara_.clear();
   }
   
@@ -152,7 +149,7 @@ public class ParserState
    * Clears the implicitly declared processes cache for the current
    * <code>ZSect</code>.  It also resets the unique name seed to zero.
    */
-  public void clearSectProcessOnTheFlyCache()
+  protected void clearSectProcessOnTheFlyCache()
   {
     implicitlyProcUniqueNameSeed_ = 0;
     implicitlyDeclProcPara_.clear();      
@@ -167,9 +164,10 @@ public class ParserState
       // only structural items: no loc or process name, or bp instance
       setMainAction(null);      
       setStatePara(null);      
-      clearBasicProcessOnTheFlyCache();
-      clearBasicProcessLocalParaCache();      
-      //clearBasicProcessScopeWarnings();
+      clearBasicProcessParaCache();
+      //clearBasicProcessOnTheFlyCache();
+      //clearBasicProcessLocalParaCache();      
+      ////clearBasicProcessScopeWarnings();
   }
   
   public void clearAllProcessInformation() {      
@@ -222,7 +220,8 @@ public class ParserState
     assert !isImplicitlyDeclaredActionPara(ap) :
       "Action already had an on-the-fly annotation";
     ap.getCircusAction().getAnns().add(factory_.createOnTheFlyDefAnn());
-    implicitlyDeclActPara_.add(ap);    
+    locallyDeclPara_.add(ap);
+    //implicitlyDeclActPara_.add(ap);    
   }
   
   public boolean isImplicitlyDeclaredActionPara(ActionPara ap) {
@@ -259,10 +258,10 @@ public class ParserState
   // Should not be called outside the ParserState. 
   // It is called through updateBasicProcess. 
   // Leave protected in case derived classes need it.
-  protected List<ActionPara> getImplicitlyDeclActPara()
-  {    
-    return implicitlyDeclActPara_;
-  }  
+  //protected List<ActionPara> getImplicitlyDeclActPara()
+  //{    
+  //  return implicitlyDeclActPara_;
+  //}  
   
   // Should not be called outside the ParserState. 
   // It is called through updateBasicProcess
@@ -453,11 +452,12 @@ public class ParserState
               addLocallyDeclPara(statePara);
           }
           // else, it is already in either list
-          assert (getLocallyDeclPara().contains(statePara) &&
-                  !getImplicitlyDeclActPara().contains(statePara)) 
-                 ||
-                 (getImplicitlyDeclActPara().contains(statePara) &&
-                  !getLocallyDeclPara().contains(statePara));                 
+          assert (getLocallyDeclPara().contains(statePara));
+//                  &&
+//                  !getImplicitlyDeclActPara().contains(statePara)) 
+//                 ||
+//                 (getImplicitlyDeclActPara().contains(statePara) &&
+//                  !getLocallyDeclPara().contains(statePara));                 
           
           /*
           // copy the paragraphs into a ZParaList
@@ -475,17 +475,37 @@ public class ParserState
            */
           
           basicProcess_.getZParaList().addAll(getLocallyDeclPara());
-          basicProcess_.getZParaList().addAll(getImplicitlyDeclActPara());
+          //basicProcess_.getZParaList().addAll(getImplicitlyDeclActPara());
           
-          // adding consistency checks.
-          assert statePara.equals(basicProcess_.getStatePara());
-          assert getMainAction().equals(basicProcess_.getMainAction());
-          assert getLocallyDeclPara().equals(basicProcess_.getLocalPara());
-          assert getImplicitlyDeclActPara().equals(basicProcess_.getOnTheFlyPara());
+          assert checkBasicProcessStructuralInvariant(statePara) 
+            : "basic process failed structural invariant in ParserState";
           
           addLocAnn(basicProcess_, processLoc_);
       }
       return result;
+  }
+  
+  private boolean checkBasicProcessStructuralInvariant(Para statePara)
+  {
+    boolean result = statePara.equals(basicProcess_.getStatePara());    
+    if (result)
+    {    
+      result = getMainAction().equals(basicProcess_.getMainAction());
+      if (result)
+      {        
+        // check if the basic process protocol is ok        
+        result = getLocallyDeclPara().equals(basicProcess_.getZParaList());
+        if (result)
+        {
+          result = getLocallyDeclPara().containsAll(basicProcess_.getLocalPara());
+          if (result)
+          {
+            result = getLocallyDeclPara().containsAll(basicProcess_.getOnTheFlyPara());
+          }
+        }
+      }
+    }
+    return result;
   }
   
   public BasicProcess cloneBasicProcessWithAnns() {
@@ -503,7 +523,7 @@ public class ParserState
    */
   public boolean isKnownPara(List<Para> ipl) {
       for(Para para : ipl) {
-          if (!implicitlyDeclActPara_.contains(para) &&
+          if (//!implicitlyDeclActPara_.contains(para) &&
               !locallyDeclPara_.contains(para))
               return false;
       }
