@@ -63,6 +63,33 @@ public class ParserState
   {
     return loc_.toString();
   }
+  
+  public LocAnn toLocAnn(LocInfo locInfo, boolean usePhysicalLoc)
+  {
+    LocAnn locAnn = factory_.createLocAnn();
+    if (usePhysicalLoc)
+    {
+      locAnn.setLoc(getLoc());
+    }
+    if (locInfo.getLine() >= 0) {
+      locAnn.setLine(BigInteger.valueOf(locInfo.getLine()));
+    }
+    if (locInfo.getColumn() >= 0) {
+      locAnn.setCol(BigInteger.valueOf(locInfo.getColumn()));
+    }
+    if (locInfo.getStart() >= 0) {
+      locAnn.setStart(BigInteger.valueOf(locInfo.getStart()));
+    }
+    if (locInfo.getLength() >= 0) {
+      locAnn.setLength(BigInteger.valueOf(locInfo.getLength()));
+    }
+    return locAnn;
+  }
+  
+  public LocAnn toLocAnn(LocInfo locInfo)
+  {
+    return toLocAnn(locInfo, false);
+  }
 
   public void addLocAnn(Term term, LocInfo locInfo)
   {
