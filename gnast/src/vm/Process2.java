@@ -1,5 +1,5 @@
 
-  CircusProcess getLeftProc();
-  void setLeftProc(CircusProcess process);
-  CircusProcess getRightProc();
-  void setRightProc(CircusProcess process);
+  CircusProcess getLeftProcess();
+  void setLeftProcess(CircusProcess process);
+  CircusProcess getRightProcess();
+  void setRightProcess(CircusProcess process);

@@ -1,7 +1,8 @@
   /**
    * This is a convenience method. It returns the state paragraph within the getZParaList().
    * If one has not been declared, a default (empty) state paragraph (i.e., horizontal box 
-   * named CircusUtils.DEFAULT_PROCESS_STATE_NAME with empty declarations and true predicate) 
+   * named with a string starting with CircusUtils.DEFAULT_PROCESS_STATE_NAME plus loc info,
+   * and with empty declarations and true predicate) 
    * is returned. The method checks that only one such paragraph exists, that it has a 
    * CircusStateAnn in it, and that if it is an ActionPara it must have a OnTheFlyAnn as well.
    * All these invariants are guaranteed by both the parser and typechecker. 
@@ -11,8 +12,8 @@
   /**
    * This is a convenience method. It returns the main action within the getZParaList().
    * The method checks that only one such paragraph exists, that it has a 
-   * OnTheFlyAnn in it, and that its name is CircusUtils.DEFAULT_MAIN_ACTION_NAME.
-   * All these invariants are guaranteed by both the parser and typechecker. 
+   * OnTheFlyAnn in it, and that its name starts with CircusUtils.DEFAULT_MAIN_ACTION_NAME
+   * plus loc info. All these invariants are guaranteed by both the parser and typechecker. 
    */  
   net.sourceforge.czt.circus.ast.CircusAction getMainAction(); 
   

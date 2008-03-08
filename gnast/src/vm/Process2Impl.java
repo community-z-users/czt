@@ -1,4 +1,4 @@
-  public CircusProcess getLeftProc()
+  public CircusProcess getLeftProcess()
   {
     CircusProcess result = null;
     if (getCircusProcess().size() > 0) {
@@ -7,7 +7,7 @@
     return result;
   }
 
-  public void setLeftProc(CircusProcess proc)
+  public void setLeftProcess(CircusProcess proc)
   {
     if (getCircusProcess().size() > 0) {
       getCircusProcess().set(0, proc);
@@ -17,7 +17,7 @@
     }
   }
 
-  public CircusProcess getRightProc()
+  public CircusProcess getRightProcess()
   {
     CircusProcess result = null;
     if (getCircusProcess().size() > 1) {
@@ -26,7 +26,7 @@
     return result;
   }
 
-  public void setRightProc(CircusProcess proc)
+  public void setRightProcess(CircusProcess proc)
   {
     if (getCircusProcess().size() == 0) {
       getCircusProcess().add(null);

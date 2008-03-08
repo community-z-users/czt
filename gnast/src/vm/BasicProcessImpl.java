@@ -42,7 +42,7 @@
     {
       assert net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(para);
       net.sourceforge.czt.circus.ast.ActionPara ap = (net.sourceforge.czt.circus.ast.ActionPara)para;      
-      if (ap.getZName().getWord().equals(net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_MAIN_ACTION_NAME))
+      if (ap.getZName().getWord().startsWith(net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_MAIN_ACTION_NAME))
       {
         result.add(ap);
       }      
@@ -54,7 +54,7 @@
     
     assert result.size() == 1 && 
            net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(result.get(0)) &&
-           result.get(0).getZName().getWord().equals(net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_MAIN_ACTION_NAME);
+           result.get(0).getZName().getWord().startsWith(net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_MAIN_ACTION_NAME);
     return result.get(0).getCircusAction();
   }
 
