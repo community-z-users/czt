@@ -158,17 +158,12 @@ public class AstToPrintTreeVisitor
     }
     
     // locally declared paragraph within basic process
-    for (Iterator<? extends Para> iter = term.getLocalPara().iterator();
+    for (Iterator<? extends Para> iter = term.getZParaList().iterator();
     iter.hasNext();)
     {
       Para next = iter.next();
       
-      // local para cannot be on-the-fly
-      if (CircusUtils.isOnTheFly(next))
-      {
-        getWM().warnLocalOnTheFly(next, term);
-      }
-      else if (CircusUtils.isStatePara(next))
+      if (CircusUtils.isStatePara(next))
       {
         // if it is state, it can only appear once
         if (processedState_)
@@ -214,21 +209,21 @@ public class AstToPrintTreeVisitor
       //if (iter.hasNext()) list.add(ZToken.NL);
     }
     
-    if (!term.getOnTheFlyPara().isEmpty()) {                    
-      // trying to add a NarrPara?
-      NarrPara np = getZFactory().createNarrPara(
-        Arrays.asList("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%%Implicitly declared paragraphs\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n"));
-      list.add(visit(np));
-      // implicitly declared action paragraphs
-      for (Iterator<ActionPara> iter = term.getOnTheFlyPara().iterator();
-      iter.hasNext();)
-      {
-        ActionPara next = iter.next();
-        ActionPara ap = (ActionPara)next;
-        list.add(visit(ap));
-        //if (iter.hasNext()) list.add(ZToken.NL);        
-      }
-    }
+//    if (!term.getOnTheFlyPara().isEmpty()) {                    
+//      // trying to add a NarrPara?
+//      NarrPara np = getZFactory().createNarrPara(
+//        Arrays.asList("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%%Implicitly declared paragraphs\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n"));
+//      list.add(visit(np));
+//      // implicitly declared action paragraphs
+//      for (Iterator<ActionPara> iter = term.getOnTheFlyPara().iterator();
+//      iter.hasNext();)
+//      {
+//        ActionPara next = iter.next();
+//        ActionPara ap = (ActionPara)next;
+//        list.add(visit(ap));
+//        //if (iter.hasNext()) list.add(ZToken.NL);        
+//      }
+//    }
     
     assert (term.getMainAction() != null);    
     list.add(CircusToken.CIRCUSACTION);
