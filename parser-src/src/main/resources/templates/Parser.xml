@@ -1125,7 +1125,40 @@ action code
         ProcessPara pa = factory_.createProcessPara(createCircusName(pn), factory_.createZNameList(), pp);
         addLocAnn(pa, getLocation(pn.getLocation(), pp));
         return pa;
-    }        
+    }       
+    
+    protected Para createStatePara(Name n, Expr e, boolean implicitlyDeclared)
+    {
+       // Creates a horizontal schema: n == e as ConstDecl
+       LocInfo loc = getLocation(n, e);
+       ConstDecl cd = factory_.createConstDecl(n, e);
+       addLocAnn(cd, loc);
+       ZDeclList decls = factory_.createZDeclList(factory_.list(cd));           
+       ZSchText st = factory_.createZSchText(decls, null);
+       addLocAnn(st, loc);
+       
+       // no generic arguments for state schema   
+       ZNameList zdnl = factory_.createZNameList();
+       Para result = factory_.createAxPara(zdnl, st, Box.OmitBox);
+       addLocAnn(result, loc);
+       
+       // add CircusStateAnn to paragraph. assumes there is LocInfo in result
+       if (checkCircusStateAnnParaIsSchema(result)) {
+         parserState_.addCircusStateAnn(result);
+       }
+       
+       // Add it as a locally declared paragraph, or raise an error if duplicated
+       if (checkForDuplicatedState((implicitlyDeclared ? "implicitly declared" : "horizontally declared"), loc)) {
+         parserState_.setStatePara(result);
+         if (implicitlyDeclared)
+         {
+           parserState_.addCircusOnTheFlyAnn(result);
+         }
+         parserState_.addLocallyDeclPara(result);         
+       }  
+       
+       return result;
+    } 
     
     /**
      * Checks whether the given predicate is a schema. 
@@ -4537,60 +4570,18 @@ circusBasicProcessMainAction ::=
  * For a schema we need a boxed basic process paragraph.
  */
 circusProcessState ::= 
-        /* Unboxed schema definition can only be horizontal */
+        /* explicit schema definition is a horizontal box */
         CIRCSTATE:cs name:n DEFEQUAL:equal expression:e
         {:
-           // Creates a horizontal schema: name == e as ConstDecl
-           ConstDecl cd = factory_.createConstDecl(n, e);
-           addLocAnn(cd, getLocation(equalleft, equalright, n, e));
-           ZDeclList decls = factory_.createZDeclList(factory_.list(cd));           
-           ZSchText st = factory_.createZSchText(decls, null);
-           addLocAnn(st, getLocation(n, e));
-           
-           // no generic arguments for state schema
-           LocInfo loc = getLocation(n, e);
-           ZNameList zdnl = factory_.createZNameList();
-           RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
-           addLocAnn(RESULT, loc);
-           
-           // add CircusStateAnn to paragraph. assumes there is LocInfo in RESULT
-           if (checkCircusStateAnnParaIsSchema(RESULT)) {
-             parserState_.addCircusStateAnn(RESULT);
-           }
-           
-           // Add it as a locally declared paragraph, or raise an error if duplicated
-           if (checkForDuplicatedState("horizontally declared", loc)) {
-             parserState_.setStatePara(RESULT);
-             parserState_.addLocallyDeclPara(RESULT);
-           }           
+           RESULT = createStatePara(n, e, false /* not implicit */);           
         :}
         |
-        /* On-the-fly state schema as a SchExprAction */
+        /* On-the-fly state schema is a horizontal box with special name */
         CIRCSTATE:cs expression:e
-        {:             
+        {:                        
            LocInfo loc = getLocation(e);
-           Name dn = parserState_.createDefaultProcessStateName(loc);
-          
-           // Add it as an implicitly declared paragraph
-           SchExprAction sa = factory_.createSchExprAction(e);           
-           addLocAnn(sa, loc);
-           ActionPara ap = factory_.createActionPara(dn, sa);           
-           addLocAnn(ap, loc);
-           
-           // add CircusStateAnn to paragraph. assumes there is LocInfo in RESULT
-           if (checkCircusStateAnnParaIsSchema(ap)) {
-             parserState_.addCircusStateAnn(ap);
-           }           
-           
-           // Add it as an implicitly declared action (because the name is given).           
-           // if duplicated add a parsing error
-           if (checkForDuplicatedState("implicitly declared", loc)) {
-             parserState_.setStatePara(ap);
-             parserState_.addImplicitlyDeclActionPara(ap);                        
-           }
-           
-           // use ap above as it is ActionPara and RESULT is Para.
-           RESULT = ap;           
+           Name dn = parserState_.createDefaultProcessStateName(loc);           
+           RESULT = createStatePara(dn, e, true /* implicit */);
         :}
         ;             
 
