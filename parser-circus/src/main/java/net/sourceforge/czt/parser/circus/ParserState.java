@@ -24,6 +24,7 @@ package net.sourceforge.czt.parser.circus;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CircusAction;
@@ -293,6 +294,11 @@ public class ParserState
      para.getAnns().add(factory_.createCircusStateAnn());
   }
   
+  public void addCircusOnTheFlyAnn(Term term)
+  {
+     term.getAnns().add(factory_.createCircusStateAnn());
+  }
+  
   // [~ | true ~]
   protected Expr createEmptySchExpr() {
       Expr result = factory_.createSchExpr(
@@ -325,6 +331,7 @@ public class ParserState
 
       // add CircusStateAnn to paragraph
       addCircusStateAnn(result);
+      addCircusOnTheFlyAnn(result);
       addLocAnn(result, l);
       
       return result;
