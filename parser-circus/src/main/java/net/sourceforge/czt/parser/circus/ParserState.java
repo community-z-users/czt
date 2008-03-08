@@ -44,7 +44,6 @@ import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZNameList;
-import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -185,15 +184,22 @@ public class ParserState
       clearRefinementModel();
   }
   
+  public String createUniqueMainActionName(LocInfo loc)
+  {
+    String result = CircusUtils.createFullQualifiedName(
+      CircusUtils.DEFAULT_MAIN_ACTION_NAME, toLocAnn(loc, false /* no file name */));    
+    return result;
+  }  
 
   /**
    * Creates a unique string for implicitly declared actions.
    */
-  public String createImplicitlyDeclActUniqueName()
+  public String createImplicitlyDeclActUniqueName(LocInfo loc)
   {
-    //DO NOT ADD THIS ASSERT HERE, SINCE THEY MAY BE ADDED OUTSIDE AN OPEN SCOPE
+    //DO NOT ADD THIS ASSERT HERE, SINCE THEY MAY BE (ERRONEOUSLY) ADDED OUTSIDE AN OPEN SCOPE
     //assert hasBasicProcess() : "There is no current basic process for implicitly declared action";
-    String result = CircusUtils.DEFAULT_IMPLICIT_ACTION_NAME_PREFIX + implicitlyActUniqueNameSeed_;
+    String result = CircusUtils.DEFAULT_IMPLICIT_ACTION_NAME_PREFIX + implicitlyActUniqueNameSeed_;    
+    result = CircusUtils.createFullQualifiedName(result, toLocAnn(loc, false /* no file name */));
     implicitlyActUniqueNameSeed_++;
     return result;
   }
@@ -201,9 +207,10 @@ public class ParserState
   /**
    * Creates a unique string for implicitly declared processes.
    */
-  public String createImplicitlyDeclProcUniqueName()
+  public String createImplicitlyDeclProcUniqueName(LocInfo loc)
   { 
     String result = CircusUtils.DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX + implicitlyProcUniqueNameSeed_;
+    result = CircusUtils.createFullQualifiedName(result, toLocAnn(loc, false /* no file name */));
     implicitlyProcUniqueNameSeed_++;
     return result;
   }
@@ -294,9 +301,11 @@ public class ParserState
       return result;
   }
   
-  protected Name createDefaultProcessStateName(LocInfo l) {
-      Name dn = factory_.createZName(CircusUtils.DEFAULT_PROCESS_STATE_NAME);
-      addLocAnn(dn, l);
+  protected Name createDefaultProcessStateName(LocInfo loc) {
+      String qualifiedName = CircusUtils.createFullQualifiedName(
+        CircusUtils.DEFAULT_PROCESS_STATE_NAME, toLocAnn(loc, false /* no file name */));
+      Name dn = factory_.createZName(qualifiedName);
+      addLocAnn(dn, loc);
       return dn;
   }  
 
