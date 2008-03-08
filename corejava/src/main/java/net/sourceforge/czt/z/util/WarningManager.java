@@ -116,6 +116,14 @@ public class WarningManager
     CztLogger.getLogger(loggerClass_).warning(msg);
   }
 
+  /**
+   * Basic warning method it creates a warning message by formatting
+   * the given message with the given arguments, and adding such 
+   * warning to the map of warnings under the current section name as key.
+   * Finally, it warns the message using the current logger class.
+   * @param message warning string to be formatted
+   * @param arguments formatting arguments
+   */
   public void warn(String message, Object... arguments)
   {
     String str = createWarning(message, arguments);
