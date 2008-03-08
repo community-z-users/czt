@@ -9,6 +9,8 @@
 package net.sourceforge.czt.circus.util;
 
 import java.math.BigInteger;
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,7 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.ActionTransformerPred;
 import net.sourceforge.czt.circus.ast.ChannelPara;
@@ -47,6 +50,7 @@ import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
 import net.sourceforge.czt.circus.ast.CircusNameSetList;
 import net.sourceforge.czt.circus.ast.CircusChannelSetList;
+import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
@@ -76,7 +80,7 @@ public final class CircusUtils
   /**
    * Default name of state for stateless processes.
    */
-  public static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt";
+    public static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt";
   public static final String DEFAULT_IMPLICIT_ACTION_NAME_PREFIX = "$$implicitAct";
   public static final String DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX = "$$implicitProc";
   public static final String DEFAULT_IMPLICIT_DOTEXPR_NAME_PREFIX = "$$Dot";
@@ -432,6 +436,104 @@ public final class CircusUtils
     {
       poAnn.setPred(pred);
     }
+  }
+  
+  private static final String FULLNAME_LINE_COLUMN     = "{0}_L{1}C{2}";
+  private static final String FULLNAME_LOC_LINE_COLUMN = "{0}_F{{1})L{2}C{3}";
+  private static final String FULLNAME_UNIQUE_ID       = "{0}_{1}";  
+  private static int fullNameUniqueId_ = 0;
+  
+  public static String createFullQualifiedName(String name, int idSeed)
+  {
+    String pattern = FULLNAME_UNIQUE_ID;
+    List<String> params = new ArrayList<String>();    
+    params.add(name);
+    params.add(String.valueOf(idSeed));
+    return MessageFormat.format(pattern, params.toArray());
+  }
+  
+  public static String createFullQualifiedName(String name, LocAnn loc, boolean usePhysicalLoc)
+  {
+    String pattern, result;
+    List<String> params = new ArrayList<String>();    
+    params.add(name);
+    if (loc != null)
+    {
+      pattern = FULLNAME_LINE_COLUMN;
+      params.add(loc.getLine().toString());
+      params.add(loc.getCol().toString());      
+      if (usePhysicalLoc)
+      {
+        params.add(1, loc.getLoc());
+        pattern = FULLNAME_LOC_LINE_COLUMN;
+      }      
+      result = MessageFormat.format(pattern, params.toArray());
+    }
+    else
+    {
+      result = createFullQualifiedName(name, fullNameUniqueId_);      
+      fullNameUniqueId_++;
+    }
+    return result;
+  }
+  
+  public static String createFullQualifiedName(String name, LocAnn loc)
+  {
+    return createFullQualifiedName(name, loc, false);
+  }
+  
+  public static String createFullQualifiedName(String name)
+  {
+    return createFullQualifiedName(name, null, false);
+  }
+  
+  /**
+   * Creates a fully qualified name according to the location annotation
+   * information, if avaiable. It also considers the LocAnn.getLoc() value if
+   * usePhysicalLoc is true. If the name has no LocAnn (e.g., names created
+   * by a prover window), a unique number ID is given
+   * @param name
+   * @param usePhysicalLoc
+   * @return
+   */
+  public static ZName createFullQualifiedName(ZName name, boolean usePhysicalLoc)
+  {
+    LocAnn loc = (LocAnn)name.getAnn(LocAnn.class);        
+    String qualifiedName = createFullQualifiedName(name.getWord(), loc, usePhysicalLoc);
+    
+    // create a name with the same ID
+    ZName result = FACTORY.createZName(name);
+    
+    // append to the name getWord() the fully qualified pattern
+    result.setWord(qualifiedName);
+    
+    return result;
+  }
+  
+  /**
+   * Calls createFullQualifiedName with the name and false for usePhysicalLoc
+   * @param name
+   * @return
+   */
+  public static ZName createFullQualifiedName(ZName name)
+  {
+    return createFullQualifiedName(name, false);
+  }
+  
+  public static ZName qualifyName(ZName first, ZName second)
+  {
+    ZName result = createFullQualifiedName(first);
+    
+    // make the full qualified name id the second name id
+    // if not null - otherwise the first is used already.
+    if (second.getId() != null)
+    {     
+      result.setId(second.getId());
+    }
+    
+    result.setWord(result.getWord() + ZString.DOT + second.getWord());
+    
+    return result;
   }
   
   /**
