@@ -356,60 +356,60 @@ public class CircusPrintVisitor
     
     public Object visitSeqProcess(SeqProcess term) {
         printLPAREN(term);
-        visit(term.getLeftProc());
+        visit(term.getLeftProcess());
         print(CircusKeyword.CIRCSEQ);
-        visit(term.getRightProc());
+        visit(term.getRightProcess());
         printRPAREN(term);
         return null;
     }
     
     public Object visitExtChoiceProcess(ExtChoiceProcess term) {
         printLPAREN(term);
-        visit(term.getLeftProc());
+        visit(term.getLeftProcess());
         print(CircusKeyword.EXTCHOICE);
-        visit(term.getRightProc());
+        visit(term.getRightProcess());
         printRPAREN(term);
         return null;
     }
     
     public Object visitIntChoiceProcess(IntChoiceProcess term) {
         printLPAREN(term);
-        visit(term.getLeftProc());
+        visit(term.getLeftProcess());
         print(CircusKeyword.INTCHOICE);
-        visit(term.getRightProc());
+        visit(term.getRightProcess());
         printRPAREN(term);
         return null;
     }
     
     public Object visitParallelProcess(ParallelProcess term) {
         printLPAREN(term);
-        visit(term.getLeftProc());
+        visit(term.getLeftProcess());
         print(CircusToken.LPAR);
         visit(term.getChannelSet());
         print(CircusToken.RPAR);
-        visit(term.getRightProc());
+        visit(term.getRightProcess());
         printRPAREN(term);
         return null;
     }
     
     public Object visitAlphabetisedParallelProcess(AlphabetisedParallelProcess term) {
         printLPAREN(term);
-        visit(term.getLeftProc());
+        visit(term.getLeftProcess());
         print(CircusToken.LPAR);
         visit(term.getLeftAlpha());
         print(ZKeyword.BAR);
         visit(term.getRightAlpha());
         print(CircusToken.RPAR);
-        visit(term.getRightProc());
+        visit(term.getRightProcess());
         printRPAREN(term);
         return null;
     }
     
     public Object visitInterleaveProcess(InterleaveProcess term) {
         printLPAREN(term);
-        visit(term.getLeftProc());
+        visit(term.getLeftProcess());
         print(CircusKeyword.INTERLEAVE);
-        visit(term.getRightProc());
+        visit(term.getRightProcess());
         printRPAREN(term);
         return null;
     }
