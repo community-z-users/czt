@@ -1090,20 +1090,22 @@ action code
      * Creates a unique name for implicitly declared actions located
      * at the given term.
      */
-    protected Decorword createImplicitlyDeclActUniqueName(Term loc)
+    protected Decorword createImplicitlyDeclActUniqueName(Term term)
     {
-      String name = parserState_.createImplicitlyDeclActUniqueName();
-      return new Decorword(name, getLocation(loc));
+      LocInfo loc = getLocation(term);
+      String name = parserState_.createImplicitlyDeclActUniqueName(loc);
+      return new Decorword(name, loc);
     }
 
     /**
      * Creates a unique name for implicitly declared processes located
      * at the given term.
      */
-    protected Decorword createImplicitlyDeclProcUniqueName(Term loc)
+    protected Decorword createImplicitlyDeclProcUniqueName(Term term)
     {
-      String name = parserState_.createImplicitlyDeclProcUniqueName();
-      return new Decorword(name, getLocation(loc));
+      LocInfo loc = getLocation(term);
+      String name = parserState_.createImplicitlyDeclProcUniqueName(loc);
+      return new Decorword(name, loc);
     }
 
     /**
@@ -4518,8 +4520,9 @@ circusBasicProcessMainAction ::=
            addLocAnn(RESULT, loc);
            
            // Create an on-the-fly paragraph for the main action named "$$mainAction".           
+           String maName = parserState_.createUniqueMainActionName(loc);
            ActionPara mainActPara = factory_.createActionPara(
-              factory_.createZName(CircusUtils.DEFAULT_MAIN_ACTION_NAME), RESULT);
+              factory_.createZName(maName), RESULT);
            addLocAnn(mainActPara, loc);           
            parserState_.addImplicitlyDeclActionPara(mainActPara);                      
            
