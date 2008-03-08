@@ -28,10 +28,11 @@
     assert result.size() == 1 && 
            net.sourceforge.czt.circus.util.CircusUtils.isStatePara(r);
     
+    // DESIGN: Parser now make both versions a horizontal box. This makes the type checker life easier and more uniform
     // state  is actionPara ==> OnTheFlyAction    
-    assert (!(r instanceof net.sourceforge.czt.circus.ast.ActionPara) || 
-            net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(r)
-           );
+    // assert (!(r instanceof net.sourceforge.czt.circus.ast.ActionPara) || 
+    //        net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(r)
+    //       );
     return r;
   }
   
@@ -63,26 +64,23 @@
     net.sourceforge.czt.z.ast.ZParaList result = net.sourceforge.czt.z.util.ZUtils.FACTORY.createZParaList();    
     result.addAll(getZParaList());
     
-    java.util.List<net.sourceforge.czt.circus.ast.ActionPara> onTheFly = getOnTheFlyPara();    
+    java.util.List<net.sourceforge.czt.z.ast.Para> onTheFly = getOnTheFlyPara();
     result.removeAll(onTheFly);
     
     assert (result.size() == getZParaList().size() - onTheFly.size());    
     return java.util.Collections.unmodifiableList(result);
   }  
   
-  public java.util.List<net.sourceforge.czt.circus.ast.ActionPara> getOnTheFlyPara()
+  public java.util.List<net.sourceforge.czt.z.ast.Para> getOnTheFlyPara()
   {
-    java.util.List<net.sourceforge.czt.circus.ast.ActionPara> result = 
-      new java.util.ArrayList<net.sourceforge.czt.circus.ast.ActionPara>();
+    java.util.List<net.sourceforge.czt.z.ast.Para> result = 
+      new java.util.ArrayList<net.sourceforge.czt.z.ast.Para>();
     for(net.sourceforge.czt.z.ast.Para para : getZParaList())
     {
-      if (para instanceof net.sourceforge.czt.circus.ast.ActionPara)
+      if (net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(para))
       {
-        if (net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(para))
-        {
-          result.add((ActionPara)para);
-        }
-      }
+        result.add(para);
+      }      
     }
     return java.util.Collections.unmodifiableList(result);
   }  

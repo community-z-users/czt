@@ -27,12 +27,12 @@
     
   /**
    * This is a convenience method. It returns a unmodifiable list of on-the-fly paragraphs 
-   * within the getZParaList(); they can only be ActionPara, since there are no Z on-the-fly paragraphs.
+   * within the getZParaList(); they are mostly ActionPara except for the state given on-the-fly.
    * That is, all paragraphs from getZParaList() that have been declared on-the-fly.
    * All elements in the resulting list contain a OnTheFlyAnn.
    * All these invariants are guaranteed by both the parser and typechecker. 
    */   
-  java.util.List<net.sourceforge.czt.circus.ast.ActionPara> getOnTheFlyPara();    
+  java.util.List<net.sourceforge.czt.z.ast.Para> getOnTheFlyPara();    
 
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
