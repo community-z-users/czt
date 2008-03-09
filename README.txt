@@ -115,5 +115,5 @@ java -jar czt.jar zlive
 Questions, Feedback, Bug Reports
 
   Please visit our
-  {{{http://sourceforge.net/projects/czt/} web-site at Sourceforge}},
-  where you can file bugs, ask for help, provide patches, etc.
+  {{{http://sourceforge.net/projects/czt/} web-site at Sourceforge}}!
+  There you can file bugs, ask for help, provide patches, etc.
