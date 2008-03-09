@@ -45,7 +45,7 @@ Victoria University of Wellington, NZ
 
 In~\cite{Hoa03}, Hoare proposes a grand challenge for computer
 science---a verifying compiler---and inspired researchers from all
-over the world to work jointly towards this ambitous goal.  The
+over the world to work jointly towards this ambitious goal.  The
 verified software repository~\cite{BicHoaWoo06} is a means to record
 and coordinate these efforts.  The repository contains an evolving
 collection of tools related to software verification as well as case
@@ -62,115 +62,43 @@ The Mondex case study was tackled as a first challenge in 2006.
 Several teams using a variety of techniques and tools were working on
 a fully automated proof of the Mondex smart-card banking application.
 A verifiable filesystem has been proposed~\cite{JosHol07} as another
-mini challenge.  An initial small subset of POSIX has been
+mini challenge.  An initial small subset of Posix has been
 chosen~\cite{FreFuWoo07} and participants of the ABZ 2008 conference
 were challenged to contribute to this project.
 
-This paper proposes a simple framework for testing Z specifications.
-The framework has been used to develop positive and negative tests for
-the first few levels of a refactored version of Morgan and Suffrin's Z
-specification of the Posix file system~\cite{MorSufTOSE84}.  The tests
-were executed and checked by the CZT animator ZLive.
+Lots of work and effort is currently put into either deriving a
+correct lower level specification or implementation from an abstract
+specification, or verifying that a lower level specification or
+implementation satisfies a given abstract specification.  We argue
+that before immersing into those activities, the specification should
+be carefully validated against the requirements.  While there is hope
+that verification can be mostly automated, validation will remain a
+task that has to be done by the human designer.
 
-The structure of this paper is as follows.  Section~\ref{sect:posix}
-describes the refactored POSIX specification.  In
+This paper proposes a simple approach to validate Z specifications by
+stating positive and negative tests about the specification.  These
+tests give the designer more confidence that their specification
+reflects their intentions and also help the unfamiliar reader of the
+specification to get a quicker and easier understanding.  The
+framework has been used to design tests for the first few levels of a
+refactored version of Morgan and Suffrin's Z specification of the
+Posix file system~\cite{MorSufTOSE84}.  The tests were executed and
+checked by the CZT animator ZLive.
+
+The structure of this paper is as follows.  In
 section~\ref{sect:framework}, we present our testing framework.
 Section~\ref{sect:zlive} gives an overview of the CZT animator ZLive,
-which is used to execute the tests.  In Section~\ref{sect:ds}, the
-tests for the data system are explained.  Section~\ref{sect:ss} shows
-how promotion can be used to derive tests for the storage system.
-Finally, Section~\ref{sect:conclusions} gives conclusions.
+which is used to evaluate the tests.  Section~\ref{sect:posix}
+describes the refactored Posix specification.  In
+Section~\ref{sect:ds}, the tests for the data system are explained.
+Section~\ref{sect:ss} shows how promotion can be used to derive tests
+for the storage system.  Finally, Section~\ref{sect:conclusions} gives
+conclusions.
 
 The main contributions of the paper are: the framework for expressing
 Z validation tests, a simple style for promoting tests from one level
 to another, the example tests of the Posix specification, and
 the use of the ZLive animator to execute the tests.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Posix Standardized}\label{sect:posix}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-In this section, we describe the refactored Posix specification.
-The main change was to break up the original specification into
-sections.  Figure~\ref{fig:sects} shows the structure of the
-resulting Z sections, using a notation similar to a UML class diagram.
-Each box represents a Z section, and the three parts within each box
-show the name of the section, the main variables within the state
-schema of that definition, and the names of its operation schemas
-(we omit Init schemas and auxiliary schemas).
-
-As well as breaking the specification into sections, we made several other
-changes.  TODO: describe the other changes we made.
-
-
-\begin{figure}[htbp]
-\newcommand{\DIVIDER}{\vspace{0.5ex} \hrule \vspace{1ex}}
-\newcommand{\FATDIVIDER}{\vspace{1ex} \hrule \vspace{1.5ex}}
-\newcommand{\SECTNAME}[2]{\hfil\hfil\hfil\textbf{#1}\hfil\emph{(#2)}}
-  \centering
-  \setlength{\unitlength}{1cm}
-  \begin{picture}(10,20)
-%
-  \put(1,18){\framebox(8,1){\parbox{6cm}{
-        \hfil \textbf{standard\_toolkit} \hfil
-    }}}
-  \put(5,17){\vector(0,1){1}}
-  \put(1,15){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{DS}{Data System}
-        \DIVIDER
-        ~$FILE == \seq BYTE$ \\ \hbox{}
-        ~$file : FILE$
-        \DIVIDER
-        $~readFILE, writeFILE$
-    }}}
-  \put(5,14){\vector(0,1){1}}
-  \put(1,12){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{SS}{Storage System}
-        \FATDIVIDER
-        ~$fstore : FID \pfun FILE$
-        \FATDIVIDER
-        $~createSS, destroySS, readSS, writeSS$
-    }}}
-  \put(5,11){\vector(0,1){1}}
-  \put(1,9){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{CS}{Channel System}
-        \FATDIVIDER
-        ~$cstore : CID \pfun CHAN$
-        \FATDIVIDER
-        $~openCS, closeCS$
-    }}}
-  \put(5,8){\vector(0,1){1}}
-  \put(1,6){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{AS}{Access System}
-        \FATDIVIDER
-        ~$SS; CS$
-        \FATDIVIDER
-        $~readAS, writeAS, seekAS$
-    }}}
-  \put(5,5){\vector(0,1){1}}
-  \put(1,3){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{NS}{Name System}
-        \FATDIVIDER
-        ~$nstore : NAME \pfun FID$
-        \FATDIVIDER
-        $~createNS, lookupNS, destroyNS, lsNS$
-    }}}
-  \put(5,2){\vector(0,1){1}}
-  \put(1,0){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{FS}{File System}
-        \DIVIDER
-        ~$SS; CS; NS; usedfids : \power FID$
-        \DIVIDER
-        $~createFS, openFS, readFS, writeFS, closeFS,$ \\
-        \hbox{}$~unlinkFS0, destroyFS, linkFS, moveFS$
-    }}}
-
-  \end{picture}
-  \caption{Overview of Z Sections in the Posix Specification}
-  \label{fig:sects}
-\end{figure}
-
-\input{ds.zed}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -486,6 +414,88 @@ and infinite sets.  So it is a useful tool for checking the correctness
 of tests, and can sometimes be used to generate one or all solutions
 of a partially specified test or schema.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Posix Standardized}\label{sect:posix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section, we describe the refactored Posix specification.
+The main change was to break up the original specification into
+sections.  Figure~\ref{fig:sects} shows the structure of the
+resulting Z sections, using a notation similar to a UML class diagram.
+Each box represents a Z section, and the three parts within each box
+show the name of the section, the main variables within the state
+schema of that definition, and the names of its operation schemas
+(we omit Init schemas and auxiliary schemas).
+
+\begin{figure}[htbp]
+\newcommand{\DIVIDER}{\vspace{0.5ex} \hrule \vspace{1ex}}
+\newcommand{\FATDIVIDER}{\vspace{1ex} \hrule \vspace{1.5ex}}
+\newcommand{\SECTNAME}[2]{\hfil\hfil\hfil\textbf{#1}\hfil\emph{(#2)}}
+  \centering
+  \setlength{\unitlength}{1cm}
+  \begin{picture}(10,20)
+%
+  \put(1,18){\framebox(8,1){\parbox{6cm}{
+        \hfil \textbf{standard\_toolkit} \hfil
+    }}}
+  \put(5,17){\vector(0,1){1}}
+  \put(1,15){\framebox(8,2){\parbox{8cm}{
+        \SECTNAME{DS}{Data System}
+        \DIVIDER
+        ~$FILE == \seq BYTE$ \\ \hbox{}
+        ~$file : FILE$
+        \DIVIDER
+        $~readFILE, writeFILE$
+    }}}
+  \put(5,14){\vector(0,1){1}}
+  \put(1,12){\framebox(8,2){\parbox{8cm}{
+        \SECTNAME{SS}{Storage System}
+        \FATDIVIDER
+        ~$fstore : FID \pfun FILE$
+        \FATDIVIDER
+        $~createSS, destroySS, readSS, writeSS$
+    }}}
+  \put(5,11){\vector(0,1){1}}
+  \put(1,9){\framebox(8,2){\parbox{8cm}{
+        \SECTNAME{CS}{Channel System}
+        \FATDIVIDER
+        ~$cstore : CID \pfun CHAN$
+        \FATDIVIDER
+        $~openCS, closeCS$
+    }}}
+  \put(5,8){\vector(0,1){1}}
+  \put(1,6){\framebox(8,2){\parbox{8cm}{
+        \SECTNAME{AS}{Access System}
+        \FATDIVIDER
+        ~$SS; CS$
+        \FATDIVIDER
+        $~readAS, writeAS, seekAS$
+    }}}
+  \put(5,5){\vector(0,1){1}}
+  \put(1,3){\framebox(8,2){\parbox{8cm}{
+        \SECTNAME{NS}{Name System}
+        \FATDIVIDER
+        ~$nstore : NAME \pfun FID$
+        \FATDIVIDER
+        $~createNS, lookupNS, destroyNS, lsNS$
+    }}}
+  \put(5,2){\vector(0,1){1}}
+  \put(1,0){\framebox(8,2){\parbox{8cm}{
+        \SECTNAME{FS}{File System}
+        \DIVIDER
+        ~$SS; CS; NS; usedfids : \power FID$
+        \DIVIDER
+        $~createFS, openFS, readFS, writeFS, closeFS,$ \\
+        \hbox{}$~unlinkFS0, destroyFS, linkFS, moveFS$
+    }}}
+
+  \end{picture}
+  \caption{Overview of Z Sections in the Posix Specification}
+  \label{fig:sects}
+\end{figure}
+
+\input{ds.zed}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Testing the DS Specification}\label{sect:ds}
