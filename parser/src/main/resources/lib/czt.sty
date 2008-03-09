@@ -43,13 +43,13 @@
 %        0pt{\raisebox{2ex}{\scriptsize#1}}}
 %% As a left-margin annotation
 \newcommand{\ZedTheoremName}[1]{\llap{\raisebox{0.0ex}{%
-      \scriptsize#1:\hspace{0.5em}}}}
+      \scriptsize#1\hspace{0.5em}}}}
 %% Like a right-justified equation number
 %\newcommand{\ZedTheoremName}[1]{\hbox to 0pt{\hbox to
 %    \textwidth{\hbox{}\hfill{\footnotesize[#1]}}}} 
 %% Do not show it at all.
 %\newcommand{\ZedTheoremName}[1]{}
-\renewenvironment{theorem}[1]{\zed\ZedTheoremName{#1}}{\endzed\hfill}
+\renewenvironment{theorem}[1]{\zed\ZedTheoremName{#1}}{\endzed}
 
 
 %% These commands are for the ZPattern extension of Z,
