@@ -9,9 +9,8 @@ every channel must refer to an existing file.
   SS \\
   CS
 \where
-  \{ fid : FID | (\exists posn : \nat @ \theta CHAN \in \ran cstore) \}
-  \subseteq
-  \dom fstore
+%  \{ fid : FID | (\exists posn : \nat @ \theta CHAN \in \ran cstore) \}
+  \{ chan : \ran cstore @ chan.fid \} \subseteq \dom fstore
 \end{schema}
 
 \begin{schema}{\Phi AS}

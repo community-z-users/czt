@@ -5,11 +5,11 @@
 This section contains several positive and negative tests
 for the DS specification of POSIX files.
 
-\begin{theorem}{Init}
+\begin{theorem}{InitDSEmpty}
 \vdash? \lblot file' == \langle \rangle \rblot \in InitDS
 \end{theorem}
 
-\begin{theorem}{InitNeg}
+\begin{theorem}{InitDSCannotContainData}
 \vdash? \lblot file' == \langle 3 \rangle \rblot \notin InitDS
 \end{theorem}
 
@@ -37,12 +37,15 @@ for the DS specification of POSIX files.
 \t1            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
 \end{theorem}
 
-Here are the results from ZLive.\footnote{We plan to display the
-conjecture names rather than just the line numbers.  However, the Z
-standard does not pass the conjecture names from the \LaTeX\ markup to
-the Unicode markup, so getting access to the names within the parser
-and ZLive will require some extensions to the standard.}
+Here is the output from ZLive when we use its \texttt{conjectures}
+command to evaluate all the conjectures in the $dstest$
+section.\footnote{We plan to display the conjecture names rather than
+just the line numbers.  However, the Z standard does not pass the
+conjecture names from the \LaTeX\ markup to the Unicode markup, so
+getting access to the names within the parser and ZLive will require
+some extensions to the Z standard, which we have not yet made.}
 
+\begin{small}
 \begin{verbatim}
 dstest> conjectures
 Conjecture on line 7
@@ -58,40 +61,49 @@ false
 Conjecture on line 34
 false
 \end{verbatim}
+\end{small}
 
 To investigate why two of these tests failed, we give ZLive
 just the input test values, and ask it to show any one of the
 solutions for the schema.  We get this output:
 
+\begin{small}
 \begin{verbatim}
 dstest> do [readFILE | file=eg1; offset?=1; length?=1]
 1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , 
  file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
  offset? == 1 , length? == 1 , data! == \{ ( 1 , 255 ) \} \rblot
 \end{verbatim}
+\end{small}
  
 Oops, ReadTest1\_1 should have had 255 in $data!$ rather than $1$.
 
-
+\begin{small}
 \begin{verbatim}
 dstest> do [readFILE | file=eg1; offset?=3; length?=2]
 1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \} ,
  file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
  offset? == 3 , length? == 2 , data! == \{ \} \rblot
 \end{verbatim}
+\end{small}
 
 Ah, of course!  Reading past the end of the file should return empty
 $data!$, rather than zeroes.  (When designing this test, Mark was 
 incorrectly thinking of the behaviour of the Write command past the end
-of the file, which inserts zeroes automatically. 
-
-Once these two errors in the test values are corrected,
+of the file, which inserts zeroes automatically.) 
+%
+Once these two errors in the expected output values are corrected,
 all tests give true.
 
 
 \subsection{Negative Tests for $readFILE$}
 
-\begin{theorem}{BadOffset}
+Our first two negative tests check that $\negate 1$ is not a valid
+input for $offset?$ or $length?$.  In the $length?$ test, we show how
+we can write the test values inside the $readFILE$ schema, which can
+sometimes be more convenient.
+
+\begin{theorem}{ReadOffsetNotNeg}
  \vdash?  ([offset? == \negate 1] \land readFILE) = \{\}
 \end{theorem}
 
@@ -101,33 +113,36 @@ all tests give true.
 %  as a predicate rather than a schema expression, so it complains about 
 %  Undeclared identifier $offset?$~!}
 
-We do the same test for $length?$.  This test also illustrates how
-we can write test values inside the $readFILE$ schema, which can 
-sometimes be more convenient.
-
-\begin{theorem}{BadLength}
+\begin{theorem}{ReadLengthNotNeg}
  \vdash?  [readFILE | length? = \negate 1] = \{\}
 \end{theorem}
 
-\begin{theorem}{BadOutFile}
+The remaining negative tests are partially specified, so each define a
+set of negative tests.  The BadOutFile test checks that the read
+operation does not change the file contents.  The BadData test checks
+that the output $data!$ can never be longer than the file contents.
+
+\begin{theorem}{ReadCannotChangeFile}
  \vdash?  [readFILE | file=eg1; file' \neq eg1] = \{\}
 \end{theorem}
 
-\begin{theorem}{BadData}
+\begin{theorem}{ReadDataNotLongerThanFile}
  \vdash?  [readFILE | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
 \end{theorem}
 
 
-\subsection{Positive Tests for $writeFILE$}
+%\subsection{Positive Tests for $writeFILE$}
 
-TODO:
+We can write positive and negative unit tests for the $writeFile$
+operation in a similar way to $readFile$, but space does not permit us
+to show the details of this.
 
-\begin{schema}{writeFILE2}
-  \Delta DS \\
-  offset? : \nat \\
-  data? : FILE
-\where
-  file' = ( zero~offset? \oplus file ) \oplus ( data?~shift~offset? )
-\end{schema}
+%\begin{schema}{writeFILE2}
+%  \Delta DS \\
+%  offset? : \nat \\
+%  data? : FILE
+%\where
+%  file' = ( zero~offset? \oplus file ) \oplus ( data?~shift~offset? )
+%\end{schema}
 
 

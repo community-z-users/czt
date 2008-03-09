@@ -1,14 +1,14 @@
 % Adapted from LLNCS.DEM Springer-Verlag for LNCS, version 2.3 for LaTeX2e
 \documentclass{llncs}
 \usepackage{czt}  %% for the Standard Z specification macros
-\usepackage{graphics}
+\usepackage{graphicx}
 \usepackage{url}
 %
 \begin{document}
 \pagestyle{headings}  % switches on printing of running heads
 %
-\title{Testing a Z Specification of Posix}
-\titlerunning{Testing a Z Spec of Posix}  % abbreviated title (for running head)
+\title{Unit Testing of Z Specifications}
+\titlerunning{Unit Testing of Z}  % abbreviated title (for running head)
 %                                     also used for the TOC unless
 %                                     \toctitle is used
 %
@@ -31,12 +31,10 @@ Victoria University of Wellington, NZ
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-  We refactor Morgan and Suffrin's original Z specification of the Posix
-  file system, to break it into Z sections and make it conform to the Z
-  Standard.  We propose a simple framework for validation testing of Z
+  We propose a simple framework for validation unit testing of Z
   specifications, and illustrate this framework by testing the first few
-  levels of the specification.  The tests are written in standard Z, and
-  are executable by the CZT animator, ZLive.
+  levels of a Posix specification.  The tests are written in standard Z,
+  and are executable by the CZT animator, ZLive.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -45,21 +43,15 @@ Victoria University of Wellington, NZ
 
 In~\cite{Hoa03}, Hoare proposes a grand challenge for computer
 science---a verifying compiler---and inspired researchers from all
-over the world to work jointly towards this ambitious goal.  The
-verified software repository~\cite{BicHoaWoo06} is a means to record
-and coordinate these efforts.  The repository contains an evolving
-collection of tools related to software verification as well as case
-studies.
-
-The pilot case studies for the verified software repository are
-carefully chosen.  They are sufficiently complex to be challenging and
-of industrial relevance but small enough to be completed within a few
-years.  They provide examples of specified and verified code and can
+over the world to work jointly towards this ambitious goal.  
+A key part of the grand challenge is a series of case 
+studies~\cite{BicHoaWoo06}, which
+provide examples of specified and verified code and can
 be used as benchmarks to exercise and test current and future
 verification tools.
 
-The Mondex case study was tackled as a first challenge in 2006.
-Several teams using a variety of techniques and tools were working on
+The Mondex case study was tackled as a first pilot case study in 2006.
+Several teams using a variety of techniques and tools worked on
 a fully automated proof of the Mondex smart-card banking application.
 A verifiable filesystem has been proposed~\cite{JosHol07} as another
 mini challenge.  An initial small subset of Posix has been
@@ -72,18 +64,20 @@ specification, or verifying that a lower level specification or
 implementation satisfies a given abstract specification.  We argue
 that before immersing into those activities, the specification should
 be carefully validated against the requirements.  While there is hope
-that verification can be mostly automated, validation will remain a
+that verification can be mostly automated, validation remains a
 task that has to be done by the human designer.
 
 This paper proposes a simple approach to validate Z specifications by
-stating positive and negative tests about the specification.  These
-tests give the designer more confidence that their specification
-reflects their intentions and also help the unfamiliar reader of the
-specification to get a quicker and easier understanding.  The
-framework has been used to design tests for the first few levels of a
-refactored version of Morgan and Suffrin's Z specification of the
-Posix file system~\cite{MorSufTOSE84}.  The tests were executed and
-checked by the CZT animator ZLive.
+writing positive and negative unit tests for each schema within the
+specification.  These tests give the designer more confidence that
+their specification reflects their intentions, allows regression
+testing after each modification of the specification, and can help the
+unfamiliar reader of the specification to understand the specification
+more quickly and easily.  The framework has been used to design tests
+for the first few levels of a refactored version of Morgan and
+Suffrin's Z specification of the Posix file
+system~\cite{MorSufTOSE84}.  The tests were executed and checked by
+the CZT animator ZLive.
 
 The structure of this paper is as follows.  In
 section~\ref{sect:framework}, we present our testing framework.
@@ -95,26 +89,27 @@ Section~\ref{sect:ss} shows how promotion can be used to derive tests
 for the storage system.  Finally, Section~\ref{sect:conclusions} gives
 conclusions.
 
-The main contributions of the paper are: the framework for expressing
-Z validation tests, a simple style for promoting tests from one level
-to another, the example tests of the Posix specification, and
-the use of the ZLive animator to execute the tests.
+The main contributions of the paper are: the unit testing framework
+for validating Z specifications, a simple style for promoting tests
+from one level to another, the refactored and standard-compliant Posix
+specification, the example unit tests we have developed for it, and
+the use of the ZLive animator to execute those tests.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How to Test a Z Specification}\label{sect:framework}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This section introduces a simple framework for expressing tests
-of a Z specification.  We assume that the specification is written in the
-common Z \emph{sequential} style, with a state schema, an initialisation
-schema, several operation schemas, as well as various auxiliary definitions
-and schemas.
+This section introduces a simple framework for expressing unit tests
+of a Z specification.  We assume that the specification is written in
+the common Z \emph{sequential} style, with each section containing a
+state schema, an initialisation schema, several operation schemas, as
+well as various auxiliary definitions and schemas.
 
 The first question that must be asked is why we do not use an existing
 testing framework for Z, such as the Test Template Framework
 (TTF)~\cite{Stocks93,carrington94} or Heirons' Z-to-FSM
-approach~\cite{hierons97}.  The difference is that these all aim at
+approach~\cite{hierons97}.  The main difference is that they all aim at
 generating tests \emph{from} a Z specification, in order to test some
 implementation of that specification.  But in this paper, we want to design
 some tests that actually test the Z specification itself.  So the goal of
@@ -122,7 +117,8 @@ those approaches is \emph{verification} (of some implementation), whereas
 our goal is \emph{validation} (of the Z specification).  This results in
 quite a different style of testing.  
 
-One difference is that when testing an implementation, we can control its
+One practical difference is that when testing an implementation, we can
+control its 
 inputs but not its outputs, whereas when testing a Z specification we can
 ask arbitrary questions about inputs or outputs.  So when validating a Z
 specification, we can use a richer variety of tests.  Another difference is
@@ -135,18 +131,20 @@ the implementation is free to add behaviour that is outside the
 precondition of the specification.
 
 To illustrate our testing framework, we shall use a simple example
-specification given by the following specification, which defines
-the shape shown in Figure~\ref{fig:wedge}.
-Our tests will be written using standard Z conjecture paragraphs,
-so that they can be checked by theorem provers or by the ZLive
-animator.  We use one or more Z sections for the specification,
-and then group the tests into separate Z sections that have the
-specification as a parent.
+specification given by the following specification, which defines the
+shape shown in Figure~\ref{fig:wedge}.  Our tests will be written
+using standard Z conjecture paragraphs, so that they can be checked by
+theorem provers or by the ZLive animator.  For each section $S$, we
+write the unit tests for that section within a separate section
+(typically called $STests$) that has $S$ as a parent.  This clearly
+identifies the tests and separates them from the rest of the
+specification, so that tools that operate on the main specification
+can ignore the unit tests.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics{wedge}
-  \caption{A graph of the solutions to the Wedge schema (TODO: rename x1 to n and x2 to n')}
+  \includegraphics[width=0.6\textwidth]{wedge}
+  \caption{A graph of the solutions to the Wedge schema (TODO: rename x1 to n and x2 to n' and add the interior points)}
   \label{fig:wedge}
 \end{figure}
 
@@ -323,26 +321,35 @@ because for any test suite $OpTests$ of an operation $Op$,
 and any promoted operation defined as $Op_P == Op \land \Phi P$,
 it is true that:
 \[
-   (OpTests \in Op) \land (\Phi PTests \subseteq \Phi P)
+   (OpTests \subseteq Op) \land (\Phi PTests \subseteq \Phi P)
    \implies (OpTests \land \Phi PTests \subseteq Op_P)
 \]
 
 \textbf{Proof:} follows from the monotonicity of $\subseteq$ and schema
-conjunction.
+conjunction. $\QED$
 
 However, there is a possibility that some of the promoted tests
 might be inconsistent with the framing schema (either $\Phi P$ or $\Phi
 PTests$), which would mean that the set $OpTests \land \Phi PTests$
 would be empty or smaller than our original set of tests $Optests$.
 If we want to check that all of the original tests can be promoted without
-being lost, we can check the conjecture 
-$(OpTests \land \Phi PTests) = Optests$.
+being lost, we can check the conjecture
+$(\Phi PTests \project OpTests) = Optests$.
+%\begin{theorem}{AllTestsPromoted}
+%\vdash? ~ (\Phi ManyStatesTest \project \{Wedge0Min, Wedge0Max\})
+%            = \{Wedge0Min, Wedge0Max\}
+%\end{theorem}
 
 If this is not true, we may want to check each test vector $v \in Optests$
 separately.  We can define the promoted vector as 
 $pv == (\mu \Phi PTests | \theta \{v\} = v)$.
 Then we can test $pv \in Op_P$. 
-
+%\begin{zed}
+%  pv == (\mu \Phi ManyStatesTest | \theta \{Wedge0Min\} = Wedge0Min)
+%\end{zed}
+%\begin{theorem}{ManyWedge0Min}
+%  \vdash? ~ pv \in ManyWedge
+%\end{theorem}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -372,13 +379,13 @@ variety of simplifications.  For example, the test $\lblot n==0, n'==0
 The resulting term is then translated into a sequence of primitive
 relations, each of which corresponds to a single Z operator.
 For example, the term $n * n + n' * n'  \leq 25$ is 
-translated into:
+translated into a sequence of four relations:
 \[
 \begin{array}{l@{\quad}l}
-   FlatMult(n, n, tmp1),       & \% n * n = tmp1 \\
-   FlatMult(n', n', tmp2),     & \% n' * n' = tmp2 \\
-   FlatPlus(tmp1, tmp2, tmp3), & \% tmp1 + tmp2 = tmp3 \\
-   FlatLessThanEq(tmp3, 25)    & \% tmp3 \leq 25
+   FlatMult(n, n, tmp1),       & \%~ n * n = tmp1 \\
+   FlatMult(n', n', tmp2),     & \%~ n' * n' = tmp2 \\
+   FlatPlus(tmp1, tmp2, tmp3), & \%~ tmp1 + tmp2 = tmp3 \\
+   FlatLessThanEq(tmp3, 25)    & \%~ tmp3 \leq 25
 \end{array}
 \]
 
@@ -405,43 +412,46 @@ Finally, ZLive generates all possible results via a backtracking
 search of all the solutions generated by the sorted sequence.
 However, for membership tests such as $A \in S$, where $A$ is a known
 value and $S$ is a set comprehension, it substitutes the value of $A$
-into the result of $S$ and then checks whether the set is empty or not
--- this avoids generating all of $S$.
+into the set comprehension for $S$ and then checks whether the set is
+empty or not -- this avoids generating all of $S$.
 
-ZLive can usually evaluate expressions that contain only finite sets,
-and can sometimes handle expressions that contain a mixture of finite
-and infinite sets.  So it is a useful tool for checking the correctness
-of tests, and can sometimes be used to generate one or all solutions
-of a partially specified test or schema.
+ZLive can usually evaluate expressions that range over finite sets
+only, and can sometimes handle expressions that contain a mixture of
+finite and infinite sets.  So it is a useful tool for checking the
+correctness of tests, and can sometimes be used to generate one
+or all solutions of a partially specified test or schema.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Posix Standardized}\label{sect:posix}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section, we describe the refactored Posix specification.
-The main change was to break up the original specification into
-sections.  Figure~\ref{fig:sects} shows the structure of the
-resulting Z sections, using a notation similar to a UML class diagram.
-Each box represents a Z section, and the three parts within each box
-show the name of the section, the main variables within the state
-schema of that definition, and the names of its operation schemas
-(we omit Init schemas and auxiliary schemas).
+In this section, we describe the refactored Posix specification.  The
+main change was to break up the original specification into sections.
+Figure~\ref{fig:sects} shows the structure of the resulting Z
+sections, using a notation similar to a UML class diagram.  Each box
+represents a Z section, and the three parts within each box show the
+name of the section, the main variables within the state schema of
+that definition, and the names of its operation schemas (we omit Init
+schemas and auxiliary schemas).  We also added a state schema and
+initialization schema to some of the sections (e.g., the $ds$ section)
+and made other minor changes so that the specification follows the
+usual Z sequential style more closely.
 
 \begin{figure}[htbp]
 \newcommand{\DIVIDER}{\vspace{0.5ex} \hrule \vspace{1ex}}
 \newcommand{\FATDIVIDER}{\vspace{1ex} \hrule \vspace{1.5ex}}
 \newcommand{\SECTNAME}[2]{\hfil\hfil\hfil\textbf{#1}\hfil\emph{(#2)}}
   \centering
-  \setlength{\unitlength}{1cm}
-  \begin{picture}(10,20)
+  \setlength{\unitlength}{0.9cm}
+  \begin{picture}(13,20)
 %
-  \put(1,18){\framebox(8,1){\parbox{6cm}{
+  \put(1,18){\framebox(8,1){\parbox{6\unitlength}{
         \hfil \textbf{standard\_toolkit} \hfil
     }}}
   \put(5,17){\vector(0,1){1}}
-  \put(1,15){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{DS}{Data System}
+  \put(1,15){\framebox(8,2){\parbox{8\unitlength}{
+        \SECTNAME{ds}{Data System}
         \DIVIDER
         ~$FILE == \seq BYTE$ \\ \hbox{}
         ~$file : FILE$
@@ -449,47 +459,66 @@ schema of that definition, and the names of its operation schemas
         $~readFILE, writeFILE$
     }}}
   \put(5,14){\vector(0,1){1}}
-  \put(1,12){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{SS}{Storage System}
+  \put(1,12){\framebox(8,2){\parbox{8\unitlength}{
+        \SECTNAME{ss}{Storage System}
         \FATDIVIDER
         ~$fstore : FID \pfun FILE$
         \FATDIVIDER
         $~createSS, destroySS, readSS, writeSS$
     }}}
   \put(5,11){\vector(0,1){1}}
-  \put(1,9){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{CS}{Channel System}
+  \put(1,9){\framebox(8,2){\parbox{8\unitlength}{
+        \SECTNAME{cs}{Channel System}
         \FATDIVIDER
         ~$cstore : CID \pfun CHAN$
         \FATDIVIDER
         $~openCS, closeCS$
     }}}
   \put(5,8){\vector(0,1){1}}
-  \put(1,6){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{AS}{Access System}
+  \put(1,6){\framebox(8,2){\parbox{8\unitlength}{
+        \SECTNAME{as}{Access System}
         \FATDIVIDER
         ~$SS; CS$
         \FATDIVIDER
         $~readAS, writeAS, seekAS$
     }}}
   \put(5,5){\vector(0,1){1}}
-  \put(1,3){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{NS}{Name System}
+  \put(1,3){\framebox(8,2){\parbox{8\unitlength}{
+        \SECTNAME{ns}{Name System}
         \FATDIVIDER
         ~$nstore : NAME \pfun FID$
         \FATDIVIDER
         $~createNS, lookupNS, destroyNS, lsNS$
     }}}
   \put(5,2){\vector(0,1){1}}
-  \put(1,0){\framebox(8,2){\parbox{8cm}{
-        \SECTNAME{FS}{File System}
+  \put(1,0){\framebox(8,2){\parbox{8\unitlength}{
+        \SECTNAME{fs}{File System}
         \DIVIDER
         ~$SS; CS; NS; usedfids : \power FID$
         \DIVIDER
         $~createFS, openFS, readFS, writeFS, closeFS,$ \\
         \hbox{}$~unlinkFS0, destroyFS, linkFS, moveFS$
     }}}
-
+%
+% Now add the unit test sections
+% dstest has ds as a parent
+  \put(12,15){\vector(-3,1){3}}
+  \put(10,14){\framebox(4,1){\parbox{4\unitlength}{
+        \hfil \textbf{dstest} \hfil
+    }}}
+% sstest has dstest and ss as parents
+  \put(12,12){\vector(-3,1){3}}
+  \put(12,12){\vector(0,1){2}}
+  \put(10,11){\framebox(4,1){\parbox{4\unitlength}{
+        \hfil \textbf{sstest} \hfil
+    }}}
+% cstest has sstest and cs as parents
+  \put(12,9){\vector(-3,1){3}}
+  \put(12,9){\vector(0,1){2}}
+  \put(10,8){\framebox(4,1){\parbox{4\unitlength}{
+        \hfil \textbf{$\cdots$} \hfil
+    }}}
+%
   \end{picture}
   \caption{Overview of Z Sections in the Posix Specification}
   \label{fig:sects}
@@ -516,7 +545,7 @@ level.
 \section{Conclusions}\label{sect:conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this paper, we have proposed a framework for testing Z
+In this paper, we have proposed a framework for unit testing Z
 specifications.  The framework uses the sections and conjectures of
 the Z standard to allow various kinds of validation tests to be
 expressed in an elegant and concise style.  The ability to promote a
@@ -524,13 +553,25 @@ large set of tests in a single expression makes it practical to
 develop multiple layers of tests, matching the layers of the
 specification.  Testing is a useful validation technique for
 specifications, especially when the execution of the tests can be
-automated, as we have done with ZLive.
+automated, as we have done with ZLive.  We suggest that most Z
+specifications should include validation unit tests in this style.
+
+We plan to add a \texttt{unittest} command to ZLive that executes all the
+unit tests in all the sections whose names end with `Test'.  This will
+make it easy to rerun all unit tests after each modification of a
+specification, so will support regression testing during development
+of Z specifications.
 
 The refactored Z specification of Posix, and our simple test suite,
-may be a useful starting point
-for other researchers who want to work on refinement or proofs
-about the Posix case study.  It is available from the CZT sourceforge
-website~\cite{CZT}.
+may be a useful starting point for other researchers who want to work
+on refinement or proofs about the Posix case study.  It is available
+from the CZT sourceforge website~\cite{CZT}.  Interestingly, the
+original Posix specification did include several examples that used
+test values to illustrate some of the operations, but those examples
+were written within the English commentary, so were not even
+typechecked, let alone proved correct.  Our unit tests are more
+systematic and are formalized so that they can be checked
+automatically by an animator like ZLive.
 
 
 %

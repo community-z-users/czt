@@ -7,21 +7,13 @@ This section specifies the data system (ds) of the filing system.
 \begin{zed}
   BYTE == 0 \upto 255 \\
   ZERO == 0 \\
-  FILE == \seq BYTE
+  FILE ~== \seq BYTE
 \end{zed}
 
-We give an explicit state schema $DS$ and an initialisation schema
-$InitDS$.
-
-\begin{schema}{DS}
-  file : FILE
-\end{schema}
-
-\begin{schema}{InitDS}
-  DS~'
-\where
-  file ' = \{\}
-\end{schema}
+\begin{zed}
+  DS \quad~~== [ file : FILE ] \\
+  InitDS == [DS~' | file' = \{\} ]
+\end{zed}
 
 The $after$ operator returns the subfile that starts after a given offset.
 We write this as an explicit definition (==) rather than axiomatically,
@@ -30,15 +22,14 @@ to evaluate.
 
 \begin{zed}
   \function 42 \leftassoc ( \varg after \varg )
-\end{zed}
-
-\begin{zed}
+\\
   \varg after \varg ==
-  (\lambda f : FILE ; offs : \nat @ (\lambda i : 1 .. \#f - offs @ f(i+offs)))
+  (\lambda f : FILE ; offset : \nat 
+     @ (\lambda i : 1 .. \#f - offset @ f(i+offset)))
 \end{zed}
 
 The $readFile$ operation is defined similar to the one in Morgan and
-Sufrin's specification but we use the $\Xi$ notation for convenience
+Sufrin's specification but we use the usual $\Xi$ notation for convenience
 here.
 
 \begin{schema}{readFILE}\\
@@ -49,25 +40,17 @@ here.
   data! = ( 1 \upto length? ) \dres ( file~after~offset? )
 \end{schema}
 
-The auxiliary function $zero$, defined in an explicit style here,
-returns a FILE containing $n$ ZERO bytes.
-
-\begin{zed}
-  zero == (\lambda n : \nat @ ( \lambda i : 1 \upto n @ ZERO ) )
-\end{zed}
-
+The auxiliary function $zero$ returns a FILE containing $n$ ZERO bytes.
 The infix operator $shift$ takes a FILE and an offset and shifts the
 content of the file by the offset, adding ZERO bytes into the beginning of
-the file.  Once again, we give an explicit rather than axiomatic
+the file.  Once again, we give an explicit rather than an axiomatic
 definition.
 
 \begin{zed}
-  \function 42 \leftassoc ( \varg shift \varg )
-\end{zed}
-
-\begin{zed}
-  \varg shift \varg == (\lambda f : FILE ; offs : \nat
-        @ ( 1 \upto offs ) \ndres ( zero~offs \cat f ))
+  zero == (\lambda n : \nat @ ( \lambda k : 1 \upto n @ ZERO ) ) \also
+  \function 42 \leftassoc ( \varg shift \varg ) \\
+  \varg shift \varg == (\lambda f : FILE ; offset : \nat
+        @ ( 1 \upto offset ) \ndres ( zero~offset \cat f ))
 \end{zed}
 
 \begin{schema}{writeFILE}
