@@ -2,14 +2,26 @@
   \SECTION ds \parents standard\_toolkit
 \end{zsection}
 
-% The ultimate constituent of the filing system is the byte.
-% A file is a finite sequence of bytes.
+This section specifies the data system (ds) of the filing system.
 
 \begin{zed}
   BYTE == 0 \upto 255 \\
   ZERO == 0 \\
   FILE == \seq BYTE
 \end{zed}
+
+We give an explicit state schema $DS$ and an initialisation schema
+$InitDS$.
+
+\begin{schema}{DS}
+  file : FILE
+\end{schema}
+
+\begin{schema}{InitDS}
+  DS~'
+\where
+  file ' = \{\}
+\end{schema}
 
 The $after$ operator returns the subfile that starts after a given offset.
 We write this as an explicit definition (==) rather than axiomatically,
@@ -25,15 +37,9 @@ to evaluate.
   (\lambda f : FILE ; offs : \nat @ (\lambda i : 1 .. \#f - offs @ f(i+offs)))
 \end{zed}
 
-\begin{schema}{DS}
-  file : FILE
-\end{schema}
-
-\begin{schema}{InitDS}
-  DS~'
-\where
-  file ' = \{\}
-\end{schema}
+The $readFile$ operation is defined similar to the one in Morgan and
+Sufrin's specification but we use the $\Xi$ notation for convenience
+here.
 
 \begin{schema}{readFILE}\\
   \Xi DS \\
@@ -43,8 +49,8 @@ to evaluate.
   data! = ( 1 \upto length? ) \dres ( file~after~offset? )
 \end{schema}
 
-Auxiliary functions:
-The $zero$ function returns a FILE containing $n$ ZERO bytes.
+The auxiliary function $zero$, defined in an explicit style here,
+returns a FILE containing $n$ ZERO bytes.
 
 \begin{zed}
   zero == (\lambda n : \nat @ ( \lambda i : 1 \upto n @ ZERO ) )
@@ -52,7 +58,8 @@ The $zero$ function returns a FILE containing $n$ ZERO bytes.
 
 The infix operator $shift$ takes a FILE and an offset and shifts the
 content of the file by the offset, adding ZERO bytes into the beginning of
-the file.
+the file.  Once again, we give an explicit rather than axiomatic
+definition.
 
 \begin{zed}
   \function 42 \leftassoc ( \varg shift \varg )
