@@ -1,0 +1,12 @@
+\begin{zsection}
+  \SECTION\ actpara\_duplicate\_name\_REDECLARED\_DEF \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+  \circprocess\ TypeErrorActionNames \circdef \circbegin
+  \also %
+   \t1 Test0 \circdef \Skip \\
+   \t1 Test0 \circdef \Stop \\
+   \circspot \Skip \\
+   \circend
+\end{circus}
