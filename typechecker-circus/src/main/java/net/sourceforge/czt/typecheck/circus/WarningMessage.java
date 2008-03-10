@@ -52,12 +52,33 @@ public enum WarningMessage {
         "\n\tParagraph.: {1}",
         "Each basic process can only contain one state paragraph, yet typechecking\n\t" +
         "found two instances of paragraphs being treated as process state. This can\n\t" +
-        "only happen because of an ill-formed term."),
+        "only happen because of an ill-formed term."), // or bug in TC(?!)
+  COULD_NOT_RESOLVE_PRED("Could not solve predicate in ''{0}''." +
+      "\n\tTerm......: {1}" +
+      "\n\tPred......: {2}",
+      "A second attempt to resolve the given predicate failed. This might happen because of usage before\n\t" +
+      "declaration, which is not allowed, or because of an ill-formed term."), // or bug in TC(?!)
+  CIRCUS_DECLNAMES_SHOULD_NOT_HAVE_STROKES("Names used in Circus declarations should not have strokes." +
+      "\n\tProcess...: {0}" +
+      "\n\tAction....: {1}" +
+      "\n\tName......: {2}" +            
+      "\n\tType......: {3}" +
+      "\n\tPosition..: {4}",
+      "Because of the accommodation in Circus between Z input/output names and CSP input/ouput fields\n\t" +
+      "names in Circus declarations (i.e., action/process parameters, variable declaration commands, etc)\n\t" +
+      "ought not to have strokes. This would confuse the parser for communication in cases like ''c?x?!y!''.\n\t" +
+      "It it a input on ''x?'' and output on ''y!'', or parsing error due to missing field name? This is resolved\n\t" +
+      "by the parser by enforcing parenthesis around expressions like ''c?x!(y!)'', which is valid.\n\t" +
+      "The problem really arises because variable declaration commands put more variables into scope - see" +
+      "Circus type rules."),
+  EMPTY_GUARDED_COMMAND("Empty set of guarded actions for guarded command ''{2}''.", 
+        "Well-formed guarded commands must have at least one guarded action." +
+        "\n\tThis happens becasue of a ill-formed term, and never with parsed terms."), // or bug in TC(?!)   
   UNKNOWN_TERM("Typechecker is being asked to visit a unknown term" +
     "\n\tChecker...: {0}" +
     "\n\tTerm......: {1}", 
     "A unknown term can only be found if some type rule is missing or an ill-formed term\n\t" +
-    "is given to typecheck. This should never happen for parsed terms.")    
+    "is given to typecheck. This should never happen for parsed terms.") // or bug in TC(?!)   
   ;
   
   private final String message_;
