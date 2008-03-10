@@ -174,6 +174,11 @@ public class Factory
     return circusFactory_.createEmptyActionSignature();
   }
   
+  public ActionSignature createInitialMuActionSignature(Name actionName)
+  {
+    return circusFactory_.createInitialMuActionSignature(actionName);                          
+  }
+  
   public ActionType createActionType()
   {    
     return createActionType(createEmptyActionSignature());
