@@ -1,4 +1,3 @@
-
   /**
    * <p>
    * This method characterises parameterised commands and actions according to the
@@ -7,11 +6,8 @@
    * is similar to AxPara in Z, which represents various Z boxes.
    * </p>
    * <p>
-   * The protocol is as follows: parameterised commands MUST have a CircusCommand
-   * as its inner term, and VarDecl and QualifiedDecl are allowed; whereas parameterised 
-   * actions have a CircusAction as its inner term, and only VarDecl is allowed. This
-   * method only check for the inner term, whereas other tools (i.e. parser and typechecker)
-   * check which declaration is allowed
+   * The protocol is as follows: parameterised commands MUST have a ZDeclList with
+   * QualifiedDecl only; whereas parameterised actions only allow VarDecl. 
    * </p>
    * @return true if this is a parameterised command; false for parameterised action
    */
