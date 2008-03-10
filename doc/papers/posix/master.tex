@@ -141,8 +141,8 @@ can ignore the unit tests.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.6\textwidth]{wedge}
-  \caption{A graph of the solutions to the Wedge schema (TODO: rename x1 to n and x2 to n' and add the interior points)}
+  \includegraphics{wedge}
+  \caption{A graph of the solutions to the Wedge schema}
   \label{fig:wedge}
 \end{figure}
 
@@ -162,7 +162,7 @@ specifying tests, it is important to specify the expected output
 values as well as the input values, so we write all the inputs and
 output values as a Z binding and use a membership test.  Here are two
 examples that test the non-deterministic output behaviour of Wedge
-when the input $x=0$.  
+when the input $n$ is zero.  
 
 \begin{zsection}
   \SECTION wedgeTest \parents wedge
@@ -519,7 +519,7 @@ usual Z sequential style more closely.
     }}}
 %
   \end{picture}
-  \caption{Overview of Z Sections in the Posix Specification}
+  \caption{Overview of Z Sections in the Refactored Posix Specification}
   \label{fig:sects}
 \end{figure}
 
