@@ -25,7 +25,6 @@ import net.sourceforge.czt.circus.ast.QualifiedDecl;
 import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
 import net.sourceforge.czt.circus.visitor.QualifiedDeclVisitor;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
-import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
@@ -34,7 +33,6 @@ import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Type2;
-import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
@@ -53,9 +51,10 @@ import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
  */
 public class DeclChecker
   extends Checker<List<NameTypePair>>
-  implements ChannelDeclVisitor<List<NameTypePair>>,
-             QualifiedDeclVisitor<List<NameTypePair>>,
-             ZDeclListVisitor<List<NameTypePair>>
+  implements ChannelDeclVisitor<List<NameTypePair>>,     // C.4.1, C.4.2, C.4.3, C.4.4
+             ZDeclListVisitor<List<NameTypePair>>,       // C.4.4, C.16.1
+             QualifiedDeclVisitor<List<NameTypePair>>    // C.16.2, C.16.3, C.16.4, C.16.5
+             
 { 
   //a Z decl checker
   protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
@@ -68,78 +67,13 @@ public class DeclChecker
   
   /**
    * Visits all Z declaration paragraphs. They are:  VarDecl, ConstDecl, InclDecl, and ZDeclList.
+   * 
+   * @law C.18.8
    */
   @Override
   public List<NameTypePair> visitTerm(Term decl)
   {
     return decl.accept(zDeclChecker_);
-  }
-  
-  /**
-   * If declaring Circus formal parameters, we can only accept VarDecl or
-   * QualifiedDecl, but not ConstDecl or InclDecl. Otherwise, just follow
-   * the Z protocol. When declaring formal parameters, the
-   * {@link #isCheckingCircusFormalParamDecl()} flag must be on.
-   *
-   *@law C.4.4, C.16.1
-   */
-  @Override
-  public List<NameTypePair> visitZDeclList(ZDeclList term)
-  {
-    // In case we have formal params, it must be VarDecl or QualifiedDecl.
-    // Otherwise, it doesn't matter and just use the Z protocol.
-    // isCheckingCircusFormalParamDecl() => VarDecl || QualifiedDecl
-    // !isCheckingCircusFormalParamDecl() || VarDecl || QualifiedDecl
-    
-    
-    
-    // use the Z protocol
-    List<NameTypePair> result = term.accept(zDeclChecker_);    
-    
-    // search for the need to add errors in case we are checking formal parameters
-    if (isCheckingCircusFormalParamDecl())
-    {
-      int i = 1;
-      //for each declaration in the list, get the declarations from that
-      //and make sure they are of the appropriate subtype.
-      for (Decl decl : term.getDecl()) 
-      {
-        if (!isValidDeclClass(decl))        
-        {          
-          boolean isProcess = isWithinProcessParaScope();
-          Name name = (isProcess ? getCurrentProcessName() : getCurrentActionName());        
-          List<Object> params = factory().list();
-          
-          if (isProcess)
-          { 
-            params.add("process");
-            params.add(getCurrentProcessName());
-          }
-          else
-          {
-            params.add("action");
-            params.add(getCurrentProcessName());
-            //params.add(getCurrentActionName());
-          }
-          if (name == null)
-          {                       
-            assert !isWithinActionParaScope() : "within action scope but without action name for process " 
-              +  getCurrentProcessName();
-            params.add(i);
-            error(decl, ErrorMessage.FORMAL_PARAMS_INVALID_SCOPE, params);
-          }
-          else 
-          { 
-            params.add("VarDecl or QualifiedDecl");
-            params.add(decl.getClass().getName());
-            params.add(i);
-            error(decl, ErrorMessage.FORMAL_PARAMS_INVALID_DECL, params);
-          }          
-        }
-        i++;
-      }
-    }
-    return result;
   }
   
   /**
@@ -149,7 +83,7 @@ public class DeclChecker
    * is implicitly declared channels through indexed processes, which are dealt
    * with in ProcessChecker.
    *
-   *@law C.4.1, C.4.2, C.4.3(?), C.4.4 (within visitZDeclList general protocol)
+   *@law C.4.1, C.4.2, C.4.3, C.4.4 (within visitZDeclList general protocol)
    */    
   @Override
   public List<NameTypePair> visitChannelDecl(ChannelDecl term)
@@ -261,6 +195,71 @@ public class DeclChecker
     //exit the typing scope for channels
     typeEnv().exitScope();
     
+    return result;
+  }
+  
+  /**
+   * If declaring Circus formal parameters, we can only accept VarDecl or
+   * QualifiedDecl, but not ConstDecl or InclDecl. Otherwise, just follow
+   * the Z protocol. When declaring formal parameters, the
+   * {@link #isCheckingCircusFormalParamDecl()} flag must be on.
+   *
+   *@law C.4.4, C.16.1
+   */
+  @Override
+  public List<NameTypePair> visitZDeclList(ZDeclList term)
+  {
+    // In case we have formal params, it must be VarDecl or QualifiedDecl.
+    // Otherwise, it doesn't matter and just use the Z protocol.
+    // isCheckingCircusFormalParamDecl() => VarDecl || QualifiedDecl
+    // !isCheckingCircusFormalParamDecl() || VarDecl || QualifiedDecl
+    
+    // use the Z protocol
+    List<NameTypePair> result = term.accept(zDeclChecker_);    
+    
+    // search for the need to add errors in case we are checking formal parameters
+    if (isCheckingCircusFormalParamDecl())
+    {
+      int i = 1;
+      //for each declaration in the list, get the declarations from that
+      //and make sure they are of the appropriate subtype.
+      for (Decl decl : term.getDecl()) 
+      {
+        if (!isValidDeclClass(decl))        
+        {          
+          boolean isProcess = isWithinProcessParaScope();
+          Name name = (isProcess ? getCurrentProcessName() : getCurrentActionName());        
+          List<Object> params = factory().list();
+          
+          if (isProcess)
+          { 
+            params.add("process");
+            params.add(getCurrentProcessName());
+          }
+          else
+          {
+            params.add("action");
+            params.add(getCurrentProcessName());
+            //params.add(getCurrentActionName());
+          }
+          if (name == null)
+          {                       
+            assert !isWithinActionParaScope() : "within action scope but without action name for process " 
+              +  getCurrentProcessName();
+            params.add(i);
+            error(decl, ErrorMessage.FORMAL_PARAMS_INVALID_SCOPE, params);
+          }
+          else 
+          { 
+            params.add("VarDecl or QualifiedDecl");
+            params.add(decl.getClass().getName());
+            params.add(i);
+            error(decl, ErrorMessage.FORMAL_PARAMS_INVALID_DECL, params);
+          }          
+        }
+        i++;
+      }
+    }
     return result;
   }
   
