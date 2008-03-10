@@ -41,6 +41,7 @@ doc/papers/posix/posix.zed -text
 doc/papers/posix/ss.zed -text
 doc/papers/posix/sstest.zed -text
 doc/papers/posix/wedge.eps -text
+doc/papers/posix/wedge.fig -text
 doc/papers/posix/wedge.pdf -text
 doc/papers/rules/cztprover1.eps -text
 doc/papers/rules/cztprover1.png -text svneol=unset#image/png
