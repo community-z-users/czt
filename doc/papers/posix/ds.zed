@@ -22,7 +22,7 @@ to evaluate.
 \end{zed}
 %% NOTE: we get a syntax error on the next line (on symbol 'after')
 %%    if we put both of these declarations into a single begin/end zed.
-\vspace{-6ex}
+\vskip -2ex
 \begin{zed}
   \varg after \varg ==
   (\lambda f : FILE ; offset : \nat 
@@ -54,7 +54,7 @@ definition.
 \begin{zed}
   \function 42 \leftassoc ( \varg shift \varg )
 \end{zed}
-\vspace{-6ex}
+\vskip -2ex
 \begin{zed}
   \varg shift \varg == (\lambda f : FILE ; offset : \nat
         @ ( 1 \upto offset ) \ndres ( zero~offset \cat f ))
