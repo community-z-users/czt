@@ -1127,35 +1127,17 @@ action code
         return pa;
     }       
     
-    protected Para createStatePara(Name n, Expr e, boolean implicitlyDeclared)
-    {
-       // Creates a horizontal schema: n == e as ConstDecl
-       LocInfo loc = getLocation(n, e);
-       ConstDecl cd = factory_.createConstDecl(n, e);
-       addLocAnn(cd, loc);
-       ZDeclList decls = factory_.createZDeclList(factory_.list(cd));           
-       ZSchText st = factory_.createZSchText(decls, null);
-       addLocAnn(st, loc);
+    protected Para createStatePara(Name n, Expr e, LocInfo loc, boolean implicitlyDeclared)
+    {       
+       // check if the state is duplicated and raise the error
+       checkForDuplicatedState((implicitlyDeclared ? "implicitly declared" : "horizontally declared"), loc);
        
-       // no generic arguments for state schema   
-       ZNameList zdnl = factory_.createZNameList();
-       Para result = factory_.createAxPara(zdnl, st, Box.OmitBox);
-       addLocAnn(result, loc);
+       // create the state para.
+       Para result = parserState_.createStatePara(n, e, loc, implicitlyDeclared);
+       checkCircusStateAnnParaIsSchema(result);
        
-       // add CircusStateAnn to paragraph. assumes there is LocInfo in result
-       if (checkCircusStateAnnParaIsSchema(result)) {
-         parserState_.addCircusStateAnn(result);
-       }
-       
-       // Add it as a locally declared paragraph, or raise an error if duplicated
-       if (checkForDuplicatedState((implicitlyDeclared ? "implicitly declared" : "horizontally declared"), loc)) {
-         parserState_.setStatePara(result);
-         if (implicitlyDeclared)
-         {
-           parserState_.addCircusOnTheFlyAnn(result);
-         }
-         parserState_.addLocallyDeclPara(result);         
-       }  
+       // set the result to the parser state
+       parserState_.setStatePara(result);
        
        return result;
     } 
@@ -4573,7 +4555,7 @@ circusProcessState ::=
         /* explicit schema definition is a horizontal box */
         CIRCSTATE:cs name:n DEFEQUAL:equal expression:e
         {:
-           RESULT = createStatePara(n, e, false /* not implicit */);           
+           RESULT = createStatePara(n, e, getLocation(n, e), false /* not implicit */);           
         :}
         |
         /* On-the-fly state schema is a horizontal box with special name */
@@ -4581,7 +4563,7 @@ circusProcessState ::=
         {:                        
            LocInfo loc = getLocation(e);
            Name dn = parserState_.createDefaultProcessStateName(loc);           
-           RESULT = createStatePara(dn, e, true /* implicit */);
+           RESULT = createStatePara(dn, e, loc, true /* implicit */);
         :}
         ;             
 
