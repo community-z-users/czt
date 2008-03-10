@@ -916,19 +916,29 @@ action code
      */
     protected ParamAction createParamAction(CircusAction pa, DeclList cp)
     {
-      boolean allowedQualifiedDecl = (pa instanceof CircusCommand);
-      
       // if this is not a qualified command, then check for non VarDecl elements
-      if (!allowedQualifiedDecl &amp;&amp; (cp instanceof ZDeclList))
+      if (cp instanceof ZDeclList)
       {
+        int vDecls = 0;
+        int qDecls = 0;
+        int otherDecls = 0;
         for(Decl d : ZUtils.assertZDeclList(cp))
         {
-          if (!(d instanceof VarDecl))
-          {          
-            parser.report_error(CircusParseMessage.MSG_NOT_VARDECL_IN_PARAMACTION,
-                          new Object[] { d.getClass().getSimpleName() }, getLocation(cp));
-          }
-        }
+          if (d instanceof VarDecl) 
+            vDecls++;
+          else if (d instanceof QualifiedDecl)
+            qDecls++;
+          else 
+            otherDecls++;          
+        }        
+        // otherDecls = 0 AND (vDecls = 0 IMPlIES qDecls = 0 AND otherDecls = 0) AND
+        // (qDecls = 0 IMPlIES vDecls = 0 AND otherDecls = 0) AND (vDecls+qDecls+otherDecls = cp.size())
+        boolean declOk = ((otherDecls == 0 &amp;&amp; (vDecls == 0 || qDecls == 0)) &amp;&amp; 
+          ZUtils.assertZDeclList(cp).size() == (vDecls+qDecls+otherDecls));          
+        if (!declOk)
+        {          
+          parser.report_error(CircusParseMessage.MSG_ERRORDECL_IN_PARAMACTION, new Object[0], getLocation(cp));
+        }        
       }      
       ParamAction result = factory_.createParamAction(pa, cp);
       return result;
