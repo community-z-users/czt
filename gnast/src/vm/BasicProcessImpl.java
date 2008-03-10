@@ -1,4 +1,3 @@
-
   public net.sourceforge.czt.z.ast.ZParaList getZParaList()
   {
     net.sourceforge.czt.z.ast.ParaList pl = getParaList();
@@ -7,56 +6,93 @@
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
-  
-  // TODO: MAKE THIS MORE EFFICIENT?
-  public net.sourceforge.czt.z.ast.Para getStatePara()
-  {
-    List<net.sourceforge.czt.z.ast.Para> result = new ArrayList<net.sourceforge.czt.z.ast.Para>();
+    
+  public net.sourceforge.czt.z.ast.AxPara getStatePara()
+  {       
     for(net.sourceforge.czt.z.ast.Para para : getZParaList())
     {
       if (net.sourceforge.czt.circus.util.CircusUtils.isStatePara(para))
-      {
-        result.add(para);
+      {        
+        assert net.sourceforge.czt.z.util.ZUtils.isHorizontalDef(para) : "state para is not horizontal AxPara";
+        return (net.sourceforge.czt.z.ast.AxPara)para;
       }
     }
-    // if 0 = invalid; if >1 duplicated.
-    if (result.size() != 1)
-      throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Invalid state paragraph for basic process.");
-    
-    net.sourceforge.czt.z.ast.Para r = result.get(0);
-    
-    assert result.size() == 1 && 
-           net.sourceforge.czt.circus.util.CircusUtils.isStatePara(r);
-    
-    // DESIGN: Parser now make both versions a horizontal box. This makes the type checker life easier and more uniform
+    return null;    
+    // DESIGN: Parser now make both versions a horizontal box.
+    //         This makes the type checker life easier and more uniform
     // state  is actionPara ==> OnTheFlyAction    
     // assert (!(r instanceof net.sourceforge.czt.circus.ast.ActionPara) || 
     //        net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(r)
     //       );
-    return r;
+  }
+  
+  public boolean isStateValid()
+  {
+    net.sourceforge.czt.z.ast.AxPara state = getStatePara();
+    boolean result = state != null;    
+    if (result)
+    {
+      for(net.sourceforge.czt.z.ast.Para para : getZParaList())
+      {
+        if (net.sourceforge.czt.circus.util.CircusUtils.isStatePara(para))
+        {        
+          // if more than one is found, then stop and say "false".
+          result = (para == state);
+          if (!result) break;
+        }
+      }
+    }
+    return result;
+  }
+  
+  public boolean isDefaultState()
+  {
+    boolean result = isStateValid();
+    if (result)
+    {
+      net.sourceforge.czt.z.ast.AxPara state = getStatePara();
+      result = net.sourceforge.czt.z.util.ZUtils.assertZName(
+        net.sourceforge.czt.z.util.ZUtils.getSchemaName(state)).getWord().startsWith(
+          net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_PROCESS_STATE_NAME);
+    }
+    return result;
   }
   
   public net.sourceforge.czt.circus.ast.CircusAction getMainAction()
-  {  
-    List<net.sourceforge.czt.circus.ast.ActionPara> result = new ArrayList<net.sourceforge.czt.circus.ast.ActionPara>();
+  {      
     for(net.sourceforge.czt.z.ast.Para para : getOnTheFlyPara())
     {
-      assert net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(para);
-      net.sourceforge.czt.circus.ast.ActionPara ap = (net.sourceforge.czt.circus.ast.ActionPara)para;      
-      if (ap.getZName().getWord().startsWith(net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_MAIN_ACTION_NAME))
+      if (para instanceof net.sourceforge.czt.circus.ast.ActionPara &&
+          net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(para) &&
+          ((net.sourceforge.czt.circus.ast.ActionPara)para).getZName().getWord().startsWith(
+              net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_MAIN_ACTION_NAME))          
       {
-        result.add(ap);
-      }      
+        return ((net.sourceforge.czt.circus.ast.ActionPara)para).getCircusAction();
+      }  
     }
-    
-    // if 0 = invalid; if >1 duplicated.
-    if (result.size() != 1)
-      throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Invalid main action for basic process.");
-    
-    assert result.size() == 1 && 
-           net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(result.get(0)) &&
-           result.get(0).getZName().getWord().startsWith(net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_MAIN_ACTION_NAME);
-    return result.get(0).getCircusAction();
+    return null;
+  }
+  
+  public boolean isMainActionValid()
+  {
+    net.sourceforge.czt.circus.ast.CircusAction ma = getMainAction();
+    boolean result = ma != null;    
+    if (result)
+    {
+      for(net.sourceforge.czt.z.ast.Para para : getOnTheFlyPara())
+      {
+        if (para instanceof net.sourceforge.czt.circus.ast.ActionPara &&
+            net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(para) &&
+            ((net.sourceforge.czt.circus.ast.ActionPara)para).getZName().getWord().startsWith(
+                net.sourceforge.czt.circus.util.CircusUtils.DEFAULT_MAIN_ACTION_NAME))          
+        {
+          // if more than one is found, then stop and say "false".
+          result = (((net.sourceforge.czt.circus.ast.ActionPara)para).getCircusAction() == ma);
+          if (!result) break;
+        }  
+      }
+    }
+    return result;
   }
 
   public java.util.List<? extends net.sourceforge.czt.z.ast.Para> getLocalPara()
@@ -64,17 +100,16 @@
     net.sourceforge.czt.z.ast.ZParaList result = net.sourceforge.czt.z.util.ZUtils.FACTORY.createZParaList();    
     result.addAll(getZParaList());
     
-    java.util.List<net.sourceforge.czt.z.ast.Para> onTheFly = getOnTheFlyPara();
+    java.util.List<? extends net.sourceforge.czt.z.ast.Para> onTheFly = getOnTheFlyPara();    
     result.removeAll(onTheFly);
     
     assert (result.size() == getZParaList().size() - onTheFly.size());    
     return java.util.Collections.unmodifiableList(result);
   }  
   
-  public java.util.List<net.sourceforge.czt.z.ast.Para> getOnTheFlyPara()
+  public java.util.List<? extends net.sourceforge.czt.z.ast.Para> getOnTheFlyPara()
   {
-    java.util.List<net.sourceforge.czt.z.ast.Para> result = 
-      new java.util.ArrayList<net.sourceforge.czt.z.ast.Para>();
+    net.sourceforge.czt.z.ast.ZParaList result = net.sourceforge.czt.z.util.ZUtils.FACTORY.createZParaList();    
     for(net.sourceforge.czt.z.ast.Para para : getZParaList())
     {
       if (net.sourceforge.czt.circus.util.CircusUtils.isOnTheFly(para))
@@ -87,10 +122,22 @@
 
   public net.sourceforge.czt.z.ast.Name getStateParaName()
   {
-    return net.sourceforge.czt.circus.util.CircusUtils.getSchemaName(getStatePara());
+    net.sourceforge.czt.z.ast.Name result = null;
+    net.sourceforge.czt.z.ast.AxPara state = getStatePara();
+    if (state != null)
+    {
+      result = net.sourceforge.czt.circus.util.CircusUtils.getSchemaName(state);
+    }
+    return result;    
   }
 
   public net.sourceforge.czt.z.ast.ZName getStateParaZName()
   {
-    return net.sourceforge.czt.z.util.ZUtils.assertZName(getStateParaName());
+    net.sourceforge.czt.z.ast.Name result = getStateParaName();
+    if (result != null)
+    {
+      return net.sourceforge.czt.z.util.ZUtils.assertZName(result);
+    }
+    return null;
   }
+

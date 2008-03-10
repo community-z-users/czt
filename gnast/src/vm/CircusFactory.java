@@ -101,6 +101,7 @@
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ActionSignatureList actionSignatures,
+    ZSignatureList basicProcessLocalZSignatures,
     StateUpdate stateUpdate,
     ProcessUsage usage);
 
@@ -116,4 +117,5 @@
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ActionSignatureList actionSignatures,
+    ZSignatureList basicProcessLocalZSignatures,
     ProcessUsage usage);

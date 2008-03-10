@@ -122,6 +122,7 @@
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ProcessSignatureList processSignatures,
     ActionSignatureList actionSignatures,
+    ZSignatureList basicProcessLocalZSignatures,
     ChannelSetList parallelProcessChannelSets,
     StateUpdate stateUpdate,
     ProcessUsage usage)
@@ -135,8 +136,10 @@
           newList(paramOrIndexes, stateSignature)),
         // list1 = ProcessSignatureList getProcessSignatures()
         processSignatures,
-        // list1 = ActionSignatureList getActionSignatures()
-        actionSignatures
+        // list2 = ActionSignatureList getActionSignatures()
+        actionSignatures,
+        // list3 = ZSignatureList getBasicProcessLocalZSignatures()
+        basicProcessLocalZSignatures
       ),
       parallelProcessChannelSets,
       stateUpdate,
@@ -148,7 +151,7 @@
     return createCompleteProcessSignature(null, createZNameList(),
       createSignature(),
       createSignature(), createProcessSignatureList(),
-      createActionSignatureList(),
+      createActionSignatureList(), createZSignatureList(),
       createCircusChannelSetList(), createStateUpdate(),
       ProcessUsage.Parameterised);
   }
@@ -162,7 +165,8 @@
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       createSignature(), processSignatures, createActionSignatureList(),
-      createCircusChannelSetList(), createStateUpdate(), usage);
+      createZSignatureList(), createCircusChannelSetList(), 
+      createStateUpdate(), usage);
   }
 
   public ProcessSignature createChannelSetProcessSignature(
@@ -175,7 +179,7 @@
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       createSignature(), processSignatures, createActionSignatureList(),
-      channelSets, createStateUpdate(), usage);
+      createZSignatureList(), channelSets, createStateUpdate(), usage);
   }
 
   public ProcessSignature createBasicProcessSignature(
@@ -184,12 +188,13 @@
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ActionSignatureList actionSignatures,
+    ZSignatureList basicProcessLocalZSignatures,
     StateUpdate stateUpdate,
     ProcessUsage usage)
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       stateSignature, createProcessSignatureList(), actionSignatures,
-      createCircusChannelSetList(), stateUpdate, usage);
+      basicProcessLocalZSignatures, createCircusChannelSetList(), stateUpdate, usage);
   }
 
   public ProcessSignature createBasicProcessSignature(
@@ -198,8 +203,10 @@
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ActionSignatureList actionSignatures,
+    ZSignatureList basicProcessLocalZSignatures,
     ProcessUsage usage)
   {
     return createBasicProcessSignature(name, genFormals, paramOrIndexes,
-      stateSignature, actionSignatures, createStateUpdate(), usage);
+      stateSignature, actionSignatures, basicProcessLocalZSignatures, 
+      createStateUpdate(), usage);
   }
