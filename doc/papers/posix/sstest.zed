@@ -11,6 +11,15 @@ $\Phi SS$ framing schema.
 
 Then we can promote the $dsPos$ tests and check if they satisfy $readSS$.
 \begin{theorem}{SSTestPos}
-\vdash? ~ (\Phi SSTest \land dsPos) \hide (file, file')
+\vdash? ~(dsPos 
+	  \land \Phi SSTest)
+          \hide (file, file')
                \subseteq readSS
 \end{theorem}
+
+% [file==eg1; file'==eg1; offset?==0; length?==0; data! == \emptyset]
+
+Unfortunately, due to a bug in its sorting/optimization algorithms,
+ZLive currently says this is too large to evaluate.  However, it
+should be capable of evaluating it, and we expect that it will be able
+to in the next month or two.

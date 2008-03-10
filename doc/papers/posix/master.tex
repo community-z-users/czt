@@ -58,14 +58,12 @@ mini challenge.  An initial small subset of Posix has been
 chosen~\cite{FreFuWoo07} and participants of the ABZ 2008 conference
 were challenged to contribute to this project.
 
-Lots of work and effort is currently put into either deriving a
-correct lower level specification or implementation from an abstract
-specification, or verifying that a lower level specification or
-implementation satisfies a given abstract specification.  We argue
-that before immersing into those activities, the specification should
-be carefully validated against the requirements.  While there is hope
-that verification can be mostly automated, validation remains a
-task that has to be done by the human designer.
+Lots of work and effort is typically put into either deriving or
+verifying a correct lower level specification or implementation from
+an abstract specification.  We argue that before those activities, the
+abstract specification should be carefully validated against the requirements.
+While there is hope that verification can be mostly automated,
+validation remains a task for human designers.
 
 This paper proposes a simple approach to validate Z specifications by
 writing positive and negative unit tests for each schema within the
@@ -80,13 +78,13 @@ system~\cite{MorSufTOSE84}.  The tests were executed and checked by
 the CZT animator ZLive.
 
 The structure of this paper is as follows.  In
-section~\ref{sect:framework}, we present our testing framework.
-Section~\ref{sect:zlive} gives an overview of the CZT animator ZLive,
+Section~\ref{sect:framework}, we present our testing framework.
+Section~\ref{sect:zlive} gives an overview of the ZLive animator,
 which is used to evaluate the tests.  Section~\ref{sect:posix}
 describes the refactored Posix specification.  In
-Section~\ref{sect:ds}, the tests for the data system are explained.
-Section~\ref{sect:ss} shows how promotion can be used to derive tests
-for the storage system.  Finally, Section~\ref{sect:conclusions} gives
+Section~\ref{sect:ds}, the tests for the data system are explained
+and Section~\ref{sect:ss} shows how they can be promoted to test
+the storage system.  Finally, Section~\ref{sect:conclusions} gives
 conclusions.
 
 The main contributions of the paper are: the unit testing framework
@@ -158,41 +156,44 @@ can ignore the unit tests.
 
 \subsection{Positive Tests}
 
-The first kind of testing we want to do is positive tests to check that an
-operation has a desired input-output behaviour.  When specifying
-tests, it is important to specify the expected output values as well as the
-input values, so we write all the inputs and output values as a Z binding
-and use a membership test.  Here are two examples that test the
-non-deterministic output behaviour of Wedge when the input $x=0$.
-Since 2007, the Z standard requires conjectures to be written within
-a \LaTeX\ \emph{theorem} environment, and allows each conjecture to be
-given a name.  Our naming convention for tests is typically to use the name
-of the operation being tested, followed by some information about the input
-and output values that are being tested.
+The first kind of testing we want to do is positive tests to check
+that an operation has a desired input-output behaviour.  When
+specifying tests, it is important to specify the expected output
+values as well as the input values, so we write all the inputs and
+output values as a Z binding and use a membership test.  Here are two
+examples that test the non-deterministic output behaviour of Wedge
+when the input $x=0$.  
 
 \begin{zsection}
-  \SECTION wedgeTests \parents wedge
+  \SECTION wedgeTest \parents wedge
 \end{zsection}
 
-\begin{theorem}{Wedge0Min}
-\vdash? ~~ \lblot n==0, n'==0 \rblot \in Wedge
+\begin{theorem}{Wedge0Gives0}
+  \vdash? ~ \lblot n==0, n'==0 \rblot \in Wedge
+\end{theorem}
+\vspace{-5ex}
+\begin{theorem}{Wedge0Gives5}
+  \vdash? ~ \lblot n==0, n'==5 \rblot \in Wedge
 \end{theorem}
 
-\begin{theorem}{Wedge0Max}
-\vdash? ~~ \lblot n==0, n'==5 \rblot \in Wedge
-\end{theorem}
+Note that since 2007, the Z standard requires conjectures
+to be written within a \LaTeX\ \emph{theorem} environment, and allows
+each conjecture to be given a name.  Our naming convention for tests
+is that the name of a test should start with the name of the operation
+being tested, followed by some phrase that expresses the essential
+property of the test.
 
-Alternatively, we may prefer to group a set of tests together, and test
-them all in one conjecture.  We can do this by naming the test tuples, and
-testing them all using a subset conjecture.
+An alternative style of writing a suite of positive tests is to 
+name each test tuple, group the tuples into a set, and then test
+them using a single subset conjecture.
 
 \begin{zed}
-  Wedge0Min == \lblot n==0, n'==0 \rblot \\
-  Wedge0Max == \lblot n==0, n'==5 \rblot
+  Wedge0Gives0 == \lblot n==0, n'==0 \rblot \\
+  Wedge0Gives5 == \lblot n==0, n'==5 \rblot
 \end{zed}
 
 \begin{theorem}{WedgePos}
-  \vdash? ~~ \{Wedge0Min, Wedge0Max\} \subseteq Wedge
+  \vdash? ~ \{Wedge0Gives0, Wedge0Gives5\} \subseteq Wedge
 \end{theorem}
 
 
@@ -208,30 +209,27 @@ negative tests that we design, the more sure we can be that we have
 specified the desired behaviour, rather than allowing too many or too few
 behaviours.
 
-We can write negative tests using a negated membership test ($test \notin
-Op$) or, equivalently, we can test that the tuple is a member of the negated
-schema ($test \in \lnot Op$).
-Our conjecture naming convention is the same as for positive tests, but
-we prefix the name with $Not$ to indicate that it is a negative tests.
+We can write negative tests using a negated membership test ($test
+\notin Op$) or, equivalently, we can test that the tuple is a member
+of the negated schema ($test \in \lnot Op$).  Our conjecture naming
+convention is the same as for positive tests, but the phrase after the
+operation name usually contains a negative word such as \emph{not} or
+\emph{cannot} to emphasize that it is a negative test.
 
-\begin{zsection}
-  \SECTION notWedgeTests \parents wedge
-\end{zsection}
-
-\begin{theorem}{NotWedge0Neg}
-\vdash? ~~ \lblot n==0, n'==\negate 1 \rblot \notin Wedge
+\begin{theorem}{Wedge0CannotGiveNeg}
+  \vdash? ~ \lblot n==0, n'==\negate 1 \rblot \notin Wedge
 \end{theorem}
-
-\begin{theorem}{NotWedge06}
-\vdash? ~~ \lblot n==0, n'==6 \rblot \in \lnot Wedge
+\vspace{-5ex}
+\begin{theorem}{Wedge0CannotGive6}
+  \vdash? ~ \lblot n==0, n'==6 \rblot \in \lnot Wedge
 \end{theorem}
 
 We can also test just the precondition of the operation.
 %% Note: ZLive cannot evaluate this if the type of x is any integer
 %% because it requires enumerating pre Wedge, and then there is no
 %% lower bound on $n'$.
-\begin{theorem}{NotWedgePre6}
-\vdash? ~~ \lblot n==6 \rblot \notin \pre Wedge
+\begin{theorem}{WedgePreCannotTake6}
+  \vdash? ~ \lblot n==6 \rblot \notin \pre Wedge
 \end{theorem}
 
 As we did for positive tests, we may also combine several negative tests
@@ -245,12 +243,12 @@ $tests$ to match the type of $Op$).  For example, the following two negative
 test suites check that 6 can never be an input for $Wedge$, and that 6 can
 never be an output of $Wedge$.
 
-\begin{theorem}{NotWedgeIn6}
-\vdash? ~~ ([State | n=6] \land Wedge) = \emptyset
+\begin{theorem}{WedgeCannotTake6}
+  \vdash? ~ ([State | n=6] \land Wedge) = \emptyset
 \end{theorem}
-
-\begin{theorem}{NotWedgeOut6}
-\vdash? ~~ ([State~' | n'=6] \land Wedge) = \emptyset
+\vspace{-5ex}
+\begin{theorem}{WedgeCannotGive6}
+  \vdash? ~ ([State~' | n'=6] \land Wedge) = \emptyset
 \end{theorem}
 
 It is sometimes convenient to write these kinds of negative test values
@@ -270,10 +268,10 @@ we shall promote the $Wedge$ tests up to the following function space:
   \SECTION manyStates \parents wedge
 \end{zsection}
 
-\begin{schema}{ManyStates}
-  states : \nat \fun \num
-\end{schema}
-
+\begin{zed}
+  ManyStates == [ states : \nat \fun \num ]
+\end{zed}
+\vspace{-5ex}
 \begin{schema}{\Phi ManyStates}
   \Delta State \\
   \Delta ManyStates \\
@@ -293,26 +291,27 @@ the $states$ function.
 \end{zed}
 
 
-We use the same framing schema to promote the tests.  But to ensure that
-all inputs of the promoted operation are given, we use a specialised
-version of the framing schema that also specifies an initial value
-for the $states$ mapping and which $curr?$ input will be tested.
+We use the same framing schema to promote the tests.  But to ensure
+that all inputs of the promoted operation are given, we use a
+testing-oriented version of the framing schema that also specifies
+which $curr?$ input will be tested and an initial value for the
+$states$ mapping.
 
 \begin{zsection}
-  \SECTION manyStatesTest \parents manyStates, wedgeTests
+  \SECTION manyStatesTest \parents manyStates, wedgeTest
 \end{zsection}
-
+\vspace{-5ex}
 \begin{zed}
   \Phi ManyStatesTest ==
     [\Phi ManyStates; curr? == 1 | states = \{0 \mapsto 3, 1 \mapsto n\}]
 \end{zed}
-
+\vspace{-5ex}
 %% NOTE: this fails if State contains x, because of a scoping
 %% error in the unfolding or in the translation to FlatPreds.
 %% Probably an 'x' in the ZLive preprocess rules gets accidentally
 %% bound to the 'x' from the State schema.
 \begin{theorem}{ManyWedgePos}
-  \vdash? ~~ (\{Wedge0Min, Wedge0Max\} \land \Phi ManyStatesTest)
+  \vdash? ~ (\{Wedge0Gives0, Wedge0Gives5\} \land \Phi ManyStatesTest)
       \subseteq ManyWedge
 \end{theorem}
 
@@ -336,8 +335,8 @@ If we want to check that all of the original tests can be promoted without
 being lost, we can check the conjecture
 $(\Phi PTests \project OpTests) = Optests$.
 %\begin{theorem}{AllTestsPromoted}
-%\vdash? ~ (\Phi ManyStatesTest \project \{Wedge0Min, Wedge0Max\})
-%            = \{Wedge0Min, Wedge0Max\}
+%\vdash? ~ (\Phi ManyStatesTest \project \{Wedge0Gives0, Wedge0Gives5\})
+%            = \{Wedge0Gives0, Wedge0Gives5\}
 %\end{theorem}
 
 If this is not true, we may want to check each test vector $v \in Optests$
@@ -345,9 +344,9 @@ separately.  We can define the promoted vector as
 $pv == (\mu \Phi PTests \land \{v\})$.
 Then we can test $pv \in Op_P$. 
 %\begin{zed}
-%  pv == (\mu \Phi ManyStatesTest \land \{Wedge0Min\})
+%  pv == (\mu \Phi ManyStatesTest \land \{Wedge0Gives0\})
 %\end{zed}
-%\begin{theorem}{ManyWedge0Min}
+%\begin{theorem}{ManyWedge0Gives0}
 %  \vdash? ~ pv \in ManyWedge
 %\end{theorem}
 
@@ -382,10 +381,10 @@ For example, the term $n * n + n' * n'  \leq 25$ is
 translated into a sequence of four relations:
 \[
 \begin{array}{l@{\quad}l}
-   FlatMult(n, n, tmp1),       & \%~ n * n = tmp1 \\
-   FlatMult(n', n', tmp2),     & \%~ n' * n' = tmp2 \\
-   FlatPlus(tmp1, tmp2, tmp3), & \%~ tmp1 + tmp2 = tmp3 \\
-   FlatLessThanEq(tmp3, 25)    & \%~ tmp3 \leq 25
+   FlatMult(n, n, tmp1),       & //~ n * n = tmp1 \\
+   FlatMult(n', n', tmp2),     & //~ n' * n' = tmp2 \\
+   FlatPlus(tmp1, tmp2, tmp3), & //~ tmp1 + tmp2 = tmp3 \\
+   FlatLessThanEq(tmp3, 25)    & //~ tmp3 \leq 25
 \end{array}
 \]
 
@@ -408,8 +407,8 @@ preference to modes that have a small number of expected results,
 which means that filter predicates are moved as near to the front as
 possible, which reduces the search space.
 
-Finally, ZLive generates all possible results via a backtracking
-search of all the solutions generated by the sorted sequence.
+Finally, ZLive generates all possible results via a depth-first 
+backtracking search of all the solutions generated by the sorted sequence.
 However, for membership tests such as $A \in S$, where $A$ is a known
 value and $S$ is a set comprehension, it substitutes the value of $A$
 into the set comprehension for $S$ and then checks whether the set is
@@ -530,12 +529,47 @@ usual Z sequential style more closely.
 \section{Testing the DS Specification}\label{sect:ds}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \input{dstest.zed}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Testing the SS Specification}\label{sect:ss}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The storage system is reponsible for mapping \emph{file identifiers}
+$FID$ to file contents.  While testing, we instantiate FID to
+naturals, so test values are easier to write.
+
+\begin{zsection}
+  \SECTION ss \parents ds
+\end{zsection}
+\vskip -4ex
+\begin{zed}
+%  [FID]
+  FID == \nat \\
+  SS == [ fstore : FID \pfun FILE ]
+\end{zed}
+
+The ss section then defines $createSS$ and $destroySS$ operations,
+plus the following framing schema, which is used to promote $readFILE$
+and $writeFILE$.
+
+\begin{schema}{\Phi SS}
+  \Delta SS;  ~
+  \Delta DS;  ~
+  fid? : FID
+\where
+  fid? \in \dom fstore \\
+  file = fstore(fid?) \\
+  fstore' = fstore \oplus \{ fid? \mapsto file' \}
+\end{schema}
+\vskip -2ex
+\begin{zed}
+  readSS == (\Phi SS \land readFILE) \hide (file, file') \\
+%  writeSS == (\Phi SS \land writeFILE) \hide (file, file')
+\end{zed}
+\vskip -2ex
 
 \input{sstest.zed}
 
@@ -552,7 +586,7 @@ large set of tests in a single expression makes it practical to
 develop multiple layers of tests, matching the layers of the
 specification.  Testing is a useful validation technique for
 specifications, especially when the execution of the tests can be
-automated, as we have done with ZLive.  We suggest that most Z
+automated, as we have done with ZLive.  We believe that most Z
 specifications should include validation unit tests in this style.
 
 We plan to add a \texttt{unittest} command to ZLive that executes all the

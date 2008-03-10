@@ -13,9 +13,9 @@ file identifiers.
 The file storage system is described by a partial function from file
 identifiers to $FILE$.
 
-\begin{schema}{SS}
-  fstore : FID \pfun FILE
-\end{schema}
+\begin{zed}
+  SS == [ fstore : FID \pfun FILE ]
+\end{zed}
 
 \begin{schema}{InitSS}
   SS~'
@@ -46,8 +46,8 @@ To be destroyed, the file must exist and the new file store is
 identical to the old except that there is no file referred to by fid.
 
 \begin{schema}{\Phi SS}
-  \Delta SS \\
-  \Delta DS \\
+  \Delta SS;  ~
+  \Delta DS;  ~
   fid? : FID
 \where
   fid? \in \dom fstore \\

@@ -7,11 +7,8 @@ This section specifies the data system (ds) of the filing system.
 \begin{zed}
   BYTE == 0 \upto 255 \\
   ZERO == 0 \\
-  FILE ~== \seq BYTE
-\end{zed}
-
-\begin{zed}
-  DS ~~~~~~== [ file : FILE ] \\
+  FILE ~== \seq BYTE \\
+  DS ~~~~== [ file : FILE ] \\
   InitDS == [DS~' | file' = \{\} ]
 \end{zed}
 
@@ -23,6 +20,9 @@ to evaluate.
 \begin{zed}
   \function 42 \leftassoc ( \varg after \varg )
 \end{zed}
+%% NOTE: we get a syntax error on the next line (on symbol 'after')
+%%    if we put both of these declarations into a single begin/end zed.
+\vspace{-6ex}
 \begin{zed}
   \varg after \varg ==
   (\lambda f : FILE ; offset : \nat 
@@ -41,7 +41,8 @@ here.
   data! = ( 1 \upto length? ) \dres ( file~after~offset? )
 \end{schema}
 
-The auxiliary function $zero$ returns a FILE containing $n$ ZERO bytes.
+The auxiliary function $zero$ returns a FILE containing a given number
+of ZERO bytes.
 The infix operator $shift$ takes a FILE and an offset and shifts the
 content of the file by the offset, adding ZERO bytes into the beginning of
 the file.  Once again, we give an explicit rather than an axiomatic
@@ -53,6 +54,7 @@ definition.
 \begin{zed}
   \function 42 \leftassoc ( \varg shift \varg )
 \end{zed}
+\vspace{-6ex}
 \begin{zed}
   \varg shift \varg == (\lambda f : FILE ; offset : \nat
         @ ( 1 \upto offset ) \ndres ( zero~offset \cat f ))

@@ -2,19 +2,18 @@
   \SECTION dstest \parents ds
 \end{zsection}
 
-This section contains positive and negative tests for the 'ds' section.
 We start by testing the $InitDS$ schema.
 
 \begin{theorem}{InitDSEmpty}
-\vdash? \lblot file' == \langle \rangle \rblot \in InitDS
+  \vdash? ~ \lblot file' == \langle \rangle \rblot \in InitDS
 \end{theorem}
-
+\vspace{-6ex}
 \begin{theorem}{InitDSCannotContainData}
-\vdash? \lblot file' == \langle 3 \rangle \rblot \notin InitDS
+\vdash? ~ \lblot file' == \langle 3 \rangle \rblot \notin InitDS
 \end{theorem}
 
 For $readFILE$, we design a set of positive tests that all work
-on the same input file, $eg1$.  When writing the set of tests,
+on the same input file contents, $eg1$.  So when writing the set of tests,
 it is convenient to use the schema calculus to factor out the 
 unchanging $file, file'$ from the other test values.
 \begin{zed}
@@ -22,13 +21,13 @@ unchanging $file, file'$ from the other test values.
   dsPos == [file==eg1; file'==eg1] \land \\
   \t2 \{\lblot offset?==0, length?==0, data!==\langle \rangle \rblot, \\
   \t2 ~ \lblot offset?==0, length?==3, data!==\langle 1, 255 \rangle \rblot, \\
-  \t2 ~ \lblot offset?==1, length?==1, data!==\langle 255 \rangle \rblot, \\
+  \t2 ~ \lblot offset?==1, length?==1, data!==\langle 1 \rangle \rblot, \\
   \t2 ~ \lblot offset?==3, length?==2, data!==\langle 0,0 \rangle \rblot \\
   \t2 \}
 \end{zed}
 
 \begin{theorem}{dsPosTests}
-\vdash? ~~ dsPos \subseteq readFILE
+  \vdash? ~ dsPos \subseteq readFILE
 \end{theorem}
 
 Here is the output from ZLive when we use its \texttt{conjectures}
@@ -55,32 +54,35 @@ To investigate which of the $dsPos$ tests failed, we can ask ZLive
 to evaluate $dsPos \setminus readFILE$.  This displays just the
 test vectors that are not members of $readFILE$, which tells us
 that the third and fourth tests failed.
-For each of these, we investigate why it failed by giving ZLive
-just the input values, and using the ZLive `\texttt{do}' command
-to search for any one of the solutions for the schema.
-We get this output:
-
+For each of these, we investigate why it failed by using the ZLive
+`\texttt{do}' command to search for any solution to the $readFILE$
+schema with the given input values.  For the third test, we get this output:
 \begin{small}
 \begin{verbatim}
 dstest> do [readFILE | file=eg1; offset?=1; length?=1]
-1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , 
- file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
- offset? == 1 , length? == 1 , data! == \{ ( 1 , 255 ) \} \rblot
 \end{verbatim}
+\vskip -3ex
+\[
+  1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \}, 
+     file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
+ \t1 offset? == 1 , length? == 1 , data! == \{ ( 1 , 255 ) \} \rblot
+\]
 \end{small}
- 
-Oops, the third test ($offset?==1, length?==1$) should have had 255 in
-$data!$ rather than $1$. 
+Oops, this test should have had 255 in $data!$ rather than $1$,
+because in POSIX, $offset?=1$ refers to the \emph{second} byte
+of the file.
 
 \begin{small}
 \begin{verbatim}
 dstest> do [readFILE | file=eg1; offset?=3; length?=2]
-1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \} ,
- file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
- offset? == 3 , length? == 2 , data! == \{ \} \rblot
 \end{verbatim}
+\vskip -3ex
+\[
+1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \},
+ file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
+ \t1 offset? == 3 , length? == 2 , data! == \{ \} \rblot
+\]
 \end{small}
-
 Ah, of course!  Reading past the end of the file should return empty
 $data!$, rather than zeroes.  (When designing this fourth test, Mark was 
 incorrectly thinking of the behaviour of the Write command past the end
@@ -98,7 +100,7 @@ we can write the test values inside the $readFILE$ schema, which can
 sometimes be more convenient.
 
 \begin{theorem}{ReadOffsetNotNeg}
- \vdash?  ([offset? == \negate 1] \land readFILE) = \{\}
+  \vdash? ~ ([offset? == \negate 1] \land readFILE) = \{\}
 \end{theorem}
 
 %\footnote{CZT gives some really interesting and non-obvious error messages
@@ -106,22 +108,23 @@ sometimes be more convenient.
 %  is a predicate, which makes the typechecker interpret $[offset?==\negate 1]$
 %  as a predicate rather than a schema expression, so it complains about 
 %  Undeclared identifier $offset?$~!}
-
+\vspace{-3ex}
 \begin{theorem}{ReadLengthNotNeg}
- \vdash?  [readFILE | length? = \negate 1] = \{\}
+  \vdash? ~ [readFILE | length? = \negate 1] = \{\}
 \end{theorem}
 
-The remaining negative tests are partially specified, so each conjecture
-checks a set of negative tests.  The BadOutFile test checks that the read
-operation does not change the file contents.  The BadData test checks that
-the output $data!$ is never longer than the file contents.
+The remaining negative tests are partially specified, so each
+conjecture actually checks a set of negative test tuples.  The
+BadOutFile test checks that the read operation does not change the
+file contents.  The BadData test checks that the output $data!$ is
+never longer than the file contents.
 
 \begin{theorem}{ReadCannotChangeFile}
- \vdash?  [readFILE | file=eg1; file' \neq eg1] = \{\}
+  \vdash? ~ [readFILE | file=eg1; file' \neq eg1] = \{\}
 \end{theorem}
-
+\vspace{-6ex}
 \begin{theorem}{ReadDataNotLongerThanFile}
- \vdash?  [readFILE | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
+  \vdash? ~ [readFILE | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
 \end{theorem}
 
 
