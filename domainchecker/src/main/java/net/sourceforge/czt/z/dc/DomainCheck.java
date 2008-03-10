@@ -23,16 +23,13 @@ import java.util.List;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.PrintVisitor;
-
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.BindExpr;
-import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.Branch;
 import net.sourceforge.czt.z.ast.CondExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
@@ -72,9 +69,7 @@ import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZSchText;
-import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.util.ZUtils;
 
 import net.sourceforge.czt.z.visitor.AndPredVisitor;
@@ -182,18 +177,23 @@ public class DomainCheck extends InnocuousDC implements
   private DefinitionTable defTable_;
   private final ZName domName_;
   private final ZName appliesToName_;
-  private final ZName appliesToOpName_;
-  private final PrintVisitor printVisitor_;
+  //private final ZName appliesToOpName_;
+  //private final PrintVisitor printVisitor_;
   
-  /** Creates a new instance of DomainCheck */
   public DomainCheck()
   {
-    super();
+    this(new Factory());
+  }
+  
+  /** Creates a new instance of DomainCheck */
+  public DomainCheck(Factory factory)
+  {
+    super(factory);
     defTable_ = null;
-    printVisitor_ = new PrintVisitor(); // defTable uses a PrintVisitor for lookup names.
+    //printVisitor_ = new PrintVisitor(); // defTable uses a PrintVisitor for lookup names.
     domName_ = factory_.createZName("dom"); // not an operator (see relation_toolkit.tex)!
     appliesToName_ = factory_.createZName(APPLIESTO_OP); // relation infix binary operator (see dc_toolkit.tex)!
-    appliesToOpName_ = factory_.createZName(ZString.ARG + APPLIESTO_OP + ZString.ARG); // relation infix binary operator (see dc_toolkit.tex)!
+    //appliesToOpName_ = factory_.createZName(ZString.ARG + APPLIESTO_OP + ZString.ARG); // relation infix binary operator (see dc_toolkit.tex)!
   }
   
   public Pred runDC(Term term, DefinitionTable dt)
@@ -707,8 +707,8 @@ public class DomainCheck extends InnocuousDC implements
       // following DefinitionTableVisitor implementation, 
       // parse the function name with printVisitor_ for the
       // table lookup definition name.
-      String defName = name.getZName().accept(printVisitor_);
-      DefinitionTable.Definition def = defTable_.lookup(defName);
+      //String defName = name.getZName().accept(printVisitor_);
+      DefinitionTable.Definition def = defTable_.lookup(name.getZName().toString());
       
       // If there is a definition for defName
       if (def != null) 

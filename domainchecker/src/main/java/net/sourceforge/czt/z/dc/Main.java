@@ -60,31 +60,6 @@ public class Main
       System.err.println("Creating output file");
       dcLogger.fine("input file is " + input);
 
-      /*
-      // set up the translation engine
-      System.err.println("Translating to B");
-      Z2B translator = new Z2B(manager);
-
-     // choose the section -- we just take the last one!
-      ZSect sect;
-      List sects = spec.getSect();
-      if (sects.size() > 0 && sects.get(sects.size()-1) instanceof ZSect) {
-        sect = (ZSect) spec.getSect().get(sects.size()-1);
-      }
-      else {
-        throw new BException("last section is not a ZSect");
-      }
-      manager.get(new Key(sect.getName(), SectTypeEnvAnn.class)); // typecheck
-
-      // do the translation
-      BMachine mach = translator.makeBMachine(sect);
-
-      // Output the machine to the .mch file
-      System.err.println("Writing out the B");
-      BWriter bwriter = createBWriter(specURL);
-      mach.print(bwriter);
-      bwriter.close();
-*/
       System.err.println("Done!");
     }
     catch(Exception e) {

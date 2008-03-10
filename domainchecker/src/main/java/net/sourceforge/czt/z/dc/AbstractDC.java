@@ -29,11 +29,17 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public abstract class AbstractDC<R> implements Visitor<R>, TermVisitor<R>
 {  
-  protected static final Factory factory_ = new Factory();
-  
+  protected Factory factory_;
+    
   /** Creates a new instance of AbstractDC */
-  public AbstractDC()
+  public AbstractDC(Factory factory)
   {
+    factory_ = factory;
+  }    
+  
+  protected Factory getZFactory()
+  {
+    return factory_;
   }
   
   /** Creates a TruePred (i.e. true) */

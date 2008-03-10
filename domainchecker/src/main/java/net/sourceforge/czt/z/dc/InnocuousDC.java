@@ -33,6 +33,7 @@ import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZStrokeList;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.AnnVisitor;
 import net.sourceforge.czt.z.visitor.DirectiveVisitor;
 import net.sourceforge.czt.z.visitor.NameSectTypeTripleVisitor;
@@ -65,9 +66,10 @@ public abstract class InnocuousDC extends AbstractDC<Pred> implements
     Visitor<Pred>
 {
   
-  /** Creates a new instance of InnocuousDC */
-  public InnocuousDC()
+  /** Creates a new instance of InnocuousDC */  
+  public InnocuousDC(Factory factory)
   {
+    super(factory);
   }
 
 //Type<Pred>,

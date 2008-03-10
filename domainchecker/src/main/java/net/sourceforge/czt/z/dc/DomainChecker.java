@@ -62,6 +62,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.z.visitor.SectVisitor;
@@ -85,10 +86,10 @@ public class DomainChecker extends AbstractDC<List<Pair<Para, Pred>>> implements
   private Spec dcToolkit_;
   private DefinitionTable defTable_;
   private OpTable opTable_;
-  private final SortedSet<String> parentsToIgnore_;
-  private final DomainCheck domainCheck_;  
-  private final OpTableService opTableService_;
-  private final DefinitionTableService defTableService_;
+  private SortedSet<String> parentsToIgnore_;
+  private DomainCheck domainCheck_;  
+  private OpTableService opTableService_;
+  private DefinitionTableService defTableService_;
     
   protected static final String DC_TOOLKIT_NAME = "dc_toolkit";
 
@@ -111,13 +112,19 @@ public class DomainChecker extends AbstractDC<List<Pair<Para, Pred>>> implements
   
   public DomainChecker()
   {
+    this(new Factory());
+  }  
+  
+  public DomainChecker(Factory factory)
+  {
+    super(factory);
     setSectInfo(null);
     domainCheck_ = new DomainCheck();    
     opTableService_ = new OpTableService(null);
     defTableService_ = new DefinitionTableService();
     parentsToIgnore_ = new TreeSet<String>();
     reset();
-  }
+  }  
   
   protected void reset()
   {    
