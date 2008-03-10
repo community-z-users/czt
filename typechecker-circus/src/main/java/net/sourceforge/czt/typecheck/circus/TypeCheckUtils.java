@@ -27,7 +27,6 @@ import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.circus.ParseUtils;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.print.circus.PrintUtils;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Markup;
