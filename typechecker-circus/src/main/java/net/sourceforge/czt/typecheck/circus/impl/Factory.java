@@ -1,11 +1,18 @@
 /*
- * Factory.java
- *
- * Created on 17 de Junho de 2005, 17:28
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
+Copyright (C) 2007 Leo Freitas
+This file is part of the CZT project.
+The CZT project contains free software;
+you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+The CZT project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with CZT; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 package net.sourceforge.czt.typecheck.circus.impl;
@@ -27,7 +34,9 @@ import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.NameSetList;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
+import net.sourceforge.czt.circus.ast.ProcessSignatureList;
 import net.sourceforge.czt.circus.ast.ProcessType;
+import net.sourceforge.czt.circus.ast.ProcessUsage;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.util.CircusString;
@@ -139,6 +148,30 @@ public class Factory
   public ProcessSignature createEmptyProcessSignature()
   {
     return circusFactory_.createEmptyProcessSignature();
+  }
+  
+  public ProcessSignature createProcessSignature(
+    Name name, ZNameList genFormals, Signature paramOrIndexes,
+    ProcessSignatureList processSignatures, ProcessUsage usage)
+  {
+    return circusFactory_.createProcessSignature(name, genFormals, paramOrIndexes, processSignatures, usage);
+  }
+  
+  public ProcessSignature createParamProcessSignature(Signature paramOrIndexes,
+    ProcessSignatureList processSignatures, ProcessUsage usage)
+  {
+    return createProcessSignature(null, circusFactory_.createZNameList(), 
+      paramOrIndexes, processSignatures, usage);    
+  }
+  
+  public ProcessSignatureList createProcessSignatureList()
+  {
+    return circusFactory_.createProcessSignatureList();
+  }
+  
+  public ProcessSignatureList createProcessSignatureList(List<? extends ProcessSignature> list)
+  {
+    return circusFactory_.createProcessSignatureList(list);
   }
   
 //  public ProcessType createProcessType()
