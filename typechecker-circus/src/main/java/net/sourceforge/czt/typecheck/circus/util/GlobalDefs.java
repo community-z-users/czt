@@ -10,10 +10,13 @@
 
 package net.sourceforge.czt.typecheck.circus.util;
 
+import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.circus.ast.ActionType;
+import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CommPattern;
 import net.sourceforge.czt.circus.ast.CommunicationList;
+import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
@@ -40,12 +43,54 @@ public class GlobalDefs
     return (NameSetType) o;
   }
   
+  public static CallAction callAction(Object o)
+  {
+    return (CallAction)o;
+  }
+  
+  public static MuAction muAction(Object o)
+  {
+    return (MuAction)o;
+  }
+  
   public static boolean isIgnorePara(Para term)
   {
     return 
       (term instanceof NarrPara) ||
       (term instanceof LatexMarkupPara) ||
       (term instanceof UnparsedPara);      
+  }
+  
+  public static <T> void addNoDuplicates(T source, List<T> target)
+  {
+    if (!target.contains(source))
+    {
+      target.add(source);
+    }    
+  }
+  
+  public static <T> void addNoDuplicates(int index, T source, List<T> target)
+  {
+    if (!target.contains(source))
+    {
+      target.add(index, source);
+    }    
+  }
+  
+  public static <T> void addAllNoDuplicates(List<? extends T> source, List<T> target)
+  {
+    for(T t : source)
+    {
+      addNoDuplicates(t, target);
+    }
+  }
+  
+  public static <T> void addAllNoDuplicates(int index, List<? extends T> source, List<T> target)
+  {
+    for(T t : source)
+    {
+      addNoDuplicates(index, t, target);
+    }
   }
   
   /**
