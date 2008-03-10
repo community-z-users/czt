@@ -2,8 +2,8 @@
   \SECTION dstest \parents ds
 \end{zsection}
 
-This section contains several positive and negative tests
-for the DS specification of POSIX files.
+This section contains positive and negative tests for the 'ds' section.
+We start by testing the $InitDS$ schema.
 
 \begin{theorem}{InitDSEmpty}
 \vdash? \lblot file' == \langle \rangle \rblot \in InitDS
@@ -13,32 +13,26 @@ for the DS specification of POSIX files.
 \vdash? \lblot file' == \langle 3 \rangle \rblot \notin InitDS
 \end{theorem}
 
+For $readFILE$, we design a set of positive tests that all work
+on the same input file, $eg1$.  When writing the set of tests,
+it is convenient to use the schema calculus to factor out the 
+unchanging $file, file'$ from the other test values.
 \begin{zed}
-  eg1 == \langle 1, 255 \rangle
+  eg1 == \langle 1, 255 \rangle \\
+  dsPos == [file==eg1; file'==eg1] \land \\
+  \t2 \{\lblot offset?==0, length?==0, data!==\langle \rangle \rblot, \\
+  \t2 ~ \lblot offset?==0, length?==3, data!==\langle 1, 255 \rangle \rblot, \\
+  \t2 ~ \lblot offset?==1, length?==1, data!==\langle 255 \rangle \rblot, \\
+  \t2 ~ \lblot offset?==3, length?==2, data!==\langle 0,0 \rangle \rblot \\
+  \t2 \}
 \end{zed}
 
-\begin{theorem}{ReadTest0\_0}
-\vdash? \lblot file==eg1, offset?==0, length?==0, \\
-\t1            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
-\end{theorem}
-
-\begin{theorem}{ReadTest0\_3}
-\vdash? \lblot file==eg1, offset?==0, length?==3, \\
-\t1            data!==\langle 1, 255 \rangle, file'==eg1 \rblot \in readFILE
-\end{theorem}
-
-\begin{theorem}{ReadTest1\_1}
-\vdash? \lblot file==eg1, offset?==1, length?==1, \\
-\t1            data!==\langle 255 \rangle, file'==eg1 \rblot \in readFILE
-\end{theorem}
-
-\begin{theorem}{ReadTest3\_2}
-\vdash? \lblot file==eg1, offset?==3, length?==2, \\
-\t1            data!==\langle \rangle, file'==eg1 \rblot \in readFILE
+\begin{theorem}{dsPosTests}
+\vdash? ~~ dsPos \subseteq readFILE
 \end{theorem}
 
 Here is the output from ZLive when we use its \texttt{conjectures}
-command to evaluate all the conjectures in the $dstest$
+command to evaluate all the conjectures in this $dstest$
 section.\footnote{We plan to display the conjecture names rather than
 just the line numbers.  However, the Z standard does not pass the
 conjecture names from the \LaTeX\ markup to the Unicode markup, so
@@ -52,20 +46,19 @@ Conjecture on line 7
 true
 Conjecture on line 11
 true
-Conjecture on line 19
-true
-Conjecture on line 24
-true
 Conjecture on line 29
-false
-Conjecture on line 34
 false
 \end{verbatim}
 \end{small}
 
-To investigate why two of these tests failed, we give ZLive
-just the input test values, and ask it to show any one of the
-solutions for the schema.  We get this output:
+To investigate which of the $dsPos$ tests failed, we can ask ZLive
+to evaluate $dsPos \setminus readFILE$.  This displays just the
+test vectors that are not members of $readFILE$, which tells us
+that the third and fourth tests failed.
+For each of these, we investigate why it failed by giving ZLive
+just the input values, and using the ZLive `\texttt{do}' command
+to search for any one of the solutions for the schema.
+We get this output:
 
 \begin{small}
 \begin{verbatim}
@@ -76,7 +69,8 @@ dstest> do [readFILE | file=eg1; offset?=1; length?=1]
 \end{verbatim}
 \end{small}
  
-Oops, ReadTest1\_1 should have had 255 in $data!$ rather than $1$.
+Oops, the third test ($offset?==1, length?==1$) should have had 255 in
+$data!$ rather than $1$. 
 
 \begin{small}
 \begin{verbatim}
@@ -88,7 +82,7 @@ dstest> do [readFILE | file=eg1; offset?=3; length?=2]
 \end{small}
 
 Ah, of course!  Reading past the end of the file should return empty
-$data!$, rather than zeroes.  (When designing this test, Mark was 
+$data!$, rather than zeroes.  (When designing this fourth test, Mark was 
 incorrectly thinking of the behaviour of the Write command past the end
 of the file, which inserts zeroes automatically.) 
 %
@@ -117,10 +111,10 @@ sometimes be more convenient.
  \vdash?  [readFILE | length? = \negate 1] = \{\}
 \end{theorem}
 
-The remaining negative tests are partially specified, so each define a
-set of negative tests.  The BadOutFile test checks that the read
-operation does not change the file contents.  The BadData test checks
-that the output $data!$ can never be longer than the file contents.
+The remaining negative tests are partially specified, so each conjecture
+checks a set of negative tests.  The BadOutFile test checks that the read
+operation does not change the file contents.  The BadData test checks that
+the output $data!$ is never longer than the file contents.
 
 \begin{theorem}{ReadCannotChangeFile}
  \vdash?  [readFILE | file=eg1; file' \neq eg1] = \{\}

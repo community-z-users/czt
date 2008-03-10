@@ -11,7 +11,7 @@ This section specifies the data system (ds) of the filing system.
 \end{zed}
 
 \begin{zed}
-  DS \quad~~== [ file : FILE ] \\
+  DS ~~~~~~== [ file : FILE ] \\
   InitDS == [DS~' | file' = \{\} ]
 \end{zed}
 
@@ -22,7 +22,8 @@ to evaluate.
 
 \begin{zed}
   \function 42 \leftassoc ( \varg after \varg )
-\\
+\end{zed}
+\begin{zed}
   \varg after \varg ==
   (\lambda f : FILE ; offset : \nat 
      @ (\lambda i : 1 .. \#f - offset @ f(i+offset)))
@@ -47,8 +48,12 @@ the file.  Once again, we give an explicit rather than an axiomatic
 definition.
 
 \begin{zed}
-  zero == (\lambda n : \nat @ ( \lambda k : 1 \upto n @ ZERO ) ) \also
-  \function 42 \leftassoc ( \varg shift \varg ) \\
+  zero == (\lambda n : \nat @ ( \lambda k : 1 \upto n @ ZERO ) )
+\end{zed}
+\begin{zed}
+  \function 42 \leftassoc ( \varg shift \varg )
+\end{zed}
+\begin{zed}
   \varg shift \varg == (\lambda f : FILE ; offset : \nat
         @ ( 1 \upto offset ) \ndres ( zero~offset \cat f ))
 \end{zed}

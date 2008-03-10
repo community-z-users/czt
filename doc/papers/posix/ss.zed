@@ -6,7 +6,8 @@ In the file storage system, files can be stored and retrieved using
 file identifiers.
 
 \begin{zed}
-  [FID]
+%  [FID]
+   FID == \nat
 \end{zed}
 
 The file storage system is described by a partial function from file

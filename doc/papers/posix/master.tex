@@ -342,10 +342,10 @@ $(\Phi PTests \project OpTests) = Optests$.
 
 If this is not true, we may want to check each test vector $v \in Optests$
 separately.  We can define the promoted vector as 
-$pv == (\mu \Phi PTests | \theta \{v\} = v)$.
+$pv == (\mu \Phi PTests \land \{v\})$.
 Then we can test $pv \in Op_P$. 
 %\begin{zed}
-%  pv == (\mu \Phi ManyStatesTest | \theta \{Wedge0Min\} = Wedge0Min)
+%  pv == (\mu \Phi ManyStatesTest \land \{Wedge0Min\})
 %\end{zed}
 %\begin{theorem}{ManyWedge0Min}
 %  \vdash? ~ pv \in ManyWedge
@@ -426,8 +426,8 @@ or all solutions of a partially specified test or schema.
 \section{Posix Standardized}\label{sect:posix}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section, we describe the refactored Posix specification.  The
-main change was to break up the original specification into sections.
+In this section, we briefly describe the refactored Posix specification.
+The main change was to break up the original specification into sections.
 Figure~\ref{fig:sects} shows the structure of the resulting Z
 sections, using a notation similar to a UML class diagram.  Each box
 represents a Z section, and the three parts within each box show the
@@ -435,7 +435,7 @@ name of the section, the main variables within the state schema of
 that definition, and the names of its operation schemas (we omit Init
 schemas and auxiliary schemas).  We also added a state schema and
 initialization schema to some of the sections (e.g., the $ds$ section)
-and made other minor changes so that the specification follows the
+and made several naming changes so that the specification follows the
 usual Z sequential style more closely.
 
 \begin{figure}[htbp]
@@ -537,8 +537,7 @@ usual Z sequential style more closely.
 \section{Testing the SS Specification}\label{sect:ss}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: give a test promotion schema for promoting the DS tests up to this
-level.
+\input{sstest.zed}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

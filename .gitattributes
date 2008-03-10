@@ -39,6 +39,7 @@ doc/papers/posix/ns.zed -text
 doc/papers/posix/posix.bib -text
 doc/papers/posix/posix.zed -text
 doc/papers/posix/ss.zed -text
+doc/papers/posix/sstest.zed -text
 doc/papers/posix/wedge.eps -text
 doc/papers/posix/wedge.pdf -text
 doc/papers/rules/cztprover1.eps -text
