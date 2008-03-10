@@ -34,11 +34,8 @@ import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
-import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
-import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Name;
-import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
@@ -66,11 +63,11 @@ import net.sourceforge.czt.z.ast.ZNameList;
  * @author Manuela Xavier
  */
 public class ParaChecker
-  extends Checker<Signature>
-  implements
-  ChannelParaVisitor<Signature>,
-  ChannelSetParaVisitor<Signature>,
-  ProcessParaVisitor<Signature>,  
+  extends Checker<Signature>            // C.3.1, C.18.3, C.18.4 - with visitTerm(Term)
+  implements  
+  ChannelSetParaVisitor<Signature>,     // C.3.2
+  ChannelParaVisitor<Signature>,        // C.3.3
+  ProcessParaVisitor<Signature>,        // C.3.4, C.6.1, C.6.2, C.6.5. C.6.8
   TransformerParaVisitor<Signature>
 {   
   /**
@@ -129,34 +126,7 @@ public class ParaChecker
   protected void setCheckingProcessZPara(boolean val)
   {
     isCheckingProcessZPara_ = val;
-  }
-  
-  // don't generalise - error messages are specific
-  protected ChannelSetType typeCheckChannelSet(Name name, ChannelSet term)
-  {        
-    Type2 type = term.accept(exprChecker());    
-    Type2 innerType = type;    
-    if (type instanceof PowerType)
-    {
-      innerType = GlobalDefs.powerType(type).getType();
-    }
-        
-    ChannelSetType result = factory().createChannelSetType();
-    UResult unified = unify(innerType, result);
-    
-    // if doesn't unify, then raise an error 
-    if (unified.equals(UResult.FAIL))
-    {
-      // within the ChannelSetPara, it must be a declaration
-      List<Object> params = factory().list();
-      params.add("channel set");
-      params.add(name);      
-      params.add(term);
-      params.add(type);           
-      error(term, ErrorMessage.NON_CHANNELSET_IN_POWEREXPR, params);      
-    }
-    return result;
-  }
+  }  
     
   /**
    * For all other paragraph terms, use the standard Z typechecking rules 
@@ -166,44 +136,13 @@ public class ParaChecker
    * a ProcessParaChecker. For instance, the SchText for the process state
    * is handled in there, and not here.
    *
-   *@law C.18.3, C.18.4
+   *@law C.3.1, C.18.3, C.18.4
    */
   @Override
   public Signature visitTerm(Term term)
   {
     // TODO: do something with isCheckingProcessZPara_ if needed.
     return term.accept(zParaChecker_);
-  }
-  
-  /**
-   * Type checks all ChannelDecl within the given ChannelPara using
-   * the circus.DeclChecker, and then adds the resulting signature as
-   * an annotation within the given term.
-   *
-   *@law C.3.3
-   */
-  @Override
-  public Signature visitChannelPara(ChannelPara term)
-  {
-    // CircusParagraph ::= channel CDeclaration
-       
-    // visit all ChannelDecl within the ZDeclList of term
-    // this uses the quite elegant (yet intricated) typechecker architecture
-    // to use: z.DeclChecker.visitZDeclList(), and circus.DeclChecker.visitChannelDecl().
-    //
-    // \Gamma \rhd cd : CDeclaration    
-    List<NameTypePair> pairs = term.getZDeclList().accept(declChecker());
-    
-    // check for duplicates within the ChannelPara scope.
-    checkForDuplicates(pairs, null);
-    
-    //create the signature for this paragraph and add it as an annotation
-    Signature signature = factory().createSignature(pairs);
-    
-    //creates a new, overrides existing, or updates variable signatures.
-    addSignatureAnn(term, signature);
-    
-    return signature;
   }
   
   /**
@@ -235,7 +174,9 @@ public class ParaChecker
     ZName csName = term.getZName();
     ZNameList genParams = term.getZGenFormals();
     ChannelSet cs = term.getChannelSet();    
-             
+        
+    //pending().enterScope();
+    
     //we enter a new variable scope for the generic parameters    
     typeEnv().enterScope();
 
@@ -245,25 +186,66 @@ public class ParaChecker
 
     // n \notin \Gamma.defNames is checked by checkParaList() at the SpecChecker.
 
+    // within the ChannelSetPara, it must be a declaration
+    List<Object> params = factory().list();
+    params.add("channel set");
+    params.add(csName);
+    
     // check this channel set
     // // \Gamma \rhd cs : CSExpression
-    ChannelSetType csType = typeCheckChannelSet(csName, cs);
+    ChannelSetType csType = typeCheckChannelSet(cs, params);
 
     // create signature with the declared name
     // like other set types, it is wrapped within a power type
     PowerType pType = factory().createPowerType(GlobalDefs.unwrapType(csType));
-    NameTypePair pair = factory().createNameTypePair(csName, pType);
+    
+    Type gType = addGenerics(pType);
+    
+    NameTypePair pair = factory().createNameTypePair(csName, gType);
     Signature result = factory().createSignature(pair);
 
     // add channel set power type to ChannelSet
-    addTypeAnn(term.getChannelSet(), pType);     
+    addTypeAnn(term.getChannelSet(), gType);     
 
     typeEnv().exitScope();    
+    
+    //pending().exitScope();
     
     // add signature to ChannelSetPara
     addSignatureAnn(term, result);   
     
     return result;
+  }
+  
+  /**
+   * Type checks all ChannelDecl within the given ChannelPara using
+   * the circus.DeclChecker, and then adds the resulting signature as
+   * an annotation within the given term.
+   *
+   *@law C.3.3
+   */
+  @Override
+  public Signature visitChannelPara(ChannelPara term)
+  {
+    // CircusParagraph ::= channel CDeclaration
+       
+    // visit all ChannelDecl within the ZDeclList of term
+    // this uses the quite elegant (yet intricated) typechecker architecture
+    // to use: z.DeclChecker.visitZDeclList(), and circus.DeclChecker.visitChannelDecl().
+    //
+    // \Gamma \rhd cd : CDeclaration    
+    List<NameTypePair> pairs = term.getZDeclList().accept(declChecker());
+    
+    // check for duplicates within the ChannelPara scope.
+    checkForDuplicates(pairs, null);
+    
+    //create the signature for this paragraph and add it as an annotation
+    Signature signature = factory().createSignature(pairs);
+    
+    //creates a new, overrides existing, or updates variable signatures.
+    addSignatureAnn(term, signature);
+    
+    return signature;
   }
   
   /**
@@ -300,7 +282,7 @@ public class ParaChecker
    * which is formed by the collected ProcessSignature.
    * </p>
    *
-   *@law C.3.4, C.6.1--C.6.8(?) TODO: CHECK:
+   *@law C.3.4, C.6.1, C.6.2, C.6.5. C.6.8
    */
   @Override
   public Signature visitProcessPara(ProcessPara term)
@@ -325,7 +307,10 @@ public class ParaChecker
       error(term, ErrorMessage.NESTED_PROCESSPARA_SCOPE, params);
     }
     
-    //we enter a new variable scope for the generic parameters
+    // allow room for generics within this global name
+    //pending().enterScope();
+    
+    //we enter a new variable scope for the generic parameters    
     typeEnv().enterScope();
     
     //add the generic parameter names to the type env
@@ -344,21 +329,26 @@ public class ParaChecker
     // calculate possibly implicit channels within the used ones
     //addImplicitChans(usedChans);       
     
+    // create the process type with corresponding signature.
+    ProcessType procType = factory().createProcessType(sigProc);
+    
+    Type gProcType = addGenerics(procType);
+    
+    NameTypePair pair = factory().createNameTypePair(pName, gProcType);
+    Signature result = factory().createSignature(factory().list(pair));
+    
+    // add process type to CircusProcess
+    addTypeAnn(term.getCircusProcess(), gProcType);
+    
     // close environment scopes.    
     typeEnv().exitScope();
+    
+    //pending().exitScope();
     
     // clears the process para scope.
     old = setCurrentProcessName(null);
     assert old == pName : "Invalid process para scoping for " + pName;
     setCurrentProcess(null);
-    
-    // create the process type with corresponding signature.
-    ProcessType procType = factory().createProcessType(sigProc);
-    NameTypePair pair = factory().createNameTypePair(pName, procType);
-    Signature result = factory().createSignature(factory().list(pair));
-    
-    // add process type to CircusProcess
-    addTypeAnn(term.getCircusProcess(), procType);
     
     // add signature to ProcessPara
     addSignatureAnn(term, result);           
@@ -373,12 +363,7 @@ public class ParaChecker
     // no reference to such names is possible. so let the checkForDuplicates
     // at the process level check it.
     
-    UResult solved = term.getTransformerPred().accept(predChecker());
-    
-    if (solved.equals(UResult.PARTIAL))
-    {
-      term.getTransformerPred().accept(predChecker());
-    }
+    typeCheckPred(term, term.getTransformerPred());
     
     NameTypePair pair = factory().createNameTypePair(term.getName(), transformerType());
     Signature result = factory().createSignature(pair);
