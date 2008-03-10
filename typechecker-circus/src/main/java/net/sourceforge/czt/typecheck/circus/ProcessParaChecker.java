@@ -21,13 +21,11 @@ import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
-import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
-import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -37,41 +35,12 @@ import net.sourceforge.czt.z.ast.ZName;
  * @author leo
  */
 public class ProcessParaChecker extends Checker<Signature>
-  implements ActionParaVisitor<Signature>,
-             NameSetParaVisitor<Signature>
+  implements ActionParaVisitor<Signature>, // C.10.2, C.11.1, C.11.2
+             NameSetParaVisitor<Signature> // C.10.3
 {
   public ProcessParaChecker(TypeChecker typeChecker)
   {
     super(typeChecker);        
-  }
-  
-  // don't generalise - error messages are specific
-  protected NameSetType typeCheckNameSet(NameSet term)
-  {
-    Type2 type = term.accept(exprChecker());    
-    Type2 innerType = type;
-    if (type instanceof PowerType)
-    {
-      innerType = GlobalDefs.powerType(type).getType();
-    }
-    
-    NameSetType result = factory().createNameSetType();
-    UResult unified = unify(innerType, result);
-    
-    // if doesn't unify, then raise an error 
-    if (unified.equals(UResult.FAIL))
-    {
-      // within the ActionChecker, it must be for an action use 
-      // rather than at declaration point.      
-      List<Object> params = factory().list();
-      params.add(getCurrentProcessName());
-      params.add("name set");
-      params.add(getCurrentNameSetName());
-      params.add(term);
-      params.add(type);
-      error(term, ErrorMessage.NON_NAMESET_IN_SETEXPR, params);
-    }
-    return result;    
   }
   
   /**
@@ -110,6 +79,9 @@ public class ProcessParaChecker extends Checker<Signature>
     
     // add it to the process scope early
     typeEnv().add(pairs);    
+    
+    // added by ParaChecker
+    // addSignatureAnn(term, result);
     
     return result;
   }
@@ -165,8 +137,9 @@ public class ProcessParaChecker extends Checker<Signature>
     // add action type to CircusAction
     addTypeAnn(term.getCircusAction(), actionType);
     
-    // add signature to ActionPara
-    addSignatureAnn(term, result);
+    // add signature to ActionPara 
+    // - added in BasicProcessChecker it may change if the state
+    //addSignatureAnn(term, result);
   
     // put this paragraph into the BasicProcess scope early,
     // so that some forms of mutual recursion may be resolved directly.
@@ -236,7 +209,12 @@ public class ProcessParaChecker extends Checker<Signature>
         Object[] params = { getCurrentProcessName(), nsName, old };
         error(term, ErrorMessage.NESTED_NAMESETPARA_SCOPE, params);
       }
-      NameSetType nsType = typeCheckNameSet(ns);
+            
+      List<Object> errorParams = factory().list();
+      errorParams.add(getCurrentProcessName());
+      errorParams.add("name set");
+      errorParams.add(getCurrentNameSetName());          
+      NameSetType nsType = typeCheckNameSet(ns, errorParams);
       
       PowerType pType = factory().createPowerType(GlobalDefs.unwrapType(nsType));
       NameTypePair pair = factory().createNameTypePair(nsName, pType);
@@ -257,9 +235,9 @@ public class ProcessParaChecker extends Checker<Signature>
       Object [] params = { nsName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
       error(term, ErrorMessage.REDECLARED_DEF, params);      
     }
-    // add signature to NameSetPara
-    addSignatureAnn(term, result);   
+    // add signature to NameSetPara - added in BasicProcessChecker
+    //addSignatureAnn(term, result);   
     
     return result;
-  }
+  }  
 }
