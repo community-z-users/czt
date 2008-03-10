@@ -20,10 +20,8 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.visitor.CallActionVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
-import net.sourceforge.czt.typecheck.z.util.ParameterAnn;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 import net.sourceforge.czt.z.ast.Type;
-import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
