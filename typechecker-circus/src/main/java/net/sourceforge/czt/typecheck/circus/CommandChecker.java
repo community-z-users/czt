@@ -18,14 +18,36 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
+import java.util.Iterator;
 import java.util.List;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionSignature;
-import net.sourceforge.czt.circus.ast.QualifiedDecl;
+import net.sourceforge.czt.circus.ast.AssignmentCommand;
+import net.sourceforge.czt.circus.ast.AssignmentPairs;
+import net.sourceforge.czt.circus.ast.CircusAction;
+import net.sourceforge.czt.circus.ast.CircusActionList;
+import net.sourceforge.czt.circus.ast.CircusGuardedCommand;
+import net.sourceforge.czt.circus.ast.DoGuardedCommand;
+import net.sourceforge.czt.circus.ast.IfGuardedCommand;
+import net.sourceforge.czt.circus.ast.SpecStmtCommand;
 import net.sourceforge.czt.circus.ast.VarDeclCommand;
+import net.sourceforge.czt.circus.visitor.AssignmentCommandVisitor;
+import net.sourceforge.czt.circus.visitor.CircusActionListVisitor;
+import net.sourceforge.czt.circus.visitor.DoGuardedCommandVisitor;
+import net.sourceforge.czt.circus.visitor.IfGuardedCommandVisitor;
+import net.sourceforge.czt.circus.visitor.SpecStmtCommandVisitor;
 import net.sourceforge.czt.circus.visitor.VarDeclCommandVisitor;
-import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
+import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
-import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.util.ZUtils;
 
 
 /**
@@ -35,22 +57,144 @@ import net.sourceforge.czt.z.ast.VarDecl;
  */
 public class CommandChecker
   extends Checker<ActionSignature>
-  implements //CircusCommandVisitor,
-      VarDeclCommandVisitor<ActionSignature>          // C.16.1, C.17.3
-      //SpecStmtCommandVisitor<ActionSignature>,      // C.17.1, C.17.4, C.17.5
-      //AssignmentCommandVisitor<ActionSignature>,
-      //IfGuardedCommandVisitor<ActionSignature>,      
+  implements 
+      SpecStmtCommandVisitor<ActionSignature>,      // C.17.1, C.17.4, C.17.5
+      AssignmentCommandVisitor<ActionSignature>,    // C.17.2
+      VarDeclCommandVisitor<ActionSignature>,       // C.16.1, C.17.3
+      IfGuardedCommandVisitor<ActionSignature>,     // C.17.7, C.17.8, C.17.9, C.17.10
+      DoGuardedCommandVisitor<ActionSignature>,     // C.17.7-2
+      CircusActionListVisitor<ActionSignature>      // C.17.8, C.17.9, C.17.10
       
 {  
-  //a Z decl checker
-  protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
-
-  /** Creates a new instance of CommandChecker */
+  
+  private CircusGuardedCommand currentGuardedCommand_;
+    
+  /** Creates a new instance of CommandChecker
+   * @param typeChecker 
+   */
   public CommandChecker(TypeChecker typeChecker)
   {
-    super(typeChecker);
-    zDeclChecker_ =
-      new net.sourceforge.czt.typecheck.z.DeclChecker(typeChecker);
+    super(typeChecker);    
+    currentGuardedCommand_ = null;
+  }
+  
+  protected List<NameTypePair> typeCheckZNameList(ZNameList list, Term term)
+  {
+    // check no duplicate names in the frame.
+    checkForDuplicateNames(list, term);  
+    
+    List<NameTypePair> localVars = factory().list();
+    
+    // check the names in the frame are in local variable scope
+    int i = 1;
+    for(Name name : list)
+    {     
+      // only get type for local names
+      Type type = typeEnv().getType(ZUtils.assertZName(name));
+      if (isLocalVar(type))
+      {        
+        localVars.add(factory().createNameTypePair(name, type));
+      }
+      else
+      {
+        Object[] params = { 
+          getCurrentProcessName(),
+          getCurrentActionName(), 
+          name, i, type, 
+          getConcreteSyntaxSymbol(term) 
+        };
+        error(term, ErrorMessage.INVALID_NAMELIST_IN_COMMAND, params);                
+      }
+      i++;
+    }
+    return localVars;
+  }
+  
+  /**
+   * 
+   * @param term
+   * @return
+   * @law C.17.1, C.17.4, C.17.5
+   */
+  public ActionSignature visitSpecStmtCommand(SpecStmtCommand term)
+  {
+    // check within action scope
+    checkActionParaScope(term, null);      
+    
+    // check for duplicate names and their local scope
+    List<NameTypePair> localVars = typeCheckZNameList(term.getZFrame(), term);
+    
+    typeCheckPred(term, term.getPre());
+    typeCheckPred(term, term.getPost());
+    
+    ActionSignature result = factory().createEmptyActionSignature();
+    result.getLocalVars().getNameTypePair().addAll(localVars);
+    
+    //TODO: add StateUpdate!        
+    addActionSignatureAnn(term, result);
+    return result;
+  }
+  
+  /**
+   * 
+   * @param term
+   * @return
+   * @law C.17.2
+   */
+  public ActionSignature visitAssignmentCommand(AssignmentCommand term)
+  {
+    // check within action scope
+    checkActionParaScope(term, null);      
+    
+    AssignmentPairs apairs = term.getAssignmentPairs();
+    ZNameList lhs = apairs.getZLHS();
+    ZExprList rhs = apairs.getZRHS();
+    
+    // check for duplicate names and their local scope    
+    List<NameTypePair> localVars = typeCheckZNameList(lhs, term);
+    
+    // their sizes is enforced by the parser, by double check here
+    // for the case of manually created assignments
+    if (lhs.size() != rhs.size())
+    {
+      Object[] params = {
+        getCurrentProcessName(),
+        getCurrentActionName(),
+        lhs.size(), rhs.size()
+      };
+      error(term, ErrorMessage.UNBALANCED_ASSIGNMENT_PAIRS, params);
+    }
+    else 
+    {
+      int i = 1;      
+      Iterator<Expr> itExpr = rhs.iterator();      
+      for(NameTypePair ntp : localVars)
+      {
+        // get the values
+        assert itExpr.hasNext();        
+        
+        Expr expr  = itExpr.next();        
+        Type2 expected = GlobalDefs.unwrapType(ntp.getType());
+        Type2 found    = expr.accept(exprChecker());
+                
+        if (!unify(found, expected).equals(UResult.SUCC)) 
+        {
+          Object [] params = { 
+            getCurrentProcessName(), 
+            getCurrentActionName(), 
+            ntp.getName(), i, expected, found };
+          error(term, ErrorMessage.ASSIGNMENT_COMMAND_DONT_UNIFY, params);          
+        }
+        i++;        
+      }
+    }
+    
+    ActionSignature result = factory().createEmptyActionSignature();
+    result.getLocalVars().getNameTypePair().addAll(localVars);
+    
+    //TODO: add StateUpdate!        
+    addActionSignatureAnn(term, result);
+    return result; 
   }
   
   /**
@@ -63,16 +207,18 @@ public class CommandChecker
   {
     checkActionParaScope(term, null);
     
+    // variable declaration commands do not allow qualified declarations    
+    // and types of declarations do not need to be finite
     List<NameTypePair> gParams = typeCheckCircusDeclList(
-      term, term.getZDeclList(), true, 
-      ErrorMessage.INVALID_DECL_IN_VARDECLCOMMAND, 
+      term, term.getZDeclList(), false /* considerFiniteness */,
+      false /* allowQualifiedDecl */,  ErrorMessage.INVALID_DECL_IN_VARDECLCOMMAND, 
       factory().<Object>list(getCurrentProcessName(), getCurrentActionName()));
   
     // put the declared parameters into the action's scope
     typeEnv().enterScope();
     
     // add variables to the state - and current scope only.
-    List<NameTypePair> allVars = addLocalVars(gParams);    
+    List<NameTypePair> allVars = addStateVars(gParams);    
     
     // check the inner action now with the parameters in scope
     ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
@@ -81,7 +227,7 @@ public class CommandChecker
     //ActionSignature varDeclCmdSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
     ActionSignature varDeclCmdSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);
     
-    // updates the local variable signature for the prefixed action.
+    // updates the local variable signature for variable decl command - duplicates are fine (?) TODO:CHECK
     varDeclCmdSig.getLocalVars().getNameTypePair().addAll(0, allVars);
         
     typeEnv().exitScope();    
@@ -90,155 +236,73 @@ public class CommandChecker
     addActionSignatureAnn(term, varDeclCmdSig);
     return varDeclCmdSig;       
   }
- 
-//  // Command ::= N+ := Expression+
-//  //ok - verificado em 15/09/2005 s 15:15
-//  public ActionSignature visitAssignmentCommand(AssignmentCommand term)
-//  {    
-//    assert term.getLHS() != null && term.getRHS() != null;
-//    ZNameList LHS = term.getAssignmentPairs().getZLHS();
-//    ZExprList RHS = term.getAssignmentPairs().getZRHS();
-//    
-//    if(LHS.size() != RHS.size()) {
-//      Object [] params = {getCurrentActionName(), getCurrentProcessName()};
-//      error(term, ErrorMessage.DIFF_NUM_ASSIG_COMMAND_ERROR, params);
-//    }
-//    else {
-//      List<String> leftVars = new ArrayList<String>();
-//      int i = 0;
-//
-//      for(RefName leftVarOld : vars) {
-//        ZRefName leftVar = assertZRefName(leftVarOld);
-//        Expr rigthExpr = exprs.get(i);
-//        if(!leftVars.contains(leftVar.getWord())) {
-//          leftVars.add(leftVar.getWord());
-//          if(!isLovalVar(leftVar)) {
-//            Object [] params = {assertZDeclName(currentAction()).getWord(), 
-//                    assertZDeclName(currentProcess()).getWord(), leftVar.getWord()};
-//            error(term, ErrorMessage.IS_NOT_LOCAL_VAR_NAME_IN_ASSIG_COMMAND, params);
-//            break;
-//          }
-//          Type varType = typeEnv().getType(leftVar);
-//          Type2 exprType = rigthExpr.accept(exprChecker());
-//          if (unify(unwrapType(varType), unwrapType(exprType)) != SUCC) {
-//            Object [] params = {assertZDeclName(currentAction()).getWord(), 
-//                    assertZDeclName(currentProcess()).getWord(), varType, exprType, i+1};
-//            error(term, ErrorMessage.ASSIG_COMMAND_ERROR, params);
-//            break;
-//          }   
-//
-//        } else {
-//            Object [] params = {assertZDeclName(currentAction()).getWord(), 
-//                    assertZDeclName(currentProcess()).getWord(), leftVar.getWord()};
-//            error(term, ErrorMessage.DUPLICATE_VAR_NAME_IN_ASSIG_COMMAND, params);
-//            break;
-//        }
-//        i++;
-//      }
-//    }
-//        
-//    ActionSignature actionSignature = factory().createActionSignature();
-//    actionSignature.
-//    addActionSignatureAnn(term, actionSignature);
-//    return actionSignature;
-//  }
-//
-//  // Command ::= N+ : [Predicate, Predicate]
-//  // Command ::= [Predicate]
-//  // Command ::= {Predicate}
-//  //ok - verificado em 15/09/2005 s 15:17
-//  public ActionSignature visitSpecStmtCommand(SpecStmtCommand term)
-//  {      
-//    ZRefNameList frameVars = term.getFrame() == null ? factory().createZRefNameList() : assertZRefNameList(term.getFrame());
-//    Pred pre = term.getPre();
-//    Pred post = term.getPost();
-//    
-//    List<String> frame = new ArrayList<String>();
-//    
-//    for(RefName frameVarOld : frameVars) {
-//      ZRefName frameVar = assertZRefName(frameVarOld); 
-//      if(!frame.contains(frameVar.getWord())) {
-//        frame.add(frameVar.getWord());
-//        if(!isLovalVar(frameVar)) {
-//          Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), frameVar.getWord()};
-//          error(term, ErrorMessage.IS_NOT_LOCAL_VAR_NAME_IN_SPEC_COMMAND, params);
-//          break;
-//        }
-//      } else {
-//          Object [] params = {assertZDeclName(currentAction()).getWord(), assertZDeclName(currentProcess()).getWord(), frameVar.getWord()};
-//          error(term, ErrorMessage.DUPLICATE_VAR_NAME_IN_FRAME_OF_SPEC_COMMAND, params);
-//          break;
-//      }
-//    }
-//    pre.accept(predChecker());
-//    post.accept(predChecker());
-//    
-//    ActionSignature actionSignature = factory().createActionSignature();
-//    addActionAnn(term, actionSignature);
-//    
-//    return actionSignature;
-//  }
-//
-//  // Command ::= if GuardedActions fi
-//  //ok - verificado em 15/09/2005 �s 15:35
-//  public ActionSignature visitIfGuardedCommand(IfGuardedCommand term)
-//  {
-//    ActionSignature actionSignature = factory().createActionSignature();
-//    List<GuardedAction> gActions = term.getGuardedAction();
-//    
-//    for(GuardedAction gAction : gActions) {
-//      Pred pred = gAction.getPred();
-//      CircusAction action = gAction.getCircusAction();
-//      pred.accept(predChecker());
-//      ActionSignature sig = action.accept(actionChecker());
-//      ActionSignature sigTemp = cloneActionSignature(sig);
-//      actionSignature = joinActionSignature(actionSignature, sigTemp);
-//    }
-//    
-//    addActionAnn(term, actionSignature);
-//
-//    return actionSignature;
-//  }
-//
-//  // Command ::= var Declaration @ Action
+
+  /**
+   * 
+   * @param term
+   * @return
+   * @law C.17.7
+   */
+  public ActionSignature visitIfGuardedCommand(IfGuardedCommand term)
+  {
+    currentGuardedCommand_ = term;
+    
+    // type check all guards - note here we allow room for guard jokers ;-)
+    // but the type checker only captures normal guards - via CircusActionList
+    ActionSignature actionSignature = term.getGuardedActionList().accept(commandChecker());
+    
+    currentGuardedCommand_ = null ;
+    addActionSignatureAnn(term, actionSignature);
+    return actionSignature;
+  }
   
+  /**
+   * 
+   * @param term
+   * @return
+   * @law C.17.7-2
+   */
+  public ActionSignature visitDoGuardedCommand(DoGuardedCommand term)
+  {    
+    currentGuardedCommand_ = term;
+    
+    // type check all guards - note here we allow room for guard jokers ;-)
+    // but the type checker only captures normal guards - via CircusActionList
+    ActionSignature actionSignature = term.getActionList().accept(commandChecker());
+    
+    currentGuardedCommand_ = null;
+    
+    addActionSignatureAnn(term, actionSignature);
+    return actionSignature;
+  }
   
-//
-//  /*
-//  
-//  // ParCommand ::= (QualifiedDeclaration @ Command)
-//  // Falta testar!!
-//  public ActionSignature visitParamCommand(ParamCommand term)
-//  {
-//    List<NameTypePair> allPairs = new ArrayList<NameTypePair>();
-//    
-//    List<QualifiedDecl> decls = term.getQualifiedDecl();
-//    CircusCommand command = term.getCircusCommand();
-//
-//    typeEnv().enterScope();
-//    
-//    List<Object> paramsError = new ArrayList<Object>();
-//    paramsError.add(assertZDeclName(currentAction()).getWord());
-//    paramsError.add(assertZDeclName(currentProcess()).getWord());
-//    for(QualifiedDecl qDecl : decls) {
-//      List<NameTypePair> pairs = qDecl.accept(declChecker());
-//      allPairs = checkDecls(allPairs, pairs, term, ErrorMessage.REDECLARED_PARAM_IN_PARCOMMAND, paramsError);
-//    }
-//    addVars(allPairs);
-//    
-//    ActionSignature actionSig = command.accept(commandChecker());
-//    
-//    typeEnv().exitScope();
-//    
-//    ActionSignature actTemp = cloneActionSignature(actionSig);
-//    actTemp.setLocalVarsSignature(factory().createSignature(allPairs));
-//    
-//    ActionSignature actionSignature = factory().createActionSignature();
-//    actionSignature = joinActionSignature(actionSig, actTemp);    
-//    
-//    addActionAnn(term, actionSignature);
-//    
-//    return actionSignature;
-//  }
-//*/
+  public ActionSignature visitCircusActionList(CircusActionList term)
+  {
+    assert currentGuardedCommand_ != null : "Cannot check guards of null guarded command";
+    
+    // check scope
+    checkActionParaScope(term, null);
+    
+    // create an empty signature at first.
+    ActionSignature actionSignature = factory().createEmptyActionSignature();
+    
+    // if there are no guards, raise a warning.
+    if (term.isEmpty())
+    {
+      Object[] params = {
+        getCurrentProcessName(),
+        getCurrentActionName(),
+        getConcreteSyntaxSymbol(currentGuardedCommand_)
+      };
+      warningManager().warn(term, WarningMessage.EMPTY_GUARDED_COMMAND, params);      
+    }
+    
+    // type check each guarded action joining their signatures
+    for(CircusAction action : term)
+    {      
+      ActionSignature guardSignature = action.accept(actionChecker());
+      actionSignature = joinActionSignature(action, actionSignature, guardSignature);
+    }    
+    return actionSignature;
+  }
 }
