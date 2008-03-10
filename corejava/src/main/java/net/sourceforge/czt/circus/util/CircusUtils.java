@@ -16,16 +16,20 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.CommPattern;
 import net.sourceforge.czt.circus.ast.DotField;
 import net.sourceforge.czt.circus.ast.Field;
+import net.sourceforge.czt.circus.ast.IndexedProcess;
 import net.sourceforge.czt.circus.ast.InputField;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.OutputFieldAnn;
+import net.sourceforge.czt.circus.ast.ParamProcess;
 import net.sourceforge.czt.circus.ast.ParamQualifier;
+import net.sourceforge.czt.circus.ast.ProcessD;
 import net.sourceforge.czt.circus.ast.ProofObligationAnn;
 import net.sourceforge.czt.circus.ast.TransformerPara;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
@@ -533,6 +537,29 @@ public final class CircusUtils
     
     result.setWord(result.getWord() + ZString.DOT + second.getWord());
     
+    return result;
+  }
+  
+  public static boolean isBasicProcess(Term term)
+  {
+    boolean result = (term instanceof BasicProcess);
+    if (!result)
+    {
+      result = ((term instanceof ProcessD) && ((ProcessD)term).getCircusProcess() instanceof BasicProcess);
+    }
+    return result;      
+  }
+  
+  public static BasicProcess getBasicProcess(Term term)
+  {
+    BasicProcess result = null;
+    if (isBasicProcess(term))
+    {
+      if (term instanceof BasicProcess)
+        result = (BasicProcess)term;
+      else if (term instanceof ProcessD)
+        result = (BasicProcess)((ProcessD)term).getCircusProcess();
+    }
     return result;
   }
   

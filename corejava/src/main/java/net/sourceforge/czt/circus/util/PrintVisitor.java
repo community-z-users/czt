@@ -39,6 +39,7 @@ import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.DotField;
 import net.sourceforge.czt.circus.ast.InputField;
 import net.sourceforge.czt.circus.ast.OutputFieldAnn;
+import net.sourceforge.czt.circus.ast.ParamProcess;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.ActionType;
@@ -64,6 +65,7 @@ import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.CircusNameSetVisitor;
 import net.sourceforge.czt.circus.visitor.CommunicationTypeVisitor;
+import net.sourceforge.czt.circus.visitor.ParamProcessVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
@@ -189,7 +191,8 @@ public class PrintVisitor
   GuardedActionVisitor<String>,
   VarDeclCommandVisitor<String>,
   NameTypePairVisitor<String>,  
-  SignatureVisitor<String>
+  SignatureVisitor<String>,
+  ParamProcessVisitor<String>
 {
 
   private int tabCount = 0;
@@ -731,33 +734,40 @@ public class PrintVisitor
     return result.toString();
   }
   
+  public String visitParamProcess(ParamProcess term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visitList(term.getZDeclList(), "; "));
+    result.append(" @ ");
+    result.append(visit(term.getCircusProcess()));
+    return result.toString();
+  }
+  
   public String visitBasicProcess(BasicProcess term)
   {
     StringBuilder result = new StringBuilder("BasicProcess(hC=");
     result.append(term.hashCode());
     result.append(")[");
     openTabScope(result);    
-    result.append("StatePara=");
-    result.append(visit(term.getStatePara()));
-    int paraCnt = term.getLocalPara().size();
-    addNLAndTabs(result);
-    result.append("LocalPara(" + paraCnt + ")");
-    result.append(visitList(term.getLocalPara(), "\n"));
-    int ontheflyCnt = term.getOnTheFlyPara().size();
-    addNLAndTabs(result);
-    result.append("OnTheFlyPara(" + ontheflyCnt + ")");
-    result.append(visitList(term.getOnTheFlyPara(), "\n"));
-    addNLAndTabs(result);
-    result.append("MainAction=");
-    result.append(visit(term.getMainAction()));
-    addNLAndTabs(result);
-    result.append("\tTotal paras=" + (paraCnt+ontheflyCnt));    
-    result.append(visit(term.getZParaList()));
-    addNLAndTabs(result);
-    result.append("\tTotal paras=" + (term.getZParaList().size()));
+      result.append("StatePara = ");
+      result.append(visit(term.getStatePara()));
+      int paraCnt = term.getLocalPara().size();
+      addNLAndTabs(result);
+      result.append("LocalPara(" + paraCnt + ") = ");
+      result.append(visitList(term.getLocalPara(), "\n"));
+      int ontheflyCnt = term.getOnTheFlyPara().size();
+      addNLAndTabs(result);
+      result.append("OnTheFlyPara(" + ontheflyCnt + ") = ");
+      result.append(visitList(term.getOnTheFlyPara(), "\n"));
+      addNLAndTabs(result);
+      result.append("MainAction = ");
+      result.append(visit(term.getMainAction()));
+      addNLAndTabs(result);
+      result.append("AllPara(" + (paraCnt+ontheflyCnt) + ") = ");    
+      result.append(visit(term.getZParaList()));      
+      result.append("Total paras=" + (term.getZParaList().size()));
     closeTabScope(result);
-    result.append("]");
-    addNLAndTabs(result);
+    result.append("]");    
     return result.toString();
   }  
   
