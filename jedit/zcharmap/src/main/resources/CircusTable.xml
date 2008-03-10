@@ -304,13 +304,13 @@
           latex="c \then A"/>        
     <item name="c ?x &#x2236; P &#x27F6; A"
           description="Input prefixing"
-          latex="c~?x \prefixcolon P \then A"/>          
-    <item name="c !x &#x27F6; A"
+          latex="c?x \prefixcolon P \then A"/>          
+    <item name="c!x &#x27F6; A"
           description="Output prefixing"
-          latex="c~!x \then A"/>                    
-    <item name="&#x00B5; X &#x2981; A"
+          latex="c!x \then A"/>                    
+    <item name="&#x00B5; X &#x2219; A"
           description="Recursion"
-          latex="\circmu\ X @ A"/>
+          latex="\circmu\ X \circspot A"/>
     <item name="&#x3014; g &#x3015; &#x0026; A"
           description="Guarded action"
           latex="\lcircguard g \rcircguard \circguard A"/>          
@@ -328,8 +328,8 @@
           latex="A \interleave B"/>          
     <item name="&#x27E6;..&#x27E7;"
           description="Action parallel composition with empty name sets and explicit channel set"
-          unicode="A &#x27E6; &#x2983; c &#x2984; &#x27E7; B"
-          latex="A \lpar \lchanset c \rchanset \rpar B"/>                    
+          unicode="A &#x27E6; &#x2983; cs &#x2984; &#x27E7; B"
+          latex="A \lpar \lchanset cs \rchanset \rpar B"/>                    
     <item name="A &#x2AF5; B"
           description="Hiding"
           latex="A \circhide B"/>
@@ -338,14 +338,11 @@
     <item name="&#x2768; SExp &#x2769;"
           description="Schema expression action"
           latex="\lschexpract\ SExp \rschexpract"/>
-    <item name="&#x2768; SExp &#x2769;"
-          description="Schema expression action"
-          latex="\lschexpract\ SExp \rschexpract"/>          
-    <item name="&#x301A;.. &#x301B;"
+    <item name="A &#x301A; nA | nB &#x301B; B"
           description="Action interleave"
           unicode="A &#x301A; nA | nB &#x301B; B"
-          latex="A \linter nA | \rinter B"/>          
-    <item name="&#x27E6;..|..&#x27E7;"
+          latex="A \linter nA | nB \rinter B"/>          
+    <item name="A &#x27E6; nA | &#x2983; c &#x2984; | nsB &#x27E7; B"
           description="Action parallel composition with explicit channel set"
           unicode="A &#x27E6; nsA | &#x2983; c &#x2984; | nsB &#x27E7; B"
           latex="A \lpar nsA | \lchanset c \rchanset | nsB \rpar B"/>                                
@@ -359,7 +356,7 @@
   <row heading="Commands">
     <item name="var"
           description="Local variable declaration"
-          unicode="var x: T &#x2981; A &#xA;"
+          unicode="var x: T &#x2219; A &#xA;"
           latex="\circvar\ x : T @ A &#xA;"/>  
     <item name=":="
           description="Assignment"
@@ -377,10 +374,12 @@
           description="Specification statement"
           unicode="x : [ P, Q ]"
           latex="x : [ P, Q ]"/>                      
+<!--          
     <item name="con"
           description="Logical constant declaration"
-          unicode="var x: T &#x2981; A &#xA;"
-          latex="\circvar\ x : T @ A &#xA;"/>                
+          unicode="cons x: T &#x2219; A &#xA;"
+          latex="\circons\ x : T \circspot A &#xA;"/>                
+-->          
     <item name="val"
           description="Parameter passed by value"
           unicode="val x: T"
@@ -397,16 +396,16 @@
   <row heading="Rep. CSP Act.">
     <item name="&#x2A1F;"
           description="Replicated sequential composition"
-          unicode="&#x2A1F; x: T &#x2981; A(x)"
-          latex="\Semi x: T @ A(x)"/>    
+          unicode="&#x2A1F; x: T &#x2219; A(x)"
+          latex="\Semi x: T \circspot A(x)"/>    
     <item name="&#x25A1;" 
           description="Replicated external choice"
-          unicode="&#x25A1; x: T &#x2981; A(x)"
-          latex="\Extchoice x: T @ A(x)"/>    
+          unicode="&#x25A1; x: T &#x2219; A(x)"
+          latex="\Extchoice x: T \circspot A(x)"/>    
     <item name="&#x2294;" 
           description="Replicated internal choice"
-          unicode="&#x2294; x: T &#x2981; A(x)"
-          latex="\Intchoice x: T @ A(x)"/>    
+          unicode="&#x2294; x: T &#x2219; A(x)"
+          latex="\Intchoice x: T \circspot A(x)"/>    
   </row>
 </table>         
 

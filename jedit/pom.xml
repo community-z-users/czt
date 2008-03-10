@@ -21,6 +21,7 @@
     <module>zlive</module>
     <module>zsidekick</module>
     <module>zcharmap</module>
+    <module>zeves</module>
   </modules>
   <dependencyManagement>
     <dependencies>

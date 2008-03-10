@@ -333,6 +333,8 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/symbol_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/version.java -text
+jedit/zeves/src/main/resources/zeves.html -text
+jedit/zeves/src/main/resources/zeves.props -text
 jedit/zlive/src/main/resources/zlive.html -text
 modeljunit/jdsl/overview/overview.pdf -text
 modeljunit/jdsl/tutorial/lesson06/tree.jpg -text

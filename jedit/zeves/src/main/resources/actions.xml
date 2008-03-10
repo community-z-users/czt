@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE ACTIONS SYSTEM "actions.dtd">
+
+<ACTIONS>
+  <ACTION NAME="zeves.eval-current-line">
+    <CODE>
+      textArea = view.getTextArea();
+      command = textArea.getLineText(textArea.getCaretLine());
+      runCommandInConsole(view, "ZEves", command);
+      textArea.grabFocus();
+      textArea.goToNextLine(false);
+    </CODE>
+  </ACTION>
+</ACTIONS>

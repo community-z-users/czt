@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE SERVICES SYSTEM "services.dtd">
+
+<SERVICES>
+  <SERVICE CLASS="console.Shell" NAME="ZEves">
+    new net.sourceforge.czt.jedit.zeves.ZEvesConsole();
+  </SERVICE>
+</SERVICES>

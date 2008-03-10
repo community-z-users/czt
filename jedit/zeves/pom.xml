@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>net.sourceforge.czt.jedit</groupId>
+    <artifactId>jedit</artifactId>
+    <version>1.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>ZEvesPlugin</artifactId>
+  <packaging>jar</packaging>
+  <name>CZT Z/Eves jEdit Plugin</name>
+  <description>
+    jEdit Plugin that that embeddeds the Z/Eves theorem prover command line in a console window
+  </description>
+  <dependencies>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zeves</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>${jedit.groupId}</groupId>
+      <artifactId>${jedit.artifactId}</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${jedit.plugin.groupId}</groupId>
+      <artifactId>${console.artifactId}</artifactId>
+    </dependency>    
+  </dependencies>
+</project>
