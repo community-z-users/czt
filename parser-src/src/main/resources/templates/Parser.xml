@@ -3717,9 +3717,11 @@ processPara ::=
            checkStateDeclNotRepeated(pp);
            addLocAnn(pp, loc);           
            
+           
+           
            // If processDesc is a multiple env BasicProcess, check whether
-           // it is multiple environment or single environment
-           if ((pd instanceof BasicProcess) 
+           // it is multiple environment or single environment - ParamProcess is also basic!
+           if (CircusUtils.isBasicProcess(pd)
               &amp;&amp;
               // If multiple environment, just return null. This avoids creating 
               // duplicated entries into section level for process para.
@@ -3757,7 +3759,7 @@ processPara ::=
            LocInfo loc = getLocation(endleft, endright);
            
            // if there is no scope add warning.            
-           addBasicProcessScopePostCheckFor("MULTIPLE ENVIRONMENT END", loc);              
+           addBasicProcessScopePostCheckFor(from, loc);              
            
            //Name pn = null;
            //NameList gen = null;
@@ -3809,7 +3811,7 @@ processPara ::=
         |        
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF error:e
         {: 
-           RESULT = factory_.createProcessPara(n, ofp, null);           
+           RESULT = factory_.createProcessPara(n, ofp, factory_.createBasicProcess(factory_.createZParaList()));
            addLocAnn(RESULT, getLocation(cp, n));           
            parser.report_syntax_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
               new Object[] { "process paragraph" }, getLocation(eleft, eright));
@@ -3817,7 +3819,7 @@ processPara ::=
         |
         CIRCPROC:cp optFormalParameters:ofp name:n error:e
         {: 
-           RESULT = factory_.createProcessPara(n, ofp, null);           
+           RESULT = factory_.createProcessPara(n, ofp, factory_.createBasicProcess(factory_.createZParaList()));
            addLocAnn(RESULT, getLocation(cp, n));
            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR, 
               new Object[0], getLocation(eleft, eright));
@@ -3825,7 +3827,7 @@ processPara ::=
         |
         CIRCPROC:cp optFormalParameters:ofp error:e
         {: 
-           RESULT = factory_.createProcessPara(null, ofp, null);           
+           RESULT = factory_.createProcessPara(null, ofp, factory_.createBasicProcess(factory_.createZParaList()));
            addLocAnn(RESULT, getLocation(cp, ofp.get(ofp.size()-1)));
            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_MISSING_NAME_ERROR, 
               new Object[0], getLocation(eleft, eright));
