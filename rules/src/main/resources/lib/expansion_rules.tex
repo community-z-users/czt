@@ -197,11 +197,35 @@ schema construction expressions.
   v = [v2; v2~' | P]
 \end{zedrule}
 
-%% TODO: generalize this to work on expression lists
-\begin{zedrule}{SchemaSet}
+These are recently-added (Mar 2008) rules to unfold schemas that
+are written as set comprehensions or set enumerations etc.
+We need a more general version of these, but it is difficult to find 
+a more general form that does not produce infinite recursive unfolding!
+%\begin{zedrule}{SchemaSet1}
+%  \{E1\} :: \power [D | true]
+%\derives
+%  \{E1\} = [D | \theta [D|true] = E1 ]
+%\end{zedrule}
+\begin{zedrule}{SchemaSet2}
   \{E1,E2\} :: \power [D | true]
 \derives
-  \{E1,E2\} = [D | \theta [D|true] = E1 \lor \theta [D|true] = E2 ]
+  \{E1,E2\} = [D | \theta [D|true] = E1 
+              \lor \theta [D|true] = E2 ]
+\end{zedrule}
+\begin{zedrule}{SchemaSet3}
+  \{E1,E2,E3\} :: \power [D | true]
+\derives
+  \{E1,E2,E3\} = [D | \theta [D|true] = E1
+                 \lor \theta [D|true] = E2
+                 \lor \theta [D|true] = E3 ]
+\end{zedrule}
+\begin{zedrule}{SchemaSet4}
+  \{E1,E2,E3,E4\} :: \power [D | true]
+\derives
+  \{E1,E2,E3,E4\} = [D | \theta [D|true] = E1 
+                 \lor \theta [D|true] = E2
+                 \lor \theta [D|true] = E3
+                 \lor \theta [D|true] = E4 ]
 \end{zedrule}
 
 
