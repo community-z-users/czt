@@ -39,6 +39,7 @@ import net.sourceforge.czt.circus.ast.ProcessD;
 import net.sourceforge.czt.circus.ast.ProcessIdx;
 import net.sourceforge.czt.circus.ast.ProcessIte;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
+import net.sourceforge.czt.circus.ast.ProcessUsage;
 import net.sourceforge.czt.circus.ast.RenameProcess;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelProcessVisitor;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
@@ -151,24 +152,27 @@ public class ProcessChecker extends Checker<ProcessSignature>
     
     // check the inner process now with the parameters in scope
     ProcessSignature processSignature = term.getCircusProcess().accept(processChecker());
-    
+        
     // clone the signature
     //ActionSignature actionDSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
     ProcessSignature processDSig = (ProcessSignature)factory().shallowCloneTerm(processSignature);
-    
-    // if nesting is present, raise an error - it isn't allowed
-    if (!processDSig.getFormalParamsOrIndexes().getNameTypePair().isEmpty())
+        
+    // if nesting is present, raise an error - it isn't allowed (but only for compound signatures since basic cannot have it anyway
+    if (!processDSig.isBasicProcessSignature() && 
+        !processDSig.getFormalParamsOrIndexes().getNameTypePair().isEmpty())
     {
       Object[] params = { getCurrentProcessName() };
       error(term, ErrorMessage.NESTED_FORMAL_PARAMS_IN_PROCESS, params);
-    }
+    }        
     
-    // updates the formal parameters signature with gParams     
-    processDSig.setFormalParamsOrIndexes(factory().createSignature(gParams));
-    
+    // updates the formal parameters signature with gParams : join process signatures 
+    ProcessSignature result = factory().createParamProcessSignature(factory().createSignature(gParams), 
+      factory().createProcessSignatureList(factory().list(processDSig)), 
+      (putDeclsIntoScope ? ProcessUsage.Indexed : ProcessUsage.Parameterised));    
+        
     typeEnv().exitScope();            
     
-    return processDSig;
+    return result;
   }
   
   protected ProcessSignature typeCheckParProcess(ParProcess term, List<ChannelSet> channelSets)
@@ -245,10 +249,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
     // and types of declarations do not need to be finite
     ProcessSignature processDSig = typeCheckProcessD(term, 
       false, /* considerFiniteness */
-      true   /* putDeclsIntoScope */);
-    
-    // TODO: joinParamProcessBasicProcess
-    assert false : "TODO";
+      true   /* putDeclsIntoScope */);    
     
     addProcessSignatureAnn(term, processDSig);
     return processDSig;

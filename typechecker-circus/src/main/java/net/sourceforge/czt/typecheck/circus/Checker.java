@@ -326,8 +326,8 @@ public abstract class Checker<R>
   
   protected BasicProcess getCurrentBasicProcess()
   {
-    CircusProcess result = getCurrentProcess();
-    return (result instanceof BasicProcess ? (BasicProcess)result : null);
+    CircusProcess result = getCurrentProcess();    
+    return (CircusUtils.isBasicProcess(result) ? CircusUtils.getBasicProcess(result) : null);
   }
 
   protected CircusProcess setCurrentProcess(CircusProcess process)
