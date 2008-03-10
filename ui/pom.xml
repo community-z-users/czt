@@ -15,6 +15,11 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
+      <artifactId>zeves</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
       <artifactId>zlive</artifactId>
     </dependency>
     <dependency>
