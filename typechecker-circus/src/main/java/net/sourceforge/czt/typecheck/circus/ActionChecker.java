@@ -62,19 +62,15 @@ import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor;
-import net.sourceforge.czt.typecheck.circus.impl.Factory;
+import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
-import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 import net.sourceforge.czt.z.ast.GenericType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NewOldPair;
-import net.sourceforge.czt.z.ast.PowerType;
-import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.SchemaType;
-import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
@@ -126,11 +122,10 @@ import net.sourceforge.czt.z.util.ZUtils;
  */
 public class ActionChecker
   extends Checker<ActionSignature>
-  implements
-  // DONE
-  ParamActionVisitor<ActionSignature>,                  //  C.12.1, C.12.2  
+  implements  
+  ParamActionVisitor<ActionSignature>,                  //  C.12.1, C.12.2, C.16.1
   SchExprActionVisitor<ActionSignature>,                //  C.12.3
-  CallActionVisitor<ActionSignature>,                   //  C.12.4, C.12.19, C.12.20
+  CallActionVisitor<ActionSignature>,                   //  C.12.4, C.12.19, C.12.20, C.17.6
   CircusCommandVisitor<ActionSignature>,                //  C.12.5
   BasicActionVisitor<ActionSignature>,
   //SkipActionVisitor,                                      C.12.6
@@ -162,64 +157,6 @@ public class ActionChecker
   {
     super(typeChecker);   
   }
-
-  // don't generalise - error messages are specific
-  protected NameSetType typeCheckNameSet(NameSet term)
-  {
-    Type2 type = term.accept(exprChecker());    
-    Type2 innerType = type;
-    if (type instanceof PowerType)
-    {
-      innerType = GlobalDefs.powerType(type).getType();
-    }
-    
-    NameSetType result = factory().createNameSetType();
-    UResult unified = unify(innerType, result);
-    
-    // if doesn't unify, then raise an error 
-    if (unified.equals(UResult.FAIL))
-    {
-      // within the ActionChecker, it must be for an action use 
-      // rather than at declaration point.      
-      List<Object> params = factory().list();
-      params.add(getCurrentProcessName());
-      params.add("action");
-      params.add(getCurrentActionName());      
-      params.add(term);
-      params.add(type);
-      error(term, ErrorMessage.NON_NAMESET_IN_SETEXPR, params);
-    }
-    return result;    
-  }
-
-  // don't generalise - error messages are specific
-  protected ChannelSetType typeCheckChannelSet(ChannelSet term)
-  { 
-    Type2 type = term.accept(exprChecker());    
-    Type2 innerType = type;    
-    if (type instanceof PowerType)
-    {
-      innerType = GlobalDefs.powerType(type).getType();
-    }
-    
-    ChannelSetType result = factory().createChannelSetType();
-    UResult unified = unify(innerType, result);
-    
-    // if doesn't unify, then raise an error 
-    if (unified.equals(UResult.FAIL))
-    {
-      // within the ActionChecker, it must be for an action use 
-      // rather than at declaration point.
-      List<Object> params = factory().list();
-      params.add("process");
-      params.add(getCurrentProcessName().toString() +
-          "\n\tAction...: " + getCurrentActionName().toString());
-      params.add(term);
-      params.add(type);           
-      error(term, ErrorMessage.NON_CHANNELSET_IN_POWEREXPR, params);      
-    }
-    return result;
-  }
   
   /**
    * This general method typechecks all parameterised action. It covers ParamAction,
@@ -228,21 +165,43 @@ public class ActionChecker
    * the process this action belongs) for duplicated names and type mismatches, 
    * putting then into scope. Finally, it typechecks the declaring action with 
    * the parameters in scope adding them to the resulting action signature with 
-   * the formal parameters set.
-   * 
+   * the formal parameters set. If qualified declarations are allowed and present,
+   * state variables are also added to the current scope and the resulting action 
+   * signature.
    */
-  protected ActionSignature typeCheckActionD(ActionD term)
+  protected ActionSignature typeCheckActionD(ActionD term, 
+    boolean considerFiniteness, boolean allowQualifiedDecl)
   {
     checkActionParaScope(term, null);
     
+    // type check the list of declared parameters - it returns the
+    // formal parameters signature already considering generics
     List<NameTypePair> gParams = typeCheckCircusDeclList(
-      term, term.getZDeclList(), true, 
-      ErrorMessage.INVALID_DECL_IN_ACTIONITE, 
+      term, term.getZDeclList(), considerFiniteness,
+      allowQualifiedDecl, ErrorMessage.INVALID_DECL_IN_ACTIONITE, 
       factory().<Object>list(getCurrentProcessName(), getCurrentActionName()));
 
     // put the declared parameters into the action's scope
     typeEnv().enterScope();
-    typeEnv().add(gParams);
+    
+    // in general the signature of local variables is just
+    // the formal parameters - unless this is a parameterised
+    // command, in which case more state variables are added.
+    List<NameTypePair> allVars = gParams;
+    
+    // if this is a ParamAction that is a CircusCommand
+    // then we need to add state variables as well.
+    if (allowQualifiedDecl)
+    {
+      // update the local variables gParams with the new set of state variables
+      allVars = addStateVars(gParams);
+    }
+    // otherwise, this is either a ParamAction that is not 
+    // a command or some iterated action
+    else
+    {
+      typeEnv().add(gParams);
+    }
     
     // check the inner action now with the parameters in scope
     ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
@@ -251,8 +210,21 @@ public class ActionChecker
     //ActionSignature actionDSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
     ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);
     
-    // updates the local variable signature for the prefixed action.
+    // if nesting is present, raise an error - it isn't allowed
+    if (!actionDSig.getFormalParams().getNameTypePair().isEmpty())
+    {
+      Object[] params = {
+        getCurrentProcessName(),
+        getCurrentActionName()        
+      };
+      error(term, ErrorMessage.NESTED_FORMAL_PARAMS_IN_ACTION, params);
+    }
+    
+    // updates the formal parameters signature with gParams     
     actionDSig.setFormalParams(factory().createSignature(gParams));
+        
+    // updates the local variable signature with allVars - duplicates are fine(?) TODO:CHECK
+    actionDSig.getLocalVars().getNameTypePair().addAll(0, allVars);
     
     typeEnv().exitScope();            
     
@@ -269,20 +241,47 @@ public class ActionChecker
   protected ActionSignature typeCheckActionIte(ActionIte term)
   {    
     // all ActionIte are typechecked just liked ActionD
-    ActionSignature actionSignature = typeCheckActionD(term);        
+    // no qualified declaration is allowed - only param commands have them
+    // and types of declarations ought to be finite
+    ActionSignature actionSignature = typeCheckActionD(term, 
+      true, /* considerFiniteness */
+      false /* allowQualifiedDecl */);
     return actionSignature;
+  }
+  
+  protected List<Object> getChannelSetErrorParams()
+  {
+    // within the ActionChecker, it must be for an action use 
+    // rather than at declaration point.
+    List<Object> errorParams = factory().list();
+    errorParams.add("process");
+    errorParams.add(getCurrentProcessName().toString() +
+        "\n\tAction...: " + getCurrentActionName().toString());
+    return errorParams;    
+  }
+  
+  
+  protected List<Object> getNameSetErrorParams()
+  {
+    // within the ActionChecker, it must be for an action use 
+    // rather than at declaration point.      
+    List<Object> params = factory().list();
+    params.add(getCurrentProcessName());
+    params.add("action");
+    params.add(getCurrentActionName());      
+    return params;
   }
   
   protected ActionSignature typeCheckParActionIte(ParActionIte term, ChannelSet cs)
   {
     // type check name set and channel set
     NameSet ns = term.getNameSet();
-    NameSetType nstL = typeCheckNameSet(ns);    
+    NameSetType nstL = typeCheckNameSet(ns, getNameSetErrorParams());    
     
     // null for interleaving
     if (cs != null)
     {
-      ChannelSetType cst = typeCheckChannelSet(cs);        
+      ChannelSetType cst = typeCheckChannelSet(cs, getChannelSetErrorParams());        
     }
     
     // typecheck inner action
@@ -305,9 +304,10 @@ public class ActionChecker
   {
     // check the name sets
     NameSet nsL = term.getLeftNameSet();
-    NameSet nsR = term.getRightNameSet();    
-    NameSetType nstL = typeCheckNameSet(nsL);
-    NameSetType nstR = typeCheckNameSet(nsR);
+    NameSet nsR = term.getRightNameSet();  
+    List<Object> errorParams = getNameSetErrorParams();
+    NameSetType nstL = typeCheckNameSet(nsL, errorParams);
+    NameSetType nstR = typeCheckNameSet(nsR, errorParams);
     
     // typecheck inner actions
     ActionSignature actionSignature = visitAction2(term);
@@ -317,14 +317,19 @@ public class ActionChecker
     ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);        
     actionDSig.getUsedNameSets().add(0, nsR);
     actionDSig.getUsedNameSets().add(0, nsL);
-        
+       
+    
+    // within the ActionChecker, it must be for an action use 
+    // rather than at declaration point.
+    errorParams = getChannelSetErrorParams();
+    
     // check the channel sets
     for(ListIterator<ChannelSet> lit = 
         channelSets.listIterator(channelSets.size()); 
         lit.hasPrevious() ; ) 
     {
       ChannelSet cs = lit.previous();
-      ChannelSetType cst = typeCheckChannelSet(cs);      
+      ChannelSetType cst = typeCheckChannelSet(cs, errorParams);      
       actionDSig.getUsedChannelSets().add(0, cs);
     }    
         
@@ -338,11 +343,15 @@ public class ActionChecker
    * it typechecks the declaring action with the parameters in scope adding them
    * to the resulting action signature.
    *
-   *@law C.12.1, C.12.2
+   *@law C.12.1, C.12.2, C.16.1
    */
   public ActionSignature visitParamAction(ParamAction term)
-  {
-    ActionSignature actionDSig = typeCheckActionD(term);
+  {     
+    // commands allow qualified declarations    
+    // and types of declarations do not need to be finite
+    ActionSignature actionDSig = typeCheckActionD(term, 
+      false,                /* considerFiniteness */
+      term.isParamCommand() /* allowQualifiedDecl */);
     addActionSignatureAnn(term, actionDSig);
     return actionDSig;
   }
@@ -358,16 +367,28 @@ public class ActionChecker
     // Action ::= Schema-Exp    
     checkActionParaScope(term, null);
 
-    // type check the schema expressions
-    // TODO: CHECK: should use processParaChecker?
+    // type check the schema expressions    
     Type type = term.getExpr().accept(exprChecker());
+    
+    // create an empty signature
+    ActionSignature actionSignature = factory().createEmptyActionSignature();
 
     SchemaType schType = referenceToSchema(type);
     if (schType != null)
-    {
-      // checks the schema expression
+    {  
+      // checks the schema expression adding local variables to the signature.
       List<ErrorAnn> varScopeErrors = checkStateVarsScopeInSchExprAction(term, schType);
-      raiseErrors(term, varScopeErrors);
+      
+      // if no errors were found, add local vars to the signature
+      if (varScopeErrors.isEmpty())
+      {        
+        actionSignature.getLocalVars().getNameTypePair().addAll(schType.getSignature().getNameTypePair());
+      }
+      // otherwise raise the errors
+      else
+      {
+        raiseErrors(term, varScopeErrors);      
+      }
     }
     // not a schema expression in a schema expression action
     else
@@ -375,23 +396,38 @@ public class ActionChecker
       Object[] params = {getCurrentProcessName(), getCurrentActionName(), term, type };
       error(term, ErrorMessage.SCHEXPR_ACTION_WITHOUT_SCHEXPR, params);
     }
-
-    ActionSignature actionSignature = factory().createEmptyActionSignature();
+    
+    //TODO: add StateUpdate!
+    
+    // annotate the term with the collected signature
     addActionSignatureAnn(term, actionSignature);
 
     return actionSignature;
   }
 
   /**
+   * <p>
    * This visiting method represents all forms of action call. They are:
    * simple calls A, parameterised calls A(el), or on-the-fly calls, 
    * which can be either simple or parameterised. The parser is responsible
    * for making on-the-fly actions implicitly declared (with a special internal
    * name, see {@link net.sourceforge.czt.circus.ast.util.CircusString}). The 
    * action declaration for the on-the-fly action also has a OnTheFlyDefAnn.
+   * </p>
+   * <p>
    * Tools building actions on-the-fly dynamically MUST follow the protocol.
-   *
-   *@law C.12.4, C.12.19
+   * The parser enforces this by declaring the action right before its call takes place.
+   * Therefore, typechecking well-formed terms assume on-the-fly actions are just
+   * treated as calls. This way, the type rule for C.12.20 is slightly simplified
+   * because there is no need to check for the action being declared on-the-fly here
+   * (i.e., it will be checked earlier on the basic process ZParaList anyway).
+   * </p>
+   * <p>
+   * Thus, this type rule covers action calls (with or without parameters), 
+   * mu action action calls, on-the-fly actions, and on-the-fly parameterised 
+   * commands.
+   * </p>
+   *@law C.12.4, C.12.19, C.12.20, C.17.6
    */  
   public ActionSignature visitCallAction(CallAction term)
   {
@@ -474,10 +510,27 @@ public class ActionChecker
     List<ErrorAnn> callErrors = checkCallActionConsistency(GlobalDefs.unwrapType(type), term);
     raiseErrors(term, callErrors);
     
-    // calls have empty signatures.
+    // calls have the signature of its type or empty if invalid.    
     ActionSignature actionSignature = factory().createEmptyActionSignature();
+    
+    // if action type, then clone the call signature
+    if (type instanceof ActionType)
+    {
+      actionSignature = factory().shallowCloneTerm(GlobalDefs.actionType(type).getActionSignature());
+    }
+    // otherwise, see if this is a call for SchExpr action without special brackets, 
+    // but only if no errors were found by the consistency method
+    else if (callErrors.isEmpty())
+    {      
+      SchemaType schType = referenceToSchema(type);
+      if (schType != null)
+      {
+        actionSignature.getLocalVars().getNameTypePair().addAll(schType.getSignature().getNameTypePair());
+      }
+      //actionSignature.setActionName(call);
+    }
     addActionSignatureAnn(term, actionSignature);
-
+    
     return actionSignature;
   }
 
@@ -615,7 +668,7 @@ public class ActionChecker
     // * create \Gamma' = (\Gamma \oplus (VarsC c \Gamma)) 
     // 
     // NOTE: variables should be added locally at the input field 
-    //addLocalVars(inputVars);
+    //addStateVars(inputVars);
 
     // type check given action in scope enriched with input variables
     // * checks \Gamma' \rhd a : Action
@@ -627,8 +680,11 @@ public class ActionChecker
     
     // updates the local variable signature for the prefixed action.
     prefixSignature.getLocalVars().getNameTypePair().addAll(0, inputVars);
-
-    // should contain the communication expressions!
+    
+    // add the channels used channels
+    prefixSignature.getUsedChannels().getNameTypePair().add(0, commChecker().lastUsedChannelDecl());
+      
+    // add the communication expressions!
     prefixSignature.getUsedCommunications().add(0, term.getCommunication());
 
     // close input variables scope after analysing the entailing action
@@ -649,14 +705,8 @@ public class ActionChecker
   public ActionSignature visitGuardedAction(GuardedAction term)
   {
     checkActionParaScope(term, null);
-
-    Pred pred = term.getPred();
-    UResult solved = pred.accept(predChecker());
-
-    if (solved.equals(UResult.PARTIAL))
-    {
-      pred.accept(predChecker());
-    }
+    
+    typeCheckPred(term, term.getPred());
 
     ActionSignature signature = term.getCircusAction().accept(actionChecker());
     addActionSignatureAnn(term, signature);
@@ -708,8 +758,7 @@ public class ActionChecker
     return actionDSig;
   }
 
-  /**
-   * Partial.
+  /**   
    *@law C.12.17
    */
   public ActionSignature visitParallelAction(ParallelAction term)
@@ -740,7 +789,7 @@ public class ActionChecker
     checkActionParaScope(term, null);
 
     ChannelSet cs = term.getChannelSet();
-    ChannelSetType csType = typeCheckChannelSet(cs);
+    ChannelSetType csType = typeCheckChannelSet(cs, getChannelSetErrorParams());
 
     // check the action itself and add signature
     ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
@@ -775,8 +824,7 @@ public class ActionChecker
     // add recursive variable to the type environment
     // the action type for the call just has an empty
     // signature, like CallAction does.
-    ActionSignature aSig = factory().createEmptyActionSignature();
-    aSig.setActionName(aName);
+    ActionSignature aSig = factory().createInitialMuActionSignature(aName);
     ActionType aType = factory().createActionType(aSig);    
     NameTypePair recVarPair = factory().createNameTypePair(aName, aType);    
     typeEnv().add(recVarPair);
@@ -785,6 +833,7 @@ public class ActionChecker
     // method present in all other visitors. So, "action" already have the signature
     // annotation with "aName" associated with it.
     ActionSignature actionSignature = checkActionDecl(aName, action, term);
+    actionSignature.setSignatureOfMuAction(true);
     
     // exit recursive variable scope
     typeEnv().exitScope();
@@ -801,7 +850,7 @@ public class ActionChecker
     //  actionSignature.getFormalParams(),
     //  actionSignature.getLocalVars(),
     //  actionSignature.getCommunicationList());
-    ActionSignature muSignature = actionSignature;// (ActionSignature)factory().shallowCloneTerm(actionSignature);
+    ActionSignature muSignature = (ActionSignature)factory().shallowCloneTerm(actionSignature);
 
     // update the mu signature with the action name.
     //muSignature.setActionName(aName);        
