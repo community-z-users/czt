@@ -104,6 +104,8 @@ public class TypeChecker
   protected boolean circusFormalParameters_ = false;
   
   protected boolean circusQualifiedParams_ = false;
+  
+  protected boolean isCheckingStatePara_ = false;
     
   //the visitors used to typechecker a Circus program
   protected Checker<Signature> signatureChecker_;
@@ -178,6 +180,7 @@ public class TypeChecker
     circusQualifiedParams_ = false;
     shouldCreateLetVars_ = false;
     shouldCreateLetMu_ = false;    
+    isCheckingStatePara_ = false;
 
 //    channels_ = new ArrayList<ChannelInfo>();
 //    chansets_ = getFactory().createZNameList();    

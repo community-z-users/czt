@@ -25,10 +25,11 @@ import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
-import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.SignatureAnn;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
@@ -72,10 +73,12 @@ public class BasicProcessChecker extends Checker<Signature>
    * has already been processed or not.
    * @param sig
    */
-  protected void setCurrentBasicProcessSignature(ProcessSignature sig)
+  protected ProcessSignature setCurrentBasicProcessSignature(ProcessSignature sig)
   {
+    ProcessSignature old = basicProcessSig_;
     basicProcessSig_ = sig;
     processedState_ = false;
+    return old;
   }
   
   protected ProcessSignature getCurrentBasicProcesssignature()
@@ -98,29 +101,35 @@ public class BasicProcessChecker extends Checker<Signature>
    * @param term
    * @param paraSig
    */
-  protected void processStatePara(Para term, Signature paraSig)
+  protected Signature processStatePara(Para term, Signature paraSig)
   {    
-    assert CircusUtils.isStatePara(term) &&
-           !paraSig.getNameTypePair().isEmpty() : "invalid state paragraph";
+    assert CircusUtils.isStatePara(term) && !paraSig.getNameTypePair().isEmpty() : "invalid state paragraph";
     
+    Signature result;
     SchemaType type = referenceToSchema(paraSig.getNameTypePair().get(0).getType());    
     
     if (type == null)
     {
-      throw new UndeterminedTypeException("Invalid state paragraph. It is not of SchemaType");
+      result = basicProcessSig_.getStateSignature();
+      warningManager().warn("Invalid state paragraph. It is not of SchemaType. " +
+        "This is a inconsistency problem and shouldn't happen. Please, report.");
     }
     else if (!processedState_)
     {
       // TODO:? unify paraSig with term's? nah. leave it
-      paraSig = addStateVars(type);
+      result = addStateVars(type);
       basicProcessSig_.setStateSignature(paraSig);
       processedState_ = true;
     }
     else
-    {       
+    { 
+      result = basicProcessSig_.getStateSignature();
+      assert result != null : "invalid state signature for basic process";      
       warningManager().warn(term, WarningMessage.DUPLICATED_PROCESS_STATE, 
         getCurrentProcessName(), getConcreteSyntaxSymbol(term));
     }
+    
+    return result;
   }
   
   protected void raiseBasicProcessParaTypeError(Para term, String expected, Type2 found)
@@ -141,16 +150,23 @@ public class BasicProcessChecker extends Checker<Signature>
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());                
     
-    // for the process state, add local variables to the process global scope    
+    // for the process state not declared as an action, 
+    // add local variables to the process global scope    
     if (CircusUtils.isStatePara(term))
     {
-      processStatePara(term, paraSig);      
+      paraSig = processStatePara(term, paraSig);      
+      
+      // as the signature will change, update it accordingly      
+      GlobalDefs.removeAnn(term, SignatureAnn.class);
+      addSignatureAnn(term, paraSig);      
     } 
-    else
+    else 
     {
-      assert false : "TODO";
-      ///basicProcessSig_.getLocalZSignatures().add(paraSig);
+      basicProcessSig_.getBasicProcessLocalZSignatures().add(paraSig);
     }
+    
+    // added by ParaChecker within ProcessParaChecker
+    // addSignatureAnn(term, paraSig);    
     return paraSig;
   }
 
@@ -159,15 +175,19 @@ public class BasicProcessChecker extends Checker<Signature>
   {
     assert getCurrentBasicProcess() != null && getCurrentBasicProcesssignature() != null;
     
+    boolean isStatePara = CircusUtils.isStatePara(term);    
+    setCheckingStatePara(isStatePara);
+    
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());            
     assert paraSig.getNameTypePair().size() == 1 : 
       "too many pairs in process para checker signature result";
           
-    // for the process state, add local variables to the process global scope    
-    if (CircusUtils.isStatePara(term))
+    // for the process state declared as an action, 
+    // add local variables to the process global scope    
+    if (isStatePara)
     {
-      processStatePara(term, paraSig);      
+      paraSig = processStatePara(term, paraSig);      
     }    
     else 
     {      
@@ -180,18 +200,18 @@ public class BasicProcessChecker extends Checker<Signature>
         // TODO:? unify paraSig with term's? nah. leave it
         basicProcessSig_.getActionSignatures().add(
           aType.getActionSignature());
-          
-        assert false : "TODO";
-        // get the action communications
-        //basicProcessSig_.getUsedCommunications().addAll(
-        //  aType.getActionSignature().getUsedCommunications());        
       }
       else
       {        
         raiseBasicProcessParaTypeError(term, "ActionType", type);
       }
     }
+    
+    setCheckingStatePara(false);
+    
     // for action para this will contain one element with the action name.
+    addSignatureAnn(term, paraSig);
+    
     return paraSig;
   }  
   
@@ -207,15 +227,16 @@ public class BasicProcessChecker extends Checker<Signature>
             
     Type2 type = getType2FromAnns(term.getNameSet());
     if (type instanceof NameSetType)
-    {   
-      assert false : "TODO";
+    { 
       // TODO:? unify paraSig with term's? nah. leave it
-      //basicProcessSig_.getUsedNameSets().getNameTypePair().addAll(paraSig.getNameTypePair());      
+      basicProcessSig_.getBasicProcessLocalZSignatures().add(paraSig);      
     }
     else
     {        
       raiseBasicProcessParaTypeError(term, "NameSetType", type);
     }    
+    
+    addSignatureAnn(term, paraSig);
     return paraSig;
   }
 
@@ -225,15 +246,23 @@ public class BasicProcessChecker extends Checker<Signature>
     assert getCurrentBasicProcess() != null && getCurrentBasicProcesssignature() != null;
     
     // type check the  process paragraph
-    Signature paraSig = term.accept(processParaChecker());            
-    
-    // should have only one pair in paraSig, but use a loop in case 
-    // other transformers are added.
-    for(NameTypePair pair : paraSig.getNameTypePair())
-    {
-      assert false : "TODO";
-      //basicProcessSig_.getTransformerParaName().add(pair.getZName());
+    Signature paraSig = term.accept(processParaChecker());                
+    assert paraSig.getNameTypePair().size() == 1 : 
+      "too many pairs in process para checker signature result";
+            
+    Type2 type = getType2FromAnns(term.getTransformerPred());
+    if (((ParaChecker)paraChecker()).transformerType().getClass().isInstance(type))
+    { 
+      // TODO:? unify paraSig with term's? nah. leave it
+      basicProcessSig_.getBasicProcessLocalZSignatures().add(paraSig);            
+    }
+    else
+    {        
+      raiseBasicProcessParaTypeError(term, "transformer pred type", type);
     }    
+    
+    // added by ParaChecker, which is called within ProcessParaChecker
+    // addSignatureAnn(term, paraSig);
     return paraSig;
   }
 }
