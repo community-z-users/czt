@@ -32,10 +32,11 @@ import net.sourceforge.czt.circus.visitor.CircusFieldListVisitor;
 import net.sourceforge.czt.circus.visitor.CommunicationVisitor;
 import net.sourceforge.czt.circus.visitor.DotFieldVisitor;
 import net.sourceforge.czt.circus.visitor.InputFieldVisitor;
-import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.GenericType;
+import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
@@ -45,10 +46,8 @@ import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
-import net.sourceforge.czt.z.ast.ZExprList;
 
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  *
@@ -123,13 +122,15 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
    * Communication channel type after generic parameters have been resolved.
    */
   private ChannelType channelType_ = null;
+  
   /**
    * This variable points to the resolved channelName/Type pair for 
    * the last communication analysed. It is inially null, but remains
-   * with the last computed value. This way the calling visitor
-   * knows what to extract from the resolved type of this comm.
+   * with the computed value of the last delcared channel used. 
+   * This way the calling visitor knows what to extract from the 
+   * resolved type of this comm.
    */
-  private NameTypePair lastUsedChannel_ = null;
+  private NameTypePair lastUsedChannelDecl_ = null;
 
   /**
    * Synchronisation channel name
@@ -151,7 +152,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   
   protected void resetAttributes()
   {
-    // note that lastUsedChannel_, synchType_ and synchName_ remains valid, 
+    // note that lastUsedChannelDecl_, synchType_ and synchName_ remains valid, 
     // so that the calling visitor knows what to extract from the resolved type 
     // of this comm.
     comm_ = null;
@@ -233,10 +234,10 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   }
 
   @Override
-  protected NameTypePair lastUsedChannel()
+  protected NameTypePair lastUsedChannelDecl()
   {
-    assert lastUsedChannel_ != null : "cannot query for last used channel information before analysing any";
-    return lastUsedChannel_;
+    assert lastUsedChannelDecl_ != null : "cannot query for last used channel information before analysing any";
+    return lastUsedChannelDecl_;
   }
   
   /**
@@ -314,9 +315,19 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   private static final String FRESH_INTERNAL_NAME_PREFIX =
     CircusUtils.DEFAULT_IMPLICIT_DOTEXPR_NAME_PREFIX;
 
-  private String createFreshDotFieldName()
-  {
-    String result = FRESH_INTERNAL_NAME_PREFIX + channelName_.toString() + (freshDotId++);
+  private String createFreshDotFieldName(LocAnn loc)
+  {    
+    String result;
+    if (loc != null)
+    {
+      result = CircusUtils.createFullQualifiedName(
+        FRESH_INTERNAL_NAME_PREFIX + channelName_.toString(), loc);
+    }
+    else
+    {
+      result = CircusUtils.createFullQualifiedName(FRESH_INTERNAL_NAME_PREFIX, freshDotId);
+      freshDotId++;
+    }    
     return result;
   }
 
@@ -532,13 +543,13 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     }
     
     // add this instantiated channel as a used channel in the calling scope.
-    lastUsedChannel_ = factory().createNameTypePair(channelName_, channelType_);    
-    circusTypeEnv().addUsedChannels(comm_.getIndexed(), lastUsedChannel_);    
-   
+    NameTypePair instantiatedChannelDecl = factory().createNameTypePair(channelName_, channelType_);        
+    lastUsedChannelDecl_ = instantiatedChannelDecl;
+    
     // add the used channel name and its instantiated type to the communication
     // signature. if there is an error, we add a null element.
     Signature signature = factory().createSignature(result);
-    signature.getNameTypePair().add(0, lastUsedChannel_);
+    signature.getNameTypePair().add(0, instantiatedChannelDecl);
     
     // a signature to the Communication term. first element is the channel type.    
     //addSignatureAnn(term, signature);
@@ -680,20 +691,13 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       NameTypePair ntp = factory().createNameTypePair(varName, varType);
 
       // create local variables for varName and add them to the current scope
-      result.addAll(addLocalVars(ntp));
+      result.addAll(addStateVars(ntp));
 
       // type check the restriction predicate, if any
       Pred pred = term.getRestriction();
       if (pred != null)
       {
-        UResult solved = pred.accept(predChecker());
-
-        // if not solved in the first pass, do it again
-        if (solved.equals(UResult.PARTIAL))
-        {
-          solved = pred.accept(predChecker());
-          assert solved == UResult.SUCC : "could not solve predicate in input field";
-        }
+        typeCheckPred(term, pred);        
       }
     }
     else
@@ -767,7 +771,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
         else
         {
           NameTypePair ntp = factory().createNameTypePair(
-            factory().createZDeclName(createFreshDotFieldName()), expectedU);
+            factory().createZDeclName(createFreshDotFieldName(GlobalDefs.nearestLocAnn(term))), expectedU);
           result.add(ntp);
         }
       }
