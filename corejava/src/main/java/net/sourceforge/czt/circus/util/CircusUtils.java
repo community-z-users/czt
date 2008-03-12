@@ -545,7 +545,7 @@ public final class CircusUtils
     boolean result = (term instanceof BasicProcess);
     if (!result)
     {
-      result = ((term instanceof ProcessD) && ((ProcessD)term).getCircusProcess() instanceof BasicProcess);
+      result = ((term instanceof ProcessD) && ((ProcessD)term).isBasicProcess());
     }
     return result;      
   }
@@ -558,7 +558,7 @@ public final class CircusUtils
       if (term instanceof BasicProcess)
         result = (BasicProcess)term;
       else if (term instanceof ProcessD)
-        result = (BasicProcess)((ProcessD)term).getCircusProcess();
+        result = ((ProcessD)term).getCircusBasicProcess();
     }
     return result;
   }
