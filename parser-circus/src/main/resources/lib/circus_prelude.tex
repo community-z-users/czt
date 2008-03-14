@@ -118,8 +118,8 @@
 %%Zchar \rchanset U+2984
 
 %   Left/Right index instantiation brackets
-%%Zchar \circlinst U+230A
-%%Zchar \circrinst U+230B
+%%Zchar \lcircindex U+230A
+%%Zchar \rcircindex U+230B
 
 %   Left/Right guarded action brackets
 %%Zchar \lcircguard U+3014
@@ -145,8 +145,8 @@
 % Alternatives          Observation
 %
 % \circindex    U+2A00  (2A00=bigger version). Use circus.sty \circindex instead of LaTeX \odot.
-% \circlinst    U+23A3
-% \circrinst    U+23A6, U+300D
+% \lcircindex    U+23A3
+% \rcircindex    U+23A6, U+300D
 % \Parallel     U+2016
 % \Interleave   U+2980  Small version of |||
 % \circdef      U+225D  = with def on the top of it.
@@ -242,10 +242,10 @@
    \boolean ::= \true | \false
 \end{zed}
 
-%   Universe generic definition. 
+%   Universe generic definition.
 %   Useful for operation interfaces where the type is resolved at use.
 %   LaTeX equivalent to \mathcal{U} - fat U, like \nat is fat N
 %%Zchar \universe U-0001D54C
 \begin{gendef}[X]
     \universe : \power~X
- \end{gendef}
+ \end{gendef} 

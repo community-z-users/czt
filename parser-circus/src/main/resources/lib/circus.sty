@@ -8,7 +8,7 @@
 %
 % Changed on 04.07.02 by Ana Cavalcanti to include: \circnameset
 % Changed on 09.12.02 by Leo Freitas to include: \circstate
-% Changed on 17.09.03 by Leo Freitas 
+% Changed on 17.09.03 by Leo Freitas
 %
 %   Adjustment to include zed-csp instead of zed and csp
 %   Adjustment on options because the new version zed-csp doesn't contain the necessary options commands
@@ -65,7 +65,7 @@
 \def\Zbreak{\also\noalign{\penalty\interdisplaylinepenalty}\also}
 \def\ZBREAK{\Also\noalign{\penalty\interdisplaylinepenalty}\Also}
 
-%-- New BREAK Commmands from oz.sty -- (END) LEO 
+%-- New BREAK Commmands from oz.sty -- (END) LEO
 
 
 \def\fuzz{{\large\it f\kern0.1em}{\normalsize\sc uzz}}
@@ -169,6 +169,8 @@
 \newcommand{\code}[1]{\textsf{#1}}
 
 \newcommand{\circindex}{\odot}
+\newcommand{\lcircindex}{\lfloor}
+\newcommand{\rcircindex}{\rfloor}
 
 %\def\schema#1{\@ifnextchar[{\@schema{#1}}{\@nschema{#1}}}
 %\def\@schema#1[#2]{\@nschema{#1[#2]}}
@@ -194,7 +196,7 @@
 %    {\end{zed}\zedindent=\leftmargini\ignorespacesafterend}
 
 \newenvironment{circus}{\begin{zed}\ifuseCircusCounters \stepcounter{circusCtr} \fi}{\end{zed}\ignorespacesafterend}
-    
+
 \newenvironment{circusop}{\ifuseCircusCounters \stepcounter{circusopCtr}\fi}{}
 
 \newenvironment{circusaction}{\begin{zed}\ifuseCircusCounters \stepcounter{circusactionCtr} \fi}{\end{zed}\ignorespacesafterend}
@@ -218,3 +220,10 @@
 %\renewcommand{\endzed}{\crcr\egroup$$\vspace{-2em}\global\@ignoretrue}
 
 \setlength{\zedtab}{1.3em}
+
+\newcommand{\Skip}{\mathsl{Skip}}
+\newcommand{\Stop}{\mathsl{Stop}}
+\newcommand{\Chaos}{\mathsl{Chaos}}
+
+\newcommand{\prefixcolon}{:}
+\newcommand{\circspot}{\spot}
