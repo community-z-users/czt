@@ -1446,8 +1446,7 @@ action code
         CztLogger.getLogger(<class/>.class).finer("AFTER UPDATE BASIC PROCESS INFORMATION");
         CztLogger.getLogger(<class/>.class).finer("UPDATE BASIC PROCESS INFORMATION: " +
             result + " from " + from + " @ " + loc + "\n" + 
-            " Proc[" + parserState_.getProcessName()  + "] "             
-            + " =>\n" + parserState_.getBasicProcess()); 
+            parserState_.getProcessPara()); 
         if (!result) {
             warnProcessScopeMissing("update local structures", from, loc);
         }        
@@ -2919,7 +2918,7 @@ unboxedParagraphItem ::=
         singleCircusParagraphItem:scpi
         {:
             RESULT = scpi;            
-            logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM", getLocation(scpi));
+            logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-UNBOXED", getLocation(scpi));
         :}
         */
 </add:circus>        
@@ -3295,7 +3294,7 @@ singleCircusParagraphItemList ::=
            // see unboxedParagraphItem
            if (cpi != null) {
              RESULT.add(cpi);                                 
-             logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM", getLocation(cpi));
+             logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-SINGLE-ENV", getLocation(cpi));
            }
         :}
         ;   
@@ -3715,9 +3714,7 @@ processPara ::=
            final String from = "PROCESS PARA";
            ProcessPara pp = factory_.createProcessPara(n, ofp, pd);
            checkStateDeclNotRepeated(pp);
-           addLocAnn(pp, loc);           
-           
-           
+           addLocAnn(pp, loc);
            
            // If processDesc is a multiple env BasicProcess, check whether
            // it is multiple environment or single environment - ParamProcess is also basic!
@@ -3778,9 +3775,13 @@ processPara ::=
            }               
            // retrive the process from the state before clearing it up
                       
-           if (checkProcessParaScope(loc)) {           
-              RESULT = parserState_.getProcessPara();
-              RESULT.setCircusProcess(bp);  
+           if (checkProcessParaScope(loc) 
+              &amp;&amp; 
+              parserState_.isWithinMultipleEnvBasicProcessScope()) {           
+              parserState_.updateProcessParaBasicProcess(bp);
+              RESULT = parserState_.getProcessPara();              
+              
+              logProductionResult(RESULT, "AFTER-PROCESS-PARA-BP-UPDATE", loc);
               
               // if we have a ProcessPara, the CIRCEND warning 
               // should be removed provided the procName is the same              
@@ -3851,7 +3852,7 @@ processDesc ::=
           //System.out.println("OXENTE");
           RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)),
-                factory_.createZExprList(), CallUsage.Param), cr);
+                factory_.createZExprList(), CallUsage.Parameterised), cr);
             addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
         :} %prec _RENAME  
         |
@@ -3860,7 +3861,7 @@ processDesc ::=
             RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(
                 createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
-                factory_.createZExprList(), CallUsage.Param), cr);
+                factory_.createZExprList(), CallUsage.Parameterised), cr);
             addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
         :} %prec _RENAME
         |
@@ -4165,35 +4166,35 @@ processCall ::=
         /* Nongenertic parameterised process call with instantiations */
         DECORWORD:dw actualParameters:ap
         {:
-            /* The CallUsage is Param and the generic actuals are empty */
+            /* The CallUsage is Parameterised and the generic actuals are empty */
             /* RefExpr: mixfix = false, explicit = false */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)), ap, CallUsage.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)), ap, CallUsage.Parameterised);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Genertic parameterised process call with instantiations */
         DECORWORD:dw genericActuals:ga actualParameters:ap
         {:
-            /* The CallUsage is Param and both generic actuals and indexes are not null */
+            /* The CallUsage is Parameterised and both generic actuals and indexes are not null */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
-              createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Param);
+              createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Parameterised);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Nongeneric indexed process call with instantiations */
         DECORWORD:dw actualIndexes:ai
         {:
-            /* The CallUsage is Index and the generic actuals are empty */            
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)), ai, CallUsage.Index);
+            /* The CallUsage is Indexed and the generic actuals are empty */            
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)), ai, CallUsage.Indexed);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Generic indexed process call with instantiations */
         DECORWORD:dw genericActuals:ga actualIndexes:ai
         {:
-            /* The CallUsage is Index and both generic actuals and indexes are not null */
+            /* The CallUsage is Indexed and both generic actuals and indexes are not null */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
-              createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
+              createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Indexed);
             addLocAnn(RESULT, dw.getLocation());
         :}
         /** 
@@ -4208,7 +4209,7 @@ processCall ::=
           //System.out.println("OXENTE");
           RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)),
-                factory_.createZExprList(), CallUsage.Param), cr);
+                factory_.createZExprList(), CallUsage.Parameterised), cr);
             addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
         :} %prec _RENAME     
         |
@@ -4217,7 +4218,7 @@ processCall ::=
             RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(
                 createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
-                factory_.createZExprList(), CallUsage.Param), cr);
+                factory_.createZExprList(), CallUsage.Parameterised), cr);
             addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
         :} %prec _RENAME     
         */
@@ -4228,7 +4229,7 @@ processCall ::=
             /* The CallUsage is irrelevant and the parameters are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
               createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
-              factory_.createZExprList(), CallUsage.Param);
+              factory_.createZExprList(), CallUsage.Parameterised);
             addLocAnn(RESULT, dw.getLocation());
         :}
         |        
@@ -4237,7 +4238,7 @@ processCall ::=
         {:
             /* The CallUsage is irrelevant and both generic actuals and parameters are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)),
-                factory_.createZExprList(), CallUsage.Param);
+                factory_.createZExprList(), CallUsage.Parameterised);
             addLocAnn(RESULT, dw.getLocation());
         :}
         ;
@@ -4266,8 +4267,8 @@ parenthesisedProcess ::=
             Decorword pn = createImplicitlyDeclProcUniqueName(pp);                        
             ProcessPara pa = createImplicitProcessPara(pn, pp);            
             parserState_.addImplicitlyDeclProcessPara(pa);
-            /* The CallUsage is Param and the generic actuals are the same as the  */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn)), ap, CallUsage.Param);
+            /* The CallUsage is Parameterised and the generic actuals are the same as the  */
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn)), ap, CallUsage.Parameterised);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}        
         |
@@ -4278,9 +4279,9 @@ parenthesisedProcess ::=
             Decorword pn = createImplicitlyDeclProcUniqueName(pp);                        
             ProcessPara pa = createImplicitProcessPara(pn, pp);            
             parserState_.addImplicitlyDeclProcessPara(pa);
-            /* The CallUsage is Param and the generic actuals are the same as the  */
+            /* The CallUsage is Parameterised and the generic actuals are the same as the  */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn), 
-                ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Param);
+                ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Parameterised);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}
         |
@@ -4291,8 +4292,8 @@ parenthesisedProcess ::=
             Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             parserState_.addImplicitlyDeclProcessPara(pa);
-            /* The CallUsage is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn)), ai, CallUsage.Index);
+            /* The CallUsage is Parameterised and the generic actuals are empty */
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn)), ai, CallUsage.Indexed);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :} 
         |
@@ -4303,9 +4304,9 @@ parenthesisedProcess ::=
             Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             parserState_.addImplicitlyDeclProcessPara(pa);
-            /* The CallUsage is Param and the generic actuals are empty */
+            /* The CallUsage is Parameterised and the generic actuals are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn), 
-                ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Index);
+                ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Indexed);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :}
         |          
@@ -4914,6 +4915,16 @@ cspAction ::=
             RESULT = factory_.createSubstitutionAction(ca, ns);
             addLocAnn(RESULT, getLocation(ca));
         :} %prec _RENAME          
+        /* tHIS ERROR production is innocous :-(
+        |
+        communication:comm error:e
+        {:
+            LocInfo loc = getLocation(comm);
+            RESULT = factory_.createPrefixingAction(factory_.createSkipAction(), comm);
+            addLocAnn(RESULT, loc);
+            parser.report_error(CircusParseMessage.MSG_MISSING_PREFIXTHEN_PREFIXACTION,
+                          new Object[0], loc);
+        :}*/
         ;
 
 actionCall ::=                                
