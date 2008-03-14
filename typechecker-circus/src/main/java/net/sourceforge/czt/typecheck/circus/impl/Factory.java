@@ -36,7 +36,7 @@ import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureList;
 import net.sourceforge.czt.circus.ast.ProcessType;
-import net.sourceforge.czt.circus.ast.ProcessUsage;
+import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.util.CircusString;
@@ -152,13 +152,13 @@ public class Factory
   
   public ProcessSignature createProcessSignature(
     Name name, ZNameList genFormals, Signature paramOrIndexes,
-    ProcessSignatureList processSignatures, ProcessUsage usage)
+    ProcessSignatureList processSignatures, CallUsage usage)
   {
     return circusFactory_.createProcessSignature(name, genFormals, paramOrIndexes, processSignatures, usage);
   }
   
   public ProcessSignature createParamProcessSignature(Signature paramOrIndexes,
-    ProcessSignatureList processSignatures, ProcessUsage usage)
+    ProcessSignatureList processSignatures, CallUsage usage)
   {
     return createProcessSignature(null, circusFactory_.createZNameList(), 
       paramOrIndexes, processSignatures, usage);    
