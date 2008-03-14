@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.circus.impl;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.ActionSignatureList;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.ChannelSetList;
@@ -38,6 +39,8 @@ import net.sourceforge.czt.circus.ast.ProcessSignatureList;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.SchExprAction;
+import net.sourceforge.czt.circus.ast.StateUpdate;
+import net.sourceforge.czt.circus.ast.ZSignatureList;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.circus.util.CircusUtils;
@@ -157,6 +160,18 @@ public class Factory
     return circusFactory_.createProcessSignature(name, genFormals, paramOrIndexes, processSignatures, usage);
   }
   
+  public ProcessSignature createCompleteProcessSignature(Name name, 
+    ZNameList genFormals, Signature paramOrIndexes, Signature stateSignature,
+    ProcessSignatureList processSignatures, ActionSignatureList actionSignatures,
+    ZSignatureList basicProcessLocalZSignatures, ChannelSetList parallelProcessChannelSets,
+    StateUpdate stateUpdate, CallUsage usage)
+  {
+    return circusFactory_.createCompleteProcessSignature(name, 
+      genFormals, paramOrIndexes, stateSignature, processSignatures, 
+      actionSignatures, basicProcessLocalZSignatures, parallelProcessChannelSets,
+      stateUpdate, usage);
+  }
+  
   public ProcessSignature createParamProcessSignature(Signature paramOrIndexes,
     ProcessSignatureList processSignatures, CallUsage usage)
   {
@@ -183,6 +198,17 @@ public class Factory
   {
     ProcessType processType = circusFactory_.createProcessType(procSig);    
     return processType;
+  }
+  
+  public ActionSignature createCompleteActionSignature(
+    Name actionName, Signature formals, Signature localVars,
+    Signature usedChannels, CommunicationList usedComms,
+    ChannelSetList usedChannelSets, NameSetList usedNameSets, 
+    boolean signatureOfMuAction)
+  {
+    return circusFactory_.createCompleteActionSignature(actionName, 
+      formals, localVars, usedChannels, usedComms, usedChannelSets,
+      usedNameSets, signatureOfMuAction);
   }
   
   public ActionSignature createActionSignature(Name actionName,
