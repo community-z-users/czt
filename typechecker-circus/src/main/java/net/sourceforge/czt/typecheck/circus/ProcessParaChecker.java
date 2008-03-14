@@ -65,14 +65,14 @@ public class ProcessParaChecker extends Checker<Signature>
     for (NameTypePair pair : pairs)
     {
       //if the name already exists globally, raise an error
-      ZName zName = pair.getZName();      
-      Type type = typeEnv().getType(zName);
+      Name name = pair.getName();      
+      Type type = getLocalType(name);
       
       // if the type is known for this name at the process's global scope,
       // then we have duplicated declaration. TODO: check this with a test case.
       if (!(type instanceof UnknownType))
       {        
-        Object [] params = { zName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
+        Object [] params = { name, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
         error(term, ErrorMessage.REDECLARED_DEF, params);
       }
     }      
@@ -127,7 +127,7 @@ public class ProcessParaChecker extends Checker<Signature>
   { 
     // check the inner action - also used in MuAction
     // it also checks for duplicate names.
-    ActionSignature aSig = checkActionDecl(term.getZName(), term.getCircusAction(), term);
+    ActionSignature aSig = checkActionDecl(term.getName(), term.getCircusAction(), term);
     
     // wraps up the action type
     ActionType actionType = factory().createActionType(aSig);    
@@ -190,7 +190,7 @@ public class ProcessParaChecker extends Checker<Signature>
   public Signature visitNameSetPara(NameSetPara term)
   {     
     // retrieve the paragraph structure
-    ZName nsName = term.getZName();
+    Name nsName = term.getName();
     NameSet ns = term.getNameSet();    
     Signature result;
         
@@ -198,7 +198,7 @@ public class ProcessParaChecker extends Checker<Signature>
     checkProcessParaScope(term, nsName);
     
     // TODO: CHECK: if this redeclared business is needed
-    Type type = typeEnv().getType(nsName);
+    Type type = getLocalType(nsName);
     if (type instanceof UnknownType)
     {
       // set current name set being checked.      
