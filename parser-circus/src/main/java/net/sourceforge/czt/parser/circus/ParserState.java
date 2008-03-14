@@ -24,8 +24,10 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CircusAction;
+import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
+import net.sourceforge.czt.circus.ast.ProcessD;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.util.Factory;
@@ -123,7 +125,7 @@ public class ParserState
    * <code>BasicProcess/code>.  It also resets the unique name seed to
    * zero.
    */
-  protected void clearBasicProcessParaCache()
+  private void clearBasicProcessParaCache()
   {
     implicitlyActUniqueNameSeed_ = 0;
     locallyDeclPara_.clear();
@@ -133,7 +135,7 @@ public class ParserState
    * Clears the implicitly declared processes cache for the current
    * <code>ZSect</code>.  It also resets the unique name seed to zero.
    */
-  protected void clearSectProcessOnTheFlyCache()
+  private void clearSectProcessOnTheFlyCache()
   {
     implicitlyProcUniqueNameSeed_ = 0;
     implicitlyDeclProcPara_.clear();
@@ -144,7 +146,7 @@ public class ParserState
    * the current main action, the current basic process, and the
    * list of locally declared paragraphs.
    */
-  public void clearBasicProcessInformation()
+  protected void clearBasicProcessInformation()
   {
     // only structural items: no loc or process name, or bp instance
     setMainAction(null);
@@ -155,7 +157,7 @@ public class ParserState
   ////clearBasicProcessScopeWarnings();
   }
 
-  public void clearAllProcessInformation()
+  protected void clearAllProcessInformation()
   {
     clearSectProcessOnTheFlyCache();
     clearBasicProcessInformation();
@@ -171,7 +173,7 @@ public class ParserState
     clearRefinementModel();
   }
 
-  public String createUniqueMainActionName(LocInfo loc)
+  protected String createUniqueMainActionName(LocInfo loc)
   {
     String result = CircusUtils.createFullQualifiedName(
       CircusUtils.DEFAULT_MAIN_ACTION_NAME,
@@ -182,7 +184,7 @@ public class ParserState
   /**
    * Creates a unique string for implicitly declared actions.
    */
-  public String createImplicitlyDeclActUniqueName(LocInfo loc)
+  protected String createImplicitlyDeclActUniqueName(LocInfo loc)
   {
     //DO NOT ADD THIS ASSERT HERE, SINCE THEY MAY BE (ERRONEOUSLY) ADDED OUTSIDE AN OPEN SCOPE
     //assert hasBasicProcess() : "There is no current basic process for implicitly declared action";
@@ -196,7 +198,7 @@ public class ParserState
   /**
    * Creates a unique string for implicitly declared processes.
    */
-  public String createImplicitlyDeclProcUniqueName(LocInfo loc)
+  protected String createImplicitlyDeclProcUniqueName(LocInfo loc)
   {
     String result = CircusUtils.DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX + implicitlyProcUniqueNameSeed_;
     result = CircusUtils.createFullQualifiedName(result,
@@ -210,7 +212,7 @@ public class ParserState
    * <code>BasicProcess</code> cache.  It also includes an
    * <code>OnTheFlyDefAnn</code> for the action the paragraph defines.
    */
-  public void addImplicitlyDeclActionPara(ActionPara ap)
+  protected void addImplicitlyDeclActionPara(ActionPara ap)
   {
     //DO NOT ADD THIS ASSERT HERE, SINCE THEY MAY BE ADDED OUTSIDE AN OPEN SCOPE.
     //assert hasBasicProcess() : "There is no current basic process for implicitly declared action";
@@ -221,12 +223,12 @@ public class ParserState
   //implicitlyDeclActPara_.add(ap);    
   }
 
-  public boolean isImplicitlyDeclaredActionPara(ActionPara ap)
+  protected boolean isImplicitlyDeclaredActionPara(ActionPara ap)
   {
     return ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) != null;
   }
 
-  public void addLocallyDeclPara(Para p)
+  protected void addLocallyDeclPara(Para p)
   {
     // avoid repeated at parsing? or let the typechecker take care of it
     // assert !locallyDeclPara_.contains(p);
@@ -239,7 +241,7 @@ public class ParserState
    * <code>OnTheFlyDefAnn</code> for the process the paragraph
    * defines.
    */
-  public void addImplicitlyDeclProcessPara(ProcessPara pp)
+  protected void addImplicitlyDeclProcessPara(ProcessPara pp)
   {
     assert pp.getCircusProcess().getAnn(OnTheFlyDefAnn.class) == null :
       "Process already had an on-the-fly annotation";
@@ -248,7 +250,7 @@ public class ParserState
   }
 
   // To be called by the parser at the update ZSect production 
-  public List<ProcessPara> getImplicitlyDeclProcPara()
+  protected List<ProcessPara> getImplicitlyDeclProcPara()
   {
     return implicitlyDeclProcPara_;
   }
@@ -278,19 +280,19 @@ public class ParserState
    * The code also checks the paragraph is indeed a valid schema, and an error is
    * report if a problem is found.
    */
-  public void addCircusStateAnn(Para para)
+  protected void addCircusStateAnn(Para para)
   {
     assert isValidStatePara(para) : "Invalid paragraph for process state";
     para.getAnns().add(factory_.createCircusStateAnn());
   }
 
-  public void addCircusOnTheFlyAnn(Term term)
+  protected void addCircusOnTheFlyAnn(Term term)
   {
     term.getAnns().add(factory_.createCircusStateAnn());
   }
 
   // [~ | true ~]
-  protected Expr createEmptySchExpr()
+  private Expr createEmptySchExpr()
   {
     Expr result = factory_.createSchExpr(
       factory_.createZSchText(
@@ -308,7 +310,7 @@ public class ParserState
     return dn;
   }
 
-  public Para createStatePara(Name n, Expr e, LocInfo loc, boolean implicitlyDeclared)
+  protected Para createStatePara(Name n, Expr e, LocInfo loc, boolean implicitlyDeclared)
   { 
     // Creates a horizontal schema: n == e as ConstDecl    
     ConstDecl cd = factory_.createConstDecl(n, e);
@@ -364,7 +366,7 @@ public class ParserState
    * object defines where the process was first declared. This is
    * particularly useful for multiply environment process declarations.
    */
-  public boolean enterBasicProcessScope(LocInfo loc)
+  protected boolean enterBasicProcessScope(LocInfo loc)
   {
     // If there is a process name, then we can enter a valid scope.
     boolean result = !isWithinMultipleEnvBasicProcessScope();
@@ -380,7 +382,7 @@ public class ParserState
    * Clears the current basic process scope, provided one exists.
    * If it doesn't nothing change, and the parser should raise a warning.
    */
-  public boolean exitBasicProcessScope()
+  protected boolean exitBasicProcessScope()
   {
     // get ; clear the scope information.
     // if originally false, exit will return false and
@@ -395,7 +397,7 @@ public class ParserState
     return result;
   }
 
-  public boolean isWithinMultipleEnvBasicProcessScope()
+  protected boolean isWithinMultipleEnvBasicProcessScope()
   {
     /**
      * NOTE: This variable name is misleading a little bit.
@@ -407,52 +409,64 @@ public class ParserState
     return isWithinMultipleEnvBasicProcessScope_;
   }
 
-  public void setMainAction(CircusAction action)
+  protected void setMainAction(CircusAction action)
   {
     mainAction_ = action;
   }
 
-  public CircusAction getMainAction()
+  protected CircusAction getMainAction()
   {
     return mainAction_;
   }
 
-  public void setStatePara(Para para)
+  protected void setStatePara(Para para)
   {
     statePara_ = para;
   }
 
-  public Para getStatePara()
+  protected Para getStatePara()
   {
     return statePara_;
   }
 
-  public ProcessPara getProcessPara()
+  protected ProcessPara getProcessPara()
   {
-    return processPara_;
+    Throwable t = new Throwable();
+    //System.out.println("OPAIO(GET) = ");
+    //System.out.println(t.getStackTrace()[2].toString());
+    //System.out.println(t.getStackTrace()[3].toString());
+    //System.out.println("\t " + processPara_);
+    return processPara_;    
   }
 
-  public void setProcessPara(ProcessPara pp)
+  protected void setProcessPara(ProcessPara pp)
   {
-    processPara_ = pp;
+    //Throwable t = new Throwable();
+    //System.out.println("OPAIO(SET) = " + t.getStackTrace()[1].toString());    
+    //System.out.println(t.getStackTrace()[2].toString());
+    //System.out.println(t.getStackTrace()[3].toString());
+    //System.out.println("\t BEFORE = " + processPara_);
+    //System.out.println("\t AFTER  = " + pp);
+    
+    processPara_ = pp;    
   }
 
-  public Name getProcessName()
+  protected Name getProcessName()
   {
     return processPara_ != null ? processPara_.getName() : null;
   }
 
-  public NameList getProcessGenFormals()
+  protected NameList getProcessGenFormals()
   {
     return processPara_ != null ? processPara_.getGenFormals() : null;
   }
 
-  public boolean hasProcessPara()
+  protected boolean hasProcessPara()
   {
     return processPara_ != null;
   }
 
-  public boolean hasProcessName()
+  protected boolean hasProcessName()
   {
     return hasProcessPara() & processPara_.getName() != null;
   }
@@ -465,34 +479,34 @@ public class ParserState
   processName_ = name;
   }  
    */
-  public void setBasicProcess(BasicProcess bp)
+  protected void setBasicProcess(BasicProcess bp)
   {
     assert bp != null : "Invalid basic process (null).";
     assert isWithinMultipleEnvBasicProcessScope() : "Cannot set process outside an open scope";
     basicProcess_ = bp;
   }
 
-  public BasicProcess getBasicProcess()
+  protected BasicProcess getBasicProcess()
   {
     return basicProcess_;
   }
 
-  public boolean hasMainAction()
+  protected boolean hasMainAction()
   {
     return mainAction_ != null;
   }
 
-  public boolean hasState()
+  protected boolean hasState()
   {
     return statePara_ != null;
   }
 
-  public boolean hasBasicProcess()
+  protected boolean hasBasicProcess()
   {
     return basicProcess_ != null;
   }
 
-  public boolean updateBasicProcessInformation()
+  protected boolean updateBasicProcessInformation()
   {
     boolean result = isWithinMultipleEnvBasicProcessScope() && hasBasicProcess() && hasMainAction();
     if (result)
@@ -560,8 +574,36 @@ public class ParserState
     }
     return result;
   }
+  
+  /**
+   * This method updates the available process paragraph inner basic process accordingly.
+   * That is, if it is a basic process, it just updates the inner process; otherwise, if
+   * it is a basic process with formal parameters or indexes, it updates the indexed/parameterised
+   * process inner process instead.
+   * @param term
+   * TODO: DEPRECATED: this method is no longer needed - the right aliasing guarantees it(?)
+   */
+  protected void updateProcessParaBasicProcess(BasicProcess term)
+  {
+    assert hasProcessPara() : "invalid (null) process para to update basic process";
+    assert isWithinMultipleEnvBasicProcessScope() : "process para update is only needed within multiple environment scope";
+    assert getProcessPara().isBasicProcess() : "not basic process paragraph - cannot update inner process for " + 
+      getProcessPara().getCircusProcess().getClass().getName() + " with value " + getProcessPara().getCircusProcess();
+      
+    //Throwable t = new Throwable();
+    //System.out.println("OPAIO(UPDATE) = " + t.getStackTrace()[1].toString());
+    //System.out.println(t.getStackTrace()[2].toString());
+    //System.out.println(t.getStackTrace()[3].toString());
+    //System.out.println("\t BEFORE = " + processPara_);    
+    
+    // update the mock process with the new version of basic process
+    // if the inner process is a ProcessD, appropriately look for its inner process
+    getProcessPara().setCircusBasicProcess(term);
+    //processPara_.setCircusBasicProcess(term);    
+    //System.out.println("\t AFTER  = " + processPara_);    
+  }
 
-  public BasicProcess cloneBasicProcessWithAnns()
+  protected BasicProcess cloneBasicProcessWithAnns()
   {
     assert isWithinMultipleEnvBasicProcessScope() && hasBasicProcess() :
       "Cannot clone basic process outside scope or with null bp";
@@ -575,7 +617,7 @@ public class ParserState
    * Check whether the given para list is contained within the parsing state
    * either as locally declared para or implicitly declared action para.
    */
-  public boolean isKnownPara(List<Para> ipl)
+  protected boolean isKnownPara(List<Para> ipl)
   {
     for (Para para : ipl)
     {
@@ -592,22 +634,22 @@ public class ParserState
   // procName, LocInfo
   private Pair<Name, LocInfo> processEndWarning_;
 
-  public List<Pair<String, LocInfo>> getProcessScopeWarnings()
+  protected List<Pair<String, LocInfo>> getProcessScopeWarnings()
   {
     return processScopeWarnings_;
   }
 
-  public Pair<Name, LocInfo> getProcessEndWarning()
+  protected Pair<Name, LocInfo> getProcessEndWarning()
   {
     return processEndWarning_;
   }
 
-  public void addProcessScopeWarning(String msg, LocInfo loc)
+  protected void addProcessScopeWarning(String msg, LocInfo loc)
   {
     processScopeWarnings_.add(new Pair<String, LocInfo>(msg, loc));
   }
 
-  public void addProcessEndWarning(Name procName, LocInfo loc)
+  protected void addProcessEndWarning(Name procName, LocInfo loc)
   {
     assert processEndWarning_ == null : "Cannot have duplicated CIRCEND warnings";
     final String msg = java.text.MessageFormat.format(
@@ -616,27 +658,27 @@ public class ParserState
     processEndWarning_ = new Pair<Name, LocInfo>(procName, loc);
   }
 
-  public void clearSectBasicProcessEndWarning()
+  protected void clearSectBasicProcessEndWarning()
   {
     processEndWarning_ = null;
   }
 
-  public void clearSectBasicProcessScopeWarnings()
+  protected void clearSectBasicProcessScopeWarnings()
   {
     processScopeWarnings_.clear();
   }
 
-  public Model getRefinementModel()
+  protected Model getRefinementModel()
   {
     return fModel;
   }
 
-  public void setRefinementModel(Model model)
+  protected void setRefinementModel(Model model)
   {
     fModel = model;
   }
 
-  public void clearRefinementModel()
+  protected void clearRefinementModel()
   {
     fModel = null;
   }
