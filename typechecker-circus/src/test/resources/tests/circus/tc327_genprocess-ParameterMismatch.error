@@ -1,0 +1,11 @@
+
+\begin{zsection}
+  \SECTION\ tc327\_genprocess\_PARAMETER\_MISMATCH \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circprocess\ [X, Y] P \circdef\  \circbegin \circspot \Skip \circend \\
+    \circprocess\ Q \circdef\ P[\nat, \nat] \\
+    \circprocess\ R \circdef\ P[\nat]
+\end{circus}
+

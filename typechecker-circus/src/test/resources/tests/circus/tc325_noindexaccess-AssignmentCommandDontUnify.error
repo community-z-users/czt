@@ -1,0 +1,13 @@
+
+\begin{zsection}
+  \SECTION\ tc325\_noindexacess\_ \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel in : \nat \\
+    \circprocess\ P \circdef\  i: \nat \circindex (\circbegin \circspot\ in?x \then x := i  \circend)
+\end{circus}
+
+
+
+

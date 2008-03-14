@@ -1,0 +1,62 @@
+\begin{zsection}
+  \SECTION\ dot\_field\_singleenv \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [A, B, C, D]
+\end{zed}
+
+\begin{circus}
+  \circchannel\  synch1, synch2 \\
+   \circchannel\ chan: A \cross B \cross C \cross D \\ % \nat \cross \nat \cross \nat \cross \nat
+   \circchannel\ [X, Y, Z, W] gen: X \cross Y \cross Z \cross W
+\end{circus}
+
+\begin{axdef}
+   a: A; b: B; c: C; d: D \\
+   a?: A; b!: B; c?: C; d!: D \\
+   ab: A \cross B \\
+   cd: C \cross D \\
+   ac: A \cross C \\
+   abcd: A \cross B \cross C \cross D
+\end{axdef}
+
+\begin{axdef}
+   f : A \fun B \cross C \cross D \\
+   g: A \inj \nat
+\end{axdef}
+
+\begin{zed}
+   S == [~ y: \power~A | y \neq \emptyset ~]
+\end{zed}
+
+For a detailed explanation of these examples, see ``./dot-field-multennv.tex''.
+%
+\begin{circus}
+  \circprocess\ CommTypeTestSingle \circdef \circbegin
+  \also %
+   \t1 Test0 \circdef chan?x       \then \Skip \\
+  \t1 Test1 \circdef chan?x.b?y?z \then \Skip \\
+   \t1 Test2 \circdef chan?x?y?z?w \then \Skip
+   \also
+   \t1 Test3 \circdef chan?x!b.cd  \then \Skip \\
+   \t1 Test4 \circdef chan.a.b.c.d \then \Skip\\
+  \t1 Test5 \circdef chan.a.b.cd \then \Skip
+   \also
+    \t1 Test6 \circdef chan.a.b?x \then synch1  \then \Skip \\
+   \t1 Test7 \circdef synch1 \then synch2 \then \Skip \\
+   \t1 Test8 \circdef chan~?i~!(f~i) \then \Skip
+       \also
+   \t1 Test9 \circdef chan?x \prefixcolon (\forall S @ x \in y).(f~x) \then \Skip
+    \also
+  \t1 Test10 \circdef chan.(a?)!(b!)!(c?).(d!) \then \Skip \\
+  \t1 Test11 \circdef chan?x \prefixcolon (g~x > 1)!(f~x) \then \Skip
+    \also
+   \t1 Test12 \circdef chan?x \then \\
+                            \t4 chan?z \prefixcolon (g~z > g~x.1).(f~((g~\inv)~(g~z+g~x.1))) \then \Skip \\
+   \t1 Test13 \circdef gen[\nat, \power~\nat, \nat, \nat]?x!(\{~x~\}).(x+1).(x+2) \then \Skip
+        \also
+   \t1 Test14 \circdef gen.a.(f~a) \then \Skip \\
+   \circspot \Skip \\
+   \circend
+\end{circus}

@@ -1,0 +1,16 @@
+
+\begin{zsection}
+  \SECTION\ tc322 \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel c : \nat 
+\end{circus}
+
+\begin{axdef} 
+    c: \nat
+ \where
+     c > 0
+\end{axdef}
+
+

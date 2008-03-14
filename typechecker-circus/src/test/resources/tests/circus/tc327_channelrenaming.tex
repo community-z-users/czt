@@ -1,0 +1,12 @@
+
+\begin{zsection}
+  \SECTION\ tc327\_channelrenaming \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel\ c1: \nat \cross \num; c2: \nat \cross \nat \\
+    \circprocess\ P1 \circdef\ i: \nat \circspot \circbegin \circspot c1?x \then c1!x \then \Skip \circend \\
+    \circprocess\ P2 \circdef\ \circbegin \circspot c1?x \then c1!x \then \Skip \circend \\
+    \circprocess\ Q1 \circdef\ (P1(0)) \lcircrename c1 := c2 \rcircrename \\
+    \circprocess\ Q2 \circdef\ P2 \lcircrename c1 := c2 \rcircrename \\
+\end{circus}
