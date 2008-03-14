@@ -1,21 +1,18 @@
 /**
 Copyright (C) 2004, 2005 Tim Miller
 This file is part of the czt project.
-
 The czt project contains free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
-
 The czt project is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
@@ -51,7 +48,7 @@ public class TypeCheckerTest
 {
   //allow use before declaration
   protected boolean useBeforeDecl_ = false;
-  
+
   public static Test suite()
   {
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
@@ -66,8 +63,8 @@ public class TypeCheckerTest
   public TypeCheckerTest(boolean useBeforeDecl)
   {
     useBeforeDecl_ = useBeforeDecl;
-  }  
-  
+  }
+
   //test all the files from a directory
   protected void collectTests(TestSuite suite, String directoryName)
   {
@@ -75,33 +72,38 @@ public class TypeCheckerTest
     String fullDirectoryName =
       cztHome + "/typechecker/tests/" + directoryName;
     File directory = new File(fullDirectoryName);
-    if (! directory.isDirectory()) {
+    if (!directory.isDirectory())
+    {
       directory =
         new File(getClass().getResource("/" + directoryName).getFile());
     }
     File[] files = directory.listFiles();
-    for (int i = 0; i < files.length; i++) {
+    for (int i = 0; i < files.length; i++)
+    {
       String fileName = files[i].getName();
       String fullPath = files[i].getAbsolutePath();
       //if the file name ends with error, then we have a case with
       //the typechecker should throw the exception specified at the
       //start of the filename
-      if (fileName.endsWith(".error")) {
+      if (fileName.endsWith(".error"))
+      {
         int index = fileName.indexOf("-");
-        if (index < 1) {
+        if (index < 1)
+        {
           fail(fileName + " does not specify an exception name");
         }
         String exception = fileName.substring(0, index);
-        suite.addTest(createErrorTest(fullPath, exception));        
+        suite.addTest(createErrorTest(fullPath, exception));
       }
       //if the file name does not end with error, then we have a
       //normal case
-      else if (fileName.endsWith(".tex")) {
+      else if (fileName.endsWith(".tex"))
+      {
         suite.addTest(new TestNormal(fullPath));
       }
     }
   }
-  
+
   protected TestCase createNormalTest(String fullpath)
   {
     return new TestNormal(fullpath);
@@ -111,7 +113,7 @@ public class TypeCheckerTest
   {
     return new TestError(fullpath, exception);
   }
-  
+
   protected SectionManager getManager()
   {
     return new SectionManager();
@@ -127,38 +129,39 @@ public class TypeCheckerTest
   }
 
   protected List<? extends ErrorAnn> typecheck(Term term,
-                                               SectionManager manager)
+    SectionManager manager)
     throws Exception
   {
     return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_);
-    /*
-    Spec spec = (Spec) term;
-    String value = useBeforeDecl_ ? "true" : "false";
-    manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, value);
-    try {
-      for (Sect sect : spec.getSect()) {
-        if (sect instanceof ZSect) {
-          String sectName = ((ZSect) sect).getName();
-          Key typekey = new Key(sectName, SectTypeEnvAnn.class);
-          manager_.get(typekey);
-        }
-      }
-    }
-    catch (CommandException e) {
-      if (e.getCause() instanceof TypeErrorException) {
-        return ((TypeErrorException) e.getCause()).errors();
-      }
-      else {
-        fail("\nUnexpected CommandException" + e.toString());
-      }
-    }
-    return new ArrayList();
-    */
+  /*
+  Spec spec = (Spec) term;
+  String value = useBeforeDecl_ ? "true" : "false";
+  manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, value);
+  try {
+  for (Sect sect : spec.getSect()) {
+  if (sect instanceof ZSect) {
+  String sectName = ((ZSect) sect).getName();
+  Key typekey = new Key(sectName, SectTypeEnvAnn.class);
+  manager_.get(typekey);
+  }
+  }
+  }
+  catch (CommandException e) {
+  if (e.getCause() instanceof TypeErrorException) {
+  return ((TypeErrorException) e.getCause()).errors();
+  }
+  else {
+  fail("\nUnexpected CommandException" + e.toString());
+  }
+  }
+  return new ArrayList();
+   */
   }
 
   class TestNormal
     extends TestCase
   {
+
     private String file_;
 
     TestNormal(String file)
@@ -171,36 +174,41 @@ public class TypeCheckerTest
       SectionManager manager = getManager();
       List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
       Term term = null;
-      try {
+      try
+      {
         System.out.println("Test normal: " + file_);
         term = parse(file_, manager);
         errors = typecheck(term, manager);
       }
-      catch (RuntimeException e) {
+      catch (RuntimeException e)
+      {
         e.printStackTrace();
         fail("\nUnexpected runtime exception" +
-             "\n\tFile: " + file_ +
-             "\n\tException: " + e.toString());
+          "\n\tFile: " + file_ +
+          "\n\tException: " + e.toString());
       }
-      catch (Throwable e) {
-	e.printStackTrace();
+      catch (Throwable e)
+      {
+        e.printStackTrace();
         fail("\nUnexpected exception" +
-             "\n\tFile: " + file_ +
-             "\n\tException: " + e.toString());
+          "\n\tFile: " + file_ +
+          "\n\tException: " + e.toString());
       }
-      if (errors.size() > 0) {
+      if (errors.size() > 0)
+      {
         ErrorAnn errorAnn = errors.get(0);
         fail("\nUnexpected type error" +
-             "\n\tFile: " + file_ +
-             "\n\tException: " + errorAnn.getErrorMessage().toString() +
-	     "\nError: " + errorAnn.toString());
-      } 
+          "\n\tFile: " + file_ +
+          "\n\tException: " + errorAnn.getErrorMessage().toString() +
+          "\nError: " + errorAnn.toString());
+      }
     }
   }
 
   class TestError
     extends TestCase
   {
+
     private String file_;
     private String exception_;
 
@@ -214,37 +222,45 @@ public class TypeCheckerTest
     {
       SectionManager manager = getManager();
       List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
-      try {
-        System.out.println("Test normal: " + file_);
+      try
+      {
+        System.out.println("Test error: " + file_);
         Term term = parse(file_, manager);
-        if (term == null) {
+        if (term == null)
+        {
           fail("Parser returned null");
         }
-        else {
+        else
+        {
           errors = typecheck(term, manager);
         }
       }
-      catch (RuntimeException e) {
+      catch (RuntimeException e)
+      {
         e.printStackTrace();
         fail("\nUnexpected runtime exception" +
-             "\n\tFile: " + file_ +
-             "\n\tException: " + e.toString());
+          "\n\tFile: " + file_ +
+          "\n\tException: " + e.toString());
       }
-      catch (Throwable e) {
+      catch (Throwable e)
+      {
         fail("\nUnexpected exception" +
-             "\n\tFile: " + file_ +
-             "\n\tException: " + e.toString());
+          "\n\tFile: " + file_ +
+          "\n\tException: " + e.toString());
       }
-      if (errors.size() == 0) {
+      if (errors.size() == 0)
+      {
         fail("\nNo type error found" +
-             "\n\tFile: " + file_ +
-             "\n\tExpected: " + exception_);
+          "\n\tFile: " + file_ +
+          "\n\tExpected: " + exception_);
       }
-      else {
+      else
+      {
         ErrorAnn errorAnn = errors.get(0);
         String actual =
           removeUnderscore(errorAnn.getErrorMessage().toString());
-        if (exception_.compareToIgnoreCase(actual) != 0) {
+        if (exception_.compareToIgnoreCase(actual) != 0)
+        {
           incorrectError(actual);
         }
       }
@@ -253,9 +269,11 @@ public class TypeCheckerTest
     private String removeUnderscore(String string)
     {
       String result = new String();
-      for (int i = 0; i < string.length(); i++) {
+      for (int i = 0; i < string.length(); i++)
+      {
         char c = string.charAt(i);
-        if (c != '_') {
+        if (c != '_')
+        {
           result += c;
         }
       }
@@ -265,9 +283,9 @@ public class TypeCheckerTest
     private void incorrectError(String error)
     {
       fail("\nIncorrect type error" +
-           "\n\tFile: " + file_ +
-           "\n\tError: " + exception_ +
-           "\n\tActual: " + error);
+        "\n\tFile: " + file_ +
+        "\n\tError: " + exception_ +
+        "\n\tActual: " + error);
     }
   }
 }
