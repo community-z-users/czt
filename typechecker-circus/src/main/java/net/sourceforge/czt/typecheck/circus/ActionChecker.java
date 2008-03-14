@@ -443,7 +443,7 @@ public class ActionChecker
 
     checkActionParaScope(term, call);
 
-    Type type = getType(call);
+    Type type = getGlobalType(call);
 
     boolean addedPostChecking = false;
     //add this reference for post checking --- this is CZT's approach
@@ -462,7 +462,7 @@ public class ActionChecker
     }
 
     //if this is undeclared, create an unknown type with this CallAction
-    //i.e., getType(call) may add a UndeclaredAdd to call
+    //i.e., getGlobalType(call) may add a UndeclaredAdd to call
     Object undecAnn = call.getAnn(UndeclaredAnn.class);
 
     //if we are using name IDs, then read the type off the name if it
@@ -601,8 +601,8 @@ public class ActionChecker
       // (Into lnX \dom(\Gamma.localVars)) for X= {1,2}        
       ZName newName = nop.getZDeclName();
       ZName oldName = nop.getZRefName();
-      Type oldType = typeEnv().getType(oldName);
-      Type newType = typeEnv().getType(newName);
+      Type oldType = getLocalType(oldName);
+      Type newType = getLocalType(newName);
       
       // TODO: CHECK: what about substitution to global names?
       // check if given names are local variable names - i.e., within the typeEnv() current scope
@@ -812,7 +812,7 @@ public class ActionChecker
    */
   public ActionSignature visitMuAction(MuAction term)
   {
-    ZName aName = term.getZName();
+    Name aName = term.getName();
     CircusAction action = term.getCircusAction();
     
     // check within an action paragraph scope.

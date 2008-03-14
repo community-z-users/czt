@@ -26,7 +26,6 @@ import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
-import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.SignatureAnn;
@@ -141,7 +140,9 @@ public class BasicProcessChecker extends Checker<Signature>
 
   public Signature visitPara(Para term)
   {
-    assert getCurrentBasicProcess() != null && getCurrentBasicProcesssignature() != null;
+    // we could have compound basic processes, such as tc327\_intchoice\_bp
+    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
+      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
     
     // Leave this assertion out. If not processed, the checker will get it anyway.      
     //assert ZUtils.isZPara(term) || GlobalDefs.isIgnorePara(term) : 
@@ -173,7 +174,9 @@ public class BasicProcessChecker extends Checker<Signature>
   @Override
   public Signature visitActionPara(ActionPara term)
   {
-    assert getCurrentBasicProcess() != null && getCurrentBasicProcesssignature() != null;
+    // we could have compound basic processes, such as tc327\_intchoice\_bp
+    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
+      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
     
     boolean isStatePara = CircusUtils.isStatePara(term);    
     setCheckingStatePara(isStatePara);
@@ -218,7 +221,9 @@ public class BasicProcessChecker extends Checker<Signature>
   @Override
   public Signature visitNameSetPara(NameSetPara term)
   {
-    assert getCurrentBasicProcess() != null && getCurrentBasicProcesssignature() != null;
+    // we could have compound basic processes, such as tc327\_intchoice\_bp
+    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
+      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
     
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());                
@@ -243,7 +248,9 @@ public class BasicProcessChecker extends Checker<Signature>
   @Override
   public Signature visitTransformerPara(TransformerPara term)
   {
-    assert getCurrentBasicProcess() != null && getCurrentBasicProcesssignature() != null;
+    // we could have compound basic processes, such as tc327\_intchoice\_bp
+    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
+      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
     
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());                

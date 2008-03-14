@@ -90,7 +90,7 @@ public class CommandChecker
     for(Name name : list)
     {     
       // only get type for local names
-      Type type = typeEnv().getType(ZUtils.assertZName(name));
+      Type type = getLocalType(name);
       if (isLocalVar(type))
       {        
         localVars.add(factory().createNameTypePair(name, type));
