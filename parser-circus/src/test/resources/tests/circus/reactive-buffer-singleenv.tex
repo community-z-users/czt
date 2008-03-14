@@ -121,7 +121,7 @@ generic processes and renaming are used together.
     % i: RingIndex \circindex RingCell
   \circprocess\ IRingCell \circdef (~i: RingIndex \circindex RingCell~) \lcircrename rd\_i, wrt\_i := read, write \rcircrename
   \also
-  \circprocess\ Ring \circdef (~ \Interleave i: RingIndex \circindex IRingCell ~) \circlinst i \circrinst
+  \circprocess\ Ring \circdef (~ \Interleave i: RingIndex \circindex IRingCell ~) \lcircindex i \rcircindex
   \also
   \circprocess\ CRing \circdef (~ Controller \lpar \lchanset read, write \rchanset \rpar Ring ~) \circhide \lchanset read, write \rchanset
 \end{circus}
