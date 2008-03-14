@@ -71,7 +71,9 @@ public enum WarningMessage {
       "by the parser by enforcing parenthesis around expressions like ''c?x!(y!)'', which is valid.\n\t" +
       "The problem really arises because variable declaration commands put more variables into scope - see" +
       "Circus type rules."),
-  EMPTY_GUARDED_COMMAND("Empty set of guarded actions for guarded command ''{2}''.", 
+  EMPTY_GUARDED_COMMAND("Empty set of guarded actions for guarded command ''{2}''." +
+      "\n\tProcess...: {0}" +
+      "\n\tCommand...: {1}", 
         "Well-formed guarded commands must have at least one guarded action." +
         "\n\tThis happens becasue of a ill-formed term, and never with parsed terms."), // or bug in TC(?!)   
   UNKNOWN_TERM("Typechecker is being asked to visit a unknown term" +
