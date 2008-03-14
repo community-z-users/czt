@@ -22,10 +22,13 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.circus.ast.Action2;
+import net.sourceforge.czt.circus.ast.AssignmentPairs;
 import net.sourceforge.czt.circus.ast.BasicAction;
 import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CallAction;
+import net.sourceforge.czt.circus.ast.CallProcess;
+import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.ChannelPara;
 import net.sourceforge.czt.circus.ast.ChannelSetPara;
@@ -53,7 +56,7 @@ import net.sourceforge.czt.circus.ast.GuardedAction;
 import net.sourceforge.czt.circus.ast.IntChoiceAction;
 import net.sourceforge.czt.circus.ast.InterleaveAction;
 import net.sourceforge.czt.circus.ast.MuAction;
-import net.sourceforge.czt.circus.ast.ProcessUsage;
+import net.sourceforge.czt.circus.ast.RenameProcess;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.ast.SeqAction;
 import net.sourceforge.czt.circus.ast.VarDeclCommand;
@@ -73,11 +76,13 @@ import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
+import net.sourceforge.czt.circus.visitor.AssignmentPairsVisitor;
 import net.sourceforge.czt.circus.visitor.BasicActionVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
 import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
+import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
 import net.sourceforge.czt.circus.visitor.CircusCommunicationListVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.CommunicationVisitor;
@@ -85,6 +90,7 @@ import net.sourceforge.czt.circus.visitor.InputFieldVisitor;
 import net.sourceforge.czt.circus.visitor.DotFieldVisitor;
 import net.sourceforge.czt.circus.visitor.GuardedActionVisitor;
 import net.sourceforge.czt.circus.visitor.MuActionVisitor;
+import net.sourceforge.czt.circus.visitor.RenameProcessVisitor;
 import net.sourceforge.czt.circus.visitor.VarDeclCommandVisitor;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
@@ -109,6 +115,7 @@ import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -192,7 +199,10 @@ public class PrintVisitor
   VarDeclCommandVisitor<String>,
   NameTypePairVisitor<String>,  
   SignatureVisitor<String>,
-  ParamProcessVisitor<String>
+  ParamProcessVisitor<String>,
+  CallProcessVisitor<String>,
+  RenameProcessVisitor<String>,
+  AssignmentPairsVisitor<String>
 {
 
   private int tabCount = 0;
@@ -743,6 +753,37 @@ public class PrintVisitor
     return result.toString();
   }
   
+  public String visitCallProcess(CallProcess term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(term.getCallExpr());
+    ZExprList actuals = term.getZActuals();
+    result.append(actuals.isEmpty() ? "" : (term.getUsage().equals(CallUsage.Parameterised) ? "(" : "|_"));    
+    result.append(visitList(term.getZActuals(), ", "));
+    result.append(actuals.isEmpty() ? "" : (term.getUsage().equals(CallUsage.Parameterised) ? ")" : "_|"));    
+    return result.toString();
+  }
+  
+  public String visitRenameProcess(RenameProcess term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visit(term.getCircusProcess()));
+    result.append("[");
+    result.append(visit(term.getAssignmentPairs()));
+    result.append("] ");    
+    return result.toString();
+  }
+  
+  public String visitAssignmentPairs(AssignmentPairs term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visitList(term.getZLHS(), ", "));
+    result.append(" := ");
+    result.append(visitList(term.getZRHS(), ", "));
+    result.append("] ");    
+    return result.toString(); 
+  }
+  
   public String visitBasicProcess(BasicProcess term)
   {
     StringBuilder result = new StringBuilder("BasicProcess(hC=");
@@ -894,7 +935,7 @@ public class PrintVisitor
         if (!term.getFormalParamsOrIndexes().getNameTypePair().isEmpty())
         {  
           addNLAndTabs(result);
-          result.append(term.getUsage().equals(ProcessUsage.Indexed) ? "_I_(" : "(");        
+          result.append(term.getUsage().equals(CallUsage.Indexed) ? "_I_(" : "(");        
           result.append(visit(term.getFormalParamsOrIndexes()));//Signature
           result.append(") ");
         }
