@@ -1452,6 +1452,23 @@ action code
         }        
         return result;
     }    
+    
+    /**
+     * This method is called whenever the calling production result is related to
+     * a list of paragraphs, where the current one is a ProcessPara. On these conditions,
+     * it might be possible to have implicitly declared processes (i.e., those declared
+     * on the fly by the current process para) to consider. So, we add all pending ones
+     * at this point, and clear the implicitly declared process paragraph buffer.
+     */
+    protected void addImplicitlyDeclaredProcPara(List&lt;Para&gt; result)
+    {
+      if (!parserState_.getImplicitlyDeclProcPara().isEmpty())
+      {
+        result.addAll(parserState_.getImplicitlyDeclProcPara());
+        parserState_.clearSectProcessOnTheFlyCache();
+      }
+    }
+    
 </add:circus>
 
     // could be useful for other parsers as well
@@ -2870,6 +2887,14 @@ unboxedParagraphItemList ::=
         {:
            RESULT = factory_.list();
            
+           <add:circus>
+           // for implicitly declared processes, add the implicit decl first
+           if (ui instanceof ProcessPara)
+           {
+             addImplicitlyDeclaredProcPara(RESULT);
+           }
+           </add:circus>
+           
            // This nullness result check is important for 
            // consistency with the check above for lists.
            //
@@ -3283,6 +3308,14 @@ singleCircusParagraphItemList ::=
         singleCircusParagraphItem:cpi
         {:
            RESULT = factory_.list();
+           
+           <add:circus>
+           // for implicitly declared processes, add the implicit decl first
+           if (cpi instanceof ProcessPara)
+           {
+             addImplicitlyDeclaredProcPara(RESULT);
+           }
+           </add:circus>
            
            // This nullness result check is important for 
            // consistency with the check above for lists.
