@@ -52,7 +52,7 @@
     return result;
   }
   
-  protected ActionSignature createCompleteActionSignature(
+  public ActionSignature createCompleteActionSignature(
     net.sourceforge.czt.z.ast.Name actionName,
     net.sourceforge.czt.z.ast.Signature formals,
     net.sourceforge.czt.z.ast.Signature localVars,
@@ -115,7 +115,7 @@
         usedNameSets, false);
   }
 
-  protected ProcessSignature createCompleteProcessSignature(
+  public ProcessSignature createCompleteProcessSignature(
     net.sourceforge.czt.z.ast.Name name,
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
@@ -210,3 +210,4 @@
       stateSignature, actionSignatures, basicProcessLocalZSignatures, 
       createStateUpdate(), usage);
   }
+

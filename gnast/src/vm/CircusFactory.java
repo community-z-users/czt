@@ -27,6 +27,16 @@
    */
   DotField createOutputField(net.sourceforge.czt.z.ast.Expr e);
 
+  ActionSignature createCompleteActionSignature(
+    net.sourceforge.czt.z.ast.Name actionName,
+    net.sourceforge.czt.z.ast.Signature formals,
+    net.sourceforge.czt.z.ast.Signature localVars,
+    net.sourceforge.czt.z.ast.Signature usedChannels,
+    CommunicationList usedComms,
+    ChannelSetList usedChannelSets,
+    NameSetList usedNameSets, 
+    boolean signatureOfMuAction);
+    
   /**
    * Creates an empty action signature. That is, an action signature with null name,
    * empty communication, channel set and name set lists; as well as empty local variables 
@@ -56,6 +66,18 @@
     ChannelSetList usedChannelSets,
     NameSetList usedNameSets);
 
+ ProcessSignature createCompleteProcessSignature(
+    net.sourceforge.czt.z.ast.Name name,
+    net.sourceforge.czt.z.ast.ZNameList genFormals,
+    net.sourceforge.czt.z.ast.Signature paramOrIndexes,
+    net.sourceforge.czt.z.ast.Signature stateSignature,
+    ProcessSignatureList processSignatures,
+    ActionSignatureList actionSignatures,
+    ZSignatureList basicProcessLocalZSignatures,
+    ChannelSetList parallelProcessChannelSets,
+    StateUpdate stateUpdate,
+    CallUsage usage);
+  
   /**
    * Creates an empty process signature. That is, an process signature with null name,
    * empty generic formals, empty formal parameters or indexes, empty list of 
@@ -119,3 +141,4 @@
     ActionSignatureList actionSignatures,
     ZSignatureList basicProcessLocalZSignatures,
     CallUsage usage);
+
