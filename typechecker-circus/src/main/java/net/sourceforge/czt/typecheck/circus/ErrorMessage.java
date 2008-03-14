@@ -42,10 +42,12 @@ public enum ErrorMessage
   PARAM_ACTION_CALL_DNOT_UNIFY,
   PARAM_PROC_CALL_DIFF_NUMBER_EXPRS,
   PARAM_ACTION_CALL_DIFF_NUMBER_EXPRS,    
+  PROCESS_USAGE_INCONSISTENCY,
   
   // Process/action call - consistency check
   IS_NOT_ACTION_NAME,      
   ACTION_CALL_GENTYPE,
+  IS_NOT_PROCESS_NAME,
   
   // Basic process state variables 
   SCHEXPR_ACTION_VAR_OUT_OF_SCOPE,
