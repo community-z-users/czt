@@ -135,7 +135,7 @@ public class ParserState
    * Clears the implicitly declared processes cache for the current
    * <code>ZSect</code>.  It also resets the unique name seed to zero.
    */
-  private void clearSectProcessOnTheFlyCache()
+  protected void clearSectProcessOnTheFlyCache()
   {
     implicitlyProcUniqueNameSeed_ = 0;
     implicitlyDeclProcPara_.clear();
