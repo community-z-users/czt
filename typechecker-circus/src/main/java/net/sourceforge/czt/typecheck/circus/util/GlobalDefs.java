@@ -18,6 +18,7 @@ import net.sourceforge.czt.circus.ast.CommPattern;
 import net.sourceforge.czt.circus.ast.CommunicationList;
 import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSetType;
+import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Para;
@@ -36,6 +37,11 @@ public class GlobalDefs
   public static ActionType actionType(Object o)
   {
     return (ActionType) o;
+  }
+  
+  public static ProcessType processType(Object o)
+  {
+    return (ProcessType) o;
   }
   
   public static NameSetType nameSetType(Object o)
