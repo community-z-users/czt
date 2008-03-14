@@ -18,7 +18,9 @@ package net.sourceforge.czt.typecheck.circus;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CallAction;
+import net.sourceforge.czt.circus.ast.CallProcess;
 import net.sourceforge.czt.circus.visitor.CallActionVisitor;
+import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 import net.sourceforge.czt.z.ast.Type;
@@ -38,7 +40,8 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public class PostChecker
   extends Checker<net.sourceforge.czt.typecheck.z.ErrorAnn>
-implements //CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
+implements 
+  CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
   CallActionVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>
 {
 
@@ -88,7 +91,8 @@ implements //CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
   @Override
   public net.sourceforge.czt.typecheck.z.ErrorAnn visitCallAction(CallAction term)
   {    
-    assert isWithinProcessParaScope() : "Action post checking requires process scope";
+    // MuActions are not within action para scope :-(
+    assert isWithinProcessParaScope() : "Action call post checking requires process scope";
     
     boolean added;
     net.sourceforge.czt.typecheck.z.ErrorAnn result;
@@ -103,8 +107,49 @@ implements //CallProcessVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>,
     }
     else
     {
-      Type type = getType(zName);
+      Type type = getGlobalType(zName);
       List<ErrorAnn> callErrors = checkCallActionConsistency(GlobalDefs.unwrapType(type), term);      
+      
+      // add the errors to all terms.
+      added = false;
+      result = null;
+      for(ErrorAnn e : callErrors)
+      {
+        boolean r = addErrorAnn(term, e);
+        added = added || r;
+      }
+      
+      // accumulate all post check errors at once.
+      if (added)
+      {        
+        Object[] params = { getCurrentProcessName(), getConcreteSyntaxSymbol(term), term, callErrors.size() };
+        result = errorAnn(term, ErrorMessage.POSTCHECKING_CALL_ERROR, params);
+        // cast it as a Circus ErrorAnn
+        ((ErrorAnn)result).addCallErrors(callErrors);
+      }
+    }      
+    return added ? result : null;
+  }
+  
+  @Override
+  public net.sourceforge.czt.typecheck.z.ErrorAnn visitCallProcess(CallProcess term)
+  { 
+    boolean added;
+    net.sourceforge.czt.typecheck.z.ErrorAnn result;
+    ZName zName = term.getCallExpr().getZName();
+    UndeclaredAnn uAnn = zName.getAnn(UndeclaredAnn.class);
+    final boolean nameIsUndeclared = uAnn != null;
+    if (nameIsUndeclared) 
+    {            
+      result = createUndeclaredNameError(zName);
+      GlobalDefs.removeAnn(zName, uAnn);      
+      added = addErrorAnn(term, result);
+    }
+    else
+    {
+      Type type = getGlobalType(zName);
+      List<ErrorAnn> callErrors = checkCallProcessConsistency(
+        GlobalDefs.unwrapType(type), term, false /* checkProcessScope */);      
       
       // add the errors to all terms.
       added = false;
