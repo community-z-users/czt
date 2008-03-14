@@ -500,14 +500,12 @@ typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypecheckP
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_en.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_pt.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/WarningMessage_en.properties -text
-typechecker-circus/src/test/resources/tests/circus/VarDeclCallScope-CallAction.error -text
 typechecker-circus/src/test/resources/tests/circus/VarDeclCallScope-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/actpara_duplicate_name-RedeclaredDef.error -text
 typechecker-circus/src/test/resources/tests/circus/circus_cookies-SchexprActionVarOutOfScope.error -text
 typechecker-circus/src/test/resources/tests/circus/comm-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatchInApplExpr.error -text
 typechecker-circus/src/test/resources/tests/circus/fib_multenv-PostcheckingCallError.error -text
-typechecker-circus/src/test/resources/tests/circus/name-IS_NOT_CHANNEL_NAME.error -text
 typechecker-circus/src/test/resources/tests/circus/name-IsNotChannelName.error -text
 typechecker-circus/src/test/resources/tests/circus/tc31_param_process-RedeclaredDef.error -text
 typechecker-circus/src/test/resources/tests/circus/tc322-RedeclaredGlobalName.error -text
