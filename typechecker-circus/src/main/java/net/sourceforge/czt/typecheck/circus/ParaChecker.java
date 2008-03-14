@@ -318,19 +318,15 @@ public class ParaChecker
     
     // checks the process: everything is ready, but the process name.
     ProcessSignature sigProc = process.accept(processChecker());
-    sigProc.setProcessName(pName);    
     
-    // TODO!
-    // retrieve the used channels within this process (see MSc. B.33 FindCP)         
-    //List<NameTypePair> usedChans = circusTypeEnv().getUsedChans();
-    //Signature usedChanSig = factory().createSignature(usedChans);
-    //sigProc.setUsedChannels(usedChanSig);    
+    ProcessSignature processSignature = factory().shallowCloneTerm(sigProc);
+    processSignature.setProcessName(pName);    
     
     // calculate possibly implicit channels within the used ones
     //addImplicitChans(usedChans);       
     
     // create the process type with corresponding signature.
-    ProcessType procType = factory().createProcessType(sigProc);
+    ProcessType procType = factory().createProcessType(processSignature);
     
     Type gProcType = addGenerics(procType);
     
