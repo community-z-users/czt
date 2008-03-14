@@ -351,7 +351,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
    */
   protected boolean isGenericallyTyped(Communication term)
   {    
-    Type type = getType(term.getChannelExpr().getName());
+    Type type = getGlobalType(term.getChannelExpr().getName());
     return (type instanceof GenericType);
   }
   
