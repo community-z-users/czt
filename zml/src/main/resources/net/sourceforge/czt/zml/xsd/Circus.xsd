@@ -2263,14 +2263,14 @@
             </xs:annotation>
           </xs:element>       
         </xs:sequence>
-        <xs:attribute name="CallUsage" type="CIRCUS:CallUsage" use="optional" default="Param"/>
+        <xs:attribute name="Usage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
   <xs:simpleType name="CallUsage">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="Param"/>
-      <xs:enumeration value="Index"/>
+      <xs:enumeration value="Parameterised"/>
+      <xs:enumeration value="Indexed"/>
       <!-- 
       <xs:enumeration value="Normal"/>      
       <xs:enumeration value="Gen"/>
@@ -3562,19 +3562,12 @@
             </xs:annotation>
           </xs:element>
         </xs:sequence>
-        <xs:attribute name="Usage" type="CIRCUS:ProcessUsage" use="optional" default="Parameterised"/>        
+  <!-- A process might have neither formal parameters nor indexes, hence minOccurs="0" for Signature below. 
+        Or it might have either of them (i.e. formal parameters or indexes) but never both. -->
+        <xs:attribute name="Usage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>        
       </xs:extension>            
     </xs:complexContent>
   </xs:complexType>   
-  
-  <!-- A process might have neither formal parameters nor indexes, hence minOccurs="0" for Signature below. 
-        Or it might have either of them (i.e. formal parameters or indexes) but never both. -->
-  <xs:simpleType name="ProcessUsage">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Parameterised"/>
-      <xs:enumeration value="Indexed"/>
-    </xs:restriction>
-  </xs:simpleType>     
   
   <xs:complexType name="ActionSignature">
     <xs:complexContent>
