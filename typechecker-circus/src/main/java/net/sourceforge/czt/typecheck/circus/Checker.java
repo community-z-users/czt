@@ -20,13 +20,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.ast.ActionPara;
+import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionSignatureAnn;
+import net.sourceforge.czt.circus.ast.ActionSignatureList;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CallProcess;
+import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
@@ -39,11 +41,16 @@ import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
+import net.sourceforge.czt.circus.ast.ProcessSignatureList;
 import net.sourceforge.czt.circus.ast.ProcessType;
-import net.sourceforge.czt.circus.ast.ProcessUsage;
+import net.sourceforge.czt.circus.ast.CallUsage;
+import net.sourceforge.czt.circus.ast.ChannelSetList;
+import net.sourceforge.czt.circus.ast.CommunicationList;
+import net.sourceforge.czt.circus.ast.NameSetList;
 import net.sourceforge.czt.circus.ast.QualifiedDecl;
+import net.sourceforge.czt.circus.ast.SignatureList;
 import net.sourceforge.czt.circus.ast.StateUpdate;
-import net.sourceforge.czt.circus.impl.ProcessSignatureImpl;
+import net.sourceforge.czt.circus.ast.ZSignatureList;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbol;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.circus.util.CircusUtils;
@@ -650,6 +657,26 @@ public abstract class Checker<R>
     typeChecker_.stateName_ = name;
   }
 
+  protected Type getLocalType(Name name)
+  {
+    return getLocalType(ZUtils.assertZName(name));
+  }
+  
+  protected Type getLocalType(ZName name)
+  {
+    return typeEnv().getType(name);
+  }
+  
+  protected Type getGlobalType(Name name)
+  {
+    return getGlobalType(ZUtils.assertZName(name));
+  }
+  
+  protected Type getGlobalType(ZName name)
+  {
+    return getType(name);
+  }
+  
 //  /**
 //   * Overrides the old signature with type from pairs the new siganature
 //   * with the same name. TODO: ask Tim about name ids business
@@ -724,16 +751,14 @@ public abstract class Checker<R>
     }
     else if (type instanceof ProcessType)
     {
-      ProcessType pType = (ProcessType) type;
-      ProcessSignature procSig = null;
-      assert false : "not yet";
+      ProcessType pType = (ProcessType) type;      
+      ProcessSignature procSig = instantiate(pType.getProcessSignature());      
       result = factory().createProcessType(procSig);
     }
     else if (type instanceof ActionType)
     {
       ActionType aType = (ActionType) type;
-      ActionSignature actionSig = null;
-      assert false : "not yet";
+      ActionSignature actionSig = instantiate(aType.getActionSignature());      
       result = factory().createActionType(actionSig);
     }
     else if (type instanceof NameSetType)
@@ -749,7 +774,129 @@ public abstract class Checker<R>
     }
     return result;
   }
+  
+  protected ActionSignature instantiate(ActionSignature signature)
+  {
+    Signature instFormals = instantiate(signature.getFormalParams());
+    Signature instLocalVars = instantiate(signature.getLocalVars());
+    // used channels are given as declared, so no instantiation is needed, hence just clone then
+    Signature usedChannels = factory().shallowCloneTerm(signature.getUsedChannels());
+    CommunicationList instComms = instantiate(signature.getUsedCommunications());
+    ChannelSetList instChannelSets = instantiate(signature.getUsedChannelSets());
+    NameSetList instNameSets = instantiate(signature.getUsedNameSets());
+    ActionSignature result = factory().createCompleteActionSignature(
+      signature.getActionName(), instFormals, instLocalVars, usedChannels, 
+      instComms, instChannelSets, instNameSets, signature.getSignatureOfMuAction());
+    return result;
+  }
+  
+  protected CommunicationList instantiate(CommunicationList commList)
+  {
+    // communication lists are already isntantiated, so just clone then
+    return factory().shallowCloneTerm(commList);
+  }
+  
+  protected ChannelSetList instantiate(ChannelSetList chanSetList)
+  {
+    // channel set lists are already isntantiated, so just clone then
+    return factory().shallowCloneTerm(chanSetList);
+  }
+  
+  protected NameSetList instantiate(NameSetList nameSetList)
+  {
+    // name set lists are already isntantiated, so just clone then
+    return factory().shallowCloneTerm(nameSetList);
+  }
+  
+  protected SignatureList instantiate(SignatureList sigList)
+  {
+    SignatureList result;
+    if (sigList instanceof ZSignatureList)
+    {
+      ZSignatureList zSigList = (ZSignatureList)sigList;            
+      ZSignatureList instZSigList = factory().getCircusFactory().createZSignatureList();
+      for(Signature sig : zSigList)
+      {
+        Signature instZSig = instantiate(sig);
+        instZSigList.add(instZSig);
+      }
+      result = instZSigList;
+    }
+    else if (sigList instanceof ActionSignatureList)
+    {
+      ActionSignatureList actionSigList = (ActionSignatureList)sigList;            
+      ActionSignatureList instActionSigList = factory().getCircusFactory().createActionSignatureList();
+      for(ActionSignature sig : actionSigList)
+      {
+        ActionSignature instActionSig = instantiate(sig);
+        instActionSigList.add(instActionSig);
+      }
+      result = instActionSigList;
+    }
+    else if (sigList instanceof ProcessSignatureList)
+    {
+      ProcessSignatureList processSigList = (ProcessSignatureList)sigList;            
+      ProcessSignatureList instProcessSigList = factory().getCircusFactory().createProcessSignatureList();
+      for(ProcessSignature sig : processSigList)
+      {
+        ProcessSignature instProcessSig = instantiate(sig);
+        instProcessSigList.add(instProcessSig);
+      }
+      result = instProcessSigList;
+    }
+    else
+    {      
+      throw new UnsupportedAstClassException("Unknown Circus signature list to instantiate generic types - " + sigList.getClass().getSimpleName());
+    }
+    return result;
+  }
+  
+  protected List<? extends SignatureList> instantiate(List<? extends SignatureList> sigList)
+  {
+    List<SignatureList> result = factory().list();
+    for(SignatureList sig : sigList)
+    {
+      SignatureList instSig = instantiate(sig);
+      result.add(instSig);
+    }
+    return result;
+  }
+  
+  protected StateUpdate instantiate(StateUpdate stUpd)
+  {
+    warningManager().warn("Pending generic type instantiation of state update within process signature.");
+    return factory().shallowCloneTerm(stUpd);
+  }
 
+  protected ProcessSignature instantiate(ProcessSignature signature)
+  {
+    // avoid individual checks for each case. just use the signature's structure
+//    if (signature.isBasicProcessSignature())
+//    {
+//      getStateSignature()
+//        getBasicProcessLocalZSignatures()
+//        getActionSignatures()
+//    }
+//    else
+//    {
+//      getFormalParamsOrIndexes()
+//      getCircusProcessChannelSets() 
+//    }
+    
+    //{ getName(), getGenFormals(), getSignatureList(), getProcessChannelSets(), getStateUpdate(), getUsage() };
+        
+    // clone generic formals
+    ZNameList genFormals = factory().shallowCloneTerm(signature.getGenFormals());    
+    List<? extends SignatureList> sigs = instantiate(signature.getSignatureList());
+    ChannelSetList instChanSets = instantiate(signature.getProcessChannelSets());
+    StateUpdate instStUpd = instantiate(signature.getStateUpdate());
+    
+    ProcessSignature result = factory().getCircusFactory().createProcessSignature(
+      signature.getProcessName(), genFormals, sigs, instChanSets, instStUpd, 
+      signature.getUsage());    
+    return result;
+  }
+  
   /**
    * Get the list of strokes to add for local variable declaration. 
    * That is, add a variable with each stroke in the list (x', x?, ...), 
@@ -829,7 +976,7 @@ public abstract class Checker<R>
   protected boolean isLocalVar(ZName name)
   {   
     // if the type is known, it is a local variable only if not a Circus Type
-    Type type = typeEnv().getType(name);    
+    Type type = getLocalType(name);
     return isLocalVar(type);
   }
   
@@ -1323,8 +1470,8 @@ public abstract class Checker<R>
     assert psig != null && isWithinProcessParaScope() : "cannot add process signature annotation outside process scope";
 
     // TODO: check if this won't be an error for mutually recursive processes.
-    assert psig.getName() == null ||
-      ZUtils.namesEqual(getCurrentProcessName(), psig.getName()) : "resolved process signature is set to a different process than the one currently in scope";
+    //assert psig.getName() == null ||
+    //  ZUtils.namesEqual(getCurrentProcessName(), psig.getName()) : "resolved process signature is set to a different process than the one currently in scope";
 
     // sets the process name within the signature
     psig.setProcessName(getCurrentProcessName());
@@ -1464,11 +1611,11 @@ public abstract class Checker<R>
    * @return list of error annotations to be raised by the callee.
    */
   protected List<ErrorAnn> checkCallParameters(Term call,
-    List<NameTypePair> resolvedFormals, ZExprList actuals)
+    List<NameTypePair> resolvedFormals, ZExprList actuals, boolean checkProcessScope)
   {
     List<ErrorAnn> result = factory().list();
 
-    assert isWithinProcessParaScope() : "calls must be at least within process scope";
+    assert (!checkProcessScope || isWithinProcessParaScope()) : "calls must be at least within process scope";
 
     // check the kind of call
     //boolean isActionCall = isWithinActionParaScope(); // at post checking this isn't true :-(
@@ -1606,7 +1753,8 @@ public abstract class Checker<R>
       {
         ZExprList actuals = term.getZExprList();
         List<NameTypePair> resolvedFormals = aSig.getFormalParams().getNameTypePair();
-        List<ErrorAnn> callParamErrors = checkCallParameters(term, resolvedFormals, actuals);
+        List<ErrorAnn> callParamErrors = checkCallParameters(term, 
+          resolvedFormals, actuals, true /* checkProcessScope */);
         result.addAll(callParamErrors);
       }
       // otherwise this is a awkward (type checker protocol) error. (?)
@@ -1636,7 +1784,55 @@ public abstract class Checker<R>
       }
     }
     return result;
-  }  
+  }
+  
+  protected List<ErrorAnn> checkCallProcessConsistency(Type2 callType, CallProcess term, boolean checkProcessScope)
+  {
+    List<ErrorAnn> result = factory().list();
+    if (callType instanceof ProcessType)
+    {
+      ProcessType pType = (ProcessType) callType;
+      ProcessSignature pSig = pType.getProcessSignature();
+
+      //System.out.println("checkCallProcessConsistency - " + term.getCallExpr() + "; " + pSig);
+      
+      // if the signature refers to the call name, we are on
+      if (ZUtils.namesEqual(term.getCallExpr().getName(), pSig.getProcessName()))
+      {        
+        if (!pSig.getUsage().equals(term.getUsage()))
+        {
+          Object[] params = {
+            getCurrentProcessName(),            
+            term.getCallExpr().getName(),
+            pSig.getUsage(),
+            term.getUsage()              
+          };
+          result.add(errorAnn(term, ErrorMessage.PROCESS_USAGE_INCONSISTENCY, params));
+        }        
+        ZExprList actuals = term.getZActuals();
+        
+        // basic process cannot have formal parameters or indexes in their signatures
+        // basic processes declared with parameters have a signature with parameters
+        // and one inner process signature for the basic process within
+        List<NameTypePair> resolvedFormals = pSig.isBasicProcessSignature() ? 
+          factory().<NameTypePair>list() : pSig.getFormalParamsOrIndexes().getNameTypePair();
+        List<ErrorAnn> callParamErrors = checkCallParameters(term, resolvedFormals, actuals, checkProcessScope);
+        result.addAll(callParamErrors);
+      }
+      // otherwise this is a awkward (type checker protocol) error. (?)
+      else
+      {
+        Object[] params = {getCurrentProcessName(), term};
+        result.add(errorAnn(term, ErrorMessage.IS_NOT_PROCESS_NAME, params));
+      }
+    }
+    else
+    {
+      Object[] params = {getCurrentProcessName(), term};
+      result.add(errorAnn(term, ErrorMessage.IS_NOT_PROCESS_NAME, params));      
+    }
+    return result;
+  }
 
   /**
    * Raise all the errors from the given list that were generated during 
@@ -1677,7 +1873,7 @@ public abstract class Checker<R>
         
     if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
     {      
-      StringBuilder reason = new StringBuilder("resolved action on ");
+      StringBuilder reason = new StringBuilder("resolved action name on ");
       if (leftBadlyResolved && rightBadlyResolved)
       {
         reason.append("both sides: L=");
@@ -1760,9 +1956,13 @@ public abstract class Checker<R>
     Name rightName = processSigR.getProcessName();
     boolean leftBadlyResolved = leftName != null;
     boolean rightBadlyResolved = rightName != null;
-    if (leftBadlyResolved || rightBadlyResolved)
+    
+    // if both are badly resolved - it is okay if the names equal
+    boolean bothOk = leftBadlyResolved && rightBadlyResolved && ZUtils.namesEqual(leftName, rightName);
+        
+    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
     {      
-      StringBuilder reason = new StringBuilder("resolved process on ");
+      StringBuilder reason = new StringBuilder("resolved process name on ");
       if (leftBadlyResolved && rightBadlyResolved)
       {
         reason.append("both sides: L=");
@@ -1786,8 +1986,8 @@ public abstract class Checker<R>
     }
     
     // if either is true exclusively (Java xor), then there is a problem
-    boolean leftIndexed = processSigL.getUsage().equals(ProcessUsage.Indexed);
-    boolean rightIndexed = processSigR.getUsage().equals(ProcessUsage.Indexed);
+    boolean leftIndexed = processSigL.getUsage().equals(CallUsage.Indexed);
+    boolean rightIndexed = processSigR.getUsage().equals(CallUsage.Indexed);
     if (leftIndexed ^ rightIndexed)
     {
       Object[] params = { 
@@ -1801,12 +2001,13 @@ public abstract class Checker<R>
 
     // formal parameters must be empty for joint signatures    
     // on-the-fly processes are just calls, so should not have formal parameters.
-    boolean leftFormalsPresent = !processSigL.getFormalParamsOrIndexes().getNameTypePair().isEmpty();
-    boolean rightFormalsPresent = !processSigR.getFormalParamsOrIndexes().getNameTypePair().isEmpty();    
+    boolean leftFormalsPresent = !processSigL.isBasicProcessSignature() &&
+      !processSigL.getFormalParamsOrIndexes().getNameTypePair().isEmpty();
+    boolean rightFormalsPresent = !processSigR.isBasicProcessSignature() &&
+      !processSigR.getFormalParamsOrIndexes().getNameTypePair().isEmpty();    
     if (leftFormalsPresent || rightFormalsPresent)
     {
-      // TODO:DESIGN TO DECIDE: this avoids the presence of NESTED parameters and indexes for now
-      
+      // TODO:DESIGN: TO DECIDE: this avoids the presence of NESTED parameters and indexes for now      
       StringBuilder reason = new StringBuilder("non-empty ");      
       if (leftFormalsPresent && rightFormalsPresent)
       {
@@ -1846,11 +2047,7 @@ public abstract class Checker<R>
     ProcessSignature result = factory().createEmptyProcessSignature();
     
     // formal parameters and generics are ignored, sine they cannot appear during signature join
-    
-    // get channel declarations from each side
-    GlobalDefs.addAllNoDuplicates(processSigL.getCircusProcessChannelSets(), result.getCircusProcessChannelSets());
-    GlobalDefs.addAllNoDuplicates(processSigR.getCircusProcessChannelSets(), result.getCircusProcessChannelSets());
-        
+            
     // join their state updates
     StateUpdate stateUpdate = joinStateUpdate(term, 
       processSigL.getStateUpdate(), processSigR.getStateUpdate());
@@ -1866,14 +2063,23 @@ public abstract class Checker<R>
     result.getProcessSignatures().addAll(processSigR.getProcessSignatures());
     
     // if any side is the signature of a basic process "on-the-fly", then add it directly
+    // get channel declarations from each side depending on whether they are basic procs or not    
     if (processSigL.isBasicProcessSignature())
     {
       result.getProcessSignatures().add(processSigL);
     }
+    else
+    {
+      GlobalDefs.addAllNoDuplicates(processSigL.getCircusProcessChannelSets(), result.getCircusProcessChannelSets());    
+    }
     if (processSigR.isBasicProcessSignature())
     {
       result.getProcessSignatures().add(processSigR);
-    }  
+    } 
+    else
+    {
+      GlobalDefs.addAllNoDuplicates(processSigR.getCircusProcessChannelSets(), result.getCircusProcessChannelSets());    
+    }
     /*
     if (result.isBasicProcessSignature())
     {
@@ -1946,7 +2152,7 @@ public abstract class Checker<R>
    * @param term the term where the definition is being added (e.g., ActionPara, MuAction)
    * @return the typechecked action signature for the given action
    */
-  protected ActionSignature checkActionDecl(ZName aName, CircusAction action, Term term)
+  protected ActionSignature checkActionDecl(Name aName, CircusAction action, Term term)
   {
     // check process paragraph scope.
     checkProcessParaScope(term, aName);
@@ -1957,7 +2163,7 @@ public abstract class Checker<R>
     // TODO: CHECK: not sure if this is a good idea because it may annotate
     //              aName with an UnderclaredAnn ? Not if directly from typeEnv()
     //              rather than Checker.getType(aName);    
-    Type type = typeEnv().getType(aName);
+    Type type = getLocalType(aName);
     if ((type instanceof UnknownType) || (term instanceof MuAction))
     {
       // set current action name being checked.
@@ -2031,7 +2237,7 @@ public abstract class Checker<R>
     for (NameTypePair pair : signature.getNameTypePair())
     {
       // get type, but locally
-      Type type = typeEnv().getType(pair.getZName());
+      Type type = getLocalType(pair.getName());
       Type2 expected = GlobalDefs.unwrapType(type);
 
       // if type is unknown, raise an error
