@@ -74,7 +74,7 @@
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     ProcessSignatureList processSignatures,
-    ProcessUsage usage);
+    CallUsage usage);
 
   /** 
    * Creates a ProcessSignature properly packing the various parameters
@@ -87,7 +87,7 @@
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     ProcessSignatureList processSignatures,
     ChannelSetList channelSets,
-    ProcessUsage usage);
+    CallUsage usage);
 
   /** 
    * Creates a ProcessSignature properly packing the various parameters
@@ -103,7 +103,7 @@
     ActionSignatureList actionSignatures,
     ZSignatureList basicProcessLocalZSignatures,
     StateUpdate stateUpdate,
-    ProcessUsage usage);
+    CallUsage usage);
 
   /** 
    * Creates a ProcessSignature properly packing the various parameters
@@ -118,4 +118,4 @@
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ActionSignatureList actionSignatures,
     ZSignatureList basicProcessLocalZSignatures,
-    ProcessUsage usage);
+    CallUsage usage);

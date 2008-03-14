@@ -9,7 +9,7 @@
   {
     return createCallProcess(createRefExpr(name, createZExprList(),
       Boolean.FALSE, Boolean.TRUE),
-      createZExprList(), CallUsage.Param);
+      createZExprList(), CallUsage.Parameterised);
   }
 
   /** Creates an empty BasicNameSet. This is a convenience method */
@@ -125,7 +125,7 @@
     ZSignatureList basicProcessLocalZSignatures,
     ChannelSetList parallelProcessChannelSets,
     StateUpdate stateUpdate,
-    ProcessUsage usage)
+    CallUsage usage)
   {
     return createProcessSignature(name, genFormals,
       newList(
@@ -153,7 +153,7 @@
       createSignature(), createProcessSignatureList(),
       createActionSignatureList(), createZSignatureList(),
       createCircusChannelSetList(), createStateUpdate(),
-      ProcessUsage.Parameterised);
+      CallUsage.Parameterised);
   }
 
   public ProcessSignature createProcessSignature(
@@ -161,7 +161,7 @@
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     ProcessSignatureList processSignatures,
-    ProcessUsage usage)
+    CallUsage usage)
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       createSignature(), processSignatures, createActionSignatureList(),
@@ -175,7 +175,7 @@
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     ProcessSignatureList processSignatures,
     ChannelSetList channelSets,
-    ProcessUsage usage)
+    CallUsage usage)
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       createSignature(), processSignatures, createActionSignatureList(),
@@ -190,7 +190,7 @@
     ActionSignatureList actionSignatures,
     ZSignatureList basicProcessLocalZSignatures,
     StateUpdate stateUpdate,
-    ProcessUsage usage)
+    CallUsage usage)
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       stateSignature, createProcessSignatureList(), actionSignatures,
@@ -204,7 +204,7 @@
     net.sourceforge.czt.z.ast.Signature stateSignature,
     ActionSignatureList actionSignatures,
     ZSignatureList basicProcessLocalZSignatures,
-    ProcessUsage usage)
+    CallUsage usage)
   {
     return createBasicProcessSignature(name, genFormals, paramOrIndexes,
       stateSignature, actionSignatures, basicProcessLocalZSignatures, 
