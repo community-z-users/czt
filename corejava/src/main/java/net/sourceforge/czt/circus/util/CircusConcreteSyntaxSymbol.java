@@ -37,7 +37,9 @@ public enum CircusConcreteSyntaxSymbol
   TYPED_CHANNEL_DECL("Typed channel declaration"),
   SYNCH_CHANNEL_DECL("Synchronisation channel declaration"),
   SCH_CHANNEL_DECL("Channels from schema declaration"),
-  QUALIFIED_DECL("Qualified parameter declaration"),
+  QUALIFIED_DECL_VAL("Qualified parameter declaration - by value"),
+  QUALIFIED_DECL_RES("Qualified parameter declaration - by result"),
+  QUALIFIED_DECL_VALRES("Qualified parameter declaration - by value result"),
   
   /* Special Circus sets */
   CHANNELSET("Channel set"),
@@ -127,7 +129,8 @@ public enum CircusConcreteSyntaxSymbol
   COMMAND("Command"),
   SPECSTMT_CMD("Specification statement"),
   ASSIGN_CMD("Assignment"),
-  ALT_CMD("Guarded alternation"),
+  IF_CMD("Guarded alternation - Circus if statement"),
+  DO_CMD("Guarded loop - Circus do statement"),
   VAR_CMD("Variable block"),
   
   /* Communication */

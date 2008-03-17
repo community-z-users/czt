@@ -244,8 +244,14 @@ public class CircusConcreteSyntaxSymbolVisitor
   }
 
   public CircusConcreteSyntaxSymbol visitQualifiedDecl(QualifiedDecl term)
-  {
-    return CircusConcreteSyntaxSymbol.QUALIFIED_DECL;
+  {    
+    switch(term.getParamQualifier())
+    {
+      case Value : return CircusConcreteSyntaxSymbol.QUALIFIED_DECL_VAL;    
+      case Result: return CircusConcreteSyntaxSymbol.QUALIFIED_DECL_RES;    
+      case ValueResult: return CircusConcreteSyntaxSymbol.QUALIFIED_DECL_VALRES;    
+    }
+    return null;
   }
 
   public CircusConcreteSyntaxSymbol visitExtChoiceProcessIdx(ExtChoiceProcessIdx term)
@@ -330,12 +336,12 @@ public class CircusConcreteSyntaxSymbolVisitor
 
   public CircusConcreteSyntaxSymbol visitIfGuardedCommand(IfGuardedCommand term)
   {
-    return CircusConcreteSyntaxSymbol.ALT_CMD;
+    return CircusConcreteSyntaxSymbol.IF_CMD;
   }
   
   public CircusConcreteSyntaxSymbol visitDoGuardedCommand(DoGuardedCommand term)
   {
-    return CircusConcreteSyntaxSymbol.ALT_CMD;
+    return CircusConcreteSyntaxSymbol.DO_CMD;
   }
 
   public CircusConcreteSyntaxSymbol visitParallelProcessIte(ParallelProcessIte term)
