@@ -9,12 +9,15 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.circus.PrintUtils;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
+import java.util.ArrayList;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.util.CztException;
 
@@ -26,7 +29,8 @@ public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
 {
   private Markup markup_ = Markup.LATEX;
   private final SectionInfo sectInfo_;
-  
+  private Term term_ = null;
+  private List<ErrorAnn> warnErrors_ = new ArrayList<ErrorAnn>();
   
   public WarningManager()
   {
@@ -95,6 +99,27 @@ public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
     return markup_;
   }
   
+  public Term getTerm()
+  {
+    return term_;
+  }
+  
+  public void clear()
+  {
+    super.clear();
+    clearWarnErrors();
+  }
+  
+  public void clearWarnErrors()
+  {
+    warnErrors_.clear();
+  }
+  
+  public List<ErrorAnn> warnErrors()
+  {
+    return Collections.unmodifiableList(warnErrors_);
+  }
+  
   public void setMarkup(Markup markup)
   {
     assert markup != null : "invalid null markup";
@@ -108,12 +133,17 @@ public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
 
   public void warn(Term term, WarningMessage wm, Object... arguments)
   {
+    ErrorAnn errorAnn = new ErrorAnn(wm.toString(), arguments, (SectionManager)sectInfo_,
+      getCurrentSectName(), GlobalDefs.nearestLocAnn(term), term, markup_);
+    errorAnn.setErrorType(ErrorType.WARNING);
+    warnErrors_.add(errorAnn);
     warn(term, wm.getFullMessage(), arguments);
-  }
+  }  
   
   public void warn(Term term, String message, Object... arguments) 
   {
     StringBuilder sb = new StringBuilder();
+    term_ = term;
     String s = createWarning(message, arguments);
     sb.append(s);
     if (term != null)
