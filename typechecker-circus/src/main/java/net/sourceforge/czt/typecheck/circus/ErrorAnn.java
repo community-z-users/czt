@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006, 2007 Leo Freitas, Manuela Xavier
+  Copyright (C) 2006, 2007 Leo Freitas
   This file is part of the czt project.
  
   The czt project contains free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
 
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.LocAnn;
 
 import net.sourceforge.czt.session.Markup;
