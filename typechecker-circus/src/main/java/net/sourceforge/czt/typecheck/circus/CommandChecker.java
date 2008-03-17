@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.circus;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.circus.ast.Action2;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.AssignmentCommand;
 import net.sourceforge.czt.circus.ast.AssignmentPairs;
@@ -282,8 +283,7 @@ public class CommandChecker
     
     // check scope
     checkActionParaScope(term, null);
-    
-    // create an empty signature at first.
+     
     ActionSignature actionSignature = factory().createEmptyActionSignature();
     
     // if there are no guards, raise a warning.
@@ -296,13 +296,20 @@ public class CommandChecker
       };
       warningManager().warn(term, WarningMessage.EMPTY_GUARDED_COMMAND, params);      
     }
-    
-    // type check each guarded action joining their signatures
-    for(CircusAction action : term)
-    {      
-      ActionSignature guardSignature = action.accept(actionChecker());
-      actionSignature = joinActionSignature(action, actionSignature, guardSignature);
-    }    
+    else
+    {
+      Iterator<CircusAction> it = term.iterator();
+      CircusAction action = it.next();
+      actionSignature = action.accept(actionChecker());      
+      // type check each guarded action joining their signatures    
+      while (it.hasNext())
+      {
+        CircusAction next = it.next();
+        ActionSignature actionNext = next.accept(actionChecker());
+        action = factory().getCircusFactory().createSeqAction(factory().list(action, next));
+        actionSignature = joinActionSignature((Action2)action, actionSignature, actionNext);
+      }
+    }     
     return actionSignature;
-  }
+  }    
 }
