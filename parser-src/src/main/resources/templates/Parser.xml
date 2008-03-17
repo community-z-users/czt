@@ -5243,7 +5243,7 @@ command ::=
         :}        
         | 
         /* Specification statement */
-        refNameList:rnl COLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
+        refNameList:rnl PREFIXCOLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
         {:            
             RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(rnl), 
               factory_.list(pre, post));
