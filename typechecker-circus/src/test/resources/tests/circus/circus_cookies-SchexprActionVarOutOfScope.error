@@ -13,12 +13,11 @@
 \begin{document}
 
 \title{\Circus\ Cookie Machine - typechecking}
-\author{Leonardo Freitas}
+\author{Leo Freitas}
 \date{March 2008}
 
 \maketitle
 
-Examples from Manuela Xavier MSc thesis.
 %
 \begin{zsection}
   \SECTION\ circus\_cookies \parents\ circus\_toolkit

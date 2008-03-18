@@ -3,6 +3,10 @@
   \SECTION\ tc327\_extchoice\_bp \parents\ circus\_toolkit
 \end{zsection}
 
+Locally declared variable in basic process of a external choice branch
+cannot be used across the branch into another basic process. Note it 
+can be used within the basic process, though.
+%
 \begin{circus}
     \circchannel c : \nat \\
     \circprocess\ P \circdef\  \\

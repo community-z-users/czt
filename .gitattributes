@@ -508,6 +508,9 @@ typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatch
 typechecker-circus/src/test/resources/tests/circus/fib_multenv-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/name-IsNotChannelName.error -text
 typechecker-circus/src/test/resources/tests/circus/tc31_param_process-RedeclaredDef.error -text
+typechecker-circus/src/test/resources/tests/circus/tc3211_paramact-UndeclaredIdentifier.error -text
+typechecker-circus/src/test/resources/tests/circus/tc3212_extchoice_scope-UndeclaredIdentifier.error -text
+typechecker-circus/src/test/resources/tests/circus/tc3212_mutualrec_muaction-IsNotActionName.error -text
 typechecker-circus/src/test/resources/tests/circus/tc322-RedeclaredGlobalName.error -text
 typechecker-circus/src/test/resources/tests/circus/tc325_noindexaccess-AssignmentCommandDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/tc326_noindexaccess-UndeclaredIdentifier.error -text

@@ -1,6 +1,6 @@
 
 \begin{zsection}
-  \SECTION\ tc31\_param\_process\_REDECLARED\_DEF \parents\ circus\_toolkit
+  \SECTION\ tc31\_param\_process \parents\ circus\_toolkit
 \end{zsection}
 
 Declaration of $v \in \nat$ in global scope

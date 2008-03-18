@@ -1,0 +1,15 @@
+
+\begin{zsection}
+  \SECTION\ comm\_tupleexpr \parents\ circus\_toolkit
+\end{zsection}
+
+Expressions in output communication fields must be parenthised,
+unles they are are tuple expressions directly.
+%
+\begin{circus}
+     \circchannel\ c: \nat \cross \nat
+     \also
+     \circprocess\ P \circdef\ \circbegin \\       
+     	\t1 \circspot\ c!((0,1)) \then c!(0,1) \then \Skip \\
+     \circend
+\end{circus} 

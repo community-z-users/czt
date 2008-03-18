@@ -7,14 +7,13 @@
 \end{zed}
 
 \begin{circus}
-   \circchannel\ c: A \cross B \cross C \cross D 
-   % \nat \cross \nat \cross \nat \cross \nat
+   \circchannel\ c: % \cross B \cross C \cross D 
+    \nat \cross \nat \cross \nat \cross \nat
 \end{circus}
 
 \begin{axdef}
    n1, n2: \nat 
 \end{axdef}
-
 
 \begin{circus}
   \circprocess\ TypeError \circdef \circbegin

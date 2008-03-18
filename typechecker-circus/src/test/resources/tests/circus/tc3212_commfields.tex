@@ -1,0 +1,20 @@
+
+\begin{zsection}
+  \SECTION\ t3212\_commfields \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [T]
+\end{zed}
+
+\begin{circus}
+    \circchannel\ c: \nat \cross T \cross \nat   \\ 
+    \circprocess\ P \circdef \circbegin \\
+        \t1 A \circdef c?a?b!a \then \Skip \\
+	\t1 B \circdef c?x?y \then \Skip \\
+	\t1 C \circdef c?z \then \Skip \\
+    	\t1 \circspot\ A \circseq B \circseq C 
+    \circend \\
+\end{circus}
+
+

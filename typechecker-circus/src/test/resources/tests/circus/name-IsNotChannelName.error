@@ -6,6 +6,12 @@
    \circchannel\ d
 \end{circus}
 
+\begin{axdef}
+     c: \nat
+\end{axdef}
+
+Trying to refer to a global name that doesn't have channel type.
+%
 \begin{circus}
   \circprocess\ TypeErrorActionNames \circdef \circbegin
   \also %

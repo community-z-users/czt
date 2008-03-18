@@ -1,0 +1,14 @@
+
+\begin{zsection}
+ \SECTION\ tc524\_assumption \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+     \circchannel\ c: \nat
+     \also
+    \circprocess\ P \circdef\ \circbegin \\
+       \t1 A \circdef x: \nat \circspot \{ x > 1 \} \circseq c!x \then \Skip
+     	\t1 \circspot\ A(2) \\	
+     \circend
+\end{circus} 
+
