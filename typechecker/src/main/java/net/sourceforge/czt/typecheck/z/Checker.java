@@ -485,6 +485,11 @@ abstract public class Checker<R>
     return result;
   }
   
+  protected void addWarnings()
+  {
+    // do nothing for Z
+  }
+  
   /** 
    * <p>
    * General type checking method for ZSect terms.
@@ -581,6 +586,9 @@ abstract public class Checker<R>
     if (typecheckResult == Boolean.FALSE) {
       removeTypeAnns(zSect);
     }
+    
+    // add any raised warning to the list of errors
+    addWarnings();
 
     //create the SectTypeEnvAnn and add it to the section information
     List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
