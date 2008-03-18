@@ -27,6 +27,7 @@ import junit.framework.TestSuite;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.PrintVisitor;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
 
@@ -212,7 +213,7 @@ public class TypeCheckerTest
   
   protected TestCase createNormalTest(String fullpath)
   {
-    return super.createNormalTest(fullpath);
+    return new TestNormal(fullpath);
   }
 
   protected TestCase createErrorTest(String fullpath, String exception)
@@ -220,6 +221,60 @@ public class TypeCheckerTest
     return new TestError(fullpath, exception);
   }
 
+  class TestNormal
+    extends TestCase
+  {
+
+    private String file_;
+
+    TestNormal(String file)
+    {
+      file_ = file;
+    }
+
+    public void runTest()
+    {
+      SectionManager manager = getManager();
+      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
+      Term term = null;
+      try
+      {
+        System.out.println("Test normal: " + file_);
+        term = parse(file_, manager);
+        errors = typecheck(term, manager);
+      }
+      catch (RuntimeException e)
+      {
+        e.printStackTrace();
+        fail("\nUnexpected runtime exception" +
+          "\n\tFile: " + file_ +
+          "\n\tException: " + e.toString());
+      }
+      catch (Throwable e)
+      {
+        e.printStackTrace();
+        fail("\nUnexpected exception" +
+          "\n\tFile: " + file_ +
+          "\n\tException: " + e.toString());
+      }
+      if (errors.size() > 0)
+      {
+        for(ErrorAnn errorAnn : errors)
+        {
+          // only look for errors, not warnings
+          if (errorAnn.getErrorType().equals(ErrorType.ERROR))
+          {
+            fail("\nUnexpected type error" +
+              "\n\tFile: " + file_ +
+              "\n\tException: " + errorAnn.getErrorMessage().toString() +
+              "\nError: " + errorAnn.toString());
+            break;
+          }
+        }
+      }
+    }
+  }
+  
   class TestError
     extends TestCase
   {
@@ -275,9 +330,13 @@ public class TypeCheckerTest
         boolean foundCorrectError = false;
         for(ErrorAnn errorAnn : errors)
         {
-          actual = removeUnderscore(errorAnn.getErrorMessage().toString());
-          foundCorrectError = (exception_.compareToIgnoreCase(actual) == 0);
-          if (foundCorrectError) break;
+          // only look for errors, not warnings
+          if (errorAnn.getErrorType().equals(ErrorType.ERROR))
+          {
+            actual = removeUnderscore(errorAnn.getErrorMessage().toString());
+            foundCorrectError = (exception_.compareToIgnoreCase(actual) == 0);
+            if (foundCorrectError) break;
+          }
         }
         if (!foundCorrectError)
         {
