@@ -94,9 +94,33 @@ public class NameTypePairImpl
   {
     if (obj instanceof NameTypePair) {
       NameTypePair pair = (NameTypePair) obj;
-      if (!getName().equals(pair.getName()) ||
-          !getType().equals(pair.getType())) {
-        return false;
+      if (getName() != null)
+      {
+        if (!getName().equals(pair.getName()))
+        {
+          return false;
+        }
+      }
+      else
+      {
+        if (pair.getName() != null)
+        {
+          return false;
+        }
+      }
+      if (getType() != null)
+      {
+        if (!getType().equals(pair.getType()))
+        {
+          return false;
+        }
+      }
+      else
+      {
+        if (pair.getType() != null)
+        {
+          return false;
+        }
       }
       return true;
     }
