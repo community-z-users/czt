@@ -949,16 +949,7 @@ action code
      * &lt;code&gt;ZString.EMPTYSET&lt;/code&gt;.
      */
     protected boolean isEmptySetRefExpr(Expr a) {
-      boolean result = (a instanceof RefExpr);        
-      if (result) {
-        RefExpr r = (RefExpr)a;
-        // false mixfix, as the result of createGenInst(...)
-        result = r.getMixfix() != null &amp;&amp; !r.getMixfix();
-        if (result) {
-          result = r.getZName().getWord().equals(ZString.EMPTYSET);
-        }
-      }      
-      return result;
+      return ZUtils.isEmptySetRefExpr(a);
     }
 
     /**
