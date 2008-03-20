@@ -32,14 +32,18 @@ public class TypeCheckCommand
   extends net.sourceforge.czt.typecheck.z.TypeCheckCommand
   implements TypecheckPropertiesKeys
 {
+  @Override
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager) {
-    boolean useBeforeDecl =
+    boolean useBeforeDecl = false && // don't accept this for now
       getBooleanProperty(manager, PROP_TYPECHECK_USE_BEFORE_DECL);
-    boolean sortDeclNames = 
+    boolean useNameIds = false && // don't accept this for now
+      getBooleanProperty(manager, PROP_TYPECHECK_USE_NAMEIDS);
+    boolean sortDeclNames = false && // don't accept this for now
       getBooleanProperty(manager, PROP_TYPECHECK_SORT_DECL_NAMES);
-    // add other properties later
-    
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, false);
+    boolean raiseWarnings =
+      getBooleanProperty(manager, PROP_TYPECHECK_RAISE_WARNINGS);    
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, 
+      sortDeclNames, useNameIds, raiseWarnings, null);
   }
 }

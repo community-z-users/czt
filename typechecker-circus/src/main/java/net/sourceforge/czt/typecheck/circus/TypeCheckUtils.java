@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006, 2007 Leo Freitas, Manuela Xavier
+  Copyright (C) 2006, 2007 Leo Freitas
   This file is part of the czt project.
  
   The czt project contains free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.circus.ParseUtils;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.FileSource;
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 /**
  *
- * @author Leo Freitas, Manuela Xavier
+ * @author Leo Freitas
  */
 public class TypeCheckUtils 
     extends net.sourceforge.czt.typecheck.z.TypeCheckUtils {
@@ -89,6 +90,7 @@ public class TypeCheckUtils
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
+   * @param sortDeclNames 
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
@@ -104,6 +106,7 @@ public class TypeCheckUtils
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
+   * @param sortDeclNames 
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
@@ -113,7 +116,7 @@ public class TypeCheckUtils
                                                    boolean sortDeclNames,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, false, sectName);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, false, false, sectName);
   }
   
   /**
@@ -121,6 +124,7 @@ public class TypeCheckUtils
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
+   * @param sortDeclNames 
    * @param useNameIds use name ids as part of the name
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
@@ -130,7 +134,7 @@ public class TypeCheckUtils
                                                    boolean sortDeclNames,
                                                    boolean useNameIds)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, null);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, false, null);
   }
   
   /**
@@ -138,6 +142,7 @@ public class TypeCheckUtils
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
+   * @param sortDeclNames 
    * @param useNameIds use name ids as part of the name
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
@@ -149,7 +154,18 @@ public class TypeCheckUtils
                                                    boolean useNameIds,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, sectName);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, false, sectName);
+  }
+  
+  public static List<? extends ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   boolean sortDeclNames,
+                                                   boolean useNameIds,
+                                                   boolean raiseWarnings,
+                                                   String sectName)
+  {    
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, raiseWarnings, sectName);
   }
   
   protected List<? extends ErrorAnn> lTypecheck(Term term,
@@ -158,7 +174,18 @@ public class TypeCheckUtils
                                                 boolean useNameIds,
                                                 String sectName)
   {
-    return lTypecheck(term, sectInfo, useBeforeDecl, false, useNameIds, sectName);
+    return lTypecheck(term, sectInfo, useBeforeDecl, false, useNameIds, raiseWarningsDefault(), sectName);
+  }
+  
+  /** An internal method of the typechecker. */
+  protected List<? extends ErrorAnn> lTypecheck(Term term,
+                                                SectionManager sectInfo,
+                                                boolean useBeforeDecl,
+                                                boolean useNameIds,
+                                                boolean raiseWarnings,
+                                                String sectName)
+  {
+    return lTypecheck(term, sectInfo, useBeforeDecl, false, useNameIds, raiseWarnings, sectName);
   }
   
   /** An internal method of the typechecker. */
@@ -167,6 +194,7 @@ public class TypeCheckUtils
                                                 boolean useBeforeDecl,
                                                 boolean sortDeclNames,
                                                 boolean useNameIds,
+                                                boolean raiseWarnings,
                                                 String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();
@@ -174,7 +202,7 @@ public class TypeCheckUtils
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
     TypeChecker typeChecker = new TypeChecker(
       new net.sourceforge.czt.typecheck.circus.impl.Factory(zFactory, circusFactory ), 
-      sectInfo, useBeforeDecl, sortDeclNames);
+      sectInfo, useBeforeDecl, sortDeclNames, raiseWarnings);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
     term.accept(typeChecker);
@@ -313,5 +341,5 @@ public class TypeCheckUtils
   protected JaxbXmlWriter getJaxbXmlWriter()
   {
     return new net.sourceforge.czt.circus.jaxb.JaxbXmlWriter();
-  }  
+  } 
 }

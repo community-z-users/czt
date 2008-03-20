@@ -26,7 +26,7 @@ package net.sourceforge.czt.typecheck.circus;
  * can be configured via Properties.  This interface provides the String
  * constants that are currently supported by the parser utilities.</P>
  *
- * @author Petra Malik
+ * @author Leo Freitas
  */
 public interface TypecheckPropertiesKeys
   extends net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys

@@ -29,9 +29,10 @@ import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.circus.util.CarrierSet;
-import net.sourceforge.czt.typecheck.circus.util.TypeEnv;
 import net.sourceforge.czt.typecheck.circus.util.UnificationEnv;
 import net.sourceforge.czt.typecheck.z.SchTextChecker;
+import net.sourceforge.czt.typecheck.z.util.TypeEnv;
+import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.NameTypePair;
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.ast.ZParaList;
 
 /**
  *
- * @author Leo Freitas, Manuela Xavier
+ * @author Leo Freitas
  */
 public class TypeChecker 
   extends net.sourceforge.czt.typecheck.z.TypeChecker
@@ -108,6 +109,8 @@ public class TypeChecker
   protected boolean isCheckingStatePara_ = false;
   
   protected boolean strictOnWarnings_ = false;
+  
+  protected boolean isWithinMuActionScope_ = false;
     
   //the visitors used to typechecker a Circus program
   protected Checker<Signature> signatureChecker_;
@@ -126,16 +129,21 @@ public class TypeChecker
 
   protected WarningManager warningManager_;
   
+  // list of call names with their corresponding list of pending errors.
+  // as one could have multiple names, we use a list of pairs rather than a map.
+  protected List<Pair<Name, List<ErrorAnn>>> pendingCallErrors_;
+  
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, false, false);
+    this(factory, sectInfo, false, false, false);
   }
 
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo,
                      boolean useBeforeDecl,
-                     boolean sortDeclNames)
+                     boolean sortDeclNames,
+                     boolean raiseWarnings)
   {
     // create all the checkers as default - for Z
     super(factory, sectInfo, useBeforeDecl, sortDeclNames);     
@@ -166,7 +174,8 @@ public class TypeChecker
     
     warningManager_ = new WarningManager(TypeChecker.class, sectInfo);
     warningManager_.setMarkup(markup_);
-    concreteSyntaxSymbolVisitor_ = CircusUtils.CIRCUS_CONCRETE_SYNTAXSYMBOL_VISITOR;
+    concreteSyntaxSymbolVisitor_ = CircusUtils.CIRCUS_CONCRETE_SYNTAXSYMBOL_VISITOR;    
+    pendingCallErrors_ = factory.list();
     
     currentProcessName_ = null;
     currentActionName_ = null;
@@ -183,7 +192,8 @@ public class TypeChecker
     shouldCreateLetVars_ = false;
     shouldCreateLetMu_ = false;    
     isCheckingStatePara_ = false;
-    strictOnWarnings_ = false;
+    strictOnWarnings_ = raiseWarnings;
+    isWithinMuActionScope_ = false;
 
 //    channels_ = new ArrayList<ChannelInfo>();
 //    chansets_ = getFactory().createZNameList();    
