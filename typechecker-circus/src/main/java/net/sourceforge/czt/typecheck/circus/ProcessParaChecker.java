@@ -23,10 +23,10 @@ import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
-import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -131,22 +131,28 @@ public class ProcessParaChecker extends Checker<Signature>
     
     // wraps up the action type
     ActionType actionType = factory().createActionType(aSig);    
-    NameTypePair pair = factory().createNameTypePair(term.getZName(), actionType);
-    Signature result = factory().createSignature(pair);
-    
-    // add action type to CircusAction
-    addTypeAnn(term.getCircusAction(), actionType);
-    
+    Signature result = wrapTypeAndAddAnn(term.getName(), actionType, term);
     // add signature to ActionPara 
     // - added in BasicProcessChecker it may change if the state
     //addSignatureAnn(term, result);
+        
+    return result;
+  }
   
+  protected Signature wrapTypeAndAddAnn(Name declName, Type type, Para term)
+  {
+    NameTypePair pair = factory().createNameTypePair(declName, type);
+    Signature result = factory().createSignature(pair);
+    
+    // add action type to CircusAction
+    addTypeAnn(term, type);
+
     // put this paragraph into the BasicProcess scope early,
     // so that some forms of mutual recursion may be resolved directly.
     // i.e., allow the name to be into scope at early stage?
     // TODO: CHECK: what if we get duplicated names?
     typeEnv().add(pair);
-        
+
     return result;
   }
   
@@ -189,10 +195,9 @@ public class ProcessParaChecker extends Checker<Signature>
   @Override
   public Signature visitNameSetPara(NameSetPara term)
   {     
-    // retrieve the paragraph structure
+    // retrieve the paragraph structure    
     Name nsName = term.getName();
     NameSet ns = term.getNameSet();    
-    Signature result;
         
     // check process paragraph scope.
     checkProcessParaScope(term, nsName);
@@ -213,16 +218,11 @@ public class ProcessParaChecker extends Checker<Signature>
       List<Object> errorParams = factory().list();
       errorParams.add(getCurrentProcessName());
       errorParams.add("name set");
-      errorParams.add(getCurrentNameSetName());          
+      errorParams.add(getCurrentNameSetName());                
       NameSetType nsType = typeCheckNameSet(ns, errorParams);
       
-      PowerType pType = factory().createPowerType(GlobalDefs.unwrapType(nsType));
-      NameTypePair pair = factory().createNameTypePair(nsName, pType);
-      result = factory().createSignature(pair);
+      type = factory().createPowerType(GlobalDefs.unwrapType(nsType));
       
-      // add it to the process scope early
-      typeEnv().add(pair);
-
       // restors the process para scope.
       old = setCurrentNameSetName(old);
       oldNameSet = setCurrentNameSet(oldNameSet);
@@ -231,12 +231,13 @@ public class ProcessParaChecker extends Checker<Signature>
     }
     else
     {
-      result = factory().createSignature();      
       Object [] params = { nsName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
       error(term, ErrorMessage.REDECLARED_DEF, params);      
     }
     // add signature to NameSetPara - added in BasicProcessChecker
     //addSignatureAnn(term, result);   
+
+    Signature result = wrapTypeAndAddAnn(nsName, type, term);
     
     return result;
   }  
