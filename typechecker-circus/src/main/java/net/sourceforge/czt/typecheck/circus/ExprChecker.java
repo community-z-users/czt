@@ -23,11 +23,14 @@ import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.SigmaExpr;
 import net.sourceforge.czt.circus.ast.CircusNameSet;
 import net.sourceforge.czt.circus.ast.NameSetType;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
 import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
 import net.sourceforge.czt.circus.visitor.CircusNameSetVisitor;
 import net.sourceforge.czt.circus.visitor.SigmaExprVisitor;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
+import net.sourceforge.czt.typecheck.z.impl.VariableType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Expr;
@@ -37,6 +40,7 @@ import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
 
 /**
@@ -280,6 +284,11 @@ public class ExprChecker
     }
     return result;
   }
+  
+  private boolean isEmptyCircusIdType(Type2 type)
+  {
+    return type.equals(typeCheckCircusIdType());
+  }
  
   /**
    * 
@@ -300,12 +309,30 @@ public class ExprChecker
     
     // typecheck all the elements using Z typechecker 
     Expr nsExpr = term.getExpr();    
+    
+    // for empty set name sets, explicitly instantiate it
+    if (ZUtils.isEmptySetRefExpr(nsExpr))
+    {
+      assert ZUtils.isRefExpr(nsExpr) 
+          && ((RefExpr)nsExpr).getExplicit() != null 
+          && !((RefExpr)nsExpr).getExplicit() : "Invalid implicit empty set reference expression for Circus name set.";
+      ((RefExpr)nsExpr).getZExprList().add(circusIdExpr());
+    }    
+    
     Type2 innerType = factory().createUnknownType();
     Type2 type = nsExpr.accept(exprChecker());
     
     if (type instanceof PowerType)
     {
-      innerType = GlobalDefs.powerType(type).getType();
+      if (isEmptyCircusIdType(type))
+      {
+        innerType = factory().createEmptyNameSetType();
+        GlobalDefs.powerType(type).setType(innerType);        
+      }
+      else
+      {
+        innerType = GlobalDefs.powerType(type).getType();
+      }
     }
     else
     {
@@ -329,7 +356,7 @@ public class ExprChecker
       innerType = vPowerType.getType();
     }
     
-    // if not from a name set expression, raise the error
+    // if not from a name set expression, neither a variable type raise the error
     if (!(innerType instanceof NameSetType))
     {      
       List<Object> params = factory().list();
