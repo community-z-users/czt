@@ -22,12 +22,10 @@ import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.CommPattern;
 import net.sourceforge.czt.circus.ast.DotField;
 import net.sourceforge.czt.circus.ast.Field;
-import net.sourceforge.czt.circus.ast.IndexedProcess;
 import net.sourceforge.czt.circus.ast.InputField;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.OutputFieldAnn;
-import net.sourceforge.czt.circus.ast.ParamProcess;
 import net.sourceforge.czt.circus.ast.ParamQualifier;
 import net.sourceforge.czt.circus.ast.ProcessD;
 import net.sourceforge.czt.circus.ast.ProofObligationAnn;
@@ -75,16 +73,18 @@ public final class CircusUtils
   public static final String CIRCUS_TOOLKIT = "circus_toolkit";
   /** The name of the Circus prelude. */
   public static final String CIRCUS_PRELUDE = "circus_prelude";
+  
   /**
    * Every basic process main action is named with this internal name.
    * Internal names start with a double dollar sign.
    * The typechecker must guaranttee that no such names are mentioned by the user.
    */
   public static final String DEFAULT_MAIN_ACTION_NAME = "$$mainAction";
+  
   /**
    * Default name of state for stateless processes.
    */
-    public static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt";
+  public static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt";
   public static final String DEFAULT_IMPLICIT_ACTION_NAME_PREFIX = "$$implicitAct";
   public static final String DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX = "$$implicitProc";
   public static final String DEFAULT_IMPLICIT_DOTEXPR_NAME_PREFIX = "$$Dot";
@@ -103,18 +103,26 @@ public final class CircusUtils
    * Default parameter qualifier for process and actions is by value.
    */
   public static final ParamQualifier DEFAULT_PARAMETER_QUALIFIER = ParamQualifier.Value;
+  
   /* NOTE: add the type for SYNCH given type. The OZ typechecker uses
    *       a special OIDType AST class. I will assume this is not needed for us.
    */
   /** Name for synchronisation channel type (ID is added by type checker to this instance */
   public static final ZName SYNCH_CHANNEL_TYPE_NAME = FACTORY.createZName(CircusString.CIRCUSSYNCH);
+  
   /** Power type of the given type for synchronisation type names. ID is added to the synch name of this instance */
   public static final PowerType SYNCH_CHANNEL_TYPE = FACTORY.createPowerType(FACTORY.createGivenType(SYNCH_CHANNEL_TYPE_NAME));
   
   // look in the typechecker factory for a version with IDs
   public static final ZName TRANSFORMER_TYPE_NAME = FACTORY.createZName(CircusString.CIRCUSTRANSFORMER);  
   public static final PowerType TRANSFORMER_TYPE = FACTORY.createPowerType(FACTORY.createGivenType(TRANSFORMER_TYPE_NAME));
-    
+
+  /** Name for name and channel set maximal types (i.e., \power~$$CIRCUSID) - the ZName ID is added by type checker to this instance */
+  public static final ZName CIRCUS_ID_TYPE_NAME = FACTORY.createZName(CircusString.CIRCUSID);
+  
+  /** Power type of the given type for synchronisation type names. ID is added to the synch name of this instance */
+  public static final PowerType CIRCUS_ID_TYPE = FACTORY.createPowerType(FACTORY.createGivenType(CIRCUS_ID_TYPE_NAME));
+  
   /** 
    *  Reference expression of the given type for synchronisation names. 
    *  An ID is added to the synch name of this instance. 
@@ -125,6 +133,7 @@ public final class CircusUtils
    *  synch_channeel_expr used.
    */
   public static final RefExpr SYNCH_CHANNEL_EXPR = FACTORY.createRefExpr(SYNCH_CHANNEL_TYPE_NAME);
+  public static final RefExpr CIRCUS_ID_EXPR = FACTORY.createRefExpr(CIRCUS_ID_TYPE_NAME);
   public static final RefExpr TRANSFORMER_EXPR = FACTORY.createRefExpr(TRANSFORMER_TYPE_NAME);
 
   /**

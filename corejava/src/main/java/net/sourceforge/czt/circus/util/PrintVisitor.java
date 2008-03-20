@@ -139,6 +139,7 @@ import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
+import net.sourceforge.czt.z.visitor.ZExprListVisitor;
 import net.sourceforge.czt.z.visitor.ZNameListVisitor;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
@@ -202,7 +203,8 @@ public class PrintVisitor
   ParamProcessVisitor<String>,
   CallProcessVisitor<String>,
   RenameProcessVisitor<String>,
-  AssignmentPairsVisitor<String>
+  AssignmentPairsVisitor<String>,
+  ZExprListVisitor<String>
 {
 
   private int tabCount = 0;
@@ -404,6 +406,11 @@ public class PrintVisitor
     result.append("]");
     addNLAndTabs(result);
     return result.toString();
+  }
+
+  public String visitZExprList(ZExprList term)
+  {
+    return visitList(term, ", ");
   }
 
   public String visitZNameList(ZNameList term)
