@@ -93,6 +93,7 @@ public class Factory
     //creates a synchronisation channel and transformer paragraph type names with ID.    
     //i.e., all ZNames in CircusUtils MUST be initialised here ;-)
     overwriteNameID(CircusUtils.SYNCH_CHANNEL_TYPE_NAME);
+    overwriteNameID(CircusUtils.CIRCUS_ID_TYPE_NAME);
     overwriteNameID(CircusUtils.TRANSFORMER_TYPE_NAME);   
   }
   
@@ -102,19 +103,14 @@ public class Factory
    * @param term
    * @return
    */
+  public <T extends Term> T deepCloneTerm(T term)
+  {    
+    return (T)Factory.cloneTerm(term);
+  }
+  
   public <T extends Term> T shallowCloneTerm(T term)
   {
     return (T)term.create(term.getChildren());
-  }
-  
-  /**
-   * Calls the super.cloneTerm(term).
-   * @param term
-   * @return
-   */
-  public Term deepCloneTerm(Term term)
-  {
-    return Factory.cloneTerm(term);
   }
   
   private static int freshId_ = 0;
@@ -343,6 +339,11 @@ public class Factory
     return CircusUtils.SYNCH_CHANNEL_TYPE_NAME;
   }
   
+  public ZName createCircusIdName()
+  {
+    return CircusUtils.CIRCUS_ID_TYPE_NAME;
+  }
+  
   public ZName createTransformerName()
   {
     return CircusUtils.TRANSFORMER_TYPE_NAME;
@@ -351,6 +352,11 @@ public class Factory
   public PowerType createSynchType()
   {           
     return CircusUtils.SYNCH_CHANNEL_TYPE;
+  }
+  
+  public PowerType createCircusIdType()
+  {           
+    return CircusUtils.CIRCUS_ID_TYPE;
   }
   
   public PowerType createTransformerType()
@@ -362,5 +368,10 @@ public class Factory
   {
     Signature result = createSignature(list(pair));
     return result;
+  }
+  
+  public NameSetType createEmptyNameSetType()
+  {
+    return createNameSetType(createSignature());
   }
 }
