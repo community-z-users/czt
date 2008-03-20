@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.circus.ast.Action2;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionSignatureAnn;
 import net.sourceforge.czt.circus.ast.ActionSignatureList;
@@ -39,6 +40,7 @@ import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.NameSetType;
+import net.sourceforge.czt.circus.ast.Process2;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
 import net.sourceforge.czt.circus.ast.ProcessSignatureList;
@@ -54,20 +56,24 @@ import net.sourceforge.czt.circus.ast.ZSignatureList;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbol;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
+import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GenParamType;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.Type;
@@ -91,7 +97,6 @@ import net.sourceforge.czt.z.util.ZString;
  * syntax checks, and so on.
  *
  * @author Leo Freitas
- * @author Manuela Xavier
  */
 public abstract class Checker<R>
   extends net.sourceforge.czt.typecheck.z.Checker<R>
@@ -560,6 +565,17 @@ public abstract class Checker<R>
       typeChecker_.currentAction_ != null);
   }
   
+  protected boolean isWithinMuActionScope()
+  {
+    return (isWithinActionParaScope() && 
+      typeChecker_.isWithinMuActionScope_);
+  }
+  
+  protected void setMuActionScope(boolean val)
+  { 
+    typeChecker_.isWithinMuActionScope_ = val;
+  }
+  
   protected boolean isWithinNameSetParaScope()
   {
     return (isWithinProcessParaScope() &&
@@ -780,7 +796,7 @@ public abstract class Checker<R>
     Signature instFormals = instantiate(signature.getFormalParams());
     Signature instLocalVars = instantiate(signature.getLocalVars());
     // used channels are given as declared, so no instantiation is needed, hence just clone then
-    Signature usedChannels = factory().shallowCloneTerm(signature.getUsedChannels());
+    Signature usedChannels = factory().deepCloneTerm(signature.getUsedChannels());
     CommunicationList instComms = instantiate(signature.getUsedCommunications());
     ChannelSetList instChannelSets = instantiate(signature.getUsedChannelSets());
     NameSetList instNameSets = instantiate(signature.getUsedNameSets());
@@ -793,19 +809,19 @@ public abstract class Checker<R>
   protected CommunicationList instantiate(CommunicationList commList)
   {
     // communication lists are already isntantiated, so just clone then
-    return factory().shallowCloneTerm(commList);
+    return factory().deepCloneTerm(commList);
   }
   
   protected ChannelSetList instantiate(ChannelSetList chanSetList)
   {
     // channel set lists are already isntantiated, so just clone then
-    return factory().shallowCloneTerm(chanSetList);
+    return factory().deepCloneTerm(chanSetList);
   }
   
   protected NameSetList instantiate(NameSetList nameSetList)
   {
     // name set lists are already isntantiated, so just clone then
-    return factory().shallowCloneTerm(nameSetList);
+    return factory().deepCloneTerm(nameSetList);
   }
   
   protected SignatureList instantiate(SignatureList sigList)
@@ -865,7 +881,7 @@ public abstract class Checker<R>
   protected StateUpdate instantiate(StateUpdate stUpd)
   {
     warningManager().warn("Pending generic type instantiation of state update within process signature.");
-    return factory().shallowCloneTerm(stUpd);
+    return factory().deepCloneTerm(stUpd);
   }
 
   protected ProcessSignature instantiate(ProcessSignature signature)
@@ -886,7 +902,7 @@ public abstract class Checker<R>
     //{ getName(), getGenFormals(), getSignatureList(), getProcessChannelSets(), getStateUpdate(), getUsage() };
         
     // clone generic formals
-    ZNameList genFormals = factory().shallowCloneTerm(signature.getGenFormals());    
+    ZNameList genFormals = factory().deepCloneTerm(signature.getGenFormals());    
     List<? extends SignatureList> sigs = instantiate(signature.getSignatureList());
     ChannelSetList instChanSets = instantiate(signature.getProcessChannelSets());
     StateUpdate instStUpd = instantiate(signature.getStateUpdate());
@@ -1428,38 +1444,38 @@ public abstract class Checker<R>
   }
 
   //the local TypeEnv
-  protected net.sourceforge.czt.typecheck.circus.util.TypeEnv circusTypeEnv()
-  {
-    return (net.sourceforge.czt.typecheck.circus.util.TypeEnv) typeEnv();
-  }
+  //protected net.sourceforge.czt.typecheck.circus.util.TypeEnv circusTypeEnv()
+  //{
+  //  return (net.sourceforge.czt.typecheck.circus.util.TypeEnv) typeEnv();
+  //}
 
   //add generic types from a list of Names to the TypeEnv
-  protected void addGlobalGenParamTypes(List<Name> declNames)
-  {
-    assert false : "TODO";
-    //add each DeclName and its type
-    List<String> names = new ArrayList<String>();
-    for (Name declName : declNames)
-    {
-      ZName zdn = ZUtils.assertZName(declName);
-      GenParamType genParamType = factory().createGenParamType(zdn);
-      PowerType powerType = factory().createPowerType(genParamType);
-
-      //check if a generic parameter type is redeclared
-      if (names.contains(zdn.getWord()))
-      {
-        Object[] params = {declName};
-        error(declName, net.sourceforge.czt.typecheck.z.ErrorMessage.REDECLARED_GEN, params);
-      }
-      else
-      {
-        names.add(zdn.getWord());
-      }
-
-      //add the name and type to the TypeEnv
-      sectTypeEnv().add(zdn, powerType);
-    }
-  }
+//  protected void addGlobalGenParamTypes(List<Name> declNames)
+//  {
+//    assert false : "TODO";
+//    //add each DeclName and its type
+//    List<String> names = new ArrayList<String>();
+//    for (Name declName : declNames)
+//    {
+//      ZName zdn = ZUtils.assertZName(declName);
+//      GenParamType genParamType = factory().createGenParamType(zdn);
+//      PowerType powerType = factory().createPowerType(genParamType);
+//
+//      //check if a generic parameter type is redeclared
+//      if (names.contains(zdn.getWord()))
+//      {
+//        Object[] params = {declName};
+//        error(declName, net.sourceforge.czt.typecheck.z.ErrorMessage.REDECLARED_GEN, params);
+//      }
+//      else
+//      {
+//        names.add(zdn.getWord());
+//      }
+//
+//      //add the name and type to the TypeEnv
+//      sectTypeEnv().add(zdn, powerType);
+//    }
+//  }
 
   /** 
    * Adds a new process signature annotation for given Term or update an existing one.
@@ -1509,8 +1525,17 @@ public abstract class Checker<R>
     //    (asig.getName() == null || ZUtils.namesEqual(getCurrentActionName(), asig.getName()))))
     //  : "resolved action signature is set to a different action than the one currently in scope ";
 
-    // sets the action name within the signature
-    asig.setActionName(getCurrentActionName());
+    // sets the action name within the signature    
+    if (term instanceof CallAction)
+    {
+      // for calls, their signature is related to the call
+      asig.setActionName(((CallAction)term).getName());
+    }
+    else 
+    {
+      // for all others, get the current action being declared
+      asig.setActionName(getCurrentActionName());
+    }
 
     // retrieve signature ann within the term.
     ActionSignatureAnn asigAnn = (ActionSignatureAnn) term.getAnn(ActionSignatureAnn.class);
@@ -1591,7 +1616,12 @@ public abstract class Checker<R>
     List<Type2> result = factory().list();
     for(Expr expr : actuals)
     {
-      Type2 type = expr.accept(exprChecker());
+      // during postchecking, we want to avoid retypechecking - to avoid concurrent modification in paraErrors()      
+      Type2 type = getType2FromAnns(expr);
+      if (type instanceof UnknownType)
+      {
+        type = expr.accept(exprChecker());
+      }
       result.add(type);            
     }
     assert result.size() == actuals.size() : "number of resolved actuals differ from given actuals";
@@ -1742,6 +1772,10 @@ public abstract class Checker<R>
    */
   protected List<ErrorAnn> checkCallActionConsistency(Type2 callType, CallAction term)
   {
+    // typecheck the parameters in any case - this makes sure that postchecking 
+    // can reuse typechecked expressions, hence doesn't add postcheck errors.
+    checkActualParameters(term.getZExprList());
+    
     List<ErrorAnn> result = factory().list();
     if (callType instanceof ActionType)
     {
@@ -1776,7 +1810,7 @@ public abstract class Checker<R>
         result.addAll(stateScopeErrors);
         
         // TODO: have a parameterised typechecking to make this an error or not?
-        warningManager().warn(term, WarningMessage.SCHEXPR_CALL_ACTION_WITHOUT_BRAKET, params);        
+        warningManager().warn(term, WarningMessage.SCHEXPR_CALL_ACTION_WITHOUT_BRACKET, params);        
       }
       else
       {        
@@ -1852,8 +1886,53 @@ public abstract class Checker<R>
       error(term, e);
     }
   }
+  
+  protected List<Pair<Name, List<ErrorAnn>>> pendingCallErrors()
+  {
+    return typeChecker_.pendingCallErrors_;
+  }
+  
+  protected void postCheck()
+  {
+    super.postCheck();
+    pendingCallErrors().clear();
+  }
+  
+  protected void clearErrors()
+  {
+    super.clearErrors();
+    pendingCallErrors().clear();
+  }
+  
+  protected List<ErrorAnn> getPendingCallErrors(Name call)
+  {
+    for(Pair<Name, List<ErrorAnn>> pair : pendingCallErrors())
+    {
+      if (ZUtils.namesEqual(call, pair.getFirst()))
+        return pair.getSecond();
+    }
+    return null;
+  }
+  
+  protected void appendCallErrors(Name call, List<ErrorAnn> callErrors)
+  { 
+    if (!callErrors.isEmpty())
+    {
+      List<ErrorAnn> errors = getPendingCallErrors(call);
+      if (errors == null)
+      {
+        errors = factory().list(callErrors);
+        pendingCallErrors().add(new Pair<Name, List<ErrorAnn>>(call, errors));
+      }
+      else 
+      {
+        // this updated the pendingCallErrors()
+        errors.addAll(callErrors);
+      }
+    }
+  }
 
-  protected ActionSignature joinActionSignature(CircusAction term,
+  protected ActionSignature joinActionSignature(Action2 term,
     ActionSignature actionSigL, ActionSignature actionSigR)
   { 
     // action names cannot be resolved (i.e., name = null) when joining signatures
@@ -1898,18 +1977,24 @@ public abstract class Checker<R>
     }
     
 
-    // formal parameters must be empty for joint signatures    
-    // on-the-fly actions are just calls, so should not have formal parameters.
-    boolean leftFormalsPresent = !actionSigL.getFormalParams().getNameTypePair().isEmpty();
-    boolean rightFormalsPresent = !actionSigR.getFormalParams().getNameTypePair().isEmpty();    
-    if (leftFormalsPresent || rightFormalsPresent)
+    // formal parameters must be empty for joint signatures, unless their sides are calls
+    // (i.e., on-the-fly actions are also just calls). So, if the parameters are not empty
+    // then L/R elements MUST be calls (i.e., !(!isEmpty() => isCall) )
+    boolean leftFormalsBadlyResolved = 
+      !actionSigL.getFormalParams().getNameTypePair().isEmpty() && 
+      !(term.getLeftAction() instanceof CallAction);
+    boolean rightFormalsBadlyResolved = 
+      !actionSigR.getFormalParams().getNameTypePair().isEmpty() && 
+      !(term.getRightAction() instanceof CallAction);
+    if (leftFormalsBadlyResolved || rightFormalsBadlyResolved)
     {
       Object[] params = {
         getCurrentProcessName(),
         getCurrentActionName(),
         ("non-empty formal parameters on " + 
-          (leftFormalsPresent && rightFormalsPresent ? "both sides" :
-            (leftFormalsPresent ? "left side" : "right side")))
+          (leftFormalsBadlyResolved && rightFormalsBadlyResolved ? "both sides" :
+            (leftFormalsBadlyResolved ? "left side" : "right side")) +
+            " for non-call action")
       };
       error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);
     }
@@ -1948,7 +2033,7 @@ public abstract class Checker<R>
     return result;
   }
   
-  protected ProcessSignature joinProcessSignature(CircusProcess term,
+  protected ProcessSignature joinProcessSignature(Process2 term,
     ProcessSignature processSigL, ProcessSignature processSigR)
   { 
     // process names cannot be resolved (i.e., name = null) when joining signatures    
@@ -1998,33 +2083,37 @@ public abstract class Checker<R>
       error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
     }
     
-
-    // formal parameters must be empty for joint signatures    
-    // on-the-fly processes are just calls, so should not have formal parameters.
-    boolean leftFormalsPresent = !processSigL.isBasicProcessSignature() &&
-      !processSigL.getFormalParamsOrIndexes().getNameTypePair().isEmpty();
-    boolean rightFormalsPresent = !processSigR.isBasicProcessSignature() &&
-      !processSigR.getFormalParamsOrIndexes().getNameTypePair().isEmpty();    
-    if (leftFormalsPresent || rightFormalsPresent)
+    // formal parameters must be empty for joint signatures, unless their sides are calls
+    // (i.e., on-the-fly processes are also just calls). So, if the parameters are not empty
+    // then L/R elements MUST be calls (i.e., !(!isEmpty() => isCall) )
+    boolean leftFormalsBadlyResolved = 
+      !processSigL.isBasicProcessSignature() &&
+      !processSigL.getFormalParamsOrIndexes().getNameTypePair().isEmpty() && 
+      !(term.getLeftProcess() instanceof CallProcess);
+    boolean rightFormalsBadlyResolved = 
+      !processSigR.isBasicProcessSignature() &&
+      !processSigR.getFormalParamsOrIndexes().getNameTypePair().isEmpty() &&
+      !(term.getRightProcess() instanceof CallProcess);
+    if (leftFormalsBadlyResolved || rightFormalsBadlyResolved)
     {
       // TODO:DESIGN: TO DECIDE: this avoids the presence of NESTED parameters and indexes for now      
       StringBuilder reason = new StringBuilder("non-empty ");      
-      if (leftFormalsPresent && rightFormalsPresent)
+      if (leftFormalsBadlyResolved && rightFormalsBadlyResolved)
       {
         reason.append(leftIndexed ? "indexes" : "formal parameters");
-        reason.append(" on left side, and non-empty ");
+        reason.append(" for non-call process on left side, and non-empty ");
         reason.append(rightIndexed ? "indexes" : "formal parameters");
-        reason.append(" on right side");
+        reason.append(" for non-call process on right side");
       }
-      else if (leftFormalsPresent)
+      else if (leftFormalsBadlyResolved)
       {
         reason.append(leftIndexed ? "formal parameters" : "indexes");
-        reason.append("on left side");
+        reason.append(" for non-call process on left side");
       }
-      else // if (rightFormalsPresent)
+      else // if (rightFormalsBadlyResolved)
       {
         reason.append(leftIndexed ? "formal parameters" : "indexes");
-        reason.append("on right side");
+        reason.append(" for non-call process on right side");
       }                    
       Object[] params = { getCurrentProcessName(), reason};
       error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
@@ -2037,8 +2126,8 @@ public abstract class Checker<R>
       Object[] params = { 
         getCurrentProcessName(), 
         ("non-empty generic formals on " + 
-          (leftFormalsPresent && rightFormalsPresent ? "both sides" :
-            (leftFormalsPresent ? "left side" : "right side")))
+          (leftFormalsBadlyResolved && rightFormalsBadlyResolved ? "both sides" :
+            (leftFormalsBadlyResolved ? "left side" : "right side")))
       };
       error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
     }
@@ -2184,10 +2273,10 @@ public abstract class Checker<R>
       typeEnv().enterScope();
 
       // check the declared action updating its name on the returned action signature
-      aSig = action.accept(actionChecker());
+      ActionSignature actionSignature = action.accept(actionChecker());
       
       // clone the inner term to avoid aliasing
-      aSig = factory().shallowCloneTerm(aSig);
+      aSig = factory().deepCloneTerm(actionSignature);
       aSig.setActionName(aName);
       
       // closes local vars and formal parameters scope
@@ -2298,6 +2387,26 @@ public abstract class Checker<R>
        GlobalDefs.instanceOf(decl, QualifiedDecl.class))));
   }
   
+  protected Expr getDeclExpr(Decl decl)
+  {
+    assert isValidDeclClass(decl) : "invalid decl class to extract expr - " + decl.getClass().getSimpleName();
+    
+    if (decl instanceof VarDecl)
+      return ((VarDecl)decl).getExpr();
+    else // if (decl instanceof QualifiedDecl)
+      return ((QualifiedDecl)decl).getExpr();
+  }
+  
+  protected NameList getDeclNames(Decl decl)
+  {
+    assert isValidDeclClass(decl) : "invalid decl class to extract decl names - " + decl.getClass().getSimpleName();
+    
+    if (decl instanceof VarDecl)
+      return ((VarDecl)decl).getNameList();
+    else // if (decl instanceof QualifiedDecl)
+      return ((QualifiedDecl)decl).getNameList();
+  }
+  
   /**
    * Typechecks a declaration list for a circus production within the given term.
    * That is, either a declaration of a parameterised process/action/command or
@@ -2339,9 +2448,8 @@ public abstract class Checker<R>
     {
       if (isValidDeclClass(d))
       {
-        // check if the iterators are finite, raising a warning if not.
-        VarDecl vd = (VarDecl)d;
-        Expr vdExpr = vd.getExpr();
+        // check if the iterators are finite, raising a warning if not.        
+        Expr vdExpr = getDeclExpr(d);
         if (considerFiniteness && !easilyFinite(vdExpr))
         {     
           if (!isWithinActionParaScope())
@@ -2349,7 +2457,7 @@ public abstract class Checker<R>
             errorParams.add("none");
           }
           errorParams.add(i);
-          errorParams.add(vd.getZNameList());
+          errorParams.add(getDeclNames(d));
           errorParams.add(vdExpr);
           warningManager().warn(term, WarningMessage.POTENTIALLY_INFINITE_INDEX, errorParams);                      
           addFinitenessProoofObligation(term, vdExpr);          
@@ -2414,6 +2522,27 @@ public abstract class Checker<R>
     return gParams;
   }    
   
+  // carrier sets for channel and name sets have a type as \power~NS/CSType(CIRCUS_ID)
+  private Type2 circusIdType_ = null;
+  protected Type2 typeCheckCircusIdType()
+  {
+    if (circusIdType_ == null)
+    {
+      circusIdType_ = checkUnificationSpecialType(factory().createCircusIdName(), 
+        factory().createCircusIdType());
+      
+      // adds type annotation to these circus expressions       
+      CircusUtils.CIRCUS_ID_EXPR.accept(exprChecker());      
+    }    
+    return circusIdType_;
+  }
+  
+  protected RefExpr circusIdExpr()
+  {
+    typeCheckCircusIdType();
+    return CircusUtils.CIRCUS_ID_EXPR;
+  }
+  
   /**
    * Type checks channel sets for all productions raising errors if needed with the
    * given parameters, which MUST have exactly 2 parameters.
@@ -2423,6 +2552,7 @@ public abstract class Checker<R>
    */
   protected ChannelSetType typeCheckChannelSet(ChannelSet term, List<Object> errorParams)
   {        
+    typeCheckCircusIdType();
     Type2 type = term.accept(exprChecker());    
     Type2 innerType = type;    
     if (type instanceof PowerType)
@@ -2453,7 +2583,7 @@ public abstract class Checker<R>
    * @return
    */
   protected NameSetType typeCheckNameSet(NameSet term, List<Object> errorParams)
-  {
+  {    
     Type2 type = term.accept(exprChecker());    
     Type2 innerType = type;
     if (type instanceof PowerType)
@@ -2461,19 +2591,27 @@ public abstract class Checker<R>
       innerType = GlobalDefs.powerType(type).getType();
     }
     
-    NameSetType result = factory().createNameSetType();
-    UResult unified = unify(innerType, result);
-    
-    // if doesn't unify, then raise an error 
-    if (unified.equals(UResult.FAIL))
-    { 
-      assert errorParams != null && errorParams.size() == 3 
-        : "Invalid error parameters in typeCheckNameSet: it must have 3 elements exactly.";
-      errorParams.add(term);
-      errorParams.add(type);
-      error(term, ErrorMessage.NON_NAMESET_IN_SETEXPR, errorParams);
+    NameSetType result;
+    if (innerType instanceof NameSetType)
+    {
+      result = (NameSetType)innerType;
     }
-    return result;    
+    else
+    {
+      result = factory().createNameSetType();
+      UResult unified = unify(innerType, result);    
+      
+      // if doesn't unify, then raise an error 
+      if (unified.equals(UResult.FAIL))
+      { 
+        assert errorParams != null && errorParams.size() == 3 
+          : "Invalid error parameters in typeCheckNameSet: it must have 3 elements exactly.";
+        errorParams.add(term);
+        errorParams.add(type);
+        error(term, ErrorMessage.NON_NAMESET_IN_SETEXPR, errorParams);
+      }
+    }
+    return result;
   }
   
   /**
@@ -2499,5 +2637,38 @@ public abstract class Checker<R>
           getConcreteSyntaxSymbol(term), term, pred);          
       }
     }
+  }
+
+  protected void addWarnings()
+  { 
+    errors().addAll(warningManager().warnErrors());
+    warningManager().clearWarnErrors();
+  }
+  
+  protected boolean strictOnWarnings()
+  {
+    return typeChecker_.strictOnWarnings_;
+  }
+    
+  protected Boolean getResult()
+  {
+    Boolean result = Boolean.TRUE;
+    // if there are errors, make sure warnings are not considered
+    if (errors().size() > 0) {      
+      // if strict on warnings, then consider then as errors and return false
+      result = !strictOnWarnings();
+      // otherwise, give the result without considering warnings
+      if (result)
+      {
+        Iterator<net.sourceforge.czt.typecheck.z.ErrorAnn> it = errors().iterator();
+        while (it.hasNext() && result)
+        {
+          net.sourceforge.czt.typecheck.z.ErrorAnn error = it.next();
+          // do not consider warnings
+          result = !error.getErrorType().equals(ErrorType.ERROR);
+        }      
+      }
+    }
+    return result;
   }
 }
