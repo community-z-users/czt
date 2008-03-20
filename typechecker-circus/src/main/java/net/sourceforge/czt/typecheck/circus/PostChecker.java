@@ -19,11 +19,15 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CallProcess;
+import net.sourceforge.czt.circus.ast.CircusNameSet;
 import net.sourceforge.czt.circus.visitor.CallActionVisitor;
 import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
+import net.sourceforge.czt.typecheck.circus.ErrorAnn;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
@@ -107,8 +111,13 @@ implements
     }
     else
     {
-      Type type = getGlobalType(zName);
-      List<ErrorAnn> callErrors = checkCallActionConsistency(GlobalDefs.unwrapType(type), term);      
+      // check calls agains
+      Type2 type = getType2FromAnns(term); // getLocalType(zName); //getGlobalType(zName);
+      if (type instanceof UnknownType) 
+      {
+        type = GlobalDefs.unwrapType(getLocalType(zName));
+      }
+      List<ErrorAnn> callErrors = checkCallActionConsistency(type, term);      
       
       // add the errors to all terms.
       added = false;
@@ -171,6 +180,30 @@ implements
     }      
     return added ? result : null;
   }
+  
+//  public net.sourceforge.czt.typecheck.z.ErrorAnn visitCircusNameSet(CircusNameSet term)
+//  {
+//    List<ErrorAnn> errors = typeCheckNameSet(term, ((ActionChecker)actionChecker()).getNameSetErrorParams());
+//
+//      // add the errors to all terms.
+//    boolean added = false;
+//    net.sourceforge.czt.typecheck.z.ErrorAnn result = null;
+//    for(ErrorAnn e : errors)
+//    {
+//      boolean r = addErrorAnn(term, e);
+//      added = added || r;
+//    }
+//
+//    // accumulate all post check errors at once.
+//    if (added)
+//    {        
+//      Object[] params = { getCurrentProcessName(), getConcreteSyntaxSymbol(term), term, errors.size() };
+//      result = errorAnn(term, ErrorMessage.POSTCHECKING_NAMESET_ERROR, params);
+//      // cast it as a Circus ErrorAnn
+//      ((ErrorAnn)result).addCallErrors(errors);
+//    }
+//    return added ? result : null;
+//  }
   
 //
 //  // TODO: Check: it seems a bug here because the received parameter is assigned inside this method.

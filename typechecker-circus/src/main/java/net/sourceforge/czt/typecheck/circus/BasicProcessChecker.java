@@ -194,7 +194,7 @@ public class BasicProcessChecker extends Checker<Signature>
     }    
     else 
     {      
-      Type2 type = getType2FromAnns(term.getCircusAction());
+      Type2 type = getType2FromAnns(term);
       if (type instanceof ActionType)
       {   
         ActionType aType = (ActionType)type;
@@ -230,7 +230,7 @@ public class BasicProcessChecker extends Checker<Signature>
     assert paraSig.getNameTypePair().size() == 1 : 
       "too many pairs in process para checker signature result";
             
-    Type2 type = getType2FromAnns(term.getNameSet());
+    Type2 type = getType2FromAnns(term);
     if (type instanceof NameSetType)
     { 
       // TODO:? unify paraSig with term's? nah. leave it
@@ -257,7 +257,7 @@ public class BasicProcessChecker extends Checker<Signature>
     assert paraSig.getNameTypePair().size() == 1 : 
       "too many pairs in process para checker signature result";
             
-    Type2 type = getType2FromAnns(term.getTransformerPred());
+    Type2 type = getType2FromAnns(term);
     if (((ParaChecker)paraChecker()).transformerType().getClass().isInstance(type))
     { 
       // TODO:? unify paraSig with term's? nah. leave it

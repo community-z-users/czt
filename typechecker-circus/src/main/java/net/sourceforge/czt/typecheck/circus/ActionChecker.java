@@ -62,6 +62,7 @@ import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor;
+import net.sourceforge.czt.typecheck.circus.ErrorAnn;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
@@ -118,7 +119,6 @@ import net.sourceforge.czt.z.util.ZUtils;
  * </dl>
  * </p>
  * @author Leo Freitas
- * @author Manuela
  */
 public class ActionChecker
   extends Checker<ActionSignature>
@@ -204,14 +204,18 @@ public class ActionChecker
     }
     
     // check the inner action now with the parameters in scope
-    ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
+    CircusAction action = term.getCircusAction();
+    ActionSignature actionSignature = action.accept(actionChecker());
     
     // clone the signature
     //ActionSignature actionDSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
-    ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);
+    ActionSignature actionDSig = (ActionSignature)factory().deepCloneTerm(actionSignature);
     
     // if nesting is present, raise an error - it isn't allowed
-    if (!actionDSig.getFormalParams().getNameTypePair().isEmpty())
+    // unless this is call action, in which case parameters may be present
+    // !(!actionDSig.getFormalParams().getNameTypePair().isEmpty() => action instanceof CallAction)    
+    if (!(action instanceof CallAction) && 
+        !actionDSig.getFormalParams().getNameTypePair().isEmpty())
     {
       Object[] params = {
         getCurrentProcessName(),
@@ -276,7 +280,7 @@ public class ActionChecker
   {
     // type check name set and channel set
     NameSet ns = term.getNameSet();
-    NameSetType nstL = typeCheckNameSet(ns, getNameSetErrorParams());    
+    typeCheckNameSet(ns, getNameSetErrorParams());
     
     // null for interleaving
     if (cs != null)
@@ -288,7 +292,7 @@ public class ActionChecker
     ActionSignature actionSignature = typeCheckActionIte(term);
     
     // clone signature and update name sets used
-    ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);    
+    ActionSignature actionDSig = (ActionSignature)factory().deepCloneTerm(actionSignature);    
     actionDSig.getUsedNameSets().add(0, ns);
     
     // null for interleaving
@@ -306,15 +310,15 @@ public class ActionChecker
     NameSet nsL = term.getLeftNameSet();
     NameSet nsR = term.getRightNameSet();  
     List<Object> errorParams = getNameSetErrorParams();
-    NameSetType nstL = typeCheckNameSet(nsL, errorParams);
-    NameSetType nstR = typeCheckNameSet(nsR, errorParams);
+    typeCheckNameSet(nsL, errorParams);
+    typeCheckNameSet(nsR, errorParams);
     
     // typecheck inner actions
     ActionSignature actionSignature = visitAction2(term);
         
     // clone signature and update name sets used - L first; R next
     // i.e., add the last one first at the head then the next, gives this order
-    ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);        
+    ActionSignature actionDSig = (ActionSignature)factory().deepCloneTerm(actionSignature);        
     actionDSig.getUsedNameSets().add(0, nsR);
     actionDSig.getUsedNameSets().add(0, nsL);
        
@@ -443,22 +447,21 @@ public class ActionChecker
 
     checkActionParaScope(term, call);
 
-    Type type = getGlobalType(call);
+    Type type = getType2FromAnns(call);
+    if (type instanceof UnknownType)
+    {
+      type = getLocalType(call); //getGlobalType(call);
+    }
 
     boolean addedPostChecking = false;
     //add this reference for post checking --- this is CZT's approach
-    if (!GlobalDefs.containsObject(paraErrors(), term))
+    if ((type instanceof UnknownType) && !GlobalDefs.containsObject(paraErrors(), term))
     {
-      // TODO: double check on this as manuela's solution is different from CZT's'
-      //       in hers, this is only added within a particular case when the 
-      //       action type is unknown and the current action name is different from 
-      //       the one being called.
-      if (!ZUtils.namesEqual(getCurrentActionName(), call))
-      {
+      //if (!ZUtils.namesEqual(getCurrentActionName(), call))
+      //{
         paraErrors().add(term);
-        //addAction4PostCheck(getCurrentActionName());
         addedPostChecking = true; // see this flag below.
-      }
+      //}
     }
 
     //if this is undeclared, create an unknown type with this CallAction
@@ -485,20 +488,12 @@ public class ActionChecker
       UnknownType uType = (UnknownType) type;
       uType.setZName(ZUtils.assertZName(call));
 
-      // post checking ?      
-      if (!addedPostChecking)
+      // add post checking if not there already
+      addedPostChecking = true;
+      if (!GlobalDefs.containsObject(paraErrors(), term))
       {
-        paraErrors().add(term);
-        //addAction4PostCheck(getCurrentActionName());
-        addedPostChecking = true;
+        paraErrors().add(term);       
       }
-    //else  TODO: CHECK this part in manuelas code
-    //{
-    //  // tratamento especial para o caso de chamada recursiva
-    //  List<NameTypePair> params = localCircTypeEnv().getActionInfo(actionDecl).getParams();
-    //  // chama um mtodo auxiliar que ir verificar se a chamada est correta
-    //  checkCallAction(term, params);
-    //}
     }
 
     if (type instanceof GenericType)
@@ -507,16 +502,26 @@ public class ActionChecker
       error(term, ErrorMessage.ACTION_CALL_GENTYPE, params);
     }
 
-    List<ErrorAnn> callErrors = checkCallActionConsistency(GlobalDefs.unwrapType(type), term);
-    raiseErrors(term, callErrors);
+    List<ErrorAnn> callErrors = checkCallActionConsistency(GlobalDefs.unwrapType(type), term);    
+    if (addedPostChecking)
+    { 
+      appendCallErrors(call, callErrors);      
+    }
+    else
+    {
+      raiseErrors(term, callErrors);
+    }
     
     // calls have the signature of its type or empty if invalid.    
+    // yet, the result signature is always empty, so that it does not 
+    // contaminate outer signatures being formed.
+    ActionSignature resultSignature = factory().createEmptyActionSignature();
     ActionSignature actionSignature = factory().createEmptyActionSignature();
-    
+        
     // if action type, then clone the call signature
     if (type instanceof ActionType)
     {
-      actionSignature = factory().shallowCloneTerm(GlobalDefs.actionType(type).getActionSignature());
+      actionSignature = factory().deepCloneTerm(GlobalDefs.actionType(type).getActionSignature());
     }
     // otherwise, see if this is a call for SchExpr action without special brackets, 
     // but only if no errors were found by the consistency method
@@ -529,9 +534,17 @@ public class ActionChecker
       }
       //actionSignature.setActionName(call);
     }
-    addActionSignatureAnn(term, actionSignature);
     
-    return actionSignature;
+    // update the term action signature as one calculated 
+    addActionSignatureAnn(term, actionSignature);
+    resultSignature.setActionName(getCurrentActionName());    
+    if (isWithinMuActionScope())
+    {
+      resultSignature.setSignatureOfMuAction(true);
+    }
+    
+    // return the empty action signature
+    return resultSignature;
   }
 
   /**
@@ -676,7 +689,7 @@ public class ActionChecker
 
     // clone the signature.
     //ActionSignature prefixSignature = (ActionSignature)actionSignature.create(actionSignature.getChildren());
-    ActionSignature prefixSignature = (ActionSignature)factory().shallowCloneTerm(actionSignature);
+    ActionSignature prefixSignature = (ActionSignature)factory().deepCloneTerm(actionSignature);
     
     // updates the local variable signature for the prefixed action.
     prefixSignature.getLocalVars().getNameTypePair().addAll(0, inputVars);
@@ -795,7 +808,7 @@ public class ActionChecker
     ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
     
     // clone signature and update name sets used
-    ActionSignature actionDSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);
+    ActionSignature actionDSig = (ActionSignature)factory().deepCloneTerm(actionSignature);
     actionDSig.getUsedChannelSets().add(0, cs);
     
     // add signature to the term
@@ -829,20 +842,14 @@ public class ActionChecker
     NameTypePair recVarPair = factory().createNameTypePair(aName, aType);    
     typeEnv().add(recVarPair);
     
+    setMuActionScope(true);
+    
     // this action signature is set into "action" through the addActionSignatureAnn
     // method present in all other visitors. So, "action" already have the signature
     // annotation with "aName" associated with it.
     ActionSignature actionSignature = checkActionDecl(aName, action, term);
-    actionSignature.setSignatureOfMuAction(true);
-    
-    // exit recursive variable scope
-    typeEnv().exitScope();
-    
-    // update the action type for the call action
-    aType.setActionSignature(actionSignature);
-    
-    // add action type to CircusAction 
-    addTypeAnn(action, aType);
+
+    setMuActionScope(false);
     
     // For the MuAction, the signature is the same, but updated 
     // with outer action name . TODO: check if we need a stacked environment here.
@@ -850,8 +857,18 @@ public class ActionChecker
     //  actionSignature.getFormalParams(),
     //  actionSignature.getLocalVars(),
     //  actionSignature.getCommunicationList());
-    ActionSignature muSignature = (ActionSignature)factory().shallowCloneTerm(actionSignature);
-
+    ActionSignature muSignature = (ActionSignature)factory().deepCloneTerm(actionSignature);
+    muSignature.setSignatureOfMuAction(true);
+    
+    // exit recursive variable scope
+    typeEnv().exitScope();
+    
+    // update the action type for the call action
+    aType.setActionSignature(muSignature);
+    
+    // add action type to CircusAction 
+    addTypeAnn(action, aType);
+    
     // update the mu signature with the action name.
     //muSignature.setActionName(aName);        
         
