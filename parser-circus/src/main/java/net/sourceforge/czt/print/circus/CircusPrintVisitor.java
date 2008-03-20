@@ -583,12 +583,12 @@ public class CircusPrintVisitor
     
     public Object visitCallAction(CallAction term) {
         printLPAREN(term);
-        if (!CircusUtils.isOnTheFly(term)) {
+//        if (!CircusUtils.isOnTheFly(term)) {
             visit(term.getName());
             printActualParams(term.getZExprList(), false);//not indexes
-        } else {
-            throw new PrintException("On-the-fly action calls must be processed by the AstToPrintTreeVisitor.");
-        }
+//        } else {
+//            throw new PrintException("On-the-fly action calls must be processed by the AstToPrintTreeVisitor.");
+//        }
         printRPAREN(term);
         return null;
     }
