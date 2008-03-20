@@ -12,7 +12,7 @@ package net.sourceforge.czt.typecheck.circus;
 public enum WarningMessage {
   // NOTE: in "\n\tXXX.......":, the "XXX.......".length()= 10 for beautification (see WarningManager loc info)
   
-  SCHEXPR_CALL_ACTION_WITHOUT_BRAKET(
+  SCHEXPR_CALL_ACTION_WITHOUT_BRACKET(
     "Missing schema expression action brackets." +
       "\n\tProcess...: {0}" +
       "\n\tAction....: {1}" +

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006, 2007 Leo Freitas, Manuela Xavier
+  Copyright (C) 2006, 2007 Leo Freitas
   This file is part of the czt project.
  
   The czt project contains free software; you can redistribute it and/or modify
@@ -128,6 +128,7 @@ public enum ErrorMessage
     
   /** Messages within PostChecker.java */  
   
+  POSTCHECKING_NAMESET_ERROR,
   POSTCHECKING_CALL_ERROR;
   
   /** Messages within SpecChecker.java */  

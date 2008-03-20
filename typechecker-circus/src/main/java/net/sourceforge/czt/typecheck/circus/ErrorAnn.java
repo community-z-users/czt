@@ -40,7 +40,6 @@ import net.sourceforge.czt.typecheck.circus.util.CarrierSet;
  * A class for annotating terms associated with error messages.
  *
  * @author Leo Freitas
- * @author Manuela Xavier
  */
 public class ErrorAnn
     extends net.sourceforge.czt.typecheck.z.ErrorAnn {
