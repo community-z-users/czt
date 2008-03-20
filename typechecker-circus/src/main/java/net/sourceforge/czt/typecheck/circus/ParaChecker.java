@@ -60,7 +60,6 @@ import net.sourceforge.czt.z.ast.ZNameList;
  * </p>
  *
  * @author Leo Freitas
- * @author Manuela Xavier
  */
 public class ParaChecker
   extends Checker<Signature>            // C.3.1, C.18.3, C.18.4 - with visitTerm(Term)
@@ -110,9 +109,9 @@ public class ParaChecker
   {
     if (transformerType_ == null)
     {
-      transformerType_ = checkUnificationSpecialType(transformerName_, CircusUtils.TRANSFORMER_TYPE);    
+      transformerType_ = checkUnificationSpecialType(transformerName_, factory().createTransformerType());    
       // adds type annotation to these circus expressions 
-      CircusUtils.TRANSFORMER_EXPR.accept(exprChecker());              
+      CircusUtils.TRANSFORMER_EXPR.accept(exprChecker());
     }
     return transformerType_;
   }
@@ -319,7 +318,7 @@ public class ParaChecker
     // checks the process: everything is ready, but the process name.
     ProcessSignature sigProc = process.accept(processChecker());
     
-    ProcessSignature processSignature = factory().shallowCloneTerm(sigProc);
+    ProcessSignature processSignature = factory().deepCloneTerm(sigProc);
     processSignature.setProcessName(pName);    
     
     // calculate possibly implicit channels within the used ones
@@ -365,6 +364,7 @@ public class ParaChecker
     Signature result = factory().createSignature(pair);
     
     // add transformer pred type to TransformerPred
+    addTypeAnn(term.getName(), transformerType());
     addTypeAnn(term.getTransformerPred(), transformerType());
     
     // add signature to TransformerPara

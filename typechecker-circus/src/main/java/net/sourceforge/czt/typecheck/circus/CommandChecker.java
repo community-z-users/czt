@@ -54,7 +54,6 @@ import net.sourceforge.czt.z.util.ZUtils;
 /**
  *
  * @author Leo Freitas
- * @author Manuela
  */
 public class CommandChecker
   extends Checker<ActionSignature>
@@ -226,7 +225,7 @@ public class CommandChecker
     
     // clone the signature
     //ActionSignature varDeclCmdSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
-    ActionSignature varDeclCmdSig = (ActionSignature)factory().shallowCloneTerm(actionSignature);
+    ActionSignature varDeclCmdSig = (ActionSignature)factory().deepCloneTerm(actionSignature);
     
     // updates the local variable signature for variable decl command - duplicates are fine (?) TODO:CHECK
     varDeclCmdSig.getLocalVars().getNameTypePair().addAll(0, allVars);

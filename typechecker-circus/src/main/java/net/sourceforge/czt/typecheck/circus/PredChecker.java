@@ -37,7 +37,6 @@ import net.sourceforge.czt.typecheck.z.util.UResult;
  * does not add any annotation to the predicates being checked.
  *
  * @author Leo Freitas
- * @author Manuela
  */
 public class PredChecker 
   extends Checker<UResult>

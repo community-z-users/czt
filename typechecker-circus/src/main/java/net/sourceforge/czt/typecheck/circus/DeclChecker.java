@@ -47,7 +47,6 @@ import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
  * objects indicating the variables and their types.
  *
  * @author Leo Freitas
- * @author Manuela
  */
 public class DeclChecker
   extends Checker<List<NameTypePair>>
