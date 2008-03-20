@@ -12,6 +12,9 @@ package net.sourceforge.czt.typecheck.circus.util;
 
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.ActionSignatureAnn;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CommPattern;
@@ -19,6 +22,7 @@ import net.sourceforge.czt.circus.ast.CommunicationList;
 import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessType;
+import net.sourceforge.czt.typecheck.circus.impl.Factory;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Para;
@@ -28,11 +32,13 @@ import net.sourceforge.czt.z.ast.ZNameList;
 
 /**
  * 
- * @author Manuela
+ * @author Leo Freitas
  */
 public class GlobalDefs
   extends net.sourceforge.czt.typecheck.z.util.GlobalDefs
 {  
+  public static final Factory CIRCUS_FACTORY = new Factory();
+    
   //non-safe typecast
   public static ActionType actionType(Object o)
   {
@@ -127,5 +133,21 @@ public class GlobalDefs
   
   // expand scopes of local vars within aSig ?
   //public static flattenLocalVariables(ActionSignature aSig)
+  
+  
+  public static ActionSignature getActionSignatureFromAnn(Term term)
+  {
+    ActionSignature result;
+    ActionSignatureAnn ann = term.getAnn(ActionSignatureAnn.class);    
+    if (ann != null)
+    {
+      result = ann.getActionSignature();
+    }
+    else
+    {
+      result = CIRCUS_FACTORY.createEmptyActionSignature();
+    }
+    return result;
+  }
   
 }

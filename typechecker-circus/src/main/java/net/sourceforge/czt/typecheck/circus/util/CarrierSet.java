@@ -28,6 +28,7 @@ import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
@@ -62,11 +63,11 @@ public class CarrierSet
   implements 
     ChannelTypeVisitor<Term>, 
     ChannelSetTypeVisitor<Term>, 
-    ProcessTypeVisitor<Term>,    
-    ActionTypeVisitor<Term>, 
-    NameSetTypeVisitor<Term>,
-    ProcessSignatureVisitor<Term>,
-    ActionSignatureVisitor<Term>
+//    ProcessTypeVisitor<Term>,    
+//    ActionTypeVisitor<Term>,     
+//    ProcessSignatureVisitor<Term>,
+//    ActionSignatureVisitor<Term>,
+    NameSetTypeVisitor<Term>
 {    
   protected net.sourceforge.czt.circus.util.Factory circusFactory_;
   
@@ -108,8 +109,8 @@ public class CarrierSet
     }
     
     Expr expr = (Expr) type.accept(this);
-    PowerExpr result = zFactory_.createPowerExpr(expr);
-    return result;
+    //PowerExpr result = zFactory_.createPowerExpr(expr);
+    return expr;
   }
   
   /**
@@ -120,6 +121,9 @@ public class CarrierSet
    */
   public Term visitChannelSetType(ChannelSetType term)
   {
+    // just check the circus prelude is visible.? Only 
+    //assert sectTypeEnv().visibleSections().contains(CircusUtils.CIRCUS_PRELUDE) : 
+    //  "Circus prelude not yet loaded in global type environment";
     Signature sig = term.getSignature();    
     
     if (sig == null)
@@ -127,77 +131,77 @@ public class CarrierSet
       throw new UndeterminedTypeException();
     }
     
-    assert false : "TODO: work out how this should be resolved. " +
-      "A channel set maximal type should be a set o pairs, unifiable " +
-      "on the fact all pairs are channel types, even though these types " +
-      "my not unify on their underlying base type (i.e., { (c, \\nat), (d, \\power \\num) }).";
-    //circusFactory_.createSigmaExpr()
-//    (SchText)term.getSignature().acccept(this);
-//    Signature signature = schemaType.getSignature();
-//    SchText schText = (SchText) signature.accept(this);
-//    SchExpr result = zFactory_.createSchExpr(schText);
-//    return result;
-//    
-//    checkForNullSignature(sig, "Null signature for ChannelsetType " + term);            
-//    SchText schText = (SchText) sig.accept(this);
-//    return schText;
-    return null;
+    return CircusUtils.CIRCUS_ID_EXPR;
+//    assert false : "TODO: work out how this should be resolved. " +
+//      "A channel set maximal type should be a set o pairs, unifiable " +
+//      "on the fact all pairs are channel types, even though these types " +
+//      "my not unify on their underlying base type (i.e., { (c, \\nat), (d, \\power \\num) }).";
   }
-
+  
+  /**
+   * Nameset carrier sets are power expressions of a set expression
+   * @param term
+   * @return
+   */
   public Term visitNameSetType(NameSetType term)
   {
-    assert false : "see channel set type";
-//    term.getSignature()
-//    Signature sig = term.getSignature();    
-//    checkForNullSignature(sig, "Null signature for NamesetType " + term);            
+    // just check the circus prelude is visible.? Only 
+    //assert sectTypeEnv().visibleSections().contains(CircusUtils.CIRCUS_PRELUDE) : 
+    //  "Circus prelude not yet loaded in global type environment";
+      
+    Signature sig = term.getSignature();    
+    
+    if (sig == null)
+    {
+      throw new UndeterminedTypeException();
+    }
+
+    return CircusUtils.CIRCUS_ID_EXPR;
+  }
+  
+//  public Term visitProcessType(ProcessType term)
+//  {
+////    ProcessSignature sig = term.getProcessSignature();    
+////    ProcessSignature result = (ProcessSignature)sig.accept(this);
+////    return result;
+//    assert false : "TODO: what should this return? an empty process? or just ProcessSignature?";
+//    return null;
+//  }
+//  
+//  private Signature schTextToSignature(ZSchText term)
+//  {
+//    for(Decl d : term.getZDeclList())
+//    {
+//      assert d instanceof VarDecl : "Cannot convert a non-VarDecl ZSchText to Signature";
+//      VarDecl vd = (VarDecl)d;
+//      //?      
+//      assert false;
+//    }
+//    return null;
+//  }
+//  
+//  public Term visitProcessSignature(ProcessSignature term)
+//  {
+//    SchText paramOrIndexes = (SchText)term.getFormalParamsOrIndexes().accept(this);    
+//    Signature paramOrIndexesCarrier = schTextToSignature(ZUtils.assertZSchText(paramOrIndexes));     
+//    //ProcessSignature result = circusFactory_.createCircusProcessSignature(
+//    //  term.getProcessName(), term.getGenFormals(), paramOrIndexesCarrier, term.getKind());
+//    //return result;
+//    assert false ;
+//    return null;
+//  }
+//  
+//  public Term visitActionType(ActionType term)
+//  {
+//    ActionSignature sig = term.getActionSignature();
+//    //checkForNullSignature(sig, "Null signature for ActionType " + term);            
 //    SchText schText = (SchText) sig.accept(this);
 //    return schText;
-    return null;
-  }
-  
-  public Term visitProcessType(ProcessType term)
-  {
-//    ProcessSignature sig = term.getProcessSignature();    
-//    ProcessSignature result = (ProcessSignature)sig.accept(this);
-//    return result;
-    assert false : "TODO: what should this return? an empty process? or just ProcessSignature?";
-    return null;
-  }
-  
-  private Signature schTextToSignature(ZSchText term)
-  {
-    for(Decl d : term.getZDeclList())
-    {
-      assert d instanceof VarDecl : "Cannot convert a non-VarDecl ZSchText to Signature";
-      VarDecl vd = (VarDecl)d;
-      //?      
-      assert false;
-    }
-    return null;
-  }
-  
-  public Term visitProcessSignature(ProcessSignature term)
-  {
-    SchText paramOrIndexes = (SchText)term.getFormalParamsOrIndexes().accept(this);    
-    Signature paramOrIndexesCarrier = schTextToSignature(ZUtils.assertZSchText(paramOrIndexes));     
-    //ProcessSignature result = circusFactory_.createCircusProcessSignature(
-    //  term.getProcessName(), term.getGenFormals(), paramOrIndexesCarrier, term.getKind());
-    //return result;
-    assert false ;
-    return null;
-  }
-  
-  public Term visitActionType(ActionType term)
-  {
-    ActionSignature sig = term.getActionSignature();
-    //checkForNullSignature(sig, "Null signature for ActionType " + term);            
-    SchText schText = (SchText) sig.accept(this);
-    return schText;
-  }  
-  
-  @Override
-  public Term visitActionSignature(ActionSignature term)
-  {
-    return null;
-  }  
+//  }  
+//  
+//  @Override
+//  public Term visitActionSignature(ActionSignature term)
+//  {
+//    return null;
+//  }  
 }
