@@ -563,8 +563,7 @@ abstract public class Checker<R>
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
-      errors().clear();
-      paraErrors().clear();
+      clearErrors();
       removeErrorAndTypeAnns(zSect);
       sectTypeEnv().setSecondTime(true);
       zSect.accept(specChecker());
@@ -593,6 +592,12 @@ abstract public class Checker<R>
     //create the SectTypeEnvAnn and add it to the section information
     List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
     return result;
+  }
+  
+  protected void clearErrors()
+  {
+    errors().clear();
+    paraErrors().clear();      
   }
     
   /**
