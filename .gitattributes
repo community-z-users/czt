@@ -505,12 +505,12 @@ typechecker-circus/src/test/resources/tests/circus/actpara_duplicate_name-Redecl
 typechecker-circus/src/test/resources/tests/circus/circus_cookies-SchexprActionVarOutOfScope.error -text
 typechecker-circus/src/test/resources/tests/circus/comm-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatchInApplExpr.error -text
-typechecker-circus/src/test/resources/tests/circus/fib_multenv-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/name-IsNotChannelName.error -text
 typechecker-circus/src/test/resources/tests/circus/tc31_param_process-RedeclaredDef.error -text
 typechecker-circus/src/test/resources/tests/circus/tc3211_paramact-UndeclaredIdentifier.error -text
 typechecker-circus/src/test/resources/tests/circus/tc3212_extchoice_scope-UndeclaredIdentifier.error -text
-typechecker-circus/src/test/resources/tests/circus/tc3212_mutualrec_muaction-IsNotActionName.error -text
+typechecker-circus/src/test/resources/tests/circus/tc3212_mutualrec_muaction-PostcheckingCallError.error -text
+typechecker-circus/src/test/resources/tests/circus/tc3217_commands-InvalidNamelistInCommand.error -text
 typechecker-circus/src/test/resources/tests/circus/tc322-RedeclaredGlobalName.error -text
 typechecker-circus/src/test/resources/tests/circus/tc325_noindexaccess-AssignmentCommandDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/tc326_noindexaccess-UndeclaredIdentifier.error -text

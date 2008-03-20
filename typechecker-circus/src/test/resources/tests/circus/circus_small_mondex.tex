@@ -1,0 +1,127 @@
+\documentclass{article}
+
+\usepackage{czt}
+\usepackage{vmargin}
+\usepackage{circus}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\begin{document}
+
+\title{\Circus\ small Mondex - typechecking}
+\author{Leo Freitas}
+\date{March 2008}
+
+\maketitle
+
+\begin{zsection}
+  \SECTION\ circus\_small\_mondex \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [NAME] 
+   \also
+   MESSAGE ::= OK | LOST | FAIL | NOT\_CON
+\end{zed}
+
+\begin{axdef}
+   purseLimit: \nat
+\where
+   purseLimit > 0
+\end{axdef}
+
+\begin{circus}
+   \circchannel\ inFrom, inTo: NAME \\
+   \circchannel\ inValue: \nat \\
+   \circchannel\ out: MESSAGE
+\end{circus}
+
+\begin{circus}
+   \circprocess\ AbstractWorld \circdef \circbegin
+\end{circus}
+
+\begin{schema}{State}
+   purses: \power~NAME \\
+   balances: NAME \pfun \nat \\
+   lost: NAME \pfun \nat 
+\where
+   \dom~balances = purses \\
+   \dom~lost = purses
+\end{schema}
+
+\begin{circusaction}
+   \circstate\ State
+\end{circusaction}
+
+\begin{schema}{TransferOk}
+   \Delta State \\
+   from?, to?: NAME \\
+   value? : \nat \\
+   o!: MESSAGE
+\where
+   from? \in purses \land  to? \in purses \land from? \neq to? \\
+   balances~from? \geq value? \\
+   balances~to? + value? < purseLimit \\
+   balances' = balances \oplus \{~ from? \mapsto (balances~from? - value?) ~\} \\
+   balances' = balances \oplus \{~ to? \mapsto (balances~to? + value?) ~\} \\
+   lost' = lost \land purses' = purses \\
+   o! = OK
+\end{schema}
+
+\begin{schema}{TransferLost}
+   \Delta State \\
+   from?, to?: NAME \\
+   value? : \nat \\
+   o!: MESSAGE
+\where
+   from? \in purses \land  to? \in purses \land from? \neq to? \\
+   balances~from? \geq value? \\
+   balances~to? + value? < purseLimit \\
+   balances' = balances \oplus \{~ from? \mapsto (balances~from? - value?) ~\} \\   
+   lost' = lost  \oplus \{~ from? \mapsto (lost~from? + value?) ~\} \\
+   purses' = purses \land o! = LOST
+\end{schema}
+
+\begin{zed}
+   DoNothing ~~==~~ [~ \Xi State; o!: MESSAGE | o! = NOT\_CON ~]
+\end{zed}
+
+Here we have a curious situation: the action parameters are in scope, but not 
+as state variables (i.e., no version with prime, shierk and pling). So, we do need
+to rename them in the schema expression action disjunct.
+%
+\begin{circusaction}
+    Transfer \circdef from, to: NAME; value: \nat \circspot \\
+    	\t1 \circvar o: MESSAGE \circspot \\
+		\t2 (\lcircguard value < 0 \rcircguard \circguard inValue?v \then Transfer(from, to, v)) \\
+		\t2 \extchoice \\
+		\t2 (\lcircguard value \geq 0 \rcircguard \circguard \\
+			\t3 (\lcircguard from \neq to \land from \in purses \land to \in purses \land balances~from \geq value \\
+				\t4 \land balances~to + value \leq purseLimit \rcircguard \circguard \\
+					\t5 (\lschexpract (TransferOk \lor TransferLost \lor DoNothing)[from/from?, to/to?, value/value?] \rschexpract \circseq \\
+					\t5 out!o \then \Skip) \\
+			\t3 \extchoice \\
+			 \t3  \lcircguard from = to \lor from \notin purses \lor to \notin purses \lor \\
+			 	\t4  balances~from < value \lor balances~to + value > purseLimit \rcircguard \circguard \\
+					\t5 out!FAIL \then Skip \\
+			 \t3) \\
+	        \t2 )
+\end{circusaction}
+
+\begin{circusaction}
+     Start \circdef inFrom?from \then inTo?to \then inValue?value \then Transfer(from, to, value)
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 \circspot \circmu\ X \circspot Start \circseq X
+\end{circusaction}
+   
+\begin{circus}
+   \circend
+\end{circus}
+
+\end{document}
