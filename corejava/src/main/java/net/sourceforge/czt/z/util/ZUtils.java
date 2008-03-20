@@ -332,6 +332,27 @@ public final class ZUtils
     return result;
   }
 
+  /**
+   * Returns whether the given expression is an empty set as a reference to
+   * <code>ZString.EMPTYSET<code>.
+   */
+  public static boolean isEmptySetRefExpr(Object a) 
+  {      
+    boolean result = (a instanceof RefExpr);        
+    if (result) 
+    {
+      RefExpr r = (RefExpr)a;
+      // false mixfix, as the result of createGenInst(...)
+      result = r.getMixfix() != null && !r.getMixfix();
+      if (result) 
+      {
+        result = r.getZName().getWord().equals(ZString.EMPTYSET);
+      }
+    }      
+    return result;
+  }
+
+  
   public static boolean isRefExpr(Term term)
   {
     return term instanceof RefExpr;
