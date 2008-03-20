@@ -1,11 +1,12 @@
 
+
 \begin{zsection}
   \SECTION\ circus\_basic\_processes \parents\ circus\_toolkit
 \end{zsection}
 
 \begin{circus}
     \circchannel\ c: \nat \\
-    \circprocess P \circdef i: \nat \circspot \circbegin 
+    \circprocess P \circdef i: \nat \circspot \circbegin
 \end{circus}
 
 \begin{axdef}
@@ -21,11 +22,12 @@
 \begin{circusaction}
      A \circdef c.x \then A \\
      B \circdef c?j \then x := x+j \circseq B \\
-     C \circdef A \lpar \emptyset | \lchanset c \rchanset | \{~x~\} \rpar B 
+     C \circdef A \lpar \emptyset | \lchanset c \rchanset | \{~x~\} \rpar B \\
+     D \circdef A \lpar \{~x~\} | \lchanset c \rchanset | \{~~\} \rpar B
 \end{circusaction}
 
 \begin{circusaction}
-    \t1 \circspot x := i \circseq C
+    \t1 \circspot x := i \circseq C \circseq D
 \end{circusaction}
 
 \begin{circus}
