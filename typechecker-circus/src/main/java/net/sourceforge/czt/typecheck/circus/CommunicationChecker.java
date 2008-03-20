@@ -195,7 +195,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   {
     if (synchType_ == null)
     {
-      synchType_ = checkUnificationSpecialType(synchName_, CircusUtils.SYNCH_CHANNEL_TYPE);    
+      synchType_ = checkUnificationSpecialType(synchName_, factory().createSynchType());    
       
       assert (synchType_ instanceof PowerType) : "invalid synch type - not power type";
       
@@ -372,6 +372,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     channelName_ = term.getChannelExpr().getName();
     commPattern_ = term.getCommPattern();
     commUsage_   = term.getCommUsage();
+    channelType_ = factory().createChannelType(factory().createUnknownType());
 
     // communications can only appear within an action paragrph
     checkActionParaScope(term, channelName_);    
@@ -517,13 +518,13 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     // check invariant for good channels.
     if (commFormatInv)
     { 
-      comm_ = (Communication)factory().shallowCloneTerm(term);
+      comm_ = (Communication)factory().deepCloneTerm(term);
       
       // for generically typed communications, clone their type and themselves
       // to go to the used channels and communication lists
       if (isGenericallyTyped(term))
       {
-        channelType_ = (ChannelType)factory().shallowCloneTerm(channelType_);        
+        channelType_ = (ChannelType)factory().deepCloneTerm(channelType_);        
       }
     } 
     else
@@ -558,7 +559,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     CommunicationType commType = factory().getCircusFactory().
       createCommunicationType(signature);    
     addTypeAnn(comm_, commType);    
-    circusTypeEnv().addUsedCommunication(comm_);   
+    //circusTypeEnv().addUsedCommunication(comm_);   
     
     // reset the attributes only valid for communication field analysis.   
     resetAttributes();

@@ -33,7 +33,6 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * and takes care of on-the-fly processes.
  * 
  * @author Leo Freitas
- * @author Manuela 
  */
 public class SpecChecker extends Checker<Object>
   implements ZParaListVisitor<Object>, ZSectVisitor<Object>
@@ -61,10 +60,12 @@ public class SpecChecker extends Checker<Object>
      */     
     NameSectTypeTriple synchTriple = factory().createNameSectTypeTriple(
       factory().createSynchName(), CircusUtils.CIRCUS_PRELUDE, factory().createSynchType());
+    NameSectTypeTriple circusIdTriple = factory().createNameSectTypeTriple(
+      factory().createCircusIdName(), CircusUtils.CIRCUS_PRELUDE, factory().createCircusIdType());
     NameSectTypeTriple transformerTriple = factory().createNameSectTypeTriple(
       factory().createTransformerName(), CircusUtils.CIRCUS_PRELUDE, 
       factory().createTransformerType());    
-    sectTypeEnv().add(factory().list(synchTriple, transformerTriple));            
+    sectTypeEnv().add(factory().list(synchTriple, circusIdTriple, transformerTriple));            
   }
 
   /**
