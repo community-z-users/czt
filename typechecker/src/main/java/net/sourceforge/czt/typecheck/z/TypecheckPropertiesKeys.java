@@ -43,4 +43,10 @@ public interface TypecheckPropertiesKeys
    */
   String PROP_TYPECHECK_SORT_DECL_NAMES =
     "typecheck_sort_decl_names";  
+  
+  String PROP_TYPECHECK_USE_NAMEIDS =
+    "typecheck_use_nameids";
+  
+  String PROP_TYPECHECK_RAISE_WARNINGS = 
+    "typecheck_raise_warnings";  
 }
