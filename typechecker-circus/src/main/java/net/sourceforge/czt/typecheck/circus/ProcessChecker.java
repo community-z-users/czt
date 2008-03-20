@@ -29,6 +29,7 @@ import net.sourceforge.czt.circus.ast.CallProcess;
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
+import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.HideProcess;
 import net.sourceforge.czt.circus.ast.IndexedProcess;
 import net.sourceforge.czt.circus.ast.ParProcess;
@@ -80,7 +81,6 @@ import net.sourceforge.czt.z.visitor.ZParaListVisitor;
  * production.
  *
  * @author Leo Freitas
- * @author Manuela Xavier
  */
 public class ProcessChecker extends Checker<ProcessSignature>
   implements 
@@ -155,15 +155,21 @@ public class ProcessChecker extends Checker<ProcessSignature>
     }
 
     // check the inner process now with the parameters in scope
-    ProcessSignature processSignature = term.getCircusProcess().accept(processChecker());
+    CircusProcess process = term.getCircusProcess();
+    ProcessSignature processSignature = process.accept(processChecker());
 
     // clone the signature
     //ActionSignature actionDSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
-    ProcessSignature processDSig = (ProcessSignature) factory().shallowCloneTerm(processSignature);
+    ProcessSignature processDSig = (ProcessSignature) factory().deepCloneTerm(processSignature);
 
-    // if nesting is present, raise an error - it isn't allowed (but only for compound signatures since basic cannot have it anyway
-    if (!processDSig.isBasicProcessSignature() &&
-      !processDSig.getFormalParamsOrIndexes().getNameTypePair().isEmpty())
+    // if nesting is present, raise an error - it isn't allowed 
+    //(but only for compound signatures since basic cannot have it anyway
+    //
+    // unless this is call action, in which case parameters may be present
+    // !(!actionDSig.getFormalParams().getNameTypePair().isEmpty() => action instanceof CallAction)    
+    if (!(process instanceof CallProcess) && 
+        !processDSig.isBasicProcessSignature() &&
+        !processDSig.getFormalParamsOrIndexes().getNameTypePair().isEmpty())
     {
       Object[] params = {getCurrentProcessName()};
       error(term, ErrorMessage.NESTED_FORMAL_PARAMS_IN_PROCESS, params);
@@ -188,7 +194,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
 
     // clone signature and update name sets used - L first; R next
     // i.e., add the last one first at the head then the next, gives this order
-    ProcessSignature processDSig = (ProcessSignature) factory().shallowCloneTerm(processSignature);
+    ProcessSignature processDSig = (ProcessSignature) factory().deepCloneTerm(processSignature);
 
     // within the ProcessChecker, it must be for an process use rather than at declaration point.
     List<Object> errorParams = getChannelSetErrorParams();
@@ -441,7 +447,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
     // if action type, then clone the call signature
     if (type instanceof ProcessType)
     {
-      processSignature = factory().shallowCloneTerm(GlobalDefs.processType(type).getProcessSignature());
+      processSignature = factory().deepCloneTerm(GlobalDefs.processType(type).getProcessSignature());
     }
     addProcessSignatureAnn(term, processSignature);
 
@@ -467,7 +473,7 @@ public class ProcessChecker extends Checker<ProcessSignature>
     ProcessSignature processSignature = term.getCircusProcess().accept(processChecker());
 
     // clone signature and update name sets used
-    ProcessSignature processDSig = (ProcessSignature) factory().shallowCloneTerm(processSignature);
+    ProcessSignature processDSig = (ProcessSignature) factory().deepCloneTerm(processSignature);
     processDSig.getCircusProcessChannelSets().add(0, cs);
 
     // add signature to the term
