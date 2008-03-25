@@ -1,0 +1,13 @@
+\begin{zsection}
+  \SECTION\ boolean\_comm\_output \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c: \boolean \\
+   \circprocess\ P \circdef \circbegin \\
+    \t1 \circstate S == [ x: \nat ] \\
+    \t1 Op == [ \Delta S | x' = x + 1 ] \\
+    \t1 A \circdef\ c!Op \then \Skip \\
+   \circspot\ A \\
+   \circend
+\end{circus}
