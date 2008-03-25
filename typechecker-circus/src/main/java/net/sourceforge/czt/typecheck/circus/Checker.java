@@ -2559,18 +2559,25 @@ public abstract class Checker<R>
     {
       innerType = GlobalDefs.powerType(type).getType();
     }
-        
-    ChannelSetType result = factory().createChannelSetType();
-    UResult unified = unify(innerType, result);
-    
-    // if doesn't unify, then raise an error 
-    if (unified.equals(UResult.FAIL))
-    {      
-      assert errorParams != null && errorParams.size() == 2 
-        : "Invalid error parameters in typeCheckChannelSet: it must have 2 elements exactly.";
-      errorParams.add(term);
-      errorParams.add(type);               
-      error(term, ErrorMessage.NON_CHANNELSET_IN_POWEREXPR, errorParams);      
+     
+    ChannelSetType result;
+    if (innerType instanceof ChannelSetType)
+    {
+      result = (ChannelSetType)innerType;
+    }
+    else
+    {
+      result = factory().createChannelSetType();
+      UResult unified = unify(innerType, result);    
+      // if doesn't unify, then raise an error 
+      if (unified.equals(UResult.FAIL))
+      {      
+        assert errorParams != null && errorParams.size() == 2 
+          : "Invalid error parameters in typeCheckChannelSet: it must have 2 elements exactly.";
+        errorParams.add(term);
+        errorParams.add(type);               
+        error(term, ErrorMessage.NON_CHANNELSET_IN_POWEREXPR, errorParams);      
+      }
     }
     return result;
   }
