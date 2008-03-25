@@ -227,6 +227,9 @@ public class ProcessChecker extends Checker<ProcessSignature>
     ProcessSignature processSignature = typeCheckProcessD(term,
       true, /* considerFiniteness */
       true /* putDeclsIntoScope */);
+    
+    // iterated processes do not have parameters
+    processSignature.getFormalParamsOrIndexes().getNameTypePair().clear();
     return processSignature;
   }
 

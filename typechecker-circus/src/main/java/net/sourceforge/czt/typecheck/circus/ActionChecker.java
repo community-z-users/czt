@@ -250,6 +250,9 @@ public class ActionChecker
     ActionSignature actionSignature = typeCheckActionD(term, 
       true, /* considerFiniteness */
       false /* allowQualifiedDecl */);
+    
+    // iterated actions do not have parameters
+    actionSignature.getFormalParams().getNameTypePair().clear();
     return actionSignature;
   }
   
