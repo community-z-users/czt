@@ -1143,6 +1143,12 @@ action code
        return result;
     } 
     
+    protected void setMainAction(CircusAction mainAction, LocInfo loc)
+    {
+       checkForDuplicatedMainAction(loc);
+       parserState_.setMainAction(mainAction);
+    }
+    
     /**
      * Checks whether the given predicate is a schema. 
      * If the paragraph is not a schema, an error is reported.     
@@ -1203,6 +1209,15 @@ action code
       if (!result) {                               
          parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_STATE,
                new Object[] { msg, loc} , loc);
+      }
+      return result;
+    }
+    
+    protected boolean checkForDuplicatedMainAction(LocInfo loc) {      
+      boolean result = parserState_.getMainAction() == null;
+      CztLogger.getLogger(<class/>.class).fine("DUPLICATED MAIN ACTION? :" + !result + " @ " + loc.toString());
+      if (!result) {                               
+         parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_MAINACTION, new Object[0], loc);
       }
       return result;
     }
@@ -1432,14 +1447,27 @@ action code
     }
     
     protected boolean updateBasicProcessInformation(String from, LocInfo loc) {                           
-        CztLogger.getLogger(<class/>.class).finer("BEFORE UPDATE BASIC PROCESS INFORMATION");
-        boolean result = parserState_.updateBasicProcessInformation();
+        CztLogger.getLogger(<class/>.class).finer("BEFORE UPDATE BASIC PROCESS INFORMATION");        
+        
+        ParserState.BasicProcessUpdate bpUpdate = parserState_.updateBasicProcessInformation();        
+        boolean result = bpUpdate.equals(ParserState.BasicProcessUpdate.BP_OK);
+        
         CztLogger.getLogger(<class/>.class).finer("AFTER UPDATE BASIC PROCESS INFORMATION");
         CztLogger.getLogger(<class/>.class).finer("UPDATE BASIC PROCESS INFORMATION: " +
             result + " from " + from + " @ " + loc + "\n" + 
-            parserState_.getProcessPara()); 
+            parserState_.getProcessPara());         
+        
         if (!result) {
-            warnProcessScopeMissing("update local structures", from, loc);
+            warnProcessScopeMissing("update local structures " + bpUpdate + " ", from, loc);
+            if (bpUpdate.equals(ParserState.BasicProcessUpdate.DUPLICATED_STATE))
+            {
+              parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_STATE, 
+                new Object[] { from, loc} , loc);
+            }
+            else if (bpUpdate.equals(ParserState.BasicProcessUpdate.DUPLICATED_MAIN_ACTION))
+            {
+              parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_MAINACTION, new Object[0], loc);         
+            }
         }        
         return result;
     }    
@@ -4558,8 +4586,8 @@ circusBasicProcess ::=
            // declared outside the multiple environment scope, raise then.           
            raisePendingBasicProcessWarnings(from);           
         :}        
-        ;        
-
+        ;
+        
 circusBasicProcessMainAction ::=
         CIRCSPOT:s circusAction:ca
         {:      
@@ -4568,7 +4596,7 @@ circusBasicProcessMainAction ::=
            RESULT = ca;
            
            // sets the main action into the parserState_
-           parserState_.setMainAction(RESULT);
+           setMainAction(RESULT, loc);
            addLocAnn(RESULT, loc);
            
            // Create an on-the-fly paragraph for the main action named "$$mainAction".           
