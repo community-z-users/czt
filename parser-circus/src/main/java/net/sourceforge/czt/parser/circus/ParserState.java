@@ -227,11 +227,6 @@ public class ParserState
   {
     return ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) != null;
   }
-
-  private void addLocallyDeclPara(int index, Para p)
-  {
-    locallyDeclPara_.add(index, p);
-  }
   
   protected void addLocallyDeclPara(Para p)
   {
@@ -348,7 +343,7 @@ public class ParserState
       {
         addCircusOnTheFlyAnn(result);
       }
-      addLocallyDeclPara(0, result);
+      addLocallyDeclPara(result);
     //}
     //else
     //{
