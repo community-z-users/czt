@@ -759,9 +759,21 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       {
         Type2 expectedU = GlobalDefs.unwrapType(fieldType);
         Type2 foundU = GlobalDefs.unwrapType(exprType);
-        UResult unified = unify(foundU, expectedU);
+        UResult unified;
+        
+        // for boolean typed channels, schemas are interpred as predicates
+        if (CircusUtils.isBooleanType(expectedU) &&
+            referenceToSchema(exprType) != null)
+        {          
+          unified = UResult.SUCC;
+        }
+        // otherwise, just treat the field as types
+        else
+        {
+          unified = unify(foundU, expectedU);
+        }
         // if unification fails, raise a type error.
-        if (unified.equals(UResult.FAIL))
+        if (!unified.equals(UResult.SUCC))
         {          
           params.add(fieldPosition_+1);// it is zero based - show one based.
           params.add(expectedU);
