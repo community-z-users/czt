@@ -381,25 +381,29 @@ public class ProcessChecker extends Checker<ProcessSignature>
     // check the scope
     checkProcessParaScope(term, call);
 
-    // retrieve the process type
-    Type type = callExpr.accept(exprChecker());// getGlobalType(call);
-
+    // see if this call has already been type checked
     boolean addedPostChecking = false;
-    //add this reference for post checking --- this is CZT's approach
-    if (!GlobalDefs.containsObject(paraErrors(), term))
-    {
-      // TODO: double check on this as manuela's solution is different from CZT's'
-      //       in hers, this is only added within a particular case when the 
-      //       action type is unknown and the current action name is different from 
-      //       the one being called.
-      if (!ZUtils.namesEqual(getCurrentProcessName(), call))
-      {
-        paraErrors().add(term);
-        //addAction4PostCheck(getCurrentActionName());
-        addedPostChecking = true; // see this flag below.
-      }
-    }
-
+    
+    // always check  the expression because of the generic parameters
+    Type type = callExpr.accept(exprChecker());
+    //Type type = getType2FromAnns(callExpr);
+    //if (type instanceof UnknownType)
+    //{ 
+      // if not, try the environments 
+      //type = getGlobalType(call);      
+      //if (type instanceof UnknownType)
+      //{
+        //add this call for post checking --- this is CZT's approach
+        if (!GlobalDefs.containsObject(paraErrors(), term))
+        {
+          paraErrors().add(term);
+          addedPostChecking = true;
+        }
+        // finally, try instantiating generics for process name
+        //type = callExpr.accept(exprChecker());// getGlobalType(call);
+      //}
+   // }
+    
     //if this is undeclared, create an unknown type with this CallAction
     //i.e., getType(call) may add a UndeclaredAdd to call
     Object undecAnn = call.getAnn(UndeclaredAnn.class);
@@ -430,31 +434,37 @@ public class ProcessChecker extends Checker<ProcessSignature>
         paraErrors().add(term);
         //addAction4PostCheck(getCurrentActionName());
         addedPostChecking = true;
-      }
-    //else  TODO: CHECK this part in manuelas code
-    //{
-    //  // tratamento especial para o caso de chamada recursiva
-    //  List<NameTypePair> params = localCircTypeEnv().getActionInfo(actionDecl).getParams();
-    //  // chama um mtodo auxiliar que ir verificar se a chamada est correta
-    //  checkCallAction(term, params);
-    //}
+      }   
     }
     
     List<ErrorAnn> callErrors = checkCallProcessConsistency(
       GlobalDefs.unwrapType(type), term, true /* checkProcessScope */);
-    raiseErrors(term, callErrors);
+    if (addedPostChecking)
+    { 
+      appendCallErrors(call, callErrors);      
+    }
+    else
+    {      
+      raiseErrors(term, callErrors);
+    }
 
-    // calls have the signature of its type or empty if invalid.    
+    // calls have the signature of its type or empty if invalid.        
+    // yet, the result signature is always empty, so that it does not 
+    // contaminate outer signatures being formed.
+    ProcessSignature resultSignature = factory().createEmptyProcessSignature();
     ProcessSignature processSignature = factory().createEmptyProcessSignature();
 
     // if action type, then clone the call signature
     if (type instanceof ProcessType)
     {
       processSignature = factory().deepCloneTerm(GlobalDefs.processType(type).getProcessSignature());
-    }
-    addProcessSignatureAnn(term, processSignature);
-
-    return processSignature;
+    }    
+    
+    // update the term action signature as one calculated 
+    addProcessSignatureAnn(term, processSignature);    
+    resultSignature.setProcessName(getCurrentProcessName());
+    
+    return resultSignature;
   }
 
   /**

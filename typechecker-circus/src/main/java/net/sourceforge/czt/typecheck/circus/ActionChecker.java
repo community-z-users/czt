@@ -450,6 +450,7 @@ public class ActionChecker
 
     checkActionParaScope(term, call);
 
+    // see if this call has already been type checked
     Type type = getType2FromAnns(call);
     if (type instanceof UnknownType)
     {

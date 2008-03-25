@@ -1822,6 +1822,10 @@ public abstract class Checker<R>
   
   protected List<ErrorAnn> checkCallProcessConsistency(Type2 callType, CallProcess term, boolean checkProcessScope)
   {
+    // typecheck the parameters in any case - this makes sure that postchecking 
+    // can reuse typechecked expressions, hence doesn't add postcheck errors.
+    checkActualParameters(term.getZActuals());
+    
     List<ErrorAnn> result = factory().list();
     if (callType instanceof ProcessType)
     {
@@ -1842,7 +1846,7 @@ public abstract class Checker<R>
             term.getUsage()              
           };
           result.add(errorAnn(term, ErrorMessage.PROCESS_USAGE_INCONSISTENCY, params));
-        }        
+        }  
         ZExprList actuals = term.getZActuals();
         
         // basic process cannot have formal parameters or indexes in their signatures
