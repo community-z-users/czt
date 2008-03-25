@@ -228,6 +228,11 @@ public class ParserState
     return ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) != null;
   }
 
+  private void addLocallyDeclPara(int index, Para p)
+  {
+    locallyDeclPara_.add(index, p);
+  }
+  
   protected void addLocallyDeclPara(Para p)
   {
     // avoid repeated at parsing? or let the typechecker take care of it
@@ -343,7 +348,7 @@ public class ParserState
       {
         addCircusOnTheFlyAnn(result);
       }
-      addLocallyDeclPara(result);
+      addLocallyDeclPara(0, result);
     //}
     //else
     //{
@@ -506,10 +511,23 @@ public class ParserState
     return basicProcess_ != null;
   }
 
-  protected boolean updateBasicProcessInformation()
+  protected enum BasicProcessUpdate { 
+    BP_OK,
+    MISSING_SCOPE, 
+    MISSING_BASIC_PROCESS, 
+    MISSING_MAIN_ACTION, 
+    DUPLICATED_MAIN_ACTION,
+    DUPLICATED_STATE
+  }
+  
+  protected BasicProcessUpdate updateBasicProcessInformation()
   {
-    boolean result = isWithinMultipleEnvBasicProcessScope() && hasBasicProcess() && hasMainAction();
-    if (result)
+    BasicProcessUpdate result = 
+      !isWithinMultipleEnvBasicProcessScope() ? BasicProcessUpdate.MISSING_SCOPE :
+         !hasBasicProcess() ? BasicProcessUpdate.MISSING_BASIC_PROCESS :
+           !hasMainAction() ? BasicProcessUpdate.MISSING_MAIN_ACTION : 
+               BasicProcessUpdate.BP_OK;
+    if (result.equals(BasicProcessUpdate.BP_OK))
     {
       assert processLoc_ != null : "Invalid original location";
 
@@ -544,29 +562,42 @@ public class ParserState
 
       basicProcess_.getZParaList().addAll(getLocallyDeclPara());
       //basicProcess_.getZParaList().addAll(getImplicitlyDeclActPara());
-
-      assert checkBasicProcessStructuralInvariant(statePara) : "basic process failed structural invariant in ParserState";
-
+      
+      // lift from the assertion checking at least duplication of main BP elements
+      if (!statePara.equals(basicProcess_.getStatePara()))
+      {
+        result = BasicProcessUpdate.DUPLICATED_STATE;
+      }
+      else if (!getMainAction().equals(basicProcess_.getMainAction()))
+      {
+        result = BasicProcessUpdate.DUPLICATED_MAIN_ACTION;
+      }
+      else
+      {
+        // double check it anyway.
+        assert checkBasicProcessStructuralInvariant(statePara) : "basic process failed structural invariant in ParserState";
+      }
+      
       addLocAnn(basicProcess_, processLoc_);
     }
     return result;
   }
 
   private boolean checkBasicProcessStructuralInvariant(Para statePara)
-  {
+  {    
     boolean result = statePara.equals(basicProcess_.getStatePara());
     if (result)
-    {
+    {    
       result = getMainAction().equals(basicProcess_.getMainAction());
       if (result)
-      {
+      {        
         // check if the basic process protocol is ok        
         result = getLocallyDeclPara().equals(basicProcess_.getZParaList());
         if (result)
-        {
+        {        
           result = getLocallyDeclPara().containsAll(basicProcess_.getLocalPara());
           if (result)
-          {
+          {            
             result = getLocallyDeclPara().containsAll(basicProcess_.getOnTheFlyPara());
           }
         }
