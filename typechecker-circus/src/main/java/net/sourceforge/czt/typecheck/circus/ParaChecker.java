@@ -190,6 +190,14 @@ public class ParaChecker
     params.add("channel set");
     params.add(csName);
     
+    Name old = setCurrentChannelSetName(csName);    
+    setCurrentChannelSet(cs);    
+    if (old != null)
+    {
+      Object[] nested = { csName, old };
+      error(term, ErrorMessage.NESTED_PROCESSPARA_SCOPE, nested);
+    }
+    
     // check this channel set
     // // \Gamma \rhd cs : CSExpression
     ChannelSetType csType = typeCheckChannelSet(cs, params);
@@ -209,6 +217,11 @@ public class ParaChecker
     typeEnv().exitScope();    
     
     //pending().exitScope();
+    
+   // clears the channel set para scope.
+    old = setCurrentChannelSetName(null);
+    assert old == csName : "Invalid channel set para scoping for " + csName;
+    setCurrentChannelSet(null);
     
     // add signature to ChannelSetPara
     addSignatureAnn(term, result);   

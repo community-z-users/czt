@@ -19,18 +19,16 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
+import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
 import net.sourceforge.czt.circus.ast.SigmaExpr;
 import net.sourceforge.czt.circus.ast.CircusNameSet;
 import net.sourceforge.czt.circus.ast.NameSetType;
-import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
 import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
 import net.sourceforge.czt.circus.visitor.CircusNameSetVisitor;
 import net.sourceforge.czt.circus.visitor.SigmaExprVisitor;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
-import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
-import net.sourceforge.czt.typecheck.z.impl.VariableType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Expr;
@@ -122,6 +120,30 @@ public class ExprChecker
     // check all communications within the channel set display
     List<NameTypePair> pairs = term.getCommunicationList().accept(commChecker());
 
+    // avoid duplicates    
+    checkForDuplicateNames(pairs, term);
+    
+    int i = 1;
+    for(NameTypePair pair : pairs)
+    {
+      if (!(GlobalDefs.unwrapType(pair.getType()) instanceof ChannelType))
+      {
+        List<Object> params = factory().list();    
+        params.add((inProcessPara_ ? "process" : 
+          (inActionPara_ ? "action" : 
+          (inChannelSetPara_ ? "channel set" : "???"))));
+        params.add((inActionPara_ ? 
+          (getCurrentProcessName().toString() + "\n\tAction...:" +
+           getCurrentActionName().toString()) :
+          (inProcessPara_ ? getCurrentProcessName() :
+              (inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
+        params.add(pair.getName());
+        params.add(i);
+        error(term, ErrorMessage.NON_CHANNELSET_IN_COMMLIST, params);                
+      }
+      i++;
+    }
+    
     // create channel set type with the found pairs as its signature
     Signature channelSetSig = factory().createSignature(pairs);
     ChannelSetType cstype = factory().createChannelSetType(channelSetSig);
