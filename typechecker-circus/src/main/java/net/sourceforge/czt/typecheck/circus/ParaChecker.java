@@ -334,9 +334,6 @@ public class ParaChecker
     ProcessSignature processSignature = factory().deepCloneTerm(sigProc);
     processSignature.setProcessName(pName);    
     
-    // calculate possibly implicit channels within the used ones
-    //addImplicitChans(usedChans);       
-    
     // create the process type with corresponding signature.
     ProcessType procType = factory().createProcessType(processSignature);
     
@@ -385,59 +382,4 @@ public class ParaChecker
     
     return result;
   }
-  
-  /* TODO: 
-   * Mtodo auxiliar que adiciona os canais implicitos passados como par�metro
-   * no ambiente global, caso tais canais j no tenham sido declarados com
-   * mesmo nome e tipos diferentes.
-   * @param chans  a lista de canais implcitos a adicionar no ambiente
-   */
-  private void addImplicitChans(List<NameTypePair> chans)
-  {
-    assert false : "TODO";
-//    
-//    for(NameTypePair chan : chans)
-//    {
-//      ZDeclName chanName = chan.getZDeclName();
-//      Type chanType = chan.getType();
-//      
-//      Type type = sectTypeEnv().getType(factory().createZRefName(chanName));
-//      if (sectTypeEnv().add(chanName, chanType) != null)
-//      {
-//        if (unify(unwrapType(type), unwrapType(chanType)) != SUCC)
-//        {
-//          // muitas vezes, porcausa da instanciao, o tipo de um canal genrico
-//          // passa a ser diferente.
-//          if(!isGenericChannel(chanName))
-//          {
-//            Object [] params = {assertZDeclName(currentProcess()).getWord(), chanName.getWord()};
-//            error(chanName, ErrorMessage.REDECLARED_GLOBAL_NAME_WITH_DIFF_TYPE, params);
-//            break;
-//          }
-//        }
-//        else
-//        {
-//          if(!isChannel(chanName))
-//          {
-//            Object [] params = {chanName.getWord()};
-//            error(chanName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
-//            break;
-//          }
-//        }
-//      }
-//      else
-//      {
-//        List<DeclName> genericImplicitChans = localCircTypeEnv().getGenericImplicitChans();
-//        if(genericImplicitChans.contains(chanName))
-//        {
-//          // E OS PARAMETROS ??
-//          addGenChannel(chanName, chanType, null);
-//        }
-//        else
-//        {
-//          addChannel(chanName, chanType);
-//        }
-//      }
-//    }
-  }    
 }
