@@ -178,39 +178,25 @@ public class BasicProcessChecker extends Checker<Signature>
     assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
       : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
     
-    boolean isStatePara = CircusUtils.isStatePara(term);    
-    setCheckingStatePara(isStatePara);
-    
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());            
     assert paraSig.getNameTypePair().size() == 1 : 
-      "too many pairs in process para checker signature result";
-          
-    // for the process state declared as an action, 
-    // add local variables to the process global scope    
-    if (isStatePara)
-    {
-      paraSig = processStatePara(term, paraSig);      
-    }    
-    else 
-    {      
-      Type2 type = getType2FromAnns(term);
-      if (type instanceof ActionType)
-      {   
-        ActionType aType = (ActionType)type;
-               
-        // get the action signature for this basic process
-        // TODO:? unify paraSig with term's? nah. leave it
-        basicProcessSig_.getActionSignatures().add(
-          aType.getActionSignature());
-      }
-      else
-      {        
-        raiseBasicProcessParaTypeError(term, "ActionType", type);
-      }
+      "too many pairs in process para checker signature result";          
+
+    Type2 type = getType2FromAnns(term);
+    if (type instanceof ActionType)
+    {   
+      ActionType aType = (ActionType)type;
+
+      // get the action signature for this basic process
+      // TODO:? unify paraSig with term's? nah. leave it
+      basicProcessSig_.getActionSignatures().add(
+        aType.getActionSignature());
     }
-    
-    setCheckingStatePara(false);
+    else
+    {        
+      raiseBasicProcessParaTypeError(term, "ActionType", type);
+    }
     
     // for action para this will contain one element with the action name.
     addSignatureAnn(term, paraSig);
