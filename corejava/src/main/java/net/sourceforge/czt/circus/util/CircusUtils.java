@@ -52,6 +52,7 @@ import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
 import net.sourceforge.czt.circus.ast.CircusNameSetList;
 import net.sourceforge.czt.circus.ast.CircusChannelSetList;
+import net.sourceforge.czt.z.ast.GivenType;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -568,6 +569,18 @@ public final class CircusUtils
         result = (BasicProcess)term;
       else if (term instanceof ProcessD)
         result = ((ProcessD)term).getCircusBasicProcess();
+    }
+    return result;
+  }
+  
+  private static ZName booleanName_ = FACTORY.createZName(CircusString.BOOLEAN);
+  public static boolean isBooleanType(Object obj)
+  {
+    boolean result = (obj instanceof GivenType);
+    if (result)
+    {
+      GivenType gt = (GivenType)obj;      
+      result = ZUtils.namesEqual(gt.getName(), booleanName_);
     }
     return result;
   }
