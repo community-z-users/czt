@@ -973,11 +973,7 @@ public class PrintVisitor
 
   public String visitActionSignature(ActionSignature term)
   {
-    StringBuilder result = new StringBuilder("AS{ ");
-    if (term.getSignatureOfMuAction())
-    {
-      result.append("MU ");
-    }
+    StringBuilder result = new StringBuilder("AS{ ");    
     result.append(term.getActionName());
     result.append(" ");    
     if (!term.getFormalParams().getNameTypePair().isEmpty())
