@@ -4658,10 +4658,6 @@ actualIndexes ::=
         :}
         ;
         
-/**
- * Although we have the COLON, it is parsed as Changed nameList to circusDeclWordList because we need DECLWORD 
- * rather than DECORWORD (and no operator templates, please).
- */        
 channelRenaming ::=
         LCIRCRENAME:lsq refNameList:rnl CIRCASSIGN expressionList:el RCIRCRENAME:rsq        
         {:              
