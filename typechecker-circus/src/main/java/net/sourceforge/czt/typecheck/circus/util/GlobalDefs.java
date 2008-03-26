@@ -10,6 +10,7 @@
 
 package net.sourceforge.czt.typecheck.circus.util;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
@@ -79,7 +80,7 @@ public class GlobalDefs
       (term instanceof UnparsedPara);      
   }
   
-  public static <T> void addNoDuplicates(T source, List<T> target)
+  public static <T> void addNoDuplicates(T source, Collection<T> target)
   {
     if (!target.contains(source))
     {
@@ -95,7 +96,7 @@ public class GlobalDefs
     }    
   }
   
-  public static <T> void addAllNoDuplicates(List<? extends T> source, List<T> target)
+  public static <T> void addAllNoDuplicates(Collection<? extends T> source, Collection<T> target)
   {
     for(T t : source)
     {
@@ -103,7 +104,7 @@ public class GlobalDefs
     }
   }
   
-  public static <T> void addAllNoDuplicates(int index, List<? extends T> source, List<T> target)
+  public static <T> void addAllNoDuplicates(int index, Collection<? extends T> source, List<T> target)
   {
     for(T t : source)
     {
