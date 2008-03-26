@@ -284,7 +284,7 @@ public class Factory
   public ChannelType createChannelType(Type2 type)
   {        
     // innermost corejava AST-impl type with underlying type.
-    ChannelType channelType = circusFactory_.createChannelType(type, false);
+    ChannelType channelType = circusFactory_.createChannelType(type);
     
     // outermost typechecker AST-impl type potentially with variable types.
     ChannelType result = new ChannelTypeImpl(channelType);
