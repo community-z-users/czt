@@ -692,7 +692,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       NameTypePair ntp = factory().createNameTypePair(varName, varType);
 
       // create local variables for varName and add them to the current scope
-      result.addAll(addStateVars(ntp));
+      result.addAll(addStateVars(ntp, fieldPosition_+1));
 
       // type check the restriction predicate, if any
       Pred pred = term.getRestriction();
@@ -709,7 +709,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
       params.add(getCurrentActionName());
       params.add(comm_);
       params.add(channelType_);
-      params.add(fieldPosition_);
+      params.add(fieldPosition_+1);
       params.add("input");
       error(term, ErrorMessage.COMM_FIELD_FAILED_INVARIANT, params);
     }
@@ -791,7 +791,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
     }
     else
     {      
-      params.add(fieldPosition_);      
+      params.add(fieldPosition_+1);      
       params.add(CircusUtils.isOutputField(term) ? "output" : "dot");
       error(term, ErrorMessage.COMM_FIELD_FAILED_INVARIANT, params);
     }

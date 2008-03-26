@@ -63,11 +63,13 @@ import net.sourceforge.czt.z.ast.GenericType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ProdType;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -248,6 +250,8 @@ public class ProcessChecker extends Checker<ProcessSignature>
     ProcessSignature processSignature = typeCheckProcessD(term,
       true, /* considerFiniteness */
       false /* putDeclsIntoScope */);
+    // iterated indexes are not parameters
+    processSignature.getFormalParamsOrIndexes().getNameTypePair().clear();
     return processSignature;
   }
 
@@ -280,17 +284,67 @@ public class ProcessChecker extends Checker<ProcessSignature>
   public ProcessSignature visitIndexedProcess(IndexedProcess term)
   {
     ProcessSignature processDSig = typeCheckProcessD(term,
-      true, /* considerFiniteness */
+      false, /* considerFiniteness */
       false /* putDeclsIntoScope */);
 
-     // extrai os canais implicitos a partir dos canais usados pelo processo
-//    List<NameTypePair> usedChans = localCircTypeEnv().getUsedChans();
-//    List<NameTypePair> implicitChans = extractImplicitChans(allPairs, usedChans);
-//    //
-    
-    
+    addImplicitChannels(processDSig);
     addProcessSignatureAnn(term, processDSig);
     return processDSig;
+  }
+  
+  protected void addImplicitChannels(ProcessSignature processDSig)
+  {
+    assert !processDSig.getFormalParamsOrIndexes().getNameTypePair().isEmpty() 
+      : "cannot add implicit channels for indexed process without indexes";
+ 
+    // build the extended NameTypePair information
+    List<NameTypePair> indexes = processDSig.getFormalParamsOrIndexes().getNameTypePair();      
+    String extendedName = "";
+    ProdType extendedType = factory().createProdType(factory().<Type2>list());
+    for(NameTypePair ntp : indexes)
+    {
+      extendedName = "\\_" + ntp.getZName().getWord();
+      extendedType.getType().add(GlobalDefs.unwrapType(ntp.getType()));
+    }
+    
+    // set the process name as current because we need it for getUsedChannels()
+    Name old = processDSig.getProcessName();
+    processDSig.setProcessName(getCurrentProcessName());
+    
+    // for each signature of each inner process or action of this indexed process,
+    // add implicit channels w.r.t. the indexes type
+    for(Signature sig : processDSig.getUsedChannels().values())
+    {
+      for(NameTypePair ntp : sig.getNameTypePair())
+      {
+        // extend the name
+        ZName nameToExtend = ntp.getZName();
+        nameToExtend.setWord(nameToExtend.getWord() + extendedName);
+        factory().addNameID(nameToExtend);
+        
+        // extend the type
+        Type typeToExtend = ntp.getType();
+        if (typeToExtend instanceof ProdType)
+        {
+          GlobalDefs.prodType(typeToExtend).getType().addAll(0, extendedType.getType());
+        }
+        else
+        {
+          ProdType productType = factory().createProdType(
+            factory().list(GlobalDefs.unwrapType(typeToExtend)));
+          productType.getType().addAll(0, extendedType.getType());
+          ntp.setType(productType);
+        }
+        assert GlobalDefs.prodType(ntp.getType()).getType().size() > 1 
+          : "invalid extended product type for implicit channel - " + typeToExtend;    
+        
+        // add it to the local scope for this process
+        typeEnv().add(nameToExtend, typeToExtend);  
+      }      
+    }
+    
+    // restore the name
+    processDSig.setProcessName(old);
   }
 
   /**
@@ -470,7 +524,8 @@ public class ProcessChecker extends Checker<ProcessSignature>
     addProcessSignatureAnn(term, processSignature);    
     resultSignature.setProcessName(getCurrentProcessName());
     
-    return resultSignature;
+    //return resultSignature;
+    return processSignature;
   }
 
   /**
@@ -639,6 +694,8 @@ public class ProcessChecker extends Checker<ProcessSignature>
       }
     }
     
+    checkCircusNameStrokes(channelNames);
+    
     // TODO: used channels/communications must change deep down into all actions! Oh my god!
     warningManager().warn("Process signature for renaming process still requires update on all used communications." +
       "\n\tProcess...: {0}", getCurrentProcessName());
@@ -715,14 +772,4 @@ public class ProcessChecker extends Checker<ProcessSignature>
 //    }
 //    return result;
 //  }//
-//
-//  private List axParaSchemaToSchExpr(AxPara axp) {
-//    ConstDecl cdecl = (ConstDecl)axp.getSchText().getDecl().get(0);
-//    List result = list();
-//    result.add(cdecl.getDeclName());
-//    result.add((SchExpr)cdecl.getExpr());
-//    return result;
-////    return (SchExpr)cdecl.getExpr();
-//  }
-//*/
 }

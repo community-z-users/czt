@@ -132,8 +132,9 @@ public class ProcessParaChecker extends Checker<Signature>
     // wraps up the action type
     ActionType actionType = factory().createActionType(aSig);    
     Signature result = wrapTypeAndAddAnn(term.getName(), actionType, term);
+    
+    checkCircusNameStrokes(term.getName(), actionType, 1);
     // add signature to ActionPara 
-    // - added in BasicProcessChecker it may change if the state
     //addSignatureAnn(term, result);
         
     return result;
@@ -237,6 +238,7 @@ public class ProcessParaChecker extends Checker<Signature>
     // add signature to NameSetPara - added in BasicProcessChecker
     //addSignatureAnn(term, result);   
 
+    checkCircusNameStrokes(nsName, type, 1);
     Signature result = wrapTypeAndAddAnn(nsName, type, term);
     
     return result;

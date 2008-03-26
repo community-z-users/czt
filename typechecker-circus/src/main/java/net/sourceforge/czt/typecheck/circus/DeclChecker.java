@@ -187,6 +187,7 @@ public class DeclChecker
         error(expr, ErrorMessage.CHANNEL_FROM_INVALID_DECL, params);        
       }
     }            
+    checkCircusNameStrokes(result);
     
     //exit the pending scope 
     pending().exitScope();
@@ -306,6 +307,8 @@ public class DeclChecker
 
     // exists the checking scope
     //typeEnv().exitScope();
+    
+    checkCircusNameStrokes(result);    
     
     // add variables to the calling scope.
     typeEnv().add(result);

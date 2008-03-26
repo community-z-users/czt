@@ -211,6 +211,8 @@ public class ParaChecker
     NameTypePair pair = factory().createNameTypePair(csName, gType);
     Signature result = factory().createSignature(pair);
 
+    checkCircusNameStrokes(csName, gType, 1);
+    
     // add channel set power type to ChannelSet
     addTypeAnn(term.getChannelSet(), gType);     
 
@@ -342,6 +344,8 @@ public class ParaChecker
     NameTypePair pair = factory().createNameTypePair(pName, gProcType);
     Signature result = factory().createSignature(factory().list(pair));
     
+    checkCircusNameStrokes(pName, gProcType, 1);
+    
     // add process type to CircusProcess
     addTypeAnn(term.getCircusProcess(), gProcType);
     
@@ -372,6 +376,8 @@ public class ParaChecker
     
     NameTypePair pair = factory().createNameTypePair(term.getName(), transformerType());
     Signature result = factory().createSignature(pair);
+    
+    checkCircusNameStrokes(pair, 1);
     
     // add transformer pred type to TransformerPred
     addTypeAnn(term.getName(), transformerType());

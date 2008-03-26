@@ -85,6 +85,13 @@ public class BasicProcessChecker extends Checker<Signature>
     return basicProcessSig_;
   }
   
+  protected void checkBPSignature(Object term)
+  {
+    // we could have compound basic processes, such as tc327\_intchoice\_bp
+    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
+      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
+  }
+  
   /**
    * <p>
    * Processes the given term and corresponding (checked) signature
@@ -100,7 +107,7 @@ public class BasicProcessChecker extends Checker<Signature>
    * @param term
    * @param paraSig
    */
-  protected Signature processStatePara(Para term, Signature paraSig)
+  private Signature processStatePara(Para term, Signature paraSig)
   {    
     assert CircusUtils.isStatePara(term) && !paraSig.getNameTypePair().isEmpty() : "invalid state paragraph";
     
@@ -131,18 +138,16 @@ public class BasicProcessChecker extends Checker<Signature>
     return result;
   }
   
-  protected void raiseBasicProcessParaTypeError(Para term, String expected, Type2 found)
+  private void raiseBasicProcessParaTypeError(Para term, String expected, Type2 found)
   {  
     Object[] params = { getCurrentProcessName(), 
        getConcreteSyntaxSymbol(term), expected, found };      
     error(term, ErrorMessage.BASIC_PROCESS_PARA_WRONG_TYPE, params);
   }
-
+  
   public Signature visitPara(Para term)
   {
-    // we could have compound basic processes, such as tc327\_intchoice\_bp
-    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
-      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
+    checkBPSignature(term);
     
     // Leave this assertion out. If not processed, the checker will get it anyway.      
     //assert ZUtils.isZPara(term) || GlobalDefs.isIgnorePara(term) : 
@@ -174,9 +179,7 @@ public class BasicProcessChecker extends Checker<Signature>
   @Override
   public Signature visitActionPara(ActionPara term)
   {
-    // we could have compound basic processes, such as tc327\_intchoice\_bp
-    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
-      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
+    checkBPSignature(term);
     
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());            
@@ -207,9 +210,7 @@ public class BasicProcessChecker extends Checker<Signature>
   @Override
   public Signature visitNameSetPara(NameSetPara term)
   {
-    // we could have compound basic processes, such as tc327\_intchoice\_bp
-    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
-      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
+    checkBPSignature(term);
     
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());                
@@ -234,9 +235,7 @@ public class BasicProcessChecker extends Checker<Signature>
   @Override
   public Signature visitTransformerPara(TransformerPara term)
   {
-    // we could have compound basic processes, such as tc327\_intchoice\_bp
-    assert /*getCurrentBasicProcess() != null &&*/ getCurrentBasicProcesssignature() != null
-      : "null basic process signature whilst visiting " + term.getClass().getSimpleName();
+    checkBPSignature(term);
     
     // type check the  process paragraph
     Signature paraSig = term.accept(processParaChecker());                
