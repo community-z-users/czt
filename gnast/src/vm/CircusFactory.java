@@ -34,8 +34,7 @@
     net.sourceforge.czt.z.ast.Signature usedChannels,
     CommunicationList usedComms,
     ChannelSetList usedChannelSets,
-    NameSetList usedNameSets, 
-    boolean signatureOfMuAction);
+    NameSetList usedNameSets);
     
   /**
    * Creates an empty action signature. That is, an action signature with null name,

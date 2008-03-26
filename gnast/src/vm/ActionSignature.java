@@ -6,13 +6,7 @@
    * This is a convenience method for getName.
    */
   net.sourceforge.czt.z.ast.Name getActionName();
-
-  /**
-   * Returns whether or not this is a signature for Action or ActionPara
-   * (i.e. it has a name or not associated with it).
-   */
-  boolean isActionPara();
-
+  
   /**
    * Returns whether or not this is a signature for parameterised action or not
    * (i.e. it has a non-empty list of formal parameters).

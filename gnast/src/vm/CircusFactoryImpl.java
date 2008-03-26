@@ -59,13 +59,12 @@
     net.sourceforge.czt.z.ast.Signature usedChannels,
     CommunicationList usedComms,
     ChannelSetList usedChannelSets,
-    NameSetList usedNameSets, 
-    boolean signatureOfMuAction)
+    NameSetList usedNameSets)
   {
     ActionSignature result = createActionSignature(
       actionName,
       createZSignatureList(newList(formals, localVars, usedChannels)),
-      usedComms, usedChannelSets, usedNameSets, signatureOfMuAction);
+      usedComms, usedChannelSets, usedNameSets);
     return result;
   }
 
@@ -79,8 +78,7 @@
       createSignature(),                 // empty channels
       createCircusCommunicationList(),   // empty communications
       createCircusChannelSetList(),      // empty channel sets 
-      createCircusNameSetList(),         // empty name sets
-      false                              // not for a MuAction
+      createCircusNameSetList()          // empty name sets
       );
     return result;
   }
@@ -97,8 +95,8 @@
       createSignature(),                 // empty channels
       createCircusCommunicationList(),   // empty communications
       createCircusChannelSetList(),      // empty channel sets 
-      createCircusNameSetList(),         // empty name sets
-      true);
+      createCircusNameSetList()          // empty name sets
+      );
   }  
 
   public ActionSignature createActionSignature(
@@ -112,7 +110,7 @@
   {
     return createCompleteActionSignature(actionName, formals, 
         localVars, usedChannels, usedComms, usedChannelSets, 
-        usedNameSets, false);
+        usedNameSets);
   }
 
   public ProcessSignature createCompleteProcessSignature(

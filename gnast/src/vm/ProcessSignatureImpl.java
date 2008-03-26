@@ -5,6 +5,7 @@
 
   public net.sourceforge.czt.z.ast.ZName getProcessZName()
   {
+    assert getName() != null : "cannot cast null process name as ZName";
     return getZName();
   }
 
@@ -23,12 +24,7 @@
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
-
-  public boolean isProcessPara()
-  {
-    return (getName() != null);
-  }
-
+  
   public net.sourceforge.czt.circus.ast.ZSignatureList getMainSignatures()
   {
     if (getSignatureList().size() > MAIN_SIGNATURES_INDEX)
@@ -102,7 +98,7 @@
   public boolean isBasicProcessSignature()
   {
     return getProcessSignatures().isEmpty();
-  }
+  }  
   
   public net.sourceforge.czt.circus.ast.ZSignatureList getBasicProcessLocalZSignatures()
   {
@@ -237,6 +233,19 @@
     }
     return result;
   }
+  
+  public java.util.List<net.sourceforge.czt.z.ast.NameTypePair> getUsedChannelsAsList()
+  {    
+    java.util.List<net.sourceforge.czt.z.ast.NameTypePair> result = new java.util.ArrayList<net.sourceforge.czt.z.ast.NameTypePair>();
+    for(net.sourceforge.czt.z.ast.Signature sig : getUsedChannels().values())
+    {
+      for(net.sourceforge.czt.z.ast.NameTypePair ntp : sig.getNameTypePair())
+      {
+        if (!result.contains(ntp)) result.add(ntp);
+      }
+    }
+    return result;
+  }
 
   public java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.CircusCommunicationList> getUsedCommunications()
   {
@@ -262,6 +271,19 @@
           net.sourceforge.czt.z.ast.ZName newKey = fullQualifiedName(procName, entry.getKey());
           addToMapAndCheckConsistency(result, newKey, entry.getValue());          
         }                  
+      }
+    }
+    return result;
+  }
+  
+  public java.util.List<net.sourceforge.czt.circus.ast.Communication> getUsedCommunicationsAsList()
+  {    
+    java.util.List<net.sourceforge.czt.circus.ast.Communication> result = new java.util.ArrayList<net.sourceforge.czt.circus.ast.Communication>();
+    for(net.sourceforge.czt.circus.ast.CircusCommunicationList comms : getUsedCommunications().values())
+    {
+      for(net.sourceforge.czt.circus.ast.Communication comm : comms)
+      {
+        if (!result.contains(comm)) result.add(comm);
       }
     }
     return result;
@@ -296,6 +318,19 @@
     }
     return result;
   }
+  
+  public java.util.List<net.sourceforge.czt.circus.ast.ChannelSet> getUsedChannelSetsAsList()
+  {    
+    java.util.List<net.sourceforge.czt.circus.ast.ChannelSet> result = new java.util.ArrayList<net.sourceforge.czt.circus.ast.ChannelSet>();
+    for(net.sourceforge.czt.circus.ast.CircusChannelSetList chansets : getUsedChannelSets().values())
+    {
+      for(net.sourceforge.czt.circus.ast.ChannelSet cs : chansets)
+      {
+        if (!result.contains(cs)) result.add(cs);
+      }
+    }
+    return result;
+  }
 
   public java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.CircusNameSetList> getUsedNameSets()
   {
@@ -325,3 +360,17 @@
     }
     return result;
   }
+  
+  public java.util.List<net.sourceforge.czt.circus.ast.NameSet> getUsedNameSetsAsList()
+  {    
+    java.util.List<net.sourceforge.czt.circus.ast.NameSet> result = new java.util.ArrayList<net.sourceforge.czt.circus.ast.NameSet>();
+    for(net.sourceforge.czt.circus.ast.CircusNameSetList namesets : getUsedNameSets().values())
+    {
+      for(net.sourceforge.czt.circus.ast.NameSet ns : namesets)
+      {
+        if (!result.contains(ns)) result.add(ns);
+      }
+    }
+    return result;
+  }  
+

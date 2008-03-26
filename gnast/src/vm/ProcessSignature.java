@@ -58,16 +58,8 @@
    * 
    * @return (CircusChannelSetList)getProcessChannelSets()
    */
-  CircusChannelSetList getCircusProcessChannelSets();
+  CircusChannelSetList getCircusProcessChannelSets();  
   
-  /**
-   * Returns whether or not this is a signature for Process or ProcessPara
-   * (i.e. it has a name or not associated with it; getName() != null).
-   * 
-   * @return getName() != null
-   */
-  boolean isProcessPara();
-
   /**
    * This is a convenience method. It extract from the list of signature lists the
    * one containing Z Signature objects only. 
@@ -243,7 +235,6 @@
    */
   java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.ActionSignatureList> getActions();
   
-
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
    * list of channel declarations used within this process signature. 
@@ -292,6 +283,8 @@
    */
   java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.z.ast.Signature> getUsedChannels();
 
+  java.util.List<net.sourceforge.czt.z.ast.NameTypePair> getUsedChannelsAsList();
+  
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
    * list of communications used (without repetition) within this process signature. 
@@ -318,7 +311,9 @@
    * be repeated within a section (and all its parents - i.e., Z global scope).
    */   
   java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.CircusCommunicationList> getUsedCommunications();
-
+  
+  java.util.List<net.sourceforge.czt.circus.ast.Communication> getUsedCommunicationsAsList();
+  
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
    * list of channel sets used (without repetition) within this process signature. 
@@ -342,6 +337,8 @@
    */
   java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.CircusChannelSetList> getUsedChannelSets();
 
+  java.util.List<net.sourceforge.czt.circus.ast.ChannelSet> getUsedChannelSetsAsList();
+  
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
    * list of name sets used (without repetition) within this process signature. 
@@ -362,4 +359,6 @@
    * be repeated within a section (and all its parents - i.e., Z global scope).
    */
   java.util.Map<net.sourceforge.czt.z.ast.ZName, net.sourceforge.czt.circus.ast.CircusNameSetList> getUsedNameSets();
+  
+  java.util.List<net.sourceforge.czt.circus.ast.NameSet> getUsedNameSetsAsList();
 

@@ -13,11 +13,6 @@
     setName(name);
   }
 
-  public boolean isActionPara()
-  {
-    return (getName() != null);
-  }
-
   public boolean isParamAction()
   {
     return (!getFormalParams().getNameTypePair().isEmpty());
