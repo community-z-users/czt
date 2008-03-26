@@ -189,6 +189,10 @@ public class DeclChecker
     }            
     checkCircusNameStrokes(result);
     
+    // all top-level paragraphs have type or signature annotations
+    // except ChannelDecl, because of its heterogenous form.
+    addSignatureAnn(term, factory().createSignature(result));
+    
     //exit the pending scope 
     pending().exitScope();
     

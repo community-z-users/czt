@@ -130,8 +130,7 @@ public class CommandChecker
     
     warningManager().warn("Specification statement command still requires StateUpdate in process signature." +
       "\n\tProcess...: {0}\n\tAction....: {1}", getCurrentProcessName(), getCurrentActionName());    
-    
-    //addActionSignatureAnn(term, result);
+  
     return result;
   }
   
@@ -194,8 +193,7 @@ public class CommandChecker
     
     warningManager().warn("Assignment command still requires StateUpdate in process signature." +
       "\n\tProcess...: {0}\n\tAction....: {1}", getCurrentProcessName(), getCurrentActionName());    
-    
-    //addActionSignatureAnn(term, result);
+        
     return result; 
   }
   
@@ -229,9 +227,7 @@ public class CommandChecker
     actionChecker().getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(allVars);
         
     typeEnv().exitScope();    
-        
-    // add signature to the term
-    //addActionSignatureAnn(term, varDeclCmdSig);
+    
     return commList;
   }
 
@@ -249,8 +245,7 @@ public class CommandChecker
     // but the type checker only captures normal guards - via CircusActionList
     CircusCommunicationList commList = term.getGuardedActionList().accept(commandChecker());
     
-    currentGuardedCommand_ = null ;
-    //addActionSignatureAnn(term, actionSig);
+    currentGuardedCommand_ = null ;    
     return commList;
   }
   
@@ -269,8 +264,7 @@ public class CommandChecker
     CircusCommunicationList commList = term.getActionList().accept(commandChecker());
     
     currentGuardedCommand_ = null;
-    
-    //addActionSignatureAnn(term, actionSig);
+        
     return commList;
   }
   

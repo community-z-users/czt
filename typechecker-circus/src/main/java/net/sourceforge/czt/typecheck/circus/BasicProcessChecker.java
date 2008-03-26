@@ -202,7 +202,7 @@ public class BasicProcessChecker extends Checker<Signature>
     }
     
     // for action para this will contain one element with the action name.
-    addSignatureAnn(term, paraSig);
+    //addSignatureAnn(term, paraSig);
     
     return paraSig;
   }  
@@ -228,7 +228,7 @@ public class BasicProcessChecker extends Checker<Signature>
       raiseBasicProcessParaTypeError(term, "NameSetType", type);
     }    
     
-    addSignatureAnn(term, paraSig);
+    //addSignatureAnn(term, paraSig);
     return paraSig;
   }
 
