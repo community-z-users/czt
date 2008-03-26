@@ -200,12 +200,11 @@ public class Factory
   public ActionSignature createCompleteActionSignature(
     Name actionName, Signature formals, Signature localVars,
     Signature usedChannels, CommunicationList usedComms,
-    ChannelSetList usedChannelSets, NameSetList usedNameSets, 
-    boolean signatureOfMuAction)
+    ChannelSetList usedChannelSets, NameSetList usedNameSets)
   {
     return circusFactory_.createCompleteActionSignature(actionName, 
       formals, localVars, usedChannels, usedComms, usedChannelSets,
-      usedNameSets, signatureOfMuAction);
+      usedNameSets);
   }
   
   public ActionSignature createActionSignature(Name actionName,
