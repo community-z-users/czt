@@ -449,7 +449,7 @@ The typechecker will infer the type types of channels from $HCS$ in the definiti
                     <Anns>
                         <LocAnn Start="5729" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="34" Col="58"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="5729" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="155" Length="5" Col="37"/>
                         </Anns>
@@ -597,7 +597,7 @@ to infer the needed types.
                     <Anns>
                         <LocAnn Start="7079" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="16" Col="40"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="7079" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="1" Col="38"/>
                         </Anns>
@@ -613,7 +613,7 @@ to infer the needed types.
                         </RefExpr>
                         <ZExprList/>
                     </ns3:CallProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="7093" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="183" Length="2" Col="52"/>
                         </Anns>
@@ -693,7 +693,7 @@ to infer the needed types.
                     <Anns>
                         <LocAnn Start="7361" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="35" Col="57"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="7361" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="5" Col="29"/>
                         </Anns>
@@ -726,7 +726,7 @@ to infer the needed types.
                         </RefExpr>
                         <ZExprList/>
                     </ns3:CallProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="7395" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="196" Length="1" Col="63"/>
                         </Anns>
@@ -807,7 +807,7 @@ to infer the needed types.
                     <Anns>
                         <LocAnn Start="7640" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="15" Col="33"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="7640" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="2" Col="30"/>
                         </Anns>
@@ -823,7 +823,7 @@ to infer the needed types.
                         </RefExpr>
                         <ZExprList/>
                     </ns3:CallProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="7654" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="208" Length="1" Col="44"/>
                         </Anns>
@@ -888,7 +888,7 @@ to infer the needed types.
                     <Anns>
                         <LocAnn Start="7890" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="22" Col="47"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="7890" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="5" Col="38"/>
                         </Anns>
@@ -921,7 +921,7 @@ to infer the needed types.
                         </RefExpr>
                         <ZExprList/>
                     </ns3:CallProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="7910" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="221" Length="2" Col="58"/>
                         </Anns>
@@ -1048,7 +1048,7 @@ to infer the needed types.
                     <Anns>
                         <LocAnn Start="8246" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="14" Col="33"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="8246" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="2" Col="30"/>
                         </Anns>
@@ -1064,7 +1064,7 @@ to infer the needed types.
                         </RefExpr>
                         <ZExprList/>
                     </ns3:CallProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="8258" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="234" Length="2" Col="42"/>
                         </Anns>
@@ -1174,7 +1174,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             <Anns>
                                 <LocAnn Start="11306" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="14" Col="43"/>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="11306" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="40"/>
                                 </Anns>
@@ -1190,7 +1190,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="11318" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="52"/>
                                 </Anns>
@@ -1207,7 +1207,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 <ZExprList/>
                             </ns3:CallProcess>
                         </ns3:SeqProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="11332" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="66"/>
                             </Anns>
@@ -1224,7 +1224,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             <ZExprList/>
                         </ns3:CallProcess>
                     </ns3:ExtChoiceProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="11346" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="316" Length="2" Col="80"/>
                         </Anns>
@@ -1306,7 +1306,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                     </Anns>
                                 </ParenAnn>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="11407" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="42"/>
                                 </Anns>
@@ -1322,7 +1322,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="11419" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="54"/>
                                 </Anns>
@@ -1339,7 +1339,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 <ZExprList/>
                             </ns3:CallProcess>
                         </ns3:SeqProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="11434" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="69"/>
                             </Anns>
@@ -1356,7 +1356,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             <ZExprList/>
                         </ns3:CallProcess>
                     </ns3:ExtChoiceProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="11449" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="317" Length="2" Col="84"/>
                         </Anns>
@@ -1428,7 +1428,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                     <Anns>
                         <LocAnn Start="12018" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="43" Col="43"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="12018" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="40"/>
                         </Anns>
@@ -1457,7 +1457,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             <Anns>
                                 <LocAnn Start="12031" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="16" Col="56"/>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12031" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="53"/>
                                 </Anns>
@@ -1473,7 +1473,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12045" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="67"/>
                                 </Anns>
@@ -1490,7 +1490,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 <ZExprList/>
                             </ns3:CallProcess>
                         </ns3:ExtChoiceProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12059" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="334" Length="2" Col="81"/>
                             </Anns>
@@ -1555,7 +1555,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                     <Anns>
                         <LocAnn Start="12118" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="45" Col="42"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="12118" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="39"/>
                         </Anns>
@@ -1589,7 +1589,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                     </Anns>
                                 </ParenAnn>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12132" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="53"/>
                                 </Anns>
@@ -1605,7 +1605,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12146" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="67"/>
                                 </Anns>
@@ -1622,7 +1622,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 <ZExprList/>
                             </ns3:CallProcess>
                         </ns3:ExtChoiceProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12161" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="335" Length="2" Col="82"/>
                             </Anns>
@@ -1699,7 +1699,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                         <Anns>
                             <LocAnn Start="12441" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="14" Col="43"/>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12441" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="40"/>
                             </Anns>
@@ -1715,7 +1715,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             </RefExpr>
                             <ZExprList/>
                         </ns3:CallProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12453" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="52"/>
                             </Anns>
@@ -1741,7 +1741,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12468" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="67"/>
                             </Anns>
@@ -1757,7 +1757,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             </RefExpr>
                             <ZExprList/>
                         </ns3:CallProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12482" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="345" Length="2" Col="81"/>
                             </Anns>
@@ -1831,7 +1831,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12542" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="40"/>
                             </Anns>
@@ -1847,7 +1847,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             </RefExpr>
                             <ZExprList/>
                         </ns3:CallProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12554" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="52"/>
                             </Anns>
@@ -1873,7 +1873,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12570" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="68"/>
                             </Anns>
@@ -1889,7 +1889,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             </RefExpr>
                             <ZExprList/>
                         </ns3:CallProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12584" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="346" Length="2" Col="82"/>
                             </Anns>
@@ -1966,7 +1966,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                         <Anns>
                             <LocAnn Start="12673" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="29" Col="43"/>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12673" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="40"/>
                             </Anns>
@@ -1991,7 +1991,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                     </Anns>
                                 </ParenAnn>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12686" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="53"/>
                                 </Anns>
@@ -2007,7 +2007,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12700" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="67"/>
                                 </Anns>
@@ -2025,7 +2025,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             </ns3:CallProcess>
                         </ns3:ExtChoiceProcess>
                     </ns3:SeqProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="12715" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="350" Length="2" Col="82"/>
                         </Anns>
@@ -2098,7 +2098,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12774" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="40"/>
                             </Anns>
@@ -2123,7 +2123,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                     </Anns>
                                 </ParenAnn>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12787" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="53"/>
                                 </Anns>
@@ -2139,7 +2139,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12801" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="67"/>
                                 </Anns>
@@ -2157,7 +2157,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             </ns3:CallProcess>
                         </ns3:ExtChoiceProcess>
                     </ns3:SeqProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="12817" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="351" Length="2" Col="83"/>
                         </Anns>
@@ -2237,7 +2237,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             <Anns>
                                 <LocAnn Start="12917" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="14" Col="55"/>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12917" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="52"/>
                                 </Anns>
@@ -2253,7 +2253,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12929" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="64"/>
                                 </Anns>
@@ -2270,7 +2270,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 <ZExprList/>
                             </ns3:CallProcess>
                         </ns3:SeqProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12943" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="78"/>
                             </Anns>
@@ -2291,7 +2291,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                         <Anns>
                             <LocAnn Start="12958" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="28" Col="96"/>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="12958" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="93"/>
                             </Anns>
@@ -2311,7 +2311,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                             <Anns>
                                 <LocAnn Start="12972" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="14" Col="110"/>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12972" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="107"/>
                                 </Anns>
@@ -2327,7 +2327,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="12984" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="355" Length="2" Col="119"/>
                                 </Anns>
@@ -2381,7 +2381,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                     </Anns>
                                 </ParenAnn>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="13044" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="53"/>
                                 </Anns>
@@ -2397,7 +2397,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="13056" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="65"/>
                                 </Anns>
@@ -2414,7 +2414,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 <ZExprList/>
                             </ns3:CallProcess>
                         </ns3:SeqProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="13071" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="80"/>
                             </Anns>
@@ -2440,7 +2440,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="13088" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="97"/>
                             </Anns>
@@ -2465,7 +2465,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                     </Anns>
                                 </ParenAnn>
                             </Anns>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="13103" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="112"/>
                                 </Anns>
@@ -2481,7 +2481,7 @@ $\extchoice$ and $\circseq$ as its left and right branches respectively.
                                 </RefExpr>
                                 <ZExprList/>
                             </ns3:CallProcess>
-                            <ns3:CallProcess CallUsage="Param">
+                            <ns3:CallProcess Usage="Parameterised">
                                 <Anns>
                                     <LocAnn Start="13115" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="356" Length="2" Col="124"/>
                                 </Anns>
@@ -2545,7 +2545,7 @@ not affect parsing.
                     <Anns>
                         <LocAnn Start="13456" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="29" Col="48"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="13456" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="5" Col="39"/>
                         </Anns>
@@ -2578,7 +2578,7 @@ not affect parsing.
                         </RefExpr>
                         <ZExprList/>
                     </ns3:CallProcess>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="13483" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processes.tex" Line="366" Length="2" Col="66"/>
                         </Anns>

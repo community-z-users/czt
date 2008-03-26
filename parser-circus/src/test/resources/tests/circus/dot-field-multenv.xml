@@ -1923,6 +1923,21 @@ It just terminates
 
 </Content>
                         </NarrPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Start="6366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="238" Length="15" Col="3"/>
+                            </Anns>
+                            <ZName>
+                                <Word>$$mainAction_L238C3</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:SkipAction>
+                                <Anns>
+                                    <LocAnn Start="6366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="238" Length="15" Col="3"/>
+                                    <ns3:OnTheFlyDefAnn/>
+                                </Anns>
+                            </ns3:SkipAction>
+                        </ns3:ActionPara>
                         <NarrPara>
                             <Anns>
                                 <LocAnn Start="6401" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="239" Length="4" Col="18"/>
@@ -1933,8 +1948,9 @@ It just terminates
                         </NarrPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <ns3:CircusStateAnn/>
                                 <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="28" Col="39"/>
+                                <ns3:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
@@ -1950,7 +1966,7 @@ It just terminates
                                             <Anns>
                                                 <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="28" Col="39"/>
                                             </Anns>
-                                            <Word>$$defaultSt</Word>
+                                            <Word>$$defaultSt_L28C39</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
@@ -1963,21 +1979,6 @@ It just terminates
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns3:ActionPara>
-                            <Anns>
-                                <LocAnn Start="6366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="238" Length="15" Col="3"/>
-                            </Anns>
-                            <ZName>
-                                <Word>$$mainAction</Word>
-                                <ZStrokeList/>
-                            </ZName>
-                            <ns3:SkipAction>
-                                <Anns>
-                                    <LocAnn Start="6366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-multenv.tex" Line="238" Length="15" Col="3"/>
-                                    <ns3:OnTheFlyDefAnn/>
-                                </Anns>
-                            </ns3:SkipAction>
-                        </ns3:ActionPara>
                     </ZParaList>
                 </ns3:BasicProcess>
             </ns3:ProcessPara>

@@ -104,7 +104,7 @@
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="10" Length="29" Col="27"/>
+                                            <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="10" Length="29" Col="21"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
@@ -300,7 +300,7 @@
                                 <LocAnn Start="349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\communication.tex" Line="12" Length="11" Col="12"/>
                             </Anns>
                             <ZName>
-                                <Word>$$mainAction</Word>
+                                <Word>$$mainAction_L12C12</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:CallAction>

@@ -112,7 +112,7 @@ process_state_and_init
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="355" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="14" Length="51" Col="27"/>
+                                            <LocAnn Start="355" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="14" Length="51" Col="16"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
@@ -738,9 +738,6 @@ recursive_action
                                         </ParenAnn>
                                     </Anns>
                                     <ZDeclList>
-                                        <Anns>
-                                            <LocAnn Start="852" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="30" Length="10" Col="26"/>
-                                        </Anns>
                                         <VarDecl>
                                             <Anns>
                                                 <LocAnn Start="852" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="30" Length="10" Col="26"/>
@@ -859,20 +856,12 @@ recursive_action
 main_action
 </Content>
                         </NarrPara>
-                        <NarrPara>
-                            <Anns>
-                                <LocAnn Start="1042" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="36" Length="22" Col="18"/>
-                            </Anns>
-                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-before_process_END
-</Content>
-                        </NarrPara>
                         <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="987" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="35" Length="35" Col="4"/>
                             </Anns>
                             <ZName>
-                                <Word>$$mainAction</Word>
+                                <Word>$$mainAction_L35C4</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:SeqAction>
@@ -908,6 +897,14 @@ before_process_END
                                 </ns3:CallAction>
                             </ns3:SeqAction>
                         </ns3:ActionPara>
+                        <NarrPara>
+                            <Anns>
+                                <LocAnn Start="1042" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-multenv.tex" Line="36" Length="22" Col="18"/>
+                            </Anns>
+                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+before_process_END
+</Content>
+                        </NarrPara>
                     </ZParaList>
                 </ns3:BasicProcess>
             </ns3:ProcessPara>

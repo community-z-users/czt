@@ -1691,10 +1691,26 @@ For a detailed explanation of these examples, see ``./dot-field-multennv.tex''.
                                 </ns3:Communication>
                             </ns3:PrefixingAction>
                         </ns3:ActionPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Start="1308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-singleenv.tex" Line="44" Length="15" Col="3"/>
+                            </Anns>
+                            <ZName>
+                                <Word>$$mainAction_L44C3</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:SkipAction>
+                                <Anns>
+                                    <LocAnn Start="1308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-singleenv.tex" Line="44" Length="15" Col="3"/>
+                                    <ns3:OnTheFlyDefAnn/>
+                                </Anns>
+                            </ns3:SkipAction>
+                        </ns3:ActionPara>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <ns3:CircusStateAnn/>
                                 <LocAnn Start="513" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-singleenv.tex" Line="23" Length="826" Col="39"/>
+                                <ns3:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
@@ -1710,7 +1726,7 @@ For a detailed explanation of these examples, see ``./dot-field-multennv.tex''.
                                             <Anns>
                                                 <LocAnn Start="513" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-singleenv.tex" Line="23" Length="826" Col="39"/>
                                             </Anns>
-                                            <Word>$$defaultSt</Word>
+                                            <Word>$$defaultSt_L23C39</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
@@ -1723,21 +1739,6 @@ For a detailed explanation of these examples, see ``./dot-field-multennv.tex''.
                                 </ZDeclList>
                             </ZSchText>
                         </AxPara>
-                        <ns3:ActionPara>
-                            <Anns>
-                                <LocAnn Start="1308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-singleenv.tex" Line="44" Length="15" Col="3"/>
-                            </Anns>
-                            <ZName>
-                                <Word>$$mainAction</Word>
-                                <ZStrokeList/>
-                            </ZName>
-                            <ns3:SkipAction>
-                                <Anns>
-                                    <LocAnn Start="1308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\dot-field-singleenv.tex" Line="44" Length="15" Col="3"/>
-                                    <ns3:OnTheFlyDefAnn/>
-                                </Anns>
-                            </ns3:SkipAction>
-                        </ns3:ActionPara>
                     </ZParaList>
                 </ns3:BasicProcess>
             </ns3:ProcessPara>

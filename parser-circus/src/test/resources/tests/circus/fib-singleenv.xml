@@ -110,7 +110,7 @@
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="17" Length="32" Col="32"/>
+                                            <LocAnn Start="362" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="17" Length="32" Col="21"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
@@ -677,9 +677,6 @@
                                         </ParenAnn>
                                     </Anns>
                                     <ZDeclList>
-                                        <Anns>
-                                            <LocAnn Start="688" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="10" Col="63"/>
-                                        </Anns>
                                         <VarDecl>
                                             <Anns>
                                                 <LocAnn Start="688" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="21" Length="10" Col="63"/>
@@ -795,7 +792,7 @@
                                 <LocAnn Start="757" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\fib-singleenv.tex" Line="22" Length="35" Col="5"/>
                             </Anns>
                             <ZName>
-                                <Word>$$mainAction</Word>
+                                <Word>$$mainAction_L22C5</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:SeqAction>

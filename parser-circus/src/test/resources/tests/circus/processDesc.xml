@@ -62,7 +62,7 @@
                     <Anns>
                         <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Col="43"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="694" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Length="1" Col="58"/>
                         </Anns>
@@ -79,9 +79,12 @@
                         <ZExprList/>
                     </ns3:CallProcess>
                     <ZDeclList>
-                        <ns3:QualifiedDecl ParamQualifier="Value">
+                        <Anns>
+                            <LocAnn Start="676" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Length="7" Col="41"/>
+                        </Anns>
+                        <VarDecl>
                             <Anns>
-                                <LocAnn Start="676" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Length="7" Col="40"/>
+                                <LocAnn Start="676" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\processDesc.tex" Line="24" Length="7" Col="41"/>
                             </Anns>
                             <ZNameList>
                                 <ZName>
@@ -105,7 +108,7 @@
                                 </ZName>
                                 <ZExprList/>
                             </RefExpr>
-                        </ns3:QualifiedDecl>
+                        </VarDecl>
                     </ZDeclList>
                 </ns3:ParamProcess>
             </ns3:ProcessPara>

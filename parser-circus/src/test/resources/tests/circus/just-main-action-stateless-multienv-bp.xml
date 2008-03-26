@@ -100,52 +100,12 @@
 
 </Content>
                         </NarrPara>
-                        <NarrPara>
-                            <Anns>
-                                <LocAnn Start="341" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="16" Length="4" Col="18"/>
-                            </Anns>
-                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
-</Content>
-                        </NarrPara>
-                        <AxPara Box="OmitBox">
-                            <Anns>
-                                <ns3:CircusStateAnn/>
-                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="11" Col="66"/>
-                            </Anns>
-                            <ZNameList/>
-                            <ZSchText>
-                                <Anns>
-                                    <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="11" Col="66"/>
-                                </Anns>
-                                <ZDeclList>
-                                    <ConstDecl>
-                                        <Anns>
-                                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="11" Col="66"/>
-                                        </Anns>
-                                        <ZName>
-                                            <Anns>
-                                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="11" Col="66"/>
-                                            </Anns>
-                                            <Word>$$defaultSt</Word>
-                                            <ZStrokeList/>
-                                        </ZName>
-                                        <SchExpr>
-                                            <ZSchText>
-                                                <ZDeclList/>
-                                                <TruePred/>
-                                            </ZSchText>
-                                        </SchExpr>
-                                    </ConstDecl>
-                                </ZDeclList>
-                            </ZSchText>
-                        </AxPara>
                         <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="294" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="15" Length="27" Col="4"/>
                             </Anns>
                             <ZName>
-                                <Word>$$mainAction</Word>
+                                <Word>$$mainAction_L15C4</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:PrefixingAction>
@@ -192,6 +152,47 @@
                                 </ns3:Communication>
                             </ns3:PrefixingAction>
                         </ns3:ActionPara>
+                        <NarrPara>
+                            <Anns>
+                                <LocAnn Start="341" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="16" Length="4" Col="18"/>
+                            </Anns>
+                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+                        </NarrPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="11" Col="66"/>
+                                <ns3:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="11" Col="66"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="11" Col="66"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\just-main-action-stateless-multienv-bp.tex" Line="11" Col="66"/>
+                                            </Anns>
+                                            <Word>$$defaultSt_L11C66</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <ZSchText>
+                                                <ZDeclList/>
+                                                <TruePred/>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
                     </ZParaList>
                 </ns3:BasicProcess>
             </ns3:ProcessPara>

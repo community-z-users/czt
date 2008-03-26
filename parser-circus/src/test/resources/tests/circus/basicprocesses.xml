@@ -126,52 +126,12 @@ Within a single environment
 
 </Content>
                         </NarrPara>
-                        <NarrPara>
-                            <Anns>
-                                <LocAnn Start="1516" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="54" Length="4" Col="18"/>
-                            </Anns>
-                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
-</Content>
-                        </NarrPara>
-                        <AxPara Box="OmitBox">
-                            <Anns>
-                                <ns3:CircusStateAnn/>
-                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
-                            </Anns>
-                            <ZNameList/>
-                            <ZSchText>
-                                <Anns>
-                                    <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
-                                </Anns>
-                                <ZDeclList>
-                                    <ConstDecl>
-                                        <Anns>
-                                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
-                                        </Anns>
-                                        <ZName>
-                                            <Anns>
-                                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
-                                            </Anns>
-                                            <Word>$$defaultSt</Word>
-                                            <ZStrokeList/>
-                                        </ZName>
-                                        <SchExpr>
-                                            <ZSchText>
-                                                <ZDeclList/>
-                                                <TruePred/>
-                                            </ZSchText>
-                                        </SchExpr>
-                                    </ConstDecl>
-                                </ZDeclList>
-                            </ZSchText>
-                        </AxPara>
                         <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="1469" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="53" Length="27" Col="4"/>
                             </Anns>
                             <ZName>
-                                <Word>$$mainAction</Word>
+                                <Word>$$mainAction_L53C4</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:PrefixingAction>
@@ -218,6 +178,47 @@ Within a single environment
                                 </ns3:Communication>
                             </ns3:PrefixingAction>
                         </ns3:ActionPara>
+                        <NarrPara>
+                            <Anns>
+                                <LocAnn Start="1516" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="54" Length="4" Col="18"/>
+                            </Anns>
+                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+                        </NarrPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
+                                <ns3:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\basicprocesses.tex" Line="49" Col="66"/>
+                                            </Anns>
+                                            <Word>$$defaultSt_L49C66</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <ZSchText>
+                                                <ZDeclList/>
+                                                <TruePred/>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
                     </ZParaList>
                 </ns3:BasicProcess>
             </ns3:ProcessPara>

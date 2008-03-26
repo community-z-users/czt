@@ -9,7 +9,7 @@
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Start="15" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="1" Length="360" Col="0"/>
+            <LocAnn Start="15" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="1" Length="358" Col="0"/>
         </Anns>
         <Name>indexed_processes</Name>
         <Parent>
@@ -122,7 +122,7 @@
                     <Anns>
                         <LocAnn Start="213" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="10" Length="46" Col="32"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="250" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="10" Length="9" Col="69"/>
                         </Anns>
@@ -139,9 +139,12 @@
                         <ZExprList/>
                     </ns3:CallProcess>
                     <ZDeclList>
-                        <ns3:QualifiedDecl ParamQualifier="Value">
+                        <Anns>
+                            <LocAnn Start="225" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="10" Length="12" Col="45"/>
+                        </Anns>
+                        <VarDecl>
                             <Anns>
-                                <LocAnn Start="225" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="10" Length="12" Col="44"/>
+                                <LocAnn Start="225" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="10" Length="12" Col="45"/>
                             </Anns>
                             <ZNameList>
                                 <ZName>
@@ -165,13 +168,13 @@
                                 </ZName>
                                 <ZExprList/>
                             </RefExpr>
-                        </ns3:QualifiedDecl>
+                        </VarDecl>
                     </ZDeclList>
                 </ns3:InterleaveProcessIdx>
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="276" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="11" Length="4" Col="12"/>
+                    <LocAnn Start="273" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="11" Length="4" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -179,24 +182,24 @@
             </NarrPara>
             <ns3:ProcessPara>
                 <Anns>
-                    <LocAnn Start="297" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="35" Col="1"/>
+                    <LocAnn Start="294" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="35" Col="1"/>
                 </Anns>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="311" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="4" Col="15"/>
+                        <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="4" Col="15"/>
                     </Anns>
                     <Word>Ring</Word>
                     <ZStrokeList/>
                 </ZName>
                 <ZNameList/>
-                <ns3:CallProcess CallUsage="Index">
+                <ns3:CallProcess Usage="Indexed">
                     <Anns>
-                        <LocAnn Start="325" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="7" Col="29"/>
+                        <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="7" Col="29"/>
                     </Anns>
                     <RefExpr Mixfix="false" Explicit="false">
                         <ZName>
                             <Anns>
-                                <LocAnn Start="325" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="7" Col="29"/>
+                                <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="7" Col="29"/>
                             </Anns>
                             <Word>RingDef</Word>
                             <ZStrokeList/>
@@ -205,15 +208,15 @@
                     </RefExpr>
                     <ZExprList>
                         <Anns>
-                            <LocAnn Start="333" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="23" Col="37"/>
+                            <LocAnn Start="330" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="25" Col="37"/>
                         </Anns>
                         <RefExpr Mixfix="false" Explicit="false">
                             <Anns>
-                                <LocAnn Start="344" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="1" Col="48"/>
+                                <LocAnn Start="342" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="1" Col="49"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="344" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="1" Col="48"/>
+                                    <LocAnn Start="342" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="14" Length="1" Col="49"/>
                                 </Anns>
                                 <Word>i</Word>
                                 <ZStrokeList/>
@@ -225,7 +228,7 @@
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="371" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="15" Length="4" Col="12"/>
+                    <LocAnn Start="369" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\indexed-process.tex" Line="15" Length="4" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

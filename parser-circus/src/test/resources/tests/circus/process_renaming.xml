@@ -174,7 +174,7 @@ If the process being renamed is a call, no parenthesis are needed
                     <Anns>
                         <LocAnn Start="337" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="12" Length="34" Col="43"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <RefExpr Mixfix="false" Explicit="false">
                             <ZName>
                                 <Anns>
@@ -252,7 +252,7 @@ surrounding parenthesis are required.
                                 </Anns>
                             </ParenAnn>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="556" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="1" Col="44"/>
                             </Anns>
@@ -268,7 +268,7 @@ surrounding parenthesis are required.
                             </RefExpr>
                             <ZExprList/>
                         </ns3:CallProcess>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="569" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="19" Length="1" Col="57"/>
                             </Anns>
@@ -354,7 +354,7 @@ On the other hand, trying to mix them up can be confusing, as the next example s
                     <Anns>
                         <LocAnn Start="780" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="16" Col="47"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="780" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="45"/>
                         </Anns>
@@ -374,7 +374,7 @@ On the other hand, trying to mix them up can be confusing, as the next example s
                         <Anns>
                             <LocAnn Start="793" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="3" Col="58"/>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="794" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="25" Length="1" Col="59"/>
                                 <ParenAnn>
@@ -461,7 +461,7 @@ Renaming also works for processes with generic actuals themselves.
                     <Anns>
                         <LocAnn Start="1553" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="44" Length="40" Col="45"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <RefExpr Mixfix="false" Explicit="true">
                             <ZName>
                                 <Anns>
@@ -538,7 +538,7 @@ Renaming also works for processes with generic actuals themselves.
                     <Anns>
                         <LocAnn Start="1643" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="22" Col="47"/>
                     </Anns>
-                    <ns3:CallProcess CallUsage="Param">
+                    <ns3:CallProcess Usage="Parameterised">
                         <Anns>
                             <LocAnn Start="1643" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="45"/>
                         </Anns>
@@ -558,7 +558,7 @@ Renaming also works for processes with generic actuals themselves.
                         <Anns>
                             <LocAnn Start="1656" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="9" Col="58"/>
                         </Anns>
-                        <ns3:CallProcess CallUsage="Param">
+                        <ns3:CallProcess Usage="Parameterised">
                             <Anns>
                                 <LocAnn Start="1657" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\process_renaming.tex" Line="45" Length="1" Col="59"/>
                                 <ParenAnn>

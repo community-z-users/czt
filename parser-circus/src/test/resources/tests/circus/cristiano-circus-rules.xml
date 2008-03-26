@@ -554,7 +554,7 @@
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="601" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="60" Col="25"/>
+                                            <LocAnn Start="601" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="34" Length="60" Col="16"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
@@ -1181,7 +1181,7 @@
                                 <LocAnn Start="945" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\cristiano-circus-rules.tex" Line="39" Length="73" Col="5"/>
                             </Anns>
                             <ZName>
-                                <Word>$$mainAction</Word>
+                                <Word>$$mainAction_L39C5</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:SeqAction>

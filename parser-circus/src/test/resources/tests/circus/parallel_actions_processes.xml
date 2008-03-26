@@ -120,7 +120,7 @@
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="293" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\parallel_actions_processes.tex" Line="14" Length="31" Col="16"/>
+                                            <LocAnn Start="293" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\parallel_actions_processes.tex" Line="14" Length="31" Col="14"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
@@ -842,20 +842,12 @@ Alphabetised parallelism with explicit name sets.
 
 </Content>
                         </NarrPara>
-                        <NarrPara>
-                            <Anns>
-                                <LocAnn Start="1333" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\parallel_actions_processes.tex" Line="46" Length="4" Col="18"/>
-                            </Anns>
-                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
-</Content>
-                        </NarrPara>
                         <ns3:ActionPara>
                             <Anns>
                                 <LocAnn Start="1298" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\parallel_actions_processes.tex" Line="45" Length="15" Col="4"/>
                             </Anns>
                             <ZName>
-                                <Word>$$mainAction</Word>
+                                <Word>$$mainAction_L45C4</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:SkipAction>
@@ -865,6 +857,14 @@ Alphabetised parallelism with explicit name sets.
                                 </Anns>
                             </ns3:SkipAction>
                         </ns3:ActionPara>
+                        <NarrPara>
+                            <Anns>
+                                <LocAnn Start="1333" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\parallel_actions_processes.tex" Line="46" Length="4" Col="18"/>
+                            </Anns>
+                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+                        </NarrPara>
                     </ZParaList>
                 </ns3:BasicProcess>
             </ns3:ProcessPara>
