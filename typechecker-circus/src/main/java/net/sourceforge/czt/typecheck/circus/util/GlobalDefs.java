@@ -17,6 +17,7 @@ import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionSignatureAnn;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.CallAction;
+import net.sourceforge.czt.circus.ast.CallProcess;
 import net.sourceforge.czt.circus.ast.CommPattern;
 import net.sourceforge.czt.circus.ast.CommunicationList;
 import net.sourceforge.czt.circus.ast.MuAction;
@@ -58,6 +59,11 @@ public class GlobalDefs
   public static CallAction callAction(Object o)
   {
     return (CallAction)o;
+  }
+  
+  public static CallProcess callProcess(Object o)
+  {
+    return (CallProcess)o;
   }
   
   public static MuAction muAction(Object o)
