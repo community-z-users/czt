@@ -38,6 +38,7 @@ import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureList;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.CallUsage;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.ast.StateUpdate;
 import net.sourceforge.czt.circus.ast.ZSignatureList;
@@ -373,5 +374,20 @@ public class Factory
   public NameSetType createEmptyNameSetType()
   {
     return createNameSetType(createSignature());
+  }
+  
+  public CircusCommunicationList createCircusCommunicationList(List<Communication> comms)
+  {
+    return circusFactory_.createCircusCommunicationList(comms);
+  }
+  
+  public CircusCommunicationList createCircusCommunicationList(Communication comm)
+  {
+    return circusFactory_.createCircusCommunicationList(list(comm));
+  }
+  
+  public CircusCommunicationList createEmptyCircusCommunicationList()
+  {  
+    return circusFactory_.createCircusCommunicationList();
   }
 }
