@@ -68,8 +68,8 @@ public class PredChecker
   @Override
   public UResult visitProcessTransformerPred(ProcessTransformerPred term)  
   {
-    ProcessSignature psSpec = term.getSpec().accept(processChecker());
-    ProcessSignature psImpl = term.getImpl().accept(processChecker());
+    CircusCommunicationList spec = term.getSpec().accept(processChecker());
+    CircusCommunicationList impl = term.getImpl().accept(processChecker());
     
 //    ProcessType ptSpec = factory().createProcessType(psSpec);
 //    ProcessType ptImpl = factory().createProcessType(psImpl);

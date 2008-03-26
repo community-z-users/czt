@@ -24,6 +24,7 @@ import net.sourceforge.czt.circus.ast.ChannelPara;
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
@@ -37,6 +38,7 @@ import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
@@ -126,7 +128,7 @@ public class ParaChecker
   {
     isCheckingProcessZPara_ = val;
   }  
-    
+  
   /**
    * For all other paragraph terms, use the standard Z typechecking rules 
    * within the checking environment for Circus. Note this is slightly 
@@ -208,13 +210,8 @@ public class ParaChecker
     
     Type gType = addGenerics(pType);
     
-    NameTypePair pair = factory().createNameTypePair(csName, gType);
-    Signature result = factory().createSignature(pair);
-
-    checkCircusNameStrokes(csName, gType, 1);
     
-    // add channel set power type to ChannelSet
-    addTypeAnn(term.getChannelSet(), gType);     
+    Signature result = wrapTypeAndAddAnn(csName, gType, term);
 
     typeEnv().exitScope();    
     
@@ -224,10 +221,7 @@ public class ParaChecker
     old = setCurrentChannelSetName(null);
     assert old == csName : "Invalid channel set para scoping for " + csName;
     setCurrentChannelSet(null);
-    
-    // add signature to ChannelSetPara
-    addSignatureAnn(term, result);   
-    
+        
     return result;
   }
   
@@ -310,11 +304,15 @@ public class ParaChecker
     ZNameList pGenFormals = term.getZGenFormals();
     CircusProcess process = term.getCircusProcess();
     
+    ProcessSignature pSig = factory().createEmptyProcessSignature();
+    pSig.setGenFormals(pGenFormals);
+    pSig.setProcessName(pName);
+    
     // set current process name being checked.
-    // this opens a process para scope, which is cleared at the end.
-    // ActionPara can only be checked within an opened process para scope.
+    // this opens a process para scope, which is cleared at the end.    
     Name old = setCurrentProcessName(pName);
-    setCurrentProcess(process);
+    CircusProcess oldProcess = setCurrentProcess(process);
+    ProcessSignature oldSignature = processChecker().setCurrentProcessSignature(pSig);
     if (old != null)
     {
       Object[] params = { pName, old };
@@ -331,23 +329,13 @@ public class ParaChecker
     addGenParamTypes(pGenFormals);
     
     // checks the process: everything is ready, but the process name.
-    ProcessSignature sigProc = process.accept(processChecker());
-    
-    ProcessSignature processSignature = factory().deepCloneTerm(sigProc);
-    processSignature.setProcessName(pName);    
+    CircusCommunicationList commList = process.accept(processChecker());        
     
     // create the process type with corresponding signature.
-    ProcessType procType = factory().createProcessType(processSignature);
-    
+    ProcessType procType = factory().createProcessType(processChecker().getCurrentProcessSignature());    
     Type gProcType = addGenerics(procType);
     
-    NameTypePair pair = factory().createNameTypePair(pName, gProcType);
-    Signature result = factory().createSignature(factory().list(pair));
-    
-    checkCircusNameStrokes(pName, gProcType, 1);
-    
-    // add process type to CircusProcess
-    addTypeAnn(term.getCircusProcess(), gProcType);
+    Signature result = wrapTypeAndAddAnn(pName, gProcType, term);
     
     // close environment scopes.    
     typeEnv().exitScope();
@@ -355,15 +343,13 @@ public class ParaChecker
     //pending().exitScope();
     
     // clears the process para scope.
-    old = setCurrentProcessName(null);
+    old = setCurrentProcessName(null);    
+    setCurrentProcess(null);  
+    processChecker().setCurrentProcessSignature(null);
     assert old == pName : "Invalid process para scoping for " + pName;
-    setCurrentProcess(null);
-    
-    // add signature to ProcessPara
-    addSignatureAnn(term, result);           
-    
+   
     return result;
-  }
+  }  
   
   @Override
   public Signature visitTransformerPara(TransformerPara term)
@@ -373,18 +359,15 @@ public class ParaChecker
     // at the process level check it.
     
     typeCheckPred(term, term.getTransformerPred());
-    
-    NameTypePair pair = factory().createNameTypePair(term.getName(), transformerType());
-    Signature result = factory().createSignature(pair);
-    
-    checkCircusNameStrokes(pair, 1);
+        
+    Signature result = wrapTypeAndAddAnn(term.getName(), transformerType(), term);
     
     // add transformer pred type to TransformerPred
     addTypeAnn(term.getName(), transformerType());
     addTypeAnn(term.getTransformerPred(), transformerType());
     
     // add signature to TransformerPara
-    addSignatureAnn(term, result);   
+    //addSignatureAnn(term, result);   
     
     return result;
   }

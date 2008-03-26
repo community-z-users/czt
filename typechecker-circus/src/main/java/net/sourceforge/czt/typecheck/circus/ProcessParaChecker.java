@@ -131,28 +131,21 @@ public class ProcessParaChecker extends Checker<Signature>
     
     // wraps up the action type
     ActionType actionType = factory().createActionType(aSig);    
-    Signature result = wrapTypeAndAddAnn(term.getName(), actionType, term);
-    
-    checkCircusNameStrokes(term.getName(), actionType, 1);
-    // add signature to ActionPara 
-    //addSignatureAnn(term, result);
+    Signature result = wrapTypeAndAddAnn(term.getName(), actionType, term);    
         
     return result;
   }
   
   protected Signature wrapTypeAndAddAnn(Name declName, Type type, Para term)
   {
-    NameTypePair pair = factory().createNameTypePair(declName, type);
-    Signature result = factory().createSignature(pair);
-    
-    // add action type to CircusAction
-    addTypeAnn(term, type);
+    Signature result = super.wrapTypeAndAddAnn(declName, type, term);
 
     // put this paragraph into the BasicProcess scope early,
     // so that some forms of mutual recursion may be resolved directly.
     // i.e., allow the name to be into scope at early stage?
+    
     // TODO: CHECK: what if we get duplicated names?
-    typeEnv().add(pair);
+    typeEnv().add(result.getNameTypePair());
 
     return result;
   }
@@ -234,11 +227,7 @@ public class ProcessParaChecker extends Checker<Signature>
     {
       Object [] params = { nsName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
       error(term, ErrorMessage.REDECLARED_DEF, params);      
-    }
-    // add signature to NameSetPara - added in BasicProcessChecker
-    //addSignatureAnn(term, result);   
-
-    checkCircusNameStrokes(nsName, type, 1);
+    }    
     Signature result = wrapTypeAndAddAnn(nsName, type, term);
     
     return result;

@@ -157,7 +157,7 @@ public abstract class Checker<R>
   /***********************************************************************
    * Checker accessors per syntactic category
    **********************************************************************/
-  protected Checker<ProcessSignature> processChecker()
+  protected ProcessChecker processChecker()
   {
     return typeChecker_.processChecker_;
   }
@@ -427,6 +427,7 @@ public abstract class Checker<R>
 
   protected boolean checkProcessParaScope(Term term, Name name)
   {
+    processChecker().checkProcessSignature(term);
     boolean result = isWithinProcessParaScope();
     if (!result)
     {
@@ -574,7 +575,7 @@ public abstract class Checker<R>
 
   protected boolean checkActionParaScope(Term term, Name name)
   {    
-    actionChecker().checkActSignature(term);
+    actionChecker().checkActionSignature(term);
     boolean result = isWithinActionParaScope();
     if (!result)
     {
@@ -792,7 +793,7 @@ public abstract class Checker<R>
     NameSetList instNameSets = instantiate(signature.getUsedNameSets());
     ActionSignature result = factory().createCompleteActionSignature(
       signature.getActionName(), instFormals, instLocalVars, usedChannels, 
-      instComms, instChannelSets, instNameSets, signature.getSignatureOfMuAction());
+      instComms, instChannelSets, instNameSets);
     return result;
   }
   
@@ -1967,99 +1968,99 @@ public abstract class Checker<R>
     }
   }
 
-  protected ActionSignature joinActionSignature(Action2 term,
-    ActionSignature actionSigL, ActionSignature actionSigR)
-  { 
-    // action names cannot be resolved (i.e., name = null) when joining signatures
-    // unless it is a MuAction (i.e., name != null).
-    Name leftName = actionSigL.getActionName();
-    Name rightName = actionSigR.getActionName();    
-    boolean leftIsMu = actionSigL.getSignatureOfMuAction();
-    boolean rightIsMu = actionSigL.getSignatureOfMuAction();
-    
-    // if left is a MuAction, it is badly resolved if the name is unknown.
-    // otherwise, if left is a normal action, it is badly resolved if known
-    boolean leftBadlyResolved = (leftIsMu ? leftName == null : leftName != null);
-    boolean rightBadlyResolved = (rightIsMu ? rightName == null : rightName != null);
-    
-    // if both are badly resolved - it is okay if the names equal
-    boolean bothOk = leftBadlyResolved && rightBadlyResolved && ZUtils.namesEqual(leftName, rightName);
-        
-//    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
-//    {      
-//      StringBuilder reason = new StringBuilder("resolved action name on ");
-//      if (leftBadlyResolved && rightBadlyResolved)
-//      {
-//        reason.append("both sides: L=");
-//        reason.append(leftIsMu ? "nameless MuAction" : leftName);
-//        reason.append("; R=");
-//        reason.append(rightIsMu ? "nameless MuAction" : rightName);        
-//      } 
-//      else if (leftBadlyResolved)
-//      {
-//         reason.append("left side: " + (leftIsMu ? "nameless MuAction" : leftName));
-//      }
-//      else// if (rightBadlyResolved)
-//      {
-//        reason.append("right side: " + (rightIsMu ? "nameless MuAction" : rightName));
-//      }      
+//  protected ActionSignature joinActionSignature(Action2 term,
+//    ActionSignature actionSigL, ActionSignature actionSigR)
+//  { 
+//    // action names cannot be resolved (i.e., name = null) when joining signatures
+//    // unless it is a MuAction (i.e., name != null).
+//    Name leftName = actionSigL.getActionName();
+//    Name rightName = actionSigR.getActionName();    
+//    boolean leftIsMu = actionSigL.getSignatureOfMuAction();
+//    boolean rightIsMu = actionSigL.getSignatureOfMuAction();
+//    
+//    // if left is a MuAction, it is badly resolved if the name is unknown.
+//    // otherwise, if left is a normal action, it is badly resolved if known
+//    boolean leftBadlyResolved = (leftIsMu ? leftName == null : leftName != null);
+//    boolean rightBadlyResolved = (rightIsMu ? rightName == null : rightName != null);
+//    
+//    // if both are badly resolved - it is okay if the names equal
+//    boolean bothOk = leftBadlyResolved && rightBadlyResolved && ZUtils.namesEqual(leftName, rightName);
+//        
+////    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
+////    {      
+////      StringBuilder reason = new StringBuilder("resolved action name on ");
+////      if (leftBadlyResolved && rightBadlyResolved)
+////      {
+////        reason.append("both sides: L=");
+////        reason.append(leftIsMu ? "nameless MuAction" : leftName);
+////        reason.append("; R=");
+////        reason.append(rightIsMu ? "nameless MuAction" : rightName);        
+////      } 
+////      else if (leftBadlyResolved)
+////      {
+////         reason.append("left side: " + (leftIsMu ? "nameless MuAction" : leftName));
+////      }
+////      else// if (rightBadlyResolved)
+////      {
+////        reason.append("right side: " + (rightIsMu ? "nameless MuAction" : rightName));
+////      }      
+////      Object[] params = {
+////        getCurrentProcessName(),
+////        getCurrentActionName(),        
+////        reason
+////      };
+////      error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);
+////    }
+//    
+//
+//    // formal parameters must be empty for joint signatures, unless their sides are calls
+//    // (i.e., on-the-fly actions are also just calls). So, if the parameters are not empty
+//    // then L/R elements MUST be calls (i.e., !(!isEmpty() => isCall) )
+//    boolean leftFormalsBadlyResolved = 
+//      !actionSigL.getFormalParams().getNameTypePair().isEmpty() && 
+//      !(term.getLeftAction() instanceof CallAction);
+//    boolean rightFormalsBadlyResolved = 
+//      !actionSigR.getFormalParams().getNameTypePair().isEmpty() && 
+//      !(term.getRightAction() instanceof CallAction);
+//    if (leftFormalsBadlyResolved || rightFormalsBadlyResolved)
+//    {
 //      Object[] params = {
 //        getCurrentProcessName(),
-//        getCurrentActionName(),        
-//        reason
+//        getCurrentActionName(),
+//        ("non-empty formal parameters on " + 
+//          (leftFormalsBadlyResolved && rightFormalsBadlyResolved ? "both sides" :
+//            (leftFormalsBadlyResolved ? "left side" : "right side")) +
+//            " for non-call action")
 //      };
 //      error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);
 //    }
-    
-
-    // formal parameters must be empty for joint signatures, unless their sides are calls
-    // (i.e., on-the-fly actions are also just calls). So, if the parameters are not empty
-    // then L/R elements MUST be calls (i.e., !(!isEmpty() => isCall) )
-    boolean leftFormalsBadlyResolved = 
-      !actionSigL.getFormalParams().getNameTypePair().isEmpty() && 
-      !(term.getLeftAction() instanceof CallAction);
-    boolean rightFormalsBadlyResolved = 
-      !actionSigR.getFormalParams().getNameTypePair().isEmpty() && 
-      !(term.getRightAction() instanceof CallAction);
-    if (leftFormalsBadlyResolved || rightFormalsBadlyResolved)
-    {
-      Object[] params = {
-        getCurrentProcessName(),
-        getCurrentActionName(),
-        ("non-empty formal parameters on " + 
-          (leftFormalsBadlyResolved && rightFormalsBadlyResolved ? "both sides" :
-            (leftFormalsBadlyResolved ? "left side" : "right side")) +
-            " for non-call action")
-      };
-      error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);
-    }
-
-    // create an empty signature as the result, but with proper place holders
-    // so that getFormalParams
-    // keep the action name unknown (null)
-    ActionSignature result = factory().createEmptyActionSignature();
-
-    // local variables are ignored, since the scope is local ;-)
-    // formal parameters are ignored, sine they cannot appear during signature join
-
-    // get channel declarations from each side
-    GlobalDefs.addAllNoDuplicates(actionSigL.getUsedChannels().getNameTypePair(), result.getUsedChannels().getNameTypePair());
-    GlobalDefs.addAllNoDuplicates(actionSigR.getUsedChannels().getNameTypePair(), result.getUsedChannels().getNameTypePair());    
-    
-    // get used name sets from each side without duplication
-    GlobalDefs.addAllNoDuplicates(actionSigL.getUsedNameSets(), result.getUsedNameSets());
-    GlobalDefs.addAllNoDuplicates(actionSigR.getUsedNameSets(), result.getUsedNameSets());    
-    
-    // get used channel sets from each side
-    GlobalDefs.addAllNoDuplicates(actionSigL.getUsedChannelSets(), result.getUsedChannelSets());
-    GlobalDefs.addAllNoDuplicates(actionSigR.getUsedChannelSets(), result.getUsedChannelSets());    
-    
-    // get communications from each side
-    GlobalDefs.addAllNoDuplicates(actionSigL.getUsedCommunications(), result.getUsedCommunications());
-    GlobalDefs.addAllNoDuplicates(actionSigR.getUsedCommunications(), result.getUsedCommunications());    
-    
-    return result;
-  }
+//
+//    // create an empty signature as the result, but with proper place holders
+//    // so that getFormalParams
+//    // keep the action name unknown (null)
+//    ActionSignature result = factory().createEmptyActionSignature();
+//
+//    // local variables are ignored, since the scope is local ;-)
+//    // formal parameters are ignored, sine they cannot appear during signature join
+//
+//    // get channel declarations from each side
+//    GlobalDefs.addAllNoDuplicates(actionSigL.getUsedChannels().getNameTypePair(), result.getUsedChannels().getNameTypePair());
+//    GlobalDefs.addAllNoDuplicates(actionSigR.getUsedChannels().getNameTypePair(), result.getUsedChannels().getNameTypePair());    
+//    
+//    // get used name sets from each side without duplication
+//    GlobalDefs.addAllNoDuplicates(actionSigL.getUsedNameSets(), result.getUsedNameSets());
+//    GlobalDefs.addAllNoDuplicates(actionSigR.getUsedNameSets(), result.getUsedNameSets());    
+//    
+//    // get used channel sets from each side
+//    GlobalDefs.addAllNoDuplicates(actionSigL.getUsedChannelSets(), result.getUsedChannelSets());
+//    GlobalDefs.addAllNoDuplicates(actionSigR.getUsedChannelSets(), result.getUsedChannelSets());    
+//    
+//    // get communications from each side
+//    GlobalDefs.addAllNoDuplicates(actionSigL.getUsedCommunications(), result.getUsedCommunications());
+//    GlobalDefs.addAllNoDuplicates(actionSigR.getUsedCommunications(), result.getUsedCommunications());    
+//    
+//    return result;
+//  }
 
   protected StateUpdate joinStateUpdate(CircusProcess term, StateUpdate leftState, StateUpdate rightState)
   {
@@ -2068,161 +2069,161 @@ public abstract class Checker<R>
     return result;
   }
   
-  protected ProcessSignature joinProcessSignature(Process2 term,
-    ProcessSignature processSigL, ProcessSignature processSigR)
-  { 
-    // process names cannot be resolved (i.e., name = null) when joining signatures    
-    Name leftName = processSigL.getProcessName();
-    Name rightName = processSigR.getProcessName();
-    boolean leftBadlyResolved = leftName != null;
-    boolean rightBadlyResolved = rightName != null;
-    
-    // if both are badly resolved - it is okay if the names equal
-    boolean bothOk = leftBadlyResolved && rightBadlyResolved && ZUtils.namesEqual(leftName, rightName);
-        
-//    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
-//    {      
-//      StringBuilder reason = new StringBuilder("resolved process name on ");
-//      if (leftBadlyResolved && rightBadlyResolved)
-//      {
-//        reason.append("both sides: L=");
-//        reason.append(leftName);
-//        reason.append("; R=");
-//        reason.append(rightName);        
-//      } 
-//      else if (leftBadlyResolved)
-//      {
-//         reason.append("left side: " + leftName);
-//      }
-//      else// if (rightBadlyResolved)
-//      {
-//        reason.append("right side: " + rightName);
-//      }      
-//      Object[] params = {
-//        getCurrentProcessName(),        
-//        reason
+//  protected ProcessSignature joinProcessSignature(Process2 term,
+//    ProcessSignature processSigL, ProcessSignature processSigR)
+//  { 
+//    // process names cannot be resolved (i.e., name = null) when joining signatures    
+//    Name leftName = processSigL.getProcessName();
+//    Name rightName = processSigR.getProcessName();
+//    boolean leftBadlyResolved = leftName != null;
+//    boolean rightBadlyResolved = rightName != null;
+//    
+//    // if both are badly resolved - it is okay if the names equal
+//    boolean bothOk = leftBadlyResolved && rightBadlyResolved && ZUtils.namesEqual(leftName, rightName);
+//        
+////    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
+////    {      
+////      StringBuilder reason = new StringBuilder("resolved process name on ");
+////      if (leftBadlyResolved && rightBadlyResolved)
+////      {
+////        reason.append("both sides: L=");
+////        reason.append(leftName);
+////        reason.append("; R=");
+////        reason.append(rightName);        
+////      } 
+////      else if (leftBadlyResolved)
+////      {
+////         reason.append("left side: " + leftName);
+////      }
+////      else// if (rightBadlyResolved)
+////      {
+////        reason.append("right side: " + rightName);
+////      }      
+////      Object[] params = {
+////        getCurrentProcessName(),        
+////        reason
+////      };
+////      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
+////    }
+//    
+//    // if either is true exclusively (Java xor), then there is a problem
+//    boolean leftIndexed = processSigL.getUsage().equals(CallUsage.Indexed);
+//    boolean rightIndexed = processSigR.getUsage().equals(CallUsage.Indexed);
+//    if (leftIndexed ^ rightIndexed)
+//    {
+//      Object[] params = { 
+//        getCurrentProcessName(), 
+//        ("left side has " + (leftIndexed ? "indexes" : "formal parameters") +
+//          "but right side has " + (rightIndexed ? "indexes" : "formal parameters"))
 //      };
 //      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
 //    }
-    
-    // if either is true exclusively (Java xor), then there is a problem
-    boolean leftIndexed = processSigL.getUsage().equals(CallUsage.Indexed);
-    boolean rightIndexed = processSigR.getUsage().equals(CallUsage.Indexed);
-    if (leftIndexed ^ rightIndexed)
-    {
-      Object[] params = { 
-        getCurrentProcessName(), 
-        ("left side has " + (leftIndexed ? "indexes" : "formal parameters") +
-          "but right side has " + (rightIndexed ? "indexes" : "formal parameters"))
-      };
-      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
-    }
-    
-    // formal parameters must be empty for joint signatures, unless their sides are calls
-    // (i.e., on-the-fly processes are also just calls). So, if the parameters are not empty
-    // then L/R elements MUST be calls (i.e., !(!isEmpty() => isCall) )
-    boolean leftFormalsBadlyResolved = 
-      !processSigL.isBasicProcessSignature() &&
-      !processSigL.getFormalParamsOrIndexes().getNameTypePair().isEmpty() && 
-      !(term.getLeftProcess() instanceof CallProcess);
-    boolean rightFormalsBadlyResolved = 
-      !processSigR.isBasicProcessSignature() &&
-      !processSigR.getFormalParamsOrIndexes().getNameTypePair().isEmpty() &&
-      !(term.getRightProcess() instanceof CallProcess);
-    if (leftFormalsBadlyResolved || rightFormalsBadlyResolved)
-    {
-      // TODO:DESIGN: TO DECIDE: this avoids the presence of NESTED parameters and indexes for now      
-      StringBuilder reason = new StringBuilder("non-empty ");      
-      if (leftFormalsBadlyResolved && rightFormalsBadlyResolved)
-      {
-        reason.append(leftIndexed ? "indexes" : "formal parameters");
-        reason.append(" for non-call process on left side, and non-empty ");
-        reason.append(rightIndexed ? "indexes" : "formal parameters");
-        reason.append(" for non-call process on right side");
-      }
-      else if (leftFormalsBadlyResolved)
-      {
-        reason.append(leftIndexed ? "formal parameters" : "indexes");
-        reason.append(" for non-call process on left side");
-      }
-      else // if (rightFormalsBadlyResolved)
-      {
-        reason.append(leftIndexed ? "formal parameters" : "indexes");
-        reason.append(" for non-call process on right side");
-      }                    
-      Object[] params = { getCurrentProcessName(), reason};
-      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
-    }
-    
-    boolean leftGenericsPresent = !processSigL.getGenFormals().isEmpty();
-    boolean rightGenericsPresent = !processSigL.getGenFormals().isEmpty();
-    if (leftGenericsPresent || rightGenericsPresent)
-    {     
-      Object[] params = { 
-        getCurrentProcessName(), 
-        ("non-empty generic formals on " + 
-          (leftFormalsBadlyResolved && rightFormalsBadlyResolved ? "both sides" :
-            (leftFormalsBadlyResolved ? "left side" : "right side")))
-      };
-      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
-    }
-
-    // create an empty signature as the result, but with proper place holders    
-    ProcessSignature result = factory().createEmptyProcessSignature();
-    
-    // formal parameters and generics are ignored, sine they cannot appear during signature join
-            
-    // join their state updates
-    StateUpdate stateUpdate = joinStateUpdate(term, 
-      processSigL.getStateUpdate(), processSigR.getStateUpdate());
-    result.setStateUpdate(stateUpdate);
-        
-    // add all the process signatures for non-basic process    
-    // i.e., basic processes will have getProcessSignatures() empty.
-    assert !processSigL.isBasicProcessSignature() || processSigL.getProcessSignatures().isEmpty() 
-      : "confused process signature - both basic and non-basic process: at left side of joinProcessSignature";
-    assert !processSigR.isBasicProcessSignature() || processSigR.getProcessSignatures().isEmpty()
-    : "confused process signature - both basic and non-basic process: at right side of joinProcessSignature";
-    result.getProcessSignatures().addAll(processSigL.getProcessSignatures());
-    result.getProcessSignatures().addAll(processSigR.getProcessSignatures());
-    
-    // if any side is the signature of a basic process "on-the-fly", then add it directly
-    // get channel declarations from each side depending on whether they are basic procs or not    
-    if (processSigL.isBasicProcessSignature())
-    {
-      result.getProcessSignatures().add(processSigL);
-    }
-    else
-    {
-      GlobalDefs.addAllNoDuplicates(processSigL.getCircusProcessChannelSets(), result.getCircusProcessChannelSets());    
-    }
-    if (processSigR.isBasicProcessSignature())
-    {
-      result.getProcessSignatures().add(processSigR);
-    } 
-    else
-    {
-      GlobalDefs.addAllNoDuplicates(processSigR.getCircusProcessChannelSets(), result.getCircusProcessChannelSets());    
-    }
-    /*
-    if (result.isBasicProcessSignature())
-    {
-      result.getBasicProcessLocalZSignatures().addAll(processSigL.getBasicProcessLocalZSignatures());
-      result.getBasicProcessLocalZSignatures().addAll(processSigR.getBasicProcessLocalZSignatures());    
-    }*/
-    
-    // the other inner entities are related to either BasicProcess or general processes,
-    // in which case we DO NOT MERGE signatures. That is because there are semantical
-    // considerations to be made for merging two such processes 
-    // (see e.g., Circus Refinement Calculus, Law C.146, p. 213
-    //  http://www.cs.york.ac.uk/ftpdir/reports/YCST-2006-02.pdf)
-    
-    // for a complete access to all elements deep down the tree of possibilities,
-    // one need to use one of the auxiliary (recursive) methods within ProcessSignature,
-    // which return maps from Action names to the corresponding lists
-    
-    return result;
-  }
+//    
+//    // formal parameters must be empty for joint signatures, unless their sides are calls
+//    // (i.e., on-the-fly processes are also just calls). So, if the parameters are not empty
+//    // then L/R elements MUST be calls (i.e., !(!isEmpty() => isCall) )
+//    boolean leftFormalsBadlyResolved = 
+//      !processSigL.isBasicProcessSignature() &&
+//      !processSigL.getFormalParamsOrIndexes().getNameTypePair().isEmpty() && 
+//      !(term.getLeftProcess() instanceof CallProcess);
+//    boolean rightFormalsBadlyResolved = 
+//      !processSigR.isBasicProcessSignature() &&
+//      !processSigR.getFormalParamsOrIndexes().getNameTypePair().isEmpty() &&
+//      !(term.getRightProcess() instanceof CallProcess);
+//    if (leftFormalsBadlyResolved || rightFormalsBadlyResolved)
+//    {
+//      // TODO:DESIGN: TO DECIDE: this avoids the presence of NESTED parameters and indexes for now      
+//      StringBuilder reason = new StringBuilder("non-empty ");      
+//      if (leftFormalsBadlyResolved && rightFormalsBadlyResolved)
+//      {
+//        reason.append(leftIndexed ? "indexes" : "formal parameters");
+//        reason.append(" for non-call process on left side, and non-empty ");
+//        reason.append(rightIndexed ? "indexes" : "formal parameters");
+//        reason.append(" for non-call process on right side");
+//      }
+//      else if (leftFormalsBadlyResolved)
+//      {
+//        reason.append(leftIndexed ? "formal parameters" : "indexes");
+//        reason.append(" for non-call process on left side");
+//      }
+//      else // if (rightFormalsBadlyResolved)
+//      {
+//        reason.append(leftIndexed ? "formal parameters" : "indexes");
+//        reason.append(" for non-call process on right side");
+//      }                    
+//      Object[] params = { getCurrentProcessName(), reason};
+//      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
+//    }
+//    
+//    boolean leftGenericsPresent = !processSigL.getGenFormals().isEmpty();
+//    boolean rightGenericsPresent = !processSigL.getGenFormals().isEmpty();
+//    if (leftGenericsPresent || rightGenericsPresent)
+//    {     
+//      Object[] params = { 
+//        getCurrentProcessName(), 
+//        ("non-empty generic formals on " + 
+//          (leftFormalsBadlyResolved && rightFormalsBadlyResolved ? "both sides" :
+//            (leftFormalsBadlyResolved ? "left side" : "right side")))
+//      };
+//      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
+//    }
+//
+//    // create an empty signature as the result, but with proper place holders    
+//    ProcessSignature result = factory().createEmptyProcessSignature();
+//    
+//    // formal parameters and generics are ignored, sine they cannot appear during signature join
+//            
+//    // join their state updates
+//    StateUpdate stateUpdate = joinStateUpdate(term, 
+//      processSigL.getStateUpdate(), processSigR.getStateUpdate());
+//    result.setStateUpdate(stateUpdate);
+//        
+//    // add all the process signatures for non-basic process    
+//    // i.e., basic processes will have getProcessSignatures() empty.
+//    assert !processSigL.isBasicProcessSignature() || processSigL.getProcessSignatures().isEmpty() 
+//      : "confused process signature - both basic and non-basic process: at left side of joinProcessSignature";
+//    assert !processSigR.isBasicProcessSignature() || processSigR.getProcessSignatures().isEmpty()
+//    : "confused process signature - both basic and non-basic process: at right side of joinProcessSignature";
+//    result.getProcessSignatures().addAll(processSigL.getProcessSignatures());
+//    result.getProcessSignatures().addAll(processSigR.getProcessSignatures());
+//    
+//    // if any side is the signature of a basic process "on-the-fly", then add it directly
+//    // get channel declarations from each side depending on whether they are basic procs or not    
+//    if (processSigL.isBasicProcessSignature())
+//    {
+//      result.getProcessSignatures().add(processSigL);
+//    }
+//    else
+//    {
+//      GlobalDefs.addAllNoDuplicates(processSigL.getCircusProcessChannelSets(), result.getCircusProcessChannelSets());    
+//    }
+//    if (processSigR.isBasicProcessSignature())
+//    {
+//      result.getProcessSignatures().add(processSigR);
+//    } 
+//    else
+//    {
+//      GlobalDefs.addAllNoDuplicates(processSigR.getCircusProcessChannelSets(), result.getCircusProcessChannelSets());    
+//    }
+//    /*
+//    if (result.isBasicProcessSignature())
+//    {
+//      result.getBasicProcessLocalZSignatures().addAll(processSigL.getBasicProcessLocalZSignatures());
+//      result.getBasicProcessLocalZSignatures().addAll(processSigR.getBasicProcessLocalZSignatures());    
+//    }*/
+//    
+//    // the other inner entities are related to either BasicProcess or general processes,
+//    // in which case we DO NOT MERGE signatures. That is because there are semantical
+//    // considerations to be made for merging two such processes 
+//    // (see e.g., Circus Refinement Calculus, Law C.146, p. 213
+//    //  http://www.cs.york.ac.uk/ftpdir/reports/YCST-2006-02.pdf)
+//    
+//    // for a complete access to all elements deep down the tree of possibilities,
+//    // one need to use one of the auxiliary (recursive) methods within ProcessSignature,
+//    // which return maps from Action names to the corresponding lists
+//    
+//    return result;
+//  }
   
   /**
    * This implements Manuela's "NoRep" function (see B.52, p.136).
@@ -2314,8 +2315,7 @@ public abstract class Checker<R>
       // clone the inner term to avoid aliasing
       //aSig = factory().deepCloneTerm(actionSignature);
       aSig.setActionName(aName);      
-      aSig.getUsedCommunications().addAll(0, commList);
-      //aSig = getCurrentActionSignature();
+      aSig.getUsedCommunications().addAll(0, commList);      
       
       // closes local vars and formal parameters scope
       typeEnv().exitScope();
@@ -2688,6 +2688,15 @@ public abstract class Checker<R>
         }      
       }
     }
+    return result;
+  }
+  
+  protected Signature wrapTypeAndAddAnn(Name declName, Type type, Para term)
+  {
+    NameTypePair pair = factory().createNameTypePair(declName, type);
+    Signature result = factory().createSignature(pair);    
+    checkCircusNameStrokes(declName, type, 1);        
+    addTypeAnn(term, type);  
     return result;
   }
 }

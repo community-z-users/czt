@@ -117,7 +117,7 @@ public class TypeChecker
   protected ActionChecker actionChecker_;
   protected Checker<CircusCommunicationList> commandChecker_;
   protected Checker<List<NameTypePair>> commChecker_;
-  protected Checker<ProcessSignature> processChecker_;
+  protected ProcessChecker processChecker_;
   protected Checker<Signature> processParaChecker_;
   protected BasicProcessChecker basicProcessChecker_;
   // auxiliar visitor to typechecker a channel declaration
