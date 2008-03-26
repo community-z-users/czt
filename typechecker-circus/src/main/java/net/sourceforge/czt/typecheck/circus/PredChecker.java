@@ -19,8 +19,8 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionTransformerPred;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
 import net.sourceforge.czt.circus.visitor.ActionTransformerPredVisitor;
@@ -86,8 +86,8 @@ public class PredChecker
 
   public UResult visitActionTransformerPred(ActionTransformerPred term)
   {
-    ActionSignature asSpec = term.getSpec().accept(actionChecker());
-    ActionSignature asImpl = term.getImpl().accept(actionChecker());
+    CircusCommunicationList spec = term.getSpec().accept(actionChecker());
+    CircusCommunicationList impl = term.getImpl().accept(actionChecker());
     
 //    ActionType atSpec = factory().createProcessType(asSpec);
 //    ActionType atImpl = factory().createProcessType(asImpl);

@@ -15,7 +15,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.typecheck.circus;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +46,7 @@ import net.sourceforge.czt.circus.ast.ProcessSignatureList;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.ChannelSetList;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CommunicationList;
 import net.sourceforge.czt.circus.ast.NameSetList;
 import net.sourceforge.czt.circus.ast.QualifiedDecl;
@@ -66,7 +66,6 @@ import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.GenParamType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.NameTypePair;
@@ -96,6 +95,7 @@ import net.sourceforge.czt.z.util.ZString;
  * usually includes typeing environment lookup and update, factory methods,
  * syntax checks, and so on.
  *
+ * @param R 
  * @author Leo Freitas
  */
 public abstract class Checker<R>
@@ -172,7 +172,7 @@ public abstract class Checker<R>
     return typeChecker_.basicProcessChecker_;
   }
   
-  protected Checker<ActionSignature> actionChecker()
+  protected ActionChecker actionChecker()
   {
     return typeChecker_.actionChecker_;
   }
@@ -182,7 +182,7 @@ public abstract class Checker<R>
     return typeChecker_.commChecker_;
   }
 
-  protected Checker<ActionSignature> commandChecker()
+  protected Checker<CircusCommunicationList> commandChecker()
   {
     return typeChecker_.commandChecker_;
   }
@@ -563,18 +563,7 @@ public abstract class Checker<R>
     return (isWithinProcessParaScope() &&
       typeChecker_.currentActionName_ != null &&
       typeChecker_.currentAction_ != null);
-  }
-  
-  protected boolean isWithinMuActionScope()
-  {
-    return (isWithinActionParaScope() && 
-      typeChecker_.isWithinMuActionScope_);
-  }
-  
-  protected void setMuActionScope(boolean val)
-  { 
-    typeChecker_.isWithinMuActionScope_ = val;
-  }
+  }  
   
   protected boolean isWithinNameSetParaScope()
   {
@@ -585,6 +574,7 @@ public abstract class Checker<R>
 
   protected boolean checkActionParaScope(Term term, Name name)
   {    
+    actionChecker().checkActSignature(term);
     boolean result = isWithinActionParaScope();
     if (!result)
     {
@@ -930,11 +920,62 @@ public abstract class Checker<R>
   protected List<NameTypePair> addStateVars(List<NameTypePair> pairs)
   {
     List<NameTypePair> result = factory().list();
+    int i = 1;
     for(NameTypePair pair : pairs)
     {
-      result.addAll(addStateVars(pair));
+      result.addAll(addStateVars(pair, i));
+      i++;
     }
     return result;
+  }
+  
+  protected void checkCircusNameStrokes(NameTypePair pair, int pos)
+  {
+    checkCircusNameStrokes(pair.getName(), pair.getType(), pos);
+  }
+  
+  protected void checkCircusNameStrokes(Name name, Type type, int pos)
+  {
+    if (name instanceof ZName)
+    {
+      checkCircusNameStrokes(ZUtils.assertZName(name), type, pos);
+    }
+  }
+  
+  /**
+   * Checks the given variable name does not have strokes, since Circus names
+   * should not have then. The parser avoids mostly all cases, yet one could 
+   * mistakely create names with strokes. It is joker-aware.
+   * @param name the actual name to check for strokes. 
+   * @param type the name type for a better warning message
+   * @param pos the position where the name appears (or -1 for unknown)
+   */
+  protected void checkCircusNameStrokes(ZName name, Type type, int pos)
+  {
+    if ((name.getStrokeList() instanceof ZStrokeList) &&
+             !name.getZStrokeList().isEmpty())
+    {
+      List<Object> errorParams = factory().list();
+      errorParams.add(isWithinProcessParaScope() ? getCurrentProcessName() : "none");
+      errorParams.add(isWithinActionParaScope() ? getCurrentActionName() : "none");
+      errorParams.add(name);
+      errorParams.add(type);      
+      errorParams.add(pos == -1 ? "unknown" : pos);
+      warningManager().warn(name, WarningMessage.CIRCUS_DECLNAMES_SHOULD_NOT_HAVE_STROKES, errorParams);
+    }
+  }
+  
+  protected void checkCircusNameStrokes(List<NameTypePair> pairs)
+  {
+    // warn about the presence of strokes on declaring names
+    // as this is for warning purposes only, go gentle when
+    // jokers might be around. (?)
+    int i = 1;
+    for(NameTypePair pair : pairs)
+    {
+      checkCircusNameStrokes(pair, i);
+      i++;          
+    }
   }
 
   /**
@@ -944,7 +985,7 @@ public abstract class Checker<R>
    * That is needed in order to put right variables into context
    * for various operations. See B.26 ExtractVars
    */
-  protected List<NameTypePair> addStateVars(NameTypePair pair)
+  protected List<NameTypePair> addStateVars(NameTypePair pair, int pos)
   {
     // add the original variable name "x" to the scope
     List<NameTypePair> result = factory().list(pair);
@@ -953,17 +994,7 @@ public abstract class Checker<R>
     Type varType = pair.getType();
     
     // if original name had strokes raise warning
-    if (!varName.getZStrokeList().isEmpty())
-    {
-      List<Object> errorParams = factory().list();
-      errorParams.add(getCurrentProcessName());
-      errorParams.add(getCurrentActionName());
-      errorParams.add(varName);
-      errorParams.add(varType);
-      errorParams.add("unknown");//position
-      warningManager().warn(varName, 
-        WarningMessage.CIRCUS_DECLNAMES_SHOULD_NOT_HAVE_STROKES, errorParams);
-    }
+    checkCircusNameStrokes(varName, varType, pos);
     
     ZStrokeList zsl = getCircusStrokeListForLocalVars();
     for (Stroke stroke : zsl)
@@ -1019,13 +1050,13 @@ public abstract class Checker<R>
   protected Signature addStateVars(SchemaType schemaType)
   {    
     List<NameTypePair> result = factory().list();
-    
+    int i = 1;
     // for each pair add 4 variables into global scope
     for(NameTypePair pair : schemaType.getSignature().getNameTypePair())      
     {
-      result.addAll(addStateVars(pair));
-    }
-    
+      result.addAll(addStateVars(pair, i));
+      i++;
+    }    
     Signature sig = factory().createSignature(result);
     return sig;
   }
@@ -1954,31 +1985,31 @@ public abstract class Checker<R>
     // if both are badly resolved - it is okay if the names equal
     boolean bothOk = leftBadlyResolved && rightBadlyResolved && ZUtils.namesEqual(leftName, rightName);
         
-    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
-    {      
-      StringBuilder reason = new StringBuilder("resolved action name on ");
-      if (leftBadlyResolved && rightBadlyResolved)
-      {
-        reason.append("both sides: L=");
-        reason.append(leftIsMu ? "nameless MuAction" : leftName);
-        reason.append("; R=");
-        reason.append(rightIsMu ? "nameless MuAction" : rightName);        
-      } 
-      else if (leftBadlyResolved)
-      {
-         reason.append("left side: " + (leftIsMu ? "nameless MuAction" : leftName));
-      }
-      else// if (rightBadlyResolved)
-      {
-        reason.append("right side: " + (rightIsMu ? "nameless MuAction" : rightName));
-      }      
-      Object[] params = {
-        getCurrentProcessName(),
-        getCurrentActionName(),        
-        reason
-      };
-      error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);
-    }
+//    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
+//    {      
+//      StringBuilder reason = new StringBuilder("resolved action name on ");
+//      if (leftBadlyResolved && rightBadlyResolved)
+//      {
+//        reason.append("both sides: L=");
+//        reason.append(leftIsMu ? "nameless MuAction" : leftName);
+//        reason.append("; R=");
+//        reason.append(rightIsMu ? "nameless MuAction" : rightName);        
+//      } 
+//      else if (leftBadlyResolved)
+//      {
+//         reason.append("left side: " + (leftIsMu ? "nameless MuAction" : leftName));
+//      }
+//      else// if (rightBadlyResolved)
+//      {
+//        reason.append("right side: " + (rightIsMu ? "nameless MuAction" : rightName));
+//      }      
+//      Object[] params = {
+//        getCurrentProcessName(),
+//        getCurrentActionName(),        
+//        reason
+//      };
+//      error(term, ErrorMessage.INVALID_ACTION_SIGNATURE_JOIN, params);
+//    }
     
 
     // formal parameters must be empty for joint signatures, unless their sides are calls
@@ -2049,30 +2080,30 @@ public abstract class Checker<R>
     // if both are badly resolved - it is okay if the names equal
     boolean bothOk = leftBadlyResolved && rightBadlyResolved && ZUtils.namesEqual(leftName, rightName);
         
-    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
-    {      
-      StringBuilder reason = new StringBuilder("resolved process name on ");
-      if (leftBadlyResolved && rightBadlyResolved)
-      {
-        reason.append("both sides: L=");
-        reason.append(leftName);
-        reason.append("; R=");
-        reason.append(rightName);        
-      } 
-      else if (leftBadlyResolved)
-      {
-         reason.append("left side: " + leftName);
-      }
-      else// if (rightBadlyResolved)
-      {
-        reason.append("right side: " + rightName);
-      }      
-      Object[] params = {
-        getCurrentProcessName(),        
-        reason
-      };
-      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
-    }
+//    if (!bothOk && (leftBadlyResolved || rightBadlyResolved))
+//    {      
+//      StringBuilder reason = new StringBuilder("resolved process name on ");
+//      if (leftBadlyResolved && rightBadlyResolved)
+//      {
+//        reason.append("both sides: L=");
+//        reason.append(leftName);
+//        reason.append("; R=");
+//        reason.append(rightName);        
+//      } 
+//      else if (leftBadlyResolved)
+//      {
+//         reason.append("left side: " + leftName);
+//      }
+//      else// if (rightBadlyResolved)
+//      {
+//        reason.append("right side: " + rightName);
+//      }      
+//      Object[] params = {
+//        getCurrentProcessName(),        
+//        reason
+//      };
+//      error(term, ErrorMessage.INVALID_PROCESS_SIGNATURE_JOIN, params);
+//    }
     
     // if either is true exclusively (Java xor), then there is a problem
     boolean leftIndexed = processSigL.getUsage().equals(CallUsage.Indexed);
@@ -2231,7 +2262,7 @@ public abstract class Checker<R>
     }
     checkForDuplicateNames(znl, term);
   }
-
+  
   /**
    * Given an action name and its body, checks it for consistency. First checks
    * if it is within a process paragraph scope. This sets the typechecker state for  the
@@ -2250,7 +2281,7 @@ public abstract class Checker<R>
     // check process paragraph scope.
     checkProcessParaScope(term, aName);
     
-    ActionSignature aSig;
+    ActionSignature aSig = factory().createEmptyActionSignature();
     
     // TODO: CHECK: if this redeclared business is needed
     // TODO: CHECK: not sure if this is a good idea because it may annotate
@@ -2264,6 +2295,7 @@ public abstract class Checker<R>
       // Actions can only be checked within an opened action para scope.
       Name old = setCurrentActionName(aName);
       CircusAction oldAction = setCurrentAction(action);
+      ActionSignature oldSignature = actionChecker().setCurrentActionSignature(aSig);
       // nesting is allowed only for MuAction.
       if (old != null && !(term instanceof MuAction))
       {
@@ -2277,11 +2309,13 @@ public abstract class Checker<R>
       typeEnv().enterScope();
 
       // check the declared action updating its name on the returned action signature
-      ActionSignature actionSignature = action.accept(actionChecker());
+      CircusCommunicationList commList = action.accept(actionChecker());
       
       // clone the inner term to avoid aliasing
-      aSig = factory().deepCloneTerm(actionSignature);
-      aSig.setActionName(aName);
+      //aSig = factory().deepCloneTerm(actionSignature);
+      aSig.setActionName(aName);      
+      aSig.getUsedCommunications().addAll(0, commList);
+      //aSig = getCurrentActionSignature();
       
       // closes local vars and formal parameters scope
       typeEnv().exitScope();
@@ -2289,12 +2323,11 @@ public abstract class Checker<R>
       // restors the process para scope.
       old = setCurrentActionName(old);
       oldAction = setCurrentAction(oldAction);
-      assert old == aName && 
-             oldAction == action : "Invalid action para scoping for " + aName;      
+      oldSignature = actionChecker().setCurrentActionSignature(oldSignature);
+      assert old == aName && oldAction == action && oldSignature == aSig : "Invalid action para scoping for " + aName;      
     }
     else
-    {
-      aSig = factory().createEmptyActionSignature();
+    {      
       aSig.setActionName(aName);
       Object [] params = {aName, getConcreteSyntaxSymbol(term), getCurrentProcessName() };
       error(term, ErrorMessage.REDECLARED_DEF, params);      
@@ -2480,32 +2513,7 @@ public abstract class Checker<R>
     // check the parameters
     List<NameTypePair> pairs = decls.accept(declChecker());    
    
-    // warn about the presence of strokes on declaring names
-    // as this is for warning purposes only, go gentle when
-    // jokers might be around. (?)
-    i = 1;
-    for(NameTypePair pair : pairs)
-    {
-      Name name = pair.getName();
-      if (name instanceof ZName) 
-      {
-        ZName zname = pair.getZName();
-        if ((zname.getStrokeList() instanceof ZStrokeList) &&
-             !zname.getZStrokeList().isEmpty())
-        {          
-          if (!isWithinActionParaScope())
-          {
-            errorParams.add("none");
-          }
-          errorParams.add(zname);
-          errorParams.add(pair.getType());
-          errorParams.add(i);          
-          warningManager().warn(term, 
-            WarningMessage.CIRCUS_DECLNAMES_SHOULD_NOT_HAVE_STROKES, errorParams);          
-        }        
-      }
-      i++;          
-    }
+    checkCircusNameStrokes(pairs);
     
     // return the flags back to normal after checking the parameters
     setCircusFormalParametersDecl(false, false);

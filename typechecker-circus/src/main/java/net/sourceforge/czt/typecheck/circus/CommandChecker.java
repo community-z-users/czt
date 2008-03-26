@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.Action2;
-import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.AssignmentCommand;
 import net.sourceforge.czt.circus.ast.AssignmentPairs;
 import net.sourceforge.czt.circus.ast.CircusAction;
@@ -46,9 +46,7 @@ import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZExprList;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
-import net.sourceforge.czt.z.util.ZUtils;
 
 
 /**
@@ -56,14 +54,14 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @author Leo Freitas
  */
 public class CommandChecker
-  extends Checker<ActionSignature>
+  extends Checker<CircusCommunicationList>
   implements 
-      SpecStmtCommandVisitor<ActionSignature>,      // C.17.1, C.17.4, C.17.5
-      AssignmentCommandVisitor<ActionSignature>,    // C.17.2
-      VarDeclCommandVisitor<ActionSignature>,       // C.16.1, C.17.3
-      IfGuardedCommandVisitor<ActionSignature>,     // C.17.7, C.17.8, C.17.9, C.17.10
-      DoGuardedCommandVisitor<ActionSignature>,     // C.17.7-2
-      CircusActionListVisitor<ActionSignature>      // C.17.8, C.17.9, C.17.10
+      SpecStmtCommandVisitor<CircusCommunicationList>,      // C.17.1, C.17.4, C.17.5
+      AssignmentCommandVisitor<CircusCommunicationList>,    // C.17.2
+      VarDeclCommandVisitor<CircusCommunicationList>,       // C.16.1, C.17.3
+      IfGuardedCommandVisitor<CircusCommunicationList>,     // C.17.7, C.17.8, C.17.9, C.17.10
+      DoGuardedCommandVisitor<CircusCommunicationList>,     // C.17.7-2
+      CircusActionListVisitor<CircusCommunicationList>      // C.17.8, C.17.9, C.17.10
       
 {  
   
@@ -116,7 +114,7 @@ public class CommandChecker
    * @return
    * @law C.17.1, C.17.4, C.17.5
    */
-  public ActionSignature visitSpecStmtCommand(SpecStmtCommand term)
+  public CircusCommunicationList visitSpecStmtCommand(SpecStmtCommand term)
   {
     // check within action scope
     checkActionParaScope(term, null);      
@@ -127,11 +125,13 @@ public class CommandChecker
     typeCheckPred(term, term.getPre());
     typeCheckPred(term, term.getPost());
     
-    ActionSignature result = factory().createEmptyActionSignature();
-    result.getLocalVars().getNameTypePair().addAll(localVars);
+    CircusCommunicationList result = factory().createEmptyCircusCommunicationList();
+    actionChecker().getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(localVars);
     
-    //TODO: add StateUpdate!        
-    addActionSignatureAnn(term, result);
+    warningManager().warn("Specification statement command still requires StateUpdate in process signature." +
+      "\n\tProcess...: {0}\n\tAction....: {1}", getCurrentProcessName(), getCurrentActionName());    
+    
+    //addActionSignatureAnn(term, result);
     return result;
   }
   
@@ -141,7 +141,7 @@ public class CommandChecker
    * @return
    * @law C.17.2
    */
-  public ActionSignature visitAssignmentCommand(AssignmentCommand term)
+  public CircusCommunicationList visitAssignmentCommand(AssignmentCommand term)
   {
     // check within action scope
     checkActionParaScope(term, null);      
@@ -189,11 +189,13 @@ public class CommandChecker
       }
     }
     
-    ActionSignature result = factory().createEmptyActionSignature();
-    result.getLocalVars().getNameTypePair().addAll(localVars);
+    CircusCommunicationList result = factory().createEmptyCircusCommunicationList();
+    actionChecker().getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(localVars);
     
-    //TODO: add StateUpdate!        
-    addActionSignatureAnn(term, result);
+    warningManager().warn("Assignment command still requires StateUpdate in process signature." +
+      "\n\tProcess...: {0}\n\tAction....: {1}", getCurrentProcessName(), getCurrentActionName());    
+    
+    //addActionSignatureAnn(term, result);
     return result; 
   }
   
@@ -203,7 +205,7 @@ public class CommandChecker
    * @return
    * @law C.16.1, C.17.3
    */
-  public ActionSignature visitVarDeclCommand(VarDeclCommand term)
+  public CircusCommunicationList visitVarDeclCommand(VarDeclCommand term)
   {
     checkActionParaScope(term, null);
     
@@ -221,20 +223,16 @@ public class CommandChecker
     List<NameTypePair> allVars = addStateVars(gParams);    
     
     // check the inner action now with the parameters in scope
-    ActionSignature actionSignature = term.getCircusAction().accept(actionChecker());
-    
-    // clone the signature
-    //ActionSignature varDeclCmdSig = (ActionSignature)actionSignature.create(actionSignature.getChildren());
-    ActionSignature varDeclCmdSig = (ActionSignature)factory().deepCloneTerm(actionSignature);
+    CircusCommunicationList commList = term.getCircusAction().accept(actionChecker());
     
     // updates the local variable signature for variable decl command - duplicates are fine (?) TODO:CHECK
-    varDeclCmdSig.getLocalVars().getNameTypePair().addAll(0, allVars);
+    actionChecker().getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(allVars);
         
     typeEnv().exitScope();    
         
     // add signature to the term
-    addActionSignatureAnn(term, varDeclCmdSig);
-    return varDeclCmdSig;       
+    //addActionSignatureAnn(term, varDeclCmdSig);
+    return commList;
   }
 
   /**
@@ -243,17 +241,17 @@ public class CommandChecker
    * @return
    * @law C.17.7
    */
-  public ActionSignature visitIfGuardedCommand(IfGuardedCommand term)
+  public CircusCommunicationList visitIfGuardedCommand(IfGuardedCommand term)
   {
     currentGuardedCommand_ = term;
     
     // type check all guards - note here we allow room for guard jokers ;-)
     // but the type checker only captures normal guards - via CircusActionList
-    ActionSignature actionSignature = term.getGuardedActionList().accept(commandChecker());
+    CircusCommunicationList commList = term.getGuardedActionList().accept(commandChecker());
     
     currentGuardedCommand_ = null ;
-    addActionSignatureAnn(term, actionSignature);
-    return actionSignature;
+    //addActionSignatureAnn(term, actionSig);
+    return commList;
   }
   
   /**
@@ -262,28 +260,28 @@ public class CommandChecker
    * @return
    * @law C.17.7-2
    */
-  public ActionSignature visitDoGuardedCommand(DoGuardedCommand term)
+  public CircusCommunicationList visitDoGuardedCommand(DoGuardedCommand term)
   {    
     currentGuardedCommand_ = term;
     
     // type check all guards - note here we allow room for guard jokers ;-)
     // but the type checker only captures normal guards - via CircusActionList
-    ActionSignature actionSignature = term.getActionList().accept(commandChecker());
+    CircusCommunicationList commList = term.getActionList().accept(commandChecker());
     
     currentGuardedCommand_ = null;
     
-    addActionSignatureAnn(term, actionSignature);
-    return actionSignature;
+    //addActionSignatureAnn(term, actionSig);
+    return commList;
   }
   
-  public ActionSignature visitCircusActionList(CircusActionList term)
+  public CircusCommunicationList visitCircusActionList(CircusActionList term)
   {
     assert currentGuardedCommand_ != null : "Cannot check guards of null guarded command";
     
     // check scope
     checkActionParaScope(term, null);
      
-    ActionSignature actionSignature = factory().createEmptyActionSignature();
+    CircusCommunicationList commList = factory().createEmptyCircusCommunicationList();
     
     // if there are no guards, raise a warning.
     if (term.isEmpty())
@@ -299,16 +297,15 @@ public class CommandChecker
     {
       Iterator<CircusAction> it = term.iterator();
       CircusAction action = it.next();
-      actionSignature = action.accept(actionChecker());      
+      commList = action.accept(actionChecker());      
       // type check each guarded action joining their signatures    
       while (it.hasNext())
       {
         CircusAction next = it.next();
-        ActionSignature actionNext = next.accept(actionChecker());
-        action = factory().getCircusFactory().createSeqAction(factory().list(action, next));
-        actionSignature = joinActionSignature((Action2)action, actionSignature, actionNext);
+        CircusCommunicationList nextCommList = next.accept(actionChecker());
+        GlobalDefs.addAllNoDuplicates(nextCommList, commList);
       }
     }     
-    return actionSignature;
+    return commList;
   }    
 }

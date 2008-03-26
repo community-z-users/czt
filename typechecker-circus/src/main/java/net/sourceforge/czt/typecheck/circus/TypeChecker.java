@@ -22,6 +22,7 @@ import java.util.List;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.CircusAction;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
@@ -110,12 +111,11 @@ public class TypeChecker
   
   protected boolean strictOnWarnings_ = false;
   
-  protected boolean isWithinMuActionScope_ = false;
     
   //the visitors used to typechecker a Circus program
   protected Checker<Signature> signatureChecker_;
-  protected Checker<ActionSignature> actionChecker_;
-  protected Checker<ActionSignature> commandChecker_;
+  protected ActionChecker actionChecker_;
+  protected Checker<CircusCommunicationList> commandChecker_;
   protected Checker<List<NameTypePair>> commChecker_;
   protected Checker<ProcessSignature> processChecker_;
   protected Checker<Signature> processParaChecker_;
@@ -193,8 +193,7 @@ public class TypeChecker
     shouldCreateLetMu_ = false;    
     isCheckingStatePara_ = false;
     strictOnWarnings_ = raiseWarnings;
-    isWithinMuActionScope_ = false;
-
+    
 //    channels_ = new ArrayList<ChannelInfo>();
 //    chansets_ = getFactory().createZNameList();    
 //    muProcesses_ = getFactory().createZNameList();    
