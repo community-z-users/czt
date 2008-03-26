@@ -3349,9 +3349,7 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-        </xs:sequence>
-        <!-- Determines whether the type represented by this channel requires indexing or not -->
-        <xs:attribute name="NeedIndexing" type="xs:boolean" use="optional" default="false"/>
+        </xs:sequence>        
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
@@ -3607,8 +3605,7 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-        </xs:sequence>
-        <xs:attribute name="SignatureOfMuAction" type="xs:boolean" use="optional" default="false"/>
+        </xs:sequence>        
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
