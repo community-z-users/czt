@@ -332,7 +332,16 @@ public class ParaChecker
     CircusCommunicationList commList = process.accept(processChecker());        
     
     // create the process type with corresponding signature.
-    ProcessType procType = factory().createProcessType(processChecker().getCurrentProcessSignature());    
+    ProcessSignature currentSig = processChecker().getCurrentProcessSignature();
+    //currentSig = factory().deepCloneTerm(currentSig);
+
+    // clears the process para scope.
+    old = setCurrentProcessName(null);    
+    setCurrentProcess(null);  
+    processChecker().setCurrentProcessSignature(null);
+    assert old == pName : "Invalid process para scoping for " + pName;
+       
+    ProcessType procType = factory().createProcessType(currentSig);    
     Type gProcType = addGenerics(procType);
     
     Signature result = wrapTypeAndAddAnn(pName, gProcType, term);
@@ -340,14 +349,8 @@ public class ParaChecker
     // close environment scopes.    
     typeEnv().exitScope();
     
-    //pending().exitScope();
-    
-    // clears the process para scope.
-    old = setCurrentProcessName(null);    
-    setCurrentProcess(null);  
-    processChecker().setCurrentProcessSignature(null);
-    assert old == pName : "Invalid process para scoping for " + pName;
-   
+    //pending().exitScope();    
+
     return result;
   }  
   

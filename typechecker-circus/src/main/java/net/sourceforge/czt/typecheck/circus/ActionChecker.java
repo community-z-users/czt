@@ -534,7 +534,8 @@ public class ActionChecker
     // if action type, then clone the call signature
     if (type instanceof ActionType)
     {
-      commList.addAll(0, GlobalDefs.actionType(type).getActionSignature().getUsedCommunications());
+      ActionSignature aSig = factory().deepCloneTerm(GlobalDefs.actionType(type).getActionSignature());
+      commList.addAll(0, aSig.getUsedCommunications());
     }
     // otherwise, see if this is a call for SchExpr action without special brackets, 
     // but only if no errors were found by the consistency method

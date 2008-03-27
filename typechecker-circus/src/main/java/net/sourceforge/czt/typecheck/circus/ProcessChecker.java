@@ -44,6 +44,7 @@ import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.RenameProcess;
+import net.sourceforge.czt.circus.impl.ProcessSignatureImpl;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelProcessVisitor;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
 import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
@@ -270,6 +271,125 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     return commList;
   }
 
+  private enum PSigResolution
+  {
+    Both, Current, Given, Neither
+  }
+  ;
+
+  private static final  PSigResolution    
+      [][] PSIG_MATRIX = 
+      {                          /* given not basic        given basic */
+        /* current not basic */  { PSigResolution.Neither, PSigResolution.Given },  
+        /* current basic     */  { PSigResolution.Current, PSigResolution.Both } 
+      }
+  ;
+  
+  protected void updateCurrentProcessSignature(ProcessSignature processSignature)
+  {    
+    checkProcessSignature(null);
+    ProcessSignature pSig = processSignature;//factory().deepCloneTerm(processSignature);
+    PSigResolution pSigResolution = PSIG_MATRIX[processSig_.isBasicProcessSignature() ? 1 : 0][pSig.isBasicProcessSignature() ? 1 : 0];    
+    switch(pSigResolution)
+    {
+      case Both:
+        processSig_.setStateSignature(pSig.getStateSignature());
+        processSig_.getBasicProcessLocalZSignatures().addAll(pSig.getBasicProcessLocalZSignatures());
+        processSig_.getActionSignatures().addAll(pSig.getActionSignatures());
+        break;
+      case Current:
+        assert processSig_.isEmptyProcessSignature() : "current process signature is neither empty nor complex - cannot update it with complex psig.";
+        processSig_.getProcessSignatures().addAll(pSig.getProcessSignatures());        
+        break;
+      case Given:
+        // do not add repeated bpSig into pSig
+        if (!processSig_.getProcessSignatures().contains(pSig)) 
+        {
+          processSig_.getProcessSignatures().add(pSig);
+        }
+        break;
+      case Neither:        
+        for(ProcessSignature ps : pSig.getProcessSignatures())
+        {
+          updateCurrentProcessSignature(ps);
+        }
+        GlobalDefs.addAllNoDuplicates(pSig.getCircusProcessChannelSets(), processSig_.getCircusProcessChannelSets());
+        // TODO: CHECK: ignore nested formals here, since this is checked at typeCheckProcessD ?        
+        break;
+    }    
+  }
+  
+  protected void addImplicitChannels(CircusProcess term, CircusCommunicationList commList)
+  {
+    checkProcessSignatureNotBasic(term);
+    assert !processSig_.getFormalParamsOrIndexes().getNameTypePair().isEmpty() 
+      : "cannot add implicit channels for indexed process without indexes";
+     
+    // resolve any mutual recursion so that 
+    // communication list can be collected fully
+    if (needPostCheck())
+    {
+      postCheck();
+      
+      // update communication list after post check
+      GlobalDefs.addAllNoDuplicates(processSig_.getUsedCommunicationsAsList(), commList);
+    }
+    
+    // build the extended NameTypePair information
+    List<NameTypePair> indexes = processSig_.getFormalParamsOrIndexes().getNameTypePair();      
+    String extendedName = "";
+    ProdType extendedType = factory().createProdType(factory().<Type2>list());
+    for(NameTypePair ntp : indexes)
+    {
+      extendedName = "\\_" + ntp.getZName().getWord();
+      extendedType.getType().add(GlobalDefs.unwrapType(ntp.getType()));
+    }
+    
+    ProcessSignature indexedSignature = processSig_;//factory().deepCloneTerm(processSig_);
+    
+    // set the process name as current because we need it for getUsedChannels()    
+    if (indexedSignature.getProcessName() == null)
+    {
+      indexedSignature.setProcessName(getCurrentProcessName());
+    }
+    
+    // for each signature of each inner process or action of this indexed process,
+    // add implicit channels w.r.t. the indexes type
+    for(Signature sig : indexedSignature.getUsedChannels().values())
+    {
+      for(NameTypePair ntp : sig.getNameTypePair())
+      {
+        // extend the name
+        ZName nameToExtend = ntp.getZName();
+        nameToExtend.setWord(nameToExtend.getWord() + extendedName);
+        factory().addNameID(nameToExtend);
+        
+        // extend the type        
+        assert (ntp.getType() instanceof ChannelType) : "cannot implicit extend non channel type: " + ntp.getType();
+        ChannelType cType = (ChannelType)ntp.getType();
+        Type2 typeToExtend = cType.getType();
+        if (typeToExtend instanceof ProdType)
+        {
+          GlobalDefs.prodType(typeToExtend).getType().addAll(0, extendedType.getType());
+        }
+        else
+        {
+          ProdType productType = factory().createProdType(
+            factory().list(GlobalDefs.unwrapType(typeToExtend)));
+          productType.getType().addAll(0, extendedType.getType());
+          cType.setType(productType);
+          typeToExtend = productType;
+        }
+        assert GlobalDefs.prodType(typeToExtend).getType().size() > 1 
+          : "invalid extended product type for implicit channel - " + typeToExtend;    
+        
+        // add it to the local scope for this process
+        typeEnv().add(ntp);  
+      }      
+    }
+    setCurrentProcessSignature(indexedSignature);
+  }
+
   /**
    * 
    * @param term
@@ -303,76 +423,8 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     // add implicit channels and update communication list
     addImplicitChannels(term, commList);    
     return commList;
-  }
+  }  
   
-  protected void addImplicitChannels(CircusProcess term, CircusCommunicationList commList)
-  {
-    checkProcessSignatureNotBasic(term);
-    assert !processSig_.getFormalParamsOrIndexes().getNameTypePair().isEmpty() 
-      : "cannot add implicit channels for indexed process without indexes";
-     
-    // resolve any mutual recursion so that 
-    // communication list can be collected fully
-    if (needPostCheck())
-    {
-      postCheck();
-      
-      // update communication list after post check
-      GlobalDefs.addAllNoDuplicates(processSig_.getUsedCommunicationsAsList(), commList);
-    }
-    
-    warningManager().warn("TODO: review signature update while adding implicit channels");
-    
-    // build the extended NameTypePair information
-    List<NameTypePair> indexes = processSig_.getFormalParamsOrIndexes().getNameTypePair();      
-    String extendedName = "";
-    ProdType extendedType = factory().createProdType(factory().<Type2>list());
-    for(NameTypePair ntp : indexes)
-    {
-      extendedName = "\\_" + ntp.getZName().getWord();
-      extendedType.getType().add(GlobalDefs.unwrapType(ntp.getType()));
-    }
-    
-    // set the process name as current because we need it for getUsedChannels()
-    Name old = processSig_.getProcessName();
-    processSig_.setProcessName(getCurrentProcessName());
-    
-    // for each signature of each inner process or action of this indexed process,
-    // add implicit channels w.r.t. the indexes type
-    for(Signature sig : processSig_.getUsedChannels().values())
-    {
-      for(NameTypePair ntp : sig.getNameTypePair())
-      {
-        // extend the name
-        ZName nameToExtend = ntp.getZName();
-        nameToExtend.setWord(nameToExtend.getWord() + extendedName);
-        factory().addNameID(nameToExtend);
-        
-        // extend the type
-        Type typeToExtend = ntp.getType();
-        if (typeToExtend instanceof ProdType)
-        {
-          GlobalDefs.prodType(typeToExtend).getType().addAll(0, extendedType.getType());
-        }
-        else
-        {
-          ProdType productType = factory().createProdType(
-            factory().list(GlobalDefs.unwrapType(typeToExtend)));
-          productType.getType().addAll(0, extendedType.getType());
-          ntp.setType(productType);
-        }
-        assert GlobalDefs.prodType(ntp.getType()).getType().size() > 1 
-          : "invalid extended product type for implicit channel - " + typeToExtend;    
-        
-        // add it to the local scope for this process
-        typeEnv().add(nameToExtend, typeToExtend);  
-      }      
-    }
-    
-    // restore the name
-    processSig_.setProcessName(old);
-  }
-
   /**
    * 
    * @param term
@@ -412,19 +464,8 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     // clear the visitor's current signature.
     basicProcessChecker().setCurrentBasicProcessSignature(null);
     
-    CircusCommunicationList commList = factory().createCircusCommunicationList(bpSig.getUsedCommunicationsAsList());       
-    
-    if (processSig_.isBasicProcessSignature())
-    {
-      processSig_.setStateSignature(bpSig.getStateSignature());
-      processSig_.getBasicProcessLocalZSignatures().addAll(bpSig.getBasicProcessLocalZSignatures());
-      processSig_.getActionSignatures().addAll(bpSig.getActionSignatures());
-    }
-    else
-    {
-      assert !processSig_.getProcessSignatures().contains(bpSig) : "cannot add repeated bpSig into pSig";
-      processSig_.getProcessSignatures().add(bpSig);
-    }
+    CircusCommunicationList commList = factory().createCircusCommunicationList(bpSig.getUsedCommunicationsAsList());           
+    updateCurrentProcessSignature(bpSig);
     
     // no sig annotation need to be added here.
     return commList;
@@ -529,6 +570,8 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     {      
       ProcessSignature procSig = GlobalDefs.processType(type).getProcessSignature();
       GlobalDefs.addAllNoDuplicates(procSig.getUsedCommunicationsAsList(), commList);
+      commList = factory().deepCloneTerm(commList);
+      updateCurrentProcessSignature(procSig);
     }        
     return commList;
   }
