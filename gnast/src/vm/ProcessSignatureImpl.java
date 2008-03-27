@@ -100,6 +100,14 @@
     return getProcessSignatures().isEmpty();
   }  
   
+  public boolean isEmptyProcessSignature()
+  {
+    return isBasicProcessSignature() && getStateSignature().getNameTypePair().isEmpty() &&
+      getBasicProcessLocalZSignatures().isEmpty() && getActionSignatures().isEmpty() 
+      //&& getGenFormals().isEmpty() && getProcessName() == null
+      ;
+  }
+  
   public net.sourceforge.czt.circus.ast.ZSignatureList getBasicProcessLocalZSignatures()
   {
     assert isBasicProcessSignature() : "non basic processes do not have list of local Z signatures";

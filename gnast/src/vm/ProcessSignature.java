@@ -150,6 +150,14 @@
    * @return getProcessSignatures().isEmpty()
    */
   boolean isBasicProcessSignature();
+  
+  /**
+   * Returns true whether or not this signature is empty. That is, all elements
+   * are empty, and only process name and its generics are ignores on this check.
+   * 
+   * @return
+   */  
+  boolean isEmptyProcessSignature();
 
   /**
    * This is a convenience method. It extract from the list of signature lists the
