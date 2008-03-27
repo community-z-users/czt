@@ -17,6 +17,7 @@ package net.sourceforge.czt.circus.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -450,13 +451,38 @@ public class PrintVisitor
   {
     StringBuilder result = new StringBuilder();
     if (!signature.getNameTypePair().isEmpty())
-    {
-      boolean first = true;
-      for (NameTypePair pair : signature.getNameTypePair()) {
-        if (! first) result.append("; ");
-        result.append(visit(pair));
-        first = false;
+    {      
+      Iterator<NameTypePair> it = signature.getNameTypePair().iterator();
+      NameTypePair ntp1 = it.next();
+      result.append(visit(ntp1.getName()));
+      while (it.hasNext())
+      {
+        NameTypePair ntp2 = it.next();
+        if (ntp2.getType().equals(ntp1.getType()))
+        {
+          result.append(", ");
+          result.append(visit(ntp2.getName()));
+          if (!it.hasNext())
+          {
+            result.append(": ");
+            result.append(visit(ntp1.getType()));
+          }
+        }
+        else
+        {
+          result.append(": ");
+          result.append(visit(ntp1.getType()));
+          result.append("; ");
+          result.append(visit(ntp2.getName()));
+          ntp1 = ntp2;
+        }
       }
+//      boolean first = true;
+//      for (NameTypePair pair : signature.getNameTypePair()) {
+//        if (! first) result.append("; ");
+//        result.append(visit(pair));
+//        first = false;
+//      }
     }
     else
     {      
@@ -881,12 +907,22 @@ public class PrintVisitor
 
   public String visitProcessType(ProcessType term)
   {
-    return "PROCESS_TYPE [" + visit(term.getProcessSignature()) + "]";
+    StringBuilder result = new StringBuilder("PROCESS_TYPE [");
+    openTabScope(result);
+      result.append(visit(term.getProcessSignature()));
+    closeTabScope(result);
+    result.append("]");
+    return result.toString();    
   }
 
   public String visitActionType(ActionType term)
   {
-    return "ACTION_TYPE [" + visit(term.getActionSignature()) + "]";
+    StringBuilder result = new StringBuilder("ACTION_TYPE [");
+    openTabScope(result);
+      result.append(visit(term.getActionSignature()));
+    closeTabScope(result);
+    result.append("]");
+    return result.toString();    
   }
 
   public String visitNameSetType(NameSetType term)
@@ -997,13 +1033,13 @@ public class PrintVisitor
     if (!term.getUsedChannelSets().isEmpty())
     {
       result.append("@ CS[");
-      result.append(visit(term.getUsedChannelSets()));
+      result.append(visitList(term.getUsedChannelSets(), ", "));
       result.append("] ");
     }
     if (!term.getUsedNameSets().isEmpty())
     {
       result.append("@ NS[");
-      result.append(visit(term.getUsedNameSets()));
+      result.append(visitList(term.getUsedNameSets(), ", "));
       result.append("] ");
     }
     result.append("}");
