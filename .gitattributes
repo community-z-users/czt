@@ -506,6 +506,7 @@ typechecker-circus/src/test/resources/tests/circus/circus_cookies-SchexprActionV
 typechecker-circus/src/test/resources/tests/circus/comm-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatchInApplExpr.error -text
 typechecker-circus/src/test/resources/tests/circus/name-IsNotChannelName.error -text
+typechecker-circus/src/test/resources/tests/circus/rename_indexed_process-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/tc31_param_process-RedeclaredDef.error -text
 typechecker-circus/src/test/resources/tests/circus/tc3211_paramact-UndeclaredIdentifier.error -text
 typechecker-circus/src/test/resources/tests/circus/tc3212_extchoice_scope-UndeclaredIdentifier.error -text
