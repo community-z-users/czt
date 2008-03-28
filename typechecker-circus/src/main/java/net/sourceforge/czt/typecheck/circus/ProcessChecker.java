@@ -297,9 +297,23 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
         processSig_.getBasicProcessLocalZSignatures().addAll(pSig.getBasicProcessLocalZSignatures());
         processSig_.getActionSignatures().addAll(pSig.getActionSignatures());
         break;
-      case Current:
-        assert processSig_.isEmptyProcessSignature() : "current process signature is neither empty nor complex - cannot update it with complex psig.";
-        processSig_.getProcessSignatures().addAll(pSig.getProcessSignatures());        
+      case Current:                
+        if (processSig_.isEmptyProcessSignature())
+        {
+          // if empty, just consider the given one
+          processSig_.getProcessSignatures().addAll(pSig.getProcessSignatures());        
+        }
+        else
+        {
+          // otherwise, clone current and create new processSig_.
+          ProcessSignature newPSig = factory().createEmptyProcessSignature();
+          newPSig.setProcessName(processSig_.getProcessName());
+          newPSig.setGenFormals(processSig_.getGenFormals());          
+          newPSig.getProcessSignatures().add(processSig_);
+          GlobalDefs.addAllNoDuplicates(pSig.getProcessSignatures(), newPSig.getProcessSignatures());
+          
+          setCurrentProcessSignature(newPSig);
+        }
         break;
       case Given:
         // do not add repeated bpSig into pSig
