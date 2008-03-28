@@ -20,12 +20,14 @@
 package net.sourceforge.czt.z.util;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.TermImpl;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 public final class ZUtils
@@ -1103,6 +1105,24 @@ public final class ZUtils
     }
     names.add(i, name);
   }
+  
+  private static class ZNameComparator implements Comparator<ZName> 
+  {    
+    ZNameComparator() { }    
+
+    public int compare(ZName n1, ZName n2) 
+    {
+      int result = compareTo(n1, n2);
+      return result;
+    }
+    
+    public boolean equals(Object o) 
+    {
+      return o != null && o instanceof ZNameComparator;        
+    }
+  }
+  
+  public final static Comparator<ZName> ZNAME_COMPARATOR = new ZNameComparator();
   
   public static int compareTo(ZName zName1, ZName zName2)
   {
