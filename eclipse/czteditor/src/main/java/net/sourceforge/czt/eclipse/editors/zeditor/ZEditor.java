@@ -75,7 +75,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.internal.text.link.contentassist.HTMLTextPresenter;
+// obsolete now: import org.eclipse.jface.internal.text.link.contentassist.HTMLTextPresenter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPartitioningException;
@@ -683,8 +683,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       {
         boolean cutDown = false;
         int style = cutDown ? SWT.NONE : (SWT.V_SCROLL | SWT.H_SCROLL);
-        return new DefaultInformationControl(shell, SWT.RESIZE | SWT.TOOL,
-            style, new HTMLTextPresenter(cutDown));
+        return new DefaultInformationControl(shell);
+        // TODO: find an IInformationProvider that show HTML, so we can do this:
+        //return new DefaultInformationControl(shell, SWT.RESIZE | SWT.TOOL,
+        //    style, new HTMLTextPresenter(cutDown));
       }
     };
 
