@@ -27,6 +27,7 @@ doc/cztlogo/czttitle.xcf -text
 doc/cztlogo/czttitle3.xcf -text
 doc/cztlogo/wordart.png -text
 doc/eclipse-projects.zip -text
+doc/papers/ZUM2007-CZT-Overview.ppt -text
 doc/papers/facj-newsletter/The[!!-~]Community[!!-~]Z[!!-~]Tools[!!-~]-[!!-~]FACJ[!!-~]Newsletter-old.pdf -text svneol=unset#application/pdf
 doc/papers/facj-newsletter/The[!!-~]Community[!!-~]Z[!!-~]Tools[!!-~]-[!!-~]FACJ[!!-~]Newsletter.doc -text
 doc/papers/facj-newsletter/The[!!-~]Community[!!-~]Z[!!-~]Tools[!!-~]-[!!-~]FACJ[!!-~]Newsletter.pdf -text svneol=unset#application/pdf
@@ -46,6 +47,7 @@ doc/papers/posix/sstest.zed -text
 doc/papers/posix/wedge.eps -text
 doc/papers/posix/wedge.fig -text
 doc/papers/posix/wedge.pdf -text
+doc/papers/rules/ZUM2007_rules_talk.ppt -text
 doc/papers/rules/cztprover1.eps -text
 doc/papers/rules/cztprover1.png -text svneol=unset#image/png
 doc/papers/rules/master.bbl -text
