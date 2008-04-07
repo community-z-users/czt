@@ -27,6 +27,9 @@ doc/cztlogo/czttitle.xcf -text
 doc/cztlogo/czttitle3.xcf -text
 doc/cztlogo/wordart.png -text
 doc/eclipse-projects.zip -text
+doc/papers/facj-newsletter/The[!!-~]Community[!!-~]Z[!!-~]Tools[!!-~]-[!!-~]FACJ[!!-~]Newsletter-old.pdf -text svneol=unset#application/pdf
+doc/papers/facj-newsletter/The[!!-~]Community[!!-~]Z[!!-~]Tools[!!-~]-[!!-~]FACJ[!!-~]Newsletter.doc -text
+doc/papers/facj-newsletter/The[!!-~]Community[!!-~]Z[!!-~]Tools[!!-~]-[!!-~]FACJ[!!-~]Newsletter.pdf -text svneol=unset#application/pdf
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
 doc/papers/posix/as.zed -text
