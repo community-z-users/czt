@@ -455,26 +455,34 @@ public class PrintVisitor
       Iterator<NameTypePair> it = signature.getNameTypePair().iterator();
       NameTypePair ntp1 = it.next();
       result.append(visit(ntp1.getName()));
-      while (it.hasNext())
+      if (!it.hasNext())
       {
-        NameTypePair ntp2 = it.next();
-        if (ntp2.getType().equals(ntp1.getType()))
+        result.append(" : ");
+        result.append(visit(ntp1.getType()));
+      }
+      else 
+      {
+        while (it.hasNext())
         {
-          result.append(", ");
-          result.append(visit(ntp2.getName()));
-          if (!it.hasNext())
+          NameTypePair ntp2 = it.next();
+          if (ntp2.getType().equals(ntp1.getType()))
+          {
+            result.append(", ");
+            result.append(visit(ntp2.getName()));
+            if (!it.hasNext())
+            {
+              result.append(": ");
+              result.append(visit(ntp1.getType()));
+            }
+          }
+          else
           {
             result.append(": ");
             result.append(visit(ntp1.getType()));
+            result.append("; ");
+            result.append(visit(ntp2.getName()));
+            ntp1 = ntp2;
           }
-        }
-        else
-        {
-          result.append(": ");
-          result.append(visit(ntp1.getType()));
-          result.append("; ");
-          result.append(visit(ntp2.getName()));
-          ntp1 = ntp2;
         }
       }
 //      boolean first = true;
