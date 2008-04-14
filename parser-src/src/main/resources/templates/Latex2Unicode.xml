@@ -349,9 +349,21 @@ import net.sourceforge.czt.z.util.ZString;
     final Level level =
       ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
     final LocInfo locInfo = getLocation();
-    final Object[] args = { arg0, locInfo, };
+    final Object[] args = { arg0, locInfo };
     ZParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
   }
+  
+  <add:circus>
+  private void reportError(ErrorType type, CircusParseMessage msg,
+                           String arg0, String info)
+  {
+    final Level level =
+      ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
+    final LocInfo locInfo = getLocation();
+    final Object[] args = { arg0, locInfo };
+    CircusParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
+  }
+  </add:circus>
 
   private void reportUnknownLatexCommand(String command)
   {
@@ -498,6 +510,9 @@ NAME =   {NOT_LB}*
 <add:tcoz>
 %state NETTOPOLOGY
 </add:tcoz>
+<add:circus>
+%state CIRCUSTOOLSOFF
+</add:circus>
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -653,6 +668,10 @@ NAME =   {NOT_LB}*
         {
           // do nothing
         }
+  "\\circtoolsoff"
+        { 
+          yybegin(CIRCUSTOOLSOFF);          
+        }        
 </add:circus>
 <add:oz>
   //look ahead to see if this is a generic class
@@ -747,7 +766,7 @@ NAME =   {NOT_LB}*
           result += ZString.SPACE;
           return result(result);
         }
-  "\\\\" | "\\also" | "\\znewpage"
+  "\\\\" | "\\also" | "\\znewpage" <add:circus> | "\\zbreak" </add:circus>
         {
           String result = addSpace();
           return result(result + ZString.NLCHAR);
@@ -1249,6 +1268,47 @@ NAME =   {NOT_LB}*
         }
 }
 </add:tcoz>
+
+<add:circus>
+// Treat everything within this state as comments  
+&lt;CIRCUSTOOLSOFF&gt; {
+  "\\circtoolson"
+       {
+         yybegin(YYINITIAL);
+       }
+  "\\circustoolsoff"
+       {
+         yybegin(YYINITIAL);
+         reportError(ErrorType.ERROR,
+                     CircusParseMessage.MSG_UNMATCHED_CIRCUSTOOLS_OFF,
+                     yytext(), null);
+       }
+  {NL}
+       {
+         // do nothing
+         //
+         //String result = addSpace();
+         //result += yytext();
+         //return result(result);
+       }
+  ({LETTER} | [0-9])*
+        {
+          // do nothing
+         //
+         //String result = addSpace();
+         //result += yytext();
+         //return result(result);
+        }
+  .
+        {
+          // do nothing
+         //
+         //String result = addSpace();
+         //result += yytext();
+         //return result(result);
+        }
+}
+</add:circus>
 
 &lt;ERROR&gt; {
   .
