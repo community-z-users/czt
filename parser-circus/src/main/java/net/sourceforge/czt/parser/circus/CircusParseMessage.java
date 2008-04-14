@@ -56,7 +56,7 @@ public enum CircusParseMessage {
   MSG_INVALID_CIRCUS_PARA_IN_ZED("Invalid Circus ''{0}'' paragraph within ZED environment. It must be declared within a ''{1}'' environment."),      
   MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon."),
   
-  MSG_COMMPATTERN_NOT_RECOGNISED("Channel or field name ''{0}'' in communication pattern could not be recognised"),
+  MSG_COMMPATTERN_NOT_RECOGNISED("Channel or field name ''{0}'' in communication pattern could not be recognised. This is an error within the nearest prefix action."),
   MSG_COMMPATTERN_PREFIXCOLON_NOT_RECOGNISED("Possible missing parenthesis around predicate for input field ''{0}''"),
   MSG_CIRCNAME_DOESNOT_ALLOW_STROKES("Circus name ''{0}'' does not accept strokes."),
   
