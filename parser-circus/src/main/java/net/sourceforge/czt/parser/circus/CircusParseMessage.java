@@ -70,8 +70,10 @@ public enum CircusParseMessage {
 //      "\n\tSymbol..: {3}",
     "\n\tThe number of fields in a communication pattern is determined by the right scanning " +
     "\n\tof tokens, and a mismatch has been found. This usually happens due to missing parenthesis " +
-    "\n\tin output field expressions, input field restriction predicates, or field separators with fields.")
+    "\n\tin output field expressions, input field restriction predicates, or field separators with fields."),
     //+ "\n\tIf the counters are negative, some processing error must have occurred at the SmartScanner.")
+    
+  MSG_UNMATCHED_CIRCUSTOOLS_OFF("Missing ''\\circtoolson'' - nesting of tool flag switch is not allowed.")
   ;    
   
   private final String message_;
