@@ -17,6 +17,7 @@ package net.sourceforge.czt.typecheck.circus;
 
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.ActionType;
+import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.NameSetPara;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
@@ -25,7 +26,7 @@ import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
-import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
+import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.SignatureAnn;
@@ -48,12 +49,12 @@ import net.sourceforge.czt.z.visitor.ParaVisitor;
  * 
  * @author leo
  */
-public class BasicProcessChecker extends Checker<Signature>
+public class BasicProcessChecker extends Checker<CircusCommunicationList>
   implements
-  ParaVisitor<Signature>,
-  ActionParaVisitor<Signature>,
-  NameSetParaVisitor<Signature>,
-  TransformerParaVisitor<Signature>
+  ParaVisitor<CircusCommunicationList>,
+  ActionParaVisitor<CircusCommunicationList>,
+  NameSetParaVisitor<CircusCommunicationList>,
+  TransformerParaVisitor<CircusCommunicationList>
 {
 
   private boolean processedState_;
@@ -145,7 +146,7 @@ public class BasicProcessChecker extends Checker<Signature>
     error(term, ErrorMessage.BASIC_PROCESS_PARA_WRONG_TYPE, params);
   }
   
-  public Signature visitPara(Para term)
+  public CircusCommunicationList visitPara(Para term)
   {
     checkBPSignature(term);
     
@@ -173,11 +174,11 @@ public class BasicProcessChecker extends Checker<Signature>
     
     // added by ParaChecker within ProcessParaChecker
     // addSignatureAnn(term, paraSig);    
-    return paraSig;
+    return factory().createEmptyCircusCommunicationList();
   }
 
   @Override
-  public Signature visitActionPara(ActionPara term)
+  public CircusCommunicationList visitActionPara(ActionPara term)
   {
     checkBPSignature(term);
     
@@ -186,11 +187,16 @@ public class BasicProcessChecker extends Checker<Signature>
     assert paraSig.getNameTypePair().size() == 1 : 
       "too many pairs in process para checker signature result";          
 
+    CircusCommunicationList commList = factory().createEmptyCircusCommunicationList();
+    
     Type2 type = getType2FromAnns(term);
     if (type instanceof ActionType)
     {   
       ActionType aType = (ActionType)type;
-
+      CircusCommunicationList actionComms = factory().deepCloneTerm(
+        aType.getActionSignature().getUsedCommunications());
+      commList.addAll(actionComms);
+      
       // get the action signature for this basic process
       // TODO:? unify paraSig with term's? nah. leave it
       basicProcessSig_.getActionSignatures().add(
@@ -204,11 +210,11 @@ public class BasicProcessChecker extends Checker<Signature>
     // for action para this will contain one element with the action name.
     //addSignatureAnn(term, paraSig);
     
-    return paraSig;
+    return commList;
   }  
   
   @Override
-  public Signature visitNameSetPara(NameSetPara term)
+  public CircusCommunicationList visitNameSetPara(NameSetPara term)
   {
     checkBPSignature(term);
     
@@ -229,11 +235,11 @@ public class BasicProcessChecker extends Checker<Signature>
     }    
     
     //addSignatureAnn(term, paraSig);
-    return paraSig;
+    return factory().createEmptyCircusCommunicationList();
   }
 
   @Override
-  public Signature visitTransformerPara(TransformerPara term)
+  public CircusCommunicationList visitTransformerPara(TransformerPara term)
   {
     checkBPSignature(term);
     
@@ -255,6 +261,6 @@ public class BasicProcessChecker extends Checker<Signature>
     
     // added by ParaChecker, which is called within ProcessParaChecker
     // addSignatureAnn(term, paraSig);
-    return paraSig;
+    return factory().createEmptyCircusCommunicationList();
   }
 }

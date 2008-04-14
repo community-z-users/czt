@@ -256,6 +256,8 @@ public class ParaChecker
     return signature;
   }
   
+  List<ProcessType> pTypeList_ = new java.util.ArrayList<ProcessType>();
+  
   /**
    * <p>
    * First, it extracts the process name and declaration
@@ -306,7 +308,7 @@ public class ParaChecker
     
     ProcessSignature pSig = factory().createEmptyProcessSignature();
     pSig.setGenFormals(pGenFormals);
-    pSig.setProcessName(pName);
+    //pSig.setProcessName(pName);
     
     // set current process name being checked.
     // this opens a process para scope, which is cleared at the end.    
@@ -333,6 +335,7 @@ public class ParaChecker
     
     // create the process type with corresponding signature.
     ProcessSignature currentSig = processChecker().getCurrentProcessSignature();
+    currentSig.setProcessName(getCurrentProcessName());
     //currentSig = factory().deepCloneTerm(currentSig);
 
     // clears the process para scope.
@@ -343,7 +346,7 @@ public class ParaChecker
        
     ProcessType procType = factory().createProcessType(currentSig);    
     Type gProcType = addGenerics(procType);
-    
+    pTypeList_.add(procType);
     Signature result = wrapTypeAndAddAnn(pName, gProcType, term);
     
     // close environment scopes.    

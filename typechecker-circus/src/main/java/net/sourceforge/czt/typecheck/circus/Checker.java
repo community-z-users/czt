@@ -1522,7 +1522,7 @@ public abstract class Checker<R>
     //  ZUtils.namesEqual(getCurrentProcessName(), psig.getName()) : "resolved process signature is set to a different process than the one currently in scope";
 
     // sets the process name within the signature
-    psig.setProcessName(getCurrentProcessName());
+    //psig.setProcessName(getCurrentProcessName());
 
     // retrieve signature ann within the term.
     ProcessSignatureAnn psigAnn = (ProcessSignatureAnn) term.getAnn(ProcessSignatureAnn.class);

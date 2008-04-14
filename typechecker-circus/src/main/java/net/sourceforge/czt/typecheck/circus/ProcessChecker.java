@@ -198,8 +198,8 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     ProcessSignature paramSignature = factory().createParamProcessSignature(factory().
         createSignature(gParams), factory().createProcessSignatureList(factory().list(currentSignature)),
         (putDeclsIntoScope ? CallUsage.Parameterised : CallUsage.Indexed));        
-    paramSignature.setGenFormals(currentSignature.getGenFormals());
-    paramSignature.setProcessName(currentSignature.getProcessName());        
+    paramSignature.setGenFormals(factory().createZNameList(typeEnv().getParameters()));
+    //paramSignature.setProcessName(getCurrentProcessName());        
     if (iterated)
     {
       // iterated processes do not have parameters - hence should not be part of signature
@@ -216,22 +216,22 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
   protected CircusCommunicationList typeCheckParProcess(ParProcess term,
     List<ChannelSet> channelSets)
   { 
-    // typecheck inner processes
-    CircusCommunicationList commList = visitProcess2(term);
-
     // within the ProcessChecker, it must be for an process use rather than at declaration point.
     List<Object> errorParams = getChannelSetErrorParams();
 
-    // check the channel sets
+    // check the channel sets - do it first so that processSig_ won't be basic
     for (ListIterator<ChannelSet> lit =
       channelSets.listIterator(channelSets.size());
       lit.hasPrevious();)
     {
       ChannelSet cs = lit.previous();
       ChannelSetType cst = typeCheckChannelSet(cs, errorParams);      
-      checkProcessSignatureNotBasic(term);      
       GlobalDefs.addNoDuplicates(0, cs, processSig_.getCircusProcessChannelSets());
-    }
+    }    
+
+    // typecheck inner processes - do each side latter to allow right settling of (possibly basic) signatures
+    CircusCommunicationList commList = visitProcess2(term);
+
     return commList;
   }
 
@@ -292,12 +292,12 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     PSigResolution pSigResolution = PSIG_MATRIX[processSig_.isBasicProcessSignature() ? 1 : 0][pSig.isBasicProcessSignature() ? 1 : 0];    
     switch(pSigResolution)
     {
-      case Both:
+      case Both:        
         processSig_.setStateSignature(pSig.getStateSignature());
         processSig_.getBasicProcessLocalZSignatures().addAll(pSig.getBasicProcessLocalZSignatures());
-        processSig_.getActionSignatures().addAll(pSig.getActionSignatures());
+        processSig_.getActionSignatures().addAll(pSig.getActionSignatures());                 
         break;
-      case Current:                
+      case Current:     
         if (processSig_.isEmptyProcessSignature())
         {
           // if empty, just consider the given one
@@ -307,7 +307,7 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
         {
           // otherwise, clone current and create new processSig_.
           ProcessSignature newPSig = factory().createEmptyProcessSignature();
-          newPSig.setProcessName(processSig_.getProcessName());
+          //newPSig.setProcessName(processSig_.getProcessName());
           newPSig.setGenFormals(processSig_.getGenFormals());          
           newPSig.getProcessSignatures().add(processSig_);
           GlobalDefs.addAllNoDuplicates(pSig.getProcessSignatures(), newPSig.getProcessSignatures());
@@ -339,6 +339,15 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     assert !processSig_.getFormalParamsOrIndexes().getNameTypePair().isEmpty() 
       : "cannot add implicit channels for indexed process without indexes";
      
+    ProcessSignature indexedSignature = processSig_;//factory().deepCloneTerm(processSig_);
+    
+    // set the process name as current because we need it for getUsedChannels()    
+    boolean resetToNull = indexedSignature.getProcessName() == null;
+    if (resetToNull)
+    {
+      indexedSignature.setProcessName(getCurrentProcessName());
+    }
+    
     // resolve any mutual recursion so that 
     // communication list can be collected fully
     if (needPostCheck())
@@ -346,25 +355,17 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
       postCheck();
       
       // update communication list after post check
-      GlobalDefs.addAllNoDuplicates(processSig_.getUsedCommunicationsAsList(), commList);
+      GlobalDefs.addAllNoDuplicates(indexedSignature.getUsedCommunicationsAsList(), commList);
     }
     
     // build the extended NameTypePair information
-    List<NameTypePair> indexes = processSig_.getFormalParamsOrIndexes().getNameTypePair();      
+    List<NameTypePair> indexes = indexedSignature.getFormalParamsOrIndexes().getNameTypePair();      
     String extendedName = "";
     ProdType extendedType = factory().createProdType(factory().<Type2>list());
     for(NameTypePair ntp : indexes)
     {
       extendedName = "\\_" + ntp.getZName().getWord();
       extendedType.getType().add(GlobalDefs.unwrapType(ntp.getType()));
-    }
-    
-    ProcessSignature indexedSignature = processSig_;//factory().deepCloneTerm(processSig_);
-    
-    // set the process name as current because we need it for getUsedChannels()    
-    if (indexedSignature.getProcessName() == null)
-    {
-      indexedSignature.setProcessName(getCurrentProcessName());
     }
     
     // for each signature of each inner process or action of this indexed process,
@@ -400,6 +401,10 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
         // add it to the local scope for this process
         typeEnv().add(ntp);  
       }      
+    }
+    if (resetToNull)
+    {
+      indexedSignature.setProcessName(null);
     }
     setCurrentProcessSignature(indexedSignature);
   }
@@ -456,14 +461,16 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
 
     // sets the visitor current signature as the preocess signature        
     ProcessSignature bpSig = factory().createEmptyProcessSignature();
-    bpSig.setProcessName(getCurrentProcessName());
+    //bpSig.setProcessName(getCurrentProcessName());
     bpSig.setGenFormals(factory().createZNameList(typeEnv().getParameters()));        
     basicProcessChecker().setCurrentBasicProcessSignature(bpSig);
     
+    CircusCommunicationList commList = factory().createEmptyCircusCommunicationList();
+    
     for (Para para : term)
-    {
-      // check and fill the basic process signature
-      Signature paraSig = para.accept(basicProcessChecker());
+    {      
+      CircusCommunicationList paraCommList = para.accept(basicProcessChecker());
+      GlobalDefs.addAllNoDuplicates(paraCommList, commList);
     }
 
     // for mutually recursive actions.
@@ -476,11 +483,9 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     }
     
     // clear the visitor's current signature.
-    basicProcessChecker().setCurrentBasicProcessSignature(null);
-    
-    CircusCommunicationList commList = factory().createCircusCommunicationList(bpSig.getUsedCommunicationsAsList());           
-    updateCurrentProcessSignature(bpSig);
-    
+    updateCurrentProcessSignature(basicProcessChecker().getCurrentBasicProcesssignature());
+    basicProcessChecker().setCurrentBasicProcessSignature(null);        
+        
     // no sig annotation need to be added here.
     return commList;
   }
@@ -583,8 +588,11 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     if (type instanceof ProcessType)
     {      
       ProcessSignature procSig = GlobalDefs.processType(type).getProcessSignature();
-      GlobalDefs.addAllNoDuplicates(procSig.getUsedCommunicationsAsList(), commList);
-      commList = factory().deepCloneTerm(commList);
+      procSig = factory().deepCloneTerm(procSig);
+      procSig.setProcessName(call);
+      CircusCommunicationList callCommList = factory().createCircusCommunicationList(procSig.getUsedCommunicationsAsList());
+      //callCommList = factory().deepCloneTerm(callCommList);
+      GlobalDefs.addAllNoDuplicates(callCommList, commList);      
       updateCurrentProcessSignature(procSig);
     }        
     return commList;
@@ -602,16 +610,15 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     // check within an process paragraph scope.
     checkProcessParaScope(term, null);
 
+    // typecheck and update channel sets used
     ChannelSet cs = term.getChannelSet();
     ChannelSetType csType = typeCheckChannelSet(cs, getChannelSetErrorParams());
+    GlobalDefs.addNoDuplicates(0, cs, processSig_.getCircusProcessChannelSets()); 
 
     // check the process itself and add signature
     CircusCommunicationList commList = term.getCircusProcess().accept(processChecker());
 
-    // update name sets used    
     checkProcessSignatureNotBasic(term);
-    GlobalDefs.addNoDuplicates(0, cs, processSig_.getCircusProcessChannelSets()); 
-
     return commList;
   }
 
@@ -627,13 +634,39 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     // check within an process paragraph scope.
     checkProcessParaScope(term, null);
 
-    // check each side
+    // check each side    
+    ProcessSignature leftSignature = factory().createEmptyProcessSignature();
+    ProcessSignature currentSignature = setCurrentProcessSignature(leftSignature);
+    assert currentSignature != null : "current signature is null for binary process " + term;    
     CircusCommunicationList commListL = term.getLeftProcess().accept(processChecker());
+    
+    ProcessSignature rightSignature = factory().createEmptyProcessSignature();
+    ProcessSignature processedLeftSignature = setCurrentProcessSignature(rightSignature);
+    assert processedLeftSignature == leftSignature : "inconsistent left signature of binary process " + term;
     CircusCommunicationList commListR = term.getRightProcess().accept(processChecker());
-
+    
+    // merge communications
     CircusCommunicationList result = factory().createCircusCommunicationList(commListR);
     GlobalDefs.addAllNoDuplicates(0, commListL, result);    
-    
+        
+    // update current signature with both sides
+    ProcessSignature processedRightSignature = setCurrentProcessSignature(currentSignature);
+    assert processedRightSignature == rightSignature : "inconsistent right signature of binary process " + term;
+    if (currentSignature.isEmptyProcessSignature())
+    {
+      // empty signatures are most common for process2, except for hiding and parallelism
+      // to avoid merging two basic processes into one, directly update here.
+      processSig_.getProcessSignatures().add(processedLeftSignature);
+      processSig_.getProcessSignatures().add(processedRightSignature);
+    }
+    else 
+    {
+      // otherwise, just follow the usual update protocol.
+      updateCurrentProcessSignature(processedLeftSignature);
+      updateCurrentProcessSignature(processedRightSignature);
+    }
+        
+    checkProcessSignatureNotBasic(term);
     return result;
   }
 
