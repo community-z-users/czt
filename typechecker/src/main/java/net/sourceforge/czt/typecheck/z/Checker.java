@@ -1788,8 +1788,8 @@ abstract public class Checker<R>
       ZName testName = factory().createZName(zName, false);
       ZStrokeList sl = testName.getZStrokeList();
       sl.remove(sl.size() - 1);
-      if (exprChecker().getType(testName) != null) {
-	errorAnn.setInfo(ErrorMessage.SPACE_NEEDED.toString());
+      if (exprChecker().getType(testName) != null) {        
+        errorAnn.setInfo(ErrorAnn.getStringFromResourceBundle(ErrorMessage.SPACE_NEEDED.toString()));
       }
     }
     return errorAnn;

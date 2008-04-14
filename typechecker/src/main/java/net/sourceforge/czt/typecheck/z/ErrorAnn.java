@@ -156,6 +156,11 @@ public class ErrorAnn
     MessageFormat form = new MessageFormat(localised);
     return form.format(formatted);
   }
+  
+  public static String getStringFromResourceBundle(String key)
+  {
+    return RESOURCE_BUNDLE.getString(key);
+  }
 
   public String toString()
   {
