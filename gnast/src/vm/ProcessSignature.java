@@ -50,11 +50,14 @@
 
   /**
    * This is a convenience method. It represents the list of used channel sets by
-   * non-basic processes, such as parallel and hiding processes.
+   * non-basic processes, such as parallel and hiding processes. Basic processes 
+   * always return an empty list. isBasicProcessSignature() is not part of the 
+   * precondition to simplify the type checking rules for these processes and 
+   * avoid a chicken-and-egg problem.
    * It returns the CircusChannelSetList if getProcessChannelSets() is an instance of
    * CircusChannelSetList and throws an UnsupportedAstClassException otherwise.
    * 
-   * PRE: !isBasicProcessSignature() && (getProcessChannelSets() instanceof CircusChannelSetList)
+   * PRE: (getProcessChannelSets() instanceof CircusChannelSetList)
    * 
    * @return (CircusChannelSetList)getProcessChannelSets()
    */
@@ -142,12 +145,12 @@
 
   /**
    * Returns true whether or not this signature is for a basic process or not. 
-   * That is, if the getProcessSignatures().isEmpty(). All auxiliary methods 
-   * below with a Map result are always empty when isBasicProcessSignature() 
+   * That is, if both the inner process signatures and process channel set lists are empty.
+   * All auxiliary methods below with a Map result are always empty when isBasicProcessSignature() 
    * is not true. That is to say, only collect action signature information from
    * basic processes. 
    * 
-   * @return getProcessSignatures().isEmpty()
+   * @return getProcessSignatures().isEmpty() && getCircusProcessChannelSets().isEmpty();
    */
   boolean isBasicProcessSignature();
   

@@ -17,7 +17,7 @@
   public net.sourceforge.czt.circus.ast.CircusChannelSetList getCircusProcessChannelSets()
   {
     // DESIGN: leave it as assertions - as these are pre conditions, we can assume them - don't raise errors
-    assert !isBasicProcessSignature() : "basic processes do not have process channels";
+    // assert !isBasicProcessSignature() : "basic processes do not have process channels";
     net.sourceforge.czt.circus.ast.ChannelSetList channelSets = getProcessChannelSets();
     if (channelSets instanceof net.sourceforge.czt.circus.ast.CircusChannelSetList) {
       return (net.sourceforge.czt.circus.ast.CircusChannelSetList) channelSets;
@@ -97,7 +97,7 @@
 
   public boolean isBasicProcessSignature()
   {
-    return getProcessSignatures().isEmpty();
+    return getProcessSignatures().isEmpty() && getCircusProcessChannelSets().isEmpty();
   }  
   
   public boolean isEmptyProcessSignature()
