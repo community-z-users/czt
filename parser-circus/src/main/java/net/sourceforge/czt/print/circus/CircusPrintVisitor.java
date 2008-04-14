@@ -143,6 +143,11 @@ public class CircusPrintVisitor
         warningManager_.warn(cpm.getMessage(), arguments);
     }
     
+    private void warnUnexpectedTerm(Term term)
+    {
+      warn(CircusPrintMessage.MSG_UNEXPECTED_TERM, term);
+    }
+    
     private void warnMissingFor(String msg, BasicProcess term) {
         warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
     }
@@ -250,7 +255,9 @@ public class CircusPrintVisitor
     }
     
     public Term visitBasicProcess(BasicProcess term) {
-        throw new PrintException("Unexpected term BasicProcess");
+      warnUnexpectedTerm(term);
+      return null;
+        //throw new PrintException("Unexpected term BasicProcess");
     /*
     processedState_ = false;
     boolean hasState = (term.getStatePara() != null);
@@ -521,7 +528,9 @@ public class CircusPrintVisitor
      ***********************************************************/
     
     public Object visitActionPara(ActionPara term) {
-        throw new PrintException("Unexpected term ActionPara");
+      warnUnexpectedTerm(term);
+      return null;
+        //throw new PrintException("Unexpected term ActionPara");
    /* print(CircusToken.CIRCUSACTION);
     if (CircusUtils.isStatePara(term)) {
         if (processedState_) {
@@ -903,48 +912,62 @@ public class CircusPrintVisitor
      ***********************************************************/
     
     public Object visitChannelSetType(ChannelSetType term) {
-        throw new UnsupportedOperationException("Unexpected term ChannelSetType.");
+        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ChannelSetType.");
+        return null;
     }
     
     public Object visitProcessType(ProcessType term) {
-        throw new UnsupportedOperationException("Unexpected term ProcessType.");
+        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessType.");
+        return null;
     }
     
     public Object visitActionType(ActionType term) {
-        throw new UnsupportedOperationException("Unexpected term ActionType.");
+        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionType.");
+        return null;
     }
     
     public Object visitNameSetType(NameSetType term) {
-        throw new UnsupportedOperationException("Unexpected term NameSetType.");
+        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term NameSetType.");
+        return null;
     }
     
     public Object visitChannelType(ChannelType term) {
-        throw new UnsupportedOperationException("Unexpected term ChannelType.");
+        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ChannelType.");
+        return null;
     }
     
     public Object visitProcessSignature(ProcessSignature term) {
-        throw new UnsupportedOperationException("Unexpected term ProcessSignature.");
+        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignature.");
+        return null;
     }
     
     public Object visitActionSignature(ActionSignature term) {
-        throw new UnsupportedOperationException("Unexpected term ActionSignature.");
+        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignature.");
+        return null;
     }
     
     public Object visitCircusStateAnn(CircusStateAnn term) {
-        throw new UnsupportedOperationException("Unexpected term CircusStateAnn.");
+        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusStateAnn.");
+        return null;
     }
     
     public Object visitOnTheFlyDefAnn(OnTheFlyDefAnn term) {
         /* TODO: Annotations need special treatment, see ZPrintVisitor */
-        throw new UnsupportedOperationException("Unexpected term OnTheFlyDefAnn.");
+        //throw new UnsupportedOperationException("Unexpected term OnTheFlyDefAnn.");
+      warnUnexpectedTerm(term);
+      return null;
     }
     
     public Object visitLetMuAction(LetMuAction term) {
-        throw new UnsupportedOperationException("Unexpected term LetMuAction.");
+        //throw new UnsupportedOperationException("Unexpected term LetMuAction.");
+      warnUnexpectedTerm(term);
+      return null;
     }
     
     public Object visitLetVarAction(LetVarAction term) {
-        throw new UnsupportedOperationException("Unexpected term LetVarAction.");
+        //throw new UnsupportedOperationException("Unexpected term LetVarAction.");
+      warnUnexpectedTerm(term);
+      return null;
     }
     
     /***********************************************************
@@ -1018,7 +1041,9 @@ public class CircusPrintVisitor
     }
     
     public Object visitSigmaExpr(SigmaExpr term) {
-        throw new UnsupportedOperationException("not yet!");
+        //throw new UnsupportedOperationException("not yet!");
+      warnUnexpectedTerm(term);
+      return null;
     }
     
     public Object visitNameSetPara(NameSetPara term) {
@@ -1036,78 +1061,95 @@ public class CircusPrintVisitor
 
   public Object visitImplicitChannelAnn(ImplicitChannelAnn term)
   {
-    throw new UnsupportedOperationException("Unexpected term ImplicitChannelAnn.");
+    //throw new UnsupportedOperationException("Unexpected term ImplicitChannelAnn.");
+    warnUnexpectedTerm(term);
+    return null;
   }
 
   public Object visitZSignatureList(ZSignatureList term)
   {
-    throw new UnsupportedOperationException("Unexpected term ZSignatureList.");
+    //throw new UnsupportedOperationException("Unexpected term ZSignatureList.");
+    warnUnexpectedTerm(term);
+    return null;
   }
 
   public Object visitCircusActionList(CircusActionList term)
   {
-    throw new UnsupportedOperationException("Unexpected term CircusActionList.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusActionList.");
+    return null;
   }
 
   public Object visitActionSignatureList(ActionSignatureList term)
   {
-    throw new UnsupportedOperationException("Unexpected term ActionSignatureList.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignatureList.");
+    return null;
   }
 
   public Object visitProcessSignatureList(ProcessSignatureList term)
   {
-    throw new UnsupportedOperationException("Unexpected term ProcessSignatureList.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignatureList.");
+    return null;
   }
 
   public Object visitCircusCommunicationList(CircusCommunicationList term)
   {
-    throw new UnsupportedOperationException("Unexpected term CircusCommunicationList.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusCommunicationList.");
+    return null;
   }
   public Object visitStateUpdate(StateUpdate term)
   {
-    throw new UnsupportedOperationException("Unexpected term StateUpdate.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term StateUpdate.");
+    return null;
   }
   public Object visitStateUpdateAnn(StateUpdateAnn term)
   {
-    throw new UnsupportedOperationException("Unexpected term StateUpdateAnn.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term StateUpdateAnn.");
+    return null;
   }
 
   public Object visitProcessSignatureAnn(ProcessSignatureAnn term)
   {
-    throw new UnsupportedOperationException("Unexpected term ProcessSignatureAnn.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignatureAnn.");
+    return null;
   }
 
   public Object visitActionSignatureAnn(ActionSignatureAnn term)
   {
-    throw new UnsupportedOperationException("Unexpected term ActionSignatureAnn.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignatureAnn.");
+    return null;
   }
   
   public Object visitCommunicationType(CommunicationType term)
   {
-    throw new UnsupportedOperationException("Unexpected term CommunicationType.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CommunicationType.");
+    return null;
   }
 
   @Override
   public Object visitOutputFieldAnn(OutputFieldAnn term)
   {
-    throw new UnsupportedOperationException("Unexpected term OutputFieldAnn.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term OutputFieldAnn.");
+    return null;
   }
 
   @Override
   public Object visitProofObligationAnn(ProofObligationAnn term)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Not supported yet.");
+    return null;
   }
 
   @Override
   public Object visitCircusNameSetList(CircusNameSetList term)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Not supported yet.");
+    return null;
   }
 
   @Override
   public Object visitCircusChannelSetList(CircusChannelSetList term)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Not supported yet.");
+    return null;
   }
 }
