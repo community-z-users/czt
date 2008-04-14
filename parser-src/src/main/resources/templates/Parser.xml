@@ -1500,6 +1500,18 @@ action code
 parser code
 {:
     private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+    
+    <add:circus>
+    //static {
+    //  System.err.println("Symbol table mapping:");
+    //  java.util.Iterator it = symbolMap_.entrySet().iterator();
+    //  while (it.hasNext())
+    //  {
+    //     Map.Entry entry = (Map.Entry)it.next();
+    //     System.err.println("\t#" + entry.getKey() + " = " + entry.getValue());
+    //  }    
+    //}
+    </add:circus>
 
     public Symbol parse() throws java.lang.Exception
     {
@@ -2246,6 +2258,8 @@ non terminal Pred
     guard;
    
 /// Circus communication /////////////////////////////////////////////////         
+//non terminal LocString anyCircusSymbol;
+  
 non terminal Communication
     chanSetComm,
     communication;
@@ -3548,7 +3562,7 @@ channelPara ::=
            addLocAnn(RESULT, getLocation(chanf, cfdl.get(cfdl.size()-1)));
         :} 
         |
-        CIRCCHAN:chan error:e 
+        CIRCCHAN:chan error:e END
         {: 
            RESULT = factory_.createChannelPara(factory_.createZDeclList());
            addLocAnn(RESULT, getLocation(eleft, eright));
@@ -3556,7 +3570,7 @@ channelPara ::=
               new Object[0], getLocation(eleft, eright));           
         :}
         |
-        CIRCCHANFROM:chanf error:e 
+        CIRCCHANFROM:chanf error:e END
         {: 
            RESULT = factory_.createChannelPara(factory_.createZDeclList());
            addLocAnn(RESULT, getLocation(eleft, eright));
@@ -3634,7 +3648,7 @@ channelDecl ::=
 	:} 
         /* Generically defined typed channels with type error */
         |
-        formalParameters:fp circusDeclWordList:cdwl COLON:c error:e optNL
+        formalParameters:fp circusDeclWordList:cdwl COLON:c error:e END
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
@@ -3642,7 +3656,7 @@ channelDecl ::=
           addLocAnn(RESULT, getLocation(fp, getLocation(eleft, eright)));
         :}
         |
-        formalParameters:fp circusDeclWordList:cdwl error:e optNL
+        formalParameters:fp circusDeclWordList:cdwl error:e END
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
@@ -3651,7 +3665,7 @@ channelDecl ::=
         :} 
         |
         /* Typec channels with type error */
-        circusDeclWordList:cdwl COLON:c error:e optNL
+        circusDeclWordList:cdwl COLON:c error:e END
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
@@ -3661,7 +3675,7 @@ channelDecl ::=
         :}
         |
         /* This production covers just name lists, see channel-errors.tex*/
-        circusDeclWordList:cdwl error:e optNL
+        circusDeclWordList:cdwl error:e END
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
@@ -3706,7 +3720,7 @@ channelSetPara ::=
            addLocAnn(RESULT, getLocation(ccs, cs));
         :}      
         |
-        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error:e optNL
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error:e END
         {: 
            RESULT = factory_.createChannelSetPara(ofp, n, null);
            addLocAnn(RESULT, getLocation(ccs, n));
@@ -3715,7 +3729,7 @@ channelSetPara ::=
 
         :}
         |
-        CIRCCHANSET:ccs optFormalParameters:ofp name:n error:e optNL
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n error:e END
         {: 
            RESULT = factory_.createChannelSetPara(ofp, n, null);
            addLocAnn(RESULT, getLocation(ccs, n));
@@ -3723,7 +3737,7 @@ channelSetPara ::=
               new Object[0], getLocation(eleft, eright));
         :}
         |
-        CIRCCHANSET:ccs optFormalParameters:ofp error:e optNL
+        CIRCCHANSET:ccs optFormalParameters:ofp error:e END
         {: 
            RESULT = factory_.createChannelSetPara(ofp, null, null);
            addLocAnn(RESULT, getLocation(ccs, ofp.get(ofp.size()-1)));
@@ -3735,7 +3749,7 @@ channelSetPara ::=
                  and using formalParameters instead. That is one with formalParameters and
                  one without it. 
         |
-        CIRCCHANSET:ccs error:e optNL
+        CIRCCHANSET:ccs error:e END
         {: 
            RESULT = factory_.createChannelSetPara();
            addLocAnn(RESULT, getLocation(ccs));
@@ -3862,7 +3876,7 @@ processPara ::=
         /*
         THESE ERROR PRODUCTIONS TURN OUT TO BE NOT HELPFUL
         |        
-        CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF error:e
+        CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF error:e END
         {: 
            RESULT = factory_.createProcessPara(n, ofp, factory_.createBasicProcess(factory_.createZParaList()));
            addLocAnn(RESULT, getLocation(cp, n));           
@@ -3870,7 +3884,7 @@ processPara ::=
               new Object[] { "process paragraph" }, getLocation(eleft, eright));
         :}
         |
-        CIRCPROC:cp optFormalParameters:ofp name:n error:e
+        CIRCPROC:cp optFormalParameters:ofp name:n error:e END
         {: 
            RESULT = factory_.createProcessPara(n, ofp, factory_.createBasicProcess(factory_.createZParaList()));
            addLocAnn(RESULT, getLocation(cp, n));
@@ -3878,7 +3892,7 @@ processPara ::=
               new Object[0], getLocation(eleft, eright));
         :}
         |
-        CIRCPROC:cp optFormalParameters:ofp error:e
+        CIRCPROC:cp optFormalParameters:ofp error:e END
         {: 
            RESULT = factory_.createProcessPara(null, ofp, factory_.createBasicProcess(factory_.createZParaList()));
            addLocAnn(RESULT, getLocation(cp, ofp.get(ofp.size()-1)));
@@ -3890,7 +3904,7 @@ processPara ::=
                  and using formalParameters instead. That is one with formalParameters and
                  one without it. 
         |
-        CIRCPROC:cp error:e
+        CIRCPROC:cp error:e END
         {: 
            RESULT = factory_.createProcessPara();           
            addLocAnn(RESULT, getLocation(cp));
@@ -3998,7 +4012,7 @@ paramProcess ::=
          * error_count threshold).
          */
         |
-        circusParamDeclList:dp CIRCSPOT:sp error:e
+        circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createParamProcess(null, dp);
             addLocAnn(RESULT, getLocation(eleft, eright));
@@ -4006,7 +4020,7 @@ paramProcess ::=
               new Object[] { "parameterised process" }, getLocation(eleft, eright));            
         :}
         |
-        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp error:e
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createInterleaveProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(ri, sp));
@@ -4015,7 +4029,7 @@ paramProcess ::=
                 getLocation(eleft, eright));            
         :}
         | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp error:e
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createParallelProcessIte(null, dp, cs);
             addLocAnn(RESULT, getLocation(rp, cs));
@@ -4024,7 +4038,7 @@ paramProcess ::=
                 getLocation(eleft, eright));            
         :}
         | 
-        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp error:e
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createIntChoiceProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(ri, sp));
@@ -4034,7 +4048,7 @@ paramProcess ::=
 
         :}
         | 
-        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp error:e
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createExtChoiceProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(re, sp));
@@ -4043,7 +4057,7 @@ paramProcess ::=
                 getLocation(eleft, eright));            
         :}
         | 
-        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp error:e
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createSeqProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(rs, sp));
@@ -4105,7 +4119,7 @@ indexedProcess ::=
          * error_count threshold).
          */
         |
-        circusParamDeclList:dp CIRCINDEX:ci error:e
+        circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createIndexedProcess(null, dp);
             addLocAnn(RESULT, getLocation(eleft, eright));
@@ -4113,7 +4127,7 @@ indexedProcess ::=
               new Object[] { "parameterised indexed process" }, getLocation(eleft, eright));            
         :}
         |         
-        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci error:e
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createInterleaveProcessIdx(null, dp);
             addLocAnn(RESULT, getLocation(ri, ci));
@@ -4122,7 +4136,7 @@ indexedProcess ::=
                 getLocation(eleft, eright));            
         :}
         | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci error:e
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createParallelProcessIdx(null, dp, cs);
             addLocAnn(RESULT, getLocation(rp, cs));
@@ -4131,7 +4145,7 @@ indexedProcess ::=
                 getLocation(eleft, eright));            
         :}
         | 
-        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci error:e
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createIntChoiceProcessIdx(null, dp);
             addLocAnn(RESULT, getLocation(ri, ci));
@@ -4140,7 +4154,7 @@ indexedProcess ::=
                 getLocation(eleft, eright));                        
         :}
         | 
-        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci error:e
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createExtChoiceProcessIdx(null, dp);
             addLocAnn(RESULT, getLocation(re, ci));
@@ -4149,7 +4163,7 @@ indexedProcess ::=
                 getLocation(eleft, eright));                        
         :}
         | 
-        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci error:e
+        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createSeqProcessIdx(null, dp);
             addLocAnn(RESULT, getLocation(rs, ci));
@@ -4310,7 +4324,13 @@ parenthesisedProcess ::=
         {:
            addParenthesisAnn(lp, p, rp);
            RESULT = p;
-        :}  
+        :}
+        |
+        LPAREN:lp paramProcess:pp RPAREN:rp
+        {:
+           addParenthesisAnn(lp, pp, rp);
+           RESULT = pp;
+        :}        
         |
         /* Non-generic on-the-fly parameterised process call */
         LPAREN:lp1 paramProcess:pp RPAREN:rp1 actualParameters:ap
@@ -4335,6 +4355,12 @@ parenthesisedProcess ::=
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn), 
                 ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Parameterised);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
+        :}
+        |
+        LPAREN:lp indexedProcess:ip RPAREN:rp
+        {:
+           addParenthesisAnn(lp, ip, rp);
+           RESULT = ip;
         :}
         |
         /* Non-generic on-the-fly indexed process call */
@@ -4965,7 +4991,7 @@ cspAction ::=
         :} %prec _RENAME          
         /* tHIS ERROR production is innocous :-(
         |
-        communication:comm error:e
+        communication:comm error:e END
         {:
             LocInfo loc = getLocation(comm);
             RESULT = factory_.createPrefixingAction(factory_.createSkipAction(), comm);
@@ -4997,7 +5023,13 @@ parenthesisedAction ::=
         {:
            addParenthesisAnn(lp, ca, rp);
            RESULT = ca;
-        :} 
+        :}
+        |
+        LPAREN:lp paramAction:pa RPAREN:rp
+        {:
+           addParenthesisAnn(lp, pa, rp);
+           RESULT = pa;
+        :}
         |
         /* On-the-fly action call */
         LPAREN:lp1 paramAction:pa RPAREN:rp1 actualParameters:el
@@ -5048,7 +5080,14 @@ communication ::=
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
-        CHANNELERROR:ce error:e
+        /* 
+         * The channel error token is converted from DECORWORD by the smart scanner.
+         * And that happens only when a PREFIXTHEN has been found ahead, but the field
+         * names does not match the number of strokes. So, we can rely on PREFIXTHEN
+         * appearing after the error token. This is different from most places where
+         * error appear, in which case NL is mostly used as the lookahead token.
+         */
+        CHANNELERROR:ce error:e PREFIXTHEN
         {:
            LocInfo loc = ce.getLocation();
            RESULT = factory_.createCommunication(
@@ -5068,9 +5107,13 @@ communication ::=
             final Object[] params = { ce.getWord(), counters.getFirst(), counters.getSecond() };
             parser.report_error(CircusParseMessage.MSG_WRONG_NUMBER_FIELD_STROKES,
                                 params, loc);
-        :}
+        :}        
+        /* 
+         * This error production, with anyCircusSymbol or END, does not work as 
+         * expected. Instead, the CUP lr_parser keeps looking ahead until EOF.
+         * So, remove it for now, and fix it latter.         
         |
-        DECORWORD:dw error:e
+        DECORWORD:dw error:e anyCircusSymbol
         {:
            RESULT = factory_.createCommunication(
                 factory_.createRefExpr(createCircusName(dw)),  // channel name
@@ -5085,7 +5128,12 @@ communication ::=
             parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
                                 params, dw.getLocation());                                
         :}
+        */
         ;
+        
+//anyCircusSymbol ::=
+//        CIRCTHEN | CIRCSKIP | CIRCSTOP | CIRCSTATE | END | NL | PREFIXTHEN
+//        ;
 
 optCommFields ::=
         commFields:cf
@@ -5174,7 +5222,7 @@ commField ::=
          *
          * See the SmartScanner.pushCommPatternList for more details on this.
          */
-        CHANNELIN:in FIELDNAME:dw PREFIXCOLON error:e
+        CHANNELIN:in FIELDNAME:dw PREFIXCOLON error:e END
         {:
             RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
@@ -5183,7 +5231,7 @@ commField ::=
                                 params, dw.getLocation());                                
         :}
         |
-        CHANNELIN:in DECORWORD:dw error:e
+        CHANNELIN:in DECORWORD:dw error:e END
         {:
             RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
@@ -5192,7 +5240,7 @@ commField ::=
                                 params, dw.getLocation());                                
         :}
         |
-        CHANNELDOT:in DECORWORD:dw error:e
+        CHANNELDOT:in DECORWORD:dw error:e END
         {:
             RESULT = factory_.getCircusFactory().createDotField(
               factory_.createRefExpr(createCircusName(dw)));
@@ -5202,7 +5250,7 @@ commField ::=
                                 params, dw.getLocation());                                
         :}
         |
-        CHANNELOUT:in DECORWORD:dw error:e
+        CHANNELOUT:in DECORWORD:dw error:e END
         {:
             RESULT = factory_.getCircusFactory().createOutputField(
               factory_.createRefExpr(createCircusName(dw)));
@@ -5473,7 +5521,7 @@ varDecl ::=
            }
         :}
         |
-        declWordList:dwl COLON:colon error:error
+        declWordList:dwl COLON:colon error:e
         {:
            ZParseMessage msg = ZParseMessage.MSG_SYNTAX_ERROR_IN_VARDECL;
            parser.report_syntax_error(msg);

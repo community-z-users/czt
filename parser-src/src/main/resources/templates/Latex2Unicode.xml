@@ -454,7 +454,10 @@ WS = [\ \t\b\012] | {NL}
 /* hard spaces */
 HS = "~" | "\\," | "\\:" | "\\;" | "\\ "
   | "\\t1" | "\\t2" | "\\t3" | "\\t4" | "\\t5" | "\\t6" | "\\t7"
-  | "\\t8" | "\\t9"
+  | "\\t8" | "\\t9" 
+  <add:circus> 
+  | "\\circblockbegin" | "\\circblockend" | "\\circminipagebegin" | "\\circminipageend"
+  </add:circus>
 NOT_NL = !(![^] | {NL})
 COMMENT = "%" ~{NL}
 IGNORE = {WS} | {COMMENT}
@@ -645,7 +648,11 @@ NAME =   {NOT_LB}*
           assert ! addSpace_;
           begin("circusaction");                    
           return result(CircusString.CIRCUSACTION);
-        }        
+        }
+  "\\circnote" "{" {TEXT}* "}"
+        {
+          // do nothing
+        }
 </add:circus>
 <add:oz>
   //look ahead to see if this is a generic class
@@ -744,7 +751,7 @@ NAME =   {NOT_LB}*
         {
           String result = addSpace();
           return result(result + ZString.NLCHAR);
-        }
+        }        
   "\\end" {IGNORE}* "{theorem}"
         {
           end("theorem");
@@ -884,6 +891,10 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }        
+  "\\circnote" "{" {TEXT}* "}"
+        {
+          // do nothing
+        }
 </add:circus>
 <add:oz>
   "\\begin" {IGNORE}* "{classcom}"

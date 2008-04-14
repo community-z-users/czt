@@ -769,8 +769,19 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       tokens.addLast(currsym);
     }
     
-    // if found a Circus symbol, the result depends on what the symbol is.
-    result = (currsym.sym == Sym.PREFIXTHEN);// || currsym.sym == Sym.PREFIXCOLON);
+    if (currsym.sym == Sym.EOF)
+    {
+      result = false;
+      String symbolInfo = get_sym_info(symbol);
+      System.err.println("Hit EOF at " + symbolInfo);
+      throw new CztException("Found EOF while smart scanning symbol " + symbolInfo);
+      //ScanException("Found EOF while smart scanning symbol " + symbolInfo, symbolInfo, );
+    }
+    else
+    {
+      // if found a Circus symbol, the result depends on what the symbol is.
+      result = (currsym.sym == Sym.PREFIXTHEN);// || currsym.sym == Sym.PREFIXCOLON);
+    }
     
     // update the calling symbol to become a channel name, adding any
     // strokes to the list of tokens. Repeated strokes (i.e. c??x) will 
