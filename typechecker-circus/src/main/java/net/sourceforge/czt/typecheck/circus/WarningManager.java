@@ -136,6 +136,7 @@ public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
     ErrorAnn errorAnn = new ErrorAnn(wm.toString(), arguments, (SectionManager)sectInfo_,
       getCurrentSectName(), GlobalDefs.nearestLocAnn(term), term, markup_);
     errorAnn.setErrorType(ErrorType.WARNING);
+    errorAnn.setInfo(wm.getExplanation());
     warnErrors_.add(errorAnn);
     warn(term, wm.getFullMessage(), arguments);
   }  
