@@ -2,7 +2,10 @@
 
 \usepackage{czt}
 \usepackage{vmargin}
-\usepackage{circus}
+\usepackage[color]{circus}
+
+\newcommand{\lschexpract}{(}
+\newcommand{\rschexpract}{)}
 
 \setpapersize{A4}
 %\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
@@ -76,36 +79,40 @@ It is not a total operation because there might not be enough money.
    OutputCookie ~~==~~ OutputCookieOk \lor OutputCookieNotOk
 \end{zed}
 
-Schema expressions as actions. 
+Schema expressions as actions.
 %
 \begin{circusaction}
-    InitState ~~\circdef~~ \lschexpract [~ State~' | money' = 0 \land quantity' = cookieQuantity ~] \rschexpract 
+    InitState ~~\circdef~~ \lschexpract [~ State~' | money' = 0 \land quantity' = cookieQuantity ~] \rschexpract
 \end{circusaction}
 
 Note this will generate type error for $InputMoney$ because $x?$ is not into scope.
 %
 \[
+\mbox{\textcolor{red}{\textbf{The next line is not being parsed...}}}
     InputMoney ~~\circdef~~ \lschexpract [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~] \rschexpract
 \]
 %
 \begin{zed}
-    InputMoney ~~==~~ [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~] 
+    InputMoney ~~==~~ [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~]
 \end{zed}
 
 \begin{circusaction}
-   Input ~~\circdef~~ \lcircguard money \leq cookieValue \rcircguard  \circguard\ in~?x \then \lschexpract InputMoney \rschexpract
+   Input ~~\circdef~~ \lcircguard money \leq cookieValue \rcircguard  \circguard\ in~?x \then \lschexpract InputMoney \rschexpract \\
+   A \circdef \circmu X \circspot (\circval n: \nat \circspot X(n-1)) \\
+   F \circdef n: \nat \circspot F(2+n) \\
+   B \circdef A(2)
 \end{circusaction}
 
 \begin{circusaction}
     Output ~~\circdef~~ \lcircguard money \geq cookieValue \rcircguard \circguard\ \\
         \t1 (\circvar\ o: COOKIE \circspot \lschexpract OutputCookie \rschexpract \circseq (out~!o \then change~!money \then \Skip))
 \end{circusaction}
-    
+
 
 \begin{circusaction}
-   \t1 \circspot InitState \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X) 
+   \t1 \circspot InitState \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X)
 \end{circusaction}
-   
+
 \begin{circus}
    \circend
 \end{circus}
