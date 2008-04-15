@@ -43,6 +43,7 @@ import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.DotField;
 import net.sourceforge.czt.circus.ast.InputField;
 import net.sourceforge.czt.circus.ast.OutputFieldAnn;
+import net.sourceforge.czt.circus.ast.ParamAction;
 import net.sourceforge.czt.circus.ast.ParamProcess;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessType;
@@ -69,6 +70,7 @@ import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.CircusNameSetVisitor;
 import net.sourceforge.czt.circus.visitor.CommunicationTypeVisitor;
+import net.sourceforge.czt.circus.visitor.ParamActionVisitor;
 import net.sourceforge.czt.circus.visitor.ParamProcessVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTypeVisitor;
@@ -193,6 +195,7 @@ public class PrintVisitor
   SchExprActionVisitor<String>,
   SpecVisitor<String>,
   CallActionVisitor<String>,
+  ParamActionVisitor<String>,
   CircusCommunicationListVisitor<String>,
   Action2Visitor<String>,
   BasicActionVisitor<String>,
@@ -792,7 +795,7 @@ public class PrintVisitor
     result.append(" @ ");
     result.append(visit(term.getCircusProcess()));
     return result.toString();
-  }
+  }  
   
   public String visitCallProcess(CallProcess term)
   {
@@ -890,6 +893,15 @@ public class PrintVisitor
     return (isOutputField ? "!" : ".") + visit(term.getExpr());
   }
 
+  public String visitParamAction(ParamAction term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visitList(term.getZDeclList(), "; "));
+    result.append(" @ ");
+    result.append(visit(term.getCircusAction()));
+    return result.toString();
+  }
+  
   public String visitCallAction(CallAction term)
   {
     StringBuilder result = new StringBuilder();
