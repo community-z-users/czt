@@ -2320,6 +2320,16 @@ public abstract class Checker<R>
       // closes local vars and formal parameters scope
       typeEnv().exitScope();
 
+      // if the inner term is a MuAction, we might need to carry along 
+      // the formal parameters of its signature.
+      if (term instanceof MuAction)
+      {
+        MuAction mu = (MuAction)term;
+        type = getLocalType(mu.getZName());
+        assert type instanceof ActionType : "could not retrieve action type from well formed mu action " + mu; 
+        
+        ActionType aType = (ActionType)type;        
+      }      
       // restors the process para scope.
       old = setCurrentActionName(old);
       oldAction = setCurrentAction(oldAction);

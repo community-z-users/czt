@@ -228,8 +228,15 @@ public class ActionChecker
     
     // if nesting is present, raise an error - it isn't allowed
     // unless this is call action, in which case parameters may be present    
-    if (!(action instanceof CallAction) && 
-        !actionSignature_.getFormalParams().getNameTypePair().isEmpty())
+    boolean formalsAreBadlyFormed = 
+       (!(action instanceof CallAction) &&
+       !actionSignature_.getFormalParams().getNameTypePair().isEmpty())
+       ||    
+       ((action instanceof MuAction) && 
+        (((MuAction)action).getCircusAction() instanceof ParamAction) &&
+        !actionSignature_.getFormalParams().getNameTypePair().isEmpty()
+       );
+    if (formalsAreBadlyFormed)
     {
       Object[] params = {
         getCurrentProcessName(),
@@ -821,6 +828,26 @@ public class ActionChecker
     // the action type for the call just has an empty
     // signature, like CallAction does.
     ActionSignature aSig = factory().createInitialMuActionSignature(aName);
+    
+    // if it is a parameterised Mu action, we also need to add the 
+    // parameters to the signature, so that calls will be parameterised
+    //
+    // NOTE: this is not in the original type rules - asked to be added by Ana, 13/04/08
+    if (term.getCircusAction() instanceof ParamAction)
+    {
+      ParamAction paramAction = (ParamAction)term.getCircusAction();
+      // just like in typeCheckActionD, but only the parameters please
+      List<NameTypePair> gParams = typeCheckCircusDeclList(
+        paramAction, paramAction.getZDeclList(), 
+        false                        /* considerFiniteness - just like as in visitParamAction */,
+        paramAction.isParamCommand() /* allowQualifiedDecl - just like as in visitParamAction */, 
+        ErrorMessage.INVALID_DECL_IN_ACTIONITE, 
+        factory().<Object>list(getCurrentProcessName(), getCurrentActionName()));
+      
+      // again, just like typeCheckActionD, update the signature formal parameters
+      // so that Mu calls will work nicely within the Mu aSig
+      aSig.setFormalParams(factory().createSignature(gParams));            
+    }    
     ActionType aType = factory().createActionType(aSig);    
     NameTypePair recVarPair = factory().createNameTypePair(aName, aType);    
     typeEnv().add(recVarPair);
