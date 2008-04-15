@@ -7,3 +7,8 @@
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
+
+  public boolean isParameterised()
+  {
+    return (getCircusAction() instanceof net.sourceforge.czt.circus.ast.ParamAction);
+  }
