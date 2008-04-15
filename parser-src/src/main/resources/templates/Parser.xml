@@ -5025,13 +5025,14 @@ parenthesisedAction ::=
            RESULT = ca;
         :}
         |
+        /* Parenthesised parameterised action or command */
         LPAREN:lp paramAction:pa RPAREN:rp
         {:
            addParenthesisAnn(lp, pa, rp);
            RESULT = pa;
         :}
         |
-        /* On-the-fly action call */
+        /* On-the-fly parameterised action/command call */
         LPAREN:lp1 paramAction:pa RPAREN:rp1 actualParameters:el
         {:
             addParenthesisAnn(lp1, pa, rp1);            
@@ -5040,7 +5041,21 @@ parenthesisedAction ::=
             parserState_.addImplicitlyDeclActionPara(ap);            
             RESULT = factory_.createCallAction(createCircusName(an), el);
             addLocAnn(RESULT, getLocation(lp1, el.get(el.size()-1)));
-        :}               
+        :}        
+        |
+        /* On-the-fly parameterised mu action call */
+        LPAREN:lp1 CIRCMU:cm name:n CIRCSPOT paramAction:pa RPAREN:rp1 actualParameters:el
+        {:
+            MuAction mu = factory_.createMuAction(pa, n);
+            addLocAnn(mu, getLocation(cm, pa));
+            addParenthesisAnn(lp1, mu, rp1);
+            
+            Decorword an = createImplicitlyDeclActUniqueName(mu);                        
+            ActionPara ap = createImplicitActionPara(an, mu);            
+            parserState_.addImplicitlyDeclActionPara(ap);            
+            RESULT = factory_.createCallAction(createCircusName(an), el);
+            addLocAnn(RESULT, getLocation(lp1, el.get(el.size()-1)));
+        :}
         ;
         
 guard ::=
