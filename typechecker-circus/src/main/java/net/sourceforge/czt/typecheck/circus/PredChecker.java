@@ -86,8 +86,8 @@ public class PredChecker
 
   public UResult visitActionTransformerPred(ActionTransformerPred term)
   {
-    CircusCommunicationList spec = term.getSpec().accept(actionChecker());
-    CircusCommunicationList impl = term.getImpl().accept(actionChecker());
+    CircusCommunicationList spec = visit(term.getSpec());
+    CircusCommunicationList impl = visit(term.getImpl());
     
 //    ActionType atSpec = factory().createProcessType(asSpec);
 //    ActionType atImpl = factory().createProcessType(asImpl);

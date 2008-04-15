@@ -224,27 +224,23 @@ public class ActionChecker
     
     // check the inner action now with the parameters in scope
     CircusAction action = term.getCircusAction();
-    CircusCommunicationList commList = action.accept(actionChecker());
+    CircusCommunicationList commList = visit(action);
     
     // if nesting is present, raise an error - it isn't allowed
-    // unless this is call action, in which case parameters may be present    
+    // unless we have a call action or is call action, in which case 
+    // parameters may be present. Otherwise, if a MuAction, it must not
+    // contain parameters itself
     boolean formalsAreBadlyFormed = 
        (!(action instanceof CallAction) &&
        !actionSignature_.getFormalParams().getNameTypePair().isEmpty())
        ||    
-       ((action instanceof MuAction) && 
-        (((MuAction)action).getCircusAction() instanceof ParamAction) &&
-        !actionSignature_.getFormalParams().getNameTypePair().isEmpty()
-       );
+       ((action instanceof MuAction) && ((MuAction)action).isParameterised())        
+       ;
     if (formalsAreBadlyFormed)
     {
-      Object[] params = {
-        getCurrentProcessName(),
-        getCurrentActionName()        
-      };
+      Object[] params = { getCurrentProcessName(), getCurrentActionName() };
       error(term, ErrorMessage.NESTED_FORMAL_PARAMS_IN_ACTION, params);
-    }
-    
+    }   
     // updates the formal parameters signature with gParams     
     actionSignature_.setFormalParams(factory().createSignature(gParams));    
         
@@ -661,7 +657,7 @@ public class ActionChecker
     }
 
     // check the action to substitute,  \Gamma \rhd a: Action
-    CircusCommunicationList commList = term.getCircusAction().accept(actionChecker());    
+    CircusCommunicationList commList = visit(term.getCircusAction());
     return commList;
   }
 
@@ -692,7 +688,7 @@ public class ActionChecker
 
     // type check given action in scope enriched with input variables
     // * checks \Gamma' \rhd a : Action
-    CircusCommunicationList commList = term.getCircusAction().accept(actionChecker());
+    CircusCommunicationList commList = visit(term.getCircusAction());
 
     // updates the local variable signature for the prefixed action.
     actionSignature_.getLocalVars().getNameTypePair().addAll(inputVars);
@@ -723,7 +719,7 @@ public class ActionChecker
   {
     checkActionParaScope(term, null);    
     typeCheckPred(term, term.getPred());
-    CircusCommunicationList commList = term.getCircusAction().accept(actionChecker());
+    CircusCommunicationList commList = visit(term.getCircusAction());
     return commList;
   }
 
@@ -748,8 +744,8 @@ public class ActionChecker
     checkActionParaScope(term, null);
 
     // check each side
-    CircusCommunicationList commListL = term.getLeftAction().accept(actionChecker());
-    CircusCommunicationList commListR = term.getRightAction().accept(actionChecker());
+    CircusCommunicationList commListL = visit(term.getLeftAction());
+    CircusCommunicationList commListR = visit(term.getRightAction());
     
     CircusCommunicationList result = factory().createCircusCommunicationList(commListR);
     GlobalDefs.addAllNoDuplicates(0, commListL, result);    
@@ -799,7 +795,7 @@ public class ActionChecker
     ChannelSetType csType = typeCheckChannelSet(cs, getChannelSetErrorParams());
 
     // check the action itself and add signature
-    CircusCommunicationList commList = term.getCircusAction().accept(actionChecker());
+    CircusCommunicationList commList = visit(term.getCircusAction());
     
     // update name sets used    
     GlobalDefs.addNoDuplicates(0, cs, actionSignature_.getUsedChannelSets()); 
@@ -833,7 +829,7 @@ public class ActionChecker
     // parameters to the signature, so that calls will be parameterised
     //
     // NOTE: this is not in the original type rules - asked to be added by Ana, 13/04/08
-    if (term.getCircusAction() instanceof ParamAction)
+    if (term.isParameterised())
     {
       ParamAction paramAction = (ParamAction)term.getCircusAction();
       // just like in typeCheckActionD, but only the parameters please
@@ -920,5 +916,5 @@ public class ActionChecker
   {
     CircusCommunicationList commList = typeCheckParActionIte(term, term.getChannelSet());    
     return commList;
-  }  
+  }    
 }

@@ -14,6 +14,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionType;
+import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.NameSetPara;
 import net.sourceforge.czt.circus.ast.NameSetType;
@@ -27,6 +28,7 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
 
 
 /**
@@ -125,9 +127,31 @@ public class ProcessParaChecker extends Checker<Signature>
   @Override
   public Signature visitActionPara(ActionPara term)
   { 
+    // reset the visit count - this is important to make sure 
+    // parameterised mu actions do not appear in inner processes.
+    resetActionCheckerVisitCount();
+    
     // check the inner action - also used in MuAction
     // it also checks for duplicate names.
     ActionSignature aSig = checkActionDecl(term.getName(), term.getCircusAction(), term);
+    
+    // for parameterised mu actions, change the signature so that calls to the 
+    // action paragraph name require the formal parameters from the parameterised mu action
+    if ((term.getCircusAction() instanceof MuAction) &&
+        ((MuAction)term.getCircusAction()).isParameterised())
+    {
+      Type2 type = getType2FromAnns(term.getCircusAction());
+      assert type instanceof ActionType : "cannot retrieve action type for mu action in action paragraph " + term.getName();
+      
+      // "export" the mu action formal parameters to the action paragraph being declared
+      // and check that is doesn't have parameters already - which should never happen.      
+      if (!aSig.getFormalParams().getNameTypePair().isEmpty())
+      {
+        Object[] params = { getCurrentProcessName(), term.getName() };
+        error(term, ErrorMessage.NESTED_FORMAL_PARAMS_IN_ACTION, params);
+      }
+      aSig.setFormalParams(((ActionType)type).getActionSignature().getFormalParams());      
+    }
     
     // wraps up the action type
     ActionType actionType = factory().createActionType(aSig);    

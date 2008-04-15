@@ -221,7 +221,7 @@ public class CommandChecker
     List<NameTypePair> allVars = addStateVars(gParams);    
     
     // check the inner action now with the parameters in scope
-    CircusCommunicationList commList = term.getCircusAction().accept(actionChecker());
+    CircusCommunicationList commList = visit(term.getCircusAction());
     
     // updates the local variable signature for variable decl command - duplicates are fine (?) TODO:CHECK
     actionChecker().getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(allVars);
@@ -291,12 +291,12 @@ public class CommandChecker
     {
       Iterator<CircusAction> it = term.iterator();
       CircusAction action = it.next();
-      commList = action.accept(actionChecker());      
+      commList = visit(action);
       // type check each guarded action joining their signatures    
       while (it.hasNext())
       {
         CircusAction next = it.next();
-        CircusCommunicationList nextCommList = next.accept(actionChecker());
+        CircusCommunicationList nextCommList = visit(next);
         GlobalDefs.addAllNoDuplicates(nextCommList, commList);
       }
     }     

@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
-import net.sourceforge.czt.circus.ast.Action2;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionSignatureAnn;
 import net.sourceforge.czt.circus.ast.ActionSignatureList;
@@ -39,12 +38,11 @@ import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.NameSetType;
-import net.sourceforge.czt.circus.ast.Process2;
+import net.sourceforge.czt.circus.ast.ParamAction;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
 import net.sourceforge.czt.circus.ast.ProcessSignatureList;
 import net.sourceforge.czt.circus.ast.ProcessType;
-import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.ChannelSetList;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CommunicationList;
@@ -103,12 +101,24 @@ public abstract class Checker<R>
 {
 
   protected TypeChecker typeChecker_;
+  
+  /**
+   * As mu actions could be parameterised, but only when at the beginning of
+   * a action paragraph, we keep a count over it to make sure inner parameterised
+   * mu actions are not allowed. This doesn't happen with ParamAction because the
+   * parser does not allow it; but the same is not the case for MuActions, which 
+   * when without parameters, can appear anywhere. The count is reset at visitActionPara
+   * and incremented at each term.accept(actionChecker), which is centralised in the
+   * #visit(CircusAction) method below.
+   */
+  private int actionCheckerVisitCount_;
 
   public Checker(TypeChecker typeChecker)
   {
     super(typeChecker);
     assert typeChecker != null;
     typeChecker_ = typeChecker;
+    resetActionCheckerVisitCount();
   }
   
   /**
@@ -124,6 +134,11 @@ public abstract class Checker<R>
     return null;
   }
 
+  protected void resetActionCheckerVisitCount()
+  {
+    actionCheckerVisitCount_ = 0;
+  }
+  
   /**
    * Gives access to the typechecking factory for all checkers. 
    * 
@@ -2264,6 +2279,43 @@ public abstract class Checker<R>
     checkForDuplicateNames(znl, term);
   }
   
+  protected CircusCommunicationList visit(CircusAction term)     
+  {
+    if ((term instanceof MuAction) && 
+        ((MuAction)term).isParameterised() && 
+        actionCheckerVisitCount_ != 0)
+    {
+      Object[] params = { getCurrentProcessName(), getCurrentActionName(), ((MuAction)term).getName() };      
+      error(term, ErrorMessage.INVALID_PARAMETERISED_MUACTION_PLACEMENT, params);
+    }    
+    actionCheckerVisitCount_++;
+    return term.accept(actionChecker());
+  }  
+  
+//  protected void checkForNestedFormals(Term term, CircusAction action, ActionSignature aSig)
+//  {
+//    // if nesting is present, raise an error - it isn't allowed
+//    // unless this is call action, in which case parameters may be present    
+//    boolean formalsAreBadlyFormed = 
+//       (!(action instanceof CallAction) &&
+//       !aSig.getFormalParams().getNameTypePair().isEmpty())
+//       //||    
+//       //((action instanceof MuAction) && 
+//       // (((MuAction)action).getCircusAction() instanceof ParamAction) &&
+//       // ((ParamAction)((MuAction)action).getCircusAction()).
+//       // !aSig.getFormalParams().getNameTypePair().isEmpty()
+//       //)
+//       ;
+//    if (formalsAreBadlyFormed)
+//    {
+//      Object[] params = {
+//        getCurrentProcessName(),
+//        getCurrentActionName()        
+//      };
+//      error(term, ErrorMessage.NESTED_FORMAL_PARAMS_IN_ACTION, params);
+//    }
+//  }
+  
   /**
    * Given an action name and its body, checks it for consistency. First checks
    * if it is within a process paragraph scope. This sets the typechecker state for  the
@@ -2310,7 +2362,7 @@ public abstract class Checker<R>
       typeEnv().enterScope();
 
       // check the declared action updating its name on the returned action signature
-      CircusCommunicationList commList = action.accept(actionChecker());
+      CircusCommunicationList commList = visit(action);
       
       // clone the inner term to avoid aliasing
       //aSig = factory().deepCloneTerm(actionSignature);
@@ -2319,17 +2371,7 @@ public abstract class Checker<R>
       
       // closes local vars and formal parameters scope
       typeEnv().exitScope();
-
-      // if the inner term is a MuAction, we might need to carry along 
-      // the formal parameters of its signature.
-      if (term instanceof MuAction)
-      {
-        MuAction mu = (MuAction)term;
-        type = getLocalType(mu.getZName());
-        assert type instanceof ActionType : "could not retrieve action type from well formed mu action " + mu; 
-        
-        ActionType aType = (ActionType)type;        
-      }      
+      
       // restors the process para scope.
       old = setCurrentActionName(old);
       oldAction = setCurrentAction(oldAction);
