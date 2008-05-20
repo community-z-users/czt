@@ -410,6 +410,7 @@ public class TypeCheckUtils
             break;
           default:
             printUsage();
+            return;
           }
         }
       }
@@ -439,6 +440,18 @@ public class TypeCheckUtils
       catch (net.sourceforge.czt.parser.util.ParseException exception) {
         parsingErrors = exception.getErrorList().size();
         exception.printErrorList();
+      }
+      catch(net.sourceforge.czt.base.util.UnsupportedAstClassException e)
+      {
+        System.err.println("An attempt to wrongly cast an AST class has happened.\n" +
+          "This is usually a bug, and should not happen. Please report it to czt-devel@lists.sourceforge.net");    
+        e.printStackTrace();
+      }
+      catch(net.sourceforge.czt.util.CztException f)
+      {
+        System.err.println("A general CztException has happened.\n" +
+          "This is usually a bug, and should not happen. Please report it to czt-devel@lists.sourceforge.net");    
+        f.printStackTrace();
       }
       /* ex:
        * 0        40           
