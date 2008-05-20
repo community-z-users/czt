@@ -272,7 +272,7 @@ public class ZLiveResult
    *  the beginning of the set.
    * @author marku
    */
-  public static class MoveException extends RuntimeException
+  public static class MoveException extends net.sourceforge.czt.util.CztException
   {
     public MoveException(String msg) {
       super(msg);

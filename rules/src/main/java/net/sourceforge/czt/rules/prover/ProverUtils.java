@@ -228,7 +228,7 @@ public final class ProverUtils
   }
 
   public static class UnboundJokerRuntimeException
-    extends RuntimeException
+    extends net.sourceforge.czt.util.CztException
   {
     public UnboundJokerRuntimeException()
     {

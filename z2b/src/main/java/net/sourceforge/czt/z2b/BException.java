@@ -34,13 +34,13 @@ import java.lang.*;
  *        by this translator).
  * </ol>
  *
- * Note: It extends RuntimeException because it may need to be thrown from
+ * Note: It extends net.sourceforge.czt.util.CztException because it may need to be thrown from
  * within visitor methods, and they currently do not allow other exceptions.
  *
  * @author Mark Utting
  */
 public class BException
-    extends RuntimeException
+    extends net.sourceforge.czt.util.CztException
 {
   /**
    * Constructor for BException

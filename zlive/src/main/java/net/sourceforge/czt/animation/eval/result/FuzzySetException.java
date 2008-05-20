@@ -6,7 +6,7 @@ package net.sourceforge.czt.animation.eval.result;
  * @author marku
  *
  */
-public class FuzzySetException extends RuntimeException
+public class FuzzySetException extends net.sourceforge.czt.util.CztException
 {
   private static final long serialVersionUID = 1403403910627393752L;
 

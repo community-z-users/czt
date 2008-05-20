@@ -24,7 +24,7 @@ package net.sourceforge.czt.parser.util;
  * are encountered.
  */
 public class ScanException
-  extends RuntimeException
+  extends net.sourceforge.czt.util.CztException
   implements CztError
 {
   private LocInfo locInfo_;

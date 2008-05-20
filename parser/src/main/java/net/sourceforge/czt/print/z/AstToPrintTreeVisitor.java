@@ -623,7 +623,7 @@ public class AstToPrintTreeVisitor
   }
 
   public static class CannotPrintAstException
-    extends RuntimeException
+    extends net.sourceforge.czt.util.CztException
   {
     public CannotPrintAstException(String message)
     {

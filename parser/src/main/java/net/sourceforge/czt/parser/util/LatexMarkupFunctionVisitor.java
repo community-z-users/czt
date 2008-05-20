@@ -124,7 +124,7 @@ public class LatexMarkupFunctionVisitor
   }
 
   private static class LatexMarkupException
-    extends RuntimeException
+    extends net.sourceforge.czt.util.CztException
   {
     private LatexMarkupException(Exception cause)
     {

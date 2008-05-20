@@ -128,7 +128,7 @@ public class RuleTableCommand
   }
 
   public static class VisitorException
-    extends RuntimeException
+    extends net.sourceforge.czt.util.CztException
   {
     public VisitorException(Exception cause)
     {

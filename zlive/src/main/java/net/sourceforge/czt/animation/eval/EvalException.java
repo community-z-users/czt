@@ -22,7 +22,7 @@ import net.sourceforge.czt.base.ast.Term;
 
 
 
-public class EvalException extends RuntimeException
+public class EvalException extends net.sourceforge.czt.util.CztException
 {
   private static final long serialVersionUID = 7893437293919758363L;
 

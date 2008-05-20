@@ -29,7 +29,7 @@ import net.sourceforge.czt.parser.util.CztErrorList;
  *
  * @author Leo Freitas
  */
-public class TypeErrorException extends RuntimeException
+public class TypeErrorException extends net.sourceforge.czt.util.CztException
   implements CztErrorList {    
     
     private final List<ErrorAnn> fErrors = new ArrayList<ErrorAnn>();

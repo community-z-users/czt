@@ -24,7 +24,7 @@ package net.sourceforge.czt.base.util;
  * been found.
  */
 public class UnsupportedAstClassException
-  extends RuntimeException
+  extends net.sourceforge.czt.util.CztException
 {
   public UnsupportedAstClassException()
   {

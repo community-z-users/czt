@@ -23,7 +23,7 @@ package net.sourceforge.czt.typecheck.z.util;
  * expression is not fully determined.
  */
 public class UndeterminedTypeException
-  extends RuntimeException
+  extends net.sourceforge.czt.util.CztException
 {
 
   public UndeterminedTypeException(Throwable cause)
