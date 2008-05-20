@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
@@ -26,14 +27,12 @@ import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.circus.ParseUtils;
-import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZFactory;
@@ -65,7 +64,7 @@ public class TypeCheckUtils
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List<? extends ErrorAnn> typecheck(Term term,
+  public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo)
   {
     return typecheck(term, sectInfo, false);
@@ -78,7 +77,7 @@ public class TypeCheckUtils
    * @param useBeforeDecl allow use of variables before declaration
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List<? extends ErrorAnn> typecheck(Term term,
+  public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl)
   {
@@ -93,7 +92,7 @@ public class TypeCheckUtils
    * @param sortDeclNames 
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List<? extends ErrorAnn> typecheck(Term term,
+  public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
                                                    boolean sortDeclNames)
@@ -110,7 +109,7 @@ public class TypeCheckUtils
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List<? extends ErrorAnn> typecheck(Term term,
+  public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
                                                    boolean sortDeclNames,
@@ -128,7 +127,7 @@ public class TypeCheckUtils
    * @param useNameIds use name ids as part of the name
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List<? extends ErrorAnn> typecheck(Term term,
+  public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
                                                    boolean sortDeclNames,
@@ -147,7 +146,7 @@ public class TypeCheckUtils
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List<? extends ErrorAnn> typecheck(Term term,
+  public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
                                                    boolean sortDeclNames,
@@ -157,7 +156,7 @@ public class TypeCheckUtils
     return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, false, sectName);
   }
   
-  public static List<? extends ErrorAnn> typecheck(Term term,
+  public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
                                                    boolean sortDeclNames,
@@ -168,7 +167,7 @@ public class TypeCheckUtils
     return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, raiseWarnings, sectName);
   }
   
-  protected List<? extends ErrorAnn> lTypecheck(Term term,
+  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
                                                 boolean useNameIds,
@@ -178,7 +177,7 @@ public class TypeCheckUtils
   }
   
   /** An internal method of the typechecker. */
-  protected List<? extends ErrorAnn> lTypecheck(Term term,
+  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
                                                 boolean useNameIds,
@@ -188,8 +187,19 @@ public class TypeCheckUtils
     return lTypecheck(term, sectInfo, useBeforeDecl, false, useNameIds, raiseWarnings, sectName);
   }
   
+  private String stackTraceAsString(Throwable e)
+  {    
+    StringWriter swriter = new StringWriter();
+    PrintWriter pwriter = new PrintWriter(swriter);      
+    e.fillInStackTrace();      
+    e.printStackTrace(pwriter);      
+    pwriter.flush();
+    pwriter.close();
+    return swriter.toString();
+  }
+  
   /** An internal method of the typechecker. */
-  protected List<? extends ErrorAnn> lTypecheck(Term term,
+  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
                                                 boolean sortDeclNames,
@@ -197,6 +207,7 @@ public class TypeCheckUtils
                                                 boolean raiseWarnings,
                                                 String sectName)
   {
+    
     ZFactory zFactory = new ZFactoryImpl();
     CircusFactory circusFactory = new CircusFactoryImpl();    
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
@@ -205,7 +216,45 @@ public class TypeCheckUtils
       sectInfo, useBeforeDecl, sortDeclNames, raiseWarnings);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
-    term.accept(typeChecker);
+    
+    // For Circus add the type checking robustness at the top-level
+    // that means, we have it for both command based and non-command based requests.
+    try {
+      term.accept(typeChecker);
+    }
+    catch(net.sourceforge.czt.base.util.UnsupportedAstClassException e)
+    {      
+      Object[] params = { 
+        "An attempt to wrongly cast an AST class has happened.",
+        e.getClass().getSimpleName(),
+        stackTraceAsString(e) };
+      // use any checker to report the error
+      net.sourceforge.czt.typecheck.z.ErrorAnn error = 
+        typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);      
+      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
+      System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
+    }
+    catch(net.sourceforge.czt.util.CztException f)
+    {
+      Object[] params = { 
+        "A general CztException has happened.",
+        f.getClass().getSimpleName(),
+        stackTraceAsString(f) };
+      // use any checker to report the error
+      ErrorAnn error = typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params); 
+      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
+      System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
+    }
+    catch(Throwable t)
+    {
+      Object[] params = { 
+        "A general Throwable exception has happened.",
+        t.getClass().getSimpleName(),
+        stackTraceAsString(t) };
+      // use any checker to report the error
+      ErrorAnn error = typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params); 
+      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
+    }
     return typeChecker.errors();
   }
   
