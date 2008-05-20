@@ -15,7 +15,7 @@ import net.sourceforge.czt.z.ast.LocAnn;
  * empty declarations, or declarations of schema-expressions.
  * @author leo
  */
-public class ZEvesIncompatibleASTException extends RuntimeException {
+public class ZEvesIncompatibleASTException extends net.sourceforge.czt.util.CztException {
         
     static final long serialVersionUID = -562355333369930614L;
     
