@@ -41,7 +41,7 @@ public class StringSetTest extends TestCase
 
   public void testSet() throws IOException
   {
-    Set<String> sut = new StringSetBuggy();
+    Set<String> sut = new StringSet();
     Tester tester = new GreedyTester(new SimpleSetWithAdaptor(sut));
     tester.addListener("verbose");
     tester.generate(150);
