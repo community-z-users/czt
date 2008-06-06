@@ -51,12 +51,10 @@ public class ResultExtractor
 
   int passes;
 
-  int currentPass;
-
   int testLength = 100;
 
   CoverageHistory metric;
-
+  
   ArrayList<Integer> seeds;
 
   ArrayList<String> historyRandom;
@@ -69,19 +67,12 @@ public class ResultExtractor
 
   public ResultExtractor()
   {
-    passes = 3;
-    currentPass = 0;
-    rand = new Random();
-    seeds = new ArrayList<Integer>();
-    historyRandom = new ArrayList<String>();
-    historyGreedy = new ArrayList<String>();
-    historyAllRound = new ArrayList<String>();
+    this(3);
   }
 
   public ResultExtractor(int p)
   {
     passes = p;
-    currentPass = 0;
     rand = new Random();
     seeds = new ArrayList<Integer>();
     historyRandom = new ArrayList<String>();
@@ -123,23 +114,23 @@ public class ResultExtractor
 
   protected String generateResults(int seed, Tester tester)
   {
-    CoverageHistory history = 
-      (CoverageHistory) tester.getModel().getListener("transition coverage");
-    history.clear();
-    tester.setRandom(new Random(seed));
+    // model.addListener("verbose");
     tester.reset();
+    tester.setRandom(new Random(seed));
+    metric.clear();
     tester.generate(testLength);
     return metric.toCSV();
   }
 
   public void run()
   {
-    while (currentPass != passes) {
+    for (int pass=0; pass < passes; pass++) {
       Model model = new Model(new QuiDonc());
-      // model.addListener("verbose");
       metric = new CoverageHistory(new TransitionCoverage(), 1);
       model.addListener(metric);
       int seed = rand.nextInt();
+
+      seeds.add(seed);
 
       // System.out.println("TESTING RANDOM seed="+seed);
       Tester rtester = new RandomTester(model);
@@ -151,9 +142,6 @@ public class ResultExtractor
 
       Tester atester = new AllRoundTester(model);
       historyAllRound.add(generateResults(seed, atester));
-
-      seeds.add(seed);
-      currentPass++;
     }
     this.write();
   }

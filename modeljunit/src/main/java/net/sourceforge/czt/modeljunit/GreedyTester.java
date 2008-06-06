@@ -27,13 +27,13 @@ import java.util.Random;
  *  A greedy random walk gives preference to transitions that have never
  *  been taken before.  Once all transitions out of a state have been taken,
  *  it behaves the same as a random walk.
- *  
+ *
  *  @author Pele Douangsavanh
  */
 public class GreedyTester extends RandomTester
 {
   protected GraphListener graph_;
-  
+
   /**
    *  Creates a test generator that can generate random walks.
    *
@@ -54,70 +54,38 @@ public class GreedyTester extends RandomTester
     this(new Model(fsm));
   }
 
-
   protected int doGreedyRandomAction()
   {
-    // System.out.println("Currently in state: " + fsmState);
-    /*
-     BitSet of the actions that need to be done for the current state
-
-     True, if action has not been done and is enabled
-     False, Otherwise
-
-     Null, if terminal state or state has no more unvisted transitions
-     Non-Null, otherwise
-     */
+    // Note that these actions may not be enabled in the current state
     BitSet toDo = graph_.getTodo(model_.getCurrentState());
-    /*
-     BitSet of the actions have been done for the current state
-
-     True, if action has been done
-     False, Otherwise
-
-     Null, if terminal state or state has not been visited
-     Non-Null, otherwise
-     */
-    BitSet done = graph_.getDone(model_.getCurrentState());
-    // Indexes of the actions that need to be done
-    ArrayList<Integer> indexToDo = new ArrayList<Integer>();
-
-    // If terminal state we must force a reset so return -1
-    if (model_.isTerminal()) {
-      return -1;
-    }
-    if (toDo == null) {
-      // If all actions of the state have been done just choose one randomly
-      return doRandomAction();
-    }
-
-    // System.out.println("todo cardinality: " + toDo.cardinality());
-
-    if (toDo.cardinality() == 0) {
-      // If all actions of the state have been done just choose one randomly
-      return doRandomAction();
-    }
-    else if (toDo.cardinality() == 1) {
-      // Get the index of the only set bit in the toDo Bitset
-      int index = toDo.nextSetBit(0);
-      if (model_.doAction(index)) {
-        // If action is done return the action that was done
-        return index;
+    if (toDo != null && toDo.cardinality() > 0) {
+      // try to choose one of these toDo transitions, randomly
+      BitSet tryToDo = (BitSet) toDo.clone();
+      while (tryToDo.cardinality() > 0) {
+        int nth = rand_.nextInt(tryToDo.cardinality()) + 1;
+        assert 1 <= nth;
+        assert nth <= tryToDo.cardinality();
+        // now set index to the n'th true bit
+        int index = -1;
+        do {
+          index = tryToDo.nextSetBit(index+1);
+          assert index >= 0;
+          nth--;
+        }
+        while (nth > 0);
+        assert index != -1;
+        assert tryToDo.get(index);
+        if (model_.doAction(index)) {
+          return index;
+        }
+        else {
+          // it was not enabled, so keep trying other toDo transitions
+          tryToDo.clear(index);
+        }
       }
     }
-    else {
-      // Iterate over all true bits and put their indexes into a list
-      for (int i = toDo.nextSetBit(0); i >= 0; i = toDo.nextSetBit(i + 1)) {
-        indexToDo.add(i);
-      }
-      // Randomly generate an index from 0 to size() of indexToDo - 1
-      int index = rand_.nextInt(indexToDo.size());
-      // System.out.println("index: " + index);
-      if (model_.doAction(indexToDo.get(index))) {
-        // If action is done return the action that was done
-        return indexToDo.get(index);
-      }
-    }
-    return -1;
+    // no toDo actions (or none enabled), so just choose any action
+    return doRandomAction();
   }
 
   public int doGreedyRandomActionOrReset()

@@ -40,19 +40,18 @@ public class ResultExtractorTest extends TestCase
     // check pass 1
     String line = buf.readLine();
     assertNotNull(line);
-    assertEquals("Seed,-1442945365,Random,0,0,1,2,2,3,3,3,3,3,4,4", line);
+    assertEquals("Seed,-1442945365,Random,0,1,2,2,3,3,3,3,3,4,4", line);
     line = buf.readLine();
     assertNotNull(line);
-    // with this seed, it happens to do several resets in a row!
-    assertEquals(",,Greedy,0,0,1,2,3,4,5,5,5,5,5,5", line);
+    assertEquals(",,Greedy,0,1,2,3,4,5,6,7,8,8,8", line);
 
     // check pass 2
     line = buf.readLine();
     assertNotNull(line);
-    assertEquals("Seed,-1016548095,Random,0,0,1,2,2,3,3,3,3,3,3,4", line);
+    assertEquals("Seed,-1016548095,Random,0,1,2,2,3,3,3,3,3,3,4", line);
     line = buf.readLine();
     assertNotNull(line);
     // this illustrates the greediness nicely.
-    assertEquals(",,Greedy,0,0,1,2,3,4,5,6,7,8,9,10", line);
+    assertEquals(",,Greedy,0,1,2,3,4,5,6,7,8,9,10", line);
   }
 }
