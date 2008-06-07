@@ -31,10 +31,6 @@ package net.sourceforge.czt.gnast.schema;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.regex.*;
