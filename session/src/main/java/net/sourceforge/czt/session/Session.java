@@ -28,13 +28,13 @@ public class Session
   private SectionManager manager_ = new SectionManager();
   private String section_ = "";
 
-  public Object get(Class c)
+  public Object get(Class<?> c)
     throws CommandException
   {
     return manager_.get(new Key(section_, c));
   }
 
-  public Object get(String section, Class c)
+  public Object get(String section, Class<?> c)
     throws CommandException
   {
     return manager_.get(new Key(section, c));
