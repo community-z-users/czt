@@ -44,9 +44,8 @@ here.
 The auxiliary function $zero$ returns a $FILE$ containing a given number
 of $ZERO$ bytes.
 The infix operator $shift$ takes a $FILE$ and an offset and shifts the
-content of the file by the offset, adding $ZERO$ bytes into the beginning of
-the file.  Once again, we give an explicit rather than an axiomatic
-definition.
+content of the file by the offset.  Once again, we give an explicit
+rather than an axiomatic definition.
 
 \begin{zed}
   zero == (\lambda n : \nat @ ( \lambda k : 1 \upto n @ ZERO ) )
