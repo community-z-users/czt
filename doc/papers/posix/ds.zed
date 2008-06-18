@@ -41,10 +41,10 @@ here.
   data! = ( 1 \upto length? ) \dres ( file~after~offset? )
 \end{schema}
 
-The auxiliary function $zero$ returns a FILE containing a given number
-of ZERO bytes.
-The infix operator $shift$ takes a FILE and an offset and shifts the
-content of the file by the offset, adding ZERO bytes into the beginning of
+The auxiliary function $zero$ returns a $FILE$ containing a given number
+of $ZERO$ bytes.
+The infix operator $shift$ takes a $FILE$ and an offset and shifts the
+content of the file by the offset, adding $ZERO$ bytes into the beginning of
 the file.  Once again, we give an explicit rather than an axiomatic
 definition.
 
