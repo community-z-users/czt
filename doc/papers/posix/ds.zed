@@ -59,6 +59,12 @@ rather than an axiomatic definition.
         @ ( 1 \upto offset ) \ndres ( zero~offset \cat f ))
 \end{zed}
 
+While the $readFILE$ operation does not change the file, the
+$writeFile$ operation given next changes the file.  It is defined
+similar to the $writeFile$ operation given in Morgan and Sufrin's
+specification but we use the usual $\Delta$ notation for convenience
+here.
+
 \begin{schema}{writeFILE}
   \Delta DS \\
   offset? : \nat \\
