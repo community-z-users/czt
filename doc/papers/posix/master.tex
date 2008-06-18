@@ -115,18 +115,19 @@ those approaches is \emph{verification} (of some implementation), whereas
 our goal is \emph{validation} (of the Z specification).  This results in
 quite a different style of testing.  
 
-One practical difference is that when testing an implementation, we can
-control its 
-inputs but not its outputs, whereas when testing a Z specification we can
-ask arbitrary questions about inputs or outputs.  So when validating a Z
-specification, we can use a richer variety of tests.  Another difference is
-that when validating a specification, we want to design both positive
-tests, which test that a given behaviour is allowed by the specification,
-and negative tests, which test that a given behaviour is not allowed by the
-specification.  In contrast, when testing an implementation of the
-specification, we use only positive tests, because refinement means that
-the implementation is free to add behaviour that is outside the
-precondition of the specification.
+One practical difference is that when testing an implementation, we
+can control its inputs but not its outputs, whereas when testing a Z
+specification we can ask arbitrary questions about inputs or outputs.
+So when validating a Z specification, we can use a richer variety of
+tests.  Another difference is that when validating a specification, we
+want to design both positive tests, which test that a given behaviour
+is allowed by the specification, and negative tests, which test that a
+given behaviour is not allowed by the specification.  In contrast,
+when testing whether an implementation is a refinement of a
+specification, the implementation is usually free to add behaviour
+outside the precondition of the specification and we can therefore use
+only positive tests\footnote{Note that testing for exceptional
+  behaviour formalised in the specification is a positive test here.}.
 
 To illustrate our testing framework, we shall use a simple example
 specification given by the following specification, which defines the
