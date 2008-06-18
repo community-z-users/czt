@@ -9,7 +9,7 @@ This section specifies the data system (ds) of the filing system.
   ZERO == 0 \\
   FILE ~== \seq BYTE \\
   DS ~~~~== [ file : FILE ] \\
-  InitDS == [DS~' | file' = \{\} ]
+  InitDS == [DS~' | file' = \langle\rangle ]
 \end{zed}
 
 The $after$ operator returns the subfile that starts after a given offset.
