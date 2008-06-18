@@ -50,27 +50,19 @@ false
 \end{verbatim}
 \end{small}
 
-To investigate which of the $dsPos$ tests failed, we can ask ZLive
-to evaluate $dsPos \setminus readFILE$.  This displays just the
-test vectors that are not members of $readFILE$, which tells us
-that the third and fourth tests failed.
-For each of these, we investigate why it failed by using the ZLive
-`\texttt{do}' command to search for any solution to the $readFILE$
-schema with the given input values.  For the third test, we get this output:
-\begin{small}
-\begin{verbatim}
-dstest> do [readFILE | file=eg1; offset?=1; length?=1]
-\end{verbatim}
-\vskip -3ex
-\[
-  1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \}, 
-     file' == \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\
- \t1 offset? == 1 , length? == 1 , data! == \{ ( 1 , 255 ) \} \rblot
-\]
-\end{small}
-Oops, this test should have had 255 in $data!$ rather than $1$,
-because in POSIX, $offset?=1$ refers to the \emph{second} byte
-of the file.
+To investigate the failing conjecture~$dsPosTests$ on line~29, we ask
+ZLive to evaluate $dsPos \setminus readFILE$.  This displays just the
+test vectors that are not members of $readFILE$, which tells us that
+the third and fourth tests failed.  For each of these, we investigate
+why it failed by using the ZLive `\texttt{do}' command to search for
+any solution to the $readFILE$ schema with the given input values.
+For the third test, we get this output: \begin{small} \begin{verbatim}
+dstest> do [readFILE | file=eg1; offset?=1; length?=1] \end{verbatim}
+\vskip -3ex \[ 1: \lblot file == \{ ( 1 , 1 ) , ( 2 , 255 ) \}, file'
+== \{ ( 1 , 1 ) , ( 2 , 255 ) \} , \\ \t1 offset? == 1 , length? == 1
+, data! == \{ ( 1 , 255 ) \} \rblot \] \end{small} Oops, this test
+should have had 255 in $data!$ rather than $1$, because in POSIX,
+$offset?=1$ refers to the \emph{second} byte of the file.
 
 \begin{small}
 \begin{verbatim}
