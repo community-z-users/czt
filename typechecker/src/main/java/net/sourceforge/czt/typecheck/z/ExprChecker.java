@@ -24,11 +24,8 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
