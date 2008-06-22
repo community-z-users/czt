@@ -1260,11 +1260,11 @@ abstract public class Checker<R>
   
   protected GenericType instantiate(GenericType gType)
   {
-    assert gType.getOptionalType() == null;
+    assert gType.getType().size() == 1;
     NameList names = gType.getNameList();
-    Type2 firstType = gType.getType();
+    Type2 firstType = gType.getType().get(0);
     Type2 optionalType =
-      exprChecker().instantiate(gType.getType());
+      exprChecker().instantiate(gType.getType().get(0));
     GenericType result =
       factory().createGenericType(names, firstType, optionalType);
     return result;

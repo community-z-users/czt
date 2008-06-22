@@ -75,7 +75,7 @@ public class ParaChecker
     typeEnv().enterScope();
 
     //add the generic types to the type environment
-    addGenParamTypes(classPara.getFormalParameters());
+    addGenParamTypes((ZNameList)classPara.getNameList());
 
     //set the class para
     setClassPara(classPara);

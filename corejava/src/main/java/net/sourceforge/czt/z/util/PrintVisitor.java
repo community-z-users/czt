@@ -123,10 +123,10 @@ public class PrintVisitor
     result.append("[");
     result.append(visit(genericType.getNameList()));
     result.append("] ");
-    result.append(visit(genericType.getType()));
-    if (genericType.getOptionalType() != null) {
+    result.append(visit(genericType.getType().get(0)));
+    if (genericType.getType().size() > 1) {
       result.append(", ");
-      result.append(visit(genericType.getOptionalType()));
+      result.append(visit(genericType.getType().get(1)));
     }
     return result.toString();
   }

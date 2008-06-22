@@ -168,8 +168,11 @@ public class Factory
                                        Type2 type,
                                        Type2 optionalType)
   {
+    List<Type2> types = new ArrayList<Type2>();
+    types.add(type);
+    if (optionalType != null) types.add(optionalType);
     GenericType genericType =
-      factory_.createGenericType(nameList, type, optionalType);
+      factory_.createGenericType(nameList, types);
     GenericType result = new GenericTypeImpl(genericType);
     return result;
   }

@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
+import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -52,35 +53,10 @@ public class GenericTypeImpl
     genericType.setNameList(list);
   }
 
-  public Type2 getType()
+  public ListTerm<net.sourceforge.czt.z.ast.Type2> getType()
   {
     GenericType genericType = (GenericType) term_;
     return genericType.getType();
-  }
-
-  public void setType(Type2 type)
-  {
-    GenericType genericType = (GenericType) term_;
-    genericType.setType(type);
-  }
-
-  public void setOptionalType(Type2 optionalType)
-  {
-    GenericType genericType = (GenericType) term_;
-    genericType.setOptionalType(optionalType);
-  }
-
-  public Type2 getOptionalType()
-  {
-    GenericType genericType = (GenericType) term_;
-    Type2 result = genericType.getOptionalType();
-    if (result instanceof VariableType) {
-      VariableType vType = (VariableType) result;
-      if (vType.getValue() != null) {
-        result = vType.getValue();
-      }
-    }
-    return result;
   }
 
   public String toString()
@@ -116,12 +92,14 @@ public class GenericTypeImpl
           !getType().equals(gType.getType())) {
         return false;
       }
-
-      if (getOptionalType() != null && gType.getOptionalType() != null) {
-        return getOptionalType().equals(gType.getOptionalType());
-      }
-      else if (getOptionalType() == null && gType.getOptionalType() == null) {
-        return true;
+      if (getType().size() == gType.getType().size()) {
+	if (! getType().get(0).equals(gType.getType().get(0))) return false;
+	if (getType().size() > 1) {
+	  return getType().get(1).equals(gType.getType().get(1));
+	}
+	else {
+	  return true;
+	}
       }
     }
     return false;
@@ -136,11 +114,8 @@ public class GenericTypeImpl
     if (getNameList() != null) {
       hashCode += constant * getNameList().hashCode();
     }
-    if (getType() != null) {
-      hashCode += constant * getType().hashCode();
-    }
-    if (getOptionalType() != null) {
-      hashCode += constant * getOptionalType().hashCode();
+    for (Type2 type : getType()) {
+      hashCode += constant * type.hashCode();
     }
     return hashCode;
   }

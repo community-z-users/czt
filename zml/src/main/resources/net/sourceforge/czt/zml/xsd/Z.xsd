@@ -2036,17 +2036,10 @@ more detail.
       <xs:extension base="Z:Type">
         <xs:sequence>
           <xs:element ref="Z:NameList"/>
-          <xs:element ref="Z:Type2">
+          <xs:element ref="Z:Type2" minOccurs="1" maxOccurs="2">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="Type"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Type2" minOccurs="0">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="OptionalType"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>

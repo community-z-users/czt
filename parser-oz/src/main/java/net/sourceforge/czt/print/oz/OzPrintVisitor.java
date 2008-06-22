@@ -61,7 +61,7 @@ public class OzPrintVisitor
   {
     //print the header information
     ref_ = false;
-    if (classPara.getFormalParameters().size() == 0) {
+    if (((ZNameList)classPara.getNameList()).size() == 0) {
       print(OzToken.CLASS);
       visit(classPara.getName());
     }
@@ -69,7 +69,7 @@ public class OzPrintVisitor
       print(OzToken.GENCLASS);
       visit(classPara.getName());
       print(ZToken.LSQUARE);
-      printTermList(classPara.getFormalParameters());
+      printTermList((ZNameList)classPara.getNameList());
       print(ZToken.RSQUARE);
     }
     print(ZToken.NL);
