@@ -16,6 +16,7 @@
       <artifactId>parser</artifactId>
     </dependency>
   </dependencies>
+  <!--
   <profiles>
         <profile>
             <id>netbeans-public</id>
@@ -59,6 +60,7 @@
             </build>
         </profile>
     </profiles>  
+   --> 
   <build>          
     <plugins>
       <!--
@@ -156,7 +158,9 @@
         </testResource>
     </testResources> -->
   </build>  
+  <!--
   <properties>
         <netbeans.hint.useExternalMaven>true</netbeans.hint.useExternalMaven>
     </properties>
+    -->
 </project>
