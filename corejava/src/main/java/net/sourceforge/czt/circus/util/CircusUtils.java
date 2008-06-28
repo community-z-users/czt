@@ -17,6 +17,7 @@ import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.circus.ast.BasicProcess;
+import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.CommPattern;
@@ -36,6 +37,7 @@ import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -193,6 +195,21 @@ public final class CircusUtils
         assert isActionParaSchemaValid(ap);
         result = ap.getName();
       }
+    }
+    return result;
+  }
+  
+  public static boolean isChannelFrom(Term term)
+  {
+    boolean result = (term instanceof ChannelDecl);
+    if (result)
+    {        
+      result = (((ChannelDecl)term).getNameList().size() > 1 &&
+              ((ChannelDecl)term).getNameList().get(1) instanceof ZNameList);
+      if (result)
+      {
+        result = ((ChannelDecl)term).getZChannelNameList().isEmpty();
+      }      
     }
     return result;
   }
