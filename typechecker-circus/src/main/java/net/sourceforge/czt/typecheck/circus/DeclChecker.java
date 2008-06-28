@@ -126,12 +126,25 @@ public class DeclChecker
     // \Gamma \rhd e: Expression, C.4.2
     Type2 exprType = expr.accept(exprChecker());
     
-    // if it is a schema reference
-    boolean isChannelFrom = referenceToSchema(exprType) != null;
+    // channel from declarations declare all elements from the signature
+    // of a given schema reference type. That means, they must be a RefExpr
+    // typed as a reference to a schema type (channelfrom S, where S is a schema). 
+    // Structurally, they differ from usual declarations because the list of names
+    // is empty, and that determines the next flag.
+    
+    //BUGFIX: this check is not strong enough because it wrongly considers
+    //        usual channel declarations that have schema types as channelFrom
+    //        ex: channel x: S, where S == [ a, b: \nat ]. The result is to
+    //        NOT declare "x \in \power~[ a, b : \arithmos ]", but to declare
+    //        a and b instead belonging to this type. The fix is easy: structurally
+    //        ChannelDecl with an empty name list is a channelFrom!  
+    //        
+    //boolean isChannelFrom = referenceToSchema(exprType) != null;    
+    boolean isChannelFrom = declNames.isEmpty();
     
     // if normal channel declaration, it is just like VarDecl:
     // the declaring type must be a power type to be type-correct.
-    if (!isChannelFrom)
+    if (!isChannelFrom/*!CircusUtils.isChannelFrom(term)*/)
     {   
       //expr should be a set expr , just like in varDecl            
       PowerType vType = factory().createPowerType();
