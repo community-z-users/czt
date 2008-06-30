@@ -8,7 +8,7 @@ We start by testing the $InitDS$ schema.
   \vdash? ~ \lblot file' == \langle \rangle \rblot \in InitDS
 \end{theorem}
 \vspace{-6ex}
-\begin{theorem}{InitDSCannotContainData}
+\begin{theorem}{InitDSNot3}
 \vdash? ~ \lblot file' == \langle 3 \rangle \rblot \notin InitDS
 \end{theorem}
 
@@ -26,13 +26,13 @@ unchanging $file, file'$ from the other test values.
   \t2 \}
 \end{zed}
 
-\begin{theorem}{dsPosTests}
+\begin{theorem}{readFILEPos}
   \vdash? ~ dsPos \subseteq readFILE
 \end{theorem}
 
 Here is the output from ZLive when we use its \texttt{conjectures}
 command to evaluate all the conjectures in this $dstest$
-section.\footnote{We have added the conjecture names into the output
+section.\footnote{We have added the conjecture names into the ZLive output
 by hand in this example, but hope to automate this in the future.
 The problem is that the Z standard currently does not pass the
 conjecture names from the \LaTeX\ markup to the Unicode markup, so
@@ -44,14 +44,14 @@ some extensions to the Z standard, which we have not yet made.}
 dstest> conjectures
 Conjecture on line 7 (InitDSEmpty)
 true
-Conjecture on line 11 (InitDSCannotContainData)
+Conjecture on line 11 (InitDSNot3)
 true
-Conjecture on line 29 (dsPosTests)
+Conjecture on line 29 (readFILEPos)
 false
 \end{verbatim}
 \end{small}
 
-To investigate the failing conjecture~$dsPosTests$ on line~29, we ask
+To investigate the failing conjecture~$readFILEPos$ on line~29, we ask
 ZLive to evaluate $dsPos \setminus readFILE$.  This displays just the
 test vectors that are not members of $readFILE$, which tells us that
 the third and fourth tests failed.  For each of these, we investigate
@@ -88,11 +88,11 @@ all tests give true.
 \subsection{Negative Tests for $readFILE$}
 
 Our first two negative tests check that $\negate 1$ is not a valid
-input for $offset?$ or $length?$.  In the latter test ($ReadLengthNotNeg$),
+input for $offset?$ or $length?$.  In the latter test ($ReadNotLenNeg$),
 we show how we can write the test values inside the $readFILE$ schema, 
 which can sometimes be more convenient.
 
-\begin{theorem}{ReadOffsetNotNeg}
+\begin{theorem}{ReadNotOffNeg}
   \vdash? ~ ([offset? == \negate 1] \land readFILE) = \{\}
 \end{theorem}
 
@@ -102,24 +102,24 @@ which can sometimes be more convenient.
 %  as a predicate rather than a schema expression, so it complains about 
 %  Undeclared identifier $offset?$~!}
 \vspace{-3ex}
-\begin{theorem}{ReadLengthNotNeg}
+\begin{theorem}{ReadNotLenNeg}
   \vdash? ~ [readFILE | length? = \negate 1] = \{\}
 \end{theorem}
 
 The remaining negative tests are partially specified, so each
 conjecture actually checks a set of negative test tuples.  The
-$ReadCannotChangeFile$ test checks that the read operation does not
-change contents of our example file $eg1$.  The
-$ReadDataNotLongerThanFile$ test checks that the output $data!$ is
+$ReadNoChange$ test checks that the read operation does not
+change the contents of our example file $eg1$.  The
+$ReadNotLonger$ test checks that the output $data!$ is
 never longer than the contents of file $eg1$.  This is actually
 proving that the property $\# data! > 2$ is false for all lengths $0
 \upto 3$, which is a form of finite proof by exhaustive enumeration.
 
-\begin{theorem}{ReadCannotChangeFile}
+\begin{theorem}{ReadNoChange}
   \vdash? ~ [readFILE | file=eg1; file' \neq eg1] = \{\}
 \end{theorem}
 \vspace{-6ex}
-\begin{theorem}{ReadDataNotLongerThanFile}
+\begin{theorem}{ReadNotLonger}
   \vdash? ~ [readFILE | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
 \end{theorem}
 

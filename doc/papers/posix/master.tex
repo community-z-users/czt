@@ -33,7 +33,7 @@ Victoria University of Wellington, NZ
 \begin{abstract}
   We propose a simple framework for validation unit testing of Z
   specifications, and illustrate this framework by testing the first few
-  levels of a Posix specification.  The tests are written in standard Z,
+  levels of a POSIX specification.  The tests are written in standard Z,
   and are executable by the CZT animator, ZLive.
 \end{abstract}
 
@@ -54,7 +54,7 @@ The Mondex case study was tackled as a first pilot case study in 2006.
 Several teams using a variety of techniques and tools worked on
 a fully automated proof of the Mondex smart-card banking application.
 A verifiable filesystem has been proposed~\cite{JosHol07} as another
-mini challenge.  An initial small subset of Posix has been
+mini challenge.  An initial small subset of POSIX has been
 chosen~\cite{FreFuWoo07} and participants of the ABZ 2008 conference
 were challenged to contribute to this project.
 
@@ -73,7 +73,7 @@ testing after each modification of the specification, and can help the
 unfamiliar reader of the specification to understand the specification
 more quickly and easily.  The framework has been used to design tests
 for the first few levels of a refactored version of Morgan and
-Suffrin's Z specification of the Posix file
+Suffrin's Z specification of the POSIX file
 system~\cite{MorSufTOSE84}.  The tests were executed and checked by
 the CZT animator ZLive.
 
@@ -81,7 +81,7 @@ The structure of this paper is as follows.  In
 Section~\ref{sect:framework}, we present our testing framework.
 Section~\ref{sect:zlive} gives an overview of the ZLive animator,
 which is used to evaluate the tests.  Section~\ref{sect:posix}
-describes the refactored Posix specification.  In
+describes the refactored POSIX specification.  In
 Section~\ref{sect:ds}, the tests for the data system are explained
 and Section~\ref{sect:ss} shows how they can be promoted to test
 the storage system.  Finally, Section~\ref{sect:conclusions} gives
@@ -89,7 +89,7 @@ conclusions.
 
 The main contributions of the paper are: the unit testing framework
 for validating Z specifications, a simple style for promoting tests
-from one level to another, the refactored and standard-compliant Posix
+from one level to another, the refactored and standard-compliant POSIX
 specification, the example unit tests we have developed for it, and
 the use of the ZLive animator to execute those tests.
 
@@ -146,7 +146,7 @@ given behaviour is not allowed by the specification.  In contrast,
 when testing whether an implementation is a refinement of a
 specification, the implementation is usually free to add behaviour
 outside the precondition of the specification and we can therefore use
-only positive tests.\footnote{Note that a test of any exceptional
+only positive tests.\footnote{Note that a test of exceptional
   behaviour that is formalised in the specification is a positive test.}
 % TODO: discuss relationship to robustness testing?
 
@@ -238,11 +238,11 @@ convention is the same as for positive tests, but the phrase after the
 operation name usually contains a negative word such as \emph{not} or
 \emph{cannot} to emphasize that it is a negative test.
 
-\begin{theorem}{Wedge0CannotGiveNeg}
+\begin{theorem}{Wedge0NotNeg}
   \vdash? ~ \lblot n==0, n'==\negate 1 \rblot \notin Wedge
 \end{theorem}
 \vspace{-5ex}
-\begin{theorem}{Wedge0CannotGive6}
+\begin{theorem}{Wedge0Not6}
   \vdash? ~ \lblot n==0, n'==6 \rblot \in \lnot Wedge
 \end{theorem}
 
@@ -250,7 +250,7 @@ We can also test just the precondition of the operation.
 %% Note: ZLive cannot evaluate this if the type of x is any integer
 %% because it requires enumerating pre Wedge, and then there is no
 %% lower bound on $n'$.
-\begin{theorem}{WedgePreCannotTake6}
+\begin{theorem}{WedgePreNot6}
   \vdash? ~ \lblot n==6 \rblot \notin \pre Wedge
 \end{theorem}
 
@@ -265,11 +265,11 @@ $tests$ to match the type of $Op$).  For example, the following two negative
 test suites check that 6 can never be an input for $Wedge$, and that 6 can
 never be an output of $Wedge$.
 
-\begin{theorem}{WedgeCannotTake6}
+\begin{theorem}{Wedge6Not}
   \vdash? ~ ([n==6] \land Wedge) = \emptyset
 \end{theorem}
 \vspace{-5ex}
-\begin{theorem}{WedgeCannotGive6}
+\begin{theorem}{WedgeNot6}
   \vdash? ~ ([n'==6] \land Wedge) = \emptyset
 \end{theorem}
 
@@ -280,7 +280,7 @@ which can make the tests even more concise.
 
 \subsection{Promoting Tests}
 
-A heavily-used pattern in the Posix Z specification is the use of
+A heavily-used pattern in the POSIX Z specification is the use of
 \emph{promotion} to lift the operations of one data type up to work on a
 more complex data type.  It is useful to be able to promote the tests
 of those operations as well.  To illustrate an elegant way of doing this,
@@ -448,10 +448,10 @@ or all solutions of a partially specified test or schema.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Posix Standardized}\label{sect:posix}
+\section{POSIX Standardized}\label{sect:posix}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section, we briefly describe the refactored Posix specification.
+In this section, we briefly describe the refactored POSIX specification.
 The main change was to break up the original specification into sections.
 Figure~\ref{fig:sects} shows the structure of the resulting Z
 sections, using a notation similar to a UML class diagram.  Each box
@@ -545,7 +545,7 @@ usual Z sequential style more closely.
     }}}
 %
   \end{picture}
-  \caption{Overview of Z Sections in the Refactored Posix Specification}
+  \caption{Overview of Z Sections in the Refactored POSIX Specification}
   \label{fig:sects}
 \end{figure}
 
@@ -577,7 +577,7 @@ naturals, so test values are easier to write.
   SS == [ fstore : FID \pfun FILE ]
 \end{zed}
 
-The ss section then defines $createSS$ and $destroySS$ operations,
+The $ss$ section then defines $createSS$ and $destroySS$ operations,
 plus the following framing schema, which is used to promote $readFILE$
 and $writeFILE$.
 
@@ -619,13 +619,26 @@ We plan to add a \texttt{unittest} command to ZLive that executes all the
 unit tests in all the sections whose names end with `Test'.  This will
 make it easy to rerun all unit tests after each modification of a
 specification, so will support regression testing during development
-of Z specifications.
+of Z specifications.  It would also be useful if ZLive measured structural
+coverage metrics of the operation schemas during testing, so that we
+can see what level of, say, branch coverage (each predicate evaluating to
+true and to false) our test suite obtains.
 
-The refactored Z specification of Posix, and our simple test suite,
+Our style of unit testing is quite complementary to the specification
+validation facilities of ProB/ProZ~\cite{leuschel:prob08}, because we
+focus on unit testing of each individual operation schema using a
+manually designed test suite, while ProB focusses on automatic testing
+of sequences of operations, and tests only a few input values of each
+operation.  The goal of our unit testing is to test the input-output
+functionality of each operation, while the main goal of ProB is to try to
+validate several standard system properties such as absence of deadlock and
+preservation of invariants.
+
+The refactored Z specification of POSIX, and our simple test suite,
 may be a useful starting point for other researchers who want to work
-on refinement or proofs about the Posix case study.  It is available
+on refinement or proofs about the POSIX case study.  It is available
 from the CZT sourceforge website~\cite{CZT}.  Interestingly, the
-original Posix specification did include several examples that used
+original POSIX specification did include several examples that used
 test values to illustrate some of the operations, but those examples
 were written within the English commentary, so were not even
 typechecked, let alone proved correct.  Our unit tests are more
