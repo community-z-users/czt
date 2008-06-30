@@ -113,21 +113,42 @@ implementation of that specification.  But in this paper, we want to design
 some tests that actually test the Z specification itself.  So the goal of
 those approaches is \emph{verification} (of some implementation), whereas
 our goal is \emph{validation} (of the Z specification).  This results in
-quite a different style of testing.  
+quite a different style of testing.
 
-One practical difference is that when testing an implementation, we
-can control its inputs but not its outputs, whereas when testing a Z
-specification we can ask arbitrary questions about inputs or outputs.
-So when validating a Z specification, we can use a richer variety of
-tests.  Another difference is that when validating a specification, we
+An important philosophical difference is that when our aim is the
+\emph{validation} of a Z specification, the correctness of our tests
+must be ensured by some external means (not just the specification
+itself), to avoid circular reasoning.  That is, we cannot generate
+tests from the specification, then test them against that same
+specification, and expect to find any errors.  There needs to be some
+independence between the tests and the system being tested.  In this
+paper we avoid such circular reasoning by designing our tests
+manually, based on the informal English description of the POSIX
+operations.  So the oracle for the correctness of the tests is our
+human understanding of the POSIX requirements.
+
+A practical difference is that when testing an implementation (for
+verification testing), we can control its inputs but not its outputs,
+whereas when testing a Z specification (for validation purposes) we
+can ask arbitrary questions about inputs or outputs.  So when
+validating a Z specification, we can use a richer variety of tests.
+In this paper, by a \emph{test} of a Z schema $Op$ we mean a boolean
+property of some finite/small subset of S that can (in principle) be
+enumerated in a reasonable time.  For example, we may be able to test
+$Op$ by instantiating it with a specific output value and asking which
+input values could generate that output value -- such 'tests' are not
+possible on black-box implementations.
+
+Another difference is that when validating a specification, we
 want to design both positive tests, which test that a given behaviour
 is allowed by the specification, and negative tests, which test that a
 given behaviour is not allowed by the specification.  In contrast,
 when testing whether an implementation is a refinement of a
 specification, the implementation is usually free to add behaviour
 outside the precondition of the specification and we can therefore use
-only positive tests\footnote{Note that testing for exceptional
-  behaviour formalised in the specification is a positive test here.}.
+only positive tests.\footnote{Note that a test of any exceptional
+  behaviour that is formalised in the specification is a positive test.}
+% TODO: discuss relationship to robustness testing?
 
 To illustrate our testing framework, we shall use a simple example
 specification given by the following specification, which defines the
@@ -159,7 +180,7 @@ can ignore the unit tests.
 
 The first kind of testing we want to do is positive tests to check
 that an operation has a desired input-output behaviour.  When
-specifying tests, it is important to specify the expected output
+specifying tests, it is usual to specify the expected output
 values as well as the input values, so we write all the inputs and
 output values as a Z binding and use a membership test.  Here are two
 examples that test the non-deterministic output behaviour of Wedge
@@ -245,11 +266,11 @@ test suites check that 6 can never be an input for $Wedge$, and that 6 can
 never be an output of $Wedge$.
 
 \begin{theorem}{WedgeCannotTake6}
-  \vdash? ~ ([State | n=6] \land Wedge) = \emptyset
+  \vdash? ~ ([n==6] \land Wedge) = \emptyset
 \end{theorem}
 \vspace{-5ex}
 \begin{theorem}{WedgeCannotGive6}
-  \vdash? ~ ([State~' | n'=6] \land Wedge) = \emptyset
+  \vdash? ~ ([n'==6] \land Wedge) = \emptyset
 \end{theorem}
 
 It is sometimes convenient to write these kinds of negative test values
@@ -293,9 +314,10 @@ the $states$ function.
 
 
 We use the same framing schema to promote the tests.  But to ensure
-that all inputs of the promoted operation are given, we use a
-testing-oriented version of the framing schema that also specifies
-which $curr?$ input will be tested and an initial value for the
+that all inputs of the promoted operation are given, we find it useful
+to further instantiate the framing schema $\Phi ManyStates$, to obtain
+a testing-oriented framing schema ($\Phi ManyStatesTest$) that also
+specifies which $curr?$ input will be tested and an initial value for the
 $states$ mapping.
 
 \begin{zsection}
@@ -335,15 +357,18 @@ would be empty or smaller than our original set of tests $Optests$.
 If we want to check that all of the original tests can be promoted without
 being lost, we can check the conjecture
 $(\Phi PTests \project OpTests) = Optests$.
+%% ZLive does not correctly implement equality of sets of bindings yet.
 %\begin{theorem}{AllTestsPromoted}
 %\vdash? ~ (\Phi ManyStatesTest \project \{Wedge0Gives0, Wedge0Gives5\})
 %            = \{Wedge0Gives0, Wedge0Gives5\}
 %\end{theorem}
 
-If this is not true, we may want to check each test vector $v \in Optests$
-separately.  We can define the promoted vector as 
-$pv == (\mu \Phi PTests \land \{v\})$.
-Then we can test $pv \in Op_P$. 
+If this mass-promotion test fails, we may want to check each promoted test 
+vector $v \in Optests$ separately.  To do this, we can define the promoted
+vector as $pv == (\mu \Phi PTests \land \{v\})$, and then we can test 
+$pv \in Op_P$.
+%% ZLive gives a 'InclDecl not unfolded' error on this, because
+%% the \mu \Phi ManyStatesTest is not fully unfolded yet.
 %\begin{zed}
 %  pv == (\mu \Phi ManyStatesTest \land \{Wedge0Gives0\})
 %\end{zed}
@@ -373,7 +398,7 @@ variety of simplifications.  For example, the test $\lblot n==0, n'==0
 \[
   \lblot n == 0 , n' == 0 \rblot \in 
  [ n :~\negate 10 \upto 10; n' :~\negate 10 \upto 10 | \\
-   \t2 n * n + n' * n'  \leq 25; n + n' \leq 5; 0 \leq n' ]
+   \t5 n * n + n' * n'  \leq 25; n + n' \leq 5; 0 \leq n' ]
 \]
 
 The resulting term is then translated into a sequence of primitive
@@ -408,7 +433,7 @@ preference to modes that have a small number of expected results,
 which means that filter predicates are moved as near to the front as
 possible, which reduces the search space.
 
-Finally, ZLive generates all possible results via a depth-first 
+Finally, ZLive enumerates all possible results via a depth-first 
 backtracking search of all the solutions generated by the sorted sequence.
 However, for membership tests such as $A \in S$, where $A$ is a known
 value and $S$ is a set comprehension, it substitutes the value of $A$

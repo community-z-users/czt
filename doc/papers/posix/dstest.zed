@@ -32,8 +32,9 @@ unchanging $file, file'$ from the other test values.
 
 Here is the output from ZLive when we use its \texttt{conjectures}
 command to evaluate all the conjectures in this $dstest$
-section.\footnote{We plan to display the conjecture names rather than
-just the line numbers.  However, the Z standard does not pass the
+section.\footnote{We have added the conjecture names into the output
+by hand in this example, but hope to automate this in the future.
+The problem is that the Z standard currently does not pass the
 conjecture names from the \LaTeX\ markup to the Unicode markup, so
 getting access to the names within the parser and ZLive will require
 some extensions to the Z standard, which we have not yet made.}
@@ -41,11 +42,11 @@ some extensions to the Z standard, which we have not yet made.}
 \begin{small}
 \begin{verbatim}
 dstest> conjectures
-Conjecture on line 7
+Conjecture on line 7 (InitDSEmpty)
 true
-Conjecture on line 11
+Conjecture on line 11 (InitDSCannotContainData)
 true
-Conjecture on line 29
+Conjecture on line 29 (dsPosTests)
 false
 \end{verbatim}
 \end{small}
@@ -87,9 +88,9 @@ all tests give true.
 \subsection{Negative Tests for $readFILE$}
 
 Our first two negative tests check that $\negate 1$ is not a valid
-input for $offset?$ or $length?$.  In the $length?$ test, we show how
-we can write the test values inside the $readFILE$ schema, which can
-sometimes be more convenient.
+input for $offset?$ or $length?$.  In the latter test ($ReadLengthNotNeg$),
+we show how we can write the test values inside the $readFILE$ schema, 
+which can sometimes be more convenient.
 
 \begin{theorem}{ReadOffsetNotNeg}
   \vdash? ~ ([offset? == \negate 1] \land readFILE) = \{\}
@@ -107,9 +108,12 @@ sometimes be more convenient.
 
 The remaining negative tests are partially specified, so each
 conjecture actually checks a set of negative test tuples.  The
-BadOutFile test checks that the read operation does not change the
-file contents.  The BadData test checks that the output $data!$ is
-never longer than the file contents.
+$ReadCannotChangeFile$ test checks that the read operation does not
+change contents of our example file $eg1$.  The
+$ReadDataNotLongerThanFile$ test checks that the output $data!$ is
+never longer than the contents of file $eg1$.  This is actually
+proving that the property $\# data! > 2$ is false for all lengths $0
+\upto 3$, which is a form of finite proof by exhaustive enumeration.
 
 \begin{theorem}{ReadCannotChangeFile}
   \vdash? ~ [readFILE | file=eg1; file' \neq eg1] = \{\}
@@ -118,6 +122,18 @@ never longer than the file contents.
 \begin{theorem}{ReadDataNotLongerThanFile}
   \vdash? ~ [readFILE | file=eg1; offset?=0; length? < 4; \# data! > 2] = \{\}
 \end{theorem}
+
+This illustrates that there is a continuum between testing and proof.
+We usually test just one input-output tuple at a time, but the idea of
+testing can be extended (as in this paper) to allow a given property
+to be evaluated for all members of a finite/small set.  This is
+similar to model-checking, where properties of finite systems are
+proved by exhaustive enumeration.  Animators like ZLive use a mixture
+of symbolic manipulation techniques and exhaustive enumeration.  The
+more they use symbolic manipulation, the closer they become to general
+theorem provers.  So the testing-proof continuum ranges from testing
+of single input-output tuples, through enumeration (or 
+model-checking) of finite systems, to full symbolic proof.
 
 
 %\subsection{Positive Tests for $writeFILE$}
