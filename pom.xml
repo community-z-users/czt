@@ -88,6 +88,7 @@
     <module>parser-src</module>
     <module>parser-zpatt</module>
     <module>session</module>
+    <module>specreader</module>
     <module>typechecker</module>
     <module>typechecker-oz</module>
     <module>typechecker-circus</module>
@@ -162,6 +163,13 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>session</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT SpecReader -->
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>specreader</artifactId>
         <version>${czt.version}</version>
       </dependency>
 

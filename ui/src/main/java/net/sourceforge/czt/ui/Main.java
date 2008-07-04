@@ -90,6 +90,9 @@ public class Main
       boolean syntaxCheckOnly = false;
       boolean prove = false;
       boolean printIds = false;
+      boolean gatherWholeSpec = false;
+      boolean isBufferingWanted = false;
+      boolean isNarrativeWanted = false;
       Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-h".equals(args[i]) ||
@@ -134,6 +137,11 @@ public class Main
             return;
           }
         }
+        else if (args[i].startsWith("-g")) {
+          gatherWholeSpec = true;
+          isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
+          isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;
+        }
         else {
           setConsoleLogger(verbosityLevel_);
           SectionManager manager = new SectionManager(extension);
@@ -141,11 +149,21 @@ public class Main
             manager.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS,
                                 "true");
           }
-          FileSource source = new FileSource(args[i]);
-	  File file = new File(args[i]);
-	  if (file != null && file.getParent() != null) {
-	    manager.setProperty("czt.path", file.getParent());
-	  }
+          Source source;
+          if (gatherWholeSpec) {
+            if (args[i].endsWith(".tex")) {
+              source = new SpecSource(args[i], isBufferingWanted, isNarrativeWanted);
+            } else {
+              System.err.println("Can gather whole spec only for latex mark-up");
+              return;
+            }
+          } else {
+            source = new FileSource(args[i]);
+          }
+          File file = new File(args[i]);
+          if (file != null && file.getParent() != null) {
+            manager.setProperty("czt.path", file.getParent());
+          }
           if (parse(source, manager, syntaxCheckOnly, prove) &&
               output != null) {
             if (output.endsWith("8")) {
@@ -218,10 +236,15 @@ public class Main
   public static String usage(String prefix)
   {
     return "Community Z Tools " + getVersion() + "\nUsage:\n" +
-      "  " + prefix + "[-d <dialect>] [-o <filename>] [-s] <filename>\n" +
+      "  " + prefix + "[-d <dialect>] [-g{biq}] [-o <filename>] [-s] <filename>\n" +
       "  " + prefix + "<command> [<commandArg1> .. <commandArgN>]\n" +
       "Flags:\n" +
       "  -d   specify the dialect to be used\n" +
+      "  -g   permit mark-up directives to be used before they are defined\n" +
+      "         involving gathering whole spec together before it is parsed\n" +
+      "         b  buffers whole spec in memory (faster)\n" +
+      "         i  retains informal narrative\n" +
+      "         q  silences error messages from the gathering phase\n" +
       "  -o   specify output file (mark-up is determined by file ending)\n" +
       "  -s   syntax check only\n" +
       "  -id  if an output in LaTeX or Unicode mark-up is specified,\n" +

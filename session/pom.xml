@@ -13,5 +13,11 @@
     Provides classes for managing and caching Z sections and other
     Z-related artifacts.
   </description>
+  <dependencies>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>specreader</artifactId>
+    </dependency>
+  </dependencies>
   <url>http://czt.sourceforge.net/session/</url>
 </project>

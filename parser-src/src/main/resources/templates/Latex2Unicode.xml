@@ -95,8 +95,9 @@ import net.sourceforge.czt.z.util.ZString;
  *     nested braces.
  *   &lt;/li&gt;
  *   &lt;li&gt;
- *     Latex markup directive are only recognised outside of a formal section
- *     or paragraph.
+ *     Latex markup directives are recognised only outside of a
+ *     formal paragraph and only after they have been defined,
+ *     unless the optional SpecReader pre-processor is used.
  *   &lt;/li&gt;
  * &lt;/ul&gt;
  */
@@ -189,6 +190,36 @@ import net.sourceforge.czt.z.util.ZString;
   private Stack&lt;String&gt; openBeginCommands_ = new Stack();
 
   /**
+   * Name of file from which source text originated.
+   */
+  private String filename_;
+
+  /** 
+   * Line number given in most recent %%Zloc directive.
+   */
+  private int locLine = 1;
+
+  /** 
+   * Column number given in most recent %%Zloc directive.
+   */
+  private int locColumn = 1;
+
+  /** 
+   * Character number given in most recent %%Zloc directive.
+   */
+  private int locChar = 0;
+
+  /**
+   * Line number in source text of line following most recent %%Zloc directive.
+   */
+  private int locyyline = 1;
+
+  /**
+   * Character number in source text of character following most recent %%Zloc directive.
+   */
+  private int locyychar = 0;
+
+  /**
    * Creates a new scanner for the source.
    */
   public <class/>(Source source, SectionInfo sectInfo, Properties properties)
@@ -198,6 +229,7 @@ import net.sourceforge.czt.z.util.ZString;
     source_ = source;
     sectInfo_ = sectInfo;
     properties_ = properties;
+    filename_ = source.toString();
   }
 
   public Source getSource()
@@ -207,14 +239,17 @@ import net.sourceforge.czt.z.util.ZString;
 
   private String getLoc()
   {
-    return source_.toString();
+    return filename_;
   }
 
   private LocInfo getLocation()
   {
+    final int lineNo = locLine + yyline - locyyline;
+    final int columnNo = yyline == locLine? locColumn + yycolumn : yycolumn;
+    final int charNo = locChar + yychar - locyychar;
     return new LocInfoImpl(getLoc(),
-                           yyline, yycolumn,
-                           yychar, yytext().length());
+                           lineNo, columnNo,
+                           charNo, yytext().length());
   }
 
   private boolean getBooleanProperty(String propertyKey)
@@ -492,6 +527,8 @@ WORD_MARKUP = "%%Zword"
 INWORD_MARKUP = "%%Zinword"
 PREWORD_MARKUP = "%%Zpreword"
 POSTWORD_MARKUP = "%%Zpostword"
+FILE_MARKUP = "%%Zfile" {NOT_NL}* {NL}
+LOC_MARKUP = "%%Zloc" [\ \t]* [0-9]* "#" [0-9]* "@" [0-9]* {NL}
 
 SPECIAL = "\\" | "%"
 NOT_SPECIAL = !(![^] | {SPECIAL})
@@ -730,6 +767,35 @@ NAME =   {NOT_LB}*
           directive_ = true;
           return result(LatexSym.POSTWORD_MARKUP, null);
         }
+  ^{FILE_MARKUP}
+        {
+          int position = "%%Zfile".length();
+          while (Character.isWhitespace(yycharat(position))) {
+            position++;
+          }
+          filename_ = yytext().substring(position, yytext().length() - 1);
+        }
+  ^{LOC_MARKUP}
+        {
+          int start = "%%Zloc".length();
+          while (Character.isWhitespace(yycharat(start))) {
+            start++;
+          }
+          int finish = start + 1;
+          while (Character.isDigit(yycharat(finish))) {
+            finish++;
+          }
+          locLine = Integer.parseInt(yytext().substring(start, finish));
+          start = finish + 1;
+          finish = start + 1;
+          while (Character.isDigit(yycharat(finish))) {
+            finish++;
+          }
+          locColumn = Integer.parseInt(yytext().substring(start, finish));
+          locChar = Integer.parseInt(yytext().substring(finish + 1, yytext().length() - 1));
+          locyyline = yyline + 1;
+          locyychar = yychar;
+        }
   {START_COMMENT}
         {
           yybegin(COMMENT_STATE);
@@ -938,7 +1004,7 @@ NAME =   {NOT_LB}*
           return result(ZString.GENAX);
         }
   "\\begin" {IGNORE}* "{op}" {IGNORE}* "{"
- 	{
+        {
           yybegin(ZED);
           assert ! addSpace_;
           begin("op");

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>net.sourceforge.czt.section package</title>
+<!--
+
+  Copyright (C) 2008 Ian Toyn
+  This file is part of the czt project.
+
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+-->
+</head>
+<body>
+
+<p>
+Provides the first level of processing of LaTeX mark-up of a Z specification,
+as directed by the ISO Z standard.
+Involves gathering the sections into definition-before-use order,
+and moving mark-up directives to the beginnings of their sections.
+Informal narrative text is elided unless specifically requested.
+</p>
+<p>
+Class {@link net.sourceforge.czt.specreader.SpecReader SpecReader}
+extends {@link java.io.Reader Reader}
+to allow the text of the resulting sections
+to be read in order as a single stream.
+It also defines a
+{@link net.sourceforge.czt.specreader.Main#main(String[]) main}
+that copies the text of that stream to <tt>System.out</tt>.
+</p>
+<p>
+Gathering commences at a given <tt>fileName.tex</tt>.
+Sections that are part of the standard Z toolkit
+are read from a library resource.
+Other parent sections are read from <tt>parentName.tex</tt>
+in the current directory,
+if they have not been defined in files already read.
+Anonymous sections are given explicit section headers, as follows.
+</p>
+<pre>section filename parents standard_toolkit</pre>
+<p>
+Directives are added
+to allow error reports from subsequent processing
+to refer to the text in its original context:
+</p>
+<pre>%%Zfile filename.tex</pre>
+<p>
+precedes text that came from the named file;
+</p>
+<pre>%%Zloc 12#1@254</pre>
+<p>
+precedes text that started on line 12 at column 1
+with the 254th character from the file.
+</p>
+<p>
+Occurrences of the following Z mistakes are detected:
+</p>
+<ul>
+<li>multiple sections with the same name;
+<li>section not found;
+<li>cycle in the parents relation;
+<li>anonymous section in same file as named section.
+</ul>
+<p>
+The Reader's constructor throws an exception on detecting any of these mistakes,
+and hence no text can be read in their presence.
+</p>
+<p>
+Regarding efficiency, either the entire text is buffered in memory,
+or each block of text is recorded by its offset and length in its file.
+The latter requires that the files be read again to retrieve the text,
+and so is slower but uses less memory at any one time.
+As Java does not support random access to Unicode character files,
+re-reading a block of text that originally appeared before the block
+that it now follows involves reading its file again from the beginning.
+Such re-ordering happens if sections are used before they are defined,
+and if mark-up directives are used before they are defined.
+In the worst case, a file containing n sections is re-read 2n times,
+though only on one of those occasions will it be read all the way to the end.
+The re-reading alternative currently buffers an entire section on re-reading,
+so uses more memory than might be expected.
+</p>
+
+</body>
+</html>

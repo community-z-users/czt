@@ -35,6 +35,10 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser-ozpatt</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>specreader</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
