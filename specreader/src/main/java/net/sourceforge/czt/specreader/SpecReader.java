@@ -26,7 +26,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.io.Reader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -40,8 +39,11 @@ import java.io.IOException;
  */
 public final class SpecReader extends Reader
 {
-  /** File type to be processed */
-  protected static final String suffix_ = ".tex";
+  /** File types to be considered */
+  public static final String[] suffix_ = {".tex", ".zed"};
+  
+  /** Where toolkit sections are under resources */
+  protected static final String resourcePrefix_ = "/lib/";
   
   /** Whether buffering of whole spec's text is wanted */
   private boolean isBufferingWanted_;
@@ -80,11 +82,12 @@ public final class SpecReader extends Reader
    * @throws SectionNotFoundException
    */
   public SpecReader(String fileName, boolean isBufferingWanted, boolean isNarrativeWanted)
-    throws CyclicSectionsException, DupSectionNameException, IllegalAnonSectionException, IOException, SectionNotFoundException
+    throws CyclicSectionsException, DupSectionNameException, IllegalAnonSectionException,
+    IOException, SectionNotFoundException
   {
     isBufferingWanted_ = isBufferingWanted;
     isNarrativeWanted_ = isNarrativeWanted;
-    sections_ = gatherSections(fileName);
+    sections_ = gatherSections(new Pathname(fileName));
     sectionIterator_ = sections_.iterator();
     if (sectionIterator_.hasNext()) {
       nextSection();
@@ -148,18 +151,18 @@ public final class SpecReader extends Reader
    * Gathers the sections of a Z specification into definition-before-use order,
    * and moves mark-up directives to the beginnings of their sections.
    * 
-   * @param fileName name of file to start from
+   * @param filename name of file to start from
    * @throws CyclicSectionsException
    * @throws DupSectionNameException
    * @throws IllegalAnonSectionException
    * @throws IOException
    * @throws SectionNotFoundException
    */
-  private List<Section> gatherSections(String fileName)
-    throws CyclicSectionsException, DupSectionNameException, IllegalAnonSectionException, IOException, SectionNotFoundException
+  private List<Section> gatherSections(Pathname filename)
+    throws CyclicSectionsException, DupSectionNameException, IllegalAnonSectionException,
+    IOException, SectionNotFoundException
   {
-    final String specName = fileName.substring(0, fileName.length()-suffix_.length());
-    final Collection<Section> sections = readFiles(specName);
+    final Collection<Section> sections = readFiles(filename.basename(), filename.suffix());
     //System.err.format("Total #sections read: %d%n", sections.size());
     return orderSects(sections);
   }
@@ -170,14 +173,16 @@ public final class SpecReader extends Reader
    * and the names of ancestral sections (including prelude).
    * 
    * @param specName string naming the whole specification
+   * @param suffix file type associated with <code>specName</code>, or ""
    * @return all sections that are part of the Z specification
    * @throws DupSectionNameException
    * @throws IllegalAnonSectionException
    * @throws IOException
    * @throws SectionNotFoundException
    */
-  private Collection<Section> readFiles(String specName)
-    throws DupSectionNameException, IllegalAnonSectionException, IOException, SectionNotFoundException
+  private Collection<Section> readFiles(String specName, String suffix)
+    throws DupSectionNameException, IllegalAnonSectionException, IOException,
+    SectionNotFoundException
   {
     final List<String> toBeRead = new LinkedList<String>();
     toBeRead.add(specName);
@@ -188,7 +193,8 @@ public final class SpecReader extends Reader
     while (! toBeRead.isEmpty()) {
       final String basename = toBeRead.remove(0);
       if (cache.get(basename) == null) {
-        final List<Section> sections = readFile(basename);
+        final String suff = basename.equals(specName)? suffix : "";
+        final List<Section> sections = readFile(basename, suff);
         for (Section section : sections) {
           if (section instanceof ZSection) {
             HeaderBlock header = ((ZSection)section).getHeader();
@@ -199,7 +205,7 @@ public final class SpecReader extends Reader
               cache.put(name, section);
             } else {
               throw new DupSectionNameException("Multiple sections with same name " + name
-                  + " in " + basename + suffix_ + " and " + existingSection.getFilename() + suffix_);
+                  + " in " + section.getPathname() + " and " + existingSection.getPathname());
             }
           } else if (section instanceof NarrSection) {
             cache.put(basename + "__Narrative", section);
@@ -215,17 +221,19 @@ public final class SpecReader extends Reader
   /**
    * Reads the file with the given name and returns the sections therein.
    * 
-   * @param basename name of file to be read (without suffix_)
+   * @param basename name of file to be read (without suffix)
+   * @param suffix file type associated with <code>basename</code>, or ""
    * @return list of sections defined in that one file
-   * @throws FileNotFoundException
    * @throws IllegalAnonSectionException
    * @throws IOException
+   * @throws SectionNotFoundException
    */
-  private List<Section> readFile(String basename)
+  private List<Section> readFile(String basename, String suffix)
     throws IllegalAnonSectionException, IOException, SectionNotFoundException
   {
     //System.err.format("Reading %s%s%n", basename, suffix_);
-    final ZFileReader zFileReader = new ZFileReader(basename, isBufferingWanted_, isNarrativeWanted_);
+    final ZFileReader zFileReader = new ZFileReader(
+        basename, suffix, isBufferingWanted_, isNarrativeWanted_);
     final List<Section> sections = zFileReader.readSections();
     //System.err.format("#sections read: %d%n", sections.size());
     return sections;

@@ -67,8 +67,19 @@ public final class Main
             }
           }
         }
-      } else if (fileName == null && arg.endsWith(SpecReader.suffix_)) {
-        fileName = arg;
+      } else if (fileName == null) {
+        boolean suffixOk = false;
+        for (String suffix : SpecReader.suffix_) {
+          if (arg.endsWith(suffix)) {
+            suffixOk = true;
+          }
+        }
+        if (suffixOk) {
+          fileName = arg;
+        } else {
+          printUsage();
+          System.exit(1);
+        }
       } else {
         printUsage();
         System.exit(1);
@@ -76,7 +87,8 @@ public final class Main
     }
 
     try {
-      final SpecReader specReader = new SpecReader(fileName, isBufferingWanted, isNarrativeWanted);
+      final SpecReader specReader = new SpecReader(
+          fileName, isBufferingWanted, isNarrativeWanted);
       final int len = 4096;
       char[] cbuf = new char[len];
       int count;
@@ -116,7 +128,7 @@ public final class Main
    */
   private static void printUsage()
   {
-    System.err.format("usage: java specreader [-b] [-i] filename%s%n", SpecReader.suffix_);
+    System.err.println("usage: java specreader [-b] [-i] filename.tex");
     System.err.println("where -b buffers whole spec's text in memory");
     System.err.println("  and -i includes informal narrative in output");
   }

@@ -13,13 +13,13 @@ public final class NarrSection extends Section
   /**
    * Constructs a narrative section.
    * 
-   * @param filename name of file from which section was read
+   * @param pathname path to file from which section was read
    * @param isBufferingWanted whether to buffer whole section's text in memory
    * @param para narrative
    */
-  public NarrSection(String filename, boolean isBufferingWanted, InformalParaBlock para)
+  public NarrSection(Pathname pathname, boolean isBufferingWanted, InformalParaBlock para)
   {
-    super(filename, isBufferingWanted);
+    super(pathname, isBufferingWanted);
     para_ = para;
   }
 

@@ -510,9 +510,11 @@ specreader/src/main/java/net/sourceforge/czt/specreader/Main.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/MarkupBlock.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/NarrSection.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/ParaBlock.java -text
+specreader/src/main/java/net/sourceforge/czt/specreader/Pathname.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/Section.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/SectionNotFoundException.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/SpecReader.java -text
+specreader/src/main/java/net/sourceforge/czt/specreader/ZFile.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/ZFileReader.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/ZSection.java -text
 specreader/src/main/java/net/sourceforge/czt/specreader/package.html -text

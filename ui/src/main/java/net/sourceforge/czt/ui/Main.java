@@ -90,7 +90,6 @@ public class Main
       boolean syntaxCheckOnly = false;
       boolean prove = false;
       boolean printIds = false;
-      boolean gatherWholeSpec = false;
       boolean isBufferingWanted = false;
       boolean isNarrativeWanted = false;
       Level level = Level.WARNING;
@@ -138,7 +137,6 @@ public class Main
           }
         }
         else if (args[i].startsWith("-g")) {
-          gatherWholeSpec = true;
           isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
           isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;
         }
@@ -149,15 +147,16 @@ public class Main
             manager.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS,
                                 "true");
           }
-          Source source;
-          if (gatherWholeSpec) {
-            if (args[i].endsWith(".tex")) {
+          Source source = null;
+          boolean openOk = false;
+          for (String suff : net.sourceforge.czt.specreader.SpecReader.suffix_) {
+            if (args[i].endsWith(suff)) {
               source = new SpecSource(args[i], isBufferingWanted, isNarrativeWanted);
-            } else {
-              System.err.println("Can gather whole spec only for latex mark-up");
-              return;
+              openOk = true;
+              break;
             }
-          } else {
+          }
+          if (! openOk) {  /* Not latex mark-up, so specreader not used */
             source = new FileSource(args[i]);
           }
           File file = new File(args[i]);
@@ -236,15 +235,14 @@ public class Main
   public static String usage(String prefix)
   {
     return "Community Z Tools " + getVersion() + "\nUsage:\n" +
-      "  " + prefix + "[-d <dialect>] [-g{biq}] [-o <filename>] [-s] <filename>\n" +
+      "  " + prefix + "[-d <dialect>] [-g{bi}] [-o <filename>] [-s] <filename>\n" +
       "  " + prefix + "<command> [<commandArg1> .. <commandArgN>]\n" +
       "Flags:\n" +
       "  -d   specify the dialect to be used\n" +
-      "  -g   permit mark-up directives to be used before they are defined\n" +
-      "         involving gathering whole spec together before it is parsed\n" +
-      "         b  buffers whole spec in memory (faster)\n" +
-      "         i  retains informal narrative\n" +
-      "         q  silences error messages from the gathering phase\n" +
+      "  -g   options concerned with gathering of latex mark-up so that\n" +
+      "         directives are moved to the beginnings of their sections\n" +
+      "     b  buffer whole spec in memory while doing so (faster)\n" +
+      "     i  retain informal narrative rather than eliding it\n" +
       "  -o   specify output file (mark-up is determined by file ending)\n" +
       "  -s   syntax check only\n" +
       "  -id  if an output in LaTeX or Unicode mark-up is specified,\n" +

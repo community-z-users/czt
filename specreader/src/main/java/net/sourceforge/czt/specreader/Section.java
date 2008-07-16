@@ -29,8 +29,8 @@ import java.io.IOException;
  */
 public abstract class Section
 {
-  /** Name of file from which section was read */
-  private String filename_;
+  /** Path to file from which section was read */
+  private Pathname pathname_;
 
   /** Whether buffering of whole section's text is wanted */
   private boolean isBufferingWanted_;
@@ -44,24 +44,24 @@ public abstract class Section
   /**
    * Constructs a section.
    * 
-   * @param filename name of file from which section was read
+   * @param pathname path to file from which section was read
    * @param isBufferingWanted whether to buffer whole section's text in memory
    */
-  public Section(String filename, boolean isBufferingWanted)
+  public Section(Pathname pathname, boolean isBufferingWanted)
   {
-    filename_ = filename;
+    pathname_ = pathname;
     isBufferingWanted_ = isBufferingWanted;
     inFile_ = null;
   }
 
   /**
-   * Projects the filename field.
+   * Projects the pathname field.
    * 
-   * @return name of file from which section was read
+   * @return path to file from which section was read
    */
-  protected String getFilename()
+  protected Pathname getPathname()
   {
-    return filename_;
+    return pathname_;
   }
 
   /**
@@ -71,7 +71,7 @@ public abstract class Section
    */
   private String getFileDir()
   {
-    return "%%Zfile "+getFilename()+SpecReader.suffix_+"\n";
+    return "%%Zfile " + pathname_.toString() + "\n";
   }
 
   /**
@@ -121,7 +121,8 @@ public abstract class Section
           if (inFile_ != null) {
             inFile_.close();
           }
-          inFile_ = ZFileReader.openZFile(getFilename(), this);
+          ZFile zFile = ZFileReader.openZFile(pathname_.basename(), pathname_.suffix(), this);
+          inFile_ = zFile.getBufferedReader();
           offset_ = 0;
         }
         //System.err.format("blockAppend skip %d-%d%n", charNo, offset);

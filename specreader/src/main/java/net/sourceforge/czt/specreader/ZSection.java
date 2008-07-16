@@ -21,15 +21,15 @@ public final class ZSection extends Section
   /**
    * Constructs a Z section.
    * 
-   * @param filename name of file from which section was read
+   * @param pathname path to file from which section was read
    * @param isBufferingWanted whether to buffer whole section's text in memory
    * @param header section header (name and parents)
    * @param markups mark-up directives, in original order
    * @param paras paragraphs, in original order
    */
-  public ZSection(String filename, boolean isBufferingWanted, HeaderBlock header, List<MarkupBlock> markups, List<ParaBlock> paras)
+  public ZSection(Pathname pathname, boolean isBufferingWanted, HeaderBlock header, List<MarkupBlock> markups, List<ParaBlock> paras)
   {
-    super(filename, isBufferingWanted);
+    super(pathname, isBufferingWanted);
     header_ = header;
     markups_ = markups;
     paras_ = paras;

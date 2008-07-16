@@ -1,4 +1,4 @@
-%%Zfile prelude.tex
+%%Zfile /lib/prelude.tex
 %%Zloc 18#1@470
 \begin{zsection}
 \SECTION prelude
@@ -183,7 +183,7 @@
 \forall m, n: \nat @ m + (n + 1) = (m + n) + 1
 \end{axdef}
 
-%%Zfile set_toolkit.tex
+%%Zfile /lib/set_toolkit.tex
 %%Zloc 8#1@179
 \begin{zsection}
 \SECTION set\_toolkit
@@ -374,7 +374,7 @@ a \subseteq b \land a \neq b
 \finset_1 X == \finset X \setminus \{ \emptyset \}
 \end{zed}
 
-%%Zfile number_toolkit.tex
+%%Zfile /lib/number_toolkit.tex
 %%Zloc 7#1@135
 \begin{zsection}
 \SECTION number\_toolkit
@@ -539,7 +539,7 @@ succ~\_ : \power (\nat \cross \nat)
 \\ \t1	\land ( 0 \leq i \mod j < j  \lor  j < i \mod j \leq 0 )
 \end{axdef}
 
-%%Zfile relation_toolkit.tex
+%%Zfile /lib/relation_toolkit.tex
 %%Zloc 7#1@156
 \begin{zsection}
 \SECTION relation\_toolkit \parents set\_toolkit
@@ -761,7 +761,7 @@ r \plus = \bigcap \{~ s : X \rel X | r \subseteq s \land r \comp s \subseteq s ~
 \forall r : X \rel X @ r \star = r \plus \cup \id X
 \end{gendef}
 
-%%Zfile function_toolkit.tex
+%%Zfile /lib/function_toolkit.tex
 %%Zloc 7#1@137
 \begin{zsection}
 \SECTION function\_toolkit \parents relation\_toolkit
@@ -892,7 +892,7 @@ X \finj Y == ( X \ffun Y ) \cap ( X \pinj Y )
 f \partition a \iff \disjoint f \land \bigcup ( \ran f ) = a
 \end{gendef}
 
-%%Zfile sequence_toolkit.tex
+%%Zfile /lib/sequence_toolkit.tex
 %%Zloc 7#1@137
 \begin{zsection}
 \SECTION sequence\_toolkit \parents function\_toolkit, number\_toolkit
@@ -1164,12 +1164,12 @@ s \infix t \iff ( \exists u,v: \seq X @ u \cat s \cat v = t)
 \forall q , r : \seq \seq X @ \dcat ( q \cat r ) = ( \dcat q ) \cat ( \dcat r )
 \end{gendef}
 
-%%Zfile standard_toolkit.tex
+%%Zfile /lib/standard_toolkit.tex
 %%Zloc 1#1@0
 \begin{zsection}
   \SECTION standard\_toolkit \parents sequence\_toolkit
 \end{zsection}
-%%Zfile permutemarkup.tex
+%%Zfile /lib/permutemarkup.tex
 %%Zloc 1#1@0
 \begin{zsection}
 \SECTION permuteMarkup \parents standard\_toolkit

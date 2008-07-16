@@ -39,8 +39,11 @@ import java.util.List;
  */
 public final class ZFileReader
 {
-  /** Name of file being read */
+  /** Name of section being read */
   private String basename_;
+
+  /** Path to file being read (optional resourcePrefix, <code>basename_</code> and a suffix) */
+  private Pathname pathname_;
 
   /** Whether buffering of whole spec's text is wanted */
   private boolean isBufferingWanted_;
@@ -89,18 +92,21 @@ public final class ZFileReader
   /**
    * Constructs a new Z file reader, opening the file so that it is ready to be read.
    * 
-   * @param basename name of file to be read
+   * @param basename name of file to be read, without suffix
+   * @param suffix file type associated with <code>basename</code>, or ""
    * @param isBufferingWanted whether to buffer whole spec's text in memory
    * @param isNarrativeWanted whether informal narrative is retained or elided
    * @throws SectionNotFoundException
    */
-  public ZFileReader(String basename, boolean isBufferingWanted, boolean isNarrativeWanted)
+  public ZFileReader(String basename, String suffix, boolean isBufferingWanted, boolean isNarrativeWanted)
     throws SectionNotFoundException
   {
     basename_ = basename;
     isBufferingWanted_ = isBufferingWanted;
     isNarrativeWanted_ = isNarrativeWanted;
-    bufferedReader_ = openZFile(basename, this);
+    final ZFile zFile = openZFile(basename, suffix, this);
+    bufferedReader_ = zFile.getBufferedReader();
+    pathname_ = zFile.getPathname();
     blocks_ = new LinkedList<Block>();
     text_ = new StringBuilder("");
     isFormal_ = false;
@@ -121,33 +127,82 @@ public final class ZFileReader
    * TODO: maybe allow a search-path of multiple user's directories.
    * 
    * @param basename name of file to be read
+   * @param suffix file type associated with <code>basename</code>, or ""
    * @param anyInMyJar
    * @return a Reader onto the opened file
    * @throws SectionNotFoundException
    */
-  protected static BufferedReader openZFile(String basename, Object anyInMyJar)
+  protected static ZFile openZFile(String basename, String suffix, Object anyInMyJar)
     throws SectionNotFoundException
   {
-    URL url = anyInMyJar.getClass().getResource("/lib/" + basename + SpecReader.suffix_);
-    InputStream inputStream = null;
-    if (url != null) {
-      try {
-        inputStream = url.openStream();
+    Pathname pathname = null;
+    InputStream inputStream;
+    if (basename.startsWith(SpecReader.resourcePrefix_)) {  // Look only for a resource
+      String urlName = basename + (suffix.isEmpty()? SpecReader.suffix_[0] : suffix);
+      inputStream = openUrl(urlName, anyInMyJar);
+      if (inputStream != null) {
+        pathname = new Pathname(urlName);
       }
-      catch (IOException e) {
-        throw new RuntimeException("IOException on opening " + basename + SpecReader.suffix_);
-      }
-    } else {
-      try {
-        inputStream = new FileInputStream(basename + SpecReader.suffix_);
-      }
-      catch (FileNotFoundException e) {
-        throw new SectionNotFoundException("Cannot find section " + basename);
+    } else {                                                // Look first for a resource
+      String urlName = SpecReader.resourcePrefix_ + basename
+        + (suffix.isEmpty()? SpecReader.suffix_[0] : suffix);
+      inputStream = openUrl(urlName, anyInMyJar);
+      if (inputStream != null) {
+        pathname = new Pathname(urlName);
+      } else if (suffix.isEmpty()) {                        // Look for any suffixed file
+        boolean openOk = false;
+        for (String suff : SpecReader.suffix_) {
+          final String filename = basename + suff;
+          try {
+            inputStream = new FileInputStream(filename);
+          }
+          catch (FileNotFoundException e) {
+            continue;
+          }
+          openOk = true;
+          pathname = new Pathname(filename);
+          break;
+        }
+        if (! openOk) {
+          throw new SectionNotFoundException("Cannot find section " + basename);
+        }
+      } else {                                              // Look for specific suffixed file
+        final String filename = basename + suffix;
+        try {
+          inputStream = new FileInputStream(filename);
+        }
+        catch (FileNotFoundException e) {
+          throw new SectionNotFoundException("Cannot open file " + filename);
+        }
+        pathname = new Pathname(filename);
       }
     }
-    return new BufferedReader(new InputStreamReader(inputStream));
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+    return new ZFile(pathname, bufferedReader);
   }
 
+    /**
+     * Attempts to open the given URL.
+     * 
+     * @param urlName name of resource to be read
+     * @param anyInMyJar
+     * @return an InputStream onto the opened file, else null
+     */
+  private static InputStream openUrl(String urlName, Object anyInMyJar)
+    {
+      URL url = anyInMyJar.getClass().getResource(urlName);
+      if (url == null) {
+        return null;
+      } else {
+        try {
+          return url.openStream();
+        }
+        catch (IOException e) {
+          throw new RuntimeException("IOException on opening " + urlName);
+        }
+      }
+    }
+    
   /**
    * Reads from this file and returns a list of sections.
    * 
@@ -184,7 +239,8 @@ public final class ZFileReader
         markupBlocks.add(0, (MarkupBlock)block);
       } else if (block instanceof HeaderBlock) {
         HeaderBlock header = (HeaderBlock)block;
-        Section section = new ZSection(basename_, isBufferingWanted_, header, markupBlocks, paraBlocks);
+        Section section = new ZSection(
+            pathname_, isBufferingWanted_, header, markupBlocks, paraBlocks);
         sections.add(section);
         paraBlocks = new LinkedList<ParaBlock>();
         markupBlocks = new LinkedList<MarkupBlock>();
@@ -214,7 +270,8 @@ public final class ZFileReader
    * @return the anonymous section, or null if there isn't one
    * @throws IllegalAnonSectionException
    */
-  private Section anonSection(List<MarkupBlock> markupBlocks, List<ParaBlock> paraBlocks, List<Section> sections)
+  private Section anonSection(
+      List<MarkupBlock> markupBlocks, List<ParaBlock> paraBlocks, List<Section> sections)
     throws IllegalAnonSectionException
   {
     boolean isFormal = ! markupBlocks.isEmpty();
@@ -227,20 +284,23 @@ public final class ZFileReader
       if (sections.isEmpty()) {
         final List<String> parents = new LinkedList<String>();
         parents.add("standard_toolkit");
-        final HeaderBlock header = new HeaderBlock(new StringBuilder(), isBufferingWanted_, 0, 0, 0, basename_, parents);
-        return new ZSection(basename_, isBufferingWanted_, header, markupBlocks, paraBlocks);
+        final HeaderBlock header = new HeaderBlock(
+            new StringBuilder(), isBufferingWanted_, 0, 0, 0, basename_, parents);
+        return new ZSection(pathname_, isBufferingWanted_, header, markupBlocks, paraBlocks);
       } else {
-        throw new IllegalAnonSectionException("Formal text should not precede named section in " + basename_ + SpecReader.suffix_);
+        throw new IllegalAnonSectionException(
+            "Formal text should not precede named section in " + pathname_);
       }
     } else if (isNarrativeWanted_ && ! paraBlocks.isEmpty()) {
-      return new NarrSection(basename_, isBufferingWanted_, (InformalParaBlock)paraBlocks.get(0));
+      return new NarrSection(
+          pathname_, isBufferingWanted_, (InformalParaBlock)paraBlocks.get(0));
     } else {
       return (null);
     }
   }
 
   /**
-   * Reads from this file, parses, and returns a list of blocks.
+   * Reads words from this file, parses, and returns a list of blocks.
    * 
    * @return list of blocks corresponding to contents of file
    * @throws IOException
@@ -436,7 +496,8 @@ public final class ZFileReader
     throws EOFException, IOException
   {
     if (peekedPosition_ >= line_.length()
-        || line_.charAt(peekedPosition_) == '%' && (peekedPosition_ > 0 || line_.charAt(peekedPosition_ - 1) != '\\')) {
+        || line_.charAt(peekedPosition_) == '%'
+          && (peekedPosition_ > 0 || line_.charAt(peekedPosition_ - 1) != '\\')) {
       return '\n';
     }
     return line_.charAt(peekedPosition_);
@@ -457,7 +518,8 @@ public final class ZFileReader
     throws EOFException, IOException
   {
     while (peekedPosition_ >= line_.length()
-        || line_.charAt(peekedPosition_) == '%' && (peekedPosition_ == 0 || line_.charAt(peekedPosition_ - 1) != '\\')) {
+        || line_.charAt(peekedPosition_) == '%'
+          && (peekedPosition_ == 0 || line_.charAt(peekedPosition_ - 1) != '\\')) {
       peekedPosition_ = line_.length();
       nextLine();
     }
@@ -586,7 +648,8 @@ public final class ZFileReader
    */
   private void consumeHeaderBlock(String name, List<String> parents)
   {
-    blocks_.add(0, new HeaderBlock(text_, isBufferingWanted_, firstLineNo_, firstColumnNo_, firstCharNo_, name, parents));
+    blocks_.add(0, new HeaderBlock(
+        text_, isBufferingWanted_, firstLineNo_, firstColumnNo_, firstCharNo_, name, parents));
     //System.err.format("HeaderBlock: %s", text);
     startNewText();
     /* Next block starts where Header block left off. */
@@ -603,9 +666,11 @@ public final class ZFileReader
   {
     if (text_.length() != 0) {
       if (isFormal_) {
-        blocks_.add(0, new FormalParaBlock(text_, isBufferingWanted_, firstLineNo_, firstColumnNo_, firstCharNo_));
+        blocks_.add(0, new FormalParaBlock(
+            text_, isBufferingWanted_, firstLineNo_, firstColumnNo_, firstCharNo_));
       } else if (isNarrativeWanted_) {
-        blocks_.add(0, new InformalParaBlock(text_, isBufferingWanted_, firstLineNo_, firstColumnNo_, firstCharNo_));
+        blocks_.add(0, new InformalParaBlock(
+            text_, isBufferingWanted_, firstLineNo_, firstColumnNo_, firstCharNo_));
       }
       //System.err.format("ParaBlock (isFormal=%s): %s", isFormal? "true" : "false", text);
       startNewText();
