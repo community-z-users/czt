@@ -408,6 +408,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeInf
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeLabelTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgePaintTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeStrokeTransformer.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/InfoLabelTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
 modeljunit/src/main/resources/images/BlueOrb.png -text svneol=unset#image/png
 modeljunit/src/main/resources/images/GreenOrb.png -text svneol=unset#image/png
