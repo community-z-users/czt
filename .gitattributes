@@ -410,6 +410,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgePai
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeStrokeTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/InfoLabelTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/JUNGHelper.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/PanelJUNGVisualisation.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
 modeljunit/src/main/resources/images/BlueOrb.png -text svneol=unset#image/png
 modeljunit/src/main/resources/images/GreenOrb.png -text svneol=unset#image/png
