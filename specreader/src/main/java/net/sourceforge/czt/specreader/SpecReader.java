@@ -40,7 +40,7 @@ import java.io.IOException;
 public final class SpecReader extends Reader
 {
   /** File types to be considered */
-  public static final String[] suffix_ = {".tex", ".zed"};
+  protected static final String[] suffix_ = {".tex", ".zed"};
   
   /** Where toolkit sections are under resources */
   protected static final String resourcePrefix_ = "/lib/";
