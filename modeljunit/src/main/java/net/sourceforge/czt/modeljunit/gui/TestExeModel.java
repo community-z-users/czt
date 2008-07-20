@@ -21,6 +21,7 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
+import net.sourceforge.czt.modeljunit.gui.visualisaton.VisualisationListener;
 /**
  * To execute the test
  * */
@@ -148,6 +149,8 @@ public class TestExeModel
     String output = new String();
     // Redirect the system.out to result viewer text area component
     PrintStream ps = System.out; //Backup the System.out for later restore
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(baos, true));
     // Run algorithm
     m_algo.runAlgorithm(0);
     if (m_tester[0] instanceof RandomTester) {
@@ -158,7 +161,7 @@ public class TestExeModel
     boolean[] bCoverage = Parameter.getCoverageOption();
     // Generate graph
     if(bCoverage[0]||bCoverage[1]||bCoverage[2]||bCoverage[3])
-      m_tester[0].buildGraph();
+    	m_tester[0].buildGraph();
     CoverageHistory[] coverage = new CoverageHistory[COVERAGE_NUM];
     
     if(bCoverage[0])
@@ -184,19 +187,21 @@ public class TestExeModel
       m_tester[0].addCoverageMetric(coverage[3]);
     }
 
+    StringBuffer verbose = new StringBuffer();
+    StringWriter sw = new StringWriter();
     if(Parameter.getVerbosity())
     {
       VerboseListener vl = new VerboseListener();
       m_tester[0].addListener(vl);
+      m_tester[0].addListener(new VisualisationListener());
     }
     // Redirect model's output to string
     Model md = m_tester[0].getModel();
     Writer defWriter = md.getOutput();
-    
+    md.setOutput(sw);
     // This writer updates the test results panel.
     Writer newWriter = new Writer() {
-      PanelResultViewer panel = PanelResultViewer.getResultViewerInstance();
-
+      PanelResultViewer panel = PanelResultViewer.getResultViewerInstance();      
       @Override
       public void close() throws IOException
       {
@@ -214,7 +219,7 @@ public class TestExeModel
         for (int i = off; i < off+len; i++) {
           str.append(cbuf[i]);
         }
-        panel.updateRunTimeInformation(str.toString());
+        panel.updateRunTimeInformation(str.toString());        
       }
     };
     md.setOutput(newWriter);
@@ -242,5 +247,12 @@ public class TestExeModel
     }
     // Reset model's output to default value
     md.setOutput(defWriter);
+    
+    // Recover System.out
+    output = baos.toString();
+    System.out.println(output);
+    // Restore system.out to default value.
+    System.setOut(ps);
+    verbose.append(output);    
   }
 }
