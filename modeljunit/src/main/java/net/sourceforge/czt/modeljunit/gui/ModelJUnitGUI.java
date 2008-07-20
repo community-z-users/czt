@@ -2,9 +2,6 @@
 package net.sourceforge.czt.modeljunit.gui;
 
 // For GUIs
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -15,20 +12,32 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-// For compiler
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import net.sourceforge.czt.modeljunit.GraphListener;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
+import net.sourceforge.czt.modeljunit.gui.visualisaton.PanelJUNGVisualisation;
 
 /**
  * ModelJUnitGUI.java
@@ -54,6 +63,8 @@ public class ModelJUnitGUI implements ActionListener
   private PanelExecuteActions m_panelEA;
   
   private PanelCoverage m_panelC;
+  
+  private PanelJUNGVisualisation m_panelGV;
   
   // The panel with run button
   private JPanel m_panelOption = new JPanel();
@@ -88,10 +99,10 @@ public class ModelJUnitGUI implements ActionListener
 
     try 
     {
-      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ;
+      //UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ;
       UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-      // UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
     }
     catch (Exception e) 
     {
@@ -111,6 +122,9 @@ public class ModelJUnitGUI implements ActionListener
     m_panelTD.setModelRelatedButton(m_butRun);
     // Initialize coverage view panel
     m_panelC = PanelCoverage.getInstance();
+    //Get the JUNG visualisation panel
+    m_panelGV = PanelJUNGVisualisation.getGraphVisualisationInstance();
+    
     
     Thread initializeImage = new Thread()
     {
@@ -146,6 +160,8 @@ public class ModelJUnitGUI implements ActionListener
           m_tabbedPane.addTab("Result viewer", m_iconTag[3], m_panelRV);
           m_tabbedPane.addTab("Manual test design", m_iconTag[4], m_panelEA);
           m_tabbedPane.addTab("Model coverage graph", m_iconTag[5], m_panelC);
+          //TODO fix the index to the icon for this tab
+          m_tabbedPane.addTab("Model Visualisation", m_iconTag[5], m_panelGV);
           
           m_tabbedPane.addChangeListener(new TabChangeListener());
           m_panelOption
@@ -376,7 +392,7 @@ setJMenuBar(mb);
   private void updateGeneratedCode()
   {
     String code = m_panelTD.generateCode();
-    m_panelCV.updateCode(code);
+    m_panelCV.updateCode(code);    
     m_panelEA.setGeneratedCode(code);
   }
 
@@ -387,14 +403,14 @@ setJMenuBar(mb);
   {
     // Draw line chart in coverage panel
     if(m_panelTD.isLineChartDrawable()&& m_nCurrentPanelIndex==4)
-    {
+    {    	
       m_panelC.clearCoverages();
       int[] stages = m_panelC.computeStages(TestExeModel.getWalkLength());
 
       m_panelTD.initializeTester(0);
       Tester tester = TestExeModel.getTester(0);
       tester.buildGraph();
-      
+           
       CoverageHistory[] coverage = new CoverageHistory[TestExeModel.COVERAGE_NUM];
       coverage[0] = new CoverageHistory(new StateCoverage(),1);
       coverage[1] = new CoverageHistory(new TransitionCoverage(),1);
@@ -426,10 +442,20 @@ setJMenuBar(mb);
     }
     // To reset tester, it solve the problem that coverage matrix incorrect.
     m_panelTD.initializeTester(0);
+    //reset the visualisation panel
+    m_panelGV.resetRunTimeInformation();    
+    //Try to fully explore the complete graph before running the test explorations
+    Tester tester = TestExeModel.getTester(0);    	
+    GraphListener graph = tester.buildGraph();    
+    m_panelGV.showEmptyExploredGraph(graph);
+    
     // Clear the information in Result viewer text area
-    m_panelRV.resetRunTimeInformation();
+    m_panelRV.resetRunTimeInformation();    
+
     // Run test and display test output
     TestExeModel.runTestAuto();
+    //Finish the visualisation panel. This effectively starts the animation.    
+    m_panelGV.updateGUI();    
   }
 
   class TabChangeListener implements ChangeListener
