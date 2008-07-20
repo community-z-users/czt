@@ -419,6 +419,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexP
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexShapeTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexSizeTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexStrokeTransformer.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VisualisationListener.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
 modeljunit/src/main/resources/images/BlueOrb.png -text svneol=unset#image/png
 modeljunit/src/main/resources/images/GreenOrb.png -text svneol=unset#image/png
