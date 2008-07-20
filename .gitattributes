@@ -416,6 +416,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexF
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexInfo.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexLabelTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexPaintTransformer.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexShapeTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
 modeljunit/src/main/resources/images/BlueOrb.png -text svneol=unset#image/png
 modeljunit/src/main/resources/images/GreenOrb.png -text svneol=unset#image/png
