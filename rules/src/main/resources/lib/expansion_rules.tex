@@ -1,10 +1,18 @@
 \begin{zsection}
-  \SECTION expansion\_rules \parents normalization\_rules
+  \SECTION expansion\_rules \\ \parents normalization\_rules
 \end{zsection}
 
+This section defines the unfolding of schema expressions.
+
+We will need another joker (an expression list joker) for this.
 \begin{zedjoker}{ExprList} ExprList \end{zedjoker}
 
-Unfolding of schema operations.
+
+The Theta rule rewrites expressions into a binding.  The type proviso
+is used to calculate the signature of $E$, then the theta proviso
+generates the appropriate binding expression from that signature.  For
+example, the binding $\lblot x==x,y==y \rblot$ is computed for
+expressions $\theta~[x,y:\nat]$.
 
 \begin{zedrule}{Theta}
   E :: \power [D | true] \\
@@ -13,9 +21,10 @@ Unfolding of schema operations.
   \theta E = E2
 \end{zedrule}
 
-TODO: This rule handles an arbitrary stroke, but does not handle lists
-of strokes.  In the future we will add support for Stroke-List jokers,
-so that all lists of decorations can be handled by this rule.
+The next rule handles decorated $\theta$ expressions.  However, this
+version does not handle lists of strokes.  In the future we will add
+support for Stroke-List jokers, so that all lists of decorations can
+be handled by this rule.
 
 \begin{zedrule}{ThetaDecor}
   E :: \power [D | true] \\
@@ -25,7 +34,7 @@ so that all lists of decorations can be handled by this rule.
 \end{zedrule}
 
 
-Works only for innermost:
+Rule SChemaDecor works only for innermost!
 
 \begin{zedrule}{SchemaDecor}
   [D1|P1]~Stroke \is [D2|P2] \\
@@ -42,15 +51,23 @@ Works only for innermost:
    E [ RenameList ] = E2
 \end{zedrule}
 
+Schema composition is one of the most complex schema operators.
+However, this SchemaComposition rule captures its semantics concisely.
+First, the signatures of the two expressions $E1$ and~$E2$ are
+computed, and all the names from $D2$ that have a primed version in
+$D1$ are collected in $D5$.  Note that we currently use the rarely
+used decoration $_9$.  In the future we are going to support a special
+decoration that cannot be entered by users.
+
 \begin{zedrule}{SchemaComposition}
   E1 :: \power [D1 | true] \\
   E2 :: \power [D2 | true] \\
-  (split [D1|true]) \is ([D3|true]? \land [D4|true] \land
-                         [D5|true]' \land [D6|true]!) \\
+  (split [D1|true]) \is ([D3|true]? \land [D4|true] \\ \t4
+                   \land [D5|true]' \land [D6|true]!) \\
   ([D5 | true] \schemaminus [D2 | true]) \is E3\\
   ([D5 | true] \schemaminus E3) \is E4 % matching names
 \derives
-  E1 \semi E2 =
+  E1 \semi E2 = \\
   (\exists E4~_9 @ (\exists E4~' @ [E1 | \theta E4~' = \theta E4~_9])
                    \land
                    (\exists E4   @ [E2 | \theta E4   = \theta E4~_9]))
@@ -66,7 +83,7 @@ Works only for innermost:
   ([D6 | true] \schemaminus [D7 | true]) \is E3\\
   ([D6 | true] \schemaminus E3) \is E6 % matching names
 \derives
-  E1 \pipe E2 =
+  E1 \pipe E2 = \\
   (\exists E6~_9 @ (\exists E6~! @ [E1 | \theta E6~! = \theta E6~_9])
                    \land
                    (\exists E6~? @ [E2 | \theta E6~? = \theta E6~_9]))
@@ -77,48 +94,69 @@ Works only for innermost:
 The following schema construction rules replace schema operations by
 schema construction expressions.
 
+The semantics of schema negation requires schemas to be
+normalised before their predicate is negated.
+
 \begin{zedrule}{SchemaNegation}
   [D|P] :: \power [D1|true]
 \derives
-  (\lnot [D|P]) = [D1 | \lnot (pred [D|true] \land P)]
+  (\lnot [D|P]) = \\ [D1 | \lnot (pred [D|true] \land P)]
 \end{zedrule}
+
+The SchemaConjunction rule is straightforward.  It uses a type proviso
+to check that the signatures of the two schemas are compatible.  The
+schema disjunction, implication and equivalence rules are similar.
 
 \begin{zedrule}{SchemaConjunction}
   ([D1 | true] \land [D2 | true]) :: \power [D3 | true]
 \derives
-  ([D1|P1] \land [D2|P2]) = [D3 | pred [D1|true] \land P1 \land
+  ([D1|P1] \land [D2|P2]) = \\ [D3 | pred [D1|true] \land P1 \land
                                   pred [D2|true] \land P2 ]
 \end{zedrule}
 
 \begin{zedrule}{SchemaDisjunction}
   ([D1 | true] \land [D2 | true]) :: \power [D3 | true]
 \derives
-  ([D1|P1] \lor [D2|P2]) = [D3 | (pred [D1|true] \land P1) \lor
+  ([D1|P1] \lor [D2|P2]) = \\ [D3 | (pred [D1|true] \land P1) \lor
                                   (pred [D2|true] \land P2) ]
 \end{zedrule}
 
 \begin{zedrule}{SchemaImplication}
   ([D1 | true] \land [D2 | true]) :: \power [D3 | true]
 \derives
-  ([D1|P1] \implies [D2|P2]) = [D3 | (pred [D1|true] \land P1) \implies
+  ([D1|P1] \implies [D2|P2]) = \\ [D3 | (pred [D1|true] \land P1) \implies
                                      (pred [D2|true] \land P2) ]
 \end{zedrule}
 
 \begin{zedrule}{SchemaEquivalence}
   ([D1 | true] \land [D2 | true]) :: \power [D3 | true]
 \derives
-  ([D1|P1] \iff [D2|P2]) = [D3 | (pred [D1|true] \land P1) \iff
+  ([D1|P1] \iff [D2|P2]) = \\ [D3 | (pred [D1|true] \land P1) \iff
                                  (pred [D2|true] \land P2) ]
 \end{zedrule}
+
+Schema projection is also similar to schema conjunction but the
+resulting schema has only the names that are declared in the second
+schema.  Any other names that are declared in the first schema are
+hidden existentially.
 
 \begin{zedrule}{SchemaProjection}
   ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
   [D2 | true] :: \power [D4 | true] \\
   ([D3 | true] \schemaminus [D4 | true]) \is [D5 | true]
 \derives
-  [D1|P1] \project [D2|P2] =
+  [D1|P1] \project [D2|P2] = \\
   [D2 | (\exists D5 @ pred [D1|true] \land P1 \land P2)]
 \end{zedrule}
+
+To calculate the precondition of a schema, we must existentially hide
+all the output names, such as $x!$ or $x'$.  The $split$ operator in
+the following rule takes a declaration list and splits the names into
+four groups according to their final decoration (for example, $[x, x',
+y?, y!, z:T] \is [y:T]? \land [x:T; z:T] \land [x':T]\land [y:T]!$).
+
+The declarations whose names have no decorations or a final decoration
+of $?$ are collected in $D6$.
 
 \begin{zedrule}{SchemaPrecondition}
   [D | true] :: \power [D1 | true] \\
@@ -126,9 +164,16 @@ schema construction expressions.
                          [D4|true]' \land [D5|true]!) \\
   ([D2|true]? \land [D3|true]) :: \power [D6|true]
 \derives
-  \pre [D|P] =
+  \pre [D|P] = \\
   [D6 | (\exists ([D4|true]' \land [D5|true]!) @ pred [D|true] \land P)]
 \end{zedrule}
+
+The first type proviso in the SchemaExists rule checks that
+declaration lists $D1$ and~$D2$ are type compatible.  The
+$\schemaminus$ proviso subtracts the normalized declaration list
+of~$D1$ from the normalized declaration list of~$D2$.  The rules for
+schema $\exists_1$ and $\forall$ are similar.
+
 
 \begin{zedrule}{SchemaExists}
    ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
@@ -136,7 +181,7 @@ schema construction expressions.
    [D2|true] :: \power [D5|true] \\
    ([D5|true] \schemaminus [D4|true]) \is [D6|true]
 \derives
-   (\exists D1 | P1 @ [D2|P2]) =
+   (\exists D1 | P1 @ [D2|P2]) = \\
    [D6 | (\exists D1 @ P1 \land pred [D2|true] \land P2)]
 \end{zedrule}
 
@@ -146,7 +191,7 @@ schema construction expressions.
    [D2|true] :: \power [D5|true] \\
    ([D5|true] \schemaminus [D4|true]) \is [D6|true]
 \derives
-   (\exists_1 D1 | P1 @ [D2|P2]) =
+   (\exists_1 D1 | P1 @ [D2|P2]) = \\
    [D6 | (\exists_1 D1 @ P1 \land pred [D2|true] \land P2)]
 \end{zedrule}
 
@@ -157,7 +202,7 @@ schema construction expressions.
    [D2|true] :: \power [D5|true] \\
    ([D5|true] \schemaminus [D4|true]) \is [D6|true]
 \derives
-   (\forall D1 | P1 @ [D2|P2]) =
+   (\forall D1 | P1 @ [D2|P2]) = \\
    [D6 | (\forall D1 @ P1 \land pred [D2|true] \land P2)]
 \end{zedrule}
 
@@ -176,12 +221,20 @@ schema construction expressions.
   v [ExprList] = E2
 \end{zedrule}
 
+The Ref rule uses the lookup proviso to expand schema names by its
+definition.
+
 \begin{zedrule}{Ref}
   v :: \power [D | true] \\
   v \hasDefn E2
 \derives
   v = E2
 \end{zedrule}
+
+This rule expands any remaining $\Delta$ schemas.  If the
+specification explicitly defined the $\Delta$ schema, then the above
+Ref rule would have replaced it.  There is a similar rule for $\Xi$
+schema names.
 
 \begin{zedrule}{DeltaRef}
   \Delta \unprefix v \is v2 \\
