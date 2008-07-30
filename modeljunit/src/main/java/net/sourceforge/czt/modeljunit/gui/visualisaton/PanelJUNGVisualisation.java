@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
@@ -67,6 +68,7 @@ import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.Pair;
+import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.Layer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
@@ -76,10 +78,13 @@ import edu.uci.ics.jung.visualization.control.ScalingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.decorators.AbstractEdgeShapeTransformer;
 import edu.uci.ics.jung.visualization.decorators.ConstantDirectionalEdgeValueTransformer;
+import edu.uci.ics.jung.visualization.layout.LayoutTransition;
 import edu.uci.ics.jung.visualization.picking.PickedState;
+import edu.uci.ics.jung.visualization.renderers.GradientVertexRenderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.subLayout.GraphCollapser;
 import edu.uci.ics.jung.visualization.transform.MutableTransformer;
+import edu.uci.ics.jung.visualization.util.Animator;
 import edu.uci.ics.jung.visualization.util.PredicatedParallelEdgeIndexFunction;
 
 /**
@@ -106,7 +111,7 @@ implements ActionListener, MouseListener{
 	private EdgeStrokeTransformer<Object, Stroke> e_est;
 	private VertexFontTransformer<Object, Font> v_vft;
 	private VertexLabelTransformer<Object, String> v_vlt;
-	private VertexPaintTransformer<Object, Paint> v_vpt;
+	private VertexGradientRenderer<Object, Object> v_vgr;
 	private VertexStrokeTransformer<Object, Object> v_vst;
 	private VertexShapeTransformer<Object> v_vsht;
 	private VertexEdgePaintTransformer<Object, Object> v_vept;
@@ -125,36 +130,35 @@ implements ActionListener, MouseListener{
 	private JPanel infoPanel;
 	private StaticLayout<Object, Object> infoLayout;
 	private JScrollPane infoScrollPane;
-    private JTextArea infoTextArea;    
-    private DirectedSparseMultigraph<Object, Object> infoGraph;
-    private VisualizationViewer<Object, Object> infovv;
+	private JTextArea infoTextArea;    
+	private DirectedSparseMultigraph<Object, Object> infoGraph;
+	private VisualizationViewer<Object, Object> infovv;
 
 	// Variables for the tree panel
 	private JScrollPane m_scrollTreeArea;
 	private JTree tree;	
-	
+
 	// Variables for control panel
 	private JButton mergeVerticesButton;
-    private JButton expandVerticesButton;
-    private JButton mergeEdgesButton;
-    private JButton expandEdgesButton;
-    private JButton resetButton;
-    private JButton captureButton;
-    private JButton animationButton;
-    private JCheckBox vertLabelCheckBox;
-    private JCheckBox edgeLabelCheckBox;
-    private JComboBox vertLabelPosComboBox;
-    private JComboBox layoutTypeComboBox; 
-    private JComboBox explorationComboBox;
-    private JLabel vertLabelPos;
-    private JLabel layoutTypeLabel;
-    private JLabel sliderLabel;
-    private JPanel labelsPanel;
-    private JPanel layoutTypePanel;
-    private JPanel mergePanel;
-    private JPanel explorationPanel;
-    private JPanel capturePanel;
-    private JScrollBar explScrollBar;
+	private JButton expandVerticesButton;
+	private JButton mergeEdgesButton;
+	private JButton expandEdgesButton;
+	private JButton resetButton;
+	private JButton captureButton;
+	private JButton animationButton;
+	private JCheckBox vertLabelCheckBox;
+	private JCheckBox edgeLabelCheckBox;
+	private JComboBox vertLabelPosComboBox;
+	private JComboBox layoutTypeComboBox; 
+	private JComboBox explorationComboBox;
+	private JLabel vertLabelPos;	
+	private JLabel sliderLabel;
+	private JPanel labelsPanel;
+	private JPanel layoutTypePanel;
+	private JPanel mergePanel;
+	private JPanel explorationPanel;
+	private JPanel capturePanel;
+	private JScrollBar explScrollBar;
 	// End of variables declaration
 
 	/**
@@ -163,9 +167,9 @@ implements ActionListener, MouseListener{
 	 */
 	public PanelJUNGVisualisation(){
 		jView_ = JUNGHelper.getJUNGViewInstance();
-		
+
 		g = jView_.getGraph();
-				
+
 		layout = new FRLayout2<Object, Object>(jView_.getGraph());
 
 		vv = new VisualizationViewer<Object, Object>(layout);
@@ -180,7 +184,7 @@ implements ActionListener, MouseListener{
 				return exclusions.contains(e);
 			}});
 		vv.getRenderContext().setParallelEdgeIndexFunction(eif);
-		
+
 		//A GraphCollapser to handle merging of vertices.
 		collapser = new GraphCollapser(g);
 
@@ -191,7 +195,7 @@ implements ActionListener, MouseListener{
 		gm.add(new ScalingGraphMousePlugin(new CrossoverScalingControl(), 0, 1.1f, 0.9f));		
 		vv.setGraphMouse(gm);
 		vv.addMouseListener(this);
-		
+
 		// translate the graph down and across so that it is not hard up
 		// against the side of the splitPane box.
 		MutableTransformer modelTransformer = vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT);
@@ -203,20 +207,23 @@ implements ActionListener, MouseListener{
 		e_est = new EdgeStrokeTransformer<Object, Stroke>();
 		v_vft = new VertexFontTransformer<Object, Font>();
 		v_vlt = new VertexLabelTransformer<Object, String>();
-		v_vpt = new VertexPaintTransformer<Object, Paint>(vv.getPickedVertexState(), jView_.getVertices());
+		v_vgr = new VertexGradientRenderer<Object, Object>(Color.white, vv.getPickedVertexState(), true);
 		v_vst = new VertexStrokeTransformer<Object, Object>(jView_.getGraph(), vv.getPickedVertexState());
 		v_vsht = new VertexShapeTransformer<Object>();
 		v_vept = new VertexEdgePaintTransformer<Object, Object>(vv.getPickedVertexState(), jView_.getVertices());
 
+		// provide a scrollpane for the visualisation
+		GraphZoomScrollPane vvPanel = new GraphZoomScrollPane(vv);
+
 		//Setup the Splitpanes
-		vizAndInfo = new JSplitPane(JSplitPane.VERTICAL_SPLIT, vv, getInfoPanel());		
+		vizAndInfo = new JSplitPane(JSplitPane.VERTICAL_SPLIT, vvPanel, getInfoPanel());		
 		vizAndInfo.setResizeWeight(1.0);
 		vizAndInfo.setOneTouchExpandable(true);			
-		
+
 		vizAndControls = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vizAndInfo, getControlPanel());
 		vizAndControls.setResizeWeight(1.0);
 		vizAndControls.setOneTouchExpandable(true);
-				
+
 		treeAndViz = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getTreeControls(), vizAndControls);
 		treeAndViz.setResizeWeight(0.0);
 		treeAndViz.setOneTouchExpandable(true);		
@@ -271,9 +278,9 @@ implements ActionListener, MouseListener{
 		layout.setGraph(jView_.getGraph());
 		layout.setSize(new Dimension(vizAndInfo.getWidth() - 75
 				, vizAndInfo.getHeight() - infoPanel.getHeight() - 75));
-		
-		vv.getModel().setGraphLayout(layout, new Dimension(vizAndInfo.getWidth()
-				, vizAndInfo.getHeight() - infoPanel.getHeight() - 12));
+
+		vv.getModel().setGraphLayout(layout, new Dimension(vizAndInfo.getWidth() - 20
+				, vizAndInfo.getHeight() - infoPanel.getHeight() - 32));
 		vv.getRenderContext().setEdgeFontTransformer(e_eft);
 		vv.getRenderContext().setEdgeLabelTransformer(e_elt);
 		vv.getRenderContext().setEdgeDrawPaintTransformer(e_ept);
@@ -281,25 +288,24 @@ implements ActionListener, MouseListener{
 		vv.getRenderContext().setArrowDrawPaintTransformer(e_ept);
 		vv.getRenderContext().setArrowFillPaintTransformer(e_ept);
 		vv.getRenderContext().setVertexFontTransformer(v_vft);
-		vv.getRenderContext().setVertexLabelTransformer(v_vlt);
-		//Have to set this again so that it uses the updated graph
-		v_vpt = new VertexPaintTransformer<Object, Paint>(vv.getPickedVertexState(), jView_.getVertices());
-		vv.getRenderContext().setVertexFillPaintTransformer(v_vpt);
+		vv.getRenderContext().setVertexLabelTransformer(v_vlt);		
 		vv.getRenderContext().setVertexStrokeTransformer(v_vst);
 		vv.getRenderContext().setVertexShapeTransformer(v_vsht);
 		v_vept = new VertexEdgePaintTransformer<Object, Object>(vv.getPickedVertexState(), jView_.getVertices());
 		vv.getRenderContext().setVertexDrawPaintTransformer(v_vept);
+		vv.getRenderer().setVertexRenderer(v_vgr);
+
 		//Set the curvature in the edges
 		AbstractEdgeShapeTransformer<Object, Object> aesf = 
 			(AbstractEdgeShapeTransformer<Object, Object>)vv.getRenderContext().getEdgeShapeTransformer();
 		aesf.setControlOffsetIncrement(30);
 		//Set the new size of the visualisation
-		vv.setSize(new Dimension(vizAndInfo.getWidth()
-				, vizAndInfo.getHeight() - infoPanel.getHeight() - 12));
-		
+		vv.setSize(new Dimension(vizAndInfo.getWidth() - 20
+				, vizAndInfo.getHeight() - infoPanel.getHeight() - 30));
+
 		vv.repaint();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void updateInfoPanel(Object obj){
 		Collection<Object> it = infoGraph.getVertices();		
@@ -317,29 +323,33 @@ implements ActionListener, MouseListener{
 		}
 		//Remove all the text from the text area.
 		infoTextArea.setText("");
-		
+
 		if(obj instanceof VertexInfo){
 			infoGraph.addVertex((VertexInfo)obj);
 			infoLayout.setLocation((VertexInfo)obj, new Point(30, 50));
-			infoTextArea.append("Vertex Selected:- " + ((VertexInfo)obj).getName() + "\n");
-			infoTextArea.append("-------------------------------------------------------------------\n");
-			infoTextArea.append("Transition Pairs:-" + (((VertexInfo)obj).getIncomingEdges() * ((VertexInfo)obj).getOutgoingEdges()) + "\n");
+			infoTextArea.append("State Selected: " + ((VertexInfo)obj).getName() + "\n");
+			infoTextArea.append("--------------------------------\n");
+			infoTextArea.append("Transition Pairs: " + (((VertexInfo)obj).getIncomingEdges() * ((VertexInfo)obj).getOutgoingEdges()) + "\n");
 		} else if(obj instanceof Graph){			
 			StringBuffer str = new StringBuffer();
 			for(Object i: ((Graph)obj).getVertices()){
 				if(i instanceof VertexInfo){
 					VertexInfo v = (VertexInfo)i;
+					if(str.length() % 25 > 20){
+						str.append("\n");
+					}
 					str.append(v.getName() + ", ");
 				}
 			}
 			str.deleteCharAt(str.length() - 1);
-			str.deleteCharAt(str.length() - 1);
-			infoTextArea.append("Vertices in graph are:\n" + str.toString());			
-			infoGraph.addVertex(" - Merged Vertices");
-			infoLayout.setLocation(" - Merged Vertices", new Point(30, 50));			
+			str.deleteCharAt(str.length() - 1);						
+			infoGraph.addVertex(" - Merged States");
+			infoLayout.setLocation(" - Merged States", new Point(30, 50));
+			infoTextArea.append("Merged states are:\n" + str.toString());
+			infoTextArea.setCaretPosition(0);
 		} else if(obj instanceof EdgeInfo){	
-			String srcVertex = "Source Vertex: " + ((EdgeInfo)obj).getSrcVertex().getName();
-			String destVertex = "Destination Vertex: " + ((EdgeInfo)obj).getDestVertex().getName();
+			String srcVertex = "Source State: " + ((EdgeInfo)obj).getSrcVertex().getName();
+			String destVertex = "Destination State: " + ((EdgeInfo)obj).getDestVertex().getName();
 			String edge = "                                 Action taken: " + ((EdgeInfo)obj).getAction();
 			infoGraph.addVertex(destVertex);
 			if(!((EdgeInfo)obj).getSrcVertex().getName().equals(((EdgeInfo)obj).getDestVertex().getName())){
@@ -350,15 +360,21 @@ implements ActionListener, MouseListener{
 				infoGraph.addEdge(edge, destVertex, destVertex);
 			}						
 			infoLayout.setLocation(destVertex, new Point(30, 90));
-			infoTextArea.append("Edge selected: " + ((EdgeInfo)obj).getAction() + "\n");
-			infoTextArea.append("-------------------------------------------------------------------\n");
-			infoTextArea.append("Initial state: " + ((EdgeInfo)obj).getSrcVertex().getName() + "\n");
-			infoTextArea.append("Action taken: " + ((EdgeInfo)obj).getAction() + "\n");
-			infoTextArea.append("Final state: " + ((EdgeInfo)obj).getDestVertex().getName() + "\n");
+			infoTextArea.append("Action selected: " + ((EdgeInfo)obj).getAction() + "\n");
+			if(((EdgeInfo)obj).getSequences_().size() == 0){
+				infoTextArea.append("--------------------------------\nnot tested:\n");
+			} else {
+				infoTextArea.append("--------------------------------\nused in:\n");
+				Iterator<String> itr = ((EdgeInfo)obj).getSequences_().iterator();
+				while(itr.hasNext()){
+					infoTextArea.append(itr.next()+ "\n");
+				}
+			}
+			infoTextArea.setCaretPosition(0);
 		} else {			
 			infoTextArea.append(obj.toString() + "\n");
 		}
-		
+
 		infovv.repaint();
 	}
 
@@ -369,19 +385,19 @@ implements ActionListener, MouseListener{
 		// The show vertex labels checkbox
 		if (source == vertLabelCheckBox){			
 			v_vlt.setShowLabels(vertLabelCheckBox.isSelected());
-			
-		// The show edge label checkbox
+
+			// The show edge label checkbox
 		} else if (source == edgeLabelCheckBox){
 			e_elt.showEdgeLabels(edgeLabelCheckBox.isSelected());
-			
-		// Merge vertices button
+
+			// Merge vertices button
 		} else if (source == mergeVerticesButton){
 			Collection<VertexInfo> picked = new HashSet(vv.getPickedVertexState().getPicked());				
-			if(layout instanceof ISOMLayout || layout instanceof CircleLayout){
+			/*if(layout instanceof ISOMLayout || layout instanceof CircleLayout){
 				String multiLineMsg[] = { "The ISOM and Circle layout types do not support merging vertices. "
 						, "Please select another layout type and try again."} ;
 				JOptionPane.showMessageDialog(m_panelGraph, multiLineMsg);
-			} else if(picked.size() > 1) {
+			} else*/ if(picked.size() > 1) {
 				Graph<Object, Object> inGraph = layout.getGraph();
 				Graph<Object, Object> clusterGraph = collapser.getClusterGraph(inGraph, picked);
 				Graph<Object, Object> graph = collapser.collapse(layout.getGraph(), clusterGraph);
@@ -398,8 +414,8 @@ implements ActionListener, MouseListener{
 				layout.setLocation(clusterGraph, cp);
 				vv.getPickedVertexState().clear();				
 			}
-			
-		// Expand vertices button
+
+			// Expand vertices button
 		} else if (source == expandVerticesButton){
 			Collection<VertexInfo> picked = new HashSet(vv.getPickedVertexState().getPicked());
 			for(Object v : picked) {
@@ -411,8 +427,8 @@ implements ActionListener, MouseListener{
 				vv.getPickedVertexState().clear();
 				updateInfoPanel("Nothing Selected");
 			}
-			
-		
+
+
 		} else if (source == mergeEdgesButton){
 			Collection<Object> picked = vv.getPickedVertexState().getPicked();
 			if(picked.size() == 2) {					
@@ -439,7 +455,7 @@ implements ActionListener, MouseListener{
 					}						
 				}				
 			}
-		// Expand edges button	
+			// Expand edges button	
 		} else if (source == expandEdgesButton){
 			Collection<Object> picked = vv.getPickedVertexState().getPicked();
 			if(picked.size() == 2) {
@@ -465,13 +481,24 @@ implements ActionListener, MouseListener{
 					}						
 				}
 			}
-			
-		// The reset button
+
+			// The reset button
 		} else if (source == resetButton){
-			layout.setGraph(g);
+			//layout.setGraph(g);
+			Collection<Object> vertices = layout.getGraph().getVertices();
+			for(Object v : vertices) {
+				if(v instanceof Graph) {
+					System.out.println("getting here");
+					Graph<Object, Object> graph = collapser.expand(layout.getGraph(), (Graph<VertexInfo, EdgeInfo>)v);
+					vv.getRenderContext().getParallelEdgeIndexFunction().reset();
+					layout.setGraph(graph);
+				}
+				vv.getPickedVertexState().clear();
+				updateInfoPanel("Nothing Selected");
+			}
 			exclusions.clear();
-			
-		// The capture button
+
+			// The capture button
 		} else if (source == captureButton){
 			JFileChooser chooser = new JFileChooser();
 			chooser.setCurrentDirectory(new File("."));
@@ -561,7 +588,7 @@ implements ActionListener, MouseListener{
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e) {		
 	}	
 
 	private JPanel getControlPanel() {
@@ -572,7 +599,6 @@ implements ActionListener, MouseListener{
 		vertLabelPos = new JLabel();
 		vertLabelPosComboBox = new JComboBox();
 		layoutTypePanel = new JPanel();
-		layoutTypeLabel = new JLabel();
 		layoutTypeComboBox = new JComboBox();
 		mergePanel = new JPanel();
 		mergeVerticesButton = new JButton();
@@ -583,10 +609,10 @@ implements ActionListener, MouseListener{
 		explorationPanel = new JPanel();
 		captureButton = new JButton();
 		capturePanel = new JPanel();
-        sliderLabel = new JLabel();
-        explScrollBar = new JScrollBar();
-        explorationComboBox = new JComboBox();
-        animationButton = new JButton();
+		sliderLabel = new JLabel();
+		explScrollBar = new JScrollBar();
+		explorationComboBox = new JComboBox();
+		animationButton = new JButton();
 
 		labelsPanel.setBorder(BorderFactory.createTitledBorder("Labels"));
 
@@ -631,7 +657,7 @@ implements ActionListener, MouseListener{
 										.addComponent(vertLabelPos)
 										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(vertLabelPosComboBox, 0, 68, Short.MAX_VALUE))
-										
+
 										.addComponent(edgeLabelCheckBox))
 										.addContainerGap())
 		);
@@ -651,9 +677,7 @@ implements ActionListener, MouseListener{
 														.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 
-		layoutTypePanel.setBorder(BorderFactory.createTitledBorder("Layout Type"));
-
-		layoutTypeLabel.setText("Layout type:");
+		layoutTypePanel.setBorder(BorderFactory.createTitledBorder("Layout Type"));		
 
 		layoutTypeComboBox.setModel(new DefaultComboBoxModel(
 				new JUNGHelper.LayoutType[] { JUNGHelper.LayoutType.FR
@@ -664,56 +688,50 @@ implements ActionListener, MouseListener{
 		layoutTypeComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try{
-					layout = jView_.getLayout((JUNGHelper.LayoutType)e.getItem());
-					//layout.setInitializer(vv.getGraphLayout());
-					//layout.setSize(vv.getSize());
-					//TODO try to find a fix to the animation stuff here
-					
-				//LayoutTransition<Object, Object> lt =
-				//	new LayoutTransition<Object, Object>(vv, vv.getGraphLayout(), layout);
-				//Animator animator = new Animator(lt);
-				//animator.start();
-				//vv.getRenderContext().getMultiLayerTransformer().setToIdentity();
-					                
-					vv.getModel().setGraphLayout(layout, new Dimension(vizAndInfo.getWidth(), vizAndInfo.getHeight() - infoPanel.getHeight()));
-					vv.repaint();
+					if(e.getStateChange() == ItemEvent.SELECTED){
+						Layout<Object, Object> l = jView_.getLayout((JUNGHelper.LayoutType)e.getItem());						
+						l.setInitializer(vv.getGraphLayout());
+						l.setSize(vv.getSize());
+						LayoutTransition<Object, Object> lt =
+							new LayoutTransition<Object, Object>(vv, vv.getGraphLayout(), l);
+						Animator animator = new Animator(lt);
+						animator.start();
+						vv.getRenderContext().getMultiLayerTransformer().setToIdentity();						
+						vv.repaint();
+						layout = l;
+					}
 				} catch (Exception ex){
 					ex.printStackTrace();
 				}
+
 			}});
 		layoutTypeComboBox.setSelectedItem(JUNGHelper.LayoutType.FR);
 
-		GroupLayout jPanel2Layout = new GroupLayout(layoutTypePanel);
-		layoutTypePanel.setLayout(jPanel2Layout);
-		jPanel2Layout.setHorizontalGroup(
-				jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel2Layout.createSequentialGroup()
-						.addComponent(layoutTypeLabel)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(layoutTypeComboBox, 0, 75, Short.MAX_VALUE)
-						.addContainerGap())
+		GroupLayout layoutTypePanelLayout = new GroupLayout(layoutTypePanel);
+		layoutTypePanel.setLayout(layoutTypePanelLayout);
+		layoutTypePanelLayout.setHorizontalGroup(
+				layoutTypePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(layoutTypeComboBox, 0, 178, Short.MAX_VALUE)
 		);
-		jPanel2Layout.setVerticalGroup(
-				jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel2Layout.createSequentialGroup()
-						.addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(layoutTypeLabel)
-								.addComponent(layoutTypeComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		layoutTypePanelLayout.setVerticalGroup(
+				layoutTypePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layoutTypePanelLayout.createSequentialGroup()
+						.addComponent(layoutTypeComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 
 		mergePanel.setBorder(BorderFactory.createTitledBorder("Merge"));
 
-		mergeVerticesButton.setText("Merge vertices");
+		mergeVerticesButton.setText("Merge states");
 		mergeVerticesButton.addActionListener(this);
 
-		expandVerticesButton.setText("Expand vertices");
+		expandVerticesButton.setText("Expand states");
 		expandVerticesButton.addActionListener(this);
 
-		mergeEdgesButton.setText("Merge edges");
+		mergeEdgesButton.setText("Merge transitions");
 		mergeEdgesButton.addActionListener(this);
 
-		expandEdgesButton.setText("Expand edges");
+		expandEdgesButton.setText("Expand transitions");
 		expandEdgesButton.addActionListener(this);
 
 		resetButton.setText("Reset");
@@ -761,74 +779,73 @@ implements ActionListener, MouseListener{
 						.addComponent(captureButton)
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		
+
 		capturePanel.setBorder(BorderFactory.createTitledBorder("Show Exploration"));
 
-        sliderLabel.setText("Use the slider to show explorations");
-        
-        animationButton.setText("Start");
-        
-        explorationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+		sliderLabel.setText("test sequences");
 
-        explScrollBar.setOrientation(JScrollBar.HORIZONTAL);
+		animationButton.setText("Start");
 
-        GroupLayout jPanel5Layout = new GroupLayout(capturePanel);
-        capturePanel.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-                jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel5Layout.createSequentialGroup()
-                    .addComponent(sliderLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap())
-                .addComponent(explScrollBar, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-            );
-            jPanel5Layout.setVerticalGroup(
-                jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel5Layout.createSequentialGroup()
-                    .addComponent(sliderLabel)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(explScrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(23, Short.MAX_VALUE))
-            );
+		explorationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+		explScrollBar.setOrientation(JScrollBar.HORIZONTAL);
+
+		GroupLayout jPanel5Layout = new GroupLayout(capturePanel);
+		capturePanel.setLayout(jPanel5Layout);
+		jPanel5Layout.setHorizontalGroup(
+				jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(jPanel5Layout.createSequentialGroup()
+						.addComponent(sliderLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addContainerGap())
+						.addComponent(explScrollBar, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+		);
+		jPanel5Layout.setVerticalGroup(
+				jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(jPanel5Layout.createSequentialGroup()
+						.addComponent(sliderLabel)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(explScrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(23, Short.MAX_VALUE))
+		);
 		GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 		layout.setHorizontalGroup(
-	            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	            .addComponent(layoutTypePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	            .addComponent(labelsPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	            .addComponent(mergePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	            .addComponent(explorationPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	            .addComponent(capturePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	        );
-	        layout.setVerticalGroup(
-	            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-	            .addGroup(layout.createSequentialGroup()
-	                .addComponent(labelsPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-	                .addComponent(layoutTypePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-	                .addComponent(mergePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-	                .addComponent(capturePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-	                .addComponent(explorationPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	                .addContainerGap())
-	        );
+				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(layoutTypePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(labelsPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(mergePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(explorationPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(capturePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		);
+		layout.setVerticalGroup(
+				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(labelsPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(layoutTypePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(mergePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(capturePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(explorationPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap())
+		);
 		return panel;
 	}	
-	
+
 	/**
 	 * This method will return the tree panel for the left side of the visualisation.
 	 * @return	JPanel The panel containing the tree and associated controls.
 	 */
-	private JPanel getTreeControls(){
+	private JPanel getTreeControls(){		
 		JPanel panel;
 		JButton expandButton;
 		JButton collapseButton;
-		
+
 		//create the tree control.
 		tree = new JTree(jView_.getRootTreeNode());
-		tree.getSelectionModel().setSelectionMode
-		(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.addTreeSelectionListener(new TreeSelectionListener(){
 			@SuppressWarnings("unchecked")
 			public void valueChanged(TreeSelectionEvent e) {
@@ -838,7 +855,7 @@ implements ActionListener, MouseListener{
 				PickedState<Object> pickedEdgeState = vv.getPickedEdgeState();
 				if (node == null) return;
 
-				if (node.isLeaf()) {					
+				if (node.isLeaf() && !node.isRoot()) {					
 					Collection<Object> checkEdges = g.getEdges();					
 					for(Object ed: checkEdges){
 						if(ed instanceof EdgeInfo){
@@ -931,7 +948,7 @@ implements ActionListener, MouseListener{
 		JPanel treeButtonPanel = new JPanel(new GridLayout(0,2));
 		treeButtonPanel.add(expandButton);
 		treeButtonPanel.add(collapseButton);
-		
+
 		// setup the tree scroll area
 		m_scrollTreeArea = new JScrollPane(tree);
 		m_scrollTreeArea.setMinimumSize(new Dimension(200,200));
@@ -940,58 +957,65 @@ implements ActionListener, MouseListener{
 		panel = new JPanel(new BorderLayout());				
 		panel.add(treeButtonPanel, BorderLayout.NORTH);		
 		panel.add(m_scrollTreeArea, BorderLayout.CENTER);
-		
+
 		return panel;
 	}
-	
+
 	private JPanel getInfoPanel(){		
 		infoGraph = new DirectedSparseMultigraph<Object, Object>();
-				
+
 		infoLayout = new StaticLayout<Object, Object>(infoGraph);
-		
-		infovv = new VisualizationViewer<Object, Object>(infoLayout, new Dimension(250,100));		
+
+		infovv = new VisualizationViewer<Object, Object>(infoLayout, new Dimension(200,100));		
 		infovv.getRenderContext().setVertexLabelTransformer(new InfoLabelTransformer<Object, Object>());
 		infovv.getRenderContext().setEdgeLabelTransformer(new InfoLabelTransformer<Object, Object>());
 		infovv.getRenderContext().getEdgeLabelRenderer().setRotateEdgeLabels(false);
 		infovv.getRenderContext().setEdgeLabelClosenessTransformer(new ConstantDirectionalEdgeValueTransformer<Object, Object>(.2, .2));
 		infovv.getRenderer().getVertexLabelRenderer().setPosition(Renderer.VertexLabel.Position.E);
-		
-		infoPanel = new JPanel();		
-        infoScrollPane = new javax.swing.JScrollPane();
-        infoTextArea = new javax.swing.JTextArea();
-        infoTextArea.setLineWrap(true);
-        infoTextArea.append("Nothing Selected");
+		infovv.getRenderer().setVertexRenderer(
+				new GradientVertexRenderer<Object,Object>(
+						Color.white, Color.red, 
+						Color.white, Color.red,
+						vv.getPickedVertexState(),
+						true));		
 
-        javax.swing.GroupLayout vvPanelLayout = new javax.swing.GroupLayout(infovv);
-        infovv.setLayout(vvPanelLayout);
-        vvPanelLayout.setHorizontalGroup(
-            vvPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
-        );
-        vvPanelLayout.setVerticalGroup(
-            vvPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
-        );
+		infoPanel = new JPanel();
+		infoPanel.setMinimumSize(new Dimension(300,100));
+		infoScrollPane = new javax.swing.JScrollPane();
+		infoTextArea = new javax.swing.JTextArea();
+		infoTextArea.setLineWrap(true);
+		infoTextArea.append("Nothing Selected");
 
-        infoTextArea.setColumns(20);
-        infoTextArea.setRows(4);
-        infoScrollPane.setViewportView(infoTextArea);
+		javax.swing.GroupLayout vvPanelLayout = new javax.swing.GroupLayout(infovv);
+		infovv.setLayout(vvPanelLayout);
+		vvPanelLayout.setHorizontalGroup(
+				vvPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 201, Short.MAX_VALUE)
+		);
+		vvPanelLayout.setVerticalGroup(
+				vvPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 120, Short.MAX_VALUE)
+		);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(infoPanel);
-        infoPanel.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(infovv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(infoScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(infovv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(infoScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-        );
-		
+		infoTextArea.setColumns(20);
+		infoTextArea.setRows(4);
+		infoScrollPane.setViewportView(infoTextArea);
+
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(infoPanel);
+		infoPanel.setLayout(layout);
+		layout.setHorizontalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(infovv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(infoScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
+		);
+		layout.setVerticalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(infovv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(infoScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+		);
+
 		return infoPanel;
 	}
 }
