@@ -24,7 +24,6 @@ plugin.zsidekick.ZSideKickPlugin.menu=sidekick-tree \
                                       zsidekick.nextWff \
                                       zsidekick.insertTypeForCurrentWff \
                                       zsidekick.rewriteCurrentWff \
-                                      zsidekick.rewriteInnermostCurrentWff \
                                       zsidekick.interactiveRewriteCurrentWff \
                                       zsidekick.proveCurrentWff \
                                       - \
@@ -43,7 +42,6 @@ zsidekick.nextWff.label=Highlight next wff
 zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
 zsidekick.proveCurrentWff.label=Prove selected predicate
 zsidekick.rewriteCurrentWff.label=Rewrite selected formula
-zsidekick.rewriteInnermostCurrentWff.label=Rewrite (innermost) selected formula
 zsidekick.interactiveRewriteCurrentWff.label=Show proof tree for rewriting selected formula
 zsidekick.disableTypechecking.label=Disable Typechecking
 zsidekick.showCompleteTree.label=Show complete syntax tree

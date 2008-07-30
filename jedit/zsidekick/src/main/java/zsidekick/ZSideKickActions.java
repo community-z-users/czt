@@ -33,7 +33,6 @@ import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.UnboundJokerException;
-import net.sourceforge.czt.rules.oldrewriter.RewriteOnceVisitor;
 import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
 import net.sourceforge.czt.rules.prover.ProofTree;
 import net.sourceforge.czt.rules.prover.Prover;
@@ -259,56 +258,6 @@ public class ZSideKickActions
       }
       else {
         reportError(view, "Highlighted term is not a predicate");
-      }
-    }
-  }
-
-  public static void rewrite(View view)
-    throws UnboundJokerException
-  {
-    WffHighlight wffHighlight = getWffHighlight(view);
-    if (wffHighlight != null) {
-      Term term = wffHighlight.getSelectedWff();
-      if (term instanceof Expr ||
-          term instanceof Pred ||
-          term instanceof SchText) {
-        CopyVisitor copy = new CopyVisitor(ProverUtils.FACTORY);
-        term = term.accept(copy);
-        ParsedData parsedData = getParsedData(view);
-        if (parsedData != null) {
-          SectionManager manager = parsedData.getManager();
-          ZSect zSect = wffHighlight.findZSectForCurrentWff();
-          if (zSect != null) {
-            String section = zSect.getName();
-            try {
-              RuleTable rules = (RuleTable)
-                manager.get(new Key(section, RuleTable.class));
-              if (rules != null) {
-                Prover prover = new SimpleProver(rules, manager, section);
-                RewriteOnceVisitor rewriter = new RewriteOnceVisitor(prover);
-                Term result = rewriter.rewrite(term);
-                if (! replaceWff(term, result, view, manager, section)) {
-                  reportError(view, "Rewriting failed");
-                }
-              }
-              else {
-                reportError(view, "Cannot find rules");
-              }
-            }
-            catch (CommandException e) {
-              e.printStackTrace();
-              reportError(view, "Cannot get rule table");
-            }
-          }
-          else {
-            reportError(view, "Cannot find Z section for selected term");
-          }
-        }
-      }
-      else {
-        final String msg = "Highlighted term is neither a predicate " +
-          "nor an expression nor a schema text";
-        reportError(view, msg);
       }
     }
   }

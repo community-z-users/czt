@@ -45,11 +45,6 @@
   </ACTION>
   <ACTION NAME="zsidekick.rewriteCurrentWff">
     <CODE>
-      zsidekick.ZSideKickActions.rewrite(view);
-    </CODE>
-  </ACTION>
-  <ACTION NAME="zsidekick.rewriteInnermostCurrentWff">
-    <CODE>
       zsidekick.ZSideKickActions.innermost(view);
     </CODE>
   </ACTION>
