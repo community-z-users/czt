@@ -3,6 +3,9 @@
  */
 package net.sourceforge.czt.modeljunit.gui.visualisaton;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import net.sourceforge.czt.modeljunit.Transition;
 
 /**
@@ -17,13 +20,15 @@ public class EdgeInfo {
 	private VertexInfo destVertex_;
 	private Boolean displayed_;
 	private Boolean visited_;
-	
+	private Set<String> sequences_;	
+
 	public EdgeInfo(Transition trans, VertexInfo src, VertexInfo dest){
 		transition_ = trans;
 		srcVertex_ = src;
 		destVertex_ = dest;
 		displayed_ = false;
 		visited_ = false;
+		sequences_ = new HashSet<String>();
 	}
 	
 	public EdgeInfo(Transition trans, VertexInfo src, VertexInfo dest, Boolean displayed, Boolean visited){
@@ -72,5 +77,13 @@ public class EdgeInfo {
 	
 	public Boolean getIsVisited(){
 		return visited_;
+	}
+	
+	public Set<String> getSequences_() {
+		return sequences_;
+	}
+
+	public void addTestSequence(String sequence) {
+		this.sequences_ .add(sequence);
 	}
 }
