@@ -9,9 +9,9 @@ import net.sourceforge.czt.modeljunit.Transition;
 public class VisualisationListener extends AbstractListener
 {
 	private JUNGHelper jView_ = JUNGHelper.getJUNGViewInstance();
+	private int resets = 1;
 
-	public VisualisationListener()
-	{
+	public VisualisationListener(){
 	}
 
 	public String getName()
@@ -20,8 +20,8 @@ public class VisualisationListener extends AbstractListener
 	}
 
 	public void doneReset(String reason, boolean testing)
-	{    
-		jView_.graphDoneReset("done " + reason + " reset("+testing+")\n");
+	{ 		
+		jView_.graphDoneReset("Test sequence " + (++resets) + " (" + reason + " reset)");
 	}
 
 	public void doneGuard(Object state, int action, boolean enabled, int value)
@@ -33,7 +33,7 @@ public class VisualisationListener extends AbstractListener
 	}
 
 	public void doneTransition(int action, Transition tr)
-	{    
+	{ 		
 		jView_.visitedVertex(tr.getStartState());
 		jView_.visitedVertex(tr.getEndState());
 		jView_.visitedEdge(tr);
