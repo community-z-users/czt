@@ -56,7 +56,7 @@ public class JUNGHelper {
 	 */
 	public JUNGHelper(){
 		g = new DirectedSparseMultigraph<Object, Object>();		
-		top_ = new DefaultMutableTreeNode("Graph Exploration");
+		top_ = new DefaultMutableTreeNode("All test sequences");
 		vertices = new HashMap<Object, Object>();
 		edges = new HashMap<Transition, Object>();		
 	}
@@ -183,7 +183,7 @@ public class JUNGHelper {
 			g.removeVertex(vx);
 		}
 		//clear the tree
-		top_ = new DefaultMutableTreeNode("Graph Exploration");		
+		top_ = new DefaultMutableTreeNode("All test sequences");		
 		stateChange_ = null;
 		//Clear the explored information
 		vertices.clear();
@@ -213,7 +213,7 @@ public class JUNGHelper {
 	 * This is run when the graph is reset.
 	 * @param str
 	 */
-	public void graphDoneReset(String str) {
+	public void graphDoneReset(String str) {		
 		stateChange_ = new DefaultMutableTreeNode(str,true);
 		top_.add(stateChange_);		
 	}
@@ -223,7 +223,7 @@ public class JUNGHelper {
 	 * the exploration algorythm.
 	 * @param vertex The name of the vertex
 	 */
-	public void visitedVertex(Object vertex) {
+	public void visitedVertex(Object vertex) {		
 		if(!vertices.containsKey(vertex)){
 			VertexInfo vert = new VertexInfo(vertex, true, true);
 			g.addVertex(vert);
@@ -244,7 +244,7 @@ public class JUNGHelper {
 	 * @param startState
 	 * @param endState
 	 */
-	public void visitedEdge(Transition trans) {
+	public void visitedEdge(Transition trans) {		
 		if(!edges.containsKey(trans)){
 			visitedVertex(trans.getStartState());
 			visitedVertex(trans.getEndState());			
@@ -266,10 +266,14 @@ public class JUNGHelper {
 		}
 		//Update the tree with the edge transition
 		if(null == stateChange_){
-			stateChange_ = new DefaultMutableTreeNode("First Exploration");
+			stateChange_ = new DefaultMutableTreeNode("Test sequence 1");
 			top_.add(stateChange_);
-		}		
-		DefaultMutableTreeNode transition = new DefaultMutableTreeNode(trans);
-		stateChange_.add(transition);				
+		}
+		if(edges.get(trans) instanceof EdgeInfo){
+			EdgeInfo edg = (EdgeInfo)edges.get(trans);
+			edg.addTestSequence(stateChange_.toString());
+		}
+		DefaultMutableTreeNode transition = new DefaultMutableTreeNode(trans);		
+		stateChange_.add(transition);		
 	}	
 }
