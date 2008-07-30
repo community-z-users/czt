@@ -413,6 +413,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/JUNGHel
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/PanelJUNGVisualisation.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexEdgePaintTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexFontTransformer.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexGradientRenderer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexInfo.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexLabelTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexPaintTransformer.java -text
