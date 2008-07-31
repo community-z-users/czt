@@ -52,43 +52,43 @@ Now we handle each possible kind of declaration, from left to right.
 This rule matches when the first declaration is a VarDecl.
 Note that if the first declaration declares multiple variables,
 like $a,b,c:\nat$, then the matcher should automatically split this
-so that the $v:S$ pattern matches $a:\nat$ and the $b,c:\nat$
+so that the $N:S$ pattern matches $a:\nat$ and the $b,c:\nat$
 becomes the first declaration within $D1$.
 
 \begin{zedrule}{VarDeclBaseType}
    E :: \power E \\
    [D1 | true] \unfoldsTo [D2 | P2]
 \derives
-   [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
+   [N:E; D1 | true] \unfoldsTo [N:E; D2 | P2]
 \end{zedrule}
 
 \begin{zedrule}{VarDecl}
    E :: \power E2 \\
    [D1 | true] \unfoldsTo [D2 | P2] \\
-   v \in E \land P2 \iff P3
+   N \in E \land P2 \iff P3
 \derives
-   [v:E; D1 | true] \unfoldsTo [v:E2; D2 | P3]
+   [N:E; D1 | true] \unfoldsTo [N:E2; D2 | P3]
 \end{zedrule}
 
-These rules handle simple schema inclusions, where the name $v$ is
+These rules handle simple schema inclusions, where the name $N$ is
 directly defined in the specification.
 
 \begin{zedrule}{SchemaRef}
-  v \hasDefn [D1 | P1] \\
+  N \hasDefn [D1 | P1] \\
   [D1 | true] \unfoldsTo [D2 | P2] \\
   P1 \land P2 \iff P3
 \derives
-  v \unfoldsTo [D2 | P3]
+  N \unfoldsTo [D2 | P3]
 \end{zedrule}
 
 
 \begin{zedrule}{IncludeDecl}
-   v \unfoldsTo [D1 | P1] \\
+   N \unfoldsTo [D1 | P1] \\
    [D | true] \unfoldsTo [D2 | P2] \\
    ([D1 | true] \land [D2 | true]) :: \power [D3 | true]\\
    P1 \land P2 \iff P3
 \derives
-   [v; D | true] \unfoldsTo [D3 | P3]
+   [N; D | true] \unfoldsTo [D3 | P3]
 \end{zedrule}
 
 The base case is an empty declaration list, $[|true]$.
@@ -112,13 +112,13 @@ For this rule, the only operator we must implement is the
 declared names within the schema.
 
 \begin{zedrule}{DecorDecl}
-   v \unfoldsTo [D1 | P1] \\
+   N \unfoldsTo [D1 | P1] \\
    [D1|P1]~' \is [D2|P2]\\
    [D | true] \unfoldsTo [D3 | P3] \\
    ([D2 | true] \land [D3 | true]) :: \power [D4 | true]\\
    P2 \land P3 \iff P4
 \derives
-   [v~'; D | true] \unfoldsTo [D4 | P4]
+   [N~'; D | true] \unfoldsTo [D4 | P4]
 \end{zedrule}
 
 \begin{zedrule}{TrueLeft}

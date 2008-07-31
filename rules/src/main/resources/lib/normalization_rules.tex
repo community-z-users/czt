@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION normalization\_rules \\ \parents oracle\_toolkit
+  \SECTION normalization\_rules \\~~ \parents oracle\_toolkit
 \end{zsection}
 
 Declarations in Z can consist of complicated expressions.  A schema is
@@ -22,8 +22,9 @@ semantically equivalent.
 \begin{zedrule}{Normalize}
    [D|P] :: \power [D1|true] \\
 \derives
-  normalize [D|P] = \\ [D1 | pred([D|true]) \land P]
+  normalize [D|P] = \\~~ [D1 | pred([D|true]) \land P]
 \end{zedrule}
+\TBDpar{IT}{Fix indent of joker and rule paragraphs to be same as other Z paragraphs.}
 
 The Normalize rule given above defines the normalize operation.  Given
 a schema expression $[D|P]$ (where $D$ is a declaration list and $P$
@@ -58,19 +59,19 @@ when $E$ is a carrier set.
 \begin{zedrule}{PredVarDecl1}
   E :: \power E
 \derives
-  pred [v:E;D | true] \iff \\ pred [D|true]
+  pred [N:E;D | true] \iff \\~~ pred [D|true]
 \end{zedrule}
 
 \begin{zedrule}{PredVarDecl2}
-  pred [v:E;D | true] \iff \\ v \in E \land pred [D|true]
+  pred [N:E;D | true] \iff \\~~ N \in E \land pred [D|true]
 \end{zedrule}
 
 \begin{zedrule}{PredConstDecl}
-  pred [v==E;D | true] \iff \\ v = E \land pred [D|true]
+  pred [N==E;D | true] \iff \\~~ N = E \land pred [D|true]
 \end{zedrule}
 
 \begin{zedrule}{PredIncludeDecl}
-   pred [E; D | true] \iff \\ E \land pred [D|true]
+   pred [E; D | true] \iff \\~~ E \land pred [D|true]
 \end{zedrule}
 
 \begin{zedrule}{PredEmptyDecl}

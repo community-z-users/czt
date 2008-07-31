@@ -82,21 +82,21 @@ prover, the user could choose to apply either rule when $E$ is a base type.
    E :: \power E \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
-   [v:E; D1 | true] \declListUnfoldsTo [v:E; D2 |  P2]
+   [N:E; D1 | true] \declListUnfoldsTo [N:E; D2 |  P2]
 \end{zedrule}
 
 \begin{zedrule}{VarDecl2}
    E :: \power E2 \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
-   [v:E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v \in E \land P2]
+   [N:E; D1 | true] \declListUnfoldsTo [N:E2; D2 |  N \in E \land P2]
 \end{zedrule}
 
 \begin{zedrule}{ConstDecl}
    E :: E2 \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
-   [v==E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v = E \land P2]
+   [N==E; D1 | true] \declListUnfoldsTo [N:E2; D2 |  N = E \land P2]
 \end{zedrule}
 
 This rule creates a subgoal $E \sexprUnfoldsTo \ldots$ that will
@@ -184,10 +184,10 @@ If the specification explicitly defined the $\Delta$ schema,
 then the above SchemaRef rule would have unfolded it.
 
 \begin{zedrule}{DeltaRef}
-  \Delta \unprefix v \is v2 \\
+  \Delta \unprefix N \is v2 \\
   [v2; v2~'] \sexprUnfoldsTo [D1|P1]
 \derives
-  v \sexprUnfoldsTo [D1|P1]
+  N \sexprUnfoldsTo [D1|P1]
 \end{zedrule}
 
 This rule unfolds any remaining $\Xi$ schemas.
@@ -195,11 +195,11 @@ If the specification explicitly defined the $\Xi$ schema,
 then the above SchemaRef rule would have unfolded it.
 
 \begin{zedrule}{XiRef}
-  \Xi \unprefix v \is v2 \\
-  [v2; v2~'] \sexprUnfoldsTo [D1|P1] \\
-  [v2|true] :: \power [D2 | true] 
+  \Xi \unprefix N \is N2 \\
+  [N2; N2~'] \sexprUnfoldsTo [D1|P1] \\
+  [N2|true] :: \power [D2 | true] 
 \derives
-  v \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
+  N \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
 \end{zedrule}
 
 \begin{zedrule}{SchemaDecor}
@@ -211,9 +211,9 @@ then the above SchemaRef rule would have unfolded it.
 
 \begin{zedrule}{SchemaRenaming}
    E \sexprUnfoldsTo E1 \\
-   E1 [ RenameList ] \is E2 \\
+   E1 [ RL ] \is E2 \\
 \derives
-   E [ RenameList ] \sexprUnfoldsTo E2
+   E [ RL ] \sexprUnfoldsTo E2
 \end{zedrule}
 
 The type oracle in the SchemaExists rule checks that $D1$ and $D2$ are

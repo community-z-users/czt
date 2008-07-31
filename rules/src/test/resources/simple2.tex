@@ -39,7 +39,7 @@ We define an infix operator for unfolding schemas.
 \end{gendef}
 
 \begin{zedrule}{test}
-  [ v:E ; D | P1 ] foo~ E2
+  [ N:E ; D | P1 ] foo~ E2
 \end{zedrule}
 
 \begin{zed}
@@ -57,7 +57,7 @@ We define an infix operator for unfolding schemas.
 
 
 \begin{zedrule}{argh}
-  [ v ; D | P1 ] ~foo~ E2
+  [ N ; D | P1 ] ~foo~ E2
 \end{zedrule}
 
 \begin{zed}
@@ -69,7 +69,7 @@ We define an infix operator for unfolding schemas.
 \end{zed}
 
 \begin{zedrule}{test2}
-  [ v:E ; D | P1 ] = [ v:E ; D | P1 ]
+  [ N:E ; D | P1 ] = [ N:E ; D | P1 ]
 \end{zedrule}
 
 \begin{zed}
@@ -97,7 +97,7 @@ We define an infix operator for unfolding schemas.
 \begin{zedrule}{normaliseVarDecl}
    [D1 | true] \unfoldsTo [D2 | P2]
 \derives
-   [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
+   [N:E; D1 | true] \unfoldsTo [N:E; D2 | P2]
 \end{zedrule}
 
 This is a very specific instance of normaliseConstDecl
@@ -107,13 +107,13 @@ unification are undone correctly.
 \begin{zedrule}{normaliseConstDecl42}
    [D1 | true] \unfoldsTo [D2 | false \land P2]
 \derives
-   [v==42; D1 | true] \unfoldsTo [v:\{42\}; D2 | P2]
+   [N==42; D1 | true] \unfoldsTo [N:\{42\}; D2 | P2]
 \end{zedrule}
 
 \begin{zedrule}{normaliseConstDecl}
    [D1 | true] \unfoldsTo [D2 | P2]
 \derives
-   [v==E; D1 | true] \unfoldsTo [v:\{E\}; D2 | P2]
+   [N==E; D1 | true] \unfoldsTo [N:\{E\}; D2 | P2]
 \end{zedrule}
 
 \begin{zedrule}{startNormalise}
@@ -142,9 +142,9 @@ unification are undone correctly.
 
 
 \begin{zedrule}{normaliseIncludeDecl}
-   v \hasDefn [D1 | P1] \\
+   N \hasDefn [D1 | P1] \\
 \derives
-   [v; D | true] \unfoldsTo [D1 | P1 \land P2]
+   [N; D | true] \unfoldsTo [D1 | P1 \land P2]
 \end{zedrule}
 
 \begin{zed}
