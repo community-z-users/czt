@@ -34,6 +34,13 @@
 \def\infix{\boldword{infix}}          % this overrides the oz.sty \infix.
 \def\partition{\boldword{partition}}  % overrides the oz.sty 'partitions'
 
+% Take generic parameters from [] and put in {} for oz.
+% Also, omit bottom line from outline.
+% Copied from ltcadiz.sty by ian.
+\let\ozgendef\gendef
+\def\endozgendef{\endzed \z@makeinner \z@nopar}
+\renewenvironment{gendef}[1][]{\begin{ozgendef}{#1}}{\end{ozgendef}}
+
 %% The Z Standard now uses the 'theorem' environment for conjectures.
 %% See the Z Standard defect report 13568/003,
 %% available from http://www.cs.york.ac.uk/hise/Zstandard/defects.html
@@ -56,10 +63,10 @@
 %% which makes it possible to define rewrite rules and inference rules.
 %% See zpattern_toolkit.tex for the Z-parseable parts of the definitions.
 
-\newenvironment{zedjoker}[1]{\par$\bigstar$ #1\ }{\hfill\par}
+\newenvironment{zedjoker}[1]{\parindent=0pt\par\hskip\zedindent$\bigstar #1\ }{$\hfill\par}
 
 % Rule syntax: \begin{zedrule}{Name} Ant1 \\ Ant2 \derive Concl \end{zedrule}
-\newenvironment{zedrule}[1]{\par\textbf{rule }#1\vspace{-2ex}\infrule}{\endinfrule}
+\newenvironment{zedrule}[1]{\parindent=0pt\par\hskip\zedindent\textbf{rule }#1\vspace{-1.5ex}\infrule}{\endinfrule}
 \newcommand{\derives}{\derive{}}
 \newcommand{\substitute}{\mathrel{\curvearrowleft}}  % U+21B6
 \newcommand{\proviso}{\raisebox{0.5ex}{${}_{\blacktriangleright}\ $}}%%or\star
