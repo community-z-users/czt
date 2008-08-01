@@ -34,7 +34,7 @@ public class SpecReaderTest
     int count_expected;
     int count_actual;
     try {
-      ZFile zFile = ZFileReader.openZFile(basename + "_expected", SpecReader.suffix_[0], testCase);
+      ZFile zFile = ZFileReader.openZFile(basename + "_expected", SpecReader.SUFFICES[0], testCase);
       Reader reader = zFile.getBufferedReader();
       count_expected = reader.read(cbuf_expected, 0, len);
       if (count_expected < 1) {
@@ -42,7 +42,7 @@ public class SpecReaderTest
       }
       final String string_expected = new String(cbuf_expected, 0, count_expected);
       try {
-        SpecReader specReader = new SpecReader(basename + SpecReader.suffix_[0], false, false);
+        SpecReader specReader = new SpecReader(basename + SpecReader.SUFFICES[0], false, false);
         count_actual = specReader.read(cbuf_actual, 0, len);
         if (count_actual < 1) {
           fail("read actual failed as if EOF");
@@ -71,7 +71,7 @@ public class SpecReaderTest
       fail("Unexpected IOException on reading expected result");
     }
     catch (SectionNotFoundException e) {
-      fail("Cannot open " + basename + "_expected" + SpecReader.suffix_);
+      fail("Cannot open " + basename + "_expected" + SpecReader.SUFFICES[0]);
     }
   }
 }

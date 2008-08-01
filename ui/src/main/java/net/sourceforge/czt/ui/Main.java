@@ -149,7 +149,7 @@ public class Main
           }
           Source source = null;
           boolean openOk = false;
-          for (String suff : net.sourceforge.czt.specreader.SpecReader.suffix_) {
+          for (String suff : net.sourceforge.czt.specreader.SpecReader.SUFFICES) {
             if (args[i].endsWith(suff)) {
               source = new SpecSource(args[i], isBufferingWanted, isNarrativeWanted);
               openOk = true;

@@ -69,7 +69,7 @@ public final class Main
         }
       } else if (fileName == null) {
         boolean suffixOk = false;
-        for (String suffix : SpecReader.suffix_) {
+        for (String suffix : SpecReader.SUFFICES) {
           if (arg.endsWith(suffix)) {
             suffixOk = true;
           }

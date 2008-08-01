@@ -137,21 +137,21 @@ public final class ZFileReader
   {
     Pathname pathname = null;
     InputStream inputStream;
-    if (basename.startsWith(SpecReader.resourcePrefix_)) {  // Look only for a resource
-      String urlName = basename + (suffix.isEmpty()? SpecReader.suffix_[0] : suffix);
+    if (basename.startsWith(SpecReader.RESOURCE_PREFIX)) {  // Look only for a resource
+      String urlName = basename + (suffix.isEmpty()? SpecReader.SUFFICES[0] : suffix);
       inputStream = openUrl(urlName, anyInMyJar);
       if (inputStream != null) {
         pathname = new Pathname(urlName);
       }
     } else {                                                // Look first for a resource
-      String urlName = SpecReader.resourcePrefix_ + basename
-        + (suffix.isEmpty()? SpecReader.suffix_[0] : suffix);
+      String urlName = SpecReader.RESOURCE_PREFIX + basename
+        + (suffix.isEmpty()? SpecReader.SUFFICES[0] : suffix);
       inputStream = openUrl(urlName, anyInMyJar);
       if (inputStream != null) {
         pathname = new Pathname(urlName);
       } else if (suffix.isEmpty()) {                        // Look for any suffixed file
         boolean openOk = false;
-        for (String suff : SpecReader.suffix_) {
+        for (String suff : SpecReader.SUFFICES) {
           final String filename = basename + suff;
           try {
             inputStream = new FileInputStream(filename);

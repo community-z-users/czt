@@ -40,10 +40,10 @@ import java.io.IOException;
 public final class SpecReader extends Reader
 {
   /** File types to be considered */
-  public static final String[] suffix_ = {".tex", ".zed"};
+  public static final String[] SUFFICES = {".tex", ".zed"};
   
   /** Where toolkit sections are under resources */
-  protected static final String resourcePrefix_ = "/lib/";
+  protected static final String RESOURCE_PREFIX = "/lib/";
   
   /** Whether buffering of whole spec's text is wanted */
   private boolean isBufferingWanted_;
@@ -95,7 +95,7 @@ public final class SpecReader extends Reader
       sectionIterator_ = null;
     }
   }
-
+ 
   /**
    * Arranges for any subsequent read() to throw IOException.
    */
@@ -231,7 +231,7 @@ public final class SpecReader extends Reader
   private List<Section> readFile(String basename, String suffix)
     throws IllegalAnonSectionException, IOException, SectionNotFoundException
   {
-    //System.err.format("Reading %s%s%n", basename, suffix_);
+    //System.err.format("Reading %s%s%n", basename, SUFFICES[0]);
     final ZFileReader zFileReader = new ZFileReader(
         basename, suffix, isBufferingWanted_, isNarrativeWanted_);
     final List<Section> sections = zFileReader.readSections();
