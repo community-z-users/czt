@@ -101,18 +101,18 @@ public class LookaheadTesterTest extends TestCase
     assertEquals("(TF, addS2, TT)", path.get(2).toString());
     assertEquals("(TT, addS1, TT)", path.get(3).toString());
     assertEquals("(TT, addS2, TT)", path.get(4).toString());
-    assertEquals("(TT, delS1, FT)", path.get(5).toString());
+    assertEquals("(TT, removeS1, FT)", path.get(5).toString());
     assertEquals("(FT, addS1, TT)", path.get(6).toString());
-    assertEquals("(TT, delS2, TF)", path.get(7).toString());
-    assertEquals("(TF, delS1, FF)", path.get(8).toString());
+    assertEquals("(TT, removeS2, TF)", path.get(7).toString());
+    assertEquals("(TF, removeS1, FF)", path.get(8).toString());
     assertEquals("(FF, addS2, FT)", path.get(9).toString());
     assertEquals("(FT, addS2, FT)", path.get(10).toString());
-    assertEquals("(FT, delS1, FT)", path.get(11).toString());
-    assertEquals("(FT, delS2, FF)", path.get(12).toString());
-    assertEquals("(FF, delS1, FF)", path.get(13).toString());
-    assertEquals("(FF, delS2, FF)", path.get(14).toString());
+    assertEquals("(FT, removeS1, FT)", path.get(11).toString());
+    assertEquals("(FT, removeS2, FF)", path.get(12).toString());
+    assertEquals("(FF, removeS1, FF)", path.get(13).toString());
+    assertEquals("(FF, removeS2, FF)", path.get(14).toString());
     assertEquals("(FF, addS1, TF)", path.get(15).toString());
-    assertEquals("(TF, delS2, TF)", path.get(16).toString());
+    assertEquals("(TF, removeS2, TF)", path.get(16).toString());
     assertEquals(16, transitions.getCoverage());
   }
 
@@ -124,23 +124,23 @@ public class LookaheadTesterTest extends TestCase
     assertEquals(19, path.size());
     assertEquals("(FF, addS1, TF)", path.get(0).toString());
     assertEquals("(TF, addS2, TT)", path.get(1).toString());
-    assertEquals("(TT, delS1, FT)", path.get(2).toString());
-    assertEquals("(FT, delS2, FF)", path.get(3).toString());
+    assertEquals("(TT, removeS1, FT)", path.get(2).toString());
+    assertEquals("(FT, removeS2, FF)", path.get(3).toString());
     assertEquals("(FF, addS2, FT)", path.get(4).toString());
     assertEquals("(FT, addS1, TT)", path.get(5).toString());
     assertEquals("(TT, addS1, TT)", path.get(6).toString());
     assertEquals("(TT, addS2, TT)", path.get(7).toString());
-    assertEquals("(TT, delS2, TF)", path.get(8).toString());
+    assertEquals("(TT, removeS2, TF)", path.get(8).toString());
     assertEquals("(TF, addS1, TF)", path.get(9).toString());
-    assertEquals("(TF, delS1, FF)", path.get(10).toString());
-    assertEquals("(FF, delS1, FF)", path.get(11).toString());
-    assertEquals("(FF, delS2, FF)", path.get(12).toString());
+    assertEquals("(TF, removeS1, FF)", path.get(10).toString());
+    assertEquals("(FF, removeS1, FF)", path.get(11).toString());
+    assertEquals("(FF, removeS2, FF)", path.get(12).toString());
     assertEquals("(FF, addS1, TF)", path.get(13).toString());
-    assertEquals("(TF, delS2, TF)", path.get(14).toString());
+    assertEquals("(TF, removeS2, TF)", path.get(14).toString());
     assertEquals("(TF, addS2, TT)", path.get(15).toString());
-    assertEquals("(TT, delS1, FT)", path.get(16).toString());
+    assertEquals("(TT, removeS1, FT)", path.get(16).toString());
     assertEquals("(FT, addS2, FT)", path.get(17).toString());
-    assertEquals("(FT, delS1, FT)", path.get(18).toString());
+    assertEquals("(FT, removeS1, FT)", path.get(18).toString());
     assertEquals(16, transitions.getCoverage());
   }
 
@@ -152,8 +152,8 @@ public class LookaheadTesterTest extends TestCase
     //
     assertEquals("(FF, addS1, TF)", path.get(0).toString());
     assertEquals("(TF, addS2, TT)", path.get(1).toString());
-    assertEquals("(TT, delS1, FT)", path.get(2).toString());
-    assertEquals("(FT, delS2, FF)", path.get(3).toString());
+    assertEquals("(TT, removeS1, FT)", path.get(2).toString());
+    assertEquals("(FT, removeS2, FF)", path.get(3).toString());
 
     assertEquals("(FF, reset, FF)", path.get(4).toString());
     assertEquals("(FF, addS2, FT)", path.get(5).toString());
@@ -162,27 +162,27 @@ public class LookaheadTesterTest extends TestCase
     assertEquals("(TT, addS2, TT)", path.get(8).toString());
 
     assertEquals("(TT, reset, FF)", path.get(9).toString());
-    assertEquals("(FF, delS1, FF)", path.get(10).toString());
-    assertEquals("(FF, delS2, FF)", path.get(11).toString());
+    assertEquals("(FF, removeS1, FF)", path.get(10).toString());
+    assertEquals("(FF, removeS2, FF)", path.get(11).toString());
     assertEquals("(FF, addS1, TF)", path.get(12).toString());
     assertEquals("(TF, addS1, TF)", path.get(13).toString());
 
     assertEquals("(TF, reset, FF)", path.get(14).toString());
     assertEquals("(FF, addS2, FT)", path.get(15).toString());
     assertEquals("(FT, addS2, FT)", path.get(16).toString());
-    assertEquals("(FT, delS1, FT)", path.get(17).toString());
+    assertEquals("(FT, removeS1, FT)", path.get(17).toString());
     assertEquals("(FT, addS1, TT)", path.get(18).toString());
 
     assertEquals("(TT, reset, FF)", path.get(19).toString());
     assertEquals("(FF, addS1, TF)", path.get(20).toString());
-    assertEquals("(TF, delS1, FF)", path.get(21).toString());
+    assertEquals("(TF, removeS1, FF)", path.get(21).toString());
     assertEquals("(FF, addS1, TF)", path.get(22).toString());
-    assertEquals("(TF, delS2, TF)", path.get(23).toString());
+    assertEquals("(TF, removeS2, TF)", path.get(23).toString());
 
     assertEquals("(TF, reset, FF)", path.get(24).toString());
     assertEquals("(FF, addS2, FT)", path.get(25).toString());
     assertEquals("(FT, addS1, TT)", path.get(26).toString());
-    assertEquals("(TT, delS2, TF)", path.get(27).toString());
+    assertEquals("(TT, removeS2, TF)", path.get(27).toString());
     assertEquals("(TF, addS1, TF)", path.get(28).toString());
 
     assertEquals(16, transitions.getCoverage());

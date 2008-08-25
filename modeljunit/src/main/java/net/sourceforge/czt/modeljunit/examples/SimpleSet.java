@@ -38,8 +38,9 @@ public class SimpleSet implements FsmModel
 
   @Action public void addS1() {s1 = true;}
   @Action public void addS2() {s2 = true;}
-  @Action public void delS1() {s1 = false;}
-  @Action public void delS2() {s2 = false;} // or {s2 = 1/0>0;} to see an error
+  @Action public void removeS1() {s1 = false;}
+  @Action public void removeS2() {s2 = false;} // or {s2 = 1/0>0;} to see an error
+  //@Action public void clear() {s1 = false; s2 = false;}
 
   /** An example of generating tests from this model. */
   public static void main(String[] args)

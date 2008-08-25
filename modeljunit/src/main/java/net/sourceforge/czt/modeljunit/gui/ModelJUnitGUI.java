@@ -61,11 +61,11 @@ public class ModelJUnitGUI implements ActionListener
   private PanelResultViewer m_panelRV;
 
   private PanelExecuteActions m_panelEA;
-  
+
   private PanelCoverage m_panelC;
-  
+
   private PanelJUNGVisualisation m_panelGV;
-  
+
   // The panel with run button
   private JPanel m_panelOption = new JPanel();
 
@@ -85,9 +85,9 @@ public class ModelJUnitGUI implements ActionListener
   private JMenuItem m_miAbout;
 
   private JMenuItem m_miCoverageColor;
-  
+
   private int m_nCurrentPanelIndex;
-  
+
   public void createAndShowGUI()
   {
     // Load setting file
@@ -97,14 +97,14 @@ public class ModelJUnitGUI implements ActionListener
     m_frame = new JFrame("ModelJUnit GUI");
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    try 
+    try
     {
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ;
       UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
     }
-    catch (Exception e) 
+    catch (Exception e)
     {
       System.out.println ("Couldn't load Motif look and feel " + e);
     }
@@ -124,22 +124,22 @@ public class ModelJUnitGUI implements ActionListener
     m_panelC = PanelCoverage.getInstance();
     //Get the JUNG visualisation panel
     m_panelGV = PanelJUNGVisualisation.getGraphVisualisationInstance();
-    
-    
+
+
     Thread initializeImage = new Thread()
     {
       public void run()
       {
-        try 
+        try
         {
-          
+
           m_iconTag = new ImageIcon[6];
           String strIconPath = System.getProperty("user.dir")+File.separator+"images"+File.separator;
           /*ClassLoader loader = this.getClass().getClassLoader();
           java.net.URL url = loader.getResource("."+File.separator+"images"+File.separator+"YinyangOrb.gif");
           System.out.println("url: "+"images"+File.separator+"YinyangOrb.gif");
           System.out.println(url.toString());*/
-          
+
           // System.out.println(System.getProperty("user.dir"));
           // Image img = Toolkit.getDefaultToolkit().getImage(java.net.URLClassLoader.getSystemResource(strIconPath+"images.jpg"));
           try
@@ -162,7 +162,7 @@ public class ModelJUnitGUI implements ActionListener
           m_tabbedPane.addTab("Model coverage graph", m_iconTag[5], m_panelC);
           //TODO fix the index to the icon for this tab
           m_tabbedPane.addTab("Model Visualisation", m_iconTag[5], m_panelGV);
-          
+
           m_tabbedPane.addChangeListener(new TabChangeListener());
           m_panelOption
               .setLayout(new BoxLayout(m_panelOption, BoxLayout.Y_AXIS));
@@ -235,17 +235,17 @@ setJMenuBar(mb);
     m_miOpenModel.setSelected(true);
     group.add(m_miOpenModel);
     sMenu.add(m_miOpenModel);
-    
+
     m_miOpenModelDefault = new JRadioButtonMenuItem("Use default directory");
     m_miOpenModelDefault.setMnemonic(KeyEvent.VK_L);
     m_miOpenModelDefault.addActionListener(this);
     group.add(m_miOpenModelDefault);
     sMenu.add(m_miOpenModelDefault);
-    
+
     m_miCoverageColor = new JMenuItem("Coverage line color");
     m_miCoverageColor.addActionListener(this);
     sMenu.add(m_miCoverageColor);
-    
+
     m_menuBar.add(sMenu);
     // About menu
     JMenu aMenu = new JMenu("About");
@@ -264,9 +264,9 @@ setJMenuBar(mb);
   public void actionPerformed(ActionEvent e)
   {
     //-------------- Menu radio buttons ------------------
-    if (e.getSource() == m_miOpenModel) 
+    if (e.getSource() == m_miOpenModel)
     { Parameter.setFileChooserOpenMode(0); }
-    if (e.getSource() == m_miOpenModelDefault) 
+    if (e.getSource() == m_miOpenModelDefault)
     { Parameter.setFileChooserOpenMode(1); }
     if(e.getSource() == m_miAbout)
     {
@@ -298,10 +298,10 @@ setJMenuBar(mb);
         runClass();
     }
     // ------------- Export java file --------------
-    if (e.getSource() == m_miFile) 
+    if (e.getSource() == m_miFile)
     {
       String code = m_panelTD.generateCode();
-      if (code.length() > 0) 
+      if (code.length() > 0)
       {
         String extension = "java";
         FileChooserFilter javaFileFilter = new FileChooserFilter(extension,
@@ -392,7 +392,7 @@ setJMenuBar(mb);
   private void updateGeneratedCode()
   {
     String code = m_panelTD.generateCode();
-    m_panelCV.updateCode(code);    
+    m_panelCV.updateCode(code);
     m_panelEA.setGeneratedCode(code);
   }
 
@@ -403,14 +403,14 @@ setJMenuBar(mb);
   {
     // Draw line chart in coverage panel
     if(m_panelTD.isLineChartDrawable()&& m_nCurrentPanelIndex==4)
-    {    	
+    {
       m_panelC.clearCoverages();
       int[] stages = m_panelC.computeStages(TestExeModel.getWalkLength());
 
       m_panelTD.initializeTester(0);
       Tester tester = TestExeModel.getTester(0);
       tester.buildGraph();
-           
+
       CoverageHistory[] coverage = new CoverageHistory[TestExeModel.COVERAGE_NUM];
       coverage[0] = new CoverageHistory(new StateCoverage(),1);
       coverage[1] = new CoverageHistory(new TransitionCoverage(),1);
@@ -430,41 +430,41 @@ setJMenuBar(mb);
         m_panelC.addTransitionPairCoverage((int)coverage[2].getPercentage());
         m_panelC.addActionCoverage((int)coverage[3].getPercentage());
         m_panelC.redrawGraph();
-        try 
+        try
         {
           Thread.sleep(100);
         }
-        catch (InterruptedException e) 
+        catch (InterruptedException e)
         {
           e.printStackTrace();
         }
-      }      
+      }
     }
     // To reset tester, it solve the problem that coverage matrix incorrect.
     m_panelTD.initializeTester(0);
     //reset the visualisation panel
-    m_panelGV.resetRunTimeInformation();    
+    m_panelGV.resetRunTimeInformation();
     //Try to fully explore the complete graph before running the test explorations
-    Tester tester = TestExeModel.getTester(0);    	
-    GraphListener graph = tester.buildGraph();    
+    Tester tester = TestExeModel.getTester(0);
+    GraphListener graph = tester.buildGraph();
     m_panelGV.showEmptyExploredGraph(graph);
-    
+
     // Clear the information in Result viewer text area
-    m_panelRV.resetRunTimeInformation();    
+    m_panelRV.resetRunTimeInformation();
 
     // Run test and display test output
     TestExeModel.runTestAuto();
-    //Finish the visualisation panel. This effectively starts the animation.    
-    m_panelGV.updateGUI();    
+    //Finish the visualisation panel. This effectively starts the animation.
+    m_panelGV.updateGUI();
   }
 
   class TabChangeListener implements ChangeListener
   {
     public void stateChanged(ChangeEvent e)
     {
-      
+
       JTabbedPane sourcePane = (JTabbedPane)e.getSource();
-      
+
       m_nCurrentPanelIndex = sourcePane.getSelectedIndex();
       // Set run button visibility
       if(3 == m_nCurrentPanelIndex)
@@ -490,7 +490,7 @@ setJMenuBar(mb);
       if(!Parameter.isTestRunnable(false))
         return;
       updateGeneratedCode();
-      
+
       // If user click the ExecuteAction pane
       if(3 == m_nCurrentPanelIndex)
       {

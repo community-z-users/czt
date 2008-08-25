@@ -76,16 +76,16 @@ public class SmartSetAdaptor extends SimpleSet
     checkSUT();
   }
   
-  @Action public void delS1()
+  @Action public void removeS1()
   {
-    super.delS1();
+    super.removeS1();
     sut_.remove("");
     checkSUT();
   }
   
-  @Action public void delS2()
+  @Action public void removeS2()
   {
-    super.delS2();
+    super.removeS2();
     for (int i=1; i<=S2_STRINGS; i++)
       sut_.remove("s"+i);
     checkSUT();
