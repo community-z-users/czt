@@ -7,13 +7,10 @@ package net.sourceforge.czt.modeljunit.gui;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-/**
+/*
  * Main.java
- *
- * @author rong
- * ID : 1005450
- * 26th Jul 2007
- * */
+ * @author rong ID : 1005450 26th Jul 2007
+ */
 
 public class Main
 {

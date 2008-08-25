@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.modeljunit.gui;
 
 import java.awt.BorderLayout;
@@ -10,7 +11,6 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -22,10 +22,8 @@ public class DialogAbout extends JDialog
   {
     super(owner, "About", true);
     setLayout(new BorderLayout());
-    String msg = new String("ModelJUnit GUI\n"
-        + " Director: Mark Utting \n"
-        + " Coding: Rong Yang\n"
-        + " Version: " + Model.getVersion());
+    String msg = new String("ModelJUnit GUI\n" + " Director: Mark Utting \n"
+        + " Coding: Rong Yang\n" + " Version: " + Model.getVersion());
     JTextArea txt = new JTextArea(msg);
     txt.setEditable(false);
     txt.setBackground(this.getBackground());
@@ -33,15 +31,19 @@ public class DialogAbout extends JDialog
     ActionListener exit = new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
-      { dispose(); }
+      {
+        dispose();
+      }
     };
     butOkey.addActionListener(exit);
     JPanel p = new JPanel();
-    
+
     WindowListener wl = new WindowAdapter()
     {
       public void windowOpened(WindowEvent e)
-      { butOkey.requestFocus(); }
+      {
+        butOkey.requestFocus();
+      }
     };
     this.addWindowListener(wl);
     p.add(txt, BorderLayout.CENTER);

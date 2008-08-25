@@ -1,22 +1,15 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.lang.reflect.InvocationTargetException;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
-import javax.swing.*;
-
-import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.modeljunit.Tester;
 
-/**
+/*
  * AlgorithmPanel.java
- *
- * @author rong
- * ID : 1005450
- * 30th Jl 2007
- * */
+ * @author rong ID : 1005450 30th Jl 2007
+ */
 public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
 {
   private String m_strNameOfAlgorithm;

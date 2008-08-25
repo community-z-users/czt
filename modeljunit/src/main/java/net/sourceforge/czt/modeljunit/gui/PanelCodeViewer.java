@@ -3,14 +3,12 @@ package net.sourceforge.czt.modeljunit.gui;
 
 import java.awt.BorderLayout;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class PanelCodeViewer extends JPanel
 {
-
-  /**
-   * serial version ID
-   */
   private static final long serialVersionUID = -8433568076533100620L;
 
   private static PanelCodeViewer m_panelCV;

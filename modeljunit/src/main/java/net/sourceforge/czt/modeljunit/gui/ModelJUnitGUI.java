@@ -39,13 +39,10 @@ import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 import net.sourceforge.czt.modeljunit.gui.visualisaton.PanelJUNGVisualisation;
 
-/**
+/*
  * ModelJUnitGUI.java
- *
- * @author rong
- * ID : 1005450
- * 26th Jul 2007
- * */
+ * @author rong ID : 1005450 26th Jul 2007
+ */
 public class ModelJUnitGUI implements ActionListener
 {
   private JFrame m_frame;
@@ -97,16 +94,14 @@ public class ModelJUnitGUI implements ActionListener
     m_frame = new JFrame("ModelJUnit GUI");
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    try
-    {
+    try {
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ;
       UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
     }
-    catch (Exception e)
-    {
-      System.out.println ("Couldn't load Motif look and feel " + e);
+    catch (Exception e) {
+      System.out.println("Couldn't load Motif look and feel " + e);
     }
 
     // Initialize TestDesign panel
@@ -125,16 +120,15 @@ public class ModelJUnitGUI implements ActionListener
     //Get the JUNG visualisation panel
     m_panelGV = PanelJUNGVisualisation.getGraphVisualisationInstance();
 
-
     Thread initializeImage = new Thread()
     {
       public void run()
       {
-        try
-        {
+        try {
 
           m_iconTag = new ImageIcon[6];
-          String strIconPath = System.getProperty("user.dir")+File.separator+"images"+File.separator;
+          String strIconPath = System.getProperty("user.dir") + File.separator
+              + "images" + File.separator;
           /*ClassLoader loader = this.getClass().getClassLoader();
           java.net.URL url = loader.getResource("."+File.separator+"images"+File.separator+"YinyangOrb.gif");
           System.out.println("url: "+"images"+File.separator+"YinyangOrb.gif");
@@ -142,18 +136,18 @@ public class ModelJUnitGUI implements ActionListener
 
           // System.out.println(System.getProperty("user.dir"));
           // Image img = Toolkit.getDefaultToolkit().getImage(java.net.URLClassLoader.getSystemResource(strIconPath+"images.jpg"));
-          try
-          {
-            m_iconTag[0] = new ImageIcon(strIconPath+"YinyangOrb.png");
-            m_iconTag[1] = new ImageIcon(strIconPath+"PurpleOrb.png");
-            m_iconTag[2] = new ImageIcon(strIconPath+"BlueOrb.png");
-            m_iconTag[3] = new ImageIcon(strIconPath+"RedOrb.png");
-            m_iconTag[4] = new ImageIcon(strIconPath+"YellowOrb.png");
-            m_iconTag[5] = new ImageIcon(strIconPath+"GreenOrb.png");
+          try {
+            m_iconTag[0] = new ImageIcon(strIconPath + "YinyangOrb.png");
+            m_iconTag[1] = new ImageIcon(strIconPath + "PurpleOrb.png");
+            m_iconTag[2] = new ImageIcon(strIconPath + "BlueOrb.png");
+            m_iconTag[3] = new ImageIcon(strIconPath + "RedOrb.png");
+            m_iconTag[4] = new ImageIcon(strIconPath + "YellowOrb.png");
+            m_iconTag[5] = new ImageIcon(strIconPath + "GreenOrb.png");
             m_frame.setIconImage(m_iconTag[0].getImage());
           }
-          catch(Exception e)
-          {e.printStackTrace();}
+          catch (Exception e) {
+            e.printStackTrace();
+          }
           // Setup the tab
           m_tabbedPane.addTab("Test Design", m_iconTag[1], m_panelTD);
           m_tabbedPane.addTab("Code viewer", m_iconTag[2], m_panelCV);
@@ -184,28 +178,28 @@ public class ModelJUnitGUI implements ActionListener
 
     /*
      * JMenu file = new JMenu("Look & Feel", true);
-ButtonGroup buttonGroup = new ButtonGroup();
-final UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
-for (int i = 0; i < info.length; i++) {
-JRadioButtonMenuItem item = new
-JRadioButtonMenuItem(info[i].getName(), i == 0);
-final String className = info[i].getClassName();
-item.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent ae) {
-try { UIManager.setLookAndFeel(className); }
-catch (Exception e) { System.out.println(e); }
-SwingUtilities.updateComponentTreeUI(ToUChyFeely.this); }
-});
-buttonGroup.add(item);
-file.add(item);
-}
-mb.add(file);
-setJMenuBar(mb);
-
-     * */
+     * ButtonGroup buttonGroup = new ButtonGroup();
+     * final UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
+     * for (int i = 0; i < info.length; i++) {
+     *   JRadioButtonMenuItem item = new
+     *   JRadioButtonMenuItem(info[i].getName(), i == 0);
+     *   final String className = info[i].getClassName();
+     *   item.addActionListener(new ActionListener() {
+     *     public void actionPerformed(ActionEvent ae) {
+     *       try { UIManager.setLookAndFeel(className); }
+     *       catch (Exception e) { System.out.println(e); }
+     *       SwingUtilities.updateComponentTreeUI(ToUChyFeely.this);
+     *     }
+     *   });
+     *   buttonGroup.add(item);
+     *   file.add(item);
+     * }
+     * mb.add(file);
+     * setJMenuBar(mb);
+     */
     // Menu and menu items
     m_menuBar = new JMenuBar();
-    // File meun
+    // File menu
     JMenu fMenu = new JMenu("File");
     fMenu.setMnemonic('f');
 
@@ -264,27 +258,26 @@ setJMenuBar(mb);
   public void actionPerformed(ActionEvent e)
   {
     //-------------- Menu radio buttons ------------------
-    if (e.getSource() == m_miOpenModel)
-    { Parameter.setFileChooserOpenMode(0); }
-    if (e.getSource() == m_miOpenModelDefault)
-    { Parameter.setFileChooserOpenMode(1); }
-    if(e.getSource() == m_miAbout)
-    {
+    if (e.getSource() == m_miOpenModel) {
+      Parameter.setFileChooserOpenMode(0);
+    }
+    if (e.getSource() == m_miOpenModelDefault) {
+      Parameter.setFileChooserOpenMode(1);
+    }
+    if (e.getSource() == m_miAbout) {
       DialogAbout aboutDlg = new DialogAbout(m_frame);
-      aboutDlg.setLocation(new Point(100,100));
+      aboutDlg.setLocation(new Point(100, 100));
       aboutDlg.setVisible(true);
     }
-    if(e.getSource() == m_miCoverageColor)
-    {
+    if (e.getSource() == m_miCoverageColor) {
       DialogCoverageLineColor colorDlg = new DialogCoverageLineColor(m_frame);
-      colorDlg.setLocation(new Point(100,100));
+      colorDlg.setLocation(new Point(100, 100));
       colorDlg.setVisible(true);
     }
     //-------------- Run button event handler -------------
     if (e.getSource() == m_butRun) {
       // No model imported
-      if(!Parameter.isTestRunnable(false))
-      {
+      if (!Parameter.isTestRunnable(false)) {
         ErrorMessage
             .DisplayErrorMessage("NO TEST MODEL HAS BEEN SELECTED",
                 "Please select Test Model \nfrom Test Design tab\nbefore code generating!");
@@ -298,11 +291,9 @@ setJMenuBar(mb);
         runClass();
     }
     // ------------- Export java file --------------
-    if (e.getSource() == m_miFile)
-    {
+    if (e.getSource() == m_miFile) {
       String code = m_panelTD.generateCode();
-      if (code.length() > 0)
-      {
+      if (code.length() > 0) {
         String extension = "java";
         FileChooserFilter javaFileFilter = new FileChooserFilter(extension,
             "Java Files");
@@ -350,8 +341,7 @@ setJMenuBar(mb);
       }
     }
     // ----------------- Exit application ---------------------
-    if (e.getSource() == m_miExit)
-    {
+    if (e.getSource() == m_miExit) {
       Parameter.wirteSettingFile();
       System.exit(0);
     }
@@ -402,8 +392,7 @@ setJMenuBar(mb);
   private void runClass()
   {
     // Draw line chart in coverage panel
-    if(m_panelTD.isLineChartDrawable()&& m_nCurrentPanelIndex==4)
-    {
+    if (m_panelTD.isLineChartDrawable() && m_nCurrentPanelIndex == 4) {
       m_panelC.clearCoverages();
       int[] stages = m_panelC.computeStages(TestExeModel.getWalkLength());
 
@@ -412,30 +401,27 @@ setJMenuBar(mb);
       tester.buildGraph();
 
       CoverageHistory[] coverage = new CoverageHistory[TestExeModel.COVERAGE_NUM];
-      coverage[0] = new CoverageHistory(new StateCoverage(),1);
-      coverage[1] = new CoverageHistory(new TransitionCoverage(),1);
-      coverage[2] = new CoverageHistory(new TransitionPairCoverage(),1);
-      coverage[3] = new CoverageHistory(new ActionCoverage(),1);
+      coverage[0] = new CoverageHistory(new StateCoverage(), 1);
+      coverage[1] = new CoverageHistory(new TransitionCoverage(), 1);
+      coverage[2] = new CoverageHistory(new TransitionPairCoverage(), 1);
+      coverage[3] = new CoverageHistory(new ActionCoverage(), 1);
       tester.addCoverageMetric(coverage[0]);
       tester.addCoverageMetric(coverage[1]);
       tester.addCoverageMetric(coverage[2]);
       tester.addCoverageMetric(coverage[3]);
       // Run test several times to draw line chart
-      for(int i=0; i<stages.length; i++)
-      {
+      for (int i = 0; i < stages.length; i++) {
         tester.generate(stages[0]);
         // Update the line chart and repaint
-        m_panelC.addStateCoverage((int)coverage[0].getPercentage());
-        m_panelC.addTransitionCoverage((int)coverage[1].getPercentage());
-        m_panelC.addTransitionPairCoverage((int)coverage[2].getPercentage());
-        m_panelC.addActionCoverage((int)coverage[3].getPercentage());
+        m_panelC.addStateCoverage((int) coverage[0].getPercentage());
+        m_panelC.addTransitionCoverage((int) coverage[1].getPercentage());
+        m_panelC.addTransitionPairCoverage((int) coverage[2].getPercentage());
+        m_panelC.addActionCoverage((int) coverage[3].getPercentage());
         m_panelC.redrawGraph();
-        try
-        {
+        try {
           Thread.sleep(100);
         }
-        catch (InterruptedException e)
-        {
+        catch (InterruptedException e) {
           e.printStackTrace();
         }
       }
@@ -458,28 +444,28 @@ setJMenuBar(mb);
     m_panelGV.updateGUI();
   }
 
+
   class TabChangeListener implements ChangeListener
   {
     public void stateChanged(ChangeEvent e)
     {
 
-      JTabbedPane sourcePane = (JTabbedPane)e.getSource();
+      JTabbedPane sourcePane = (JTabbedPane) e.getSource();
 
       m_nCurrentPanelIndex = sourcePane.getSelectedIndex();
       // Set run button visibility
-      if(3 == m_nCurrentPanelIndex)
+      if (3 == m_nCurrentPanelIndex)
         m_butRun.setVisible(false);
       else
         m_butRun.setVisible(true);
       // If user loaded a new model initialize it.
-      if(m_panelTD.isNewModelLoaded())
-      {
+      if (m_panelTD.isNewModelLoaded()) {
         // Reload all models
         m_panelTD.initializeTester(0);
         m_panelTD.initializeTester(1);
         // if user already selected an algorithm,
         // reset new model before do any action.
-        if(Parameter.getAlgorithmName()!= null)
+        if (Parameter.getAlgorithmName() != null)
           m_panelEA.doResetAction();
         // Clean the action history
         m_panelEA.resetActionHistoryList();
@@ -487,13 +473,12 @@ setJMenuBar(mb);
         m_panelEA.reloadActionModel();
       }
       // Regenerate code
-      if(!Parameter.isTestRunnable(false))
+      if (!Parameter.isTestRunnable(false))
         return;
       updateGeneratedCode();
 
       // If user click the ExecuteAction pane
-      if(3 == m_nCurrentPanelIndex)
-      {
+      if (3 == m_nCurrentPanelIndex) {
         m_panelEA.resetSubComponents();
         m_panelEA.autoModelInitialization();
       }

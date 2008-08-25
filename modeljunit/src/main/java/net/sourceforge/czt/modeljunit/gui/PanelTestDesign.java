@@ -2,7 +2,6 @@
 package net.sourceforge.czt.modeljunit.gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -14,7 +13,16 @@ import java.awt.event.FocusListener;
 import java.io.File;
 import java.lang.reflect.Method;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -22,32 +30,27 @@ import javax.swing.event.ChangeListener;
 
 import net.sourceforge.czt.modeljunit.Action;
 
-/**
+/*
  * PanelTestDesign.java
- *
- * @author rong
- * ID : 1005450
- * 26th Jul 2007
- * */
-public class PanelTestDesign extends JPanel 
-  implements 
-    ActionListener,
-    FocusListener,
-    ChangeListener
+ * @author rong ID : 1005450 26th Jul 2007
+ */
+public class PanelTestDesign extends JPanel
+    implements
+      ActionListener,
+      FocusListener,
+      ChangeListener
 {
-  /**
-   * serial version ID
-   */
   private static final long serialVersionUID = 5316043261026727079L;
 
   // The index of paint graph check box
   private static final int CHECKBOX_PAINTGRAPH = 4;
-  
+
   // There are 5 check boxes about coverage and paint graph 
   private static final int NUM_GRAPH_CHECKBOX = 5;
-  
+
   // 0 Random, 1 Greedy,
   private static final int ALGORITHM_NUM = OptionPanelCreator.NUM_PANE;
+
   // Model panel
   private JPanel m_panelModel;
 
@@ -62,10 +65,11 @@ public class PanelTestDesign extends JPanel
   private JLabel m_labPackageName;
 
   private JButton m_butPackageName = new JButton("Package");
+
   // If user successfully load a new model to test, this variable will be set to true
   // Once the tester and model are initialized variable should be set to false
   private boolean m_bNewModelLoaded = false;
-  
+
   // Algorithm panel
   private final static int H_SPACE = 6;
 
@@ -83,18 +87,21 @@ public class PanelTestDesign extends JPanel
   private JComboBox m_combAlgorithmSelection = new JComboBox();
 
   // min, max, initialize value
-  private JSlider m_sliderAverageTestLength =
-    new JSlider(JSlider.HORIZONTAL,1,99,1);
+  private JSlider m_sliderAverageTestLength = new JSlider(JSlider.HORIZONTAL,
+      1, 99, 1);
 
   private OptionPanelAdapter[] m_panelAlgorithm;
 
   JPanel m_algorithmRight;
 
   JPanel m_algorithmLeft;
-  // Report panel
-  private JCheckBox m_checkVerbosity = new JCheckBox("Display the generated tests");
 
-  private JCheckBox m_checkFailureVerbosity = new JCheckBox("Display test failures in verbose mode (Not used yet)");
+  // Report panel
+  private JCheckBox m_checkVerbosity = new JCheckBox(
+      "Display the generated tests");
+
+  private JCheckBox m_checkFailureVerbosity = new JCheckBox(
+      "Display test failures in verbose mode (Not used yet)");
 
   private JPanel m_panelReport;
 
@@ -125,7 +132,7 @@ public class PanelTestDesign extends JPanel
     Parameter.setTestCaseVariableName("testCase");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     // ------ Setup model panel ------
-    
+
     m_txtFilePath = new JTextField(36);
     m_txtFilePath.setColumns(36);
     m_txtFilePath.setEditable(true);
@@ -144,7 +151,7 @@ public class PanelTestDesign extends JPanel
     c1.ipadx = 6;
     c1.fill = GridBagConstraints.HORIZONTAL;
     c1.anchor = GridBagConstraints.FIRST_LINE_START;
-    m_panelModel.add(new JLabel("Test Model:"),c1);
+    m_panelModel.add(new JLabel("Test Model:"), c1);
     GridBagConstraints c2 = new GridBagConstraints();
     c2.gridx = 1;
     c2.gridy = 1;
@@ -152,16 +159,16 @@ public class PanelTestDesign extends JPanel
     c2.gridwidth = 3;
     c2.fill = GridBagConstraints.HORIZONTAL;
     c2.anchor = GridBagConstraints.PAGE_START;
-    m_panelModel.add(m_txtFilePath,c2);
+    m_panelModel.add(m_txtFilePath, c2);
     GridBagConstraints c3 = new GridBagConstraints();
     c3.gridx = 5;
     c3.gridy = 1;
     c3.ipadx = 6;
     // Insets(top, left, down, right)
-    c3.insets = new Insets(0,16,0,16);
+    c3.insets = new Insets(0, 16, 0, 16);
     c3.anchor = GridBagConstraints.FIRST_LINE_END;
     c3.fill = GridBagConstraints.HORIZONTAL;
-    m_panelModel.add(m_butOpenModel,c3);
+    m_panelModel.add(m_butOpenModel, c3);
     // Pixels between last line components and edge of panel
     int nBotDist = 6;
     // Package setting button
@@ -169,30 +176,28 @@ public class PanelTestDesign extends JPanel
     c4.gridx = 0;
     c4.gridy = 0;
     // Insets(top, left, down, right)
-    c4.insets = new Insets(0,0,nBotDist,16);
+    c4.insets = new Insets(0, 0, nBotDist, 16);
     m_butPackageName.addActionListener(this);
-    m_panelModel.add(m_butPackageName,c4);
+    m_panelModel.add(m_butPackageName, c4);
     // Package name label
     m_labPackageName = new JLabel(Parameter.getPackageName());
     GridBagConstraints c5 = new GridBagConstraints();
     c5.gridx = 1;
     c5.gridy = 0;
-    c5.insets = new Insets(0,0,nBotDist,16);
-    m_panelModel.add(m_labPackageName,c5);
+    c5.insets = new Insets(0, 0, nBotDist, 16);
+    m_panelModel.add(m_labPackageName, c5);
     // Class loaded label
     GridBagConstraints c6 = new GridBagConstraints();
     c6.gridx = 2;
     c6.gridy = 0;
     c6.fill = GridBagConstraints.HORIZONTAL;
     c6.anchor = GridBagConstraints.PAGE_END;
-    c6.insets = new Insets(0,0,nBotDist,16);
-    m_panelModel.add(m_labLoadingInfo,c6);
+    c6.insets = new Insets(0, 0, nBotDist, 16);
+    m_panelModel.add(m_labLoadingInfo, c6);
 
     // Set panel border
-    m_panelModel.setBorder(
-        new TitledBorder(
-            new EtchedBorder (EtchedBorder.LOWERED),
-            "Test model"));
+    m_panelModel.setBorder(new TitledBorder(new EtchedBorder(
+        EtchedBorder.LOWERED), "Test model"));
     m_panelModel.setBackground(bg[0]);
     this.add(m_panelModel);
     this.add(Box.createVerticalStrut(H_SPACE));
@@ -211,19 +216,21 @@ public class PanelTestDesign extends JPanel
     m_panelAlgorithm[2] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[2],
         "Greedy algorithm to traverse the model", "greedy.gif");*/
     // Add algorithm name into combobox
-    for(int i=0;i<OptionPanelCreator.NUM_PANE;i++)
+    for (int i = 0; i < OptionPanelCreator.NUM_PANE; i++)
       m_combAlgorithmSelection.addItem(m_panelAlgorithm[i].getAlgorithmName());
     // Set default algorithm name
     Parameter.setAlgorithmName(OptionPanelCreator.ALGORITHM_NAME[0]);
-    
+
     m_combAlgorithmSelection.addActionListener(this);
     // Setup slider
-    m_sliderAverageTestLength.setValue((int)(1/Parameter.getResetProbability()));
+    m_sliderAverageTestLength.setValue((int) (1 / Parameter
+        .getResetProbability()));
     m_sliderAverageTestLength.addChangeListener(this);
-    m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbability()));
+    m_sliderAverageTestLength.setToolTipText("Average walk length: "
+        + (1 / Parameter.getResetProbability()));
     m_sliderAverageTestLength.setMajorTickSpacing(10);
     //m_sliderAverageTestLength.setPaintTicks(true);
-    BoxLayout layout = new BoxLayout(m_panelAlgorithmBase,BoxLayout.X_AXIS);
+    BoxLayout layout = new BoxLayout(m_panelAlgorithmBase, BoxLayout.X_AXIS);
     m_panelAlgorithmBase.setLayout(layout);
 
     m_algorithmLeft = new JPanel();
@@ -231,7 +238,7 @@ public class PanelTestDesign extends JPanel
     GridBagConstraints c = new GridBagConstraints();
     c.anchor = GridBagConstraints.LINE_START;
     // top, left, bottom, right
-    c.insets = new Insets(10,0,3,10);
+    c.insets = new Insets(10, 0, 3, 10);
     c.gridx = 0;
     c.gridy = 0;
     m_algorithmLeft.add(new JLabel("Algorithms"), c);
@@ -243,7 +250,7 @@ public class PanelTestDesign extends JPanel
     m_algorithmLeft.add(new JLabel("Test length"), c);
     c.gridx = 1;
     c.gridy = 1;
-    m_algorithmLeft.add(m_sliderAverageTestLength,c);
+    m_algorithmLeft.add(m_sliderAverageTestLength, c);
     // Test walk length text field
     m_txtLength = new JTextField();
     m_txtLength.setColumns(5);
@@ -267,18 +274,17 @@ public class PanelTestDesign extends JPanel
     addComponentsToTestGenerationPanel();
     //m_panelAlgorithmBase.add(m_panelDefaultOption);
     add(m_panelAlgorithmBase);
-    m_panelAlgorithmBase.setBorder(
-        new TitledBorder(
-            new EtchedBorder (EtchedBorder.LOWERED),
-            "Test generation"));
+    m_panelAlgorithmBase.setBorder(new TitledBorder(new EtchedBorder(
+        EtchedBorder.LOWERED), "Test generation"));
     add(Box.createHorizontalStrut(H_SPACE));
     // ------------ Report setting panel ------------
     m_panelReport = new JPanel();
     // 7: there are 7 lines
-    m_panelReport.setLayout(new GridLayout(7,3,7,3));
+    m_panelReport.setLayout(new GridLayout(7, 3, 7, 3));
     // Generate verbosity and failure verbosity
-    m_checkVerbosity.setToolTipText("<html>Sets the level of progress messages " +
-    		"<br>that will be printed as this class builds the FSM graph and generates tests. </html>" );
+    m_checkVerbosity
+        .setToolTipText("<html>Sets the level of progress messages "
+            + "<br>that will be printed as this class builds the FSM graph and generates tests. </html>");
     // Can only use html tags separate lines in tool tip text "\n" doesnt work
     m_checkVerbosity.addActionListener(this);
     m_checkVerbosity.setBackground(bg[2]);
@@ -287,7 +293,8 @@ public class PanelTestDesign extends JPanel
     m_panelReport.add(Box.createHorizontalStrut(10));
     m_panelReport.add(Box.createVerticalGlue());
 
-    m_checkFailureVerbosity.setToolTipText("Sets the amount of information printed when tests fail.");
+    m_checkFailureVerbosity
+        .setToolTipText("Sets the amount of information printed when tests fail.");
     m_checkFailureVerbosity.addActionListener(this);
     m_checkFailureVerbosity.setBackground(bg[2]);
     m_panelReport.add(m_checkFailureVerbosity);
@@ -299,7 +306,8 @@ public class PanelTestDesign extends JPanel
     m_checkCoverage[1] = new JCheckBox("Transition coverage");
     m_checkCoverage[2] = new JCheckBox("Transition pair coverage");
     m_checkCoverage[3] = new JCheckBox("Action coverage");
-    m_checkCoverage[CHECKBOX_PAINTGRAPH] = new JCheckBox("Print graph to a file");
+    m_checkCoverage[CHECKBOX_PAINTGRAPH] = new JCheckBox(
+        "Print graph to a file");
 
     m_bChecked = new boolean[NUM_GRAPH_CHECKBOX];
     for (int i = 0; i < NUM_GRAPH_CHECKBOX; i++) {
@@ -313,10 +321,8 @@ public class PanelTestDesign extends JPanel
 
     // set border
     m_panelReport.setBackground(bg[2]);
-    m_panelReport.setBorder(
-        new TitledBorder(
-            new EtchedBorder (EtchedBorder.LOWERED),
-            "Reporting"));
+    m_panelReport.setBorder(new TitledBorder(new EtchedBorder(
+        EtchedBorder.LOWERED), "Reporting"));
     this.add(m_panelReport);
     this.add(Box.createVerticalGlue());
   }
@@ -329,6 +335,7 @@ public class PanelTestDesign extends JPanel
   {
     return m_bNewModelLoaded;
   }
+
   /**
    * If user successfully load a new model to test, set state to true,
    * Otherwise set to false.
@@ -337,7 +344,7 @@ public class PanelTestDesign extends JPanel
   {
     m_bNewModelLoaded = state;
   }
-  
+
   public void setModelRelatedButton(JButton button)
   {
     m_butExternalExecute = button;
@@ -375,11 +382,11 @@ public class PanelTestDesign extends JPanel
     // Generate the Tester object
     m_panelAlgorithm[m_nCurAlgo].initialize(idx);
     // Set current algorithm for prepare execution
-    TestExeModel.setTester(m_panelAlgorithm[m_nCurAlgo].getTester(idx),idx);
+    TestExeModel.setTester(m_panelAlgorithm[m_nCurAlgo].getTester(idx), idx);
     TestExeModel.setAlgorithm(m_panelAlgorithm[m_nCurAlgo]);
     m_bNewModelLoaded = false;
   }
-  
+
   /**
    * If user checked any coverage check button 
    * or want to generate .dot graph file.
@@ -388,11 +395,12 @@ public class PanelTestDesign extends JPanel
    * */
   public boolean isLineChartDrawable()
   {
-    return (m_checkCoverage[0].isSelected() ||
-        m_checkCoverage[1].isSelected()||
-        m_checkCoverage[2].isSelected()||
-        m_checkCoverage[3].isSelected())?true:false;
+    return (m_checkCoverage[0].isSelected() || m_checkCoverage[1].isSelected()
+        || m_checkCoverage[2].isSelected() || m_checkCoverage[3].isSelected())
+        ? true
+        : false;
   }
+
   /**
    * Including:
    *    Algorithm combobox handler
@@ -403,12 +411,10 @@ public class PanelTestDesign extends JPanel
   public void actionPerformed(ActionEvent e)
   {
     // ------------ Algorithm combobox handler --------------
-    if (e.getSource() == this.m_combAlgorithmSelection) 
-    {  
+    if (e.getSource() == this.m_combAlgorithmSelection) {
       addComponentsToTestGenerationPanel();
-      for(int i=0;i<ALGORITHM_NUM;i++)
-      {
-        if(i == m_nCurAlgo)
+      for (int i = 0; i < ALGORITHM_NUM; i++) {
+        if (i == m_nCurAlgo)
           m_panelAlgorithm[m_nCurAlgo].setVisible(true);
         else
           m_panelAlgorithm[i].setVisible(false);
@@ -417,14 +423,15 @@ public class PanelTestDesign extends JPanel
       if (m_panelAlgorithm[m_nCurAlgo] == null)
         System.out.println("Error: Algorithm panel is null");
 
-      m_algorithmRight.setToolTipText(m_panelAlgorithm[m_nCurAlgo].getExplanation());
+      m_algorithmRight.setToolTipText(m_panelAlgorithm[m_nCurAlgo]
+          .getExplanation());
       // Update the setting
-      Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo].getAlgorithmName());
-      
+      Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo]
+          .getAlgorithmName());
+
     }
     // ------------ Package selection button handler --------------
-    if(e.getSource() == m_butPackageName)
-    {
+    if (e.getSource() == m_butPackageName) {
       DialogPackageURLSelection dlg = new DialogPackageURLSelection();
       dlg.setVisible(true);
     }
@@ -433,22 +440,20 @@ public class PanelTestDesign extends JPanel
       if (e.getSource() == m_checkCoverage[i]) {
         m_bChecked[i] = !m_bChecked[i];
         Parameter.setCoverageOption(m_bChecked);
-        if(i==CHECKBOX_PAINTGRAPH)
-          Parameter.setGenerateGraph(m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected());
+        if (i == CHECKBOX_PAINTGRAPH)
+          Parameter.setGenerateGraph(m_checkCoverage[CHECKBOX_PAINTGRAPH]
+              .isSelected());
       }
     }
     // ------- Model loading --------
-    if (e.getSource() == m_butOpenModel)
-    {
+    if (e.getSource() == m_butOpenModel) {
       openModelFromFile();
     }
     // ------- Verbosity comboboxes --------
-    if(e.getSource() == m_checkVerbosity)
-    {
+    if (e.getSource() == m_checkVerbosity) {
       Parameter.setVerbosity(m_checkVerbosity.isSelected());
     }
-    if(e.getSource() == m_checkFailureVerbosity)
-    {
+    if (e.getSource() == m_checkFailureVerbosity) {
       Parameter.setFailureVerbosity(m_checkFailureVerbosity.isSelected());
     }
   }
@@ -457,221 +462,234 @@ public class PanelTestDesign extends JPanel
   {
     // ------------ Open model from class file --------------
 
-      String[] extensions = {"class"};
-      FileChooserFilter javaFileFilter = new FileChooserFilter(extensions,
-          "Java class Files");
-      JFileChooser chooser = new JFileChooser();
-      if(Parameter.getFileChooserOpenMode() == 0)
-        // Open dialog from package location
-        if(Parameter.getPackageLocation() != null && Parameter.getPackageLocation().length()>0)
-          chooser.setCurrentDirectory(new File(Parameter.getPackageTopFolder()));
-        else // Open dialog from last time record
-          chooser.setCurrentDirectory(new File(Parameter.getModelChooserDirectory()));
+    String[] extensions = {"class"};
+    FileChooserFilter javaFileFilter = new FileChooserFilter(extensions,
+        "Java class Files");
+    JFileChooser chooser = new JFileChooser();
+    if (Parameter.getFileChooserOpenMode() == 0)
+      // Open dialog from package location
+      if (Parameter.getPackageLocation() != null
+          && Parameter.getPackageLocation().length() > 0)
+        chooser.setCurrentDirectory(new File(Parameter.getPackageTopFolder()));
       else
-        chooser.setCurrentDirectory(new File(Parameter.DEFAULT_DIRECTORY));
+        // Open dialog from last time record
+        chooser.setCurrentDirectory(new File(Parameter
+            .getModelChooserDirectory()));
+    else
+      chooser.setCurrentDirectory(new File(Parameter.DEFAULT_DIRECTORY));
 
-      chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-      chooser.setDialogTitle("Open model file");
-      chooser.addChoosableFileFilter(javaFileFilter);
-      int option = chooser.showOpenDialog(this.m_panelModel);
+    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    chooser.setDialogTitle("Open model file");
+    chooser.addChoosableFileFilter(javaFileFilter);
+    int option = chooser.showOpenDialog(this.m_panelModel);
 
-      if (option == JFileChooser.APPROVE_OPTION) {
-        File f = chooser.getSelectedFile();
-        String[] fileName = f.getName().split("\\.");
-        Parameter.setClassName(fileName[0]);
-        Parameter.setModelLocation(f.getAbsolutePath());
-        // Update the text field component
-        m_txtFilePath.setText(Parameter.getClassName());
-        // Set file chooser dialog initial directory
-        Parameter.setModelChooserDirectory(f.getParent());
-        m_txtFilePath.setCaretPosition(0);
-        m_txtFilePath.setToolTipText(Parameter.getModelLocation());
-        // Load model from file and initialize the model object
-        if(fileName.length ==2 && fileName[1].equalsIgnoreCase("class"))
-        {
-          TestExeModel.loadModelClassFromFile();
-          Class<?> testcase = TestExeModel.getModelClass();
-          int actionNumber = 0;
-          for(Method method : testcase.getMethods())
-          {
-            if(method.isAnnotationPresent(Action.class))
-            {
-              actionNumber++;
-              TestExeModel.addMethod(method);
-            }
+    if (option == JFileChooser.APPROVE_OPTION) {
+      File f = chooser.getSelectedFile();
+      String[] fileName = f.getName().split("\\.");
+      Parameter.setClassName(fileName[0]);
+      Parameter.setModelLocation(f.getAbsolutePath());
+      // Update the text field component
+      m_txtFilePath.setText(Parameter.getClassName());
+      // Set file chooser dialog initial directory
+      Parameter.setModelChooserDirectory(f.getParent());
+      m_txtFilePath.setCaretPosition(0);
+      m_txtFilePath.setToolTipText(Parameter.getModelLocation());
+      // Load model from file and initialize the model object
+      if (fileName.length == 2 && fileName[1].equalsIgnoreCase("class")) {
+        TestExeModel.loadModelClassFromFile();
+        Class<?> testcase = TestExeModel.getModelClass();
+        int actionNumber = 0;
+        for (Method method : testcase.getMethods()) {
+          if (method.isAnnotationPresent(Action.class)) {
+            actionNumber++;
+            TestExeModel.addMethod(method);
           }
-          // Failed to load model
-          if(actionNumber==0)
-          {
-            ErrorMessage.DisplayErrorMessage(
-                "NO ACTION IN THE CLASS",
-                "Invalid model class, it doesnt includes any actions to test!");
-            TestExeModel.resetModelToNull();
-            m_bNewModelLoaded = false;
-          }
-          // Successfully load a new model
-          else
-          {
-            m_bNewModelLoaded = true;
-            m_labLoadingInfo.setText(actionNumber + " actions were loaded.");
-          }
-          // To get how many actions in the model file
-
-          m_butExternalExecute.setText("Run test");
         }
-        else if(fileName.length ==2 && fileName[1].equalsIgnoreCase("java"))
-        {
-          m_butExternalExecute.setText("Compile java file");
+        // Failed to load model
+        if (actionNumber == 0) {
+          ErrorMessage.DisplayErrorMessage("NO ACTION IN THE CLASS",
+              "Invalid model class, it doesnt includes any actions to test!");
+          TestExeModel.resetModelToNull();
+          m_bNewModelLoaded = false;
         }
+        // Successfully load a new model
+        else {
+          m_bNewModelLoaded = true;
+          m_labLoadingInfo.setText(actionNumber + " actions were loaded.");
+        }
+        // To get how many actions in the model file
+
+        m_butExternalExecute.setText("Run test");
       }
+      else if (fileName.length == 2 && fileName[1].equalsIgnoreCase("java")) {
+        m_butExternalExecute.setText("Compile java file");
+      }
+    }
   }
 
   public String generateCode()
   {
     // Random walking length
     int length = Integer.valueOf(m_txtLength.getText());
-    if(Parameter.getClassName() == null
-        || Parameter.getClassName().length()<=0)
+    if (Parameter.getClassName() == null
+        || Parameter.getClassName().length() <= 0)
       return "";
     StringBuffer buf = new StringBuffer();
 
     // String strTestCase = Parameter.getTestCaseVariableName();
-    if (m_nCurAlgo !=0 && m_panelAlgorithm[m_nCurAlgo].generateImportLab() != null)
+    if (m_nCurAlgo != 0
+        && m_panelAlgorithm[m_nCurAlgo].generateImportLab() != null)
       buf.append(m_panelAlgorithm[m_nCurAlgo].generateImportLab());
 
     buf.append(Indentation.wrap("import net.sourceforge.czt.modeljunit.*;"));
     // Import coverage history file(s)
-    if(m_checkCoverage[0].isSelected()
-        || m_checkCoverage[1].isSelected()
-        || m_checkCoverage[2].isSelected())
-    {
-      buf.append(Indentation.wrap
-        ("import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;"));
+    if (m_checkCoverage[0].isSelected() || m_checkCoverage[1].isSelected()
+        || m_checkCoverage[2].isSelected()) {
+      buf
+          .append(Indentation
+              .wrap("import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;"));
     }
     // Import state coverage lab
-    if(m_checkCoverage[0].isSelected())
-    {
-      buf.append(Indentation.wrap
-        ("import net.sourceforge.czt.modeljunit.coverage.StateCoverage;"));
+    if (m_checkCoverage[0].isSelected()) {
+      buf
+          .append(Indentation
+              .wrap("import net.sourceforge.czt.modeljunit.coverage.StateCoverage;"));
     }
     // Import transition coverage lab
-    if(m_checkCoverage[1].isSelected())
-    {
-      buf.append(Indentation.wrap
-        ("import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;"));
+    if (m_checkCoverage[1].isSelected()) {
+      buf
+          .append(Indentation
+              .wrap("import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;"));
     }
     // Import state transition pair coverage lab
-    if(m_checkCoverage[2].isSelected())
-    {
-      buf.append(Indentation.wrap
-        ("import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;"));
+    if (m_checkCoverage[2].isSelected()) {
+      buf
+          .append(Indentation
+              .wrap("import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;"));
     }
- // Import state action coverage lab
-    if(m_checkCoverage[3].isSelected())
-    {
-      buf.append(Indentation.wrap
-        ("import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;"));
+    // Import state action coverage lab
+    if (m_checkCoverage[3].isSelected()) {
+      buf
+          .append(Indentation
+              .wrap("import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;"));
     }
     // Generate class content
     buf.append(Indentation.SEP);
     buf.append(Indentation.wrap("public class " + Parameter.getClassName()
-        + "Tester"+Indentation.SEP+"{"));
+        + "Tester" + Indentation.SEP + "{"));
     buf.append(Indentation.wrap("public static void main(String args[])"));
     buf.append(Indentation.wrap("{"));
 
     // Generate code according to particular algorithm.
     buf.append(m_panelAlgorithm[m_nCurAlgo].generateCode());
-    
+
     // If user want to check coverage or draw dot graph, 
     // build graph before add coverage listener. 
-    if(m_checkCoverage[0].isSelected()
-        || m_checkCoverage[1].isSelected()
-        || m_checkCoverage[2].isSelected()
-        || m_checkCoverage[3].isSelected())
-    {
-      if(m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected())
-        buf.append(Indentation.wrap("GraphListener graph = tester.buildGraph();"));
+    if (m_checkCoverage[0].isSelected() || m_checkCoverage[1].isSelected()
+        || m_checkCoverage[2].isSelected() || m_checkCoverage[3].isSelected()) {
+      if (m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected())
+        buf.append(Indentation
+            .wrap("GraphListener graph = tester.buildGraph();"));
       else
         buf.append(Indentation.wrap("tester.buildGraph();"));
       buf.append(Indentation.SEP);
     }
-    
+
     // Setup coverage matrix
-    if(m_checkCoverage[0].isSelected()
-        || m_checkCoverage[1].isSelected()
-        || m_checkCoverage[2].isSelected()
-        || m_checkCoverage[3].isSelected())
-    {
+    if (m_checkCoverage[0].isSelected() || m_checkCoverage[1].isSelected()
+        || m_checkCoverage[2].isSelected() || m_checkCoverage[3].isSelected()) {
       buf.append(Indentation.SEP);
-      if(m_checkCoverage[0].isSelected())
-      {
-        buf.append(Indentation.wrap("CoverageHistory stateCoverage = new StateCoverage();"));
-        buf.append(Indentation.wrap("tester.addCoverageMetric(stateCoverage);"));
+      if (m_checkCoverage[0].isSelected()) {
+        buf.append(Indentation
+            .wrap("CoverageHistory stateCoverage = new StateCoverage();"));
+        buf
+            .append(Indentation
+                .wrap("tester.addCoverageMetric(stateCoverage);"));
         buf.append(Indentation.SEP);
       }
-      if(m_checkCoverage[1].isSelected())
-      {
-        buf.append(Indentation.wrap("CoverageHistory transitionCoverage = new TransitionCoverage();"));
-        buf.append(Indentation.wrap("tester.addCoverageMetric(transitionCoverage);"));
+      if (m_checkCoverage[1].isSelected()) {
+        buf
+            .append(Indentation
+                .wrap("CoverageHistory transitionCoverage = new TransitionCoverage();"));
+        buf.append(Indentation
+            .wrap("tester.addCoverageMetric(transitionCoverage);"));
         buf.append(Indentation.SEP);
       }
-      if(m_checkCoverage[2].isSelected())
-      {
-        buf.append(Indentation.wrap("CoverageHistory transitionPairCoverage = new TransitionPairCoverage();"));
-        buf.append(Indentation.wrap("tester.addCoverageMetric(transitionPairCoverage);"));
+      if (m_checkCoverage[2].isSelected()) {
+        buf
+            .append(Indentation
+                .wrap("CoverageHistory transitionPairCoverage = new TransitionPairCoverage();"));
+        buf.append(Indentation
+            .wrap("tester.addCoverageMetric(transitionPairCoverage);"));
         buf.append(Indentation.SEP);
       }
-      if(m_checkCoverage[3].isSelected())
-      {
-        buf.append(Indentation.wrap("CoverageHistory actionCoverage = new ActionCoverage();"));
-        buf.append(Indentation.wrap("tester.addCoverageMetric(actionCoverage);"));
+      if (m_checkCoverage[3].isSelected()) {
+        buf.append(Indentation
+            .wrap("CoverageHistory actionCoverage = new ActionCoverage();"));
+        buf.append(Indentation
+            .wrap("tester.addCoverageMetric(actionCoverage);"));
         buf.append(Indentation.SEP);
       }
     }
     // Verbose settings
-    if(this.m_checkVerbosity.isSelected())
-    {
-      buf.append(Indentation.wrap("tester.addListener(\"verbose\", new VerboseListener(tester.getModel()));"));
+    if (this.m_checkVerbosity.isSelected()) {
+      buf
+          .append(Indentation
+              .wrap("tester.addListener(\"verbose\", new VerboseListener(tester.getModel()));"));
       buf.append(Indentation.SEP);
     }
 
-    buf.append(Indentation.wrap("tester.generate("+length+");"));
-    
-    if(m_checkCoverage[0].isSelected())
-    {
+    buf.append(Indentation.wrap("tester.generate(" + length + ");"));
+
+    if (m_checkCoverage[0].isSelected()) {
       buf.append(Indentation.SEP);
-      buf.append(Indentation.wrap("System.out.println(\"State coverage: \"+stateCoverage.toString());"));
-      buf.append(Indentation.wrap("System.out.println(\"State history : \"+stateCoverage.toCSV());"));
+      buf
+          .append(Indentation
+              .wrap("System.out.println(\"State coverage: \"+stateCoverage.toString());"));
+      buf
+          .append(Indentation
+              .wrap("System.out.println(\"State history : \"+stateCoverage.toCSV());"));
     }
-    
-    if(m_checkCoverage[1].isSelected())
-    {
+
+    if (m_checkCoverage[1].isSelected()) {
       buf.append(Indentation.SEP);
-      buf.append(Indentation.wrap("System.out.println(\"Transition coverage: \"+transitionCoverage.toString());"));
-      buf.append(Indentation.wrap("System.out.println(\"Transition history : \"+transitionCoverage.toCSV());"));
+      buf
+          .append(Indentation
+              .wrap("System.out.println(\"Transition coverage: \"+transitionCoverage.toString());"));
+      buf
+          .append(Indentation
+              .wrap("System.out.println(\"Transition history : \"+transitionCoverage.toCSV());"));
     }
-    
-    if(m_checkCoverage[2].isSelected())
-    {
+
+    if (m_checkCoverage[2].isSelected()) {
       buf.append(Indentation.SEP);
-      buf.append(Indentation.wrap("System.out.println(\"Transition pair coverage: \"+transitionPairCoverage.toString());"));
-      buf.append(Indentation.wrap("System.out.println(\"Transition pair history : \"+transitionPairCoverage.toCSV());"));
+      buf
+          .append(Indentation
+              .wrap("System.out.println(\"Transition pair coverage: \"+transitionPairCoverage.toString());"));
+      buf
+          .append(Indentation
+              .wrap("System.out.println(\"Transition pair history : \"+transitionPairCoverage.toCSV());"));
     }
-    if(m_checkCoverage[3].isSelected())
-    {
+    if (m_checkCoverage[3].isSelected()) {
       buf.append(Indentation.SEP);
-      buf.append(Indentation.wrap("System.out.println(\"Action coverage: \"+actionCoverage.toString());"));
-      buf.append(Indentation.wrap("System.out.println(\"Action history : \"+actionCoverage.toCSV());"));
+      buf
+          .append(Indentation
+              .wrap("System.out.println(\"Action coverage: \"+actionCoverage.toString());"));
+      buf
+          .append(Indentation
+              .wrap("System.out.println(\"Action history : \"+actionCoverage.toCSV());"));
     }
-    
-    if(m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected())
-    { buf.append(Indentation.wrap("graph.printGraphDot(\"map.dot\");"));}
+
+    if (m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected()) {
+      buf.append(Indentation.wrap("graph.printGraphDot(\"map.dot\");"));
+    }
     // Ending
     buf.append(Indentation.wrap("}"));
     buf.append(Indentation.wrap("}"));
 
     return buf.toString();
   }
+
 
   private class FileChooserFilter extends javax.swing.filechooser.FileFilter
   {
@@ -710,15 +728,15 @@ public class PanelTestDesign extends JPanel
 
   public void stateChanged(ChangeEvent e)
   {
-    if(e.getSource()==this.m_sliderAverageTestLength)
-    {
+    if (e.getSource() == this.m_sliderAverageTestLength) {
       int avgLength = 1;
-      JSlider source = (JSlider)e.getSource();
+      JSlider source = (JSlider) e.getSource();
       if (!source.getValueIsAdjusting()) {
-        avgLength = (int)source.getValue();
-        double prob = (double)1.0/(double)(avgLength+1);
+        avgLength = (int) source.getValue();
+        double prob = (double) 1.0 / (double) (avgLength + 1);
         Parameter.setResetProbability(prob);
-        m_sliderAverageTestLength.setToolTipText("Average walk length: "+(1/Parameter.getResetProbability()));
+        m_sliderAverageTestLength.setToolTipText("Average walk length: "
+            + (1 / Parameter.getResetProbability()));
         // System.out.println("(PaneltestDesign.java)Average length :"+prob);
       }
     }
@@ -726,14 +744,15 @@ public class PanelTestDesign extends JPanel
 
   @Override
   public void focusGained(FocusEvent e)
-  {}
+  {
+  }
+
   @Override
   public void focusLost(FocusEvent e)
   {
-    if(e.getSource() == m_txtLength)
-    {
+    if (e.getSource() == m_txtLength) {
       TestExeModel.setWalkLength(Integer.valueOf(m_txtLength.getText()));
     }
-    
+
   }
 }

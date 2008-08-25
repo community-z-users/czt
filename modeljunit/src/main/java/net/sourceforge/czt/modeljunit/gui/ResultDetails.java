@@ -1,10 +1,8 @@
 
-
 package net.sourceforge.czt.modeljunit.gui;
 
-/**
- * @author rong
- * 30th/July/2007
+/*
+ * @author rong 30th/July/2007
  */
 
 public class ResultDetails
