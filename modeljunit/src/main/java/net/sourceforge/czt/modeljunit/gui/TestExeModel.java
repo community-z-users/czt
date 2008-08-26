@@ -82,31 +82,33 @@ public class TestExeModel
   {
     ClassFileLoader classLoader = ClassFileLoader.getInstance();
 
-    String name[] = Parameter.getClassName().split("\\.");
-    m_modelClass = classLoader.loadClass(name[0]);
+    String name = Parameter.getClassName(); //.split("\\.");
+    m_modelClass = classLoader.loadClass(name);
     try {
       m_modelObject = (net.sourceforge.czt.modeljunit.FsmModel) m_modelClass
           .newInstance();
     }
     catch (ClassCastException cce) {
       ErrorMessage.DisplayErrorMessage(
-          "Wrong class message (ClassCastException",
+          "Wrong class (ClassCastException",
           "Please select FsmModel class."
               + "\n Error in TestExeModel::loadModelClassFromFile");
       return;
     }
     catch (InstantiationException ie) {
       ErrorMessage.DisplayErrorMessage(
-          "Model have not been initialized (InstantiationException)",
+          "Model not initialized (InstantiationException)",
           "Can not initialize model."
-              + "\n Error in TestExeModel::loadModelClassFromFile");
+              + "\n Error in TestExeModel::loadModelClassFromFile: "
+              + ie.getLocalizedMessage());
       return;
     }
     catch (IllegalAccessException iae) {
       ErrorMessage.DisplayErrorMessage(
           "Cannot access model (IllegalAccessException)",
           "Can not access model class."
-              + "\n Error in TestExeModel::loadModelClassFromFile");
+              + "\n Error in TestExeModel::loadModelClassFromFile: "
+              + iae.getLocalizedMessage());
     }
   }
 

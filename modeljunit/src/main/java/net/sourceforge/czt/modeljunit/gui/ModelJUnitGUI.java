@@ -66,7 +66,7 @@ public class ModelJUnitGUI implements ActionListener
   // The panel with run button
   private JPanel m_panelOption = new JPanel();
 
-  private JButton m_butRun = new JButton("Run test");
+  private JButton m_butRun = new JButton("Generate tests");
 
   // Menu items
   private JMenuBar m_menuBar;
@@ -87,14 +87,13 @@ public class ModelJUnitGUI implements ActionListener
 
   public void createAndShowGUI()
   {
-    // Load setting file
-    Parameter.readSettingFile();
     // Initialize GUI
     m_butRun.addActionListener(this);
     m_frame = new JFrame("ModelJUnit GUI");
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     try {
+      // TODO: would be nice to make this user-settable.
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
       //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel") ;
       UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -148,7 +147,7 @@ public class ModelJUnitGUI implements ActionListener
           catch (Exception e) {
             e.printStackTrace();
           }
-          // Setup the tab
+          // Setup the tabs
           m_tabbedPane.addTab("Test Design", m_iconTag[1], m_panelTD);
           m_tabbedPane.addTab("Code viewer", m_iconTag[2], m_panelCV);
           m_tabbedPane.addTab("Result viewer", m_iconTag[3], m_panelRV);
@@ -284,7 +283,7 @@ public class ModelJUnitGUI implements ActionListener
         return;
       }
 
-      String sourceFile = Parameter.getModelLocation();
+      String sourceFile = Parameter.getModelPath();
       String name[] = sourceFile.split("\\.");
 
       if (name.length == 2 && name[1].equalsIgnoreCase("class"))
@@ -342,7 +341,6 @@ public class ModelJUnitGUI implements ActionListener
     }
     // ----------------- Exit application ---------------------
     if (e.getSource() == m_miExit) {
-      Parameter.wirteSettingFile();
       System.exit(0);
     }
   }

@@ -387,8 +387,6 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/package.html -t
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ClassFileLoader.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/DialogAbout.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/DialogCoverageLineColor.java -text
-modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/DialogPackageSelection.java -text
-modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/DialogPackageURLSelection.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/ErrorMessage.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/FileChooserFilter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/IAlgorithmParameter.java -text

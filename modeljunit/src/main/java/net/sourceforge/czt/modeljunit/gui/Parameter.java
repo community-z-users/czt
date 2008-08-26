@@ -27,40 +27,51 @@ public class Parameter
   // Number of coverage options
   public static final int NUM_COVERAGE = 4;
 
-  /**
-   * Package related variables
-   */
-  private static String m_strPackageTopFolder;
+  /** The absolute path to the directory containing the .class model files. */
+  private static String m_modelFolder;
 
+  /** The path to the top-level package directory of the model. */
   private static String m_strPackageLocation;
 
+  /** The Java package name.  Eg. net.sourceforge.czt.modeljunit */
   private static String m_strPackageName;
 
-  public static String getPackageTopFolder()
+  /** The path to the directory containing the model files. */
+  public static String getModelFolder()
   {
-    return m_strPackageTopFolder;
+    if (m_modelFolder == null) {
+      m_modelFolder = DEFAULT_DIRECTORY;
+    }
+    return m_modelFolder;
   }
 
-  public static void setPackageTopFolder(String folder)
+  /** Set the path to the directory containing the model files. */
+  public static void setModelFolder(String folder)
   {
-    m_strPackageTopFolder = folder;
+    m_modelFolder = folder;
   }
 
+  /** The path to the top-level package directory of the model. */
   public static String getPackageLocation()
   {
     return m_strPackageLocation;
   }
 
+  /** The name of the Java package that contains the model. */
   public static String getPackageName()
   {
     return m_strPackageName;
   }
 
+  /** Set the path to the top-level package directory of the model. */
   public static void setPackageLocation(String location)
   {
     m_strPackageLocation = location;
   }
 
+  /** The name of the Java package that contains the model.
+   *  This must be a dot-separated sequence of names.
+   */
   public static void setPackageName(String name)
   {
     m_strPackageName = name;
@@ -157,16 +168,18 @@ public class Parameter
   /**
    * The absolute path of model (class or java file) includes path and file name
    */
-  private static String m_strModelLocation;
+  private static String m_strModelPath;
 
-  public static String getModelLocation()
+  /** The absolute path of the model (.class) file. */
+  public static String getModelPath()
   {
-    return m_strModelLocation;
+    return m_strModelPath;
   }
 
-  public static void setModelLocation(String location)
+  /** Set the absolute path of the model (.class) file. */
+  public static void setModelPath(String location)
   {
-    m_strModelLocation = location;
+    m_strModelPath = location;
   }
 
   /**
@@ -220,15 +233,26 @@ public class Parameter
   }
 
   /**
-   * Working directory
+   * The path to the directory where the .class model files are read from.
    */
   private static String m_strModelChooserDirectory;
 
+  /** The absolute path to the directory that contains the .class model files.
+   *  Note that this includes the package directories.
+   * @return
+   */
   public static String getModelChooserDirectory()
   {
+    if (m_strModelChooserDirectory == null) {
+      m_strModelChooserDirectory = DEFAULT_DIRECTORY;
+    }
     return m_strModelChooserDirectory;
   }
 
+  /** Set the absolute path (including the package directories)
+   *  to the .class model files.
+   * @param directory
+   */
   public static void setModelChooserDirectory(String directory)
   {
     m_strModelChooserDirectory = directory;
@@ -292,105 +316,11 @@ public class Parameter
     return m_colorLine;
   }
 
-  //-------------------- Functions about setting.txt ---------------------
-
-  private static File recreateSettingFile()
-  {
-    // Get the java file in the current directory
-    String currentDirectory = System.getProperty("user.dir");
-    File file = new File(currentDirectory + File.separator + "setting.txt");
-    if (file.exists())
-      file.delete();
-    // Create new setting file
-    try {
-      file.createNewFile();
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-    return file;
-  }
-
-  public static void createDefaultSettingFile()
-  {
-    String currentDirectory = System.getProperty("user.dir");
-    File file = recreateSettingFile();
-    // Write settings
-    try {
-      System.out.println("create default setting file");
-      BufferedWriter out = new BufferedWriter(new FileWriter(file));
-      out.write("Model directory=" + currentDirectory);
-      out.close();
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public static void readSettingFile()
-  {
-    // Get the java file in the current directory
-    String currentDirectory = System.getProperty("user.dir");
-    File file = new File(currentDirectory + File.separator + "setting.txt");
-    // Generate new setting file
-    if (!file.exists()) {
-      Parameter.createDefaultSettingFile();
-    }
-    else
-      System.out.println(file.getPath());
-    try {
-      BufferedReader in = new BufferedReader(new FileReader(file));
-      String str;
-      String[] parameters;
-      while ((str = in.readLine()) != null) {
-        parameters = str.split("=");
-        // read model class location
-        if (parameters[0].equalsIgnoreCase("Model directory"))
-          m_strModelChooserDirectory = parameters[1];
-        if (parameters[0].equalsIgnoreCase("Package location"))
-          m_strPackageLocation = parameters[1];
-        if (parameters[0].equalsIgnoreCase("Package name")) {
-          m_strPackageName = parameters[1];
-          // Compose package top folder
-          char[] name = m_strPackageName.toCharArray();
-          for (int i = 0; i < name.length; i++) {
-            if (name[i] == '.')
-              name[i] = File.separator.charAt(0);
-          }
-          String strName = new String(name);
-          m_strPackageTopFolder = m_strPackageLocation + File.separator
-              + strName;
-        }
-      }
-      in.close();
-    }
-    catch (IOException e) {
-    }
-  }
-
-  public static void wirteSettingFile()
-  {
-    File file = recreateSettingFile();
-    String br = System.getProperty("line.separator");
-    // Write current settings
-    try {
-      System.out.println("create default setting file");
-      BufferedWriter out = new BufferedWriter(new FileWriter(file));
-      out.write("Model directory=" + Parameter.getModelChooserDirectory() + br);
-      out.write("Package location=" + Parameter.getPackageLocation() + br);
-      out.write("Package name=" + Parameter.getPackageName() + br);
-      out.close();
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
   //----------------------Override toString----------------------
   public String toString()
   {
     return "class name: " + m_strClassName + ", \nLocation: "
-        + m_strModelLocation + ", \nAlgorithm: " + m_strAlgorithmName
+        + m_strModelPath + ", \nAlgorithm: " + m_strAlgorithmName
         + ", \nCoverage: " + m_bCoverageOption[0] + ", " + m_bCoverageOption[1]
         + ", " + m_bCoverageOption[2] + ".";
   }

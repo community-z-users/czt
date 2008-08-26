@@ -2,6 +2,7 @@
 package net.sourceforge.czt.modeljunit.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -10,8 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,6 +32,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.objectweb.asm.ClassReader;
 
 import net.sourceforge.czt.modeljunit.Action;
 
@@ -45,29 +52,32 @@ public class PanelTestDesign extends JPanel
   // The index of paint graph check box
   private static final int CHECKBOX_PAINTGRAPH = 4;
 
-  // There are 5 check boxes about coverage and paint graph 
+  // There are 5 check boxes about coverage and paint graph
   private static final int NUM_GRAPH_CHECKBOX = 5;
 
   // 0 Random, 1 Greedy,
   private static final int ALGORITHM_NUM = OptionPanelCreator.NUM_PANE;
 
-  // Model panel
+  /** The topmost (model) panel.
+   *  This is for finding and loading the model class.
+   */
   private JPanel m_panelModel;
 
-  private JTextField m_txtFilePath;
+  /** Labels for displaying information about the loaded model. */
+  private JLabel m_modelInfo1, m_modelInfo2, m_modelInfo3;
+  
+  private static final String MSG_NO_MODEL = "(No model loaded yet)";
 
+  /** The button for loading the model class. */
   private JButton m_butOpenModel;
 
+  /** The button that runs the test generation. */
   private JButton m_butExternalExecute;
 
-  private JLabel m_labLoadingInfo = new JLabel("No model loaded");
-
-  private JLabel m_labPackageName;
-
-  private JButton m_butPackageName = new JButton("Package");
-
-  // If user successfully load a new model to test, this variable will be set to true
-  // Once the tester and model are initialized variable should be set to false
+  /** true after user successfully loads a new model to test.
+   * Once the tester and model are initialised, this variable should
+   * be set to false
+   */
   private boolean m_bNewModelLoaded = false;
 
   // Algorithm panel
@@ -82,6 +92,9 @@ public class PanelTestDesign extends JPanel
     return m_nCurAlgo;
   }
 
+  /** The middle (algorithm) panel.
+   *  This is for choosing test generation algorithm and options.
+   */
   private JPanel m_panelAlgorithmBase;
 
   private JComboBox m_combAlgorithmSelection = new JComboBox();
@@ -103,16 +116,19 @@ public class PanelTestDesign extends JPanel
   private JCheckBox m_checkFailureVerbosity = new JCheckBox(
       "Display test failures in verbose mode (Not used yet)");
 
+  /** The bottom (reporting) panel.
+   *  This is for controlling the reports/statistics from the test generation.
+   */
   private JPanel m_panelReport;
 
   private JCheckBox[] m_checkCoverage;
 
   private boolean[] m_bChecked;
 
-  // Base panel
+  /** Main panel for the test design tab. */
   private static PanelTestDesign m_panel = null;
 
-  // Singleton creator 
+  /** Singleton factory method for creating the test design panel. */
   public static PanelTestDesign getTestDesignPanelInstance()
   {
     if (m_panel == null)
@@ -120,7 +136,7 @@ public class PanelTestDesign extends JPanel
     return m_panel;
   }
 
-  // The constructor
+  /** Use PanelTestDesign to get a test design panel. */
   private PanelTestDesign()
   {
     // Panel background color
@@ -131,102 +147,60 @@ public class PanelTestDesign extends JPanel
     // Set test case variable name the name will affect code generation
     Parameter.setTestCaseVariableName("testCase");
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
     // ------ Setup model panel ------
-
-    m_txtFilePath = new JTextField(36);
-    m_txtFilePath.setColumns(36);
-    m_txtFilePath.setEditable(true);
-
-    m_butOpenModel = new JButton("...");
-    m_butOpenModel.addActionListener(this);
-    m_butOpenModel.setToolTipText("HINT: load a .class file here");
-
     m_panelModel = new JPanel();
+    m_panelModel.setLayout(new BoxLayout(m_panelModel, BoxLayout.X_AXIS));
+    m_panelModel.setPreferredSize(new Dimension(400, 120));
 
-    m_panelModel.setLayout(new GridBagLayout());
-    // Setup the grid bag layout
-    GridBagConstraints c1 = new GridBagConstraints();
-    c1.gridx = 0;
-    c1.gridy = 1;
-    c1.ipadx = 6;
-    c1.fill = GridBagConstraints.HORIZONTAL;
-    c1.anchor = GridBagConstraints.FIRST_LINE_START;
-    m_panelModel.add(new JLabel("Test Model:"), c1);
-    GridBagConstraints c2 = new GridBagConstraints();
-    c2.gridx = 1;
-    c2.gridy = 1;
-    c2.ipadx = 6;
-    c2.gridwidth = 3;
-    c2.fill = GridBagConstraints.HORIZONTAL;
-    c2.anchor = GridBagConstraints.PAGE_START;
-    m_panelModel.add(m_txtFilePath, c2);
-    GridBagConstraints c3 = new GridBagConstraints();
-    c3.gridx = 5;
-    c3.gridy = 1;
-    c3.ipadx = 6;
-    // Insets(top, left, down, right)
-    c3.insets = new Insets(0, 16, 0, 16);
-    c3.anchor = GridBagConstraints.FIRST_LINE_END;
-    c3.fill = GridBagConstraints.HORIZONTAL;
-    m_panelModel.add(m_butOpenModel, c3);
-    // Pixels between last line components and edge of panel
-    int nBotDist = 6;
-    // Package setting button
-    GridBagConstraints c4 = new GridBagConstraints();
-    c4.gridx = 0;
-    c4.gridy = 0;
-    // Insets(top, left, down, right)
-    c4.insets = new Insets(0, 0, nBotDist, 16);
-    m_butPackageName.addActionListener(this);
-    m_panelModel.add(m_butPackageName, c4);
-    // Package name label
-    m_labPackageName = new JLabel(Parameter.getPackageName());
-    GridBagConstraints c5 = new GridBagConstraints();
-    c5.gridx = 1;
-    c5.gridy = 0;
-    c5.insets = new Insets(0, 0, nBotDist, 16);
-    m_panelModel.add(m_labPackageName, c5);
-    // Class loaded label
-    GridBagConstraints c6 = new GridBagConstraints();
-    c6.gridx = 2;
-    c6.gridy = 0;
-    c6.fill = GridBagConstraints.HORIZONTAL;
-    c6.anchor = GridBagConstraints.PAGE_END;
-    c6.insets = new Insets(0, 0, nBotDist, 16);
-    m_panelModel.add(m_labLoadingInfo, c6);
+    // The "Choose Model" button is on the left
+    m_panelModel.add(Box.createHorizontalStrut(10));
+    m_butOpenModel = new JButton("Load Model...");
+    m_butOpenModel.setPreferredSize(new Dimension(120, 120));
+    m_butOpenModel.addActionListener(this);
+    m_butOpenModel.setToolTipText("Load a .class file that contains your test model");
+    m_panelModel.add(m_butOpenModel);
+    m_panelModel.add(Box.createHorizontalStrut(10));
 
+    // An information area is to the right of the button.
+    JPanel infoPane = new JPanel();
+    infoPane.setLayout(new BoxLayout(infoPane, BoxLayout.Y_AXIS));
+    infoPane.setBackground(bg[0]);
+    m_modelInfo1 = new JLabel(" ");
+    m_modelInfo2 = new JLabel(MSG_NO_MODEL);
+    m_modelInfo3 = new JLabel(" ");
+    //m_modelInfo.setPreferredSize(new Dimension(300, 80));
+    infoPane.add(m_modelInfo1);
+    infoPane.add(m_modelInfo2);
+    infoPane.add(m_modelInfo3);
+    m_panelModel.add(infoPane);
+    
+    m_panelModel.add(Box.createHorizontalGlue());
+    
     // Set panel border
     m_panelModel.setBorder(new TitledBorder(new EtchedBorder(
         EtchedBorder.LOWERED), "Test model"));
     m_panelModel.setBackground(bg[0]);
     this.add(m_panelModel);
     this.add(Box.createVerticalStrut(H_SPACE));
+
     // ------ Initialize algorithm panel ------
     m_nCurAlgo = 0;
     m_panelAlgorithmBase = new JPanel();
 
-    m_panelAlgorithm = new OptionPanelAdapter[ALGORITHM_NUM];
     m_panelAlgorithm = OptionPanelCreator.createPanels();
-    /*m_panelAlgorithm[0] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[0],
-        "Select an algorithm from combobox.", "default.gif");
-    
-    m_panelAlgorithm[1] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[1],
-        "Random algorithm to traverse the model", "random.gif");
-    
-    m_panelAlgorithm[2] = OptionPanelCreator.createOptionPane(Parameter.ALGORITHM_NAME[2],
-        "Greedy algorithm to traverse the model", "greedy.gif");*/
-    // Add algorithm name into combobox
+    // Add algorithm names into combo box
     for (int i = 0; i < OptionPanelCreator.NUM_PANE; i++)
       m_combAlgorithmSelection.addItem(m_panelAlgorithm[i].getAlgorithmName());
     // Set default algorithm name
     Parameter.setAlgorithmName(OptionPanelCreator.ALGORITHM_NAME[0]);
-
     m_combAlgorithmSelection.addActionListener(this);
+    
     // Setup slider
     m_sliderAverageTestLength.setValue((int) (1 / Parameter
         .getResetProbability()));
     m_sliderAverageTestLength.addChangeListener(this);
-    m_sliderAverageTestLength.setToolTipText("Average walk length: "
+    m_sliderAverageTestLength.setToolTipText("Average walk length = "
         + (1 / Parameter.getResetProbability()));
     m_sliderAverageTestLength.setMajorTickSpacing(10);
     //m_sliderAverageTestLength.setPaintTicks(true);
@@ -234,7 +208,8 @@ public class PanelTestDesign extends JPanel
     m_panelAlgorithmBase.setLayout(layout);
 
     m_algorithmLeft = new JPanel();
-    m_algorithmLeft.setLayout(new GridBagLayout());
+    GridBagLayout algGrid = new GridBagLayout();
+    m_algorithmLeft.setLayout(algGrid);
     GridBagConstraints c = new GridBagConstraints();
     c.anchor = GridBagConstraints.LINE_START;
     // top, left, bottom, right
@@ -267,16 +242,26 @@ public class PanelTestDesign extends JPanel
     c.gridy = 2;
     m_algorithmLeft.add(m_txtLength, c);
 
+    // Try to set up the left and right parts to be equal
+    //m_algorithmLeft.setAlignmentX(LEFT_ALIGNMENT);
+    m_algorithmLeft.setMinimumSize(new Dimension(100,100));
+    m_algorithmLeft.setPreferredSize(new Dimension(500,150));
+    m_algorithmLeft.setMaximumSize(new Dimension(600,300));
+    
     m_algorithmRight = new JPanel();
+    m_algorithmRight.setMinimumSize(new Dimension(100,100));
+    m_algorithmRight.setPreferredSize(new Dimension(200,150));
+    m_algorithmRight.setMaximumSize(new Dimension(300,300));
     m_panelAlgorithmBase.add(m_algorithmRight);
     m_panelAlgorithmBase.add(m_algorithmLeft);
     // Add components
     addComponentsToTestGenerationPanel();
     //m_panelAlgorithmBase.add(m_panelDefaultOption);
-    add(m_panelAlgorithmBase);
+    this.add(m_panelAlgorithmBase);
     m_panelAlgorithmBase.setBorder(new TitledBorder(new EtchedBorder(
         EtchedBorder.LOWERED), "Test generation"));
-    add(Box.createHorizontalStrut(H_SPACE));
+    //this.add(Box.createHorizontalStrut(H_SPACE));
+
     // ------------ Report setting panel ------------
     m_panelReport = new JPanel();
     // 7: there are 7 lines
@@ -324,7 +309,7 @@ public class PanelTestDesign extends JPanel
     m_panelReport.setBorder(new TitledBorder(new EtchedBorder(
         EtchedBorder.LOWERED), "Reporting"));
     this.add(m_panelReport);
-    this.add(Box.createVerticalGlue());
+    //this.add(Box.createVerticalGlue());
   }
 
   /**
@@ -347,6 +332,7 @@ public class PanelTestDesign extends JPanel
 
   public void setModelRelatedButton(JButton button)
   {
+    button.setEnabled(false);  // disabled until user loads a model
     m_butExternalExecute = button;
   }
 
@@ -365,15 +351,8 @@ public class PanelTestDesign extends JPanel
     m_panelAlgorithmBase.revalidate();
   }
 
-  public void updatePackageName()
-  {
-    String name = Parameter.getPackageName();
-    m_labPackageName.setText(name);
-    m_labPackageName.setToolTipText(name);
-  }
-
   /**
-   * After user successfully load a new model this method 
+   * After user successfully load a new model this method
    * will be involved to initialize model and tester to run test
    * and set the new model loaded flag to false.
    * */
@@ -388,7 +367,7 @@ public class PanelTestDesign extends JPanel
   }
 
   /**
-   * If user checked any coverage check button 
+   * If user checked any coverage check button
    * or want to generate .dot graph file.
    * Tester will build graph, this function will return ture.
    * Otherwise false.
@@ -404,7 +383,6 @@ public class PanelTestDesign extends JPanel
   /**
    * Including:
    *    Algorithm combobox handler
-   *    Package selection button handler
    *    Check button for coverage matrix
    *    Model loading button handler
    * */
@@ -429,11 +407,6 @@ public class PanelTestDesign extends JPanel
       Parameter.setAlgorithmName(m_panelAlgorithm[m_nCurAlgo]
           .getAlgorithmName());
 
-    }
-    // ------------ Package selection button handler --------------
-    if (e.getSource() == m_butPackageName) {
-      DialogPackageURLSelection dlg = new DialogPackageURLSelection();
-      dlg.setVisible(true);
     }
     // -------------- Check the coverage matrix options --------------
     for (int i = 0; i < NUM_GRAPH_CHECKBOX; i++) {
@@ -461,44 +434,71 @@ public class PanelTestDesign extends JPanel
   private void openModelFromFile()
   {
     // ------------ Open model from class file --------------
-
     String[] extensions = {"class"};
     FileChooserFilter javaFileFilter = new FileChooserFilter(extensions,
         "Java class Files");
     JFileChooser chooser = new JFileChooser();
-    if (Parameter.getFileChooserOpenMode() == 0)
-      // Open dialog from package location
-      if (Parameter.getPackageLocation() != null
-          && Parameter.getPackageLocation().length() > 0)
-        chooser.setCurrentDirectory(new File(Parameter.getPackageTopFolder()));
-      else
-        // Open dialog from last time record
-        chooser.setCurrentDirectory(new File(Parameter
-            .getModelChooserDirectory()));
-    else
-      chooser.setCurrentDirectory(new File(Parameter.DEFAULT_DIRECTORY));
-
+    chooser.setCurrentDirectory(new File(Parameter.getModelChooserDirectory()));
     chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
     chooser.setDialogTitle("Open model file");
     chooser.addChoosableFileFilter(javaFileFilter);
     int option = chooser.showOpenDialog(this.m_panelModel);
 
     if (option == JFileChooser.APPROVE_OPTION) {
+      String errmsg = null;  // null means no errors yet
       File f = chooser.getSelectedFile();
-      String[] fileName = f.getName().split("\\.");
-      Parameter.setClassName(fileName[0]);
-      Parameter.setModelLocation(f.getAbsolutePath());
+      String wholePath = f.getAbsolutePath();
+      Parameter.setModelChooserDirectory(f.getParent());
+
+      /*
       // Update the text field component
       m_txtFilePath.setText(Parameter.getClassName());
       // Set file chooser dialog initial directory
-      Parameter.setModelChooserDirectory(f.getParent());
       m_txtFilePath.setCaretPosition(0);
-      m_txtFilePath.setToolTipText(Parameter.getModelLocation());
+      m_txtFilePath.setToolTipText(Parameter.getModelPath());
+       */
+      
+      // Use ASM to read the package and class name from the .class file
+      try {
+        ClassReader reader = new ClassReader(new FileInputStream(f));
+        String internalName = reader.getClassName();
+        int slash = internalName.lastIndexOf('/');
+        String className = internalName.substring(slash+1);
+        String packageName = "";
+        if (slash >= 0) {
+          packageName = internalName.substring(0, slash).replaceAll("/", ".");
+        }
+        //System.out.println("f.absolutePath="+f.getAbsolutePath());
+        //System.out.println("internalName="+internalName);
+        //System.out.println("className="+className);
+        //System.out.println("packageName="+packageName);
+
+        // now calculate the classpath for this .class file.
+        String sep = Matcher.quoteReplacement(File.separator);
+        String ignore = ("/"+internalName+".class").replaceAll("/", sep);
+        System.out.println("ignore="+ignore);
+        if (wholePath.endsWith(ignore)) {
+          String classPath = wholePath.substring(0, wholePath.lastIndexOf(ignore));
+          System.out.println("MU: classPath="+classPath);
+          Parameter.setModelPath(wholePath);
+          Parameter.setClassName(className);
+          Parameter.setPackageName(packageName);
+          Parameter.setPackageLocation(classPath);
+        }
+        else {
+          errmsg = "Error calculating top of package from: "+wholePath;
+        }
+      }
+      catch (IOException ex) {
+        errmsg = "Error reading .class file: "+ex.getLocalizedMessage();
+      }
+      System.out.println("errmsg="+errmsg);
+
       // Load model from file and initialize the model object
-      if (fileName.length == 2 && fileName[1].equalsIgnoreCase("class")) {
+      int actionNumber = 0;
+      if (errmsg == null) {
         TestExeModel.loadModelClassFromFile();
         Class<?> testcase = TestExeModel.getModelClass();
-        int actionNumber = 0;
         for (Method method : testcase.getMethods()) {
           if (method.isAnnotationPresent(Action.class)) {
             actionNumber++;
@@ -507,23 +507,27 @@ public class PanelTestDesign extends JPanel
         }
         // Failed to load model
         if (actionNumber == 0) {
-          ErrorMessage.DisplayErrorMessage("NO ACTION IN THE CLASS",
-              "Invalid model class, it doesnt includes any actions to test!");
-          TestExeModel.resetModelToNull();
-          m_bNewModelLoaded = false;
+          errmsg = "Invalid model class: no @Action methods.";
         }
+      }
+      if (errmsg == null) {
         // Successfully load a new model
-        else {
-          m_bNewModelLoaded = true;
-          m_labLoadingInfo.setText(actionNumber + " actions were loaded.");
-        }
-        // To get how many actions in the model file
-
-        m_butExternalExecute.setText("Run test");
+        m_bNewModelLoaded = true;
+        //m_butExternalExecute.setText("");
+        String cName = Parameter.getPackageName()+"."+Parameter.getClassName();
+        m_modelInfo1.setText("Model:   "+cName);
+        m_modelInfo2.setText("Path:     "+Parameter.getPackageLocation());
+        m_modelInfo3.setText("Actions: "+actionNumber + " actions were loaded.");
       }
-      else if (fileName.length == 2 && fileName[1].equalsIgnoreCase("java")) {
-        m_butExternalExecute.setText("Compile java file");
+      else {
+        ErrorMessage.DisplayErrorMessage("Error loading model", errmsg);
+        TestExeModel.resetModelToNull();
+        m_bNewModelLoaded = false;
+        m_modelInfo1.setText(" ");
+        m_modelInfo2.setText(MSG_NO_MODEL);
+        m_modelInfo3.setText(" ");
       }
+      m_butExternalExecute.setEnabled(m_bNewModelLoaded);
     }
   }
 
@@ -583,8 +587,8 @@ public class PanelTestDesign extends JPanel
     // Generate code according to particular algorithm.
     buf.append(m_panelAlgorithm[m_nCurAlgo].generateCode());
 
-    // If user want to check coverage or draw dot graph, 
-    // build graph before add coverage listener. 
+    // If user want to check coverage or draw dot graph,
+    // build graph before add coverage listener.
     if (m_checkCoverage[0].isSelected() || m_checkCoverage[1].isSelected()
         || m_checkCoverage[2].isSelected() || m_checkCoverage[3].isSelected()) {
       if (m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected())
