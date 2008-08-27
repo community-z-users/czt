@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 
 public class PanelCoverage extends JPanel
 {
+  private static final long serialVersionUID = 145722827927748022L;
+
   // Minimum dimension
   private static final Dimension MIN_COORD_AXIS = new Dimension(760, 300);
 

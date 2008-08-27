@@ -14,19 +14,27 @@ public class OptionPanelCreator
   */
   public static final int NUM_PANE = 3;
 
-  public static final String[] ALGORITHM_NAME = {"Random", "Greedy",
-      "Lookahead"};
+  public static final String[] ALGORITHM_NAME = {
+    "Random Walk",
+    "Greedy Walk",
+    "Lookahead Walk"
+    };
 
   public static OptionPanelAdapter[] createPanels()
   {
     OptionPanelAdapter[] panes = new OptionPanelAdapter[NUM_PANE];
-    panes[0] = new OptionPanelRandomWalking(ALGORITHM_NAME[0],
-        "Random algorithm to traverse the model", "random.gif");
+    panes[0] = new OptionPanelRandomWalk(ALGORITHM_NAME[0],
+        "The Random Walk walk algorithm chooses any enabled "
+        +"transition at each step",
+        "random.gif");
     panes[1] = new OptionPanelGreedy(ALGORITHM_NAME[1],
-        "Greedy algorithm to traverse the model", "greedy.gif");
+        "The Greedy Walk algorithm gives preference to unexplored "
+        +"transitions.  It chooses randomly if all have been explored",
+        "greedy.gif");
     panes[2] = new OptionPanelLookahead(ALGORITHM_NAME[2],
-        "Lookahead algorithm looks several levels ahead to find "
-            + "unexplored transitions", "lookahead.gif");
+        "The Lookahead Walk algorithm looks ahead 'Depth' levels to find "
+        + "unexplored transitions",
+        "lookahead.gif");
     return panes;
   }
 }

@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 
 import net.sourceforge.czt.modeljunit.Model;
 
+@SuppressWarnings("serial")
 public class DialogAbout extends JDialog
 {
   public DialogAbout(Frame owner)

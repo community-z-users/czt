@@ -8,10 +8,12 @@ import net.sourceforge.czt.modeljunit.Tester;
 
 /*
  * AlgorithmPanel.java
- * @author rong ID : 1005450 30th Jl 2007
+ * @author rong ID : 1005450 30th Jul 2007
  */
 public class AlgorithmPanel extends JPanel implements IAlgorithmParameter
 {
+  private static final long serialVersionUID = -8482380073303577774L;
+
   private String m_strNameOfAlgorithm;
 
   private String m_strExplanation;

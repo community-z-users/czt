@@ -1,15 +1,12 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.lang.reflect.Constructor;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import net.sourceforge.czt.modeljunit.LookaheadTester;
 import net.sourceforge.czt.modeljunit.examples.FSM;
@@ -42,17 +39,14 @@ public class OptionPanelLookahead extends OptionPanelAdapter
     this.setLayout(new GridLayout(2, 2));
     add(new JLabel("Lookahead Depth:"));
     m_lookaheadDepth = new JTextField(Integer.toString(m_defaultDepth));
-    m_lookaheadDepth.setPreferredSize(new Dimension(60, 20));
+    m_lookaheadDepth.setPreferredSize(new Dimension(100, 20));
+    m_lookaheadDepth.setMaximumSize(new Dimension(300, 30));
     add(m_lookaheadDepth);
     add(new JLabel("Maximum Test Length:"));
     m_maxLength = new JTextField(Integer.toString(m_defaultMaxLength));
-    m_maxLength.setPreferredSize(new Dimension(60, 20));
+    m_maxLength.setPreferredSize(new Dimension(100, 20));
+    m_maxLength.setMaximumSize(new Dimension(300, 30));
     add(m_maxLength);
-
-    Border edge = BorderFactory.createLineBorder(Color.WHITE);
-
-    this.setBorder(BorderFactory.createTitledBorder(edge,
-        "Lookahead algorithm pane"));
   }
 
   /** Converts a string into an integer value.

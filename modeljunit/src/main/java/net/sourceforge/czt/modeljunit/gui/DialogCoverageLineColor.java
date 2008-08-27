@@ -23,6 +23,8 @@ import javax.swing.ListCellRenderer;
  */
 public class DialogCoverageLineColor extends JDialog
 {
+  private static final long serialVersionUID = 1371399697321421718L;
+
   public static final Color[] LINE_COVERAG_COLOR = {Color.BLACK, Color.RED,
       Color.GREEN, Color.BLUE, Color.GRAY, Color.YELLOW, Color.ORANGE,
       Color.CYAN};
@@ -174,6 +176,8 @@ public class DialogCoverageLineColor extends JDialog
 
   private class ComboBoxModel extends DefaultComboBoxModel
   {
+    private static final long serialVersionUID = 8208933386178935385L;
+
     DefaultComboBoxModel def;
 
     private Color[] m_color;
@@ -280,6 +284,8 @@ public class DialogCoverageLineColor extends JDialog
 
   private class ComboBoxItemRender extends JLabel implements ListCellRenderer
   {
+    private static final long serialVersionUID = -7309237550133230366L;
+
     private Color[] m_color;
 
     private Color m_colorCell;

@@ -3,6 +3,7 @@ package net.sourceforge.czt.modeljunit.gui;
 
 // For GUIs
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -159,13 +160,15 @@ public class ModelJUnitGUI implements ActionListener
           m_tabbedPane.addChangeListener(new TabChangeListener());
           m_panelOption
               .setLayout(new BoxLayout(m_panelOption, BoxLayout.Y_AXIS));
-          m_panelOption.add(Box.createHorizontalStrut(16));
+          m_panelOption.add(Box.createHorizontalStrut(80));
+          m_butRun.setMaximumSize(new Dimension(200,25));
           m_panelOption.add(m_butRun);
           m_panelOption.add(Box.createHorizontalGlue());
           m_frame.setLayout(new BorderLayout());
           m_frame.getContentPane().add(m_tabbedPane, BorderLayout.CENTER);
           m_frame.getContentPane().add(m_panelOption, BorderLayout.SOUTH);
           m_frame.pack();
+          m_frame.setSize(800, 620); // force the VisualisationPanel smaller!
           m_frame.setVisible(true);
         }
         catch (Exception exp) {

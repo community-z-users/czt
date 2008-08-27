@@ -1,14 +1,11 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
-import java.awt.Color;
 import java.lang.reflect.Constructor;
 import java.util.Random;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
-import javax.swing.border.Border;
 
 import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.modeljunit.RandomTester;
@@ -31,11 +28,6 @@ public class OptionPanelGreedy extends OptionPanelAdapter
     add(m_checkRandomSeed);
     add(Box.createHorizontalStrut(6));
     add(Box.createHorizontalGlue());
-
-    Border edge = BorderFactory.createLineBorder(Color.WHITE);
-
-    this.setBorder(BorderFactory.createTitledBorder(edge,
-        "Greedy algorithm pane"));
   }
 
   @Override

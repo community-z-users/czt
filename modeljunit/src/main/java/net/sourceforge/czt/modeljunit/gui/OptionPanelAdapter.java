@@ -1,8 +1,12 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import net.sourceforge.czt.modeljunit.Tester;
 
@@ -36,6 +40,8 @@ public class OptionPanelAdapter extends JPanel implements IAlgorithmParameter
   {
     m_strNameOfAlgorithm = name;
     m_strExplanation = explain;
+    Border edge = BorderFactory.createLineBorder(Color.WHITE);
+    this.setBorder(BorderFactory.createTitledBorder(edge, name+" Parameters"));
     //m_imgIcon = new ImageIcon(getClass().getResource("icon.gif"));
   }
 

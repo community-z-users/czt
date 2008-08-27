@@ -1,11 +1,6 @@
 
 package net.sourceforge.czt.modeljunit.gui;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.lang.reflect.InvocationTargetException;
-
-import net.sourceforge.czt.modeljunit.Tester;
 
 /*
  * IAlgorithmParameter.java
