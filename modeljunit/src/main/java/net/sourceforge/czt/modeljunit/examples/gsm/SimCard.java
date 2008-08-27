@@ -402,8 +402,7 @@ public class SimCard implements FsmModel
     System.out.println("Exploring the SimCard model without testing the SUT.");
     RandomTester tester = new GreedyTester(new SimCard(null));
     tester.setResetProbability(0.01);  // long test sequences
-    tester.buildGraph(100000);
-    GraphListener graph = (GraphListener) tester.getModel().getListener("graph");
+    GraphListener graph = tester.buildGraph(100000);
     graph.printGraphDot("gsm.dot");
     System.out.println("Graph contains "
         + graph.getGraph().numVertices() + " states and "

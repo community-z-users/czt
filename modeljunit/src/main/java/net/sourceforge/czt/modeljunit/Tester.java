@@ -185,27 +185,37 @@ public abstract class Tester
     return buildGraph(10000);
   }
 
+  /** Equivalent to buildGraph(MaxSteps,true). */
+  public GraphListener buildGraph(int maxSteps)
+  {
+    return buildGraph(maxSteps, true);
+  }
+
   /** Calls {@code generate()} repeatedly until the graph seems to be complete.
-   *  The {@code maxSteps} parameter gives an upper bound on the
-   *  number of calls to generate, to avoid eternal exploration.
    *  <p>
    *  Note that this method uses a fresh random number generator
    *  (with FIXEDSEED) to avoid modifying the random number
    *  generator {@link #getRandom()} that is used for test generation.
    *  </p>
+   *  @param maxSteps An upper bound on the number of calls to generate,
+   *              to avoid eternal exploration of large graphs.
+   *  @param clear If this is true, the TODO and DONE flags on each
+   *            transition of the graph are cleared after the graph is built.
+   *            This is recommended, so that algorithms like GreedyTester
+   *            get a fresh view of the graph.
+   *  @see GraphListener.isComplete()
    */
-  public GraphListener buildGraph(int maxSteps)
+  public GraphListener buildGraph(int maxSteps, boolean clear)
   {
     Random old = rand_;
     rand_ = new Random(FIXEDSEED);
-    //System.out.println("DEBUG: BUILDGRAPH replaces "+old+" by "+rand_);
     // make sure there is a graph listener
     GraphListener graph = (GraphListener) model_.addListener("graph");
     boolean wasTesting = model_.setTesting(false);
     model_.doReset("Buildgraph");
     do {
-      generate(10);
-      maxSteps -= 10;
+      generate(100);
+      maxSteps -= 100;
     }
     while (graph.numTodo() > 0 && maxSteps > 0);
 
@@ -218,9 +228,12 @@ public abstract class Tester
     }
     model_.setTesting(wasTesting);
     model_.doReset("Buildgraph");
+    if (clear) {
+      graph.clearDone();
+      graph.clearTodo();
+    }
     // restore the original random number generator.
     rand_ = old;
-    //System.out.println("DEBUG: BUILDGRAPH restores "+old);
     return graph;
   }
 }

@@ -171,7 +171,7 @@ public class ResetTest extends TestCase
     tester.addListener(hist);
     tester.generate(40);
     // the random walk should choose reset almost all the time
-    // so should not get must past the first transition.
+    // so should not get much past the first transition.
     Assert.assertEquals(41, hist.getHistory().size());
     Assert.assertEquals(1, trCover.getCoverage());
   }

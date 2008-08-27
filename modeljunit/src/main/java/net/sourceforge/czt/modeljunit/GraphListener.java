@@ -54,14 +54,20 @@ public class GraphListener extends AbstractListener
    *    <li>fsmState is the current state we are exploring.</li>
    *    <li>fsmTodo_ does not contain any empty BitSets.</li>
    *    <li>fsmDone_ can contain empty BitSets and its domain is
-   *        the same as the domain of fsmVertex_.</li>
-   *    <li>for every transition (s0,action,s1) in the FSM, exactly
+   *        the same as the domain of fsmVertex_ (or a subset of it
+   *        if clearDone has been called).</li>
+   *    <li>for every transition (s0,action,s1) in the FSM, at most
    *    one of the following is true:
    *    <ol>
    *      <li>s0 has not yet been visited, or</li>
-   *      <li>fsmTodo_(s0) has a bit set for action, or</li>
-   *      <li>(s0,action,s1) has been added to fsmGraph_ and
-   *          fsmDone_(s0) has a bit set for action.</li>
+   *      <li>s0 has been visited, is in fsmVertex_, and fsmTodo_(s0) has
+   *          a bit set for every 'TODO' action (an action that has had a
+   *          true guard and has not been taken) since the last clearTodo
+   *          call, or</li>
+   *      <li>so has been visited, is in fsmVertex_, (s0,action,s1) has
+   *          been added to fsmGraph_ and fsmDone_(s0) has a bit set for
+   *          action (unless clearDone was called since the transition was
+   *          taken).</li>
    *    <ol>
    *  </ul>
    */
@@ -133,6 +139,15 @@ public class GraphListener extends AbstractListener
     return fsmTodo_.get(state);
   }
 
+  /** Resets all the todo information.
+   *  Immediately after calling this, getTodo will return null
+   *  for every state, and isTodo will return false.
+   */
+  public void clearTodo()
+  {
+    fsmTodo_ = new HashMap<Object,BitSet>();
+  }
+
   /** True if the given action has been executed from the given state.
    * @param state   A non-null state of the model.
    * @param action  The number of one of the actions of the model.
@@ -156,6 +171,15 @@ public class GraphListener extends AbstractListener
   public BitSet getDone(Object state)
   {
     return fsmDone_.get(state);
+  }
+
+  /** Resets all the done information.
+   *  Immediately after calling this, getDone will return null
+   *  for every state and isDone will return false.
+   */
+  public void clearDone()
+  {
+    fsmDone_ = new HashMap<Object,BitSet>();
   }
 
   /** Returns the graph of the FSM model.
@@ -300,7 +324,12 @@ public class GraphListener extends AbstractListener
     }
     else {
       // see if we need to add some bits to fsmTodo_.
-      enabled.andNot(fsmDone_.get(newState));
+      BitSet done = fsmDone_.get(newState);
+      if (done == null) {
+        done = new BitSet();
+        fsmDone_.put(newState, done);
+      } 
+      enabled.andNot(done);
       if ( ! enabled.isEmpty()) {
         BitSet oldTodo = fsmTodo_.get(newState);
         if (oldTodo == null)
