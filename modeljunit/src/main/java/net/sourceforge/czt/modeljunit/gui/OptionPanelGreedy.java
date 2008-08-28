@@ -36,20 +36,19 @@ public class OptionPanelGreedy extends OptionPanelAdapter
     m_bufCode = new StringBuffer();
 
     // Initialize test model
-    m_bufCode.append(Indentation.wrap(Parameter.getClassName()
+    m_bufCode.append(Indentation.indent(Parameter.getClassName()
         + " model = new " + Parameter.getClassName() + "();"));
     m_bufCode.append(Indentation
-        .wrap("GreedyTester tester = new GreedyTester(model);"));
+        .indent("GreedyTester tester = new GreedyTester(model);"));
     // To use random seed or not
-    // If user does not want to use random seed,
-    // test will user tester.setRandom(new Random(tester.FIXEDSEED)),
-    // Which makes application will generate same tests every time it runs.
+    // If user does not want to use random seed, tester will default
+    // to using a fixed seed, so it generates same tests every time it runs.
     if (m_checkRandomSeed.isSelected())
-      m_bufCode.append(Indentation.wrap("tester.setRandom(new Random());"));
+      m_bufCode.append(Indentation.indent("tester.setRandom(new Random());"));
 
     double resetProb = Parameter.getResetProbability();
     if (resetProb != RandomTester.DEFAULT_RESET_PROBABILITY) {
-      m_bufCode.append(Indentation.wrap("tester.setResetProbability("
+      m_bufCode.append(Indentation.indent("tester.setResetProbability("
           + String.format("%1$.3f", new Object[]{resetProb}) + ");"));
     }
     return m_bufCode.toString();
@@ -81,10 +80,10 @@ public class OptionPanelGreedy extends OptionPanelAdapter
   {
     m_bufCode = new StringBuffer();
     if (m_checkRandomSeed.isSelected())
-      m_bufCode.append(Indentation.wrap("import java.util.Random;"));
+      m_bufCode.append(Indentation.indent("import java.util.Random;"));
 
     m_bufCode.append(Indentation
-        .wrap("import net.sourceforge.czt.modeljunit.GreedyTester;"));
+        .indent("import net.sourceforge.czt.modeljunit.GreedyTester;"));
     return m_bufCode.toString();
   }
 

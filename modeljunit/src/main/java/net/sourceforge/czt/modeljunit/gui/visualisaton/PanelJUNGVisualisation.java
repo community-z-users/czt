@@ -56,6 +56,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import net.sourceforge.czt.modeljunit.GraphListener;
 import net.sourceforge.czt.modeljunit.Transition;
+import net.sourceforge.czt.modeljunit.gui.PanelAbstract;
 
 import org.apache.commons.collections15.Predicate;
 
@@ -91,7 +92,7 @@ import edu.uci.ics.jung.visualization.util.PredicatedParallelEdgeIndexFunction;
  * @author Jerramy Winchester
  *
  */
-public class PanelJUNGVisualisation extends JPanel 
+public class PanelJUNGVisualisation extends PanelAbstract 
 implements ActionListener, MouseListener{
 	/** serial version ID */
 	private static final long serialVersionUID = -1433533076588100620L;
@@ -258,6 +259,14 @@ implements ActionListener, MouseListener{
 	 */
 	public void resetRunTimeInformation() {
 		jView_.resetRunTimeInformation();		
+	}
+
+	/** This should be called by the top-level program whenever the
+	 *  model changes.
+	 */
+	public void newModel()
+	{
+	  resetRunTimeInformation();
 	}
 
 	/**

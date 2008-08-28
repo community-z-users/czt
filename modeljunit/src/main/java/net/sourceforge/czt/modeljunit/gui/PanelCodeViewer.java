@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class PanelCodeViewer extends JPanel
+public class PanelCodeViewer extends PanelAbstract
 {
   private static final long serialVersionUID = -8433568076533100620L;
 
@@ -36,6 +36,10 @@ public class PanelCodeViewer extends JPanel
   {
     // Generate the code
     m_txtCode.setText(content);
-
+  }
+  
+  public void newModel()
+  {
+    m_txtCode.setText("");
   }
 }

@@ -17,13 +17,16 @@ public interface IAlgorithmParameter
   public void initialize(int idx);
 
   /**
-   * Generate import statement to include libraries
+   * Generate any Java import statements that are needed in addition
+   * to the standard modeljunit.* imports.
    * @return generated import statement
    */
   public String generateImportLab();
 
   /**
-   * Code generator, to generate test code by using this function
+   *  Generates the Java code that sets up this algorithm to generate tests.
+   *  The generated code will declare a variable 'Tester tester'.
+   *  The returned code has already been indented correctly.
    */
   public String generateCode();
 

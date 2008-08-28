@@ -35,17 +35,17 @@ public class OptionPanelRandomWalk extends OptionPanelAdapter
     m_bufRandomTest = new StringBuffer();
 
     // Initialize test model
-    m_bufRandomTest.append(Indentation.wrap(Parameter.getClassName()
+    m_bufRandomTest.append(Indentation.indent(Parameter.getClassName()
         + " model = new " + Parameter.getClassName() + "();"));
     m_bufRandomTest.append(Indentation
-        .wrap("Tester tester = new RandomTester(model);"));
+        .indent("Tester tester = new RandomTester(model);"));
     // To use random seed or not
     // If user does not want to use random seed,
     // test will user tester.setRandom(new Random(tester.FIXEDSEED)),
     // Which makes application will generate same tests every time it runs.
     if (m_checkRandomSeed.isSelected())
       m_bufRandomTest.append(Indentation
-          .wrap("tester.setRandom(new Random());"));
+          .indent("tester.setRandom(new Random());"));
 
     return m_bufRandomTest.toString();
   }
@@ -73,10 +73,10 @@ public class OptionPanelRandomWalk extends OptionPanelAdapter
   {
     m_bufRandomTest = new StringBuffer();
     if (m_checkRandomSeed.isSelected()) {
-      m_bufRandomTest.append(Indentation.wrap("import java.util.Random;"));
+      m_bufRandomTest.append(Indentation.indent("import java.util.Random;"));
     }
     m_bufRandomTest.append(Indentation
-        .wrap("import net.sourceforge.czt.modeljunit.RandomTester;"));
+        .indent("import net.sourceforge.czt.modeljunit.RandomTester;"));
     return m_bufRandomTest.toString();
   }
 

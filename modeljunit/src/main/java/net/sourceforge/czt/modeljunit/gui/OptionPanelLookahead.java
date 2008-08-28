@@ -77,22 +77,22 @@ public class OptionPanelLookahead extends OptionPanelAdapter
     StringBuffer result = new StringBuffer();
 
     // Initialize test model
-    result.append(Indentation.wrap(Parameter.getClassName() + " model = new "
+    result.append(Indentation.indent(Parameter.getClassName() + " model = new "
         + Parameter.getClassName() + "();"));
     result.append(Indentation
-        .wrap("LookaheadTester tester = new LookaheadTester(model);"));
+        .indent("LookaheadTester tester = new LookaheadTester(model);"));
 
     // Calculate the Lookahead depth
     int depth = getIntValue(m_lookaheadDepth.getText(), 1);
     if (depth >= 1 && depth != m_defaultDepth) {
-      result.append(Indentation.wrap("tester.setDepth(" + depth + ");"));
+      result.append(Indentation.indent("tester.setDepth(" + depth + ");"));
     }
 
     // Calculate the maximum test sequence length
     int maxLength = getIntValue(m_maxLength.getText(), 1);
     if (maxLength >= 1 && maxLength != m_defaultMaxLength) {
       result
-          .append(Indentation.wrap("tester.setMaxLength(" + maxLength + ");"));
+          .append(Indentation.indent("tester.setMaxLength(" + maxLength + ");"));
     }
 
     return result.toString();
@@ -121,7 +121,7 @@ public class OptionPanelLookahead extends OptionPanelAdapter
   {
     StringBuffer result = new StringBuffer();
     result.append(Indentation
-        .wrap("import net.sourceforge.czt.modeljunit.LookaheadTester;"));
+        .indent("import net.sourceforge.czt.modeljunit.LookaheadTester;"));
     return result.toString();
   }
 

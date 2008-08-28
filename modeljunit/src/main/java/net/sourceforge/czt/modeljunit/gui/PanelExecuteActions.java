@@ -34,7 +34,7 @@ import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
 
-public class PanelExecuteActions extends JPanel
+public class PanelExecuteActions extends PanelAbstract
     implements
       ActionListener,
       ListSelectionListener
@@ -353,7 +353,7 @@ public class PanelExecuteActions extends JPanel
     reloadActionModel();
   }
 
-  // Fill actions into action list
+  /** Fill actions into action list */
   void reloadActionModel()
   {
     int idxBackup = m_nCurrentSelectedAction;
@@ -396,17 +396,28 @@ public class PanelExecuteActions extends JPanel
   /**
    * The function will be call before any other actions be executed.
    * when user load new model from file.
-   * */
+   * @deprecated Should probably use newModel instead?
+   */
   void autoModelInitialization()
   {
     if (m_listExeHisModel.getSize() == 0)
       doResetAction();
   }
 
+  public void newModel()
+  {
+    doResetAction();
+    resetSubComponents();
+    // Clean the action history
+    resetActionHistoryList();
+    // Fill actions in action list
+    reloadActionModel();
+  }
+
   /**
    * If user reload a new model from PanelTestDesign.
    * This method will be called to reset the new model
-   * */
+   */
   void doResetAction()
   {
     if (!Parameter.isTestRunnable(true))

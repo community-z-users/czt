@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class PanelCoverage extends JPanel
+public class PanelCoverage extends PanelAbstract
 {
   private static final long serialVersionUID = 145722827927748022L;
 
@@ -263,5 +263,11 @@ public class PanelCoverage extends JPanel
     this.paintImmediately(0, 0, this.getWidth(), this.getHeight());
     //this.repaint(new Rectangle(LEFT_SPACE, TOP_SPACE, getSize().width-RIGHT_SPACE, getSize().height-BOTTOM_SPACE));
     //this.paintComponent(this.getGraphics());
+  }
+  
+  public void newModel()
+  {
+    clearCoverages();
+    redrawGraph();
   }
 }

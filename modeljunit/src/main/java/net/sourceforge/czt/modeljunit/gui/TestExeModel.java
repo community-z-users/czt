@@ -78,22 +78,26 @@ public class TestExeModel
     m_modelObject = null;
   }
 
-  public static void loadModelClassFromFile()
+  /** Tries to load an instance of the current model class from a .class file.
+   *
+   * @return true iff successful load with no errors
+   */
+  public static boolean loadModelClassFromFile()
   {
     ClassFileLoader classLoader = ClassFileLoader.getInstance();
-
-    String name = Parameter.getClassName(); //.split("\\.");
-    m_modelClass = classLoader.loadClass(name);
+    assert classLoader != null;
+    
+    m_modelClass = classLoader.loadClass(Parameter.getClassName());
     try {
       m_modelObject = (net.sourceforge.czt.modeljunit.FsmModel) m_modelClass
           .newInstance();
+      return true;
     }
     catch (ClassCastException cce) {
       ErrorMessage.DisplayErrorMessage(
           "Wrong class (ClassCastException",
           "Please select FsmModel class."
               + "\n Error in TestExeModel::loadModelClassFromFile");
-      return;
     }
     catch (InstantiationException ie) {
       ErrorMessage.DisplayErrorMessage(
@@ -101,7 +105,6 @@ public class TestExeModel
           "Can not initialize model."
               + "\n Error in TestExeModel::loadModelClassFromFile: "
               + ie.getLocalizedMessage());
-      return;
     }
     catch (IllegalAccessException iae) {
       ErrorMessage.DisplayErrorMessage(
@@ -110,6 +113,7 @@ public class TestExeModel
               + "\n Error in TestExeModel::loadModelClassFromFile: "
               + iae.getLocalizedMessage());
     }
+    return false;
   }
 
   /**
@@ -122,6 +126,10 @@ public class TestExeModel
 
   public static void setTester(Tester tester, int idx)
   {
+    System.out.println("Changed tester["+idx+"] from "
+        +m_tester[idx]
+        +" to "+tester);
+
     m_tester[idx] = tester;
   }
 
@@ -235,6 +243,7 @@ public class TestExeModel
         coverage[i].clear();
     }
     // Generate tests
+    System.err.println("Generating "+m_nWalkLength+" tests with "+m_tester[0]);
     m_tester[0].generate(m_nWalkLength);
 
     // Print out generated model coverage metrics

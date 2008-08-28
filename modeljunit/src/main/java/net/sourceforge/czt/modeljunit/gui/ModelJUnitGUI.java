@@ -105,7 +105,7 @@ public class ModelJUnitGUI implements ActionListener
     }
 
     // Initialize TestDesign panel
-    m_panelTD = PanelTestDesign.getTestDesignPanelInstance();
+    m_panelTD = PanelTestDesign.getTestDesignPanelInstance(this);
     // Initialize CodeViewer panel
     m_panelCV = PanelCodeViewer.getCodeViewerInstance();
     // Initialize ResuleViewer panel
@@ -253,6 +253,20 @@ public class ModelJUnitGUI implements ActionListener
     m_frame.setJMenuBar(m_menuBar);
   }
 
+  /** Call this whenever a new model is loaded/chosen.
+   *  It tells all the tabs about the new model, so that they can
+   *  clear any old state.
+   */
+  public void newModel()
+  {
+    m_panelTD.newModel();
+    m_panelCV.newModel();
+    m_panelRV.newModel();
+    m_panelEA.newModel();
+    m_panelC.newModel();
+    m_panelGV.newModel();
+  }
+
   // TEMP directory: System.getProperty("java.io.tmpdir")
   // LIB PATH directory:  System.getProperty("java.library.path")
   // CLASSPATH directory: System.getProperty("java.class.path")
@@ -282,7 +296,9 @@ public class ModelJUnitGUI implements ActionListener
       if (!Parameter.isTestRunnable(false)) {
         ErrorMessage
             .DisplayErrorMessage("NO TEST MODEL HAS BEEN SELECTED",
-                "Please select Test Model \nfrom Test Design tab\nbefore code generating!");
+                "Please select Test Model\n"
+                +"from Test Design tab\n"
+                +"before generating tests!");
         return;
       }
 
@@ -325,7 +341,8 @@ public class ModelJUnitGUI implements ActionListener
             catch (IOException e1) {
               e1.printStackTrace();
               ErrorMessage.DisplayErrorMessage("Cannot create file",
-                  "Try select other java file.");
+                  "Error creating file '"+nf.getAbsolutePath()
+                  +"': "+e1.getLocalizedMessage());
             }
             f.delete();
             f = nf;
@@ -389,7 +406,7 @@ public class ModelJUnitGUI implements ActionListener
 
   /**
    * Run test automatically
-   * */
+   */
   private void runClass()
   {
     // Draw line chart in coverage panel
@@ -455,34 +472,17 @@ public class ModelJUnitGUI implements ActionListener
 
       m_nCurrentPanelIndex = sourcePane.getSelectedIndex();
       // Set run button visibility
-      if (3 == m_nCurrentPanelIndex)
-        m_butRun.setVisible(false);
-      else
-        m_butRun.setVisible(true);
-      // If user loaded a new model initialize it.
-      if (m_panelTD.isNewModelLoaded()) {
-        // Reload all models
-        m_panelTD.initializeTester(0);
-        m_panelTD.initializeTester(1);
-        // if user already selected an algorithm,
-        // reset new model before do any action.
-        if (Parameter.getAlgorithmName() != null)
-          m_panelEA.doResetAction();
-        // Clean the action history
-        m_panelEA.resetActionHistoryList();
-        // Fill actions in action list
-        m_panelEA.reloadActionModel();
-      }
+      m_butRun.setVisible(m_nCurrentPanelIndex != 3);
       // Regenerate code
       if (!Parameter.isTestRunnable(false))
         return;
       updateGeneratedCode();
 
       // If user click the ExecuteAction pane
-      if (3 == m_nCurrentPanelIndex) {
-        m_panelEA.resetSubComponents();
-        m_panelEA.autoModelInitialization();
-      }
+      //if (3 == m_nCurrentPanelIndex) {
+      //  m_panelEA.resetSubComponents();
+      //  m_panelEA.autoModelInitialization();
+      //}
     }
   }
 }

@@ -41,7 +41,7 @@ import org.objectweb.asm.ClassReader;
  * PanelTestDesign.java
  * @author rong ID : 1005450 26th Jul 2007
  */
-public class PanelTestDesign extends JPanel
+public class PanelTestDesign extends PanelAbstract
     implements
       ActionListener,
       FocusListener,
@@ -61,6 +61,9 @@ public class PanelTestDesign extends JPanel
   // 0 Random, 1 Greedy,
   private static final int ALGORITHM_NUM = OptionPanelCreator.NUM_PANE;
 
+  /** A link to the top-level GUI, for callbacks. */
+  private ModelJUnitGUI m_gui = null;
+
   /** The topmost (model) panel.
    *  This is for finding and loading the model class.
    */
@@ -76,12 +79,6 @@ public class PanelTestDesign extends JPanel
 
   /** The button that runs the test generation. */
   private JButton m_butExternalExecute;
-
-  /** true after user successfully loads a new model to test.
-   * Once the tester and model are initialised, this variable should
-   * be set to false
-   */
-  private boolean m_bNewModelLoaded = false;
 
   // Algorithm panel
   private final static int H_SPACE = 6;
@@ -131,16 +128,17 @@ public class PanelTestDesign extends JPanel
   private static PanelTestDesign m_panel = null;
 
   /** Singleton factory method for creating the test design panel. */
-  public static PanelTestDesign getTestDesignPanelInstance()
+  public static PanelTestDesign getTestDesignPanelInstance(ModelJUnitGUI gui)
   {
     if (m_panel == null)
-      m_panel = new PanelTestDesign();
+      m_panel = new PanelTestDesign(gui);
     return m_panel;
   }
 
-  /** Use PanelTestDesign to get a test design panel. */
-  private PanelTestDesign()
+  /** Use PanelTestDesign(gui) to get a test design panel. */
+  private PanelTestDesign(ModelJUnitGUI gui)
   {
+    m_gui = gui;
     // Panel background colours
     Color[] bg = new Color[3];
     bg[0] = new Color(156, 186, 216);
@@ -334,24 +332,6 @@ public class PanelTestDesign extends JPanel
     this.add(m_panelReport);
   }
 
-  /**
-   * If user successfully load a new model to test, return true,
-   * Otherwise return false.
-   **/
-  public boolean isNewModelLoaded()
-  {
-    return m_bNewModelLoaded;
-  }
-
-  /**
-   * If user successfully load a new model to test, set state to true,
-   * Otherwise set to false.
-   **/
-  public void setModelLoadState(boolean state)
-  {
-    m_bNewModelLoaded = state;
-  }
-
   public void setModelRelatedButton(JButton button)
   {
     button.setEnabled(false);  // disabled until user loads a model
@@ -375,7 +355,6 @@ public class PanelTestDesign extends JPanel
     // Set current algorithm for prepare execution
     TestExeModel.setTester(m_panelAlgorithm[m_nCurAlgo].getTester(idx), idx);
     TestExeModel.setAlgorithm(m_panelAlgorithm[m_nCurAlgo]);
-    m_bNewModelLoaded = false;
   }
 
   /**
@@ -457,14 +436,6 @@ public class PanelTestDesign extends JPanel
       String wholePath = f.getAbsolutePath();
       Parameter.setModelChooserDirectory(f.getParent());
 
-      /*
-      // Update the text field component
-      m_txtFilePath.setText(Parameter.getClassName());
-      // Set file chooser dialog initial directory
-      m_txtFilePath.setCaretPosition(0);
-      m_txtFilePath.setToolTipText(Parameter.getModelPath());
-       */
-
       // Use ASM to read the package and class name from the .class file
       try {
         ClassReader reader = new ClassReader(new FileInputStream(f));
@@ -472,6 +443,7 @@ public class PanelTestDesign extends JPanel
         int slash = internalName.lastIndexOf('/');
         String className = internalName.substring(slash+1);
         String packageName = "";
+        String classPath = "";
         if (slash >= 0) {
           packageName = internalName.substring(0, slash).replaceAll("/", ".");
         }
@@ -483,59 +455,68 @@ public class PanelTestDesign extends JPanel
         // now calculate the classpath for this .class file.
         String sep = Matcher.quoteReplacement(File.separator);
         String ignore = ("/"+internalName+".class").replaceAll("/", sep);
-        System.out.println("ignore="+ignore);
+        //System.out.println("ignore="+ignore);
         if (wholePath.endsWith(ignore)) {
-          String classPath = wholePath.substring(0, wholePath.lastIndexOf(ignore));
-          System.out.println("MU: classPath="+classPath);
+          classPath = wholePath.substring(0, wholePath.lastIndexOf(ignore));
+          //System.out.println("MU: classPath="+classPath);
+        }
+        else {
+          errmsg = "Error calculating top of package from: "+wholePath;
+        }
+
+        // Load model from file and initialize the model object
+        int actionNumber = 0;
+        if (errmsg == null) {
           Parameter.setModelPath(wholePath);
           Parameter.setClassName(className);
           Parameter.setPackageName(packageName);
           Parameter.setPackageLocation(classPath);
+          if (TestExeModel.loadModelClassFromFile()) {
+            Class<?> testcase = TestExeModel.getModelClass();
+            for (Method method : testcase.getMethods()) {
+              if (method.isAnnotationPresent(Action.class)) {
+                actionNumber++;
+                TestExeModel.addMethod(method);
+              }
+            }
+          }
+          else {
+            errmsg = "Invalid model class: no @Action methods.";
+          }
         }
-        else {
-          errmsg = "Error calculating top of package from: "+wholePath;
+        if (errmsg == null) {
+          // We have successfully loaded a new model
+          initializeTester(0);
+          initializeTester(1);
+          m_butExternalExecute.setEnabled(true);
+          String cName = Parameter.getPackageName()+"."+Parameter.getClassName();
+          m_modelInfo1.setText("Model:   "+cName);
+          m_modelInfo2.setText("Path:     "+Parameter.getPackageLocation());
+          m_modelInfo3.setText("Actions: "+actionNumber + " actions were loaded.");
+          m_gui.newModel(); // tell the other panels about the new model
         }
       }
       catch (IOException ex) {
         errmsg = "Error reading .class file: "+ex.getLocalizedMessage();
       }
-      System.out.println("errmsg="+errmsg);
-
-      // Load model from file and initialize the model object
-      int actionNumber = 0;
-      if (errmsg == null) {
-        TestExeModel.loadModelClassFromFile();
-        Class<?> testcase = TestExeModel.getModelClass();
-        for (Method method : testcase.getMethods()) {
-          if (method.isAnnotationPresent(Action.class)) {
-            actionNumber++;
-            TestExeModel.addMethod(method);
-          }
-        }
-        // Failed to load model
-        if (actionNumber == 0) {
-          errmsg = "Invalid model class: no @Action methods.";
-        }
-      }
-      if (errmsg == null) {
-        // Successfully load a new model
-        m_bNewModelLoaded = true;
-        //m_butExternalExecute.setText("");
-        String cName = Parameter.getPackageName()+"."+Parameter.getClassName();
-        m_modelInfo1.setText("Model:   "+cName);
-        m_modelInfo2.setText("Path:     "+Parameter.getPackageLocation());
-        m_modelInfo3.setText("Actions: "+actionNumber + " actions were loaded.");
-      }
-      else {
+      if (errmsg != null) {
         ErrorMessage.DisplayErrorMessage("Error loading model", errmsg);
         TestExeModel.resetModelToNull();
-        m_bNewModelLoaded = false;
+        Parameter.setModelPath("");
+        Parameter.setClassName("");
+        Parameter.setPackageName("");
+        Parameter.setPackageLocation("");
         m_modelInfo1.setText(" ");
         m_modelInfo2.setText(MSG_NO_MODEL);
         m_modelInfo3.setText(" ");
+        // TODO: could call m_gui.newModel() here too? (To reset all panels)
       }
-      m_butExternalExecute.setEnabled(m_bNewModelLoaded);
     }
+  }
+
+  /** This panel already knows about the new model. */
+  public void newModel()
+  {
   }
 
   public String generateCode()
@@ -548,48 +529,41 @@ public class PanelTestDesign extends JPanel
     StringBuffer buf = new StringBuffer();
 
     // String strTestCase = Parameter.getTestCaseVariableName();
-    if (m_nCurAlgo != 0
-        && m_panelAlgorithm[m_nCurAlgo].generateImportLab() != null)
-      buf.append(m_panelAlgorithm[m_nCurAlgo].generateImportLab());
+    buf.append(Indentation.indent("import net.sourceforge.czt.modeljunit.*;"));
+    buf.append(m_panelAlgorithm[m_nCurAlgo].generateImportLab());
 
-    buf.append(Indentation.wrap("import net.sourceforge.czt.modeljunit.*;"));
     // Import coverage history file(s)
     if (m_checkCoverage[0].isSelected() || m_checkCoverage[1].isSelected()
         || m_checkCoverage[2].isSelected()) {
-      buf
-          .append(Indentation
-              .wrap("import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;"));
+      buf.append(Indentation.indent(
+          "import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;"));
     }
     // Import state coverage lab
     if (m_checkCoverage[0].isSelected()) {
-      buf
-          .append(Indentation
-              .wrap("import net.sourceforge.czt.modeljunit.coverage.StateCoverage;"));
+      buf.append(Indentation.indent(
+          "import net.sourceforge.czt.modeljunit.coverage.StateCoverage;"));
     }
     // Import transition coverage lab
     if (m_checkCoverage[1].isSelected()) {
-      buf
-          .append(Indentation
-              .wrap("import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;"));
+      buf.append(Indentation.indent(
+          "import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;"));
     }
     // Import state transition pair coverage lab
     if (m_checkCoverage[2].isSelected()) {
-      buf
-          .append(Indentation
-              .wrap("import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;"));
+      buf.append(Indentation.indent(
+          "import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;"));
     }
     // Import state action coverage lab
     if (m_checkCoverage[3].isSelected()) {
-      buf
-          .append(Indentation
-              .wrap("import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;"));
+      buf.append(Indentation.indent(
+          "import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;"));
     }
     // Generate class content
     buf.append(Indentation.SEP);
-    buf.append(Indentation.wrap("public class " + Parameter.getClassName()
+    buf.append(Indentation.indent("public class " + Parameter.getClassName()
         + "Tester" + Indentation.SEP + "{"));
-    buf.append(Indentation.wrap("public static void main(String args[])"));
-    buf.append(Indentation.wrap("{"));
+    buf.append(Indentation.indent("public static void main(String args[])"));
+    buf.append(Indentation.indent("{"));
 
     // Generate code according to particular algorithm.
     buf.append(m_panelAlgorithm[m_nCurAlgo].generateCode());
@@ -598,11 +572,7 @@ public class PanelTestDesign extends JPanel
     // build graph before add coverage listener.
     if (m_checkCoverage[0].isSelected() || m_checkCoverage[1].isSelected()
         || m_checkCoverage[2].isSelected() || m_checkCoverage[3].isSelected()) {
-      if (m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected())
-        buf.append(Indentation
-            .wrap("GraphListener graph = tester.buildGraph();"));
-      else
-        buf.append(Indentation.wrap("tester.buildGraph();"));
+      buf.append(Indentation.indent("GraphListener graph = tester.buildGraph();"));
       buf.append(Indentation.SEP);
     }
 
@@ -611,92 +581,77 @@ public class PanelTestDesign extends JPanel
         || m_checkCoverage[2].isSelected() || m_checkCoverage[3].isSelected()) {
       buf.append(Indentation.SEP);
       if (m_checkCoverage[0].isSelected()) {
-        buf.append(Indentation
-            .wrap("CoverageHistory stateCoverage = new StateCoverage();"));
-        buf
-            .append(Indentation
-                .wrap("tester.addCoverageMetric(stateCoverage);"));
+        buf.append(Indentation.indent(
+            "CoverageMetric stateCoverage = new StateCoverage();"));
+        buf.append(Indentation.indent(
+            "tester.addCoverageMetric(stateCoverage);"));
         buf.append(Indentation.SEP);
       }
       if (m_checkCoverage[1].isSelected()) {
-        buf
-            .append(Indentation
-                .wrap("CoverageHistory transitionCoverage = new TransitionCoverage();"));
-        buf.append(Indentation
-            .wrap("tester.addCoverageMetric(transitionCoverage);"));
+        buf.append(Indentation.indent(
+            "CoverageMetric transitionCoverage = new TransitionCoverage();"));
+        buf.append(Indentation.indent(
+            "tester.addCoverageMetric(transitionCoverage);"));
         buf.append(Indentation.SEP);
       }
       if (m_checkCoverage[2].isSelected()) {
-        buf
-            .append(Indentation
-                .wrap("CoverageHistory transitionPairCoverage = new TransitionPairCoverage();"));
-        buf.append(Indentation
-            .wrap("tester.addCoverageMetric(transitionPairCoverage);"));
+        buf.append(Indentation.indent(
+            "CoverageMetric transitionPairCoverage = new TransitionPairCoverage();"));
+        buf.append(Indentation.indent(
+            "tester.addCoverageMetric(transitionPairCoverage);"));
         buf.append(Indentation.SEP);
       }
       if (m_checkCoverage[3].isSelected()) {
-        buf.append(Indentation
-            .wrap("CoverageHistory actionCoverage = new ActionCoverage();"));
-        buf.append(Indentation
-            .wrap("tester.addCoverageMetric(actionCoverage);"));
+        buf.append(Indentation.indent(
+            "CoverageMetric actionCoverage = new ActionCoverage();"));
+        buf.append(Indentation.indent(
+            "tester.addCoverageMetric(actionCoverage);"));
         buf.append(Indentation.SEP);
       }
     }
     // Verbose settings
     if (this.m_checkVerbosity.isSelected()) {
-      buf
-          .append(Indentation
-              .wrap("tester.addListener(\"verbose\", new VerboseListener(tester.getModel()));"));
+      buf.append(Indentation.indent(
+          "tester.addListener(new VerboseListener());"));
       buf.append(Indentation.SEP);
     }
 
-    buf.append(Indentation.wrap("tester.generate(" + length + ");"));
+    buf.append(Indentation.indent("tester.generate(" + length + ");"));
 
     if (m_checkCoverage[0].isSelected()) {
       buf.append(Indentation.SEP);
       buf
           .append(Indentation
-              .wrap("System.out.println(\"State coverage: \"+stateCoverage.toString());"));
-      buf
-          .append(Indentation
-              .wrap("System.out.println(\"State history : \"+stateCoverage.toCSV());"));
+              .indent("System.out.println(\"State coverage: \"+stateCoverage.toString());"));
     }
 
     if (m_checkCoverage[1].isSelected()) {
       buf.append(Indentation.SEP);
       buf
           .append(Indentation
-              .wrap("System.out.println(\"Transition coverage: \"+transitionCoverage.toString());"));
-      buf
-          .append(Indentation
-              .wrap("System.out.println(\"Transition history : \"+transitionCoverage.toCSV());"));
+              .indent("System.out.println(\"Transition coverage: \"+transitionCoverage.toString());"));
     }
 
     if (m_checkCoverage[2].isSelected()) {
       buf.append(Indentation.SEP);
       buf
           .append(Indentation
-              .wrap("System.out.println(\"Transition pair coverage: \"+transitionPairCoverage.toString());"));
-      buf
-          .append(Indentation
-              .wrap("System.out.println(\"Transition pair history : \"+transitionPairCoverage.toCSV());"));
+              .indent("System.out.println(\"Transition pair coverage: \"+transitionPairCoverage.toString());"));
     }
     if (m_checkCoverage[3].isSelected()) {
       buf.append(Indentation.SEP);
       buf
           .append(Indentation
-              .wrap("System.out.println(\"Action coverage: \"+actionCoverage.toString());"));
-      buf
-          .append(Indentation
-              .wrap("System.out.println(\"Action history : \"+actionCoverage.toCSV());"));
+              .indent("System.out.println(\"Action coverage: \"+actionCoverage.toString());"));
     }
 
     if (m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected()) {
-      buf.append(Indentation.wrap("graph.printGraphDot(\"map.dot\");"));
+      buf.append(Indentation.indent(
+          "graph.printGraphDot(\""+Parameter.getClassName()+".dot\");"));
     }
     // Ending
-    buf.append(Indentation.wrap("}"));
-    buf.append(Indentation.wrap("}"));
+    buf.append(Indentation.indent("}"));
+    buf.append(Indentation.indent("}"));
 
     return buf.toString();
   }

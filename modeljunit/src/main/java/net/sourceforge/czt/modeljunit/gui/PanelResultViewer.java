@@ -8,14 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class PanelResultViewer extends JPanel
+public class PanelResultViewer extends PanelAbstract
 {
   private static final long serialVersionUID = -6522938608020451281L;
 
   private static PanelResultViewer m_panelRV;
 
   // Minimum height of the compile result table and text area
-  private final int MIN_HIEHGT = 60;
+  private final int MIN_HEIGHT = 60;
 
   private final int INITIAL_WIDTH = 300;
 
@@ -38,7 +38,7 @@ public class PanelResultViewer extends JPanel
 
     // -------------------- Set up the split pane ------------------
     // Scroll pane for text area
-    Dimension minimumSize = new Dimension(INITIAL_WIDTH, MIN_HIEHGT);
+    Dimension minimumSize = new Dimension(INITIAL_WIDTH, MIN_HEIGHT);
     m_txtOutput = new JTextArea();
     m_txtOutput.setEditable(false);
 
@@ -61,5 +61,10 @@ public class PanelResultViewer extends JPanel
   {
     m_txtOutput.append(str);
     m_txtOutput.paintImmediately(m_txtOutput.getBounds());
+  }
+
+  public void newModel()
+  {
+    resetRunTimeInformation();
   }
 }

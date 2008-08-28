@@ -1,14 +1,14 @@
-/**
- * This class is for generating code. Every line has an indentation at the
- * beginning of the line. The wrap method could calculate the indentation and
- * uses the shrink or goFuther to adjust the indentation by checking whether the
- * input string includes '{' or '}'.
- */
 
 package net.sourceforge.czt.modeljunit.gui;
 
 /*
- * Indentation.java
+ * This class is for generating indented Java code.
+ *
+ * Every line has an indentation at the beginning of the line.
+ * The wrap method calculates the indentation and uses the shrink() or
+ * expand() methods to adjust the indentation by checking whether the
+ * input string includes '{' or '}'.
+ *
  * @author rong ID : 1005450 5th Aug 2007
  */
 
@@ -20,7 +20,7 @@ public class Indentation
 
   public static final String SEP = System.getProperty("line.separator");
 
-  protected static void goFurther()
+  protected static void expand()
   {
     m_strIndentation = m_strIndentation.concat(INDENTATION);
   }
@@ -31,13 +31,21 @@ public class Indentation
         - INDENTATION.length());
   }
 
-  public static String wrap(String str)
+  /** This adds the current indentation prefix to str.
+   *  As a side effect, it also adjusts the current indentation level
+   *  up by one if str contains a '{' character, or down by one if
+   *  it contains a '}' character.
+   *
+   * @param str The line to be indented.  Should not contain newlines.
+   * @return    The indented line.
+   */
+  public static String indent(String str)
   {
     int front = str.indexOf('{');
     int rear = str.indexOf('}');
     if (front >= 0) {
       str = m_strIndentation + str;
-      goFurther();
+      expand();
     }
     if (rear >= 0) {
       shrink();
