@@ -58,7 +58,6 @@ public class GreedyTester extends RandomTester
   {
     // Note that these actions may not be enabled in the current state
     BitSet toDo = graph_.getTodo(model_.getCurrentState());
-    System.err.println("Greedy at state "+model_.getCurrentState()+" sees toDo="+toDo);
     if (toDo != null && toDo.cardinality() > 0) {
       // try to choose one of these toDo transitions, randomly
       BitSet tryToDo = (BitSet) toDo.clone();

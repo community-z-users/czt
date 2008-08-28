@@ -39,11 +39,13 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *  determines which parts of the model are explored.
  *
  *  As well as building the graph, this listener also keeps track of
- *  which paths have not yet been explored.
- *
- *  TODO: this would be simpler if we maintained fsmDone_ and
- *  fsmEnabled_ (meaning that the guard was true at least once), and
- *  calculated todo when requested.
+ *  which paths have not yet been explored.  Internally, it keeps track
+ *  of two bitsets for each node/state.  The 'done_' set records the 
+ *  outgoing transitions that have been taken/explored since the last
+ *  call to clearDoneTodo().  The 'wasEnabled_' set records the actions that
+ *  have been observed to have true guards at some point since the last
+ *  call to clearDoneTodo() (this includes implicitly true guards, where the
+ *  action has no explicit guard).
  */
 public class GraphListener extends AbstractListener
 {
@@ -56,22 +58,12 @@ public class GraphListener extends AbstractListener
    *  Here are several invariants of the graph structures:
    *  <ul>
    *    <li>fsmState is the current state we are exploring.</li>
-   *    <li>fsmTodo_ does not contain any empty BitSets.</li>
-   *    <li>fsmDone_ can contain empty BitSets and its domain is
-   *        the same as the domain of fsmVertex_ (or a subset of it
-   *        if clearDone has been called).</li>
-   *    <li>for every transition (s0,action,s1) in the FSM, at most
-   *    one of the following is true:
-   *    <ol>
-   *      <li>s0 has not yet been visited, or</li>
-   *      <li>s0 has been visited, is in fsmVertex_, and fsmTodo_(s0) has
-   *          a bit set for every 'TODO' action (an action that has had a
-   *          true guard and has not been taken) since the last clearTodo
-   *          call, or</li>
-   *      <li>so has been visited, is in fsmVertex_, (s0,action,s1) has
-   *          been added to fsmGraph_ and fsmDone_(s0) has a bit set for
-   *          action (unless clearDone was called since the transition was
-   *          taken).</li>
+   *    <li>for any state S and action A, 
+   *        isDone(S,A) implies wasEnabled_.get(S).get(A).</li>
+   *    <li>the domains of done_ and wasEnabled_ are a subset of the
+   *        domain of vertex_.</li>
+   *    <li>for any transition (S1,A,S2), isDone(S1,A) implies that
+   *        the transition is in graph_.</li>
    *    <ol>
    *  </ul>
    */
@@ -86,33 +78,40 @@ public class GraphListener extends AbstractListener
   /** Records the (state,action) pairs that have been explored.
    *  There is an entry in this map for every state that has been visited.
    */
-  private Map<Object,BitSet> fsmDone_;
+  private Map<Object,BitSet> done_;
 
-  /** Records the (state,action) pairs that have not been explored. */
-  private Map<Object,BitSet> fsmTodo_;
+  /** Records the (state,action) pairs that have had true guard. */
+  private Map<Object,BitSet> wasEnabled_;
 
-  /** Returns true when the graph seems to be completely explored.
-   *  That is, when numTodo()==0.  However, this is only a heuristic,
+  /** This remembers whether this graph has been complete. */
+  private boolean complete_ = false;
+  
+  /** Returns true after the graph seems to be completely explored.
+   *  That is, when numTodo()==0 at some point in the past.
+   *  However, this is only a heuristic,
    *  and it is quite possible that a few more non-deterministic or
    *  rarely-enabled transitions will be found by further test generation.
    *
-   * @return true if numTodo() == 0.
+      * @return true if numTodo() was or is 0.
    */
   public boolean isComplete()
   {
-    return fsmTodo_.size() == 0;
+    return complete_;
   }
 
   /** Returns the number of unexplored paths/branches in the graph.
    *
-   *  TODO: could make this efficient by caching or maintaining the sum
-   *       of the number of todo bits.
+   *  TODO: make this efficient by maintaining the sum
+   *       of the number of done_ and wasEnabled_ bits
+   *       and returning the difference.
    */
   public int numTodo()
   {
     int result = 0;
-    for (BitSet bits : fsmTodo_.values()) {
-      result += bits.cardinality();
+    for (Map.Entry<Object, BitSet> e : wasEnabled_.entrySet()) {
+      BitSet enabled = e.getValue();
+      BitSet done = done_.get(e.getKey());
+      result += enabled.cardinality() - (done==null ? 0 : done.cardinality());
     }
     return result;
   }
@@ -125,33 +124,31 @@ public class GraphListener extends AbstractListener
    */
   public boolean isTodo(Object state, int action)
   {
-    BitSet todo = fsmTodo_.get(state);
-    if (todo == null)
+    BitSet enabled = wasEnabled_.get(state);
+    if (enabled == null)
       return false;
-    return todo.get(action);
+    BitSet done = done_.get(state);
+    return enabled.get(action) && (done==null || ! done.get(action));
   }
 
   /**
    *  Returns a bitset of all the TODO bits for this state.
-   *  The result will be null if there are no TODO bits set
-   *  (that is, all actions have been done, or have always had false guards).
-   *  Callers should treat the returned BitSet as immutable, so should
-   *  clone it before modifying it.
+   *  Callers can mutate the returned BitSet.
    * @param state
-   * @return A BitSet with at least one bit true, else null.
+   * @return A copy of a non-null BitSet.
    */
   public BitSet getTodo(Object state)
   {
-    return fsmTodo_.get(state);
-  }
-
-  /** Resets all the todo information.
-   *  Immediately after calling this, getTodo will return null
-   *  for every state, and isTodo will return false.
-   */
-  public void clearTodo()
-  {
-    fsmTodo_ = new HashMap<Object,BitSet>();
+    BitSet enabled = wasEnabled_.get(state);
+    if (enabled == null) {
+      return new BitSet();
+    }
+    BitSet result = (BitSet) enabled.clone();
+    BitSet done = done_.get(state);
+    if (done != null) {
+      result.andNot(done);
+    }
+    return result;
   }
 
   /** True if the given action has been executed from the given state.
@@ -161,7 +158,7 @@ public class GraphListener extends AbstractListener
    */
   public boolean isDone(Object state, int action)
   {
-    BitSet done = fsmDone_.get(state);
+    BitSet done = done_.get(state);
     if (done == null)
       return false;
     return done.get(action);
@@ -169,25 +166,38 @@ public class GraphListener extends AbstractListener
 
   /**
    *  Returns a bitset of all the DONE bits for this state.
-   *  The result should never be null once the given state has
-   *  been visited (since the most recent call to clearDone()).
-   *  Callers should treat the returned BitSet as immutable, so should
-   *  clone it before modifying it.
+   *  Callers can mutate the returned BitSet.
    * @param state
-   * @return A BitSet.
+   * @return A non-null BitSet.
    */
   public BitSet getDone(Object state)
   {
-    return fsmDone_.get(state);
+    BitSet result = done_.get(state);
+    if (result == null) {
+      return new BitSet();
+    }
+    else {
+      return (BitSet) result.clone();
+    }
   }
 
-  /** Resets all the done information.
-   *  Immediately after calling this, getDone will return null
-   *  for every state and isDone will return false.
+  /** Resets all the done and todo information.
+   *  Immediately after calling this, isDone and isTodo will return false
+   *  for every state and action.
    */
-  public void clearDone()
+  public void clearDoneTodo()
   {
-    fsmDone_ = new HashMap<Object,BitSet>();
+    if (! model_.isInitialState()) {
+      model_.doReset("graphlistener");
+    }
+    Object curr = model_.getCurrentState();
+    assert curr != null;
+    done_ = new HashMap<Object,BitSet>();
+    wasEnabled_ = new HashMap<Object,BitSet>();
+    BitSet enabled = model_.enabledGuards();
+    if (enabled.isEmpty())
+      throw new FsmException("Initial state has no actions enabled.");
+    wasEnabled_.put(curr, enabled);
   }
 
   /** Returns the graph of the FSM model.
@@ -228,25 +238,15 @@ public class GraphListener extends AbstractListener
   public void setModel(Model model)
   {
     super.setModel(model);
-    if (! model_.isInitialState()) {
-      model_.doReset("graphlistener");
-    }
-    Object curr = model_.getCurrentState();
-    assert curr != null;
+    clearDoneTodo();
+    Object curr = model_.getCurrentState(); //the initial state
+    // set up the initial state
     fsmGraph_ = new IncidenceListGraph();
     fsmVertex_ = new HashMap<Object,Vertex>();
-    fsmDone_ = new HashMap<Object,BitSet>();
-    fsmTodo_ = new HashMap<Object,BitSet>();
-    // set up the initial state
     Vertex initial = fsmGraph_.insertVertex(curr);
     assert initial != null;
     printProgress(3, "buildgraph: start with vertex for initial state "+curr);
     fsmVertex_.put(curr, initial);
-    fsmDone_.put(curr, new BitSet());
-    BitSet enabled = model_.enabledGuards();
-    if (enabled.isEmpty())
-      throw new FsmException("Initial state has no actions enabled.");
-    fsmTodo_.put(curr, enabled);
   }
 
   /** Saves the FSM graph into the given file, in DOT format.
@@ -345,49 +345,34 @@ public class GraphListener extends AbstractListener
           +actionName+","+newState+")");
     }
 
-    // Now update fsmDone_ of the old state
-    BitSet oldDone = fsmDone_.get(oldState);
+    // Now update done_ of the old state
+    BitSet oldDone = done_.get(oldState);
     if (oldDone == null) {
       oldDone = new BitSet(); // all false
-      fsmDone_.put(oldState, oldDone);
+      done_.put(oldState, oldDone);
     }
     // now set the bit for the transition we've just done
     oldDone.set(action);
 
-    // Now update fsmTodo_ for the new state
-    BitSet enabled = model_.enabledGuards();
-    BitSet newTodo = fsmTodo_.get(newState);
-    if (newTodo == null) {
-      newTodo = enabled;
-      fsmTodo_.put(newState, newTodo);
+    // Now update wasEnabled_ of the new state
+    BitSet nowTrue = model_.enabledGuards();
+    BitSet wasTrue = wasEnabled_.get(newState);
+    if (wasTrue == null) {
+      wasTrue = nowTrue;
+      wasEnabled_.put(newState, wasTrue);
     }
     else {
-      newTodo.or(enabled);
-    }
-    // now clear any already-done bits in newTodo
-    BitSet newDone = fsmDone_.get(newState);
-    if (newDone != null) {
-      newTodo.andNot(newDone);
-    }
-    if (newTodo.isEmpty()) {
-      fsmTodo_.remove(newState);
+      wasTrue.or(nowTrue);
     }
 
-    // New update (clear) some fsmTodo_ flags of oldState
-    BitSet oldTodo = fsmTodo_.get(oldState);
-    if (oldTodo != null) {
-      oldTodo.clear(action);
-      if (oldTodo.isEmpty()) {
-        fsmTodo_.remove(oldState);
-        if (isComplete()) {
-          // tell all the listeners about the graph
-          printProgress(2, "completed graph, so calling setGraph");
-          for (String name : model_.getListenerNames()) {
-            ModelListener listen = model_.getListener(name);
-            if (listen instanceof CoverageMetric) {
-              ((CoverageMetric)listen).setGraph(fsmGraph_, fsmVertex_);
-            }
-          }
+    if (! complete_ && numTodo() == 0) {
+      complete_ = true; // so we don't do this repeatedly
+      // tell all the listeners about the graph
+      printProgress(2, "completed graph, so calling setGraph");
+      for (String name : model_.getListenerNames()) {
+        ModelListener listen = model_.getListener(name);
+        if (listen instanceof CoverageMetric) {
+          ((CoverageMetric)listen).setGraph(fsmGraph_, fsmVertex_);
         }
       }
     }

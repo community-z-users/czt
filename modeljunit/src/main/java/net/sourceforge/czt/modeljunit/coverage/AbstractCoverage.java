@@ -148,6 +148,9 @@ public abstract class AbstractCoverage
    */
   public int getMaximum()
   {
+    if (maxCoverage_ > 0 && maxCoverage_ < coverage_.size()) {
+      maxCoverage_ = coverage_.size();
+    }
     return maxCoverage_;
   }
 

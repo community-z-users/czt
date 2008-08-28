@@ -117,8 +117,8 @@ public class QuiDoncTest extends TestCase
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
     output_.write("transhist="+metric.toCSV()+"\n");
-    Assert.assertEquals(17, coverage);   // TODO: investigate this
-    Assert.assertEquals(16, metric.getMaximum());
+    Assert.assertEquals(17, coverage);
+    Assert.assertEquals(17, metric.getMaximum());
     Assert.assertEquals("Incorrect history size.", 101, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));

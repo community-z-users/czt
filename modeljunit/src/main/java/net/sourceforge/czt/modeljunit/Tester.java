@@ -210,13 +210,12 @@ public abstract class Tester
     Random old = rand_;
     rand_ = new Random(FIXEDSEED);
     // make sure there is a graph listener
-    System.out.println("BUILDGRAPH starting");
     GraphListener graph = (GraphListener) model_.addListener("graph");
     boolean wasTesting = model_.setTesting(false);
     model_.doReset("Buildgraph");
     do {
-      generate(100);
-      maxSteps -= 100;
+      generate(10);
+      maxSteps -= 10;
     }
     while (graph.numTodo() > 0 && maxSteps > 0);
 
@@ -230,11 +229,9 @@ public abstract class Tester
     model_.setTesting(wasTesting);
     model_.doReset("Buildgraph");
     if (clear) {
-      graph.clearDone();
-      graph.clearTodo();
+      graph.clearDoneTodo();
     }
 
-    System.out.println("BUILDGRAPH done with todo="+todo+" clear="+clear);
     // restore the original random number generator.
     rand_ = old;
     return graph;
