@@ -393,8 +393,9 @@ public class Model
     return result;
   }
 
-  /** Return the bitset of all actions that are enabled
-   *  in the current state. */
+  /** Return a fresh BitSet of all actions that are enabled
+   *  in the current state.  Callers are free to mutate the result.
+   */
   public BitSet enabledGuards()
   {
     BitSet enabled = new BitSet();

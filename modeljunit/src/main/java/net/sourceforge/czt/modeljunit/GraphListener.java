@@ -40,6 +40,10 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *
  *  As well as building the graph, this listener also keeps track of
  *  which paths have not yet been explored.
+ *
+ *  TODO: this would be simpler if we maintained fsmDone_ and
+ *  fsmEnabled_ (meaning that the guard was true at least once), and
+ *  calculated todo when requested.
  */
 public class GraphListener extends AbstractListener
 {
@@ -131,6 +135,8 @@ public class GraphListener extends AbstractListener
    *  Returns a bitset of all the TODO bits for this state.
    *  The result will be null if there are no TODO bits set
    *  (that is, all actions have been done, or have always had false guards).
+   *  Callers should treat the returned BitSet as immutable, so should
+   *  clone it before modifying it.
    * @param state
    * @return A BitSet with at least one bit true, else null.
    */
@@ -164,7 +170,9 @@ public class GraphListener extends AbstractListener
   /**
    *  Returns a bitset of all the DONE bits for this state.
    *  The result should never be null once the given state has
-   *  been visited.
+   *  been visited (since the most recent call to clearDone()).
+   *  Callers should treat the returned BitSet as immutable, so should
+   *  clone it before modifying it.
    * @param state
    * @return A BitSet.
    */
@@ -310,34 +318,15 @@ public class GraphListener extends AbstractListener
     String actionName = tr.getAction();
     Object newState = tr.getEndState();
     assert newState == model_.getCurrentState();
-    BitSet enabled = model_.enabledGuards();
     // see if this newState is an unknown one.
     Vertex newVertex = fsmVertex_.get(newState);
     if (newVertex == null) {
       // we have reached a new state, so add & analyze it.
       newVertex = fsmGraph_.insertVertex(newState);
       fsmVertex_.put(newState, newVertex);
-      fsmDone_.put(newState, new BitSet());
       printProgress(3, "buildgraph: Added vertex for state "+newState);
-      if ( ! enabled.isEmpty())
-        fsmTodo_.put(newState, enabled);
     }
-    else {
-      // see if we need to add some bits to fsmTodo_.
-      BitSet done = fsmDone_.get(newState);
-      if (done == null) {
-        done = new BitSet();
-        fsmDone_.put(newState, done);
-      } 
-      enabled.andNot(done);
-      if ( ! enabled.isEmpty()) {
-        BitSet oldTodo = fsmTodo_.get(newState);
-        if (oldTodo == null)
-          fsmTodo_.put(newState, enabled);
-        else
-          oldTodo.or(enabled);
-      }
-    }
+
     // see if fsmGraph_ already contains this edge.
     boolean present = false;
     EdgeIterator edges = fsmGraph_.connectingEdges(oldVertex, newVertex);
@@ -352,24 +341,51 @@ public class GraphListener extends AbstractListener
     }
     if ( ! present) {
       fsmGraph_.insertDirectedEdge(oldVertex, newVertex, actionName);
-      fsmDone_.get(oldState).set(action);
       printProgress(3, "buildgraph: Added edge ("+oldState+","
           +actionName+","+newState+")");
+    }
 
-      // See if we can reduce the fsmTodo_ flags of oldState
-      BitSet bset = fsmTodo_.get(oldState);
-      if (bset != null) {
-        bset.clear(action);
-        if (bset.isEmpty()) {
-          fsmTodo_.remove(oldState);
-          if (isComplete()) {
-            // tell all the listeners about the graph
-            printProgress(2, "completed graph, so calling setGraph");
-            for (String name : model_.getListenerNames()) {
-              ModelListener listen = model_.getListener(name);
-              if (listen instanceof CoverageMetric) {
-                ((CoverageMetric)listen).setGraph(fsmGraph_, fsmVertex_);
-              }
+    // Now update fsmDone_ of the old state
+    BitSet oldDone = fsmDone_.get(oldState);
+    if (oldDone == null) {
+      oldDone = new BitSet(); // all false
+      fsmDone_.put(oldState, oldDone);
+    }
+    // now set the bit for the transition we've just done
+    oldDone.set(action);
+
+    // Now update fsmTodo_ for the new state
+    BitSet enabled = model_.enabledGuards();
+    BitSet newTodo = fsmTodo_.get(newState);
+    if (newTodo == null) {
+      newTodo = enabled;
+      fsmTodo_.put(newState, newTodo);
+    }
+    else {
+      newTodo.or(enabled);
+    }
+    // now clear any already-done bits in newTodo
+    BitSet newDone = fsmDone_.get(newState);
+    if (newDone != null) {
+      newTodo.andNot(newDone);
+    }
+    if (newTodo.isEmpty()) {
+      fsmTodo_.remove(newState);
+    }
+
+    // New update (clear) some fsmTodo_ flags of oldState
+    BitSet oldTodo = fsmTodo_.get(oldState);
+    if (oldTodo != null) {
+      oldTodo.clear(action);
+      if (oldTodo.isEmpty()) {
+        fsmTodo_.remove(oldState);
+        if (isComplete()) {
+          // tell all the listeners about the graph
+          printProgress(2, "completed graph, so calling setGraph");
+          for (String name : model_.getListenerNames()) {
+            ModelListener listen = model_.getListener(name);
+            if (listen instanceof CoverageMetric) {
+              ((CoverageMetric)listen).setGraph(fsmGraph_, fsmVertex_);
             }
           }
         }
