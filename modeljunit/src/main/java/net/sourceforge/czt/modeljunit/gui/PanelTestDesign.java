@@ -622,27 +622,27 @@ public class PanelTestDesign extends PanelAbstract
       buf.append(Indentation.SEP);
       buf
           .append(Indentation
-              .indent("System.out.println(\"State coverage: \"+stateCoverage.toString());"));
+              .indent("System.out.println(\"State coverage = \"+stateCoverage.toString());"));
     }
 
     if (m_checkCoverage[1].isSelected()) {
       buf.append(Indentation.SEP);
       buf
           .append(Indentation
-              .indent("System.out.println(\"Transition coverage: \"+transitionCoverage.toString());"));
+              .indent("System.out.println(\"Transition coverage = \"+transitionCoverage.toString());"));
     }
 
     if (m_checkCoverage[2].isSelected()) {
       buf.append(Indentation.SEP);
       buf
           .append(Indentation
-              .indent("System.out.println(\"Transition pair coverage: \"+transitionPairCoverage.toString());"));
+              .indent("System.out.println(\"Transition pair coverage = \"+transitionPairCoverage.toString());"));
     }
     if (m_checkCoverage[3].isSelected()) {
       buf.append(Indentation.SEP);
       buf
           .append(Indentation
-              .indent("System.out.println(\"Action coverage: \"+actionCoverage.toString());"));
+              .indent("System.out.println(\"Action coverage = \"+actionCoverage.toString());"));
     }
 
     if (m_checkCoverage[CHECKBOX_PAINTGRAPH].isSelected()) {

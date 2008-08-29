@@ -16,6 +16,7 @@ import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
 import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
+import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
@@ -179,24 +180,24 @@ public class TestExeModel
     // Generate graph
     if (bCoverage[0] || bCoverage[1] || bCoverage[2] || bCoverage[3])
       m_tester[0].buildGraph();
-    CoverageHistory[] coverage = new CoverageHistory[COVERAGE_NUM];
+    CoverageMetric[] coverage = new CoverageMetric[COVERAGE_NUM];
 
     if (bCoverage[0]) {
-      coverage[0] = new CoverageHistory(new StateCoverage(), 1);
+      coverage[0] = new StateCoverage();
       m_tester[0].addCoverageMetric(coverage[0]);
     }
 
     if (bCoverage[1]) {
-      coverage[1] = new CoverageHistory(new TransitionCoverage(), 1);
+      coverage[1] = new TransitionCoverage();
       m_tester[0].addCoverageMetric(coverage[1]);
     }
 
     if (bCoverage[2]) {
-      coverage[2] = new CoverageHistory(new TransitionPairCoverage(), 1);
+      coverage[2] = new TransitionPairCoverage();
       m_tester[0].addCoverageMetric(coverage[2]);
     }
     if (bCoverage[3]) {
-      coverage[3] = new CoverageHistory(new ActionCoverage(), 1);
+      coverage[3] = new ActionCoverage();
       m_tester[0].addCoverageMetric(coverage[3]);
     }
 
@@ -252,8 +253,6 @@ public class TestExeModel
         try {
           newWriter.write(TestExeModel.COVERAGE_MATRIX[metric] + " = "
               + coverage[metric].toString() + "\n");
-          newWriter.write(TestExeModel.COVERAGE_MATRIX[metric] + " history = "
-              + coverage[metric].toCSV() + "\n");
         }
         catch (IOException e) {
           throw new RuntimeException(e);
