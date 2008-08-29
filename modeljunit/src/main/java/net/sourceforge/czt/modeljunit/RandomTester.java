@@ -53,6 +53,19 @@ public class RandomTester extends Tester
     this(new Model(fsm));
   }
 
+  public String getName()
+  {
+    return "Random Walk";
+  }
+
+  public String getDescription()
+  {
+    return "Walks through the model, choosing a random enabled action out of" +
+    		" each state.  It also performs random resets occasionally" +
+    		" (with a default probability of 5%), to ensure that all" +
+    		" paths from the initial state will eventually be explored.";
+  }
+
   /** The probability of spontaneously doing a reset rather than
    * a normal transition during random walks etc.
    * @return the reset probability

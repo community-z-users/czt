@@ -44,6 +44,18 @@ public class AllRoundTester extends Tester
     loopTolerance = 1;
   }
 
+  public String getName()
+  {
+    return "Loop-limited "+test.getName();
+  }
+
+  public String getDescription()
+  {
+    return "This tester limits another tester ("+test.getName()+")" +
+    		" so that it goes around loops a maximum number of times" +
+    		" (once by default).";
+  }
+
   /**
    *  The maximum number of times that any state can appear
    *  in a test sequence during test generation.

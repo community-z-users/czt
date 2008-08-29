@@ -172,6 +172,20 @@ public class LookaheadTester extends Tester
     this(new Model(fsm));
   }
 
+  public String getName()
+  {
+    return "Lookahead Walk";
+  }
+
+  public String getDescription()
+  {
+    return "At each state, this test generator looks ahead through all" +
+    		" the known paths, upto a fixed DEPTH, to find the path" +
+    		" that leads to an Action or a Transition that has not yet" +
+    		" been explored.  Can be exponentially slow if DEPTH is set" +
+    		" too large.";
+  }
+
   /**
    * Evaluate the desirability of reaching {@code state}.
    * However, at the top level of recursion (when {@code depth} equals
@@ -201,10 +215,15 @@ public class LookaheadTester extends Tester
       String actionName = (String) e.element();
       int actionNum = model_.getActionNumber(actionName);
       if (origin.equals(state)) {
-        assert graph_.isDone(state, actionNum);
         Transition tr = new Transition(origin, (String) e.element(), dest);
         Integer takenBefore = transitions_.getDetails().get(tr);
-        assert takenBefore != null;
+        if (takenBefore == null) {
+          // This means that the transitions_ coverage is less accurate
+          // than the graph_ coverage, probably because they were added
+          // at different times.
+          // But we know that this transition has been taken at least once.
+          takenBefore = 1;
+        }
         int destWorth = evalState(dest, depth - 1); // recursive lookahead
         int tempBest = destWorth - takenBefore.intValue();
         //System.out.println("  evalState(" + state + "," + depth
@@ -245,6 +264,7 @@ public class LookaheadTester extends Tester
       }
     }
     if (depth == DEPTH) {
+      // This is the start state of our lookahead
       assert state == model_.getCurrentState();
       //System.out.println("RETURN bestAction="+bestAction+" worth "+bestWorth);
       return bestAction;

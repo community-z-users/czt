@@ -73,6 +73,12 @@ public abstract class Tester
     this(new Model(fsm));
   }
 
+  /** The name of this test generation algorithm. */
+  public abstract String getName();
+
+  /** A brief description of this test generation algorithm. */
+  public abstract String getDescription();
+
   /**
    * @return The model that is driving the test generation.
    */
@@ -155,6 +161,7 @@ public abstract class Tester
     }
   }
 
+  /** Performs a user-requested reset of the model. */
   public void reset()
   {
     model_.doReset();  // a user-requested reset

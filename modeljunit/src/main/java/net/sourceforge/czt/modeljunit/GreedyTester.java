@@ -54,6 +54,21 @@ public class GreedyTester extends RandomTester
     this(new Model(fsm));
   }
 
+  @Override
+  public String getName()
+  {
+    return "Greedy Random Walk";
+  }
+
+  @Override
+  public String getDescription()
+  {
+    return "Similar to a random walk, but always takes an unexplored" +
+    		" transition if one is enabled in the current state. " +
+    		" This gives faster transition coverage initially, then" +
+    		" has the same behaviour as a random walk.";
+  }
+
   protected int doGreedyRandomAction()
   {
     // Note that these actions may not be enabled in the current state

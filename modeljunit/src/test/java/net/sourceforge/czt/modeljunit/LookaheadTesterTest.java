@@ -86,7 +86,7 @@ public class LookaheadTesterTest extends TestCase
     Tester test = new GreedyTester(new SimpleSet());
     GraphListener graph = (GraphListener) test.addListener("graph");
     test.buildGraph();
-    graph.printGraphDot("quidonc.dot");
+    graph.printGraphDot("simpleset.dot");
   }
 
   public void testGenerate1()
