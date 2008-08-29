@@ -93,14 +93,14 @@ public class SimpleSetWithAdaptor implements FsmModel
     checkSUT();
   }
 
-  @Action public void delS1()
+  @Action public void removeS1()
   {
     s1 = false;
     sut_.remove(str1);
     checkSUT();
   }
 
-  @Action public void delS2()
+  @Action public void removeS2()
   {
     // this one shows how we can test the result of sut_.remove(...)
     Assert.assertEquals(s2, sut_.remove(str2));
