@@ -32,8 +32,11 @@ import net.sourceforge.czt.modeljunit.Model;
 import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
+import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+import net.sourceforge.czt.modeljunit.examples.ecinema.ECinema;
 
 /** The performs some simple experiments on various test generation
  *  algorithms to compare the average size of the test suites that
@@ -44,7 +47,7 @@ import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 public class SizeExperiments 
 {
   /** Number of times to repeat each experiment, to get an average. */
-  public static final double RUNS = 1000.0;
+  public static final double RUNS = 100.0;
 
   /** Measures how long it takes tester to satisfy all-transitions coverage.
    *  It repeats this experiment RUNS times and returns the average.
@@ -53,7 +56,7 @@ public class SizeExperiments
    */
   public static double allTransitions(Tester tester)
   {
-    GraphListener graph = tester.buildGraph();
+    GraphListener graph = tester.buildGraph(100000);
     //tester.addListener(new VerboseListener()); //if you want to see the tests
     CoverageMetric trans = tester.addCoverageMetric(new TransitionCoverage());
     int total = 0;

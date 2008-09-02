@@ -10,10 +10,15 @@ import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.GraphListener;
 import net.sourceforge.czt.modeljunit.GreedyTester;
+import net.sourceforge.czt.modeljunit.LookaheadTester;
+import net.sourceforge.czt.modeljunit.RandomTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
+import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 
 /**
  *  A model of a simple eCinema.
@@ -50,15 +55,15 @@ public class ECinema implements FsmModel
   public User currentUser = null;
 
   /** This maps each username to the User object. */
-  public Map<String,User> all_registered_users = new HashMap<String,User>();
+  public Map<String,User> allUsers = new HashMap<String,User>();
 
   public Showtime[] showtimes = new Showtime[2];
 
   public Object getState()
   {
-    return state.toString();
-      // + "[" + message + "]"
-      // + ((currentUser==null) ? "" : currentUser.name);
+    return state.toString()
+       //+ "[" + message + "]"
+       + ((currentUser==null) ? "" : "_"+currentUser.name);
   }
 
   public void reset(boolean testing)
@@ -68,8 +73,8 @@ public class ECinema implements FsmModel
     currentUser = null;
 
     // one registered user
-    all_registered_users = new HashMap<String,User>();
-    all_registered_users.put("ERIC", new User("ERIC", "ETO"));
+    allUsers = new HashMap<String,User>();
+    allUsers.put("ERIC", new User("ERIC", "ETO"));
 
     // two showtimes
     showtimes[0] = new Showtime();
@@ -110,11 +115,11 @@ public class ECinema implements FsmModel
     else if (userPassword.equals("")) {
       message = "EMPTY_PASSWORD"; /*@REQ: CIN_032 @*/
     }
-    else if ( ! all_registered_users.containsKey(userName)) {
+    else if ( ! allUsers.containsKey(userName)) {
       message = "UNKNOWN_USER_NAME_PASSWORD"; /*@REQ: CIN_033 @*/
     }
     else {
-      User user_found = all_registered_users.get(userName);
+      User user_found = allUsers.get(userName);
       if (user_found.password.equals(userPassword)) {
         currentUser = user_found;
         message = "WELCOME";  /*@REQ: CIN_030 @*/
@@ -169,7 +174,7 @@ public class ECinema implements FsmModel
       String free_ticket_found = null;
       for (String ticket : shtime.tickets) {
         free_ticket_found = ticket;
-        for (User user : all_registered_users.values()) {
+        for (User user : allUsers.values()) {
           if (user.tickets.contains(ticket)) {
             free_ticket_found = null;
             break;
@@ -229,39 +234,39 @@ public class ECinema implements FsmModel
     state = State.register; /*@REQ: CIN_010 @*/
   }
 
-  public boolean registerAmandineGuard() {return registrationGuard("AMANDINE");}
-  public boolean registerEricGuard() {return registrationGuard("ERIC");}
-  public boolean registerEmptyGuard() {return registrationGuard("");}
-  @Action public void registerAmandine() {registration("AMANDINE", "ACH");}
-  @Action public void registerEric() {registration("ERIC", "ACH");}
-  @Action public void registerEmpty() {registration("", "ACH");}
+  public boolean registerAmandineGuard() {return regGuard("AMANDINE");}
+  public boolean registerEricGuard() {return regGuard("ERIC");}
+  public boolean registerEmptyGuard() {return regGuard("");}
+  @Action public void registerAmandine() {reg("AMANDINE", "ACH");}
+  @Action public void registerEric() {reg("ERIC", "ACH");}
+  @Action public void registerEmpty() {reg("", "ACH");}
 
-  public boolean registrationGuard(String userName)
+  public boolean regGuard(String userName)
   {
     return state == State.register;
   }
-  public void registration(String userName, String userPassword)
+  public void reg(String userName, String userPassword)
   {
     if (userName.equals("")) {
       message = "EMPTY_USERNAME"; /*@REQ: CIN_020@*/
     }
-    if (all_registered_users.containsKey(userName)) {
+    if (allUsers.containsKey(userName)) {
       message = "EXISTING_USER_NAME"; /*@REQ: CIN_040@*/
     }
     else {
       User newUser = new User(userName, userPassword);
-      all_registered_users.put(userName, newUser);
+      allUsers.put(userName, newUser);
       currentUser = newUser;
       message="WELCOME"; /*@REQ: CIN_050@*/
       state = State.welcome;
     }
   }
 
-  public boolean showBoughtTicketsGuard()
+  public boolean displayTicketsGuard()
   {
     return state == State.welcome;
   }
-  @Action public void showBoughtTickets()
+  @Action public void displayTickets()
   {
     if (currentUser == null) {
       message = "LOGIN_FIRST"; /*@REQ: CIN_063@*/
@@ -303,14 +308,23 @@ public class ECinema implements FsmModel
 
   public static void main(String[] args) throws FileNotFoundException
   {
-    Tester tester = new GreedyTester(new ECinema());
-    GraphListener graph = tester.buildGraph();
+    Tester tester = new RandomTester(new ECinema());
+    // The guards make this a more difficult graph to explore, but we can
+    // increase the default maximum search to complete the exploration.
+    GraphListener graph = tester.buildGraph(100000);
     graph.printGraphDot("ecinema.dot");
-    CoverageMetric trans = (CoverageMetric) tester.addListener("transition coverage");
+    CoverageMetric trans = tester.addCoverageMetric(new TransitionCoverage());
+    CoverageMetric trpairs = tester.addCoverageMetric(new TransitionPairCoverage());
+    CoverageMetric states = tester.addCoverageMetric(new StateCoverage());
+    CoverageMetric actions = tester.addCoverageMetric(new ActionCoverage());
     tester.addListener("verbose");
     // this illustrates how to generate tests upto a given level of coverage.
-    while (trans.getPercentage() < 100) {
+    int steps = 0;
+    while (actions.getPercentage() < 100 /* || steps < 1000*/) {
       tester.generate();
+      steps++;
     }
+    System.out.println("Generated "+steps+" steps.");
+    tester.printCoverage();
   }
 }

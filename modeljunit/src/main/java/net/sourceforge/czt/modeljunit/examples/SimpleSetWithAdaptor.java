@@ -20,6 +20,7 @@
 package net.sourceforge.czt.modeljunit.examples;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -28,6 +29,8 @@ import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
+import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 
 /** A model of a set with two elements: s1 and s2.
  *
@@ -123,9 +126,12 @@ public class SimpleSetWithAdaptor implements FsmModel
   /** An example of generating tests from this model. */
   public static void main(String[] args)
   {
-    Set<String> sut = new StringSet(); //or StringSetBuggy();
+    Set<String> sut = new StringSet(); // StringSetBuggy();
     Tester tester = new GreedyTester(new SimpleSetWithAdaptor(sut));
+    //tester.buildGraph(); // to get better statistics
     tester.addListener(new VerboseListener());
-    tester.generate(100);
+    CoverageMetric trans = tester.addCoverageMetric(new TransitionCoverage());
+    tester.generate(50);
+    tester.printCoverage();
   }
 }

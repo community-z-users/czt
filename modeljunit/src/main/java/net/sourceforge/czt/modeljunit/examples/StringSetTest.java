@@ -25,6 +25,7 @@ import java.util.Set;
 import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.modeljunit.Tester;
 import net.sourceforge.czt.modeljunit.VerboseListener;
+import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import junit.framework.TestCase;
 
 /** A simple example of a JUnit test that uses model-based
@@ -43,7 +44,9 @@ public class StringSetTest extends TestCase
   {
     Set<String> sut = new StringSet();
     Tester tester = new GreedyTester(new SimpleSetWithAdaptor(sut));
+    tester.addCoverageMetric(new TransitionCoverage());
     tester.addListener("verbose");
-    tester.generate(150);
+    tester.generate(60);
+    tester.printCoverage(); // print the model coverage information
   }
 }
