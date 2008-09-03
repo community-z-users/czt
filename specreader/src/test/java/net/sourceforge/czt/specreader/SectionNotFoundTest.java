@@ -28,6 +28,6 @@ public class SectionNotFoundTest extends TestCase
    */
   public void testSectionNotFound()
   {
-    SpecReaderTest.specReaderTest("sectionnotfound", this);
+    SpecReaderTester.specReaderTester("sectionnotfound", this);
   }
 }

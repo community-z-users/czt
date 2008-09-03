@@ -28,6 +28,6 @@ public class PermuteMarkupTest extends TestCase
    */
   public void testPermuteMarkup()
   {
-    SpecReaderTest.specReaderTest("permutemarkup", this);
+    SpecReaderTester.specReaderTester("permutemarkup", this);
   }
 }

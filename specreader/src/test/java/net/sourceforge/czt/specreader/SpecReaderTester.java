@@ -24,9 +24,9 @@ import static junit.framework.Assert.*;
 import java.io.Reader;
 import java.io.IOException;
 
-public class SpecReaderTest
+public class SpecReaderTester
 {
-  public static void specReaderTest(String basename, Object testCase)
+  public static void specReaderTester(String basename, Object testCase)
   {
     final int len = 65536;    // Enough to get entire input file from one call to read()
     final char[] cbuf_expected = new char[len];

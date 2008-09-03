@@ -28,6 +28,6 @@ public class DupSectionsTest extends TestCase
    */
   public void testDupSections()
   {
-    SpecReaderTest.specReaderTest("dupsections", this);
+    SpecReaderTester.specReaderTester("dupsections", this);
   }
 }

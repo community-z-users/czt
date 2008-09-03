@@ -28,6 +28,6 @@ public class PreludeTest extends TestCase
    */
   public void testPrelude()
   {
-    SpecReaderTest.specReaderTest("prelude", this);
+    SpecReaderTester.specReaderTester("prelude", this);
   }
 }

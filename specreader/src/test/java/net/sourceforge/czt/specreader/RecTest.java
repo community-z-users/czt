@@ -28,6 +28,6 @@ public class RecTest extends TestCase
    */
   public void testRec()
   {
-    SpecReaderTest.specReaderTest("rec1", this);
+    SpecReaderTester.specReaderTester("rec1", this);
   }
 }

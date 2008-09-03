@@ -539,7 +539,6 @@ specreader/src/test/java/net/sourceforge/czt/specreader/PermuteMarkupTest.java -
 specreader/src/test/java/net/sourceforge/czt/specreader/PreludeTest.java -text
 specreader/src/test/java/net/sourceforge/czt/specreader/RecTest.java -text
 specreader/src/test/java/net/sourceforge/czt/specreader/SectionNotFoundTest.java -text
-specreader/src/test/java/net/sourceforge/czt/specreader/SpecReaderTest.java -text
 specreader/src/test/resources/lib/anonsection.tex -text
 specreader/src/test/resources/lib/anonsection_expected.tex -text
 specreader/src/test/resources/lib/dupsections.tex -text

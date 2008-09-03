@@ -28,6 +28,6 @@ public class AnonSectionTest extends TestCase
    */
   public void testAnonSection()
   {
-    SpecReaderTest.specReaderTest("anonsection", this);
+    SpecReaderTester.specReaderTester("anonsection", this);
   }
 }
