@@ -20,8 +20,9 @@
 package net.sourceforge.czt.ui;
 
 import static junit.framework.Assert.*;
+import junit.framework.*;
 
-public class MainTest
+public class MainTest extends TestCase
 {
   /**
    * @org.junit.Test

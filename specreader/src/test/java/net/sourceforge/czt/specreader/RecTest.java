@@ -19,7 +19,9 @@
 
 package net.sourceforge.czt.specreader;
 
-public class RecTest
+import junit.framework.*;
+
+public class RecTest extends TestCase
 {
   /**
    * @org.junit.Test

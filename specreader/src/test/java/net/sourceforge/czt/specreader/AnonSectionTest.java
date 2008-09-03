@@ -19,7 +19,9 @@
 
 package net.sourceforge.czt.specreader;
 
-public class AnonSectionTest
+import junit.framework.*;
+
+public class AnonSectionTest extends TestCase
 {
   /**
    * @org.junit.Test

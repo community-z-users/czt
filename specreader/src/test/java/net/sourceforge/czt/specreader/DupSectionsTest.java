@@ -19,7 +19,9 @@
 
 package net.sourceforge.czt.specreader;
 
-public class DupSectionsTest
+import junit.framework.*;
+
+public class DupSectionsTest extends TestCase
 {
   /**
    * @org.junit.Test

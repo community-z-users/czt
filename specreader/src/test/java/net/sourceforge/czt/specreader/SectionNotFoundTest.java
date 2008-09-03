@@ -19,7 +19,9 @@
 
 package net.sourceforge.czt.specreader;
 
-public class SectionNotFoundTest
+import junit.framework.*;
+
+public class SectionNotFoundTest extends TestCase
 {
   /**
    * @org.junit.Test

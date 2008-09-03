@@ -19,7 +19,9 @@
 
 package net.sourceforge.czt.specreader;
 
-public class PermuteMarkupTest
+import junit.framework.*;
+
+public class PermuteMarkupTest extends TestCase
 {
   /**
    * @org.junit.Test

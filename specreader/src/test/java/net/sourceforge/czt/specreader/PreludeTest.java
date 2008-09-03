@@ -19,7 +19,9 @@
 
 package net.sourceforge.czt.specreader;
 
-public class PreludeTest
+import junit.framework.*;
+
+public class PreludeTest extends TestCase
 {
   /**
    * @org.junit.Test
