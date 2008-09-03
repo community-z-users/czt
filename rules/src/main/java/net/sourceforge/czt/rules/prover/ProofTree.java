@@ -21,6 +21,7 @@ package net.sourceforge.czt.rules.prover;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -269,7 +270,7 @@ public class ProofTree
         for (Iterator<RulePara> iter = rules_.iterator(); iter.hasNext();) {
           final RulePara rulePara = iter.next();
           if (apply(rulePara, node)) {
-            menuItem = new JMenuItem("Rule " + rulePara.getName());
+            menuItem = new JMenuItem(rulePara.getName());
             menuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                   apply(rulePara.getName(), node);
@@ -278,7 +279,7 @@ public class ProofTree
             apply.add(menuItem);
           }
           else {
-            menuItem = new JMenuItem("Rule " + rulePara.getName());
+            menuItem = new JMenuItem(rulePara.getName());
             menuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                   whyNot(rulePara.getName(), node);
@@ -403,10 +404,10 @@ public class ProofTree
         setToolTipText("Oracle");
         OracleNode node = (OracleNode) value;
         if (node.isClosed()) {
-          setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
+          setIcon("ok");
         }
         else {
-          setIcon(new ImageIcon(getClass().getResource("images/question.jpg")));
+	  setIcon("question.jpg");
         }
       }
       else if (value instanceof ProofNode) {
@@ -425,13 +426,25 @@ public class ProofTree
           setToolTipText("No rule has been applied to this sequent");
         }
         if (node.isClosed()) {
-          setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
+          setIcon("ok");
         }
         else {
-          setIcon(new ImageIcon(getClass().getResource("images/question.jpg")));
+          setIcon("question");
         }
       }
       return this;
+    }
+
+    private void setIcon(String iconName)
+    {
+      String s = "/net/sourceforge/czt/rules/images/" + iconName + ".jpg";
+      URL url = getClass().getResource(s);
+      if (url != null) {
+	setIcon(new ImageIcon(url));
+      }
+      else {
+	System.err.println(s + " not found!");
+      }
     }
   }
 }
