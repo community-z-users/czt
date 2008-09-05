@@ -407,7 +407,7 @@ public class ProofTree
           setIcon("ok");
         }
         else {
-	  setIcon("question.jpg");
+	  setIcon("question");
         }
       }
       else if (value instanceof ProofNode) {
