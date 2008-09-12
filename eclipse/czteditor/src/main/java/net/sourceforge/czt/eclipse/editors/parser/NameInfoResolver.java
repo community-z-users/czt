@@ -25,6 +25,7 @@ import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZName;
@@ -177,8 +178,8 @@ public class NameInfoResolver
     if (genericType == null)
       return;
     
-    Type type = genericType.getType();
-    if (type == null)
+    ListTerm<Type2> type = genericType.getType();
+    if (type == null || type.isEmpty())
       return;
     
     ZNameList nameList = genericType.getZNameList();
@@ -192,7 +193,12 @@ public class NameInfoResolver
         }
     }
     
-    visitType(existingNames, type, section);
+    // WAS: visitType(existingNames, type, section);
+    // MarkU: changed this to iterate thru the getType list, but it is not
+    //   clear from the docs whether this is the right thing to do.
+    for (Type2 t2 : type) {
+    	visitType(existingNames, t2, section);
+    }
   }
 
   private static void visitChildrenOfTerm(Map<ZName, NameInfo> existingNames, Term term, String section)
