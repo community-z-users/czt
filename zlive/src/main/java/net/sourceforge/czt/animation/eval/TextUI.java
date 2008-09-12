@@ -67,6 +67,7 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zpatt.ast.Deduction;
@@ -116,23 +117,60 @@ public class TextUI {
     PrintWriter output = new PrintWriter(System.out, true); // with autoflush
     output.println(ZLive.getBanner());
 
-    // save log messages into zlive.log, using our human-readable format
-    if (args.length > 0 && args[0].equals("-logrules")) {
-      output.println("Logging net.sourceforge.czt.rules...");
-      ZFormatter.startLogging("net.sourceforge.czt.rules",
-          "zlive.log", Level.FINEST);
-    }
-    else if (args.length > 0 && args[0].equals("-logeval")) {
-      output.println("Logging net.sourceforge.czt.animation.eval...");
-      ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
-          "zlive.log", Level.FINEST);
-    }
-    else if (args.length > 0)
-      output.println("Usage: [-logrules | -logeval]");
-
     TextUI ui = new TextUI(new ZLive(), output);
     ui.setSetting("printwidth", "80");
-    ui.mainLoop(input);
+    // we go interactive with this section selected.  null means exit
+    String interactiveSection = ui.getZLive().getCurrentSection();
+    int arg = 0;
+    while (arg < args.length) {
+      if (args[arg].equals("--help")) {
+        output.println("Options:");
+        output.println("  --help         (print this help message)");
+        output.println("  --logrules     (print rule-unfolding debug messages into zlive.log)");
+        output.println("  --logeval      (print evaluation debug messages into zlive.log)");
+        output.println("  --load SPEC    (load the Z specification SPEC)");
+        output.println("  --test SECTION (evaluate all conjectures in SECTION)");
+        output.println("If there are no --test arguments, ZLive goes into interactive mode,");
+        output.println("using the last section of the last SPEC loaded.");
+        return;
+      }
+      else if (args[arg].equals("--logrules")) {
+        arg++;
+        // save log messages into zlive.log, using our human-readable format
+        output.println("Logging net.sourceforge.czt.rules...");
+        ZFormatter.startLogging("net.sourceforge.czt.rules",
+            "zlive.log", Level.FINEST);
+      }
+      else if (args[arg].equals("--logeval")) {
+        arg++;
+        output.println("Logging net.sourceforge.czt.animation.eval...");
+        ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
+            "zlive.log", Level.FINEST);
+      }
+      else if (args[arg].equals("--load") && arg+1 < args.length) {
+        arg++;
+        String specName = args[arg++];
+        interactiveSection = ui.doLoadSpec(specName);
+      }
+      else if (args[arg].equals("--test") && arg+1 < args.length) {
+        arg++;
+        String sectionName = args[arg++];
+        interactiveSection = null; // process conjectures then exit
+        ui.getZLive().setCurrentSection(sectionName);
+        ui.doConjectures();
+      }
+      else {
+        output.println("Unknown command line options.  Try --help.");
+        return;
+      }
+    }
+    if (interactiveSection != null) {
+      if (! interactiveSection.equals(ui.getZLive().getCurrentSection())) {
+        output.println("Setting section to " + interactiveSection);
+        ui.getZLive().setCurrentSection(interactiveSection);
+      }
+      ui.mainLoop(input);
+    }
   }
 
   /** Constructs a new ZLive textual user interface.
@@ -439,13 +477,16 @@ public class TextUI {
   {
     SectionManager manager = zlive_.getSectionManager();
     final String section = zlive_.getCurrentSection();
+    int countTests = 0;
+    int countPassed = 0;
     if (section == null) {
       output_.println("Error: no current section.");
     }
     else {
       ZSect sect = (ZSect) manager.get(new Key<ZSect>(section, ZSect.class));
-      for (Para par : ZUtils.assertZParaList(sect.getParaList()))
+      for (Para par : ZUtils.assertZParaList(sect.getParaList())) {
         if (par instanceof ConjPara) {
+          countTests++;
           ConjPara conj = (ConjPara) par;
           LocAnn loc = (LocAnn) par.getAnn(LocAnn.class);
           if (loc != null) {
@@ -454,6 +495,9 @@ public class TextUI {
           try {
             Term result = zlive_.evalPred( conj.getPred() );
             zlive_.printTerm(output_, result, zlive_.getMarkup());
+            if (result instanceof TruePred) {
+              countPassed++;
+            }
             output_.println();
           }
           catch (Exception e) {
@@ -463,7 +507,9 @@ public class TextUI {
             e.printStackTrace(output_);
           }
         }
-      output_.println();
+      }
+      output_.println("In section "+section+" "
+          +countPassed+"/"+countTests+" passed");
     }
   }
 

@@ -37,7 +37,7 @@ public class ZFormatter extends SimpleFormatter {
   private int depth = 0;
 
   private final String PARAM_PREFIX = "\t\t";
-  
+
   private static Handler handler_;
 
   /** Helper method to start recording log messages to the
@@ -50,18 +50,20 @@ public class ZFormatter extends SimpleFormatter {
     // set up a specific logger with our human-readable format
     Logger logger = Logger.getLogger(where);
     logger.setLevel(detail);
-    try {
-      handler_ = new FileHandler(fileName);
-      handler_.setLevel(detail);
-      handler_.setEncoding("utf8");
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    if (handler_ == null) {
+      try {
+        handler_ = new FileHandler(fileName);
+        handler_.setLevel(detail);
+        handler_.setEncoding("utf8");
+        handler_.setFormatter(new ZFormatter());
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     }
-    handler_.setFormatter(new ZFormatter());
     logger.addHandler(handler_);
     logger.setUseParentHandlers(false); // just use this handler
   }
-  
+
   /** Stop the log messages that were started by startLogging. */
   public static void stopLogging(String where)
   {
@@ -76,7 +78,7 @@ public class ZFormatter extends SimpleFormatter {
     cls = cls.substring(cls.lastIndexOf('.')+1); // strip package name
     String meth = record.getSourceMethodName();
     String msg = record.getMessage();
-    
+
     // indent
     if (msg.startsWith("ENTRY"))
       depth++;
@@ -84,7 +86,7 @@ public class ZFormatter extends SimpleFormatter {
     indent.append(depth);
     for (int i=0; i<depth; i++)
       indent.append("  ");
-    
+
     // process parameters
     StringBuffer params = new StringBuffer();
     Object args[] = record.getParameters();
@@ -106,7 +108,7 @@ public class ZFormatter extends SimpleFormatter {
     }
     //assert depth >= 0;
 
-    return indent + cls + ":" + meth 
+    return indent + cls + ":" + meth
       + " " + msg + "\n" + params;
   }
 }
