@@ -232,7 +232,7 @@ public class FlattenVisitor
     if (((ZName)gtype.getName()).getWord().equals(ZString.ARITHMOS))
       return false;
 
-    System.out.println("GivenSet "+((ZName)gtype.getName()).getWord()+".");
+    //System.out.println("GivenSet "+((ZName)gtype.getName()).getWord()+".");
     return true;
   }
 
@@ -269,7 +269,7 @@ public class FlattenVisitor
     if (((ZName) gtype.getName()).getWord().equals(ZString.ARITHMOS))
       return false;
 
-    System.out.println("GivenValue "+((ZName) gtype.getName()).getWord()+".");
+    //System.out.println("GivenValue "+((ZName) gtype.getName()).getWord()+".");
     return true;
   }
 
