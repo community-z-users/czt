@@ -4,9 +4,11 @@
 
 package net.sourceforge.czt.eclipse.wizards;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URI;
 
 import org.eclipse.core.resources.IContainer;
@@ -18,8 +20,8 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
@@ -418,7 +420,7 @@ public class NewZSpecificationWizardPage extends WizardPage
     IContainer container = (IContainer) resource;
     final IFile file = container.getFile(new Path(fileName));
     try {
-      InputStream stream = openContentStream();
+      InputStream stream = openContentStream(fileName);
       if (file.exists()) {
         file.setContents(stream, true, true, monitor);
       }
@@ -426,7 +428,8 @@ public class NewZSpecificationWizardPage extends WizardPage
         file.create(stream, true, monitor);
       }
       stream.close();
-    } catch (IOException e) {
+    } catch (IOException ex) {
+      throwCoreException("Error reading template file", ex);
     }
     monitor.worked(1);
     monitor
@@ -438,23 +441,52 @@ public class NewZSpecificationWizardPage extends WizardPage
 
   /**
    * Initialize file contents with a sample text.
+   * 
+   * @param filename The name of the file (without directory).
+   * @throws IOException 
    */
-  private InputStream openContentStream()
+  private InputStream openContentStream(String filename) throws IOException
   {
-    if (fMarkupButtons[0].getSelection())
-      return getClass().getResourceAsStream(fSampleFiles[0]);
-    else if (fMarkupButtons[1].getSelection())
-      return getClass().getResourceAsStream(fSampleFiles[1]);
-    else if (fMarkupButtons[2].getSelection())
-      return getClass().getResourceAsStream(fSampleFiles[2]);
-
-    return null;
+    InputStream contents = null;
+    if (fMarkupButtons[0].getSelection()) {
+      contents = getClass().getResourceAsStream(fSampleFiles[0]);
+    }
+    else if (fMarkupButtons[1].getSelection()) {
+      contents = getClass().getResourceAsStream(fSampleFiles[1]);
+    }
+    else if (fMarkupButtons[2].getSelection()) {
+      contents = getClass().getResourceAsStream(fSampleFiles[2]);
+    }
+    assert contents != null;
+    // read contents into a string.
+    StringWriter swriter = new StringWriter();
+    while (contents.available() > 0) {
+      swriter.write(contents.read());
+    }
+    contents.close();
+    StringBuffer buf = swriter.getBuffer();
+    final String key = "<<FILENAME>>";  // this is what we look for, to replace
+    // turn filename into a suitable Z name.
+    // remove any directory and suffix, and allow only A-Za-z0-9.
+    int dotpos = filename.lastIndexOf(".");
+    int slashpos = filename.lastIndexOf("/");
+    String name = filename.substring(slashpos+1, 
+        (dotpos == -1) ? filename.length() : dotpos);
+    name = name.replaceAll("[^A-Za-z0-9]", "");
+    String result = buf.toString().replaceAll(key, name);
+    return new ByteArrayInputStream(result.getBytes());
   }
 
   private void throwCoreException(String message) throws CoreException
   {
-    IStatus status = new Status(IStatus.ERROR, "new.sourceforge.czt.eclipse",
-        IStatus.OK, message, null);
+    throwCoreException(message, null);
+  }
+
+  private void throwCoreException(String message, Throwable exception)
+  throws CoreException
+  {
+    IStatus status = new Status(IStatus.ERROR, "net.sourceforge.czt.eclipse",
+        IStatus.OK, message, exception);
     throw new CoreException(status);
   }
 

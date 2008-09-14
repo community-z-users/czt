@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry excluding="net/sourceforge/czt/eclipse/views/CztXmlHandler.java" kind="src" path="src/main/java"/>
 	<classpathentry kind="lib" path="lib/czt.jar"/>
+	<classpathentry kind="var" path="M2_REPO"/>
 	<classpathentry kind="output" path="eclipse_build"/>
 </classpath>

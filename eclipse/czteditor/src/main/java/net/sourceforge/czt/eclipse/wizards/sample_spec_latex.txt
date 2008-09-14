@@ -3,7 +3,7 @@
 
 \begin{document}
 \begin{zsection}
-  \SECTION MYSPEC \parents standard\_toolkit
+  \SECTION <<FILENAME>> \parents standard\_toolkit
 \end{zsection}
 
 This specification describes ...
