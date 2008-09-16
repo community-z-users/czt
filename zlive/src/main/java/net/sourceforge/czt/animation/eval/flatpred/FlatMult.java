@@ -38,6 +38,8 @@ import net.sourceforge.czt.z.util.Factory;
 public class FlatMult extends FlatPred
 {
   private Factory factory_ = new Factory();
+  private Bounds bounds_ = null;
+  
   public FlatMult(ZName a, ZName b, ZName c)
   {
     args_ = new ArrayList<ZName>(3);
@@ -47,10 +49,44 @@ public class FlatMult extends FlatPred
     solutionsReturned_ = -1;
   }
 
+  @Override public boolean inferBounds(Bounds bnds)
+  {
+    bounds_ = bnds;
+    // TODO: propagate bounds in all directions.
+    //   Warning: this is very complex because of negatives and zero.
+    return false;
+  }
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    return modeOneOutput(env);
+    assert bounds_ != null;
+    ZName factor1 = args_.get(0);
+    ZName factor2 = args_.get(1);
+    Mode mode = modeOneOutput(env);
+    // restrict the IOI mode to avoid zero.
+    if (mode != null
+        && mode.isInput(factor1) 
+        && mode.isOutput(factor2)) {
+      if (bounds_.includesZero(factor1)) {
+        mode = null;
+      }
+      else {
+        mode.setSolutions(mode.MAYBE_ONE_SOLUTION); // eg. 3*y=5 will fail.
+      }
+    }
+    // restrict the OII mode to avoid zero.
+    if (mode != null
+        && mode.isInput(factor2) 
+        && mode.isOutput(factor1)) {
+      if (bounds_.includesZero(factor2)) {
+        mode = null;
+      }
+      else {
+        mode.setSolutions(mode.MAYBE_ONE_SOLUTION); // eg. x*3=5 will fail.
+      }
+    }
+    return mode;
   }
 
   /** Does the actual evaluation */

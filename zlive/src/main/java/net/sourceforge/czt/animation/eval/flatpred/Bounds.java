@@ -656,4 +656,24 @@ public class Bounds
     }
     knownargs.put(argPos, getBestAlias(argName));
   }
+
+  /** True iff the set of possible values for name includes 0.
+   *  More precisely, it is false if the lower bound of name is
+   *  greater than zero, or the upper bound is less than zero.
+   *
+   * @param name The name of an integer variable
+   * @return
+   */
+  public boolean includesZero(ZName name)
+  {
+    BigInteger lower = lowerBound_.get(name);
+    if (lower != null && lower.compareTo(BigInteger.ZERO) > 0) {
+      return false;
+    }
+    BigInteger upper = upperBound_.get(name);
+    if (upper != null && upper.compareTo(BigInteger.ZERO) < 0) {
+      return false;
+    }
+    return true;
+  }
 }

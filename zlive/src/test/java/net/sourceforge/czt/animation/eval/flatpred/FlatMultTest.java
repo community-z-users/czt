@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.io.FileNotFoundException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,13 @@ public class FlatMultTest
   private Expr i200 = factory_.createNumExpr(200);
 
   private FlatPred pred = new FlatMult(x,y,z);
+  private Bounds bounds_ = new Bounds(null);
+
+  @Override
+  public void setUp()
+  {
+    pred.inferBounds(bounds_);
+  }
 
   public void testToString()
   {
@@ -59,11 +67,13 @@ public class FlatMultTest
   throws FileNotFoundException
   {
     int interval = 2;
-    FlatPredModel iut = new FlatPredModel(pred, new ZName[] {x,y,z},
-                            "OII,IOI,IIO,III",
-                            new Eval(1, "???", i3, i4, i12),
-                            new Eval(0, "I?I", i2, i5, i11) // 11 is prime
-                            );
+    FlatPredModel iut = new FlatPredModel(pred, 
+        new ZName[] {x,y,z},
+          // OII and IOI modes are not allowed because x and y can be zero
+          "IIO,III",
+          new Eval(1, "???", i3, i4, i12),
+          new Eval(0, "I?I", i2, i5, i11) // 11 is prime
+      );
     Tester tester = new GreedyTester(iut);
     CoverageHistory actions = new CoverageHistory(new ActionCoverage(), interval);
     CoverageHistory states = new CoverageHistory(new StateCoverage(), interval);
@@ -176,13 +186,15 @@ public class FlatMultTest
   {
     Envir envX = empty.plus(x,i10);
     Envir envXZ = envX.plus(z,i200);
+    bounds_.addLower(x, new BigInteger("2"));
+    pred.inferBounds(bounds_);
     Mode m = pred.chooseMode(envXZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(false, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
     Assert.assertTrue(m.getEnvir().isDefined(y));
-    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
@@ -194,13 +206,15 @@ public class FlatMultTest
   {
     Envir envY = empty.plus(y,i20);
     Envir envYZ = envY.plus(z,i200);
+    bounds_.addUpper(y, new BigInteger("-2"));
+    pred.inferBounds(bounds_);
     Mode m = pred.chooseMode(envYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
     Assert.assertTrue(m.getEnvir().isDefined(x));
-    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     // Start a evaluation which succeeds:  10*20=200
     pred.startEvaluation();

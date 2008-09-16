@@ -597,17 +597,17 @@ public class BoundsTest extends ZTestCase
     assertTrue(bnds.isAliased(v, z));
     bnds2.endAnalysis();
   }
-  
+
   /** Aliasing of tuples and bindings is done by the same code,
    *  so we don't need different tests for them.
    *  However, this test adds alias information in a different
-   *  order to testAliasTuple.  This test was derived from failure 
+   *  order to testAliasTuple.  This test was derived from failure
    *  to execute the Find operation of the BirthdayBook specification.
    */
   public void testAliasBinding()
   {
     Bounds bnds = new Bounds(null);
-    
+
     // alias x = <| known==known, birthday==birthday |>
     ZName known = factory_.createZName("known");
     ZName birthday = factory_.createZName("birthday");
@@ -630,7 +630,7 @@ public class BoundsTest extends ZTestCase
     assertEquals(1, knownP.getZStrokeList().size());
     bnds.addStructureArg(y, known, knownP);
     bnds.addStructureArg(y, birthday, birthdayP);
-    
+
     // now alias x=y in a subbounds
     Bounds bnds2 = new Bounds(bnds);
     bnds2.startAnalysis(bnds);
@@ -639,7 +639,7 @@ public class BoundsTest extends ZTestCase
     bnds2.endAnalysis();
     // parent should have noticed the changes
     assertTrue(bnds.getDeductions() > 0);
-    
+
     // check that bnds2 has made some deductions
     assertTrue(bnds2.isAliased(x, y));
     assertTrue(bnds2.boundsChanged());
@@ -658,5 +658,25 @@ public class BoundsTest extends ZTestCase
 
     // check that bnds2 has same information for y as for x.
     assertEquals(args, bnds2.getStructure(y));
+  }
+
+  public void testIncludesZeroLower()
+  {
+    Bounds bnds = new Bounds(null);
+    assertTrue(bnds.includesZero(x));
+    bnds.addLower(x, new BigInteger("0"));
+    assertTrue(bnds.includesZero(x));
+    bnds.addLower(x, new BigInteger("1"));
+    assertFalse(bnds.includesZero(x));
+  }
+
+  public void testIncludesZeroUpper()
+  {
+    Bounds bnds = new Bounds(null);
+    assertTrue(bnds.includesZero(x));
+    bnds.addUpper(x, new BigInteger("0"));
+    assertTrue(bnds.includesZero(x));
+    bnds.addUpper(x, new BigInteger("-1"));
+    assertFalse(bnds.includesZero(x));
   }
 }
