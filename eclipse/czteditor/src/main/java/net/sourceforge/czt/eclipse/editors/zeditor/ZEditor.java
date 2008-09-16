@@ -1021,6 +1021,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       return getPreferenceStore().getBoolean(
           PreferenceConstants.EDITOR_FOLDING_GENSCH);
 
+    if (IZPartitions.Z_PARAGRAPH_LATEX_THEOREM.equals(type))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_THEOREM);
+
     return false;
   }
 
@@ -1054,6 +1058,9 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
         .equals(type)))
       return PreferenceConstants.EDITOR_FOLDING_GENSCH;
+
+    if (IZPartitions.Z_PARAGRAPH_LATEX_THEOREM.equals(type))
+      return PreferenceConstants.EDITOR_FOLDING_THEOREM;
 
     return null;
   }

@@ -281,6 +281,8 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA);
       reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_GENAX);
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_GENAX);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_THEOREM);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_THEOREM);
     }
     else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(sourceFileType)
         || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(sourceFileType)) {

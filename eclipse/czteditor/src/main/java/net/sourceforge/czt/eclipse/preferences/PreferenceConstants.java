@@ -326,6 +326,15 @@ public class PreferenceConstants
    * </p>
    */
   public static final String EDITOR_FOLDING_GENSCH = "net.sourceforge.czt.eclipse.editor.folding_gensch"; //$NON-NLS-1$
+
+  
+  /**
+   * A named preference that controls whether the editor folds theorem paragraphs.
+   * <p>
+   * Value is of type <code>Boolean</code>.
+   * </p>
+   */
+  public static final String EDITOR_FOLDING_THEOREM = "net.sourceforge.czt.eclipse.editor.folding_theorem"; //$NON-NLS-1$
   
   /*
    * Syntax coloring preference keys

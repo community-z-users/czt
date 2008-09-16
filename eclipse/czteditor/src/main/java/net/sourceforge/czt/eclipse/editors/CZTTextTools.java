@@ -43,7 +43,8 @@ public class CZTTextTools
       IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION,
       IZPartitions.Z_PARAGRAPH_LATEX_AXDEF,
       IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA,
-      IZPartitions.Z_PARAGRAPH_LATEX_GENAX,};
+      IZPartitions.Z_PARAGRAPH_LATEX_GENAX,
+      IZPartitions.Z_PARAGRAPH_LATEX_THEOREM};
 
   /**
    * Array with legal unicode content types.

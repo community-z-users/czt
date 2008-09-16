@@ -28,7 +28,8 @@ public class ZLatexPartitionScanner extends RuleBasedPartitionScanner
       IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION,
       IZPartitions.Z_PARAGRAPH_LATEX_AXDEF,
       IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA,
-      IZPartitions.Z_PARAGRAPH_LATEX_GENAX};
+      IZPartitions.Z_PARAGRAPH_LATEX_GENAX,
+      IZPartitions.Z_PARAGRAPH_LATEX_THEOREM};
 
   /**
    * Creates the partitioner and sets up the appropriate rules.
@@ -48,6 +49,8 @@ public class ZLatexPartitionScanner extends RuleBasedPartitionScanner
     IToken zParagraphLatexSchema = new Token(
         IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA);
     IToken zParagraphLatexGenAx = new Token(
+        IZPartitions.Z_PARAGRAPH_LATEX_GENAX);
+    IToken zParagraphLatexTheorem = new Token(
         IZPartitions.Z_PARAGRAPH_LATEX_GENAX);
 
     // Add rule for single line Z char conversion
@@ -70,7 +73,10 @@ public class ZLatexPartitionScanner extends RuleBasedPartitionScanner
     rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_LATEX_GENAX_START,
         IZPartitions.Z_PARAGRAPH_LATEX_GENAX_END, zParagraphLatexGenAx,
         (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_LATEX_THEOREM_START,
+        IZPartitions.Z_PARAGRAPH_LATEX_THEOREM_END, zParagraphLatexTheorem,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    
     IPredicateRule[] result = new IPredicateRule[rules.size()];
     rules.toArray(result);
 

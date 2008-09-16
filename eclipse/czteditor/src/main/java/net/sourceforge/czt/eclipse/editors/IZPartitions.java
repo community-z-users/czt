@@ -43,6 +43,14 @@ public interface IZPartitions
    */
   String Z_PARAGRAPH_LATEX_ZED = "__z_paragraph_latex_zed"; //$NON-NLS-1$
 
+  /* Definition for LATEX_THEOREM */
+  /**
+   * The identifier of the latex Z theorem paragraph
+   * - ZED
+   * @value <code>__z_paragraph_latex_theorem</code>
+   */
+  String Z_PARAGRAPH_LATEX_THEOREM = "__z_paragraph_latex_theorem"; //$NON-NLS-1$
+
   /**
    * The start String of the latex Z partition content type
    * - ZED
@@ -269,4 +277,20 @@ public interface IZPartitions
    * @value <code>\u2029</code>
    */
   String Z_PARAGRAPH_UNICODE_ENDCHAR_OLD = "\u2029"; //$NON-NLS-1$
+
+
+  /**
+   * The start String of the latex Z conjecture paragraph
+   * - ZED
+   * @value <code>\\begin{theorem}</code>
+   */
+  String Z_PARAGRAPH_LATEX_THEOREM_START = "\\begin{theorem}"; //$NON-NLS-1$
+
+  /**
+   * The end String of the latex Z conjecture paragraph
+   * - ZED
+   * @value <code>\\end{theorem}</code>
+   */
+  String Z_PARAGRAPH_LATEX_THEOREM_END = "\\end{theorem}"; //$NON-NLS-1$
+
 }
