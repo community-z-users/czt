@@ -504,7 +504,7 @@ public class TextUI {
             output_.println("Error: "+e);
             output_.println("  in: ");
             zlive_.printTerm(output_, conj.getPred(), zlive_.getMarkup());
-            e.printStackTrace(output_);
+            //e.printStackTrace(output_);
           }
         }
       }
