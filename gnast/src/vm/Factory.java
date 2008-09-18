@@ -199,7 +199,7 @@
    */
   public NumExpr createNumExpr(java.math.BigInteger bigInt)
   {
-    return createNumExpr(bigInt.intValue());
+    return createNumExpr(factory_.createZNumeral(bigInt));
   }
 
   public ZNumeral createZNumeral(int value)

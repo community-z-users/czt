@@ -19,9 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
+import java.math.BigInteger;
+
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.z.ast.NumExpr;
 
 
 /**
@@ -100,6 +103,28 @@ public class FlatPlusTest
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertEquals("result value", i30, m.getEnvir().lookup(z));
+    Assert.assertFalse(pred.nextEvaluation());
+  }
+
+  /** Similar to testIIO, but with big integer values */
+  public void testIIOBigInteger()
+  {
+    BigInteger twoB = BigInteger.valueOf(2000000000);
+    Envir envX = empty.plus(x,factory_.createNumExpr(twoB));
+    Envir envXY = envX.plus(y,factory_.createNumExpr(twoB));
+    Mode m = pred.chooseMode(envXY);
+    Assert.assertTrue(m != null);
+    Assert.assertEquals(true, m.isInput(0));
+    Assert.assertEquals(true, m.isInput(1));
+    Assert.assertEquals(false, m.isInput(2));
+    Assert.assertTrue(m.getEnvir().isDefined(z));
+    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions(), ACCURACY);
+    pred.setMode(m);
+    pred.startEvaluation();
+    Assert.assertTrue(pred.nextEvaluation());
+    NumExpr fourB = factory_.createNumExpr(factory_.createZNumeral(
+        BigInteger.valueOf(1000000000).multiply(BigInteger.valueOf(4))));
+    Assert.assertEquals("result value", fourB, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
   }
 

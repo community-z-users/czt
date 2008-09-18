@@ -36,6 +36,7 @@ import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -182,6 +183,27 @@ public class FlatMultTest
     Assert.assertFalse(pred.nextEvaluation());
   }
 
+  /** Same as testIIO, but with big integer values. */
+  public void testIIOBigInteger()
+  {
+    Envir envX = empty.plus(x,factory_.createNumExpr(3000000));
+    Envir envXY = envX.plus(y,factory_.createNumExpr(4000000));
+    Mode m = pred.chooseMode(envXY);
+    Assert.assertTrue(m != null);
+    Assert.assertEquals(true, m.isInput(0));
+    Assert.assertEquals(true, m.isInput(1));
+    Assert.assertEquals(false, m.isInput(2));
+    Assert.assertTrue(m.getEnvir().isDefined(z));
+    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions(), ACCURACY);
+    pred.setMode(m);
+    pred.startEvaluation();
+    Assert.assertTrue(pred.nextEvaluation());
+    NumExpr twelveTrillion = factory_.createNumExpr(factory_.createZNumeral(
+        BigInteger.valueOf(12000000).multiply(BigInteger.valueOf(1000000))));
+    Assert.assertEquals("result value", twelveTrillion, m.getEnvir().lookup(z));
+    Assert.assertFalse(pred.nextEvaluation());
+  }
+
   public void testIOI()
   {
     Envir envX = empty.plus(x,i10);
@@ -216,12 +238,12 @@ public class FlatMultTest
     Assert.assertTrue(m.getEnvir().isDefined(x));
     Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
-    // Start a evaluation which succeeds:  10*20=200
+    // Start an evaluation which succeeds:  x*20=200
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertEquals("result value", i10, m.getEnvir().lookup(x));
     Assert.assertFalse(pred.nextEvaluation());
-    // Start a evaluation which succeeds:  20+10=30
+    // Start a evaluation which succeeds:  x*10=200
     pred.getMode().getEnvir().setValue(z, i200);  // updates the environment
     pred.getMode().getEnvir().setValue(y, i10);  // updates the environment
     pred.startEvaluation();
@@ -230,7 +252,3 @@ public class FlatMultTest
     Assert.assertFalse(pred.nextEvaluation());
   }
 }
-
-
-
-

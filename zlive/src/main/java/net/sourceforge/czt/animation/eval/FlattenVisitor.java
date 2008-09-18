@@ -19,6 +19,7 @@
 // TODO: change pred methods to be type void.
 package net.sourceforge.czt.animation.eval;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -700,10 +701,10 @@ public class FlattenVisitor
   private static boolean isOne(Expr e)
   {
     if (e instanceof NumExpr) {
-      int value = ((NumExpr)e).getValue().intValue();
-      if (value== 1)
+      BigInteger value = ((NumExpr)e).getValue();
+      if (value.equals(BigInteger.ONE))
         return true;
-      else if (value == 0)
+      else if (value.equals(BigInteger.ZERO))
         return false;
     }
     throw new EvalException("Not a 0/1 value");
