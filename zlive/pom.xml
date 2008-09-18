@@ -46,9 +46,14 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
+	  <!-- Must use forkMode if you want to include usertests?
+	       Otherwise we get bizarre error about ZTestCase class not found.
+	       But usertests are best run via: cd tests; ant usertests -->
+          <!-- <useSystemClassLoader>false</useSystemClassLoader> -->
+	  <!-- <forkMode>never</forkMode> -->
           <excludes>
             <!-- exclude usertests -->
-            <exclude>**/Animate*Test.java</exclude>
+	    <exclude>**/Animate*Test.java</exclude>
             <!-- exclude abstract superclasses -->
             <exclude>**/EvalTest*.java</exclude>
             <exclude>**/ZTestCase.java</exclude>
