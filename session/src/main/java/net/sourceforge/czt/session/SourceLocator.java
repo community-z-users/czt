@@ -24,6 +24,10 @@ import java.net.URL;
 
 /**
  * A command to compute the URL for a Z section.
+ * 
+ * This first looks for /lib/<code>name</code>.tex in the CZT sources,
+ * then searches for a variety of file extensions in the directory
+ * specified by czt.path.
  */
 public class SourceLocator
   implements Command
@@ -38,13 +42,13 @@ public class SourceLocator
   {
     URL url = getClass().getResource("/lib/" + name + ".tex");
     if (url != null) {
-      manager.put(new Key(name, Source.class), new UrlSource(url));
+      manager.put(new Key<Source>(name, Source.class), new UrlSource(url));
       return true;
     }
     for (int i = 0; i < suffix_.length; i++) {
       File file = new File(name + suffix_[i]);
       if (file.exists() && ! file.isDirectory()) {
-        manager.put(new Key(name, Source.class), new FileSource(file));
+        manager.put(new Key<Source>(name, Source.class), new FileSource(file));
         return true;
       }
     }
@@ -53,30 +57,39 @@ public class SourceLocator
       String filename = path + "/" + name + suffix_[i];
       File file = new File(filename);
       if (file.exists()) {
-        manager.put(new Key(name, Source.class), new FileSource(file));
+        manager.put(new Key<Source>(name, Source.class), new FileSource(file));
         return true;
       }
     }
-    throw new SourceLocatorException(name);
+    throw new SourceLocatorException(name, path);
   }
 
   /**
    * Exception thrown when source could not be found.
    */
+  @SuppressWarnings("serial")
   public static class SourceLocatorException
     extends CommandException
   {
     private String name_;
+    private String path_;
 
-    public SourceLocatorException(String name)
+    public SourceLocatorException(String name, String path)
     {
-      super("Cannot find source location for section " + name);
+      super("Cannot find source for section " + name
+          + " with czt.path="+path);
       name_ = name;
+      path_ = path;
     }
 
     public String getName()
     {
       return name_;
+    }
+
+    public String getPath()
+    {
+      return path_;
     }
   }
 }

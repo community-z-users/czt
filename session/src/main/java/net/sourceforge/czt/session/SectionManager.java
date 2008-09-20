@@ -63,8 +63,8 @@ import java.util.logging.Logger;
  *   <li> <code>new SectionManager()</code>
  *      -- which starts with an empty cache, so gives you the overhead
  *         of parsing toolkits again.</li>
- *   <li> <code>oldSectMan.reset()</code> -- currently this clears the
- *        whole cache, but it SHOULD leave the toolkit entries there.</li>
+ *   <li> <code>oldSectMan.reset()</code> -- this clears everything in the
+ *        cache, except for the prelude and any sections called *_toolkit.</li>
  *   <li> <code>oldSectMan.clone()</code> -- depending upon WHEN you do
  *        this clone, you can decide just how much you want to leave in
  *        the cache.</li>
@@ -74,6 +74,18 @@ import java.util.logging.Logger;
  * clone methods instead.
  * </p>
  *
+ * <p>As well as the main cache of specification-related objects,
+ * this class maintains several other kinds of information, including:
+ * <ul>
+ *   <li>a <em>properties</em> map that stores a string value for various
+ *   property keys (see getProperty and setProperty)</li>
+ *   <li>a <em>command</em> map that stores a Command object for each kind of
+ *   specification-related type of interest.  These Command objects are
+ *   called when the section manager needs to calculate a given type of
+ *   object and it is not already in the cache (see putCommand).</li>
+ * </ul>
+ * </p>
+ * 
  * @author Petra Malik
  * @author Mark Utting
  */
@@ -96,7 +108,7 @@ public class SectionManager
   private Map<Class<?>,Command> commands_ = new HashMap<Class<?>,Command>();
 
   /**
-   * Properties are used to store persistant global settings
+   * Properties are used to store global settings
    * for the commands.
    */
   private Properties properties_ = new Properties();
@@ -106,6 +118,10 @@ public class SectionManager
     this(DEFAULT_EXTENSION);
   }
 
+  /** Creates a new section manager for a given Z extension/dialect.
+   *  It calls putCommands(extension) to 
+   * @param extension  A Z dialect ("z", "zpatt", "oz", "circus", etc.)
+   */
   public SectionManager(String extension)
   {
     getLogger().config("Creating a new " + extension + " section manager");
@@ -153,8 +169,9 @@ public class SectionManager
   /**
    * <p>Returns a property.</p>
    *
-   * <p>Properties are used to store persistant global settings
-   * for the commands.</p>
+   * <p>Properties are used to store global settings
+   * for the commands.  For example, the "czt.path" property
+   * defines the directory where specifications can be loaded from.</p>
    */
   public String getProperty(String key)
   {
@@ -162,10 +179,13 @@ public class SectionManager
   }
 
   /**
-   * <p>Returns a property.</p>
+   * <p>Returns all the current property settings.</p>
    *
-   * <p>Properties are used to store persistant global settings
-   * for the commands.</p>
+   * <p>Properties are used to store global settings
+   * for the commands.  For example, the "czt.path" property
+   * defines the directory where specifications can be loaded from.</p>
+   * 
+   * @return the resulting Properties object should be treated as read-only.
    */
   public Properties getProperties()
   {
@@ -173,10 +193,10 @@ public class SectionManager
   }
 
   /**
-   * <p>Sets a property to the given value.</p>
+   * Sets a property to the given value.
    *
-   * <p>Properties are used to store persistant global settings
-   * for the commands.</p>
+   * <p>Properties are used to store global settings
+   * for the commands.  See getProperty.</p>
    */
   public Object setProperty(String key, String value)
   {
@@ -188,8 +208,8 @@ public class SectionManager
    * This sets all the properties defined by <code>props</code>
    * including its default properties (if it has any).</p>
    *
-   * <p>Properties are used to store persistant global settings
-   * for the commands.</p>
+   * <p>Properties are used to store global settings
+   * for the commands.  See getProperty.</p>
    */
   public void setProperties(Properties props)
   {
@@ -201,7 +221,9 @@ public class SectionManager
   }
 
   /**
-   * Adds the default commands to the command map.
+   * Adds the default commands for the given Z extension/dialect.
+   * If extension is "XYZ", it adds all the commands defined in the 
+   * "/XYZ.commands" file (see session/src/main/resources).
    */
   public void putCommands(String extension)
   {
@@ -216,7 +238,8 @@ public class SectionManager
   }
 
   /**
-   *
+   * Loads a collection of commands from the given properties file/url.
+   * See session/src/main/resources for example *.commands XML files.
    * @throws NullPointerException if url is <code>null</code>.
    */
   public void putCommands(URL url)
@@ -241,6 +264,8 @@ public class SectionManager
     }
   }
 
+  /** Adds a set of default commands from a Properties object.
+   */
   public void putCommands(Properties props)
   {
     for (Map.Entry<Object,Object> entry : props.entrySet()) {
@@ -248,6 +273,16 @@ public class SectionManager
     }
   }
 
+  /** Add a new command for calculating information of a given type.
+   * This command will override any existing commands used for
+   * calculating this type of information.
+   *
+   * @param type  the name of a Java class.  This defines the type of object
+   *              that this command is expected to compute when it is called.
+   * @param commandClassName the name of a subclass of
+   *                         net.sourceforge.czt.session.Command.
+   * @return
+   */
   public boolean putCommand(String type, String commandClassName)
   {
     final Logger logger = getLogger();
@@ -291,6 +326,11 @@ public class SectionManager
 
   /**
    * Returns Class.forName(className) but does not throw exceptions.
+   * 
+   * Exception messages are sent to a logger, so will probably not
+   * be visible to users.
+   * 
+   * @return null if the requested class could not be loaded.
    */
   private Class<?> toClass(String name)
   {
