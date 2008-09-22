@@ -33,6 +33,8 @@ doc/papers/facj-newsletter/The[!!-~]Community[!!-~]Z[!!-~]Tools[!!-~]-[!!-~]FACJ
 doc/papers/facj-newsletter/The[!!-~]Community[!!-~]Z[!!-~]Tools[!!-~]-[!!-~]FACJ[!!-~]Newsletter.pdf -text svneol=unset#application/pdf
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
+doc/papers/posix/ZUnitTesting.ppt -text
+doc/papers/posix/ZUnitTesting.pptx -text
 doc/papers/posix/as.zed -text
 doc/papers/posix/cs.zed -text
 doc/papers/posix/ds.zed -text
