@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 
 package net.sourceforge.czt.eclipse.wizards;
@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URI;
 
@@ -49,7 +50,7 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
  * The "New" wizard page allows setting the container for
  * the new file as well as the file name. The page
  * will only accept file name without the extension.
- * 
+ *
  * @author Chengdong Xu
  */
 public class NewZSpecificationWizardPage extends WizardPage
@@ -76,8 +77,6 @@ public class NewZSpecificationWizardPage extends WizardPage
   private IStructuredSelection fSelection;
 
   private IFile fNewFile;
-
-  private String fWorkspacePath;
 
   /**
    * @param pageName
@@ -222,8 +221,8 @@ public class NewZSpecificationWizardPage extends WizardPage
     validate();
     setControl(container);
 
-    fWorkspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation()
-        .addTrailingSeparator().toOSString();
+    //fWorkspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation()
+    //    .addTrailingSeparator().toOSString();
   }
 
   /**
@@ -419,18 +418,7 @@ public class NewZSpecificationWizardPage extends WizardPage
     }
     IContainer container = (IContainer) resource;
     final IFile file = container.getFile(new Path(fileName));
-    try {
-      InputStream stream = openContentStream(fileName);
-      if (file.exists()) {
-        file.setContents(stream, true, true, monitor);
-      }
-      else {
-        file.create(stream, true, monitor);
-      }
-      stream.close();
-    } catch (IOException ex) {
-      throwCoreException("Error reading template file", ex);
-    }
+    openContentStream(file, monitor);
     monitor.worked(1);
     monitor
         .setTaskName((WizardsMessages.NewZSpecificationWizardPage_openingFile));
@@ -441,40 +429,70 @@ public class NewZSpecificationWizardPage extends WizardPage
 
   /**
    * Initialize file contents with a sample text.
-   * 
+   *
    * @param filename The name of the file (without directory).
-   * @throws IOException 
+   * @throws CoreException if an I/O error occurs
    */
-  private InputStream openContentStream(String filename) throws IOException
+  private void openContentStream(IFile file, IProgressMonitor monitor)
+  throws CoreException
   {
-    InputStream contents = null;
+    String charset = null;
+    int fileNum = 0;
     if (fMarkupButtons[0].getSelection()) {
-      contents = getClass().getResourceAsStream(fSampleFiles[0]);
+      // LaTeX
+      charset = "US-ASCII";
+      fileNum = 0;
     }
     else if (fMarkupButtons[1].getSelection()) {
-      contents = getClass().getResourceAsStream(fSampleFiles[1]);
+      // UTF-8
+      charset = "UTF-8";
+      fileNum = 1;
     }
     else if (fMarkupButtons[2].getSelection()) {
-      contents = getClass().getResourceAsStream(fSampleFiles[2]);
+      // UTF-16
+      charset = "UTF-16";
+      fileNum = 2;
     }
-    assert contents != null;
-    // read contents into a string.
-    StringWriter swriter = new StringWriter();
-    while (contents.available() > 0) {
-      swriter.write(contents.read());
+
+    try {
+      // read contents into the string 'buf'.
+      InputStreamReader contents = new InputStreamReader(
+          getClass().getResourceAsStream(fSampleFiles[fileNum]),
+          charset);
+      StringWriter swriter = new StringWriter();
+      while (true) {
+        int ch = contents.read();
+        if (ch == -1)
+          break;
+        swriter.write(ch);
+      }
+      contents.close();
+      StringBuffer buf = swriter.getBuffer();
+
+      // now replace key by a section name generated from the filename
+      final String key = "<<FILENAME>>";
+      // turn filename into a suitable Z name.
+      // remove any directory and suffix, and allow only A-Za-z0-9.
+      String filename = file.getFullPath().toString();
+      int dotpos = filename.lastIndexOf(".");
+      int slashpos = filename.lastIndexOf("/");
+      String name = filename.substring(slashpos+1,
+          (dotpos == -1) ? filename.length() : dotpos);
+      name = name.replaceAll("[^A-Za-z0-9]", "");
+      String result = buf.toString().replaceAll(key, name);
+
+      // finally, put the 'result' string into the file.
+      InputStream newInput = new ByteArrayInputStream(result.getBytes(charset));
+      if (file.exists()) {
+        file.setContents(newInput, true, true, monitor);
+      }
+      else {
+        file.create(newInput, true, monitor);
+      }
+      newInput.close();
+    } catch (IOException ex) {
+      throwCoreException("Error reading template file", ex);
     }
-    contents.close();
-    StringBuffer buf = swriter.getBuffer();
-    final String key = "<<FILENAME>>";  // this is what we look for, to replace
-    // turn filename into a suitable Z name.
-    // remove any directory and suffix, and allow only A-Za-z0-9.
-    int dotpos = filename.lastIndexOf(".");
-    int slashpos = filename.lastIndexOf("/");
-    String name = filename.substring(slashpos+1, 
-        (dotpos == -1) ? filename.length() : dotpos);
-    name = name.replaceAll("[^A-Za-z0-9]", "");
-    String result = buf.toString().replaceAll(key, name);
-    return new ByteArrayInputStream(result.getBytes());
   }
 
   private void throwCoreException(String message) throws CoreException
