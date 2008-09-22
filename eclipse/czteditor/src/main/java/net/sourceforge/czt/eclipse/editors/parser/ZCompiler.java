@@ -23,6 +23,7 @@ import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
@@ -69,19 +70,25 @@ public class ZCompiler
     fParsedData = new ParsedData(editor);
     Spec parsed = null;
     List<CztError> errors = new ArrayList<CztError>();
-    
+
     SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
-    
-    final String name = ((IFileEditorInput) editor
-        .getEditorInput()).getFile().getName();
+
+    final IFile file = ((IFileEditorInput) editor.getEditorInput()).getFile();
+    final String name = file.getName();
     final Source source = new StringSource(document.get(), name);
     source.setMarkup(editor.getMarkup()); // or Markup.UNICODE
     source.setEncoding(editor.getEncoding()); // for Unicode
-    
+
+    // MarkU: set czt.path to the directory that contains this file
+    String path = file.getLocation().toString();
+    assert path.endsWith(name);
+    String dir = path.substring(0, path.lastIndexOf(name));
+    //System.out.println("DEBUG: setting czt.path to "+dir);
+    sectMan.setProperty("czt.path", dir);
+
     try {
-      sectMan.put(new Key(this.getCurrentSection(), Source.class), source);
-      parsed = (Spec) sectMan
-          .get(new Key(this.getCurrentSection(), Spec.class));
+      sectMan.put(new Key<Source>(this.getCurrentSection(), Source.class), source);
+      parsed = sectMan.get(new Key<Spec>(this.getCurrentSection(), Spec.class));
       if (parsed != null) {
         for (Sect sect : parsed.getSect()) {
           if (sect instanceof ZSect) {
@@ -89,12 +96,12 @@ public class ZCompiler
                                 SectTypeEnvAnn.class));
           }
         }
-      
+
         if (parsed.getSect().size() > 0) {
           fParsedData.addData(parsed, sectMan, document);
         }
       }
-      
+
       try {
         ParseException parseException = (ParseException)
           sectMan.get(new Key(source.getName(), ParseException.class));
@@ -108,7 +115,7 @@ public class ZCompiler
     } catch (CommandException ce) {
       errors.clear();
       Throwable cause = ce.getCause();
-      
+
 /*
       if (cause instanceof ParseException) {
         System.out.println("ParseErrorException starts");
@@ -135,9 +142,9 @@ public class ZCompiler
         System.out.println(otherError);
       }
     }
-    
+
     fParsedData.setErrors(errors);
-    
+
     return fParsedData;
   }
 

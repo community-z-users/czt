@@ -1,7 +1,3 @@
-/**
- * The main plugin class to be used in the desktop.
- */
-
 package net.sourceforge.czt.eclipse;
 
 import java.util.ArrayList;
@@ -23,6 +19,7 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -50,7 +47,7 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.osgi.framework.BundleContext;
 
 /**
- * 
+ * The main plugin class to be used in the desktop.
  */
 public class CZTPlugin extends AbstractUIPlugin
 {
@@ -92,7 +89,7 @@ public class CZTPlugin extends AbstractUIPlugin
   private IDocumentProvider fPropertiesFileDocumentProvider;
 
   /**
-   * 
+   *
    */
   private CZTTextTools fCZTTextTools;
 
@@ -104,12 +101,12 @@ public class CZTPlugin extends AbstractUIPlugin
     super();
     plugin = this;
 
-    try {
+    //try {
       resourceBundle = ResourceBundle
           .getBundle("net.sourceforge.czt.eclipse.CZTPluginResources");
-    } catch (MissingResourceException x) {
-      resourceBundle = null;
-    }
+    //} catch (MissingResourceException x) {
+    //  resourceBundle = null;
+    //}
   }
 
   /**
@@ -120,8 +117,8 @@ public class CZTPlugin extends AbstractUIPlugin
     super.start(context);
     String defaultDialect = getPreferenceStore().getString(
               PreferenceConstants.PROP_DIALECT);
-    fSectionManager = createSectionManager(defaultDialect);
-    
+    initSectionManager(defaultDialect);
+
     fPropertyChangeListener= new IPropertyChangeListener() {
       public void propertyChange(PropertyChangeEvent event) {
         String property = event.getProperty();
@@ -132,7 +129,7 @@ public class CZTPlugin extends AbstractUIPlugin
         }
         else if (PreferenceConstants.PROP_DIALECT.equals(property)) {
           String dialect = String.valueOf(event.getNewValue());
-          fSectionManager = createSectionManager(dialect);
+          initSectionManager(dialect);
         }
       }
     };
@@ -219,9 +216,9 @@ public class CZTPlugin extends AbstractUIPlugin
   }
 
   /**
-   * Returns an array of all editors that have an unsaved content. If the identical content is 
+   * Returns an array of all editors that have an unsaved content. If the identical content is
    * presented in more than one fEditor, only one of those editor parts is part of the result.
-   * 
+   *
    * @return an array of all dirty fEditor parts.
    */
   //	public static IEditorPart[] getDirtyEditors() {
@@ -334,21 +331,31 @@ public class CZTPlugin extends AbstractUIPlugin
   }
 
   /**
-   * Returns an section manager for parsing and type checking
+   * Returns a section manager for parsing and type checking.
+   * Note that this returns a <em>clone</em> of an internal section manager
+   * each time it is called.  The standard library has already been loaded
+   * and parsed before the clone,
    */
   public SectionManager getSectionManager()
   {
     if (fSectionManager == null) {
-      fSectionManager = createSectionManager("z");
+      initSectionManager("z");
     }
     //System.out.println("Cloning section manager "+fSectionManager.hashCode());
     return (SectionManager) fSectionManager.clone();
   }
 
-  private SectionManager createSectionManager(String dialect)
+  /** Initialises fSectionManager, which is the default internal section
+   *  manager that is available via getSectionManager.
+   *  This creates a new section manager for the given dialect of Z,
+   *  then loads, parses and typechecks the standard toolkit.
+   *
+   * @param dialect  "z", "zpatt", "oz" etc.
+   */
+  private void initSectionManager(String dialect)
   {
     SectionManager sectManager = new SectionManager(dialect);
-    
+
     //System.out.println("Created new SectionManager("+dialect+") -> "+sectManager.hashCode());
     IPreferenceStore store = getPreferenceStore();
     /**
@@ -357,7 +364,7 @@ public class CZTPlugin extends AbstractUIPlugin
     sectManager.setProperty(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, String.valueOf(store.getBoolean(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS)));
     sectManager.setProperty(PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(store.getBoolean(PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL)));
     sectManager.setProperty(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING, String.valueOf(store.getBoolean(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING)));
-    
+
     /**
      * Initialize the section manager
      */
@@ -366,15 +373,18 @@ public class CZTPlugin extends AbstractUIPlugin
           + "\\SECTION ZEclipseDefault " + "\\parents standard\\_toolkit "
           + "\\end{zsection}");
       source.setMarkup(Markup.LATEX);
-      sectManager.put(new Key("ZEclipseDefault", Source.class), source);
-      sectManager.get(new Key("ZEclipseDefault", Spec.class));
+      sectManager.put(new Key<Source>("ZEclipseDefault", Source.class), source);
+      // make sure it (and the standard toolkit) are parsed
+      sectManager.get(new Key<Spec>("ZEclipseDefault", Spec.class));
+      // and typechecked
+      sectManager.get(new Key<SectTypeEnvAnn>("ZEclipseDefault",
+                                              SectTypeEnvAnn.class));
     } catch (CommandException ce) {
-      System.out.println("Error in creating a new section manager:");
-      ce.printStackTrace();
-      return null;
+      // propagate this exception so it is visible to users.
+      throw new RuntimeException("Error creating a new section manager", ce);
     }
 
-    return sectManager;
+    fSectionManager = sectManager;
   }
 
   /*
@@ -399,9 +409,9 @@ public class CZTPlugin extends AbstractUIPlugin
 
   /**
    * Returns a combined preference store, this store is read-only.
-   * 
+   *
    * @return the combined preference store
-   * 
+   *
    * @since 3.0
    */
   public IPreferenceStore getCombinedPreferenceStore()

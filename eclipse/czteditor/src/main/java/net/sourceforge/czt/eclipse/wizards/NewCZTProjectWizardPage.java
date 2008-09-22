@@ -1,8 +1,10 @@
 /**
- * 
+ *
  */
 
 package net.sourceforge.czt.eclipse.wizards;
+
+import net.sourceforge.czt.eclipse.CZTPlugin;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -77,7 +79,7 @@ public class NewCZTProjectWizardPage extends WizardNewProjectCreationPage
    * Create the project directory.
    * If the user has specified an external project location,
    * the project is created with a custom description for the location.
-   * 
+   *
    * @param project project
    * @param monitor progress monitor
    * @throws CoreException
@@ -117,7 +119,7 @@ public class NewCZTProjectWizardPage extends WizardNewProjectCreationPage
 
   /**
    * Add a nature to the project.
-   * 
+   *
    * @param project project
    * @param monitor progress monitor
    * @throws CoreException
@@ -136,7 +138,7 @@ public class NewCZTProjectWizardPage extends WizardNewProjectCreationPage
      return;
      }
      }
-     
+
      String[] newNatures = new String[natures.length + 1];
      System.arraycopy(natures, 0, newNatures, 1, natures.length);
      newNatures[0] = TexlipseNature.NATURE_ID;
