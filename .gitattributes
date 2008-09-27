@@ -60,6 +60,14 @@ doc/refcard/z/refcard.p2.latb -text
 doc/refcard/z/refcard.pdf -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zcs -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
+dtx/czt-guide.dvi -text
+dtx/czt.ins -text
+dtx/czt.sty -text
+dtx/font-symbols.bat -text
+dtx/font-symbols.dvi -text
+dtx/font-symbols.in -text
+dtx/oz-symbols.dvi -text
+dtx/oz-symbols.in -text
 eclipse/README.txt -text
 eclipse/czteditor/icons/obj16/axpara16.png -text
 eclipse/czteditor/icons/obj16/conj16.png -text

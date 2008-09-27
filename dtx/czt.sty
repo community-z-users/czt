@@ -1,0 +1,1136 @@
+%%
+%% This is file `czt.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% czt.dtx  (with options: `package')
+%%
+%% This is a generated file
+%%
+%% Copyright (C) 2008 Leo Freitas.
+%% University of York All rights reserved.
+%%
+%% This is a generated file for Standard Z within the
+%% Community Z Tools (CZT). It is based on the Object Z
+%% package distribution.  Permission is granted to to
+%% customize the declarations in this file to serve the
+%% needs of your installation.  However, no permission
+%% is granted to distribute a modified version of this
+%% file under its original name.
+%%
+\def\fileversion{v.1.0}
+\def\filedate{2008/10/01}
+\def\filedesc{Standard Z style file by the Community Z Tools}
+
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{czt}
+    [\filedate\space\fileversion\space \filedesc]
+\message{`\filedesc'\space \fileversion\space <\filedate>}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Design guidelines:
+%   1) keep it minimal + simple + consistent
+%   2) for machine readable Standard Z only
+%   3) identify code sources (when different)
+%   4) normalise definitions for consistency
+%   5) complete missing cases (use common sense)
+%   6) keep it well documented, but not verbose
+%   7) follow order of definitions from Z Standard document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package options - zed.sty (old version of zed-csp.sty)        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% create conditionals for each option available, init=false
+\newif\if@lucida@ \@lucida@false
+\newif\if@color@  \@color@false
+\newif\if@colour@ \@colour@false
+
+% declare what each option actually do - colour=synonym(color)
+\DeclareOption{lucida}{\@lucida@true}
+\DeclareOption{color}{\@color@true}
+\DeclareOption{colour}{\@colour@\@color@}
+
+% set default option as colourful then process then
+\ExecuteOptions{color}
+\ProcessOptions\relax
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Treating colours                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% If colouring is available
+\if@color@
+  % check whether to load color package or not
+  \@ifpackageloaded{color}{%
+        \relax
+  }{%
+        \RequirePackage[dvipsnames,usenames]{color}
+  }
+
+  % define some nice colours to use within Z declarations
+  %
+  %\definecolor{ZedBoxColor}{cmyk}{0.99,0,0.52,0}
+  \definecolor{ZedBoxColor}{cmyk}{1,1,0,0}
+  \definecolor{AnnotationColor}{cmyk}{0.98,0.13,0,0.43}
+  \definecolor{ZedColor}{cmyk}{0.50,1,0,0}
+
+  % add more color here if needed
+\else
+  % if color is loaded do nothing, otherwise redefine \color as empty
+  \@ifpackageloaded{color}{\relax}{\def\color#1{\relax}}%
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Loading mathematical symbols from AMS fonts + char changes    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% declares the math version for fonts as "cztS
+\DeclareMathVersion{czt}
+
+% if lucida option is selected but lucidabr is not loaded, load it.
+\if@lucida@
+  \@ifpackageloaded{lucidabr}{%
+    }{%
+      \RequirePackage{texnansi}
+      \RequirePackage[expert,altbullet]{lucidabr}
+    }
+\fi
+
+% loading conditionally to Lucida Bright + using \zbinop
+% the latter is to do with the old defs + toolkit uses
+\@ifpackageloaded{lucbr}{
+  % Math symbols declaration within Lucida Bright
+  \DeclareMathSymbol{\zupharpoonright}{2}{arrows}{"75}
+  \DeclareMathSymbol{\zupharpoonleft}{2}{arrows}{"76}
+  \DeclareMathSymbol{\zseqcat}{\mathbin}{operators}{"5F}
+  \DeclareMathSymbol{\zdres}{\mathbin}{letters}{"2F}%
+  \DeclareMathSymbol{\zrres}{\mathbin}{letters}{"2E}%
+
+  % TODO: as many characters in Lucida are not being loaded,
+  %       I wondered if they are defined with the names we
+  %       given then in here. CHECK!
+
+}{%
+  \SetMathAlphabet{\mathrm}{czt}{\encodingdefault}{\rmdefault}{m}{n}%
+  \SetMathAlphabet{\mathbf}{czt}{\encodingdefault}{\rmdefault}{bx}{n}%
+  \SetMathAlphabet{\mathsf}{czt}{\encodingdefault}{\sfdefault}{m}{n}%
+  \DeclareSymbolFont{italics}{\encodingdefault}{\rmdefault}{m}{it}%
+
+  % Specify aliases for mathematical operator categories
+  \DeclareSymbolFontAlphabet{\mathrm}{operators}
+  \DeclareSymbolFontAlphabet{\mathit}{letters}
+  \DeclareSymbolFontAlphabet{\mathcal}{symbols}
+  \DeclareSymbolFontAlphabet{\zit}{italics}
+
+  % Load msama10 msamb10 font (AMS font dependencies): AMSa, AMSb
+  \DeclareSymbolFont{AMSa}{U}{msa}{m}{n}
+  \DeclareSymbolFont{AMSb}{U}{msb}{m}{n}
+
+  % Math symbols declaration outside Lucida Bright
+  % Keep their internal names as \zXXX, where XXX
+  % are their user-visible names, except when may
+  % create confusion, as in with the harpoon symbols.
+  %
+  % NOTE: Some of these symbols resemble those coming
+  %       from the fonts OML/cmm/n/it or OMS/cmsy/m/n
+  %       (similar rendering names aside each symbol)
+  %       - see tex/latex/base/fontmath.ltx
+  %       The synonyms may be useful if AMS is not present?
+  %
+  \DeclareMathSymbol{\zseqcat}{\mathbin}{AMSa}{"61}         % \frown
+  \DeclareMathSymbol{\zupharpoonright}{\mathbin}{AMSa}{"16} % \upharpoonright
+  \DeclareMathSymbol{\zupharpoonleft}{\mathbin}{AMSa}{"18}  % \upharpoonleft
+  \DeclareMathSymbol{\zdres}{\mathbin}{AMSa}{"43}           % \lhd
+  \DeclareMathSymbol{\zrres}{\mathbin}{AMSa}{"42}           % \rhd
+  \DeclareMathSymbol{\zemptyset}{\mathord}{AMSb}{"3F}       % \varnothing; similar to original \emptyset
+  \DeclareMathSymbol{\zinj}{\mathrel}{AMSa}{"1A}           % \rightarrowtail
+
+  % mathematical delimiters that can be used for box drawings
+  % (see LaTeX2e Font Selection guide @ fntguide.pdf).
+  \DeclareMathDelimiter{\zboxulcorner}{\mathopen}{AMSa}{"70}{AMSa}{"70}
+  \DeclareMathDelimiter{\zboxurcorner}{\mathclose}{AMSa}{"71}{AMSa}{"71}
+  \DeclareMathDelimiter{\zboxllcorner}{\mathopen}{AMSa}{"78}{AMSa}{"78}
+  \DeclareMathDelimiter{\zboxlrcorner}{\mathclose}{AMSa}{"79}{AMSa}{"79}
+
+  % Mathematical alphabet in AMSb - \mathbb = math. blackboard bold
+  \DeclareSymbolFontAlphabet{\mathbb}{AMSb}
+}
+
+% sets the math version
+\mathversion{czt}%
+
+% changes the rendering of A-Z and a-z in specialised italics when in math mode.
+%
+% Quite elaborated loop that changes the rendering
+% (\mathcode) of #1 to that of #3 until 1# >= #2.
+%
+% setmcodes(#1 % original mathcode
+%           #2 % upto threshold
+%           #3 % mathcode to substitute)
+% begin
+%   var c0, c1 : Register;
+%   c0 = &#1; c1 = &#3                % fetch value of #1/#3 in c0/c1
+%   change_mcode(c0, c1);             % make math code for c0 the value of c1
+%   while (c0 < &#2) do               % while c0 has not reached value of #2
+%   begin
+%     c0++; c1++;                     % increment the values of source/target
+%     changeg_mcode(c0, c1);          % make math code for c0 the value of c1
+%   end
+%                                     % all chars from #1..#2 changed to #3
+%                                     % incremented one by one.
+% end
+%
+% called as: setmcodes{ }{ }{italics} % makes A-Z and a-z italic in math mode
+%
+% fuzz.sty has same code but calls with: \@setmcodes{`A}{`Z}{"7441}
+% blend from: zed-csp.sty, soz.sty, oz.sty, fuzz.sty
+%
+% TODO: make it an optional parameter mode - default=on
+\def\@setmcodes#1#2#3{%
+    {\count0=#1 \count1=#3%
+    \loop \global\mathcode\count0=\count1%
+    \ifnum \count0<#2%
+    \advance\count0 by1 \advance\count1 by1%
+    \repeat}}
+\@setmcodes{`A}{`Z}{"7\hexnumber@\symitalics41}%
+\@setmcodes{`a}{`z}{"7\hexnumber@\symitalics61}%
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Z registers: skip, dimen, tab, etc                            %
+% blend: oz.sty, soz.sty, ltcadiz.sty, zed-csp.sty, fuzz.sty    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+%%%%%%%%%% new registers                                        %
+
+% dimen used to:
+\newdimen\big@size          % 1) calculate the increase on \z@XXXop modifiers
+\newdimen\zedtab            % 2) define the tab stop (\tn) increment
+\newdimen\zedindent         % 3) controls how to indent new lines within z para mode
+\newdimen\zedleftsep        % 4) determinsed how far within a topline letters should appear(?)
+\newdimen\zedbar            % 5) length horizontal bar in z box drawings
+%\newdimen\zedlinethickness  % 6) thinkness of z box drawins lines    - oz.sty only? TODO: add behaviour if needed
+%\newdimen\zedcornerheight   % 7) height of corners in z box drawings - oz.sty only?
+
+% counter used to:
+\newcount\interzedlinepenalty
+\newcount\preboxpenalty
+\newcount\forcepagepenalty
+
+% skip used to:
+\newskip\zedskip            % 1) amount of vertical space inserted by \also
+
+% LaTeX conditional used to:
+\newif\ifzt@p               % 1) determines whether LaTeX is in z paragraph mode
+
+%%%%%%%%%% registers initialisation                             %
+
+% initialisation of dimens
+\zedtab=2em%
+\zedindent=\leftmargini
+\zedleftsep=1em
+\zedbar=6em                  % oz.sty = 8em
+%\zedlinethickness=0.4pt
+%\zedcornerheight=0pt
+
+% initialisation of counters
+\interzedlinepenalty=10000   %never break
+\preboxpenalty=0             %break easily
+\forcepagepenalty=-10000     %always break
+\interdisplaylinepenalty=100 %break sometimes
+
+% initialisation of skips
+\zedskip=0.5\baselineskip%
+         plus0.333333\baselineskip%
+         minus0.333333\baselineskip%
+% \zedskip=\medskipamount from fuzz.sty
+
+% initialisation of if-flags (LaTeX conditionals)
+\zt@pfalse
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Z spaces, skips, tabs, etc (using the Z registers)            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% Tab stops from \t1 to \t9 - relative to \zedtab
+\def\t#1{\hskip #1\zedtab}
+
+% Small vertical space within z paragraph mode - relative to \zedskip
+\def\also{\crcr \noalign{\penalty\interdisplaylinepenalty\vskip\zedskip}}
+
+% varied spacing based in \also - from oz.sty
+\def\Also{\also\also}
+\def\ALSO{\Also\Also}
+
+% forces a page break within z paragraph mode
+\def\znewpage{\also\noalign{\penalty\forcepagepenalty}\also}
+
+% forces a formula break within z paragraph mode.
+% varied relative spacing added before/after it.
+\def\zbreak{\also\noalign{\penalty\interdisplaylinepenalty\vskip-\zedskip}\also}
+\def\zBreak{\also\noalign{\penalty\interdisplaylinepenalty}\also}
+\def\ZBREAK{\Also\noalign{\penalty\interdisplaylinepenalty}\Also}
+
+% oz.sty, not used here (?)
+%\def\als@{\crcr\@but\omit\vrule height\jot width\zedlinethickness \cr \@but}
+%\def\Als@{\crcr\@but\omit\vrule height2\jot width\zedlinethickness \cr \@but}
+%\def\ALS@{\crcr\@but\omit\vrule height4\jot width\zedlinethickness \cr \@but}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Basic definitions for Z box drawings - mostly from zed-csp.sty%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+%%%%%%%%%% indent, sizes, skips, padding, new line behaviour    %
+
+% various indentation levels depending on the vertical placement
+% to be called whenever within vertical mode (\ifvmode = true)
+\def\@zleavevmode{%
+  \if@inlabel
+    \indent
+  \else
+    \if@noskipsec
+      \indent
+    \else
+      \if@nobreak
+         \global\@nobreakfalse \everypar={}\abovedisplayskip=0pt
+      \fi
+      {\parskip=0pt\noindent}
+    \fi
+  \fi}
+%\def\@zleavevmode{\if@inlabel \indent
+%  \else\if@noskipsec \indent
+%  \else\if@nobreak \global\@nobreakfalse
+%  \everypar={}\abovedisplayskip=0pt\fi
+%  {\parskip=0pt\noindent}\fi\fi}
+
+% nested (dynamic) command definition to change skip sizes.
+% it first saves the display skips; changes it; then restores
+% the skips back. This is done incrementally.
+\def\z@size{}%
+\def\@setzsize{%
+  \let\next=\@nomath%
+  \def\@nomath##1{}%
+  \skip0=\abovedisplayskip\skip1=\belowdisplayskip
+  \z@size
+  \let\@nomath=\next
+  \abovedisplayskip=\skip0\belowdisplayskip=\skip1}
+
+% code that affects the size of Z symbols within formulas without
+% actually affecting the surrounding text. e.g., \zedsize{\large}
+% (see ozguide.pdf, p. 7).
+\def\zedsize#1{\def\z@size{#1}}
+
+% changes the behaviour of new line so that appropriate
+% skip and side bar is added. if within z paragraph mode \zt@p = false
+\def\@znoskip{\offinterlineskip
+  \everycr={\noalign{%
+    \ifzt@p
+      \global\zt@pfalse
+      \ifdim\prevdepth>-1000pt
+        \skip0=\normalbaselineskip
+        \advance\skip0by-\prevdepth
+        \advance\skip0by-\ht\strutbox
+        \ifdim\skip0<\normallineskiplimit
+            \vskip\normallineskip
+        \else
+            \vskip\skip0
+        \fi
+      \fi
+    \else
+      \penalty\interzedlinepenalty
+    \fi}}}
+
+% a relative bit of \zedskip
+\def\@jot{0.5\zedskip}
+
+% fill a line with appropriate width
+\def\@zrulefill{\leaders\hrule height\arrayrulewidth\hfill}
+
+% creates a particular skip after new lines? - (old) zed.sty
+\def\@zskip#1{\crcr \omit \hbox{\color{ZedBoxColor}\vrule height#1%
+    width\arrayrulewidth} \cr}
+%\def\@zskip#1{\crcr \omit \vrule height#1 width\arrayrulewidth \cr} zed-csp.sty
+
+
+% add a tabskip for each new line (?)
+\def\@zlign{\tabskip\z@skip\everycr{}}
+
+%%%%%%%%%% individual line drawing                              %
+
+% creates a top line for schema and other boxes with specific width.
+% then creates an \hbox relative to \zedleftsep filled with appropriate spacing.
+% #1 = possible name or generic parameters to be added
+\def\@topline#1{\hbox to\linewidth{%
+    \color{ZedBoxColor}%
+    \vrule height\arrayrulewidth width\arrayrulewidth
+    \vrule height0pt depth\@jot width0pt
+    \hbox to\zedleftsep{\@zrulefill\thinspace}%
+    {\color{ZedColor}#1}\thinspace\@zrulefill}}
+
+% creates a line of sorts. - used (old) zed.sty
+\def\@zedline{\omit\hbox to 0pt{\color{ZedBoxColor}\vrule
+    height\arrayrulewidth width\linewidth\hss} \cr}
+%\def\@zedline{\omit \vrule height\arrayrulewidth width\linewidth \cr} zed-csp.sty
+
+% creates a narrow line with \zedindent width
+\def\@narrow{\advance\linewidth by-\zedindent}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Z boxes drawings + paragraph markers + box rendering          %
+% - mostly from zed-csp.sty (few things from oz.sty)            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+%%%%%%%%%% basic ZEDCHAR definition                             %
+
+% 1) adds appropriate spacing if in vertical mode
+% 2) enters "zed" paragraph mode - \zt@p flag = true
+% 3) change skip sizes
+% 4) thickens line by negative \zedindent (?)
+% 5) increased display indent (?)
+% 6) fix new lines and tab stopping
+\def\@zed{\ifvmode\@zleavevmode\fi
+  $$\global\zt@ptrue
+  \@setzsize
+  \advance\linewidth by-\zedindent
+  \advance\displayindent by\zedindent
+  \def\\{\crcr}% Must have \def and not \let for nested alignments.
+  \let\par=\relax
+  \tabskip=0pt}
+
+%%%%%%%%%% \begin{zed}\end{zed} definition                      %
+
+% corresponds to "ZEDCHAR" markup in LaTeX for horizontal para
+%
+% 1) enters z paragraph mode, which sets \zt@p = true
+% 2) changes \cr behaviour to pad next line with spaces, which flips \zt@p = false
+% 3) changes the tabskip (\zling) for each tabskip (?)
+% 4) restores tabskip after the new line (\cr)     (?)
+\def\zed{\@zed\@znoskip\halign to\linewidth\bgroup
+  {\strut$\color{ZedColor}\@zlign##$}\hfil \tabskip=0pt plus1fil\cr}
+
+% corresponds to "ENDCHAR" markup in LaTeX
+%
+% 1) restores paragraph and group balancing (i.e., leaves z mode)
+% 2) \@ignoretrue makes sure there are no trailing spaces after \end{zed}
+\def\endzed{\crcr\egroup$$\global\@ignoretrue}
+
+% stared version which is ignored by the parser.
+\@namedef{zed*}{\zed}
+\expandafter\let\csname endzed*\endcsname=\endzed
+
+% change displaymath environment to behave just like \begin{zed}\end{zed}
+\def\[{\begingroup\zed}
+\def\]{\crcr\egroup$$\endgroup\ignorespaces}
+
+% corresponds to "ZEDCHAR" markup in LaTeX for section headers
+
+% zsection environment
+\let\zsection=\zed
+\let\endzsection=\endzed
+
+% z named conjecture or theorem environment
+%
+% 1) if theorem is followed by "[" - std z has no ability or label
+%\def\theorem#1{\@ifnextchar[{\@theorem{#1}}{\@@theorem{#1}}} % ]
+%\def\@theorem#1[#2]{\@@theorem{#1 $[#2]$}}
+%
+% 2) just puts the theorem in a bold name
+\def\theorem#1{\@@theorem{#1}}
+\def\@@theorem#1{\@zed\@znoskip\halign to\linewidth\bgroup%
+  {\strut$\color{ZedColor}\@zlign\hskip\zedleftsep##$}\hfil \tabskip=0pt plus1fil\crcr
+\hskip -\zedleftsep\hbox{\bf theorem \rm \@ability {\color{ZedColor}#1}}\crcr}
+\def\@ability{\relax} % don't follow why z-eves needed this command here.
+
+% synonym for \endzed - could not add colour to the theorem's body :-(
+%\def\endtheorem{\color{ZedColor}\endzed}
+\let\endtheorem=\endzed
+
+%\newenvironment{theorem}[1]{\noindent #1 ==\begin{zed}}{\end{zed}}
+
+\def\@@theorem#1{\@zed\@znoskip%
+\halign to\linewidth\bgroup
+\strut$\@zlign\hskip\zedleftsep##$\hfil \tabskip=0pt plus1fil\crcr
+\hskip -\zedleftsep\hbox{\bf theorem \rm \@ability #1}\crcr}
+
+\def\endtheorem{\endzed}
+
+%%%%%%%%%% \begin{axdef}\end{axdef} definition                  %
+
+% TODO: create a general command for entering zed paragraph mode
+
+% corresponds to "AXCHAR" markup in LaTeX
+%
+% 1) enters z paragraph mode with \@zed
+% 2) changes the behaviour of padding and new lines, just
+%    like in \zed but with a side line displayed
+% 3) ???
+\def\axdef{\def\also{\@zskip\zedskip}%
+  \predisplaypenalty=\preboxpenalty
+  \@zed\@znoskip \halign to\linewidth\bgroup
+    \strut{\color{ZedBoxColor}\vrule width\arrayrulewidth} \hskip\zedleftsep
+    {$\color{ZedColor}\@zlign##$}\hfil \tabskip=0pt plus1fil\cr}
+
+% synonym for \endzed
+\let\endaxdef=\endzed
+
+% stared version which is ignored by the parser.
+\@namedef{axdef*}{\axdef}
+\expandafter\let\csname endaxdef*\endcsname=\endaxdef
+
+%%%%%%%%%% \begin{schema}{NAME}[X]\end{schema} definition       %
+
+% corresponds to "SCHCHAR" markup in LaTeX
+%
+% 1) check to see if \begin{schema}?#1 is followed by "["
+% 2) if it is, we have a generic schema, in which case
+%    \@nschema{#1[#2]} is called, where #1=name, #2=formals
+% 3) otherwise, \@nschema{#1} is called, where #1=name
+% 4) \@nschema draws a narrow \axdef with the name #1 in the middle
+\def\schema#1{\@ifnextchar[{\@schema{#1}} {\@nschema{#1}}}
+\def\@schema#1[#2]{\@nschema{#1[#2]}}
+\def\@nschema#1{\@narrow\axdef \omit\@topline{$\strut#1$}\cr}
+
+% just like \endzed but with a final underline to close
+% the schema box, right after restoring the skip mode.
+\def\endschema{\@zskip\@jot \@zedline \endzed}
+
+% for schemas without name, use \begin{plainschema}
+% it is ignored by the parser
+\def\plainschema{\@narrow\axdef \@zedline \@zskip\@jot}
+\let\endplainschema=\endschema
+
+% similarly, one could use the stared version of the
+% schema environment, which accepts name and/or generic
+% formals, but is ignored by the parser.
+\@namedef{schema*}{\schema}
+\expandafter\let\csname endschema*\endcsname=\endschema
+
+%%%%%%%%%% \begin{gendef}[X]\end{gendef} definition             %
+
+% corresponds to "AXCHAR GENCHAR" markup in LaTeX
+%
+% 1) check to see if \begin{gendef}?#1 is followed by "["
+% 2) if it is, we have a generic axdef with generic formals,
+%    in which case \@ngendef is called to draw double lines
+% 3) otherwise, \@gendef is called to draw double lines but
+%    with the generic formals given
+% 4) lines are draw similarly to \axdef but doubled
+\def\gendef{\@ifnextchar[{\@gendef}{\@ngendef}}
+\def\@gendef[#1]{\@narrow\axdef \omit \setbox0=\hbox{$\strut[#1]$}%
+  \rlap{\raise\doublerulesep\@topline{\hskip\wd0}}\@topline{\box0}\cr}
+\def\@ngendef{\@narrow\axdef \@zedline \omit \hbox to\linewidth{\vrule
+    height\doublerulesep width\arrayrulewidth \@zrulefill}\cr
+  \@zskip\@jot
+  }
+
+% synonym for \endschema
+\let\endgendef=\endschema
+
+% stared version which is ignored by the parser.
+\@namedef{gendef*}{\gendef}
+\expandafter\let\csname endgendef*\endcsname=\endgendef
+
+%%%%%%%%%% \where separator definition                          %
+
+% draws the |- line separating declarations from predicates (zed.sty)
+\def\where{\@zskip\@jot
+  \omit\hbox{\color{ZedBoxColor}\vrule height\arrayrulewidth width\zedbar} \cr
+  \@zskip\@jot}
+%\def\where{\@zskip\@jot            zed-csp.sty
+%  \omit \vrule height\arrayrulewidth width\zedbar \cr
+%  \@zskip\@jot}
+
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Basic definitions for Z symbols.                              %
+% Mathematical operators classes - Add \mathstrut for boxing    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% The spacing chosen for the math operators should reflect
+% their precedences, as defined using the Markup directives.
+% That is, function, generic, and schema operators bind
+% tighter than relation and predicate logic operators.
+% The former are to be \mathbin, whereas the latter are to
+% be \mathrel (thanks to Ian Toyn's clarification on the
+% CZT mail thread of 24/09/2008).
+%
+% SUMMARY: Function, generic, schema op = \mathbin
+%          Relation, predicate logic op = \mathrel
+%
+% Core symbols and keywords have fixed precedences, and we
+% wrap them accordingly. Markup directives have their fixture
+% hinting which spacing should they have. For the list of
+% core symbols precedence see ISOZ Table 31 p.37.
+%
+% \z@op     = general operator given with \nolimits
+% \z@preop  = prefix operator spacing  - Zprechar  / Zpreword
+% \z@postop = postfix operator spacing - Zpostchar / Zpostword
+% \z@relop  = infix operator  spacing  - Zinchar   / Zinword (\;)
+% \z@binop  = infix operator  spacing  - Zinchar   / Zinword (\:)
+% \z@ordop  = ordinary char spacing    - Zchar     / Zword
+%
+% IMPORTANT:
+%
+% User defined \LaTeX{} commands used as markup directives
+% should take these spacing rules into account, hence wrap
+% it with the proper \zXXop.
+%
+% For that, we provide equivalent macro names without @ so
+% that users specifying new commands for markup directives
+% can add the appropriate spacing rule.
+% (see LaTeX Companion 2nd Ed Table 8.7, p.525)
+%
+% We need the original commands with the \z@ prefix as this is
+% used for slightly increasing/decreasing their size.
+%
+% LATEX DETAILS:
+%
+% The use of \nolimits is important for mathematical symbols used
+% as keywords as it finely control typesetting and raise errors.
+% For the user command form of \z@op, one should refer to \keyword
+% (see LaTeX Companion 2nd Ed p.492, 903)
+%
+% The use of \mathstrut is important only when the symbol may
+% appear within other symbols (e.g., \sqrt{y} vs. \sqrt{\mathstrut y}).
+% For the Z operators, we tried to compromise between consistency
+% and simplicity.
+%
+% That is, some operators were already relation/binary and we avoided
+% redefining them just to add the \mathstrut. For these cases where
+% we did not add \mathstrut, a note is added.
+% TODO: this is experimental check if need to add everywhere.
+%
+\def\z@op#1{\mathop{\mathstrut{#1}}\nolimits}
+\def\z@preop#1{\z@op{#1}}
+\def\z@postop#1{\z@op{#1}}
+\def\z@relop#1{\mathrel{\mathstrut{#1}}}
+\def\z@binop#1{\mathbin{\mathstrut{#1}}}
+\def\z@ordop#1{\mathord{#1}}
+\let\zpreop=\z@preop
+\let\zpostop=\z@postop
+\let\zbinop=\z@binop
+\let\zrelop=\z@relop
+\let\zordop=\z@ordop
+
+% these operators are reused with increased/reduced size.
+% for that we provide increasing/reducing macros for them.
+% they come from oz.sty
+%
+% the (weird) algorithm that calculates the increment based on \big@size
+\def\bBigg@#1#2{%
+\mbox{\ifcase#1\or\large\or\Large\or\LARGE\or\small\or\footnotesize\fi
+$#2$}\nulldelimiterspace\z@ \m@th}
+\addto@hook\every@math@size{\setbox\z@\vbox{\hbox{$($}\kern\z@}%
+  \big@size 1.2\ht\z@}
+%
+% each relative increment
+\def\zBIG{\bBigg@{3}}
+\def\zBig{\bBigg@{2}}
+\def\zbig{\bBigg@{1}}
+\def\zsmall{\bBigg@{4}}
+\def\zSmall{\bBigg@{5}}
+%
+% and their version with varied sizes
+\def\z@bigpreop#1{\z@preop{\zbig{#1}}}
+\def\z@bigpostop#1{\z@postp{\zbig{#1}}}
+\def\z@bigbinop#1{\z@binop{\zbig{#1}}}
+\def\z@bigrelop#1{\z@relop{\zbig{#1}}}
+%
+\def\z@Bigpreop#1{\z@preop{\zBig{#1}}}
+\def\z@Bigpostop#1{\z@postp{\zBig{#1}}}
+\def\z@Bigbinop#1{\z@binop{\zBig{#1}}}
+\def\z@Bigrelop#1{\z@relop{\zBig{#1}}}
+%
+\def\z@smallpreop#1{\z@preop{\zsmall{#1}}}
+\def\z@smallpostop#1{\z@postp{\zsmall{#1}}}
+\def\z@smallbinop#1{\z@binop{\zsmall{#1}}}
+\def\z@smallrelop#1{\z@relop{\zsmall{#1}}}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Z core characters and words (ISOZ A.2.4)                      %
+% adjustment to spacing and boxing + added consistently         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+%%%%%%%%%%%%%%%%% A.2.4.1 - Greek alphabet treated as operators %
+
+% Save the original symbols - use before adjusting \mathstrut
+\let\xzdelta=\Delta
+\let\xzxi=\Xi
+\let\xtheta=\theta
+\let\xlambda=\lambda
+\let\xmu=\mu
+\def \Delta      {\zordop{\xzdelta}}
+\def \Xi         {\zordop{\xzxi}}
+\def \theta      {\zpreop{\xtheta}}
+\def \lambda     {\zpreop{\xlambda}}
+\def \mu         {\zpreop{\xmu}}
+
+%%%%%%%%%%%%%%%%% A.2.4.2 - Other letter characters             %
+
+% blackboard bold letters + power set is a primitive prefix operator
+\def \arithmos   {\zordop{\mathbb A}}
+\def \nat        {\zordop{\mathbb N}}
+\def \power      {\zpreop{\mathbb P}}
+
+% Being Zchar, these Greek letters should be surrounded
+% by \zordop. As they are already \mathord, the only
+% difference is because of a missing \mathstrut. TODO?
+%
+%\let\xalpha=\alpha \def \alpha {\zordop{\xalpha}}...
+%%Zchar \alpha U+03B1
+%%Zchar \beta U+03B2
+%%Zchar \gamma U+03B3
+%%Zchar \delta U+03B4
+%%Zchar \epsilon U+03B5
+%%Zchar \zeta U+03B6
+%%Zchar \eta U+03B7
+%%Zchar \iota U+03B9
+%%Zchar \kappa U+03BA
+%%Zchar \nu U+03BD
+%%Zchar \xi U+03BE
+%%Zchar \pi U+03C0
+%%Zchar \rho U+03C1
+%%Zchar \sigma U+03C3
+%%Zchar \tau U+03C4
+%%Zchar \upsilon U+03C5
+%%Zchar \phi U+03C6
+%%Zchar \chi U+03C7
+%%Zchar \psi U+03C8
+%%Zchar \omega U+03C9
+%%Zchar \Gamma U+0393
+%%Zchar \Theta U+0398
+%%Zchar \Lambda U+039B
+%%Zchar \Pi U+03A0
+%%Zchar \Sigma U+03A3
+%%Zchar \Upsilon U+03A5
+%%Zchar \Phi U+03A6
+%%Zchar \Psi U+03A8
+%%Zchar \Omega U+03A9
+
+%%%%%%%%%%%%%%%%% A.2.4.3 - Special characters                  %
+
+% Underscore redefined - used oz.sty width + zed-csp \ifmmode
+%\def\_{\leavevmode \vbox{\hrule width0.4em}}
+\def\_{\leavevmode \ifmmode\else\kern0.06em\fi \vbox{\hrule width0.5em}}
+
+% Hard space redefined - used zed-csp.sty
+% in math mode ~=\, ; outside, it is "\@M\ "
+% TODO: find out what \@M means!
+\def~{\ifmmode\,\else\penalty\@M\ \fi}
+
+% additional Z brackets: bindings + free type constructors
+%
+% zed-csp.sty definitions treat spacing better
+% and also have conditional def. for Lucida
+%
+% They are not \zordop because \langle is \mathopen/close
+\@ifpackageloaded{lucbr}{%
+  \def \lblot     {{\langle}\mkern -5mu{|}}
+  \def \rblot     {{|}\mkern -5mu{\rangle}}
+}{%
+  \def \lblot     {{\langle}\mkern -3.5mu{|}}
+  \def \rblot     {{|}\mkern -3.5mu{\rangle}}
+  % oz.sty definition is not as neat
+  % \def \lblot {\langle\!|}
+  % \def \rblot {|\!\rangle}
+}
+\def \ldata {\langle\!\langle}
+\def \rdata {\rangle\!\rangle}
+
+% Fat spot: used for separating predicates and expressions
+\def \spot {\zrelop{\bullet}}
+
+% Set membership with added \mathstrut
+\let\xin=\in
+\def\in   {\zrelop{\xin}}
+
+% \in is already a \mathrel
+
+% Treat ``@'' treated as \spot and ``|'' as \mid
+% That is, make then space as function operators
+%
+\mathcode`\|=\mid
+\mathchardef\semicolon="603B
+\mathcode`\;="8000                           % makes ; active in math mode
+{\catcode`\;=\active \gdef;{\semicolon\;}}
+\mathcode`\@="8000                           % makes @ active in math mode
+{\catcode`\@=\active \gdef@{\spot}}
+
+% zed-csp.sty had this for quotes, needed?
+\def\@kwote#1"{\hbox{\mathit{#1}}}
+\mathcode`\"="8000                           % makes " active in math mode
+{\catcode`\"=\active \global\let"=\@kwote}
+
+%%%%%%%%% A.2.4.4 - symbol characters except math toolkit chars %
+
+% Redefine logical ops as relational rather than binary ops.
+% That is because function, schema and generic operators bind
+% tighter than relation and predicate logic operators. Thus,
+% the former needs to be \mathbin, whereas the latter are \mathrel.
+
+% Generic Z operators
+\let\xvdash=\vdash
+\def \vdash      {\zordop{\xvdash}}
+\def \cross      {\zbinop{\times}}
+
+% oz.sty has a nicer (without \small) fcn composition symbol
+% it is defined as an `o' sitting on the top of a `9'.
+% zed-csp.sty differentiate the heights whenever in Lucida Bright.
+%
+\@ifpackageloaded{lucbr}{%
+    \def \fcomp  {\zrelop{\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
+       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}}
+    \def \ztypecln {\zrelop{\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
+       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{o}$\hfil}}}}%
+}{%
+    \def \fcomp  {\zrelop{\raise 0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle%
+       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}}
+    \def \ztypecln {\zrelop{\raise 0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle%
+       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{o}$\hfil}}}}%
+}
+
+% Schema operators defined as slightly bigger with \z@Bigbinop
+\def \zhide      {\z@Bigbinop{\backslash}}
+\def \zproject   {\z@Bigbinop{\zupharpoonright}}
+\def \zcomp      {\z@Bigbinop{\fcomp}}
+\def \zpipe      {\z@bigbinop{\mathord>\!\!\mathord>}}
+\def \ztypecolon {\z@bigbinop{\ztypecln}}
+%
+% NOTE: These aliasing appeared everywhere in oz.sty, despite the
+%       fact most of them were only used once. I will minimise
+%       aliasing (\let) unless the definitions are used multiply.
+%
+% aliases with the correct Z-\LaTeX markup
+\let \hide     \zhide
+\let \project  \zproject
+\let \semi     \zcomp
+\let \pipe     \zpipe
+
+% Z schema renaming or predicate substitution as an operator
+% rather than a core symbol. \rename is not in the standard,
+% (came from oz.sty). The advantage here is that one could
+% have better rendering of complex expression because of the
+% use of \left[ instead of just `['.
+%
+% TODO: discuss if it is worth making it a markup directive?
+%
+%\def \zfor  {/}  % solidus char
+%\def\z@rename*[#1/#2]{\left[#1 \over #2\right]}
+%\def\z@@rename[#1/#2]{\left[#1 \zfor #2\right]}
+%\def\rename{\@ifnextchar*{\z@rename}{\z@@rename}}
+
+% Predicate and propositional Logic operators - \mathrel please.
+% Both oz.sty and zed.sty \implies and \iff were not \mathstrut.
+% Adjust the original quantifiers as prefix ops with \mathstrut.
+%
+\def \lnot     {\zordop{\neg\;}}
+\def \land     {\zrelop{\wedge}}
+\def \lor      {\zrelop{\vee}}
+\def \implies  {\zrelop{\Rightarrow}}
+\def \iff      {\zrelop{\Leftrightarrow}}
+\let\xforall=\forall
+\let\xexists=\exists
+\def \forall   {\zpreop{\xforall}}
+\def \exists   {\zpreop{\xexists}}
+
+%%%%%%%%% A.2.4.5 - core words (keywords)                       %
+
+% A \z@word     is a function-like operator (see \z@op) with \nolimits.
+% A \z@boldword is a boldface \z@word.
+% A \zword      is a roman string (within a \mbox) \z@word.
+% A \keyword    is a boldface roman string (within a \mbox) \z@word.
+%
+% \zword   is for defining toolkit symbols, as in \dom, \seq, etc.
+% \keyword is for language keywords. For Z they are the Z Std keywords.
+%
+% Toolkit builders are encouraged to use \zword for their markup directives.
+% Language extension style files should use \keyword for new keywords.
+%
+\def\z@word#1{\z@op{#1}}
+\def\z@boldword#1{\z@word{\textbf{#1}}}
+\def\zword#1{\z@word{\mbox{\textrm{#1}}}}
+\def\keyword#1{\z@word{\mbox{\textrm{\textbf{#1}}}}}
+
+% Z keywords - scattered in the ZStd. They are collected
+% in full at "net.sourceforge.czt.parser.z.ZKeyword.java"
+%
+% sections
+\def \SECTION	{\keyword{section}}
+\def \parents	{\keyword{parents}}
+%
+% if-then-else
+\def \IF	    {\keyword{if}}
+\def \THEN	    {\keyword{then}}
+\def \ELSE	    {\keyword{else}}
+%
+% let
+\def \LET	    {\keyword{let}}
+%
+% boolean values - used in ZStd in the Z logic only
+% can be used by users that want to define \bool as
+% the free type "\bool ::= \false | \true".
+\def \true	    {\keyword{true}}
+\def \false	    {\keyword{false}}
+%
+% operator template keywords
+\def \function	{\keyword{function}}
+\def \relation	{\keyword{relation}}
+\def \generic	{\keyword{generic}}
+\def \leftassoc	{\keyword{leftassoc}}
+\def \rightassoc{\keyword{rightassoc}}
+%
+% schema precondition
+\def \pre       {\keyword{pre}}
+%
+% being a Zinword expression, \listarg is \zbinop
+% \varg is a synonym for \_ in operator templates
+\def \listarg	{\zbinop{,,}}
+\let\varg=\_
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Z mathematical toolkit characters and words (ISOZ A.2.5)      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% NOTE: adjustment to spacing (\mathrel/bin) and boxing (\mathstrut)
+%
+% Spacing of operator templates and toolkit characters:
+%
+% \zbinop = Function (F) or Generic (G)
+% \zrelop = Relation (R)
+%
+% \zordop = Zchar or Zword (D)       (unless these are used)
+% \zpreop = Zprechar or Zpreword (O) (for operator templates)
+%
+% TODO: Discuss... [wait to see how it renders]
+% Shall I really rename all these already relational
+% operators just to add \mathstrut to then?
+
+%%%%%%%%%%%%%%%%% A.2.5.1 - set toolkit symbols                 %
+
+\let\xneq=\neq
+\let\xsubseteq=\subseteq
+\let\xsubset=\subset
+\let\xcup=\cup
+\let\xcap=\cap
+\let\xsetminus=\setminus
+\let\xbigcup=\bigcup
+\let\xbigcap=\bigcap
+\let\slimemptyset=\emptyset % non-AMS version of \emptyset
+\def \rel      {\zbinop{\leftrightarrow}} % G
+\def \fun      {\zbinop{\rightarrow}}     % G
+\def \notin    {\not\in}                  % R
+\def \neq      {\zrelop{\xneq}}           % R
+\def \emptyset {\zordop{\zemptyset}}      % D
+\def \subseteq {\zrelop{\xsubseteq}}      % R
+\def \subset   {\zrelop{\xsubset}}        % R
+\def \cup      {\zbinop{\xcup}}           % F
+\def \cap      {\zbinop{\xcap}}           % F
+\def \setminus {\zbinop{\xsetminus}}      % F
+\def \symdiff  {\zbinop{\ominus}}         % F
+\def \bigcup   {\zpreop{\xbigcup}}        % O
+\def \bigcap   {\zpreop{\xbigcap}}        % O
+\def \finset   {\zpreop{\mathbb F}}       % O
+
+%%%%%%%%%%%%%%%%% A.2.5.2 - relation toolkit symbols            %
+
+% superscript maths is aligned/spaced differently
+% hence no change (see LaTeX Companion 8.7.5 p.505)
+%
+% NOTE: ISOZ A.2.5.2 does not add wordglue to \inv! TODO: check std bug?
+
+% reusable (explicit) definition for \dres/\rres negated
+\def\xn@res#1{\zbinop{\rlap{\raise.0001ex\hbox{$-$}}{#1}}}
+
+\let\xmapsto=\mapsto
+\let\xcirc=\circ
+\let\xoplus=\oplus
+\def \mapsto {\zbinop{\xmapsto}}          % F
+\def \dom    {\zword{dom}}                % O
+\def \ran    {\zword{ran}}                % O
+\def \id     {\zword{id}}                 % G
+\let\comp=\fcomp                          % F
+\def \circ   {\zbinop{\xcirc}}            % F
+\def \dres   {\zbinop{\zdres}}            % F
+\def \rres   {\zbinop{\zrres}}            % F
+\def \ndres  {\xn@res{\dres}}             % F
+\def \nrres  {\xn@res{\rres}}             % F
+%\def \inv	 {^\sim}                      % F
+\def \inv	 {\zpostop{\sim}}             % F
+\def \limg   {\zbinop{(\mskip-3.5mu|}}      % F
+\def \rimg   {\zpostop{|\mskip-5mu)}}     % F  it's a Zposchar!
+\def \oplus  {\zbinop{\xoplus}}           % F
+\let\amsstar=\star  % save old AMS \star
+\def \plus   {^+}                         % F
+\def \star	 {^*}                         % F
+
+%%%%%%%%%%%%%%%%% A.2.5.3 - function toolkit symbols            %
+
+% markup for partial and finite. symbol = #1
+\def\p#1{\z@binop{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\def\f#1{\z@binop{\ooalign{\hfil$\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+
+% doubled arrow function symbols. symbol = #1/#3; space delta = #2
+\def\xdfun#1#2#3{\zbinop{\ooalign{$#1$\hfil\cr$\mkern#3mu#2$}}}
+%\def \surj {\zbinop{\ooalign{$\fun$\hfil\cr$\mkern4mu\fun$}}}
+%\def \bij  {\zbinop{\ooalign{$\inj$\hfil\cr$\mkern5mu\fun$}}}
+
+% easy ones
+\def \pfun  {\p\fun}                     % G
+\def \inj   {\zbinop{\zinj}}             % G
+
+\@ifpackageloaded{lucbr}{%
+  % Lucida has the symbol, but AMS doesn't. So it is only
+  % loaded here. Keep it here for easy of reference.
+  \DeclareMathSymbol{\xpinj}{3}{arrows}{"92}%
+  \def \pinj {\zbinop{\xpinj}}           % G
+  \def \surj {\xdfun{\fun}{\fun}{3}}     % G
+  \def \bij  {\xdfun{\inj}{\fun}{4}}%    % G
+}{%
+  \def \pinj {\p{\inj}}                  % G
+  \def \surj {\xdfun{\fun}{\fun}{4}}     % G
+  \def \bij  {\xdfun{\inj}{\fun}{5}}%    % G
+}%
+\def \psurj     {\p{\surj}}              % G
+\def \ffun      {\f{\fun}}               % G
+\def \finj      {\f{\inj}}               % G
+\def \disjoint  {\zword{disjoint}}       % G
+\def \partition {\zword{partition}}      % G
+
+% TODO: shall we have binary zwords? Leave the words as \mathop.
+
+%%%%%%%%%%%%%%%%% A.2.5.4 - number toolkit symbols              %
+
+\let\xleq=\leq
+\let\xgeq=\geq
+\let\divides=\div % save the math division symbol
+
+\def\num    {\zordop{\mathbb Z}}         % D
+\def\negate {\zpreop{\mbox{-}}}          % F
+\def\leq    {\zrelop{\xleq}}             % R
+\def\geq    {\zrelop{\xgeq}}             % R
+\def\div    {\zword{div}}                % F
+\def\mod    {\zword{mod}}                % F
+
+%%%%%%%%%%%%%%%%% A.2.5.5 - sequence toolkit symbols            %
+
+% NOTE: As with \{ and \}, I am not redefining \langle and \rangle
+%       Also, \# is not being given as a \zpreop - # is low level
+%       and I don't know how to "influence" its spacing in \#
+
+% oz.sty option seems to use \mathchar, which nicely selects
+% and AMS font Unicode character (see LaTeX for \mathcar)
+\def \xcat {\raise 0.8ex\hbox{$\mathchar\zseqcat$}}
+%oz.sty  \def \cat   {\mathbin{\raise 0.8ex\hbox{$\mathchar\@@cat$}}}
+%zed.sty \def \cat   {\mathbin{\raise 0.8ex\hbox{$\smallfrown$}}}
+
+\def \upto    {\zbinop{\ldotp\ldotp}}    % F
+%\def \#      {\zpreop{??}}              % F
+\def \seq     {\zword{seq}}              % G
+\def \iseq    {\zword{iseq}}             % G
+%\langle                                 % F
+%\rangle                                 % F
+\def \cat     {\zbinop{\xcat}}           % F
+\def \extract {\zbinop{\zupharpoonleft}} % F
+\def \filter  {\zbinop{\zupharpoonright}}% F
+\def \prefix  {\zword{prefix}}           % R
+\def \suffix  {\zword{suffix}}           % R
+\def \infix   {\zword{infix}}            % R
+\def \dcat    {\zpreop{\cat}/}           % D
+
+% MINOR: R~^{~n~} : hard spaces are mandatory for parsing
+%
+% Relational iteration, as in R~^{~n~}, have superscripts and
+% a prefix operator. R alone will be treated as \mathord (rather
+% than \mathop), and I do not know how to accommodate that :-(
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Few extra helpful commands                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% users referring to this file in their \LaTeX
+\def\cztstylefile {\texttt{czt.sty}}
+
+% macro for block alignment of paragraphs - from (old) zed.sty
+\def\zedblock{\@ifnextchar[{\@zedblock}{\@zedblock[t]}}
+\def\@zedblock[#1]{\array[#1]{@{}l@{}}}
+\let\endzedblock=\endarray
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput
+%%
+%% End of file `czt.sty'.
+
+% Fuzz
+%\def \defs      {\mathrel{\widehat=}}
+%\def\widen#1{\z@op{{\overline{#1}}}}
+%
+% BAGS
+%
+%\@ifpackageloaded{lucbr}{}{
+%  \def\ldbrack{{[}\mkern-2mu{[}}
+%  \def\rdbrack{{]}\mkern-2mu{]}}}
+%\let \lbag      \ldbrack
+%\let \rbag      \rdbrack
+%
+% the next symbol is a bag union.
+%\def \uminus@sym{\setbox0=\hbox{$\cup$}\rlap{\hbox
+%    to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
+%\def \uminus    {\mathrel{\uminus@sym}}
+%
+%\let\buni\uplus
+%\def \emptybag  {\lbag\:\rbag}
+%\def \lbag  {[\![}
+%\def \rbag  {]\!]}
+%\def \bag   {\keyword{bag}}
+%\def \items {\word{items}}
+%\let \inbag \inseq
+%\def \bagcount  {\word{count}}
+%
+%\def \bcount	{\z@rel\sharp}
+%\def \subbageq	{\z@rel\sqsubseteq}
+%\def \uminus	{\mathbin{\mbox{\rlap{$\cup$}\hskip 0.2em -}}}
+%
+%\def \bag       {\mathop{\mathrm{bag}}}
+%\def \bcount    {\mathbin{\sharp}}
+%\def \inbag     {\mathrel{\mathrm{in}}}
+%\let \subbageq  \sqsubseteq 
