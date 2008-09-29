@@ -47,16 +47,34 @@
 % create conditionals for each option available, init=false
 \newif\if@lucida@ \@lucida@false
 \newif\if@color@  \@color@false
-\newif\if@colour@ \@colour@false
+\newif\if@mathit@  \@mathit@false
+\newif\if@mathrm@  \@mathrm@false
 
 % declare what each option actually do - colour=synonym(color)
 \DeclareOption{lucida}{\@lucida@true}
+\DeclareOption{mathit}{\@mathit@true \@mathrm@false}
+\DeclareOption{mathrm}{\@mathit@false \@mathrm@true}
 \DeclareOption{color}{\@color@true}
-\DeclareOption{colour}{\@colour@\@color@}
+\DeclareOption{colour}{\@color@true}
 
-% set default option as colourful then process then
-\ExecuteOptions{color}
+% default option as using math italics for mathcode names.
+\ExecuteOptions{mathit}
 \ProcessOptions\relax
+
+% if Lucida Bright is chosen, then load the package with necessary dependencies
+\if@lucida@
+  \@ifpackageloaded{lucidabr}{%
+      \PackageInfo{czt}{Lucida Bright already loaded}
+    }{%
+      \PackageInfo{czt}{Loading Lucida Bright with `expert' and `altbullet' options.\MessageBreak %
+          We also require the `texnansi' package}
+      \RequirePackage{texnansi}
+      \RequirePackage[expert,altbullet]{lucidabr}
+    }
+   %\PackageInfo{czt}{Lucida Bright fonts selected with default options.}
+\else
+   \PackageInfo{czt}{AMS fonts selected with default options}
+\fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Treating colours                                              %
@@ -65,10 +83,13 @@
 
 % If colouring is available
 \if@color@
+  \PackageInfo{czt}{Rendering Z math mode with colours}
+
   % check whether to load color package or not
   \@ifpackageloaded{color}{%
         \relax
   }{%
+        \PackageInfo{czt}{Package `color' loaded with `dvipsnames' \MessageBreak and `usenames' options}
         \RequirePackage[dvipsnames,usenames]{color}
   }
 
@@ -78,9 +99,16 @@
   \definecolor{ZedBoxColor}{cmyk}{1,1,0,0}
   \definecolor{AnnotationColor}{cmyk}{0.98,0.13,0,0.43}
   \definecolor{ZedColor}{cmyk}{0.50,1,0,0}
-
   % add more color here if needed
+
+  \PackageInfo{czt}{Package colours defined as:\MessageBreak%
+    \space\space ZedBoxColor\space\space\space\space\space                = cmyk(   1,   1,0,   0) \MessageBreak%
+    \space\space AnnotationColor                                          = cmyk(0.98,0.13,0,0.43) \MessageBreak%
+    \space\space ZedColor\space\space\space\space\space\space\space\space = cmyk(0.50,   1,0,   0) \MessageBreak%
+  }
+
 \else
+  \PackageInfo{czt}{Rendering Z math mode in monochrome.}
   % if color is loaded do nothing, otherwise redefine \color as empty
   \@ifpackageloaded{color}{\relax}{\def\color#1{\relax}}%
 \fi
@@ -90,21 +118,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                               %
 
-% declares the math version for fonts as "cztS
+% declares the math version for fonts as czt
 \DeclareMathVersion{czt}
-
-% if lucida option is selected but lucidabr is not loaded, load it.
-\if@lucida@
-  \@ifpackageloaded{lucidabr}{%
-    }{%
-      \RequirePackage{texnansi}
-      \RequirePackage[expert,altbullet]{lucidabr}
-    }
-\fi
+\PackageInfo{czt}{Setting math version to `czt'}
 
 % loading conditionally to Lucida Bright + using \zbinop
 % the latter is to do with the old defs + toolkit uses
-\@ifpackageloaded{lucbr}{
+\@ifpackageloaded{lucidabr}{
   % Math symbols declaration within Lucida Bright
   \DeclareMathSymbol{\zupharpoonright}{2}{arrows}{"75}
   \DeclareMathSymbol{\zupharpoonleft}{2}{arrows}{"76}
@@ -115,18 +135,18 @@
   % TODO: as many characters in Lucida are not being loaded,
   %       I wondered if they are defined with the names we
   %       given then in here. CHECK!
+  
+  \let\zemptyset=\emptyset
 
 }{%
   \SetMathAlphabet{\mathrm}{czt}{\encodingdefault}{\rmdefault}{m}{n}%
   \SetMathAlphabet{\mathbf}{czt}{\encodingdefault}{\rmdefault}{bx}{n}%
   \SetMathAlphabet{\mathsf}{czt}{\encodingdefault}{\sfdefault}{m}{n}%
-  \DeclareSymbolFont{italics}{\encodingdefault}{\rmdefault}{m}{it}%
 
   % Specify aliases for mathematical operator categories
   \DeclareSymbolFontAlphabet{\mathrm}{operators}
   \DeclareSymbolFontAlphabet{\mathit}{letters}
   \DeclareSymbolFontAlphabet{\mathcal}{symbols}
-  \DeclareSymbolFontAlphabet{\zit}{italics}
 
   % Load msama10 msamb10 font (AMS font dependencies): AMSa, AMSb
   \DeclareSymbolFont{AMSa}{U}{msa}{m}{n}
@@ -162,6 +182,11 @@
   \DeclareSymbolFontAlphabet{\mathbb}{AMSb}
 }
 
+% set symbol font italics for both Lucida and AMS fonts
+% this changes the behaviour of \symitalics
+\DeclareSymbolFont{italics}{\encodingdefault}{\rmdefault}{m}{it}%
+\DeclareSymbolFontAlphabet{\zit}{italics}
+
 % sets the math version
 \mathversion{czt}%
 
@@ -191,15 +216,41 @@
 % fuzz.sty has same code but calls with: \@setmcodes{`A}{`Z}{"7441}
 % blend from: zed-csp.sty, soz.sty, oz.sty, fuzz.sty
 %
-% TODO: make it an optional parameter mode - default=on
+% OBS: This is used in all Z styles. It seems to be originally from struktxf.sty
+%
 \def\@setmcodes#1#2#3{%
     {\count0=#1 \count1=#3%
     \loop \global\mathcode\count0=\count1%
     \ifnum \count0<#2%
     \advance\count0 by1 \advance\count1 by1%
     \repeat}}
-\@setmcodes{`A}{`Z}{"7\hexnumber@\symitalics41}%
-\@setmcodes{`a}{`z}{"7\hexnumber@\symitalics61}%
+\def\z@mathit%
+{%
+    \@setmcodes{`A}{`Z}{"7\hexnumber@\symitalics41}%
+    \@setmcodes{`a}{`z}{"7\hexnumber@\symitalics61}%
+}
+\def\z@mathrm%
+{%
+    \@setmcodes{`A}{`Z}{"7141}
+    \@setmcodes{`a}{`z}{"7161}
+}
+
+% Depending on package options, load the right encoding.
+% Or else, raise a warning and use math italics as default.
+\if@mathrm@
+  \PackageInfo{czt}{Setting math code for letters as Roman}
+  \z@mathrm
+\else
+  \if@mathit@
+    \PackageInfo{czt}{Setting math code for letters as Italics}
+    \z@mathit
+  \else
+    \PackageWarning{czt}{%
+      Could not resolve math code for letters.\MessageBreak%
+      Default could not be found. Using Italics}
+    \z@mathit
+  \fi
+\fi
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -256,6 +307,25 @@
 
 % initialisation of if-flags (LaTeX conditionals)
 \zt@pfalse
+
+\PackageInfo{czt}{%
+    Initialising registers with default values.\MessageBreak
+    \space\space\space\protect\zedtab=2em \MessageBreak%
+    \space\space\space\protect\zedindent=\protect\leftmargini \MessageBreak%
+    \space\space\space\protect\zedleftsep=1em \MessageBreak%
+    \space\space\space\protect\zedbar=6em \MessageBreak %
+    \MessageBreak
+    \space\space\space\protect\interzedlinepenalty=10000 \MessageBreak%never break
+    \space\space\space\protect\preboxpenalty=0 \MessageBreak%break easily
+    \space\space\space\protect\forcepagepenalty=-10000\MessageBreak%always break
+    \space\space\space\protect\interdisplaylinepenalty=100 \MessageBreak%break sometimes
+    \MessageBreak
+    \space\space\space\protect\zedskip= 0.5\baselineskip \MessageBreak%
+    \space\space\space\space\space\space    plus0.333333\baselineskip\MessageBreak%
+    \space\space\space\space\space\space    minus0.333333\baselineskip\MessageBreak%
+    \MessageBreak
+    \space\space\space\protect\zt@p=\ifzt@p true \else false \fi%
+}
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -459,8 +529,8 @@
 \def\theorem#1{\@@theorem{#1}}
 \def\@@theorem#1{\@zed\@znoskip\halign to\linewidth\bgroup%
   {\strut$\color{ZedColor}\@zlign\hskip\zedleftsep##$}\hfil \tabskip=0pt plus1fil\crcr
-\hskip -\zedleftsep\hbox{\bf theorem \rm \@ability {\color{ZedColor}#1}}\crcr}
-\def\@ability{\relax} % don't follow why z-eves needed this command here.
+\hskip -\zedleftsep\hbox{\bf theorem \rm {\color{ZedColor}#1}}\crcr}
+%\def\@ability{\relax} % don't follow why z-eves needed this command here. = no need.
 
 % synonym for \endzed - could not add colour to the theorem's body :-(
 %\def\endtheorem{\color{ZedColor}\endzed}
@@ -471,7 +541,7 @@
 \def\@@theorem#1{\@zed\@znoskip%
 \halign to\linewidth\bgroup
 \strut$\@zlign\hskip\zedleftsep##$\hfil \tabskip=0pt plus1fil\crcr
-\hskip -\zedleftsep\hbox{\bf theorem \rm \@ability #1}\crcr}
+\hskip -\zedleftsep\hbox{\bf theorem \rm #1}\crcr}
 
 \def\endtheorem{\endzed}
 
@@ -683,16 +753,25 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 %%%%%%%%%%%%%%%%% A.2.4.1 - Greek alphabet treated as operators %
 
 % Save the original symbols - use before adjusting \mathstrut
-\let\xzdelta=\Delta
-\let\xzxi=\Xi
-\let\xtheta=\theta
-\let\xlambda=\lambda
-\let\xmu=\mu
-\def \Delta      {\zordop{\xzdelta}}
-\def \Xi         {\zordop{\xzxi}}
-\def \theta      {\zpreop{\xtheta}}
-\def \lambda     {\zpreop{\xlambda}}
-\def \mu         {\zpreop{\xmu}}
+
+\@ifpackageloaded{lucidabr}{}{%
+    \let\xzdelta=\Delta
+    \let\xzxi=\Xi
+    \let\xtheta=\theta
+    \let\xlambda=\lambda
+    \let\xmu=\mu
+    \def \Delta      {\zordop{\xzdelta}}
+    \def \Xi         {\zordop{\xzxi}}
+    \def \theta      {\zpreop{\xtheta}}
+    \def \lambda     {\zpreop{\xlambda}}
+    \def \mu         {\zpreop{\xmu}}
+
+    \PackageInfo{czt}{%
+        As not in Lucida Bright, we need to change Z \MessageBreak %
+        keyword rendering for some Greek letters:\MessageBreak %
+        \protect\Delta, \protect\Xi, \protect\theta, \protect\lambda, \protect\mu%
+    }
+}
 
 %%%%%%%%%%%%%%%%% A.2.4.2 - Other letter characters             %
 
@@ -753,7 +832,7 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 % and also have conditional def. for Lucida
 %
 % They are not \zordop because \langle is \mathopen/close
-\@ifpackageloaded{lucbr}{%
+\@ifpackageloaded{lucidabr}{%
   \def \lblot     {{\langle}\mkern -5mu{|}}
   \def \rblot     {{|}\mkern -5mu{\rangle}}
 }{%
@@ -790,6 +869,9 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 \mathcode`\"="8000                           % makes " active in math mode
 {\catcode`\"=\active \global\let"=\@kwote}
 
+\PackageInfo{czt}{Marking \protect\mid, \protect\semicolon, and \protect\spot \MessageBreak %
+    as \MessageBreak active in math mode}
+
 %%%%%%%%% A.2.4.4 - symbol characters except math toolkit chars %
 
 % Redefine logical ops as relational rather than binary ops.
@@ -806,7 +888,7 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 % it is defined as an `o' sitting on the top of a `9'.
 % zed-csp.sty differentiate the heights whenever in Lucida Bright.
 %
-\@ifpackageloaded{lucbr}{%
+\@ifpackageloaded{lucidabr}{%
     \def \fcomp  {\zrelop{\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
        \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}}
     \def \ztypecln {\zrelop{\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
@@ -867,54 +949,56 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 % A \z@word     is a function-like operator (see \z@op) with \nolimits.
 % A \z@boldword is a boldface \z@word.
 % A \zword      is a roman string (within a \mbox) \z@word.
-% A \keyword    is a boldface roman string (within a \mbox) \z@word.
+% A \zkeyword   is a boldface roman string (within a \mbox) \z@word.
 %
-% \zword   is for defining toolkit symbols, as in \dom, \seq, etc.
-% \keyword is for language keywords. For Z they are the Z Std keywords.
+% \zword    is for defining toolkit symbols, as in \dom, \seq, etc.
+% \zkeyword is for language keywords. For Z they are the Z Std keywords.
 %
 % Toolkit builders are encouraged to use \zword for their markup directives.
-% Language extension style files should use \keyword for new keywords.
+% Language extension style files should use \zkeyword for new keywords.
 %
 \def\z@word#1{\z@op{#1}}
 \def\z@boldword#1{\z@word{\textbf{#1}}}
 \def\zword#1{\z@word{\mbox{\textrm{#1}}}}
-\def\keyword#1{\z@word{\mbox{\textrm{\textbf{#1}}}}}
+\def\zkeyword#1{\z@word{\mbox{\textrm{\textbf{#1}}}}}
 
 % Z keywords - scattered in the ZStd. They are collected
 % in full at "net.sourceforge.czt.parser.z.ZKeyword.java"
 %
 % sections
-\def \SECTION	{\keyword{section}}
-\def \parents	{\keyword{parents}}
+\def \SECTION	{\zkeyword{section}}
+\def \parents	{\zkeyword{parents}}
 %
 % if-then-else
-\def \IF	    {\keyword{if}}
-\def \THEN	    {\keyword{then}}
-\def \ELSE	    {\keyword{else}}
+\def \IF	    {\zkeyword{if}}
+\def \THEN	    {\zkeyword{then}}
+\def \ELSE	    {\zkeyword{else}}
 %
 % let
-\def \LET	    {\keyword{let}}
+\def \LET	    {\zkeyword{let}}
 %
 % boolean values - used in ZStd in the Z logic only
 % can be used by users that want to define \bool as
 % the free type "\bool ::= \false | \true".
-\def \true	    {\keyword{true}}
-\def \false	    {\keyword{false}}
+\def \true	    {\zkeyword{true}}
+\def \false	    {\zkeyword{false}}
 %
 % operator template keywords
-\def \function	{\keyword{function}}
-\def \relation	{\keyword{relation}}
-\def \generic	{\keyword{generic}}
-\def \leftassoc	{\keyword{leftassoc}}
-\def \rightassoc{\keyword{rightassoc}}
+\def \function	{\zkeyword{function}}
+\def \relation	{\zkeyword{relation}}
+\def \generic	{\zkeyword{generic}}
+\def \leftassoc	{\zkeyword{leftassoc}}
+\def \rightassoc{\zkeyword{rightassoc}}
 %
 % schema precondition
-\def \pre       {\keyword{pre}}
+\def \pre       {\zkeyword{pre}}
 %
 % being a Zinword expression, \listarg is \zbinop
 % \varg is a synonym for \_ in operator templates
 \def \listarg	{\zbinop{,,}}
 \let\varg=\_
+
+\PackageInfo{czt}{Setting up default Z keywords}
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -923,6 +1007,8 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 % Z mathematical toolkit characters and words (ISOZ A.2.5)      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                               %
+
+\PackageInfo{czt}{\space\space Loading prelude\space\space\space\space\space\space\space\space\space\space symbols}
 
 % NOTE: adjustment to spacing (\mathrel/bin) and boxing (\mathstrut)
 %
@@ -939,6 +1025,8 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 % operators just to add \mathstrut to then?
 
 %%%%%%%%%%%%%%%%% A.2.5.1 - set toolkit symbols                 %
+
+\PackageInfo{czt}{\space\space Loading set\space\space\space\space\space\space toolkit symbols}
 
 \let\xneq=\neq
 \let\xsubseteq=\subseteq
@@ -971,6 +1059,8 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 %
 % NOTE: ISOZ A.2.5.2 does not add wordglue to \inv! TODO: check std bug?
 
+\PackageInfo{czt}{\space\space Loading relation toolkit symbols}
+
 % reusable (explicit) definition for \dres/\rres negated
 \def\xn@res#1{\zbinop{\rlap{\raise.0001ex\hbox{$-$}}{#1}}}
 
@@ -998,6 +1088,8 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 
 %%%%%%%%%%%%%%%%% A.2.5.3 - function toolkit symbols            %
 
+\PackageInfo{czt}{\space\space Loading function toolkit symbols}
+
 % markup for partial and finite. symbol = #1
 \def\p#1{\z@binop{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
 \def\f#1{\z@binop{\ooalign{\hfil$\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
@@ -1011,7 +1103,7 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 \def \pfun  {\p\fun}                     % G
 \def \inj   {\zbinop{\zinj}}             % G
 
-\@ifpackageloaded{lucbr}{%
+\@ifpackageloaded{lucidabr}{%
   % Lucida has the symbol, but AMS doesn't. So it is only
   % loaded here. Keep it here for easy of reference.
   \DeclareMathSymbol{\xpinj}{3}{arrows}{"92}%
@@ -1033,6 +1125,8 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 
 %%%%%%%%%%%%%%%%% A.2.5.4 - number toolkit symbols              %
 
+\PackageInfo{czt}{\space\space Loading number\space\space\space toolkit symbols}
+
 \let\xleq=\leq
 \let\xgeq=\geq
 \let\divides=\div % save the math division symbol
@@ -1045,6 +1139,8 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 \def\mod    {\zword{mod}}                % F
 
 %%%%%%%%%%%%%%%%% A.2.5.5 - sequence toolkit symbols            %
+
+\PackageInfo{czt}{\space\space Loading sequence toolkit symbols}
 
 % NOTE: As with \{ and \}, I am not redefining \langle and \rangle
 %       Also, \# is not being given as a \zpreop - # is low level
@@ -1076,9 +1172,12 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 % a prefix operator. R alone will be treated as \mathord (rather
 % than \mathop), and I do not know how to accommodate that :-(
 
+%%%%%%%%%%%%%%%%% B.9 - standard toolkit                        %
+
+\PackageInfo{czt}{\space\space Loading standard toolkit symbols completed}
+
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Few extra helpful commands                                    %
@@ -1106,7 +1205,7 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 %
 % BAGS
 %
-%\@ifpackageloaded{lucbr}{}{
+%\@ifpackageloaded{lucidabr}{}{
 %  \def\ldbrack{{[}\mkern-2mu{[}}
 %  \def\rdbrack{{]}\mkern-2mu{]}}}
 %\let \lbag      \ldbrack
@@ -1121,7 +1220,7 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 %\def \emptybag  {\lbag\:\rbag}
 %\def \lbag  {[\![}
 %\def \rbag  {]\!]}
-%\def \bag   {\keyword{bag}}
+%\def \bag   {\zkeyword{bag}}
 %\def \items {\word{items}}
 %\let \inbag \inseq
 %\def \bagcount  {\word{count}}

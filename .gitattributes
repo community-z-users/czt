@@ -60,7 +60,9 @@ doc/refcard/z/refcard.p2.latb -text
 doc/refcard/z/refcard.pdf -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zcs -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
+dtx/Sched.dvi -text
 dtx/czt-guide.dvi -text
+dtx/czt-guide.pdf -text svneol=unset#application/pdf
 dtx/czt.ins -text
 dtx/czt.sty -text
 dtx/font-symbols.bat -text
