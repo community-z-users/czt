@@ -66,10 +66,20 @@ dtx/czt-guide.pdf -text svneol=unset#application/pdf
 dtx/czt.ins -text
 dtx/czt.sty -text
 dtx/font-symbols.bat -text
-dtx/font-symbols.dvi -text
-dtx/font-symbols.in -text
-dtx/oz-symbols.dvi -text
-dtx/oz-symbols.in -text
+dtx/font-tables/euler.dvi -text
+dtx/font-tables/euler.pdf -text svneol=unset#application/pdf
+dtx/font-tables/font-lucida.bat -text
+dtx/font-tables/font-symbols.bat -text
+dtx/font-tables/font-symbols.dvi -text
+dtx/font-tables/font-symbols.in -text
+dtx/font-tables/font-tables.pdf -text svneol=unset#application/pdf
+dtx/font-tables/lucida-bright.in -text
+dtx/font-tables/lucida-table.dvi -text
+dtx/font-tables/lucida-table.pdf -text svneol=unset#application/pdf
+dtx/font-tables/lucida-table.ps -text
+dtx/font-tables/oz-symbols.dvi -text
+dtx/font-tables/oz-symbols.in -text
+dtx/font-tables/oz-symbols.pdf -text svneol=unset#application/pdf
 eclipse/README.txt -text
 eclipse/czteditor/icons/obj16/axpara16.png -text
 eclipse/czteditor/icons/obj16/conj16.png -text
