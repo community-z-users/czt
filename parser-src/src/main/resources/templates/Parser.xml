@@ -5329,7 +5329,7 @@ command ::=
         :}
         |
         /* Specification statement with empty frame*/
-        COLON:c LSQUARE predicate:pre COMMA predicate:post RSQUARE:rsq
+        PREFIXCOLON:c LSQUARE predicate:pre COMMA predicate:post RSQUARE:rsq
         {:            
             RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), 
               factory_.list(pre, post));
