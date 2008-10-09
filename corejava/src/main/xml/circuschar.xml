@@ -53,11 +53,12 @@
       <char id="REPINTCHOICE" hex="2294" description="Replicated internal choice (TODO:Change Unicode char)"/>      
     </CORESYMBOL>
     <CIRCUSTOOLKITSYMBOL>      
-      <char id="BOOLEAN" hex="1D539" description="mathematical double-struck capital B"/>
+      <char id="BOOLEAN" hex="1D539" description="mathematical blackboard capital B"/>
       <char id="GENDJ" hex="2A46" description="generalised disjointness"/>
       <char id="REGIONS" hex="2A02" description="regions of a set of sets"/>
       <char id="DSETMINUS" hex="21F2" description="distributed set difference"/>
       <char id="DCAP" hex="25C7" description="distributed set intersection"/>      
+      <char id="UNIVERSE" hex="1D54C" description="mathematical blackboard capital U"/>     
     </CIRCUSTOOLKITSYMBOL>
   </SYMBOL>
 </CIRCUSCHAR>
