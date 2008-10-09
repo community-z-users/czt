@@ -1,0 +1,467 @@
+%%
+%% This is file `circus.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% circus.dtx  (with options: `package')
+%%
+%% This is a generated file
+%%
+%% Copyright (C) 2008 Leo Freitas.
+%% University of York All rights reserved.
+%%
+%% This is a generated file for Circus within the
+%% Community Z Tools (CZT). It is based on the zed-csp.sty
+%% package distribution.  Permission is granted to to
+%% customize the declarations in this file to serve the
+%% needs of your installation.  However, no permission
+%% is granted to distribute a modified version of this
+%% file under its original name.
+%%
+\def\fileversion{v.1.0}
+\def\filedate{2008/10/01}
+\def\filedesc{Circus style file by the Community Z Tools}
+
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{circus}
+    [\filedate\space\fileversion\space \filedesc]
+\message{`\filedesc'\space \fileversion\space <\filedate>}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Design guidelines:
+%   1) keep it minimal + simple + consistent
+%   2) for machine readable Circus only
+%   3) identify code sources (when different)
+%   4) normalise definitions for consistency
+%   5) complete missing cases (use common sense)
+%   6) keep it well documented, but not verbose
+%   7) order of definitions from Circus.xsd, circus_prelude.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package options - zed.sty (old version of zed-csp.sty)        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% Call czt with the same options as in here
+\RequirePackageWithOptions{czt}[2008/10/01]
+
+% create conditionals for each option available, init=false
+\newif\if@ctkkeyword@ \@ctkkeyword@false
+
+\DeclareOption{ctkkeyword}{\@ctkkeyword@true}
+
+% default option as using math italics for mathcode names.
+\ExecuteOptions{mathit, colour}
+\ProcessOptions\relax
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Treating colours                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% If colouring is available
+\if@color@
+  \PackageInfo{circus}{Rendering Circus math mode with colours}
+
+  % check whether to load color package or not
+  \@ifpackageloaded{color}{%
+        \relax
+  }{%
+        \PackageInfo{circus}{Package `color' loaded with `dvipsnames' \MessageBreak and `usenames' options}
+        \RequirePackage[dvipsnames,usenames]{color}
+  }
+  
+  \definecolor{CSPBoxColor}{cmyk}{1,0,1,0}% Green
+  \definecolor{MetaColor}{cmyk}{0,0.61,0.87,0}% Orange
+  \definecolor{CSPColor}{cmyk}{0.50,1,0,0}% Plum
+  
+  \PackageInfo{circus}{Circus colours defined as:\MessageBreak%
+    \space\space CSPBoxColor\space\space          = cmyk(   1,   0,   1,0) \MessageBreak%
+    \space\space MetaColor\space\space\space      = cmyk(   0,0.61,0.87,0) \MessageBreak%
+    \space\space CSPColor\space\space\space\space = cmyk(0.50,   1,   0,0) \MessageBreak%
+  
+\else
+  \PackageInfo{circus}{Rendering Circus math mode in monochrome.}
+
+  \@ifpackageloaded{color}{\relax}{\def\color#1{\relax}}
+\fi
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Loading mathematical symbols from AMS/Lucuida fonts           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% declares the math version for fonts as circus
+\DeclareMathVersion{circus}
+\PackageInfo{circus}{Creating `circus' math version}
+
+\@ifpackageloaded{lucidabr}{%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Lucida Bright font setup                                      %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                                               %
+    \PackageInfo{circus}{Loading Lucida Bright font symbols for Circus}
+    
+}{%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % AMS font setup                                                %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                                               %
+    \PackageInfo{circus}{Loading AMS font symbols for Circus}
+
+  %%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circus         %
+
+    \def \csym@lchanset      {{\{}\mkern-3.5mu{|}~}%{\{\!|~}
+    \def \csym@rchanset      {~{|}\mkern-3.5mu{\}}}%{~|\!\}}
+    \let \csym@lcircindex    \lfloor
+    \let \csym@rcircindex    \rfloor
+    \def \csym@lcircguard    {\zbig{(}}
+    \def \csym@rcircguard    {\zbig{)}}
+    \def \csym@lschexpract   {\zBig{(}}
+    \def \csym@rschexpract   {\zBig{)}}
+    \def \csym@linter        {|\!|\hspace{-4pt}[}
+    \def \csym@rinter        {]\hspace{-4pt}|\!|}
+    %\def \csym@lpar          {{\mid}\mkern -2mu{[}\mkern-1mu}
+    %\def \csym@rpar          {\mkern-1mu{]}\mkern -2mu{\mid}}
+    \DeclareMathSymbol{\csym@lpar}{\mathopen}{stmry}{"4A}%
+    \DeclareMathSymbol{\csym@rpar}{\mathopen}{stmry}{"4B}%
+    \def \csym@lcircrename   {[}%{\left[}
+    \def \csym@rcircrename   {]}%{\right]}
+
+  %%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
+
+    \let \csym@circrefines   \sqsubseteq
+    \DeclareMathSymbol{\csym@circsimulates}{\mathrel}{AMSa}{"34}% \succcurlyeq
+    \DeclareMathSymbol{\csym@circassertref}{\mathrel}{AMSa}{"0D}%
+    \def \csym@circdef       {\widehat=}
+    \def \csym@circspot      {\zbig{\spot}}
+    \let \csym@circindex     \odot
+
+  %%%%%%%%%%%%%%%%% 3) CSP symbols used in Circus                 %
+
+    \def\indexed@op#1{\mathop{\zBIG{\mathstrut#1}}\nolimits} %
+
+    \let \csym@cspthen       \longrightarrow
+    \def \csym@prefixcolon   {\zbig{:}}
+    \def \csym@cspSemi       {\indexed@op{;}}
+
+    %\def \csym@cspinterleave  {{|}\mkern-2mu{|}\mkern-2mu{|}}
+    \DeclareMathSymbol{\csym@cspinterleave}{\mathbin}{stmry}{"39}%
+    \def \csym@cspInterleave {\indexed@op{\csym@cspinterleave}}
+    %\DeclareMathSymbol{\csym@cspInterleave}{\mathbin}{stmry}{"67}%
+
+    %\def \csym@cspParallel   {\parallel}
+    \DeclareMathSymbol{\csym@cspParallelbase}{\mathop}{stmry}{"66}%
+    \def \csym@cspParallel    {\mathop{\mathstrut \csym@cspParallelbase}\nolimits}
+
+    \DeclareMathSymbol{\csym@cspextchoice}{\mathbin}{stmry}{"40}%
+    \def \csym@cspExtchoice  {\indexed@op{\csym@cspextchoice}}
+    %\DeclareMathSymbol{\csym@cspExtchoice}{\mathbin}{stmry}{"65}%
+
+    \let \csym@cspintchoice  \sqcap
+    \def \csym@cspIntchoice  {\indexed@op{\csym@cspintchoice}}
+    %\DeclareMathSymbol{\csym@cspIntchoice}{\mathbin}{stmry}{"64}%
+
+    \def \csym@circhide      {\zbig{\zsym@solidus}}
+    \def \csym@circseq       {\zbig{;}}
+    \def \csym@circmu        {\zbig{\zsym@mu}}
+    \def \csym@circthen      {\zbig{\longrightarrow}}
+    \DeclareMathSymbol{\csym@circelse}{\mathbin}{stmry}{"38}% %\def \csym@circelse {[\!]}
+    \DeclareMathSymbol{\csym@circguard}{\mathbin}{stmry}{"4E}% \let \csym@circguard \&
+
+  %%%%%%%%%%%%%%%%% 4) Special CSP symbols                        %
+  
+    \DeclareMathSymbol{\csym@tick}{\mathord}{AMSa}{"58}%
+  
+  %%%%%%%%%%%%%%%%% 5) Circus prelude symbols                     %
+
+    \def \csym@boolean       {\mathbb B}
+    \def \csym@universe      {\mathbb U}
+    
+  %%%%%%%%%%%%%%%%% 6) Circus model checking toolkit symbols      %
+  
+    \DeclareMathSymbol{\cmcsym@gendj}{\mathbin}{AMSa}{"47}%
+    \let \cmcsym@regions   \otimes
+    \let \cmcsym@dsetminus \searrow   
+    \DeclareMathSymbol{\cmcsym@dcap}{\mathbin}{AMSa}{"06}% \lozenge    
+}
+
+% sets the math version
+\mathversion{circus}%
+\PackageInfo{circus}{Current math version set to `circus'}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Circus registers: skip, dimen, tab, etc                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+%%%%%%%%%% new registers                                        %
+
+\newif\ifCountCircusDefs
+\newif\ifTypesetCircusToolsCmds
+
+\newcounter{circusCtr}
+\newcounter{circusopCtr}
+\newcounter{circusactionCtr}
+\newcounter{circuschannelCtr}
+\newcounter{circusprocessCtr}
+\newcounter{circusmuCtr}
+\newcounter{circusvarCtr}
+
+%%%%%%%%%% registers initialisation                             %
+
+\CountCircusDefsfalse
+\TypesetCircusToolsCmdsfalse
+
+
+\PackageInfo{circus}{%
+    Initialising Circus registers with default values.\MessageBreak
+    \space\space\space\protect\zedtab=2em \MessageBreak%
+    \space\space\space\protect\zedindent=\protect\leftmargini \MessageBreak%
+    \space\space\space\protect\zedleftsep=1em \MessageBreak%
+    \space\space\space\protect\zedbar=6em \MessageBreak %
+    \MessageBreak
+    \space\space\space\protect\interzedlinepenalty=10000 \MessageBreak%never break
+    \space\space\space\protect\preboxpenalty=0 \MessageBreak%break easily
+    \space\space\space\protect\forcepagepenalty=-10000\MessageBreak%always break
+    \space\space\space\protect\interdisplaylinepenalty=100 \MessageBreak%break sometimes
+    \MessageBreak
+    \space\space\space\protect\zedskip= 0.5\baselineskip \MessageBreak%
+    \space\space\space\space\space\space    plus0.333333\baselineskip\MessageBreak%
+    \space\space\space\space\space\space    minus0.333333\baselineskip\MessageBreak%
+    \MessageBreak
+    \space\space\space\protect\zt@p=\ifzt@p true \else false \fi%
+}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Circus environments                                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\PackageInfo{circus}{Setting up Circus LaTeX environments}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Language keywords                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Just like in Z, but with \textsl and underline instead of \texrm.
+% This (i.e., being different from Z keywords) is useful because 
+% some names are reused (e.g., if)
+% 
+\def\mathsl#1{\hbox{\slshape #1}}
+\def\circusword#1{\z@word{\mathsl{\underline{#1}}}}
+\def\circuskeyword#1{\z@word{\mathsl{\textbf{\underline{#1}}}}}
+\def\circustoolkit#1{\if@ctkkeyword@ \circuskeyword{#1} \else \circusword{#1} \fi}
+
+%%%%%%%%%%%%%%%%% 1) Guarded commands                           %
+
+\def \circif      {\zpreop{\circuskeyword{if}}}
+\def \circfi      {\zpostop{\circuskeyword{fi}}}
+\def \circdo      {\zpreop{\circuskeyword{do}}}
+\def \circod      {\zpostop{\circuskeyword{od}}}
+\def \circcon     {\zpreop{\circuskeyword{con}}}
+\def \circvar     {\zpreop{\circuskeyword{var}}}
+\def \circval     {\zpreop{\circuskeyword{val}}}
+\def \circres     {\zpreop{\circuskeyword{res}}}
+\def \circvres    {\zpreop{\circuskeyword{vres}}}
+
+%%%%%%%%%%%%%%%%% 2) Channel and name set                       %
+
+\def \circchannel     {\zpreop{\circuskeyword{channel}}}
+\def \circchannelfrom {\zpreop{\circuskeyword{channelfrom}}}
+\def \circchannelset  {\zpreop{\circuskeyword{channelset}}}
+\def \circnameset     {\zpreop{\circuskeyword{nameset}}}
+
+%%%%%%%%%%%%%%%%% 3) Processes                                  %
+
+\def \circprocess {\zpreop{\circuskeyword{process}}}
+\def \circbegin   {\zpreop{\circuskeyword{begin}}}
+\def \circend     {\zpreop{\circuskeyword{end}}}
+\def \circstate   {\zpreop{\circuskeyword{state}}}
+
+%%%%%%%%%%%%%%%%% 4) Actions                                    %
+
+\def \Skip        {\zordop{\circuskeyword{Skip}}}
+\def \Stop        {\zordop{\circuskeyword{Stop}}}
+\def \Chaos       {\zordop{\circuskeyword{Chaos}}}
+
+\PackageInfo{circus}{Loading Circus keywords}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Core symbols                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circus         %
+
+\def \lchanset      {\zopenop{\csym@lchanset}}
+\def \rchanset      {\zcloseop{\csym@rchanset}}
+\def \lcircindex    {\zopenop{\csym@lcircindex}}
+\def \rcircindex    {\zcloseop{\csym@rcircindex}}
+\def \lcircguard    {\zopenop{\csym@lcircguard}}
+\def \rcircguard    {\zcloseop{\csym@rcircguard}}
+\def \lschexpract   {\zopenop{\csym@lschexpract}}
+\def \rschexpract   {\zcloseop{\csym@rschexpract}}
+\def \linter        {\zbinop{\zopenop{\csym@linter}}}
+\def \rinter        {\zbinop{\zcloseop{\csym@rinter}}}
+\def \lpar          {\zbinop{\zopenop{\csym@lpar}}}
+\def \rpar          {\zbinop{\zcloseop{\csym@rpar}}}
+\def \lcircrename   {\zopenop{\csym@lcircrename}}
+\def \rcircrename   {\zcloseop{\csym@rcircrename}}
+    
+\PackageInfo{circus}{Loading Circus brackets}
+    
+%%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
+
+\def \circrefines   {\zrelop{\csym@circrefines}}
+\def \circsimulates {\zrelop{\csym@circsimulates}}
+\def \circassertref {\zrelop{\csym@circassertref}}
+\def \circdef       {\zrelop{\csym@circdef}}
+\def \circspot      {\zrelop{\csym@circspot}}
+\def \circindex     {\zrelop{\csym@circindex}}
+
+\PackageInfo{circus}{Loading Circus special symbols}
+
+%%%%%%%%%%%%%%%%% 3) CSP symbols used in Circus                 %
+
+\def \then          {\zbinop{\csym@cspthen}}
+\def \prefixcolon   {\zbinop{\csym@prefixcolon}}
+\def \Semi          {\zpreop{\csym@cspSemi}}
+\def \interleave    {\zbinop{\csym@cspinterleave}}
+\def \Parallel      {\zpreop{\csym@cspParallel}}
+\def \Interleave    {\zpreop{\csym@cspInterleave}}
+\def \extchoice     {\zbinop{\csym@cspextchoice}}
+\def \Extchoice     {\zpreop{\csym@cspExtchoice}}
+\def \intchoice     {\zbinop{\csym@cspintchoice}}
+\def \Intchoice     {\zpreop{\csym@cspIntchoice}}
+\def \circhide      {\zbinop{\csym@circhide}}
+\def \circseq       {\zbinop{\csym@circseq}}
+\def \circmu        {\zbinop{\csym@circmu}}
+\def \circthen      {\zbinop{\csym@circthen}}
+\def \circelse      {\zbinop{\csym@circelse}}
+\def \circguard     {\zbinop{\csym@circguard}}  
+
+\PackageInfo{circus}{Loading Circus CSP symbols}
+
+%%%%%%%%%%%%%%%%% 4) Circus boxing characters                   %
+
+%    <BOXCHAR>
+%      <char id="CIRCUSCHAR" hex="257A" description="box drawings thick horizontal line to the right."/>
+%      <char id="CIRCUSACTIONCHAR" hex="2576" description="box drawings thin horizontal line to the right."/>
+%    </BOXCHAR>
+
+%  <SPECIAL>
+%    <BOXCHAR>
+%      <char id="CIRCUSJOKERCHAR" hex="2606" description="hollow version of JOKER char."/>
+%      <char id="CIRCUSACTIONLAWCHAR" hex="25A1" description="hollow version of Rule char."/>
+%      <char id="CIRCUSPROCESSLAWCHAR" hex="25A3" description="hollow contained version of Rule char."/>
+%    </BOXCHAR>
+%  </SPECIAL>
+    
+\PackageInfo{circus}{Loading Circus boxing symbols}
+
+%%%%%%%%%%%%%%%%% 5) Circus prelude symbols                     %
+
+\def \boolean  {\zordop{\csym@boolean}}
+\def \universe {\zordop{\csym@universe}}
+
+\renewcommand{\true}{\zordop{\circuskeyword{True}}}
+\renewcommand{\false}{\zordop{\circuskeyword{False}}}
+
+\PackageInfo{circus}{Loading Circus circus\_prelude symbols}
+
+%%%%%%%%%%%%%%%%% 6) Circus model checking toolkit symbols      %
+
+\def \gendj     {\zbinop{\cmcsym@gendj}}
+\def \regions   {\zbinop{\cmcsym@regions}}
+\def \dsetminus {\zbinop{\cmcsym@dsetminus}}
+\def \dcap      {\zbinop{\cmcsym@dcap}}
+\def \minimal   {\zordop{\circustoolkit{minimal}}}
+
+\PackageInfo{circus}{Loading Circus circus\_mc\_toolkit symbols}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Few extra helpful commands                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% users referring to this file in their \LaTeX
+\def \circusstylefile {\texttt{circus.sty}}
+
+\def \Circus {{\sf\slshape Circus}}
+
+\def \tick   {\zordop{\csym@tick}}
+
+% Special Circus tool controlling commands
+\newcommand{\circblockbegin}{\begin{block}}
+\newcommand{\circblockend}{\end{block}}
+\newcommand{\circtoolson}{\ifTypesetCircusToolsCmds \hbox{[\textsl{\textbf{Circus tools on}}]} \else \relax \fi}
+\newcommand{\circtoolsoff}{\ifTypesetCircusToolsCmds \hbox{[\textsl{\textbf{Circus tools off}}]} \else \relax \fi}
+\newcommand{\circnote}[1]{\ifTypesetCircusToolsCmds \ensuremath{\t2}\hbox{\small \textsf{#1}}\ensuremath{\also} \else \relax \fi}  
+
+
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful symbols for the UTP:
+
+%\def\II{\hbox{\texttt{\slshape I \kern -7.5pt I}}}
+%\def\circledR{{\mathhexbox\msafam@72 }}
+
+
+\endinput
+%%
+%% End of file `circus.sty'.
+
+
+%
+%
+%\newcommand{\circchannel}{\mathbf{channel}\ifuseCircusCounters \stepcounter{circuschannelCtr}\fi}
+%\newcommand{\circmu}{\mu \ifuseCircusCounters \stepcounter{circusmuCtr} \fi}
+%\newcommand{\circprocess}{\mathbf{process}\ifuseCircusCounters \stepcounter{circusprocessCtr} \fi}
+%\newcommand{\circvar}{\mathbf{var}\ifuseCircusCounters \stepcounter{circusvarCtr} \fi}
+%
+%\newenvironment{circus}{\begin{zed}\ifuseCircusCounters \stepcounter{circusCtr} \fi}{\end{zed}\ignorespacesafterend}
+%\newenvironment{circusop}{\ifuseCircusCounters \stepcounter{circusopCtr}\fi}{}
+%\newenvironment{circusaction}{\begin{zed}\ifuseCircusCounters \stepcounter{circusactionCtr} \fi}{\end{zed}\ignorespacesafterend}
+%
+%    \if@lucida@
+%        \DeclareMathSymbol{\tick}{0}{arrows}{"AC}
+%        \def\lchan@sym{{\{}\mkern-5mu{|}}
+%        \def\rchan@sym{{|}\mkern-5mu{\}}}
+%        \def\llink@sym{\langle\mkern-4mu\langle}
+%        \def\rlink@sym{\rangle\mkern-4mu\rangle}
+%        \def\then@sym{\simple@enlarge{\rightarrow}}
+%        \def\parallel@sym{\bar@sym\bar@sym}
+%        \def\becomes@sym{\simple@enlarge{\leftarrow}}
+%        \def\linksto@sym{\simple@enlarge{\leftrightarrow}}
+%        \let\extchoice@sym\Box
+%        \let\intchoice@sym\sqcap
+%        \let\interrupt@sym\triangle
+%        \let\timeout@sym\triangleright
+%    \fi

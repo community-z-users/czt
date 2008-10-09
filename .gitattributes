@@ -61,6 +61,10 @@ doc/refcard/z/refcard.pdf -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zcs -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
 dtx/Sched.dvi -text
+dtx/circus-guide.bib -text
+dtx/circus-guide.dvi -text
+dtx/circus-guide.pdf -text svneol=unset#application/pdf
+dtx/circus.sty -text
 dtx/czt-guide.dvi -text
 dtx/czt-guide.pdf -text svneol=unset#application/pdf
 dtx/czt.ins -text

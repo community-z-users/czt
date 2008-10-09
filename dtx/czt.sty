@@ -73,7 +73,6 @@
       \RequirePackage{texnansi}
       \RequirePackage[expert,altbullet]{lucidabr}
     }
-   %\PackageInfo{czt}{Lucida Bright fonts selected with default options.}
 \else
    \PackageInfo{czt}{AMS fonts selected with default options}
 \fi
@@ -103,7 +102,7 @@
   \definecolor{ZedColor}{cmyk}{0.50,1,0,0}
   % add more color here if needed
 
-  \PackageInfo{czt}{Package colours defined as:\MessageBreak%
+  \PackageInfo{czt}{Z colours defined as:\MessageBreak%
     \space\space ZedBoxColor\space\space\space\space\space                = cmyk(   1,   1,0,   0) \MessageBreak%
     \space\space AnnotationColor                                          = cmyk(0.98,0.13,0,0.43) \MessageBreak%
     \space\space ZedColor\space\space\space\space\space\space\space\space = cmyk(0.50,   1,0,   0) \MessageBreak%
@@ -143,6 +142,9 @@
 \DeclareMathVersion{czt}
 \PackageInfo{czt}{Creating `czt' math version}
 
+% Selects St. Mary's Road symbol package font
+\DeclareSymbolFont{stmry}{U}{stmry}{m}{n}
+
 % Specify aliases for mathematical operator categories
 \DeclareSymbolFontAlphabet{\mathrm}{operators}
 \DeclareSymbolFontAlphabet{\mathit}{letters}
@@ -169,7 +171,11 @@
 % follow the name convention: \zsym@XXX for all needed
 % symbols. Equal symbols in both fonts appear at the end.
 %
-\@ifpackageloaded{lucidabr}{
+\@ifpackageloaded{lucidabr}{%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Lucida Bright font setup                                      %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                                               %
     \PackageInfo{czt}{Loading Lucida Bright font symbols for Z}
 
     % Encodings from lucidabr.sty
@@ -254,11 +260,12 @@
     % Schema operators defined as slightly bigger with \z@Bigbinop
     \DeclareMathSymbol{\zsym@solidus}{\mathbin}{symbols}{"6E}% %{letters}{"D8}%
     \DeclareMathSymbol{\zsym@pipe}{\mathrel}{symbols}{"1D}%
-    \def \zsym@comp       {\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
-                           \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}
+    %\def \zsym@comp       {\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
+    %                       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}
     \def \zsym@typecolon  {\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
                            \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{o}$\hfil}}}%
-
+    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%    
+    
     % Predicate and propositional Logic operators - \mathrel please.
     % Both oz.sty and zed.sty \implies and \iff were not \mathstrut.
     % Adjust the original quantifiers as prefix ops with \mathstrut.
@@ -316,8 +323,11 @@
     \def \zsym@ndres  {\zmark@hbar{\zsym@dres}}
     \def \zsym@nrres  {\zmark@hbar{\zsym@rres}}
     \DeclareMathSymbol{\zsym@inv}{\mathord}{symbols}{"18}%
-    \def \zsym@limg   {(\mskip-3.5mu|}
-    \def \zsym@rimg   {|\mskip-5mu)}
+    %\def \zsym@limg   {(\mskip-3.5mu|}
+    %\def \zsym@rimg   {|\mskip-5mu)}
+    \DeclareMathSymbol{\zsym@limg}{\mathopen}{stmry}{"4C}% \llparenthesis in stmaryrd.sty
+    \DeclareMathSymbol{\zsym@rimg}{\mathopen}{stmry}{"4D}% \rrparenthesis
+        
     \DeclareMathSymbol{\zsym@oplus}{\mathbin}{arrows}{"2C}%  
     \DeclareMathSymbol{\zsym@plus}{\mathbin}{arrows}{"2C}%   
     \DeclareMathSymbol{\zsym@star}{\mathbin}{arrows}{"2C}%
@@ -483,10 +493,11 @@
     %    It is defined as an `o' sitting on the top of a `9'.
     %   zed-csp.sty differentiate the heights whenever in Lucida Bright.
     %   To allow room for greater flexibility, do not surround it with any \zXXXop.
-    \def \zsym@comp       {\raise 0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle%
-                           \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}
+    %\def \zsym@comp       {\raise 0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle%
+    %                       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}
     \def \zsym@typecolon  {\raise 0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle%
                            \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{o}$\hfil}}}%
+    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%    
 
     % Predicate logic
     \def \zsym@not      {\neg\;}
@@ -524,8 +535,11 @@
     \def \zsym@ndres  {\zmark@hbar{\zsym@dres}}
     \def \zsym@nrres  {\zmark@hbar{\zsym@rres}}
     \let \zsym@inv    \sim
-    \def \zsym@limg   {(\mskip-3.5mu|}
-    \def \zsym@rimg   {|\mskip-5mu)}
+    %\def \zsym@limg   {(\mskip-3.5mu|}
+    %\def \zsym@rimg   {|\mskip-5mu)}    
+    \DeclareMathSymbol{\zsym@limg}{\mathopen}{stmry}{"4C}% \llparenthesis in stmaryrd.sty
+    \DeclareMathSymbol{\zsym@rimg}{\mathopen}{stmry}{"4D}% \rrparenthesis    
+
     \let \zsym@oplus  \oplus
     \let \zsym@plus   +
     \let \zsym@star   *
@@ -700,7 +714,7 @@
 \zt@pfalse
 
 \PackageInfo{czt}{%
-    Initialising registers with default values.\MessageBreak
+    Initialising Z registers with default values.\MessageBreak
     \space\space\space\protect\zedtab=2em \MessageBreak%
     \space\space\space\protect\zedindent=\protect\leftmargini \MessageBreak%
     \space\space\space\protect\zedleftsep=1em \MessageBreak%
@@ -1095,11 +1109,15 @@
 \def\z@relop#1{\mathrel{\mathstrut{#1}}}
 \def\z@binop#1{\mathbin{\mathstrut{#1}}}
 \def\z@ordop#1{\mathord{#1}}
+\def\z@openop#1{\mathopen{#1}}
+\def\z@closeop#1{\mathclose{#1}}
 \let\zpreop=\z@preop
 \let\zpostop=\z@postop
 \let\zbinop=\z@binop
 \let\zrelop=\z@relop
 \let\zordop=\z@ordop
+\let\zopenop=\z@openop
+\let\zcloseop=\z@closeop
 
 % these operators are reused with increased/reduced size.
 % for that we provide increasing/reducing macros for them.
@@ -1413,12 +1431,12 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 \def \rres   {\zbinop{\zsym@rres}}        % F
 \def \ndres  {\zbinop{\zsym@ndres}}       % F
 \def \nrres  {\zbinop{\zsym@nrres}}       % F
-\def \inv    {\zpostop{\zsym@inv}}        % F - ZStd alternative should be {^\zsym@inv}
+\def \inv    {\zpostop{^\zsym@inv}}        % F - ZStd alternative should be {^\zsym@inv}
 \def \limg   {\zbinop{\zsym@limg}}        % F
 \def \rimg   {\zpostop{\zsym@rimg}}       % F - it's a Zposchar!
 \def \oplus  {\zbinop{\zsym@oplus}}       % F
-\def \plus   {^\zsym@plus}                % F - superscripts spaces differently
-\def \star	 {^\zsym@plus}                % F
+\def \plus   {\zpostop{^\zsym@plus}}      % F - superscripts spaces differently
+\def \star	 {\zpostop{^\zsym@star}}      % F
 
 \PackageInfo{czt}{\space\space Loading relation toolkit symbols}
 
@@ -1507,38 +1525,3 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 \endinput
 %%
 %% End of file `czt.sty'.
-
-% Fuzz
-%\def \defs      {\mathrel{\widehat=}}
-%\def\widen#1{\z@op{{\overline{#1}}}}
-%
-% BAGS
-%
-%\@ifpackageloaded{lucidabr}{}{
-%  \def\ldbrack{{[}\mkern-2mu{[}}
-%  \def\rdbrack{{]}\mkern-2mu{]}}}
-%\let \lbag      \ldbrack
-%\let \rbag      \rdbrack
-%
-% the next symbol is a bag union.
-%\def \uminus@sym{\setbox0=\hbox{$\cup$}\rlap{\hbox
-%    to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
-%\def \uminus    {\mathrel{\uminus@sym}}
-%
-%\let\buni\uplus
-%\def \emptybag  {\lbag\:\rbag}
-%\def \lbag  {[\![}
-%\def \rbag  {]\!]}
-%\def \bag   {\zkeyword{bag}}
-%\def \items {\word{items}}
-%\let \inbag \inseq
-%\def \bagcount  {\word{count}}
-%
-%\def \bcount	{\z@rel\sharp}
-%\def \subbageq	{\z@rel\sqsubseteq}
-%\def \uminus	{\mathbin{\mbox{\rlap{$\cup$}\hskip 0.2em -}}}
-%
-%\def \bag       {\mathop{\mathrm{bag}}}
-%\def \bcount    {\mathbin{\sharp}}
-%\def \inbag     {\mathrel{\mathrm{in}}}
-%\let \subbageq  \sqsubseteq 
