@@ -109,7 +109,83 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %                                                               %
     \PackageInfo{circus}{Loading Lucida Bright font symbols for Circus}
-    
+
+  %%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circus         %
+
+    \def \csym@lchanset      {{\{}\mkern-5mu{|}~}%{\{\!|~}
+    \def \csym@rchanset      {~{|}\mkern-5mu{\}}}%{~|\!\}}
+    \DeclareMathSymbol{\csym@lcircindex}{\mathopen}{symbols}{"62}% \lfloor
+    \DeclareMathSymbol{\csym@rcircindex}{\mathclose}{symbols}{"63}% \rfloor
+    \def \csym@lcircguard    {\zbig{(}}
+    \def \csym@rcircguard    {\zbig{)}}
+    \def \csym@lschexpract   {\zBig{(}}
+    \def \csym@rschexpract   {\zBig{)}}
+    \def \csym@linter        {|\!|\hspace{-5pt}[}
+    \def \csym@rinter        {]\hspace{-5pt}|\!|}
+    %\def \csym@lpar          {{\mid}\mkern -2mu{[}\mkern-1mu}
+    %\def \csym@rpar          {\mkern-1mu{]}\mkern -2mu{\mid}}
+    \DeclareMathSymbol{\csym@lpar}{\mathopen}{letters}{"82}%
+    \DeclareMathSymbol{\csym@rpar}{\mathclose}{letters}{"83}%
+    \def \csym@lcircrename   {[}%{\left[}
+    \def \csym@rcircrename   {]}%{\right]}
+
+  %%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
+
+    \DeclareMathSymbol{\csym@circrefines}{\mathrel}{symbols}{"76}%   \sqsubseteq
+    \DeclareMathSymbol{\csym@circsimulates}{\mathrel}{letters}{"EC}% \succcurlyeq
+    \DeclareMathSymbol{\csym@circassertref}{\mathrel}{symbols}{"F0}%
+    \def \csym@circdef       {\widehat=}
+    \DeclareMathSymbol{\csym@spotbase}{\mathord}{symbols}{"0F}%
+    \def \csym@circspot      {\zbig{\csym@spotbase}}
+    \DeclareMathSymbol{\csym@circindex}{\mathbin}{symbols}{"0C}%
+
+  %%%%%%%%%%%%%%%%% 3) CSP symbols used in Circus                 %
+
+    \def\indexed@op#1{\mathop{\zBIG{\mathstrut#1}}\nolimits} %
+
+    \let \csym@cspthen       \longrightarrow
+    \def \csym@prefixcolon   {\zbig{:}}
+    \def \csym@cspSemi       {\indexed@op{;}}
+
+    %\def \csym@cspinterleave  {{|}\mkern-2mu{|}\mkern-2mu{|}}
+    \DeclareMathSymbol{\csym@cspinterleave}{\mathbin}{stmry}{"39}%
+    \def \csym@cspInterleave {\indexed@op{\csym@cspinterleave}}
+    %\DeclareMathSymbol{\csym@cspInterleave}{\mathbin}{stmry}{"67}%
+
+    %\def \csym@cspParallel   {\parallel}
+    \DeclareMathSymbol{\csym@cspParallelbase}{\mathop}{stmry}{"66}%
+    \def \csym@cspParallel    {\mathop{\mathstrut \csym@cspParallelbase}\nolimits}
+
+    \DeclareMathSymbol{\csym@cspextchoice}{\mathbin}{stmry}{"40}%
+    \def \csym@cspExtchoice  {\indexed@op{\csym@cspextchoice}}
+    %\DeclareMathSymbol{\csym@cspExtchoice}{\mathbin}{stmry}{"65}%
+
+    \DeclareMathSymbol{\csym@cspintchoice}{\mathrel}{symbols}{"7D}%
+    \def \csym@cspIntchoice  {\indexed@op{\csym@cspintchoice}}
+
+    \def \csym@circhide      {\zbig{\zsym@solidus}}
+    \def \csym@circseq       {\zbig{;}}
+    \def \csym@circmu        {\zbig{\zsym@mu}}
+    \def \csym@circthen      {\zbig{\longrightarrow}}
+    \DeclareMathSymbol{\csym@circelse}{\mathbin}{stmry}{"38}% %\def \csym@circelse {[\!]}
+    \DeclareMathSymbol{\csym@circguard}{\mathbin}{stmry}{"4E}% \let \csym@circguard \&
+
+  %%%%%%%%%%%%%%%%% 4) Special CSP symbols                        %
+
+    \DeclareMathSymbol{\csym@tick}{\mathord}{arrows}{"AC}%
+
+  %%%%%%%%%%%%%%%%% 5) Circus prelude symbols                     %
+
+    \def \csym@boolean       {\mathbb B}
+    \def \csym@universe      {\mathbb U}
+
+  %%%%%%%%%%%%%%%%% 6) Circus model checking toolkit symbols      %
+
+    \DeclareMathSymbol{\cmcsym@gendj}{\mathbin}{letters}{"F2}%
+    \DeclareMathSymbol{\cmcsym@regions}{\mathbin}{symbols}{"0A}% \otimes
+    \DeclareMathSymbol{\cmcsym@dsetminusbase}{\mathbin}{symbols}{"26}%
+    \def \cmcsym@dsetminus {\zbig{\cmcsym@dsetminusbase}}
+    \DeclareMathSymbol{\cmcsym@dcap}{\mathbin}{arrows}{"08}% \lozenge        
 }{%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % AMS font setup                                                %
@@ -132,7 +208,7 @@
     %\def \csym@lpar          {{\mid}\mkern -2mu{[}\mkern-1mu}
     %\def \csym@rpar          {\mkern-1mu{]}\mkern -2mu{\mid}}
     \DeclareMathSymbol{\csym@lpar}{\mathopen}{stmry}{"4A}%
-    \DeclareMathSymbol{\csym@rpar}{\mathopen}{stmry}{"4B}%
+    \DeclareMathSymbol{\csym@rpar}{\mathclose}{stmry}{"4B}%
     \def \csym@lcircrename   {[}%{\left[}
     \def \csym@rcircrename   {]}%{\right]}
 
@@ -140,7 +216,7 @@
 
     \let \csym@circrefines   \sqsubseteq
     \DeclareMathSymbol{\csym@circsimulates}{\mathrel}{AMSa}{"34}% \succcurlyeq
-    \DeclareMathSymbol{\csym@circassertref}{\mathrel}{AMSa}{"0D}%
+    \DeclareMathSymbol{\csym@circassertref}{\mathrel}{AMSa}{"0D}% 
     \def \csym@circdef       {\widehat=}
     \def \csym@circspot      {\zbig{\spot}}
     \let \csym@circindex     \odot
@@ -208,41 +284,69 @@
 
 %%%%%%%%%% new registers                                        %
 
-\newif\ifCountCircusDefs
+
+% Flag used to switch tools-only commands typesetting on/off
 \newif\ifTypesetCircusToolsCmds
 
+% Few counters used to calculate number of definitions used
+% Processes element counters are reset when leaving a process.
+% 
+% We do not care about parsing rules here (i.e., incorrect specs
+% are going to be counted incorrectly): e.g., namesets outside a
+% basic process (i.e., \circbegin).
+% 
+% Global paragraphs    | Keywords used for counting 
+%  Z paragraphs        |  see czt.sty counters 
+%  Channels            |  \circchannel, \circchannelfrom
+%  Channel sets        |  \circchannelset
+%  Process             |  \circprocess
+%  Process refinement  |  \circassertref
+%    
+% Local paragraphs     | Keywords used for counting 
+%  Z paragraphs        |  see czt.sty counters
+%  Action para         |  \circdef after passed \circbegin 
+%  Action refinement   |  \circassertref after passed \circbegin
+%  Name sets           |  \circnameset
+% 
+% Global counters:
+%  a) number of processes 
+%  b) number of channel declarations (not channels declared - may have more than one per \circchannel!)
+%  c) number of channel set declarations (the number declared - only one per \circchannelset!)
+%  d) number of process assertions
+%  
+%  e) total number of declarations per (basic) process (total within each basic process)
+%  f) total number of global declarations (don't consider local numbers within basic processes)
+%  g) total number of all declarations (all declarations including within basic processes)
 \newcounter{circusCtr}
-\newcounter{circusopCtr}
-\newcounter{circusactionCtr}
 \newcounter{circuschannelCtr}
+\newcounter{circuschannelsetCtr}
 \newcounter{circusprocessCtr}
-\newcounter{circusmuCtr}
-\newcounter{circusvarCtr}
+\newcounter{circusactionCtr}[circusprocessCtr]
+\newcounter{circusmuCtr}[circusprocessCtr]
+\newcounter{circuscmdCtr}[circusprocessCtr]
+\newcounter{circusnamesetCtr}[circusprocessCtr]
+\newcounter{circusallactionsCtr}
+\newcounter{circusallprocessesCtr}
+
+%\newcommand{\circchannel}{\mathbf{channel}\ifuseCircusCounters \stepcounter{circuschannelCtr}\fi}
+%\newcommand{\circmu}{\mu \ifuseCircusCounters \stepcounter{circusmuCtr} \fi}
+%\newcommand{\circprocess}{\mathbf{process}\ifuseCircusCounters \stepcounter{circusprocessCtr} \fi}
+%\newcommand{\circvar}{\mathbf{var}\ifuseCircusCounters \stepcounter{circusvarCtr} \fi}
 
 %%%%%%%%%% registers initialisation                             %
 
-\CountCircusDefsfalse
+\CountDefsfalse
 \TypesetCircusToolsCmdsfalse
+
 
 
 \PackageInfo{circus}{%
     Initialising Circus registers with default values.\MessageBreak
-    \space\space\space\protect\zedtab=2em \MessageBreak%
-    \space\space\space\protect\zedindent=\protect\leftmargini \MessageBreak%
-    \space\space\space\protect\zedleftsep=1em \MessageBreak%
-    \space\space\space\protect\zedbar=6em \MessageBreak %
-    \MessageBreak
-    \space\space\space\protect\interzedlinepenalty=10000 \MessageBreak%never break
-    \space\space\space\protect\preboxpenalty=0 \MessageBreak%break easily
-    \space\space\space\protect\forcepagepenalty=-10000\MessageBreak%always break
-    \space\space\space\protect\interdisplaylinepenalty=100 \MessageBreak%break sometimes
-    \MessageBreak
-    \space\space\space\protect\zedskip= 0.5\baselineskip \MessageBreak%
-    \space\space\space\space\space\space    plus0.333333\baselineskip\MessageBreak%
-    \space\space\space\space\space\space    minus0.333333\baselineskip\MessageBreak%
-    \MessageBreak
-    \space\space\space\protect\zt@p=\ifzt@p true \else false \fi%
+    \space\space\space\protect\CountCircusDefsfalse=\ifCountCircusDefs true \else false \fi
+    \space\space\space\protect\TypesetCircusToolsCmds=\ifTypesetCircusToolsCmds true \else false \fi%
 }
+
+\PackageInfo{circus}{All Circus definition counters were reset}
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -251,7 +355,11 @@
 % Circus environments                                           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\def\circus{\zed \ifCountCircusDefs \stepcounter{circusCtr} \else \relax \fi}
+\let\endcircus=\endzed
 
+\def\circusaction{\zed \ifCountCircusDefs \stepcounter{circusactionCtr} \else \relax \fi}
+\let\endcircusaction=\endzed
 
 \PackageInfo{circus}{Setting up Circus LaTeX environments}
 
@@ -424,7 +532,6 @@
 \newcommand{\circnote}[1]{\ifTypesetCircusToolsCmds \ensuremath{\t2}\hbox{\small \textsf{#1}}\ensuremath{\also} \else \relax \fi}  
 
 
-
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -437,31 +544,3 @@
 \endinput
 %%
 %% End of file `circus.sty'.
-
-
-%
-%
-%\newcommand{\circchannel}{\mathbf{channel}\ifuseCircusCounters \stepcounter{circuschannelCtr}\fi}
-%\newcommand{\circmu}{\mu \ifuseCircusCounters \stepcounter{circusmuCtr} \fi}
-%\newcommand{\circprocess}{\mathbf{process}\ifuseCircusCounters \stepcounter{circusprocessCtr} \fi}
-%\newcommand{\circvar}{\mathbf{var}\ifuseCircusCounters \stepcounter{circusvarCtr} \fi}
-%
-%\newenvironment{circus}{\begin{zed}\ifuseCircusCounters \stepcounter{circusCtr} \fi}{\end{zed}\ignorespacesafterend}
-%\newenvironment{circusop}{\ifuseCircusCounters \stepcounter{circusopCtr}\fi}{}
-%\newenvironment{circusaction}{\begin{zed}\ifuseCircusCounters \stepcounter{circusactionCtr} \fi}{\end{zed}\ignorespacesafterend}
-%
-%    \if@lucida@
-%        \DeclareMathSymbol{\tick}{0}{arrows}{"AC}
-%        \def\lchan@sym{{\{}\mkern-5mu{|}}
-%        \def\rchan@sym{{|}\mkern-5mu{\}}}
-%        \def\llink@sym{\langle\mkern-4mu\langle}
-%        \def\rlink@sym{\rangle\mkern-4mu\rangle}
-%        \def\then@sym{\simple@enlarge{\rightarrow}}
-%        \def\parallel@sym{\bar@sym\bar@sym}
-%        \def\becomes@sym{\simple@enlarge{\leftarrow}}
-%        \def\linksto@sym{\simple@enlarge{\leftrightarrow}}
-%        \let\extchoice@sym\Box
-%        \let\intchoice@sym\sqcap
-%        \let\interrupt@sym\triangle
-%        \let\timeout@sym\triangleright
-%    \fi
