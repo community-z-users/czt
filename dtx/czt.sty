@@ -786,6 +786,7 @@
 %  e) number of generic schemas
 %  f) total number of Z declarations
 %  
+%  We have local and global counters
 \newcounter{cntZunboxed}
 \newcounter{cntZaxdef}
 \newcounter{cntZgendef}
@@ -793,7 +794,6 @@
 \newcounter{cntZgenschema}
 \newcounter{cntZdecl}
 
-\newcounter{cntZtotlocal}
 \newcounter{cntZtotunboxed}
 \newcounter{cntZtotaxdef}
 \newcounter{cntZtotgendef}
@@ -808,13 +808,14 @@
   \@addtoreset{cntZgendef}{chapter}
   \@addtoreset{cntZschema}{chapter}
   \@addtoreset{cntZgenschema}{chapter}
-  \@addtoreset{cntZtotlocal}{chapter}
+  \@addtoreset{cntZdecl}{chapter}
   
-  \renewcommand{\thecntZunboxed}{\thechapter.\thecntZunboxed}
-  \renewcommand{\thecntZaxdef}{\thechapter.\thecntZaxdef}
-  \renewcommand{\thecntZgendef}{\thechapter.\thecntZgendef}
-  \renewcommand{\thecntZschema}{\thechapter.\thecntZschema}
-  \renewcommand{\thecntZgenschema}{\thechapter.\thecntZgenschema}
+  \renewcommand{\thecntZunboxed}{\thechapter.\arabic{cntZunboxed}}
+  \renewcommand{\thecntZaxdef}{\thechapter.\arabic{cntZaxdef}}
+  \renewcommand{\thecntZgendef}{\thechapter.\arabic{cntZgendef}}
+  \renewcommand{\thecntZschema}{\thechapter.\arabic{cntZschema}}
+  \renewcommand{\thecntZgenschema}{\thechapter.\arabic{cntZgenschema}}
+  \renewcommand{\thecntZdecl}{\thechapter.\arabic{cntZdecl}}
 \else 
   \if@zcntbysection@ 
     \@addtoreset{cntZunboxed}{section}
@@ -822,14 +823,15 @@
     \@addtoreset{cntZgendef}{section}
     \@addtoreset{cntZschema}{section}
     \@addtoreset{cntZgenschema}{section}
-    \@addtoreset{cntZtotlocal}{section}
+    \@addtoreset{cntZdecl}{section}
     
-    \renewcommand{\thecntZunboxed}{\thesection.\thecntZunboxed}
-    \renewcommand{\thecntZaxdef}{\thesection.\thecntZaxdef}
-    \renewcommand{\thecntZgendef}{\thesection.\thecntZgendef}
-    \renewcommand{\thecntZschema}{\thesection.\thecntZschema}
-    \renewcommand{\thecntZgenschema}{\thesection.\thecntZgenschema}
-    
+    % this is not a very helpful command. TODO: CHANGE PLEASE
+    \renewcommand{\thecntZunboxed}{\thesection.\arabic{cntZunboxed}}
+    \renewcommand{\thecntZaxdef}{\thesection.\arabic{cntZaxdef}}
+    \renewcommand{\thecntZgendef}{\thesection.\arabic{cntZgendef}}
+    \renewcommand{\thecntZschema}{\thesection.\arabic{cntZschema}}
+    \renewcommand{\thecntZgenschema}{\thesection.\arabic{cntZgenschema}}
+    \renewcommand{\thecntZdecl}{\thesection.\arabic{cntZdecl}}
   \fi
   %\else \if@zcntglobally@ \relax \fi
 \fi
@@ -843,36 +845,36 @@
           %unboxed para code...
           \stepcounter{cntZunboxed}
           \stepcounter{cntZtotunboxed}
-          \stepcounter{cntZtotlocal}
           \stepcounter{cntZdecl}
+          \stepcounter{cntZtotdecl}
        \else
           \ifnum \@zcountingwhat = 1
              %axdef code...
              \stepcounter{cntZaxdef}
              \stepcounter{cntZtotaxdef}
-             \stepcounter{cntZtotlocal}
              \stepcounter{cntZdecl}
+             \stepcounter{cntZtotdecl}
           \else
              \ifnum \@zcountingwhat = 2
                 %gendef code...
                 \stepcounter{cntZgendef}
                 \stepcounter{cntZtotgendef}
-                \stepcounter{cntZtotlocal}
                 \stepcounter{cntZdecl}
+                \stepcounter{cntZtotdecl}
              \else
                 \ifnum \@zcountingwhat = 3
                    %schemas code...
                    \stepcounter{cntZschema}
                    \stepcounter{cntZtotschema}
-                   \stepcounter{cntZtotlocal}
                    \stepcounter{cntZdecl}
+                   \stepcounter{cntZtotdecl}
                 \else
                    \ifnum \@zcountingwhat = 4
                       %gen schemas code...
                       \stepcounter{cntZgenschema}
                       \stepcounter{cntZtotgenschema}
-                      \stepcounter{cntZtotlocal}
                       \stepcounter{cntZdecl}
+                      \stepcounter{cntZtotdecl}
                    \else
                       %don't count at all
                       \relax
@@ -895,17 +897,17 @@
                     \hline
                     \textbf{Declarations}   & \textbf{Total} \\                    
                     \hline
-                    unboxed items           & \arabic{cntZunboxed} \\
+                    Unboxed items           & \arabic{cntZtotunboxed} \\
                     \hline
-                    axiomatic definitions   & \arabic{cntZaxdef} \\
+                    Axiomatic definitions   & \arabic{cntZtotaxdef} \\
                     \hline
-                    generic axiomatic defs. & \arabic{cntZgendef} \\
+                    Generic axiomatic defs. & \arabic{cntZtotgendef} \\
                     \hline
-                    schemas                 & \arabic{cntZschema} \\
+                    Schemas                 & \arabic{cntZtotschema} \\
                     \hline
-                    generic schemas         & \arabic{cntZgenschema} \\
+                    Generic schemas         & \arabic{cntZtotgenschema} \\
                     \hline
-                    \textbf{Total}          & \textbf{\arabic{cntZdecl}} \\                    
+                    \textbf{Total}          & \textbf{\arabic{cntZtotdecl}} \\                    
                     \hline
                 \end{tabular}
             \else                
@@ -915,17 +917,17 @@
                     \hline
                     \textbf{Declarations}   & \textbf{This \@zcntpart}       & \textbf{Globally} \\
                     \hline
-                    unboxed items           & \arabic{cntZunboxed}           & \arabic{cntZtotunboxed} \\
+                    Unboxed items           & \arabic{cntZunboxed}           & \arabic{cntZtotunboxed} \\
                     \hline
-                    axiomatic definitions   & \arabic{cntZaxdef}             & \arabic{cntZtotaxdef} \\
+                    Axiomatic definitions   & \arabic{cntZaxdef}             & \arabic{cntZtotaxdef} \\
                     \hline
-                    generic axiomatic defs. & \arabic{cntZgendef}            & \arabic{cntZtotgendef} \\
+                    Generic axiomatic defs. & \arabic{cntZgendef}            & \arabic{cntZtotgendef} \\
                     \hline
-                    schemas                 & \arabic{cntZschema}            & \arabic{cntZtotschema} \\
+                    Schemas                 & \arabic{cntZschema}            & \arabic{cntZtotschema} \\
                     \hline
-                    generic schemas         & \arabic{cntZgenschema}         & \arabic{cntZtotgenschema} \\
+                    Generic schemas         & \arabic{cntZgenschema}         & \arabic{cntZtotgenschema} \\
                     \hline
-                    \textbf{Total}          & \textbf{\arabic{cntZtotlocal}} & \textbf{\arabic{cntZdecl}} \\
+                    \textbf{Total}          & \textbf{\arabic{cntZdecl}} & \textbf{\arabic{cntZtotdecl}} \\
                     \hline
                 \end{tabular}                
             \fi
@@ -960,7 +962,7 @@
 
 % Small vertical space within z paragraph mode - relative to \zedskip
 \def\@also{\crcr \noalign{\penalty\interdisplaylinepenalty\vskip\zedskip}}
-\def\also{\@countZPara \@also}
+\def\also{\ifnum \@zcountingwhat = 0 \@countZPara \fi \@also}
 
 % varied spacing based in \also - from oz.sty
 \def\@Also{\@also\@also}
@@ -1107,8 +1109,9 @@
   % Count this declaration 
   \@countZPara
   % Must have \def and not \let for nested alignments.
-  % Also, count extra definitions at each "\\". Changed "\also" accordingly.
-  \def\\{\crcr \@countZPara}
+  % Also, count extra definitions at each "\\", whenever within
+  % a unboxed paragraph. Changed "\also" accordingly.
+  \def\\{\crcr \ifnum \@zcountingwhat = 0 \@countZPara \fi}
   \let\par=\relax
   \tabskip=0pt}
 
@@ -1179,7 +1182,7 @@
 %    like in \zed but with a side line displayed
 % 3) ???
 \def\@axdef{%
-  \def\also{\@zskip\zedskip \@countZPara}%
+  \def\also{\@zskip\zedskip}%
   \predisplaypenalty=\preboxpenalty
   \@@zed\@znoskip \halign to\linewidth\bgroup
     \strut{\color{ZedBoxColor}\vrule width\arrayrulewidth} \hskip\zedleftsep

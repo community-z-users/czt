@@ -1,8 +1,8 @@
 \documentclass{article}
 
-\usepackage{multicol}    % needed for Appendix reference card
-\usepackage[colour]{czt} % this document describes czt.sty
-%usepackage[lucida,colour]{czt} % to test lucida bright
+\usepackage{multicol}                        % needed for Appendix reference card
+\usepackage[colour,cntbysection]{czt}        % this document describes czt.sty
+%usepackage[lucida,cntbysection,colour]{czt} % to test lucida bright
 
 %%%%%%%%%% FOR HERE ONLY %%%%%%%%%%%
 
@@ -18,18 +18,7 @@
 \newcommand{\zwsfile}{\emfile{whitespace.tex}}
 \newcommand{\stdtkfile}{\emfile{standard\_toolkit.tex}}
 
-% Fuzz toolkit file
-\newcommand{\fuzztkfile}{\emfile{fuzz\_toolkit.tex}}
-
 \newcommand{\smallcaption}[1]{{\small (#1)}}
-
-% Fuzz synonyms for Z letters and prefix operators
-\newcommand{\integer}{\num}
-\newcommand{\natone}{\nat_1}
-\newcommand{\fset}{\finset}
-\newcommand{\fsetone}{\fset_1}
-\newcommand{\pset}{\power_1}
-\newcommand{\psetone}{\power}
 
 \makeatletter
 % Code from Mike Spivey's zed2e.tex for demonstrating \LaTeX{} markup
@@ -49,14 +38,6 @@
 \let\endsymbols=\endzed
 \makeatother
 
-% list dependencies in log file
-\listfiles
-% article.cls    2004/02/16 v1.4f Standard LaTeX document class
-%  size10.clo    2004/02/16 v1.4f Standard LaTeX file (size option)
-%     umsb.fd    2002/01/19 v2.2g AMS font definitions
-%
-% \land is already given in AMS font
-
 %% Extra blackboard bold letters - real and boolean
 %%
 \def \rat        {\mathbb Q}
@@ -64,9 +45,21 @@
 \def \bool       {\mathbb B}
 \def\inrel#1{\zrelop{{\underline{#1}}}}
 
-%\let\xprec\prec  - for Circus
-%\def\simulates {\zbinop{\xprec}}
-
+% list dependencies in log file
+\listfiles
+% article.cls    2004/02/16 v1.4f Standard LaTeX document class
+%  size10.clo    2004/02/16 v1.4f Standard LaTeX file (size option)
+%multicol.sty    2004/02/14 v1.6e multicolumn formatting (FMi)
+%     czt.sty    2008/10/01 v.1.0 Standard Z style file by the Community Z Tools
+%
+%   color.sty    1999/02/16 v1.0i Standard LaTeX Color (DPC)
+%   color.cfg    2003/03/08 v1.0 MiKTeX 'color' configuration
+%   dvips.def    1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+%dvipsnam.def    1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+%  ustmry.fd
+%    umsa.fd    2002/01/19 v2.2g AMS font definitions
+%    umsb.fd    2002/01/19 v2.2g AMS font definitions
+%czt-guide.bbl
 
 \begin{document}
 
@@ -145,17 +138,26 @@ The \cztstylefile has few options, which are described below:
    \item \texttt{lucida}:~use Lucida Bright fonts (\textit{e.g.,}~\texttt{lucidabr.sty});
    \item \texttt{tkkeyword}:~make some toolkit names render as keywords;
    \item \texttt{color}:~typeset Z-\LaTeX{} using colours;
-   \item \texttt{colour}:~synonym for \texttt{color}
+   \item \texttt{colour}:~synonym for \texttt{color};
+   \item \texttt{cntglobally}:~count Z definitions globally only;
+   \item \texttt{cntbychapter}:~count Z definitions per Chapter and globally;
+   \item \texttt{cntbysection}:~count Z definitions per Section and globally.
 \end{enumerate}
 %
-The default option for when the \cztstylefile is loaded is \texttt{mathit}.
+The default option for when the \cztstylefile is loaded is \texttt{mathit, cntglobally}.
 To change it to have \texttt{colour}ful \texttt{lucida} fonts, you can load it with
 %
 \begin{verbatim}
 \usepackage[colour,lucida]{czt}
 \end{verbatim}
 %
-AMS fonts are used when Lucida Bright is not loaded.
+AMS fonts are used when Lucida Bright is not loaded. For more information about
+Z declaration counting see Section~\ref{sec:cztcount} below. This file is typeset
+using the following package inclusion:
+%
+\begin{verbatim}
+\usepackage[colour,cntbysection]{czt}
+\end{verbatim}
 
 A few style parameters affect the way Z text is set out; they can be
 changed at any time if your taste doesn't match mine.
@@ -1592,6 +1594,133 @@ Finally, let us test the named conjecture environment.
 %
 Unfortunately, I could not find a way to make named conjectures
 colourful, whenever colour is enabled in Z math mode.
+
+\section{Controlling definition counting}\label{sec:cztcount}
+
+One interesting new feature added to the style file is the ability 
+to (\textbf{roughly}) count the number of each Z definition specified
+in a given portion of \LaTeX. The counting is controlled by few
+package options, which determine if counting should be globally,
+by Chapter, or by Section. The actual counters can also be directly
+accessed and/or changed, where automatic counting can also be switched
+on and off if one wants tighter control over when what should be counted.
+
+There are three package options associated with counting:
+%
+\begin{itemize}
+   \item \texttt{cntglobally}:~counts definitions globally;
+   \item \texttt{cntbychapter}:~definition count reset by each Chapter;
+   \item \texttt{cntbysection}:~definition count reset by each Section.
+\end{itemize}
+%
+For the local counters by Chapter and Section we also have a global counter.
+This way one can keep track of both local and global amounts. Another important
+command is the boolean flag \verb|\CountDefs|. It determines whether counting
+switched on (\verb|\CountDefstrue|) or off (\verb|CountDefsfalse|). It can be
+used to selectively count parts of a specification.
+
+Another command to use is \verb|\ZDeclSummary|. It typesets a table
+with seven lines and two or three columns, depending on the counting 
+option chosen. The lines are:~the column header; the number of 
+unboxed items, which represent given sets, free types, (named) conjectures,
+operator templates, and abbreviations (\textit{e.g.,}~constant definitions 
+or horizontal schemas);~the number of axiomatic and generic axiomatic 
+definitions;~the number of schemas and generic schemas;~and finally the
+total number of declarations. The columns are:~each line description;~and 
+the totals per line, where local totals are added in the case of section
+and chapter options had been chosen. Moreover, each number given in this 
+table is represented internally by a \LaTeX{} counter, which the user can 
+both access and interfere with if needed. 
+
+For example, for this file, where we have chosen the counting by section option, 
+issuing \verb|\ZDeclSummary| produces the contents shown in Table~\ref{tbl:zdecl:\thesection}.
+%
+\ZDeclSummary
+%
+Note that, since this section has no specification, nothing is counted locally.
+Moreover, to refer to the table \verb|\ZDeclSummary| typesets, a unique label
+is specified for it, and one can use the command \verb|\ref{tbl:zdecl:\thesection}|.
+For Chapter counting, one needs to use \verb|\thechapter| in the place of \verb|\thesection|,
+and just \verb|\ref{tbl:zdecl:global}| when counting globally. These labels \texttt{should}
+not be defined by users, or a \textit{multiply defined label} \LaTeX{} warning will arise.
+
+More advanced usage of the counting facility can be achieved by directly
+influencing the way the counters work, either by accessing their value,
+or interfering in the way counting works. One should not do that usually,
+unless extending the counting facilities to include other pieces of information,
+say, number of examples or proofs given by a specification.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Declarations}   & \textbf{Local counter name}    & \textbf{Global counter name} \\
+        \hline
+        Unboxed items           & \texttt{cntZunboxed}           & \texttt{cntZtotunboxed} \\
+        \hline
+        Axiomatic definitions   & \texttt{cntZaxdef}             & \texttt{cntZtotaxdef} \\
+        \hline
+        Generic axiomatic defs. & \texttt{cntZgendef}            & \texttt{cntZtotgendef} \\
+        \hline
+        Schemas                 & \texttt{cntZschema}            & \texttt{cntZtotschema} \\
+        \hline
+        Generic schemas         & \texttt{cntZgenschema}         & \texttt{cntZtotgenschema} \\
+        \hline
+        Total                   & \texttt{cntZdecl}              & \texttt{cntZtotdecl} \\
+        \hline
+    \end{tabular}
+    \caption{Z definition counters}\label{tbl:cztcount}
+\end{table}
+%
+When counting locally by Chapter or Section, the local counter names are reset according
+to \LaTeX's Chapter or Section counters change. The equivalent global counters are not
+reset and serve to accumulate the global totals, also included in the information. Note 
+that the local total counter (\texttt{cntZtotdecl}) simply sums the local counters, whereas
+the global total counter (\texttt{cntZdecl}) sums the global counters. Finally, when 
+counting globally, only the global counters are.
+
+One can access the value of each of these counters using the usual \LaTeX{} commands
+to manipulate counters, such as:~\verb|\stepcounter{name}|, which increases counter 
+\texttt{name} by one;~and \verb|\thename|, which accesses the \verb|\arabic{name}| counter value.
+Moreover, when counting by Chapter or Section, we redefine the contents of \verb|\thename| value
+for all local counters to include the Chapter or Section where the local counter belongs to. For
+example, for the value of \texttt{cntZunboxed}, the result of \verb|\thecntZunboxed| is 
+\verb|\thechapter.\thecntZunboxed|. One can easily redefine such command for whatever else is
+appropriated.
+
+Finally, there are two more low-level \LaTeX{} commands used to control counting. The
+command \verb|\@countZpara| is called within the various Z-\LaTeX{} environments to
+actually perform the counters update. A single command within all environment simplify
+the counting code. If \verb|\CountDefs| is true, then when \verb|\@countZpara| is expanded,
+the appropriate \LaTeX{} counters described above are updated depending on the value of a 
+low-level \TeX{} register \verb|\@zcountingwhat|. That is, the \TeX{} register determines 
+what is being counted. The values used are:
+%
+\begin{itemize}
+   \item \verb|\@zcountingwhat=0|:~counts unboxed items affecting \texttt{cntZunboxed};
+   \item \verb|\@zcountingwhat=1|:~counts axiomatic defs. affecting \texttt{cntZaxdef};
+   \item \verb|\@zcountingwhat=2|:~counts generic axiomatic defs. affecting \texttt{cntZgendef};
+   \item \verb|\@zcountingwhat=3|:~counts schemas affecting \texttt{cntZschema};
+   \item \verb|\@zcountingwhat=4|:~counts generic schemas affecting \texttt{cntZgenschema};
+   \item \verb|\@zcountingwhat=99|:~counts nothing affecting no counter.
+\end{itemize}
+%
+One use for \verb|\@zcountingwhat=99| is, for instance, to avoid counting non-parseable
+definitions, such as the stared versions of the Z-\LaTeX{} environments (\textit{e.g.,}~\verb|\begin{zed*}|).
+Package developers extending this counting facility can use this \TeX{} register and
+other low-level commands to count their own definitions. When extending Z-\LaTeX{} environments,
+package developers are advised to look into the more detailed documentation of \cztstylefile, 
+which explains more of the low-level \LaTeX/\TeX{} commands available.
+
+Axiomatic and generic definitions are counted within each \verb|\begin{axdef}| and \verb|\begin{gendef}| commands,
+whereas schemas and generic definitions are counted within each \verb|\begin{schema}{name}| and 
+\verb|\begin{schema}[X]{name}|, respectively. Unboxed items are introduced through the \verb|\begin{zed}| or
+\verb|\begin{theorem}{name}| commands. Nevertheless, counting must also take place when Z-\LaTeX{} new lines are introduced, 
+as they represent declaration separators. That is, every \verb|\\| or \verb|\also| command within \verb|\begin{zed}| will 
+also increase the counter. The same applies for the variations of the \verb|\also| command (\textit{i.e.,}~\verb|\Also| and 
+\verb|\ALSO|). Note that, since the Z Standard allows multiple new lines to separate commands (\textit{i.e.,}~more than one 
+\verb|\\| between commands), this could create a discrepancy between the number of definitions counted, and the actual number 
+specified. Such discrepancy may only occur for unboxed items, whenever their specification has multiple line separators.
 
 \section{Extra macros and commands from \cztstylefile}\label{sec:cztsty}
 
