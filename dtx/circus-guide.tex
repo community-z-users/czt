@@ -23,7 +23,7 @@
 \def\zstrut{\relax\ifmmode\copy\zstrutbox\else\unhcopy\zstrutbox\fi}
 \def\symbol#1{#1 & \tt\string#1}
 \def\symbols{\@ifnextchar[{\@symbols}{\@symbols[0]}}
-\def\@symbols[#1]{\interzedlinepenalty=\interdisplaylinepenalty\@zed
+\def\@symbols[#1]{\interzedlinepenalty=\interdisplaylinepenalty\@@zed
         \openup #1\@jot
         \halign\bgroup\zstrut\hbox to 3.8em{$##$\hss}\tabskip=0pt&##\hss\cr
         \noalign{\vskip-#1\@jot}}% equal vspace above and below argue display
