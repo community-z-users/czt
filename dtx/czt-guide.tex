@@ -1597,7 +1597,7 @@ colourful, whenever colour is enabled in Z math mode.
 
 \section{Controlling definition counting}\label{sec:cztcount}
 
-One interesting new feature added to the style file is the ability 
+One interesting new feature added to the style file is the ability
 to (\textbf{roughly}) count the number of each Z definition specified
 in a given portion of \LaTeX. The counting is controlled by few
 package options, which determine if counting should be globally,
@@ -1620,19 +1620,19 @@ switched on (\verb|\CountDefstrue|) or off (\verb|CountDefsfalse|). It can be
 used to selectively count parts of a specification.
 
 Another command to use is \verb|\ZDeclSummary|. It typesets a table
-with seven lines and two or three columns, depending on the counting 
-option chosen. The lines are:~the column header; the number of 
+with seven lines and two or three columns, depending on the counting
+option chosen. The lines are:~the column header; the number of
 unboxed items, which represent given sets, free types, (named) conjectures,
-operator templates, and abbreviations (\textit{e.g.,}~constant definitions 
-or horizontal schemas);~the number of axiomatic and generic axiomatic 
+operator templates, and abbreviations (\textit{e.g.,}~constant definitions
+or horizontal schemas);~the number of axiomatic and generic axiomatic
 definitions;~the number of schemas and generic schemas;~and finally the
-total number of declarations. The columns are:~each line description;~and 
+total number of declarations. The columns are:~each line description;~and
 the totals per line, where local totals are added in the case of section
-and chapter options had been chosen. Moreover, each number given in this 
-table is represented internally by a \LaTeX{} counter, which the user can 
-both access and interfere with if needed. 
+and chapter options had been chosen. Moreover, each number given in this
+table is represented internally by a \LaTeX{} counter, which the user can
+both access and interfere with if needed.
 
-For example, for this file, where we have chosen the counting by section option, 
+For example, for this file, where we have chosen the counting by section option,
 issuing \verb|\ZDeclSummary| produces the contents shown in Table~\ref{tbl:zdecl:\thesection}.
 %
 \ZDeclSummary
@@ -1674,26 +1674,26 @@ say, number of examples or proofs given by a specification.
 %
 When counting locally by Chapter or Section, the local counter names are reset according
 to \LaTeX's Chapter or Section counters change. The equivalent global counters are not
-reset and serve to accumulate the global totals, also included in the information. Note 
+reset and serve to accumulate the global totals, also included in the information. Note
 that the local total counter (\texttt{cntZtotdecl}) simply sums the local counters, whereas
-the global total counter (\texttt{cntZdecl}) sums the global counters. Finally, when 
+the global total counter (\texttt{cntZdecl}) sums the global counters. Finally, when
 counting globally, only the global counters are.
 
 One can access the value of each of these counters using the usual \LaTeX{} commands
-to manipulate counters, such as:~\verb|\stepcounter{name}|, which increases counter 
+to manipulate counters, such as:~\verb|\stepcounter{name}|, which increases counter
 \texttt{name} by one;~and \verb|\thename|, which accesses the \verb|\arabic{name}| counter value.
 Moreover, when counting by Chapter or Section, we redefine the contents of \verb|\thename| value
 for all local counters to include the Chapter or Section where the local counter belongs to. For
-example, for the value of \texttt{cntZunboxed}, the result of \verb|\thecntZunboxed| is 
-\verb|\thechapter.\thecntZunboxed|. One can easily redefine such command for whatever else is
+example, for the value of \texttt{cntZunboxed}, the result of \verb|\thecntZunboxed| is
+``\thecntZunboxed''. One can easily redefine such command for whatever else is
 appropriated.
 
 Finally, there are two more low-level \LaTeX{} commands used to control counting. The
 command \verb|\@countZpara| is called within the various Z-\LaTeX{} environments to
 actually perform the counters update. A single command within all environment simplify
 the counting code. If \verb|\CountDefs| is true, then when \verb|\@countZpara| is expanded,
-the appropriate \LaTeX{} counters described above are updated depending on the value of a 
-low-level \TeX{} register \verb|\@zcountingwhat|. That is, the \TeX{} register determines 
+the appropriate \LaTeX{} counters described above are updated depending on the value of a
+low-level \TeX{} register \verb|\@zcountingwhat|. That is, the \TeX{} register determines
 what is being counted. The values used are:
 %
 \begin{itemize}
@@ -1709,17 +1709,17 @@ One use for \verb|\@zcountingwhat=99| is, for instance, to avoid counting non-pa
 definitions, such as the stared versions of the Z-\LaTeX{} environments (\textit{e.g.,}~\verb|\begin{zed*}|).
 Package developers extending this counting facility can use this \TeX{} register and
 other low-level commands to count their own definitions. When extending Z-\LaTeX{} environments,
-package developers are advised to look into the more detailed documentation of \cztstylefile, 
+package developers are advised to look into the more detailed documentation of \cztstylefile,
 which explains more of the low-level \LaTeX/\TeX{} commands available.
 
 Axiomatic and generic definitions are counted within each \verb|\begin{axdef}| and \verb|\begin{gendef}| commands,
-whereas schemas and generic definitions are counted within each \verb|\begin{schema}{name}| and 
+whereas schemas and generic definitions are counted within each \verb|\begin{schema}{name}| and
 \verb|\begin{schema}[X]{name}|, respectively. Unboxed items are introduced through the \verb|\begin{zed}| or
-\verb|\begin{theorem}{name}| commands. Nevertheless, counting must also take place when Z-\LaTeX{} new lines are introduced, 
-as they represent declaration separators. That is, every \verb|\\| or \verb|\also| command within \verb|\begin{zed}| will 
-also increase the counter. The same applies for the variations of the \verb|\also| command (\textit{i.e.,}~\verb|\Also| and 
-\verb|\ALSO|). Note that, since the Z Standard allows multiple new lines to separate commands (\textit{i.e.,}~more than one 
-\verb|\\| between commands), this could create a discrepancy between the number of definitions counted, and the actual number 
+\verb|\begin{theorem}{name}| commands. Nevertheless, counting must also take place when Z-\LaTeX{} new lines are introduced,
+as they represent declaration separators. That is, every \verb|\\| or \verb|\also| command within \verb|\begin{zed}| will
+also increase the counter. The same applies for the variations of the \verb|\also| command (\textit{i.e.,}~\verb|\Also| and
+\verb|\ALSO|). Note that, since the Z Standard allows multiple new lines to separate commands (\textit{i.e.,}~more than one
+\verb|\\| between commands), this could create a discrepancy between the number of definitions counted, and the actual number
 specified. Such discrepancy may only occur for unboxed items, whenever their specification has multiple line separators.
 
 \section{Extra macros and commands from \cztstylefile}\label{sec:cztsty}

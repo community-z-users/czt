@@ -51,9 +51,9 @@
 \newif\if@mathrm@    \@mathrm@false
 \newif\if@tkkeyword@ \@tkkeyword@false
 
-\newif\if@zcntglobally@ \@zcntglobally@false
-\newif\if@zcntbychapter@ \@zcntbychapter@false
-\newif\if@zcntbysection@ \@zcntbysection@false
+\newif\if@cntglobally@ \@cntglobally@false
+\newif\if@cntbychapter@ \@cntbychapter@false
+\newif\if@cntbysection@ \@cntbysection@false
 
 % declare what each option actually do - colour=synonym(color)
 \DeclareOption{lucida}{\@lucida@true}
@@ -64,9 +64,9 @@
 \DeclareOption{tkkeyword}{\@tkkeyword@true}
 
 % way to handle paragraph counting
- \DeclareOption{cntglobally}{\@zcntglobally@true  \@zcntbychapter@false \@zcntbysection@false}
-\DeclareOption{cntbychapter}{\@zcntglobally@false \@zcntbychapter@true  \@zcntbysection@false}
-\DeclareOption{cntbysection}{\@zcntglobally@false \@zcntbychapter@false \@zcntbysection@true}
+ \DeclareOption{cntglobally}{\@cntglobally@true  \@cntbychapter@false \@cntbysection@false}
+\DeclareOption{cntbychapter}{\@cntglobally@false \@cntbychapter@true  \@cntbysection@false}
+\DeclareOption{cntbysection}{\@cntglobally@false \@cntbychapter@false \@cntbysection@true}
 
 % default option as using math italics for mathcode names.
 \ExecuteOptions{mathit,cntglobally}
@@ -273,8 +273,8 @@
     %                       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}
     \def \zsym@typecolon  {\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
                            \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{o}$\hfil}}}%
-    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%    
-    
+    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%
+
     % Predicate and propositional Logic operators - \mathrel please.
     % Both oz.sty and zed.sty \implies and \iff were not \mathstrut.
     % Adjust the original quantifiers as prefix ops with \mathstrut.
@@ -336,9 +336,9 @@
     %\def \zsym@rimg   {|\mskip-5mu)}
     \DeclareMathSymbol{\zsym@limg}{\mathopen}{stmry}{"4C}% \llparenthesis in stmaryrd.sty
     \DeclareMathSymbol{\zsym@rimg}{\mathopen}{stmry}{"4D}% \rrparenthesis
-        
-    \DeclareMathSymbol{\zsym@oplus}{\mathbin}{arrows}{"2C}%  
-    \DeclareMathSymbol{\zsym@plus}{\mathbin}{arrows}{"2C}%   
+
+    \DeclareMathSymbol{\zsym@oplus}{\mathbin}{arrows}{"2C}%
+    \DeclareMathSymbol{\zsym@plus}{\mathbin}{arrows}{"2C}%
     \DeclareMathSymbol{\zsym@star}{\mathbin}{arrows}{"2C}%
 
     %%%%%%%%%%%%%%%%% A.2.5.3 - function toolkit symbols            %
@@ -506,7 +506,7 @@
     %                       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}
     \def \zsym@typecolon  {\raise 0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle%
                            \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{o}$\hfil}}}%
-    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%    
+    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%
 
     % Predicate logic
     \def \zsym@not      {\neg\;}
@@ -545,9 +545,9 @@
     \def \zsym@nrres  {\zmark@hbar{\zsym@rres}}
     \let \zsym@inv    \sim
     %\def \zsym@limg   {(\mskip-3.5mu|}
-    %\def \zsym@rimg   {|\mskip-5mu)}    
+    %\def \zsym@rimg   {|\mskip-5mu)}
     \DeclareMathSymbol{\zsym@limg}{\mathopen}{stmry}{"4C}% \llparenthesis in stmaryrd.sty
-    \DeclareMathSymbol{\zsym@rimg}{\mathopen}{stmry}{"4D}% \rrparenthesis    
+    \DeclareMathSymbol{\zsym@rimg}{\mathopen}{stmry}{"4D}% \rrparenthesis
 
     \let \zsym@oplus  \oplus
     \let \zsym@plus   +
@@ -669,6 +669,212 @@
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Z definition counters                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% Flag used to switch command counting on/off, default=on
+\newif\ifCountDefs
+
+\CountDefstrue
+\PackageInfo{czt}{Counting Z declarations? \ifCountDefs YES \else NO \fi}
+
+% Low-level TeX register used to define what to count
+% 0 = unboxed para
+% 1 = axdef
+% 2 = gendef
+% 3 = schemas
+% 4 = gen schemas
+% 99= nothing
+\newcount\@zcountingwhat
+\@zcountingwhat=99
+
+% Few counters used to calculate number of definitions used.
+% Reset is controlled by flag/option, default is "cntglobally".
+% Stared versions of environments, which are not parsed, are not counted.
+% We do not care about parsing rules here (i.e., incorrect specs
+% are going to be counted incorrectly).
+%
+% We have local and global counters. Global counters accumulate decls
+% from the whole documents.
+%
+% Z paragraphs         | Keywords used for counting
+%  unboxed items       |  \begin{zed}, \begin{theorem}
+%  axiomatic def.      |  \begin{axdef}
+%  gen. axdef          |  \begin{gendef}
+%  schemas             |  \begin{schema}{NAME}
+%  gen. schemas        |  \begin{schema}[X]{NAME}
+%
+% Counters:
+%  a) number of unboxed items: given set, freetype, abbreviation, conjectures, op. templates.
+%  b) number of axiomatic definitions
+%  c) number of generic axiomatic definitions
+%  d) number of schemas
+%  e) number of generic schemas
+%  f) total number of Z declarations
+\newcounter{cntZunboxed}      %a) local
+\newcounter{cntZaxdef}        %b) local
+\newcounter{cntZgendef}       %c) local
+\newcounter{cntZschema}       %d) local
+\newcounter{cntZgenschema}    %e) local
+\newcounter{cntZdecl}         %f) local
+
+\newcounter{cntZtotunboxed}   %a) global
+\newcounter{cntZtotaxdef}     %b) global
+\newcounter{cntZtotgendef}    %c) global
+\newcounter{cntZtotschema}    %d) global
+\newcounter{cntZtotgenschema} %e) global
+\newcounter{cntZtotdecl}      %f) global
+
+% update the reseting rationale based on package options.
+% maybe put this code at the \DeclareOption part (?)
+\if@cntbychapter@
+  \@addtoreset{cntZunboxed}{chapter}
+  \@addtoreset{cntZaxdef}{chapter}
+  \@addtoreset{cntZgendef}{chapter}
+  \@addtoreset{cntZschema}{chapter}
+  \@addtoreset{cntZgenschema}{chapter}
+  \@addtoreset{cntZdecl}{chapter}
+
+  \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items \fi in Chapter~\thechapter}
+  \renewcommand{\thecntZaxdef}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
+  \renewcommand{\thecntZgendef}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
+  \renewcommand{\thecntZschema}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+  \renewcommand{\thecntZgenschema}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+  \renewcommand{\thecntZdecl}{\arabic{cntZdecl} in Chapter~\thechapter}
+\else
+  \if@cntbysection@
+    \@addtoreset{cntZunboxed}{section}
+    \@addtoreset{cntZaxdef}{section}
+    \@addtoreset{cntZgendef}{section}
+    \@addtoreset{cntZschema}{section}
+    \@addtoreset{cntZgenschema}{section}
+    \@addtoreset{cntZdecl}{section}
+
+    \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items \fi in Section~\thesection}
+    \renewcommand{\thecntZaxdef}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
+    \renewcommand{\thecntZgendef}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
+    \renewcommand{\thecntZschema}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
+    \renewcommand{\thecntZgenschema}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
+    \renewcommand{\thecntZdecl}{\arabic{cntZdecl} in Section~\thesection}
+  \fi
+  %\else \if@cntglobally@ \relax \fi
+\fi
+
+% counts the appropriate Z paragraph with correct
+% dependant counter reseting according to the rule
+% chosen by the package option given.
+\def\@countZGlobal{\stepcounter{cntZdecl}\stepcounter{cntZtotdecl}}
+\def\@countZPara{%
+   \ifCountDefs
+       \ifnum \@zcountingwhat = 0
+          %unboxed para code...
+          \stepcounter{cntZunboxed}
+          \stepcounter{cntZtotunboxed}
+          \@countZGlobal
+       \else
+          \ifnum \@zcountingwhat = 1
+             %axdef code...
+             \stepcounter{cntZaxdef}
+             \stepcounter{cntZtotaxdef}
+             \@countZGlobal
+          \else
+             \ifnum \@zcountingwhat = 2
+                %gendef code...
+                \stepcounter{cntZgendef}
+                \stepcounter{cntZtotgendef}
+                \@countZGlobal
+             \else
+                \ifnum \@zcountingwhat = 3
+                   %schemas code...
+                   \stepcounter{cntZschema}
+                   \stepcounter{cntZtotschema}
+                   \@countZGlobal
+                \else
+                   \ifnum \@zcountingwhat = 4
+                      %gen schemas code...
+                      \stepcounter{cntZgenschema}
+                      \stepcounter{cntZtotgenschema}
+                      \@countZGlobal
+                   \else
+                      %don't count at all
+                      \relax
+                   \fi
+                \fi
+             \fi
+          \fi
+       \fi
+   \else
+      \relax
+   \fi
+}
+
+\def \ZDeclSummary {%
+   \ifCountDefs
+      \begin{table}[ht]
+        \begin{center}
+            \if@cntglobally@
+                \begin{tabular}{|l|r|}
+                    \hline
+                    \textbf{Declarations}   & \textbf{Total} \\
+                    \hline
+                    Unboxed items           & \arabic{cntZtotunboxed} \\
+                    \hline
+                    Axiomatic definitions   & \arabic{cntZtotaxdef} \\
+                    \hline
+                    Generic axiomatic defs. & \arabic{cntZtotgendef} \\
+                    \hline
+                    Schemas                 & \arabic{cntZtotschema} \\
+                    \hline
+                    Generic schemas         & \arabic{cntZtotgenschema} \\
+                    \hline
+                    \textbf{Total}          & \textbf{\arabic{cntZtotdecl}} \\
+                    \hline
+                \end{tabular}
+            \else
+                \def \@zcntpart {%
+                    \if@cntbychapter@ chapter \else \if@cntbysection@ section \else ??? \fi \fi}
+                \begin{tabular}{|l|c|c|}
+                    \hline
+                    \textbf{Declarations}   & \textbf{This \@zcntpart}       & \textbf{Globally} \\
+                    \hline
+                    Unboxed items           & \arabic{cntZunboxed}           & \arabic{cntZtotunboxed} \\
+                    \hline
+                    Axiomatic definitions   & \arabic{cntZaxdef}             & \arabic{cntZtotaxdef} \\
+                    \hline
+                    Generic axiomatic defs. & \arabic{cntZgendef}            & \arabic{cntZtotgendef} \\
+                    \hline
+                    Schemas                 & \arabic{cntZschema}            & \arabic{cntZtotschema} \\
+                    \hline
+                    Generic schemas         & \arabic{cntZgenschema}         & \arabic{cntZtotgenschema} \\
+                    \hline
+                    \textbf{Total}          & \textbf{\arabic{cntZdecl}} & \textbf{\arabic{cntZtotdecl}} \\
+                    \hline
+                \end{tabular}
+            \fi
+        \end{center}
+        \if@cntglobally@
+           \caption{Summary of all Z declarations.}\label{tbl:zdecl:global}
+        \else
+          \if@cntbychapter@
+             \caption{Summary of Z declarations for Chapter~\thechapter.}\label{tbl:zdecl:\thechapter}
+          \else
+            \if@cntbysection@
+               \caption{Summary of Z declarations for Section~\thesection.}\label{tbl:zdecl:\thesection}
+            \fi
+          \fi
+        \fi
+      \end{table}
+   \else
+      \relax
+   \fi
+}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Z registers: skip, dimen, tab, etc                            %
 % blend: oz.sty, soz.sty, ltcadiz.sty, zed-csp.sty, fuzz.sty    %
@@ -724,230 +930,20 @@
 
 \PackageInfo{czt}{%
     Initialising Z registers with default values.\MessageBreak
-    \space\space\space\protect\zedtab=2em \MessageBreak%
-    \space\space\space\protect\zedindent=\protect\leftmargini \MessageBreak%
-    \space\space\space\protect\zedleftsep=1em \MessageBreak%
-    \space\space\space\protect\zedbar=6em \MessageBreak %
+    \space\space\space\protect\zedtab=\the\zedtab \MessageBreak%
+    \space\space\space\protect\zedindent=\the\zedindent=\protect\leftmargini \MessageBreak%
+    \space\space\space\protect\zedleftsep=\the\zedleftsep \MessageBreak%
+    \space\space\space\protect\zedbar=\the\zedbar \MessageBreak %
     \MessageBreak
     \space\space\space\protect\interzedlinepenalty=\the\interzedlinepenalty \MessageBreak%never break
     \space\space\space\protect\preboxpenalty=\the\preboxpenalty \MessageBreak%break easily
     \space\space\space\protect\forcepagepenalty=\the\forcepagepenalty\MessageBreak%always break
     \space\space\space\protect\interdisplaylinepenalty=\the\interdisplaylinepenalty \MessageBreak%break sometimes
     \MessageBreak
-    \space\space\space\protect\zedskip= 0.5\baselineskip \MessageBreak%
-    \space\space\space\space\space\space    plus0.333333\baselineskip\MessageBreak%
-    \space\space\space\space\space\space    minus0.333333\baselineskip\MessageBreak%
-    \MessageBreak
-    \space\space\space\protect\zt@p=\ifzt@p true \else false \fi%
+    \space\space\space\protect\zedskip=\the\zedskip \MessageBreak%
+    \space\space\space\protect\zt@p=\ifzt@p true \else false \fi\MessageBreak%
+    \space\space\space\protect\CountDefstrue=\ifCountDefs true \else false \fi%
 }
-
-%                                                               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Z definition counters                                         %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                               %
-
-% Flag used to switch command counting on/off, default=on
-\newif\ifCountDefs  
-
-\CountDefstrue
-\PackageInfo{czt}{Counting Z declarations? \ifCountDefs on \else off \fi}
-
-% Low-level TeX register used to define what to count
-% 0 = unboxed para
-% 1 = axdef
-% 2 = gendef
-% 3 = schemas
-% 4 = gen schemas
-% 99= nothing
-\newcount\@zcountingwhat
-\@zcountingwhat=99
-
-% Few counters used to calculate number of definitions used.
-% Reset is controlled by flag/option, default is "zcntglobally".
-% Stared versions of environments, which are not parsed, are not counted.
-% We do not care about parsing rules here (i.e., incorrect specs
-% are going to be counted incorrectly).
-%
-% Z paragraphs         | Keywords used for counting
-%  unboxed items       |  \begin{zed}, \begin{theorem}
-%  axiomatic def.      |  \begin{axdef}
-%  gen. axdef          |  \begin{gendef}
-%  schemas             |  \begin{schema}{NAME}
-%  gen. schemas        |  \begin{schema}[X]{NAME}
-%
-% Global counters:
-%  a) number of unboxed items: given set, freetype, abbreviation, conjectures, op. templates.
-%  b) number of axiomatic definitions
-%  c) number of generic axiomatic definitions
-%  d) number of schemas
-%  e) number of generic schemas
-%  f) total number of Z declarations
-%  
-%  We have local and global counters
-\newcounter{cntZunboxed}
-\newcounter{cntZaxdef}
-\newcounter{cntZgendef}
-\newcounter{cntZschema}
-\newcounter{cntZgenschema}
-\newcounter{cntZdecl}
-
-\newcounter{cntZtotunboxed}
-\newcounter{cntZtotaxdef}
-\newcounter{cntZtotgendef}
-\newcounter{cntZtotschema}
-\newcounter{cntZtotgenschema}
-\newcounter{cntZtotdecl}
-
-% update the reseting rationale based on package options
-\if@zcntbychapter@ 
-  \@addtoreset{cntZunboxed}{chapter}
-  \@addtoreset{cntZaxdef}{chapter}
-  \@addtoreset{cntZgendef}{chapter}
-  \@addtoreset{cntZschema}{chapter}
-  \@addtoreset{cntZgenschema}{chapter}
-  \@addtoreset{cntZdecl}{chapter}
-  
-  \renewcommand{\thecntZunboxed}{\thechapter.\arabic{cntZunboxed}}
-  \renewcommand{\thecntZaxdef}{\thechapter.\arabic{cntZaxdef}}
-  \renewcommand{\thecntZgendef}{\thechapter.\arabic{cntZgendef}}
-  \renewcommand{\thecntZschema}{\thechapter.\arabic{cntZschema}}
-  \renewcommand{\thecntZgenschema}{\thechapter.\arabic{cntZgenschema}}
-  \renewcommand{\thecntZdecl}{\thechapter.\arabic{cntZdecl}}
-\else 
-  \if@zcntbysection@ 
-    \@addtoreset{cntZunboxed}{section}
-    \@addtoreset{cntZaxdef}{section}
-    \@addtoreset{cntZgendef}{section}
-    \@addtoreset{cntZschema}{section}
-    \@addtoreset{cntZgenschema}{section}
-    \@addtoreset{cntZdecl}{section}
-    
-    % this is not a very helpful command. TODO: CHANGE PLEASE
-    \renewcommand{\thecntZunboxed}{\thesection.\arabic{cntZunboxed}}
-    \renewcommand{\thecntZaxdef}{\thesection.\arabic{cntZaxdef}}
-    \renewcommand{\thecntZgendef}{\thesection.\arabic{cntZgendef}}
-    \renewcommand{\thecntZschema}{\thesection.\arabic{cntZschema}}
-    \renewcommand{\thecntZgenschema}{\thesection.\arabic{cntZgenschema}}
-    \renewcommand{\thecntZdecl}{\thesection.\arabic{cntZdecl}}
-  \fi
-  %\else \if@zcntglobally@ \relax \fi
-\fi
-
-% counts the appropriate Z paragraph with correct 
-% dependant counter reseting according to the rule
-% chosen by the package option given. 
-\def\@countZPara{%
-   \ifCountDefs
-       \ifnum \@zcountingwhat = 0
-          %unboxed para code...
-          \stepcounter{cntZunboxed}
-          \stepcounter{cntZtotunboxed}
-          \stepcounter{cntZdecl}
-          \stepcounter{cntZtotdecl}
-       \else
-          \ifnum \@zcountingwhat = 1
-             %axdef code...
-             \stepcounter{cntZaxdef}
-             \stepcounter{cntZtotaxdef}
-             \stepcounter{cntZdecl}
-             \stepcounter{cntZtotdecl}
-          \else
-             \ifnum \@zcountingwhat = 2
-                %gendef code...
-                \stepcounter{cntZgendef}
-                \stepcounter{cntZtotgendef}
-                \stepcounter{cntZdecl}
-                \stepcounter{cntZtotdecl}
-             \else
-                \ifnum \@zcountingwhat = 3
-                   %schemas code...
-                   \stepcounter{cntZschema}
-                   \stepcounter{cntZtotschema}
-                   \stepcounter{cntZdecl}
-                   \stepcounter{cntZtotdecl}
-                \else
-                   \ifnum \@zcountingwhat = 4
-                      %gen schemas code...
-                      \stepcounter{cntZgenschema}
-                      \stepcounter{cntZtotgenschema}
-                      \stepcounter{cntZdecl}
-                      \stepcounter{cntZtotdecl}
-                   \else
-                      %don't count at all
-                      \relax
-                   \fi
-                \fi
-             \fi
-          \fi
-       \fi
-   \else
-      \relax 
-   \fi
-}
-
-\def \ZDeclSummary {%
-   \ifCountDefs
-      \begin{table}[ht]
-        \begin{center}
-            \if@zcntglobally@
-                \begin{tabular}{|l|r|}
-                    \hline
-                    \textbf{Declarations}   & \textbf{Total} \\                    
-                    \hline
-                    Unboxed items           & \arabic{cntZtotunboxed} \\
-                    \hline
-                    Axiomatic definitions   & \arabic{cntZtotaxdef} \\
-                    \hline
-                    Generic axiomatic defs. & \arabic{cntZtotgendef} \\
-                    \hline
-                    Schemas                 & \arabic{cntZtotschema} \\
-                    \hline
-                    Generic schemas         & \arabic{cntZtotgenschema} \\
-                    \hline
-                    \textbf{Total}          & \textbf{\arabic{cntZtotdecl}} \\                    
-                    \hline
-                \end{tabular}
-            \else                
-                \def \@zcntpart {%
-                    \if@zcntbychapter@ chapter \else \if@zcntbysection@ section \else ??? \fi \fi}                
-                \begin{tabular}{|l|c|c|}
-                    \hline
-                    \textbf{Declarations}   & \textbf{This \@zcntpart}       & \textbf{Globally} \\
-                    \hline
-                    Unboxed items           & \arabic{cntZunboxed}           & \arabic{cntZtotunboxed} \\
-                    \hline
-                    Axiomatic definitions   & \arabic{cntZaxdef}             & \arabic{cntZtotaxdef} \\
-                    \hline
-                    Generic axiomatic defs. & \arabic{cntZgendef}            & \arabic{cntZtotgendef} \\
-                    \hline
-                    Schemas                 & \arabic{cntZschema}            & \arabic{cntZtotschema} \\
-                    \hline
-                    Generic schemas         & \arabic{cntZgenschema}         & \arabic{cntZtotgenschema} \\
-                    \hline
-                    \textbf{Total}          & \textbf{\arabic{cntZdecl}} & \textbf{\arabic{cntZtotdecl}} \\
-                    \hline
-                \end{tabular}                
-            \fi
-        \end{center}
-        \if@zcntglobally@
-           \caption{Summary of all Z declarations.}\label{tbl:zdecl:global}
-        \else
-          \if@zcntbychapter@
-             \caption{Summary of Z declarations for Chapter~\thechapter.}\label{tbl:zdecl:\thechapter}
-          \else
-            \if@zcntbysection@
-               \caption{Summary of Z declarations for Section~\thesection.}\label{tbl:zdecl:\thesection}
-            \fi
-          \fi
-        \fi
-      \end{table}
-   \else
-      \relax
-   \fi
-}   
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1105,8 +1101,8 @@
   $$\global\zt@ptrue
   \@setzsize
   \advance\linewidth by-\zedindent
-  \advance\displayindent by\zedindent  
-  % Count this declaration 
+  \advance\displayindent by\zedindent
+  % Count this declaration
   \@countZPara
   % Must have \def and not \let for nested alignments.
   % Also, count extra definitions at each "\\", whenever within
@@ -1137,7 +1133,7 @@
 % 2) \@ignoretrue makes sure there are no trailing spaces after \end{zed}
 \def\endzed{\crcr\egroup$$\global\@ignoretrue}
 
-% stared version which is ignored by the parser. 
+% stared version which is ignored by the parser.
 % - don't count it, set \@zcountingwhat=99
 \@namedef{zed*}{\@zcountingwhat=99 \@zed}
 \expandafter\let\csname endzed*\endcsname=\endzed
