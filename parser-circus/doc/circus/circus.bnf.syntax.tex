@@ -1,0 +1,300 @@
+\documentclass[draft,a4paper,10pt,wd]{isov2}
+
+\usepackage{circus.bnf.syntax}
+
+% zstan.sty does not like circus.sty as it is today.
+% so, I am including the \Circus commands in-line here.
+
+%\usepackage{vmargin}
+%\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+%\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\begin{document}
+
+\clause{Introduction}
+
+The formal BNF elements presented below for both Z and \Circus\ are typeset following the ISO
+standard \LaTeX\ format. The syntactic metalanguage used is the subset of the standard
+\ISObnf\ summarised in Table~\ref{tab:syntax}, with modifications so that the mathematical
+symbols of Z can be presented in a more comprehensible way.
+
+\begin{table}[htbp!]
+\centering
+\caption{Syntactic metalanguage}
+\label{tab:syntax}
+\begin{tabular}{|p{1.1in}|p{4.45in}|}
+\hline
+{\bf Symbol} & {\bf Definition}\\
+\hline
+\isd & defines a non-terminal on the left in terms of the syntax on the right.
+\index{#equality@$\_ = \_$  (equality)!in syntactic metalanguage}\\
+\alt & separates alternatives.
+\index{#alternatives@$\_ "| \_$  (alternatives)!in syntactic metalanguage}\\
+\sep & separates notations to be concatenated.
+\index{#concatenation@$\_~{\tt ,}~\_$  (concatenation)!in syntactic metalanguage}\\
+\except & separates notation on the left from notation to be excepted on the right:~that is, whenever the element on the left is matched, the element on the right cannot appear as a production.
+\index{#exception@\_ {\rm ---} \_  (exception)!in syntactic metalanguage}\\
+\startrep\finishrep & delimit notation to be repeated zero or more times.
+\index{#repetition@$\{~\_~\}$  (repetition)!in syntactic metalanguage}\\
+\startopt\finishopt & delimit optional notation.
+\index{#optionality@$[~\_~]$  (optionality)!in syntactic metalanguage}\\
+\startgrp\finishgrp & are grouping brackets (parentheses).
+\index{#parentheses@( \_ )  (parentheses)!in syntactic metalanguage}\\
+\termquote\ \termquote & delimit a terminal symbol.
+\index{#terminal@$'~\_~'$  (terminal)!in syntactic metalanguage}\\
+\term & terminates a definition.
+\index{#terminator@$\_~;$  (terminator)!in syntactic metalanguage}\\
+\startinf\finishinf & delimit informal definition of notation.
+\index{#informal@$?~\_~?$  (informal)!in syntactic metalanguage}\\
+\bnfcomment{} & delimit commentary.
+\index{#comment@$(*~\_~*)$  (comment)!in syntactic metalanguage}\\
+\hline
+\end{tabular}
+\end{table}
+
+For instance, the production for characteristic set comprehension expressions are given below as
+
+\begin{bnf}
+\seldef{\CExpression}\index{expression!concrete syntax}%
+ & \isd & \DCchsetcompA\\
+ & & \DCchsetcompB\\
+ & & \bnfcomment{characteristic set comprehension}
+\end{bnf}
+
+and following the rules from Table~\ref{tab:syntax}, it is interpreted as
+%
+\startgrp X \except  Y \finishgrp \except Z
+%
+where
+
+X = \mathtok{\Topbrace}\sep \seluse{\CSchemaText}\sep \mathtok{\Tclbrace}
+
+Y = \mathtok{\Topbrace}\sep \mathtok{\Tclbrace}
+
+Z = \mathtok{\Topbrace}\sep \seluse{\CExpression}\sep \mathtok{\Tclbrace}
+
+In this way, if a schema text production appears within braces, it can be neither
+the empty set (\textit{i.e.,} $\{~\}$), nor a set display (\textit{i.e.,} $\{~ expr_1 ~\}$).
+More details on this can be found on the Section~4 in the ISO Z Standard itself.
+
+\newpage
+\clause{Z Elements}
+
+In this Chapter we present all the  Z Standard syntax elements used by the \Circus\ parser.
+This includes the Z characters, lexis, and concrete syntax.
+
+\sclause{Z Characters}
+\PDchars
+
+\newpage
+\sclause{Z Lexis}
+\PDlexis
+
+\newpage
+\sclause{Z Concrete syntax}\label{sec:conc:z}
+\PDconcrete
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\clause{\Circus\ Elements}
+
+In this Chapter we present all the \Circus\ extensions to the Z Standard
+syntax elements as used by the \Circus\ parser.
+
+\sclause{\Circus\ Characters}
+
+\newpage
+\sclause{\Circus\ Lexis}
+
+\newpage
+\sclause{\Circus\ Concrete syntax}
+
+The concrete syntax given here is an extension of the Z standard BNF in Section~\ref{sec:conc:z}.
+That is, for each BNF production of the Z standard parser the \Circus\ parser extends, we add
+appropriate entry(ies) here.
+
+\begin{bnf}
+\seldef{\CParagraph}\index{circus paragraph!concrete syntax}%
+ & \isd & $\cdots \quad \cdots \quad \cdots$\bnfcomment{all Z Std. \seldef{\CParagraph} productions} \\
+ & \alt & \\
+ & \term &\\
+\end{bnf}
+
+
+
+%
+%\begin{syntax}
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{Spec} & \quad \mathsf{::=} \quad &
+%        \mathsf{SectionList^*} | \mathsf{CircusPara^*}
+%        \smallskip \\ %
+%        \mathsf{SectionL}
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{Spec} & \quad \mathsf{::=} \quad &
+%        \mathsf{CircusPara^*}
+%        \smallskip \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{CircusPara} & \quad \mathsf{::=} \quad &
+%        \mathsf{Para} \ \mathsf{|}\ \mathsf{ChannelPara} \ \mathsf{|}\ \mathsf{ChannelSetPara}\
+%        \ \mathsf{|}\ \mathsf{ProcessPara} \\
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{Para} & \quad \mathsf{::=} \quad & \mathsf{Abbrev}\ \mathsf{|}\
+%        \mathsf{AxPara} \ \mathsf{|}\ \mathsf{GenAxPara}\ \mathsf{|}\
+%        \mathsf{SchPara} \ \mathsf{|}\ \mathsf{GenSchPara}\ \\ & \mathsf{|} &
+%        \mathsf{ConjPara} \ \mathsf{|}\ \mathsf{GenConjPara}\ \mathsf{|}\
+%        \mathsf{FreeType} \ \mathsf{|}\ \mathsf{GivenSet}\ \mathsf{|}\
+%        \mathsf{OpTemplate}\ \\
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{ChannelPara} & \quad \mathsf{::=} \quad & \circchannel\ \mathsf{CDecl} \\%
+%        \mathsf{CDecl} & \quad \mathsf{::=} \quad & \mathsf{SimpleCDecl}\ \mathsf{|} \ \mathsf{SimpleCDecl};\mathsf{CDecl} \\
+%        \mathsf{SimpleCDecl} & \quad \mathsf{::=} \quad &
+%        \mathsf{N^+} \  \mathsf{|} \ \mathsf{N^+: Exp} \ \mathsf{|} \ \mathsf{[N^+]\ N^+:Exp} \ \mathsf{|} \ \mathsf{N[Exp^+]} \\
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{ChannelSetPara} & \quad \mathsf{::=} \quad & \circchannelset\ \mathsf{N} == \mathsf{CSExp} \\
+%        %\mathsf{ProcDecl} \smallskip \\ %
+%        \\ %
+%        \mathsf{CSExp} & %
+%        \mathsf{::=} & \mathsf{ \lchanset ~ \rchanset } %
+%        \ \mathsf{|} \ \mathsf{ \lchanset N^+ \rchanset} %
+%        \ \mathsf{|} \ \mathsf{ApplExpr} %
+%        \ \mathsf{|} \ \mathsf{N[Expr^+]}
+%        \smallskip \\ %
+%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{ProcPara} & \quad \mathsf{::=} \quad & \mathsf{\circprocess\ N \circdef ProcDesc} \
+%        \mathsf{|} \ \mathsf{\circprocess\ [N^+]\ N \circdef ProcDesc} %
+%        \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{ProcDesc} & %
+%        \mathsf{::=} & \mathsf{ QDecl @ ProcDesc } %
+%        \ \mathsf{|} \ \mathsf{ QDecl \circindex ProcDesc } %
+%        \ \mathsf{|} \ \mathsf{ Proc } %
+%        \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{QDecl} & \quad \mathsf{::=} \quad & \mathsf{SimpleQDecl}\ \mathsf{|} \ \mathsf{SimpleQDecl};\mathsf{QDecl} \\
+%        \mathsf{SimpleQDecl} & \quad \mathsf{::=} \quad & [\mathsf{Qualifier}]\ \mathsf{N^+: Exp} \\
+%        \mathsf{Qualifier} & \quad \mathsf{::=} \quad & \circval | \circres | \circvres \\
+%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{Proc} & \mathsf{::=} & \mathsf{\circbegin\ PPara^*\
+%        \circstate\ (N[Exp^*]\ PPara^* @ Action\ \circend} \\ %
+%        & \mathsf{|} &  \mathsf{Proc} \hide \mathsf{CSExp}
+%        \ \mathsf{|} \ \mathsf{Proc} \interleave \mathsf{Proc} %
+%        \ \mathsf{|} \ \mathsf{Proc} \lpar \mathsf{CSExp} \rpar \mathsf{Proc} %
+%        \\ %
+%        & \mathsf{|} &
+%        \mathsf{Proc} \intchoice \mathsf{Proc}
+%        \ \mathsf{|} \ \mathsf{Proc} \extchoice \mathsf{Proc}
+%        \ \mathsf{|} \ \mathsf{Proc} \circseq \mathsf{Proc}
+%        \ \mathsf{|} \ \Interleave \mathsf{QDecl} @ \mathsf{Proc} %
+%        \\ %
+%        % Conflict @ RenameProc!
+%        & \mathsf{|} & \lpar \mathsf{CSExp} \rpar \mathsf{QDecl} @ \mathsf{Proc}
+%        \ \mathsf{|} \ \Intchoice \mathsf{Decl} @ \mathsf{Proc}
+%        \ \mathsf{|} \ \Extchoice \mathsf{QDecl} @ \mathsf{Proc} %
+%        \\ %
+%        & \mathsf{|} & \Comp \mathsf{Decl} @ \mathsf{Proc} %
+%        \ \mathsf{|} \ \Interleave \mathsf{QDecl} \circindex \mathsf{Proc} %
+%        \ \mathsf{|} \ \lpar \mathsf{CSExp} \rpar \mathsf{QDecl} \circindex \mathsf{Proc}
+%        \\
+%        & \mathsf{|} &\Intchoice \mathsf{Decl} \circindex \mathsf{Proc}
+%        \ \mathsf{|} \ \Extchoice \mathsf{QDecl} \circindex \mathsf{Proc} %
+%        \ \mathsf{|} \ \Comp \mathsf{Decl} \circindex \mathsf{Proc} %
+%        \\
+%        & \mathsf{|} & ( Proc ) %
+%        \ \mathsf{|}\
+%         ( \mathsf{Decl @ ProcDef} ) ( \mathsf{Exp^+} )%
+%        \ \mathsf{|} \ \mathsf{N} ( \mathsf{Exp^+} )
+%        \ \mathsf{|} \ \mathsf{N} %
+%        \\ %
+%        & \mathsf{|} & ( \mathsf{Decl \odot ProcDef} ) \lfloor \mathsf{Exp^+} \rfloor %
+%        \ \mathsf{|} \ \mathsf{N} \lfloor \mathsf{Exp^+} \rfloor %
+%        \ \mathsf{|} \ \mathsf{Proc} [ \mathsf{N^+} := \mathsf{N^+} ]
+%        \ \mathsf{|} \ \mathsf{N} [ \mathsf{Exp^+} ]
+%        \\ %
+%
+%
+%
+%        \\ %
+%        & \mathsf{|} &  %
+%        \smallskip \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{NSExp} & %
+%        \mathsf{::=} & \mathsf{ \{ ~ \} } %
+%        \ \mathsf{|} \ \mathsf{ \{ N^+ \} } %
+%        \ \mathsf{|} \ \mathsf{N}
+%        \ \mathsf{|} \ \mathsf{NSExp \cup NSExp} %
+%        \ \mathsf{|} \ \mathsf{NSExp \cap NSExp}
+%        \\ %
+%        & \mathsf{|} & \mathsf{NSExp \setminus NSExp}
+%        \smallskip \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{PPar} & \mathsf{::=} & \mathsf{Par}
+%        \ \mathsf{|} \ \mathsf{N \defs ParAction}
+%        \ \mathsf{|} \ \mathsf{\circnameset\ N == NSExp}
+%        \smallskip \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{ParAction} & \mathsf{::=} & \mathsf{Action}
+%        \ \mathsf{|} \ \mathsf{Decl @ ParAction}
+%        \smallskip \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{Action} & \mathsf{::=} & \mathsf{SchemaExp}
+%        \ \mathsf{|} \ \mathsf{Command}
+%        \ \mathsf{|} \ \mathsf{N}
+%        \ \mathsf{|} \ \mathsf{CSPAction}
+%        \ \mathsf{|} \ \mathsf{Action}~[ \mathsf{N^+} := \mathsf{N^+} ]
+%        \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{CSPAction} & \quad \mathsf{::=} \quad & Skip \
+%        \mathsf{|} \ Stop \ \mathsf{|} \ Chaos
+%        \ \mathsf{|} \ \mathsf{Comm} \then \mathsf{Action} %
+%        \ \mathsf{|} \ \mathsf{Pred}\ \&\ \mathsf{Action}
+%        \\ %
+%        & \mathsf{|} & \mathsf{Action}; \mathsf{Action} %
+%        \ \mathsf{|} \ \mathsf{Action} \extchoice \mathsf{Action} %
+%        \ \mathsf{|} \ \mathsf{Action} \intchoice \mathsf{Action}
+%        \\ %
+%        & \mathsf{|} & \mathsf{Action} \lpar \mathsf{NSExp} | \mathsf{CSExp} | \mathsf{NSExp} \rpar \mathsf{Action} %
+%        \\ %
+%        & \mathsf{|} & \mathsf{Action} \linter \mathsf{NSExp} |
+%        \mathsf{NSExp} \rinter \mathsf{Action}
+%        \\ %
+%        & \mathsf{|} & \mathsf{Action} \hide \mathsf{CSExp} %
+%        \ \mathsf{|} \ \mathsf{ParAction} (\mathsf{Exp^+})
+%        \ \mathsf{|} \ \mu \mathsf{N} @ \mathsf{Action}
+%        \\ %
+%        & \mathsf{|} & \Comp \mathsf{Decl} @ \mathsf{Action} %
+%        \ \mathsf{|} \ \Extchoice \mathsf{Decl} @ \mathsf{Action} %
+%        \ \mathsf{|} \ \Intchoice \mathsf{Decl} @ \mathsf{Action} \\%
+%        & \mathsf{|} & \lpar \mathsf{CSExp} \rpar \mathsf{Decl} @ \lpar \mathsf{NSExp} \rpar \mathsf{Action} %
+%        \ \mathsf{|} \ \Interleave \mathsf{Decl} @ \linter \mathsf{NSExp} \rinter \mathsf{Action}%
+%        \smallskip \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{Comm} & \quad \mathsf{::=} \quad & \mathsf{N} \ \mathsf{CParameter^*} %
+%        \ \mathsf{|} \ \mathsf{N} \ ~[\mathsf{Exp}^+] ~\mathsf{CParameter^*} \\ %
+%        \smallskip  %
+%        \mathsf{CParameter} & \quad \mathsf{::=} \quad & ?\mathsf{N} \ %
+%        \ \mathsf{|} \ ?\mathsf{N}:\mathsf{Pred} %
+%        \ \mathsf{|} \ !\mathsf{Exp} %
+%        \ \mathsf{|} \ \mathsf{.Exp} \\ %
+%        \smallskip \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{Command} & \quad \mathsf{::=} \quad & \mathsf{N^+} := \mathsf{Exp^+} %
+%        \ \mathsf{|} \ \circif\ \mathsf{GActions}\ \circfi %
+%        \ \mathsf{|} \ \circvar\ \mathsf{Decl} @ \mathsf{Action}  \\%
+%        & \mathsf{|} & \mathsf{N^+} : [~ \mathsf{Pred} , \mathsf{Pred} ~] %
+%        \ \mathsf{|} \ \{\mathsf{Pred}\}%
+%        \ \mathsf{|} \ [\mathsf{Pred}] \\%
+%        \smallskip \\ %
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        \mathsf{GActions} & %
+%        \mathsf{::=} & \mathsf{Pred} \then \mathsf{Action} %
+%        \ \mathsf{|} \ \mathsf{Pred} \then \mathsf{Action} \extchoice
+%        \mathsf{GActions}
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\end{syntax}
+
+\end{document}
