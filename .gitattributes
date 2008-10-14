@@ -66,6 +66,10 @@ dtx/circus-guide.bib -text
 dtx/circus-guide.dvi -text
 dtx/circus-guide.pdf -text svneol=unset#application/pdf
 dtx/circus.sty -text
+dtx/circus/circus-guide.bib -text
+dtx/circus/circus-guide.dvi -text
+dtx/circus/circus-guide.pdf -text svneol=unset#application/pdf
+dtx/circus/circus.sty -text
 dtx/czt-guide.bib -text
 dtx/czt-guide.dvi -text
 dtx/czt-guide.pdf -text svneol=unset#application/pdf
@@ -91,6 +95,13 @@ dtx/font-tables/oz-symbols.in -text
 dtx/font-tables/oz-symbols.pdf -text svneol=unset#application/pdf
 dtx/font-tables/stmaryrd.dvi -text
 dtx/font-tables/stmaryrd.pdf -text svneol=unset#application/pdf
+dtx/z/Sched.pdf -text svneol=unset#application/pdf
+dtx/z/czt-guide.bib -text
+dtx/z/czt-guide.pdf -text svneol=unset#application/pdf
+dtx/z/czt.dtx -text
+dtx/z/czt.ins -text
+dtx/z/czt.sty -text
+dtx/z/refcard.pdf -text svneol=unset#application/pdf
 eclipse/README.txt -text
 eclipse/czteditor/icons/obj16/axpara16.png -text
 eclipse/czteditor/icons/obj16/conj16.png -text

@@ -1,0 +1,74 @@
+a) DIFFERENCE BETWEEN \newcommand and \def
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NOTE: See LaTeX Companion 2nd Ed, p. 846
+%
+% LaTeX \newcommand  = TeX \long\def = allow \par args
+% LaTeX \newcommand* = TeX \def      = don't allow \par args
+%
+% * Yet, \def does not get messed up if redefining.
+% * \renewcommand only works if already defined.
+% * \def also allows "@" to appear in command names, which
+%   cannot appear in the user's \newcommand definitions.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+B) COMPATIBILITY BETWEEN VARIOUS MATHEMATICAL OPERATORS DEFS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% or shall we adhere to LaTeX Companion's (p.505) suggestion
+% that "{}\smash{#1}" is better? Keep the old way.
+%
+% zed.sty = \def\strut@op#1{\mathop{\mathstrut{#1}}\nolimits}
+% oz.sty  = \def\z@op#1{\mathop{\mathstrut{#1}}\nolimits}
+%
+% For testing purposes of "\smash" version
+%
+%\newcommand*{\zpreops}[1]{\mathop{{}\smash{#1}}\nolimits}
+%\newcommand*{\zrels}[1]{\mathrel{{}\smash{#1}}}
+%\newcommand*{\zbins}[1]{\mathbin{{}\smash{#1}}}
+%
+% For testing purposes
+%\newcommand*{\powers}{\zpreops{\mathbb P}}
+%\newcommand*{\finsets}{\zpreops{\mathbb F}}
+%\newcommand*{\lands}{{}\smash{\wedge}}
+%\newcommand*{\landold}{\zrel{\wedge}}
+%\newcommand*{\landolds}{\zrels{\wedge}}
+%\newcommand{\lands}{{}\smash{\wedge}}
+%\newcommand{\landold}{\zrel{\wedge}}
+%\newcommand{\landolds}{\zrels{\wedge}}
+%
+%\[
+%\begin{array}{ll}
+%   x \land y = \lnot z \land w          &~\mbox{binary strut}~ \verb|\land|
+%   \\
+%   x \landold y = \lnot z \landold w    &~\mbox{relation strut}~ \verb|\land|
+%   \\
+%   x \lands y = \lnot z \lands w        &~\mbox{binary smash}~ \verb|\land|
+%   \\
+%   x \landolds y = \lnot z \landolds w  &~\mbox{relation smash}~ \verb|\land|
+%\end{array}
+%\]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+C) OBSERVATION OVER HOW ONE COULD FIDDLE WITH MATH SPACING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fiddle with \verb|\thinmuskip|, \verb|\medmuskip|, or
+% \verb|\thickmuskip| to adjust the relative spacing between
+% the various formats (see Companion Table 8.7)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+D) VARIATION OVER DEFINITION OF TAB STOPS (\t1..\t9)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newdimen\zedtab \zedtab=2em%
+%
+%% oz.sty definnition is simpler
+%
+%\def\ozt#1{\hskip #1\zedtab}
+%
+%% zed-csp.sty difinition seems uncessarily longer
+%
+%\let\tie=\t
+%\def\t#1{\afterassignment\@t\count@=#1}
+%\def\@t{\hskip\count@\zedtab}
+%
+% They both achieve the same result
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
