@@ -295,16 +295,6 @@ public class GraphListener extends AbstractListener
       return "\"" + str.replaceAll("\"", "\\\"") + "\"";
   }
 
-  @Override
-  public void doneGuard(Object state, int action, boolean enabled, int value)
-  {
-  }
-
-  @Override
-  public void doneReset(String reason, boolean testing)
-  {
-  }
-
   /** Records a transition in the graph, if it is not already there.
    * @param action  The number of the action just taken
    * @param tr      A possibly new transition (and state).
@@ -376,17 +366,5 @@ public class GraphListener extends AbstractListener
         }
       }
     }
-  }
-
-  @Override
-  public void failure(Exception ex)
-  {
-  }
-
-  @Override
-  public void startAction(Object state, int action, String name)
-  {
-    // TODO Auto-generated method stub
-
   }
 }

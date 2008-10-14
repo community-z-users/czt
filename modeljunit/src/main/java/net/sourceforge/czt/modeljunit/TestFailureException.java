@@ -22,6 +22,7 @@ package net.sourceforge.czt.modeljunit;
 import java.util.List;
 
 /** Exceptions related to failed tests. */
+@SuppressWarnings("serial")
 public class TestFailureException extends RuntimeException
 {
   /** The model that was used to generate the failed test. */

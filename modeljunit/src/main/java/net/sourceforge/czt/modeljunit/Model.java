@@ -468,7 +468,8 @@ public class Model
         printFailure(3, "  after reset.");
       }
       */
-      throw failure;
+      // NOTE: we do not throw the failure exception here.
+      //       Instead, each listener can decide to throw it or not.
     }
     catch (IllegalAccessException ex) {
       Assert.fail("Model Error: Non-public actions? "+ex);
@@ -601,11 +602,29 @@ public class Model
       cm.doneTransition(action, tr);
   }
 
-  /** Sends a failure event to all listeners */
-  public void notifyFailure(Exception ex)
+  /** Sends a failure event to all listeners.
+   *  If one or more listeners throw a TestFailureException,
+   *  then this method throws that exception, after all listeners
+   *  have been informed of the failure.
+   *  
+   *  @throws TestFailureException if a listener throws it.
+   */
+  public void notifyFailure(TestFailureException ex)
   {
-    for (ModelListener cm : listeners_.values())
-      cm.failure(ex);
+    // Any listener can decide to throw an exception.  However,
+    // we send to ALL listeners before we throw any test failure exception.
+    TestFailureException failure = null;
+    for (ModelListener cm : listeners_.values()) {
+      try {
+        cm.failure(ex);
+      }
+      catch (TestFailureException fail) {
+        failure = fail;
+      }
+    }
+    if (failure != null) {
+      throw failure;
+    }
   }
 
   /** Prints a warning message to the current output writer.

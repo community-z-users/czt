@@ -55,7 +55,7 @@ public abstract class AbstractListener implements ModelListener
   {
   }
 
-  public void failure(Exception ex)
+  public void failure(TestFailureException ex)
   {
   }
 }

@@ -83,8 +83,10 @@ public interface ModelListener
   public void doneTransition(int action, Transition tr);
 
   /** The Model calls this when an action has found an error.
-   *  It is called just before the Model throws exception ex
-   *  to report the error.
+   *  The failure exception contains lots of information about
+   *  the test failure.  If a listener throws this exception, then
+   *  the test generation process will stop with this exception.
+   *  (after all listeners have been notified of the failure).
    */
-  public void failure(Exception ex);
+  public void failure(TestFailureException failure);
 }

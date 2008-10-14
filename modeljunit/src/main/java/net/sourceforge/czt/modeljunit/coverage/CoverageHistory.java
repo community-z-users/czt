@@ -27,6 +27,7 @@ import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.modeljunit.AbstractListener;
 import net.sourceforge.czt.modeljunit.Model;
+import net.sourceforge.czt.modeljunit.TestFailureException;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** A wrapper class that adds history recording to any CoverageMetric.
@@ -209,7 +210,7 @@ public class CoverageHistory
     }
   }
 
-  public void failure(Exception ex)
+  public void failure(TestFailureException ex)
   {
     metric_.failure(ex);
   }

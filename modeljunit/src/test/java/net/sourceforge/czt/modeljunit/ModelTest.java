@@ -148,19 +148,24 @@ public class ModelTest extends TestCase
     assertEquals(enabled0, model.enabledGuards());
   }
 
+  public void testFailureContinues()
+  {
+    SimpleSetWithAdaptor sut = new SimpleSetWithAdaptor(new StringSetBuggy());
+    Model model = new Model(sut);
+    int addS1 = model.getActionNumber("addS1");
+    try {
+      assertTrue(model.doAction(addS1));
+    }
+    catch (TestFailureException ex) {
+      fail("Test failures should not throw exceptions, by default");
+    }
+  }
+
   public void testFailure()
   {
     SimpleSetWithAdaptor sut = new SimpleSetWithAdaptor(new StringSetBuggy());
     Model model = new Model(sut);
-    message_ = null;
-    model.addListener(new AbstractListener()
-      { public String getName() {return "failure";}
-        @Override public void failure(Exception ex)
-        {
-          message_ = "failure";
-        }
-      }
-    );
+    model.addListener(new StopOnFailureListener());
     int addS1 = model.getActionNumber("addS1");
     try {
       assertTrue(model.doAction(addS1));
@@ -175,7 +180,6 @@ public class ModelTest extends TestCase
       assertEquals(sut.getClass().getName(), ex.getModelName());
       List<Transition> trs = ex.getSequence();
       assertEquals(0, trs.size());
-      assertEquals("failure", message_);
     }
   }
 

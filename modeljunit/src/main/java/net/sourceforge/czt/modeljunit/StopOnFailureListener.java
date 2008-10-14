@@ -1,5 +1,5 @@
 /**
- Copyright (C) 2007 Mark Utting
+ Copyright (C) 2008 Mark Utting
  This file is part of the CZT project.
 
  The CZT project contains free software; you can redistribute it and/or
@@ -19,43 +19,23 @@
 
 package net.sourceforge.czt.modeljunit;
 
-import net.sourceforge.czt.modeljunit.Transition;
-
-/** An implementation of ModelListener that prints
- *  event messages to the Model's <code>getOutput()</code> stream.
+/** An implementation of ModelListener that throws an exception
+ *  when the first test failure is detected.
  */
-public class VerboseListener extends AbstractListener
+public class StopOnFailureListener extends AbstractListener
 {
-  public VerboseListener()
-  {
-  }
-
-  /** @deprecated Use the null constructor instead. */
-  public VerboseListener(Model model)
+  public StopOnFailureListener()
   {
   }
 
   @Override
   public String getName()
   {
-    return "verbose";
+    return "stop on failure";
   }
 
-  @Override
-  public void doneReset(String reason, boolean testing)
-  {
-    model_.printMessage("done " + reason + " reset("+testing+")");
-  }
-
-  @Override
-  public void doneTransition(int action, Transition tr)
-  {
-    model_.printMessage("done " + tr.toString());
-  }
-
-  @Override
   public void failure(TestFailureException ex)
   {
-    model_.printMessage("FAILURE: "+ex.getLocalizedMessage());
+    throw ex;
   }
 }

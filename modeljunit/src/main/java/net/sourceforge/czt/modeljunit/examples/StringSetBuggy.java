@@ -26,11 +26,14 @@ import java.util.ArrayList;
 
 /** A simple implementation of a set of strings.
  *  It does not allow null strings in the set.
- *  
+ *
  *  The purpose of this class is just to be an example implementation
- *  of Set<String>, which we can run tests on, insert errors into, 
+ *  of Set<String>, which we can run tests on, insert errors into,
  *  measure the coverage of the tests etc.
- *  
+ *
+ *  This class has an intentional bug: the equals method contains an
+ *  off-by-one error.
+ *
  * @author marku  April 2007 for COMP551
  *
  */
