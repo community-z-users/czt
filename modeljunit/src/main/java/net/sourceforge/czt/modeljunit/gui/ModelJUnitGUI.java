@@ -168,7 +168,7 @@ public class ModelJUnitGUI implements ActionListener
           m_frame.getContentPane().add(m_tabbedPane, BorderLayout.CENTER);
           m_frame.getContentPane().add(m_panelOption, BorderLayout.SOUTH);
           m_frame.pack();
-          m_frame.setSize(800, 620); // force the VisualisationPanel smaller!
+          m_frame.setSize(800, 680); // force the VisualisationPanel smaller!
           m_frame.setVisible(true);
         }
         catch (Exception exp) {
@@ -458,8 +458,9 @@ public class ModelJUnitGUI implements ActionListener
 
     // Run test and display test output
     TestExeModel.runTestAuto();
-    //Finish the visualisation panel. This effectively starts the animation.
-    m_panelGV.updateGUI();
+    // Finish the visualisation panel. This effectively starts the animation.    
+    m_panelGV.updateGUI(m_nCurrentPanelIndex==5);    
+
   }
 
 
