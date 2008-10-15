@@ -1,5 +1,20 @@
 /**
- * 
+ Copyright (C) 2008 Jerramy Winchester
+ This file is part of the CZT project.
+
+ The CZT project contains free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published
+ by the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ The CZT project is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with CZT; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.modeljunit.gui.visualisaton;
 
@@ -16,7 +31,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 
 import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.algorithms.util.Context;
+import edu.uci.ics.jung.graph.util.Context;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.Layer;
 import edu.uci.ics.jung.visualization.RenderContext;
@@ -36,19 +51,22 @@ public class VertexGradientRenderer<V,E> implements Renderer.Vertex<V,E> {
 	private Color visColor;	
 	private Color graphColor;	
 	private Color stanColor;
+	private Color firstStateColor;
 
 	private PickedState<V> pickedState;
 	private boolean cyclic;
 
 	public VertexGradientRenderer(Color backFillColor, PickedState<V> pickedState, boolean cyclic) {
 		this.backFillColor = backFillColor;
-		this.dispColor = Color.blue;
-		this.pickedColor = Color.red;		
+		this.dispColor = Color.green;
+		this.pickedColor = new Color(204, 153, 0);		
 		this.graphColor = Color.magenta;
-		this.visColor = Color.green;
+		this.visColor = new Color(51, 102, 0);
 		this.stanColor = Color.gray;
+		this.firstStateColor = Color.cyan;
 		this.pickedState = pickedState;
 		this.cyclic = cyclic;
+		
 	}
 
 
@@ -109,14 +127,19 @@ public class VertexGradientRenderer<V,E> implements Renderer.Vertex<V,E> {
 					(float)r.getMinX(), y2, graphColor, cyclic);
 		} else if(v instanceof VertexInfo){
 			VertexInfo vert = (VertexInfo)v;
-			if(vert.getIsDisplayed()){
+			if(vert.getIsFailedVertex()){
+				fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), backFillColor,
+						(float)r.getMinX(), y2, Color.red, cyclic);
+			} else if(vert.isStartState()){				
+				fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), backFillColor,
+						(float)r.getMinX(), y2, firstStateColor, cyclic);
+			} else if(vert.getIsDisplayed()){				
 				fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), backFillColor,
 						(float)r.getMinX(), y2, dispColor, cyclic);
 			} else if(vert.getIsVisited()){
 				fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), backFillColor,
 						(float)r.getMinX(), y2, visColor, cyclic);
-			} 
-			else {
+			} else {
 				fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), backFillColor,
 						(float)r.getMinX(), y2, stanColor, cyclic);
 			}

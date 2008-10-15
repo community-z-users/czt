@@ -447,6 +447,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/PanelExecuteActions.
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/Parameter.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/TestExeModel.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/package.html -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeDisplayPredicate.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeFontTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeInfo.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeLabelTransformer.java -text
@@ -455,6 +456,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/EdgeStr
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/InfoLabelTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/JUNGHelper.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/PanelJUNGVisualisation.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexDisplayPredicate.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexEdgePaintTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexFontTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexGradientRenderer.java -text

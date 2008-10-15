@@ -1,5 +1,20 @@
 /**
- * 
+ Copyright (C) 2008 Jerramy Winchester
+ This file is part of the CZT project.
+
+ The CZT project contains free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published
+ by the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ The CZT project is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with CZT; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.modeljunit.gui.visualisaton;
 
@@ -49,7 +64,9 @@ public class JUNGHelper {
 	private HashMap<Transition, Object> edges;
 
 	private DefaultMutableTreeNode top_;
-	private DefaultMutableTreeNode stateChange_ = null;	
+	private DefaultMutableTreeNode stateChange_ = null;
+	
+	private boolean seenFirstState = false;
 
 	/**
 	 * Main Constructor to initialise class wide variables.
@@ -139,6 +156,7 @@ public class JUNGHelper {
 		EdgeIterator graphEdges = graph.getGraph().edges();
 		VertexInfo src;		
 		VertexInfo dest;
+		seenFirstState = false;
 		while (graphEdges.hasNext()) {
 			Edge e = graphEdges.nextEdge();
 			if(!vertices.containsKey(graph.getGraph().origin(e).element())){
@@ -147,6 +165,10 @@ public class JUNGHelper {
 				src = (VertexInfo)vertices.get(graph.getGraph().origin(e).element());
 			}
 			g.addVertex(src);
+			if(!seenFirstState){
+				src.setStartState(true);
+				seenFirstState = true;
+			}
 			vertices.put(src.getName(), src);
 
 			if(!vertices.containsKey(graph.getGraph().destination(e).element())){
@@ -223,16 +245,22 @@ public class JUNGHelper {
 	 * the exploration algorythm.
 	 * @param vertex The name of the vertex
 	 */
-	public void visitedVertex(Object vertex) {		
+	public void visitedVertex(Object vertex, boolean failed) {		
 		if(!vertices.containsKey(vertex)){
 			VertexInfo vert = new VertexInfo(vertex, true, true);
+			vert.setIsFailedVertex(failed);
+			if(vertices.size() == 0){
+				vert.setStartState(true);
+			}
 			g.addVertex(vert);
+			g.removeVertex("Empty_Fail");
 			vertices.put(vertex, vert);			
 		}else{
 			if(vertices.get(vertex) instanceof VertexInfo){
 				VertexInfo v = (VertexInfo)vertices.get(vertex);			
 				v.setIsDisplayed(true);
 				v.setIsVisited(true);
+				v.setIsFailedVertex(failed);				
 			}
 		}
 	}
@@ -240,28 +268,33 @@ public class JUNGHelper {
 	/**
 	 * This lets the visualisation panel know about any edges that have been
 	 * visited and marks them as visited.
+	 * @param failed 
 	 * @param action
 	 * @param startState
 	 * @param endState
 	 */
-	public void visitedEdge(Transition trans) {		
+	public void visitedEdge(Transition trans, boolean failed, String failedMsg) {		
 		if(!edges.containsKey(trans)){
-			visitedVertex(trans.getStartState());
-			visitedVertex(trans.getEndState());			
+			visitedVertex(trans.getStartState(), failed);
+			visitedVertex(trans.getEndState(), failed);			
 			EdgeInfo edge = new EdgeInfo(trans
 					, (VertexInfo)vertices.get(trans.getStartState())
 					, (VertexInfo)vertices.get(trans.getEndState())
 					, true
-					, true);			
+					, true);
+			edge.setFailedEdge(failed);
+			edge.setFailedMsg(failedMsg);
 			edge.getSrcVertex().setOutgoingEdges(edge.getSrcVertex().getOutgoingEdges() + 1);
 			edge.getDestVertex().setIncomingEdges(edge.getDestVertex().getIncomingEdges() + 1);			
 			g.addEdge(edge, vertices.get(trans.getStartState()), vertices.get(trans.getEndState()));
 			edges.put(trans, edge);			
 		}else{
 			if(edges.get(trans) instanceof EdgeInfo){
-				EdgeInfo e = (EdgeInfo)edges.get(trans);
-				e.setIsDisplayed(true);
-				e.setIsVisited(true);
+				EdgeInfo edge = (EdgeInfo)edges.get(trans);
+				edge.setIsDisplayed(true);
+				edge.setIsVisited(true);
+				edge.setFailedEdge(failed);
+				edge.setFailedMsg(failedMsg);
 			}
 		}
 		//Update the tree with the edge transition
