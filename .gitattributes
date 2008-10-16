@@ -62,21 +62,10 @@ doc/refcard/z/refcard.p2.latb -text
 doc/refcard/z/refcard.pdf -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zcs -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
-dtx/Sched.dvi -text
-dtx/Sched.pdf -text svneol=unset#application/pdf
-dtx/circus-guide.bib -text
-dtx/circus-guide.dvi -text
-dtx/circus-guide.pdf -text svneol=unset#application/pdf
-dtx/circus.sty -text
 dtx/circus/circus-guide.bib -text
 dtx/circus/circus-guide.dvi -text
 dtx/circus/circus-guide.pdf -text svneol=unset#application/pdf
 dtx/circus/circus.sty -text
-dtx/czt-guide.bib -text
-dtx/czt-guide.dvi -text
-dtx/czt-guide.pdf -text svneol=unset#application/pdf
-dtx/czt.ins -text
-dtx/czt.sty -text
 dtx/font-tables/AMS-euf.dvi -text
 dtx/font-tables/AMS-euf.pdf -text svneol=unset#application/pdf
 dtx/font-tables/MnSymbol.dvi -text
