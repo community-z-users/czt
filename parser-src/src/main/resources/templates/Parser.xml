@@ -2949,13 +2949,33 @@ unboxedParagraphItem ::=
         {:
            RESULT = factory_.createFreePara(ftl);
            addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
+        :}        
+        /*|
+        name:n formalParameters:ofp CONJECTURE predicate:p
+        {:
+           RESULT = factory_.createConjPara(ofp, p);
+           RESULT.getAnns().add(n); // add it as an annotation for now.
+           addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
         :}
         |
-        optFormalParameters:ofp CONJECTURE predicate:p
+        CONJECTURE:c predicate:p
+        {:
+           RESULT = factory_.createConjPara(factory_.createZNameList(), p);
+           addLocAnn(RESULT, getLocation(p));
+        :}*/
+        |
+        name:n CONJECTURE predicate:p
+        {:
+           RESULT = factory_.createConjPara(factory_.createZNameList(), p);
+           RESULT.getAnns().add(n); // add it as an annotation for now.
+           addLocAnn(RESULT, getLocation(getLocation(n), getLocation(p)));
+        :}        
+        |
+        optFormalParameters:ofp CONJECTURE:c predicate:p
         {:
            RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
-        :}
+        :}        
         |
         operatorTemplate:ot
         {:
@@ -3436,6 +3456,17 @@ circusInnerProcPara ::=
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("a local abbreviation", getLocation(ad));
            parserState_.addLocallyDeclPara(RESULT);           
+        :}
+        |
+        name:n CONJECTURE:c predicate:p
+        {:
+           LocInfo loc = getLocation(c, p);           
+           RESULT = factory_.createConjPara(factory_.createZNameList(), p);
+           RESULT.getAnns().add(n); // add it as an annotation for now.
+           addLocAnn(RESULT, loc);
+           // raise a scoping warning if needed
+           addBasicProcessScopePostCheckFor("a local named conjecture " + n, loc);
+           parserState_.addLocallyDeclPara(RESULT);
         :}
         |    
         optFormalParameters:ofp CONJECTURE:c predicate:p
@@ -5598,7 +5629,7 @@ nameList ::=
            RESULT.add(dn);
         :}
         ;
-
+        
 name ::=
         DECORWORD:dw
         {:
