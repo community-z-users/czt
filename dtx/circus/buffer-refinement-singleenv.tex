@@ -1,15 +1,28 @@
------------------------------------------------------------------------------
--- A REACTIVE BUFFER    - Case Study                                        -
--- Action Refinement: controller and ring partitions                        -
--- Example extracted from the paper "A Refinement Strategy for Circus"      -
------------------------------------------------------------------------------
+\documentclass{article}
+
+\usepackage{circus}
+
+% count definitions please
+\CountDefstrue
+
+\begin{document}
+
+\section{Introduction}
+
+\begin{verbatim}
+%-----------------------------------------------------------------------------
+%-- A REACTIVE BUFFER    - Case Study                                        -
+%-- Action Refinement: controller and ring partitions                        -
+%-- Example extracted from the paper "A Refinement Strategy for Circus"      -
+%-----------------------------------------------------------------------------
+\end{verbatim}
 
 You must always include the circus\_toolkit, and also check inside
 it to see the LaTeX commands the parser recognises (or to create
 your own commands)
 
 \begin{zsection}
-  \SECTION\ mysection \parents\ circus\_toolkit
+  \SECTION\ buffer\_refinement\_singleenv \parents\ circus\_toolkit
 \end{zsection}
 
 \begin{axdef}
@@ -189,3 +202,7 @@ available soon. The bottom line is that apart from
     RingAction) \circhide \lchanset write, read \rchanset \\
     \circend
 \end{circus}
+
+\CircusDeclSummary
+
+\end{document}

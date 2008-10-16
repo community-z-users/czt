@@ -53,7 +53,7 @@
 \DeclareOption{ctkkeyword}{\@ctkkeyword@true}
 
 % default option as using math italics for mathcode names.
-\ExecuteOptions{mathit, colour}
+\ExecuteOptions{mathit,colour,cntglobally}
 \ProcessOptions\relax
 
 %                                                               %
@@ -417,23 +417,23 @@
     \space\space\space\protect\TypesetCircusToolsCmds=\ifTypesetCircusToolsCmds true \else false \fi%
 }
 
-\let\@countZGlobal=\@@countZGlobal
+\let\@@countZGlobal=\@countZGlobal
 \def\@countZGlobal {%
     \@@countZGlobal
     \@countCircusGlobal%
 }
-\let\@countZPara=\@@countZPara
+\let\@@countZPara=\@countZPara
 \def\@countZPara {%
     \ifCountDefs
        \ifnum \@circuscountingwhat < 4      % x < 4
           % count Z global, updating circus global counters
-          \@@countZPara          
+          \@@countZPara
        \else
-          \ifnum \@circuscountingwhat < 8   % 4 <= x < 8  
+          \ifnum \@circuscountingwhat < 8   % 4 <= x < 8
             % count Z para
-            \@countCircusZPara            
+            \@countCircusZPara
           \else                             % x >= 8
-            % do the default Z counting (?) or just \relax? 
+            % do the default Z counting (?) or just \relax?
             \@@countZPara
           \fi
        \fi
@@ -589,6 +589,82 @@
          % actually count the paragraph
          \@countCircusPara
       \fi}
+
+\def \CircusDeclSummary {%
+   %\ZDeclSummary
+   \ifCountDefs
+      \begin{table}[ht]
+        \begin{center}
+            \if@cntglobally@
+                \begin{tabular}{|l|l|r|}
+                    \hline
+                    \textbf{Category} & \textbf{Declarations}   & \textbf{Total} \\
+                    \hline
+                                      & Unboxed items           & \arabic{cntZtotunboxed} \\
+                    & \multicolumn{2}{c}{\hline} \\
+                                      & Axiomatic defs          & \arabic{cntZtotaxdef} \\
+                    \hline
+                    Top-level         & Generic axiomatic defs. & \arabic{cntZtotgendef} \\
+                    \hline
+                    Z decls           & Schemas                 & \arabic{cntZtotschema} \\
+                    \hline
+                                      & Generic schemas         & \arabic{cntZtotgenschema} \\
+                    \hline
+                                      & \textbf{Total}          & \textbf{\arabic{cntZtotdecl}} \\
+                    \hline
+                    \hline
+                                      & Channel decls.          & \arabic{cntCircustotChannel} \\
+                    \hline
+                    Top-level         & Channel set decls.      & \arabic{cntCircustotChannelset} \\
+                    \hline
+                    \Circus{} decs    & Process decls.          & \arabic{cntCircustotProcess} \\
+                    \hline
+                                      & Process ref. assertions & \arabic{cntCircustotProcessRef} \\
+                    \hline
+                                      & \textbf{Total}          & \textbf{\arabic{cntCircustotDeclShallow}} \\
+                    \hline
+                    \hline
+                    Overall           & \textbf{Total}          &  \\% \textbf{\arabic{cntZtotdecl}\plus\arabic{cntCircustotDeclShallow}} \\
+                    \hline
+                \end{tabular}
+            \else
+                \def \@circuscntpart {%
+                    \if@cntbychapter@ Chapter \else \if@cntbysection@ Section \else ??? \fi \fi}
+                \begin{tabular}{|l|c|c|}
+                    \hline
+                    \textbf{Declarations}   & \textbf{This \@circuscntpart}       & \textbf{Globally} \\
+                    \hline
+                    Unboxed items           & \arabic{cntZunboxed}           & \arabic{cntZtotunboxed} \\
+                    \hline
+                    Axiomatic definitions   & \arabic{cntZaxdef}             & \arabic{cntZtotaxdef} \\
+                    \hline
+                    Generic axiomatic defs. & \arabic{cntZgendef}            & \arabic{cntZtotgendef} \\
+                    \hline
+                    Schemas                 & \arabic{cntZschema}            & \arabic{cntZtotschema} \\
+                    \hline
+                    Generic schemas         & \arabic{cntZgenschema}         & \arabic{cntZtotgenschema} \\
+                    \hline
+                    \textbf{Total}          & \textbf{\arabic{cntZdecl}} & \textbf{\arabic{cntZtotdecl}} \\
+                    \hline
+                \end{tabular}
+            \fi
+        \end{center}
+        \if@cntglobally@
+           \caption{Summary of all \Circus{} declarations.}\label{tbl:circusdecl:global}
+        \else
+          \if@cntbychapter@
+             \caption{Summary of \Circus{} declarations for Chapter~\thechapter.}\label{tbl:circusdecl:\thechapter}
+          \else
+            \if@cntbysection@
+               \caption{Summary of \Circus{} declarations for Section~\thesection.}\label{tbl:circusdecl:\thesection}
+            \fi
+          \fi
+        \fi
+      \end{table}
+   \else
+      \relax
+   \fi
+}
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

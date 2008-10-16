@@ -1,15 +1,31 @@
------------------------------------------------------------------------------
--- A REACTIVE BUFFER    - Case Study                                        -
--- Action Refinement: controller and ring partitions                        -
--- Example extracted from the paper "A Refinement Strategy for Circus"      -
------------------------------------------------------------------------------
+\documentclass{article}
+
+\usepackage[cntbysection]{circus}
+
+% count definitions please
+\CountDefstrue
+
+\begin{document}
+
+\section{Introduction}
+
+\begin{verbatim}
+%-----------------------------------------------------------------------------
+%-- A REACTIVE BUFFER    - Case Study                                        -
+%-- Action Refinement: controller and ring partitions                        -
+%-- Example extracted from the paper "A Refinement Strategy for Circus"      -
+%-----------------------------------------------------------------------------
+\end{verbatim}
+
 
 You must always include the circus\_toolkit, and also check inside
 it to see the LaTeX commands the parser recognises (or to create
 your own commands)
 
+\section{Channels}
+
 \begin{zsection}
-  \SECTION\ mysection2 \parents\ circus\_toolkit
+  \SECTION\ buffer\_refinement\_multienv \parents\ circus\_toolkit
 \end{zsection}
 
 \begin{axdef}
@@ -31,6 +47,10 @@ your own commands)
 \begin{circus}
  \circchannel\ read\_2 : \nat
 \end{circus}
+
+\CircusDeclSummary
+
+\section{Buffer}
 
 Unfortunately boxed processes (those spread across multiple
 begin/end Circus) are not yet available. You need to define your
@@ -246,3 +266,7 @@ available soon. The bottom line is that apart from
 \begin{circus}
     \circend
 \end{circus}
+
+\CircusDeclSummary
+
+\end{document}
