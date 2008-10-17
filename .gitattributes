@@ -87,6 +87,8 @@ dtx/font-tables/oz-symbols.pdf -text svneol=unset#application/pdf
 dtx/font-tables/stmaryrd.dvi -text
 dtx/font-tables/stmaryrd.pdf -text svneol=unset#application/pdf
 dtx/z/Sched.pdf -text svneol=unset#application/pdf
+dtx/z/Sched_mathrm.dvi -text
+dtx/z/Sched_mathrm.pdf -text svneol=unset#application/pdf
 dtx/z/czt-guide.bib -text
 dtx/z/czt-guide.pdf -text svneol=unset#application/pdf
 dtx/z/czt.dtx -text

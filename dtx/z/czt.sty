@@ -215,9 +215,9 @@
     \DeclareMathSymbol{\zsym@arithmos}{\mathord}{arrows}{"41}%
     \DeclareMathSymbol{\zsym@arithmos}{\mathord}{arrows}{"4E}%
     \DeclareMathSymbol{\zsym@arithmos}{\mathord}{arrows}{"50}%
-    %\def \zsym@arithmos {\mathbb A}
-    %\def \zsym@nat      {\mathbb N}
-    %\def \zsym@power    {\mathbb P}
+    \def \zsym@arithmos {\mathbb A}
+    \def \zsym@nat      {\mathbb N}
+    \def \zsym@power    {\mathbb P}
 
     % Other Greek letters
     % Or should this be largesymbols / mathupright (see lucidabr.sty)?
@@ -254,8 +254,8 @@
     %%%%%%%%%%%%%%%%% A.2.4.3 - Special characters                  %
     %\def \zsym@langle  no need to redefine?
     %\def \zsym@rangle  no need to redefine?
-    \def \zsym@lbolt    {{\langle}\mkern -5mu{|}}
-    \def \zsym@rbolt    {{|}\mkern -5mu{\rangle}}
+    \def \zsym@lblot    {{\langle}\mkern -5mu{|}}
+    \def \zsym@rblot    {{|}\mkern -5mu{\rangle}}
     \def \zsym@ldata    {\langle\!\langle}
     \def \zsym@rdata    {\rangle\!\rangle}
     \DeclareMathSymbol{\zsym@spot}{\mathrel}{symbols}{"0F}%
@@ -273,7 +273,7 @@
     %                       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}
     \def \zsym@typecolon  {\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
                            \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{o}$\hfil}}}%
-    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%
+    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%    
 
     % Predicate and propositional Logic operators - \mathrel please.
     % Both oz.sty and zed.sty \implies and \iff were not \mathstrut.
@@ -299,6 +299,7 @@
     \DeclareMathSymbol{\zrres}{\mathbin}{letters}{"2E}%
     \DeclareMathSymbol{\zemptyset}{\mathord}{symbols}{"3B}%
     \DeclareMathSymbol{\zinj}{\mathbin}{arrows}{"29}%
+    \let \zsym@upharpoonright \zupharpoonright
 
     % slightly raised concatenation operator given as a \mathcar
     \def \zmark@cat {\raise 0.8ex\hbox{$\mathchar\zseqcat$}}
@@ -309,7 +310,7 @@
     \def \zsym@notin    {\not\in}
     %\DeclareMathSymbol{\zsym@notin}{\mathbin}{arrows}{"1D}%
     \DeclareMathSymbol{\zsym@neq}{\mathrel}{arrows}{"94}%
-    %\DeclareMathSymbol{\zsym@emptyset}{\mathbin}{symbols}{"3B}%
+    \def \zsym@emptyset {\zemptyset}
     \DeclareMathSymbol{\zsym@subseteq}{\mathrel}{symbols}{"12}%
     \DeclareMathSymbol{\zsym@subset}{\mathrel}{symbols}{"13}%
     \DeclareMathSymbol{\zsym@cup}{\mathbin}{symbols}{"5B}%
@@ -1643,22 +1644,22 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 %
 % NOTE: ISOZ A.2.5.2 does not add wordglue to \inv! TODO: check std bug?
 
-\def \mapsto {\zbinop{\zsym@mapsto}}      % F
-\def \dom    {\ztoolkit{\zsym@dom}}       % O
-\def \ran    {\ztoolkit{\zsym@ran}}       % O
-\def \id     {\ztoolkit{\zsym@id}}        % G
-\def \comp   {\zbinop{\zsym@comp}}        % F
-\def \circ   {\zbinop{\zsym@circ}}        % F
-\def \dres   {\zbinop{\zsym@dres}}        % F
-\def \rres   {\zbinop{\zsym@rres}}        % F
-\def \ndres  {\zbinop{\zsym@ndres}}       % F
-\def \nrres  {\zbinop{\zsym@nrres}}       % F
-\def \inv    {\zpostop{^\zsym@inv}}        % F - ZStd alternative should be {^\zsym@inv}
-\def \limg   {\zbinop{\zsym@limg}}        % F
-\def \rimg   {\zpostop{\zsym@rimg}}       % F - it's a Zposchar!
-\def \oplus  {\zbinop{\zsym@oplus}}       % F
-\def \plus   {\zpostop{^\zsym@plus}}      % F - superscripts spaces differently
-\def \star	 {\zpostop{^\zsym@star}}      % F
+\def \mapsto {\zbinop{\zsym@mapsto}}         % F
+\def \dom    {\zpreop{\ztoolkit{\zsym@dom}}} % O
+\def \ran    {\zpreop{\ztoolkit{\zsym@ran}}} % O
+\def \id     {\zpreop{\ztoolkit{\zsym@id}}}  % G
+\def \comp   {\zbinop{\zsym@comp}}           % F
+\def \circ   {\zbinop{\zsym@circ}}           % F
+\def \dres   {\zbinop{\zsym@dres}}           % F
+\def \rres   {\zbinop{\zsym@rres}}           % F
+\def \ndres  {\zbinop{\zsym@ndres}}          % F
+\def \nrres  {\zbinop{\zsym@nrres}}          % F
+\def \inv    {\zpostop{^\zsym@inv}}          % F - ZStd alternative should be {^\zsym@inv}
+\def \limg   {\zbinop{\zsym@limg}}           % F
+\def \rimg   {\zpostop{\zsym@rimg}}          % F - it's a Zposchar!
+\def \oplus  {\zbinop{\zsym@oplus}}          % F
+\def \plus   {\zpostop{^\zsym@plus}}         % F - superscripts spaces differently
+\def \star	 {\zpostop{^\zsym@star}}         % F
 
 \PackageInfo{czt}{\space\space Loading relation toolkit symbols}
 
