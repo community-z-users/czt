@@ -44,12 +44,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                               %
 
-% Call czt with the same options as in here
+% Call czt.sty with the same options as given for circus.sty
 \RequirePackageWithOptions{czt}[2008/10/01]
 
 % create conditionals for each option available, init=false
 \newif\if@ctkkeyword@ \@ctkkeyword@false
 
+% Pass czt.sty options to its package
+\DeclareOption{lucida}{\PassOptionsToPackage{lucida}{czt}}
+\DeclareOption{color}{\PassOptionsToPackage{color}{czt}}
+\DeclareOption{colour}{\PassOptionsToPackage{colour}{czt}}
+\DeclareOption{mathit}{\PassOptionsToPackage{mathit}{czt}}
+\DeclareOption{mathrm}{\PassOptionsToPackage{mathrm}{czt}}
+\DeclareOption{tkkeyword}{\PassOptionsToPackage{tkkeyword}{czt}}
+\DeclareOption{cntglobally}{\PassOptionsToPackage{cntglobally}{czt}}
+\DeclareOption{cntbychapter}{\PassOptionsToPackage{cntbychapter}{czt}}
+\DeclareOption{cntbysection}{\PassOptionsToPackage{cntbysection}{czt}}
+
+% New options from this package
 \DeclareOption{ctkkeyword}{\@ctkkeyword@true}
 
 % default option as using math italics for mathcode names.
@@ -83,7 +95,7 @@
   \PackageInfo{circus}{Circus colours defined as:\MessageBreak%
     \space\space CSPBoxColor\space\space          = cmyk(   1,   0,   1,0) \MessageBreak%
     \space\space MetaColor\space\space\space      = cmyk(   0,0.61,0.87,0) \MessageBreak%
-    \space\space CSPColor\space\space\space\space = cmyk(0.50,   1,   0,0) \MessageBreak%
+    \space\space CSPColor\space\space\space\space = cmyk(0.50,   1,   0,0)}%
 
 \else
   \PackageInfo{circus}{Rendering Circus math mode in monochrome.}
@@ -362,51 +374,50 @@
 \newcounter{cntCircusZtotschema}
 \newcounter{cntCircusZtotgenschema}
 
-
 % update the reseting rationale based on package options.
 % maybe put this code at the \DeclareOption part (?)
-\if@cntbychapter@
-  \@addtoreset{cntCircusChannel}{chapter}
-  \@addtoreset{cntCircusChannelset}}{chapter}
-  \@addtoreset{cntCircusProcess}{chapter}
-  \@addtoreset{cntCircusProcessRef}{chapter}
-  \@addtoreset{cntCircusDeclDeep}{chapter}
-
-%  \@addtoreset{cntCircusNameset}{chapter}
-%  \@addtoreset{cntCircusAction}{chapter}
-%  \@addtoreset{cntCircusActionRef}{chapter}
-%  \@addtoreset{cntCircusDeclShallow}{chapter}
-
-
-%  \renewcommand{\thecntCircusChannel}{\arabic{cntCircus} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items\fi in Chapter~\thechapter}
-%  \renewcommand{\thecntCircusChannelset}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
-%  \renewcommand{\thecntCircusProcess}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
-%  \renewcommand{\thecntCircusProcessRef}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
-%  \renewcommand{\thecntCircusNameset}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
-%  \renewcommand{\the}{\arabic{cntZdecl} in Chapter~\thechapter}
-\else
-  \if@cntbysection@
-     \@addtoreset{cntCircusChannel}{chapter}
-     \@addtoreset{cntCircusChannelset}}{chapter}
-     \@addtoreset{cntCircusProcess}{chapter}
-     \@addtoreset{cntCircusProcessRef}{chapter}
-     \@addtoreset{cntCircusDeclDeep}{chapter}
-
-%     \@addtoreset{cntCircusNameset}{chapter}
-%     \@addtoreset{cntCircusAction}{chapter}
-%     \@addtoreset{cntCircusActionRef}{chapter}
-%     \@addtoreset{cntCircusDeclShallow}{chapter}
-
-%    % this is not a very helpful command. TODO: CHANGE PLEASE
-%    \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items\fi in Section~\thesection}
-%    \renewcommand{\thecntZaxdef}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
-%    \renewcommand{\thecntZgendef}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
-%    \renewcommand{\thecntZschema}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
-%    \renewcommand{\thecntZgenschema}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
-%    \renewcommand{\thecntZdecl}{\arabic{cntZdecl} in Section~\thesection}
-  \fi
-  %\else \if@cntglobally@ \relax \fi
-\fi
+%\if@cntbychapter@
+%  \@addtoreset{cntCircusChannel}{chapter}
+%  \@addtoreset{cntCircusChannelset}{chapter}
+%  \@addtoreset{cntCircusProcess}{chapter}
+%  \@addtoreset{cntCircusProcessRef}{chapter}
+%  \@addtoreset{cntCircusDeclDeep}{chapter}
+%
+%%  \@addtoreset{cntCircusNameset}{chapter}
+%%  \@addtoreset{cntCircusAction}{chapter}
+%%  \@addtoreset{cntCircusActionRef}{chapter}
+%%  \@addtoreset{cntCircusDeclShallow}{chapter}
+%
+%
+%%  \renewcommand{\thecntCircusChannel}{\arabic{cntCircus} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items\fi in Chapter~\thechapter}
+%%  \renewcommand{\thecntCircusChannelset}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
+%%  \renewcommand{\thecntCircusProcess}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
+%%  \renewcommand{\thecntCircusProcessRef}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+%%  \renewcommand{\thecntCircusNameset}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+%%  \renewcommand{\the}{\arabic{cntZdecl} in Chapter~\thechapter}
+%\else
+%  \if@cntbysection@
+%     \@addtoreset{cntCircusChannel}{chapter}
+%     \@addtoreset{cntCircusChannelset}{chapter}
+%     \@addtoreset{cntCircusProcess}{chapter}
+%     \@addtoreset{cntCircusProcessRef}{chapter}
+%     \@addtoreset{cntCircusDeclDeep}{chapter}
+%
+%%     \@addtoreset{cntCircusNameset}{chapter}
+%%     \@addtoreset{cntCircusAction}{chapter}
+%%     \@addtoreset{cntCircusActionRef}{chapter}
+%%     \@addtoreset{cntCircusDeclShallow}{chapter}
+%
+%%    % this is not a very helpful command. TODO: CHANGE PLEASE
+%%    \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items\fi in Section~\thesection}
+%%    \renewcommand{\thecntZaxdef}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
+%%    \renewcommand{\thecntZgendef}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
+%%    \renewcommand{\thecntZschema}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
+%%    \renewcommand{\thecntZgenschema}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
+%%    \renewcommand{\thecntZdecl}{\arabic{cntZdecl} in Section~\thesection}
+%  \fi
+%  %\else \if@cntglobally@ \relax \fi
+%\fi
 
 %%%%%%%%%% registers initialisation                             %
 
