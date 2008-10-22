@@ -65,7 +65,7 @@ import net.sourceforge.czt.parser.util.Token;
  * 
  * &lt;p&gt;This class transforms a stream of tokens into another stream of
  * tokens.  The input is usually provided by the {@link ContextFreeScanner}.
- * Each DECORWORD token whos spelling is exactly that of a keyword is mapped
+ * Each DECORWORD token whose spelling is exactly that of a keyword is mapped
  * to the corresponding keyword token.  All other tokens are left unchanged.
  * &lt;/p&gt;
  */

@@ -160,6 +160,27 @@ public abstract class AbstractParserTest
             getTestExample("conjectures.xml"));
   }
 
+  public void testConjectureNames()
+    throws Exception
+  {
+    Visitor visitor = new DeleteNarrVisitor();
+    Spec parsedSpec =
+      (Spec) parse(getTestExample("conjectures.tex"), manager_).accept(visitor);
+    assertEquals(1, parsedSpec.getSect().size());
+    ZSect zsect = (ZSect) parsedSpec.getSect().get(0);
+    ConjPara conj1 = null;
+    // find first conjecture
+    for (Para p : zsect.getZParaList()) {
+      if (p instanceof ConjPara) {
+        conj1 = (ConjPara) p;
+        break;
+      }
+    }
+    assertNotNull(conj1);
+    assertNotNull(conj1.getName());
+    assertEquals("newline", conj1.getName());
+  }
+
   public void testTest()
     throws Exception
   {

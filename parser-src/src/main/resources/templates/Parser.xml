@@ -118,7 +118,7 @@ action code
     /**
      * Create a pair of PrimaryDecl and SecondaryDecl from 2 DeclLists
      */
-    protected Pair&lt;PrimaryDecl,SecondaryDecl&gt; 
+    protected Pair&lt;PrimaryDecl,SecondaryDecl&gt;
       statePair(DeclList pDeclList, DeclList sDeclList)
     {
       if (pDeclList == null) {
@@ -144,7 +144,7 @@ action code
      * 'st' and any additional renaming/strokes etc in 'al'.
      */
     private ApplExpr createSchApplExpr(Expr e, SchText st,
-                                       List &lt; Object &gt; al) 
+                                       List &lt; Object &gt; al)
     {
       Expr se = factory_.createSchExpr(st);
       for (Object a : al) {
@@ -194,13 +194,13 @@ action code
       addLocAnn(result, decorword.getLocation());
       return result;
     }
-    
+
 <add:circus>
     /**
      * This solution is simpler(?) than the DEFNAME used by Object-Z to
-     * disambiguate DECORWORD where a name is needed. For Circus, we 
-     * just use DECORWORD, which does not cause ambiguity, but check 
-     * that strokes are empty if not accepted. 
+     * disambiguate DECORWORD where a name is needed. For Circus, we
+     * just use DECORWORD, which does not cause ambiguity, but check
+     * that strokes are empty if not accepted.
      */
     private ZName createCircusName(Decorword decorword)
     {
@@ -214,7 +214,7 @@ action code
       }
       return createZName(decorword);
     }
-</add:circus>    
+</add:circus>
 
     private Operator createOperator(Decorword decorword)
       throws ParseException
@@ -407,7 +407,7 @@ action code
 </add:pattern>
       }
       else {
-        parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED, 
+        parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED,
                             new Object [0], getLocation(t));
       }
       return result;
@@ -503,7 +503,7 @@ action code
         result = factory_.createRefExpr(rn, exprs, Boolean.TRUE, Boolean.TRUE);
       }
 
-      return result;  
+      return result;
     }
 
     /**
@@ -753,7 +753,7 @@ action code
         final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
         ZUtils.assertZParaList(sect.getParaList()).add(0, markupPara);
       }
-      
+
 <add:circus>
       // Add implicit process paragraphs to the ZSect term.
       ZUtils.assertZParaList(sect.getParaList()).addAll(parserState_.getImplicitlyDeclProcPara());
@@ -761,11 +761,11 @@ action code
 //         sect.getName() + ".");
 //      for(Para para : sect.getPara()) {
 //        System.out.println("\t" + para.toString());
-//      }      
+//      }
 //      System.out.println();
-      
-</add:circus>      
-      
+
+</add:circus>
+
       if (parseError) return sect;
 
       Set dependencies = new HashSet();
@@ -875,13 +875,13 @@ action code
     /**
      * Creates an empty (basic) channel set expression
      */
-    protected Expr createEmptyChannelSetExpr(LocInfo loc) 
+    protected Expr createEmptyChannelSetExpr(LocInfo loc)
     {
       Expr result = factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList());
       addLocAnn(result, loc);
       return result;
     }
-    
+
     /**
      * Creates an empty channel set (i.e. ChannelSet with an empty basic channel set expression).
      */
@@ -891,7 +891,7 @@ action code
       addLocAnn(result, loc);
       return result;
     }
-    
+
     /**
      * Creates an empty name set (i.e. NameSet with an empty set expression).
      */
@@ -899,8 +899,8 @@ action code
       NameSet result = factory_.createCircusNameSet(factory_.createSetExpr(factory_.createZExprList()));
       addLocAnn(result, loc);
       return result;
-    }  
-    
+    }
+
     /**
      * &lt;p&gt;
      * This method characterises parameterised commands and actions according to the
@@ -910,7 +910,7 @@ action code
      * &lt;/p&gt;
      * &lt;p&gt;
      * The protocol is as follows: parameterised commands MUST have a CircusCommand
-     * as its inner term, and VarDecl and QualifiedDecl are allowed; whereas parameterised 
+     * as its inner term, and VarDecl and QualifiedDecl are allowed; whereas parameterised
      * actions have a CircusAction as its inner term, and only VarDecl is allowed.
      * &lt;/p&gt;
      */
@@ -924,26 +924,26 @@ action code
         int otherDecls = 0;
         for(Decl d : ZUtils.assertZDeclList(cp))
         {
-          if (d instanceof VarDecl) 
+          if (d instanceof VarDecl)
             vDecls++;
           else if (d instanceof QualifiedDecl)
             qDecls++;
-          else 
-            otherDecls++;          
-        }        
+          else
+            otherDecls++;
+        }
         // otherDecls = 0 AND (vDecls = 0 IMPlIES qDecls = 0 AND otherDecls = 0) AND
         // (qDecls = 0 IMPlIES vDecls = 0 AND otherDecls = 0) AND (vDecls+qDecls+otherDecls = cp.size())
-        boolean declOk = ((otherDecls == 0 &amp;&amp; (vDecls == 0 || qDecls == 0)) &amp;&amp; 
-          ZUtils.assertZDeclList(cp).size() == (vDecls+qDecls+otherDecls));          
+        boolean declOk = ((otherDecls == 0 &amp;&amp; (vDecls == 0 || qDecls == 0)) &amp;&amp;
+          ZUtils.assertZDeclList(cp).size() == (vDecls+qDecls+otherDecls));
         if (!declOk)
-        {          
+        {
           parser.report_error(CircusParseMessage.MSG_ERRORDECL_IN_PARAMACTION, new Object[0], getLocation(cp));
-        }        
-      }      
+        }
+      }
       ParamAction result = factory_.createParamAction(pa, cp);
       return result;
-    }    
-    
+    }
+
     /**
      * Returns whether the given expression is an empty set as a reference to
      * &lt;code&gt;ZString.EMPTYSET&lt;/code&gt;.
@@ -966,48 +966,48 @@ action code
      * the a parsing error is thrown and the result is just an empty &lt;code&gt;BasicChannelSetExpr&lt;/code&gt;.
      * &lt;/p&gt;
      */
-    protected Expr createBasicChannelSetExpr(LocInfo loc, List&lt;Communication&gt; cl) {      
+    protected Expr createBasicChannelSetExpr(LocInfo loc, List&lt;Communication&gt; cl) {
 //      //assert zrl != null &amp;&amp; !zrl.isEmpty();
 //      int errorIdx = 0;
-//      Iterator&lt;Expr&gt; it = zrl.iterator(); 
+//      Iterator&lt;Expr&gt; it = zrl.iterator();
 //      while(it.hasNext()) {
 //        // If any item at a particular index is not a RefExpr,
 //        // return the error index and stop the loop.
 //        if (!(it.next() instanceof RefExpr)) {
 //          break;
 //        }
-//        else 
-//          errorIdx++;        
-//      }      
-//      
-//      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createZExprList());      
+//        else
+//          errorIdx++;
+//      }
+//
+//      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createZExprList());
 //      if (loc != null) { addLocAnn(result, loc); }
-//      
+//
 //      int size = zrl.size();
-//      
+//
 //      if (errorIdx >= size) {
 //        result.getZExprList().addAll(zrl);
-//      } else {        
+//      } else {
 //        boolean isEmpty = zrl.isEmpty();
 //        assert errorIdx &gt;= 0 &amp;&amp; (errorIdx &lt; size || isEmpty);
 //        CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
-//            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage(),  
-//            new Object[] { errorIdx, size-1, isEmpty ? "empty" : zrl.get(errorIdx), 
-//              isEmpty ? "null" : zrl.get(errorIdx).getClass().getSimpleName(), loc }));       
-//      } 
-      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList(cl));      
-      if (loc != null) { addLocAnn(result, loc); }      
+//            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage(),
+//            new Object[] { errorIdx, size-1, isEmpty ? "empty" : zrl.get(errorIdx),
+//              isEmpty ? "null" : zrl.get(errorIdx).getClass().getSimpleName(), loc }));
+//      }
+      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList(cl));
+      if (loc != null) { addLocAnn(result, loc); }
       return result;
-    } 
-    
+    }
+
     /**
      * &lt;p&gt;
      * Validates the given Z expression as a valid channel set expression.
      * &lt;/p&gt;
-     * &lt;p&gt; 
-     * The code returns the given expression but it ensures that &lt;code&gt;e&lt;/code&gt; 
+     * &lt;p&gt;
+     * The code returns the given expression but it ensures that &lt;code&gt;e&lt;/code&gt;
      * is neither a set extension, nor a set comprehension expression.
-     * If &lt;code&gt;e&lt;/code&gt; is one of those two, then a parsing error is thrown. 
+     * If &lt;code&gt;e&lt;/code&gt; is one of those two, then a parsing error is thrown.
      * &lt;/p&gt;
      * &lt;p&gt;
      * Moreover, it automatically transforms a reference to the empty set expression
@@ -1016,23 +1016,23 @@ action code
      * returns &lt;code&gt;BasicChannelSetExpr(ZExprList())&lt;/code&gt;.
      * &lt;/p&gt;
      */
-    protected Expr validateChannelSetExpr(Expr e) {      
+    protected Expr validateChannelSetExpr(Expr e) {
       Expr result = e;
       // For reference empty sets transform them into basic set extension.
       if (isEmptySetRefExpr(result)) {
         result = createBasicChannelSetExpr(getLocation(e), factory_.&lt;Communication&gt;list());
-      } 
+      }
       // For set extensions (possibly empty) or comprehension, report an error.
       else if (result instanceof SetExpr || result instanceof SetCompExpr){
         parser.report_error(CircusParseMessage.MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET,
                             new Object[0], getLocation(result));
-      } 
+      }
       return result;
-    }    
-        
+    }
+
     /**
-     * Checks whether the given lists have the same size. It returns a parser error if the 
-     * lists are of a different size. This method is called either through channel renaming or 
+     * Checks whether the given lists have the same size. It returns a parser error if the
+     * lists are of a different size. This method is called either through channel renaming or
      * an assignment command.
      */
     protected boolean checkListSizesAreEqual(LocInfo loc,
@@ -1045,31 +1045,31 @@ action code
         }
         return result;
     }
-        
+
     /**
      * Creates an &lt;code&gt;AssignmentPairs&lt;/code&gt; class containing the LHS and RHS
-     * elements for each list, which must have the same size. If the lists are not of the same 
+     * elements for each list, which must have the same size. If the lists are not of the same
      * size, the returned list is empty and a parsing error is generated.
      */
     protected AssignmentPairs createAssignmentPairs(LocInfo loc,
         ZNameList rnl, ZExprList el) {
-        AssignmentPairs result = factory_.createAssignmentPairs();        
-        if (checkListSizesAreEqual(loc, rnl, el)) {        
+        AssignmentPairs result = factory_.createAssignmentPairs();
+        if (checkListSizesAreEqual(loc, rnl, el)) {
           result.setLHS(rnl);
           result.setRHS(el);
         }
-        if (rnl.isEmpty()) {        
+        if (rnl.isEmpty()) {
           parser.report_error(CircusParseMessage.MSG_EMPTY_ASSIGNMENT,
-              new Object[0], loc);          
+              new Object[0], loc);
         }
         addLocAnn(result, loc);
         return result;
     }
-    
+
     /**
      * Creates an &lt;code&gt;AssignmentPairs&lt;/code&gt; class containing the LHS and RHS
-     * elements for each list, which must have the same size and must only contain &lt;code&gt;RefExpr&lt;/code&gt;. 
-     * If the lists are not of the same size, the returned list is empty and a parsing error 
+     * elements for each list, which must have the same size and must only contain &lt;code&gt;RefExpr&lt;/code&gt;.
+     * If the lists are not of the same size, the returned list is empty and a parsing error
      * is generated.
      */
     protected AssignmentPairs createChannelRenamingPairs(LocInfo loc,
@@ -1077,7 +1077,7 @@ action code
         AssignmentPairs result = createAssignmentPairs(loc, rnl, el);
         int i = 0;
         for(Expr e : el) {
-          if (!(e instanceof RefExpr)) {          
+          if (!(e instanceof RefExpr)) {
             parser.report_error(CircusParseMessage.MSG_INVALID_CHANNEL_RENAMING_EXPR,
               new Object[] { rnl.get(i), i+1, e.getClass().getSimpleName() }, loc);
           }
@@ -1112,111 +1112,111 @@ action code
     /**
      * Creates an implicit action paragraph with location annotation for the given name and action.
      */
-    protected ActionPara createImplicitActionPara(Decorword an, CircusAction ca) {            
+    protected ActionPara createImplicitActionPara(Decorword an, CircusAction ca) {
         ActionPara ap = factory_.createActionPara(createCircusName(an),  ca);
         addLocAnn(ap, getLocation(an.getLocation(), ca));
         return ap;
     }
-    
+
     /**
      * Creates an implicit process paragraph with location annotation for the given name and action.
      */
-    protected ProcessPara createImplicitProcessPara(Decorword pn, CircusProcess pp) {            
+    protected ProcessPara createImplicitProcessPara(Decorword pn, CircusProcess pp) {
         /* On-the-fly process have no generic formals/actuals*/
         ProcessPara pa = factory_.createProcessPara(createCircusName(pn), factory_.createZNameList(), pp);
         addLocAnn(pa, getLocation(pn.getLocation(), pp));
         return pa;
-    }       
-    
+    }
+
     protected Para createStatePara(Name n, Expr e, LocInfo loc, boolean implicitlyDeclared)
-    {       
+    {
        // check if the state is duplicated and raise the error
        checkForDuplicatedState((implicitlyDeclared ? "implicitly declared" : "horizontally declared"), loc);
-       
+
        // create the state para.
        Para result = parserState_.createStatePara(n, e, loc, implicitlyDeclared);
        checkCircusStateAnnParaIsSchema(result);
-       
+
        // set the result to the parser state
        parserState_.setStatePara(result);
-       
+
        return result;
-    } 
-    
+    }
+
     protected void setMainAction(CircusAction mainAction, LocInfo loc)
     {
        checkForDuplicatedMainAction(loc);
        parserState_.setMainAction(mainAction);
     }
-    
+
     /**
-     * Checks whether the given predicate is a schema. 
-     * If the paragraph is not a schema, an error is reported.     
+     * Checks whether the given predicate is a schema.
+     * If the paragraph is not a schema, an error is reported.
      */
     /* NOTE: As we now managed to accept the expression production for state
      *       schemas without trouble then this is no longer a problem.
      *       The extra check is harmless though.
      */
-    protected boolean checkCircusStateAnnParaIsSchema(Para p) {      
+    protected boolean checkCircusStateAnnParaIsSchema(Para p) {
       // call the CircusUtils version of isSchema to include Schema Actions
       boolean result = parserState_.isValidStatePara(p);
-      if (!result) {                               
+      if (!result) {
          parser.report_error(CircusParseMessage.MSG_INVALID_BASICPROCESS_STATE_PARA,
                new Object[0], getLocation(p));
       }
       return result;
-    }     
-    
-    /** 
-     * Checks &lt;code&gt;BasicProcess&lt;/code&gt; paragraphs for repeated state annotations.     
+    }
+
+    /**
+     * Checks &lt;code&gt;BasicProcess&lt;/code&gt; paragraphs for repeated state annotations.
      * That is, if the given paragraph corresponds to a &lt;code&gt;BasicProcess&lt;/code&gt;,
      * and the user has declared more than one state schemas, an error is reported.
      * ? TODO: CHECK if deprecated now that we have a robust parserState_ for basic process' scope.
      */
-    protected void checkStateDeclNotRepeated(ProcessPara pp) {  
+    protected void checkStateDeclNotRepeated(ProcessPara pp) {
       if (pp.getCircusProcess() instanceof BasicProcess) {
         BasicProcess bp = (BasicProcess)pp.getCircusProcess();
-        
+
         // Collect all paragraphs annotated with CircusStateAnn.
         ZParaList stateParaList = getCircusStateAnnPara(bp);
 
         // If more than one state has been declared, then raise the error.
         // The message will contain the process name and the first violating
         // state, which is the second one (of the possibly many) declared.
-        if (stateParaList.size() > 1) {              
+        if (stateParaList.size() > 1) {
           parser.report_error(CircusParseMessage.MSG_DUPLICATE_PROC_STATE_DECL,
-              new Object[] { pp.getName(), CircusUtils.getSchemaName(stateParaList.get(0)), 
-                  stateParaList.size(), CircusUtils.getSchemaName(stateParaList.get(1)), getLocation(pp, stateParaList.get(1)) }, 
+              new Object[] { pp.getName(), CircusUtils.getSchemaName(stateParaList.get(0)),
+                  stateParaList.size(), CircusUtils.getSchemaName(stateParaList.get(1)), getLocation(pp, stateParaList.get(1)) },
                   getLocation(pp, stateParaList.get(1)));
-        }                        
+        }
         // Otherwise, it is fine, either we have one or no state declaration.
       }
     }
-    
+
     protected boolean checkProcessParaScope(LocInfo loc) {
        boolean result = parserState_.getProcessPara() != null;
-       if (!result) {                               
+       if (!result) {
           parser.report_error(CircusParseMessage.MSG_INVALID_MULTIENV_BASIC_PROCESS_CIRCEND,
                 new Object[] {loc} , loc);
        }
        return result;
     }
-    
-    protected boolean checkForDuplicatedState(String msg, LocInfo loc) {      
+
+    protected boolean checkForDuplicatedState(String msg, LocInfo loc) {
       boolean result = parserState_.getStatePara() == null;
-      CztLogger.getLogger(<class/>.class).fine("DUPLICATED STATE PARA (" + 
+      CztLogger.getLogger(<class/>.class).fine("DUPLICATED STATE PARA (" +
             msg + ")?: " + !result + " @ " + loc.toString());
-      if (!result) {                               
+      if (!result) {
          parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_STATE,
                new Object[] { msg, loc} , loc);
       }
       return result;
     }
-    
-    protected boolean checkForDuplicatedMainAction(LocInfo loc) {      
+
+    protected boolean checkForDuplicatedMainAction(LocInfo loc) {
       boolean result = parserState_.getMainAction() == null;
       CztLogger.getLogger(<class/>.class).fine("DUPLICATED MAIN ACTION? :" + !result + " @ " + loc.toString());
-      if (!result) {                               
+      if (!result) {
          parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_MAINACTION, new Object[0], loc);
       }
       return result;
@@ -1233,34 +1233,34 @@ action code
     }
 
     /**
-     * Flattens all paragraphs from the given list of &lt;code&gt;ZParaList&lt;/code&gt; 
-     * and then keep those that are annotated with &lt;code&gt;CircusStateAnn&lt;/code&gt;.      
+     * Flattens all paragraphs from the given list of &lt;code&gt;ZParaList&lt;/code&gt;
+     * and then keep those that are annotated with &lt;code&gt;CircusStateAnn&lt;/code&gt;.
      */
     protected ZParaList getCircusStateAnnPara(ZParaList... lists) {
         // Create a list with all paragraphs from the lists.
         ZParaList result = factory_.createZParaList();
         for(ZParaList zpl : lists) {
           result.addAll(zpl);
-        }      
+        }
 
         // Search the complete list and remove all non-state para.
         for(Iterator&lt;Para&gt; it = result.iterator(); it.hasNext(); ) {
-          Para p = it.next();      
+          Para p = it.next();
           // If we have an annotation, check it is valid.
           //if (p.getAnn(CircusStateAnn.class) != null) {
           //  checkCircusStateAnnParaIsSchema(p);
-          //} 
+          //}
           // Otherwise just remove them
-          //else 
+          //else
           if (p.getAnn(CircusStateAnn.class) == null) {
             it.remove();
           }
         }
-        return result;    
+        return result;
     }
-    
+
     /**
-     * Retrieves all paragraphs within the given &lt;code&gt;BasicProcess&lt;/code&gt; 
+     * Retrieves all paragraphs within the given &lt;code&gt;BasicProcess&lt;/code&gt;
      * that are annotated with &lt;code&gt;CircusStateAnn&lt;/code&gt;. This includes
      * both local declarations and on-the-fly actions.
      */
@@ -1280,73 +1280,73 @@ action code
       else {
         parser.report_error(CircusParseMessage.MSG_UNKNOWN_REFINEMENT_MODEL,
               new Object[] { dw.getWord() }, dw.getLocation());
-      }      
+      }
       return result;
     }
-    
+
     private void warnProcessScopeMismatch(String msg, String from, LocInfo l) {
         final String msg2 = java.text.MessageFormat.format(
-                CircusParseMessage.MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING.getMessage(),  
+                CircusParseMessage.MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING.getMessage(),
                 new Object[] { msg, from, l.toString() });
-        CztLogger.getLogger(<class/>.class).warning(msg2);            
+        CztLogger.getLogger(<class/>.class).warning(msg2);
         parserState_.addProcessScopeWarning(msg2, l);
     }
-    
+
     private void warnProcessScopeMissing(String msg, String from, LocInfo l) {
         from = "(" + from + ")" + " outside basic process scope";
         final String msg2 = java.text.MessageFormat.format(
                 CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getMessage() +
-                CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getExplanation(),  
+                CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getExplanation(),
                 new Object[] { msg, from, l });
         CztLogger.getLogger(<class/>.class).warning(msg2);
         parserState_.addProcessScopeWarning(msg2, l);
     }
-    
+
     /**
      * &lt;p&gt;
      * Checks whether there is a basic process in current scope, adding a
-     * parsing warning with the given extra msg and location information in 
+     * parsing warning with the given extra msg and location information in
      * case there is no process into scope.
      * &lt;/p&gt;
      * &lt;p&gt;
      * This warning ought to be taken seriously, since type checking will
      * simply assume the inner process paragraph (declared outside a process)
      * is included into the closest enclosing basic process.
-     * &lt;/p&gt;     
+     * &lt;/p&gt;
      * The warning are collected within the parser state and are raised
      * when the parsing task terminates at specification production.
      * &lt;p&gt;
-     */    
+     */
     protected boolean addBasicProcessScopePostCheckFor(String msg, LocInfo l) {
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope();
-        CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE POST CHECK FOR " + 
+        CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE POST CHECK FOR " +
             msg + "?: " + !result + " @ " + l.toString());
         if (!result) {
             final String msg2 = "Cannot declare " + msg;
-            parserState_.addProcessScopeWarning(msg2, l);            
-        }     
+            parserState_.addProcessScopeWarning(msg2, l);
+        }
         return result;
     }
-    
+
     /** Adds a warning for the case where circend is missing */
     protected void addMultipleEnvBasicProcessCIRCENDWarning(Name procName, LocInfo loc) {
         CztLogger.getLogger(<class/>.class).fine(
-            "ADDING PROCESS SCOPE POST CHECK FOR MULTIPLE ENV CIRCEND? : true @ " 
-            + loc.toString());      
-        parserState_.addProcessEndWarning(procName, loc);    
+            "ADDING PROCESS SCOPE POST CHECK FOR MULTIPLE ENV CIRCEND? : true @ "
+            + loc.toString());
+        parserState_.addProcessEndWarning(procName, loc);
     }
 
     /** Removes warning for the case where circend is missing if procName match */
     protected void removeMultipleEnvBasicProcessCIRCENDWarning(LocInfo circEndLoc) {
         Pair&lt;Name, LocInfo&gt; pew = parserState_.getProcessEndWarning();
-        
+
         // we are at multiple environment situation and found a CIRCEND
         if (pew != null) {
-            assert checkProcessParaScope(pew.getSecond()) : 
+            assert checkProcessParaScope(pew.getSecond()) :
                 "Cannot remove CIRCEND warning outside a process para scope";
             if (parserState_.getProcessPara().getName().equals(pew.getFirst())) {
                 CztLogger.getLogger(<class/>.class).fine(
-                    "FOUND MATCHING CIRCEND FOR " + pew.getFirst() + " @ CIRCEND-LOC " + 
+                    "FOUND MATCHING CIRCEND FOR " + pew.getFirst() + " @ CIRCEND-LOC " +
                     circEndLoc.toString());
                 parserState_.clearSectBasicProcessEndWarning();
             } else {
@@ -1354,68 +1354,68 @@ action code
                     CircusParseMessage.MSG_PROCESS_PARA_NAME_MISMATCH_FOR_CIRCEND_WARNIING.getMessage() +
                     CircusParseMessage.MSG_PROCESS_PARA_NAME_MISMATCH_FOR_CIRCEND_WARNIING.getExplanation(),
                     new Object[] { pew.getFirst(), parserState_.getProcessPara().getName(),
-                      pew.getSecond(), circEndLoc }));                                        
-            }            
+                      pew.getSecond(), circEndLoc }));
+            }
         }
     }
-    
+
     protected void raisePendingBasicProcessWarnings(String from) {
         raisePendingBasicProcessWarnings(from, "outside basic process scope");
     }
-    
+
     protected void raisePendingBasicProcessWarnings(String from, String msg) {
-        CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS SCOPE WARNINGS (" + from + 
-            ") AFTER POST CHECK: " + parserState_.getProcessScopeWarnings().size());        
-        for(Pair&lt;String, LocInfo&gt; p : parserState_.getProcessScopeWarnings()) {                        
-            parser.report_error(CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING,  
+        CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS SCOPE WARNINGS (" + from +
+            ") AFTER POST CHECK: " + parserState_.getProcessScopeWarnings().size());
+        for(Pair&lt;String, LocInfo&gt; p : parserState_.getProcessScopeWarnings()) {
+            parser.report_error(CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING,
                new Object[] { p.getFirst(), msg, p.getSecond() }, p.getSecond());
-        }                
+        }
         parserState_.clearSectBasicProcessScopeWarnings();
-        
+
         Pair&lt;Name, LocInfo&gt; pew = parserState_.getProcessEndWarning();
-        CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS CIRCEND WARNING (" + from + 
+        CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS CIRCEND WARNING (" + from +
             ") AFTER POST CHECK?: " + (pew != null));
         if (pew != null) {
             parser.report_error(CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND,
-                new Object[] { pew.getFirst(), pew.getSecond() }, pew.getSecond());            
-        }            
+                new Object[] { pew.getFirst(), pew.getSecond() }, pew.getSecond());
+        }
         parserState_.clearSectBasicProcessEndWarning();
     }
-    
+
     /** Ensures the list of collected paragraphs is the same the one into parserState_ */
     protected boolean ensureInnerProcParaListKnownInBasicProcessScope(List&lt;Para&gt; ipl, String from, LocInfo loc) {
-        boolean result = parserState_.isWithinMultipleEnvBasicProcessScope() &amp;&amp; 
+        boolean result = parserState_.isWithinMultipleEnvBasicProcessScope() &amp;&amp;
             parserState_.isKnownPara(ipl);
-        CztLogger.getLogger(<class/>.class).fine("ENSURING PARAGRAPH CONTAINMENT (" + from + ")?: " + result 
+        CztLogger.getLogger(<class/>.class).fine("ENSURING PARAGRAPH CONTAINMENT (" + from + ")?: " + result
             + " @ " + loc);
-        if (!result) {            
+        if (!result) {
             parser.report_error(CircusParseMessage.MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE,
               new Object[] { loc }, loc);
-        }            
+        }
         return result;
     }
-    
+
     /** Create an empty basic process and sets the parser state valure for it */
-    protected BasicProcess createMockBasicProcessFor(String from, LocInfo l) {              
-       BasicProcess result = factory_.createBasicProcess(factory_.createZParaList());       
+    protected BasicProcess createMockBasicProcessFor(String from, LocInfo l) {
+       BasicProcess result = factory_.createBasicProcess(factory_.createZParaList());
        addLocAnn(result, l);
-       CztLogger.getLogger(<class/>.class).finer("CREATING BASICPROCESS => " + from + 
-           " @ " + l + "\n" + result);           
+       CztLogger.getLogger(<class/>.class).finer("CREATING BASICPROCESS => " + from +
+           " @ " + l + "\n" + result);
        parserState_.setBasicProcess(result);
        if (!parserState_.isWithinMultipleEnvBasicProcessScope()) {
             warnProcessScopeMismatch("open", from, l);
-       }              
+       }
        return result;
     }
-    
+
     /**
      * Enters a basic process scope within the parser state, giving a parser
-     * error in case of nested process scopes. It assumes the BasicProcess 
+     * error in case of nested process scopes. It assumes the BasicProcess
      * already has location information calculated.
      */
     protected boolean enterBasicProcessScope(String from, LocInfo l) {
         boolean result = parserState_.enterBasicProcessScope(l);
-        CztLogger.getLogger(<class/>.class).finer("ENTERING PROCESS SCOPE: " + result 
+        CztLogger.getLogger(<class/>.class).finer("ENTERING PROCESS SCOPE: " + result
             + " from " + from + " @ " + l);
         if (!result) {
             parser.report_error(CircusParseMessage.MSG_DUPlICATED_BASIC_PROCESS_SCOPE,
@@ -1423,55 +1423,55 @@ action code
         }
         return result;
     }
-    
+
     /**
      * Enters a basic process scope within the parser state, giving a parser
-     * error in case of nested process scopes. It assumes the BasicProcess 
+     * error in case of nested process scopes. It assumes the BasicProcess
      * already has location information calculated.
      */
-    protected boolean exitBasicProcessScope(String from, LocInfo l) {        
-        CztLogger.getLogger(<class/>.class).finer("EXITING PROCESS SCOPE: " + 
+    protected boolean exitBasicProcessScope(String from, LocInfo l) {
+        CztLogger.getLogger(<class/>.class).finer("EXITING PROCESS SCOPE: " +
             parserState_.isWithinMultipleEnvBasicProcessScope() +
             " from " + from + " @ " + l + "\n" + parserState_.getBasicProcess());
-        
+
         // Clears: the implicitly declared actions and their name seed;
         // the current main action, the current basic process, and the
         // list of locally declared paragraphs. It also clears the process scope
-        parserState_.clearBasicProcessInformation();               
-        
+        parserState_.clearBasicProcessInformation();
+
         boolean result = parserState_.exitBasicProcessScope();
         if (!result) {
             warnProcessScopeMismatch("closing", from, l);
-        }        
+        }
         return result;
     }
-    
-    protected boolean updateBasicProcessInformation(String from, LocInfo loc) {                           
-        CztLogger.getLogger(<class/>.class).finer("BEFORE UPDATE BASIC PROCESS INFORMATION");        
-        
-        ParserState.BasicProcessUpdate bpUpdate = parserState_.updateBasicProcessInformation();        
+
+    protected boolean updateBasicProcessInformation(String from, LocInfo loc) {
+        CztLogger.getLogger(<class/>.class).finer("BEFORE UPDATE BASIC PROCESS INFORMATION");
+
+        ParserState.BasicProcessUpdate bpUpdate = parserState_.updateBasicProcessInformation();
         boolean result = bpUpdate.equals(ParserState.BasicProcessUpdate.BP_OK);
-        
+
         CztLogger.getLogger(<class/>.class).finer("AFTER UPDATE BASIC PROCESS INFORMATION");
         CztLogger.getLogger(<class/>.class).finer("UPDATE BASIC PROCESS INFORMATION: " +
-            result + " from " + from + " @ " + loc + "\n" + 
-            parserState_.getProcessPara());         
-        
+            result + " from " + from + " @ " + loc + "\n" +
+            parserState_.getProcessPara());
+
         if (!result) {
             warnProcessScopeMissing("update local structures " + bpUpdate + " ", from, loc);
             if (bpUpdate.equals(ParserState.BasicProcessUpdate.DUPLICATED_STATE))
             {
-              parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_STATE, 
+              parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_STATE,
                 new Object[] { from, loc} , loc);
             }
             else if (bpUpdate.equals(ParserState.BasicProcessUpdate.DUPLICATED_MAIN_ACTION))
             {
-              parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_MAINACTION, new Object[0], loc);         
+              parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_MAINACTION, new Object[0], loc);
             }
-        }        
+        }
         return result;
-    }    
-    
+    }
+
     /**
      * This method is called whenever the calling production result is related to
      * a list of paragraphs, where the current one is a ProcessPara. On these conditions,
@@ -1487,20 +1487,20 @@ action code
         parserState_.clearSectProcessOnTheFlyCache();
       }
     }
-    
+
 </add:circus>
 
     // could be useful for other parsers as well
     protected void logProductionResult(Object term, String from, LocInfo loc) {
         CztLogger.getLogger(<class/>.class).fine("PRODUCTION RESULT: " +
-            " from " + from + " @ " + loc + "=>\n" + term); 
+            " from " + from + " @ " + loc + "=>\n" + term);
     }
 :}
 
 parser code
 {:
     private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
-    
+
     <add:circus>
     //static {
     //  System.err.println("Symbol table mapping:");
@@ -1509,7 +1509,7 @@ parser code
     //  {
     //     Map.Entry entry = (Map.Entry)it.next();
     //     System.err.println("\t#" + entry.getKey() + " = " + entry.getValue());
-    //  }    
+    //  }
     //}
     </add:circus>
 
@@ -1579,7 +1579,7 @@ parser code
       opScanner_ = new OperatorScanner(jokerScanner_);
 </add:pattern>
       nlScanner_ = new NewlineScanner(opScanner_);
-      CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + " parser created for " + source_ + ".");      
+      CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + " parser created for " + source_ + ".");
     }
 
     /**
@@ -1613,8 +1613,8 @@ parser code
 </add:oz>
       action_obj.previous_ = result;
       String logMessage =
-        "Next token is (" + symbolMap_.get(result.sym) + ", " + 
-            (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " + 
+        "Next token is (" + symbolMap_.get(result.sym) + ", " +
+            (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " +
                 (result.value != null ? result.value.getClass().getName() : "null") : "...shhh...") + ").";
       CztLogger.getLogger(<class/>.class).finest(logMessage);
       return result;
@@ -1654,7 +1654,7 @@ parser code
       report_error(null, new CircusParseError(msg, params, locInfo));
     }
 </add:circus>
-    
+
     public void syntax_error(Symbol token)
     {
       errorToken_ = token;
@@ -1685,7 +1685,7 @@ parser code
                    new Object[] { toObject(errorToken_) },
                    getLocation(errorToken_));
     }
-    
+
 <add:circus>
     protected CztError createCircusSyntaxError(CircusParseMessage syntax_msg, Symbol token)
     {
@@ -1693,34 +1693,34 @@ parser code
                              new Object[] { toObject(token) },
                              getLocation(token));
     }
-  
+
     public void report_syntax_error(CircusParseMessage msg)
     {
       report_error(msg,
                    new Object[] { toObject(errorToken_) },
                    getLocation(errorToken_));
     }
-    
+
     public void report_syntax_error(CircusParseMessage msg,
                              Object[] params,
                              LocInfo locInfo)
     {
       report_error(null, new CircusParseError(msg, params, locInfo));
     }
-    
+
     /**
      * &lt;p&gt;
      * Changes the toString() method of ZFactory (within the given Factory),
      * so that is uses the toString() strategy for Circus. This essentially
      * means that the ZFactory will use Circus' version of PrintVisitor, which
      * includes Spec, ZSect, and other interesting productions of interest.
-     * &lt;/p&gt;     
+     * &lt;/p&gt;
      * &lt;p&gt;
-     * They are importat in order to debug/inspect easily the rather complex 
+     * They are importat in order to debug/inspect easily the rather complex
      * scoping mechanisms for basic (locally declared) processes.
      * It also shows how one could use the elegant CZT design for extension
      * surgical fine tunning!
-     * &lt;/p&gt;          
+     * &lt;/p&gt;
      */
     protected void setZFactoryToStringVisitor(Factory f) {
         ZUtils.assertZFactoryImpl(f.getZFactory()).setToStringVisitor(
@@ -1770,7 +1770,7 @@ parser code
     {
       return new LocInfoImpl(locAnn);
     }
-    
+
     protected ParserState createParserState(Source src)
     {
       return new ParserState(src);
@@ -1806,45 +1806,45 @@ terminal LocInfo
         NEXTSTROKE, OUTSTROKE, INSTROKE,
         LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
-        BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT, 
+        BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT,
         ALL, EXI, CROSS, POWER,
-        SLASH, EQUALS, MEM, COLON, SEMICOLON, COMMA, DOT, SPOT, ZHIDE, 
+        SLASH, EQUALS, MEM, COLON, SEMICOLON, COMMA, DOT, SPOT, ZHIDE,
         ZPROJ, ZCOMP, ZPIPE, NL,
         SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
-        END, AX, SCH, GENSCH, GENAX, ZED,
+        END, AX, SCH, GENSCH, GENAX, ZED, THEOREM,
 <add:pattern>
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:pattern>
 <add:circus>
         // Environment chars
-        CIRCUS, CIRCUSACTION, 
-        
+        CIRCUS, CIRCUSACTION,
+
         /**
-         * For CSP, we follow the precedences from FDR's user manual v.2.82 June/2005.         
-         */      
-         
+         * For CSP, we follow the precedences from FDR's user manual v.2.82 June/2005.
+         */
+
         // Keychars
-        CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCSPOT, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, 
-        PREFIXCOLON, CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING, 
+        CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCSPOT, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN,
+        PREFIXCOLON, CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING,
         EXTCHOICE, REPEXTCHOICE, INTCHOICE, REPINTCHOICE, CIRCASSIGN, CIRCSIMULATES,
-        CHANNELIN, CHANNELOUT, CHANNELDOT, _CIRCGUARD, _REPSEQ, 
-        
+        CHANNELIN, CHANNELOUT, CHANNELDOT, _CIRCGUARD, _REPSEQ,
+
         /* Note:
          *
          * CIRCGUARD => As there are no similar UNICODE char for &amp;, I am just
          *              using ANDALSO (from free type definition) directly.
-         *              In circus_prelude, \circguard is then mapped to the same 
+         *              In circus_prelude, \circguard is then mapped to the same
          *              UNICODE as ANDALSO, which is 0026, and CircChar has no
          *              entry for this token!
-         *              Nevertheless, I still nedd the CIRCGUARD token for 
+         *              Nevertheless, I still nedd the CIRCGUARD token for
          *              handling precedences apropriately, hence _CIRCGUARD!
          *
          * REPSEQ    => Similarly, as all the UNICODE chars for big ";" I could find
          *              (relational composition COMP = U2A3E, and
          *              schema composition ZCOMP = U2A1F) are taken, we use the
-         *              ZCOMP keyword. It must not be COMP, because it is just a 
+         *              ZCOMP keyword. It must not be COMP, because it is just a
          *              toolkit symbol (i.e. scanned as DECORWORD), rather than a
          *              proper keyword (i.e. scanned as ZCOMP).
          *              The same idea of precedence applies, hence _REPSEQ.
@@ -1852,29 +1852,29 @@ terminal LocInfo
          *              TODO:CHECK whether REPSEQ needs precedence or not. At the moment
          *                         it is just taking the same as CIRCSEQ.
          */
-        
+
         // Keywords
         CIRCFI, CIRCDO, CIRCOD, CIRCVAR, CIRCVAL,
         CIRCRES, CIRCVRES, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
         CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
         CIRCSKIP, CIRCSTOP, CIRCCHAOS, _CIRCIF, CIRCASSERTREF,
-        
+
         /* Note:
          *
          * CIRCIF => As I couldn't make CIRCIF different from IF by
          *           using "ifg" or "IF", I am just reusing it here
          *           like before, with the same adjustment on precedences.
          */
-        
+
         // Brackets
         LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
         LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
         LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME,
-                
+
         // Special bracket terminals to overhide precedence of process renaming
         // acording to how it is expected to be in CSP_M.
         // USE _RENAME :)
-        
+
 </add:circus>
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
@@ -1883,8 +1883,8 @@ terminal LocInfo
 </add:oz>
 <add:tcoz>
         ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
-        DIL, WAITUNTIL, DEADLINE, WAIT, INTERRUPT, TIMEOUT, TIMEEND, 
-        DPARA, NETTOPLEFT, NETTOPRIGHT, CHAN, SENSOR, ACTUATOR, 
+        DIL, WAITUNTIL, DEADLINE, WAIT, INTERRUPT, TIMEOUT, TIMEEND,
+        DPARA, NETTOPLEFT, NETTOPRIGHT, CHAN, SENSOR, ACTUATOR,
 </add:tcoz>
         //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
@@ -1904,7 +1904,7 @@ terminal Decorword
         DEFNAME, OPNAME,
 </add:oz>
 <add:circus>
-        CHANNELNAME, FIELDNAME, CHANNELERROR, 
+        CHANNELNAME, FIELDNAME, CHANNELERROR,
 </add:circus>
         DECORWORD, DECLWORD;
 
@@ -1937,7 +1937,7 @@ non terminal List&lt;Para&gt;
     unboxedParagraphList,
     unboxedParagraphItemList;
 
-non terminal Para 
+non terminal Para
     boxedParagraph,
     unboxedParagraphItem,
     narrParagraph;
@@ -1958,7 +1958,7 @@ non terminal List&lt;LocString&gt;
     narrWordList;
 
 non terminal OptempPara operatorTemplate;
-non terminal List /*StringAndOperand?*/ 
+non terminal List /*StringAndOperand?*/
     template,
     prefixTemplate,
     postfixTemplate,
@@ -1966,13 +1966,13 @@ non terminal List /*StringAndOperand?*/
     nofixTemplate,
     optWordOperandList;
 
-non terminal Operand 
+non terminal Operand
     varg,
     templateTag;
 non terminal Assoc assoc;
 non terminal OptempPara catTemplate;
 
-non terminal SchText 
+non terminal SchText
     schemaTextNoExpression,
     schemaText;
 
@@ -1982,7 +1982,7 @@ non terminal ZBranchList branchList;
 non terminal Branch branch;
 
 non terminal ZNameList
-    nameList,    
+    nameList,
     declWordList;
 
 non terminal Name
@@ -1997,7 +1997,7 @@ non terminal List&lt;ZName&gt; refNameList;
 non terminal RenameList renameList;
 non terminal ZRenameList zRenameList;
 non terminal NewOldPair rename;
-    
+
 non terminal ZDeclList
     zDeclList;
 
@@ -2021,7 +2021,7 @@ non terminal ZNameList
 non terminal Stroke stroke;
 
 non terminal And
-    sep;   
+    sep;
 
 non terminal Term
     term,
@@ -2140,28 +2140,28 @@ non terminal Para
     channelSetPara,
     processRefPara,
     actionRefPara,
-    namesetPara, 
+    namesetPara,
     circusProcessState,
-    singleCircusParagraphItem,    
+    singleCircusParagraphItem,
     circusInnerProcPara;
-    
+
 non terminal ProcessPara
     processPara;
-        
+
 non terminal ActionPara
     actionPara;
 
 non terminal List&lt;Para&gt;
     singleCircusParagraphItemList,
-    circusMultiEnvParagraphList,    
+    circusMultiEnvParagraphList,
     circusInnerProcParaList;
-    
+
 non terminal ZExprList
     genericActuals,
     actualParameters,
     actualIndexes;
-    
-/// Circus channel definition ////////////////////////////////////////////////   
+
+/// Circus channel definition ////////////////////////////////////////////////
 non terminal List&lt;ChannelDecl&gt;
     channelFromDeclList,
     channelDeclList;
@@ -2171,7 +2171,7 @@ non terminal ChannelDecl
 
 non terminal ChannelSet
     channelSet;
-    
+
 /// Circus channel set expression definition ////////////////////////////////
 
 //non terminal Expr
@@ -2181,9 +2181,9 @@ non terminal ChannelSet
 //    cs_letDefinitionList;
 //
 //non terminal ConstDecl
-//    cs_letDefinition;    
+//    cs_letDefinition;
 //
-//non terminal Expr   
+//non terminal Expr
 //    cs_func_appl,
 //    cs_inner_expression,
 //    cs_nofixApp,
@@ -2198,52 +2198,52 @@ non terminal ChannelSet
 //non terminal ZExprList
 //    cs_optExpressionList,
 //    cs_expressionList;
-    
-/// Circus process definition ///////////////////////////////////////////////    
-non terminal CircusProcess 
-    processDesc, 
-    paramProcess, 
-    indexedProcess,     
-    processCall,    
+
+/// Circus process definition ///////////////////////////////////////////////
+non terminal CircusProcess
+    processDesc,
+    paramProcess,
+    indexedProcess,
+    processCall,
     parenthesisedProcess,
     //renamingProcesses,
     process;
 
 non terminal BasicProcess
     circusBasicProcess;
-    
+
 non terminal RenameList
     nameSubstitution;
-    
-non terminal AssignmentPairs    
-    channelRenaming;    
-    
-/// Circus parameters definition /////////////////////////////////////////////    
-    
+
+non terminal AssignmentPairs
+    channelRenaming;
+
+/// Circus parameters definition /////////////////////////////////////////////
+
 non terminal DeclList
   circusParamDeclList,
   circusParamCommandDeclList;
-  
+
 non terminal ZDeclList
     circusParamZDeclList,
     circusParamCommandZDeclList;
 
 non terminal ZNameList
-    circusDeclWordList;    
-    
-non terminal Decl    
+    circusDeclWordList;
+
+non terminal Decl
   circusCommandDecl;
-  
-non terminal QualifiedDecl  
+
+non terminal QualifiedDecl
   qualifiedDecl;
 
-non terminal ParamQualifier     
-  circusQualifier;    
-  
+non terminal ParamQualifier
+  circusQualifier;
+
 non terminal Transformation
   refines;
- 
-/// Circus action definition ///////////////////////////////////////////////        
+
+/// Circus action definition ///////////////////////////////////////////////
 non terminal CircusAction
     actionDesc,
     paramAction,
@@ -2252,43 +2252,43 @@ non terminal CircusAction
     parenthesisedAction,
     circusBasicProcessMainAction,
     cspAction;
-    
-/// Circus guard //////////////////////////////////////////////////////////        
+
+/// Circus guard //////////////////////////////////////////////////////////
 non terminal Pred
     guard;
-   
-/// Circus communication /////////////////////////////////////////////////         
+
+/// Circus communication /////////////////////////////////////////////////
 //non terminal LocString anyCircusSymbol;
-  
+
 non terminal Communication
     chanSetComm,
     communication;
 
-non terminal List&lt;Field&gt;    
+non terminal List&lt;Field&gt;
     optCommFields,
     commFields;
 
-non terminal List&lt;Communication&gt;        
+non terminal List&lt;Communication&gt;
     optCommunicationList,
     communicationList;
 
 non terminal Field
     commField;
 
-/// Circus guarded commands /////////////////////////////////////////////////             
+/// Circus guarded commands /////////////////////////////////////////////////
 non terminal CircusCommand
-    command;    
+    command;
 
 non terminal List&lt;GuardedAction&gt;
     guardedCommands;
-    
-non terminal GuardedAction    
+
+non terminal GuardedAction
     guardedCommand;
 
 /// Circus name set definition /////////////////////////////////////////////
 non terminal NameSet
     nameSet;
-    
+
 </add:circus>
 
 <add:oz>
@@ -2330,7 +2330,7 @@ non terminal DeltaList
 
 non terminal VisibilityList
     visibilityList;
-                        
+
 non terminal OpExpr
     opExpr,
     outer_opExpr,
@@ -2359,13 +2359,13 @@ non terminal VarDecl channelDeclaration;
 non terminal Expr channel;
 
 non terminal List&lt;Event&gt; eventSet;
- 
+
 non terminal Event
     event,
     inOutEvent;
- 
+
 non terminal List&lt;Connection&gt; topology;
-       
+
 non terminal Connection connection;
 
 /* non terminal ChannelType chantype;*/
@@ -2393,7 +2393,7 @@ TIMEOUT, TIMEEND</add:tcoz>;
 precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
 </add:oz>
 <add:circus>
-/* From Z-Std(p.36): default is prefix op=rightassoc, postfix op=leftassoc */  
+/* From Z-Std(p.36): default is prefix op=rightassoc, postfix op=leftassoc */
 
 precedence right        CIRCMU;
 precedence right        CIRCVAR;
@@ -2410,11 +2410,11 @@ precedence left         CIRCSEQ, _REPSEQ; //TODO:CHECK _REPSEQ placement.
 precedence nonassoc     _CIRCGUARD;
 precedence right        PREFIXTHEN;
 //, CIRCCOMMDOT
-//CIRCVAL, CIRCRES, CIRCVRES, 
+//CIRCVAL, CIRCRES, CIRCVRES,
 //CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
 //CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
-//CIRCSKIP, CIRCSTOP, CIRCCHAOS,         
-//LCIRCCHANSET, RCIRCCHANSET, 
+//CIRCSKIP, CIRCSTOP, CIRCCHAOS,
+//LCIRCCHANSET, RCIRCCHANSET,
 </add:circus>
 precedence left         IFF;
 precedence right        IMP;
@@ -2452,7 +2452,7 @@ precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
 <add:circus>
 // Just like FDR, we make ?/!/. fields right associative. Since the
 // smart scanner renames these tokens accordingly, we can now do it.
-// So far, it seems irrelevant --- couldn't find a example where it 
+// So far, it seems irrelevant --- couldn't find a example where it
 // made a difference yet. This is harmless.
 precedence right        CHANNELIN, CHANNELOUT, CHANNELDOT;
 </add:circus>
@@ -2464,7 +2464,7 @@ precedence left         DOT;
 precedence right        THETA;
 precedence left         LSQUARE, RSQUARE;
 <add:circus>
-/* TODO: Need to test funny cases to see whether this precedences are really useful. 
+/* TODO: Need to test funny cases to see whether this precedences are really useful.
  */
 precedence nonassoc     LCIRCRENAME, RCIRCRENAME; // it doesn't matter if put before _RENAME
 precedence nonassoc     LSCHEXPRACT, RSCHEXPRACT;
@@ -2472,7 +2472,7 @@ precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
 precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
 </add:circus>
-precedence left         DECORWORD                        
+precedence left         DECORWORD
                         <add:circus>
                           // Do we need to add these precedences for Circus?
                           // adding just for consistency wrt DECORWORD
@@ -2489,8 +2489,8 @@ input ::=
            if (narr != null) {
              s.getSect().add(0, narr);
            }
-           <add:circus>               
-               //logProductionResult(s, "SPECIFICATION AT INPUT", getLocation(s));               
+           <add:circus>
+               //logProductionResult(s, "SPECIFICATION AT INPUT", getLocation(s));
            </add:circus>
            RESULT = s;
         :}
@@ -2526,7 +2526,7 @@ specification ::=
            ZSect zSect = updateZSect(header, opTable_
              <add:pattern>, jokerTable_ </add:pattern>);
            RESULT = createSpec(factory_.list(zSect));
-           <add:circus>               
+           <add:circus>
                //logProductionResult(pl, "EMPTY-SECTION-HEADER", getLocation(RESULT));
                raisePendingBasicProcessWarnings("SPECIFICATION PRODUCTION");
            </add:circus>
@@ -2558,7 +2558,7 @@ emptySectionHeader ::=
            resetJokerTable(name, parents, eleft, eright);
 </add:pattern>
            RESULT = createZSect(name, parents);
-<add:circus>                        
+<add:circus>
            parserState_.clearAllProcessInformation();
 </add:circus>
            addLocAnn(RESULT, getLocation(eleft, eright));
@@ -2571,9 +2571,9 @@ empty ::=
         :}
         ;
 
-sectionList ::= 
+sectionList ::=
         sectionList:sl section:s
-        {: 
+        {:
            sl.add(s);
            RESULT = sl;
         :}
@@ -2587,11 +2587,11 @@ section ::=
         {:
            <add:circus>
                //logProductionResult(pl, "PARAGRAPH LIST AT SECTION", pl.isEmpty() ? null : getLocation(pl.get(0)));
-           </add:circus>           
+           </add:circus>
            header.setParaList(pl);
-           RESULT = updateZSect(header, opTable_           
+           RESULT = updateZSect(header, opTable_
              <add:pattern>, jokerTable_ </add:pattern>);
-           if (pl.size() > 0) {             
+           if (pl.size() > 0) {
              Para plPara = pl.get(pl.size()-1);
              //logProductionResult(plPara, "PARAGRAPH LOCATION AT SECTION", getLocation(plPara));
              LocInfo loc = getLocation(plPara);
@@ -2604,8 +2604,8 @@ section ::=
                locAnn.setLength(BigInteger.valueOf(length));
              }
            }
-           
-           <add:circus>               
+
+           <add:circus>
                logProductionResult(pl, "SECTION[" + header.getName() + "]-PL", getLocation(RESULT));
                raisePendingBasicProcessWarnings("SECTION PRODUCTION");
            </add:circus>
@@ -2646,9 +2646,9 @@ sectionHeader ::=
            resetJokerTable(name, p, pleft, pright);
 </add:pattern>
            RESULT = createZSect(name, p);
-<add:circus>                       
-           parserState_.clearAllProcessInformation();           
-</add:circus>           
+<add:circus>
+           parserState_.clearAllProcessInformation();
+</add:circus>
            addLocAnn(RESULT, s);
         :}
         ;
@@ -2665,7 +2665,7 @@ parents ::=
         ;
 
 parentList ::=
-        parentList:pl COMMA DECORWORD:dw  
+        parentList:pl COMMA DECORWORD:dw
         {:
            checkName(dw);
            Parent p = factory_.createParent(dw.getName());
@@ -2684,44 +2684,44 @@ parentList ::=
         ;
 
 
-//paragraphs are divided into boxed and unboxed paragraphs. 
-//Unboxed paragraphs must have a newline after their definition, 
+//paragraphs are divided into boxed and unboxed paragraphs.
+//Unboxed paragraphs must have a newline after their definition,
 //unless they are the final paragraph within ZED ... END tokens
-paragraphList ::= 
+paragraphList ::=
         paragraphList:pl boxedParagraph:p
         {:
-           if (p != null) {             
-             <add:circus>                 
+           if (p != null) {
+             <add:circus>
              // for boxed paragraphs for basic circus process added
              // across multiple circus LaTeX environments
-             if (parserState_.isWithinMultipleEnvBasicProcessScope()) {                
+             if (parserState_.isWithinMultipleEnvBasicProcessScope()) {
                 LocInfo loc = getLocation(p);
                 if (p instanceof AxPara) {
                     NameList nl = ZUtils.getAxParaGenFormals(p);
-                    boolean hasGenerics = (nl != null &amp;&amp; 
-                        (nl instanceof ZNameList) &amp;&amp; 
+                    boolean hasGenerics = (nl != null &amp;&amp;
+                        (nl instanceof ZNameList) &amp;&amp;
                         !((ZNameList)nl).isEmpty());
                     final String msg = "a local " +
                         (hasGenerics ? "generic " : "") +
-                        (ZUtils.isSchema(p) ? "schema " : 
+                        (ZUtils.isSchema(p) ? "schema " :
                             (((AxPara)p).getBox().equals(Box.OmitBox) ?
-                                "horizontal definition " : 
+                                "horizontal definition " :
                                 "axiomatic definition ")
                         ) +
-                        "paragraph";                    
+                        "paragraph";
 
-                    // raise a scoping warning if needed                          
+                    // raise a scoping warning if needed
                     addBasicProcessScopePostCheckFor("MULTIPLE ENV - " + msg, getLocation(p));
-                    parserState_.addLocallyDeclPara(p);                            
-                } else {                
-                    //assert ZUtils.isZPara(para);                        
+                    parserState_.addLocallyDeclPara(p);
+                } else {
+                    //assert ZUtils.isZPara(para);
                     parser.report_error(CircusParseMessage.MSG_INVALID_INNER_PROCESS_PARA,
                         new Object[] { p.getClass().getSimpleName(), loc }, loc);
                 }
-             } 
-             // Only add to the list when not within a basic process 
-             else              
-             </add:circus>             
+             }
+             // Only add to the list when not within a basic process
+             else
+             </add:circus>
                 pl.add(p);
            }
            RESULT = pl;
@@ -2735,7 +2735,7 @@ paragraphList ::=
               pl.addAll(upl);
            RESULT = pl;
         :}
-<add:circus>                
+<add:circus>
         |
         paragraphList:pl circusMultiEnvParagraphList:ucpl
         {:
@@ -2743,15 +2743,15 @@ paragraphList ::=
            //    "Its members are stored within the parserState and collected when the basic process " +
            //    "scope is closed. If they appear dangling outside a scope, relevant warnings/errors " +
            //    "are raised accordingly. For this production, this s necessary in order to allow the " +
-           //    "tokens to be consumed, even if stored indirectly as in here.";           
+           //    "tokens to be consumed, even if stored indirectly as in here.";
            pl.addAll(ucpl);
-           RESULT = pl;           
+           RESULT = pl;
            //logProductionResult(RESULT, "MULTIPLE-CIRCUS-PARAGRAPH-LIST", null);
         :}
-</add:circus>                
+</add:circus>
         |
         paragraphList:pl narrParagraph:np
-        {:           
+        {:
            <add:circus>
            // If not within a basic process keep the narr para at section level
            if (!parserState_.isWithinMultipleEnvBasicProcessScope())
@@ -2761,7 +2761,7 @@ paragraphList ::=
         :}
         |
         //empty
-        {: RESULT = factory_.createZParaList(); :} %prec NL 
+        {: RESULT = factory_.createZParaList(); :} %prec NL
         ;
 
 
@@ -2774,7 +2774,7 @@ boxedParagraph ::=
         schema:s
         {: RESULT = s; :}
         |
-        genericAxDefinition:gd 
+        genericAxDefinition:gd
         {: RESULT = gd; :}
 <add:pattern>
         |
@@ -2793,10 +2793,10 @@ boxedParagraph ::=
         {: RESULT = c; :}
 </add:oz>
         |
-        error:e END:ed 
-        {: 
+        error:e END:ed
+        {:
           parser.report_syntax_error();
-          <add:oz>parserState_.resetIsOpExpr();</add:oz>          
+          <add:oz>parserState_.resetIsOpExpr();</add:oz>
         :}
         ;
 
@@ -2805,11 +2805,11 @@ narrParagraph ::=
         {:
            RESULT = factory_.createNarrPara(toStringList(nwl));
            addLocAnn(RESULT, getLocation(nwl));
-           <add:circus>           
-           // If within a basic process keep the narr para within it.           
+           <add:circus>
+           // If within a basic process keep the narr para within it.
            if (parserState_.isWithinMultipleEnvBasicProcessScope()) {
-              // raise a scoping warning if needed                          
-              addBasicProcessScopePostCheckFor("narrative paragraph", getLocation(nwl));              
+              // raise a scoping warning if needed
+              addBasicProcessScopePostCheckFor("narrative paragraph", getLocation(nwl));
               parserState_.addLocallyDeclPara(RESULT);
            }
            </add:circus>
@@ -2824,10 +2824,10 @@ unboxedParagraphList ::=
              <add:circus>
              // for unboxed paragraphs for basic circus process added
              // across multiple circus LaTeX environments
-             if (parserState_.isWithinMultipleEnvBasicProcessScope()) {                
+             if (parserState_.isWithinMultipleEnvBasicProcessScope()) {
                 String msg;
                 LocInfo loc;
-                boolean add;                                
+                boolean add;
                 Iterator&lt;Para&gt; it = uil.iterator();
                 while (it.hasNext()) {
                     Para para = it.next();
@@ -2836,90 +2836,90 @@ unboxedParagraphList ::=
                     if (para instanceof AxPara) {
                         AxPara p = (AxPara)para;
                         NameList nl = ZUtils.getAxParaGenFormals(p);
-                        boolean hasGenerics = (nl != null &amp;&amp; 
-                            (nl instanceof ZNameList) &amp;&amp; 
+                        boolean hasGenerics = (nl != null &amp;&amp;
+                            (nl instanceof ZNameList) &amp;&amp;
                             !((ZNameList)nl).isEmpty());
                         msg = "a local " +
                             (hasGenerics ? "generic " : "") +
-                            (ZUtils.isSchema(p) ? "schema " : 
+                            (ZUtils.isSchema(p) ? "schema " :
                                 (((AxPara)p).getBox().equals(Box.OmitBox) ?
-                                    "horizontal definition " : 
+                                    "horizontal definition " :
                                     "axiomatic definition ")
                             ) +
-                            "paragraph";                    
+                            "paragraph";
                     } else if (para instanceof GivenPara) {
                         msg = "a local given set paragraph";
                     } else if (para instanceof FreePara) {
                         msg = "a local free type paragraph";
                     } else if (para instanceof ConjPara) {
                         msg = "a local conjecture paragraph";
-                    } else if (para instanceof OptempPara) {                    
+                    } else if (para instanceof OptempPara) {
                         msg = "a local operator template paragraph";
                     } else {
                         msg = "an invalid local paragrph";
-                        //assert parserState_.isZPara(para);                        
+                        //assert parserState_.isZPara(para);
                         parser.report_error(CircusParseMessage.MSG_INVALID_INNER_PROCESS_PARA,
                             new Object[] { para.getClass().getSimpleName(), loc }, loc);
                     }
                     if (add) {
-                        // raise a scoping warning if needed                          
+                        // raise a scoping warning if needed
                         addBasicProcessScopePostCheckFor("SINGLE ENV - " + msg, loc);
                         parserState_.addLocallyDeclPara(para);
                         it.remove();
                     }
-                }                
+                }
              }
-           </add:circus>           
+           </add:circus>
            RESULT = uil;
         :}
-<add:circus>        
+<add:circus>
         |
         ZED:zed singleCircusParagraphItemList:ppl END:end
-        {:            
-           RESULT = factory_.list();           
-           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED, 
+        {:
+           RESULT = factory_.list();
+           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED,
               new Object[] { "process level", "CIRCUS" }, getLocation(zed, end));
-        :}        
+        :}
         /*
         NOTE: It would be nice to have the production below with an error message as well,
               but unfortunately, it is creating conflicts. So, leave it out for now.
-        |                
-        ZED:zed circusInnerProcParaList:ppl END:end        
-        {:                             
+        |
+        ZED:zed circusInnerProcParaList:ppl END:end
+        {:
            RESULT = factory_.list();
-           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED, 
+           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED,
               new Object[] { "action level", "CIRCUSACTION" }, getLocation(zed, end));
         :}*/
-        |                
+        |
         ZED:zed circusBasicProcessMainAction:cbpma END:end
         {:
            RESULT = factory_.list();
-           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED, 
-              new Object[] { "action level", "CIRCUSACTION" }, getLocation(zed, end));           
+           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED,
+              new Object[] { "action level", "CIRCUSACTION" }, getLocation(zed, end));
         :}
-</add:circus>        
-        |        
+</add:circus>
+        |
         ZED:z error:e END
         {:
            parser.report_syntax_error();
            RESULT = factory_.list();
 <add:oz>
            parserState_.resetIsOpExpr();
-</add:oz>        
+</add:oz>
         :}
         ;
-                
+
 unboxedParagraphItemList ::=
         unboxedParagraphItemList:uil NL unboxedParagraphItem:ui
         {:
            if (ui != null) uil.add(ui);
            RESULT = uil;
-        :}       
+        :}
         |
         unboxedParagraphItem:ui
         {:
            RESULT = factory_.list();
-           
+
            <add:circus>
            // for implicitly declared processes, add the implicit decl first
            if (ui instanceof ProcessPara)
@@ -2927,17 +2927,17 @@ unboxedParagraphItemList ::=
              addImplicitlyDeclaredProcPara(RESULT);
            }
            </add:circus>
-           
-           // This nullness result check is important for 
+
+           // This nullness result check is important for
            // consistency with the check above for lists.
            //
-           // It is also important to avoid duplication 
-           // of Circus BasicPorcess declared across multiple 
+           // It is also important to avoid duplication
+           // of Circus BasicPorcess declared across multiple
            // Circus environments.
-           if (ui != null) RESULT.add(ui);           
+           if (ui != null) RESULT.add(ui);
         :}
         ;
-        
+
 unboxedParagraphItem ::=
         basicTypeDefinition:btd
         {: RESULT = btd; :}
@@ -2949,33 +2949,22 @@ unboxedParagraphItem ::=
         {:
            RESULT = factory_.createFreePara(ftl);
            addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
-        :}        
-        /*|
-        name:n formalParameters:ofp CONJECTURE predicate:p
+        :}
+        |
+        THEOREM name:n optNL optFormalParameters:ofp CONJECTURE predicate:p
         {:
+           // named conjectures in Unicode are a CZT extension of the Z standard.
            RESULT = factory_.createConjPara(ofp, p);
            RESULT.getAnns().add(n); // add it as an annotation for now.
            addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
         :}
         |
-        CONJECTURE:c predicate:p
-        {:
-           RESULT = factory_.createConjPara(factory_.createZNameList(), p);
-           addLocAnn(RESULT, getLocation(p));
-        :}*/
-        |
-        name:n CONJECTURE predicate:p
-        {:
-           RESULT = factory_.createConjPara(factory_.createZNameList(), p);
-           RESULT.getAnns().add(n); // add it as an annotation for now.
-           addLocAnn(RESULT, getLocation(getLocation(n), getLocation(p)));
-        :}        
-        |
         optFormalParameters:ofp CONJECTURE:c predicate:p
         {:
+           // unnamed conjectures in Unicode, as in the Z standard.
            RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
-        :}        
+        :}
         |
         operatorTemplate:ot
         {:
@@ -2983,7 +2972,7 @@ unboxedParagraphItem ::=
              opTable_.add(ot);
            }
            catch (OpTable.OperatorException e) {
-             final Symbol token = new Symbol(Sym.ZED, otleft, otright);             
+             final Symbol token = new Symbol(Sym.ZED, otleft, otright);
              parser.report_error(ZParseMessage.MSG_CANNOT_ADD_OP,
                                  new Object[] { e.getMessage() },
                                  getLocation(otleft, otright));
@@ -2995,14 +2984,14 @@ unboxedParagraphItem ::=
         |
         singleCircusParagraphItem:scpi
         {:
-            RESULT = scpi;            
+            RESULT = scpi;
             logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-UNBOXED", getLocation(scpi));
         :}
         */
-</add:circus>        
+</add:circus>
         ;
 
-basicTypeDefinition ::= 
+basicTypeDefinition ::=
         LSQUARE:lsq nameList:nl RSQUARE
         {:
            RESULT = factory_.createGivenPara(nl);
@@ -3022,9 +3011,9 @@ schema ::=
            RESULT = factory_.createSchema(n, fp, st);
            addLocAnn(RESULT, getLocation(gensch, end));
         :}
-        ;       
+        ;
 
-genericAxDefinition ::= 
+genericAxDefinition ::=
         GENAX:genax formalParameters:fp schemaText:st END:end
         {:
            RESULT = factory_.createAxPara(fp, st, Box.AxBox);
@@ -3040,12 +3029,12 @@ optFormalParameters ::=
         {: RESULT = factory_.createZNameList(); :}
         ;
 
-formalParameters ::= 
+formalParameters ::=
         LSQUARE nameList:nl RSQUARE optNL
         {: RESULT = nl; :}
         ;
 
-axiomaticDefinition ::= 
+axiomaticDefinition ::=
         AX:ax schemaText:st END:end
         {:
            ZNameList zdnl = factory_.createZNameList();
@@ -3068,7 +3057,7 @@ abbreviationDefinition ::=
            ZNameList zdnl = factory_.createZNameList();
            RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
            addLocAnn(RESULT, getLocation(dn, e));
-        :}        
+        :}
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
         //"\langle \listarg \rangle [X] == .... without this
@@ -3105,7 +3094,7 @@ abbreviationDefinition ::=
 
 freeTypeList ::=
         freeTypeList:ftl ANDALSO freeTypeDefinition:ftd
-        {: 
+        {:
            ftl.add(ftd);
            RESULT = ftl;
         :}
@@ -3132,7 +3121,7 @@ branchList ::=
            RESULT = bl;
         :}
         |
-        branch:b 
+        branch:b
         {:
            RESULT = factory_.createZBranchList();
            RESULT.add(b); :}
@@ -3153,7 +3142,7 @@ branch ::=
         ;
 
 narrWordList ::=
-        narrWordList:nwl TEXT:t  
+        narrWordList:nwl TEXT:t
         {:
            nwl.add(t);
            RESULT = nwl;
@@ -3206,13 +3195,13 @@ template ::=
 
 catTemplate ::=
         prefixTemplate:pt
-        {: 
+        {:
            RESULT = factory_.createOptempPara();
            RESULT.getOper().addAll(pt);
         :}
         |
         postfixTemplate:pt
-        {: 
+        {:
            RESULT = factory_.createOptempPara();
            RESULT.getOper().addAll(pt);
         :}
@@ -3247,7 +3236,7 @@ prefixTemplate ::=
         {:
            ol.add(0, createOperator(n));
            ol.add(v);
-           RESULT = ol; 
+           RESULT = ol;
         :}
 	|
 	LPAREN POWER:p varg:v RPAREN
@@ -3262,7 +3251,7 @@ postfixTemplate ::=
         {:
            ol.add(0, createOperator(n));
            ol.add(0, v);
-           RESULT = ol; 
+           RESULT = ol;
         :}
         ;
 
@@ -3273,7 +3262,7 @@ infixTemplate ::=
            ol.add(0, createOperator(n));
            ol.add(0, v1);
            ol.add(v2);
-           RESULT = ol; 
+           RESULT = ol;
         :}
         ;
 
@@ -3317,51 +3306,51 @@ varg ::=
         {: RESULT = factory_.createOperand(Boolean.FALSE); :}
         ;
 
-<add:circus>   
+<add:circus>
 
-// Main entry as a Circus unboxed paragraph ////////////////////////////////        
+// Main entry as a Circus unboxed paragraph ////////////////////////////////
 
 /**
- * These paragraphs encompass all Circus paragraphs across multiple 
- * Circus environments, except BasicProcess. 
+ * These paragraphs encompass all Circus paragraphs across multiple
+ * Circus environments, except BasicProcess.
  */
-circusMultiEnvParagraphList ::=                                     
+circusMultiEnvParagraphList ::=
         CIRCUS:circ singleCircusParagraphItemList:ppl END:end
-        {: 
-           RESULT = ppl; 
+        {:
+           RESULT = ppl;
            //logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-LIST", getLocation(circ, end));
         :}
-        |                
-        CIRCUSACTION:circ circusInnerProcParaList:ppl END:end        
-        {:                             
+        |
+        CIRCUSACTION:circ circusInnerProcParaList:ppl END:end
+        {:
            ensureInnerProcParaListKnownInBasicProcessScope(ppl, "MULTIPLE ENV", getLocation(circ, end));
-           
-           // Result here does not matter. It will be collected later via ParserState            
-           RESULT = factory_.list();           
+
+           // Result here does not matter. It will be collected later via ParserState
+           RESULT = factory_.list();
         :}
-        |                
+        |
         CIRCUSACTION:circ circusBasicProcessMainAction:cbpma END:end
-        {:  
+        {:
             final String from = "JUST MAINACTION - MULTIPLE ENVIRONMENT";
-            // If exit fails, a warning is mentioned, not an error, 
+            // If exit fails, a warning is mentioned, not an error,
             // exitBasicProcessScope(from, getLocation(circ, cbpma));
-            
-            // Result here is the current process that was on scope. 
-            RESULT = factory_.list();                        
+
+            // Result here is the current process that was on scope.
+            RESULT = factory_.list();
         :}
         ;
-       
-singleCircusParagraphItemList ::=                
+
+singleCircusParagraphItemList ::=
         singleCircusParagraphItemList:cpl NL singleCircusParagraphItem:cpi
         {:
            if (cpi != null) cpl.add(cpi);
            RESULT = cpl;
-        :}      
-        |        
+        :}
+        |
         singleCircusParagraphItem:cpi
         {:
            RESULT = factory_.list();
-           
+
            <add:circus>
            // for implicitly declared processes, add the implicit decl first
            if (cpi instanceof ProcessPara)
@@ -3369,22 +3358,22 @@ singleCircusParagraphItemList ::=
              addImplicitlyDeclaredProcPara(RESULT);
            }
            </add:circus>
-           
-           // This nullness result check is important for 
+
+           // This nullness result check is important for
            // consistency with the check above for lists.
            //
-           // It is also important to avoid duplication 
-           // of Circus BasicPorcess declared across multiple 
+           // It is also important to avoid duplication
+           // of Circus BasicPorcess declared across multiple
            // Circus environments.
            //
            // see unboxedParagraphItem
            if (cpi != null) {
-             RESULT.add(cpi);                                 
+             RESULT.add(cpi);
              logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-SINGLE-ENV", getLocation(cpi));
            }
         :}
-        ;   
-        
+        ;
+
 /**
  * These items represent global paragraphs (possibly within a single circus environment).
  * They are process, refinement, channel, and chennel set declarations.
@@ -3397,152 +3386,152 @@ singleCircusParagraphItem ::=
         {: RESULT = csp; :}
         |
         processPara:pp
-        {: RESULT = pp; :}       
+        {: RESULT = pp; :}
         |
         processRefPara:rp
-        {: RESULT = rp; :}                
+        {: RESULT = rp; :}
         ;
 
 /**
- * List of inner process paragraphs for Circus. 
+ * List of inner process paragraphs for Circus.
  * As we could muliple items, NL is always needed between paragraphs.
- * For now, this excludes Z boxed paragraphs (AXDEF, GAXDEF, SCH, and GSCH). 
+ * For now, this excludes Z boxed paragraphs (AXDEF, GAXDEF, SCH, and GSCH).
  * That is because we need to fiddle with the Latex2Unicode scanner for that effect.
  */
 circusInnerProcParaList ::=
-        circusInnerProcParaList:ipl NL circusInnerProcPara:ip 
+        circusInnerProcParaList:ipl NL circusInnerProcPara:ip
         {:
            if (ip != null) ipl.add(ip);
            RESULT = ipl;
         :}
         |
-        circusInnerProcPara:ip 
+        circusInnerProcPara:ip
         {: RESULT = factory_.list(ip); :}
-        /*| 
+        /*|
         // empty
         {: RESULT = factory_.list(); :}*/
         ;
-                
+
 /**
  * These are all the productions that can occur within a BasicProcess scope.
- * 
+ *
  */
-circusInnerProcPara ::=  
-        /* Allow these repeated unboxedParagrahItem productions here so 
+circusInnerProcPara ::=
+        /* Allow these repeated unboxedParagrahItem productions here so
          * that singled circus-environment basic-processes can be defined.
          * Note that there is no room for boxedParagraph (which is fine).
          */
         basicTypeDefinition:gtd
-        {:             
-            RESULT = gtd; 
-            // raise a scoping warning if needed                        
-            addBasicProcessScopePostCheckFor("a local given set", getLocation(gtd));            
-            parserState_.addLocallyDeclPara(RESULT);            
+        {:
+            RESULT = gtd;
+            // raise a scoping warning if needed
+            addBasicProcessScopePostCheckFor("a local given set", getLocation(gtd));
+            parserState_.addLocallyDeclPara(RESULT);
         :}
         |
         freeTypeList:ftl
-        {: 
+        {:
            LocInfo loc = getLocation(ftl.get(0), ftl.get(ftl.size() - 1));
            RESULT = factory_.createFreePara(ftl);
-           addLocAnn(RESULT, loc);           
+           addLocAnn(RESULT, loc);
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("a local free type list", loc);
-           parserState_.addLocallyDeclPara(RESULT);           
+           parserState_.addLocallyDeclPara(RESULT);
         :}
         |
         abbreviationDefinition:ad
-        {: 
-           RESULT = ad; 
+        {:
+           RESULT = ad;
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("a local abbreviation", getLocation(ad));
-           parserState_.addLocallyDeclPara(RESULT);           
+           parserState_.addLocallyDeclPara(RESULT);
         :}
         |
-        name:n CONJECTURE:c predicate:p
+        THEOREM name:n optNL optFormalParameters:ofp CONJECTURE:c predicate:p
         {:
-           LocInfo loc = getLocation(c, p);           
-           RESULT = factory_.createConjPara(factory_.createZNameList(), p);
+           LocInfo loc = getLocation(c, p);
+           RESULT = factory_.createConjPara(ofp, p);
            RESULT.getAnns().add(n); // add it as an annotation for now.
            addLocAnn(RESULT, loc);
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("a local named conjecture " + n, loc);
            parserState_.addLocallyDeclPara(RESULT);
         :}
-        |    
+        |
         optFormalParameters:ofp CONJECTURE:c predicate:p
-        {: 
+        {:
            LocInfo loc = getLocation(c, p);
            RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, loc);
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("a local conjecture", loc);
            parserState_.addLocallyDeclPara(RESULT);
-        :} 
+        :}
         /*| DO NOT ALLOW LOCAL OPERATOR TEMPLATES? UNRESOLVED ISSUE IN Circus GRAMMAR
         // TODO:DESIGN: come back here and include appropriate code for ProcessTable
         operatorTemplate:ot
-        {:           
+        {:
            //try {
            //  opTable_.add(ot);
            //}
            //catch (OpTable.OperatorException e) {
-           //  final Symbol token = new Symbol(Sym.ZED, otleft, otright);             
+           //  final Symbol token = new Symbol(Sym.ZED, otleft, otright);
            //  parser.report_error(ZParseMessage.MSG_CANNOT_ADD_OP,
            //                      new Object[] { e.getMessage() },
            //                      getLocation(ot));
-           //}   
+           //}
            LocInfo loc = getLocation(ot);
            RESULT = ot;
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("a local operator template", loc);
            parserState_.addLocallyDeclPara(RESULT);
-           
-           parser.report_error(CircusParseMessage.MSG_NOT_IMPLEMENTED, 
+
+           parser.report_error(CircusParseMessage.MSG_NOT_IMPLEMENTED,
               new Object[] { "Basic process operator template" }, loc);
         :}*/
         |
         circusProcessState:cps
-        {:            
-           RESULT = cps;            
+        {:
+           RESULT = cps;
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("process state", getLocation(cps));
 
            // no need to add to local paragraphs, see circusProcessState
-           // production: state could be a local paragraph or implicitly declared           
-        :}                 
-        |        
+           // production: state could be a local paragraph or implicitly declared
+        :}
+        |
         namesetPara:np
-        {:            
-           RESULT = np; 
+        {:
+           RESULT = np;
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("name set paragraph", getLocation(np));
-           parserState_.addLocallyDeclPara(RESULT);                      
+           parserState_.addLocallyDeclPara(RESULT);
         :}
-        |        
+        |
         actionPara:ap
-        {:                    
-           RESULT = ap; 
+        {:
+           RESULT = ap;
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("action paragraph", getLocation(ap));
-           
+
            // check whether this is already recorded as implicitly declared
            if (!parserState_.isImplicitlyDeclaredActionPara(ap)) {
                parserState_.addLocallyDeclPara(RESULT);
-           }           
+           }
         :}
         |
         actionRefPara:rp
         {:
-           RESULT = rp;           
+           RESULT = rp;
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("action refinement paragraph", getLocation(rp));
-           parserState_.addLocallyDeclPara(RESULT);           
+           parserState_.addLocallyDeclPara(RESULT);
         :}
         /*
         |
-        // This production seems to never occur since paragraphList at the 
-        // section level always captures it first. Anyway, both places are 
-        // covered. Perhaps we could remove this production later.        
+        // This production seems to never occur since paragraphList at the
+        // section level always captures it first. Anyway, both places are
+        // covered. Perhaps we could remove this production later.
         narrParagraph:np
         {:
            System.out.println("KEEP-PRODUCTION-?");
@@ -3552,21 +3541,21 @@ circusInnerProcPara ::=
            parserState_.addLocallyDeclPara(RESULT);
         :}
         */
-        ;        
-        
+        ;
+
 /// Circus declaration list (no opName) ////////////////////////////////
 
-/* 
+/*
  * Used where declWordList should be used, but no operator templates are allowed,
  * such as channelDecl, circus qualified parameters, or variable declarations.
  * Also, to avoid confusion and problems with communication fields, we also do not
- * allow circusDeclWordList 
+ * allow circusDeclWordList
  */
 circusDeclWordList ::=
     circusDeclWordList:cdwl COMMA DECLWORD:dw
-    {: 
+    {:
        ZName dn = createCircusName(dw);
-       cdwl.add(dn); 
+       cdwl.add(dn);
        RESULT = cdwl;
     :}
     |
@@ -3574,58 +3563,58 @@ circusDeclWordList ::=
     {:
        ZName dn = createCircusName(dw);
        RESULT = factory_.createZNameList();
-       RESULT.add(dn); 
-    :}    
+       RESULT.add(dn);
+    :}
     ;
-    
+
 /// Channel Paragraph ////////////////////////////////
 
-channelPara ::= 
+channelPara ::=
         CIRCCHAN:chan channelDeclList:cdl
-        {:             
+        {:
            RESULT = factory_.createChannelPara(factory_.createZDeclList(cdl));
            addLocAnn(RESULT, getLocation(chan, cdl.get(cdl.size()-1)));
         :}
         |
         CIRCCHANFROM:chanf channelFromDeclList:cfdl
-        {:            
+        {:
            RESULT = factory_.createChannelPara(factory_.createZDeclList(cfdl));
            addLocAnn(RESULT, getLocation(chanf, cfdl.get(cfdl.size()-1)));
-        :} 
+        :}
         |
         CIRCCHAN:chan error:e END
-        {: 
+        {:
            RESULT = factory_.createChannelPara(factory_.createZDeclList());
            addLocAnn(RESULT, getLocation(eleft, eright));
            parser.report_error(CircusParseMessage.MSG_CHANDECL_ERROR,
-              new Object[0], getLocation(eleft, eright));           
+              new Object[0], getLocation(eleft, eright));
         :}
         |
         CIRCCHANFROM:chanf error:e END
-        {: 
+        {:
            RESULT = factory_.createChannelPara(factory_.createZDeclList());
            addLocAnn(RESULT, getLocation(eleft, eright));
            parser.report_error(CircusParseMessage.MSG_CHANFROMDECL_ERROR,
-              new Object[0], getLocation(eleft, eright));           
+              new Object[0], getLocation(eleft, eright));
         :}
         ;
-        
-channelDeclList ::= 
+
+channelDeclList ::=
         channelDeclList:cdl SEMICOLON channelDecl:cd
         {:
            assert cd != null &amp;&amp; cdl != null;
            cdl.add(cd);
            RESULT = cdl;
-        :}  
+        :}
         |
         channelDecl:cd
         {:
            assert cd != null;
-           RESULT = factory_.list(cd);           
-        :}                         
+           RESULT = factory_.list(cd);
+        :}
         ;
-        
-channelFromDeclList ::= 
+
+channelFromDeclList ::=
         channelFromDeclList:cfdl SEMICOLON channelFromDecl:cfd
         {:
            assert cfd != null &amp;&amp; cfdl != null ;
@@ -3637,18 +3626,18 @@ channelFromDeclList ::=
         {:
            assert cfd != null;
            RESULT = factory_.list(cfd);
-        :}    
-        ;        
-        
+        :}
+        ;
+
 /* Removed declWordList and use circusDeclWordList instead as we do not need
- * operator templates for channel declaration names. We cannot use nameList 
+ * operator templates for channel declaration names. We cannot use nameList
  * everywhere because words in typed channel declarations are parsed as DECLWORD
- * rather than DECORWORD 
- */         
-channelDecl ::=        
+ * rather than DECORWORD
+ */
+channelDecl ::=
         /* Generically defined typed channels */
         formalParameters:fp circusDeclWordList:cdwl COLON expression:e
-        {:                       
+        {:
            RESULT = factory_.createChannelDecl(factory_.list(fp, cdwl), e);
            addLocAnn(RESULT, getLocation(fp, e));
         :}
@@ -3659,177 +3648,177 @@ channelDecl ::=
            ZNameList znl = factory_.createZNameList();
            RESULT = factory_.createChannelDecl(factory_.list(znl, cdwl), e);
            addLocAnn(RESULT, getLocation(cdwl.get(0), e));
-        :}    
+        :}
         |
         /* Synchronisation channels */
-        /* 
+        /*
          * The typechecker include a type annotation but MUST NOT change
-         * the expression value from null, as this information is used for 
+         * the expression value from null, as this information is used for
          * AST printing.
          */
         nameList:nl
-	{:                  
+	{:
            // no generics for synchronisation channels.
            ZNameList znl = factory_.createZNameList();
-           
+
            assert nl != null &amp;&amp; !nl.isEmpty() : "Cannot have empty synch channel name list";
-           RESULT = factory_.createChannelDecl(factory_.list(znl, nl), 
+           RESULT = factory_.createChannelDecl(factory_.list(znl, nl),
               CircusUtils.SYNCH_CHANNEL_EXPR);
            addLocAnn(RESULT, getLocation(nl));
-	:} 
+	:}
         /* Generically defined typed channels with type error */
         |
         formalParameters:fp circusDeclWordList:cdwl COLON:c error:e END
-        {: 
+        {:
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(factory_.list(fp, cdwl), null); 
+          RESULT = factory_.createChannelDecl(factory_.list(fp, cdwl), null);
           addLocAnn(RESULT, getLocation(fp, getLocation(eleft, eright)));
         :}
         |
         formalParameters:fp circusDeclWordList:cdwl error:e END
-        {: 
+        {:
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(factory_.list(fp, cdwl), null); 
+          RESULT = factory_.createChannelDecl(factory_.list(fp, cdwl), null);
           addLocAnn(RESULT, getLocation(fp, getLocation(eleft, eright)));
-        :} 
+        :}
         |
         /* Typec channels with type error */
         circusDeclWordList:cdwl COLON:c error:e END
-        {: 
+        {:
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
           ZNameList znl = factory_.createZNameList();
-          RESULT = factory_.createChannelDecl(factory_.list(znl, cdwl), null); 
+          RESULT = factory_.createChannelDecl(factory_.list(znl, cdwl), null);
           addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
         :}
         |
         /* This production covers just name lists, see channel-errors.tex*/
         circusDeclWordList:cdwl error:e END
-        {: 
+        {:
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
           ZNameList znl = factory_.createZNameList();
-          RESULT = factory_.createChannelDecl(factory_.list(znl, cdwl), null); 
+          RESULT = factory_.createChannelDecl(factory_.list(znl, cdwl), null);
           addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
-        :}    
+        :}
         ;
-        
+
 /* Channel declaration from schema inclusion MUST have the Name list EMPTY
  * and the expression MUST not be NULL, it contains the schema name (possibly
  * with generic actuals). (see Circus.xsd comments).
- */        
+ */
 channelFromDecl ::=
         /* Generic channels declared through generic Z schemas with generic actuals */
         optFormalParameters:ofp DECORWORD:dw genericActuals:ga
-        {:  
+        {:
            // NOTE: channel from declarations does not allow decorated schema names!
-           
+
            RefExpr re = factory_.createRefExpr(createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE);
            ZNameList znl = factory_.createZNameList();
            RESULT = factory_.createChannelDecl(factory_.list(ofp, znl), re);
            addLocAnn(RESULT, getLocation(ofp, ga));
-        :}        
-        | 
-        /* Channels declared through Z schemas */                
+        :}
+        |
+        /* Channels declared through Z schemas */
         optFormalParameters:ofp DECORWORD:dw
         {:
            RefExpr re = factory_.createRefExpr(createCircusName(dw));/*same as: FALSE, FALSE*/
            ZNameList znl = factory_.createZNameList();
            RESULT = factory_.createChannelDecl(factory_.list(ofp, znl), re);
            addLocAnn(RESULT, getLocation(ofp, dw.getLocation()));
-        :}                        
-        ; 
+        :}
+        ;
 
 /// Channel Set Paragraph ////////////////////////////
 
-channelSetPara ::=         
+channelSetPara ::=
         CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal channelSet:cs
-        {:                    
+        {:
            RESULT = factory_.createChannelSetPara(ofp, n, cs);
            addLocAnn(RESULT, getLocation(ccs, cs));
-        :}      
+        :}
         |
         CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error:e END
-        {: 
+        {:
            RESULT = factory_.createChannelSetPara(ofp, n, null);
            addLocAnn(RESULT, getLocation(ccs, n));
-           parser.report_error(CircusParseMessage.MSG_CHANNELSET_EXPR_ERROR, 
+           parser.report_error(CircusParseMessage.MSG_CHANNELSET_EXPR_ERROR,
               new Object[0], getLocation(eleft, eright));
 
         :}
         |
         CIRCCHANSET:ccs optFormalParameters:ofp name:n error:e END
-        {: 
+        {:
            RESULT = factory_.createChannelSetPara(ofp, n, null);
            addLocAnn(RESULT, getLocation(ccs, n));
-           parser.report_error(CircusParseMessage.MSG_CHANNELSET_MISSING_DEFEQUAL_ERROR, 
+           parser.report_error(CircusParseMessage.MSG_CHANNELSET_MISSING_DEFEQUAL_ERROR,
               new Object[0], getLocation(eleft, eright));
         :}
         |
         CIRCCHANSET:ccs optFormalParameters:ofp error:e END
-        {: 
+        {:
            RESULT = factory_.createChannelSetPara(ofp, null, null);
            addLocAnn(RESULT, getLocation(ccs, ofp.get(ofp.size()-1)));
-           parser.report_error(CircusParseMessage.MSG_CHANNELSET_MISSING_NAME_ERROR, 
+           parser.report_error(CircusParseMessage.MSG_CHANNELSET_MISSING_NAME_ERROR,
               new Object[0], getLocation(eleft, eright));
         :}
         /* TODO: maybe add this error production later (i.e. it raises a Shift/Reduce error).
-                 todo that, just duplicate the productions by avoiding optFormalParameters 
+                 todo that, just duplicate the productions by avoiding optFormalParameters
                  and using formalParameters instead. That is one with formalParameters and
-                 one without it. 
+                 one without it.
         |
         CIRCCHANSET:ccs error:e END
-        {: 
+        {:
            RESULT = factory_.createChannelSetPara();
            addLocAnn(RESULT, getLocation(ccs));
-           parser.report_error(CircusParseMessage.MSG_CHANNELSET_ERROR, 
-              new Object[0], getLocation(eleft, eright));           
+           parser.report_error(CircusParseMessage.MSG_CHANNELSET_ERROR,
+              new Object[0], getLocation(eleft, eright));
         :}
         */
         ;
-        
-channelSet ::=                
+
+channelSet ::=
         expression:e
-        {:                  
+        {:
            // NOTE: The validation below makes sure that if this is a channel set extension,
-           //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.           
-           Expr eValid = validateChannelSetExpr(e);           
+           //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.
+           Expr eValid = validateChannelSetExpr(e);
            RESULT = factory_.createCircusChannelSet(eValid);
            addLocAnn(RESULT, getLocation(e));
         :}
         ;
-      
-/// Process Paragraphs ////////////////////////////////      
+
+/// Process Paragraphs ////////////////////////////////
 
 processPara ::=
         /* Process declaration */
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
-        {: 
-           LocInfo loc = getLocation(cp, pd);           
+        {:
+           LocInfo loc = getLocation(cp, pd);
            final String from = "PROCESS PARA";
            ProcessPara pp = factory_.createProcessPara(n, ofp, pd);
            checkStateDeclNotRepeated(pp);
            addLocAnn(pp, loc);
-           
+
            // If processDesc is a multiple env BasicProcess, check whether
            // it is multiple environment or single environment - ParamProcess is also basic!
            if (CircusUtils.isBasicProcess(pd)
               &amp;&amp;
-              // If multiple environment, just return null. This avoids creating 
+              // If multiple environment, just return null. This avoids creating
               // duplicated entries into section level for process para.
               // The null entry is dealt with in unboxedParagraphItemList production
-              parserState_.isWithinMultipleEnvBasicProcessScope()) {                  
-                  RESULT = null;                  
+              parserState_.isWithinMultipleEnvBasicProcessScope()) {
+                  RESULT = null;
                   parserState_.setProcessPara(pp);
- 
-                  // to ensure this is harmless, we add must add a 
-                  // post check warning in case the process is not 
+
+                  // to ensure this is harmless, we add must add a
+                  // post check warning in case the process is not
                   // properly closed. Such warnings are cleared whenever
                   // a process scope is properly closed.
                   addMultipleEnvBasicProcessCIRCENDWarning(n, loc);
-           } else {           
+           } else {
               // Otherwise, for either single environment basic process or
               // process paragraphs that are not basic processes, create a
               // new entry.
@@ -3837,7 +3826,7 @@ processPara ::=
            }
            logProductionResult(pp, from + " with " +
               (RESULT == null ? "null" : "non-null"), loc);
-        :} 
+        :}
         |
         /**
          * This production terminates the scope of a basic process declared
@@ -3851,113 +3840,113 @@ processPara ::=
         {:
            final String from = "MULTIPLE ENVIRONMENT END";
            LocInfo loc = getLocation(endleft, endright);
-           
-           // if there is no scope add warning.            
-           addBasicProcessScopePostCheckFor(from, loc);              
-           
+
+           // if there is no scope add warning.
+           addBasicProcessScopePostCheckFor(from, loc);
+
            //Name pn = null;
            //NameList gen = null;
-           BasicProcess bp = null;           
-           
-           // Updates the basic process structures with collected information 
-           // from previous environment 
+           BasicProcess bp = null;
+
+           // Updates the basic process structures with collected information
+           // from previous environment
            if (updateBasicProcessInformation(from, loc)) {
-                //logProductionResult(parserState_.getBasicProcess(), "PARSER STATE BP FROM " + from + " AFTER UPDATE", loc);   
-                                
+                //logProductionResult(parserState_.getBasicProcess(), "PARSER STATE BP FROM " + from + " AFTER UPDATE", loc);
+
                 //pn = parserState_.getProcessName();
                 bp = parserState_.cloneBasicProcessWithAnns();
                 //gen = parserState_.getProcessGenFormals();
-                
-                //logProductionResult(bp, "BP FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
-           }               
+
+                //logProductionResult(bp, "BP FROM " + from + " AFTER PARSER STATE UPDATE", loc);
+           }
            // retrive the process from the state before clearing it up
-                      
-           if (checkProcessParaScope(loc) 
-              &amp;&amp; 
-              parserState_.isWithinMultipleEnvBasicProcessScope()) {           
+
+           if (checkProcessParaScope(loc)
+              &amp;&amp;
+              parserState_.isWithinMultipleEnvBasicProcessScope()) {
               parserState_.updateProcessParaBasicProcess(bp);
-              RESULT = parserState_.getProcessPara();              
-              
+              RESULT = parserState_.getProcessPara();
+
               logProductionResult(RESULT, "AFTER-PROCESS-PARA-BP-UPDATE", loc);
-              
-              // if we have a ProcessPara, the CIRCEND warning 
-              // should be removed provided the procName is the same              
+
+              // if we have a ProcessPara, the CIRCEND warning
+              // should be removed provided the procName is the same
               removeMultipleEnvBasicProcessCIRCENDWarning(loc);
-              
+
               // This was creating a duplicated entry into section level for processpara
               //RESULT = factory_.createProcessPara(pn, gen, bp);
            } else {
               // error was raised at this point
               RESULT = factory_.createProcessPara();
            }
-           
+
            // If exit fails, a warning is mentioned, not an error, so continue regardless
-           exitBasicProcessScope(from, loc);  
-           
+           exitBasicProcessScope(from, loc);
+
            addLocAnn(RESULT, loc);
-           checkStateDeclNotRepeated(RESULT);           
+           checkStateDeclNotRepeated(RESULT);
            //logProductionResult(RESULT, "PROCESS PARA " + from, loc);
-           
+
            // if there were any warning collected for the list of paragraphs
            // declared outside the multiple environment scope, raise then
            raisePendingBasicProcessWarnings(from);
         :}
-        
+
         /* NOTE: If no processDesc catches the error, this production covers it */
         /*
         THESE ERROR PRODUCTIONS TURN OUT TO BE NOT HELPFUL
-        |        
+        |
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF error:e END
-        {: 
+        {:
            RESULT = factory_.createProcessPara(n, ofp, factory_.createBasicProcess(factory_.createZParaList()));
-           addLocAnn(RESULT, getLocation(cp, n));           
-           parser.report_syntax_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+           addLocAnn(RESULT, getLocation(cp, n));
+           parser.report_syntax_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
               new Object[] { "process paragraph" }, getLocation(eleft, eright));
         :}
         |
         CIRCPROC:cp optFormalParameters:ofp name:n error:e END
-        {: 
+        {:
            RESULT = factory_.createProcessPara(n, ofp, factory_.createBasicProcess(factory_.createZParaList()));
            addLocAnn(RESULT, getLocation(cp, n));
-           parser.report_error(CircusParseMessage.MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR, 
+           parser.report_error(CircusParseMessage.MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR,
               new Object[0], getLocation(eleft, eright));
         :}
         |
         CIRCPROC:cp optFormalParameters:ofp error:e END
-        {: 
+        {:
            RESULT = factory_.createProcessPara(null, ofp, factory_.createBasicProcess(factory_.createZParaList()));
            addLocAnn(RESULT, getLocation(cp, ofp.get(ofp.size()-1)));
-           parser.report_error(CircusParseMessage.MSG_PROCESSPARA_MISSING_NAME_ERROR, 
+           parser.report_error(CircusParseMessage.MSG_PROCESSPARA_MISSING_NAME_ERROR,
               new Object[0], getLocation(eleft, eright));
         :}*/
         /* TODO: maybe add this error production later (i.e. it raises a Shift/Reduce error).
-                 todo that, just duplicate the productions by avoiding optFormalParameters 
+                 todo that, just duplicate the productions by avoiding optFormalParameters
                  and using formalParameters instead. That is one with formalParameters and
-                 one without it. 
+                 one without it.
         |
         CIRCPROC:cp error:e END
-        {: 
-           RESULT = factory_.createProcessPara();           
+        {:
+           RESULT = factory_.createProcessPara();
            addLocAnn(RESULT, getLocation(cp));
         :}
         */
-        ;        
+        ;
 
 processDesc ::=
-        DECORWORD:dw channelRenaming:cr 
-        {: 
+        DECORWORD:dw channelRenaming:cr
+        {:
           //System.out.println("OXENTE");
           RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)),
                 factory_.createZExprList(), CallUsage.Parameterised), cr);
             addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
-        :} %prec _RENAME  
+        :} %prec _RENAME
         |
-        DECORWORD:dw genericActuals:ga channelRenaming:cr 
-        {:         
+        DECORWORD:dw genericActuals:ga channelRenaming:cr
+        {:
             RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(
-                createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
+                createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE),
                 factory_.createZExprList(), CallUsage.Parameterised), cr);
             addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
         :} %prec _RENAME
@@ -3970,36 +3959,36 @@ processDesc ::=
         indexedProcess:ip
         {:
             RESULT = ip;
-        :}        
+        :}
         |
         process:p
         {:
            RESULT = p;
-        :}          
-        ;        
+        :}
+        ;
 
-// DESIGN:        
+// DESIGN:
 /* Moved replicated productions out of process because they are not
- * compatible with parenthesised processes. That is, we cannot have 
- * "\circprocess P \circdef (\Interleave i: \nat @ B)", because it would 
- * make no sense in "(\Interleave i: \nat @ B) \extchoice C". This also 
- * normalises on-the-fly replicated/parameterised process calls, which gets 
+ * compatible with parenthesised processes. That is, we cannot have
+ * "\circprocess P \circdef (\Interleave i: \nat @ B)", because it would
+ * make no sense in "(\Interleave i: \nat @ B) \extchoice C". This also
+ * normalises on-the-fly replicated/parameterised process calls, which gets
  * quite confusing if replicated processes were to be in process.
  */
 //DESIGN: We MUST NOT allow processDesc here in the place of process
 //        that is to avoid actions like P \circdef (i: \power \nat @ (i: \nat @ Q)),
-//        which would have a funny signature of (non-unifiable yet valid(?)) formal 
+//        which would have a funny signature of (non-unifiable yet valid(?)) formal
 //        parameters. Note that on-the-fly nested parameters are fine, as in
 //        P \circdef (i: \power~\nat @ (i: \nat @ Q)(0)), because the process of P
 //        is just a call, hence the formal parameters signature of P is i: \power~\arithmos.
 //
 //        One consequence of this is that one cannot have explicit nesting parameterised process
 //        declarations, or in fact any explicit nesting among parameterised, replicated and indexed
-//        processes. 
+//        processes.
 //
-// The SVN revision prior to this change is 6684 - channel renaming for non-parenthesised calls 
+// The SVN revision prior to this change is 6684 - channel renaming for non-parenthesised calls
 paramProcess ::=
-        /* Parameterised process */        
+        /* Parameterised process */
         circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createParamProcess(p, dp);
@@ -4012,34 +4001,34 @@ paramProcess ::=
             RESULT = factory_.createInterleaveProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
-        | 
+        |
         REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createParallelProcessIte(p, dp, cs);
             addLocAnn(RESULT, getLocation(rp, p));
         :}
-        | 
+        |
         REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createIntChoiceProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
-        | 
+        |
         REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createExtChoiceProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(re, p));
         :}
-        | 
+        |
         ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp processDesc:p
         {:
             RESULT = factory_.createSeqProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
-        :}  %prec _REPSEQ     
-        /* 
+        :}  %prec _REPSEQ
+        /*
          * Error productions for processDesc in paramProcess.
          * These are productions for topmost errors. That is, if no
-         * other more detailed inner production matches (or if the 
+         * other more detailed inner production matches (or if the
          * error_count threshold).
          */
         |
@@ -4047,106 +4036,106 @@ paramProcess ::=
         {:
             RESULT = factory_.createParamProcess(null, dp);
             addLocAnn(RESULT, getLocation(eleft, eright));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "parameterised process" }, getLocation(eleft, eright));            
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "parameterised process" }, getLocation(eleft, eright));
         :}
         |
         REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createInterleaveProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(ri, sp));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated parameterised interleave process" }, 
-                getLocation(eleft, eright));            
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated parameterised interleave process" },
+                getLocation(eleft, eright));
         :}
-        | 
+        |
         REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createParallelProcessIte(null, dp, cs);
             addLocAnn(RESULT, getLocation(rp, cs));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated parameterised parallel process" }, 
-                getLocation(eleft, eright));            
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated parameterised parallel process" },
+                getLocation(eleft, eright));
         :}
-        | 
+        |
         REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createIntChoiceProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(ri, sp));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated parameterised internal choice process" }, 
-                getLocation(eleft, eright));            
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated parameterised internal choice process" },
+                getLocation(eleft, eright));
 
         :}
-        | 
+        |
         REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createExtChoiceProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(re, sp));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated parameterised external choice process" }, 
-                getLocation(eleft, eright));            
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated parameterised external choice process" },
+                getLocation(eleft, eright));
         :}
-        | 
+        |
         ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp error:e END
         {:
             RESULT = factory_.createSeqProcessIte(null, dp);
             addLocAnn(RESULT, getLocation(rs, sp));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated parameterised sequential composition process" }, 
-                getLocation(eleft, eright));            
-        :}  %prec _REPSEQ  
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated parameterised sequential composition process" },
+                getLocation(eleft, eright));
+        :}  %prec _REPSEQ
         /* Note: Add further error productions here if needed. */
         ;
-        
+
 /* Moved replicated indexed productions out of process because they are not
- * compatible with parenthesised processes. That is, we cannot have 
- * "\circprocess P \circdef (\Interleave i: \nat \circindex B)", because it would 
- * make no sense in "(\Interleave i: \nat \circindex B) \extchoice C". This also 
- * normalises on-the-fly (replicated) indexed process calls, which gets quite 
+ * compatible with parenthesised processes. That is, we cannot have
+ * "\circprocess P \circdef (\Interleave i: \nat \circindex B)", because it would
+ * make no sense in "(\Interleave i: \nat \circindex B) \extchoice C". This also
+ * normalises on-the-fly (replicated) indexed process calls, which gets quite
  * confusing if replicated indexed processes were to be in process.
- */        
-indexedProcess ::=  
+ */
+indexedProcess ::=
         circusParamDeclList:dp CIRCINDEX:ci processDesc:p
-        {: 
+        {:
             RESULT = factory_.createIndexedProcess(p, dp);
             addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         /* Indexed processes productions in precedence order */
-        |         
+        |
         REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createInterleaveProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
-        | 
+        |
         REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createParallelProcessIdx(p, dp, cs);
             addLocAnn(RESULT, getLocation(rp, p));
         :}
-        | 
+        |
         REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createIntChoiceProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(ri, p));
         :}
-        | 
+        |
         REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createExtChoiceProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(re, p));
         :}
-        | 
+        |
         ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createSeqProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
-        :} %prec _REPSEQ     
-        /* 
+        :} %prec _REPSEQ
+        /*
          * Error productions for processDesc in indexedProcess.
          * These are productions for topmost errors. That is, if no
-         * other more detailed inner production matches (or if the 
+         * other more detailed inner production matches (or if the
          * error_count threshold).
          */
         |
@@ -4154,58 +4143,58 @@ indexedProcess ::=
         {:
             RESULT = factory_.createIndexedProcess(null, dp);
             addLocAnn(RESULT, getLocation(eleft, eright));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "parameterised indexed process" }, getLocation(eleft, eright));            
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "parameterised indexed process" }, getLocation(eleft, eright));
         :}
-        |         
+        |
         REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createInterleaveProcessIdx(null, dp);
             addLocAnn(RESULT, getLocation(ri, ci));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated indexed parameterised interleave process" }, 
-                getLocation(eleft, eright));            
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated indexed parameterised interleave process" },
+                getLocation(eleft, eright));
         :}
-        | 
+        |
         REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createParallelProcessIdx(null, dp, cs);
             addLocAnn(RESULT, getLocation(rp, cs));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated indexed parameterised parallel process" }, 
-                getLocation(eleft, eright));            
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated indexed parameterised parallel process" },
+                getLocation(eleft, eright));
         :}
-        | 
+        |
         REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createIntChoiceProcessIdx(null, dp);
             addLocAnn(RESULT, getLocation(ri, ci));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated indexed parameterised internal choice process" }, 
-                getLocation(eleft, eright));                        
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated indexed parameterised internal choice process" },
+                getLocation(eleft, eright));
         :}
-        | 
+        |
         REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createExtChoiceProcessIdx(null, dp);
             addLocAnn(RESULT, getLocation(re, ci));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated indexed parameterised external choice process" }, 
-                getLocation(eleft, eright));                        
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated indexed parameterised external choice process" },
+                getLocation(eleft, eright));
         :}
-        | 
+        |
         ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci error:e END
         {:
             RESULT = factory_.createSeqProcessIdx(null, dp);
             addLocAnn(RESULT, getLocation(rs, ci));
-            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
-              new Object[] { "replicated indexed parameterised sequential composition process" }, 
-                getLocation(eleft, eright));                                    
-        :} %prec _REPSEQ   
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR,
+              new Object[] { "replicated indexed parameterised sequential composition process" },
+                getLocation(eleft, eright));
+        :} %prec _REPSEQ
         /* Note: Add further error productions here if needed. */
         ;
-        
-process ::=               
+
+process ::=
         circusBasicProcess:bp
         {: RESULT = bp; :}
         |
@@ -4214,19 +4203,19 @@ process ::=
         {:
            RESULT = factory_.createHideProcess(p, cs);
            addLocAnn(RESULT, getLocation(hleft, hright, p, cs));
-        :}        
-        | 
+        :}
+        |
         process:pl INTERLEAVE:in process:pr
         {:
             RESULT = factory_.createInterleaveProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(inleft, inright, pl, pr));
-        :}     
+        :}
         |
         process:pl LPAR:lp channelSet:cs RPAR:rp process:pr
         {:
             RESULT = factory_.createParallelProcess(factory_.list(pl, pr), cs);
             addLocAnn(RESULT, getLocation(rpleft, rpright, pl, pr));
-        :}             
+        :}
         |
         process:pl INTCHOICE:ic process:pr
         {:
@@ -4244,22 +4233,22 @@ process ::=
         {:
             RESULT = factory_.createSeqProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(csleft, csright, pl, pr));
-        :}        
+        :}
         |
         /* Process calls */
         processCall:pc
-        {: 
+        {:
             RESULT = pc;
-        :} 
-        |        
+        :}
+        |
         /* Parenthesised processes */
-        parenthesisedProcess:pp 
-        {:           
+        parenthesisedProcess:pp
+        {:
            RESULT = pp;
-        :}         
-        ;        
+        :}
+        ;
 
-processCall ::=                                
+processCall ::=
         /* Nongenertic parameterised process call with instantiations */
         DECORWORD:dw actualParameters:ap
         {:
@@ -4281,7 +4270,7 @@ processCall ::=
         /* Nongeneric indexed process call with instantiations */
         DECORWORD:dw actualIndexes:ai
         {:
-            /* The CallUsage is Indexed and the generic actuals are empty */            
+            /* The CallUsage is Indexed and the generic actuals are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)), ai, CallUsage.Indexed);
             addLocAnn(RESULT, dw.getLocation());
         :}
@@ -4294,42 +4283,42 @@ processCall ::=
               createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Indexed);
             addLocAnn(RESULT, dw.getLocation());
         :}
-        /** 
+        /**
         If we try renaming of calls without parenthesis, the other parenthesisedProcess:pp
-        production is always given preference, regardless of our careful choice of precedences :-(( 
-        
+        production is always given preference, regardless of our careful choice of precedences :-((
+
         So, instead, I added the production to the root of processDesc, which gives the  intended result.
         Nevertheless, there still some unwanted glitches - see test/circus/process_renaming.tex
         |
-        DECORWORD:dw channelRenaming:cr 
-        {: 
+        DECORWORD:dw channelRenaming:cr
+        {:
           //System.out.println("OXENTE");
           RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(createCircusName(dw)),
                 factory_.createZExprList(), CallUsage.Parameterised), cr);
             addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
-        :} %prec _RENAME     
+        :} %prec _RENAME
         |
-        DECORWORD:dw genericActuals:ga channelRenaming:cr 
-        {:         
+        DECORWORD:dw genericActuals:ga channelRenaming:cr
+        {:
             RESULT = factory_.createRenameProcess(
               factory_.createCallProcess(factory_.createRefExpr(
-                createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
+                createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE),
                 factory_.createZExprList(), CallUsage.Parameterised), cr);
             addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
-        :} %prec _RENAME     
+        :} %prec _RENAME
         */
-        |        
+        |
         /* Generic parameterless process call with instantiation */
         DECORWORD:dw genericActuals:ga
         {:
             /* The CallUsage is irrelevant and the parameters are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
-              createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
+              createCircusName(dw), ga, Boolean.FALSE, Boolean.TRUE),
               factory_.createZExprList(), CallUsage.Parameterised);
             addLocAnn(RESULT, dw.getLocation());
         :}
-        |        
+        |
         /* Nongeneric parameterless process call */
         DECORWORD:dw
         {:
@@ -4339,17 +4328,17 @@ processCall ::=
             addLocAnn(RESULT, dw.getLocation());
         :}
         ;
-        
-/* Parenthesised processes represent on-the-fly process calls and 
+
+/* Parenthesised processes represent on-the-fly process calls and
  * normal processes between parenthesis. This production is symetric
  * to processCall, apart from P[X,Y], which is uncessary because (P)[X,Y]
  * is implicitly because process can be a processCall ;)
  *
  * Ideally, we should just use processDesc, but it is not the case due
- * to the structural differences between the possibilities, hence we 
+ * to the structural differences between the possibilities, hence we
  * define each case individually.
- */        
-parenthesisedProcess ::=        
+ */
+parenthesisedProcess ::=
         /* Parenthesised processes */
         LPAREN:lp process:p RPAREN:rp
         {:
@@ -4361,29 +4350,29 @@ parenthesisedProcess ::=
         {:
            addParenthesisAnn(lp, pp, rp);
            RESULT = pp;
-        :}        
+        :}
         |
         /* Non-generic on-the-fly parameterised process call */
         LPAREN:lp1 paramProcess:pp RPAREN:rp1 actualParameters:ap
-        {:  
-            addParenthesisAnn(lp1, pp, rp1);            
-            Decorword pn = createImplicitlyDeclProcUniqueName(pp);                        
-            ProcessPara pa = createImplicitProcessPara(pn, pp);            
+        {:
+            addParenthesisAnn(lp1, pp, rp1);
+            Decorword pn = createImplicitlyDeclProcUniqueName(pp);
+            ProcessPara pa = createImplicitProcessPara(pn, pp);
             parserState_.addImplicitlyDeclProcessPara(pa);
             /* The CallUsage is Parameterised and the generic actuals are the same as the  */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn)), ap, CallUsage.Parameterised);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
-        :}        
+        :}
         |
         /* Generic on-the-fly parematerised process call */
         formalParameters:fp LPAREN:lp1 paramProcess:pp RPAREN:rp1 genericActuals:ga actualParameters:ap
         {:
-            addParenthesisAnn(lp1, pp, rp1);            
-            Decorword pn = createImplicitlyDeclProcUniqueName(pp);                        
-            ProcessPara pa = createImplicitProcessPara(pn, pp);            
+            addParenthesisAnn(lp1, pp, rp1);
+            Decorword pn = createImplicitlyDeclProcUniqueName(pp);
+            ProcessPara pa = createImplicitProcessPara(pn, pp);
             parserState_.addImplicitlyDeclProcessPara(pa);
             /* The CallUsage is Parameterised and the generic actuals are the same as the  */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn), 
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn),
                 ga, Boolean.FALSE, Boolean.TRUE), ap, CallUsage.Parameterised);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}
@@ -4398,72 +4387,72 @@ parenthesisedProcess ::=
         LPAREN:lp indexedProcess:ip RPAREN:rp actualIndexes:ai
         {:
             addParenthesisAnn(lp, ip, rp);
-            Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
-            ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
+            Decorword pn = createImplicitlyDeclProcUniqueName(ip);
+            ProcessPara pa = createImplicitProcessPara(pn, ip);
             parserState_.addImplicitlyDeclProcessPara(pa);
             /* The CallUsage is Parameterised and the generic actuals are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn)), ai, CallUsage.Indexed);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
-        :} 
+        :}
         |
         /* Generic on-the-fly indexed process call */
         formalParameters:fp LPAREN:lp indexedProcess:ip RPAREN:rp genericActuals:ga actualIndexes:ai
         {:
             addParenthesisAnn(lp, ip, rp);
-            Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
-            ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
+            Decorword pn = createImplicitlyDeclProcUniqueName(ip);
+            ProcessPara pa = createImplicitProcessPara(pn, ip);
             parserState_.addImplicitlyDeclProcessPara(pa);
             /* The CallUsage is Parameterised and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn), 
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createCircusName(pn),
                 ga, Boolean.FALSE, Boolean.TRUE), ai, CallUsage.Indexed);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :}
-        |          
-        /* NOTE: 
-         * The reason why we have introduced the special renaming bracket is because it makes 
-         * debugging the parsing trees easier, as LSQUARE or RSQUARE appears in many places in 
+        |
+        /* NOTE:
+         * The reason why we have introduced the special renaming bracket is because it makes
+         * debugging the parsing trees easier, as LSQUARE or RSQUARE appears in many places in
          * the Z and Circus grammar. Anyway, it is nice to give them a distinctive bracket to
          * avoid confusion.
          * Note that for parameterised and indexed processes, we enforce the parenthesis around.
-         */         
-        /* Process channel renaming */ 
-        LPAREN:lp process:pp RPAREN:rp channelRenaming:cr 
-        {: 
+         */
+        /* Process channel renaming */
+        LPAREN:lp process:pp RPAREN:rp channelRenaming:cr
+        {:
             //System.out.println("VIXE");
             addParenthesisAnn(lp, pp, rp);
             RESULT = factory_.createRenameProcess(pp, cr);
             addLocAnn(RESULT, getLocation(lp, rp));
-        :} %prec _RENAME     
+        :} %prec _RENAME
         |
-        /* Parameterised process channel renaming */ 
-        LPAREN:lp paramProcess:pp RPAREN:rp channelRenaming:cr 
-        {: 
+        /* Parameterised process channel renaming */
+        LPAREN:lp paramProcess:pp RPAREN:rp channelRenaming:cr
+        {:
             addParenthesisAnn(lp, pp, rp);
             RESULT = factory_.createRenameProcess(pp, cr);
             addLocAnn(RESULT, getLocation(lp, rp));
-        :} %prec _RENAME     
+        :} %prec _RENAME
         |
-        /* Indexed process channel renaming */ 
-        LPAREN:lp indexedProcess:ip RPAREN:rp channelRenaming:cr 
-        {: 
+        /* Indexed process channel renaming */
+        LPAREN:lp indexedProcess:ip RPAREN:rp channelRenaming:cr
+        {:
             addParenthesisAnn(lp, ip, rp);
             RESULT = factory_.createRenameProcess(ip, cr);
             addLocAnn(RESULT, getLocation(lp, rp));
-        :} %prec _RENAME     
-        ;        
-        
+        :} %prec _RENAME
+        ;
+
 /* This production leads to a loop in the grammar
- * if directly put on parenthesisedProces :-( 
-renamingProcesses ::=  
+ * if directly put on parenthesisedProces :-(
+renamingProcesses ::=
         process:p
         {: RESULT = p; :}
         |
-        paramProcess:pp 
+        paramProcess:pp
         {: RESULT = pp; :}
         |
-        indexedProcess:idx         
+        indexedProcess:idx
         {: RESULT = idx; :}
-        ;       
+        ;
 */
 
 /// Circus parameters declaration ////////////////////////////////
@@ -4488,7 +4477,7 @@ circusParamZDeclList ::=
            RESULT = zdl;
         :}
         ;
-        
+
 /* Just follows the rules for circusParamDeclList but extended to QualifiedDecl */
 circusCommandDecl ::=
         varDecl:vd
@@ -4497,7 +4486,7 @@ circusCommandDecl ::=
         qualifiedDecl:cd
         {: RESULT = cd; :}
         ;
-        
+
 circusParamCommandDeclList ::=
         circusParamCommandZDeclList:cdl
         {: RESULT = cdl; :}
@@ -4512,21 +4501,21 @@ circusParamCommandZDeclList ::=
            cdl.add(cd);
            RESULT = cdl;
         :}
-        ;  
-         
+        ;
+
 /* We cannot use nameList here because of the COLON.
  * The smart scanner will interpret the names as DECLNAME,
  * but nameList produces DECORWORD. We don't want declWordList
  * either because formal parameters cannot be operators.
- */  
-qualifiedDecl ::=       
+ */
+qualifiedDecl ::=
         circusQualifier:cq circusDeclWordList:cdwl COLON:colon expression:e
         {:
            RESULT = factory_.createQualifiedDecl(cdwl, e, cq);
            addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(e)));
-        :}        
+        :}
         ;
-        
+
 circusQualifier ::=
         CIRCVAL
         {: RESULT = ParamQualifier.Value; :}
@@ -4536,11 +4525,11 @@ circusQualifier ::=
         |
         CIRCVRES
         {: RESULT = ParamQualifier.ValueResult; :}
-        ;        
+        ;
 
 /// Circus BasicProcess paragraphs ////////////////////////////////
 
-circusBasicProcess ::=                                
+circusBasicProcess ::=
         /* Represents basic circus processes across multiple circus environments.
          * That means, we REQUIRE that "\circprocess P \circdef \circbegin"
          * After this lonely begin, the parser will match the enclosing \end{circus}
@@ -4548,54 +4537,54 @@ circusBasicProcess ::=
          * Then, after that, the user MUST switch to \begin{circusaction} \end{circusaction}
          * environment in order to allow next paragraphs to be add.
          */
-        CIRCBEGIN:begin 
+        CIRCBEGIN:begin
         {:
            final String from = "MULTIPLE ENVIRONMENT BEGIN";
            LocInfo loc = getLocation(beginleft, beginright);
-           
-           // sets the basic process scope flag 
+
+           // sets the basic process scope flag
            enterBasicProcessScope(from, loc);
-           
+
            // create an empty BasicProcess with empty (rather than null) lists
            // it adds location annotation to the result and set it into the parser state
-           RESULT = createMockBasicProcessFor(from, loc);                      
-           
-        :}        
+           RESULT = createMockBasicProcessFor(from, loc);
+
+        :}
         |
-        /* Represents basic processes without paragraphs, but just the main action 
+        /* Represents basic processes without paragraphs, but just the main action
          * declared within a single \begin{circus} \end{circus}.
          */
         CIRCBEGIN:cb circusBasicProcessMainAction:ca CIRCEND:ce
-        {:               
+        {:
            final String from = "JUST MAINACTION - SINGLE ENVIRONMENT";
            LocInfo loc = getLocation(cb, ce);
-           
-           // sets the basic process scope flag. 
-           // it is important to check mainAction's scope 
+
+           // sets the basic process scope flag.
+           // it is important to check mainAction's scope
            // (i.e. main action declared outside basic process scope)
            boolean shouldContinue = enterBasicProcessScope(from, loc);
-           
+
            // create an empty BasicProcess with empty (rather than null) lists
            // it adds location annotation to the result and set it into the parser state
            // Can only call createMockBasicProcessFor after entering process scope
-           RESULT = createMockBasicProcessFor(from, loc);           
-           
-           if (shouldContinue){                      
-               //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " BEFORE UPDATE", loc);   
-           
-               // Updates the basic process structures with collected 
+           RESULT = createMockBasicProcessFor(from, loc);
+
+           if (shouldContinue){
+               //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " BEFORE UPDATE", loc);
+
+               // Updates the basic process structures with collected
                // information (i.e. main action)
                if (updateBasicProcessInformation(from, loc)) {
-                    //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);   
-                    RESULT = parserState_.cloneBasicProcessWithAnns();                    
-                    
-                    //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
-               }               
+                    //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);
+                    RESULT = parserState_.cloneBasicProcessWithAnns();
+
+                    //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);
+               }
                // If exit fails, a warning is mentioned, not an error, so continue regardless
-               exitBasicProcessScope(from, loc);                              
+               exitBasicProcessScope(from, loc);
             }
             //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
-            
+
             // if there were any warning collected for the list of paragraphs
             // declared outside the multiple environment scope, raise then.
             // there should be none, since this is already just a main action.
@@ -4603,101 +4592,101 @@ circusBasicProcess ::=
         :}
         |
         CIRCBEGIN:cb circusInnerProcParaList:ipl circusBasicProcessMainAction:ca CIRCEND:ce
-        {: 
+        {:
            final String from = "SINGLE ENVIRONMENT";
            LocInfo loc = getLocation(cb, ce);
-                      
-           boolean shouldContinue = enterBasicProcessScope(from, loc);           
+
+           boolean shouldContinue = enterBasicProcessScope(from, loc);
            RESULT = createMockBasicProcessFor(from, loc);
-           if (shouldContinue) {           
-               //logProductionResult(factory_.createZParaList(ipl), "IPL FROM " + from, loc);   
-               //logProductionResult(factory_.createZParaList(parserState_.getLocallyDeclPara()), 
-               //     "STATE-LOCAL-PARA-LIST FROM " + from, loc);   
-           
-               // In here we have a tricky situation...     
-                    
+           if (shouldContinue) {
+               //logProductionResult(factory_.createZParaList(ipl), "IPL FROM " + from, loc);
+               //logProductionResult(factory_.createZParaList(parserState_.getLocallyDeclPara()),
+               //     "STATE-LOCAL-PARA-LIST FROM " + from, loc);
+
+               // In here we have a tricky situation...
+
                // Ensure the list collected in "ipl" is the same the one into RESULT
                if (ensureInnerProcParaListKnownInBasicProcessScope(ipl, from, loc)) {
-                  // if ensureInnerProcParaListKnownInBasicProcessScope, then the 
-                  // warnings can be cleared, since they were properly included.  
+                  // if ensureInnerProcParaListKnownInBasicProcessScope, then the
+                  // warnings can be cleared, since they were properly included.
                   parserState_.clearSectBasicProcessScopeWarnings();
                }
-               
-               // logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " BEFORE UPDATE", loc);   
-               
-               // Updates the basic process structures with collected 
+
+               // logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " BEFORE UPDATE", loc);
+
+               // Updates the basic process structures with collected
                // information (i.e. ipl, state para, on the fly, main action, etc.)
                if (updateBasicProcessInformation(from, loc)) {
-                    logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);   
-                    
-                    RESULT = parserState_.cloneBasicProcessWithAnns();                    
-                    
-                    logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
+                    logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);
+
+                    RESULT = parserState_.cloneBasicProcessWithAnns();
+
+                    logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);
                }
                // If exit fails, a warning is mentioned, not an error, so continue regardless
                exitBasicProcessScope(from, loc);
            }
            // logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
-           
+
            // if there were any warning collected for the list of paragraphs
-           // declared outside the multiple environment scope, raise then.           
-           raisePendingBasicProcessWarnings(from);           
-        :}        
+           // declared outside the multiple environment scope, raise then.
+           raisePendingBasicProcessWarnings(from);
+        :}
         ;
-        
+
 circusBasicProcessMainAction ::=
         CIRCSPOT:s circusAction:ca
-        {:      
+        {:
            final String from = "CIRCUS BP MAIN ACTION";
            LocInfo loc = getLocation(s, ca);
            RESULT = ca;
-           
+
            // sets the main action into the parserState_
            setMainAction(RESULT, loc);
            addLocAnn(RESULT, loc);
-           
-           // Create an on-the-fly paragraph for the main action named "$$mainAction".           
+
+           // Create an on-the-fly paragraph for the main action named "$$mainAction".
            String maName = parserState_.createUniqueMainActionName(loc);
            ActionPara mainActPara = factory_.createActionPara(
               factory_.createZName(maName), RESULT);
-           addLocAnn(mainActPara, loc);           
-           parserState_.addImplicitlyDeclActionPara(mainActPara);                      
-           
+           addLocAnn(mainActPara, loc);
+           parserState_.addImplicitlyDeclActionPara(mainActPara);
+
            //logProductionResult(RESULT, from, loc);
-           //logProductionResult(parserState_.getMainAction(), "BP FROM STATE AFTER MA", loc);           
-        :}        
+           //logProductionResult(parserState_.getMainAction(), "BP FROM STATE AFTER MA", loc);
+        :}
         ;
 
 /* Circus basic processes state can only be an expression or
  * an abbreviation (without generic parameters). Thus, we have copied
- * the appropriate production from abbreviationDefinition terminal. 
+ * the appropriate production from abbreviationDefinition terminal.
  * For a schema we need a boxed basic process paragraph.
  */
-circusProcessState ::= 
+circusProcessState ::=
         /* explicit schema definition is a horizontal box */
         CIRCSTATE:cs name:n DEFEQUAL:equal expression:e
         {:
-           RESULT = createStatePara(n, e, getLocation(n, e), false /* not implicit */);           
+           RESULT = createStatePara(n, e, getLocation(n, e), false /* not implicit */);
         :}
         |
         /* On-the-fly state schema is a horizontal box with special name */
         CIRCSTATE:cs expression:e
-        {:                        
+        {:
            LocInfo loc = getLocation(e);
-           Name dn = parserState_.createDefaultProcessStateName(loc);           
+           Name dn = parserState_.createDefaultProcessStateName(loc);
            RESULT = createStatePara(dn, e, loc, true /* implicit */);
         :}
-        ;             
+        ;
 
 /// Special productions for process paragraphs ////////////////////////////////
-       
+
 genericActuals ::=
-        LSQUARE:ls expressionList:el RSQUARE:rs        
+        LSQUARE:ls expressionList:el RSQUARE:rs
         {:
            RESULT = el;
            addLocAnn(RESULT, getLocation(ls, rs));
         :}
-        ;        
+        ;
 
 actualParameters ::=
         LPAREN:lp expressionList:el RPAREN:rp
@@ -4706,25 +4695,25 @@ actualParameters ::=
             addLocAnn(RESULT, getLocation(lp, rp));
         :}
         ;
-        
-actualIndexes ::=   
+
+actualIndexes ::=
         CIRCLINST:cli expressionList:idx CIRCRINST:cri
         {:
             RESULT = idx;
             addLocAnn(RESULT, getLocation(cli, cri));
         :}
         ;
-        
+
 channelRenaming ::=
-        LCIRCRENAME:lsq refNameList:rnl CIRCASSIGN expressionList:el RCIRCRENAME:rsq        
-        {:              
+        LCIRCRENAME:lsq refNameList:rnl CIRCASSIGN expressionList:el RCIRCRENAME:rsq
+        {:
             /* Must ensure that: 1) sizes of lists are equal; 2) second list contains only RefExpr.
              * RefExpr are possible in the case of generically defined channels.
              */
-            RESULT = createChannelRenamingPairs(getLocation(rnlleft, rnlright), 
+            RESULT = createChannelRenamingPairs(getLocation(rnlleft, rnlright),
               factory_.createZNameList(rnl), el);
             addLocAnn(RESULT, getLocation(lsq, rsq));
-        :}        
+        :}
         ;
 
 /// Nameset paragraphs withing Process paragraphs ////////////////////////////////
@@ -4754,27 +4743,27 @@ actionPara ::=
            RESULT = factory_.createActionPara(n, pa);
            addLocAnn(RESULT, getLocation(n, pa));
         :}
-        ;        
-        
+        ;
+
 /* Normalisation of productions to be similar to processDesc.
- * That is, as we do not have indexed actions, we could have 
- * left the last two productions inside of paraAction directly, 
+ * That is, as we do not have indexed actions, we could have
+ * left the last two productions inside of paraAction directly,
  * but we have chosen to be similar to processDesc.
- */        
+ */
 actionDesc ::=
         paramAction:pa
         {: RESULT = pa; :}
-        |       
+        |
         circusAction:ca
-        {: RESULT = ca; :}                    
+        {: RESULT = ca; :}
         ;
-  
-// DESIGN:        
+
+// DESIGN:
 /* Moved replicated productions out of cspAction because they are not
- * compatible with parenthesised actions. That is, we cannot have 
+ * compatible with parenthesised actions. That is, we cannot have
  * "A \circdef (i: \nat @ B)", because it would make no sense in
- * "(i: \nat @ B) \extchoice C". This also normalises on-the-fly 
- * (replicated) parameterised action calls, which gets quite confusing if 
+ * "(i: \nat @ B) \extchoice C". This also normalises on-the-fly
+ * (replicated) parameterised action calls, which gets quite confusing if
  * replicated actions were to be a cspAction.
  */
 //DESIGN: We MUST NOT allow actionDesc here in the place of circusAction.
@@ -4788,7 +4777,7 @@ actionDesc ::=
 //        declarations, or in fact any explicit nesting among parameterised or replicated actions,
 //        or parameterised commands.
 //
-// The SVN revision prior to this (6694) change is 6684 - channel renaming for non-parenthesised calls 
+// The SVN revision prior to this (6694) change is 6684 - channel renaming for non-parenthesised calls
 //
 //DESIGN: There are some tricky linguistic issues with this decision
 //        that we are leaving for the Typechecker. Originally, we were
@@ -4800,7 +4789,7 @@ paramAction ::=
         circusParamCommandDeclList:cp CIRCSPOT:sp circusAction:ca
         {:
             // NOTE: ParamAction covers both parameterised actions and commands
-            //       the parser allows both here, whereas the type checker 
+            //       the parser allows both here, whereas the type checker
             //       guarantees the consistency among declarations and inner action/command.
             RESULT = createParamAction(ca, cp);
             addLocAnn(RESULT, getLocation(getLocation(cpleft, cpright), getLocation(ca)));
@@ -4826,7 +4815,7 @@ paramAction ::=
             // and interleave has no channel set but has a name set.
             RESULT = factory_.createParallelActionIte(ca, dp, ns, cs);
             addLocAnn(RESULT, getLocation(lp, ca));
-        :}        
+        :}
         |
         LPAR:lp channelSet:cs RPAR:rp circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
         {:
@@ -4852,42 +4841,42 @@ paramAction ::=
         {:
             RESULT = factory_.createSeqActionIte(ca, dp);
             addLocAnn(RESULT, getLocation(rs, ca));
-        :} %prec _REPSEQ                
+        :} %prec _REPSEQ
         /* nested paramAction is not allowed */
-        |        
+        |
         // REMOVED FOR NOW FROM PARSER - leave it for typechecker
         circusParamCommandDeclList:cp CIRCSPOT:sp circusParamCommandDeclList:cp2 CIRCSPOT:sp2 circusAction:pa
-        {:            
+        {:
             LocInfo loc = getLocation(getLocation(cpleft, cpright), getLocation(cp2left, cp2right));
             // as we don't have the action, just use skip
             RESULT = createParamAction(pa, cp);
-            addLocAnn(RESULT, loc);            
+            addLocAnn(RESULT, loc);
             parser.report_error(CircusParseMessage.MSG_NESTED_PARAMACTION,
                           new Object[0], loc);
-        :}            
+        :}
         ;
-        
-circusAction ::=                
+
+circusAction ::=
         /* CSP related actions */
         cspAction:ca
         {: RESULT = ca; :}
         |
         /* Circus guarded commands */
         command:c
-        {: RESULT = c; :}                                
+        {: RESULT = c; :}
         |
         /* Schema expression action */
         LSCHEXPRACT:la expression:e RSCHEXPRACT:ra
-        {: 
+        {:
             RESULT = factory_.createSchExprAction(e);
             addLocAnn(RESULT, getLocation(la, ra));
-        :}           
-        |  
+        :}
+        |
         /* Parenthesised actions */
         parenthesisedAction:pa
         {: RESULT = pa; :}
-        ;               
-        
+        ;
+
 cspAction ::=
         CIRCSKIP:sk
         {:
@@ -4928,7 +4917,7 @@ cspAction ::=
         |
         circusAction:cal INTERLEAVE:il circusAction:car
         {:
-            RESULT = factory_.createInterleaveAction(factory_.list(cal, car), 
+            RESULT = factory_.createInterleaveAction(factory_.list(cal, car),
               factory_.list(createEmptyNameSet(getLocation(cal, il)), createEmptyNameSet(getLocation(il, car))));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
@@ -4940,23 +4929,23 @@ cspAction ::=
         :}
         |
         circusAction:cal LPAR:lp BAR:bl channelSet:cs BAR:br RPAR:rp circusAction:car
-        {:        
-            RESULT = factory_.createParallelAction(factory_.list(cal, car), 
+        {:
+            RESULT = factory_.createParallelAction(factory_.list(cal, car),
               factory_.list(createEmptyNameSet(getLocation(lp, bl)), createEmptyNameSet(getLocation(br, rp))), cs);
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal LSQUARE:lp nameSet:nsl BAR channelSet:csl BAR BAR channelSet:csr BAR nameSet:nsr RSQUARE:rp circusAction:car
         {:
-            RESULT = factory_.createAlphabetisedParallelAction(factory_.list(cal, car), 
-              factory_.list(nsl, nsr), factory_.list(csl, csr));              
+            RESULT = factory_.createAlphabetisedParallelAction(factory_.list(cal, car),
+              factory_.list(nsl, nsr), factory_.list(csl, csr));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal LSQUARE:lp BAR:bl channelSet:csl BAR BAR channelSet:csr BAR:br RSQUARE:rp circusAction:car
         {:
-            RESULT = factory_.createAlphabetisedParallelAction(factory_.list(cal, car), 
-              factory_.list(createEmptyNameSet(getLocation(lp, bl)), createEmptyNameSet(getLocation(br, rp))), 
+            RESULT = factory_.createAlphabetisedParallelAction(factory_.list(cal, car),
+              factory_.list(createEmptyNameSet(getLocation(lp, bl)), createEmptyNameSet(getLocation(br, rp))),
               factory_.list(csl, csr));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
@@ -4978,13 +4967,13 @@ cspAction ::=
             RESULT = factory_.createSeqAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
-        /* Due to a series of reasonable conflicts (listed below), we see that 
+        /* Due to a series of reasonable conflicts (listed below), we see that
          * the best choice is to introduce suitable notation (guard brackets,
-         * AKA toirtoise angle brackets) for guarded actions. 
-         * 
-         * The alternative without the guard brackets would be to perform 
-         * smart scanning (i.e. look --- far --- ahead) on a series of 
-         * tokens (i.e. DECORWORD, LPAREN, RPAREN, etc.) in order to 
+         * AKA toirtoise angle brackets) for guarded actions.
+         *
+         * The alternative without the guard brackets would be to perform
+         * smart scanning (i.e. look --- far --- ahead) on a series of
+         * tokens (i.e. DECORWORD, LPAREN, RPAREN, etc.) in order to
          * disambiguate the grammar.
          *
          * Ambiguities:
@@ -5013,13 +5002,13 @@ cspAction ::=
         actionCall:ac
         {:
             RESULT = ac;
-        :} 
+        :}
         |
         circusAction:ca nameSubstitution:ns
         {:
             RESULT = factory_.createSubstitutionAction(ca, ns);
             addLocAnn(RESULT, getLocation(ca));
-        :} %prec _RENAME          
+        :} %prec _RENAME
         /* tHIS ERROR production is innocous :-(
         |
         communication:comm error:e END
@@ -5032,23 +5021,23 @@ cspAction ::=
         :}*/
         ;
 
-actionCall ::=                                
+actionCall ::=
         /* Parameterised action call */
-        DECORWORD:dw actualParameters:ap 
-        {:            
+        DECORWORD:dw actualParameters:ap
+        {:
             RESULT = factory_.createCallAction(createCircusName(dw), ap);
             addLocAnn(RESULT, dw.getLocation());
-        :} 
-        | 
+        :}
+        |
         /* Action call */
-        DECORWORD:dw 
+        DECORWORD:dw
         {:
             RESULT = factory_.createCallAction(createCircusName(dw), factory_.createZExprList());
             addLocAnn(RESULT, dw.getLocation());
-        :} 
+        :}
         ;
-        
-parenthesisedAction ::=        
+
+parenthesisedAction ::=
         /* Parenthesised action */
         LPAREN:lp circusAction:ca RPAREN:rp
         {:
@@ -5066,13 +5055,13 @@ parenthesisedAction ::=
         /* On-the-fly parameterised action/command call */
         LPAREN:lp1 paramAction:pa RPAREN:rp1 actualParameters:el
         {:
-            addParenthesisAnn(lp1, pa, rp1);            
-            Decorword an = createImplicitlyDeclActUniqueName(pa);                        
-            ActionPara ap = createImplicitActionPara(an, pa);            
-            parserState_.addImplicitlyDeclActionPara(ap);            
+            addParenthesisAnn(lp1, pa, rp1);
+            Decorword an = createImplicitlyDeclActUniqueName(pa);
+            ActionPara ap = createImplicitActionPara(an, pa);
+            parserState_.addImplicitlyDeclActionPara(ap);
             RESULT = factory_.createCallAction(createCircusName(an), el);
             addLocAnn(RESULT, getLocation(lp1, el.get(el.size()-1)));
-        :}        
+        :}
         |
         /* On-the-fly parameterised mu action call */
         LPAREN:lp1 CIRCMU:cm name:n CIRCSPOT paramAction:pa RPAREN:rp1 actualParameters:el
@@ -5080,19 +5069,19 @@ parenthesisedAction ::=
             MuAction mu = factory_.createMuAction(pa, n);
             addLocAnn(mu, getLocation(cm, pa));
             addParenthesisAnn(lp1, mu, rp1);
-            
-            Decorword an = createImplicitlyDeclActUniqueName(mu);                        
-            ActionPara ap = createImplicitActionPara(an, mu);            
-            parserState_.addImplicitlyDeclActionPara(ap);            
+
+            Decorword an = createImplicitlyDeclActUniqueName(mu);
+            ActionPara ap = createImplicitActionPara(an, mu);
+            parserState_.addImplicitlyDeclActionPara(ap);
             RESULT = factory_.createCallAction(createCircusName(an), el);
             addLocAnn(RESULT, getLocation(lp1, el.get(el.size()-1)));
         :}
         ;
-        
+
 guard ::=
        predicate:p
        {: RESULT = p; :}
-       ;     
+       ;
 
 communication ::=
         /* Synchronisation or communication without generic parameters */
@@ -5109,15 +5098,15 @@ communication ::=
             );
             addLocAnn(RESULT, dw.getLocation());
         :}
-        |        
+        |
         /* Generic channels cannot be through synchronisation, hence commFields cannot be optional */
         CHANNELNAME:dw LSQUARE expressionList:el RSQUARE commFields:cf
         {:
             /* RefExpr: mixfix=false, explicit=true */
             RESULT = factory_.createCommunication(
               factory_.createRefExpr(createCircusName(dw),     // channel name with generic parameters
-                  el, Boolean.FALSE, Boolean.TRUE), 
-                factory_.createCircusFieldList(cf),       // communication fields       
+                  el, Boolean.FALSE, Boolean.TRUE),
+                factory_.createCircusFieldList(cf),       // communication fields
                 CommUsage.Generic,                // channel communication usage
                 CircusUtils.retrieveCommPattern(cf),      // communication pattern
                 CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
@@ -5126,7 +5115,7 @@ communication ::=
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
-        /* 
+        /*
          * The channel error token is converted from DECORWORD by the smart scanner.
          * And that happens only when a PREFIXTHEN has been found ahead, but the field
          * names does not match the number of strokes. So, we can rely on PREFIXTHEN
@@ -5143,7 +5132,7 @@ communication ::=
                 CommPattern.Mixed,                        // assume mixed
                 CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
                 false                                     // not implicit
-            );            
+            );
             addLocAnn(RESULT, loc);
             Pair&lt;Integer, Integer&gt; counters = ce.getExtraInfo();
             if (counters == null)
@@ -5153,11 +5142,11 @@ communication ::=
             final Object[] params = { ce.getWord(), counters.getFirst(), counters.getSecond() };
             parser.report_error(CircusParseMessage.MSG_WRONG_NUMBER_FIELD_STROKES,
                                 params, loc);
-        :}        
-        /* 
-         * This error production, with anyCircusSymbol or END, does not work as 
+        :}
+        /*
+         * This error production, with anyCircusSymbol or END, does not work as
          * expected. Instead, the CUP lr_parser keeps looking ahead until EOF.
-         * So, remove it for now, and fix it latter.         
+         * So, remove it for now, and fix it latter.
         |
         DECORWORD:dw error:e anyCircusSymbol
         {:
@@ -5172,11 +5161,11 @@ communication ::=
             addLocAnn(RESULT, dw.getLocation());
             final Object[] params = { dw.getWord() };
             parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
-                                params, dw.getLocation());                                
+                                params, dw.getLocation());
         :}
         */
         ;
-        
+
 //anyCircusSymbol ::=
 //        CIRCTHEN | CIRCSKIP | CIRCSTOP | CIRCSTATE | END | NL | PREFIXTHEN
 //        ;
@@ -5211,14 +5200,14 @@ commFields ::=
 //
 // With further analysis, and the FM08 paper of M.Leushel, it became clearer
 // that the FDR way of handling CSP_m is very tricky indeed. There are many
-// irregular and awkward cases. We have normalise them here. 
+// irregular and awkward cases. We have normalise them here.
 commField ::=
         /**
          * We perform smart scanning on communication (i.e., lookahead for
          * PREFIXTHEN and PREFIXCOLON) to see how to treat the DECORWORDs.
          * If they have strokes, we add the strokes to the token stack, then
          * clear the strokes from the DECORWORD. The parser will then tokenise
-         * the token stream and raise the right errors, it any. 
+         * the token stream and raise the right errors, it any.
          *
          * That means, CHANNELNAME and FIELDNAME (the lookahead DECORWORDs)
          * DO NOT HAVE any strokes. This solution is needed to cope with
@@ -5230,13 +5219,13 @@ commField ::=
          * did not solved the problem that output/dot fields were being confused
          * with binding/tuple selection expressions, and only the type checker
          * could distinguish what is what. That lead to the more sophisticated
-         * solution with no stroked names and smart scanning.         
+         * solution with no stroked names and smart scanning.
         /* Input communicatio as in: c?x */
         CHANNELIN:in FIELDNAME:dw
         {:
             RESULT = factory_.createInputField(createCircusName(dw), factory_.createTruePred());
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
-        :}                
+        :}
         |
         /* Input communicatio as in: c?x : P */
         CHANNELIN:in FIELDNAME:dw PREFIXCOLON LPAREN predicate:p RPAREN
@@ -5255,16 +5244,16 @@ commField ::=
         // Differently from FDR, we allow expressions to appear at dot fields as well.
         /* Output communicaion as in: c.e */
         CHANNELDOT:dt expression:e
-        {:            
+        {:
             RESULT = factory_.createDotField(e);
             addLocAnn(RESULT, getLocation(dt, e));
         :}
-        |     
-        /* 
+        |
+        /*
          * This production catches the case where parenthesis around the predicate
          * were missing. The same is not possible for OUTSTROKE/CHANNELDOT because
          * there isn't any special symbol before the production - and we don't want
-         * to mess around with the very complex 'expression' production. 
+         * to mess around with the very complex 'expression' production.
          *
          * See the SmartScanner.pushCommPatternList for more details on this.
          */
@@ -5274,7 +5263,7 @@ commField ::=
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
             final Object[] params = { dw.getWord() };
             parser.report_error(CircusParseMessage.MSG_COMMPATTERN_PREFIXCOLON_NOT_RECOGNISED,
-                                params, dw.getLocation());                                
+                                params, dw.getLocation());
         :}
         |
         CHANNELIN:in DECORWORD:dw error:e END
@@ -5283,7 +5272,7 @@ commField ::=
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
             final Object[] params = { dw.getWord() };
             parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
-                                params, dw.getLocation());                                
+                                params, dw.getLocation());
         :}
         |
         CHANNELDOT:in DECORWORD:dw error:e END
@@ -5293,7 +5282,7 @@ commField ::=
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
             final Object[] params = { dw.getWord() };
             parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
-                                params, dw.getLocation());                                
+                                params, dw.getLocation());
         :}
         |
         CHANNELOUT:in DECORWORD:dw error:e END
@@ -5303,18 +5292,18 @@ commField ::=
             addLocAnn(RESULT, getLocation(in, dw.getLocation()));
             final Object[] params = { dw.getWord() };
             parser.report_error(CircusParseMessage.MSG_COMMPATTERN_NOT_RECOGNISED,
-                                params, dw.getLocation());                                
+                                params, dw.getLocation());
         :}
         ;
-        
+
 /// Command (Action) paragraphs (as part of Process paragraph) ////////////////////////////////
 
 command ::=
         /* Assignment */
         refNameList:rnl CIRCASSIGN:ca expressionList:el
-        {:            
+        {:
             RESULT = factory_.createAssignmentCommand(
-              createAssignmentPairs(ca, factory_.createZNameList(rnl), el));                        
+              createAssignmentPairs(ca, factory_.createZNameList(rnl), el));
             addLocAnn(RESULT, getLocation(rnlleft, rnlright, rnl.get(0), el));
         :}
         |
@@ -5328,15 +5317,15 @@ command ::=
         /* Iteration */
         CIRCDO:cdo guardedCommands:gcs CIRCOD:cod
         {:
-            RESULT = factory_.createDoGuardedCommand(factory_.createCircusActionList(gcs));                
-            addLocAnn(RESULT, getLocation(cdo, cod));                        
+            RESULT = factory_.createDoGuardedCommand(factory_.createCircusActionList(gcs));
+            addLocAnn(RESULT, getLocation(cdo, cod));
         :}
         |
         /* Variable declaration */
-        CIRCVAR:cv circusParamZDeclList:dp CIRCSPOT circusAction:ca 
+        CIRCVAR:cv circusParamZDeclList:dp CIRCSPOT circusAction:ca
         {:
             // DESIGN: we do not allow schema inclusion. only variable declaration.
-            
+
             // NOTE: Variable names with decorations should not be allowed here,
             //       as they mess up their interpretation when added to the state
             //       (e.g., for var x: \nat TC includes x, x', x?, x! , if we allow
@@ -5346,122 +5335,122 @@ command ::=
             //       scanner makes sure, by differentiating DECORWORD into CHANNELNAME
             //       and FIELDNAME by ensuring no decorated names are allowed as either
             //       terminal. So, the above tokenises as "c ? (x) ??! (x) !? z", which
-            //       then is clearly a parsing error. 
+            //       then is clearly a parsing error.
             RESULT = factory_.createVarDeclCommand(dp, ca);
             addLocAnn(RESULT, getLocation(cv, ca));
-        :}        
-        | 
+        :}
+        |
         /* Specification statement */
         refNameList:rnl PREFIXCOLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
-        {:            
-            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(rnl), 
+        {:
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(rnl),
               factory_.list(pre, post));
             addLocAnn(RESULT, getLocation(getLocation(rnlleft, rnlright), getLocation(post)));
         :}
         |
         /* Specification statement with empty frame*/
         PREFIXCOLON:c LSQUARE predicate:pre COMMA predicate:post RSQUARE:rsq
-        {:            
-            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), 
+        {:
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),
               factory_.list(pre, post));
             addLocAnn(RESULT, getLocation(c, rsq));
         :}
-        /* Assumption */        
-        |                
+        /* Assumption */
+        |
         LBRACE:lb predicate:pre RBRACE:rb
         {:
-            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), 
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),
               factory_.list(pre, factory_.createTruePred()));
             addLocAnn(RESULT, getLocation(getLocation(lbleft, lbright), getLocation(rbleft, rbright)));
         :}
-        /* Coercion */ 
-        | 
+        /* Coercion */
+        |
         LSQUARE:ls predicate:post RSQUARE:rs
         {:
-            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), 
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),
               factory_.list(factory_.createTruePred(), post));
             addLocAnn(RESULT, getLocation(getLocation(lsleft, lsright), getLocation(rsleft, rsright)));
-        :}                   
+        :}
         ;
-        
-guardedCommands ::=      
+
+guardedCommands ::=
         guardedCommands:gcs CIRCELSE guardedCommand:g
         {:
            gcs.add(g);
            RESULT = gcs;
         :}
-        | 
+        |
         guardedCommand:g
         {:
            RESULT = factory_.list(g);
         :}
         ;
-        
+
 guardedCommand ::=
-        guard:g CIRCTHEN circusAction:ca 
+        guard:g CIRCTHEN circusAction:ca
         {:
             RESULT = factory_.createGuardedAction(ca, g);
             addLocAnn(RESULT, getLocation(g, ca));
         :}
         ;
-        
+
 nameSubstitution ::=
         LSQUARE:ls renameList:rnl RSQUARE:rs
         {:
             RESULT = rnl;
             addLocAnn(RESULT, getLocation(ls, rs));
         :}
-        ;        
-        
-// TODO: CHECK Shall it allow basic process here? i.e. shall "process" not contain "circusBasicProc" 
+        ;
+
+// TODO: CHECK Shall it allow basic process here? i.e. shall "process" not contain "circusBasicProc"
 //       and this production should then go to processDesc? (Seems ok - 07/Mar/2008).
 processRefPara ::=
         name:n CIRCASSERTREF process:spec refines:r process:impl
         {:
-           RESULT = factory_.createTransformerPara(n, 
-                factory_.createProcessTransformerPred(null, r, parserState_.getRefinementModel(), 
+           RESULT = factory_.createTransformerPara(n,
+                factory_.createProcessTransformerPred(null, r, parserState_.getRefinementModel(),
                 factory_.list(spec, impl)));
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
            parserState_.clearRefinementModel();
         :}
         ;
-        
+
 actionRefPara ::=
-        name:n CIRCASSERTREF circusAction:spec refines:r circusAction:impl 
+        name:n CIRCASSERTREF circusAction:spec refines:r circusAction:impl
         {:
-           RESULT = factory_.createTransformerPara(n, 
-                factory_.createActionTransformerPred(null, r, 
+           RESULT = factory_.createTransformerPara(n,
+                factory_.createActionTransformerPred(null, r,
                 parserState_.getRefinementModel(), factory_.list(spec, impl)));
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
            parserState_.clearRefinementModel();
 
         :}
         ;
-        
-refines ::=         
-        CIRCSIMULATES 
+
+refines ::=
+        CIRCSIMULATES
         {: RESULT = Transformation.Simulation; :}
         |
         EQUALS
         {: RESULT = Transformation.Equivalence; :}
         |
-        CIRCREFINES 
-        {: 
-           RESULT = Transformation.Refinement; 
+        CIRCREFINES
+        {:
+           RESULT = Transformation.Refinement;
            parserState_.setRefinementModel(CircusUtils.DEFAULT_REFINEMENT_MODEL);
         :}
         |
         CIRCREFINES DECORWORD:dw
-        {: 
-           RESULT = Transformation.Refinement; 
+        {:
+           RESULT = Transformation.Refinement;
            parserState_.setRefinementModel(validateModel(dw));
-        :}        
-        ;        
-</add:circus>     
-                
+        :}
+        ;
+</add:circus>
+
 /// schema text ///////////////////////////////////////////
 
-schemaText ::= 
+schemaText ::=
         optDeclPart:odp BAR predicate:p
         {:
            RESULT = factory_.createZSchText(odp, p);
@@ -5540,7 +5529,7 @@ schemaTextNoExpression ::=
 	:}
 	|
 	basicDeclaration:bd
-	{: 
+	{:
            ZDeclList zdl = factory_.createZDeclList(factory_.list(bd));
            RESULT = factory_.createZSchText(zdl, null);
         :}
@@ -5554,7 +5543,7 @@ basicDeclaration ::=
         {: RESULT = cd; :}
         ;
 
-varDecl ::= 
+varDecl ::=
         declWordList:dwl COLON:colon expression:e
         {:
            RESULT = factory_.createVarDecl(dwl, e);
@@ -5585,7 +5574,7 @@ varDecl ::=
 </add:pattern>
         ;
 
-constDecl ::= 
+constDecl ::=
         declName:dn DEFEQUAL:defequal expression:e
         {:
            RESULT = factory_.createConstDecl(dn, e);
@@ -5602,7 +5591,7 @@ constDecl ::=
            addLocAnn(RESULT, loc);
         :}
 </add:pattern>
-        ;  
+        ;
 
 sep ::=
         SEMICOLON
@@ -5616,20 +5605,20 @@ sep ::=
 
 nameList ::=
         nameList:nl COMMA DECORWORD:dw
-        {: 
+        {:
            Name dn = createZName(dw);
            nl.add(dn);
            RESULT = nl;
         :}
         |
         DECORWORD:dw
-        {: 
+        {:
            Name dn = createZName(dw);
            RESULT = factory_.createZNameList();
            RESULT.add(dn);
         :}
         ;
-        
+
 name ::=
         DECORWORD:dw
         {:
@@ -5646,9 +5635,9 @@ name ::=
 
 declWordList ::=
         declWordList:dwl COMMA DECLWORD:dw
-        {: 
+        {:
            Name dn = createZName(dw);
-           dwl.add(dn); 
+           dwl.add(dn);
            RESULT = dwl;
         :}
         |
@@ -5661,13 +5650,13 @@ declWordList ::=
              dwl.add(dn);
            }
            RESULT = dwl;
-        :} 
+        :}
         |
         declWordList:dwl COMMA misusedOpName:mon
         {:
            misusedOpName(mon);
            RESULT = factory_.createZNameList();
-        :}        
+        :}
         |
         opName:on
         {:
@@ -5684,9 +5673,9 @@ declWordList ::=
         {:
            Name dn = createZName(dw);
            RESULT = factory_.createZNameList();
-           RESULT.add(dn); 
+           RESULT.add(dn);
         :}
-        |      
+        |
         misusedOpName:mon
         {:
            misusedOpName(mon);
@@ -5774,7 +5763,7 @@ refNameList ::=
            ZName rn = createZName(dw);
            rnl.add(rn);
            RESULT = rnl;
-        :}        
+        :}
         <add:oz>
         |
         refNameList:rnl COMMA INITWORD:iw
@@ -5806,7 +5795,7 @@ refName ::=
         DECORWORD:dw
         {:
            RESULT = createZName(dw);
-        :}        
+        :}
         <add:oz>
         |
         INITWORD:iw
@@ -5855,7 +5844,7 @@ prefixName ::=
         {: RESULT = factory_.list(p.getString(), ARG_TOK); :}
         |
         L:l optVargEsSsList:ouesl argEreOrSre:aeos varg
-        {: 
+        {:
            RESULT = factory_.list(l.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
@@ -5863,7 +5852,7 @@ prefixName ::=
         :}
         |
         LP:lp optVargEsSsList:ouesl argErepOrSrep:aeos varg
-        {: 
+        {:
            RESULT = factory_.list(lp.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
@@ -5951,7 +5940,7 @@ optVargEsSsList ::=
         {: RESULT = factory_.list(); :}
         |
         optVargEsSsList:ouesl argEsOrSs:aeos
-        {: 
+        {:
            ouesl.addAll(aeos);
            RESULT = ouesl;
         :}
@@ -6041,7 +6030,7 @@ prefixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps); 
+           RESULT = new Pair(declName, fps);
         :}
         ;
 
@@ -6217,7 +6206,7 @@ term ::=
         |
         /* (schema) universal quantification */
         ALL:all schemaText:st SPOT term:t
-        {: 
+        {:
            if (t instanceof Expr) {
              RESULT = factory_.createForallExpr(st, expr(t));
            }
@@ -6241,7 +6230,7 @@ term ::=
         |
         /* (schema) unique existential quantification */
         EXIONE:exione schemaText:st SPOT term:t
-        {: 
+        {:
            if (t instanceof Expr) {
              RESULT = factory_.createExists1Expr(st, expr(t));
            }
@@ -6266,8 +6255,8 @@ term ::=
         :} %prec MU
         |
         /* substitution expression */
-        LET:let letDefinitionList:ldl SPOT term:t 
-        {: 
+        LET:let letDefinitionList:ldl SPOT term:t
+        {:
            ZSchText st = factory_.createZSchText(ldl, null);
            RESULT = factory_.createLetExpr(st, expr(t));
            addLocAnn(RESULT, getLocation(let, t));
@@ -6463,13 +6452,13 @@ term ::=
         // NOTE: It must be an optExpressionList because of generic actuals on channel names.
         LCIRCCHANSET:lc optCommunicationList:ocl RCIRCCHANSET:rc
         {:
-           CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: " + ocl);           
-           RESULT = createBasicChannelSetExpr(getLocation(lc, rc), ocl);                      
+           CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: " + ocl);
+           RESULT = createBasicChannelSetExpr(getLocation(lc, rc), ocl);
            addLocAnn(RESULT, getLocation(lc, rc));
         :}
 </add:circus>
         ;
-        
+
 <add:circus>
 optCommunicationList ::=
         //empty
@@ -6481,7 +6470,7 @@ optCommunicationList ::=
 
 communicationList ::=
         communicationList:cl COMMA chanSetComm:c
-        {:      
+        {:
            cl.add(c);
            RESULT = cl;
         :}
@@ -6489,17 +6478,17 @@ communicationList ::=
         chanSetComm:c
         {:
            c.setCommPattern(CommPattern.ChannelSet);
-           RESULT = factory_.list(c);           
+           RESULT = factory_.list(c);
         :}
-        ;  
-        
+        ;
+
 chanSetComm ::=
         DECORWORD:dw LSQUARE expressionList:el RSQUARE
         {:
             RESULT = factory_.createCommunication(
               factory_.createRefExpr(createCircusName(dw),     // channel name with generic parameters
-                  el, Boolean.FALSE, Boolean.TRUE), 
-                factory_.createCircusFieldList(),         // communication fields       
+                  el, Boolean.FALSE, Boolean.TRUE),
+                factory_.createCircusFieldList(),         // communication fields
                 CommUsage.Generic,                // channel communication usage
                 CommPattern.ChannelSet,                   // communication pattern
                 CircusUtils.DEFAULT_MULTISYNCH,           // default multi synch
@@ -6559,7 +6548,7 @@ inner_term ::=
 	|
         /* tuple extension */
         LPAREN:lparen expressionList:el COMMA expression:e RPAREN:rparen
-        {: 
+        {:
            el.add(e);
            RESULT = factory_.createTupleExpr(el);
            addLocAnn(RESULT, getLocation(lparen, rparen));
@@ -6608,11 +6597,11 @@ inner_term ::=
         /* schema construction */
         /* push 'false' onto the isOpExpr stack, because both schema
          * exprs and operations contain only expressions
-         */  
+         */
         LSQUARE:lsq //<add:oz> {: pushIsOpExpr(false); :} </add:oz>
           schemaTextNoExpression:stne
           /* pop the stack now the expr has been parsed */
-//          <add:oz> {: popIsOpExpr(); :} </add:oz> 
+//          <add:oz> {: popIsOpExpr(); :} </add:oz>
 RSQUARE:rsq
         {:
 <add:oz>
@@ -6787,7 +6776,7 @@ RSQUARE:rsq
         |
         inner_opExpr:ioe
         {: RESULT = ioe; :}
-</add:oz>        
+</add:oz>
 <add:pattern>
         |
         jokerRef:jr
@@ -6809,7 +6798,7 @@ optAppendageList ::=
 //a list of possible constructs that come after inner_term LSQUARE
 //schemaTextNoExpression RSQUARE
 appendageList ::=
-       appendageList:al appendage:a 
+       appendageList:al appendage:a
        {:
           al.add(a);
           RESULT = al;
@@ -6822,7 +6811,7 @@ appendageList ::=
 appendage ::=
         stroke:s
         {: RESULT = s; :}
-        |        
+        |
         LSQUARE:lsq renameList:rnl RSQUARE
         {: RESULT = factory_.createRenameExpr(null, rnl); :}
         |
@@ -6862,7 +6851,7 @@ optExpressionList ::=
 
 expressionList ::=
         expressionList:el COMMA expression:e
-        {:      
+        {:
            el.add(e);
            RESULT = el;
         :}
@@ -6885,14 +6874,14 @@ optConstDeclList ::=
 
 constDeclList ::=
         constDeclList:cdl COMMA constDecl:cd
-        {:      
+        {:
            cdl.getDecl().add(cd);
            RESULT = cdl;
         :}
         |
         constDecl:cd
         {: RESULT = factory_.createZDeclList(factory_.list(cd)); :}
-        ;       
+        ;
 
 letDefinitionList ::=
         letDefinitionList:ldl SEMICOLON letDefinition:ld
@@ -6903,7 +6892,7 @@ letDefinitionList ::=
         |
         letDefinition:ld
         {: RESULT = factory_.createZDeclList(factory_.list(ld)); :}
-        ;       
+        ;
 
 letDefinition ::=
         declName:n DEFEQUAL:defequal expression:e
@@ -6947,7 +6936,7 @@ renameList ::=
 	JOKERRENAMELIST:jrl
         {: RESULT = factory_.createJokerRenameList(jrl.getString(), null); :}
 </add:pattern>
-        ;    
+        ;
 
 zRenameList ::=
         zRenameList:rnl COMMA rename:rn
@@ -6956,7 +6945,7 @@ zRenameList ::=
            RESULT = rnl;
         :}
         |
-        rename:rn  
+        rename:rn
         {: RESULT = factory_.createZRenameList(factory_.list(rn)); :}
         ;
 
@@ -6996,7 +6985,7 @@ prefixRel ::=
         :}
         |
         LP:lp expSep:es term:t1 EREP:erep term:t2
-        {: 
+        {:
            List&lt;String&gt; opName = factory_.list(lp.getString());
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
@@ -7159,7 +7148,7 @@ infixChainRel ::=
         {:
            RESULT =
              transformChainRel(icr, Sym.MEM, expr(rhs), getLocation(icr));
-           addLocAnn(RESULT, getLocation(icr, rhs));           
+           addLocAnn(RESULT, getLocation(icr, rhs));
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
@@ -7338,7 +7327,7 @@ postfixApp ::=
 
 infixApp ::=
         term:lhs I:i term:rhs
-        {: 
+        {:
            List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(i.getString());
            opName.add(ARG_TOK);
@@ -7615,7 +7604,7 @@ class ::=
         END:end
         {:
            //local definitions, states, and initial states are all
-           //parsed as innerPara, because upon a LSQUARE of a 
+           //parsed as innerPara, because upon a LSQUARE of a
            //horizontal state schema, javacup will shift to
            //a basicTypeDefinition
            State s = null;
@@ -7665,8 +7654,8 @@ operationList ::=
         {: RESULT = factory_.list(); :}
         |
         operationList:ol optNL operation:o
-        {: 
-           ol.add(o); 
+        {:
+           ol.add(o);
            RESULT = ol;
         :}
         ;
@@ -7690,7 +7679,7 @@ inheritedList ::=
            RESULT = factory_.createZExprList();
         :}
         |
-        inheritedClassList:icl optNL 
+        inheritedClassList:icl optNL
         {: RESULT = factory_.createZExprList(icl); :}
         ;
 
@@ -7701,7 +7690,7 @@ inheritedClassList ::=
            RESULT = icl;
         :}
         |
-        inheritedClass:ic 
+        inheritedClass:ic
         {: RESULT = factory_.list(ic); :}
         ;
 
@@ -7817,7 +7806,7 @@ stateDecl ::=
 
 stateDeclNoExpression ::=
         //empty
-        {: RESULT = statePair(null, null); :} 
+        {: RESULT = statePair(null, null); :}
         |
         secondaryDeclPart:sdp
         {: RESULT = statePair(null, sdp); :}
@@ -7830,7 +7819,7 @@ stateDeclNoExpression ::=
            ZDeclList zdl = factory_.createZDeclList(factory_.list(bd));
            RESULT = statePair(zdl, null);
         :}
-        |        
+        |
         primaryDeclPart:pdp sep secondaryDeclPart:sdp
         {: RESULT = statePair(pdp, sdp); :}
         ;
@@ -7880,7 +7869,7 @@ channelDeclaration ::=
            RESULT = factory_.createVarDecl(dwl, ch);
            addLocAnn(RESULT, getLocation(colonleft, colonright));
         :}
-        ;        
+        ;
 
 channel ::=
         CHAN:c
@@ -7965,7 +7954,7 @@ opTextWithDelta ::=
         |
         deltaList:dl
         {: RESULT = createOpText(dl, null, null); :}
-        ;     
+        ;
 
 opExpr ::=
         //all operation expressions that have a syntactic
@@ -8009,7 +7998,7 @@ outer_opExpr ::=
         :}
 <add:tcoz>
         |
-        DIC:dic {: parserState_.pushIsOpExpr(false); :} schemaText:st 
+        DIC:dic {: parserState_.pushIsOpExpr(false); :} schemaText:st
            SPOT {: parserState_.pushIsOpExpr(true); :} term:t
         {:
            RESULT = factory_.createDistInChoiceProExpr(st, opExpr(t));
@@ -8034,7 +8023,7 @@ outer_opExpr ::=
 inner_opExpr ::=
         /* a horizontal operation expression with a delta list */
         LSQUARE opTextWithDelta:ot RSQUARE
-        {: RESULT = factory_.createAnonOpExpr(ot); :}  
+        {: RESULT = factory_.createAnonOpExpr(ot); :}
         |
         /*  a horizontal operation expression with just a predicate */
         LSQUARE:l term:t RSQUARE:r
@@ -8048,15 +8037,15 @@ inner_opExpr ::=
         /* parallel conjuntion */
         inner_term:lhs PARALLEL:p inner_term:rhs
         {:
-           RESULT = 
+           RESULT =
              factory_.createParallelOpExpr(factory_.list(opExpr(lhs), opExpr(rhs)));
            addLocAnn(RESULT, getLocation(pleft, pright, lhs, rhs));
-        :}    
+        :}
         |
         /* associative parallel conjunction */
         inner_term:lhs ASSOPARALLEL:ap inner_term:rhs
         {:
-           RESULT = 
+           RESULT =
              factory_.createAssoParallelOpExpr(factory_.list(opExpr(lhs), opExpr(rhs)));
            addLocAnn(RESULT, getLocation(apleft, apright, lhs, rhs));
         :}
@@ -8164,7 +8153,7 @@ inner_opExpr ::=
            addLocAnn(RESULT, etleft, etright);
         :}
         |
-        opPromotionLhs:oplhs DOT inner_term:it 
+        opPromotionLhs:oplhs DOT inner_term:it
            ATTIME expression:e NEXTPRO inner_term:t
         {:
            Event et = factory_.createEvent(name(oplhs), expr(it));
@@ -8193,13 +8182,13 @@ topology ::=
         topology:tp SEMICOLON connection:cn
         {:
            tp.add(cn);
-           RESULT = tp; 
+           RESULT = tp;
         :}
         |
         connection:cn
         {: RESULT = factory_.list(cn); :}
         ;
-                 
+
 connection ::=
         refNameList:lrnl NETTOPLEFT refNameList:crnl
            NETTOPRIGHT refNameList:rrnl
@@ -8208,10 +8197,10 @@ connection ::=
            addLocAnn(RESULT, getLocation(lrnlleft, lrnlright));
         :}
         ;
-                   
+
 eventSet ::=
         eventSet:el COMMA event:e
-        {: 
+        {:
            el.add(e);
            RESULT = el;
         :}
@@ -8251,7 +8240,7 @@ inOutEvent ::=
            RESULT = factory_.createEvent(rn, expr(it));
            addLocAnn(RESULT, getLocation(rn, it));
         :}
-        ;            
+        ;
 </add:tcoz>
 
 deltaList ::=

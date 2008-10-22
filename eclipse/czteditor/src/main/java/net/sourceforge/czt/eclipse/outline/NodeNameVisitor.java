@@ -151,7 +151,7 @@ public class NodeNameVisitor
    */
   public String visitConjPara(ConjPara conjPara)
   {
-    return conjPara.getZNameList().accept(this);
+    return conjPara.getName();
   }
 
   /**

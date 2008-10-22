@@ -73,9 +73,9 @@ import net.sourceforge.czt.z.util.ZString;
  *   This is a JFlex generated scanner for translating
  *   <add:oz>Object </add:oz>Z
  *   specifications written in the latex mark-up language into unicode.
- *   It provides tokens (instances of class {@link Symbol}) whos values
+ *   It provides tokens (instances of class {@link Symbol}) whose values
  *   are unicode strings and which contain line and column number
- *   information of the original latex file or stream.
+ *   information from the original latex file or stream.
  *   See {@link LatexSym} for a list of possible token kinds.
  * &lt;/p&gt;
  * &lt;p&gt;
@@ -603,13 +603,25 @@ NAME =   {NOT_LB}*
           begin("zsection");
           return result(LatexSym.SECT, ZString.ZED);
         }
-  "\\begin" {IGNORE}* "{theorem}" "{" {NAME} "}"
+  "\\begin" {IGNORE}* "{" / "theorem}"
         {
+          // CZT extension: pass theorem name into Unicode output.
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("theorem");
+          braceStack_.push(BraceType.NAME);
+          return result(ZString.ZED);
+          // leave the "theorem" to be treated as a name.
+        }
+/*  "\\begin" {IGNORE}* "{theorem}" "{" {NAME} "}"
+        {
+          // The Z standard ignores the NAME part of \begin{theorem}
           yybegin(ZED);
           assert ! addSpace_;
           begin("theorem");
           return result(ZString.ZED);
         }
+*/
 <add:pattern>
   "\\begin" {IGNORE}* "{zedjoker}" {IGNORE}* "{"
         {

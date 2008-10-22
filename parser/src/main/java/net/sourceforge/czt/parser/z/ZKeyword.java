@@ -46,6 +46,8 @@ public enum ZKeyword
   RIGHTASSOC("rightassoc", NewlineCategory.BOTH),
   SECTION("section", NewlineCategory.AFTER), // nl cat BOTH in the Standard!
   THEN("then", NewlineCategory.BOTH),
+  /** A CZT extension that allows named conjectures in Unicode. */
+  THEOREM(ZString.THEOREM, NewlineCategory.BOTH),
   TRUE("true", NewlineCategory.NEITHER),
   COLON(ZString.COLON, NewlineCategory.BOTH),
   DEFEQUAL("==", NewlineCategory.BOTH),

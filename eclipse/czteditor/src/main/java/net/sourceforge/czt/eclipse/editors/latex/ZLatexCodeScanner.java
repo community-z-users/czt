@@ -17,13 +17,19 @@ import org.eclipse.jface.text.rules.WordRule;
 
 /**
  * @author Chengdong Xu
+ *
+ * This class defines the syntax colouring for LaTeX markup.
  */
 public class ZLatexCodeScanner extends AbstractZCodeScanner
 {
 
+  /** Taken from Section 7.4.2 of the Z standard.
+   *  Plus "theorem", which is a CZT extension for named conjectures.
+   */
   private static String[] fgAlphabeticKeywords = {"\\begin", "\\end", "else",
-      "false", "function", "generic", "if", "leftassoc", "let", "IP",
-      "parents", "pre", "relation", "rightassoc", "section", "then", "true"};
+      "false", "function", "generic", "if", "leftassoc", "let", "\\power",
+      "parents", "pre", "relation", "rightassoc", "section", "then",
+      "true", "theorem"};
 
   private static String[] fgSymbolicKeywords = {":", "==", ",", "::=", "|",
       "&", "\\", "/", ".", ";", "-", ",,", "=", ""};
@@ -75,7 +81,6 @@ public class ZLatexCodeScanner extends AbstractZCodeScanner
   /**
    * @see net.sourceforge.czt.eclipse.editors.AbstractZCodeScanner#createRules()
    */
-
   protected List<IRule> createRules()
   {
     List<IRule> rules = new ArrayList<IRule>();
@@ -112,7 +117,7 @@ public class ZLatexCodeScanner extends AbstractZCodeScanner
       wordRule.addWord(fgSymbolCharacters[i], keywordToken);
 
     rules.add(wordRule);
-    
+
     setDefaultReturnToken(defaultToken);
 
     return rules;

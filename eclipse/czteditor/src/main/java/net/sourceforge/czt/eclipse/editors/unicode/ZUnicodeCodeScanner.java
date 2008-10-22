@@ -7,6 +7,7 @@ import java.util.List;
 import net.sourceforge.czt.eclipse.editors.AbstractZCodeScanner;
 import net.sourceforge.czt.eclipse.util.IColorManager;
 import net.sourceforge.czt.eclipse.util.IZColorConstants;
+import net.sourceforge.czt.z.util.ZString;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.rules.EndOfLineRule;
@@ -15,11 +16,19 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
+/**
+ * @author Chengdong Xu
+ *
+ * This class defines the syntax colouring for Unicode markup.
+ */
 public class ZUnicodeCodeScanner extends AbstractZCodeScanner
 {
+  /** Taken from Section 7.4.2 of the Z standard.
+   *  Plus "theorem", which is a CZT extension for named conjectures.
+   */
   private static String[] fgAlphabeticKeywords = {"else", "false", "function",
-      "generic", "if", "leftassoc", "let", "IP", "parents", "pre", "relation",
-      "rightassoc", "section", "then", "true"};
+      "generic", "if", "leftassoc", "let", "parents", "pre", "relation",
+      "rightassoc", "section", "then", "true", "theorem"};
 
   private static String[] fgSymbolicKeywords = {":", "==", ",", "::=", "|",
       "&", "\\", "/", ".", ";", "-", ",,", "=", ""};
@@ -27,9 +36,9 @@ public class ZUnicodeCodeScanner extends AbstractZCodeScanner
   /**
    * A.2.4 Core characters and words in Latex markup
    */
-  // Greak alphabet characters
-  private static String[] fgGreakCharacters = {"\\Delta", "\\Xi", "\\theta",
-      "\\lambda", "\\mu"};
+  // Greek alphabet characters
+  private static String[] fgGreekCharacters = {"\\Delta", "\\Xi", "\\theta",
+      ZString.LAMBDA, "\\mu"};
 
   // Other letter characters
   private static String[] fgOtherLetterCharacters = {"\\arithmos", "\\nat",
@@ -41,7 +50,7 @@ public class ZUnicodeCodeScanner extends AbstractZCodeScanner
 
   // Symbol characters
   private static String[] fgSymbolCharacters = {"\\vdash", "\\land", "\\lor",
-      "\\implies", "\\iff", "\\lnot", "\\forall", "\\exists", "\\cross",
+      ZString.IMP, "\\implies", "\\iff", "\\lnot", "\\forall", "\\exists", "\\cross",
       "\\in", "\\hide", "\\project", "\\semi", "\\pipe"};
 
   private static String[] fgTokenProperties = {
@@ -92,8 +101,8 @@ public class ZUnicodeCodeScanner extends AbstractZCodeScanner
       wordRule.addWord(fgAlphabeticKeywords[i], keywordToken);
     for (int i = 0; i < fgSymbolicKeywords.length; i++)
       wordRule.addWord(fgSymbolicKeywords[i], keywordToken);
-    for (int i = 0; i < fgGreakCharacters.length; i++)
-      wordRule.addWord(fgGreakCharacters[i], keywordToken);
+    for (int i = 0; i < fgGreekCharacters.length; i++)
+      wordRule.addWord(fgGreekCharacters[i], keywordToken);
     for (int i = 0; i < fgOtherLetterCharacters.length; i++)
       wordRule.addWord(fgOtherLetterCharacters[i], keywordToken);
     for (int i = 0; i < fgSpecialCharacters.length; i++)

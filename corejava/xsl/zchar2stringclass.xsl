@@ -63,6 +63,7 @@ public interface ZString
   String RIGHTASSOC = "rightassoc";
   String SECTION = "section";
   String THEN = "then";
+  String THEOREM = "theorem";
   String TRUE = "true";
   String DEFEQUAL = "==";
   String DEFFREE = "::=";

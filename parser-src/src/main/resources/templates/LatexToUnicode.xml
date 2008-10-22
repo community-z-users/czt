@@ -38,9 +38,9 @@ import net.sourceforge.czt.session.*;
  *   This class is responsible for translating
  *   <add:oz>Object </add:oz>Z <add:circus> and Circus </add:circus>
  *   specifications written in the latex mark-up language into unicode.
- *   It provides tokens whos values
+ *   It provides tokens whose values
  *   are unicode strings and which contain line and column number
- *   information of the original latex file or stream.  This makes it
+ *   information from the original latex file or stream.  This makes it
  *   possible to use this class as a standalone translater and, via
  *   {@link net.sourceforge.czt.parser.util.CztReader},
  *   as the input to the unicode scanner and therefore

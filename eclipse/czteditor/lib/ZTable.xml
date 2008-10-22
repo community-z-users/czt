@@ -38,7 +38,7 @@
            latex="\begin{schema}{NAME}[ TYPE ]&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{schema}&#xA;"/>
      <item name="&#x22A2;?"
            description="Conjecture"
-           unicode="&#x2500;&#xA;  &#x22A2;? PRED&#xA;&#x2514;&#xA;"
+           unicode="&#x2500; theorem THMNAME&#xA;  &#x22A2;? PRED&#xA;&#x2514;&#xA;"
            latex="\begin{theorem}{THMNAME}&#xA;  \vdash? PRED&#xA;\end{theorem}&#xA;"/>
   </row>
   <row heading="Predicates">
