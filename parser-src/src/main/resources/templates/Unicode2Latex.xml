@@ -548,7 +548,7 @@ scan with {: return local_next_token(); :};
 terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
                    END, NL,
-                   SECTION, PARENTS, // used by the SectHeadScanner
+                   SECTION, PARENTS, // used by the SectHeadScanner within ContextFreeScanner
                    WHERE, // the latex \where command
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
  <add:oz>
@@ -580,9 +580,10 @@ terminal String    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
 terminal Decorword DECORWORD;
 
 /* Non terminals */
-non terminal              input, narrWordList, paragraphList,
+non terminal              input, // narrWordList, // never used!
+                          paragraphList,
                           specialSeq;
-non terminal ZSect        sectionHeader;
+// non terminal ZSect        sectionHeader;
 non terminal String       markup, para, zpara, zedPara, wordmarkup;
 <add:oz>
 non terminal LatexCommand innerPara;
@@ -602,15 +603,17 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              PARA_START zpara PARA_END
              {:
                 parser.getWriter().flush();
-             :}
+             :}             
              ;
 
+   /* NEVER USED: remove? 
    narrWordList ::=
              TEXT:t narrWordList
              {: parser.write(t.getString()); :}
              |
              // empty
              ;
+   */
 
    paragraphList ::= 
              paragraphList para
