@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
+  Copyright (C) 2004, 2005, 2006, 2007, 2008 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -270,6 +270,10 @@ public class ZPrintVisitor
   public Object visitConjPara(ConjPara conjPara)
   {
     print(ZToken.ZED);
+    if (conjPara.getName() != null) {
+      print(ZKeyword.THEOREM);
+      print(ZToken.DECORWORD, new Decorword(conjPara.getName()));
+    }
     printGenericFormals(conjPara.getNameList());
     print(ZKeyword.CONJECTURE);
     visit(conjPara.getPred());
