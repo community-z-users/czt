@@ -155,6 +155,7 @@ public class SectionManager
     copyMap(content_, result.content_);
     copyMap(commands_, result.commands_);
     copyMap(properties_, result.properties_);
+    result.dialect_ = this.dialect_;
     return result;
   }
 
