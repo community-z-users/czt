@@ -547,7 +547,7 @@ scan with {: return local_next_token(); :};
 /* Terminals */
 terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
-                   END, NL,
+                   END, NL, THEOREM,
                    SECTION, PARENTS, // used by the SectHeadScanner within ContextFreeScanner
                    WHERE, // the latex \where command
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
@@ -670,7 +670,16 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              {: RESULT = null; :}
              ;             
 
-   zpara ::= ZED specialSeq zedPara END
+   zpara ::= ZED THEOREM decorword:w tokenSeq:s END
+             {:
+System.out.println("DEBUG: Unicode2Latex sees THEOREM "+w.getName());
+                String result = begin("theorem") + "{" + w.getName() + "}";
+                if (s != null) result += s.getName();
+                result += end("theorem");
+                parser.write(result);
+             :}
+             |
+             ZED specialSeq zedPara END
              |
              AX tokenSeq:s END
              {:

@@ -41,10 +41,9 @@ import net.sourceforge.czt.z.ast.Spec;
 public class ZmlPrinterTest
   extends AbstractParserTest
 {
-  /** TODO: remove this once LatexMarkupConverter preserves theorem names. */
+  /** TODO: remove this once conjecture names are preserved by Unicode2Latex */
   @Override
-  public void testConjectureNames()
-    throws Exception
+  public void testConjectureNames() throws Exception
   {
   }
 
@@ -53,20 +52,32 @@ public class ZmlPrinterTest
   {
     Source source = new UrlSource(url);
     String name = source.getName();
+
     // parse
     manager.put(new Key(name, Source.class), source);
     Spec spec = (Spec) manager.get(new Key(name, Spec.class));
-    DeleteAnnVisitor visitor = new DeleteAnnVisitor();
-    spec.accept(visitor);
-    // print as latex and reparse
-    source = new StringSource(((LatexString)
-      manager.get(new Key(name, LatexString.class))).toString());
+    // MarkU: turn this off, so that conjecture names are preserved.
+    //DeleteAnnVisitor visitor = new DeleteAnnVisitor();
+    //spec.accept(visitor);
+
+    // print as latex
+    String contents = ((LatexString)
+        manager.get(new Key(name, LatexString.class))).toString();
+    source = new StringSource(contents);
+    // MarkU: DEBUG
+    if (name.contains("conjecture")) {
+      System.out.println("reparsed "+name+"="+contents);
+    }
     source.setMarkup(Markup.LATEX);
+
+    // now reparse the LaTeX
     name = source.getName();
     manager = new SectionManager();
     manager.put(new Key(name, Source.class), source);
     spec = (Spec) manager.get(new Key(name, Spec.class));
-    spec.accept(visitor);
+    // MarkU: turn this off, so that conjecture names are preserved.
+    //spec.accept(visitor);
+
     // print as Unicode, reparse, and return
     source = new StringSource(((UnicodeString)
       manager.get(new Key(name, UnicodeString.class))).toString());
