@@ -29,7 +29,10 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.Examples;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;
@@ -47,9 +50,24 @@ public abstract class AbstractParserTest
 {
   protected static SectionManager manager_ = new SectionManager();
 
-  protected void setUp()
+  protected void setUp() throws Exception
   {
     manager_.reset();
+    /*
+    // MarkU: Oct 2008
+    // Parse standard toolkit once, to avoid doing it in every test.
+    // This reduces the ZmlPrinterTest time from 40secs to 25secs,
+    // but also adds SectionManager warnings about duplicate keys.
+    // So it is probably not worth enabling it for a relatively small gain.
+
+    Key<ZSect> toolkit = new Key<ZSect>("standard_toolkit", ZSect.class);
+    if ( ! manager_.isCached(toolkit)) {
+      Source source = new UrlSource(getLibFile("standard_toolkit.tex"));
+      String name = source.getName();
+      manager_.put(new Key<Source>(name, Source.class), source);
+      manager_.get(new Key<Spec>(name, Spec.class));
+    }
+    */
   }
 
   protected URL getExample(String name)

@@ -41,49 +41,39 @@ import net.sourceforge.czt.z.ast.Spec;
 public class ZmlPrinterTest
   extends AbstractParserTest
 {
-  /** TODO: remove this once conjecture names are preserved by Unicode2Latex */
-  @Override
-  public void testConjectureNames() throws Exception
-  {
-  }
-
-  public Term parse(URL url, SectionManager manager)
+  public Term parse(URL url, SectionManager manager0)
     throws Exception
   {
     Source source = new UrlSource(url);
     String name = source.getName();
+    SectionManager manager = manager0.clone();
 
     // parse
     manager.put(new Key(name, Source.class), source);
     Spec spec = (Spec) manager.get(new Key(name, Spec.class));
-    // MarkU: turn this off, so that conjecture names are preserved.
-    //DeleteAnnVisitor visitor = new DeleteAnnVisitor();
-    //spec.accept(visitor);
+    // We do not delete annotations, since conjecture names are
+    // stored as annotations and we want to preserve those.
 
     // print as latex
     String contents = ((LatexString)
         manager.get(new Key(name, LatexString.class))).toString();
     source = new StringSource(contents);
-    // MarkU: DEBUG
-    if (name.contains("conjecture")) {
-      System.out.println("reparsed "+name+"="+contents);
-    }
     source.setMarkup(Markup.LATEX);
 
     // now reparse the LaTeX
     name = source.getName();
-    manager = new SectionManager();
+    manager = manager0.clone();
+
     manager.put(new Key(name, Source.class), source);
     spec = (Spec) manager.get(new Key(name, Spec.class));
-    // MarkU: turn this off, so that conjecture names are preserved.
-    //spec.accept(visitor);
 
     // print as Unicode, reparse, and return
     source = new StringSource(((UnicodeString)
       manager.get(new Key(name, UnicodeString.class))).toString());
     source.setMarkup(Markup.UNICODE);
     name = source.getName();
-    manager = new SectionManager();
+    manager = manager0.clone();
+
     manager.put(new Key(name, Source.class), source);
     return (Spec) manager.get(new Key(name, Spec.class));
   }
