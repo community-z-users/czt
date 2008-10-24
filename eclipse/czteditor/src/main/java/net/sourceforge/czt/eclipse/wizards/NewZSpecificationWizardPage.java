@@ -69,10 +69,10 @@ public class NewZSpecificationWizardPage extends WizardPage
       WizardsMessages.NewZSpecificationWizardPage_markupUTF8,
       WizardsMessages.NewZSpecificationWizardPage_markupUTF16};
 
-  private String[] fExtensions = new String[]{".tex", ".utf8", ".utf16"};
+  private String[] fExtensions = new String[]{".zed", ".zed8", ".zed16"};
 
-  private String[] fSampleFiles = new String[]{"sample_spec_latex.txt",
-      "sample_spec_utf8.txt", "sample_spec_utf16.txt"};
+  private String[] fSampleFiles = new String[]{"sample_spec_zed.txt",
+      "sample_spec_zed8.txt", "sample_spec_zed16.txt"};
 
   private IStructuredSelection fSelection;
 

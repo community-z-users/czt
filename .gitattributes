@@ -154,9 +154,9 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewZSpecific
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewZSpecificationWizardPage.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/WizardsMessages.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/WizardsMessages.properties -text
-eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_latex.txt -text
-eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_utf16.txt -text
-eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_utf8.txt -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_zed.txt -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_zed16.txt -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_zed8.txt -text
 eclipse/czthelp/.project -text
 eclipse/czthelp/COPYING.txt -text
 eclipse/czthelp/META-INF/MANIFEST.MF -text

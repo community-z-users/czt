@@ -7,8 +7,8 @@
       <editor
             class="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor"
             contributorClass="net.sourceforge.czt.eclipse.editors.zeditor.ZEditorActionContributor"
-            extensions="tex,utf8,utf16"
-            icon="icons/sample.gif"
+            extensions="zed,zed8,zed16"
+            icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor"
             name="%Editor.name">
       </editor>
@@ -21,13 +21,13 @@
       <view
             category="net.sourceforge.czt.eclipse"
             class="net.sourceforge.czt.eclipse.views.ZCharMapView"
-            icon="icons/sample.gif"
+            icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.views.ZCharMapView"
             name="%CharMapView.name"/>
       <view
             category="net.sourceforge.czt.eclipse"
             class="net.sourceforge.czt.eclipse.views.ZConversionView"
-            icon="icons/sample.gif"
+            icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.views.ZConversionView"
             name="%ConversionView.name"/>
    </extension>
@@ -37,13 +37,13 @@
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
             class="net.sourceforge.czt.eclipse.editors.latex.ZDocumentSetupParticipant_Latex"
-            extensions="tex"/>
+            extensions="zed"/>
       <participant
             class="net.sourceforge.czt.eclipse.editors.unicode.ZDocumentSetupParticipant_Utf8"
-            extensions="utf8"/>
+            extensions="zed8"/>
       <participant
             class="net.sourceforge.czt.eclipse.editors.unicode.ZDocumentSetupParticipant_Utf16"
-            extensions="utf16"/>
+            extensions="zed16"/>
    </extension>
    <extension
          id="problemmarker"
@@ -242,7 +242,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="net.sourceforge.czt.eclipse.perspectives.ZPerspectiveFactory"
-            icon="icons/sample.gif"
+            icon="icons/CZTproject.png"
             id="net.sourceforge.czt.eclipse.perspectives"
             name="CZT"/>
    </extension>
@@ -339,7 +339,7 @@
             category="net.sourceforge.czt.eclipse.newwizard"
             class="net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard"
             finalPerspective="net.sourceforge.czt.eclipse.perspectives"
-            icon="icons/sample.gif"
+            icon="icons/CZTproject.png"
             id="net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard"
             name="%NewCZTProjectWizard.label"
             preferredPerspectives="net.sourceforge.czt.eclipse.perspectives"
@@ -348,7 +348,7 @@
             category="net.sourceforge.czt.eclipse.newwizard"
             class="net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard"
             finalPerspective="net.sourceforge.czt.eclipse.perspectives"
-            icon="icons/sample.gif"
+            icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard"
             name="%NewZSpecificationWizard.label"
             preferredPerspectives="net.sourceforge.czt.eclipse.perspectives"
