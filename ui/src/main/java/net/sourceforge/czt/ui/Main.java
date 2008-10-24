@@ -87,11 +87,12 @@ public class Main
     else {
       String extension = "z";
       String output = null;
+      String cztpath = null;
       boolean syntaxCheckOnly = false;
       boolean prove = false;
       boolean printIds = false;
       boolean isBufferingWanted = false;
-      boolean isNarrativeWanted = false;
+      boolean isNarrativeWanted = false;      
       Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-h".equals(args[i]) ||
@@ -140,6 +141,17 @@ public class Main
           isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
           isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;
         }
+        else if (args[i].startsWith("-cp"))
+        {           
+          if (i == args.length)
+          {
+            System.err.println(usage());
+            System.err.println("\nYou need to provide an argument for `-cp'");
+            return;
+          }
+          i++;
+          cztpath = args[i].trim();
+        }
         else {
           setConsoleLogger(verbosityLevel_);
           SectionManager manager = new SectionManager(extension);
@@ -159,39 +171,44 @@ public class Main
           if (! openOk) {  /* Not latex mark-up, so specreader not used */
             source = new FileSource(args[i]);
           }
-          File file = new File(args[i]);
+          File file = new File(args[i]);                    
           if (file != null && file.getParent() != null) {
-            manager.setProperty("czt.path", file.getParent());
+            String fileParent = file.getParent();
+            // if null or empty, just use the parent; otherwise concatenate the 
+            // parent at the beginning, since lookup is FIFO ordered.
+            cztpath = ((cztpath == null || cztpath.isEmpty()) ? fileParent : 
+              fileParent + ";" + cztpath);
+            manager.setProperty("czt.path", cztpath);
           }
           if (parse(source, manager, syntaxCheckOnly, prove) &&
               output != null) {
             if (output.endsWith("8")) {
-              UnicodeString unicode = (UnicodeString)
-                manager.get(new Key(source.getName(), UnicodeString.class));
+              UnicodeString unicode = manager.get(
+                new Key<UnicodeString>(source.getName(), UnicodeString.class));
               FileOutputStream stream = new FileOutputStream(output);
               Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(unicode.toString());
               writer.close();
             }
             else if (output.endsWith("16")) {
-              UnicodeString unicode = (UnicodeString)
-                manager.get(new Key(source.getName(), UnicodeString.class));
+              UnicodeString unicode = manager.get(
+                new Key<UnicodeString>(source.getName(), UnicodeString.class));
               FileOutputStream stream = new FileOutputStream(output);
               Writer writer = new OutputStreamWriter(stream, "UTF-16");
               writer.write(unicode.toString());
               writer.close();
             }
             else if (output.endsWith("tex") || output.endsWith("zed")) {
-              LatexString latex = (LatexString)
-                manager.get(new Key(source.getName(), LatexString.class));
+              LatexString latex = manager.get(
+                new Key<LatexString>(source.getName(), LatexString.class));
               FileOutputStream stream = new FileOutputStream(output);
               Writer writer = new OutputStreamWriter(stream);
               writer.write(latex.toString());
               writer.close();
             }
             else if (output.endsWith("xml") || output.endsWith("zml")) {
-              XmlString xml = (XmlString)
-                manager.get(new Key(source.getName(), XmlString.class));
+              XmlString xml = manager.get(
+                new Key<XmlString>(source.getName(), XmlString.class));
               FileOutputStream stream = new FileOutputStream(output);
               Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(xml.toString());
@@ -249,6 +266,9 @@ public class Main
       "       prints the ids for names as part of the name.\n" +
       "       Note that this is for debugging purposes.  The output won't\n" +
       "       typecheck any more.\n" +
+      "  -cp <l> specify the value for czt.path as a semicolon-separated list\n"+
+      "        of directories (e.g., -cp=./tests;/user/local/pkg/myfiles).\n"+
+      "        The list is mandatory and must not be empty.\n"+
       "Dialects:\n" +
       "  z       Standard Z (default)\n" +
       "  oz      Object Z\n" +
@@ -260,7 +280,8 @@ public class Main
       "  xml, zml --> ZML\n" +
       "  *8       --> Unicode (encoding UTF-8)\n" +
       "  *16      --> Unicode (encoding UTF-16)\n" +
-      "Commands:\n" + printCommands();
+      "Commands:\n" + printCommands() +
+      "\nNOTE: -cp within commands overides the one here.";
   }
 
   /**
@@ -341,8 +362,8 @@ public class Main
     logger.info("Mark-up is " + source.getMarkup());
     try {
       String name = source.getName();
-      manager.put(new Key(name, Source.class), source);
-      Spec spec = (Spec) manager.get(new Key(name, Spec.class));
+      manager.put(new Key<Source>(name, Source.class), source);
+      Spec spec = manager.get(new Key<Spec>(name, Spec.class));
       int nrOfZSects = 0;
       if (spec.getSect().size() > 0) {
         for (Sect sect : spec.getSect()) {
@@ -350,7 +371,7 @@ public class Main
             ZSect zSect = (ZSect) sect;
             String sectionName = zSect.getName();
             if (! syntaxCheckOnly) {
-              manager.get(new Key(sectionName,
+              manager.get(new Key<SectTypeEnvAnn>(sectionName,
                                   SectTypeEnvAnn.class));
             }
             if (zSect.getParaList() instanceof ZParaList &&
@@ -358,8 +379,8 @@ public class Main
               nrOfZSects++;
               logger.info("Z Section " + sectionName);
               if (prove) {
-                RuleTable rules = (RuleTable)
-                  manager.get(new Key(sectionName, RuleTable.class));
+                RuleTable rules = manager.get(
+                  new Key<RuleTable>(sectionName, RuleTable.class));
                 if (rules != null) {
                   for (Para p : ((ZParaList) zSect.getParaList())) {
                     if (p instanceof ConjPara) {
@@ -381,8 +402,8 @@ public class Main
         System.err.println("WARNING: No Z sections found in " + source);
       }
       try {
-        ParseException parseException = (ParseException)
-          manager.get(new Key(source.getName(), ParseException.class));
+        ParseException parseException = manager.get(
+          new Key<ParseException>(source.getName(), ParseException.class));
         if (parseException != null) {
           System.out.println(parseException.getErrors().size() +
                              " warnings and errors");
