@@ -25,19 +25,15 @@ import org.gjt.sp.jedit.textarea.*;
 import sidekick.SideKickParsedData;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.print.z.*;
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
-import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
 import net.sourceforge.czt.rules.prover.ProofTree;
-import net.sourceforge.czt.rules.prover.Prover;
 import net.sourceforge.czt.rules.prover.ProverUtils;
-import net.sourceforge.czt.rules.prover.SimpleProver;
 import net.sourceforge.czt.rules.rewriter.Strategies;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
@@ -62,8 +58,8 @@ public class ZSideKickActions
     ParsedData parsedData = getParsedData(view);
     if (parsedData != null) {
       SectionManager manager = parsedData.getManager();
-      Key key = new Key(view.getBuffer().getPath(), LatexString.class);
-      LatexString latex = (LatexString) manager.get(key);
+      Key<LatexString> key = new Key<LatexString>(view.getBuffer().getPath(), LatexString.class);
+      LatexString latex = manager.get(key);
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding",
                                System.getProperty( "file.encoding"));
@@ -78,8 +74,8 @@ public class ZSideKickActions
     ParsedData parsedData = getParsedData(view);
     if (parsedData != null) {
       SectionManager manager = parsedData.getManager();
-      Key key = new Key(view.getBuffer().getPath(), OldLatexString.class);
-      OldLatexString latex = (OldLatexString) manager.get(key);
+      Key<OldLatexString> key = new Key<OldLatexString>(view.getBuffer().getPath(), OldLatexString.class);
+      OldLatexString latex = manager.get(key);
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding",
                                System.getProperty( "file.encoding"));
@@ -94,8 +90,8 @@ public class ZSideKickActions
     ParsedData parsedData = getParsedData(view);
     if (parsedData != null) {
       SectionManager manager = parsedData.getManager();
-      Key key = new Key(view.getBuffer().getPath(), UnicodeString.class);
-      UnicodeString unicode = (UnicodeString) manager.get(key);
+      Key<UnicodeString> key = new Key<UnicodeString>(view.getBuffer().getPath(), UnicodeString.class);
+      UnicodeString unicode = manager.get(key);
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding", "UTF-16");
       buffer.setMode(unicode.getExtension());
@@ -109,8 +105,8 @@ public class ZSideKickActions
     ParsedData parsedData = getParsedData(view);
     if (parsedData != null) {
       SectionManager manager = parsedData.getManager();
-      Key key = new Key(view.getBuffer().getPath(), XmlString.class);
-      XmlString xml = (XmlString) manager.get(key);
+      Key<XmlString> key = new Key<XmlString>(view.getBuffer().getPath(), XmlString.class);
+      XmlString xml = manager.get(key);
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding", "UTF-8");
       buffer.insert(0, xml.toString());
@@ -233,8 +229,8 @@ public class ZSideKickActions
           if (zSect != null) {
             final String section = zSect.getName();
             try {
-              RuleTable rules = (RuleTable)
-                manager.get(new Key(section, RuleTable.class));
+              RuleTable rules = 
+                manager.get(new Key<RuleTable>(section, RuleTable.class));
               if (rules != null) {
                 ProofTree.createAndShowGUI(
                   ProverUtils.createSequent(pred, true),
@@ -277,8 +273,8 @@ public class ZSideKickActions
         if (zSect != null) {
           String section = zSect.getName();
           try {
-            RuleTable rules = (RuleTable)
-              manager.get(new Key(section, RuleTable.class));
+            RuleTable rules = 
+              manager.get(new Key<RuleTable>(section, RuleTable.class));
             if (rules != null) {
               RewriteVisitor rewriter =
                 new RewriteVisitor(rules, manager, section);
@@ -318,8 +314,8 @@ public class ZSideKickActions
           if (zSect != null) {
             String section = zSect.getName();
             try {
-              RuleTable rules = (RuleTable)
-                manager.get(new Key(section, RuleTable.class));
+              RuleTable rules = 
+                manager.get(new Key<RuleTable>(section, RuleTable.class));
               if (rules != null) {
                 if (term instanceof Expr) {
                   ProofTree.createAndShowGUI(
