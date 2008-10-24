@@ -221,6 +221,10 @@ public class TypeCheckUtils
     System.err.println("       -t     print global type declarations");
     System.err.println("       -b     print benchmarking times");
     System.err.println("       -w     raise warnings as errors");
+    System.err.println("      -cp <l> specify the value for czt.path as");
+    System.err.println("              a semicolon-separated list of dirs");
+    System.err.println("              (e.g., -cp=./tests;/user/myfiles).");
+    System.err.println("              The list is mandatory and must not be empty.");
   }
 
   protected boolean useBeforeDeclDefault()
@@ -257,9 +261,15 @@ public class TypeCheckUtils
   { 
     return false;
   }
+  
+  protected String cztPathDefault()
+  {
+    return null;
+  }
 
   /** The list of known toolkits.
    *  This is used internally to avoid printing the types of toolkit names.
+   * @return list of toolkit names
    */
   protected List<String> toolkits()
   {
@@ -379,47 +389,112 @@ public class TypeCheckUtils
     boolean printBenchmark = printBenchmarkTimesDefault();
     boolean useNameIds = useNameIdsDefault();
     boolean raiseWarnings = raiseWarningsDefault();
+    String cztpath = cztPathDefault();
 
-    for (int i = 0; i < args.length; i++) {
-      if (args[i].startsWith("-")) {
-        for (int j = 1; j < args[i].length(); j++) {
-          switch (args[i].charAt(j)) {
-          case 's':
-            syntaxOnly = true;
-            break;
-          case 'd':
-            useBeforeDecl = true;
-            break;
-          case 'n':
-            useBeforeDecl = false;
-            break;
-          case 't':
-            printTypes = true;
-            break;
-          case 'p':
-            printZml = true;
-            break;
-          case 'b':
-            printBenchmark = true;
-            break;
-          case 'i':
-            useNameIds = true;
-            break;
-          case 'w':
-            raiseWarnings = true;
-            break;
-          default:
-            printUsage();
-            return;
+    for (int i = 0; i < args.length; i++) 
+    {
+      if ("-s".equals(args[i])) 
+      {
+        syntaxOnly = true;
+      }
+      else if ("-d".equals(args[i]))
+      {
+        useBeforeDecl = true;
+      }
+      else if ("-n".equals(args[i]))
+      {
+        useBeforeDecl = false;
+      }
+      else if ("-t".equals(args[i]))
+      {
+        printTypes = true;  
+      }
+      else if ("-p".equals(args[i]))
+      {
+        printZml = true;  
+      }
+      else if ("-b".equals(args[i]))
+      {
+        printBenchmark = true;    
+      }
+      else if ("-i".equals(args[i]))
+      {
+        useNameIds = true;    
+      }
+      else if ("-w".equals(args[i]))
+      {
+        raiseWarnings = true;    
+      }
+      else if (args[i].equals("-cp"))
+      {          
+        if (i == args.length)
+        {
+          printUsage();
+          System.err.println("\nYou need to provide an argument for `-cp'");
+          System.exit(result);
+        }
+        i++;
+        cztpath = args[i].trim();        
+      }
+      else if (args[i].startsWith("-")) 
+      {
+        // keep compatible as before for: -sdt
+        if (args[i].length() > "- ".length())
+        {        
+          if (args[i].startsWith("-")) 
+          {
+            for (int j = 1; j < args[i].length(); j++) 
+            {
+              switch (args[i].charAt(j)) 
+              {
+              case 's':
+                syntaxOnly = true;
+                break;
+              case 'd':
+                useBeforeDecl = true;
+                break;
+              case 'n':
+                useBeforeDecl = false;
+                break;
+              case 't':
+                printTypes = true;
+                break;
+              case 'p':
+                printZml = true;
+                break;
+              case 'b':
+                printBenchmark = true;
+                break;
+              case 'i':
+                useNameIds = true;
+                break;
+              case 'w':
+                raiseWarnings = true;
+                break;
+              default:
+                printUsage();
+                return;
+              }
+            }
           }
         }
+        else 
+        {
+          printUsage();
+          return;
+        }
       }
-      else {
-        files.add(args[i]);
-      }
-    }
+      else
+      {
+        files.add(args[i]);    
+      }        
+    }       
     SectionManager manager = getSectionManager();
     SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();    
+    if (cztpath != null && !cztpath.isEmpty())
+    {
+      manager.setProperty("czt.path", cztpath);
+    }
     long zeroTime = System.currentTimeMillis();     
     long currentTime = zeroTime;
     long lastTime = zeroTime;
@@ -544,7 +619,9 @@ public class TypeCheckUtils
         List<Long> times = timesPerFile.get(file);
         System.out.println("\t" + times.get(6) + "ms for " + file + ":");
         System.out.println("\t\tparsing errors.." + times.get(0));
-        System.out.println("\t\ttype errors....." + times.get(1));
+        if (!syntaxOnly) {
+          System.out.println("\t\ttype errors....." + times.get(1));
+        }
         System.out.println("\t\tparser.........." + times.get(2) + "ms");
         if (!syntaxOnly) {
           System.out.println("\t\ttypechecker....." + times.get(3) + "ms");
