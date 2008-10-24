@@ -18,9 +18,6 @@
  */
 package net.sourceforge.czt.modeljunit.gui.visualisaton;
 
-import java.util.ArrayList;
-
-import edu.uci.ics.jung.graph.Graph;
 import net.sourceforge.czt.modeljunit.AbstractListener;
 import net.sourceforge.czt.modeljunit.TestFailureException;
 import net.sourceforge.czt.modeljunit.Transition;
@@ -33,7 +30,6 @@ public class VisualisationListener extends AbstractListener
 {
 	private JUNGHelper jView_ = JUNGHelper.getJUNGViewInstance();
 	private int resets = 1;
-	//private int failureCount = 1;
 	private Boolean failureOccured = false;
 	private Object lastVisitedState_;
 	private Transition lastVisitedTrans_;
@@ -50,8 +46,7 @@ public class VisualisationListener extends AbstractListener
 
 	public void doneReset(String reason, boolean testing)
 	{ 		
-		jView_.graphDoneReset("Test sequence " + (++resets) + " (" + reason + " reset)");
-		//System.err.println("Test sequence " + (++resets) + " (" + reason + " reset)");
+		jView_.graphDoneReset("Test sequence " + (++resets) + " (" + reason + " reset)");		
 	}
 
 	public void doneGuard(Object state, int action, boolean enabled, int value)
@@ -63,35 +58,32 @@ public class VisualisationListener extends AbstractListener
 	}
 
 	public void doneTransition(int action, Transition tr)
-	{ 	
-		//System.err.println("State is:" + tr.getStartState() + " action is:" + tr.getAction() + " end state is:" + tr.getEndState());
+	{ 		
 		//Tidy up any errored states.
 		if(!tr.getStartState().equals(lastVisitedState_) 
 				&& null != lastVisitedState_
 				&& failureOccured){			
-			jView_.visitedEdge(lastVisitedTrans_, true, lastVisitedFailedMsg_);
-			//System.err.println("Putting in failure");
+			jView_.visitedEdge(lastVisitedTrans_, true, lastVisitedFailedMsg_);			
 		} else {
 			jView_.visitedVertex(tr.getStartState(), false);
 			jView_.visitedVertex(tr.getEndState(), false);
-			jView_.visitedEdge(tr, failureOccured, lastVisitedFailedMsg_);
-			//System.err.println("Putting in standard edge");
+			jView_.visitedEdge(tr, failureOccured, lastVisitedFailedMsg_);			
 		}
 		failureOccured = false;
 		lastVisitedFailedMsg_ = null;
 	}
 
-	public void failure(Exception ex)
-	{	
+	@Override
+	public void failure(TestFailureException ex)
+	{		
 		TestFailureException exp = (TestFailureException)ex;		
 		Transition tran = new Transition(exp.getState()
 				, exp.getActionName()
-				, exp.getState() + "_Fail");// + (failureCount ++));		
+				, exp.getState() + "_Fail");		
 		lastVisitedState_ = exp.getState();
 		lastVisitedTrans_ = tran;
 		lastVisitedFailedMsg_ = exp.getLocalizedMessage();
-		failureOccured = true;
-		//System.err.println("FAILURE: "+ex.getLocalizedMessage());
+		failureOccured = true;		
 	}
 }
 
