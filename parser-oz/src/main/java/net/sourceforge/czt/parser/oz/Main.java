@@ -60,8 +60,8 @@ public class Main extends JPanel implements ActionListener
     try {
       //parse the specification
       SectionManager manager = new SectionManager("oz");
-      manager.put(new Key(file, Source.class), new FileSource(file));
-      Spec spec = (Spec) manager.get(new Key(file, Spec.class));
+      manager.put(new Key<Source>(file, Source.class), new FileSource(file));
+      Spec spec =  manager.get(new Key<Spec>(file, Spec.class));
       if (spec != null) {
         net.sourceforge.czt.oz.jaxb.JaxbXmlWriter writer =
           new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();

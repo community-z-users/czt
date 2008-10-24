@@ -123,8 +123,8 @@ public class <class/>
     LatexMarkupFunction markupFunction = markupFunctions_.get(parent);
     if (markupFunction == null) {
       try {
-        markupFunction = (LatexMarkupFunction)
-          sectInfo_.get(new Key(parent, LatexMarkupFunction.class));
+        markupFunction = 
+          sectInfo_.get(new Key&lt;LatexMarkupFunction&gt;(parent, LatexMarkupFunction.class));
       }
       catch (CommandException exception) {
         String message = "Cannot get LatexMarkupFunction for " + parent
@@ -282,8 +282,8 @@ public class <class/>
   private void updateLatexMarkupFunction()
   {
     if (markupFunction_ != null) {
-      final Key key =
-        new Key(markupFunction_.getSection(), LatexMarkupFunction.class);
+      final Key&lt;LatexMarkupFunction&gt; key =
+        new Key&lt;LatexMarkupFunction&gt;(markupFunction_.getSection(), LatexMarkupFunction.class);
       sectInfo_.put(key, markupFunction_, null);
     }
   }

@@ -39,8 +39,8 @@ public class UnicodePrinterCommand
   {
     try {
       final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
+      final Key<Term> key = new Key<Term>(name, Term.class);
+      final Term term =  manager.get(key);
       AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
       Term tree = (Term) term.accept(toPrintTree);
       PrecedenceParenAnnVisitor precVisitor =

@@ -209,7 +209,7 @@ public class ZEvesSocket {
         fPrinter.setSectionInfo(info);
         if (fSectInfo != null) {
             try {
-                fZSect = (ZSect)fSectInfo.get(new Key(sectName, ZSect.class));
+                fZSect = fSectInfo.get(new Key<ZSect>(sectName, ZSect.class));
             } catch(CommandException e) {
                 throw new ZEvesServerConnectionException("Could not retrieve Z section named " + sectName + 
                         "withing the given context. See cause for details.", e);

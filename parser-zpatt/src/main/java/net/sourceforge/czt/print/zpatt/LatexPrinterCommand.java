@@ -37,10 +37,10 @@ public class LatexPrinterCommand
   {
     try {
       final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
+      final Key<Term> key = new Key<Term>(name, Term.class);
+      final Term term = manager.get(key);
       AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
-      Term tree = (Term) term.accept(toPrintTree);
+      Term tree = term.accept(toPrintTree);
       ZmlScanner scanner = new ZmlScanner(tree, manager.getProperties());
       Unicode2Latex parser = new Unicode2Latex(scanner);
       parser.setSectionInfo(manager);
@@ -53,7 +53,7 @@ public class LatexPrinterCommand
         throw new CommandException(e);
       }
       writer.close();
-      manager.put(new Key(name, LatexString.class),
+      manager.put(new Key<LatexString>(name, LatexString.class),
                   new LatexString(writer.toString()));
       return true;
     }

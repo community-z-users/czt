@@ -343,33 +343,33 @@ public class CZTGui implements ActionListener,HyperlinkListener
       try{
         FileOutputStream stream = new FileOutputStream(path);
         if (markup.equals("latex")) {
-          final Key key =
-            new Key(new FileSource(file).getName(), LatexString.class);
-          LatexString latex = (LatexString) manager.get(key);
+          final Key<LatexString> key =
+            new Key<LatexString>(new FileSource(file).getName(), LatexString.class);
+          LatexString latex = manager.get(key);
           writer = new OutputStreamWriter(stream);
           writer.write(latex.toString());
           writer.close();
           successfulSaveMessage(true);
         }
         else if (markup.equals("utf8")) {
-          UnicodeString unicode = (UnicodeString)
-            manager.get(new Key(saveSource.getName(), UnicodeString.class));
+          UnicodeString unicode = 
+            manager.get(new Key<UnicodeString>(saveSource.getName(), UnicodeString.class));
           writer = new OutputStreamWriter(stream, "UTF-8");
           writer.write(unicode.toString());
           writer.close();
           successfulSaveMessage(true);
         }
         else if (markup.equals("utf16")) {
-          UnicodeString unicode = (UnicodeString)
-            manager.get(new Key(saveSource.getName(), UnicodeString.class));
+          UnicodeString unicode = 
+            manager.get(new Key<UnicodeString>(saveSource.getName(), UnicodeString.class));
           writer = new OutputStreamWriter(stream, "UTF-16");
           writer.write(unicode.toString());
           writer.close();
           successfulSaveMessage(true);
         }
         else if (markup.equals("xml")) {
-          XmlString xml = (XmlString)
-            manager.get(new Key(saveSource.getName(), XmlString.class));
+          XmlString xml = 
+            manager.get(new Key<XmlString>(saveSource.getName(), XmlString.class));
           writer = new OutputStreamWriter(stream, "UTF-8");
           writer.write(xml.toString());
           writer.close();
@@ -452,8 +452,15 @@ public class CZTGui implements ActionListener,HyperlinkListener
     manager = new SectionManager(selectedLanguage);
     loadSource = new FileSource(file);
 
-    manager.setProperty("czt.path", file.getParent());
-    zlive_.getSectionManager().setProperty("czt.path", file.getParent());
+    String cztpath = manager.getProperty("czt.path");
+    String filename = file != null ? file.getParent() : null;
+    cztpath = ((cztpath == null || cztpath.isEmpty()) ? 
+      filename : filename + ";" + cztpath);
+    if (cztpath != null && !cztpath.isEmpty())
+    {
+      manager.setProperty("czt.path", cztpath);
+      zlive_.getSectionManager().setProperty("czt.path", cztpath);
+    }
 
     //set markup selection
     if(((String)markupCombo.getSelectedItem()).equals("Latex")){
@@ -474,9 +481,9 @@ public class CZTGui implements ActionListener,HyperlinkListener
           if(((String)markupCombo.getSelectedItem()).equals("XML")){
             loadSource.setMarkup(Markup.ZML);
           }
-    manager.put(new Key(loadSource.getName(), Source.class), loadSource);
+    manager.put(new Key<Source>(loadSource.getName(), Source.class), loadSource);
     zlive_.reset();
-    zlive_.getSectionManager().put(new Key(loadSource.getName(), Source.class), loadSource);
+    zlive_.getSectionManager().put(new Key<Source>(loadSource.getName(), Source.class), loadSource);
     
     try {
       FileOutputStream fileStream =
@@ -490,8 +497,8 @@ public class CZTGui implements ActionListener,HyperlinkListener
     }
 
     try {
-      Spec spec = (Spec)
-        manager.get(new Key(loadSource.getName(), Spec.class));
+      Spec spec = 
+        manager.get(new Key<Spec>(loadSource.getName(), Spec.class));
       TermTreeNode node = new TermTreeNode(0, spec, null);
       if ("circus".equals(selectedLanguage)) {
         node.setToStringVisitor(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
@@ -511,10 +518,10 @@ public class CZTGui implements ActionListener,HyperlinkListener
           //add menu items for starting zlive with a prefered specification
           zliveSectionMenuItems.add(new JMenuItem(sectionName));
 
-          zlive_.getSectionManager().put(new Key(sectionName, Source.class),loadSource);
+          zlive_.getSectionManager().put(new Key<Source>(sectionName, Source.class),loadSource);
 
           if (typecheckCheckBox.isSelected()) {
-            manager.get(new Key(sectionName,SectTypeEnvAnn.class));
+            manager.get(new Key<SectTypeEnvAnn>(sectionName,SectTypeEnvAnn.class));
             //only allow animation if typechecking is done
             startConsoleWith.setEnabled(true);
           }
@@ -674,7 +681,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
       if(event.getSource() == zliveSectionMenuItems.get(i)){
         if(animationFirstStart){
           try{
-            zlive_.getSectionManager().get(new Key(loadSource.getName(), Spec.class));
+            zlive_.getSectionManager().get(new Key<Spec>(loadSource.getName(), Spec.class));
             animationFirstStart = false;
           }
           catch(CommandException e) {

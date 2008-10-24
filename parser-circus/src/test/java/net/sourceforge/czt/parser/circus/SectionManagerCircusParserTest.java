@@ -135,13 +135,13 @@ public class SectionManagerCircusParserTest extends TestCase
       for(File file : files_)
       {
         System.out.println("Results for "+file.getAbsolutePath());
-        Key k = new Key(file.getAbsolutePath(), LatexString.class);
-        Key k2 = new Key(file.getAbsolutePath(), UnicodeString.class);
+        Key<LatexString> k = new Key<LatexString>(file.getAbsolutePath(), LatexString.class);
+        //Key<UnicodeString> k2 = new Key<UnicodeString>(file.getAbsolutePath(), UnicodeString.class);
         System.out.println("HERE:================================================================");
         try
         {
-          LatexString ls = (LatexString)manager_.get(k);
-          //UnicodeString ls = (UnicodeString)manager_.get(k2);
+          LatexString ls = manager_.get(k);
+          //UnicodeString ls = manager_.get(k2);
           System.out.println(ls.toString());
           System.out.println("HERE:================================================================");
           // For now do it only once.

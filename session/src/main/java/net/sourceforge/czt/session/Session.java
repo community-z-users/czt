@@ -28,12 +28,14 @@ public class Session
   private SectionManager manager_ = new SectionManager();
   private String section_ = "";
 
+  @SuppressWarnings("unchecked")
   public Object get(Class<?> c)
     throws CommandException
   {
     return manager_.get(new Key(section_, c));
   }
 
+  @SuppressWarnings("unchecked")
   public Object get(String section, Class<?> c)
     throws CommandException
   {

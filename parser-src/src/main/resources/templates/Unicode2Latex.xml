@@ -244,8 +244,8 @@ action code
       String parentName = parent.getWord();
       LatexMarkupFunction parentMarkup = null;
       try {
-        parentMarkup = (LatexMarkupFunction)
-          parser.sectInfo_.get(new Key(parentName, LatexMarkupFunction.class));
+        parentMarkup = 
+          parser.sectInfo_.get(new Key&lt;LatexMarkupFunction&gt;(parentName, LatexMarkupFunction.class));
       }
       catch (CommandException exception) {
         String message = "Cannot get latex markup for parent section " +
@@ -288,8 +288,8 @@ action code
   {
     LatexMarkupFunction table = null;
     try {
-      table = (LatexMarkupFunction)
-        parser.sectInfo_.get(new Key(sectName, LatexMarkupFunction.class));
+      table = 
+        parser.sectInfo_.get(new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class));
       if (table != null) {
         LatexMarkupPara para =
           table.toAst(new net.sourceforge.czt.z.util.Factory());
@@ -413,8 +413,8 @@ parser code {:
     }
     else if (result.sym == Sym.TOKENSEQ ||
              result.sym == Sym.PARA_START) {
-      LatexMarkupFunction table = (LatexMarkupFunction)
-        sectInfo_.get(new Key(sectionName_, LatexMarkupFunction.class));
+      LatexMarkupFunction table = 
+        sectInfo_.get(new Key&lt;LatexMarkupFunction&gt;(sectionName_, LatexMarkupFunction.class));
       action_obj.setupMarkupTable(table);
     }
     String logMessage =

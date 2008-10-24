@@ -346,7 +346,7 @@ public class TypeCheckUtils
         if (s instanceof ZSect)
         {
           ZSect zs = (ZSect)s;          
-          SectTypeEnvAnn result = (SectTypeEnvAnn)manager.get(new net.sourceforge.czt.session.Key(zs.getName(), SectTypeEnvAnn.class));
+          SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
           break;
         }
       }

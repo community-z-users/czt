@@ -87,13 +87,13 @@ public class <class/>
 	for (Sect sect : spec.getSect()) {
 	  if (sect instanceof ZSect) {
 	    ZSect zSect = (ZSect) sect;
-	    sectInfo.put(new Key(zSect.getName(), ZSect.class), zSect, null);
+	    sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, null);
 	  }
 	}
       }
       else if (result instanceof ZSect) {
-	ZSect zSect = (ZSect) result;
-	sectInfo.put(new Key(zSect.getName(), ZSect.class), zSect, null);
+	ZSect zSect =  (ZSect) result;
+	sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, null);
       }
       return result;
     }
@@ -169,8 +169,8 @@ public class <class/>
     Source input = new StringSource(buf.toString());
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
-    tmpsectman.put(new Key(name, Source.class), input);
-    Spec spec = (Spec) tmpsectman.get(new Key(name, Spec.class));
+    tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
+    Spec spec = tmpsectman.get(new Key&lt;Spec&gt;(name, Spec.class));
     AxPara axPara = firstAxPara(spec);
     assert axPara != null;
     return axPara.getZSchText().getPred();
@@ -230,8 +230,8 @@ public class <class/>
     Source input = new StringSource(buf.toString());
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
-    tmpsectman.put(new Key(name, Source.class), input);
-    Spec spec = (Spec) tmpsectman.get(new Key(name, Spec.class));
+    tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
+    Spec spec = tmpsectman.get(new Key&lt;Spec&gt;(name, Spec.class));
     AxPara axPara = firstAxPara(spec);
     assert axPara != null;
     ConstDecl cdecl = (ConstDecl) axPara.getZSchText().getZDeclList().get(0);
@@ -281,11 +281,11 @@ public class <class/>
       return true;
     }
     try {
-      Source source = (Source) manager.get(new Key(name, Source.class));
+      Source source = manager.get(new Key&lt;Source&gt;(name, Source.class));
       if (source != null) {
         Term term = ParseUtils.parse(source, manager, manager.getProperties());
         if (term instanceof Spec) {
-          manager.put(new Key(name, Spec.class), (Spec) term);
+          manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term);
         }
       }
     }

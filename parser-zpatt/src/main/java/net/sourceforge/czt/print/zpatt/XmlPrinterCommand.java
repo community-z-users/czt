@@ -41,11 +41,11 @@ public class XmlPrinterCommand
     try {
       JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
       final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
+      final Key<Term> key = new Key<Term>(name, Term.class);
+      final Term term = manager.get(key);
       xmlWriter.write(term, writer);
       writer.close();
-      manager.put(new Key(name, XmlString.class),
+      manager.put(new Key<XmlString>(name, XmlString.class),
                   new XmlString(writer.toString()));
       return true;
     }

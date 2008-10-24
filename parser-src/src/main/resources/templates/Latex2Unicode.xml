@@ -421,8 +421,8 @@ import net.sourceforge.czt.z.util.ZString;
   private boolean isFuzzCommand(String command)
   {
     try {
-      Key key = new Key("fuzz_toolkit", LatexMarkupFunction.class);
-      LatexMarkupFunction lmf = (LatexMarkupFunction) sectInfo_.get(key);
+      Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;("fuzz_toolkit", LatexMarkupFunction.class);
+      LatexMarkupFunction lmf = sectInfo_.get(key);
       if (lmf.getCommandDirective(command) != null) return true;
     }
     catch (CommandException e) {

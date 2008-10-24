@@ -47,13 +47,13 @@ public class JokerTableCommand
     throws CommandException
   {
     JokerTableVisitor visitor = new JokerTableVisitor(manager);
-    Key key = new Key(name, ZSect.class);
-    ZSect zsect = (ZSect) manager.get(key);
+    Key<ZSect> key = new Key<ZSect>(name, ZSect.class);
+    ZSect zsect = manager.get(key);
     JokerTable jokerTable = (JokerTable) visitor.run(zsect);
     if (jokerTable != null) {
       Set dep = visitor.getDependencies();
       dep.add(key);
-      manager.put(new Key(name, JokerTable.class), jokerTable, dep);
+      manager.put(new Key<JokerTable>(name, JokerTable.class), jokerTable, dep);
       return true;
     }
     return false;

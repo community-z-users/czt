@@ -47,8 +47,8 @@ public class CircusParseError
                             String info)
   {
     try {
-      ParseException parseException = (ParseException)
-        sectInfo.get(new Key(source.getName(),
+      ParseException parseException = 
+        sectInfo.get(new Key<ParseException>(source.getName(),
                              ParseException.class));
       List<CztError> errorList = parseException.getErrors();
       CircusParseError error = new CircusParseError(msg, params, locInfo);

@@ -633,7 +633,7 @@ action code
       throws ParseException
     {
       try {
-        return (OpTable) sectInfo_.get(new Key(section, OpTable.class));
+        return sectInfo_.get(new Key&lt;OpTable&gt;(section, OpTable.class));
       }
       catch (CommandException e) {
         Object [] args = { "Operator table",
@@ -676,7 +676,7 @@ action code
        throws CommandException
     {
       try {
-        return (JokerTable) sectInfo_.get(new Key(section, JokerTable.class));
+        return sectInfo_.get(new Key&lt;JokerTable&gt;(section, JokerTable.class));
       }
       catch (CommandException e) {
         Object [] args = { "Joker table",
@@ -732,11 +732,10 @@ action code
         new PrecedenceHandlingVisitor(opTable);
       final ZSect sect = (ZSect) zSect.accept(visitor);
       LatexMarkupFunction latexMarkupFunction = null;
-      final Key key = new Key(sectName, LatexMarkupFunction.class);
+      final Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
       if (sectInfo_.isCached(key)) {
         try {
-          latexMarkupFunction = (LatexMarkupFunction)
-            sectInfo_.get(key);
+          latexMarkupFunction = sectInfo_.get(key);
         }
         catch (CommandException exception) {
           String message =
@@ -770,12 +769,12 @@ action code
 
       Set dependencies = new HashSet();
       for (Parent parent : sect.getParent()) {
-        dependencies.add(new Key(parent.getWord(), OpTable.class));
+        dependencies.add(new Key&lt;OpTable&gt;(parent.getWord(), OpTable.class));
       }
-      sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
-      sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
+      sectInfo_.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), sect, dependencies);
+      sectInfo_.put(new Key&lt;OpTable&gt;(sectName, OpTable.class), opTable, dependencies);
 <add:pattern>
-      sectInfo_.put(new Key(sectName, JokerTable.class), jokerTable, dependencies);
+      sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable, dependencies);
 </add:pattern>
       return sect;
     }
@@ -1564,8 +1563,8 @@ parser code
       errorList_ = new ArrayList&lt;CztError&gt;();
       if (source != null) {
         try {
-          ParseException parseException = (ParseException)
-            sectInfo_.get(new Key(source.getName(),
+          ParseException parseException = 
+            sectInfo_.get(new Key&lt;ParseException&gt;(source.getName(),
                                   ParseException.class));
           errorList_ = parseException.getErrors();
         }
