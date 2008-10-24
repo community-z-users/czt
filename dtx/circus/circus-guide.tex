@@ -1,8 +1,8 @@
 \documentclass{article}
 
 \usepackage{multicol}    % needed for Appendix reference card
-\usepackage{circus} % this document describes czt.sty
-%usepackage[lucida]{circus} % to test lucida bright
+%\usepackage{circus} % this document describes czt.sty
+\usepackage[colour,cntbysection]{circus} % to test lucida bright
 
 %%%%%%%%%% FOR HERE ONLY %%%%%%%%%%%
 
@@ -1751,8 +1751,8 @@ n \circassertref S \circrefines FlDv~ I &\t2 \verb|n \circassertref S \circrefin
 \circchannelset [X] n == CSRef             &\t5 \verb|\circchannelset [X] n == CS| \\
 \circnameset n == \{~ x ~\}                &\t5 \verb|\circnameset n == \{~ x ~\}| \\
 \circnameset n == NSRef                    &\t5 \verb|\circnameset n == NS|
-\end{symbols}                                 
-                                          
+\end{symbols}
+
 \subsection{\Circus{} actions}
 \vspace*{-0.5ex}
 
@@ -1761,7 +1761,7 @@ n \circassertref S \circrefines FlDv~ I &\t2 \verb|n \circassertref S \circrefin
 
 \begin{symbols}
 n \circdef A                &\t4 \verb|n \circdef A| \\
-n \circdef x: T \circspot A &\t4 \verb|n \circdef x: T \circspot A|  
+n \circdef x: T \circspot A &\t4 \verb|n \circdef x: T \circspot A|
 \end{symbols}
 
 \begin{multicols}{2}
@@ -1780,7 +1780,7 @@ n \circdef x: T \circspot A &\t4 \verb|n \circdef x: T \circspot A|
 \begin{symbols}
 e \then A                           &\t2 \verb|e \then A| \\
 c.0 \then A                         &\t2 \verb|c.0 \then A| \\
-c!v \then A                         &\t2 \verb|c!v \then A|\\  
+c!v \then A                         &\t2 \verb|c!v \then A|\\
 c?x \then A                         &\t2 \verb|c?x \then A| \\
 c?x!y?z \then A                     &\t2 \verb|c?x!y?z \then A| \\
 \end{symbols}
@@ -1792,12 +1792,12 @@ c?x!y?z \then A                     &\t2 \verb|c?x!y?z \then A| \\
 
 \begin{symbols}
 c?x \prefixcolon (P)!(f~x) \then A                              & \\
-    \quad \verb|c?x \prefixcolon (P)!(f~x) \then A|             & \\ 
-c?x \prefixcolon (x > 1)!(f~x) \then A                          & \\ 
+    \quad \verb|c?x \prefixcolon (P)!(f~x) \then A|             & \\
+c?x \prefixcolon (x > 1)!(f~x) \then A                          & \\
     \quad \verb|c?x \prefixcolon (x > 1)!(f~x) \then A|         & \\
 c[\nat \cross \power~\nat]?x!(\dom~R) \then A                   & \\
     \quad \verb|c[\nat \cross \power~\nat]?x!(\dom~R) \then A|  &
-\end{symbols}                                   
+\end{symbols}
 
 \subsubsection{Unary actions}
 \vspace*{-2.5ex}
@@ -1806,8 +1806,8 @@ c[\nat \cross \power~\nat]?x!(\dom~R) \then A                   & \\
 \lschexpract S \rschexpract             &\t4 \verb|\lschexpract S \rschexpract| \\
 \circmu X \circspot A                   &\t4 \verb|\circmu X \circspot A| \\
 A \circhide CS                          &\t4 \verb|A \circhide CS| \\
-\lcircguard P \rcircguard \circguard A  &\t4 \verb|\lcircguard P \rcircguard \circguard A| 
-\end{symbols}                         
+\lcircguard P \rcircguard \circguard A  &\t4 \verb|\lcircguard P \rcircguard \circguard A|
+\end{symbols}
 
 \subsubsection{Binary actions}
 \vspace*{-2.5ex}
@@ -1815,17 +1815,17 @@ A \circhide CS                          &\t4 \verb|A \circhide CS| \\
 \begin{symbols}
 A \linter NSa | NSb \rinter B      &\t5 \verb'A \linter NSa | NSb \rinter B' \\
 A \interleave B                    &\t5 \verb|A \interleave B| \\
-A \lpar NSa | CS | NSb \rpar B     &\t5 \verb'A \lpar NSa | CS | NSb \rpar B' \\ 
+A \lpar NSa | CS | NSb \rpar B     &\t5 \verb'A \lpar NSa | CS | NSb \rpar B' \\
 A \lpar CS \rpar B                 &\t5 \verb|A \lpar CS \rpar B| \\
 A [ NSb | CSa | CSb | NSb ] B      &\t5 \verb'A [ NSb | CSa | CSb | NSb ] B' \\
-A [ CSa | CSb ] B                  &\t5 \verb'A [ CSa | CSb ] B' \\ 
+A [ CSa | CSb ] B                  &\t5 \verb'A [ CSa | CSb ] B' \\
 A \intchoice B                     &\t5 \verb|A \intchoice B| \\
 A \extchoice B                     &\t5 \verb|A \extchoice B| \\
-A \circseq B                       &\t5 \verb|A \circseq B|\\  
+A \circseq B                       &\t5 \verb|A \circseq B|\\
 AName                              &\t5 \verb|AName| \\
 AName(x, y)                        &\t5 \verb|AName(x, y)| \\
-AName[new/old, x/y]                &\t5 \verb|AName[new/old, x/y]|\\  
-\end{symbols}                         
+AName[new/old, x/y]                &\t5 \verb|AName[new/old, x/y]|\\
+\end{symbols}
 
 \subsubsection{Replicated actions}
 \vspace*{-2.5ex}
@@ -1837,10 +1837,10 @@ AName[new/old, x/y]                &\t5 \verb|AName[new/old, x/y]|\\
 \lpar CS \rpar x: T \circspot A                 & \t4 \verb|\lpar CS \rpar x: T \circspot A|\\
 \Intchoice x : T \circspot A                    & \t4 \verb|\Intchoice x : T \circspot A| \\
 \Extchoice x : T \circspot A                    & \t4 \verb|\Extchoice x : T \circspot A| \\
-\Semi x : T \circspot A                         & \t4 \verb|\Semi x : T \circspot A| 
-\end{symbols}                                    
-                                                 
-                                                 
+\Semi x : T \circspot A                         & \t4 \verb|\Semi x : T \circspot A|
+\end{symbols}
+
+
 \subsubsection{Parenthesised actions}
 \vspace*{-2.5ex}
 
@@ -1859,11 +1859,11 @@ AName[new/old, x/y]                &\t5 \verb|AName[new/old, x/y]|\\
 (\circmu X \circspot \circval x : T \circspot A)(v)  &\t4 \verb|(\circmu X \circspot \circval x : T \circspot A)(v)|\\
 (\circmu X \circspot \circres x : T \circspot A)(v)  &\t4 \verb|(\circmu X \circspot \circres x : T \circspot A)(v)|\\
 (\circmu X \circspot \circvres x : T \circspot A)(v) &\t4 \verb|(\circmu X \circspot \circvres x : T \circspot A)(v)|
-\end{symbols}                                           
+\end{symbols}
 
 \subsection{\Circus{} command definitions}
 \vspace*{-0.5ex}
-                                 
+
 \subsubsection{Guarded commands}
 \vspace*{-2.5ex}
 
@@ -1915,14 +1915,14 @@ x, y \prefixcolon [~ P, Q ~]              &\t4 \verb|x, y \prefixcolon [~ P, Q ~
 \begin{symbols}
 P \circhide CS                                      &\t4 \verb|P \circhide CS| \\
 PName                                               &\t4 \verb|PName| \\
-PName[\nat]                                         &\t4 \verb|PName[\nat]| \\    
-PName(x, y)                                         &\t4 \verb|PName(x, y)| \\    
+PName[\nat]                                         &\t4 \verb|PName[\nat]| \\
+PName(x, y)                                         &\t4 \verb|PName(x, y)| \\
 PName[\nat](x, y)                                   &\t4 \verb|PName[\nat](x, y)| \\
 PName \lcircindex x \rcircindex                     &\t4 \verb|PName \lcircindex x \rcircindex| \\
 PName[\nat] \lcircindex x \rcircindex               &\t4 \verb|PName[\nat] \lcircindex x \rcircindex| \\
-PName \lcircrename c, d := e, f \rcircrename        &\t4 \verb|PName \lcircrename c, d := e, f \rcircrename| \\    
+PName \lcircrename c, d := e, f \rcircrename        &\t4 \verb|PName \lcircrename c, d := e, f \rcircrename| \\
 PName[\nat] \lcircrename c, d := e, f \rcircrename  &\t4 \verb|PName[\nat] \lcircrename c, d := e, f \rcircrename|
-\end{symbols}                                       
+\end{symbols}
 
 \subsubsection{Binary processes}
 \vspace*{-2.5ex}
@@ -1931,10 +1931,10 @@ PName[\nat] \lcircrename c, d := e, f \rcircrename  &\t4 \verb|PName[\nat] \lcir
 P \interleave Q    &\t4 \verb|P \interleave Q| \\
 P \lpar CS \rpar Q &\t4 \verb|P \lpar CS \rpar Q| \\
 P \intchoice Q     &\t4 \verb|P \intchoice Q| \\
-P \extchoice Q     &\t4 \verb|P \extchoice Q| \\ 
+P \extchoice Q     &\t4 \verb|P \extchoice Q| \\
 P \circseq Q       &\t4 \verb|P \circseq Q|
-\end{symbols}         
-                      
+\end{symbols}
+
 \subsubsection{Parameterised and indexed processes}
 \vspace*{-2.5ex}
 
@@ -1960,9 +1960,9 @@ x : T \circindex P  &\t4 \verb|x : T \circindex P|
 (\circmu X \circspot x : T \circspot P)(v)            &\t4 \verb|(\circmu X \circspot x : T \circspot P)(v)| \\
 (\circmu X \circspot (x : T \circspot P))(v)          &\t4 \verb|(\circmu X \circspot (x : T \circspot P))(v)| \\
 (\circmu X \circspot \circval x : T \circspot P)(v)   &\t4 \verb|(\circmu X \circspot \circval x : T \circspot P)(v)|
-\end{symbols}                                            
-                                                                                                                     
-\subsubsection{Replicated processes}                     
+\end{symbols}
+
+\subsubsection{Replicated processes}
 \vspace*{-2.5ex}
 
 \begin{symbols}
@@ -1971,11 +1971,11 @@ x : T \circindex P  &\t4 \verb|x : T \circindex P|
 \Intchoice x : T \circspot P                    &\t4 \verb|\Intchoice x : T \circspot P| \\
 \Extchoice x : T \circspot P                    &\t4 \verb|\Extchoice x : T \circspot P| \\
 \Semi x : T \circspot P                         &\t4 \verb|\Semi x : T \circspot P|
-\end{symbols}                                      
-            
+\end{symbols}
+
 \begin{multicols}{2}
-                                                   
-\subsection{Mathematical toolkits}                 
+
+\subsection{Mathematical toolkits}
 \vspace*{-0.5ex}
 
 \subsubsection{\Circus{} prelude}
@@ -1983,7 +1983,7 @@ x : T \circindex P  &\t4 \verb|x : T \circindex P|
 
 \begin{symbols}
 \boolean  &\t1 \verb|\boolean| \\
-\universe &\t1 \verb|\universe| \\ 
+\universe &\t1 \verb|\universe| \\
 \true     &\t1 \verb|\true| \\
 \false    &\t1 \verb|\false|
 \end{symbols}
