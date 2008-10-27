@@ -93,6 +93,7 @@ public class Main
       boolean printIds = false;
       boolean isBufferingWanted = false;
       boolean isNarrativeWanted = false;      
+      boolean useSpecReader = false; 
       Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-h".equals(args[i]) ||
@@ -138,6 +139,7 @@ public class Main
           }
         }
         else if (args[i].startsWith("-g")) {
+          useSpecReader = true;
           isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
           isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;
         }
@@ -161,11 +163,14 @@ public class Main
           }
           Source source = null;
           boolean openOk = false;
-          for (String suff : net.sourceforge.czt.specreader.SpecReader.SUFFICES) {
-            if (args[i].endsWith(suff)) {
-              source = new SpecSource(args[i], isBufferingWanted, isNarrativeWanted);
-              openOk = true;
-              break;
+          if (useSpecReader)
+          {
+            for (String suff : net.sourceforge.czt.specreader.SpecReader.SUFFICES) {
+              if (args[i].endsWith(suff)) {
+                source = new SpecSource(args[i], isBufferingWanted, isNarrativeWanted);
+                openOk = true;
+                break;
+              }
             }
           }
           if (! openOk) {  /* Not latex mark-up, so specreader not used */
