@@ -30,7 +30,6 @@ import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -225,6 +224,10 @@ public class TypeCheckUtils
     System.err.println("              a semicolon-separated list of dirs");
     System.err.println("              (e.g., -cp=./tests;/user/myfiles).");
     System.err.println("              The list is mandatory and must not be empty.");
+    System.err.println("       -g{bi} gathering of latex mark-up so that directives");
+    System.err.println("              are moved to the beginnings of their sections");
+    System.err.println("           b  buffer whole spec in memory (faster)");
+    System.err.println("           i  retain informal narrative (no eliding)");
   }
 
   protected boolean useBeforeDeclDefault()
@@ -265,6 +268,21 @@ public class TypeCheckUtils
   protected String cztPathDefault()
   {
     return null;
+  }
+  
+  protected  boolean useSpecReaderDefault()
+  {
+    return false;
+  }
+
+  protected boolean isSpecReaderBufferingWantedDefault() 
+  {
+    return false;
+  }
+  
+  protected boolean isSpecReaderNarrativeWantedDefault()
+  {
+    return false;
   }
 
   /** The list of known toolkits.
@@ -391,6 +409,10 @@ public class TypeCheckUtils
     boolean raiseWarnings = raiseWarningsDefault();
     String cztpath = cztPathDefault();
 
+    boolean useSpecReader = useSpecReaderDefault();
+    boolean isBufferingWanted = isSpecReaderBufferingWantedDefault();
+    boolean isNarrativeWanted = isSpecReaderNarrativeWantedDefault();
+          
     for (int i = 0; i < args.length; i++) 
     {
       if ("-s".equals(args[i])) 
@@ -435,6 +457,12 @@ public class TypeCheckUtils
         }
         i++;
         cztpath = args[i].trim();        
+      }
+      else if (args[i].startsWith("-g")) 
+      {
+          useSpecReader = true;
+          isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
+          isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;
       }
       else if (args[i].startsWith("-")) 
       {
@@ -502,15 +530,28 @@ public class TypeCheckUtils
       //parse the file
       Term term = null;
       Markup markup = ParseUtils.getMarkup(file);
+      
+      Source source = null;
+      boolean openOk = false;
+      if (useSpecReader)
+      {
+        for (String suff : net.sourceforge.czt.specreader.SpecReader.SUFFICES) {
+          if (file.endsWith(suff)) {
+            source = new SpecSource(file, isBufferingWanted, isNarrativeWanted);
+            openOk = true;
+            break;
+          }
+        }
+      }
+      if (!openOk)
+      {
+        //NOTE: from the Main CZT UI, the file.getParent() is being added
+        //      to czt.path. This seems to be spurious as it works without it.
+        source = new FileSource(file);
+      }
       long parsingErrors = 0;
       try {
-        if (markup == null) {
-          Source src = new FileSource(file);
-          term = this.parse(src, manager);
-        }
-        else {
-          term = this.parse(file, manager);
-        }
+        term = this.parse(source, manager);
       }
       catch (net.sourceforge.czt.parser.util.ParseException exception) {
         parsingErrors = exception.getErrorList().size();
@@ -536,7 +577,7 @@ public class TypeCheckUtils
        * pt = 40 (40 - 0)
        */            
       lastTime = currentTime;
-      currentTime = System.currentTimeMillis();
+      currentTime = System.currentTimeMillis();      
       long parseTime = currentTime - lastTime;
       long typeCheckTime = 0;
       long printTypeTime = 0;
