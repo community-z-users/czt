@@ -16,7 +16,7 @@ public class CZTGuiTest extends TestCase
     ImageIcon icon = new ImageIcon(iconurl);
     Image czticon = icon.getImage();
     assertNotNull(czticon);
-    System.out.println("CZT Icon height = "+czticon.getHeight(null));
-    assertEquals(17, czticon.getHeight(null));
+    assertEquals(16, czticon.getHeight(null));
+    assertEquals(16, czticon.getWidth(null));
   }
 }
