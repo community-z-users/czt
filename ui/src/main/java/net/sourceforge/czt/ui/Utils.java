@@ -21,10 +21,10 @@ public class Utils {
     public final static String xml = "xml";
     public final static String utf8 = "utf8";
     public final static String utf16 = "utf16";
-    
+
     /*
      * Get the extension of a file.
-     */  
+     */
     public static String getExtension(File f) {
         String ext = null;
         String s = f.getName();

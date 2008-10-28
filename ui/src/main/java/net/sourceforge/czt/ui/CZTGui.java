@@ -107,6 +107,8 @@ public class CZTGui implements ActionListener,HyperlinkListener
   private JMenuItem exit = new JMenuItem("Exit");
   private JMenu helpmenu = new JMenu("Help");
   private JMenuItem czthelp = new JMenuItem("CZT Help");
+  private JMenuItem cztlicense = new JMenuItem("CZT License");
+  private JMenuItem cztabout = new JMenuItem("About CZT");
   private JScrollPane scrollResults = new JScrollPane(resultConsole);
   private JScrollPane scrollTreeStructure = new JScrollPane();
   private JSplitPane split = null;
@@ -125,7 +127,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
    *entered/removed at certain points
    */
   private int currentCharCount = 0;
-  
+
   /**
    *  Constructor for the CZTGui object
    */
@@ -138,7 +140,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     czticon = icon.getImage();
     frame.setIconImage(czticon);
     helpFrame.setIconImage(czticon);
-    
+
     //to let gui know whether zlive has parsed a spec already
     animationFirstStart = true;
 
@@ -227,6 +229,8 @@ public class CZTGui implements ActionListener,HyperlinkListener
     close.addActionListener(this);
     exit.addActionListener(this);
     czthelp.addActionListener(this);
+    cztlicense.addActionListener(this);
+    cztabout.addActionListener(this);
 
     filemenu.add(open);
     filemenu.add(reload);
@@ -240,6 +244,8 @@ public class CZTGui implements ActionListener,HyperlinkListener
     filemenu.add(close);
     filemenu.add(exit);
     helpmenu.add(czthelp);
+    helpmenu.add(cztlicense);
+    helpmenu.add(cztabout);
 
     menubar.add(filemenu);
     menubar.add(console);
@@ -352,7 +358,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
           successfulSaveMessage(true);
         }
         else if (markup.equals("utf8")) {
-          UnicodeString unicode = 
+          UnicodeString unicode =
             manager.get(new Key<UnicodeString>(saveSource.getName(), UnicodeString.class));
           writer = new OutputStreamWriter(stream, "UTF-8");
           writer.write(unicode.toString());
@@ -360,7 +366,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
           successfulSaveMessage(true);
         }
         else if (markup.equals("utf16")) {
-          UnicodeString unicode = 
+          UnicodeString unicode =
             manager.get(new Key<UnicodeString>(saveSource.getName(), UnicodeString.class));
           writer = new OutputStreamWriter(stream, "UTF-16");
           writer.write(unicode.toString());
@@ -368,7 +374,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
           successfulSaveMessage(true);
         }
         else if (markup.equals("xml")) {
-          XmlString xml = 
+          XmlString xml =
             manager.get(new Key<XmlString>(saveSource.getName(), XmlString.class));
           writer = new OutputStreamWriter(stream, "UTF-8");
           writer.write(xml.toString());
@@ -428,10 +434,10 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
     clearTreeView();
     clearErrorList();
-    
+
     //other than zlive command started it should be 0 to allow editing
     currentCharCount = 0;
-    
+
     specDialog.setVisible(false);
 
     frame.setTitle(softwarename + " - " + file.getName());
@@ -454,7 +460,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
     String cztpath = manager.getProperty("czt.path");
     String filename = file != null ? file.getParent() : null;
-    cztpath = ((cztpath == null || cztpath.isEmpty()) ? 
+    cztpath = ((cztpath == null || cztpath.isEmpty()) ?
       filename : filename + ";" + cztpath);
     if (cztpath != null && !cztpath.isEmpty())
     {
@@ -484,7 +490,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     manager.put(new Key<Source>(loadSource.getName(), Source.class), loadSource);
     zlive_.reset();
     zlive_.getSectionManager().put(new Key<Source>(loadSource.getName(), Source.class), loadSource);
-    
+
     try {
       FileOutputStream fileStream =
         new FileOutputStream(getSettingsFileName());
@@ -497,7 +503,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     }
 
     try {
-      Spec spec = 
+      Spec spec =
         manager.get(new Key<Spec>(loadSource.getName(), Spec.class));
       TermTreeNode node = new TermTreeNode(0, spec, null);
       if ("circus".equals(selectedLanguage)) {
@@ -586,7 +592,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
   public class ZLiveConsole implements KeyListener
   {
     /**
-     * Handle the key typed event from the text area. 
+     * Handle the key typed event from the text area.
      */
     public void keyTyped(KeyEvent e) {
       if(resultConsole.getCaretPosition()<=(currentCharCount-1)){
@@ -594,7 +600,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
       }
     }
 
-    /** 
+    /**
      * Handle the key-pressed event from the text area.
      */
     public void keyPressed(KeyEvent e) {
@@ -614,7 +620,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
       }
     }
 
-    /** 
+    /**
      * Handle the key-released event from the text area .
      */
     public void keyReleased(KeyEvent e)
@@ -697,13 +703,13 @@ public class CZTGui implements ActionListener,HyperlinkListener
     }
 
     if(event.getSource() == czthelp) {
-      URL url = this.getClass().getResource("czt_help.html");
-      helpEditor.setContentType("text/html");
-      try{
-        helpEditor.setPage(url);
-      }
-      catch(IOException e){}
-      helpFrame.setVisible(true);
+      showHtmlPage("czt_help.html");
+    }
+    if (event.getSource() == cztlicense) {
+      showHtmlPage("czt_license.html");
+    }
+    if (event.getSource() == cztabout) {
+      showHtmlPage("czt_about.html");
     }
     /*int n = 0;**/
     //display the spec dialog
@@ -868,5 +874,18 @@ public class CZTGui implements ActionListener,HyperlinkListener
         }
       }
     }
-  }  
+  }
+  
+  public void showHtmlPage(String filename)
+  {
+    URL url = this.getClass().getResource(filename);
+    helpEditor.setContentType("text/html");
+    try{
+      helpEditor.setPage(url);
+    }
+    catch(IOException e) {
+      throw new RuntimeException("Cannot open help file "+filename, e);
+    }
+    helpFrame.setVisible(true);
+  }
 }

@@ -751,6 +751,8 @@ typechecker/tests/z/TypeMismatchInExpr-SchExpr2-Mto1.error -text
 typechecker/tests/z/TypeMismatchInExpr-SchExpr2-MtoM.error -text
 typechecker/tests/z/TypeMismatchInExpr-SchExpr2-Vright.error -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
+ui/src/main/resources/net/sourceforge/czt/ui/czt_about.html -text
+ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
 zlive/doc/2004goals.ppt -text
 zlive/doc/design.pdf -text
