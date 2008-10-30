@@ -5,9 +5,45 @@
           unicode="&#x2500; section NAME parents standard_toolkit &#x2514;&#xA;"
           latex="\begin{zsection}&#xA;  \SECTION NAME \parents standard\_toolkit&#xA;\end{zsection}&#xA;"/>
     <item name="Op"
-          description="Operator Template"
-          unicode="&#x2500;&#xA;  function 42 leftassoc ( _ OPERATOR _ )&#xA;&#x2514;&#xA;"
-          latex="\begin{zed}&#xA;  \function 42 \leftassoc ( \varg OPERATOR \varg )&#xA;\end{zed}&#xA;"/>
+          description="Operator Definition"
+          unicode="&#x2500; function 42 leftassoc ( _ &#x229A; _ )
+&#xA;&#x2514;
+&#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics.
+&#xA;&#x2577; _ &#x229A; _ : &#x2124; &#x00D7; &#x2124; &#x2192; &#x2124;
+&#xA;|
+&#xA;  &#x2200; x,y : &#x2124; &#x2981; x &#x229A; y = x + y
+&#xA;&#x2514;
+&#xA;"
+          latex="% Example of defining an infix function operator, displayed as a double circle.
+&#xA;% Precedence 42 is a little tighter binding than multiplication, which is 40.
+&#xA;\newcommand{\MYOP}{\mathbin{\circledcirc}}
+&#xA;% Define the Latex to Unicode mapping (Zchar/Zprechar/Zinchar/Zpostchar)
+&#xA;%%Zinchar \MYOP U+229A;&#xA;\begin{zed}
+&#xA;  \function 42 \leftassoc ( \varg \MYOP \varg )
+&#xA;\end{zed}
+&#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics.
+&#xA;\begin{axdef}
+&#xA;  \varg \MYOP \varg : \num \cross \num \fun \num
+&#xA;\where
+&#xA;  \forall x,y:\num @ x \MYOP y = x + y
+&#xA;\end{axdef}
+&#xA;"/>
+    <item name="rOp"
+          description="Relation Definition"
+          unicode="&#x2500;&#xA;  relation ( _ OPERATOR _ )&#xA;&#x2514;&#xA;"
+          latex="% Example of defining an infix relation, displayed as the word 'myrel'.
+&#xA;\newcommand{\MYREL}{\mathrel{myrel}}
+&#xA;% Define the Latex to Unicode mapping (Zword/Zpreword/Zinword/Zpostword)
+&#xA;%%Zinword \MYREL myrel&#xA;\begin{zed}
+&#xA;  \relation ( \varg \MYREL \varg )
+&#xA;\end{zed}
+&#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics.
+&#xA;\begin{gendef}[T]
+&#xA;  \varg \MYREL \varg : T \rel \power T
+&#xA;\where
+&#xA;  \forall x:T; y:\power T @ x \MYREL y \iff x \in y
+&#xA;\end{gendef}
+&#xA;"/>
     <item name="[G]"
           description="Given Sets"
           unicode="&#x2500; [ TYPE ] &#x2514;&#xA;"
