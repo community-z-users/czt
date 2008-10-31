@@ -365,7 +365,8 @@
             <command
                   commandId="net.sourceforge.czt.eclipse.editoraction.gotodeclaration"
                   id="GotoDeclaration"
-                  style="push">
+                  style="push"
+                  tooltip="Go to the declaration of the current name">
             </command>
             <command
                   commandId="net.sourceforge.czt.eclipse.editoraction.expandselection"
@@ -383,22 +384,26 @@
                <command
                      commandId="net.sourceforge.czt.eclipse.editoraction.convert2latex"
                      id="Convert2Latex"
-                     style="push">
+                     style="push"
+                     tooltip="Convert to LaTeX markup">
                </command>
                <command
                      commandId="net.sourceforge.czt.eclipse.editoraction.convert2oldlatex"
                      id="Convert2OldLatex"
-                     style="push">
+                     style="push"
+                     tooltip="Convert to pre-standard (Spivey/FUZZ) Z">
                </command>
                <command
                      commandId="net.sourceforge.czt.eclipse.editoraction.convert2unicode"
                      id="Convert2Unicode"
-                     style="push">
+                     style="push"
+                     tooltip="Convert to Unicode markup">
                </command>
                <command
                      commandId="net.sourceforge.czt.eclipse.editoraction.convert2xml"
                      id="Convert2XML"
-                     style="push">
+                     style="push"
+                     tooltip="Convert to the CZT XML markup (ZML)">
                </command>
             </menu>
          </menu>
