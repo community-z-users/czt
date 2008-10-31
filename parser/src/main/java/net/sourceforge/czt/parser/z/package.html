@@ -15,7 +15,7 @@
 <p>
   The {@link net.sourceforge.czt.parser.z.UnicodeParser}
   is responsible for parsing Z specifications written in unicode.
-  It consists of an LARL {@link net.sourceforge.czt.parser.z.Parser},
+  It consists of an LALR {@link net.sourceforge.czt.parser.z.Parser},
   which gets its input from the
   {@link net.sourceforge.czt.parser.z.UnicodeScanner}.
 </p>
@@ -42,7 +42,7 @@
   The result of a parse is an abstract syntax tree (AST) representation
   of the parsed specification.
   Note that the strings, like for instance operator names,
-  used within the AST are provided in unicode independendly
+  used within the AST are provided in unicode independently
   from the input language used (whether unicode or LaTeX).
 </p>
 
@@ -61,7 +61,7 @@
     of the parents of a section.
   </li>
   <li>
-    User defined operator must be defined before their use.
+    User defined operators must be defined before they are used.
     This is not standard conforming since according to the standard,
     the scope of an operator template is the whole section in which
     it appears (not only from the operator template onwards).
