@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://czt.sourceforge.net/eclipse">
+      Eclipse update site for the Community Z Tools (CZT) Eclipse plugin.  The CZT Eclipse plugin provides an IDE environment for editing Z specifications, in LaTeX or Unicode markup.  It provides syntax colouring, continuous background parsing and typechecking, template insertion, outline support and many other features.
+   </description>
+   <feature url="features/CZTFeature_1.5.0.jar" id="CZTFeature" version="1.5.0">
+      <category name="CZT Eclipse plugins"/>
+   </feature>
+   <category-def name="CZT Eclipse plugins" label="CZT Eclipse plugins">
+      <description>
+         Community Z Tools Eclipse Plugins for editing Z Specifications
+      </description>
+   </category-def>
+</site>

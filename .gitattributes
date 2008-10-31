@@ -159,6 +159,9 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/WizardsMessa
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_zed.txt -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_zed16.txt -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/sample_spec_zed8.txt -text
+eclipse/cztfeature/.project -text
+eclipse/cztfeature/build.properties -text
+eclipse/cztfeature/feature.xml -text
 eclipse/czthelp/.project -text
 eclipse/czthelp/COPYING.txt -text
 eclipse/czthelp/META-INF/MANIFEST.MF -text
@@ -213,6 +216,10 @@ eclipse/czthelp/toc.xml -text
 eclipse/czthelp/topics_Concepts.xml -text
 eclipse/czthelp/topics_GettingStarted.xml -text
 eclipse/czthelp/topics_Reference.xml -text
+eclipse/updatesite/.project -text
+eclipse/updatesite/artifacts.xml -text
+eclipse/updatesite/content.xml -text
+eclipse/updatesite/site.xml -text
 fonts/CZTSans-circus.ttf -text
 fonts/CZTSans.ttf -text
 fonts/INSTALL.txt -text
