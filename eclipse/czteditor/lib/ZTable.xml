@@ -15,10 +15,10 @@
 &#xA;&#x2514;
 &#xA;"
           latex="% Example of defining an infix function operator, displayed as a double circle.
-&#xA;% Precedence 42 is a little tighter binding than multiplication, which is 40.
 &#xA;\newcommand{\MYOP}{\mathbin{\circledcirc}}
 &#xA;% Define the Latex to Unicode mapping (Zchar/Zprechar/Zinchar/Zpostchar)
-&#xA;%%Zinchar \MYOP U+229A;&#xA;\begin{zed}
+&#xA;%%Zinchar \MYOP U+229A;&#xA;% Precedence 42 is a little tighter binding than multiplication, which is 40.
+&#xA;\begin{zed}
 &#xA;  \function 42 \leftassoc ( \varg \MYOP \varg )
 &#xA;\end{zed}
 &#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics.
@@ -30,7 +30,15 @@
 &#xA;"/>
     <item name="rOp"
           description="Relation Definition"
-          unicode="&#x2500;&#xA;  relation ( _ OPERATOR _ )&#xA;&#x2514;&#xA;"
+          unicode="&#x2500; relation ( _ myrel _ )
+&#xA;&#x2514;  
+&#xA;Next we use an axdef/gendef/freetype/== definition to define the semantics. 
+&#xA;&#x2577;&#x2550;[ T ] 
+&#xA;  _ myrel _ : T &#x2194; &#x2119; T 
+&#xA;|
+&#xA;  &#x2200; x:T; y:&#x2119; T &#x2981; x myrel y &#x21D4; x &#x2208; y 
+&#xA;&#x2514;  
+&#xA;"
           latex="% Example of defining an infix relation, displayed as the word 'myrel'.
 &#xA;\newcommand{\MYREL}{\mathrel{myrel}}
 &#xA;% Define the Latex to Unicode mapping (Zword/Zpreword/Zinword/Zpostword)
