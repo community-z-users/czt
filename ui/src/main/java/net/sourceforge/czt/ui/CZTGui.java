@@ -683,176 +683,182 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
   public void actionPerformed(ActionEvent event)
   {
-    for(int i=0;i<zliveSectionMenuItems.size();i++){
-      if(event.getSource() == zliveSectionMenuItems.get(i)){
-        if(animationFirstStart){
-          try{
-            zlive_.getSectionManager().get(new Key<Spec>(loadSource.getName(), Spec.class));
-            animationFirstStart = false;
-          }
-          catch(CommandException e) {
-            e.printStackTrace();
-          }
-        }
-        startZLive(event.getActionCommand());
-      }
-    }
-
-    if(event.getSource() == startConsole) {
-      startZLive("ZLiveDefault");
-    }
-
-    if(event.getSource() == czthelp) {
-      showHtmlPage("czt_help.html");
-    }
-    if (event.getSource() == cztlicense) {
-      showHtmlPage("czt_license.html");
-    }
-    if (event.getSource() == cztabout) {
-      showHtmlPage("czt_about.html");
-    }
-    /*int n = 0;**/
-    //display the spec dialog
-    if (event.getSource() == open) {
-      if (!(statusBar.equals("status"))) {
-        statusBar.setText("status");
-      }
-      specDialog.setVisible(true);
-    }
-    //choose a file
-    if (event.getSource() == specBrowseButton) {
-      int returnValOpen = chooser.showOpenDialog(frame);
-      if (returnValOpen == JFileChooser.APPROVE_OPTION) {
-        specText.setText(chooser.getSelectedFile().getPath());
-        String extension = specText.getText();
-
-        if(extension.endsWith("zed")||extension.endsWith("tex")) {
-          languageCombo.setSelectedItem("Standard Z");
-          markupCombo.setSelectedItem("Latex");
-        }
-        if (extension.endsWith("zed8")) {
-          languageCombo.setSelectedItem("Standard Z");
-          markupCombo.setSelectedItem("UTF8");
-        }
-        if (extension.endsWith("zed16")) {
-          languageCombo.setSelectedItem("Standard Z");
-          markupCombo.setSelectedItem("UTF16");
-        }
-        if (extension.endsWith("oz")) {
-          languageCombo.setSelectedItem("Object Z");
-          markupCombo.setSelectedItem("Latex");
-        }
-        if (extension.endsWith("oz8")) {
-          languageCombo.setSelectedItem("Object Z");
-          markupCombo.setSelectedItem("UTF8");
-        }
-        if (extension.endsWith("oz16")) {
-          languageCombo.setSelectedItem("Object Z");
-          markupCombo.setSelectedItem("UTF16");
-        }
-        if (extension.endsWith("circus")) {
-          languageCombo.setSelectedItem("Circus");
-          markupCombo.setSelectedItem("Latex");
-        }
-        if (extension.endsWith("circus8")) {
-          languageCombo.setSelectedItem("Circus");
-          markupCombo.setSelectedItem("UTF8");
-        }
-        if (extension.endsWith("circus16")) {
-          languageCombo.setSelectedItem("Circus");
-          markupCombo.setSelectedItem("UTF16");
-        }
-        if (extension.endsWith("zedpatt")) {
-          languageCombo.setSelectedItem("Z Rules");
-          markupCombo.setSelectedItem("Latex");
-        }
-        if (extension.endsWith("zedpatt8")) {
-          languageCombo.setSelectedItem("Z Rules");
-          markupCombo.setSelectedItem("UTF8");
-        }
-        if (extension.endsWith("zedpatt16")) {
-          languageCombo.setSelectedItem("Z Rules");
-          markupCombo.setSelectedItem("UTF16");
-        }
-        if (extension.endsWith("utf8")) {
-          markupCombo.setSelectedItem("UTF8");
-        }
-        if (extension.endsWith("utf16")) {
-          markupCombo.setSelectedItem("UTF16");
-        }
-        if (extension.endsWith("xml")||extension.endsWith("zml")) {
-          markupCombo.setSelectedItem("XML");
-        }
-      }
-    }
-    //load the file
-    if (event.getSource() == specOKButton) {
-      if (!specText.equals("")) {
-        file = new File(specText.getText());
-        if (!file.isFile()) {
-          file = null;
-          JOptionPane.showMessageDialog(frame,
-                                        "File Does Not Exist",
-                                        "Error",
-                                        JOptionPane.ERROR_MESSAGE);
-        }
-        else {
-          loadFile();
-        }
-      }
-    }
-    if(event.getSource() == reload){
-      loadFile();
-    }
-
-    //if the cancel button is clicked on the spec dialog then hid it
-    if (event.getSource() == specCancelButton) {
-      specDialog.setVisible(false);
-    }
-    //save
-    if (event.getSource() == saveasLatex) {
-      String[] s = (file.getPath()).split("[.]");
-      chooser.setSelectedFile(new File(s[0]+".tex"));
-      int returnValSave = chooser.showSaveDialog(frame);
-      if (returnValSave == JFileChooser.APPROVE_OPTION) {
-        fileForExporting = chooser.getSelectedFile();
-        saveSpec(fileForExporting.getPath(),"latex");
-      }
-    }
-    if (event.getSource() == saveasUnicode8) {
-      String[] s = (file.getPath()).split("[.]");
-      chooser.setSelectedFile(new File(s[0]+".utf8"));
-      int returnValSave = chooser.showSaveDialog(frame);
-      if (returnValSave == JFileChooser.APPROVE_OPTION) {
-        fileForExporting = chooser.getSelectedFile();
-        saveSpec(fileForExporting.getPath(),"utf8");
-      }
-    }
-    if (event.getSource() == saveasUnicode16) {
-      String[] s = (file.getPath()).split("[.]");
-      chooser.setSelectedFile(new File(s[0]+".utf16"));
-      int returnValSave = chooser.showSaveDialog(frame);
-      if (returnValSave == JFileChooser.APPROVE_OPTION) {
-        fileForExporting = chooser.getSelectedFile();
-        saveSpec(fileForExporting.getPath(),"utf16");
-      }
-    }
-    if (event.getSource() == saveasXML) {
-      String[] s = (file.getPath()).split("[.]");
-      chooser.setSelectedFile(new File(s[0]+".xml"));
-      int returnValSave = chooser.showSaveDialog(frame);
-      if (returnValSave == JFileChooser.APPROVE_OPTION) {
-        fileForExporting = chooser.getSelectedFile();
-        saveSpec(fileForExporting.getPath(),"xml");
-      }
-    }
-    //close the project and set back to defaults
-    if (event.getSource() == close) {
-      closeProject();
-    }
     //exit program
     if (event.getSource() == exit) {
       System.exit(0);
+    }
+    try {
+      for(int i=0;i<zliveSectionMenuItems.size();i++){
+        if(event.getSource() == zliveSectionMenuItems.get(i)){
+          if(animationFirstStart){
+            zlive_.getSectionManager().get(new Key<Spec>(loadSource.getName(), Spec.class));
+            animationFirstStart = false;
+          }
+          startZLive(event.getActionCommand());
+        }
+      }
+
+      if(event.getSource() == startConsole) {
+        startZLive("ZLiveDefault");
+      }
+
+      if(event.getSource() == czthelp) {
+        showHtmlPage("czt_help.html");
+      }
+      if (event.getSource() == cztlicense) {
+        showHtmlPage("czt_license.html");
+      }
+      if (event.getSource() == cztabout) {
+        showHtmlPage("czt_about.html");
+      }
+      /*int n = 0;**/
+      //display the spec dialog
+      if (event.getSource() == open) {
+        if (!(statusBar.equals("status"))) {
+          statusBar.setText("status");
+        }
+        specDialog.setVisible(true);
+      }
+      //choose a file
+      if (event.getSource() == specBrowseButton) {
+        int returnValOpen = chooser.showOpenDialog(frame);
+        if (returnValOpen == JFileChooser.APPROVE_OPTION) {
+          specText.setText(chooser.getSelectedFile().getPath());
+          String extension = specText.getText();
+
+          if(extension.endsWith("zed")||extension.endsWith("tex")) {
+            languageCombo.setSelectedItem("Standard Z");
+            markupCombo.setSelectedItem("Latex");
+          }
+          if (extension.endsWith("zed8")) {
+            languageCombo.setSelectedItem("Standard Z");
+            markupCombo.setSelectedItem("UTF8");
+          }
+          if (extension.endsWith("zed16")) {
+            languageCombo.setSelectedItem("Standard Z");
+            markupCombo.setSelectedItem("UTF16");
+          }
+          if (extension.endsWith("oz")) {
+            languageCombo.setSelectedItem("Object Z");
+            markupCombo.setSelectedItem("Latex");
+          }
+          if (extension.endsWith("oz8")) {
+            languageCombo.setSelectedItem("Object Z");
+            markupCombo.setSelectedItem("UTF8");
+          }
+          if (extension.endsWith("oz16")) {
+            languageCombo.setSelectedItem("Object Z");
+            markupCombo.setSelectedItem("UTF16");
+          }
+          if (extension.endsWith("circus")) {
+            languageCombo.setSelectedItem("Circus");
+            markupCombo.setSelectedItem("Latex");
+          }
+          if (extension.endsWith("circus8")) {
+            languageCombo.setSelectedItem("Circus");
+            markupCombo.setSelectedItem("UTF8");
+          }
+          if (extension.endsWith("circus16")) {
+            languageCombo.setSelectedItem("Circus");
+            markupCombo.setSelectedItem("UTF16");
+          }
+          if (extension.endsWith("zedpatt")) {
+            languageCombo.setSelectedItem("Z Rules");
+            markupCombo.setSelectedItem("Latex");
+          }
+          if (extension.endsWith("zedpatt8")) {
+            languageCombo.setSelectedItem("Z Rules");
+            markupCombo.setSelectedItem("UTF8");
+          }
+          if (extension.endsWith("zedpatt16")) {
+            languageCombo.setSelectedItem("Z Rules");
+            markupCombo.setSelectedItem("UTF16");
+          }
+          if (extension.endsWith("utf8")) {
+            markupCombo.setSelectedItem("UTF8");
+          }
+          if (extension.endsWith("utf16")) {
+            markupCombo.setSelectedItem("UTF16");
+          }
+          if (extension.endsWith("xml")||extension.endsWith("zml")) {
+            markupCombo.setSelectedItem("XML");
+          }
+        }
+      }
+      //load the file
+      if (event.getSource() == specOKButton) {
+        if (!specText.equals("")) {
+          file = new File(specText.getText());
+          if (!file.isFile()) {
+            file = null;
+            JOptionPane.showMessageDialog(frame,
+                "File Does Not Exist",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+          }
+          else {
+            loadFile();
+          }
+        }
+      }
+      if(event.getSource() == reload){
+        loadFile();
+      }
+
+      //if the cancel button is clicked on the spec dialog then hid it
+      if (event.getSource() == specCancelButton) {
+        specDialog.setVisible(false);
+      }
+      //save
+      if (event.getSource() == saveasLatex) {
+        String[] s = (file.getPath()).split("[.]");
+        chooser.setSelectedFile(new File(s[0]+".tex"));
+        int returnValSave = chooser.showSaveDialog(frame);
+        if (returnValSave == JFileChooser.APPROVE_OPTION) {
+          fileForExporting = chooser.getSelectedFile();
+          saveSpec(fileForExporting.getPath(),"latex");
+        }
+      }
+      if (event.getSource() == saveasUnicode8) {
+        String[] s = (file.getPath()).split("[.]");
+        chooser.setSelectedFile(new File(s[0]+".utf8"));
+        int returnValSave = chooser.showSaveDialog(frame);
+        if (returnValSave == JFileChooser.APPROVE_OPTION) {
+          fileForExporting = chooser.getSelectedFile();
+          saveSpec(fileForExporting.getPath(),"utf8");
+        }
+      }
+      if (event.getSource() == saveasUnicode16) {
+        String[] s = (file.getPath()).split("[.]");
+        chooser.setSelectedFile(new File(s[0]+".utf16"));
+        int returnValSave = chooser.showSaveDialog(frame);
+        if (returnValSave == JFileChooser.APPROVE_OPTION) {
+          fileForExporting = chooser.getSelectedFile();
+          saveSpec(fileForExporting.getPath(),"utf16");
+        }
+      }
+      if (event.getSource() == saveasXML) {
+        String[] s = (file.getPath()).split("[.]");
+        chooser.setSelectedFile(new File(s[0]+".xml"));
+        int returnValSave = chooser.showSaveDialog(frame);
+        if (returnValSave == JFileChooser.APPROVE_OPTION) {
+          fileForExporting = chooser.getSelectedFile();
+          saveSpec(fileForExporting.getPath(),"xml");
+        }
+      }
+      //close the project and set back to defaults
+      if (event.getSource() == close) {
+        closeProject();
+      }
+    }
+    catch (java.lang.OutOfMemoryError ex) {
+      resultConsole.append("Out of memory error: "+ex.getLocalizedMessage()+"\n");
+      resultConsole.append("Try allocating more memory (eg. java -Xmx512m ...) and restarting...\n");
+      throw ex;
+    }
+    catch (Exception ex) {
+      // show the error message in the console panel.
+      resultConsole.append("Exception error: "+ex.getLocalizedMessage()+"\n");
     }
   }
 
