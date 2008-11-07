@@ -44,7 +44,7 @@ import net.sourceforge.czt.typecheck.z.impl.Factory;
  *
  * @author Petra Malik, Tim Miller
  */
-public class TypeCheckUtils
+public class TypeCheckUtils implements TypecheckPropertiesKeys
 {
   /**
    * Do not generate instances of this class.
@@ -222,12 +222,23 @@ public class TypeCheckUtils
     System.err.println("       -w     raise warnings as errors");
     System.err.println("      -cp <l> specify the value for czt.path as");
     System.err.println("              a semicolon-separated list of dirs");
-    System.err.println("              (e.g., -cp=./tests;/user/myfiles).");
+    System.err.println("              (e.g., -cp ./tests;/user/myfiles).");
     System.err.println("              The list is mandatory and must not be empty.");
     System.err.println("       -g{bi} gathering of latex mark-up so that directives");
     System.err.println("              are moved to the beginnings of their sections");
     System.err.println("           b  buffer whole spec in memory (faster)");
     System.err.println("           i  retain informal narrative (no eliding)");
+    System.err.println("\n");
+    System.err.println("Default flags are: \"" +
+        ((syntaxOnlyDefault() ? "-s " : "") +
+        (useBeforeDeclDefault() ? "-d " : "-n ") +
+        (useNameIdsDefault() ? "-i " : "") +
+        (printZMLDefault() ? "-p " : "") + 
+        (printTypesDefault() ? "-t " : "") +
+        (printBenchmarkTimesDefault() ? "-b" : "") + 
+        (raiseWarningsDefault() ? "-w " : "") + 
+        (useSpecReaderDefault() ? "-gb " : "")).trim() +
+        "\"");
   }
 
   protected boolean useBeforeDeclDefault()
@@ -518,11 +529,18 @@ public class TypeCheckUtils
       }        
     }       
     SectionManager manager = getSectionManager();
-    SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();    
+    
+    manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
+    manager.setProperty(PROP_TYPECHECK_USE_NAMEIDS, String.valueOf(useNameIds));
+    manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));    
+    manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));    
+    //manager.setProperty(PROP_TYPECHECK_SORT_DECL_NAMES, String.valueOf(????));
     if (cztpath != null && !cztpath.isEmpty())
     {
       manager.setProperty("czt.path", cztpath);
     }
+    
+    SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();        
     long zeroTime = System.currentTimeMillis();     
     long currentTime = zeroTime;
     long lastTime = zeroTime;

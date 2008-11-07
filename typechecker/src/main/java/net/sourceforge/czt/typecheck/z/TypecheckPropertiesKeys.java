@@ -49,4 +49,7 @@ public interface TypecheckPropertiesKeys
   
   String PROP_TYPECHECK_RAISE_WARNINGS = 
     "typecheck_raise_warnings";  
+  
+  String PROP_TYPECHECK_USE_SPECREADER =
+    "typecheck_use_spec_reader";
 }

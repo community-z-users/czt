@@ -41,13 +41,13 @@ public class TypeCheckCommand
                                                SectionManager manager)
   {
     boolean useBeforeDecl =
-      getBooleanProperty(manager, PROP_TYPECHECK_USE_BEFORE_DECL);
+      manager.getBooleanProperty(PROP_TYPECHECK_USE_BEFORE_DECL);
     boolean useNameIds =
-      getBooleanProperty(manager, PROP_TYPECHECK_USE_NAMEIDS);
+      manager.getBooleanProperty(PROP_TYPECHECK_USE_NAMEIDS);
     boolean sortDeclNames =
-      getBooleanProperty(manager, PROP_TYPECHECK_SORT_DECL_NAMES);
+      manager.getBooleanProperty(PROP_TYPECHECK_SORT_DECL_NAMES);
     boolean raiseWarnings =
-      getBooleanProperty(manager, PROP_TYPECHECK_RAISE_WARNINGS);
+      manager.getBooleanProperty(PROP_TYPECHECK_RAISE_WARNINGS);
     return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, useNameIds, raiseWarnings, null);
   }
 
@@ -73,11 +73,5 @@ public class TypeCheckCommand
       }
     }
     return true;
-  }
-
-  protected boolean getBooleanProperty(SectionManager manager,
-                                       String propertyKey)
-  {
-    return "true".equals(manager.getProperty(propertyKey));
   }
 }
