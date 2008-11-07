@@ -1,0 +1,56 @@
+/*
+  Copyright (C) 2008 Leo Freitas
+  This file is part of the czt project.
+
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+package net.sourceforge.czt.z.dc;
+
+/**
+ * <P>Contains String constants for the keys used in parse properties.</P>
+ *
+ * <P>The behaviour of the CZT parser utilities (scanner, parser, etc.)
+ * can be configured via Properties.  This interface provides the String
+ * constants that are currently supported by the parser utilities.</P>
+ *
+ * @author leo
+ */
+public interface DomainCheckPropertyKeys {
+
+  /** 
+   * When this property is <code>true</code>, whenever the domain checker
+   * need to create \appliesTo predicates, it uses its infix version. 
+   * DEFAULT = true; TYPE = boolean
+   */
+  String PROP_DOMAINCHECK_USE_INFIX_APPLIESTO =
+    "domaincheck_use_infix_appliesto";
+  
+  /** 
+   * When this property is <code>true</code>, the domain checker will
+   * process all the parent sections of the section being processed, 
+   * except for those set to be ignored.
+   * DEFAULT = true; TYPE = boolean
+   */
+  String PROP_DOMAINCHECK_PROCESS_PARENTS =
+    "domaincheck_process_parents";  
+  
+  /**
+   * When this property is <code>false</code>, the domain checker will
+   * not add trivial (true) domain check predicates.
+   * DEFAULT = false; TYPE = boolean
+   */
+  String PROP_DOMAINCHECK_ADD_TRIVIAL_DC =
+    "domaincheck_add_trivial_dc";
+}
