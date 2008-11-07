@@ -18,10 +18,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.z.dc;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.session.SectionManager;
 
 /** 
  *  Calculates the definedness criteria for ZSect terms, which
@@ -38,8 +45,8 @@ public class Main
       Handler handler = new FileHandler("dc.log");
       handler.setLevel(Level.ALL);
       handler.setEncoding("utf8");
-      Logger.getLogger("").addHandler(handler);
-      Logger dcLogger = Logger.getLogger("net.sourceforge.czt.z.dc");
+      Logger dcLogger = Logger.getLogger(DomainChecker.class.getName());
+      dcLogger.addHandler(handler);      
       dcLogger.setLevel(Level.FINEST);
 
       // Now read the spec 
@@ -47,20 +54,31 @@ public class Main
         System.err.println("Args: spec.tex");
         System.exit(1);
       }
-      System.err.println("Reading spec");
-      final String input = args[0];
-      //URL specURL = new File(input).toURL();
-      //FileSource source = new FileSource(input);
-      //SectionManager manager = new SectionManager();
-      //String name = "spec";
-      //manager.put(new Key(name, Source.class), source);
-      //Spec spec = (Spec) manager.get(new Key(name, Spec.class));
-
-       // now create the output file
-      System.err.println("Creating output file");
-      dcLogger.fine("input file is " + input);
-
-      System.err.println("Done!");
+      System.out.println("Reading spec in " + args[0]);
+      dcLogger.fine("input file is " + args[0]);
+      FileSource source = new FileSource(args[0]);      
+      SectionInfo manager = new SectionManager();            
+      
+      System.out.println("Parsing and typechecking..." + args[0]);      
+      
+      ZSectDCEnvAnn zsDCEnvAnn = manager.get(new Key<ZSectDCEnvAnn>(args[0], ZSectDCEnvAnn.class));      
+      String outputFileName = "./" + zsDCEnvAnn.getZSect().getName() + ".tex";
+            
+      System.out.println("Calculating domain checks.." + args[0]);
+      LatexString outputData = manager.get(new Key<LatexString>(args[0], LatexString.class));
+            
+      System.out.println("Creating output file......." + outputFileName);
+      File outputFile = new File(outputFileName);      
+      if (outputFile.exists())
+      {
+        System.out.println("Output file already exists, deleting it first.");
+        outputFile.delete();
+      }      
+      FileWriter output = new FileWriter(outputFile);      
+      output.write(outputData.toString());
+      output.close();
+      
+      System.out.println("Done! See results in " + outputFileName);
     }
     catch(Exception e) {
       System.err.println("ERROR: "+e);
@@ -68,5 +86,9 @@ public class Main
       System.err.println("For debugging purposes, here is a stack trace:");
       e.printStackTrace();
     }
+  }
+
+  private Main()
+  {
   }
 }
