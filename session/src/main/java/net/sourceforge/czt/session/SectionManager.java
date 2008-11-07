@@ -94,6 +94,9 @@ public class SectionManager
 {
   private static final String DEFAULT_EXTENSION = "z";
   private String dialect_ = DEFAULT_EXTENSION;
+  
+  public static final String  SECTION_MANAGER_LIST_PROPERTY_SEPARATOR = ";";
+  
 
   /**
    * The Cache, a mapping from Key to Object.
@@ -473,5 +476,32 @@ public class SectionManager
   public String toString()
   {
     return "SectionManager contains " + content_.toString();
+  }
+  
+  public boolean getBooleanProperty(String propertyKey)
+  {
+    return "true".equals(getProperty(propertyKey));
+  }
+  
+  public int getIntegerProperty(String propertyKey)
+  {
+    int result;
+    try
+    {
+      result = Integer.valueOf(getProperty(propertyKey));
+    }
+    catch (NumberFormatException e)
+    {
+      // silently return 0;?
+      //result = 0;
+      throw e; // No. Care about it whomever called it.
+    }
+    return result;
+  }
+  
+  public List<String> getListProperty(String propertyKey)
+  {
+    String value = getProperty(propertyKey);    
+    return Arrays.asList(value.split(SECTION_MANAGER_LIST_PROPERTY_SEPARATOR));    
   }
 }
