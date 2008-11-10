@@ -413,6 +413,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.jav
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/Tester.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/VerboseListener.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/AlarmClock.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/LargeSet.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SimpleSet.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SimpleSetWithAdaptor.java -text
@@ -422,6 +423,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/SpecialFSMNoLoo
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSet.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSetBuggy.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/StringSetTest.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/TrafficLight.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/ecinema/ECinema.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/ecinema/Showtime.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/examples/ecinema/User.java -text
@@ -469,6 +471,11 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexS
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VertexStrokeTransformer.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/gui/visualisaton/VisualisationListener.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/timing/Time.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/timing/TimedFsmModel.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/timing/TimedModel.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/timing/TimedTransition.java -text
+modeljunit/src/main/java/net/sourceforge/czt/modeljunit/timing/Timeout.java -text
 modeljunit/src/main/resources/images/BlueOrb.png -text svneol=unset#image/png
 modeljunit/src/main/resources/images/GreenOrb.png -text svneol=unset#image/png
 modeljunit/src/main/resources/images/PurpleOrb.png -text svneol=unset#image/png

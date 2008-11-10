@@ -72,11 +72,11 @@ public class Model
 
   /** The implementation under test (null means none yet). */
   //@invariant fsmModel_ != null ==> fsmClass_ != null;
-  private FsmModel fsmModel_ = null;
+  protected FsmModel fsmModel_ = null;
 
   /** All the @Action methods of fsmClass_. */
   //@invariant fsmActions_ == null <==> fsmClass_ == null;
-  private ArrayList<Method> fsmActions_ = null;
+  protected ArrayList<Method> fsmActions_ = null;
 
   /** All the guards of fsmClass_.
    *  These are in exactly the same order as fsmActions_.
@@ -91,7 +91,7 @@ public class Model
 
   /** The current state of the implementation under test. */
   //@invariant fsmState_ != null ==> fsmModel_ != null;
-  private Object fsmState_ = null;
+  protected Object fsmState_ = null;
 
   /** True means we are generating real tests.
    *  False means we are just exploring the model,
@@ -107,10 +107,10 @@ public class Model
    *  TODO: decide whether this needs to be builtin or a listener.
    */
   //@invariant fsmSequence_ == null <==> fsmModel_ == null;
-  private ArrayList<Transition> fsmSequence_;
+  protected ArrayList<Transition> fsmSequence_;
 
   /** An empty array of objects. */
-  private static final Object[] VOID_ARGS = new Object[] {};
+  protected static final Object[] VOID_ARGS = new Object[] {};
 
   /** Output device used for messages and warnings. */
   protected Writer output_;
@@ -428,7 +428,7 @@ public class Model
   public boolean doAction(int index)
   {
     if (! isEnabled(index))
-      return false;
+    	return false;
 
     Method m = fsmActions_.get(index);
     try {

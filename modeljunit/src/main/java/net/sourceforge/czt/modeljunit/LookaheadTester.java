@@ -26,6 +26,8 @@ import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.examples.FSM;
+import net.sourceforge.czt.modeljunit.timing.TimedFsmModel;
+import net.sourceforge.czt.modeljunit.timing.TimedModel;
 
 /** A test generator that looks N-levels ahead in the graph.
  *
@@ -169,8 +171,14 @@ public class LookaheadTester extends Tester
    */
   public LookaheadTester(FsmModel fsm)
   {
-    this(new Model(fsm));
+    super(fsm);
+    model_.addListener("graph");
+    transitions_ = (CoverageMetric) model_.addListener(new TransitionCoverage());
+    actions_ = (CoverageMetric) model_.addListener(new ActionCoverage());
+    graph_ = (GraphListener) model_.getListener("graph");
   }
+  
+
 
   public String getName()
   {

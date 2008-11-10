@@ -19,9 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit;
 
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Random;
 
 /** Test a system by making greedy walks through an EFSM model of the system.
  *  A greedy random walk gives preference to transitions that have never
@@ -42,17 +40,22 @@ public class GreedyTester extends RandomTester
   public GreedyTester(Model model)
   {
     super(model);
-    graph_ = (GraphListener) model.addListener("graph");
+    graph_ = (GraphListener) model_.addListener("graph");
   }
 
+
+  
   /**
    * A convenience constructor that puts a Model wrapper around an FsmModel.
    * @param fsm  Must be non-null.
    */
   public GreedyTester(FsmModel fsm)
   {
-    this(new Model(fsm));
+    super(fsm);
+    graph_ = (GraphListener) model_.addListener("graph");
   }
+  
+
 
   @Override
   public String getName()

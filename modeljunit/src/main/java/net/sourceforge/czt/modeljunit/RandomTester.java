@@ -21,6 +21,9 @@ package net.sourceforge.czt.modeljunit;
 
 import java.util.BitSet;
 
+import net.sourceforge.czt.modeljunit.timing.TimedFsmModel;
+import net.sourceforge.czt.modeljunit.timing.TimedModel;
+
 /** Test a system by making random walks through an EFSM model of the system.
  */
 public class RandomTester extends Tester
@@ -50,8 +53,10 @@ public class RandomTester extends Tester
    */
   public RandomTester(FsmModel fsm)
   {
-    this(new Model(fsm));
+    super(fsm);
   }
+  
+
 
   public String getName()
   {

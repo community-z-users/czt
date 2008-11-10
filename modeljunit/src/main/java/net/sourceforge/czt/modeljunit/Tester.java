@@ -23,9 +23,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+import net.sourceforge.czt.modeljunit.timing.TimedFsmModel;
+import net.sourceforge.czt.modeljunit.timing.TimedModel;
 
 /**
  * An abstract superclass for all the test generation algorithms.
@@ -70,8 +71,13 @@ public abstract class Tester
    */
   public Tester(FsmModel fsm)
   {
-    this(new Model(fsm));
+	  if(fsm instanceof TimedFsmModel)
+		  model_ = new TimedModel((TimedFsmModel)fsm);
+	  else
+		  model_ = new Model(fsm);
   }
+  
+
 
   /** The name of this test generation algorithm. */
   public abstract String getName();
