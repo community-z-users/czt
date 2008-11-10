@@ -36,13 +36,13 @@ public class TypeCheckCommand
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager) {
     boolean useBeforeDecl = false && // don't accept this for now
-      getBooleanProperty(manager, PROP_TYPECHECK_USE_BEFORE_DECL);
+      manager.getBooleanProperty(PROP_TYPECHECK_USE_BEFORE_DECL);
     boolean useNameIds = false && // don't accept this for now
-      getBooleanProperty(manager, PROP_TYPECHECK_USE_NAMEIDS);
+      manager.getBooleanProperty(PROP_TYPECHECK_USE_NAMEIDS);
     boolean sortDeclNames = false && // don't accept this for now
-      getBooleanProperty(manager, PROP_TYPECHECK_SORT_DECL_NAMES);
+      manager.getBooleanProperty(PROP_TYPECHECK_SORT_DECL_NAMES);
     boolean raiseWarnings =
-      getBooleanProperty(manager, PROP_TYPECHECK_RAISE_WARNINGS);    
+      manager.getBooleanProperty(PROP_TYPECHECK_RAISE_WARNINGS);    
     return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, 
       sortDeclNames, useNameIds, raiseWarnings, null);
   }
