@@ -47,7 +47,7 @@ public class TypeCheckCommand
     boolean sortDeclNames =
       manager.getBooleanProperty(PROP_TYPECHECK_SORT_DECL_NAMES);
     boolean raiseWarnings =
-      manager.getBooleanProperty(PROP_TYPECHECK_RAISE_WARNINGS);
+      manager.getBooleanProperty(PROP_TYPECHECK_RAISE_WARNINGS);    
     return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, useNameIds, raiseWarnings, null);
   }
 
@@ -57,7 +57,7 @@ public class TypeCheckCommand
     // Retrieve the section information.
     // It throws an exception if it is not available.
     // This also parses the section.
-    ZSect zs = (ZSect) manager.get(new Key(name, ZSect.class));
+    ZSect zs = manager.get(new Key<ZSect>(name, ZSect.class));
     if (zs != null) {
       //Typechecks the given section. This will include the SectTypeEnv we
       //are looking for into the manager.

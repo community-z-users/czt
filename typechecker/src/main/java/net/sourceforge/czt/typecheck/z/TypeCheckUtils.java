@@ -20,6 +20,7 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
@@ -535,19 +536,42 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));    
     manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));    
     //manager.setProperty(PROP_TYPECHECK_SORT_DECL_NAMES, String.valueOf(????));
+    
+    // add a potentially old czt path (? TODO: decide to add this or not ?)
+    String localcztpath = null;
     if (cztpath != null && !cztpath.isEmpty())
     {
-      manager.setProperty("czt.path", cztpath);
-    }
+      String oldcztpath = manager.getProperty("czt.path");
+      if (oldcztpath != null && !oldcztpath.trim().isEmpty())
+      {
+        cztpath = oldcztpath + ";" + cztpath;
+      }      
+      localcztpath = cztpath;
+    }            
     
     SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();        
     long zeroTime = System.currentTimeMillis();     
     long currentTime = zeroTime;
-    long lastTime = zeroTime;
+    long lastTime = zeroTime;    
     for (String file : files) {            
       //parse the file
       Term term = null;
       Markup markup = ParseUtils.getMarkup(file);
+      
+      // add the file parent to the path as well.      
+      File archive = new File(file);                    
+      if (archive != null && archive.getParent() != null) 
+      {
+        String fileParent = archive.getParent();
+        if (localcztpath != null && fileParent != null & fileParent.isEmpty())
+        {
+          localcztpath = fileParent + (cztpath != null ? ";" + cztpath : "");
+        }             
+      }
+      if (localcztpath != null)
+      {
+        manager.setProperty("czt.path", localcztpath);
+      }
       
       Source source = null;
       boolean openOk = false;
@@ -623,7 +647,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
 
         if (printTypes) {
           SectTypeEnvAnn sectTypeEnvAnn =
-            (SectTypeEnvAnn) term.getAnn(SectTypeEnvAnn.class);
+            term.getAnn(SectTypeEnvAnn.class);
           if (sectTypeEnvAnn != null) 
           {
             printTypes(sectTypeEnvAnn, manager, markup);
@@ -671,6 +695,12 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       lastTime = currentTime;
     }
     long totalTime = System.currentTimeMillis() - zeroTime;
+    
+    if (cztpath != null)
+    {
+      // set the global czt path after all files have been processed.
+      manager.setProperty("czt.path", cztpath);
+    }
     
     if (printBenchmark) {      
       System.out.println(totalTime + "ms for " + files.size() + " files.");

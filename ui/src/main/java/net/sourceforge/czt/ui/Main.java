@@ -179,11 +179,17 @@ public class Main
           File file = new File(args[i]);                    
           if (file != null && file.getParent() != null) {
             String fileParent = file.getParent();
+            String oldcztpath = manager.getProperty("czt.path");
+            oldcztpath = (oldcztpath == null ? "" : oldcztpath.trim());
             // if null or empty, just use the parent; otherwise concatenate the 
             // parent at the beginning, since lookup is FIFO ordered.
             cztpath = ((cztpath == null || cztpath.isEmpty()) ? fileParent : 
-              fileParent + ";" + cztpath);
-            manager.setProperty("czt.path", cztpath);
+              (oldcztpath.isEmpty() ? (fileParent + ";" + cztpath) : 
+                (fileParent + ";" + oldcztpath + ";" + cztpath)));            
+            if (cztpath != null)
+            {
+               manager.setProperty("czt.path", cztpath);
+            }
           }
           if (parse(source, manager, syntaxCheckOnly, prove) &&
               output != null) {
