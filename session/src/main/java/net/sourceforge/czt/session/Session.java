@@ -59,6 +59,10 @@ public class Session
 
   public void setPath(String path)
   {
+    if (path == null)
+    {
+      throw new IllegalArgumentException("Null path is not allowed");
+    }
     manager_.setProperty("czt.path", path);
   }
 
