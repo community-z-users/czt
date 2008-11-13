@@ -18,3 +18,21 @@
     }
     return null;
   }
+  
+  public void setName(Name name)
+  {
+    Name zname = this.getAnn(Name.class);
+    if (zname != null)
+    {      
+      java.util.List anns = getAnns();
+      for (java.util.Iterator iter = anns.iterator(); iter.hasNext(); )
+      {
+        Object ann = iter.next();
+        if (Name.class.isInstance(ann))
+        {
+          iter.remove();
+        }
+      }
+    }
+    this.getAnns().add(name);
+  }

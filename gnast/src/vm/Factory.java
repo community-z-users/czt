@@ -183,6 +183,11 @@
   {
     return createMemPred(createRefExpr(refName), expr, Boolean.FALSE);
   }
+  
+  public Pred createSetMembership(Expr left, Expr right)
+  {
+    return createMemPred(left, right, Boolean.FALSE);
+  }
 
   /**
    * Creates a number expression with the given value.

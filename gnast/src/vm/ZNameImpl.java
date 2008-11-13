@@ -8,6 +8,18 @@
       return null;
     }
   }
+  
+  public net.sourceforge.czt.z.util.OperatorName getOperatorName(
+    net.sourceforge.czt.z.util.OperatorName.Fixity fixity)
+  {
+    try {
+      return new net.sourceforge.czt.z.util.OperatorName(this.getWord(), this.getStrokeList(), fixity);
+    }
+    catch(net.sourceforge.czt.z.util.OperatorName.OperatorNameException e) {
+      return null;
+    }  
+  }
+  
 
   /**
    * This is a convenience method.

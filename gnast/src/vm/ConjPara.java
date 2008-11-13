@@ -11,3 +11,5 @@
    * is automatically generated from the CZT XML schema.
    */
   String getName();
+  
+  void setName(Name name);
