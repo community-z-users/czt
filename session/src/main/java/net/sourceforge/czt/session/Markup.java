@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.session;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * An enumeration of supported mark-ups.
  */
@@ -27,4 +30,44 @@ public enum Markup
   LATEX,
   UNICODE,
   ZML;
+  
+  public final String [] KNOWN_FILENAME_SUFFIXES = {
+    ".tex", ".zed", ".zed8", ".zed16", ".oz", ".oz8", ".oz16",
+    ".circus", ".circus8", ".circus16", ".zedpatt", ".zedpatt8", ".zedpatt16",
+    ".zml"};
+  
+  //TODO: These could come from a configuration file perhaps?
+  public static List<String> getKnownLatexSuffixes()
+  {
+    return Arrays.asList(".tex", ".zed", ".oz", ".circus", ".zedpatt");
+  }
+  
+  public static List<String> getKnownUnicodeSuffixes()
+  {
+    return Arrays.asList(".zed8", ".zed16", ".oz8", ".oz16", ".circus8", ".circus16", ".zedpatt8", ".zedpatt16");
+  }
+  
+  public static List<String> getKnownXMLSuffixes()
+  {
+    return Arrays.asList(".zml", ".xml");
+  }
+  
+  public static Markup getMarkup(String filename)
+  {
+    if (filename == null) throw new IllegalArgumentException("Null file name");
+    Markup result = null;    
+    for(String suffix : getKnownLatexSuffixes())
+    {
+      if (filename.toLowerCase().endsWith(suffix)) return Markup.LATEX;
+    }
+    for(String suffix : getKnownUnicodeSuffixes())
+    {
+      if (filename.toLowerCase().endsWith(suffix)) return Markup.UNICODE;
+    }
+    for(String suffix : getKnownXMLSuffixes())
+    {
+      if (filename.toLowerCase().endsWith(suffix)) return Markup.ZML;
+    }        
+    return result;
+  }
 }

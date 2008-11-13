@@ -488,7 +488,9 @@ public class SectionManager
     int result;
     try
     {
-      result = Integer.valueOf(getProperty(propertyKey));
+      String value = getProperty(propertyKey);
+      if (value == null) { value = ""; };
+      result = Integer.valueOf(value);
     }
     catch (NumberFormatException e)
     {
@@ -502,6 +504,7 @@ public class SectionManager
   public List<String> getListProperty(String propertyKey)
   {
     String value = getProperty(propertyKey);    
+    if (value == null) { value = ""; }
     return Arrays.asList(value.split(SECTION_MANAGER_LIST_PROPERTY_SEPARATOR));    
   }
 }
