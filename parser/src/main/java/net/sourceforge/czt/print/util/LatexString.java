@@ -19,18 +19,14 @@
 
 package net.sourceforge.czt.print.util;
 
-public class LatexString
+public class LatexString extends CztPrintString
 {
-  private String string_;
-  private String extension_ = "z";
-
   /**
    * @throws NullPointerException if value is <code>null</code>.
    */
   public LatexString(String value)
   {
-    if (value == null) throw new NullPointerException();
-    string_ = value;
+    super(value);
   }
 
   /**
@@ -38,20 +34,6 @@ public class LatexString
    */
   public LatexString(String value, String extension)
   {
-    if (value == null || extension == null) {
-      throw new NullPointerException();
-    }
-    extension_ = extension;
-    string_ = value;
-  }
-
-  public String getExtension()
-  {
-    return extension_;
-  }
-
-  public String toString()
-  {
-    return string_;
+    super(value, extension);
   }
 }

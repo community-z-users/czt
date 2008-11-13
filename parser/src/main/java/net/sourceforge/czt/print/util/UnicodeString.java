@@ -19,18 +19,14 @@
 
 package net.sourceforge.czt.print.util;
 
-public class UnicodeString
+public class UnicodeString extends CztPrintString
 {
-  private String extension_ = "z";
-  private String string_;
-
   /**
    * @throws NullPointerException if value is <code>null</code>.
    */
   public UnicodeString(String value)
   {
-    if (value == null) throw new NullPointerException();
-    string_ = value;
+    super(value);
   }
 
   /**
@@ -38,20 +34,6 @@ public class UnicodeString
    */
   public UnicodeString(String value, String extension)
   {
-    if (value == null || extension == null) {
-      throw new NullPointerException();
-    }
-    extension_ = extension;
-    string_ = value;
-  }
-
-  public String getExtension()
-  {
-    return extension_;
-  }
-
-  public String toString()
-  {
-    return string_;
+    super(value, extension);
   }
 }
