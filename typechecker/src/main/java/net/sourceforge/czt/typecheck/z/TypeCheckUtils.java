@@ -538,8 +538,8 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     //manager.setProperty(PROP_TYPECHECK_SORT_DECL_NAMES, String.valueOf(????));
     
     // add a potentially old czt path (? TODO: decide to add this or not ?)
-    String localcztpath = null;
-    if (cztpath != null && !cztpath.isEmpty())
+    String localcztpath = "";
+    if (cztpath != null && !cztpath.trim().isEmpty())
     {
       String oldcztpath = manager.getProperty("czt.path");
       if (oldcztpath != null && !oldcztpath.trim().isEmpty())
@@ -547,7 +547,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         cztpath = oldcztpath + ";" + cztpath;
       }      
       localcztpath = cztpath;
-    }            
+    }                
     
     SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();        
     long zeroTime = System.currentTimeMillis();     
@@ -559,16 +559,20 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       Markup markup = ParseUtils.getMarkup(file);
       
       // add the file parent to the path as well.      
-      File archive = new File(file);                    
+      File archive = new File(file);
       if (archive != null && archive.getParent() != null) 
       {
         String fileParent = archive.getParent();
-        if (localcztpath != null && fileParent != null & fileParent.isEmpty())
+        if (fileParent != null && !fileParent.isEmpty())
         {
-          localcztpath = fileParent + (cztpath != null ? ";" + cztpath : "");
+          localcztpath = fileParent;
+        }
+        if (cztpath != null && !cztpath.isEmpty())
+        {
+          localcztpath = fileParent + ";" + cztpath;
         }             
-      }
-      if (localcztpath != null)
+      }            
+      if (localcztpath != null && !localcztpath.trim().isEmpty())
       {
         manager.setProperty("czt.path", localcztpath);
       }
