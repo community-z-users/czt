@@ -19,78 +19,103 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.dc;
 
 import java.io.File;
-import java.io.StringWriter;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import net.sourceforge.czt.print.util.CztPrintString;
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.ZSect;
 
 /**
+ * A JUnit test class for testing the domainchecker. This reads any
+ * files not ending with a "_" from the directory tests/circus.
  *
- * @author leo
+ * If the file ends with ".error", then the test reads everything up
+ * to the first "-" and that is the name of the error constant.
+ *
+ * If the file does not end in ".error" or "_", then no error is
+ * expected.
+ *
+ * @author Leo Freitas
  */
-public class DomainCheckerTest extends TestCase
+public class DomainCheckerTest
+  extends TestCase
+  implements DomainCheckPropertyKeys
 {
   // true => looks into tests/circus/debug/*.tex;
   // false=> looks into tests/circus/*.tex
-  protected static boolean DEBUG_TESTING = false;
-  
+  protected static boolean DEBUG_TESTING = false; // true;
   // true => executes the printing tests, which will reparse and print files.
   protected static boolean TESTING_PRINTING = false;
-  
-  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.OFF;
+  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.WARNING;
   protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
-  //protected static final ParseErrorLogging pel_;
-  //protected static final ParseErrorLogging pelsm_;
-  
-  static {      
-      if (DEBUG_TESTING) {
-        //pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
-        //pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
-        TESTS_SOURCEDIR.add("tests/debug");
-      } else {
-        TESTS_SOURCEDIR.add("tests/");
-        // If not debugging testing, then do not do logging.
-        //pel_ = null;
-        //pelsm_ = null;
-      }
-  }
 
-  protected static final SectionManager manager_ = new SectionManager();
-  protected static final String lineSeparator_ = System.getProperty("line.separator", "\r\n");
+  static
+  {
+    File shouldDebug = new File("src/test/resources/tests/z/debug-please");
+    try
+    {
+      System.out.println("shouldDebug? \n path = " + shouldDebug.getPath() + "\n abs path = " + shouldDebug.getAbsolutePath() + "\n can path = " + shouldDebug.getCanonicalPath() + " \n exists? = " + shouldDebug.exists());
+    }
+    catch (java.io.IOException e)
+    {
+    }
+    DEBUG_TESTING = shouldDebug.exists();
+    if (DEBUG_TESTING)
+    {
+      System.out.println("Debug mode is on");
+      TESTS_SOURCEDIR.add("tests/z/debug");
+      DEBUG_LEVEL = Level.FINEST;
+    }
+    else
+    {
+      System.out.println("Debug mode is off");
+      TESTS_SOURCEDIR.add("tests/z");
+      DEBUG_LEVEL = Level.WARNING;
+    }
+  }
 
   public static Test suite()
   {
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
-    DomainCheckerTest dcTest = new DomainCheckerTest();
-    dcTest.collectTests(suite, TESTS_SOURCEDIR);        
-    System.out.println("Number of (hoppefully) successful tests to run: " + suite.countTestCases());
+
+    DomainCheckerTest checkerTest = new DomainCheckerTest();
+    checkerTest.collectTests(suite, TESTS_SOURCEDIR);
     return suite;
   }
   
   protected final DomainChecker domainChecker_;
+  private final SectionManager manager_;
   
   /** Creates a new instance of DomainCheckerTest */
   public DomainCheckerTest()
   {
-    domainChecker_ = new DomainChecker();
+    manager_ = new SectionManager();
+    domainChecker_ = new DomainChecker(manager_);
+    domainChecker_.setAddingTrivialDC(manager_.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC));
+    domainChecker_.setProcessingParents(manager_.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS));
+    domainChecker_.setInfixAppliesTo(manager_.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO));    
+    for(String section : manager_.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE))
+    {
+      domainChecker_.addParentSectionToIgnore(section);
+    }    
   }
   
-  protected static SectionManager getSectionManager() {
+  protected SectionManager getSectionManager() {
       return manager_;
   }
   
@@ -123,26 +148,43 @@ public class DomainCheckerTest extends TestCase
       //System.out.println("CZT-PATH = " + cztHome);
       if (cztHome == null) { cztHome = ""; }
     }
-    String fullDirectoryName = cztHome + directoryName;
-    System.out.println("Full directory name = " + fullDirectoryName);
-    File directory = new File(fullDirectoryName);
-    File[] files = null;
-    if (! directory.isDirectory())
+    // if it is a list of directories...
+    List<String> paths = Arrays.asList(cztHome);
+    if (cztHome != null && cztHome.indexOf(';') != -1)
     {
-      URL url = getClass().getResource("/");
-      if (url != null) {
-        System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
-        directory = new File(url.getFile() + fullDirectoryName);        
-        if (! directory.isDirectory()) {
-          System.out.println("No tests to perform on " + directory.getAbsolutePath());            
-        } else {
+      paths = Arrays.asList(cztHome.split(";"));
+    }        
+    File[] files = null;
+    for(String path : paths)
+    {
+      String fullDirectoryName = path.trim() + (!path.isEmpty() ? "\\" : "") + directoryName;
+      System.out.println("Full directory name = " + fullDirectoryName);
+      File directory = new File(fullDirectoryName);      
+      if (!directory.isDirectory())
+      {
+        URL url = getClass().getResource("/");
+        if (url != null) {
+          System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
+          directory = new File(url.getFile() + fullDirectoryName);        
+          if (! directory.isDirectory()) 
+          {
+            System.out.println("No tests to perform on " + directory.getAbsolutePath());            
+          } 
+          else 
+          {
             files = directory.listFiles();
-        }       
-      } else {
-        fail("Could not retrieve a valid testing set under " + directory.getAbsolutePath());
-      }
-    } else {
+          }
+          break;
+        } 
+        else 
+        {
+          fail("Could not retrieve a valid testing set under " + directory.getAbsolutePath());
+        }
+      } 
+      else {
         files = directory.listFiles();
+        break;
+      }
     }
     if (files != null) {
         for (File file : files)
@@ -163,106 +205,86 @@ public class DomainCheckerTest extends TestCase
   
   protected class TestNormal extends TestCase
   {
-    private String file_;
-    private List<Pair<Para, Pred>> dc_;
+    private final String file_;
     
-    protected TestNormal(String file)
+    protected TestNormal(String fileme)
     {
-      file_ = file;
-      dc_ = null;
+      file_ = fileme;
     }
     
-    protected String getFile() {
+    protected String getFileName() {
         return file_;
-    }
-    
-    protected List<Pair<Para, Pred>> getDC() {
-        return dc_;
-    }
-    
-    private final boolean PROCESS_PARENTS = false;
-    private final boolean ADD_TRIVIAL_DC = false;
+    }    
     
     protected void innerTest() {
       try
-      {
+      {                
         System.out.println("Retrieving Spec for " + file_);        
-        Spec spec = (Spec)manager_.get(new Key(file_, Spec.class));
+        Spec spec = manager_.get(new Key<Spec>(file_, Spec.class));
         if (spec == null)
         {
-          fail("Parser returned null (i.e., parsing error)");
+          fail("Parser returned null (i.e., parsing error) for " + file_);
         }
         else 
         { 
-          System.out.println("Collecting DCs for Spec");    
-          domainChecker_.setSectInfo(manager_);
-          Spec dcSpec = domainChecker_.createDCSpec(spec, PROCESS_PARENTS, ADD_TRIVIAL_DC);
-
-          StringWriter writer = new StringWriter();
-          System.out.println("Printing DC sections for Spec");          
-          for(Sect sect : dcSpec.getSect())
-          {
-            if (sect instanceof ZSect) 
-            {
-              ZSect zsect = (ZSect)sect;
-              domainChecker_.printDCZSect(zsect, writer, Markup.LATEX);
-              writer.write("\n\n");
-            }
-          }          
+          System.out.println("Collecting DCs for Spec");          
+          Spec dcSpec = domainChecker_.createDCSpec(spec);
           
-//          for(Pair<Para, Pred> pair : dc_)
-//          {            
-//            writer.write(i + ") ");  
-//            
-//            if (ZUtils.isZPara(pair.FIRST))
-//            {
-//              PrintUtils.printLatex(pair.FIRST, writer, manager_, "standard_toolkit");
-//            }   
-//            else 
-//            {
-//              // printLatex does not work for LatexMarkupPara, NarrPara, etc...
-//              writer.write(pair.FIRST.toString());
-//            }
-//            writer.write("\n\tDC= ");
-//            PrintUtils.printLatex(pair.SECOND, writer, manager_, "standard_toolkit");
-//            writer.write("\n\n\n");
-//            i++;
-//          }          
-//          writer.write("================================================================\n");
-          writer.close();
-          System.out.println(writer.toString());
-          System.out.flush();
+          Markup markup = Markup.getMarkup(file_);
+          CztPrintString output;
+          switch (markup)
+          {
+            case LATEX:
+              output = manager_.get(new Key<LatexString>(file_, LatexString.class));
+              break;
+            case UNICODE:
+              output = manager_.get(new Key<UnicodeString>(file_, UnicodeString.class));
+              break;
+            case ZML:
+              output = manager_.get(new Key<XmlString>(file_, XmlString.class));
+              break;
+            default: 
+              fail("Invalid file name extension. Could not retrieve its markup format to produce DC section.");
+              return ;
+          }          
+          int dotIdx = file_.lastIndexOf(".");
+          assert dotIdx != -1; // true since getMarkup would fail/return otherwise
+          String fileName = file_.substring(0, dotIdx) + "_dc" + file_.substring(dotIdx);          
+          FileWriter writer = new FileWriter(fileName);
+          System.out.println("Printing DC sections for Spec as " + fileName);
+          writer.write(output.toString());
+          writer.close();          
           return ;        
         }
       }
       catch (net.sourceforge.czt.parser.util.ParseException f)
       {
         printCauses(f);
-        fail(lineSeparator_ + "Unexpected parser exception" +
-            lineSeparator_ + "\tFile: " + file_ +
-            lineSeparator_ + "\tException: " + f.toString());
+        fail("\nUnexpected parser exception" +
+            "\n\tFile: " + file_ +
+            "\n\tException: " + f.toString());
         f.printErrorList();        
       }
       catch (CommandException g)
       {
         printCauses(g);
-        fail(lineSeparator_ + "Unexpected command exception" +
-            lineSeparator_ + "\tFile: " + file_ +
-            lineSeparator_ + "\tException: " + g.toString());                
+        fail("\nUnexpected command exception" +
+            "\n\tFile: " + file_ +
+            "\n\tException: " + g.toString());                
       }
       catch (RuntimeException e)
       {
         printCauses(e);
-        fail(lineSeparator_ + "Unexpected runtime exception" +
-            lineSeparator_ + "\tFile: " + file_ +
-            lineSeparator_ + "\tException: " + e.toString());                
+        fail("\nUnexpected runtime exception" +
+            "\n\tFile: " + file_ +
+            "\n\tException: " + e.toString());                
       }
       catch (Throwable e)
       {        
         printCauses(e);
-        fail(lineSeparator_ + "Unexpected exception" +
-            lineSeparator_ + "\tFile: " + file_ +
-            lineSeparator_ + "\tException: " + e.toString());        
+        fail("\nUnexpected exception" +
+            "\n\tFile: " + file_ +
+            "\n\tException: " + e.toString());        
       }
       fail("Test terminated without a result and without failing!");
     }

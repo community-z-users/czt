@@ -61,11 +61,14 @@ public class Main
       
       System.out.println("Parsing and typechecking..." + args[0]);      
       
-      ZSectDCEnvAnn zsDCEnvAnn = manager.get(new Key<ZSectDCEnvAnn>(args[0], ZSectDCEnvAnn.class));      
+      int dotIdx = args[0].lastIndexOf(".") ;
+      if (dotIdx == -1) { dotIdx = args[0].length(); }
+      String filename = args[0].substring(0, dotIdx);      
+      ZSectDCEnvAnn zsDCEnvAnn = manager.get(new Key<ZSectDCEnvAnn>(filename, ZSectDCEnvAnn.class));      
       String outputFileName = "./" + zsDCEnvAnn.getZSect().getName() + ".tex";
             
       System.out.println("Calculating domain checks.." + args[0]);
-      LatexString outputData = manager.get(new Key<LatexString>(args[0], LatexString.class));
+      LatexString outputData = manager.get(new Key<LatexString>(filename, LatexString.class));
             
       System.out.println("Creating output file......." + outputFileName);
       File outputFile = new File(outputFileName);      

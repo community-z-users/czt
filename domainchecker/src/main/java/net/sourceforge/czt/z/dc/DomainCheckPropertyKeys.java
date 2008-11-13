@@ -53,4 +53,7 @@ public interface DomainCheckPropertyKeys {
    */
   String PROP_DOMAINCHECK_ADD_TRIVIAL_DC =
     "domaincheck_add_trivial_dc";
+  
+  String PROP_DOMAINCHECK_PARENTS_TO_IGNORE =
+    "domaincheck_parents_to_ignore";
 }

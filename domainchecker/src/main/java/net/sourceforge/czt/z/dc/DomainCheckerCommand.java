@@ -5,17 +5,18 @@
 
 package net.sourceforge.czt.z.dc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
@@ -32,69 +33,65 @@ public class DomainCheckerCommand
     throws DomainCheckException
   {
     boolean useInfixAppliesTo =
-      getBooleanProperty(manager, PROP_DOMAINCHECK_USE_INFIX_APPLIESTO);
+      manager.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO);
     boolean processParents =
-      getBooleanProperty(manager, PROP_DOMAINCHECK_PROCESS_PARENTS);
+      manager.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS);
     boolean addTrivialDC =
-      getBooleanProperty(manager, PROP_DOMAINCHECK_ADD_TRIVIAL_DC);           
+      manager.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC);           
     List<String> parentsToIgnore = 
-      getListProperty(manager, PROP_DOMAINCHECK_PARENTS_TO_IGNORE);
+      manager.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE);
     
     // reset the domain checker's services and toolkit loading.
     logger_.config("Domain checker command: domain checker confirugation");    
-    List<ZSectDCEnvAnn> result = domainCheckUtils_.lDomainCheck(term, manager, 
+    ZSectDCEnvAnn result = domainCheckUtils_.retrieveZSectDCEnv(term, manager, 
       parentsToIgnore, useInfixAppliesTo, processParents, addTrivialDC);
-    if (result == null || result.size() != 1)
+    if (result == null)
     {
-      throw new DomainCheckException("Domain check command returned wrong number of results. Please inspect stack trace. "); 
+      throw new DomainCheckException("Domain check command returned invalid results. Please inspect stack trace."); 
     }
-    return result.get(0);
+    return result;
   }
   
   @Override
   public boolean compute(String name, SectionManager manager) throws CommandException
   { 
+    // expect name to be a section name. The result is a singler ZSectEnvAnn, so, it must be a ZSect.
     
     //if (!manager.isCached(key)) 
-    //{
-            
-      // parse + typecheck the section - ignore result
-      logger_.info("Domain checker command is typechecking " + name);      
-      manager.get(new Key<SectTypeEnvAnn>(name, SectTypeEnvAnn.class));       
+    //{            
+      // parse given term - results are cached 
+      logger_.info("Domain checker command parsing Z section" + name);      
+      ZSect zsect = manager.get(new Key<ZSect>(name, ZSect.class));
       
-      // retrieve the parsed ZSect
-      logger_.info("Domain checker command retrieving typechecked ZSect " + name);      
-      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
-      
-      logger_.info("Doman checker command is domain checking " + name);
+      if (zsect != null)
+      {
+        assert zsect.getName().equals(name);
+        // typecheck it        
+        logger_.info("Domain checker command is typechecking Z section " + name);
+        manager.get(new Key<SectTypeEnvAnn>(name, SectTypeEnvAnn.class));
+      }
+      else
+      {
+        throw new CommandException("Could not parse while computing domain check command for Z section " + name,
+          new DomainCheckException("Domain checking command could not determine nature of Z section " + name));
+      }
+        
+      logger_.info("Doman checker command is domain checking Z section" +name);
       try
       {
-        // calculate domain checks
-        logger_.info("Domain checker command is calculating domain checking predicates for " + name);
-        List<Pair<Para, Pred>> dcs = domainCheck(zSect, manager);
-        
-        // update section manager
-        logger_.info("Domain checker command is updating section manager information for " + name);
-        ZSectDCEnvAnn zsDCEnvAnn = new ZSectDCEnvAnn(zSect, dcs);                      
-        manager.put(new Key<ZSectDCEnvAnn>(name, ZSectDCEnvAnn.class), zsDCEnvAnn);      
-        return true;
+        // calculate domain checks - results NEED TO BE CACHED
+        logger_.info("Domain checker command is calculating domain checking predicates for Z section " + name);
+        ZSectDCEnvAnn dcs = domainCheck(zsect, manager);
+
+        // update section manager - ADD RESULTS TO THE CACHE
+        logger_.info("Domain checker command is updating section manager information for Z section " + name);
+        manager.put(new Key<ZSectDCEnvAnn>(dcs.getZSect().getName(), ZSectDCEnvAnn.class), dcs);                
       }
       catch (DomainCheckException e)
       {
         throw new CommandException("Domain check calculation has thrown an exception for Z section " + name, e);
-      }          
+      }               
     //}
-  }
-  
-  protected boolean getBooleanProperty(SectionManager manager,
-                                       String propertyKey)
-  {
-    return "true".equals(manager.getProperty(propertyKey));
-  }
-  
-  protected List<String> getListProperty(SectionManager manager,
-                                         String propertyKey)
-  {
-    return "true".equals(manager.getProperty(propertyKey));
+    return true;
   }
 }

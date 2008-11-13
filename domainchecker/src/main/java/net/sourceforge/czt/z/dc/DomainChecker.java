@@ -510,9 +510,23 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
       try
       {
         // parse + typecheck dcToolkit_
-        String dcURL = DomainChecker.class.getResource("/lib/" + DC_TOOLKIT_NAME + ".tex").toString();
-        dcToolkit_ = sectInfo_.get(new Key<ZSect>(dcURL, ZSect.class));
-        sectInfo_.get(new Key<SectTypeEnvAnn>(dcURL, SectTypeEnvAnn.class));
+//        URL dcURL = getClass().getResource("/lib/" + DC_TOOLKIT_NAME + ".tex");        
+//        if (dcURL != null)
+//        {          
+//          // update section manager to know about DC_TOOKIT's location
+//          // if this fails, then parsing won't work.
+//          sectInfo_.put(new Key<Source>(DC_TOOLKIT_NAME, Source.class), new FileSource(dcURL.toString()), null);
+//        } 
+//        else
+//        {
+//          throw new DomainCheckException("Could not find domain check toolkit `" + DC_TOOLKIT_NAME + ".tex' within CZT distribution!!!");
+//        }
+        dcToolkit_ = sectInfo_.get(new Key<ZSect>(DC_TOOLKIT_NAME, ZSect.class));
+        SectTypeEnvAnn type = sectInfo_.get(new Key<SectTypeEnvAnn>(DC_TOOLKIT_NAME, SectTypeEnvAnn.class));
+        if (type == null)
+        {
+          throw new Error("");
+        }
       }
       catch (CommandException e)
       {
@@ -557,6 +571,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
    * @param dcList list of domain checks for each paragraph to be added to Z section result.
    */
   protected void processDCZSect(ZSect result, List<Pair<Para, Pred>> dcList)
+    throws DomainCheckException
   {
     assert result != null && dcList != null;
 
@@ -650,6 +665,34 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
     narrText += "\n";
     narrPara = factory_.createNarrPara(factory_.list(narrText));
     result.getZParaList().add(narrPara);
+    
+    // tell the section manager about the presence of this section        
+    String sectName = result.getName();
+    //try 
+    //{
+      // no need to parse, we know it is okay - it's been constructed.
+      sectInfo_.put(new Key<ZSect>(sectName, ZSect.class), result, null);
+    //}
+    //catch(CommandException e)
+    //{
+    //  throw new DomainCheckException("Command exception thrown while trying to update section manager DC ZSect information for " + sectName, e);
+    //}    
+    try
+    {
+      // type check result - if on-the-fly construction is wrong this will fail.
+      sectInfo_.get(new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class));
+    }
+    catch(CommandException e)
+    {
+      logger_.warning("Command exception thrown while trying typecheck DC ZSect " + sectName);
+      logger_.warning("Command exception : " + e.getMessage());
+      if (e.getCause() != null)
+      {
+        logger_.warning("\t caused by " + e.getCause().getClass().getName() + " with message: " + e.getCause().getMessage());
+      }
+      //throw new DomainCheckException("Command exception thrown while trying typecheck DC ZSect " + sectName, e);
+    }     
+    // leave the ZSectDCEnvAnn update to the DomainCheckCommand itself.
   }
 
   /* TERM DC COLLECTION METHODS */
@@ -670,7 +713,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
       result.addAll(term.accept(this));
     }
     return result;
-  }
+  }    
 
   /** TOP-LEVEL SPECIFICATION TERMS */
   /**
@@ -683,7 +726,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
   {
     // just ignore other types of Sect
     return factory_.list();
-  }
+  }  
 
   /**
    * For parent sections, calculate their dependant domain checks,
@@ -698,9 +741,8 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
 
     // if this is one known parent to ignore, raise an error
     if (parentsToIgnore_.contains(sectName))
-    {
-      throw new CztException("Domain Check Exception thrown (see causes) while visiting ZSect " + sectName,
-        new DomainCheckException("Should not process section marked to be ignored (" + sectName + ")!"));
+    {      
+      logger_.info("Domain check is ignoring parent Z section " + sectName);
     }
     // otherwise collect information
     else
@@ -782,10 +824,10 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
     List<Pair<Para, Pred>> result = factory_.list();
 
     // process section parents
-    result.addAll(collect(term.getParent()));
+    result.addAll(collect(term.getParent().toArray(new Parent[0])));
 
     // collect all DC predicates from the declared paragraphs
-    result.addAll(collect(term.getZParaList()));
+    result.addAll(collect(term.getZParaList().toArray(new Para[0])));
 
     // clear definition and operator tables
     defTable_ = null;
@@ -817,4 +859,4 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
     result.add(pair);
     return result;
   }
-  }
+}

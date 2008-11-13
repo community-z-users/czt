@@ -19,22 +19,31 @@
 */
 package net.sourceforge.czt.z.dc;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.print.util.CztPrintString;
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.Command;
-import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
-import net.sourceforge.czt.typecheck.z.TypeCheckCommand;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
@@ -71,8 +80,10 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
   {
     System.err.println("usage: " + name() + " [-apt] filename ...");
     System.err.println("flags: -a     use infix applies to definition.");
+    System.err.println("       -b     print execution benchmarks.");
     System.err.println("       -p     process parent sections.");
     System.err.println("       -t     add trivial DC predicates.");
+    System.err.println("       -w     raise type warnings as errors.");
     System.err.println("       -i <l> list of parents to ignore.");
     System.err.println("              a semicolon-separated list of section names");
     System.err.println("              (e.g., -cp ./tests;/user/myfiles).");
@@ -84,11 +95,23 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     System.err.println("\n");
         System.err.println("Default flags are: \"" +
         ((useInfixAppliesToDefault() ? "-a " : "") +
+         (printBenchmarkDefault() ? "-b " : "") +
         (processParentsDefault() ? "-p " : "") +
-        (addTrivialDCDefault() ? "-t " : "")).trim() +
+        (addTrivialDCDefault() ? "-t " : "") +
+        (raiseWarningsAsErrorsDefault() ? "-w" : "")).trim() +
         "\"");
   }
 
+  protected boolean printBenchmarkDefault()
+  {
+    return true;
+  }
+  
+  protected boolean raiseWarningsAsErrorsDefault()
+  {
+    return false;
+  }
+  
   protected boolean useInfixAppliesToDefault()
   {
     return true;
@@ -109,10 +132,17 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     return null;
   } 
   
-  protected List<ZSectDCEnvAnn> lDomainCheck(Term term, SectionManager manager, List<String> parentsToIgnore,
+  protected String parentToIgnoreListDefault()
+  {
+    return null;
+  }
+  
+  protected ZSectDCEnvAnn retrieveZSectDCEnv(ZSect term, SectionManager manager, List<String> parentsToIgnore,
     boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC)
     throws DomainCheckException
   {
+    assert term != null;
+    
     // prepare the domain checker properties
     domainChecker_.setInfixAppliesTo(useInfixAppliesto);    
     domainChecker_.setProcessingParents(processParents);
@@ -120,29 +150,119 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     domainChecker_.setSectInfo(manager);
     
     // MUST be after setSectInfo, as it resets the default parent sections to ignore
-    for(String parent : parentsToIgnore)
+    if (parentsToIgnore != null)
     {
-      domainChecker_.addParentSectionToIgnore(parent);
-    }    
+      for(String parent : parentsToIgnore)
+      {
+        domainChecker_.addParentSectionToIgnore(parent);
+      }    
+    }
     
-    // domain check the given term accordingly
-    List<ZSectDCEnvAnn> result = new ArrayList<ZSectDCEnvAnn>();
-    if (term instanceof Spec)
+    // domain check the given spec accordingly
+    //List<ZSectDCEnvAnn> result = new ArrayList<ZSectDCEnvAnn>();
+    //if (spec instanceof Spec)
+    //{
+    //  result.addAll(domainChecker_.createDCZSect((Spec)spec));
+    //}
+    //else if (spec instanceof ZSect)
+    //{
+    //  result.add(domainChecker_.createDCZSect((ZSect)spec));
+    //}
+    //else
+    //{
+    //  // for general terms, wrap it around a Z Sect
+    //  result.add(domainChecker_.createDCZSect(spec));
+    //}
+    
+    ZSectDCEnvAnn result = domainChecker_.createDCZSect(term);    
+    return result;
+  }
+  
+  protected Spec domainCheck(Spec term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC)
+    throws DomainCheckException
+  {
+    assert term != null;
+    
+    // prepare the domain checker properties
+    domainChecker_.setInfixAppliesTo(useInfixAppliesto);    
+    domainChecker_.setProcessingParents(processParents);
+    domainChecker_.setAddingTrivialDC(addTrivialDC);
+    domainChecker_.setSectInfo(manager);
+    
+    // MUST be after setSectInfo, as it resets the default parent sections to ignore
+    if (parentsToIgnore != null)
     {
-      result.addAll(domainChecker_.createDCZSect((Spec)term));
-    }
-    else if (term instanceof ZSect)
-    {
-      result.add(domainChecker_.createDCZSect((ZSect)term));
-    }
-    else
-    {
-      // for general terms, wrap it around a Z Sect
-      result.add(domainChecker_.createDCZSect(term));
-    }
+      for(String parent : parentsToIgnore)
+      {
+        domainChecker_.addParentSectionToIgnore(parent);
+      }    
+    }    
+    Spec result = domainChecker_.createDCSpec(term);
     return result;
   }
 
+  protected ZSect domainCheck(ZSect term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC)
+    throws DomainCheckException
+  {    
+    assert term != null;
+    ZSectDCEnvAnn result = retrieveZSectDCEnv(term, manager, 
+      parentsToIgnore, useInfixAppliesto, processParents, addTrivialDC);
+    if (result == null)
+    {
+      throw new DomainCheckException("Could not calculatee domain check for " + term.getName());
+    }
+    return result.getZSect();  
+  }
+  
+  protected String getDCFilename(String filename)
+  {
+    int dotIdx = filename.lastIndexOf(".");
+    assert dotIdx != -1 : "invalid file name (no .ext): " + filename; 
+    String filenameDC = filename.substring(0, dotIdx) + "_dc" + filename.substring(dotIdx);          
+    return filenameDC;
+  }
+  
+  protected String getFileNameNoExt(String filename)
+  {
+    int dotIdx = filename.lastIndexOf(".");
+    assert dotIdx != -1 : "invalid file name (no .ext): " + filename; 
+    String filenameDC = filename.substring(0, dotIdx);          
+    return filenameDC;
+  }
+  
+  protected void print(String dcfilename, SectionManager manager)
+    throws IOException, CommandException, DomainCheckException
+  {
+    Markup markup = Markup.getMarkup(dcfilename);
+    CztPrintString output;
+    switch (markup)
+    {
+      case LATEX:
+        output = manager.get(new Key<LatexString>(dcfilename, LatexString.class));
+        break;
+      case UNICODE:
+        output = manager.get(new Key<UnicodeString>(dcfilename, UnicodeString.class));
+        break;
+      case ZML:
+        output = manager.get(new Key<XmlString>(dcfilename, XmlString.class));
+        break;
+      default: 
+        throw new DomainCheckException("Invalid file name extension. Could not retrieve its markup format to produce DC section for " + dcfilename);
+    }          
+    File file = new File(dcfilename);
+    if (file.exists())
+    {
+      System.out.println("Deleting old DC generated file " + dcfilename);
+      file.delete();      
+    }
+    FileWriter writer = new FileWriter(dcfilename);
+    System.out.println("Printing DC sections for Spec as " + dcfilename);
+    writer.write(output.toString());
+    writer.close();
+  }
+  
   /** @return a fresh new section manager. */
   protected SectionManager getSectionManager()
   {
@@ -151,8 +271,23 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     return sectionManager;
   }  
   
+  protected int printErrors(List<? extends ErrorAnn> errors, boolean raiseWarnings)
+  {
+    int result = 0;
+    //print any errors
+    for (ErrorAnn next : errors) {
+      // raiseWarnings => next.getErrorType(ErrorType.ERROR) only
+      if (raiseWarnings || next.getErrorType().equals(ErrorType.ERROR))
+      {
+        System.out.println(next);
+        System.out.println();
+        result++;
+      }
+    }
+    return result;
+  }
+  
   protected void run(String [] args)
-    throws IOException, net.sourceforge.czt.base.util.UnmarshalException, DomainCheckException
   {
     int result = 0;
     
@@ -162,21 +297,30 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     }
 
     List<String> files = new java.util.ArrayList<String>();
+    boolean printBenchmark = printBenchmarkDefault();
+    boolean raiseWarnings = raiseWarningsAsErrorsDefault();
     boolean useInfixAppliesTo = useInfixAppliesToDefault();
     boolean processParents = processParentsDefault();
     boolean addTrivialDC = addTrivialDCDefault();    
     String cztpath = cztPathDefault();
-    String parentsToIgnore = null;
-
+    String parentsToIgnore = parentToIgnoreListDefault();
     for (int i = 0; i < args.length; i++) 
     {
       if ("-a".equals(args[i])) 
       {
         useInfixAppliesTo = true;
       }
+      else if ("-b".equals(args[i])) 
+      {
+        printBenchmark = true;
+      }
       else if ("-p".equals(args[i]))
       {
         processParents = true;
+      }
+      else if ("-w".equals(args[i]))
+      {
+        raiseWarnings = true;
       }
       else if (args[i].equals("-i"))
       {
@@ -186,8 +330,8 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
           System.err.println("\nYou need to provide an argument for `-i'");
           System.exit(result);
         }
-        i++;
-        parentsToIgnore = args[i].trim(); 
+        i++;        
+        parentsToIgnore = args[i].trim();
       }
       else if (args[i].equals("-cp"))
       {          
@@ -210,140 +354,264 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
         files.add(args[i]);    
       }        
     }       
+    // retrieve section manager and update its CZT properties.
     SectionManager manager = getSectionManager();    
     manager.setProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO, String.valueOf(useInfixAppliesTo));
     manager.setProperty(PROP_DOMAINCHECK_PROCESS_PARENTS, String.valueOf(processParents));
-    manager.setProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC, String.valueOf(addTrivialDC));       
-    if (cztpath != null && !cztpath.isEmpty())
+    manager.setProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC, String.valueOf(addTrivialDC));           
+    
+    // add a potentially old czt path (? TODO: decide to add this or not ?)
+    String localcztpath = "";
+    if (cztpath != null && !cztpath.trim().isEmpty())
     {
-      manager.setProperty("czt.path", cztpath);
+      String oldcztpath = manager.getProperty("czt.path");
+      if (oldcztpath != null && !oldcztpath.trim().isEmpty())
+      {
+        cztpath = oldcztpath + ";" + cztpath;
+      }      
+      localcztpath = cztpath;
+    }
+    
+    List<String> parentsToIgnoreList = null;
+    if (parentsToIgnore != null && !parentsToIgnore.isEmpty())
+    {
+      String oldpipath = manager.getProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE);
+      if (oldpipath != null && !oldpipath.trim().isEmpty())
+      {
+        parentsToIgnore = oldpipath + ";" + parentsToIgnore;
+      }
+      manager.setProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE, parentsToIgnore);            
+      parentsToIgnoreList = manager.getListProperty(parentsToIgnore);
     }
     
     SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();        
     long zeroTime = System.currentTimeMillis();     
     long currentTime = zeroTime;
-    long lastTime = zeroTime;    
-    for (String file : files) {            
-      //parse the file
-      Term term = null;
-      Markup markup = ParseUtils.getMarkup(file);
+    long lastTime = zeroTime;        
+    for (String file : files) 
+    {            
       
-      Source source = null;
-//      boolean openOk = false;      
-//      if (useSpecReader)
-//      {
-//        for (String suff : net.sourceforge.czt.specreader.SpecReader.SUFFICES) {
-//          if (file.endsWith(suff)) {
-//            source = new SpecSource(file, isBufferingWanted, isNarrativeWanted);
-//            openOk = true;
-//            break;
-//          }
-//        }
-//      }
-//      if (!openOk)
-//      {
-        //NOTE: from the Main CZT UI, the file.getParent() is being added
-        //      to czt.path. This seems to be spurious as it works without it.
-        source = new FileSource(file);
-//      }
+      // add the file parent to the path as well.      
+      File archive = new File(file);
+      if (archive != null && archive.getParent() != null) 
+      {
+        String fileParent = archive.getParent();
+        if (fileParent != null && !fileParent.isEmpty())
+        {
+          localcztpath = fileParent;
+        }
+        if (cztpath != null && !cztpath.isEmpty())
+        {
+          localcztpath = fileParent + ";" + cztpath;
+        }             
+      }            
+      if (localcztpath != null && !localcztpath.trim().isEmpty())
+      {
+        manager.setProperty("czt.path", localcztpath);
+      }      
+      
       long parsingErrors = 0;
-      try {
-        lDomainCheck(term, manager, files, useInfixAppliesTo, processParents, addTrivialDC)
-        term = this.domain
-        term = this.domainCheck(source, manager);
-      }
-      catch (DomainCheckException e) {
-        System.err.println("A domain check exception has happened: " + e.getMessage());
-        e.printStackTrace();
-      }
-      catch (net.sourceforge.czt.parser.util.ParseException exception) {
+      long typeErrors = 0;      
+      long parsingTime = 0;
+      long typeCheckTime = 0;
+      long domainCheckTime = 0;
+      long printTime = 0;
+      Spec spec = null;
+      List<SectTypeEnvAnn> types = new ArrayList<SectTypeEnvAnn>();            
+      try 
+      {                
+        // retrieve it as either a ZSect or Spec - expects file name to be section name
+        spec = manager.get(new Key<Spec>(getFileNameNoExt(file), Spec.class));
+      }      
+      catch (ParseException exception) {
         parsingErrors = exception.getErrorList().size();
-        exception.printErrorList();
+        exception.printErrorList();        
       }
-      catch(net.sourceforge.czt.base.util.UnsupportedAstClassException e)
+      catch (CommandException e)
+      {
+        if (e.getCause() != null)
+        { 
+          System.err.println("Command exception has happened: \n\t" + e.getMessage());
+          System.err.println("It was caused by: \n\t" + e.getCause().getMessage());            
+          System.err.println("Perhaps the file does not contain a Z section with the same name.");
+          e.printStackTrace();          
+        }
+        else
+        {
+          System.err.println("Command exception has happened without a cause: \n\t" + e.getMessage());
+          System.err.println("Perhaps the file does not contain a Z section with the same name.");
+          e.printStackTrace();
+        }        
+      }
+      catch(UnsupportedAstClassException e)
       {
         System.err.println("An attempt to wrongly cast an AST class has happened.\n" +
           "This is usually a bug, and should not happen. Please report it to czt-devel@lists.sourceforge.net");    
-        e.printStackTrace();
+        e.printStackTrace();        
       }
-      catch(net.sourceforge.czt.util.CztException f)
+      catch(CztException f)
       {
         System.err.println("A general CztException has happened.\n" +
           "This is usually a bug, and should not happen. Please report it to czt-devel@lists.sourceforge.net");    
-        f.printStackTrace();
+        f.printStackTrace();        
       }
       /* ex:
        * 0        40           
-       * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|      
+       * |--Parse--|--TypeCheck--|--DomainCheck--|--PrintDC--|      
        * lt = 0
        * ct = 40
        * pt = 40 (40 - 0)
        */            
       lastTime = currentTime;
       currentTime = System.currentTimeMillis();      
-      long parseTime = currentTime - lastTime;
-      long typeCheckTime = 0;
-      long printTypeTime = 0;
-      long printZmlTime  = 0; 
-      long numberOfErrors = 0;
-      //if the parse succeeded, typecheck the term
-      if (term != null) {
-        List<? extends ErrorAnn> errors =
-          typeCheck(term, manager, false /*useBeforeDecl*/, false /*useNameIds*/, false /*raiseWarnings*/, null);
-        
-        // result is the number of errors to consider
-        numberOfErrors = printErrors(errors, false /*raiseWarnings*/);
-        result += numberOfErrors + parsingErrors;
-        
+      parsingTime = currentTime - lastTime;        
+      
+      // typecheck + domain cehck each section      
+      if (spec != null)
+      {
+        try 
+        {
+          for(Sect sect : spec.getSect())
+          {
+            if (sect instanceof ZSect)
+            {
+              ZSect zs = (ZSect)sect;
+              SectTypeEnvAnn tp = manager.get(new Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
+              types.add(tp);
+            }
+          }
+        }
+        catch (CommandException e)
+        {
+          if (e.getCause() != null)
+          {
+            if (e.getCause() instanceof TypeErrorException)
+            {
+              TypeErrorException te = (TypeErrorException)e.getCause();
+              typeErrors = printErrors(te.errors(), raiseWarnings);
+            }
+            else
+            {
+              System.err.println("Command exception has happened: \n\t" + e.getMessage());
+              System.err.println("It was caused by: \n\t" + e.getCause().getMessage());            
+              System.err.println("Perhaps the file does not contain a Z section with the same name.");
+              e.printStackTrace();
+            }
+          }
+          else
+          {
+            System.err.println("Command exception has happened without a cause: \n\t" + e.getMessage());
+            System.err.println("Perhaps the file does not contain a Z section with the same name.");
+            e.printStackTrace();
+          }
+          System.exit(-1);
+        }
+        /* ex:
+         * 0        40           
+         * |--Parse--|--TypeCheck--|--DomainCheck--|--PrintDC--|      
+         * lt = 0
+         * ct = 40
+         * pt = 40 (40 - 0)
+         */            
+        lastTime = currentTime;
+        currentTime = System.currentTimeMillis();      
+        typeCheckTime = currentTime - lastTime;        
+
+        //if the typecheck succeeded, domain check the spec
+        assert spec != null;            
+        Spec dcSpec = null;
+        try 
+        {
+          // create the domain checked section
+          dcSpec = domainCheck(spec, manager, parentsToIgnoreList, useInfixAppliesTo, processParents, addTrivialDC);          
+        }
+        catch (DomainCheckException e) 
+        {
+          System.err.println("A domain check exception has happened: " + e.getMessage());
+          e.printStackTrace();          
+        }        
+        // result is the number of errors to consider        
+        result += typeErrors + parsingErrors;
+
         /* ex:
          * 0        40            100
-         * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|         
+         * |--Parse--|--TypeCheck--|--DomainCheck--|--PrintType--|         
          * lt = 40
          * ct = 100
          * tt = 60  (100-40)
          */
         lastTime = currentTime;
         currentTime = System.currentTimeMillis();
-        typeCheckTime = currentTime - lastTime;        
-      }            
+        domainCheckTime = currentTime - lastTime;
+
+        if (dcSpec != null)
+        {
+          try 
+          {
+            String dcFileName = getDCFilename(file);
+            // tell the section manager about its presence
+            manager.put(new Key<Spec>(getFileNameNoExt(dcFileName), Spec.class), dcSpec);
             
-      timesPerFile.put(file, Arrays.asList(parsingErrors, numberOfErrors,
-          parseTime, typeCheckTime, printTypeTime, printZmlTime, 
-          parseTime+typeCheckTime+printTypeTime+printZmlTime));
+            // print the file
+            print(dcFileName, manager);            
+          }
+          catch (CommandException e)
+          {
+            System.err.println("Command exception thrown while trying to domain check " + file);
+            e.printStackTrace();          
+          }          
+          catch (DomainCheckException e)
+          {
+            System.err.println("Domain exception thrown while trying to domain check " + file);
+            e.printStackTrace();          
+          }
+          catch (IOException e)
+          {
+            System.err.println("I/O exception thrown while trying to domain check " + file);
+            e.printStackTrace();          
+          }          
+          
+          /* ex:
+           * 0        40            100
+           * |--Parse--|--TypeCheck--|--DomainCheck--|--Print--|         
+           * lt = 40
+           * ct = 100
+           * tt = 60  (100-40)
+           */
+          lastTime = currentTime;
+          currentTime = System.currentTimeMillis();
+          printTime = currentTime - lastTime;          
+        } 
+      }      
+      timesPerFile.put(file, Arrays.asList(parsingErrors, typeErrors,
+        parsingTime, typeCheckTime, domainCheckTime, printTime, typeCheckTime+domainCheckTime+printTime));
       // Reset the currentTime offset
-      currentTime = System.currentTimeMillis();
-      lastTime = currentTime;
-    }
+    }    
+    currentTime = System.currentTimeMillis();
+    lastTime = currentTime;
     long totalTime = System.currentTimeMillis() - zeroTime;
     
-    if (printBenchmark) {      
+    if (printBenchmark) 
+    {      
       System.out.println(totalTime + "ms for " + files.size() + " files.");
-      for(String file : timesPerFile.keySet()) {
+      for(String file : timesPerFile.keySet()) 
+      {
         List<Long> times = timesPerFile.get(file);
         System.out.println("\t" + times.get(6) + "ms for " + file + ":");
         System.out.println("\t\tparsing errors.." + times.get(0));
-        if (!syntaxOnly) {
-          System.out.println("\t\ttype errors....." + times.get(1));
-        }
+        System.out.println("\t\ttype errors....." + times.get(1));
         System.out.println("\t\tparser.........." + times.get(2) + "ms");
-        if (!syntaxOnly) {
-          System.out.println("\t\ttypechecker....." + times.get(3) + "ms");
-        }
-        if (printTypes) {
-          System.out.println("\t\tprint types....." + times.get(4) + "ms");
-        }
-        if (printZml) {
-          System.out.println("\t\tprint zml......." + times.get(5) + "ms");          
-        }
+        System.out.println("\t\ttypechecker....." + times.get(3) + "ms");
+        System.out.println("\t\tdomainchecker..." + times.get(4) + "ms");                
+        System.out.println("\t\tprinter........." + times.get(5) + "ms");                
       }             
     }        
     System.exit(result);
   }
 
   public static void main(String[] args)
-    throws IOException, net.sourceforge.czt.base.util.UnmarshalException
   {    
-    TypeCheckUtils utils = new TypeCheckUtils();    
+    DomainCheckUtils utils = new DomainCheckUtils();    
     utils.run(args);
   }
 
@@ -354,6 +622,6 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
    */
   public static Command getCommand()
   {
-    return new TypeCheckCommand();
+    return new DomainCheckerCommand();
   }
 }

@@ -8,7 +8,7 @@
   </parent>
   <artifactId>domainchecker</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Domain Checker</name>
+  <name>CZT Z Domain Checker</name>
   <description>CZT definedness proof obligation generation engine for Z</description>
   <profiles>
         <profile>
