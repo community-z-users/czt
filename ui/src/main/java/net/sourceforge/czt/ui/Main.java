@@ -186,7 +186,7 @@ public class Main
             cztpath = ((cztpath == null || cztpath.isEmpty()) ? fileParent : 
               (oldcztpath.isEmpty() ? (fileParent + ";" + cztpath) : 
                 (fileParent + ";" + oldcztpath + ";" + cztpath)));            
-            if (cztpath != null)
+            if (cztpath != null && !cztpath.trim().isEmpty())
             {
                manager.setProperty("czt.path", cztpath);
             }
