@@ -18,6 +18,7 @@ package net.sourceforge.czt.typecheck.circus;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -116,34 +117,45 @@ public class TypeCheckerTest
         cztHome = "";
       }
     }
-    String fullDirectoryName = cztHome + directoryName;
-    System.out.println("Full directory name = " + fullDirectoryName);
-    File directory = new File(fullDirectoryName);
-    File[] files = null;
-    if (!directory.isDirectory())
+    // if it is a list of directories...
+    List<String> paths = Arrays.asList(cztHome);
+    if (cztHome != null && cztHome.indexOf(';') != -1)
     {
-      URL url = getClass().getResource("/");
-      if (url != null)
+      paths = Arrays.asList(cztHome.split(";"));
+    }
+    File[] files = null;
+    for(String path : paths)
+    {
+      String fullDirectoryName = path.trim() + (!path.isEmpty() ? "\\" : "") + directoryName;
+      System.out.println("Full directory name = " + fullDirectoryName);
+      File directory = new File(fullDirectoryName);      
+      if (!directory.isDirectory())
       {
-        System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
-        directory = new File(url.getFile() + fullDirectoryName);
-        if (!directory.isDirectory())
+        URL url = getClass().getResource("/");
+        if (url != null)
         {
-          System.out.println("No tests to perform on " + directory.getAbsolutePath());
+          System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
+          directory = new File(url.getFile() + fullDirectoryName);
+          if (!directory.isDirectory())
+          {
+            System.out.println("No tests to perform on " + directory.getAbsolutePath());
+          }
+          else
+          {
+            files = directory.listFiles();
+          }
+          break;
         }
         else
         {
-          files = directory.listFiles();
+          fail("Could not retrieve a valid testing set under " + directory.getAbsolutePath());
         }
       }
       else
       {
-        fail("Could not retrieve a valid testing set under " + directory.getAbsolutePath());
+        files = directory.listFiles();
+        break;
       }
-    }
-    else
-    {
-      files = directory.listFiles();
     }
     if (files != null)
     {
