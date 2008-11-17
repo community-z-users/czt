@@ -181,6 +181,11 @@ public class SectionManager
   {
     return properties_.getProperty(key);
   }
+  
+  public boolean hasProperty(String key)
+  {
+    return (getProperty(key) != null);
+  }
 
   /**
    * <p>Returns all the current property settings.</p>
