@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.dc;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,13 +27,8 @@ import java.util.logging.Level;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.sourceforge.czt.print.util.CztPrintString;
-import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Spec;
@@ -106,13 +100,33 @@ public class DomainCheckerTest
   {
     manager_ = new SectionManager();
     domainChecker_ = new DomainChecker(manager_);
-    domainChecker_.setAddingTrivialDC(manager_.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC));
-    domainChecker_.setProcessingParents(manager_.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS));
-    domainChecker_.setInfixAppliesTo(manager_.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO));    
-    for(String section : manager_.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE))
+        
+    domainChecker_.setAddingTrivialDC(
+      (manager_.hasProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) ?
+        manager_.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) :
+        DomainChecker.DEFAULT_ADD_TRIVIAL_DC));
+    domainChecker_.setProcessingParents(
+      (manager_.hasProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) ?
+        manager_.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) :
+        DomainChecker.DEFAULT_PROCESS_PARENTS));
+    domainChecker_.setInfixAppliesTo(
+      (manager_.hasProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) ?
+        manager_.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) :
+        DCTerm.APPLIESTO_INFIX_DEFAULT));        
+    domainChecker_.setApplyPredTransformers(
+      (manager_.hasProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) ?
+        manager_.getBooleanProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) :
+        DCTerm.APPLY_PRED_TRANSFORMERS_DEFAULT));        
+    if (manager_.hasProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE))
     {
-      domainChecker_.addParentSectionToIgnore(section);
-    }    
+      for(String section : manager_.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE))
+      {
+        if (section != null && !section.isEmpty())
+        {
+          domainChecker_.addParentSectionToIgnore(section);
+        }
+      }    
+    }
   }
   
   protected SectionManager getSectionManager() {
@@ -126,7 +140,7 @@ public class DomainCheckerTest
     String fileName = file.getName();
     if (fileName.indexOf("-errors") == -1 && fileName.endsWith(".tex"))
     {
-      suite.addTest(createTestCase(file.getAbsolutePath()));
+      suite.addTest(createTestCase(file));
     }
   }
   
@@ -163,7 +177,7 @@ public class DomainCheckerTest
       if (!directory.isDirectory())
       {
         URL url = getClass().getResource("/");
-        if (url != null) {
+        if (url != null) {          
           System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
           directory = new File(url.getFile() + fullDirectoryName);        
           if (! directory.isDirectory()) 
@@ -171,7 +185,7 @@ public class DomainCheckerTest
             System.out.println("No tests to perform on " + directory.getAbsolutePath());            
           } 
           else 
-          {
+          {            
             files = directory.listFiles();
           }
           break;
@@ -199,61 +213,56 @@ public class DomainCheckerTest
       if (e.getCause() != null) printCauses(e.getCause());
   }
 
-  protected TestNormal createTestCase(String name) {
-      return new TestNormal(name);
+  protected TestNormal createTestCase(File file) {
+      return new TestNormal(file);
   }
   
   protected class TestNormal extends TestCase
   {
-    private final String file_;
+    private final String fileName_;
+    private final File file_;
     
-    protected TestNormal(String fileme)
+    protected TestNormal(File file)
     {
-      file_ = fileme;
+      assert file != null;
+      file_ = file;
+      fileName_ = file.getAbsolutePath();
     }
     
     protected String getFileName() {
-        return file_;
+        return fileName_;
     }    
     
     protected void innerTest() {
       try
-      {                
-        System.out.println("Retrieving Spec for " + file_);        
-        Spec spec = manager_.get(new Key<Spec>(file_, Spec.class));
+      {             
+        String localcztpath = manager_.getProperty("czt.path");        
+        if (localcztpath == null || localcztpath.isEmpty())
+        {
+          localcztpath = file_.getParent();
+        }
+        else
+        {
+          localcztpath += ";" + file_.getParent();
+        }    
+        System.out.println("Setting czt.path = " + localcztpath);
+        manager_.setProperty("czt.path", localcztpath); 
+        // transforms c:\temp\myfile.tex into myfile
+        String resource = DomainCheckUtils.removePath(DomainCheckUtils.getFileNameNoExt(fileName_));        
+        
+        System.out.println("Retrieving Spec " +  resource + " for " + fileName_);                
+        Spec spec = manager_.get(new Key<Spec>(resource, Spec.class));
         if (spec == null)
         {
-          fail("Parser returned null (i.e., parsing error) for " + file_);
+          fail("Parser returned null (i.e., parsing error) for " + fileName_);
         }
         else 
         { 
-          System.out.println("Collecting DCs for Spec");          
+          System.out.println("Collecting DCs for Spec for " + fileName_);
           Spec dcSpec = domainChecker_.createDCSpec(spec);
           
-          Markup markup = Markup.getMarkup(file_);
-          CztPrintString output;
-          switch (markup)
-          {
-            case LATEX:
-              output = manager_.get(new Key<LatexString>(file_, LatexString.class));
-              break;
-            case UNICODE:
-              output = manager_.get(new Key<UnicodeString>(file_, UnicodeString.class));
-              break;
-            case ZML:
-              output = manager_.get(new Key<XmlString>(file_, XmlString.class));
-              break;
-            default: 
-              fail("Invalid file name extension. Could not retrieve its markup format to produce DC section.");
-              return ;
-          }          
-          int dotIdx = file_.lastIndexOf(".");
-          assert dotIdx != -1; // true since getMarkup would fail/return otherwise
-          String fileName = file_.substring(0, dotIdx) + "_dc" + file_.substring(dotIdx);          
-          FileWriter writer = new FileWriter(fileName);
-          System.out.println("Printing DC sections for Spec as " + fileName);
-          writer.write(output.toString());
-          writer.close();          
+          System.out.println("Printing DC Spec for " + fileName_);
+          DomainCheckUtils.print(fileName_, manager_, dcSpec);          
           return ;        
         }
       }
@@ -261,7 +270,7 @@ public class DomainCheckerTest
       {
         printCauses(f);
         fail("\nUnexpected parser exception" +
-            "\n\tFile: " + file_ +
+            "\n\tFile: " + fileName_ +
             "\n\tException: " + f.toString());
         f.printErrorList();        
       }
@@ -269,21 +278,21 @@ public class DomainCheckerTest
       {
         printCauses(g);
         fail("\nUnexpected command exception" +
-            "\n\tFile: " + file_ +
+            "\n\tFile: " + fileName_ +
             "\n\tException: " + g.toString());                
       }
       catch (RuntimeException e)
       {
         printCauses(e);
         fail("\nUnexpected runtime exception" +
-            "\n\tFile: " + file_ +
+            "\n\tFile: " + fileName_ +
             "\n\tException: " + e.toString());                
       }
       catch (Throwable e)
       {        
         printCauses(e);
         fail("\nUnexpected exception" +
-            "\n\tFile: " + file_ +
+            "\n\tFile: " + fileName_ +
             "\n\tException: " + e.toString());        
       }
       fail("Test terminated without a result and without failing!");
