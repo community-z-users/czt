@@ -193,9 +193,12 @@ public class DCTerm extends TrivialDCTerm implements
    * domain checks over unresolved names. This function is defined 
    * under the dc\_toolkit.tex
    */
-  private static final String APPLIESTO_NAME = "appliesTo";
+  private static final String APPLIESTO_NAME = "\\appliesToNofix";
   private static final String DOM_NAME = "dom";
+  
   public static final boolean APPLIESTO_INFIX_DEFAULT = true;
+  public static final boolean APPLY_PRED_TRANSFORMERS_DEFAULT = true;
+  
   
   public static final String[] TOTAL_OPS = { ZString.FUN, ZString.SURJ, ZString.INJ, ZString.BIJ };
   public static final String[] PARTIAL_OPS = { ZString.PFUN, ZString.PSURJ, ZString.PINJ };              
@@ -208,8 +211,9 @@ public class DCTerm extends TrivialDCTerm implements
   private DefinitionTable defTable_;
   
   private boolean infixAppliesTo_;
+  private boolean applyPredTransformers_;
+  
   private final ZName domName_;
-  private final ZName appliesToName_;  
   private final ZName appliesToOpName_;
   private final PrintVisitor printVisitor_;
     
@@ -230,8 +234,7 @@ public class DCTerm extends TrivialDCTerm implements
     defTable_ = null;    
     infixAppliesTo_ = defaultInfixAppliesTo();
     domName_ = factory_.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
-    appliesToName_ = factory_.createZName(APPLIESTO_NAME); // relation infix binary operator (see dc_toolkit.tex)!
-    appliesToOpName_ = factory_.createZName(ZString.ARG + APPLIESTO_NAME + ZString.ARG); // relation infix binary operator (see dc_toolkit.tex)!
+    appliesToOpName_ = factory_.createZName(APPLIESTO_NAME); //factory_.createZName(ZString.ARG + APPLIESTO_NAME + ZString.ARG); // relation infix binary operator (see dc_toolkit.tex)!
     printVisitor_ = new PrintVisitor(); // defTable uses a PrintVisitor for lookup names.
   }  
   
@@ -250,35 +253,47 @@ public class DCTerm extends TrivialDCTerm implements
    * @param dt definition lookup table; if null, applies$to will always be used.
    * @return domain check predicate for given term
    */
-  public Pred runDC(Term term, DefinitionTable dt, boolean infixAppliesTo)
+  public Pred runDC(Term term, DefinitionTable dt, boolean infixAppliesTo, boolean applyPredTransf)
   {
     assert term != null : "Invalid term for DC";
     infixAppliesTo_ = infixAppliesTo;
+    applyPredTransformers_ = applyPredTransf;
     defTable_ = dt; // a null dts means always "applies$to"!
     Pred result = dc(term);
     defTable_ = null;
     infixAppliesTo_ = defaultInfixAppliesTo();
+    applyPredTransformers_ = defaultApplyPredTransformers();
     return result;
   }
   
   public Pred runDC(Term term, DefinitionTable dt)
   {
-    return runDC(term, dt, defaultInfixAppliesTo());
+    return runDC(term, dt, defaultInfixAppliesTo(), defaultApplyPredTransformers());
   }
   
   public Pred runDC(Term term)
   {
-    return runDC(term, null, defaultInfixAppliesTo());
+    return runDC(term, null, defaultInfixAppliesTo(), defaultApplyPredTransformers());
   }
   
   public boolean isAppliesToInfix()
   {
     return infixAppliesTo_;
   }
+    
+  public boolean isApplyingPredTransformers()
+  {
+    return applyPredTransformers_;
+  }
   
   protected boolean defaultInfixAppliesTo()
   {
     return APPLIESTO_INFIX_DEFAULT;
+  }
+  
+  protected boolean defaultApplyPredTransformers()
+  {
+    return APPLY_PRED_TRANSFORMERS_DEFAULT;
   }
 
   /** AUXILIARY TERM FACTORY METHODS */
@@ -305,29 +320,32 @@ public class DCTerm extends TrivialDCTerm implements
   protected Pred andPred(Pred lhs, Pred rhs)
   {
     assert lhs != null && rhs != null : "Invalid AndPred request!";
-    Pred result;
-    // P \land false = \false \land P = P
-    if (lhs instanceof FalsePred || rhs instanceof FalsePred)
+    Pred result = null;
+    if (applyPredTransformers_)
     {
-      result = factory_.createFalsePred();
-    }
-    // true \land RHS = RHS
-    if (lhs instanceof TruePred)
-    {
-      result = rhs;
-    }
-    // LHS \land true = LHS
-    else if (rhs instanceof TruePred)
-    {
-      result = lhs;
-    }       
-    // LHS \land LHS = LHS
-    else if (lhs.equals(rhs))
-    {
-      result = lhs;      
+      // P \land false = \false \land P = P
+      if (lhs instanceof FalsePred || rhs instanceof FalsePred)
+      {
+        result = factory_.createFalsePred();
+      }
+      // true \land RHS = RHS
+      if (lhs instanceof TruePred)
+      {
+        result = rhs;
+      }
+      // LHS \land true = LHS
+      else if (rhs instanceof TruePred)
+      {
+        result = lhs;
+      }       
+      // LHS \land LHS = LHS
+      else if (lhs.equals(rhs))
+      {
+        result = lhs;      
+      }    
     }    
-    else
-    {      
+    if (result == null)
+    {
       // Leave contradiction law (P \land \lnot P) out.
       //Pred innerLHS = lhs instanceof NegPred ? ((NegPred)lhs).getPred() : lhs;
       //Pred innerRHS = rhs instanceof NegPred ? ((NegPred)rhs).getPred() : rhs;      
@@ -340,7 +358,11 @@ public class DCTerm extends TrivialDCTerm implements
   
   /** 
    * Creates a ForAllPred with the given declarations and predicate. 
-   * That is, "\forall decl | true @ pred".
+   * That is, "\forall decl @ pred". We apply the simple zero-law:
+   * <ul>
+   *  <li>\forall D @ true \iff true </li>
+   * </ul>
+   * Even if D is false, this is the right transformation as anything implies true.
    * @param decl 
    * @param pred 
    * @return
@@ -349,7 +371,19 @@ public class DCTerm extends TrivialDCTerm implements
   {
     assert decl != null && pred != null : "Invalid ForAllPred request!";        
     // \forall D @ true \iff true (even if D is false!): Don't do it...    
-    return factory_.createForallPred(factory_.createZSchText(decl, null), pred);
+    Pred result = null;
+    if (applyPredTransformers_)
+    {
+      if (pred instanceof TruePred)
+      {
+        result = truePred();
+      }
+    }
+    if (result == null)
+    {
+      result = factory_.createForallPred(factory_.createZSchText(decl, null), pred);
+    }
+    return result;
   }
   
   /** 
@@ -371,25 +405,28 @@ public class DCTerm extends TrivialDCTerm implements
   protected Pred impliesPred(Pred p, Pred q) 
   {
     assert p != null && q != null : "Invalid ImpliesPred request!";
-    Pred result;
-    // true ==> q     <==> q
-    // p    ==> true  <==> true (which is q)
-    if (p instanceof TruePred || q instanceof TruePred)
+    Pred result = null;
+    if (applyPredTransformers_)
     {
-      result = q;
+      // true ==> q     <==> q
+      // p    ==> true  <==> true (which is q)
+      if (p instanceof TruePred || q instanceof TruePred)
+      {
+        result = q;
+      }
+      // false ==> q     <==> true
+      // P     ==> P     <==> true
+      else if ((p instanceof FalsePred) || p.equals(q))
+      {
+        result = truePred();
+      }
+      // p     ==> false <==> not p
+      else if (q instanceof FalsePred)
+      {
+        result = factory_.createNegPred(p);
+      }
     }
-    // false ==> q     <==> true
-    // P     ==> P     <==> true
-    else if ((p instanceof FalsePred) || p.equals(q))
-    {
-      result = truePred();
-    }
-    // p     ==> false <==> not p
-    else if (q instanceof FalsePred)
-    {
-      result = factory_.createNegPred(p);
-    }
-    else 
+    if (result == null)
     {
       result = factory_.createImpliesPred(p, q);
     }
@@ -960,7 +997,7 @@ public class DCTerm extends TrivialDCTerm implements
         // f applies$to a, which is defined as \_ \appliesTo \_ -> (\exists_1 y: Y @ (a, y) \in f) in dc\_toolkit    
         TupleExpr appliesToArgs = factory_.createTupleExpr(name, packedArgs);
         
-        if (isAppliesToInfix())
+        if (false) // isAppliesToInfix())
         {        
           // this format is like f \appliesTo args (i.e. infix operator template)
           applPred = factory_.createRelOpAppl(appliesToArgs, appliesToOpName_); // as an operator

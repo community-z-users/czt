@@ -31,10 +31,13 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -104,7 +107,8 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
    * 
    */
   public static boolean DEFAULT_PROCESS_PARENTS = false;
-  public static final String DOMAIN_CHECK_CONJECTURE_NAME_SUFFIX = "\\_domainCheck";
+  public static boolean DEFAULT_ADD_TRIVIAL_DC = false;
+  public static final String DOMAIN_CHECK_CONJECTURE_NAME_SUFFIX = "_domainCheck";
   private SectionInfo sectInfo_;
   private ZSect dcToolkit_;
   private OpTable opTable_;
@@ -114,6 +118,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
   private boolean addTrivialDC_;
   private boolean processParents_;
   private boolean infixAppliesTo_;
+  private boolean applyPredTransf_;
   /**
    * 
    */
@@ -167,9 +172,10 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
     super(factory);
     domainCheck_ = new DCTerm(factory);
     parentsToIgnore_ = new TreeSet<String>();
-    infixAppliesTo_ = true;
-    addTrivialDC_ = false;
-    processParents_ = false;
+    infixAppliesTo_ = DCTerm.APPLIESTO_INFIX_DEFAULT;
+    applyPredTransf_ = DCTerm.APPLY_PRED_TRANSFORMERS_DEFAULT;
+    addTrivialDC_ = DEFAULT_ADD_TRIVIAL_DC;
+    processParents_ = DEFAULT_PROCESS_PARENTS;    
     setSectInfo(manager);
   }
 
@@ -270,7 +276,12 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
   {
     return processParents_;
   }
-
+  
+  public boolean isApplyingPredTransformers()
+  {
+    return applyPredTransf_;
+  }
+  
   /**
    * 
    * @param value
@@ -288,6 +299,11 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
   public void setAddingTrivialDC(boolean value)
   {
     addTrivialDC_ = value;
+  }
+  
+  public void setApplyPredTransformers(boolean value)
+  {
+    applyPredTransf_ = value;
   }
 
   /**
@@ -582,6 +598,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
     result.getZParaList().add(narrPara);
     boolean addTrivialDC = isAddingTrivialDC();
 
+    int dcCount = 0;    
     // process each Para DC
     for (Pair<Para, Pred> pair : dcList)
     {
@@ -596,7 +613,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
         narrText = "";
         LocAnn loc = para.getAnn(LocAnn.class);
         if (loc != null)
-        {
+        {  
           narrText = "DC for " + loc.toString() + "\n";
         }
         else
@@ -652,13 +669,13 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
         // add both narrative and dc conjecture paragraphs!
         result.getZParaList().add(narrPara);
         result.getZParaList().add(conjPara);
+        dcCount++;
       }
     }
-
-    // small text footer about DC numbers
-    int dcCount = result.getZParaList().size();
-    narrText = "Z section " + result.getName() + " has " + dcCount + " DCs.\n";
-    if (addTrivialDC)
+    
+    narrText = "Z section " + result.getName() + " has " + dcCount + 
+      (dcCount == 1 ? " DC" : "DCs") + ".\n";
+    if (addTrivialDC && dcCount > 0)
     {
       narrText += "(of which " + (dcList.size() - dcCount) + " were trivial).\n";
     }
@@ -689,10 +706,32 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
       if (e.getCause() != null)
       {
         logger_.warning("\t caused by " + e.getCause().getClass().getName() + " with message: " + e.getCause().getMessage());
+        if (e.getCause() instanceof TypeErrorException)
+        {
+          int i = printErrors(((TypeErrorException)e.getCause()).getErrors(), RAISE_TYPE_WARNINGS);
+          logger_.warning("Found " + i + " type erros/warnings, please check original specification for " + sectName);
+        }
       }
       //throw new DomainCheckException("Command exception thrown while trying typecheck DC ZSect " + sectName, e);
     }     
     // leave the ZSectDCEnvAnn update to the DomainCheckCommand itself.
+  }
+  
+  protected static boolean RAISE_TYPE_WARNINGS = true; /* by default raise warnings as errors */
+  
+  protected int printErrors(List<? extends ErrorAnn> errors, boolean raiseWarnings)
+  {
+    int result = 0;
+    //print any errors
+    for (ErrorAnn next : errors) {
+      // raiseWarnings => next.getErrorType(ErrorType.ERROR) only
+      if (raiseWarnings || next.getErrorType().equals(ErrorType.ERROR))
+      {
+        logger_.warning(next.toString());
+        result++;
+      }
+    }
+    return result;
   }
 
   /* TERM DC COLLECTION METHODS */
@@ -854,7 +893,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>> implem
     //
     // defTable_ is initialised at visitZSect ; null otherwise, in which 
     // case \appliesTo is always used since we cannot know about \dom info.
-    Pred dcPred = domainCheck_.runDC(term, defTable_, isUsingInfixAppliesTo());
+    Pred dcPred = domainCheck_.runDC(term, defTable_, isUsingInfixAppliesTo(), isApplyingPredTransformers());
     Pair<Para, Pred> pair = new Pair<Para, Pred>(term, dcPred);
     result.add(pair);
     return result;

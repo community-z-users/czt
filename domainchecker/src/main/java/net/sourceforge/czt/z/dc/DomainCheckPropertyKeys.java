@@ -56,4 +56,7 @@ public interface DomainCheckPropertyKeys {
   
   String PROP_DOMAINCHECK_PARENTS_TO_IGNORE =
     "domaincheck_parents_to_ignore";
+  
+  String PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS =
+    "domaincheck_apply_pred_transformers";
 }

@@ -33,18 +33,29 @@ public class DomainCheckerCommand
     throws DomainCheckException
   {
     boolean useInfixAppliesTo =
-      manager.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO);
+      (manager.hasProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) ?
+        manager.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) :
+        DCTerm.APPLIESTO_INFIX_DEFAULT);
     boolean processParents =
-      manager.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS);
+      (manager.hasProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) ?
+        manager.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) :
+        DomainChecker.DEFAULT_PROCESS_PARENTS);
     boolean addTrivialDC =
-      manager.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC);           
+      (manager.hasProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) ?
+        manager.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) :
+        DomainChecker.DEFAULT_ADD_TRIVIAL_DC);
+    boolean applyPredTransf =
+      (manager.hasProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) ?
+        manager.getBooleanProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) :
+        DCTerm.APPLY_PRED_TRANSFORMERS_DEFAULT);
     List<String> parentsToIgnore = 
-      manager.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE);
+      (manager.hasProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE) ? 
+       manager.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE) : null);
     
     // reset the domain checker's services and toolkit loading.
     logger_.config("Domain checker command: domain checker confirugation");    
     ZSectDCEnvAnn result = domainCheckUtils_.retrieveZSectDCEnv(term, manager, 
-      parentsToIgnore, useInfixAppliesTo, processParents, addTrivialDC);
+      parentsToIgnore, useInfixAppliesTo, processParents, addTrivialDC, applyPredTransf);
     if (result == null)
     {
       throw new DomainCheckException("Domain check command returned invalid results. Please inspect stack trace."); 
