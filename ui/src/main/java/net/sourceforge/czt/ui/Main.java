@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.dc.z.ZSectDCEnvAnn;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.rules.RuleTable;
@@ -73,6 +74,14 @@ public class Main
       throw e;
     }
   }
+  
+  private String getDCFilename(String filename)
+  {    
+    int dotIdx = filename.lastIndexOf(".");
+    assert dotIdx != -1 : "invalid file name (no .ext): " + filename; 
+    String filenameDC = filename.substring(0, dotIdx) + "_dc" + filename.substring(dotIdx);          
+    return filenameDC;
+  }
 
   public void parseArgs(String[] args)
     throws Throwable
@@ -94,6 +103,7 @@ public class Main
       boolean isBufferingWanted = false;
       boolean isNarrativeWanted = false;      
       boolean useSpecReader = false; 
+      boolean domainCheck = false;
       Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-h".equals(args[i]) ||
@@ -108,6 +118,10 @@ public class Main
         else if ("-p".equals(args[i])) {
           prove = true;
           extension = "zpatt";
+        }
+        else if ("-dc".equals(args[i]))
+        {
+          domainCheck = true;
         }
         else if ("-v".equals(args[i])) {
           verbosityLevel_ = Level.INFO;
@@ -191,8 +205,9 @@ public class Main
                manager.setProperty("czt.path", cztpath);
             }
           }
-          if (parse(source, manager, syntaxCheckOnly, prove) &&
+          if (parse(source, manager, syntaxCheckOnly, prove, domainCheck) &&
               output != null) {
+            String dcOutput = getDCFilename(output);
             if (output.endsWith("8")) {
               UnicodeString unicode = manager.get(
                 new Key<UnicodeString>(source.getName(), UnicodeString.class));
@@ -200,6 +215,15 @@ public class Main
               Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(unicode.toString());
               writer.close();
+              
+              if (domainCheck)
+              {
+                unicode = manager.get(new Key<UnicodeString>(source.getName() + "_dc", UnicodeString.class));
+                stream = new FileOutputStream(dcOutput);
+                writer = new OutputStreamWriter(stream, "UTF-8");
+                writer.write(unicode.toString());
+                writer.close();              
+              }
             }
             else if (output.endsWith("16")) {
               UnicodeString unicode = manager.get(
@@ -208,6 +232,15 @@ public class Main
               Writer writer = new OutputStreamWriter(stream, "UTF-16");
               writer.write(unicode.toString());
               writer.close();
+              
+              if (domainCheck)
+              {
+                unicode = manager.get(new Key<UnicodeString>(source.getName() + "_dc", UnicodeString.class));
+                stream = new FileOutputStream(dcOutput);
+                writer = new OutputStreamWriter(stream, "UTF-16");
+                writer.write(unicode.toString());
+                writer.close();               
+              }
             }
             else if (output.endsWith("tex") || output.endsWith("zed")) {
               LatexString latex = manager.get(
@@ -216,6 +249,15 @@ public class Main
               Writer writer = new OutputStreamWriter(stream);
               writer.write(latex.toString());
               writer.close();
+              
+              if (domainCheck)
+              {
+                latex = manager.get(new Key<LatexString>(source.getName() + "_dc", LatexString.class));
+                stream = new FileOutputStream(dcOutput);
+                writer = new OutputStreamWriter(stream);
+                writer.write(latex.toString());
+                writer.close(); 
+              }
             }
             else if (output.endsWith("xml") || output.endsWith("zml")) {
               XmlString xml = manager.get(
@@ -224,6 +266,16 @@ public class Main
               Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(xml.toString());
               writer.close();
+              
+              if (domainCheck)
+              {
+                xml = manager.get(
+                  new Key<XmlString>(source.getName(), XmlString.class));
+                stream = new FileOutputStream(dcOutput);
+                writer = new OutputStreamWriter(stream, "UTF-8");
+                writer.write(xml.toString());
+                writer.close();
+              }
             }
             else {
               System.err.println("Unsupported output file " + output);
@@ -273,6 +325,7 @@ public class Main
       "     i  retain informal narrative rather than eliding it\n" +
       "  -o   specify output file (mark-up is determined by file ending)\n" +
       "  -s   syntax check only\n" +
+      "  -dc  domain check the specification\n" +
       "  -id  if an output in LaTeX or Unicode mark-up is specified,\n" +
       "       prints the ids for names as part of the name.\n" +
       "       Note that this is for debugging purposes.  The output won't\n" +
@@ -365,26 +418,37 @@ public class Main
   public static boolean parse(Source source,
                               SectionManager manager,
                               boolean syntaxCheckOnly,
-                              boolean prove)
+                              boolean prove,
+                              boolean domainCheck)
     throws CommandException
   {
     Logger logger = CztLogger.getLogger(Main.class);
     logger.info("Parse " + source);
     logger.info("Mark-up is " + source.getMarkup());
     try {
+      // set the source for SourceLocator
       String name = source.getName();
       manager.put(new Key<Source>(name, Source.class), source);
+      // parse the specification with given name
       Spec spec = manager.get(new Key<Spec>(name, Spec.class));
       int nrOfZSects = 0;
+      // for each ZSect within Spec:
       if (spec.getSect().size() > 0) {
         for (Sect sect : spec.getSect()) {
           if (sect instanceof ZSect) {
             ZSect zSect = (ZSect) sect;
             String sectionName = zSect.getName();
+            // typecheck it if requested.
             if (! syntaxCheckOnly) {
               manager.get(new Key<SectTypeEnvAnn>(sectionName,
                                   SectTypeEnvAnn.class));
             }
+            // domain check it if requested.
+            if (domainCheck) {
+              manager.get(new Key<ZSectDCEnvAnn>(sectionName,
+                                  ZSectDCEnvAnn.class));
+            }
+            // prove it if requested.
             if (zSect.getParaList() instanceof ZParaList &&
                 ((ZParaList) zSect.getParaList()).size() > 0) {
               nrOfZSects++;
@@ -409,6 +473,7 @@ public class Main
           }
         }
       }
+      // check for errors.
       if (nrOfZSects < 1) {
         System.err.println("WARNING: No Z sections found in " + source);
       }
