@@ -16,7 +16,7 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.z.dc;
+package net.sourceforge.czt.dc.z;
 
 /**
  * <P>Contains String constants for the keys used in parse properties.</P>

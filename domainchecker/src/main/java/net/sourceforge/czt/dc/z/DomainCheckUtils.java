@@ -17,7 +17,7 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.z.dc;
+package net.sourceforge.czt.dc.z;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -624,7 +624,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     }        
     System.exit(result);
   }
-
+   
   public static void main(String[] args)
   {    
     DomainCheckUtils utils = new DomainCheckUtils();    

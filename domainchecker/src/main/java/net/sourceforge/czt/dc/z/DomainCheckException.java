@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package net.sourceforge.czt.z.dc;
+package net.sourceforge.czt.dc.z;
 
 /**
  *
