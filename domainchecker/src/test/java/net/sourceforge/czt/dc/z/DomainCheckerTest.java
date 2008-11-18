@@ -18,10 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.dc.z;
 
-import net.sourceforge.czt.dc.z.DCTerm;
-import net.sourceforge.czt.dc.z.DomainCheckUtils;
-import net.sourceforge.czt.dc.z.DomainCheckPropertyKeys;
-import net.sourceforge.czt.dc.z.DomainChecker;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
