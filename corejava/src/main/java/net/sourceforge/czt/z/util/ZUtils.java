@@ -695,7 +695,7 @@ public final class ZUtils
    * first (left) expression is usually a tuple containing the
    * corresponding number of arguments.  However, for a unary
    * operator, the left expression does not have to be a tuple.  For
-   * example, "n < m" has left="(n,m)", right=" _ < _ ", and arity 2;
+   * example, "n &lt; m" has left="(n,m)", right=" _ &lt; _ ", and arity 2;
    * "disjoint s" has left="s", right="disjoint _ ", and arity 1; and
    * if foo was declared as a unary postfix operator, then "(2,3) foo"
    * would have left= "(2,3)", right=" _ foo", and arity 2.  As no
@@ -727,7 +727,7 @@ public final class ZUtils
    * operator application the first (left) expression is usually a
    * tuple containing the corresponding number of arguments.  However,
    * for a unary operator, the left expression does not have to be a
-   * tuple.  For example, "n < m" has left="(n,m)", right=" _ < _ ",
+   * tuple.  For example, "n &lt; m" has left="(n,m)", right=" _ &lt; _ ",
    * and arity 2; "disjoint s" has left="s", right="disjoint _ ", and
    * arity 1; and if foo was declared as a unary postfix operator,
    * then "(2,3) foo" would have left= "(2,3)", right=" _ foo", and
