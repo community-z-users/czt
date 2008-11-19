@@ -22,6 +22,7 @@ package net.sourceforge.czt.parser.util;
 import java.util.*;
 
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -76,14 +77,22 @@ public class DefinitionTableService
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
     Key key = new Key(name, ZSect.class);
     ZSect zsect = (ZSect) manager.get(key);
-    DefinitionTable table = (DefinitionTable) visitor.run(zsect);
-    if (table != null) {
-      Set dep = visitor.getDependencies();
-      dep.add(key);
-      manager.put(new Key(name, DefinitionTable.class),
-                  table, dep);
-      return true;
+    try
+    {
+      DefinitionTable table = (DefinitionTable) visitor.run(zsect);
+      if (table != null) {
+        Set dep = visitor.getDependencies();
+        dep.add(key);
+        manager.put(new Key(name, DefinitionTable.class),
+                    table, dep);
+        return true;
+      }
     }
+    catch(CztException e)
+    {
+      throw new CommandException("Could not calculate definition table as it raised an exception for " + name +
+        " with message " + e.getMessage() + (e.getCause() != null ? (" and cause " + e.getCause().getMessage()) : "") + ".", e);
+    }    
     return false;
   }
 }

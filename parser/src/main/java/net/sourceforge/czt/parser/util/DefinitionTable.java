@@ -21,9 +21,9 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.*;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.impl.TermImpl;
-import net.sourceforge.czt.util.Visitor;
+import java.util.Collections;
+import java.util.logging.Logger;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -31,6 +31,8 @@ import net.sourceforge.czt.z.ast.*;
  */
 public class DefinitionTable
 {
+  private static final Logger logger_ = Logger.getLogger(SectionManager.class.getName());
+  
   /**
    * The name of the section.
    */
@@ -45,18 +47,48 @@ public class DefinitionTable
     new TreeMap<String,Definition>();
 
   /**
-   * Constructs a definition table for a new section.
+   * Constructs a definition table for a new section. Changed the originally 
+   * public method to be protected. One should not directly update the DefinitionTable, 
+   * but use the lookup algorithm from the DefinitionTableVisitor instead.
    *
    * @param parents Definition tables of all direct parents of the new section.
    */
-  public DefinitionTable(String section,
+  protected DefinitionTable(String section,
                          Collection<DefinitionTable> parents)
     throws DefinitionException
   {
     section_ = section;
-    if (parents != null) {
-      for (DefinitionTable table : parents) {
-        addParentDefinitionTable(table);
+    if (parents != null) 
+    {
+      // collect all exceptions in one chain of throwable causes
+      // rather than stopping the collection upon finding the
+      // first duplication problem. This way, we leave room for
+      // whoever is calling this method to deal with a complete
+      // definition table appropriately. 
+      List<DefinitionException> exceptions = new ArrayList<DefinitionException>(parents.size());
+      for (DefinitionTable table : parents) 
+      {
+        try 
+        {          
+          addParentDefinitionTable(table);
+        }
+        catch(DefinitionException e)
+        {
+          // collect the exception and carry on
+          exceptions.add(e);
+        }
+      } 
+      // throw exception if one only, or throw their list otherwise
+      if (exceptions.size() == 1)
+      {
+        throw exceptions.get(0);
+      }
+      else if (exceptions.size() > 1)
+      {
+        final String message = "Multiple definition exceptions when creating definition" +
+          "table. They happened while processing parents for section " + section;
+        //throw new DefinitionException(message, exceptions);
+        logger_.warning(message + " with exceptions " + exceptions.toString());        
       }
     }
   }
@@ -67,7 +99,19 @@ public class DefinitionTable
    */
   private void addParentDefinitionTable(DefinitionTable parentTable)
     throws DefinitionException
-  {
+  {    
+    assert parentTable != null;
+    if (!Collections.disjoint(definitions_.keySet(), parentTable.definitions_.keySet()))
+    {
+      final String message = "Definition table for parent section " +
+        parentTable.section_ + " contains definitions with the same name as those " +
+        "from current section " + section_ + " (i.e., definition tables are not disjoint). " +
+        "This occurs either because some section is not typechecked, or because type-compatible " +
+        "names (i.e., those with different declared types but same carrier set) were repeated " +
+        "(e.g., x declared as natural or integer has arithmos carrier set).";
+      //throw new DefinitionException(message);
+      logger_.warning(message);
+    }
     definitions_.putAll(parentTable.definitions_);
   }
 
@@ -86,7 +130,7 @@ public class DefinitionTable
    */
   public Definition lookup(String /*@non_null@*/ defname)
   {
-    return (Definition) definitions_.get(defname);
+    return definitions_.get(defname);
   }
 
   public String toString()
@@ -95,15 +139,29 @@ public class DefinitionTable
   }
 
   /**
-   * Adds a new definition.
+   * Adds a new definition. Changed the originally public method to be
+   * protected. One should not directly update the DefinitionTable, but
+   * use the lookup algorithm from the DefinitionTableVisitor instead.
    *
    * @throws DefinitionException if definition is incompatible
    *                           with existing definitions.
    */
-  public void add(String defName, Definition def)
+  protected void add(String defName, Definition def)
     throws DefinitionException
-  {
-    definitions_.put(defName, def);
+  {    
+    assert defName != null && !defName.isEmpty() && def != null : 
+      "Invalid definition name and value to add to definition table: name = " + defName + "; value = " + def;
+    Definition old = definitions_.put(defName, def);
+    if (old != null)
+    {
+      final String message = "Definition table for section " + section_ +
+        "already contains a definition for " + defName +
+        ". This occurs either because the section is not typechecked, or because type-compatible " +
+        "names (i.e., those with different declared types but same carrier set) were repeated " +
+        "(e.g., x declared as natural or integer has arithmos carrier set).";
+      //throw new DefinitionException(message);
+      logger_.warning(message);
+    }
   }
 
   /**
@@ -112,9 +170,40 @@ public class DefinitionTable
   public static class DefinitionException
     extends Exception
   {
+    private final List<DefinitionException> exceptions_;
+    
     public DefinitionException(String message)
     {
       super(message);
+      exceptions_ = null;
+    }
+    
+    public DefinitionException(String message, Throwable cause)
+    {
+      super(message, cause);
+      exceptions_ = null;
+    }    
+    
+    public DefinitionException(String message, List<DefinitionException> exceptions)
+    {
+      super(message);
+      exceptions_ = Collections.unmodifiableList(exceptions);
+    }
+    
+    public List<DefinitionException> getExceptions()
+    {
+      return exceptions_;
+    }
+    
+    public String toString()
+    {
+      String result = super.toString();
+      if (exceptions_ != null)
+      {
+        result += " with inner definition exceptions list as ";
+        result += exceptions_.toString();
+      }
+      return result;
     }
   }
 
