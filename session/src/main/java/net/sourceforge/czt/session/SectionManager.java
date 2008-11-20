@@ -19,9 +19,17 @@
 
 package net.sourceforge.czt.session;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -103,7 +111,7 @@ public class SectionManager
    * For each (key, object) pair, the object must be an instance of
    * key.getType().
    */
-  private Map<Key,Object> content_ = new HashMap<Key,Object>();
+  private Map<Key<?>, Object> content_ = new HashMap<Key<?>, Object>();
 
   /**
    * The default commands.
@@ -152,6 +160,7 @@ public class SectionManager
    * affecting the old one, but destructive changes to its content will
    * show up in this section manager as well.
    */
+  @Override
   public SectionManager clone()
   {
     SectionManager result = new SectionManager();
@@ -176,6 +185,8 @@ public class SectionManager
    * <p>Properties are used to store global settings
    * for the commands.  For example, the "czt.path" property
    * defines the directory where specifications can be loaded from.</p>
+   * @param key property name
+   * @return property value
    */
   public String getProperty(String key)
   {
@@ -206,6 +217,9 @@ public class SectionManager
    *
    * <p>Properties are used to store global settings
    * for the commands.  See getProperty.</p>
+   * @param key property key
+   * @param value property value
+   * @return returns old property value or null if not present before.
    */
   public Object setProperty(String key, String value)
   {
@@ -219,6 +233,7 @@ public class SectionManager
    *
    * <p>Properties are used to store global settings
    * for the commands.  See getProperty.</p>
+   * @param props 
    */
   public void setProperties(Properties props)
   {
@@ -233,6 +248,7 @@ public class SectionManager
    * Adds the default commands for the given Z extension/dialect.
    * If extension is "XYZ", it adds all the commands defined in the 
    * "/XYZ.commands" file (see session/src/main/resources).
+   * @param extension 
    */
   public void putCommands(String extension)
   {
@@ -249,6 +265,7 @@ public class SectionManager
   /**
    * Loads a collection of commands from the given properties file/url.
    * See session/src/main/resources for example *.commands XML files.
+   * @param url location where to looc for XML-formated list of commands.
    * @throws NullPointerException if url is <code>null</code>.
    */
   public void putCommands(URL url)
@@ -274,6 +291,7 @@ public class SectionManager
   }
 
   /** Adds a set of default commands from a Properties object.
+   * @param props <code>Properties</code> object to get the commands from
    */
   public void putCommands(Properties props)
   {
@@ -290,7 +308,7 @@ public class SectionManager
    *              that this command is expected to compute when it is called.
    * @param commandClassName the name of a subclass of
    *                         net.sourceforge.czt.session.Command.
-   * @return
+   * @return if update was successful or not.
    */
   public boolean putCommand(String type, String commandClassName)
   {
@@ -378,6 +396,8 @@ public class SectionManager
 
   /**
    * Returns the command for calculating the given type of information.
+   * @param infoType type of command
+   * @return command for given type
    */
   public Command getCommand(Class<?> infoType)
   {
@@ -387,35 +407,76 @@ public class SectionManager
   /**
    * Returns whether the given Key has already been computed
    * and is cached.
+   * @param <T> 
    */
-  public boolean isCached(Key key)
+  @Override
+  public <T> boolean isCached(Key<T> key)
   {
     return content_.get(key) != null;
+  }
+    
+  /**
+   * Returns whether the given value has already been computed 
+   * and is cached. 
+   * @param <T> returned key type
+   * @param value value to search for key
+   * @return value's associated key
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public <T> Key<T> retrieveKey(T value)
+  {
+    Key<T> result = null;
+    
+    Iterator<Map.Entry<Key<?>, Object>> iter = content_.entrySet().iterator();
+    while (iter.hasNext())
+    {
+      Map.Entry<Key<?>, Object> nextEntry = iter.next();
+      
+      // this type-correctness should always be the case
+      // i.e., key-associated elements have the type of the key.
+      // @czt.todo: how to say this in the declaration of content_?            
+      T next = (T)nextEntry.getValue();
+      if (next.equals(value))
+      {                
+        result = (Key<T>) nextEntry.getKey();
+        break;
+      }
+    }    
+    // result != null => isCached(result)
+    // result == null | isCached(result)
+    assert result == null || isCached(result) :
+      "section manager inconsistency: found a key for given value that is not cached.";
+    return result;
   }
 
   /**
    * Lookup a key in the section manager.
    * It should never return <code>null</code>.
    *
+   * @param <T> type of key
    * @param key   The key to be looked up.
    * @return      An instance of key.getType().
-   * @throws      CommmandException if the lookup was unseccessful.
+   * @throws      CommandException if the lookup was unseccessful.
    */
+  @Override
+  @SuppressWarnings("unchecked")
   public <T> T get(Key<T> key)
     throws CommandException
   {
     getLogger().finer("Entering method get " + key);
     final Class<?> infoType = key.getType();
     final String name = key.getName();
-    Object result = content_.get(key);
+    @SuppressWarnings("unchecked")
+    T result = (T)content_.get(key);
     if (result == null) {
-      Command command = (Command) commands_.get(infoType);
+      Command command = commands_.get(infoType);
       if (command == null) {
         throw new CommandException("No command available to compute " + key);
       }
       getLogger().finer("Trying command " + command.getClass());
       command.compute(name, this);
-      result = content_.get(new Key(name, infoType));
+      result = (T) content_.get(new Key(name, infoType));
       if (result == null) {
         final String message = "Key " + key + " not computed by " + command;
         throw new CommandException(message);
@@ -423,13 +484,14 @@ public class SectionManager
     }
     final String message = "Leaving method get and returning " + result;
     getLogger().finer(message);
-    return (T) result;
+    return result;
   }
 
   /**
    * Add a new (Key,Object) pair.
    * It is an error to call add with an existing key.
    *
+   * @param <T> key type
    * @param key    The key to be added (must not be null).
    * @param value  The value; must be an instance of key.getType().
    */
@@ -455,8 +517,13 @@ public class SectionManager
   /**
    * Similar to put(key,value).
    * At the moment, the dependencies are ignored.
+   * @param <T> key type
+   * @param key    The key to be added (must not be null).
+   * @param value  The value; must be an instance of key.getType().
+   * @param dependencies dependant keys
    */
-  public <T> void put(Key<T> key, T value, Set<Key<T>> dependencies)
+  @Override
+  public <T> void put(Key<T> key, T value, Set<Key<?>> dependencies)
   {
     put(key, value);
   }
@@ -468,8 +535,8 @@ public class SectionManager
   public void reset()
   {
     getLogger().config("Resetting section manager");
-    for (Iterator<Key> iter = content_.keySet().iterator(); iter.hasNext();) {
-      final Key key = iter.next();
+    for (Iterator<Key<?>> iter = content_.keySet().iterator(); iter.hasNext();) {
+      final Key<?> key = iter.next();
       final String name = key.getName();
       if (! "prelude".equals(name) &&
           ! name.endsWith("_toolkit")) {
@@ -478,6 +545,7 @@ public class SectionManager
     }
   }
 
+  @Override
   public String toString()
   {
     return "SectionManager contains " + content_.toString();
@@ -494,7 +562,7 @@ public class SectionManager
     try
     {
       String value = getProperty(propertyKey);
-      if (value == null) { value = ""; };
+      if (value == null) { value = ""; }
       result = Integer.valueOf(value);
     }
     catch (NumberFormatException e)

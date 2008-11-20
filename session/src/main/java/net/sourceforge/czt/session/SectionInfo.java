@@ -41,13 +41,38 @@ public interface SectionInfo
    * Lookup a key.
    * It should never return <code>null</code>.
    *
+   * @param <T> key type
    * @param key   The key to be looked up.
-   * @return      An instance of key.getType().
-   * @throws      CommmandException if the lookup was unseccessful.
+   * @return An instance of key.getType().   
+   * @throws CommandException if the lookup was unseccessful.   
    */
   <T> T get(Key<T> key) throws CommandException;
 
-  <T> void put(Key<T> key, T value, Set<Key<T>> dependencies);
+  /**
+   * Add a mapping from the key to its corresponding value and set 
+   * of dependant keys of (possibly different(?)) type.
+   *
+   * @param <T> key type
+   * @param key   The key to be looked up.
+   * @param value value to map.
+   * @param dependencies dependant keys
+   */
+  <T> void put(Key<T> key, T value, Set<Key<?>> dependencies);
 
+  /**
+   * Checks whether the given key is cached within the section information manager
+   * @param <T> key type
+   * @param key The key to be looked up.
+   * @return whether the key is cached or not
+   */
   <T> boolean isCached(Key<T> key);
+  
+  /**
+   * Returns whether the given value has already been computed 
+   * and is cached. 
+   * @param <T> returned key type
+   * @param value value to search for key
+   * @return value's associated key
+   */  
+  <T> Key<T> retrieveKey(T value);
 }
