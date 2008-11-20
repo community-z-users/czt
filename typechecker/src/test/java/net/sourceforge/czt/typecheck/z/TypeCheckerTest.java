@@ -124,8 +124,8 @@ public class TypeCheckerTest
   {
     Source source = new FileSource(file);
     source.setMarkup(Markup.LATEX);
-    manager.put(new Key(file, Source.class), source);
-    return (Term) manager.get(new Key(file, Spec.class));
+    manager.put(new Key<Source>(file, Source.class), source);
+    return manager.get(new Key<Spec>(file, Spec.class));
   }
 
   protected List<? extends ErrorAnn> typecheck(Term term,
@@ -141,7 +141,7 @@ public class TypeCheckerTest
   for (Sect sect : spec.getSect()) {
   if (sect instanceof ZSect) {
   String sectName = ((ZSect) sect).getName();
-  Key typekey = new Key(sectName, SectTypeEnvAnn.class);
+  Key typekey = new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class);
   manager_.get(typekey);
   }
   }

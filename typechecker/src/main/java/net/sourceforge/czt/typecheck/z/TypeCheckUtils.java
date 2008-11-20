@@ -244,7 +244,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
 
   protected boolean useBeforeDeclDefault()
   {
-    return false;
+    return PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT;
   }
 
   protected boolean printBenchmarkTimesDefault()
@@ -269,12 +269,12 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   
   protected boolean useNameIdsDefault()
   {
-    return false;
+    return PROP_TYPECHECK_USE_NAMEIDS_DEFAULT;
   }
   
   protected boolean raiseWarningsDefault()
   { 
-    return false;
+    return PROP_TYPECHECK_RAISE_WARNINGS_DEFAULT;
   }
   
   protected String cztPathDefault()
@@ -284,17 +284,17 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   
   protected  boolean useSpecReaderDefault()
   {
-    return false;
+    return PROP_TYPECHECK_USE_SPECREADER_DEFAULT;
   }
 
   protected boolean isSpecReaderBufferingWantedDefault() 
   {
-    return false;
+    return false && useSpecReaderDefault();
   }
   
   protected boolean isSpecReaderNarrativeWantedDefault()
   {
-    return false;
+    return false && useSpecReaderDefault();
   }
 
   /** The list of known toolkits.

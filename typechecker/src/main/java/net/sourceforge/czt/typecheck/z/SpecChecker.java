@@ -99,9 +99,7 @@ public class SpecChecker
     //get the global decl information for the parent
     SectTypeEnvAnn sectTypeEnvAnn = null;
     try {
-      sectTypeEnvAnn =
-        (SectTypeEnvAnn) sectInfo().get(new Key(parentName,
-                                                SectTypeEnvAnn.class));
+      sectTypeEnvAnn = sectInfo().get(new Key<SectTypeEnvAnn>(parentName, SectTypeEnvAnn.class));
     }
     catch (CommandException e) {
       final String msg = "No type information for section " + parentName;

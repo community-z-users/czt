@@ -30,6 +30,9 @@ package net.sourceforge.czt.typecheck.z;
  */
 public interface TypecheckPropertiesKeys
 {
+  String PROP_TYPECHECK_DEBUG =
+    "typecheck_debug";
+  
   /** When this property is <code>true</code>, the typechecker
    *  will allow that names are used before they are declared.
    */
@@ -52,4 +55,11 @@ public interface TypecheckPropertiesKeys
   
   String PROP_TYPECHECK_USE_SPECREADER =
     "typecheck_use_spec_reader";
+  
+  boolean PROP_TYPECHECK_DEBUG_DEFAULT           = false;
+  boolean PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT = false;
+  boolean PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT = false;
+  boolean PROP_TYPECHECK_USE_NAMEIDS_DEFAULT     = false;
+  boolean PROP_TYPECHECK_RAISE_WARNINGS_DEFAULT  = false;  
+  boolean PROP_TYPECHECK_USE_SPECREADER_DEFAULT  = false;
 }

@@ -82,9 +82,9 @@ public class IdTest
   {
     Source source = new StringSource(spec);
     source.setMarkup(Markup.LATEX);
-    manager_.put(new Key(source.getName(), Source.class), source);
-    Term term = (Term) manager_.get(new Key(source.getName(), Spec.class));
-    manager_.get(new Key("Specification", SectTypeEnvAnn.class));
+    manager_.put(new Key<Source>(source.getName(), Source.class), source);
+    Term term = manager_.get(new Key<Spec>(source.getName(), Spec.class));
+    manager_.get(new Key<SectTypeEnvAnn>("Specification", SectTypeEnvAnn.class));
     return term;
   }
 

@@ -84,10 +84,11 @@ public class TypeChecker
              ParaVisitor<Object>,
              DeclVisitor<Object>,
              ExprVisitor<Object>,
-             PredVisitor<Object>
+             PredVisitor<Object>,
+             TypecheckPropertiesKeys
 {
   //print debuging info
-  protected static boolean debug_ = false;
+  protected static boolean debug_ = PROP_TYPECHECK_DEBUG_DEFAULT;
 
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv_;
@@ -121,10 +122,10 @@ public class TypeChecker
   protected List<Object> paraErrors_;
 
   //allow variable use before declaration
-  protected boolean useBeforeDecl_ = false;
+  protected boolean useBeforeDecl_ = PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT;
   
   //allow decl names to be alphabetically sorted
-  protected boolean sortDeclNames_ = false;
+  protected boolean sortDeclNames_ = PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT;
 
   //the markup to use for error reporting
   protected Markup markup_;
@@ -145,13 +146,15 @@ public class TypeChecker
   public TypeChecker(Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, false, false);
+    this(factory, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT, 
+      PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
   }
 
   public TypeChecker(Factory factory,
-                     SectionManager sectInfo, boolean useBeforeDecl)
+                     SectionManager sectInfo, 
+                     boolean useBeforeDecl)
   {
-    this(factory, sectInfo, useBeforeDecl, false);
+    this(factory, sectInfo, useBeforeDecl, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
   }
 
   public TypeChecker(Factory factory,
@@ -215,7 +218,7 @@ public class TypeChecker
 
       SectTypeEnvAnn sectTypeEnvAnn = null;
       try {
-        sectTypeEnvAnn = (SectTypeEnvAnn) sectInfo.get(new Key(getSectName().toString(),
+        sectTypeEnvAnn = sectInfo.get(new Key<SectTypeEnvAnn>(getSectName().toString(),
                                                                SectTypeEnvAnn.class));
       }
       catch (CommandException e) {

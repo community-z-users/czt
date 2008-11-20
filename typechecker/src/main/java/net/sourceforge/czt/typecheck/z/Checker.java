@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.Writer;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
@@ -548,7 +549,7 @@ abstract public class Checker<R>
         sectTypeEnv().getUseNameIds()) {
       try {
         SectTypeEnvAnn sectTypeEnvAnn =
-          (SectTypeEnvAnn) sectInfo().get(new Key(sectName(), SectTypeEnvAnn.class));
+          sectInfo().get(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class));
         assert sectTypeEnvAnn != null;
         sectTypeEnv().overwriteTriples(sectTypeEnvAnn.getNameSectTypeTriple());
       }
@@ -558,8 +559,8 @@ abstract public class Checker<R>
     }
     else {
       SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
-      sectInfo().put(new Key(sectName(), SectTypeEnvAnn.class),
-                     sectTypeEnvAnn, new java.util.HashSet());
+      sectInfo().put(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class),
+                     sectTypeEnvAnn, Collections.<Key<SectTypeEnvAnn>>emptySet());
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
