@@ -941,6 +941,20 @@ public final class ZUtils
     throw new UnsupportedAstClassException(message);    
   }  
   
+  public static ZSect retrieveZSect(Spec term, String sectName)
+  {
+    assert term != null;
+    for(Sect sect : term.getSect())
+    {      
+      if (sect instanceof ZSect && ((ZSect)sect).getName() != null &&
+          ((ZSect)sect).getName().equals(sectName))
+      {
+        return (ZSect)sect;
+      }
+    }
+    return null;
+  }
+  
   /**
    * Test whether the base name and strokes of two ZNames are equal.
    */
