@@ -33,6 +33,7 @@ public class ParsedData
   SectionManager manager_;
   Spec spec_;
   WffHighlight wffHighlight_;
+  Buffer buffer_;
 
   public ParsedData(String name)
   {
@@ -44,6 +45,7 @@ public class ParsedData
   {
     spec_ = spec;
     manager_ = manager;
+    buffer_ = buffer;
     wffHighlight_ = wffHighlight;
     wffHighlight_.setSpec(spec);
     for (Sect sect : spec.getSect()) {
@@ -54,6 +56,11 @@ public class ParsedData
   public Spec getSpec()
   {
     return spec_;
+  }
+  
+  public Buffer getBuffer()
+  {
+    return buffer_;
   }
 
   public SectionManager getManager()

@@ -18,9 +18,12 @@
  */
 package zsidekick;
 
+import java.io.File;
 import java.io.StringWriter;
 
+import net.sourceforge.czt.dc.z.DomainCheckUtils;
 import org.gjt.sp.jedit.*;
+import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.textarea.*;
 import sidekick.SideKickParsedData;
 
@@ -110,6 +113,50 @@ public class ZSideKickActions
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding", "UTF-8");
       buffer.insert(0, xml.toString());
+    }
+  }
+  
+  public static void domainCheck(View view)
+    throws CommandException
+  {
+    ParsedData parsedData = getParsedData(view);
+    if (parsedData != null) 
+    {      
+      SectionManager manager = parsedData.getManager();
+      Buffer buffer = parsedData.getBuffer();
+      final String name = buffer.getPath();
+      final String path = new File(name).getParent();
+      if (path != null) {
+        String oldpath = manager.getProperty("czt.path");
+        String localpath = ((oldpath == null || oldpath.isEmpty()) ? path : oldpath + ";" + path);
+        assert localpath != null;
+        manager.setProperty("czt.path", localpath);
+      }
+      /*
+      parsedData.spec_
+      
+      Spec spec = manager.get(new Key<Spec>(name, Spec.class));
+      if (spec.getSect().size() > 0) {
+        data.addData(spec, manager, wffHighlight_, buffer);
+        if (! buffer.getBooleanProperty("zsidekick.disable-typechecking")) {          
+          for (Sect sect : spec.getSect()) {
+            if (sect instanceof ZSect) {                            
+              logger_.config("Command for SectTypeEnvAnn is "+manager.getCommand(SectTypeEnvAnn.class));
+              // typecheck the section.
+              manager.get(new Key<SectTypeEnvAnn>(((ZSect) sect).getName(), SectTypeEnvAnn.class));
+            }
+          }
+        }
+      }
+      
+      
+      SectionManager manager = parsedData.getManager();
+      Key<XmlString> key = new Key<XmlString>(view.getBuffer().getPath(), XmlString.class);
+      XmlString xml = manager.get(key);
+      Buffer buffer = jEdit.newFile(view);
+      buffer.setStringProperty("encoding", "UTF-8");
+      buffer.insert(0, xml.toString());
+       * */
     }
   }
 

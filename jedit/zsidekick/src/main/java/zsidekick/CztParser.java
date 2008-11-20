@@ -94,7 +94,7 @@ public class CztParser
     
   public SideKickParsedData parse(Buffer buffer,
                                   DefaultErrorSource errorSource)
-  {
+  {   
     ParsedData data = new ParsedData(buffer.getName());
     try {
       if (debug_) { setFileLogger(); }
@@ -102,14 +102,17 @@ public class CztParser
       final String name = buffer.getPath();
       final String path = new File(name).getParent();
       if (path != null) {
-        manager.setProperty("czt.path", path);
+        String oldpath = manager.getProperty("czt.path");
+        String localpath = ((oldpath == null || oldpath.isEmpty()) ? path : oldpath + ";" + path);
+        assert localpath != null;
+        manager.setProperty("czt.path", localpath);
       }
       final Source source =
         new StringSource(buffer.getText(0, buffer.getLength()), name);
       source.setEncoding(buffer.getStringProperty("encoding"));
       source.setMarkup(getMarkup());
-      manager.put(new Key(name, Source.class), source);
-      Spec spec = (Spec) manager.get(new Key(name, Spec.class));
+      manager.put(new Key<Source>(name, Source.class), source);
+      Spec spec = manager.get(new Key<Spec>(name, Spec.class));
       if (spec.getSect().size() > 0) {
         data.addData(spec, manager, wffHighlight_, buffer);
         if (! buffer.getBooleanProperty("zsidekick.disable-typechecking")) {          
@@ -117,7 +120,7 @@ public class CztParser
             if (sect instanceof ZSect) {                            
               logger_.config("Command for SectTypeEnvAnn is "+manager.getCommand(SectTypeEnvAnn.class));
               // typecheck the section.
-              manager.get(new Key(((ZSect) sect).getName(), SectTypeEnvAnn.class));              
+              manager.get(new Key<SectTypeEnvAnn>(((ZSect) sect).getName(), SectTypeEnvAnn.class));
             }
           }
         }
