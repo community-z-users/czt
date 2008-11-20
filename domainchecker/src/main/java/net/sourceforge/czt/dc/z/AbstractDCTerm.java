@@ -40,6 +40,10 @@ public abstract class AbstractDCTerm<R> implements Visitor<R>, TermVisitor<R>
    */
   public AbstractDCTerm(Factory factory)
   {
+    if (factory == null)
+    {
+      throw new IllegalArgumentException("Cannot create domain check term with a null factory");
+    }
     factory_ = factory;
   }     
   
@@ -66,6 +70,7 @@ public abstract class AbstractDCTerm<R> implements Visitor<R>, TermVisitor<R>
    * We will chose this one for now.
    * @param term 
    */
+  @Override
   public R visitTerm(Term term)
   { 
     throw new CztException("Domain Check Exception thrown (see causes) while visiting Term " + term.toString(), 

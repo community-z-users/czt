@@ -7,7 +7,12 @@ package net.sourceforge.czt.dc.z;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sourceforge.czt.base.impl.BaseFactory;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
@@ -34,9 +39,9 @@ import net.sourceforge.czt.z.impl.AnnImpl;
  * </p>
  * @author leo
  */
-public class ZSectDCEnvAnn extends AnnImpl {
+public class ZSectDCEnvAnn extends AnnImpl implements DomainCheckPropertyKeys {
 
-  private ZSect zSect_;
+  private String originalZSectName_;
   private List<Pair<Para, Pred>> domainChecks_;
   
   /**
@@ -48,24 +53,23 @@ public class ZSectDCEnvAnn extends AnnImpl {
    * @param zsect
    * @param dcs
    */
-  protected ZSectDCEnvAnn(ZSect zsect, List<Pair<Para, Pred>> dcs)
+  protected ZSectDCEnvAnn(String originalZSectName, List<Pair<Para, Pred>> dcs)
   {
     super();
-    init(zsect, dcs);
+    init(originalZSectName, dcs);
   }
   
-  protected ZSectDCEnvAnn(ZSect zsect, List<Pair<Para, Pred>> dcs, BaseFactory factory)    
+  protected ZSectDCEnvAnn(String originalZSectName, List<Pair<Para, Pred>> dcs, BaseFactory factory)    
   {
     super(factory);
-    init(zsect, dcs);
+    init(originalZSectName, dcs);
   }
   
-  protected void init(ZSect zsect, List<Pair<Para, Pred>> dcs)
+  protected void init(String originalZSectName, List<Pair<Para, Pred>> dcs)
   {
     assert dcs != null : "null list of domain checks";
-    assert zsect != null : "invalid Z section";
-    assert zsect.getZParaList().size() <= dcs.size() : "given DC Z section must contain at least the same number of domain checks in the list.";
-    zSect_ = zsect;
+    assert originalZSectName != null && !originalZSectName.isEmpty() : "invalid Z section name";
+    originalZSectName_ = originalZSectName;
     domainChecks_ = Collections.unmodifiableList(dcs);
   }
 
@@ -80,16 +84,16 @@ public class ZSectDCEnvAnn extends AnnImpl {
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         ZSectDCEnvAnn object = (ZSectDCEnvAnn) obj;
-        if (zSect_ != null) {
-          if (!zSect_.equals(object.zSect_)) {
+        if (originalZSectName_ != null) {
+          if (!originalZSectName_.equals(object.originalZSectName_)) {
             return false;
           }
         }
         else {
-          if (object.domainChecks_ != null) {
+          if (object.originalZSectName_ != null) {
             return false;
           }
-        }
+        }        
         if (domainChecks_ != null) {
           if (!domainChecks_.equals(object.domainChecks_)) {
             return false;
@@ -115,9 +119,9 @@ public class ZSectDCEnvAnn extends AnnImpl {
 
     int hashCode = super.hashCode();
     hashCode += "ZSectDCEnvAnn".hashCode();
-    if (zSect_ != null) {
-      hashCode += constant * zSect_.hashCode();
-    }
+    if (originalZSectName_ != null) {
+      hashCode += constant * originalZSectName_.hashCode();
+    }    
     if (domainChecks_ != null) {
       hashCode += constant * domainChecks_.hashCode();
     }    
@@ -142,10 +146,10 @@ public class ZSectDCEnvAnn extends AnnImpl {
     ZSectDCEnvAnn result = null;
     try
     {
-      ZSect zs = (ZSect)args[0];
+      String originalSectName = (String)args[0];      
       @SuppressWarnings("unchecked")
       List<Pair<Para, Pred>> dcs = (List<Pair<Para, Pred>>)args[1];
-      result = new ZSectDCEnvAnn(zs, dcs, getFactory());
+      result = new ZSectDCEnvAnn(originalSectName, dcs, getFactory());
     }
     catch (IndexOutOfBoundsException e) 
     {
@@ -161,17 +165,32 @@ public class ZSectDCEnvAnn extends AnnImpl {
   @Override
   public Object[] getChildren()
   {
-    Object[] erg = { getZSect(), getDomainChecks() };
+    Object[] erg = { getOriginalZSectName(), getDomainChecks() };
     return erg;
   }
   
-  public ZSect getZSect()
+  public String getOriginalZSectName()
   {
-    return zSect_;
+    return originalZSectName_;
   }
   
   public List<Pair<Para, Pred>> getDomainChecks()
   {
     return domainChecks_;
+  }
+  
+  // convenience method
+  public ZSect getDCZSect(SectionInfo manager) throws DomainCheckException
+  {    
+    assert manager != null : "invalid section manager";
+    try
+    {
+      return manager.get(new Key<ZSect>(getOriginalZSectName() + DOMAIN_CHECK_GENERAL_NAME_SUFFIX, ZSect.class));
+    }
+    catch (CommandException ex)
+    {
+      throw new DomainCheckException("Could not retrieve domain checked ZSect " + getOriginalZSectName() +
+        ". That is a severe error and should never happen when ZSectDCEnvAnn is created properly.");
+    }    
   }
 }

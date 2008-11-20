@@ -59,4 +59,15 @@ public interface DomainCheckPropertyKeys {
   
   String PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS =
     "domaincheck_apply_pred_transformers";
+  
+  boolean PROP_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT = true;
+  boolean PROP_DOMAINCHECK_PROCESS_PARENTS_DEFAULT = false;
+  boolean PROP_DOMAINCHECK_ADD_TRIVIAL_DC_DEFAULT  = false;
+  boolean PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS_DEFAULT = true;
+  String PROP_DOMAINCHECK_PARENTS_TO_IGNORE_DEFAULT = null;
+    
+  String DOMAIN_CHECK_TOOLKIT_NAME = "dc_toolkit";
+  String DOMAIN_CHECK_CONJECTURE_NAME_SUFFIX = "_domainCheck";
+  String DOMAIN_CHECK_GENERAL_NAME_SUFFIX = "_dc";
+  
 }

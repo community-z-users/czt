@@ -185,7 +185,8 @@ public class DCTerm extends TrivialDCTerm implements
   QntPredVisitor<Pred>,  
   NegPredVisitor<Pred>,
   MemPredVisitor<Pred>,
-  ExprPredVisitor<Pred>    
+  ExprPredVisitor<Pred>,
+  DomainCheckPropertyKeys
 {
 
   /** 
@@ -195,10 +196,6 @@ public class DCTerm extends TrivialDCTerm implements
    */
   private static final String APPLIESTO_NAME = "\\appliesToNofix";
   private static final String DOM_NAME = "dom";
-  
-  public static final boolean APPLIESTO_INFIX_DEFAULT = true;
-  public static final boolean APPLY_PRED_TRANSFORMERS_DEFAULT = true;
-  
   
   public static final String[] TOTAL_OPS = { ZString.FUN, ZString.SURJ, ZString.INJ, ZString.BIJ };
   public static final String[] PARTIAL_OPS = { ZString.PFUN, ZString.PSURJ, ZString.PINJ };              
@@ -233,6 +230,7 @@ public class DCTerm extends TrivialDCTerm implements
     super(factory);
     defTable_ = null;    
     infixAppliesTo_ = defaultInfixAppliesTo();
+    applyPredTransformers_ = defaultApplyPredTransformers();
     domName_ = factory_.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
     appliesToOpName_ = factory_.createZName(APPLIESTO_NAME); //factory_.createZName(ZString.ARG + APPLIESTO_NAME + ZString.ARG); // relation infix binary operator (see dc_toolkit.tex)!
     printVisitor_ = new PrintVisitor(); // defTable uses a PrintVisitor for lookup names.
@@ -288,12 +286,12 @@ public class DCTerm extends TrivialDCTerm implements
   
   protected boolean defaultInfixAppliesTo()
   {
-    return APPLIESTO_INFIX_DEFAULT;
+    return PROP_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT;
   }
   
   protected boolean defaultApplyPredTransformers()
   {
-    return APPLY_PRED_TRANSFORMERS_DEFAULT;
+    return PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS_DEFAULT;
   }
 
   /** AUXILIARY TERM FACTORY METHODS */

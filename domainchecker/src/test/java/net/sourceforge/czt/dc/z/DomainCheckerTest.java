@@ -90,43 +90,14 @@ public class DomainCheckerTest
     DomainCheckerTest checkerTest = new DomainCheckerTest();
     checkerTest.collectTests(suite, TESTS_SOURCEDIR);
     return suite;
-  }
+  }  
   
-  protected final DomainChecker domainChecker_;
   private final SectionManager manager_;
   
   /** Creates a new instance of DomainCheckerTest */
   public DomainCheckerTest()
   {
     manager_ = new SectionManager();
-    domainChecker_ = new DomainChecker(manager_);
-        
-    domainChecker_.setAddingTrivialDC(
-      (manager_.hasProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) ?
-        manager_.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) :
-        DomainChecker.DEFAULT_ADD_TRIVIAL_DC));
-    domainChecker_.setProcessingParents(
-      (manager_.hasProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) ?
-        manager_.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) :
-        DomainChecker.DEFAULT_PROCESS_PARENTS));
-    domainChecker_.setInfixAppliesTo(
-      (manager_.hasProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) ?
-        manager_.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) :
-        DCTerm.APPLIESTO_INFIX_DEFAULT));        
-    domainChecker_.setApplyPredTransformers(
-      (manager_.hasProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) ?
-        manager_.getBooleanProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) :
-        DCTerm.APPLY_PRED_TRANSFORMERS_DEFAULT));        
-    if (manager_.hasProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE))
-    {
-      for(String section : manager_.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE))
-      {
-        if (section != null && !section.isEmpty())
-        {
-          domainChecker_.addParentSectionToIgnore(section);
-        }
-      }    
-    }
   }
   
   protected SectionManager getSectionManager() {
@@ -248,8 +219,7 @@ public class DomainCheckerTest
         System.out.println("Setting czt.path = " + localcztpath);
         manager_.setProperty("czt.path", localcztpath); 
         // transforms c:\temp\myfile.tex into myfile
-        String resource = DomainCheckUtils.removePath(DomainCheckUtils.getFileNameNoExt(fileName_));        
-        
+        String resource = DomainCheckUtils.getSourceName(fileName_);
         System.out.println("Retrieving Spec " +  resource + " for " + fileName_);                
         Spec spec = manager_.get(new Key<Spec>(resource, Spec.class));
         if (spec == null)
@@ -257,13 +227,42 @@ public class DomainCheckerTest
           fail("Parser returned null (i.e., parsing error) for " + fileName_);
         }
         else 
-        { 
-          System.out.println("Collecting DCs for Spec for " + fileName_);
-          Spec dcSpec = domainChecker_.createDCSpec(spec);
+        {           
+          System.out.println("Setting up section manager to domain check " + resource);
+          boolean useInfixAppliesTo =
+          (manager_.hasProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) ?
+            manager_.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) :
+            PROP_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
+          boolean processParents =
+            (manager_.hasProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) ?
+              manager_.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) :
+              PROP_DOMAINCHECK_PROCESS_PARENTS_DEFAULT);
+          boolean addTrivialDC =
+            (manager_.hasProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) ?
+              manager_.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) :
+              PROP_DOMAINCHECK_ADD_TRIVIAL_DC_DEFAULT);
+          boolean applyPredTransf =
+            (manager_.hasProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) ?
+              manager_.getBooleanProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) :
+              PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS_DEFAULT);
+          List<String> parentsToIgnore = 
+            (manager_.hasProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE) ? 
+             manager_.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE) : null);
           
-          System.out.println("Printing DC Spec for " + fileName_);
-          DomainCheckUtils.print(fileName_, manager_, dcSpec);          
-          return ;        
+          System.out.println("Collecting DCs for Spec in file " + fileName_);
+          Spec dcSpec = DomainCheckUtils.domainCheck(spec, manager_, parentsToIgnore, 
+            useInfixAppliesTo, processParents, addTrivialDC, applyPredTransf);
+          
+          if (dcSpec != null)
+          {
+            System.out.println("Printing DC Spec for " + fileName_);
+            DomainCheckUtils.print(fileName_, manager_, dcSpec);
+            return ;        
+          }
+          else
+          {
+            fail("Could not calculate DC Spec for " + fileName_);
+          }
         }
       }
       catch (net.sourceforge.czt.parser.util.ParseException f)
@@ -273,6 +272,13 @@ public class DomainCheckerTest
             "\n\tFile: " + fileName_ +
             "\n\tException: " + f.toString());
         f.printErrorList();        
+      }
+      catch (DomainCheckException f)
+      {
+        printCauses(f);
+        fail("\nUnexpected domain check exception" +
+            "\n\tFile: " + fileName_ +
+            "\n\tException: " + f.toString());
       }
       catch (CommandException g)
       {

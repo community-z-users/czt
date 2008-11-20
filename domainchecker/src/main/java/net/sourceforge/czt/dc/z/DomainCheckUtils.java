@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.CztPrintString;
@@ -44,6 +45,7 @@ import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.Factory;
 
 /**
  * Utilities for domain checking Z specifications.
@@ -65,7 +67,14 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
   {
     domainChecker_ = new DomainChecker();
   }
-
+  
+  protected DomainCheckUtils(Factory factory)
+  {
+    domainChecker_ = new DomainChecker(factory);
+  }
+  
+  /* UTILITY SETUP METHODS */
+  
   protected String name()
   {
     return "zeddomaincheck";
@@ -114,22 +123,22 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
   
   protected boolean useInfixAppliesToDefault()
   {
-    return false;
+    return PROP_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT;
   }
 
   protected boolean processParentsDefault()
   {
-    return false;
+    return PROP_DOMAINCHECK_PROCESS_PARENTS_DEFAULT;
   }
   
   protected boolean addTrivialDCDefault()
   {
-    return false;
+    return PROP_DOMAINCHECK_ADD_TRIVIAL_DC_DEFAULT;
   }  
   
   protected boolean applyPredTransfDefault()
   {
-    return true;
+    return PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS_DEFAULT;
   }
  
   protected String cztPathDefault()
@@ -139,15 +148,33 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
   
   protected String parentToIgnoreListDefault()
   {
-    return null;
+    return PROP_DOMAINCHECK_PARENTS_TO_IGNORE_DEFAULT;
   }
   
-  protected ZSectDCEnvAnn retrieveZSectDCEnv(ZSect term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-    throws DomainCheckException
+  protected String getExtension()
   {
-    assert term != null;
-    
+    return SectionManager.DEFAULT_EXTENSION;
+  }  
+  
+  /**
+   * This method should be called as few times as possible, as it returns
+   * a brand new section manager 
+   * @param extension the CZT extension to use
+   * @return a fresh new section manager. */
+  protected SectionManager getSectionManager(String extension)
+  {
+    SectionManager sectionManager = new SectionManager(extension);
+    sectionManager.putCommand(ZSectDCEnvAnn.class, DomainCheckUtils.getCommand());
+    sectionManager.putCommand(SpecDCEnvAnn.class, DomainCheckUtils.getCommand());
+    return sectionManager;
+  }  
+  
+  /* UTILITY DOMAIN CHECK CALCULATION WRAPPING METHODS */
+  
+  /** Sets the domainChecker properties and initialisation up */
+  protected void setupDomainChecker(SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+  {
     // prepare the domain checker properties
     domainChecker_.setInfixAppliesTo(useInfixAppliesto);    
     domainChecker_.setProcessingParents(processParents);
@@ -163,53 +190,95 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
         domainChecker_.addParentSectionToIgnore(parent);
       }    
     }
-    
-    // domain check the given spec accordingly
-    //List<ZSectDCEnvAnn> result = new ArrayList<ZSectDCEnvAnn>();
-    //if (spec instanceof Spec)
-    //{
-    //  result.addAll(domainChecker_.createDCZSect((Spec)spec));
-    //}
-    //else if (spec instanceof ZSect)
-    //{
-    //  result.add(domainChecker_.createDCZSect((ZSect)spec));
-    //}
-    //else
-    //{
-    //  // for general terms, wrap it around a Z Sect
-    //  result.add(domainChecker_.createDCZSect(spec));
-    //}
-    
-    ZSectDCEnvAnn result = domainChecker_.createDCZSect(term);    
+  }
+  
+  /** 
+   * Retrieves the ZSect DC Env for the given term. It sets up the
+   * domain checker and calls the underlying {@link #DomainChecker.createZSectDCEnvAnn(ZSect)}.
+   * This method is useful for Command classes that need to calculate 
+   * domain checks for ZSect to be stored in the section manager.
+   * @param term Z section to calculate domain checks
+   * @param manager section manager
+   * @param parentsToIgnore 
+   * @param useInfixAppliesto
+   * @param processParents 
+   * @param addTrivialDC 
+   * @param applyPredTrans 
+   * @return ZSect DC environment
+   * @throws DomainCheckException if DC calculation throws an exception
+   */
+  protected ZSectDCEnvAnn retrieveZSectDCEnv(ZSect term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+    throws DomainCheckException
+  {
+    assert term != null;    
+    setupDomainChecker(manager, parentsToIgnore, useInfixAppliesto, 
+      processParents, addTrivialDC, applyPredTrans);
+    ZSectDCEnvAnn result = domainChecker_.createZSectDCEnvAnn(term);
+    // check consistency between given z section and assigned name within the 
+    // environment created by the domain checker calculator
+    assert result != null && result.getOriginalZSectName().equals(term.getName());
     return result;
   }
   
-  protected Spec domainCheck(Spec term, SectionManager manager, List<String> parentsToIgnore,
+  protected ZSectDCEnvAnn retrieveTermDCEnv(Term term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+    throws DomainCheckException
+  {
+    assert term != null && !(term instanceof Spec);    
+    setupDomainChecker(manager, parentsToIgnore, useInfixAppliesto, 
+      processParents, addTrivialDC, applyPredTrans);
+    ZSectDCEnvAnn result = domainChecker_.createZSectDCEnvAnn(term);
+    return result;
+  }
+  
+  /** 
+   * Retrieves the Spec DC Env for the given term. It sets up the domain checker 
+   * and calls the underlying {@link #DomainChecker.createSpecDCEnvAnn(Spec)}.
+   * This method is useful for Command classes that need to calculate 
+   * domain checks for Spec to be stored in the section manager.
+   * @param term Z specification to calculate domain checks
+   * @param manager section manager
+   * @param parentsToIgnore 
+   * @param useInfixAppliesto
+   * @param processParents 
+   * @param addTrivialDC 
+   * @param applyPredTrans 
+   * @return Spec DC environment
+   * @throws DomainCheckException if DC calculation throws an exception
+   */
+  protected SpecDCEnvAnn retrieveSpecDCEnv(Spec term, SectionManager manager, List<String> parentsToIgnore,
     boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
     throws DomainCheckException
   {
     assert term != null;
-    
-    // prepare the domain checker properties
-    domainChecker_.setInfixAppliesTo(useInfixAppliesto);    
-    domainChecker_.setProcessingParents(processParents);
-    domainChecker_.setAddingTrivialDC(addTrivialDC);
-    domainChecker_.setApplyPredTransformers(applyPredTrans);
-    domainChecker_.setSectInfo(manager);
-    
-    // MUST be after setSectInfo, as it resets the default parent sections to ignore
-    if (parentsToIgnore != null)
-    {
-      for(String parent : parentsToIgnore)
-      {
-        domainChecker_.addParentSectionToIgnore(parent);
-      }    
-    }    
-    Spec result = domainChecker_.createDCSpec(term);
+    setupDomainChecker(manager, parentsToIgnore, useInfixAppliesto, 
+      processParents, addTrivialDC, applyPredTrans);    
+    SpecDCEnvAnn result = domainChecker_.createSpecDCEnvAnn(term);
     return result;
   }
-
-  protected ZSect domainCheck(ZSect term, SectionManager manager, List<String> parentsToIgnore,
+  
+  /** 
+   * Local domain check method that retrieves the DC ZSect with all calculated 
+   * domain checks for the given Z section. It calls {@link #retrieveZSectDCEnv(ZSect, 
+   * SectionManager, List, boolean, boolean, boolean, boolean)} and extract the
+   * inner section from the ZSect DC environment.
+   * This method is useful for top-level use where the method's result
+   * is the calculated domain checked section within the SectionManager.
+   * Note this will not add the ZSectDCEnvAnn to the manager.
+   * @param term Z section to calculate domain checks
+   * @param manager section manager
+   * @param parentsToIgnore 
+   * @param useInfixAppliesto
+   * @param processParents 
+   * @param addTrivialDC 
+   * @param applyPredTrans 
+   * @return DC ZSect 
+   * @throws DomainCheckException if DC calculation throws an exception,
+   *         or if it is not possible to retrieve the DC ZSect from the
+   *         resulting <code>ZSectDCEnvAnn</code>
+   */
+  protected ZSect lDomainCheck(ZSect term, SectionManager manager, List<String> parentsToIgnore,
     boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
     throws DomainCheckException
   {    
@@ -218,47 +287,176 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       useInfixAppliesto, processParents, addTrivialDC, applyPredTrans);
     if (result == null)
     {
-      throw new DomainCheckException("Could not calculatee domain check for " + term.getName());
-    }
-    return result.getZSect();  
+      throw new DomainCheckException("Could not calculatee domain check conjectures for the given Z section " + term.getName());
+    }    
+    // check consistency between given z section and assigned name within the 
+    // environment created by the domain checker calculator.
+    ZSect dcZSect = result.getDCZSect(manager);    
+    assert dcZSect != null && dcZSect.getName().startsWith(term.getName());
+    return dcZSect;
   }
   
-  protected static String getDCFilename(String filename)
+  protected ZSect lDomainCheckTerm(Term term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+    throws DomainCheckException
+  {    
+    assert term != null;
+    ZSectDCEnvAnn result = retrieveTermDCEnv(term, manager, parentsToIgnore, 
+      useInfixAppliesto, processParents, addTrivialDC, applyPredTrans);
+    if (result == null)
+    {
+      throw new DomainCheckException("Could not calculatee domain check conjectures for the given term");
+    }    
+    ZSect dcZSect = result.getDCZSect(manager);
+    assert dcZSect != null;    
+    return dcZSect;
+  }
+  
+  /** 
+   * Local domain check method that retrieves the DC Spec with all calculated 
+   * domain checks for the given Spec. It calls {@link #retrieveSpecDCEnv(Spec, 
+   * SectionManager, List, boolean, boolean, boolean, boolean)} and extract the
+   * inner section from the ZSect DC environment.
+   * This method is useful for top-level use where the method's result
+   * is the calculated domain checked section within the SectionManager.
+   * Note this will not add the SpecDCEnvAnn to the manager.
+   * @param term Z spec to calculate domain checks
+   * @param manager section manager
+   * @param parentsToIgnore 
+   * @param useInfixAppliesto
+   * @param processParents 
+   * @param addTrivialDC 
+   * @param applyPredTrans 
+   * @return DC Spec 
+   * @throws DomainCheckException if DC calculation throws an exception,
+   *         or if it is not possible to retrieve the DC ZSect from the
+   *         resulting <code>ZSectDCEnvAnn</code>
+   */
+  protected Spec lDomainCheck(Spec term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+    throws DomainCheckException
+  {    
+    SpecDCEnvAnn result = retrieveSpecDCEnv(term, manager, parentsToIgnore, useInfixAppliesto, 
+      processParents, addTrivialDC, applyPredTrans);    
+    if (result == null)
+    {
+      throw new DomainCheckException("Could not calculate domain check conjectures for the given specification term");
+    }
+    Spec dcSpec = result.getDCSpec(manager);
+    assert dcSpec != null;    
+    return dcSpec;
+  }
+  
+  /* AUXILIARY TOP-LEVEL METHODS */
+  
+  /** 
+   * For a file "./dir/foo.ext", returns "./dir/foo_dc.ext".   
+   * If .ext is not present, _dc is just added to the end.
+   * @param filename full file name to add _dc before .ext
+   * @return file name with added _dc before .ext
+   */
+  public static String getDCFilename(String filename)
   {    
     int dotIdx = filename.lastIndexOf(".");
-    assert dotIdx != -1 : "invalid file name (no .ext): " + filename; 
-    String filenameDC = filename.substring(0, dotIdx) + "_dc" + filename.substring(dotIdx);          
-    return filenameDC;
+    if (dotIdx == -1)
+    {
+      return filename + DOMAIN_CHECK_GENERAL_NAME_SUFFIX;
+    }
+    else
+    {
+      return filename.substring(0, dotIdx) + 
+        DOMAIN_CHECK_GENERAL_NAME_SUFFIX + 
+        filename.substring(dotIdx);
+    }    
   }
   
-  protected static String removePath(String filename)
+  /**
+   * For a file "./dir/foo.ext" or ".\dir\foo.ext", removes
+   * the path such that the result is "foo.ext". If "foo.ext"
+   * is given, it is directly returned.
+   * @param filename full file name to remove path
+   * @return file name with path removed
+   */
+  public static String removePath(String filename)
   {
     int barIdx = filename.lastIndexOf(File.separatorChar);
-    if (barIdx == -1) barIdx = filename.lastIndexOf("/");
-    if (barIdx == -1) barIdx = filename.lastIndexOf("\\");    
+    if (barIdx == -1) {barIdx = filename.lastIndexOf("/");}
+    if (barIdx == -1) {barIdx = filename.lastIndexOf("\\");}    
     return barIdx == -1 ? filename : filename.substring(barIdx + 1);  
   }
     
-  protected static String getFileNameNoExt(String filename)
+  /**
+   * For a file "./dir/foo.ext", returns "./dir/foo".
+   * If no extension is present, the filename given is returned.
+   * @param filename full file name to remove extension
+   * @return filename without extension
+   */
+  public static String getFileNameNoExt(String filename)
   {    
-    int dotIdx = filename.lastIndexOf(".");
-    assert dotIdx != -1 : "invalid file name (no .ext): " + filename; 
-    String filenameDC = filename.substring(0, dotIdx);          
-    return filenameDC;
+    int dotIdx = filename.lastIndexOf(".");    
+    return dotIdx == -1 ? filename : filename.substring(0, dotIdx);
   }
   
-  public static void print(String fileName, SectionManager manager, Spec dcSpec)
-    throws IOException, CommandException, DomainCheckException
+  public static String getSourceName(String filename)
+  {
+    // transforms c:\temp\myfile.tex into myfile
+    String resource = removePath(getFileNameNoExt(filename));        
+    return resource;
+  }
+  
+  /* AUXILIARY TOP-LEVEL METHODS */
+  
+  protected static final DomainCheckUtils domainCheckUtils_ = createDomainCheckUtils();
+  
+  protected static DomainCheckUtils createDomainCheckUtils()
+  {
+    return new DomainCheckUtils();
+  }
+  
+  public static ZSect domainCheck(ZSect term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+    throws DomainCheckException
+  {
+    return domainCheckUtils_.lDomainCheck(term, manager, parentsToIgnore, useInfixAppliesto, 
+      processParents, addTrivialDC, applyPredTrans);
+  }
+  
+  public static Spec domainCheck(Spec term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+    throws DomainCheckException
+  {
+    return domainCheckUtils_.lDomainCheck(term, manager, parentsToIgnore, useInfixAppliesto, 
+      processParents, addTrivialDC, applyPredTrans);
+  }
+  
+  public static ZSect domainCheckTerm(Term term, SectionManager manager, List<String> parentsToIgnore,
+    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+    throws DomainCheckException
+  {
+    return domainCheckUtils_.lDomainCheckTerm(term, manager, parentsToIgnore, 
+      useInfixAppliesto, processParents, addTrivialDC, applyPredTrans);
+  }
+  
+  public static void print(String fileName, SectionManager manager, Spec dcSpec) throws DomainCheckException
   {        
     // the new file name to print
     String dcFileName = getDCFilename(fileName);
-    Markup markup = Markup.getMarkup(dcFileName);
     String dcFileNoDirNoPath = removePath(getFileNameNoExt(dcFileName));
     
-    // tell the section manager about the DC spec presence
-    manager.put(new Key<Spec>(dcFileNoDirNoPath, Spec.class), dcSpec);   
+    // check the section manager knows about the DC spec presence    
+    try
+    {
+      manager.get(new Key<Spec>(dcFileNoDirNoPath, Spec.class));
+    }
+    catch (CommandException e)
+    {
+      throw new DomainCheckException("Cannot print the given domain checked specification for file " + fileName +
+        ". It was not properly setup within the section manager, which generated an exception. Please, see" +
+        " the cause for details.", e);
+    }
     
-    CztPrintString output;
+    // prepare the printer's key depending on the markup extracted from the filename extension    
+    Markup markup = Markup.getMarkup(dcFileName);    
     Key<? extends CztPrintString> key;
     switch (markup)
     {
@@ -277,28 +475,49 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       default: 
         throw new DomainCheckException("Invalid file name extension. Could not retrieve " +
           "its markup format to produce DC section for " + dcFileNoDirNoPath + " in file " + dcFileName);
-    }         
-    output = manager.get(key);
-    File file = new File(dcFileName);
-    if (file.exists())
+    }  
+    
+    // compute the printed dcSpec
+    CztPrintString output;
+    try
     {
-      System.out.println("Deleting old DC generated file " + dcFileName);
-      file.delete();      
+      output = manager.get(key);
     }
-    FileWriter writer = new FileWriter(dcFileName);
-    System.out.println("Printing DC sections for Spec as " + dcFileNoDirNoPath + 
-      " in file " + dcFileName);
-    writer.write(output.toString());
-    writer.close();
-  }
+    catch (CommandException e)
+    {
+      throw new DomainCheckException("Cannot print the given domain checked specification for file " + fileName +
+        ". The section manager could not instruct the right printer to perform the command. Please, see cause for details.", e);
+    }
+    
+    // check weather the dcFileName already exists, deleting it if so.    
+    File dcFile = new File(dcFileName);    
+    String extraMsg = dcFileName;
+    if (dcFile.exists())
+    {
+      extraMsg = ", which already existed";
+      System.out.println("Deleting old DC generated file " + dcFileName);
+      boolean couldDelete = dcFile.delete();
+      if (couldDelete) { extraMsg += " but could not be deleted"; }
+    }
+    
+    // write the printed result on to the dc filename
+    try
+    {
+      FileWriter writer = new FileWriter(dcFileName);
+      System.out.println("Printing DC sections for Spec as " + dcFileNoDirNoPath + 
+        " in file " + dcFileName);
+      writer.write(output.toString());
+      writer.close();
+    }
+    catch (IOException e)
+    {
+      throw new DomainCheckException("Cannot print the given domain checked specification for file " + fileName +
+        ". An I/O exception was throw while trying to save the printed results to file " + extraMsg +
+        ". Please, see cause for details.", e);
+    }
+  }   
   
-  /** @return a fresh new section manager. */
-  protected SectionManager getSectionManager()
-  {
-    SectionManager sectionManager = new SectionManager();
-    sectionManager.putCommand(ZSectDCEnvAnn.class, DomainCheckUtils.getCommand());
-    return sectionManager;
-  }  
+  /* TOP-LEVEL METHODS FOR STANT-ALONE EXECUTION */
   
   protected void run(String [] args)
   {
@@ -373,7 +592,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       }        
     }       
     // retrieve section manager and update its CZT properties.
-    SectionManager manager = getSectionManager();    
+    SectionManager manager = getSectionManager(getExtension());    
     manager.setProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO, String.valueOf(useInfixAppliesTo));
     manager.setProperty(PROP_DOMAINCHECK_PROCESS_PARENTS, String.valueOf(processParents));
     manager.setProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC, String.valueOf(addTrivialDC));           
@@ -542,7 +761,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
         try 
         {
           // create the domain checked section
-          dcSpec = domainCheck(spec, manager, parentsToIgnoreList, useInfixAppliesTo, 
+          dcSpec = lDomainCheck(spec, manager, parentsToIgnoreList, useInfixAppliesTo, 
             processParents, addTrivialDC, applyPredTransf);
         }
         catch (DomainCheckException e) 
@@ -570,23 +789,13 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
           {
             System.out.println("Printing DC ZSect for " + file);
             print(file, manager, dcSpec);
-          }
-          catch (CommandException e)
-          {
-            System.err.println("Command exception thrown while trying to domain check " + file);
-            e.printStackTrace();          
-          }          
+          }                
           catch (DomainCheckException e)
           {
             System.err.println("Domain exception thrown while trying to domain check " + file);
             e.printStackTrace();          
           }
-          catch (IOException e)
-          {
-            System.err.println("I/O exception thrown while trying to domain check " + file);
-            e.printStackTrace();          
-          }          
-          
+         
           /* ex:
            * 0        40            100
            * |--Parse--|--TypeCheck--|--DomainCheck--|--Print--|         
@@ -626,10 +835,9 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
   }
    
   public static void main(String[] args)
-  {    
-    DomainCheckUtils utils = new DomainCheckUtils();    
-    utils.run(args);
-  }
+  {        
+    domainCheckUtils_.run(args);
+  }  
 
   /**
    * Get a Command object for use in SectionManager
