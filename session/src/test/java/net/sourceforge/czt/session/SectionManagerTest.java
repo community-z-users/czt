@@ -42,7 +42,7 @@ public class SectionManagerTest
     String s2 = "yeah";
     String s3 = "test2";
     manager_.setProperty(s1, s2);
-    SectionManager clone = (SectionManager) manager_.clone();
+    SectionManager clone = manager_.clone();
     assertEquals(clone.getProperty(s1), s2);
     assertTrue(manager_.getProperty(s3) == null);
     assertTrue(clone.getProperty(s3) == null);
@@ -54,9 +54,9 @@ public class SectionManagerTest
   public void testReset()
     throws CommandException
   {
-    Key key1 = new Key("test1", String.class);
-    Key key2 = new Key("prelude", String.class);
-    Key key3 = new Key("test_toolkit", String.class);
+    Key<String> key1 = new Key<String>("test1", String.class);
+    Key<String> key2 = new Key<String>("prelude", String.class);
+    Key<String> key3 = new Key<String>("test_toolkit", String.class);
     manager_.put(key1, "bar");
     manager_.put(key2, "foo");
     manager_.put(key3, "barfoot");
@@ -72,5 +72,28 @@ public class SectionManagerTest
     }
     catch (CommandException e) {
     }
+  }
+  
+  public void testCachedAndRetrieveKey()
+  {
+    Key<String> key1 = new Key<String>("test1", String.class);
+    Key<String> key2 = new Key<String>("prelude", String.class);
+    Key<String> key3 = new Key<String>("test_toolkit", String.class);
+    String value1 = "bar";
+    String value2 = "foo";
+    String value3 = "barfoot";
+    manager_.put(key1, value1);
+    manager_.put(key2, value2);    
+    assertTrue(manager_.isCached(key1));
+    assertTrue(manager_.isCached(key2));    
+    assertFalse(manager_.isCached(key3));
+    Key<String> key1_ = manager_.retrieveKey(value1);
+    Key<String> key2_ = manager_.retrieveKey(value2);    
+    Key<String> key3_ = manager_.retrieveKey(value3);
+    assertNotNull(key1_);
+    assertNotNull(key2_);
+    assertNull(key3_);
+    assertEquals(key1, key1_);
+    assertEquals(key2, key2_);        
   }
 }
