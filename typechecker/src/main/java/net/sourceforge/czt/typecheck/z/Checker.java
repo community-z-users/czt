@@ -560,7 +560,7 @@ abstract public class Checker<R>
     else {
       SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
       sectInfo().put(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class),
-                     sectTypeEnvAnn, Collections.<Key<SectTypeEnvAnn>>emptySet());
+                     sectTypeEnvAnn, Collections.<Key<?>>emptySet());
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
