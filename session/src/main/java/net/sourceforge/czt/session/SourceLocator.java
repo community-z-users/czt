@@ -72,7 +72,7 @@ public class SourceLocator
    * @param manager the manager requesting the resource.
    * @return true if resource found, raises an exception otherwise.
    * @throws net.sourceforge.czt.session.CommandException if resource not found.
-   */
+   */   
   @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
