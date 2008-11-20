@@ -100,7 +100,7 @@ import java.util.logging.Logger;
 public class SectionManager
   implements Cloneable, SectionInfo
 {
-  private static final String DEFAULT_EXTENSION = "z";
+  public static final String DEFAULT_EXTENSION = "z";
   private String dialect_ = DEFAULT_EXTENSION;
   
   public static final String  SECTION_MANAGER_LIST_PROPERTY_SEPARATOR = ";";
@@ -451,8 +451,224 @@ public class SectionManager
   }
 
   /**
-   * Lookup a key in the section manager.
-   * It should never return <code>null</code>.
+   * <p>
+   * Lookup a key in the section manager. It should never return <code>null</code>.
+   * That means, it calculates with the command associated with the key type, the
+   * resulting value for that key. If it is already present (i.e., {@link #isCached(Key)} is true),
+   * then no further calculation is needed. 
+   * </p>
+   * <p>
+   * Each extension may install different commands to process each type of key.
+   * Having this dynamic scheme minimises the source code dependencies the section manager has.
+   * The default commands can be found in the .commands files within the czt.jar.
+   * For instance, for the (default) Z extension, the mapping and the lookup
+   * algorithm is defined below. For each item we add the tool that (usually) 
+   * performs the corresponding algorithm. Obviously, each extension has its own
+   * version of some of these commands (see extension corresponding .commands file).
+   * 
+   * <dl>
+   *  <dt>Source location (section management)</dt>
+   *      <dd>
+   *      For Z, there are five types of CZT sources. A CZT source enables
+   *      the section manager commands to find the appropriate resource. 
+   *      They key name is the resource name, which may be irrelevant for
+   *      certain sources, whereas the key type is <code>Source.class</code>.
+   *      The associations for each kind of <code>Source</code> are detailed below.
+   *        <dl>
+   *          <dl>FileSource</dl>
+   *              <dd>   
+   *              The algorithm looks for the file resource on the underlying
+   *              filesystem according to the file name, which is the resource name. 
+   *              Usual code is like:
+   *              <br>
+   *              <code>FileSource fs = new FileSource("./foo.tex");</code>
+   *              </dd>
+   *          <dl>UrlSource</dl>
+   *              <dd>   
+   *              The algorithm follows Java's URI protocols to find resources
+   *              over the network or local file system. Resource name is the URI.
+   *              </dd>
+   *          <dl>StringSource</dl>
+   *              <dd>   
+   *              Just a placeholder for the resource as a string. 
+   *              Resource name is fixed as "StringSource".
+   *              </dd>
+   *          <dl>StdInSource</dl>
+   *              <dd>   
+   *              Just a placeholder for the resource from the standard input.
+   *              Resource name is fixed as "System.in".
+   *              </dd>
+   *          <dl>SpecSource</dl>
+   *              <dd>   
+   *              File source for the SpecReader tool, which allows the right
+   *              processing of specifications with multiple Z sections per file.
+   *              </dd>
+   *        </dl>
+   *      <br>
+   *      Source location is important to tell the give parser(s) the right 
+   *      location of various resources. The usual code for that is mainly 
+   *      used by the parser(s) and looks like:
+   *      <br>
+   *      <code>
+   *      // For file resource location...
+   *      String filename = "./foo.tex"; 
+   *      Source source = manager.get(new Key&lt;Source&gt;(name, Source.class));
+   *      Term term = ParseUtils.parse(source, manager);
+   *      </code>
+   *      See {@link #SourceLocator} for details.
+   *      </dd>
+   *  <dt><code>Term</code> parsing (parser)</dt>
+   *      <dd>
+   *      For Z, there are three types of terms that can parsed using the
+   *      section manager: Spec, ZSect, and Term. We detail them below.
+   *      For Spec, the key name is the source name to find the specification.
+   *      For other terms, the key name is the Z section name to find the term.
+   *      The coomand looks up the resource using the key's name.
+   *      The algorithm for each kind of <code>Term</code> are detailed below.  
+   *        <dl>
+   *          <dt>Spec parsing</dt>
+   *            <dd>
+   *            If the specification has already been parsed through other means,
+   *            all of its Z sections are cached in the section manager as well.
+   *            Otherwise, the top-level parsing occurs and the resulting spec is cached.
+   *            </dd>
+   *          <dt>ZSect parsing</dt>
+   *            <dd>
+   *            If the specification has already been parsed through other means,
+   *            all of its Z sections are cached in the section manager as well.
+   *            Otherwise, the top-level parsing occurs and the resulting spec is cached.
+   *            </dd>
+   *          <dt>Term parsing</dt>
+   *            <dd>
+   *            General terms are wrapped up up to the Z section level, then they
+   *            are parsed, and unwrapped back to their right position (i.e., pred, expr, para).
+   *            These are usually given through String our StdIn source. They are
+   *            useful in tools that require on-the-fly parsing, like theorem provers.
+   *            </dd>
+   *        </dl>
+   *      Parsing errors are collected in the ParseException, which is processed
+   *      by a different command detailed below. The parser guarantees the specification 
+   *      is syntactically consistent with the correspondant language grammar.
+   *      See parser's ParseUtils for details.
+   *      </dd>
+   *  <dt>Parsing exceptions (parser)</dt>
+   *      <dd>
+   *      If upon parsing errors are found, the command with a key for <code>ParseException</code>
+   *      returns the <code>ParseException</code> containing a list of <code>CztError</code>. One
+   *      rarely needs to directly use this, unless creating a top-level tool using the parser,
+   *      such as ZLive. The key name must contain the corresponding Source name.
+   *      </dd>
+   *  <dt>LaTeX markup directives table (parser)</dt>
+   *      <dd>
+   *      A key with <code>LatexMarkupFunction</code> and a section name returns the
+   *      table containing all the LaTeX markup directive information of a parsed 
+   *      specification. That includes information about the directive type (i.e., infix,
+   *      posfix, prefix, nofix), its LaTeX and Unicode markup, the section where it belongs,
+   *      and so on.
+   *      </dd>
+   *  <dt>Operator templates table (parser)</dt>
+   *      <dd>
+   *      A key with <code>OpTable</code> and a section name returns the
+   *      table containing all the operator template information of a parsed specification.
+   *      That includes the section where the operator belongs, its associativity, 
+   *      binding power, operator type, its underlying OpTempPara, and so on.
+   *      </dd>
+   *  <dt>Definitions table (parser)</dt>
+   *      <dd>
+   *      <p>
+   *      A key with <code>DefinitionTable</code> and a section name returns the
+   *      table containing all the information about declared types of definitions
+   *      of a parsed specification. That includes the section where the definition
+   *      appears, as well as its generic types, name and declared expression.
+   *      </p>
+   *      <p>
+   *      Note that the typechecker returns the carrier set for every name, whereas
+   *      the definition table returns the declared (non-maximal) type. It is 
+   *      recommended that one only use definition tables of typechecked sections
+   *      in order to avoid problems with overloaded names in schemas with type 
+   *      incompatible carrier sets, for instance.
+   *      </p>
+   *      </dd> 
+   *  <dt>Jokers table (parser)</dt>
+   *      <dd>
+   *      Calculates the table of wildcard names used by the term rewriting modules.
+   *      See zpatt extension, Rules and ZLive projects for more details.
+   *      </dd>
+   *  <dt>Pretty printing (printer)</dt>
+   *      <dd>
+   *      The pretty printer can be called with keys typed with one of the various 
+   *      subclasses of <code>CztPrintString</code> class and named with the Z section 
+   *      to print, or filename without path or extension for specifications. 
+   *      For Standard Z, there are four possible options for pretty printing:
+   *      <ol> 
+   *        <li>Standard Z LaTeX printing with <code>LatexString</code> typed keys;</li>
+   *        <li>Spivey's Z LaTeX printing with <code>OldLatexString</code> typed keys;</li>
+   *        <li>Unicode printing (UTF8 or UTF16) with <code>UnicodeString</code> typed keys;</li>
+   *        <li>ZML (Z in XML) printing (UTF8) with <code>XMLString</code> typed keys.</li>
+   *      </ol>
+   *      The pretty-printer guarantees the specification is syntactically consistent with 
+   *      the correspondant language printing grammar. See printer's PrintUtils for details.
+   *      </dd>   
+   *  <dt>Type environments (typechecker)</dt>
+   *      <dd>
+   *      Keys typed with <code>SectTypeEnv</code> and named with a Z section name 
+   *      return a <code>SectTypeEnv</code>, which contains a list of <code>NameSectTypeTriple</code>
+   *      containing a triple formed by the section name, the declared name, and its
+   *      carrier set type. The typechecker guarantees the specification is syntactically type-consistent.
+   *      Note that to typecheck specifications, one needs to typecheck
+   *      (manually) each one of its ZSect lements. See typechecker's TypeCheckUtils for details.
+   *      </dd>
+   *  <dt>Domain check environments (domainchecker)</dt>
+   *      <dd>
+   *      Keys typed with one of the two possible domain check environments and named
+   *      according to the rules for source location of each of the possible terms can be used.
+   *        <ul>
+   *           <li><code>Spec</code> terms generate <code>SpecDCEnvAnn</code>, 
+   *                which contains a list of <code>ZSectDCEnvAnn</code> for each
+   *                ZSect it contains, and the name that can be used to locate the
+   *                enviroment original resource's (i.e., Spec filename without extension).
+   *                It is also possible to retrieve a <code>Spec</code>
+   *                containing <code>ZSect</code> with a list of conjectures for the 
+   *                correspondent <code>ZSect</code> where they were originated.
+   *           </li>
+   *           <li><code>ZSect</code> terms generate <code>ZSectDCEnvAnn</code>,
+   *               which contain  a list of pairs containing each <code>ZSect</code>
+   *               <code>Para</code> that generates a corresponding <code>Pred</code>
+   *               domain check verification condition, and the original Z section name.
+   *                It is also possible to retrieve a <code>ZSect</code>
+   *                containing a list of conjectures for the correspondent <code>ZSect</code> 
+   *                where they were originated.
+   *           </li>
+   *        <ul>
+   *      The domain checker calculates, for each ZSect paragraph, semantic-consistency
+   *      conjectures ensuring there is a denoting model for the underlying specification.
+   *      In other words, partial functions are applied within their domains and definite
+   *      description denote a unique value. See domainchecker's DomainCheckUtils for details.
+   *      </dd>
+   * </dl>   
+   * The general rule is that the key's type determine which command to perform,
+   * whereas the key's name determine how the resource is to be found. As mentioned
+   * above some commands use the results of other commands while being performed.
+   * For instance, parsing Spec uses source location with a given file name, whereas
+   * parsing a Z section uses source location with a given Z section name. Therefore, 
+   * to parse a Spec, one needs to give a file name, whereas to parser a Z section,
+   * one need to give the Z section name. Note that this means the Z section name
+   * must be the same as the underlying resource, which if FileSource, means the 
+   * Z section file must be named the same as the Z section itself.
+   * </p>
+   * <p>
+   * For other extensions the lookup is similar, except that different 
+   * classes get associated with each one of these commands. Furthermore,
+   * new commands may be added or dynamically modified at any time. This
+   * way both the user or a developer may change the stub used to compute
+   * each available lookup functionality. 
+   * </p>
+   * <p>
+   * Finally, as the lookup operation may involve the recursive execution of
+   * several commands, the underlying section manager cache will observe
+   * intermediate side-effects whilst performing a top-level command by the user.
+   * These results are cached/permanent until the SectionManager is {@link #reset()}.
+   * </p>
    *
    * @param <T> type of key
    * @param key   The key to be looked up.
