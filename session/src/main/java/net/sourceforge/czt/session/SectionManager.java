@@ -433,7 +433,7 @@ public class SectionManager
    * @param key    The key to be added (must not be null).
    * @param value  The value; must be an instance of key.getType().
    */
-  public void put(Key key, Object value)
+  public <T> void put(Key<T> key, T value)
   {
     assert key != null;
     assert value != null;
@@ -456,7 +456,7 @@ public class SectionManager
    * Similar to put(key,value).
    * At the moment, the dependencies are ignored.
    */
-  public void put(Key key, Object value, Set<Key> dependencies)
+  public <T> void put(Key<T> key, T value, Set<Key<T>> dependencies)
   {
     put(key, value);
   }

@@ -47,7 +47,7 @@ public interface SectionInfo
    */
   <T> T get(Key<T> key) throws CommandException;
 
-  void put(Key key, Object value, Set<Key> dependencies);
+  <T> void put(Key<T> key, T value, Set<Key<T>> dependencies);
 
-  boolean isCached(Key key);
+  <T> boolean isCached(Key<T> key);
 }
