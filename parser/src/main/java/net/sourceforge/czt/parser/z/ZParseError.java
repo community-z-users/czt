@@ -58,9 +58,8 @@ public class ZParseError
                             String info)
   {
     try {
-      ParseException parseException = (ParseException)
-        sectInfo.get(new Key(source.getName(),
-                             ParseException.class));
+      ParseException parseException = sectInfo.get(
+        new Key<ParseException>(source.getName(), ParseException.class));
       List<CztError> errorList = parseException.getErrors();
       ZParseError error = new ZParseError(msg, params, locInfo);
       error.setErrorType(errorType);

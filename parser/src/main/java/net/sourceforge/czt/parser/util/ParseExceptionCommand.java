@@ -29,7 +29,7 @@ public class ParseExceptionCommand
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
-    final Key key = new Key(name, ParseException.class);
+    final Key<ParseException> key = new Key<ParseException>(name, ParseException.class);
     if (! manager.isCached(key)) {
       manager.put(key, new ParseException(new ArrayList<CztError>()));
     }
