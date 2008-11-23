@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2008 Petra Malik
+Copyright (C) 2008 Petra Malik, Clare Lenihan
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
