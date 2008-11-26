@@ -36,8 +36,6 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.z.util.ConcreteSyntaxSymbol;
-import net.sourceforge.czt.z.util.ConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
@@ -82,11 +80,22 @@ public class Z2Alloy
   private SectionManager manager_;
   private AlloyPrintVisitor printVisitor = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
+  private Map<String,String> binOpTable_;
 
   public Z2Alloy(SectionManager manager)
     throws Exception
   {
     manager_ = manager;
+    binOpTable_ = buildBinOpTable();
+  }
+
+  private Map<String,String> buildBinOpTable()
+  {
+    Map result = new HashMap<String,String>();
+    result.put(ZString.CUP, "+");
+    result.put(ZString.MAPSTO, "->");
+    result.put(ZString.OPLUS, "++");
+    return result;
   }
 
   //==================== Visitor Methods ==================
@@ -110,28 +119,15 @@ public class Z2Alloy
     if (applExpr.getRightExpr() instanceof TupleExpr &&
 	applExpr.getLeftExpr() instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
-      if (isInfixOperator(refExpr.getZName(), "\u222A")) { // union
+      String binOp = isInfixOperator(refExpr.getZName());
+      if (binOpTable_.containsKey(binOp)) {
 	ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
 	visit(exprs.get(0));
-	System.out.print(" + ");
+	System.out.print(" " + binOpTable_.get(binOp) + " ");
 	visit(exprs.get(1));
 	return null;
       }
-      if (isInfixOperator(refExpr.getZName(), "\u21A6")) { // mapsto
-	ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
-	visit(exprs.get(0));
-	System.out.print(" -> ");
-	visit(exprs.get(1));
-	return null;
-      }
-      if (isInfixOperator(refExpr.getZName(), "\u2295")) { // oplus
-	ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
-	visit(exprs.get(0));
-	System.out.print(" ++ ");
-	visit(exprs.get(1));
-	return null;
-      }
-      if (isInfixOperator(refExpr.getZName(), "\u2A64")) { // ndres
+      if (isInfixOperator(refExpr.getZName(), ZString.NDRES)) { // ndres
 	ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
 	System.out.print("ndres[");
 	visit(exprs.get(0));
@@ -216,7 +212,7 @@ public class Z2Alloy
     System.out.print(" | ");
     visit(existsPred.getZSchText().getPred());
     if (existsPred.getZSchText().getPred() != null)
-      System.out.print(" implies ");
+      System.out.print(" and ");
     visit(existsPred.getPred());
     return null;
   }
@@ -233,7 +229,8 @@ public class Z2Alloy
     visit(allPred.getZSchText().getDeclList());
     System.out.print(" | ");
     visit(allPred.getZSchText().getPred());
-    if (allPred.getZSchText().getPred() != null) System.out.print(" implies ");
+    if (allPred.getZSchText().getPred() != null)
+      System.out.print(" implies ");
     visit(allPred.getPred());
     return null;
   }
@@ -305,7 +302,7 @@ public class Z2Alloy
     if (memPred.getLeftExpr() instanceof TupleExpr &&
 	memPred.getRightExpr() instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) memPred.getRightExpr();
-      if (isInfixOperator(refExpr.getZName(), "\u2209")) {
+      if (isInfixOperator(refExpr.getZName(), ZString.NOTMEM)) {
 	ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
 	visit(exprs.get(0));
 	System.out.print(" not in ");
@@ -358,12 +355,6 @@ public class Z2Alloy
     if (isInfixOperator(refExpr.getZName(), ZString.PFUN)) { // pfun
       visit(refExpr.getZExprList().get(0));
       System.out.print(" -> lone ");
-      visit(refExpr.getZExprList().get(1));
-      return null;
-    }
-    if (isInfixOperator(refExpr.getZName(), "\u222A")) { // cup
-      visit(refExpr.getZExprList().get(0));
-      System.out.print(" & ");
       visit(refExpr.getZExprList().get(1));
       return null;
     }
@@ -486,6 +477,18 @@ public class Z2Alloy
     }
     catch (OperatorName.OperatorNameException e) {
       return false;
+    }
+  }
+
+  private String isInfixOperator(ZName name)
+  {
+    try {
+      OperatorName opName = new OperatorName(name);
+      if (! opName.isInfix()) return null;
+      return opName.getWords()[1];
+    }
+    catch (OperatorName.OperatorNameException e) {
+      return null;
     }
   }
 
