@@ -171,7 +171,10 @@ public class Z2Alloy
 	    ParseUtils.parseExpr(exprSource, section_, manager_);
 	  Expr result = (Expr) preprocess(toBeNormalized);
 	  if (! (result instanceof SchExpr)) {
-	    System.err.println("Global constant " + cDecl.getName() + " is of type " + cDecl.getExpr().getClass());
+	    System.out.println("one sig " + print(cDecl.getName()) + " {");
+	    System.out.print("  data: ");
+	    visit(cDecl.getExpr());
+	    System.out.println("\n}");
 	    return null;
 	  }
 	  System.out.println("sig " + sigName + " { ");
@@ -183,7 +186,6 @@ public class Z2Alloy
 	catch (Exception e) {
 	  throw new RuntimeException(e);
 	}
-	return null;
       }
       else if (decl instanceof VarDecl) {
 	VarDecl vDecl = (VarDecl) decl;
@@ -193,8 +195,21 @@ public class Z2Alloy
 	  System.out.println(" {}");
 	  return null;
 	}
+	else {
+	  System.out.println("one sig " + print(vDecl.getName()) + " {");
+	  System.out.print("  data: ");
+	  visit(vDecl.getExpr());
+	  System.out.println("\n}");
+	}
       }
-      System.err.println(decl.getClass() + " in AxPara not yet supported");
+      else {
+	System.err.println(decl.getClass() + " in AxPara not yet supported");
+      }
+    }
+    if (schText.getPred() != null) {
+      System.out.println("fact {");
+      visit(schText.getPred());
+      System.out.println("}");
     }
     return null;
   }
