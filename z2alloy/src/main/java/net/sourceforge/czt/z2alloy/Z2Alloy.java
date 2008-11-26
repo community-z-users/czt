@@ -81,7 +81,6 @@ public class Z2Alloy
   private AlloyPrintVisitor printVisitor = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private Map<String,String> binOpTable_;
-  private boolean para_ = true;
 
   public Z2Alloy(SectionManager manager)
     throws Exception
