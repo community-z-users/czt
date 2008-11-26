@@ -42,6 +42,10 @@ public class Main
   public static void main(String[] args)
     throws Exception
   {
+    Logger logger = Logger.getLogger("");
+    for (Handler h : logger.getHandlers()) {
+      h.setLevel(Level.SEVERE);
+    }
     // Now read the spec 
     if (args.length < 1) {
       System.err.println("Args: spec.tex");
