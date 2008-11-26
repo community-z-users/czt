@@ -49,7 +49,7 @@ public class Z2Alloy
 	     ApplExprVisitor<Object>,
 	     AxParaVisitor<Object>,
 	     ConjParaVisitor<Object>,
-	     ConstDeclVisitor<Object>,
+	     //	     ConstDeclVisitor<Object>,
 	     DecorExprVisitor<Object>,
 	     ExistsPredVisitor<Object>,
 	     ExprPredVisitor<Object>,
@@ -81,6 +81,7 @@ public class Z2Alloy
   private AlloyPrintVisitor printVisitor = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private Map<String,String> binOpTable_;
+  private boolean para_ = true;
 
   public Z2Alloy(SectionManager manager)
     throws Exception
@@ -157,8 +158,37 @@ public class Z2Alloy
       return null;
     }
     ZSchText schText = para.getZSchText();
-    visit(schText.getDeclList());
-    visit(schText.getPred());
+    for (Decl decl : schText.getZDeclList()) {
+      if (decl instanceof ConstDecl) {
+	ConstDecl cDecl = (ConstDecl) decl;
+	try {
+	  String sigName = print(cDecl.getName());
+	  Source exprSource =
+	    new StringSource("normalize~" +
+			     cDecl.getName().accept(new PrintVisitor()));
+	  exprSource.setMarkup(Markup.LATEX);
+	  Expr toBeNormalized =
+	    ParseUtils.parseExpr(exprSource, section_, manager_);
+	  Expr result = (Expr) preprocess(toBeNormalized);
+	  if (! (result instanceof SchExpr)) {
+	    System.err.println("Global constant " + cDecl.getName() + " is of type " + cDecl.getExpr().getClass());
+	    return null;
+	  }
+	  System.out.println("sig " + sigName + " { ");
+	  visit(((SchExpr)result).getZSchText().getDeclList());
+	  System.out.println("}{");
+	  visit(((SchExpr)result).getZSchText().getPred());
+	  System.out.println("\n}\nrun { one " + sigName + " }\n");
+	}
+	catch (Exception e) {
+	  throw new RuntimeException(e);
+	}
+	return null;
+      }
+      else {
+	System.err.println(decl.getClass() + " in AxPara not yet supported");
+      }
+    }
     return null;
   }
 
@@ -168,33 +198,6 @@ public class Z2Alloy
     System.out.println("pred " + cPara.getName() + " {");
     visit(preprocess(cPara.getPred()));
     System.out.println("\n}");
-    return null;
-  }
-
-  public Object visitConstDecl(ConstDecl cDecl)
-  {
-    try {
-      String sigName = print(cDecl.getName());
-      Source exprSource =
-	new StringSource("normalize~" +
-			 cDecl.getName().accept(new PrintVisitor()));
-      exprSource.setMarkup(Markup.LATEX);
-      Expr toBeNormalized =
-	ParseUtils.parseExpr(exprSource, section_, manager_);
-      Expr result = (Expr) preprocess(toBeNormalized);
-      if (! (result instanceof SchExpr)) {
-	System.err.println("Global constant " + cDecl.getName() + " is of type " + cDecl.getExpr().getClass());
-	return null;
-      }
-      System.out.println("sig " + sigName + " { ");
-      visit(((SchExpr)result).getZSchText().getDeclList());
-      System.out.println("}{");
-      visit(((SchExpr)result).getZSchText().getPred());
-      System.out.println("\n}\nrun { one " + sigName + " }\n");
-    }
-    catch (Exception e) {
-      throw new RuntimeException(e);
-    }
     return null;
   }
 
