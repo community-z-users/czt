@@ -81,6 +81,7 @@ public class Z2Alloy
   private AlloyPrintVisitor printVisitor = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private Map<String,String> binOpTable_;
+  private boolean unfolding_ = true;
 
   public Z2Alloy(SectionManager manager)
     throws Exception
@@ -162,13 +163,16 @@ public class Z2Alloy
 	ConstDecl cDecl = (ConstDecl) decl;
 	try {
 	  String sigName = print(cDecl.getName());
-	  Source exprSource =
-	    new StringSource("normalize~" +
-			     cDecl.getName().accept(new PrintVisitor()));
-	  exprSource.setMarkup(Markup.LATEX);
-	  Expr toBeNormalized =
-	    ParseUtils.parseExpr(exprSource, section_, manager_);
-	  Expr result = (Expr) preprocess(toBeNormalized);
+	  Expr result = cDecl.getExpr();
+	  if (unfolding_) {
+	    Source exprSource =
+	      new StringSource("normalize~" +
+			       cDecl.getName().accept(new PrintVisitor()));
+	    exprSource.setMarkup(Markup.LATEX);
+	    Expr toBeNormalized =
+	      ParseUtils.parseExpr(exprSource, section_, manager_);
+	    result = (Expr) preprocess(toBeNormalized);
+	  }
 	  if (! (result instanceof SchExpr)) {
 	    System.out.println("one sig " + print(cDecl.getName()) + " {");
 	    System.out.print("  data: ");
