@@ -185,9 +185,16 @@ public class Z2Alloy
 	}
 	return null;
       }
-      else {
-	System.err.println(decl.getClass() + " in AxPara not yet supported");
+      else if (decl instanceof VarDecl) {
+	VarDecl vDecl = (VarDecl) decl;
+	if (vDecl.getExpr() instanceof RefExpr) {
+	  System.out.print("one sig " + print(vDecl.getName()) + " in ");
+	  visit(vDecl.getExpr());
+	  System.out.println(" {}");
+	  return null;
+	}
       }
+      System.err.println(decl.getClass() + " in AxPara not yet supported");
     }
     return null;
   }
