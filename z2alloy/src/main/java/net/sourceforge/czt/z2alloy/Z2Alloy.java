@@ -44,38 +44,38 @@ import net.sourceforge.czt.zpatt.visitor.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
 
 public class Z2Alloy
-  implements TermVisitor<Object>,
-	     AndPredVisitor<Object>,
-	     ApplExprVisitor<Object>,
-	     AxParaVisitor<Object>,
-	     ConjParaVisitor<Object>,
-	     //	     ConstDeclVisitor<Object>,
-	     DecorExprVisitor<Object>,
-	     ExistsPredVisitor<Object>,
-	     ExprPredVisitor<Object>,
-	     ForallPredVisitor<Object>,
-	     FreeParaVisitor<Object>,
-	     FreetypeVisitor<Object>,
-	     GivenParaVisitor<Object>,
-	     ImpliesPredVisitor<Object>,
-	     InclDeclVisitor<Object>,
-	     LatexMarkupParaVisitor<Object>,
-	     MemPredVisitor<Object>,
-	     NarrParaVisitor<Object>,
-	     OrPredVisitor<Object>,
-	     PowerExprVisitor<Object>,
-	     ProdExprVisitor<Object>,
-             RefExprVisitor<Object>,
-	     RuleVisitor<Object>,
-	     SchExprVisitor<Object>,
-	     SetCompExprVisitor<Object>,
-	     SetExprVisitor<Object>,
-	     TruePredVisitor<Object>,
-	     VarDeclVisitor<Object>,
-	     ZDeclListVisitor<Object>,
-	     ZFreetypeListVisitor<Object>,
-	     ZSchTextVisitor<Object>,
-             ZSectVisitor<Object>
+  implements TermVisitor<Term>,
+	     AndPredVisitor<Term>,
+	     ApplExprVisitor<Term>,
+	     AxParaVisitor<Term>,
+	     ConjParaVisitor<Term>,
+	     //	     ConstDeclVisitor<Term>,
+	     DecorExprVisitor<Term>,
+	     ExistsPredVisitor<Term>,
+	     ExprPredVisitor<Term>,
+	     ForallPredVisitor<Term>,
+	     FreeParaVisitor<Term>,
+	     FreetypeVisitor<Term>,
+	     GivenParaVisitor<Term>,
+	     ImpliesPredVisitor<Term>,
+	     InclDeclVisitor<Term>,
+	     LatexMarkupParaVisitor<Term>,
+	     MemPredVisitor<Term>,
+	     NarrParaVisitor<Term>,
+	     OrPredVisitor<Term>,
+	     PowerExprVisitor<Term>,
+	     ProdExprVisitor<Term>,
+             RefExprVisitor<Term>,
+	     RuleVisitor<Term>,
+	     SchExprVisitor<Term>,
+	     SetCompExprVisitor<Term>,
+	     SetExprVisitor<Term>,
+	     TruePredVisitor<Term>,
+	     VarDeclVisitor<Term>,
+	     ZDeclListVisitor<Term>,
+	     ZFreetypeListVisitor<Term>,
+	     ZSchTextVisitor<Term>,
+             ZSectVisitor<Term>
 {
   private SectionManager manager_;
   private AlloyPrintVisitor printVisitor = new AlloyPrintVisitor();
@@ -101,13 +101,13 @@ public class Z2Alloy
 
   //==================== Visitor Methods ==================
 
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     System.err.println(term.getClass() + " not yet implemented");
     return null;
   }
 
-  public Object visitAndPred(AndPred andPred)
+  public Term visitAndPred(AndPred andPred)
   {
     visit(andPred.getLeftPred());
     System.out.println(" and ");
@@ -115,7 +115,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitApplExpr(ApplExpr applExpr)
+  public Term visitApplExpr(ApplExpr applExpr)
   {
     if (applExpr.getRightExpr() instanceof TupleExpr &&
 	applExpr.getLeftExpr() instanceof RefExpr) {
@@ -151,7 +151,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitAxPara(AxPara para)
+  public Term visitAxPara(AxPara para)
   {
     if (para.getName().size() > 0) {
       System.err.println("Generic definitions not handled yet.");
@@ -214,7 +214,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitConjPara(ConjPara cPara)
+  public Term visitConjPara(ConjPara cPara)
   {
     debug(preprocess(cPara.getPred()));
     System.out.println("pred " + cPara.getName() + " {");
@@ -223,14 +223,14 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitDecorExpr(DecorExpr decorExpr)
+  public Term visitDecorExpr(DecorExpr decorExpr)
   {
     System.out.print(" a': ");
     visit(decorExpr.getExpr());
     return null;
   }
 
-  public Object visitExistsPred(ExistsPred existsPred)
+  public Term visitExistsPred(ExistsPred existsPred)
   {
     System.out.print(" some ");
     visit(existsPred.getZSchText().getDeclList());
@@ -242,13 +242,13 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitExprPred(ExprPred exprPred)
+  public Term visitExprPred(ExprPred exprPred)
   {
     visit(exprPred.getExpr());
     return null;
   }
 
-  public Object visitForallPred(ForallPred allPred)
+  public Term visitForallPred(ForallPred allPred)
   {
     System.out.print(" all ");
     visit(allPred.getZSchText().getDeclList());
@@ -260,13 +260,13 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitFreePara(FreePara para)
+  public Term visitFreePara(FreePara para)
   {
     visit(para.getFreetypeList());
     return null;
   }
 
-  public Object visitFreetype(Freetype freetype)
+  public Term visitFreetype(Freetype freetype)
   {
     System.out.print("enum " + print(freetype.getName()) + " { ");
     Iterator<Branch> i = assertZBranchList(freetype.getBranchList()).iterator();
@@ -283,7 +283,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitGivenPara(GivenPara para)
+  public Term visitGivenPara(GivenPara para)
   {
     for (Name name : para.getNames()) {
       System.out.println("sig " + print(name) + " {}");
@@ -291,7 +291,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitImpliesPred(ImpliesPred impl)
+  public Term visitImpliesPred(ImpliesPred impl)
   {
     System.out.print("(");
     visit(impl.getLeftPred());
@@ -301,7 +301,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitInclDecl(InclDecl inclDecl)
+  public Term visitInclDecl(InclDecl inclDecl)
   {
     visit(inclDecl.getExpr());
     System.out.println(",");
@@ -309,12 +309,12 @@ public class Z2Alloy
   }
 
   /** Ignore Latex markup paragraphs. */
-  public Object visitLatexMarkupPara(LatexMarkupPara para)
+  public Term visitLatexMarkupPara(LatexMarkupPara para)
   {
     return null;
   }
 
-  public Object visitMemPred(MemPred memPred)
+  public Term visitMemPred(MemPred memPred)
   {
     if (memPred.getRightExpr() instanceof SetExpr &&
 	((SetExpr) memPred.getRightExpr()).getZExprList().size() == 1) {
@@ -342,12 +342,12 @@ public class Z2Alloy
   }
 
   /** Ignore narrative paragraphs. */
-  public Object visitNarrPara(NarrPara para)
+  public Term visitNarrPara(NarrPara para)
   {
     return null;
   }
 
-  public Object visitOrPred(OrPred orPred)
+  public Term visitOrPred(OrPred orPred)
   {
     System.out.print("(");
     visit(orPred.getLeftPred());
@@ -357,7 +357,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitPowerExpr(PowerExpr powerExpr)
+  public Term visitPowerExpr(PowerExpr powerExpr)
   {
     System.out.print(" set (");
     visit(powerExpr.getExpr());
@@ -365,7 +365,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitProdExpr(ProdExpr prodExpr)
+  public Term visitProdExpr(ProdExpr prodExpr)
   {
     for (Iterator<Expr> iter = prodExpr.getZExprList().iterator();
 	 iter.hasNext();) {
@@ -375,7 +375,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitRefExpr(RefExpr refExpr)
+  public Term visitRefExpr(RefExpr refExpr)
   {
     if (isInfixOperator(refExpr.getZName(), ZString.PFUN)) { // pfun
       visit(refExpr.getZExprList().get(0));
@@ -392,18 +392,18 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitRule(Rule r)
+  public Term visitRule(Rule r)
   {
     return null;
   }
 
-  public Object visitSchExpr(SchExpr schExpr)
+  public Term visitSchExpr(SchExpr schExpr)
   {
     visit(schExpr.getZSchText());
     return null;
   }
 
-  public Object visitSetCompExpr(SetCompExpr setCompExpr)
+  public Term visitSetCompExpr(SetCompExpr setCompExpr)
   {
     ZSchText zSchText = setCompExpr.getZSchText();
     System.out.print("{");
@@ -414,7 +414,7 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitSetExpr(SetExpr setExpr)
+  public Term visitSetExpr(SetExpr setExpr)
   {
     if (setExpr.getExprList() == null) {
       System.out.print(" none ");
@@ -434,13 +434,13 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitTruePred(TruePred truePred)
+  public Term visitTruePred(TruePred truePred)
   {
     System.out.print(" 1 = 1 ");
     return null;
   }
 
-  public Object visitVarDecl(VarDecl vDecl)
+  public Term visitVarDecl(VarDecl vDecl)
   {
     System.out.print(print(vDecl.getName()) + ": ");
     visit(vDecl.getExpr());
@@ -448,13 +448,13 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitZDeclList(ZDeclList zDeclList)
+  public Term visitZDeclList(ZDeclList zDeclList)
   {
     for (Decl decl : zDeclList) visit(decl);
     return null;
   }
 
-  public Object visitZFreetypeList(ZFreetypeList list)
+  public Term visitZFreetypeList(ZFreetypeList list)
   {
     for (Freetype freetype : list)
     {
@@ -463,14 +463,14 @@ public class Z2Alloy
     return null;
   }
 
-  public Object visitZSchText(ZSchText zSchText)
+  public Term visitZSchText(ZSchText zSchText)
   {
     visit(zSchText.getDeclList());
     visit(zSchText.getPred());
     return null;
   }
 
-  public Object visitZSect(ZSect zSect)
+  public Term visitZSect(ZSect zSect)
   {
     Source specSource = new StringSource("\\begin{zsection} "
 					 + "\\SECTION " + section_ + " "
