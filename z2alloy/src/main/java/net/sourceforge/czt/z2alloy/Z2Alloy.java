@@ -62,6 +62,7 @@ public class Z2Alloy
 	     LatexMarkupParaVisitor<Term>,
 	     MemPredVisitor<Term>,
 	     NarrParaVisitor<Term>,
+             NumExprVisitor<Term>,
 	     OrPredVisitor<Term>,
 	     PowerExprVisitor<Term>,
 	     ProdExprVisitor<Term>,
@@ -114,9 +115,11 @@ public class Z2Alloy
 
   public Term visitAndPred(AndPred andPred)
   {
+    System.out.print("(");
     visit(andPred.getLeftPred());
     System.out.println(" and ");
     visit(andPred.getRightPred());
+    System.out.print(")");
     return null;
   }
 
@@ -354,6 +357,20 @@ public class Z2Alloy
 	visit(exprs.get(1));
 	return null;
       }
+      if (isInfixOperator(refExpr.getZName(), "\u2286")) { // subseteq
+        ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
+        visit(exprs.get(0));
+        System.out.print(" in ");
+        visit(exprs.get(1));
+        return null;
+      }
+      if (isInfixOperator(refExpr.getZName(), "\u2264")) { // leq
+        ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
+        visit(exprs.get(0));
+        System.out.print(" <= ");
+        visit(exprs.get(1));
+        return null;
+      }
     }
     visit(memPred.getLeftExpr());
     System.out.print(" in ");
@@ -364,6 +381,12 @@ public class Z2Alloy
   /** Ignore narrative paragraphs. */
   public Term visitNarrPara(NarrPara para)
   {
+    return null;
+  }
+  
+  public Term visitNumExpr(NumExpr numexpr)
+  {
+    System.out.print(numexpr.getZNumeral());
     return null;
   }
 
@@ -449,7 +472,13 @@ public class Z2Alloy
       visit(exprs.get(0));
     }
     else {
-      System.out.println(setExpr.getClass() + " not supported");
+      System.out.print("(");
+      for (int i = 0; i + 1 < exprs.size(); i++) {
+        visit(exprs.get(i));
+        System.out.print(" + ");
+      }
+      visit(exprs.get(exprs.size() - 1));
+      System.out.println(")");
     }
     return null;
   }
