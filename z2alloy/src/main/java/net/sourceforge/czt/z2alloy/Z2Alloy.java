@@ -62,7 +62,7 @@ public class Z2Alloy
 	     LatexMarkupParaVisitor<Term>,
 	     MemPredVisitor<Term>,
 	     NarrParaVisitor<Term>,
-             NumExprVisitor<Term>,
+ 	      NumExprVisitor<Term>,
 	     OrPredVisitor<Term>,
 	     PowerExprVisitor<Term>,
 	     ProdExprVisitor<Term>,
@@ -72,6 +72,7 @@ public class Z2Alloy
 	     SetCompExprVisitor<Term>,
 	     SetExprVisitor<Term>,
 	     TruePredVisitor<Term>,
+	     TupleExprVisitor<Term>,
 	     VarDeclVisitor<Term>,
 	     ZDeclListVisitor<Term>,
 	     ZFreetypeListVisitor<Term>,
@@ -82,6 +83,7 @@ public class Z2Alloy
   private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private Map<String,String> binOpTable_;
+  private Map<String,String> binRelTable_;
   private boolean unfolding_ = true;
 
   /**
@@ -94,6 +96,7 @@ public class Z2Alloy
   {
     manager_ = manager;
     binOpTable_ = buildBinOpTable();
+    binRelTable_ = buildBinRelTable();
   }
 
   private Map<String,String> buildBinOpTable()
@@ -102,6 +105,14 @@ public class Z2Alloy
     result.put(ZString.CUP, "+");
     result.put(ZString.MAPSTO, "->");
     result.put(ZString.OPLUS, "++");
+    return result;
+  }
+
+  private Map<String,String> buildBinRelTable()
+  {
+    Map result = new HashMap<String,String>();
+    result.put(ZString.NOTMEM, "not in");    
+    result.put(ZString.NEQ, "!=");    
     return result;
   }
 
@@ -125,8 +136,7 @@ public class Z2Alloy
 
   public Term visitApplExpr(ApplExpr applExpr)
   {
-    if (applExpr.getRightExpr() instanceof TupleExpr &&
-	applExpr.getLeftExpr() instanceof RefExpr) {
+    if (applExpr.getLeftExpr() instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
       String binOp = isInfixOperator(refExpr.getZName());
       if (binOpTable_.containsKey(binOp)) {
@@ -143,6 +153,11 @@ public class Z2Alloy
 	System.out.print(", ");
 	visit(exprs.get(1));
 	System.out.print("]");
+	return null;
+      }
+      String seqOp = ZString.LANGLE + " ,, " + ZString.RANGLE;
+      if (refExpr.getZName().getWord().equals(seqOp)) {
+	visit(applExpr.getRightExpr());
 	return null;
       }
       if ((refExpr.getZName().getZStrokeList() == null ||
@@ -182,7 +197,8 @@ public class Z2Alloy
 	    result = (Expr) preprocess(toBeNormalized);
 	  }
 	  if (! (result instanceof SchExpr)) {
-	    System.out.println("sig " + print(cDecl.getName()) + " {");
+	    String name = print(cDecl.getName());
+	    System.out.println("sig " + name + " {");
 	    System.out.print("  data: ");
 	    visit(cDecl.getExpr());
 	    System.out.println("\n}");
@@ -350,10 +366,11 @@ public class Z2Alloy
     if (memPred.getLeftExpr() instanceof TupleExpr &&
 	memPred.getRightExpr() instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) memPred.getRightExpr();
-      if (isInfixOperator(refExpr.getZName(), ZString.NOTMEM)) {
+      String binRel = isInfixOperator(refExpr.getZName());
+      if (binRelTable_.containsKey(binRel)) {
 	ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
 	visit(exprs.get(0));
-	System.out.print(" not in ");
+	System.out.print(" " + binRelTable_.get(binRel) + " ");
 	visit(exprs.get(1));
 	return null;
       }
@@ -486,6 +503,21 @@ public class Z2Alloy
   public Term visitTruePred(TruePred truePred)
   {
     System.out.print(" 1 = 1 ");
+    return null;
+  }
+
+  public Term visitTupleExpr(TupleExpr tupleExpr)
+  {
+    if (tupleExpr.getExprList() == null ||
+	tupleExpr.getZExprList().size() == 0) {
+      System.out.print(" none ");
+      return null;
+    }
+    for (Iterator<Expr> iter = tupleExpr.getZExprList().iterator();
+	 iter.hasNext();) {
+      visit(iter.next());
+      if (iter.hasNext()) System.out.print(" -> ");
+    }
     return null;
   }
 
