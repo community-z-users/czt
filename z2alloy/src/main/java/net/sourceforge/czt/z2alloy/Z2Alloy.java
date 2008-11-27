@@ -78,10 +78,15 @@ public class Z2Alloy
              ZSectVisitor<Term>
 {
   private SectionManager manager_;
-  private AlloyPrintVisitor printVisitor = new AlloyPrintVisitor();
+  private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private Map<String,String> binOpTable_;
   private boolean unfolding_ = true;
+
+  /**
+   * A mapping from ZName ids to alloy names.
+   */
+  private Map<String,String> names_ = new HashMap<String,String>();
 
   public Z2Alloy(SectionManager manager)
     throws Exception
@@ -174,7 +179,7 @@ public class Z2Alloy
 	    result = (Expr) preprocess(toBeNormalized);
 	  }
 	  if (! (result instanceof SchExpr)) {
-	    System.out.println("one sig " + print(cDecl.getName()) + " {");
+	    System.out.println("sig " + print(cDecl.getName()) + " {");
 	    System.out.print("  data: ");
 	    visit(cDecl.getExpr());
 	    System.out.println("\n}");
@@ -228,7 +233,6 @@ public class Z2Alloy
 
   public Term visitDecorExpr(DecorExpr decorExpr)
   {
-    System.out.print(" a': ");
     visit(decorExpr.getExpr());
     return null;
   }
@@ -306,8 +310,21 @@ public class Z2Alloy
 
   public Term visitInclDecl(InclDecl inclDecl)
   {
-    visit(inclDecl.getExpr());
+    Expr expr = inclDecl.getExpr();
+    String varName = "var_" + print(expr);
+    System.out.print("  " + varName);
+    System.out.print(": ");
+    visit(expr);
     System.out.println(",");
+    TypeAnn type = expr.getAnn(TypeAnn.class);
+    Signature s =
+      ((SchemaType) ((PowerType) type.getType()).getType()).getSignature();
+    for (NameTypePair pair : s.getNameTypePair()) {
+      ZName name = pair.getZName();
+      // TODO: Handle strokes properly!
+      names_.put(name.getId(),
+		 varName + "." + name.getWord());
+    }
     return null;
   }
 
@@ -534,7 +551,7 @@ public class Z2Alloy
 
   private String print(Term t)
   {
-    if (t != null) return t.accept(printVisitor);
+    if (t != null) return t.accept(printVisitor_);
     else return "";
   }
 
@@ -563,31 +580,50 @@ public class Z2Alloy
     PrintUtils.print(t, foo, manager_, section_, Markup.UNICODE);
     System.out.println("Debug: " + foo);
   }
-}
 
-class AlloyPrintVisitor extends PrintVisitor
-{
-  public String visitZName(ZName zName)
+  class AlloyPrintVisitor extends PrintVisitor
+    implements DecorExprVisitor<String>,
+               RefExprVisitor<String>
   {
-    String word = zName.getWord();
-    word = word.replaceAll(ZString.DELTA, "Delta");
-    word = word.replaceAll(ZString.XI, "Xi");
-    word = word.replaceAll("\u03A8", "Psi");
-    return word + visit(zName.getStrokeList());
-  }
+    public String visitZName(ZName zName)
+    {
+      String word = zName.getWord();
+      word = word.replaceAll(ZString.DELTA, "Delta");
+      word = word.replaceAll(ZString.XI, "Xi");
+      word = word.replaceAll("\u03A8", "Psi");
 
-  public String visitInStroke(InStroke inStroke)
-  {
-    return "_in";
-  }
+      if (names_.containsKey(zName.getId())) {
+	return names_.get(zName.getId());
+      }
+      return word + visit(zName.getStrokeList());
+    }
 
-  public String visitNextStroke(NextStroke nextStroke)
-  {
-    return "'";
-  }
+    public String visitInStroke(InStroke inStroke)
+    {
+      return "_in";
+    }
 
-  public String visitOutStroke(OutStroke outStroke)
-  {
-    return "_out";
+    public String visitNextStroke(NextStroke nextStroke)
+    {
+      return "'";
+    }
+
+    public String visitOutStroke(OutStroke outStroke)
+    {
+      return "_out";
+    }
+
+
+
+    public String visitDecorExpr(DecorExpr decorExpr)
+    {
+      return decorExpr.getExpr().accept(this) +
+	decorExpr.getStroke().accept(this);
+    }
+
+    public String visitRefExpr(RefExpr refExpr)
+    {
+      return refExpr.getName().accept(this);
+    }
   }
 }
