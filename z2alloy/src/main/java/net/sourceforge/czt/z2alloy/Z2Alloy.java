@@ -15,15 +15,28 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with CZT; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 package net.sourceforge.czt.z2alloy;
 
-import java.io.StringWriter;
-import java.util.*;
+import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.NONE;
+import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.UNIV;
+import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.SEQIDX;
+import static net.sourceforge.czt.z.util.ZUtils.assertZBranchList;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.parser.zpatt.ParseUtils;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Map.Entry;
+
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
@@ -34,57 +47,149 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.z.ast.AndExpr;
+import net.sourceforge.czt.z.ast.AndPred;
+import net.sourceforge.czt.z.ast.ApplExpr;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Branch;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.DecorExpr;
+import net.sourceforge.czt.z.ast.ExistsPred;
+import net.sourceforge.czt.z.ast.ExprPred;
+import net.sourceforge.czt.z.ast.ForallPred;
+import net.sourceforge.czt.z.ast.FreePara;
+import net.sourceforge.czt.z.ast.Freetype;
+import net.sourceforge.czt.z.ast.GivenPara;
+import net.sourceforge.czt.z.ast.IffExpr;
+import net.sourceforge.czt.z.ast.ImpliesExpr;
+import net.sourceforge.czt.z.ast.ImpliesPred;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.InclDecl;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.OrExpr;
+import net.sourceforge.czt.z.ast.OrPred;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.PowerExpr;
+import net.sourceforge.czt.z.ast.ProdExpr;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchExpr2;
+import net.sourceforge.czt.z.ast.SetCompExpr;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZFreetypeList;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.visitor.*;
-import static net.sourceforge.czt.z.util.ZUtils.*;
+import net.sourceforge.czt.z.visitor.AndExprVisitor;
+import net.sourceforge.czt.z.visitor.AndPredVisitor;
+import net.sourceforge.czt.z.visitor.ApplExprVisitor;
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.ConjParaVisitor;
+import net.sourceforge.czt.z.visitor.DecorExprVisitor;
+import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
+import net.sourceforge.czt.z.visitor.ExprPredVisitor;
+import net.sourceforge.czt.z.visitor.ForallPredVisitor;
+import net.sourceforge.czt.z.visitor.FreeParaVisitor;
+import net.sourceforge.czt.z.visitor.FreetypeVisitor;
+import net.sourceforge.czt.z.visitor.GivenParaVisitor;
+import net.sourceforge.czt.z.visitor.IffExprVisitor;
+import net.sourceforge.czt.z.visitor.ImpliesExprVisitor;
+import net.sourceforge.czt.z.visitor.ImpliesPredVisitor;
+import net.sourceforge.czt.z.visitor.InclDeclVisitor;
+import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
+import net.sourceforge.czt.z.visitor.MemPredVisitor;
+import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.NumExprVisitor;
+import net.sourceforge.czt.z.visitor.OrExprVisitor;
+import net.sourceforge.czt.z.visitor.OrPredVisitor;
+import net.sourceforge.czt.z.visitor.PowerExprVisitor;
+import net.sourceforge.czt.z.visitor.ProdExprVisitor;
+import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.SchExprVisitor;
+import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
+import net.sourceforge.czt.z.visitor.SetExprVisitor;
+import net.sourceforge.czt.z.visitor.TruePredVisitor;
+import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
+import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
+import net.sourceforge.czt.z.visitor.ZSchTextVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.zpatt.ast.Rule;
+import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
+import edu.mit.csail.sdg.alloy4.Err;
+import edu.mit.csail.sdg.alloy4compiler.ast.Command;
+import edu.mit.csail.sdg.alloy4compiler.ast.Expr;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprBinary;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprQuant;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprVar;
+import edu.mit.csail.sdg.alloy4compiler.ast.Func;
+import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
+import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
+
 
 public class Z2Alloy
-  implements TermVisitor<Term>,
-	     AndPredVisitor<Term>,
-	     ApplExprVisitor<Term>,
-	     AxParaVisitor<Term>,
-	     ConjParaVisitor<Term>,
-	     //	     ConstDeclVisitor<Term>,
-	     DecorExprVisitor<Term>,
-	     ExistsPredVisitor<Term>,
-	     ExprPredVisitor<Term>,
-	     ForallPredVisitor<Term>,
-	     FreeParaVisitor<Term>,
-	     FreetypeVisitor<Term>,
-	     GivenParaVisitor<Term>,
-	     ImpliesPredVisitor<Term>,
-	     InclDeclVisitor<Term>,
-	     LatexMarkupParaVisitor<Term>,
-	     MemPredVisitor<Term>,
-	     NarrParaVisitor<Term>,
- 	      NumExprVisitor<Term>,
-	     OrPredVisitor<Term>,
-	     PowerExprVisitor<Term>,
-	     ProdExprVisitor<Term>,
-             RefExprVisitor<Term>,
-	     RuleVisitor<Term>,
-	     SchExprVisitor<Term>,
-	     SetCompExprVisitor<Term>,
-	     SetExprVisitor<Term>,
-	     TruePredVisitor<Term>,
-	     TupleExprVisitor<Term>,
-	     VarDeclVisitor<Term>,
-	     ZDeclListVisitor<Term>,
-	     ZFreetypeListVisitor<Term>,
-	     ZSchTextVisitor<Term>,
-             ZSectVisitor<Term>
+implements TermVisitor<Expr>,
+AndExprVisitor<Expr>,
+AndPredVisitor<Expr>,
+ApplExprVisitor<Expr>,
+AxParaVisitor<Expr>,
+ConjParaVisitor<Expr>,
+//ConstDeclVisitor<Expr>,
+DecorExprVisitor<Expr>,
+ExistsPredVisitor<Expr>,
+ExprPredVisitor<Expr>,
+ForallPredVisitor<Expr>,
+FreeParaVisitor<Expr>,
+FreetypeVisitor<Expr>,
+GivenParaVisitor<Expr>,
+IffExprVisitor<Expr>,
+ImpliesExprVisitor<Expr>,
+ImpliesPredVisitor<Expr>,
+InclDeclVisitor<Expr>,
+LatexMarkupParaVisitor<Expr>,
+MemPredVisitor<Expr>,
+NarrParaVisitor<Expr>,
+NumExprVisitor<Expr>,
+OrExprVisitor<Expr>,
+OrPredVisitor<Expr>,
+PowerExprVisitor<Expr>,
+ProdExprVisitor<Expr>,
+RefExprVisitor<Expr>,
+RuleVisitor<Expr>,
+SchExprVisitor<Expr>,
+SetCompExprVisitor<Expr>,
+SetExprVisitor<Expr>,
+TruePredVisitor<Expr>,
+VarDeclVisitor<Expr>,
+ZDeclListVisitor<Expr>,
+ZFreetypeListVisitor<Expr>,
+ZSchTextVisitor<Expr>,
+ZSectVisitor<Expr>
 {
   private SectionManager manager_;
   private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
-  private Map<String,String> binOpTable_;
-  private Map<String,String> binRelTable_;
   private boolean unfolding_ = true;
+
+  public Map<String, Sig> sigmap = new HashMap<String, Sig>();
+  private List<Expr> refExprs = new ArrayList<Expr>();
+  public Map<Sig, Expr> sigpreds = new HashMap<Sig,Expr>();
 
   /**
    * A mapping from ZName ids to alloy names.
@@ -92,89 +197,101 @@ public class Z2Alloy
   private Map<String,String> names_ = new HashMap<String,String>();
 
   public Z2Alloy(SectionManager manager)
-    throws Exception
+  throws Exception
   {
     manager_ = manager;
-    binOpTable_ = buildBinOpTable();
-    binRelTable_ = buildBinRelTable();
-  }
-
-  private Map<String,String> buildBinOpTable()
-  {
-    Map result = new HashMap<String,String>();
-    result.put(ZString.CUP, "+");
-    result.put(ZString.MAPSTO, "->");
-    result.put(ZString.OPLUS, "++");
-    return result;
-  }
-
-  private Map<String,String> buildBinRelTable()
-  {
-    Map result = new HashMap<String,String>();
-    result.put(ZString.NOTMEM, "not in");    
-    result.put(ZString.NEQ, "!=");    
-    return result;
   }
 
   //==================== Visitor Methods ==================
 
-  public Term visitTerm(Term term)
+  public Expr visitTerm(Term term)
   {
     System.err.println(term.getClass() + " not yet implemented");
     return null;
   }
 
-  public Term visitAndPred(AndPred andPred)
+  public Expr visitAndExpr(AndExpr andExpr)
   {
-    System.out.print("(");
-    visit(andPred.getLeftPred());
-    System.out.println(" and ");
-    visit(andPred.getRightPred());
-    System.out.print(")");
+    Expr[] comps = schExpr2SigComponent(andExpr);
+    return comps[0].and(comps[1]);
+  }
+
+  public Expr visitAndPred(AndPred andPred)
+  {
+    Expr left = visit(andPred.getLeftPred());
+    if (left != null) {
+      return left.and(visit(andPred.getRightPred()));
+    }
+    System.err.println("left pred of andpred must not be null");
     return null;
   }
 
-  public Term visitApplExpr(ApplExpr applExpr)
+  public Expr visitApplExpr(ApplExpr applExpr)
   {
-    if (applExpr.getLeftExpr() instanceof RefExpr) {
-      RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
-      String binOp = isInfixOperator(refExpr.getZName());
-      if (binOpTable_.containsKey(binOp)) {
-	ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
-	visit(exprs.get(0));
-	System.out.print(" " + binOpTable_.get(binOp) + " ");
-	visit(exprs.get(1));
-	return null;
-      }
-      if (isInfixOperator(refExpr.getZName(), ZString.NDRES)) { // ndres
-	ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
-	System.out.print("ndres[");
-	visit(exprs.get(0));
-	System.out.print(", ");
-	visit(exprs.get(1));
-	System.out.print("]");
-	return null;
-      }
-      String seqOp = ZString.LANGLE + " ,, " + ZString.RANGLE;
-      if (refExpr.getZName().getWord().equals(seqOp)) {
-	visit(applExpr.getRightExpr());
-	return null;
-      }
-      if ((refExpr.getZName().getZStrokeList() == null ||
-	   refExpr.getZName().getZStrokeList().size() == 0) &&
-	  ZString.ARITHMOS.equals(refExpr.getZName().getWord())) {
-	System.out.print(" Int ");
-	return null;
+    if (applExpr.getMixfix()) {
+      if (applExpr.getRightExpr() instanceof TupleExpr &&
+          applExpr.getLeftExpr() instanceof RefExpr) {
+        RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
+        String binOp = isInfixOperator(refExpr.getZName());
+        ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
+        Expr left = visit(exprs.get(0));
+        Expr right = visit(exprs.get(1));
+        if (left == null || right == null) {
+          System.err.println("left and right of a binary expression must not be null");
+          return null;
+        }
+        if (binOp.equals(ZString.CUP)) {
+          return left.plus(right);
+        }
+        if (binOp.equals(ZString.OPLUS)) {
+          return left.override(right);
+        }
+        if (binOp.equals(ZString.MAPSTO)) {
+          return left.product(right);
+        }
+        if (binOp.equals(ZString.NDRES)) {
+          List<ExprVar> vars = new ArrayList<ExprVar>();
+          vars.add(ExprVar.make(null, "ex", UNIV.setOf()));
+          vars.add(ExprVar.make(null, "r", UNIV.product(UNIV)));
+          try {
+            Func ndres = new Func(null, "ndres", vars, UNIV.product(UNIV));
+            return ndres.call(left, right);
+          }
+          catch (Err e) {
+            throw new RuntimeException(e);
+          }
+        }
+        System.err.println(applExpr.getClass() + " not yet implemented napp");
+        return null;
       }
     }
-    visit(applExpr.getLeftExpr());
-    System.out.print("[");
-    visit(applExpr.getRightExpr());
-    System.out.print("]");
-    return null;
+    else { // application
+      if (applExpr.getLeftExpr() instanceof RefExpr) {
+        RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
+        if (print(refExpr.getName()).equals("dom")) {
+          List<ExprVar> vars = new ArrayList<ExprVar>();
+          vars.add(ExprVar.make(null, "r", UNIV.product(UNIV)));
+          try {
+            Func dom = new Func(null, "dom", vars, UNIV.setOf());
+            Expr body = visit(applExpr.getRightExpr());
+            return dom.call(body);
+          }
+          catch (Err e) {
+            throw new RuntimeException(e);
+          }
+        }
+      }
+    }
+    Expr left = visit(applExpr.getLeftExpr());
+    Expr right = visit(applExpr.getRightExpr());
+    if (left == null || right == null) {
+      System.err.println("left and right exprs must not be null in a applExpr");
+      return null;
+    }
+    return right.join(left);
   }
 
-  public Term visitAxPara(AxPara para)
+  public Expr visitAxPara(AxPara para)
   {
     if (para.getName().size() > 0) {
       System.err.println("Generic definitions not handled yet.");
@@ -183,359 +300,385 @@ public class Z2Alloy
     ZSchText schText = para.getZSchText();
     for (Decl decl : schText.getZDeclList()) {
       if (decl instanceof ConstDecl) {
-	ConstDecl cDecl = (ConstDecl) decl;
-	try {
-	  String sigName = print(cDecl.getName());
-	  Expr result = cDecl.getExpr();
-	  if (unfolding_) {
-	    Source exprSource =
-	      new StringSource("normalize~" +
-			       cDecl.getName().accept(new PrintVisitor()));
-	    exprSource.setMarkup(Markup.LATEX);
-	    Expr toBeNormalized =
-	      ParseUtils.parseExpr(exprSource, section_, manager_);
-	    result = (Expr) preprocess(toBeNormalized);
-	  }
-	  if (! (result instanceof SchExpr)) {
-	    String name = print(cDecl.getName());
-	    System.out.println("sig " + name + " {");
-	    System.out.print("  data: ");
-	    visit(cDecl.getExpr());
-	    System.out.println("\n}");
-	    return null;
-	  }
-	  System.out.println("sig " + sigName + " { ");
-	  visit(((SchExpr)result).getZSchText().getDeclList());
-	  System.out.println("}{");
-	  visit(((SchExpr)result).getZSchText().getPred());
-	  System.out.println("\n}\nrun { one " + sigName + " }\n");
-	}
-	catch (Exception e) {
-	  throw new RuntimeException(e);
-	}
+        ConstDecl cDecl = (ConstDecl) decl;
+        try {
+          String sigName = print(cDecl.getName());
+          net.sourceforge.czt.z.ast.Expr result = cDecl.getExpr();
+          if (unfolding_) {
+            Source exprSource =
+              new StringSource("normalize~" +
+                  cDecl.getName().accept(new PrintVisitor()));
+            exprSource.setMarkup(Markup.LATEX);
+            net.sourceforge.czt.z.ast.Expr toBeNormalized =
+              ParseUtils.parseExpr(exprSource, section_, manager_);
+            result = (net.sourceforge.czt.z.ast.Expr) preprocess(toBeNormalized);
+          }
+          if (result instanceof RefExpr) {
+            PrimSig sig = new PrimSig(null, print(cDecl.getName()));
+            addField(sig, "data", visit(cDecl.getExpr()));
+            refExprs.add(sig);
+            sigmap.put(sig.label, sig);
+            return null;
+          }
+          if (result instanceof SchExpr2) {
+            PrimSig sig = new PrimSig(null, print(cDecl.getName()));
+            sigmap.put(sig.label, sig);
+            Map<String, Expr> fields = new HashMap<String, Expr>();
+            Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
+            subexprs.offer((SchExpr2) result);
+
+            while (!subexprs.isEmpty()) {
+              SchExpr2 schExpr2 = subexprs.poll();
+              if (schExpr2.getLeftExpr() instanceof RefExpr) {
+                if (!fields.containsKey(print(schExpr2.getLeftExpr()))) {
+                  Expr field = visit(schExpr2.getLeftExpr());
+                  fields.put(print(schExpr2.getLeftExpr()), field);
+                }
+              }
+              else if (schExpr2.getLeftExpr() instanceof SchExpr2) {
+                subexprs.offer((SchExpr2) schExpr2.getLeftExpr());
+              }
+              if (schExpr2.getRightExpr() instanceof RefExpr) {
+                if (!fields.containsKey(print(schExpr2.getRightExpr()))) {
+                  Expr field = visit(schExpr2.getRightExpr());
+                  fields.put(print(schExpr2.getRightExpr()),field);
+                }
+              }
+              else if (schExpr2.getRightExpr() instanceof SchExpr2) {
+                subexprs.offer((SchExpr2) schExpr2.getRightExpr());
+              }
+            }
+            for (Entry<String, Expr> entry : fields.entrySet()) {
+              Sig.Field f = addField(sig, "var_" + entry.getKey(), entry.getValue().loneOf());
+              processSigField((Sig) entry.getValue(), f , sig);
+            }
+            addSigPred(sig, visit(result));
+            return null;
+          }
+          PrimSig sig = new PrimSig(null, sigName);
+          for (Decl d : ((SchExpr)result).getZSchText().getZDeclList()) {
+            if (d instanceof VarDecl) {
+              VarDecl vardecl = (VarDecl) d;
+              addField(sig, print(vardecl.getName()), visit(vardecl.getExpr()));
+
+            }
+            else if (d instanceof InclDecl) {
+              InclDecl incdecl = (InclDecl) d;
+              net.sourceforge.czt.z.ast.Expr expr = incdecl.getExpr();
+              Sig.Field f = addField(sig, "var_" + print(expr), visit(expr));
+              processSigField((Sig) visit(expr), f, sig);
+            }
+            else {
+              System.err.println(d.getClass() + " not yet implemented");
+              return null;
+            }
+          }
+          sigmap.put(sigName, sig);
+          Expr pred =  visit(((SchExpr)result).getZSchText().getPred());
+          if (pred != null) {
+            addSigPred(sig, pred);
+          }
+          return null;
+
+        }
+        catch (CommandException e) {
+          throw new RuntimeException(e);
+        }
+        catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        catch (Err e) {
+          throw new RuntimeException(e);
+        }
       }
-      else if (decl instanceof VarDecl) {
-	VarDecl vDecl = (VarDecl) decl;
-	if (vDecl.getExpr() instanceof RefExpr) {
-	  System.out.print("one sig " + print(vDecl.getName()) + " in ");
-	  visit(vDecl.getExpr());
-	  System.out.println(" {}");
-	  return null;
-	}
-	else {
-	  System.out.println("one sig " + print(vDecl.getName()) + " {");
-	  System.out.print("  data: ");
-	  visit(vDecl.getExpr());
-	  System.out.println("\n}");
-	}
+    }
+    System.err.println(para.getClass() + " not yet implemented");
+    return null;
+  }
+
+  public Expr visitConjPara(ConjPara cPara)
+  {
+    System.err.println(cPara.getClass() + " not yet implemented");
+    return null;
+  }
+
+  public Expr visitDecorExpr(DecorExpr decorExpr)
+  {
+    System.err.println(decorExpr.getClass() + " not yet implemented");
+    return null;
+  }
+
+  public Expr visitExistsPred(ExistsPred existsPred)
+  {
+    System.err.println(existsPred.getClass() + " not yet implemented");
+    return null;
+  }
+
+  public Expr visitExprPred(ExprPred exprPred)
+  {
+    System.err.println(exprPred.getClass() + " not yet implemented");
+    return null;
+  }
+
+  public Expr visitForallPred(ForallPred allPred)
+  {
+    System.err.println(allPred.getClass() + " not yet implemented");
+    return null;
+  }
+
+  public Expr visitFreePara(FreePara para)
+  {
+    return visit(para.getFreetypeList());
+  }
+
+  public Expr visitFreetype(Freetype freetype)
+  {
+    try {
+      PrimSig parent = new PrimSig(null, null, print(freetype.getName()), true, false, false, false, false);
+      sigmap.put(parent.label, parent);
+      Iterator<Branch> i = assertZBranchList(freetype.getBranchList()).iterator();
+      while (i.hasNext()) {
+        Branch branch = (Branch) i.next();
+        if (branch.getExpr() != null)
+          System.err.println("free types must be simple enumerations, but "
+              +branch.getName()+" branch has expression "
+              +branch.getExpr());
+        PrimSig child = new PrimSig(null, parent, print(branch.getName()), false, false, true, false, true);
+        sigmap.put(child.label, child);
       }
-      else {
-	System.err.println(decl.getClass() + " in AxPara not yet supported");
-      }
-    }
-    if (schText.getPred() != null) {
-      System.out.println("fact {");
-      visit(schText.getPred());
-      System.out.println("}");
-    }
-    return null;
-  }
-
-  public Term visitConjPara(ConjPara cPara)
-  {
-    debug(preprocess(cPara.getPred()));
-    System.out.println("pred " + cPara.getName() + " {");
-    visit(preprocess(cPara.getPred()));
-    System.out.println("\n}");
-    return null;
-  }
-
-  public Term visitDecorExpr(DecorExpr decorExpr)
-  {
-    visit(decorExpr.getExpr());
-    return null;
-  }
-
-  public Term visitExistsPred(ExistsPred existsPred)
-  {
-    System.out.print(" some ");
-    visit(existsPred.getZSchText().getDeclList());
-    System.out.print(" | ");
-    visit(existsPred.getZSchText().getPred());
-    if (existsPred.getZSchText().getPred() != null)
-      System.out.print(" and ");
-    visit(existsPred.getPred());
-    return null;
-  }
-
-  public Term visitExprPred(ExprPred exprPred)
-  {
-    visit(exprPred.getExpr());
-    return null;
-  }
-
-  public Term visitForallPred(ForallPred allPred)
-  {
-    System.out.print(" all ");
-    visit(allPred.getZSchText().getDeclList());
-    System.out.print(" | ");
-    visit(allPred.getZSchText().getPred());
-    if (allPred.getZSchText().getPred() != null)
-      System.out.print(" implies ");
-    visit(allPred.getPred());
-    return null;
-  }
-
-  public Term visitFreePara(FreePara para)
-  {
-    visit(para.getFreetypeList());
-    return null;
-  }
-
-  public Term visitFreetype(Freetype freetype)
-  {
-    System.out.print("enum " + print(freetype.getName()) + " { ");
-    Iterator<Branch> i = assertZBranchList(freetype.getBranchList()).iterator();
-    while (i.hasNext()) {
-      Branch branch = (Branch) i.next();
-      if (branch.getExpr() != null)
-        System.err.println("free types must be simple enumerations, but "
-			   +branch.getName()+" branch has expression "
-			   +branch.getExpr());
-      System.out.print(print(branch.getName()));
-      System.out.print(i.hasNext() ? ", " : " ");
-    }
-    System.out.println("}");
-    return null;
-  }
-
-  public Term visitGivenPara(GivenPara para)
-  {
-    for (Name name : para.getNames()) {
-      System.out.println("sig " + print(name) + " {}");
-    }
-    return null;
-  }
-
-  public Term visitImpliesPred(ImpliesPred impl)
-  {
-    System.out.print("(");
-    visit(impl.getLeftPred());
-    System.out.print(" implies ");
-    visit(impl.getRightPred());
-    System.out.print(")");
-    return null;
-  }
-
-  public Term visitInclDecl(InclDecl inclDecl)
-  {
-    Expr expr = inclDecl.getExpr();
-    String varName = "var_" + print(expr);
-    System.out.print("  " + varName);
-    System.out.print(": ");
-    visit(expr);
-    System.out.println(",");
-    TypeAnn type = expr.getAnn(TypeAnn.class);
-    Signature s =
-      ((SchemaType) ((PowerType) type.getType()).getType()).getSignature();
-    for (NameTypePair pair : s.getNameTypePair()) {
-      ZName name = pair.getZName();
-      // TODO: Handle strokes properly!
-      names_.put(name.getId(),
-		 varName + "." + name.getWord());
-    }
-    return null;
-  }
-
-  /** Ignore Latex markup paragraphs. */
-  public Term visitLatexMarkupPara(LatexMarkupPara para)
-  {
-    return null;
-  }
-
-  public Term visitMemPred(MemPred memPred)
-  {
-    if (memPred.getRightExpr() instanceof SetExpr &&
-	((SetExpr) memPred.getRightExpr()).getZExprList().size() == 1) {
-      // equality
-      visit(memPred.getLeftExpr());
-      System.out.print(" = ");
-      visit(((SetExpr) memPred.getRightExpr()).getZExprList().get(0));
       return null;
     }
-    if (memPred.getLeftExpr() instanceof TupleExpr &&
-	memPred.getRightExpr() instanceof RefExpr) {
-      RefExpr refExpr = (RefExpr) memPred.getRightExpr();
-      String binRel = isInfixOperator(refExpr.getZName());
-      if (binRelTable_.containsKey(binRel)) {
-	ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
-	visit(exprs.get(0));
-	System.out.print(" " + binRelTable_.get(binRel) + " ");
-	visit(exprs.get(1));
-	return null;
-      }
-      if (isInfixOperator(refExpr.getZName(), "\u2286")) { // subseteq
-        ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
-        visit(exprs.get(0));
-        System.out.print(" in ");
-        visit(exprs.get(1));
-        return null;
-      }
-      if (isInfixOperator(refExpr.getZName(), "\u2264")) { // leq
-        ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
-        visit(exprs.get(0));
-        System.out.print(" <= ");
-        visit(exprs.get(1));
-        return null;
-      }
+    catch (Err e) {
+      throw new RuntimeException(e);
     }
-    visit(memPred.getLeftExpr());
-    System.out.print(" in ");
-    visit(memPred.getRightExpr());
-    return null;
   }
 
-  /** Ignore narrative paragraphs. */
-  public Term visitNarrPara(NarrPara para)
+  public Expr visitGivenPara(GivenPara para)
   {
+    for (Name name : para.getNames()) {
+      try {
+        sigmap.put(print(name), new PrimSig(null, print(name)));
+      }
+      catch (Err e) {
+        throw new RuntimeException(e);
+      }
+    }
     return null;
   }
   
-  public Term visitNumExpr(NumExpr numexpr)
+  public Expr visitIffExpr(IffExpr iffExpr)
   {
-    System.out.print(numexpr.getZNumeral());
+    Expr[] comps = schExpr2SigComponent(iffExpr);
+    return comps[0].iff(comps[1]);
+  }
+  
+  public Expr visitImpliesExpr(ImpliesExpr impliesExpr)
+  {
+    Expr[] comps = schExpr2SigComponent(impliesExpr);
+    return comps[0].implies(comps[1]);
+  }
+
+  public Expr visitImpliesPred(ImpliesPred impl)
+  {
+    System.err.println(impl.getClass() + " not yet implemented");
     return null;
   }
 
-  public Term visitOrPred(OrPred orPred)
+  public Expr visitInclDecl(InclDecl inclDecl)
   {
-    System.out.print("(");
-    visit(orPred.getLeftPred());
-    System.out.print(" or ");
-    visit(orPred.getRightPred());
-    System.out.print(")");
+    System.err.println(inclDecl.getClass() + " not yet implemented");
+    return null;
+
+  }
+
+  /** Ignore Latex markup paragraphs. */
+  public Expr visitLatexMarkupPara(LatexMarkupPara para)
+  {
     return null;
   }
 
-  public Term visitPowerExpr(PowerExpr powerExpr)
+  public Expr visitMemPred(MemPred memPred)
   {
-    System.out.print(" set (");
-    visit(powerExpr.getExpr());
-    System.out.print(")");
-    return null;
-  }
-
-  public Term visitProdExpr(ProdExpr prodExpr)
-  {
-    for (Iterator<Expr> iter = prodExpr.getZExprList().iterator();
-	 iter.hasNext();) {
-      visit(iter.next());
-      if (iter.hasNext()) System.out.print(" -> ");
+    if (memPred.getRightExpr() instanceof SetExpr &&
+        ((SetExpr) memPred.getRightExpr()).getZExprList().size() == 1) {
+      // equality
+      Expr left = visit(memPred.getLeftExpr());
+      Expr right = visit(memPred.getRightExpr());
+      if (left == null || right == null) {
+        System.err.println("Left and right of memPred must be non null");
+        return null;
+      }
+      return left.equal(right);
     }
+    if (memPred.getLeftExpr() instanceof TupleExpr &&
+        memPred.getRightExpr() instanceof RefExpr) {
+      RefExpr refExpr = (RefExpr) memPred.getRightExpr();
+      ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
+      Expr left = visit(exprs.get(0));
+      Expr right = visit(exprs.get(1));
+      if (left == null || right == null) {
+        System.err.println("Left and right of refExpr must be non null");
+        return null;
+      }
+      if (isInfixOperator(refExpr.getZName(), ZString.NOTMEM)) {
+        return left.in(right).not();
+      }
+      if (isInfixOperator(refExpr.getZName(), ZString.SUBSETEQ)) {
+        return left.in(right);
+      }
+      if (isInfixOperator(refExpr.getZName(), ZString.SUBSET)) {
+        return left.in(right).and(left.equal(right).not());
+      }
+      if (isInfixOperator(refExpr.getZName(), ZString.LESS)) {
+        return left.lt(right);
+      }
+      if (isInfixOperator(refExpr.getZName(), ZString.LEQ)) {
+        return left.lte(right);
+      }
+      if (isInfixOperator(refExpr.getZName(), ZString.GREATER)) {
+        return left.gt(right);
+      }
+      if (isInfixOperator(refExpr.getZName(), ZString.GEQ)) {
+        return left.gte(right);
+      }
+    }
+    Expr left = visit(memPred.getLeftExpr());
+    Expr right = visit(memPred.getRightExpr());
+    if (left == null || right == null) {
+      System.err.println("Left and right Expr of MemPred not be null");
+      return null;
+    }
+    return left.in(right);
+  }
+
+  /** Ignore narrative paragraphs. */
+  public Expr visitNarrPara(NarrPara para)
+  {
     return null;
   }
 
-  public Term visitRefExpr(RefExpr refExpr)
+  public Expr visitNumExpr(NumExpr numexpr)
+  {
+    System.err.println(numexpr.getClass() + " not yet implemented");
+    return null;
+  }
+
+  public Expr visitOrExpr(OrExpr orExpr)
+  {
+    Expr[] comps = schExpr2SigComponent(orExpr);
+    return comps[0].or(comps[1]);
+  }
+
+  public Expr visitOrPred(OrPred orPred)
+  {
+    Expr left = visit(orPred.getLeftPred());
+    if (left != null) {
+      return left.or(visit(orPred.getRightPred()));
+    }
+    System.err.println("left pred of orPred must not be null");
+    return null;
+  }
+
+  public Expr visitPowerExpr(PowerExpr powerExpr)
+  {
+    Expr body = visit(powerExpr.getExpr());
+    if (body == null) {
+      System.err.println("body of power expr must not be null");
+      return null;
+    }
+    return body.setOf();
+  }
+
+  public Expr visitProdExpr(ProdExpr prodExpr)
+  {
+    Expr expr = visit(prodExpr.getZExprList().get(0));
+    for (int i = 1; i < prodExpr.getZExprList().size(); i++) {
+      Expr current = visit(prodExpr.getZExprList().get(i));
+      if (current == null || expr == null) {
+        System.err.println("body of prodexprs must not be  null");
+        return null;
+      }
+      expr = expr.product(current);
+    }
+    return expr;
+  }
+
+  public Expr visitRefExpr(RefExpr refExpr)
   {
     if (isInfixOperator(refExpr.getZName(), ZString.PFUN)) { // pfun
-      visit(refExpr.getZExprList().get(0));
-      System.out.print(" -> lone ");
-      visit(refExpr.getZExprList().get(1));
-      return null;
+      return visit(refExpr.getZExprList().get(0)).any_arrow_lone(visit(refExpr.getZExprList().get(1)));
     }
     if (isPostfixOperator(refExpr.getZName(), "seq")) { // seq
-      System.out.print(" seq ");
-      visit(refExpr.getZExprList().get(0));
-      return null;
+      return SEQIDX.any_arrow_lone(visit(refExpr.getZExprList().get(0)));
     }
-    System.out.print(print(refExpr.getName()));
-    return null;
+    if (sigmap.containsKey(print(refExpr.getName()))){
+      return sigmap.get(print(refExpr.getName()));
+    }
+    if (print(refExpr.getName()).contains(".")){
+      String name = print(refExpr.getName());
+      String field = name.substring(0, name.indexOf('.'));
+      String subfield = name.substring(name.indexOf('.') + 1);
+      Expr fieldvar = ExprVar.make(null, field);
+      Expr subfieldvar = ExprVar.make(null, subfield);
+      return fieldvar.join(subfieldvar);
+    }
+    return ExprVar.make(null, print(refExpr.getZName()));
   }
 
-  public Term visitRule(Rule r)
+  public Expr visitRule(Rule r)
   {
+    System.err.println(r.getClass() + " not yet implemented");
     return null;
   }
 
-  public Term visitSchExpr(SchExpr schExpr)
+  public Expr visitSchExpr(SchExpr schExpr)
   {
-    visit(schExpr.getZSchText());
+    System.err.println(schExpr.getClass() + " not yet implemented");
     return null;
   }
 
-  public Term visitSetCompExpr(SetCompExpr setCompExpr)
+  public Expr visitSetCompExpr(SetCompExpr setCompExpr)
   {
-    ZSchText zSchText = setCompExpr.getZSchText();
-    System.out.print("{");
-    visit(zSchText.getDeclList());
-    System.out.println(" | ");
-    visit(zSchText.getPred());
-    System.out.print("}");
+    System.err.println(setCompExpr.getClass() + " not yet implemented");
     return null;
   }
 
-  public Term visitSetExpr(SetExpr setExpr)
+  public Expr visitSetExpr(SetExpr setExpr)
   {
     if (setExpr.getExprList() == null) {
-      System.out.print(" none ");
-      return null;
+      return NONE;
     }
     ZExprList exprs = setExpr.getZExprList();
     if (exprs.size() == 0) {
-      System.out.print(" none ");
-      return null;
+      return NONE;
     }
     else if (exprs.size() == 1) {
-      visit(exprs.get(0));
+      return visit(exprs.get(0));
     }
     else {
-      System.out.print("(");
-      for (int i = 0; i + 1 < exprs.size(); i++) {
-        visit(exprs.get(i));
-        System.out.print(" + ");
-      }
-      visit(exprs.get(exprs.size() - 1));
-      System.out.println(")");
-    }
-    return null;
-  }
-
-  public Term visitTruePred(TruePred truePred)
-  {
-    System.out.print(" 1 = 1 ");
-    return null;
-  }
-
-  public Term visitTupleExpr(TupleExpr tupleExpr)
-  {
-    if (tupleExpr.getExprList() == null ||
-	tupleExpr.getZExprList().size() == 0) {
-      System.out.print(" none ");
+      System.err.println(setExpr.getClass() + " not yet implemented");
       return null;
     }
-    for (Iterator<Expr> iter = tupleExpr.getZExprList().iterator();
-	 iter.hasNext();) {
-      visit(iter.next());
-      if (iter.hasNext()) System.out.print(" -> ");
-    }
-    return null;
   }
 
-  public Term visitVarDecl(VarDecl vDecl)
+  public Expr visitTruePred(TruePred truePred)
   {
-    System.out.print(print(vDecl.getName()) + ": ");
-    visit(vDecl.getExpr());
-    System.out.println(",");
+    System.err.println(truePred.getClass() + " not yet implemented");
     return null;
   }
 
-  public Term visitZDeclList(ZDeclList zDeclList)
+  public Expr visitVarDecl(VarDecl vDecl)
   {
-    for (Decl decl : zDeclList) visit(decl);
+    return ExprVar.make(null, print(vDecl.getName()), visit(vDecl.getExpr()));
+  }
+
+  public Expr visitZDeclList(ZDeclList zDeclList)
+  {
+    System.err.println(zDeclList.getClass() + " not yet implemented");
     return null;
   }
 
-  public Term visitZFreetypeList(ZFreetypeList list)
+  public Expr visitZFreetypeList(ZFreetypeList list)
   {
     for (Freetype freetype : list)
     {
@@ -544,34 +687,95 @@ public class Z2Alloy
     return null;
   }
 
-  public Term visitZSchText(ZSchText zSchText)
+  public Expr visitZSchText(ZSchText zSchText)
   {
-    visit(zSchText.getDeclList());
-    visit(zSchText.getPred());
+    System.err.println(zSchText.getClass() + " not yet implemented");
     return null;
   }
 
-  public Term visitZSect(ZSect zSect)
+  public Expr visitZSect(ZSect zSect)
   {
     Source specSource = new StringSource("\\begin{zsection} "
-					 + "\\SECTION " + section_ + " "
-					 + "\\parents "
-					 + zSect.getName() + ", "
-					 + "expansion\\_rules, "
-					 + "simplification\\_rules"
-					 + "\\end{zsection}",
-					 section_);
+        + "\\SECTION " + section_ + " "
+        + "\\parents "
+        + zSect.getName() + ", "
+        + "expansion\\_rules, "
+        + "simplification\\_rules"
+        + "\\end{zsection}",
+        section_);
     specSource.setMarkup(Markup.LATEX);
     manager_.put(new Key<Source>(section_ ,Source.class), specSource);
 
-    if (zSect.getName() != "Specification") {
-      System.out.println("module " + zSect.getName());
-    }
-    System.out.println("open functions");
     for (Para para : zSect.getZParaList()) {
       visit(para);
     }
+
     return null;
+  }
+  
+  private Expr[] schExpr2SigComponent (SchExpr2 schExpr2){
+    Expr left = visit(schExpr2.getLeftExpr());
+    Expr right = visit(schExpr2.getRightExpr());
+    if (left instanceof PrimSig) {
+      PrimSig leftsig = (PrimSig) left;
+      left = ExprVar.make(null, "var_" + leftsig.label, leftsig).one();
+    }
+    if (right instanceof PrimSig) {
+      PrimSig rightsig = (PrimSig) right;
+      right = ExprVar.make(null, "var_" + rightsig.label, rightsig).one();
+    }
+    if (left == null || right == null) {
+      System.err.println("left and right of SchExpr2 must not be null");
+      return null;
+    }
+    return new Expr[] {left, right};
+  }
+
+  private Sig.Field addField (Sig sig, String label, Expr bound) throws Err {
+    return sig.addField(null, label, bound);
+  }
+
+  private void processSigField(Sig sigField, Sig.Field field, Sig sig) {
+    // so we can easily see if a field is already present
+    Map<String, Sig.Field> sigfieldnames = new HashMap<String, Sig.Field>();
+    for (Sig.Field sigfield : sig.getFields()) {
+      sigfieldnames.put(sigfield.label, sigfield);
+    }
+
+    for (Sig.Field subfield : sigField.getFields()) {
+      if (!sigfieldnames.containsKey(subfield.label)){
+        try {
+          Expr f = ((ExprBinary) ((ExprQuant) subfield.boundingFormula).sub).right;
+          Sig.Field newfield = addField(sig, subfield.label, f);
+          sigfieldnames.put(newfield.label, newfield);
+        }
+        catch (Err e) {
+          throw new RuntimeException();
+        }
+      }
+    }
+    Expr fieldconstr = null;
+
+    for (Sig.Field subfield : sigField.getFields()) {
+      Sig.Field sigfield = sigfieldnames.get(subfield.label);
+      Expr subfieldconstr = field.join(subfield).equal(sigfield);
+      if (fieldconstr == null) {
+        fieldconstr = subfieldconstr;
+      }
+      else {
+        fieldconstr = fieldconstr.and(subfieldconstr);
+      }
+    }
+    fieldconstr = field.some().implies(fieldconstr);
+
+    addSigPred(sig, fieldconstr);
+  }
+
+  private void addSigPred (Sig sig, Expr pred) {
+    if (sigpreds.get(sig) != null) {
+      pred = sigpreds.get(sig).and(pred);
+    }
+    sigpreds.put(sig, pred);
   }
 
   private boolean isPostfixOperator(ZName name, String op)
@@ -616,18 +820,19 @@ public class Z2Alloy
     else return "";
   }
 
-  private void visit(Term t)
+  private Expr visit(Term t)
   {
-    if (t != null) t.accept(this);
+    if (t != null) return t.accept(this);
+    return null;
   }
 
   private Term preprocess(Term term)
   {
     try {
       RuleTable rules = 
-	manager_.get(new Key<RuleTable>(section_, RuleTable.class));
+        manager_.get(new Key<RuleTable>(section_, RuleTable.class));
       RewriteVisitor rewriter =
-	new RewriteVisitor(rules, manager_, section_);
+        new RewriteVisitor(rules, manager_, section_);
       return Strategies.innermost(term, rewriter);
     }
     catch(Exception e) {
@@ -643,8 +848,8 @@ public class Z2Alloy
   }
 
   class AlloyPrintVisitor extends PrintVisitor
-    implements DecorExprVisitor<String>,
-               RefExprVisitor<String>
+  implements DecorExprVisitor<String>,
+  RefExprVisitor<String>
   {
     public String visitZName(ZName zName)
     {
@@ -654,10 +859,11 @@ public class Z2Alloy
       word = word.replaceAll("\u03A8", "Psi");
 
       if (names_.containsKey(zName.getId())) {
-	return names_.get(zName.getId());
+        return names_.get(zName.getId());
       }
       return word + visit(zName.getStrokeList());
     }
+
 
     public String visitInStroke(InStroke inStroke)
     {
@@ -679,7 +885,7 @@ public class Z2Alloy
     public String visitDecorExpr(DecorExpr decorExpr)
     {
       return decorExpr.getExpr().accept(this) +
-	decorExpr.getStroke().accept(this);
+      decorExpr.getStroke().accept(this);
     }
 
     public String visitRefExpr(RefExpr refExpr)
@@ -687,4 +893,5 @@ public class Z2Alloy
       return refExpr.getName().accept(this);
     }
   }
+
 }

@@ -771,6 +771,8 @@ ui/src/main/resources/net/sourceforge/czt/ui/czt_about.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
 z2alloy/pom.xml -text
+z2alloy/simple.tex -text
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/AlloyPrinter.java -text
 zlive/doc/2004goals.ppt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text

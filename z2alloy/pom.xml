@@ -17,6 +17,11 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>rules</artifactId>
     </dependency>
+    <dependency>
+      <groupId>alloy</groupId>
+      <artifactId>alloy</artifactId>
+      <version>4.1.8</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

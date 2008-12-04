@@ -15,23 +15,31 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with CZT; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package net.sourceforge.czt.z2alloy;
 
-import java.io.*;
-import java.util.logging.*;
-import java.util.*;
-import java.net.URL;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprBinary;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprQuant;
+import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
+import edu.mit.csail.sdg.alloy4compiler.ast.Sig.Field;
+import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 /** Translate a Z specification from ZML format into B format.
  *
@@ -40,7 +48,7 @@ import net.sourceforge.czt.z.ast.ZSect;
 public class Main
 {
   public static void main(String[] args)
-    throws Exception
+  throws Exception
   {
     Logger logger = Logger.getLogger("");
     for (Handler h : logger.getHandlers()) {
@@ -74,5 +82,50 @@ public class Main
 
     Z2Alloy foo = new Z2Alloy(manager);
     sect.accept(foo);
+
+    System.out.println();
+    System.out.println("AlloyPrinter");
+    System.out.println();
+    AlloyPrinter p = new AlloyPrinter();
+    
+    List<Sig> sigs = new ArrayList<Sig>(foo.sigmap.values());
+    Collections.sort(sigs, new Comparator<Sig>() {
+      public int compare(Sig s1, Sig s2)
+        {
+          return s1.label.compareTo(s2.label);
+        }
+    });
+    for (Sig e : sigs) {
+      String ret = "";
+      if (e.isLone != null) ret += "lone ";
+      if (e.isOne != null) ret += "one ";
+      if (e.isSome != null) ret += "some ";
+      if (e.isAbstract != null) ret += "abstract ";
+      
+      ret += "sig " + e.label;
+      PrimSig s = (PrimSig) e;
+      if (e.isSubsig != null) ret += " extends " + p.visit(s.parent);
+
+      ret += "{\n";
+      for (Field f : e.getFields()) {
+        // this has the form (all this | this . (A <: label) in def)
+        // getting it out is yucky - not sure how to get the end bit neatly
+        // also not sure if it ever has a different structure
+        
+        ExprQuant q = (ExprQuant) f.boundingFormula;
+        ExprBinary bin = (ExprBinary) q.sub;
+        ret += "\t" + f.label + ": " + p.visitThis(bin.right) + ",\n";
+      }
+      ret += "}";
+      if (foo.sigpreds.get(e) != null) {
+        ret += "{\n";
+        ret += "\t" + p.visitThis(foo.sigpreds.get(e));
+        ret += "\n}";
+      }
+      ret += "\nsome_" + e.label + " : run { some " + e.label + " }";
+      
+      System.out.println(ret+"\n");
+    }
   }
+
 }
