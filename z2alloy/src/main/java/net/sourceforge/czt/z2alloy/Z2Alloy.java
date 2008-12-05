@@ -91,6 +91,7 @@ import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.OperatorName;
@@ -185,7 +186,7 @@ ZSectVisitor<Expr>
   private SectionManager manager_;
   private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
-  private boolean unfolding_ = true;
+  private boolean unfolding_ = false;
 
   public Map<String, Sig> sigmap = new HashMap<String, Sig>();
   private List<Expr> refExprs = new ArrayList<Expr>();
@@ -359,8 +360,10 @@ ZSectVisitor<Expr>
           for (Decl d : ((SchExpr)result).getZSchText().getZDeclList()) {
             if (d instanceof VarDecl) {
               VarDecl vardecl = (VarDecl) d;
-              addField(sig, print(vardecl.getName()), visit(vardecl.getExpr()));
-
+	      ZNameList nameList = vardecl.getName();
+	      for (Name name : nameList) {
+		addField(sig, print(name), visit(vardecl.getExpr()));
+	      }
             }
             else if (d instanceof InclDecl) {
               InclDecl incdecl = (InclDecl) d;
