@@ -56,6 +56,7 @@ import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.DecorExpr;
+import net.sourceforge.czt.z.ast.Exists1Pred;
 import net.sourceforge.czt.z.ast.ExistsPred;
 import net.sourceforge.czt.z.ast.ExprPred;
 import net.sourceforge.czt.z.ast.ForallPred;
@@ -108,6 +109,7 @@ import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.DecorExprVisitor;
+import net.sourceforge.czt.z.visitor.Exists1PredVisitor;
 import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
 import net.sourceforge.czt.z.visitor.ExprPredVisitor;
 import net.sourceforge.czt.z.visitor.ForallPredVisitor;
@@ -162,6 +164,7 @@ AxParaVisitor<Expr>,
 ConjParaVisitor<Expr>,
 //ConstDeclVisitor<Expr>,
 DecorExprVisitor<Expr>,
+Exists1PredVisitor<Expr>,
 ExistsPredVisitor<Expr>,
 ExprPredVisitor<Expr>,
 ForallPredVisitor<Expr>,
@@ -430,11 +433,77 @@ ZSectVisitor<Expr>
     System.err.println(decorExpr.getClass() + " not yet implemented");
     return null;
   }
+  
+  public Expr visitExists1Pred(Exists1Pred exists1Pred)
+  {
+    List<ExprVar> vars = new ArrayList<ExprVar>();
+    for (Decl d : exists1Pred.getZSchText().getZDeclList()) {
+      Expr var = visit(d);
+      if (var == null) {
+        System.err.println("decl of ExistsPred must not be null");
+      }
+      if (!(var instanceof ExprVar)) {
+        System.err.println("decl of ExistsPred must be a exprvar");
+      }
+      vars.add((ExprVar) var);
+    }
+    ExprVar firstVar = vars.get(0);
+    vars.remove(0);
+    
+    Expr pred;
+    
+    Expr pred1 = visit(exists1Pred.getZSchText().getPred());
+    Expr pred2 = visit(exists1Pred.getPred());
+    
+    if (pred2 == null) {
+      System.err.println("pred of ExistsPred must not be null");
+      return null;
+    }
+
+    if (pred1 == null) {
+      pred = pred2;
+    }
+    else {
+      pred = pred1.and(pred2);
+    }
+    
+    return pred.forOne(firstVar, vars.toArray(new ExprVar[0]));
+  }
 
   public Expr visitExistsPred(ExistsPred existsPred)
   {
-    System.err.println(existsPred.getClass() + " not yet implemented");
-    return null;
+    List<ExprVar> vars = new ArrayList<ExprVar>();
+    for (Decl d : existsPred.getZSchText().getZDeclList()) {
+      Expr var = visit(d);
+      if (var == null) {
+        System.err.println("decl of ExistsPred must not be null");
+      }
+      if (!(var instanceof ExprVar)) {
+        System.err.println("decl of ExistsPred must be a exprvar");
+      }
+      vars.add((ExprVar) var);
+    }
+    ExprVar firstVar = vars.get(0);
+    vars.remove(0);
+    
+    Expr pred;
+    
+    Expr pred1 = visit(existsPred.getZSchText().getPred());
+    Expr pred2 = visit(existsPred.getPred());
+    
+    if (pred2 == null) {
+      System.err.println("pred of ExistsPred must not be null");
+      return null;
+    }
+
+    if (pred1 == null) {
+      pred = pred2;
+    }
+    else {
+      pred = pred1.and(pred2);
+    }
+    
+    return pred.forSome(firstVar, vars.toArray(new ExprVar[0]));
   }
 
   public Expr visitExprPred(ExprPred exprPred)
@@ -445,8 +514,38 @@ ZSectVisitor<Expr>
 
   public Expr visitForallPred(ForallPred allPred)
   {
-    System.err.println(allPred.getClass() + " not yet implemented");
-    return null;
+    List<ExprVar> vars = new ArrayList<ExprVar>();
+    for (Decl d : allPred.getZSchText().getZDeclList()) {
+      Expr var = visit(d);
+      if (var == null) {
+        System.err.println("decl of allpred must not be null");
+      }
+      if (!(var instanceof ExprVar)) {
+        System.err.println("decl of allpred must be a exprvar");
+      }
+      vars.add((ExprVar) var);
+    }
+    ExprVar firstVar = vars.get(0);
+    vars.remove(0);
+    
+    Expr pred;
+    
+    Expr pred1 = visit(allPred.getZSchText().getPred());
+    Expr pred2 = visit(allPred.getPred());
+    
+    if (pred2 == null) {
+      System.err.println("pred of allpred must not be null");
+      return null;
+    }
+
+    if (pred1 == null) {
+      pred = pred2;
+    }
+    else {
+      pred = pred1.implies(pred2);
+    }
+    
+    return pred.forAll(firstVar, vars.toArray(new ExprVar[0]));
   }
 
   public Expr visitFreePara(FreePara para)

@@ -114,7 +114,15 @@ public class AlloyPrinter extends VisitReturn
   @Override
   public Object visit(ExprQuant x) throws Err
   {
-    return x.toString();
+    String ret = "";
+    ret += x.op;
+    for (ExprVar var : x.vars) {
+      ret += " " + visit(var) + " : " + var.expr + ",";
+    }
+    ret = ret.substring(0, ret.length() - 1);
+    ret += " | ";
+    ret += visitThis(x.sub);
+    return ret;
   }
 
   @Override
