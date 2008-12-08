@@ -13,12 +13,59 @@ import edu.mit.csail.sdg.alloy4compiler.ast.ExprList;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprQuant;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprUnary;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprVar;
+import edu.mit.csail.sdg.alloy4compiler.ast.Func;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
 import edu.mit.csail.sdg.alloy4compiler.ast.VisitReturn;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig.Field;
+import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 public class AlloyPrinter extends VisitReturn
 {
+  
+  public String createSig (Sig sig, Func pred) throws Err {
+    String ret = "";
+    if (sig.isLone != null) ret += "lone ";
+    if (sig.isOne != null) ret += "one ";
+    if (sig.isSome != null) ret += "some ";
+    if (sig.isAbstract != null) ret += "abstract ";
+
+    ret += "sig " + sig.label;
+    PrimSig s = (PrimSig) sig;
+    if (sig.isSubsig != null) ret += " extends " + visit(s.parent);
+
+    ret += "{\n";
+    for (Field f : sig.getFields()) {
+      ret += "\t" + f.label + ": " + visitThis(Z2Alloy.getFieldExpr(f)) + ",\n";
+    }
+    ret += "}{" + pred.label + "[";
+    for (Sig.Field f : sig.getFields()) {
+      ret += f.label + ", ";
+    }
+    // remove last , 
+    if (!sig.getFields().isEmpty()) {
+      ret = ret.substring(0, ret.length() - 2);
+    }
+    ret += "]}";
+    ret += "\npred " + pred.label + " (";
+    for (ExprVar exprVar : pred.params) {
+      ret += exprVar.label + " : " + exprVar.type + ", ";
+    }
+    // remove last , 
+    if (!pred.params.isEmpty()) {
+      ret = ret.substring(0, ret.length() - 2);
+    }
+    ret += ") {";
+    if (pred.getBody() != ExprConstant.FALSE) {
+      ret += "\n\t";
+      ret += visitThis(pred.getBody());
+      ret += "\n";
+    }
+    ret += "}";
+
+    ret += "\nsome_" + sig.label + " : run { some " + sig.label + " }";
+
+    return ret;
+  }
 
   @Override
   public Object visit(ExprBinary x) throws Err
@@ -33,7 +80,6 @@ public class AlloyPrinter extends VisitReturn
     String ret = "(";
     List<Expr> exprs = x.args;
     for (int i = 0; i < exprs.size() - 1 ; i++) {
-      if (ret.length() > 75) ret += "\n\t";
       ret += visitThis(exprs.get(i)) + " " + opstring + " ";
     }
     ret += visitThis(exprs.get(exprs.size()-1));

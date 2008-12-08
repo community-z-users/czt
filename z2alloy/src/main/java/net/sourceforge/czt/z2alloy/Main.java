@@ -35,8 +35,9 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
-import edu.mit.csail.sdg.alloy4compiler.ast.ExprBinary;
-import edu.mit.csail.sdg.alloy4compiler.ast.ExprQuant;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprConstant;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprVar;
+import edu.mit.csail.sdg.alloy4compiler.ast.Func;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig.Field;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
@@ -84,47 +85,19 @@ public class Main
     sect.accept(foo);
 
     System.out.println();
-    System.out.println("AlloyPrinter");
+    System.out.println("open functions");
     System.out.println();
     AlloyPrinter p = new AlloyPrinter();
-    
+
     List<Sig> sigs = new ArrayList<Sig>(foo.sigmap.values());
     Collections.sort(sigs, new Comparator<Sig>() {
       public int compare(Sig s1, Sig s2)
-        {
-          return s1.label.compareTo(s2.label);
-        }
+      {
+        return s1.label.compareTo(s2.label);
+      }
     });
     for (Sig e : sigs) {
-      String ret = "";
-      if (e.isLone != null) ret += "lone ";
-      if (e.isOne != null) ret += "one ";
-      if (e.isSome != null) ret += "some ";
-      if (e.isAbstract != null) ret += "abstract ";
-      
-      ret += "sig " + e.label;
-      PrimSig s = (PrimSig) e;
-      if (e.isSubsig != null) ret += " extends " + p.visit(s.parent);
-
-      ret += "{\n";
-      for (Field f : e.getFields()) {
-        // this has the form (all this | this . (A <: label) in def)
-        // getting it out is yucky - not sure how to get the end bit neatly
-        // also not sure if it ever has a different structure
-        
-        ExprQuant q = (ExprQuant) f.boundingFormula;
-        ExprBinary bin = (ExprBinary) q.sub;
-        ret += "\t" + f.label + ": " + p.visitThis(bin.right) + ",\n";
-      }
-      ret += "}";
-      if (foo.sigpreds.get(e) != null) {
-        ret += "{\n";
-        ret += "\t" + p.visitThis(foo.sigpreds.get(e));
-        ret += "\n}";
-      }
-      ret += "\nsome_" + e.label + " : run { some " + e.label + " }";
-      
-      System.out.println(ret+"\n");
+      System.out.println(p.createSig(e, foo.sigpreds.get(e)) + "\n");
     }
   }
 
