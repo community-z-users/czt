@@ -86,8 +86,10 @@ import net.sourceforge.czt.z.ast.ProdType;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchExpr2;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.Type2;
@@ -132,9 +134,12 @@ import net.sourceforge.czt.z.visitor.PowerTypeVisitor;
 import net.sourceforge.czt.z.visitor.ProdExprVisitor;
 import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
 import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.SchExpr2Visitor;
 import net.sourceforge.czt.z.visitor.SchExprVisitor;
+import net.sourceforge.czt.z.visitor.SchemaTypeVisitor;
 import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
+import net.sourceforge.czt.z.visitor.SignatureVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
@@ -189,6 +194,7 @@ ProdTypeVisitor<Expr>,
 RefExprVisitor<Expr>,
 RuleVisitor<Expr>,
 SchExprVisitor<Expr>,
+SchExpr2Visitor<Expr>,
 SetCompExprVisitor<Expr>,
 SetExprVisitor<Expr>,
 TypeAnnVisitor<Expr>,
@@ -206,6 +212,7 @@ ZSectVisitor<Expr>
 
   public Map<String, Sig> sigmap = new HashMap<String, Sig>();
   public Map<Sig, Func> sigpreds = new HashMap<Sig,Func>();
+  public Map<Term, String> schemaName = new HashMap<Term, String>();
 
   /**
    * A mapping from ZName ids to alloy names.
@@ -330,90 +337,24 @@ ZSectVisitor<Expr>
             result = (net.sourceforge.czt.z.ast.Expr) preprocess(toBeNormalized);
           }
           if (result instanceof RefExpr) {
-            PrimSig sig = new PrimSig(null, print(cDecl.getName()));
-            addField(sig, "data", visit(cDecl.getExpr()));
-            addSig(sig);
-            return null;
-          }
-          if (result instanceof SchExpr2) {
-            PrimSig sig = new PrimSig(null, print(cDecl.getName()));
-            Map<String, Expr> fields = new HashMap<String, Expr>();
-            Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
-            subexprs.offer((SchExpr2) result);
-
-            while (!subexprs.isEmpty()) {
-              SchExpr2 schExpr2 = subexprs.poll();
-              if (schExpr2.getLeftExpr() instanceof RefExpr) {
-                if (!fields.containsKey(print(schExpr2.getLeftExpr()))) {
-                  Expr field = visit(schExpr2.getLeftExpr());
-                  fields.put(print(schExpr2.getLeftExpr()), field);
-                }
-              }
-              else if (schExpr2.getLeftExpr() instanceof SchExpr2) {
-                subexprs.offer((SchExpr2) schExpr2.getLeftExpr());
-              }
-              if (schExpr2.getRightExpr() instanceof RefExpr) {
-                if (!fields.containsKey(print(schExpr2.getRightExpr()))) {
-                  Expr field = visit(schExpr2.getRightExpr());
-                  fields.put(print(schExpr2.getRightExpr()),field);
-                }
-              }
-              else if (schExpr2.getRightExpr() instanceof SchExpr2) {
-                subexprs.offer((SchExpr2) schExpr2.getRightExpr());
-              }
-            }
-            for (Entry<String, Expr> entry : fields.entrySet()) {
-              processSigField((Sig) entry.getValue(), sig);
-            }
-            addSig(sig);
-            addSigPred(sig, visit(result));
-            return null;
-          }
-          PrimSig sig = new PrimSig(null, sigName);
-          Expr fieldPred = null;
-          for (Decl d : ((SchExpr)result).getZSchText().getZDeclList()) {
-            if (d instanceof VarDecl) {
-              VarDecl vardecl = (VarDecl) d;
-	      ZNameList nameList = vardecl.getName();
-	      for (Name name : nameList) {
-		addField(sig, print(name), visit(vardecl.getExpr()));
-	      }
-            }
-            else if (d instanceof InclDecl) {
-              InclDecl incdecl = (InclDecl) d;
-              net.sourceforge.czt.z.ast.Expr expr = incdecl.getExpr();
-              Expr sigfieldpred = processSigField((Sig) visit(expr), sig);
-              if (fieldPred != null) {
-                fieldPred = fieldPred.and(sigfieldpred);
-              }
-              else {
-                fieldPred = sigfieldpred;
-              }
-            }
-            else {
-              System.err.println(d.getClass() + " not yet implemented");
+            PrimSig sig;
+            try {
+              sig = new PrimSig(null, sigName);
+              addField(sig, "data", visit(result));
+              addSig(sig);
               return null;
             }
+            catch (Err e) {
+              throw new RuntimeException(e);
+            }
           }
-          addSig(sig);
-          Expr pred =  visit(((SchExpr)result).getZSchText().getPred());
-          if (fieldPred != null) {
-            addSigPred(sig, fieldPred);
-          }
-
-          if (pred != null) {
-            addSigPred(sig, pred);
-          }
-          return null;
-
+          schemaName.put(result, sigName);
+          return visit(result);
         }
         catch (CommandException e) {
           throw new RuntimeException(e);
         }
         catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-        catch (Err e) {
           throw new RuntimeException(e);
         }
       }
@@ -433,7 +374,7 @@ ZSectVisitor<Expr>
     System.err.println(decorExpr.getClass() + " not yet implemented");
     return null;
   }
-  
+
   public Expr visitExists1Pred(Exists1Pred exists1Pred)
   {
     List<ExprVar> vars = new ArrayList<ExprVar>();
@@ -449,12 +390,12 @@ ZSectVisitor<Expr>
     }
     ExprVar firstVar = vars.get(0);
     vars.remove(0);
-    
+
     Expr pred;
-    
+
     Expr pred1 = visit(exists1Pred.getZSchText().getPred());
     Expr pred2 = visit(exists1Pred.getPred());
-    
+
     if (pred2 == null) {
       System.err.println("pred of ExistsPred must not be null");
       return null;
@@ -466,7 +407,7 @@ ZSectVisitor<Expr>
     else {
       pred = pred1.and(pred2);
     }
-    
+
     return pred.forOne(firstVar, vars.toArray(new ExprVar[0]));
   }
 
@@ -485,12 +426,12 @@ ZSectVisitor<Expr>
     }
     ExprVar firstVar = vars.get(0);
     vars.remove(0);
-    
+
     Expr pred;
-    
+
     Expr pred1 = visit(existsPred.getZSchText().getPred());
     Expr pred2 = visit(existsPred.getPred());
-    
+
     if (pred2 == null) {
       System.err.println("pred of ExistsPred must not be null");
       return null;
@@ -502,7 +443,7 @@ ZSectVisitor<Expr>
     else {
       pred = pred1.and(pred2);
     }
-    
+
     return pred.forSome(firstVar, vars.toArray(new ExprVar[0]));
   }
 
@@ -527,12 +468,12 @@ ZSectVisitor<Expr>
     }
     ExprVar firstVar = vars.get(0);
     vars.remove(0);
-    
+
     Expr pred;
-    
+
     Expr pred1 = visit(allPred.getZSchText().getPred());
     Expr pred2 = visit(allPred.getPred());
-    
+
     if (pred2 == null) {
       System.err.println("pred of allpred must not be null");
       return null;
@@ -544,7 +485,7 @@ ZSectVisitor<Expr>
     else {
       pred = pred1.implies(pred2);
     }
-    
+
     return pred.forAll(firstVar, vars.toArray(new ExprVar[0]));
   }
 
@@ -775,14 +716,14 @@ ZSectVisitor<Expr>
     if (sigmap.containsKey(print(refExpr.getName()))){
       return sigmap.get(print(refExpr.getName()));
     }
-    if (print(refExpr.getName()).contains(".")){
-      String name = print(refExpr.getName());
-      String field = name.substring(0, name.indexOf('.'));
-      String subfield = name.substring(name.indexOf('.') + 1);
-      Expr fieldvar = ExprVar.make(null, field);
-      Expr subfieldvar = ExprVar.make(null, subfield);
-      return fieldvar.join(subfieldvar);
-    }
+//    if (print(refExpr.getName()).contains(".")){
+//      String name = print(refExpr.getName());
+//      String field = name.substring(0, name.indexOf('.'));
+//      String subfield = name.substring(name.indexOf('.') + 1);
+//      Expr fieldvar = ExprVar.make(null, field);
+//      Expr subfieldvar = ExprVar.make(null, subfield);
+//      return fieldvar.join(subfieldvar);
+//    }
     TypeAnn type = refExpr.getAnn(TypeAnn.class);
 
     return ExprVar.make(null, print(refExpr.getZName()), visit(type));
@@ -796,10 +737,99 @@ ZSectVisitor<Expr>
 
   public Expr visitSchExpr(SchExpr schExpr)
   {
-    System.err.println(schExpr.getClass() + " not yet implemented");
-    return null;
+    try {
+      String schName = schemaName.get(schExpr);
+      if (schName == null) {
+        System.err.println("SchExprs must have names");
+        return null;
+      }
+      Sig sig = new PrimSig(null, schName);
+      Expr fieldPred = null;
+      for (Decl d : schExpr.getZSchText().getZDeclList()) {
+        if (d instanceof VarDecl) {
+          VarDecl vardecl = (VarDecl) d;
+          ZNameList nameList = vardecl.getName();
+          for (Name name : nameList) {
+            addField(sig, print(name), visit(vardecl.getExpr()));
+          }
+        }
+        else if (d instanceof InclDecl) {
+          InclDecl incdecl = (InclDecl) d;
+          Expr sigfieldpred = processSigField((Sig) visit(incdecl.getExpr()), sig);
+          if (fieldPred != null) {
+            fieldPred = fieldPred.and(sigfieldpred);
+          }
+          else {
+            fieldPred = sigfieldpred;
+          }
+        }
+        else {
+          System.err.println(d.getClass() + " not yet implemented");
+          return null;
+        }
+      }
+      addSig(sig);
+      Expr pred =  visit(schExpr.getZSchText().getPred());
+      if (fieldPred != null) {
+        addSigPred(sig, fieldPred);
+      }
+
+      if (pred != null) {
+        addSigPred(sig, pred);
+      }
+      return null;
+    }
+    catch (Err e) {
+      throw new RuntimeException(e);
+    }
   }
 
+  public Expr visitSchExpr2(SchExpr2 schExpr2)
+  {
+    String schName = schemaName.get(schExpr2);
+    if (schName == null) {
+      System.err.println("SchExpr2s must have names");
+      return null;
+    }
+    try {
+      Sig sig = new PrimSig(null, schName);
+    Map<String, Expr> fields = new HashMap<String, Expr>();
+    Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
+    subexprs.offer((SchExpr2) schExpr2);
+
+    while (!subexprs.isEmpty()) {
+      SchExpr2 subexpr = subexprs.poll();
+      if (subexpr.getLeftExpr() instanceof RefExpr) {
+        if (!fields.containsKey(print(subexpr.getLeftExpr()))) {
+          Expr field = visit(subexpr.getLeftExpr());
+          fields.put(print(subexpr.getLeftExpr()), field);
+        }
+      }
+      else if (subexpr.getLeftExpr() instanceof SchExpr2) {
+        subexprs.offer((SchExpr2) subexpr.getLeftExpr());
+      }
+      if (subexpr.getRightExpr() instanceof RefExpr) {
+        if (!fields.containsKey(print(subexpr.getRightExpr()))) {
+          Expr field = visit(subexpr.getRightExpr());
+          fields.put(print(subexpr.getRightExpr()),field);
+        }
+      }
+      else if (subexpr.getRightExpr() instanceof SchExpr2) {
+        subexprs.offer((SchExpr2) subexpr.getRightExpr());
+      }
+    }
+    for (Entry<String, Expr> entry : fields.entrySet()) {
+      processSigField((Sig) entry.getValue(), sig);
+    }
+    addSig(sig);
+    addSigPred(sig, visit(schExpr2));
+    return null;
+    }
+    catch (Err e) {
+      throw new RuntimeException(e);
+    }
+  }
+  
   public Expr visitSetCompExpr(SetCompExpr setCompExpr)
   {
     System.err.println(setCompExpr.getClass() + " not yet implemented");
