@@ -26,7 +26,6 @@ import static net.sourceforge.czt.z.util.ZUtils.assertZBranchList;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -195,7 +194,6 @@ ProdTypeVisitor<Expr>,
 RefExprVisitor<Expr>,
 RuleVisitor<Expr>,
 SchExprVisitor<Expr>,
-SchExpr2Visitor<Expr>,
 SetCompExprVisitor<Expr>,
 SetExprVisitor<Expr>,
 TypeAnnVisitor<Expr>,
@@ -371,6 +369,9 @@ ZSectVisitor<Expr>
             }
           }
           schemaName.put(result, sigName);
+          if (result instanceof SchExpr2) {
+            return processSchExpr2((SchExpr2) result);
+          }
           return visit(result);
         }
         catch (CommandException e) {
@@ -692,6 +693,7 @@ ZSectVisitor<Expr>
   {
     Expr body = visit(powerType.getType());
     if (body == null) {
+      System.err.println(powerType.getType());
       System.err.println("body of power type must not be null");
       return null;
     }
@@ -798,52 +800,6 @@ ZSectVisitor<Expr>
       if (pred != null) {
         addSigPred(sig, pred);
       }
-      return null;
-    }
-    catch (Err e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  public Expr visitSchExpr2(SchExpr2 schExpr2)
-  {
-    String schName = schemaName.get(schExpr2);
-    if (schName == null) {
-      System.err.println("SchExpr2s must have names");
-      return null;
-    }
-    try {
-      Sig sig = new PrimSig(null, schName);
-      Map<String, Expr> fields = new HashMap<String, Expr>();
-      Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
-      subexprs.offer((SchExpr2) schExpr2);
-
-      while (!subexprs.isEmpty()) {
-        SchExpr2 subexpr = subexprs.poll();
-        if (subexpr.getLeftExpr() instanceof RefExpr) {
-          if (!fields.containsKey(print(subexpr.getLeftExpr()))) {
-            Expr field = visit(subexpr.getLeftExpr());
-            fields.put(print(subexpr.getLeftExpr()), field);
-          }
-        }
-        else if (subexpr.getLeftExpr() instanceof SchExpr2) {
-          subexprs.offer((SchExpr2) subexpr.getLeftExpr());
-        }
-        if (subexpr.getRightExpr() instanceof RefExpr) {
-          if (!fields.containsKey(print(subexpr.getRightExpr()))) {
-            Expr field = visit(subexpr.getRightExpr());
-            fields.put(print(subexpr.getRightExpr()),field);
-          }
-        }
-        else if (subexpr.getRightExpr() instanceof SchExpr2) {
-          subexprs.offer((SchExpr2) subexpr.getRightExpr());
-        }
-      }
-      for (Entry<String, Expr> entry : fields.entrySet()) {
-        processSigField((Sig) entry.getValue(), sig);
-      }
-      addSig(sig);
-      addSigPred(sig, visit(schExpr2));
       return null;
     }
     catch (Err e) {
@@ -1094,6 +1050,51 @@ ZSectVisitor<Expr>
       return Strategies.innermost(term, rewriter);
     }
     catch(Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+  
+  private Expr processSchExpr2 (SchExpr2 schExpr2) {
+    String schName = schemaName.get(schExpr2);
+    if (schName == null) {
+      System.err.println("SchExpr2s must have names");
+      return null;
+    }
+    try {
+      Sig sig = new PrimSig(null, schName);
+      Map<String, Expr> fields = new HashMap<String, Expr>();
+      Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
+      subexprs.offer((SchExpr2) schExpr2);
+
+      while (!subexprs.isEmpty()) {
+        SchExpr2 subexpr = subexprs.poll();
+        if (subexpr.getLeftExpr() instanceof RefExpr) {
+          if (!fields.containsKey(print(subexpr.getLeftExpr()))) {
+            Expr field = visit(subexpr.getLeftExpr());
+            fields.put(print(subexpr.getLeftExpr()), field);
+          }
+        }
+        else if (subexpr.getLeftExpr() instanceof SchExpr2) {
+          subexprs.offer((SchExpr2) subexpr.getLeftExpr());
+        }
+        if (subexpr.getRightExpr() instanceof RefExpr) {
+          if (!fields.containsKey(print(subexpr.getRightExpr()))) {
+            Expr field = visit(subexpr.getRightExpr());
+            fields.put(print(subexpr.getRightExpr()),field);
+          }
+        }
+        else if (subexpr.getRightExpr() instanceof SchExpr2) {
+          subexprs.offer((SchExpr2) subexpr.getRightExpr());
+        }
+      }
+      for (Entry<String, Expr> entry : fields.entrySet()) {
+        processSigField((Sig) entry.getValue(), sig);
+      }
+      addSig(sig);
+      addSigPred(sig, visit(schExpr2));
+      return null;
+    }
+    catch (Err e) {
       throw new RuntimeException(e);
     }
   }
