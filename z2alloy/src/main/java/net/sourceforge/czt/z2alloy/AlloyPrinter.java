@@ -115,24 +115,35 @@ public class AlloyPrinter extends VisitReturn
   public Object visit(ExprQuant x) throws Err
   {
     String ret = "";
-    ret += x.op;
+    if (x.op == ExprQuant.Op.COMPREHENSION) {
+      ret = "{";
+    }
+    else {
+      ret += x.op;
+    }
     for (ExprVar var : x.vars) {
       ret += " " + visit(var) + " : " + var.expr + ",";
     }
     ret = ret.substring(0, ret.length() - 1);
     ret += " | ";
     ret += visitThis(x.sub);
+    if (x.op == ExprQuant.Op.COMPREHENSION) {
+      ret += "}";
+    }
     return ret;
   }
 
   @Override
   public Object visit(ExprUnary x) throws Err
   {
-    String op = x.op.toString();
+    String op = x.op.toString() + " ";
     if (op.contains("of")){
       op = op.replace("of", "");
     }
-    return op + " " + visitThis(x.sub);
+    if (x.op == ExprUnary.Op.CAST2INT || x.op == ExprUnary.Op.CAST2SIGINT) {
+      op = "";
+    }
+    return op + visitThis(x.sub);
   }
 
   @Override

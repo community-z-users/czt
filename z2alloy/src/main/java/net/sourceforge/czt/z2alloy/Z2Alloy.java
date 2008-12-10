@@ -21,10 +21,12 @@ package net.sourceforge.czt.z2alloy;
 import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.NONE;
 import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.SEQIDX;
 import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.UNIV;
+import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.SIGINT;
 import static net.sourceforge.czt.z.util.ZUtils.assertZBranchList;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -86,10 +88,8 @@ import net.sourceforge.czt.z.ast.ProdType;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchExpr2;
-import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
-import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.Type2;
@@ -136,10 +136,8 @@ import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
 import net.sourceforge.czt.z.visitor.RefExprVisitor;
 import net.sourceforge.czt.z.visitor.SchExpr2Visitor;
 import net.sourceforge.czt.z.visitor.SchExprVisitor;
-import net.sourceforge.czt.z.visitor.SchemaTypeVisitor;
 import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
-import net.sourceforge.czt.z.visitor.SignatureVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
@@ -150,13 +148,16 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 import edu.mit.csail.sdg.alloy4.Err;
+import edu.mit.csail.sdg.alloy4.ErrorType;
 import edu.mit.csail.sdg.alloy4compiler.ast.Expr;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprBinary;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprConstant;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprQuant;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprUnary;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprVar;
 import edu.mit.csail.sdg.alloy4compiler.ast.Func;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
+import edu.mit.csail.sdg.alloy4compiler.ast.Type;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 
@@ -211,6 +212,7 @@ ZSectVisitor<Expr>
   private boolean unfolding_ = false;
 
   public Map<String, Sig> sigmap = new HashMap<String, Sig>();
+  public List<Sig> sigOrder = new ArrayList<Sig>();
   public Map<Sig, Func> sigpreds = new HashMap<Sig,Func>();
   public Map<Term, String> schemaName = new HashMap<Term, String>();
 
@@ -284,7 +286,27 @@ ZSectVisitor<Expr>
             throw new RuntimeException(e);
           }
         }
-        System.err.println(applExpr.getClass() + " not yet implemented napp");
+        if (binOp.equals(ZString.LEQ)) {
+          return left.lte(right);
+        }
+        if (binOp.equals(ZString.LESS)) {
+          return left.lt(right);
+        }
+        if (binOp.equals(ZString.GEQ)) {
+          return left.gte(right);
+        }
+        if (binOp.equals(ZString.GREATER)) {
+          return left.gt(right);
+        }
+        if (binOp.equals(ZString.IMP)) {
+          return left.implies(right);
+        }
+        if (binOp.equals("..")) {
+          ExprVar i = ExprVar.make(null, "i", SIGINT);
+          Expr pred = i.lte(left).and(i.gte(right));
+          return pred.comprehensionOver(i, new ExprVar[0]);
+        }
+        System.err.println(applExpr.getClass() + " not yet implemented");
         return null;
       }
     }
@@ -533,7 +555,7 @@ ZSectVisitor<Expr>
   {
     Expr type = sigmap.get(print(givenType.getName()));
     if (type == null){
-      System.err.println(print(givenType.getName()) + "not present");
+      type = Sig.SEQIDX;
     }
     return type;
   }
@@ -552,8 +574,13 @@ ZSectVisitor<Expr>
 
   public Expr visitImpliesPred(ImpliesPred impl)
   {
-    System.err.println(impl.getClass() + " not yet implemented");
-    return null;
+    Expr left = visit(impl.getLeftPred());
+    Expr right = visit(impl.getRightPred());
+    if (left == null || right == null) {
+      System.err.println("Left and right of impliespred must be non null");
+      return null;
+    }
+    return left.implies(right);
   }
 
   public Expr visitInclDecl(InclDecl inclDecl)
@@ -580,6 +607,7 @@ ZSectVisitor<Expr>
         System.err.println("Left and right of memPred must be non null");
         return null;
       }
+
       return left.equal(right);
     }
     if (memPred.getLeftExpr() instanceof TupleExpr &&
@@ -631,8 +659,7 @@ ZSectVisitor<Expr>
 
   public Expr visitNumExpr(NumExpr numexpr)
   {
-    System.err.println(numexpr.getClass() + " not yet implemented");
-    return null;
+    return ExprConstant.makeNUMBER(numexpr.getValue().intValue());
   }
 
   public Expr visitOrExpr(OrExpr orExpr)
@@ -694,6 +721,9 @@ ZSectVisitor<Expr>
         System.err.println("elements of ProdType must not be null");
         return null;
       }
+      else if (cont instanceof ExprUnary && ((ExprUnary) cont).op == ExprUnary.Op.SETOF) {
+        cont = ((ExprUnary) cont).sub;
+      }
       if (prod == null) {
         prod = cont;
       }
@@ -701,7 +731,6 @@ ZSectVisitor<Expr>
         prod = prod.product(cont);
       }
     }
-
     return prod;
   }
 
@@ -716,14 +745,6 @@ ZSectVisitor<Expr>
     if (sigmap.containsKey(print(refExpr.getName()))){
       return sigmap.get(print(refExpr.getName()));
     }
-//    if (print(refExpr.getName()).contains(".")){
-//      String name = print(refExpr.getName());
-//      String field = name.substring(0, name.indexOf('.'));
-//      String subfield = name.substring(name.indexOf('.') + 1);
-//      Expr fieldvar = ExprVar.make(null, field);
-//      Expr subfieldvar = ExprVar.make(null, subfield);
-//      return fieldvar.join(subfieldvar);
-//    }
     TypeAnn type = refExpr.getAnn(TypeAnn.class);
 
     return ExprVar.make(null, print(refExpr.getZName()), visit(type));
@@ -793,43 +814,43 @@ ZSectVisitor<Expr>
     }
     try {
       Sig sig = new PrimSig(null, schName);
-    Map<String, Expr> fields = new HashMap<String, Expr>();
-    Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
-    subexprs.offer((SchExpr2) schExpr2);
+      Map<String, Expr> fields = new HashMap<String, Expr>();
+      Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
+      subexprs.offer((SchExpr2) schExpr2);
 
-    while (!subexprs.isEmpty()) {
-      SchExpr2 subexpr = subexprs.poll();
-      if (subexpr.getLeftExpr() instanceof RefExpr) {
-        if (!fields.containsKey(print(subexpr.getLeftExpr()))) {
-          Expr field = visit(subexpr.getLeftExpr());
-          fields.put(print(subexpr.getLeftExpr()), field);
+      while (!subexprs.isEmpty()) {
+        SchExpr2 subexpr = subexprs.poll();
+        if (subexpr.getLeftExpr() instanceof RefExpr) {
+          if (!fields.containsKey(print(subexpr.getLeftExpr()))) {
+            Expr field = visit(subexpr.getLeftExpr());
+            fields.put(print(subexpr.getLeftExpr()), field);
+          }
+        }
+        else if (subexpr.getLeftExpr() instanceof SchExpr2) {
+          subexprs.offer((SchExpr2) subexpr.getLeftExpr());
+        }
+        if (subexpr.getRightExpr() instanceof RefExpr) {
+          if (!fields.containsKey(print(subexpr.getRightExpr()))) {
+            Expr field = visit(subexpr.getRightExpr());
+            fields.put(print(subexpr.getRightExpr()),field);
+          }
+        }
+        else if (subexpr.getRightExpr() instanceof SchExpr2) {
+          subexprs.offer((SchExpr2) subexpr.getRightExpr());
         }
       }
-      else if (subexpr.getLeftExpr() instanceof SchExpr2) {
-        subexprs.offer((SchExpr2) subexpr.getLeftExpr());
+      for (Entry<String, Expr> entry : fields.entrySet()) {
+        processSigField((Sig) entry.getValue(), sig);
       }
-      if (subexpr.getRightExpr() instanceof RefExpr) {
-        if (!fields.containsKey(print(subexpr.getRightExpr()))) {
-          Expr field = visit(subexpr.getRightExpr());
-          fields.put(print(subexpr.getRightExpr()),field);
-        }
-      }
-      else if (subexpr.getRightExpr() instanceof SchExpr2) {
-        subexprs.offer((SchExpr2) subexpr.getRightExpr());
-      }
-    }
-    for (Entry<String, Expr> entry : fields.entrySet()) {
-      processSigField((Sig) entry.getValue(), sig);
-    }
-    addSig(sig);
-    addSigPred(sig, visit(schExpr2));
-    return null;
+      addSig(sig);
+      addSigPred(sig, visit(schExpr2));
+      return null;
     }
     catch (Err e) {
       throw new RuntimeException(e);
     }
   }
-  
+
   public Expr visitSetCompExpr(SetCompExpr setCompExpr)
   {
     System.err.println(setCompExpr.getClass() + " not yet implemented");
@@ -849,8 +870,21 @@ ZSectVisitor<Expr>
       return visit(exprs.get(0));
     }
     else {
-      System.err.println(setExpr.getClass() + " not yet implemented");
-      return null;
+      Expr expr = null;
+      for (net.sourceforge.czt.z.ast.Expr e : exprs) {
+        Expr ve = visit(e);
+        if (ve == null) {
+          System.err.println("Elements of setexpr must not be null");
+          return null;
+        }
+        if (expr == null) {
+          expr = ve;
+        }
+        else {
+          expr = expr.plus(ve);
+        }
+      }
+      return expr;
     }
   }
 
@@ -996,6 +1030,8 @@ ZSectVisitor<Expr>
       }
     }
     catch (Err e) {
+      System.err.println("PRED: " + pred);
+      System.err.println("PRED TYPE: " + pred.type);
       throw new RuntimeException(e);
     }
   }
@@ -1064,6 +1100,7 @@ ZSectVisitor<Expr>
 
   private void addSig (Sig sig) {
     sigmap.put(sig.label, sig);
+    sigOrder.add(sig);
     List<ExprVar> vars = new ArrayList<ExprVar>();
     for (Sig.Field f : sig.getFields()) {
       vars.add(ExprVar.make(null, f.label, getFieldExpr(f)));
@@ -1105,7 +1142,7 @@ ZSectVisitor<Expr>
       String word = zName.getWord();
       word = word.replaceAll(ZString.DELTA, "Delta");
       word = word.replaceAll(ZString.XI, "Xi");
-      word = word.replaceAll("\u03A8", "Psi");
+      word = word.replaceAll("\u03A6", "Psi");
 
       if (names_.containsKey(zName.getId())) {
         return names_.get(zName.getId());

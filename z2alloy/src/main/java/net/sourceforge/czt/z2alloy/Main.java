@@ -89,14 +89,7 @@ public class Main
     System.out.println();
     AlloyPrinter p = new AlloyPrinter();
 
-    List<Sig> sigs = new ArrayList<Sig>(foo.sigmap.values());
-    Collections.sort(sigs, new Comparator<Sig>() {
-      public int compare(Sig s1, Sig s2)
-      {
-        return s1.label.compareTo(s2.label);
-      }
-    });
-    for (Sig e : sigs) {
+    for (Sig e : foo.sigOrder) {
       System.out.println(p.createSig(e, foo.sigpreds.get(e)) + "\n");
     }
   }
