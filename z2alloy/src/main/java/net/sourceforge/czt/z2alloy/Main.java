@@ -55,12 +55,29 @@ public class Main
     for (Handler h : logger.getHandlers()) {
       h.setLevel(Level.SEVERE);
     }
-    // Now read the spec 
-    if (args.length < 1) {
-      System.err.println("Args: spec.tex");
+
+    boolean unfolding = false;
+    String input = null;
+    for (int i = 0; i < args.length; i++) {
+      if ("-h".equals(args[i]) ||
+	  "-help".equals(args[i]) ||
+	  "--help".equals(args[i])) {
+	System.err.println(usage());
+	return;
+      }
+      if ("-u".equals(args[i]) ||
+	  "-unfolding".equals(args[i])) {
+	unfolding = true;
+      }
+      else {
+	input = args[i];
+      }
+    }
+    if (input == null) {
+      System.err.println(usage());
       System.exit(1);
     }
-    final String input = args[0];
+    // Now read the spec 
     File file = new File(input);
     FileSource source = new FileSource(input);
     SectionManager manager = new SectionManager("zpatt");
@@ -82,6 +99,7 @@ public class Main
     manager.get(new Key(sect.getName(), SectTypeEnvAnn.class)); // typecheck
 
     Z2Alloy foo = new Z2Alloy(manager);
+    foo.setUnfolding(unfolding);
     sect.accept(foo);
 
     System.out.println();
@@ -94,4 +112,11 @@ public class Main
     }
   }
 
+  /**
+   * TODO: needs updating!
+   */
+  public static String usage()
+  {
+    return "Args: spec.tex";
+  }
 }

@@ -225,6 +225,11 @@ ZSectVisitor<Expr>
     manager_ = manager;
   }
 
+  public void setUnfolding(boolean unfolding)
+  {
+    unfolding_ = unfolding;
+  }
+
   //==================== Visitor Methods ==================
 
   public Expr visitTerm(Term term)
