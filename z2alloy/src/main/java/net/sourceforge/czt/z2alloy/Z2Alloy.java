@@ -48,6 +48,7 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.AndExpr;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
@@ -359,7 +360,9 @@ ZSectVisitor<Expr>
             exprSource.setMarkup(Markup.LATEX);
             net.sourceforge.czt.z.ast.Expr toBeNormalized =
               ParseUtils.parseExpr(exprSource, section_, manager_);
-            result = (net.sourceforge.czt.z.ast.Expr) preprocess(toBeNormalized);
+            result = (net.sourceforge.czt.z.ast.Expr)
+	      preprocess(toBeNormalized);
+	    TypeCheckUtils.typecheck(result, manager_, false, section_);
           }
           if (result instanceof RefExpr) {
             PrimSig sig;
@@ -753,13 +756,12 @@ ZSectVisitor<Expr>
       return sigmap.get(print(refExpr.getName()));
     }
     TypeAnn type = refExpr.getAnn(TypeAnn.class);
-
     return ExprVar.make(null, print(refExpr.getZName()), visit(type));
   }
 
+  /** Ignore rules. */
   public Expr visitRule(Rule r)
   {
-    System.err.println(r.getClass() + " not yet implemented");
     return null;
   }
 
