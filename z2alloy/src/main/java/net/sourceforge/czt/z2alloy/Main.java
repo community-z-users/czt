@@ -35,12 +35,8 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
-import edu.mit.csail.sdg.alloy4compiler.ast.ExprConstant;
-import edu.mit.csail.sdg.alloy4compiler.ast.ExprVar;
 import edu.mit.csail.sdg.alloy4compiler.ast.Func;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
-import edu.mit.csail.sdg.alloy4compiler.ast.Sig.Field;
-import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 /** Translate a Z specification from ZML format into B format.
  *
@@ -109,6 +105,9 @@ public class Main
 
     for (Sig e : foo.sigOrder) {
       System.out.println(p.createSig(e, foo.sigpreds.get(e)) + "\n");
+    }
+    for (Func f : foo.functions_) {
+      System.out.println(f.toString() + f.getBody().toString());
     }
   }
 

@@ -71,6 +71,7 @@ import net.sourceforge.czt.z.ast.ImpliesExpr;
 import net.sourceforge.czt.z.ast.ImpliesPred;
 import net.sourceforge.czt.z.ast.InStroke;
 import net.sourceforge.czt.z.ast.InclDecl;
+import net.sourceforge.czt.z.ast.LambdaExpr;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.Name;
@@ -152,6 +153,7 @@ import edu.mit.csail.sdg.alloy4.ErrorType;
 import edu.mit.csail.sdg.alloy4compiler.ast.Expr;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprBinary;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprConstant;
+import edu.mit.csail.sdg.alloy4compiler.ast.ExprList;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprQuant;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprUnary;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprVar;
@@ -209,11 +211,13 @@ ZSectVisitor<Expr>
   private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private boolean unfolding_ = false;
+  private ExprVar[] vars_;
 
   public Map<String, Sig> sigmap = new HashMap<String, Sig>();
   public List<Sig> sigOrder = new ArrayList<Sig>();
   public Map<Sig, Func> sigpreds = new HashMap<Sig,Func>();
   public Map<Term, String> schemaName = new HashMap<Term, String>();
+  public List<Func> functions_ = new ArrayList<Func>();
 
   /**
    * A mapping from ZName ids to alloy names.
@@ -356,7 +360,7 @@ ZSectVisitor<Expr>
           if (unfolding_) {
             Source exprSource =
               new StringSource("normalize~" +
-                  cDecl.getName().accept(new PrintVisitor()));
+			       print(cDecl.getName()));
             exprSource.setMarkup(Markup.LATEX);
             net.sourceforge.czt.z.ast.Expr toBeNormalized =
               ParseUtils.parseExpr(exprSource, section_, manager_);
@@ -376,6 +380,27 @@ ZSectVisitor<Expr>
               throw new RuntimeException(e);
             }
           }
+	  else if (result instanceof LambdaExpr) {
+	    String name = print(cDecl.getName());
+	    LambdaExpr lambda = (LambdaExpr) result;
+	    List<ExprVar> vars = new ArrayList<ExprVar>();
+	    vars.add((ExprVar) visit(lambda.getZSchText().getZDeclList()));
+	    if (vars_ != null) {
+	      for (ExprVar exprVar : vars_) {
+		vars.add(exprVar);
+	      }
+	    }
+	    Expr body = visit(lambda.getExpr());
+	    try {
+	      Func func = new Func(null, name, vars, body);
+	      if (body != null) func.setBody(body);
+	      functions_.add(func);
+	    }
+	    catch (Err e) {
+	      throw new RuntimeException(e);
+	    }
+	    return null;
+	  }
           schemaName.put(result, sigName);
           if (result instanceof SchExpr2) {
             return processSchExpr2((SchExpr2) result);
@@ -408,19 +433,8 @@ ZSectVisitor<Expr>
 
   public Expr visitExists1Pred(Exists1Pred exists1Pred)
   {
-    List<ExprVar> vars = new ArrayList<ExprVar>();
-    for (Decl d : exists1Pred.getZSchText().getZDeclList()) {
-      Expr var = visit(d);
-      if (var == null) {
-        System.err.println("decl of ExistsPred must not be null");
-      }
-      if (!(var instanceof ExprVar)) {
-        System.err.println("decl of ExistsPred must be a exprvar");
-      }
-      vars.add((ExprVar) var);
-    }
-    ExprVar firstVar = vars.get(0);
-    vars.remove(0);
+    ExprVar firstVar = (ExprVar)
+      visit(exists1Pred.getZSchText().getZDeclList());
 
     Expr pred;
 
@@ -439,24 +453,12 @@ ZSectVisitor<Expr>
       pred = pred1.and(pred2);
     }
 
-    return pred.forOne(firstVar, vars.toArray(new ExprVar[0]));
+    return pred.forOne(firstVar, vars_);
   }
 
   public Expr visitExistsPred(ExistsPred existsPred)
   {
-    List<ExprVar> vars = new ArrayList<ExprVar>();
-    for (Decl d : existsPred.getZSchText().getZDeclList()) {
-      Expr var = visit(d);
-      if (var == null) {
-        System.err.println("decl of ExistsPred must not be null");
-      }
-      if (!(var instanceof ExprVar)) {
-        System.err.println("decl of ExistsPred must be a exprvar");
-      }
-      vars.add((ExprVar) var);
-    }
-    ExprVar firstVar = vars.get(0);
-    vars.remove(0);
+    ExprVar firstVar = (ExprVar) visit(existsPred.getZSchText().getZDeclList());
 
     Expr pred;
 
@@ -475,7 +477,7 @@ ZSectVisitor<Expr>
       pred = pred1.and(pred2);
     }
 
-    return pred.forSome(firstVar, vars.toArray(new ExprVar[0]));
+    return pred.forSome(firstVar, vars_);
   }
 
   public Expr visitExprPred(ExprPred exprPred)
@@ -486,19 +488,7 @@ ZSectVisitor<Expr>
 
   public Expr visitForallPred(ForallPred allPred)
   {
-    List<ExprVar> vars = new ArrayList<ExprVar>();
-    for (Decl d : allPred.getZSchText().getZDeclList()) {
-      Expr var = visit(d);
-      if (var == null) {
-        System.err.println("decl of allpred must not be null");
-      }
-      if (!(var instanceof ExprVar)) {
-        System.err.println("decl of allpred must be a exprvar");
-      }
-      vars.add((ExprVar) var);
-    }
-    ExprVar firstVar = vars.get(0);
-    vars.remove(0);
+    ExprVar firstVar = (ExprVar) visit(allPred.getZSchText().getZDeclList());
 
     Expr pred;
 
@@ -517,7 +507,7 @@ ZSectVisitor<Expr>
       pred = pred1.implies(pred2);
     }
 
-    return pred.forAll(firstVar, vars.toArray(new ExprVar[0]));
+    return pred.forAll(firstVar, vars_);
   }
 
   public Expr visitFreePara(FreePara para)
@@ -869,8 +859,16 @@ ZSectVisitor<Expr>
 
   public Expr visitZDeclList(ZDeclList zDeclList)
   {
-    System.err.println(zDeclList.getClass() + " not yet implemented");
-    return null;
+    Iterator<Decl> iter = zDeclList.iterator();
+    Expr result = visit(iter.next());
+    if (iter.hasNext()) {
+      List<ExprVar> list = new ArrayList<ExprVar>();
+      while (iter.hasNext()) {
+	list.add((ExprVar) visit(iter.next()));
+      }
+      vars_ = list.toArray(new ExprVar[0]);
+    }
+    return result;
   }
 
   public Expr visitZFreetypeList(ZFreetypeList list)
@@ -1187,5 +1185,4 @@ ZSectVisitor<Expr>
       return refExpr.getName().accept(this);
     }
   }
-
 }
