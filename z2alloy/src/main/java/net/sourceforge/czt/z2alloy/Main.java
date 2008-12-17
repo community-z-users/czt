@@ -107,7 +107,7 @@ public class Main
       System.out.println(p.createSig(e, foo.sigpreds.get(e)) + "\n");
     }
     for (Func f : foo.functions_) {
-      System.out.println(f.toString() + f.getBody().toString());
+      System.out.println(p.print(f) + "\n");
     }
   }
 

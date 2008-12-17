@@ -1,7 +1,9 @@
 package net.sourceforge.czt.z2alloy;
 
+import java.util.Iterator;
 import java.util.List;
 
+import edu.mit.csail.sdg.alloy4.ConstList;
 import edu.mit.csail.sdg.alloy4.Err;
 import edu.mit.csail.sdg.alloy4compiler.ast.Expr;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprBinary;
@@ -21,6 +23,19 @@ import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 public class AlloyPrinter extends VisitReturn
 {
+  public String print(Func f) throws Err
+  {
+    StringBuffer result = new StringBuffer();
+    result.append(f.toString());
+    result.append("[");
+    result.append(print(f.params));
+    result.append("]: ");
+    result.append(visitThis(f.returnDecl));
+    result.append(" {");
+    result.append(visitThis(f.getBody()));
+    result.append("}");
+    return result.toString();
+  }
   
   public String createSig (Sig sig, Func pred) throws Err {
     String ret = "";
@@ -47,13 +62,7 @@ public class AlloyPrinter extends VisitReturn
     }
     ret += "]}";
     ret += "\npred " + pred.label + " (";
-    for (ExprVar exprVar : pred.params) {
-      ret += exprVar.label + " : " + exprVar.type + ", ";
-    }
-    // remove last , 
-    if (!pred.params.isEmpty()) {
-      ret = ret.substring(0, ret.length() - 2);
-    }
+    ret += print(pred.params);
     ret += ") {";
     if (pred.getBody() != ExprConstant.FALSE) {
       ret += "\n\t";
@@ -65,6 +74,17 @@ public class AlloyPrinter extends VisitReturn
     ret += "\nsome_" + sig.label + " : run { some " + sig.label + " }";
 
     return ret;
+  }
+
+  public String print(ConstList<ExprVar> list) throws Err
+  {
+    StringBuffer result = new StringBuffer(" ");
+    for (Iterator<ExprVar> iter = list.iterator(); iter.hasNext();) {
+      ExprVar var = iter.next();
+      result.append(var.label + ": " + var.expr);
+      if (iter.hasNext()) result.append(", ");
+    }
+    return result.toString();
   }
 
   @Override
@@ -121,10 +141,7 @@ public class AlloyPrinter extends VisitReturn
     else {
       ret += x.op;
     }
-    for (ExprVar var : x.vars) {
-      ret += " " + visit(var) + " : " + var.expr + ",";
-    }
-    ret = ret.substring(0, ret.length() - 1);
+    ret += print(x.vars);
     ret += " | ";
     ret += visitThis(x.sub);
     if (x.op == ExprQuant.Op.COMPREHENSION) {

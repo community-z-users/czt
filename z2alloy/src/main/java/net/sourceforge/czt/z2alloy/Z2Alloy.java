@@ -392,7 +392,9 @@ ZSectVisitor<Expr>
 	    }
 	    Expr body = visit(lambda.getExpr());
 	    try {
-	      Func func = new Func(null, name, vars, body);
+	      TypeAnn type = lambda.getExpr().getAnn(TypeAnn.class);
+	      Expr returnDecl = visit(type);
+	      Func func = new Func(null, name, vars, returnDecl);
 	      if (body != null) func.setBody(body);
 	      functions_.add(func);
 	    }
@@ -806,8 +808,10 @@ ZSectVisitor<Expr>
 
   public Expr visitSetCompExpr(SetCompExpr setCompExpr)
   {
-    System.err.println(setCompExpr.getClass() + " not yet implemented");
-    return null;
+    ExprVar firstVar = (ExprVar)
+      visit(setCompExpr.getZSchText().getZDeclList());
+    Expr pred = visit(setCompExpr.getZSchText().getPred());
+    return pred.comprehensionOver(firstVar, vars_);
   }
 
   public Expr visitSetExpr(SetExpr setExpr)
