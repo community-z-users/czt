@@ -1,0 +1,31 @@
+\begin{zsection}
+  \SECTION st \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+ A ::= A1 | A2
+\end{zed}
+
+\begin{schema}{ASet}
+ aset : \power A
+\end{schema}
+
+
+\begin{schema}{B}
+ ASet
+\where
+ \forall a : aset @ a = A1
+\end{schema}
+
+\begin{schema}{C}
+ ASet
+\where
+ \exists a : aset @ a = A1
+\end{schema}
+
+
+\begin{schema}{D}
+ ASet
+\where
+ \exists_1 a : aset @ a = A1
+\end{schema}

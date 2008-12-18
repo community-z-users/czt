@@ -20,9 +20,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z2alloy;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -35,6 +32,7 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
+import edu.mit.csail.sdg.alloy4.Err;
 import edu.mit.csail.sdg.alloy4compiler.ast.Func;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
 
@@ -56,25 +54,49 @@ public class Main
     String input = null;
     for (int i = 0; i < args.length; i++) {
       if ("-h".equals(args[i]) ||
-	  "-help".equals(args[i]) ||
-	  "--help".equals(args[i])) {
-	System.err.println(usage());
-	return;
+          "-help".equals(args[i]) ||
+          "--help".equals(args[i])) {
+        System.err.println(usage());
+        return;
       }
       if ("-u".equals(args[i]) ||
-	  "-unfolding".equals(args[i])) {
-	unfolding = true;
+          "-unfolding".equals(args[i])) {
+        unfolding = true;
       }
       else {
-	input = args[i];
+        input = args[i];
       }
     }
     if (input == null) {
       System.err.println(usage());
       System.exit(1);
     }
-    // Now read the spec 
-    File file = new File(input);
+
+    Z2Alloy foo = translate(new File(input), unfolding);
+    System.out.println(print(foo));
+
+  }
+
+  public static String print (Z2Alloy model) {
+//    String ret = "\nopen functions\n";
+    String ret = "";
+    AlloyPrinter p = new AlloyPrinter();
+
+    try {
+      for (Sig e : model.sigOrder_) {
+        ret += p.visitSig(e, model.sigfacts_.get(e), model.sigpreds_.get(e)) + "\n\n";
+      }
+      for (Func f : model.functions_.values()) {
+        ret += p.print(f) + "\n\n";
+      }
+      return ret;
+    }
+    catch (Err e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static Z2Alloy translate (File input, boolean unfolding) throws Exception {
     FileSource source = new FileSource(input);
     SectionManager manager = new SectionManager("zpatt");
     String name = "spec";
@@ -97,18 +119,8 @@ public class Main
     Z2Alloy foo = new Z2Alloy(manager);
     foo.setUnfolding(unfolding);
     sect.accept(foo);
+    return foo;
 
-    System.out.println();
-    System.out.println("open functions");
-    System.out.println();
-    AlloyPrinter p = new AlloyPrinter();
-
-    for (Sig e : foo.sigOrder) {
-      System.out.println(p.createSig(e, foo.sigpreds.get(e)) + "\n");
-    }
-    for (Func f : foo.functions_) {
-      System.out.println(p.print(f) + "\n");
-    }
   }
 
   /**

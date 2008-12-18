@@ -20,8 +20,8 @@ package net.sourceforge.czt.z2alloy;
 
 import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.NONE;
 import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.SEQIDX;
-import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.UNIV;
 import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.SIGINT;
+import static edu.mit.csail.sdg.alloy4compiler.ast.Sig.UNIV;
 import static net.sourceforge.czt.z.util.ZUtils.assertZBranchList;
 
 import java.io.IOException;
@@ -135,7 +135,6 @@ import net.sourceforge.czt.z.visitor.PowerTypeVisitor;
 import net.sourceforge.czt.z.visitor.ProdExprVisitor;
 import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
 import net.sourceforge.czt.z.visitor.RefExprVisitor;
-import net.sourceforge.czt.z.visitor.SchExpr2Visitor;
 import net.sourceforge.czt.z.visitor.SchExprVisitor;
 import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
@@ -149,17 +148,14 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 import edu.mit.csail.sdg.alloy4.Err;
-import edu.mit.csail.sdg.alloy4.ErrorType;
 import edu.mit.csail.sdg.alloy4compiler.ast.Expr;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprBinary;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprConstant;
-import edu.mit.csail.sdg.alloy4compiler.ast.ExprList;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprQuant;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprUnary;
 import edu.mit.csail.sdg.alloy4compiler.ast.ExprVar;
 import edu.mit.csail.sdg.alloy4compiler.ast.Func;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
-import edu.mit.csail.sdg.alloy4compiler.ast.Type;
 import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 
@@ -213,11 +209,14 @@ ZSectVisitor<Expr>
   private boolean unfolding_ = false;
   private ExprVar[] vars_;
 
-  public Map<String, Sig> sigmap = new HashMap<String, Sig>();
-  public List<Sig> sigOrder = new ArrayList<Sig>();
-  public Map<Sig, Func> sigpreds = new HashMap<Sig,Func>();
-  public Map<Term, String> schemaName = new HashMap<Term, String>();
-  public List<Func> functions_ = new ArrayList<Func>();
+  public Map<String, Sig> sigmap_ = new HashMap<String, Sig>();
+  public List<Sig> sigOrder_ = new ArrayList<Sig>();
+  public Map<Sig, Func> sigpreds_ = new HashMap<Sig,Func>();
+  public Map<Sig, Expr> sigfacts_ = new HashMap<Sig, Expr>();
+  public Map<Term, String> schemaName_ = new HashMap<Term, String>();
+  public Map<String, Func> functions_ = new HashMap<String, Func>();
+  
+ // private Map<String, Expr> paramTypes_ = new HashMap<String, Expr>();
 
   /**
    * A mapping from ZName ids to alloy names.
@@ -283,11 +282,22 @@ ZSectVisitor<Expr>
           return left.product(right);
         }
         if (binOp.equals(ZString.NDRES)) {
-          List<ExprVar> vars = new ArrayList<ExprVar>();
-          vars.add(ExprVar.make(null, "ex", UNIV.setOf()));
-          vars.add(ExprVar.make(null, "r", UNIV.product(UNIV)));
+          if (functions_.containsKey("ndres")) return functions_.get("ndres").call(left, right);
           try {
+            List<ExprVar> vars = new ArrayList<ExprVar>();
+            ExprVar r = ExprVar.make(null, "r", UNIV.product(UNIV));
+            vars.add(r);
+            Func dom = new Func(null, "dom", vars, UNIV.setOf());
+
+            ExprVar ex = ExprVar.make(null, "ex", UNIV.setOf());
+            r = ExprVar.make(null, "r", UNIV.product(UNIV));
+            vars.clear();
+            vars.add(ex);
+            vars.add(r);
             Func ndres = new Func(null, "ndres", vars, UNIV.product(UNIV));
+            dom.setBody(r.join(UNIV));
+            ndres.setBody((dom.call(r)).minus(ex).domain(r));
+            functions_.put(ndres.label, ndres);
             return ndres.call(left, right);
           }
           catch (Err e) {
@@ -311,7 +321,7 @@ ZSectVisitor<Expr>
         }
         if (binOp.equals("..")) {
           ExprVar i = ExprVar.make(null, "i", SIGINT);
-          Expr pred = i.lte(left).and(i.gte(right));
+          Expr pred = i.gte(left).and(i.lte(right));
           return pred.comprehensionOver(i, new ExprVar[0]);
         }
         System.err.println(applExpr.getClass() + " not yet implemented");
@@ -322,11 +332,15 @@ ZSectVisitor<Expr>
       if (applExpr.getLeftExpr() instanceof RefExpr) {
         RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
         if (print(refExpr.getName()).equals("dom")) {
+          Expr body = visit(applExpr.getRightExpr());
+          if (functions_.containsKey("dom")) return functions_.get("dom").call(body);
           List<ExprVar> vars = new ArrayList<ExprVar>();
-          vars.add(ExprVar.make(null, "r", UNIV.product(UNIV)));
+          ExprVar r = ExprVar.make(null, "r", UNIV.product(UNIV));
+          vars.add(r);
           try {
             Func dom = new Func(null, "dom", vars, UNIV.setOf());
-            Expr body = visit(applExpr.getRightExpr());
+            dom.setBody(r.join(UNIV));
+            functions_.put(dom.label, dom);
             return dom.call(body);
           }
           catch (Err e) {
@@ -360,13 +374,13 @@ ZSectVisitor<Expr>
           if (unfolding_) {
             Source exprSource =
               new StringSource("normalize~" +
-			       print(cDecl.getName()));
+                  print(cDecl.getName()));
             exprSource.setMarkup(Markup.LATEX);
             net.sourceforge.czt.z.ast.Expr toBeNormalized =
               ParseUtils.parseExpr(exprSource, section_, manager_);
             result = (net.sourceforge.czt.z.ast.Expr)
-	      preprocess(toBeNormalized);
-	    TypeCheckUtils.typecheck(result, manager_, false, section_);
+            preprocess(toBeNormalized);
+            TypeCheckUtils.typecheck(result, manager_, false, section_);
           }
           if (result instanceof RefExpr) {
             PrimSig sig;
@@ -382,6 +396,7 @@ ZSectVisitor<Expr>
           }
 	  else if (result instanceof LambdaExpr) {
 	    String name = print(cDecl.getName());
+            if (functions_.containsKey(name)) return null;
 	    LambdaExpr lambda = (LambdaExpr) result;
 	    List<ExprVar> vars = new ArrayList<ExprVar>();
 	    vars.add((ExprVar) visit(lambda.getZSchText().getZDeclList()));
@@ -396,14 +411,14 @@ ZSectVisitor<Expr>
 	      Expr returnDecl = visit(type);
 	      Func func = new Func(null, name, vars, returnDecl);
 	      if (body != null) func.setBody(body);
-	      functions_.add(func);
+	      functions_.put(func.label, func);
 	    }
 	    catch (Err e) {
 	      throw new RuntimeException(e);
 	    }
 	    return null;
 	  }
-          schemaName.put(result, sigName);
+          schemaName_.put(result, sigName);
           if (result instanceof SchExpr2) {
             return processSchExpr2((SchExpr2) result);
           }
@@ -436,7 +451,7 @@ ZSectVisitor<Expr>
   public Expr visitExists1Pred(Exists1Pred exists1Pred)
   {
     ExprVar firstVar = (ExprVar)
-      visit(exists1Pred.getZSchText().getZDeclList());
+    visit(exists1Pred.getZSchText().getZDeclList());
 
     Expr pred;
 
@@ -478,6 +493,14 @@ ZSectVisitor<Expr>
     else {
       pred = pred1.and(pred2);
     }
+    
+    if (firstVar == null) {
+      System.err.println("firstVar of ExistsPred must not be null");
+      return null;
+    }
+    if (vars_ == null) {
+      vars_ = new ExprVar[0];
+    }
 
     return pred.forSome(firstVar, vars_);
   }
@@ -507,6 +530,12 @@ ZSectVisitor<Expr>
     }
     else {
       pred = pred1.implies(pred2);
+    }
+    if (firstVar == null) {
+      System.err.println("fistVar of allpred must not be null");
+    }
+    if (vars_ == null) {
+      vars_ = new ExprVar[0];
     }
 
     return pred.forAll(firstVar, vars_);
@@ -554,7 +583,7 @@ ZSectVisitor<Expr>
 
   public Expr visitGivenType(GivenType givenType)
   {
-    Expr type = sigmap.get(print(givenType.getName()));
+    Expr type = sigmap_.get(print(givenType.getName()));
     if (type == null){
       type = Sig.SEQIDX;
     }
@@ -744,11 +773,11 @@ ZSectVisitor<Expr>
     if (isPostfixOperator(refExpr.getZName(), "seq")) { // seq
       return SEQIDX.any_arrow_lone(visit(refExpr.getZExprList().get(0)));
     }
-    if (sigmap.containsKey(print(refExpr.getName()))){
-      return sigmap.get(print(refExpr.getName()));
+    if (sigmap_.containsKey(print(refExpr.getName()))){
+      return sigmap_.get(print(refExpr.getName()));
     }
-    TypeAnn type = refExpr.getAnn(TypeAnn.class);
-    return ExprVar.make(null, print(refExpr.getZName()), visit(type));
+
+    return ExprVar.make(null, print(refExpr.getZName()), visit(refExpr.getAnn(TypeAnn.class)));
   }
 
   /** Ignore rules. */
@@ -760,7 +789,7 @@ ZSectVisitor<Expr>
   public Expr visitSchExpr(SchExpr schExpr)
   {
     try {
-      String schName = schemaName.get(schExpr);
+      String schName = schemaName_.get(schExpr);
       if (schName == null) {
         System.err.println("SchExprs must have names");
         return null;
@@ -868,7 +897,7 @@ ZSectVisitor<Expr>
     if (iter.hasNext()) {
       List<ExprVar> list = new ArrayList<ExprVar>();
       while (iter.hasNext()) {
-	list.add((ExprVar) visit(iter.next()));
+        list.add((ExprVar) visit(iter.next()));
       }
       vars_ = list.toArray(new ExprVar[0]);
     }
@@ -915,7 +944,7 @@ ZSectVisitor<Expr>
     Expr right = visit(schExpr2.getRightExpr());
     if (left instanceof PrimSig) {
       PrimSig leftsig = (PrimSig) left;
-      Func leftPred = sigpreds.get(left);
+      Func leftPred = sigpreds_.get(left);
       List<Expr> content = new ArrayList<Expr>();
       for (Sig.Field f : leftsig.getFields()) {
         Expr fieldExpr= getFieldExpr(f);
@@ -931,7 +960,7 @@ ZSectVisitor<Expr>
     }
     if (right instanceof PrimSig) {
       PrimSig rightsig = (PrimSig) right;
-      Func rightPred = sigpreds.get(right);
+      Func rightPred = sigpreds_.get(right);
       List<Expr> content = new ArrayList<Expr>();
       for (Sig.Field f : rightsig.getFields()) {
         Expr fieldExpr= getFieldExpr(f);
@@ -977,17 +1006,17 @@ ZSectVisitor<Expr>
       Sig.Field field = sigfieldnames.get(subfield.label);
       args.add(ExprVar.make(null, field.label, getFieldExpr(field)));
     }
-    return sigpreds.get(sigField).call(args.toArray(new Expr[0]));
+    return sigpreds_.get(sigField).call(args.toArray(new Expr[0]));
   }
 
   private void addSigPred (Sig sig, Expr pred) {
-    Func existingPred = sigpreds.get(sig);
+    Func existingPred = sigpreds_.get(sig);
     if (existingPred == null) {
       System.err.println("No pred for " + sig + " so " + pred + " cannot be added");
       return;
     }
     try {
-      if (existingPred.getBody() == ExprConstant.FALSE) {
+      if (existingPred.getBody() == ExprConstant.TRUE) {
         existingPred.setBody(pred);
       }
       else {
@@ -995,8 +1024,6 @@ ZSectVisitor<Expr>
       }
     }
     catch (Err e) {
-      System.err.println("PRED: " + pred);
-      System.err.println("PRED TYPE: " + pred.type);
       throw new RuntimeException(e);
     }
   }
@@ -1062,9 +1089,9 @@ ZSectVisitor<Expr>
       throw new RuntimeException(e);
     }
   }
-  
+
   private Expr processSchExpr2 (SchExpr2 schExpr2) {
-    String schName = schemaName.get(schExpr2);
+    String schName = schemaName_.get(schExpr2);
     if (schName == null) {
       System.err.println("SchExpr2s must have names");
       return null;
@@ -1109,16 +1136,19 @@ ZSectVisitor<Expr>
   }
 
   private void addSig (Sig sig) {
-    sigmap.put(sig.label, sig);
-    sigOrder.add(sig);
+    sigmap_.put(sig.label, sig);
+    sigOrder_.add(sig);
     List<ExprVar> vars = new ArrayList<ExprVar>();
     for (Sig.Field f : sig.getFields()) {
       vars.add(ExprVar.make(null, f.label, getFieldExpr(f)));
     }
-    Func f = null;
     try {
-      f = new Func(null, "pred_" + sig.label, vars , null);
-      sigpreds.put(sig, f);
+      Func f = new Func(null, "pred_" + sig.label, vars , null);
+      f.setBody(ExprConstant.TRUE);
+      sigpreds_.put(sig, f);
+      Expr[] fields = new Expr[sig.getFields().size()];
+      for (int i = 0; i < sig.getFields().size(); i++) fields[i] = sig.getFields().get(i);
+      sigfacts_.put(sig, f.call(fields));
     }
     catch (Err e) {
       throw new RuntimeException(e);
@@ -1131,9 +1161,7 @@ ZSectVisitor<Expr>
     // getting it out is yucky - not sure how to get the end bit neatly
     // also not sure if it ever has a different structure
 
-    ExprQuant q = (ExprQuant) field.boundingFormula;
-    ExprBinary bin = (ExprBinary) q.sub;
-    return bin.right;
+    return ((ExprBinary) ((ExprQuant) field.boundingFormula).sub).right;
   }
 
   private void debug(Term t)

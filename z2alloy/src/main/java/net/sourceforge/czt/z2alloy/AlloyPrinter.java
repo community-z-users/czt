@@ -23,21 +23,7 @@ import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 public class AlloyPrinter extends VisitReturn
 {
-  public String print(Func f) throws Err
-  {
-    StringBuffer result = new StringBuffer();
-    result.append(f.toString());
-    result.append("[");
-    result.append(print(f.params));
-    result.append("]: ");
-    result.append(visitThis(f.returnDecl));
-    result.append(" {");
-    result.append(visitThis(f.getBody()));
-    result.append("}");
-    return result.toString();
-  }
-  
-  public String createSig (Sig sig, Func pred) throws Err {
+  public Object visitSig (Sig sig, Expr fact, Func pred) throws Err {
     String ret = "";
     if (sig.isLone != null) ret += "lone ";
     if (sig.isOne != null) ret += "one ";
@@ -52,36 +38,43 @@ public class AlloyPrinter extends VisitReturn
     for (Field f : sig.getFields()) {
       ret += "\t" + f.label + ": " + visitThis(Z2Alloy.getFieldExpr(f)) + ",\n";
     }
-    ret += "}{" + pred.label + "[";
-    for (Sig.Field f : sig.getFields()) {
-      ret += f.label + ", ";
-    }
-    // remove last , 
-    if (!sig.getFields().isEmpty()) {
-      ret = ret.substring(0, ret.length() - 2);
-    }
-    ret += "]}";
-    ret += "\npred " + pred.label + " (";
-    ret += print(pred.params);
-    ret += ") {";
-    if (pred.getBody() != ExprConstant.FALSE) {
-      ret += "\n\t";
-      ret += visitThis(pred.getBody());
-      ret += "\n";
-    }
+    ret += "}{";
+    ret += visitThis(fact);
     ret += "}";
+    ret += "\n";
+    ret += print(pred);
 
     ret += "\nsome_" + sig.label + " : run { some " + sig.label + " }";
 
     return ret;
   }
 
+  public String print(Func f) throws Err
+  {
+    StringBuffer result = new StringBuffer();
+    result.append(f.toString());
+    result.append("[");
+    result.append(print(f.params));
+    result.append("]");
+    if (!f.isPred) {
+      result.append(" : ");      
+      result.append(visitThis(f.returnDecl));
+    }
+    result.append(" {");
+    if (f.getBody() != ExprConstant.TRUE) {
+      result.append("\n" + visitThis(f.getBody()) + "\n");
+    }
+    result.append("}");
+    return result.toString();
+  }
+
+
   public String print(ConstList<ExprVar> list) throws Err
   {
     StringBuffer result = new StringBuffer(" ");
     for (Iterator<ExprVar> iter = list.iterator(); iter.hasNext();) {
       ExprVar var = iter.next();
-      result.append(var.label + ": " + var.expr);
+      result.append(var.label + ": " + visitThis(var.expr));
       if (iter.hasNext()) result.append(", ");
     }
     return result.toString();
@@ -110,7 +103,17 @@ public class AlloyPrinter extends VisitReturn
   @Override
   public Object visit(ExprCall x) throws Err
   {
-    return x.toString();
+    String ret = x.fun.label;
+    ret += "[";
+    for (int i = 0; i < x.args.size(); i++) {
+      ret += visitThis(x.args.get(i));
+      if (i < x.args.size() -1) {
+        ret += ", ";
+      }
+    }
+
+    ret += "]";
+    return ret;
   }
 
   @Override
@@ -135,17 +138,14 @@ public class AlloyPrinter extends VisitReturn
   public Object visit(ExprQuant x) throws Err
   {
     String ret = "";
-    if (x.op == ExprQuant.Op.COMPREHENSION) {
-      ret = "{";
-    }
-    else {
+    if (x.op != ExprQuant.Op.COMPREHENSION) {
       ret += x.op;
     }
     ret += print(x.vars);
     ret += " | ";
     ret += visitThis(x.sub);
     if (x.op == ExprQuant.Op.COMPREHENSION) {
-      ret += "}";
+      ret = "{" + ret + "}";
     }
     return ret;
   }
