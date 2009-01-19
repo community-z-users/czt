@@ -114,6 +114,7 @@ public class ParaChecker
     List<NameTypePair> pairs = factory().list();
 
     //enter a new scope for adding the left side of each free type
+    typeEnv().enterScope();
     pending().enterScope();
 
     //for each free type in this paragraph, first add the left side
@@ -143,6 +144,7 @@ public class ParaChecker
 
     //exit the scope
     pending().exitScope();
+    typeEnv().exitScope();
 
     //create the signature for this paragraph and add it as
     //an annotation
