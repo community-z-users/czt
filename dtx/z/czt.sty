@@ -56,17 +56,17 @@
 \newif\if@cntbysection@ \@cntbysection@false
 
 % declare what each option actually do - colour=synonym(color)
-\DeclareOption{lucida}{\@lucida@true}
-\DeclareOption{color}{\@color@true}
-\DeclareOption{colour}{\@color@true}
-\DeclareOption{mathit}{\@mathit@true \@mathrm@false}
-\DeclareOption{mathrm}{\@mathit@false \@mathrm@true}
-\DeclareOption{tkkeyword}{\@tkkeyword@true}
+\DeclareOption{lucida}{\PackageInfo{czt}{'lucidda' option chosen} \@lucida@true}
+\DeclareOption{color}{\PackageInfo{czt}{'color' option chosen} \@color@true}
+\DeclareOption{colour}{\PackageInfo{czt}{'color' option chosen} \@color@true}
+\DeclareOption{mathit}{\PackageInfo{czt}{'mathit' option chosen} \@mathit@true \@mathrm@false}
+\DeclareOption{mathrm}{\PackageInfo{czt}{'mathrm' option chosen} \@mathit@false \@mathrm@true}
+\DeclareOption{tkkeyword}{\PackageInfo{czt}{'tkkeyword' option chosen} \@tkkeyword@true}
 
 % way to handle paragraph counting
- \DeclareOption{cntglobally}{\@cntglobally@true  \@cntbychapter@false \@cntbysection@false}
-\DeclareOption{cntbychapter}{\@cntglobally@false \@cntbychapter@true  \@cntbysection@false}
-\DeclareOption{cntbysection}{\@cntglobally@false \@cntbychapter@false \@cntbysection@true}
+\DeclareOption{cntglobally}{\PackageInfo{czt}{'cntglobally' option chosen} \@cntglobally@true  \@cntbychapter@false \@cntbysection@false}
+\DeclareOption{cntbychapter}{\PackageInfo{czt}{'cntbychapter' option chosen} \@cntglobally@false \@cntbychapter@true  \@cntbysection@false}
+\DeclareOption{cntbysection}{\PackageInfo{czt}{'cntbysection' option chosen} \@cntglobally@false \@cntbychapter@false \@cntbysection@true}
 
 % default option as using math italics for mathcode names.
 \ExecuteOptions{mathit,cntglobally}
@@ -273,7 +273,7 @@
     %                       \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{9}$\hfil}}}
     \def \zsym@typecolon  {\raise 0.66ex\hbox{\oalign{\hfil$\scriptscriptstyle%
                            \mathrm{o}$\hfil\cr\hfil$\scriptscriptstyle\mathrm{o}$\hfil}}}%
-    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%    
+    \DeclareMathSymbol{\zsym@comp}{\mathbin}{stmry}{"23}%
 
     % Predicate and propositional Logic operators - \mathrel please.
     % Both oz.sty and zed.sty \implies and \iff were not \mathstrut.

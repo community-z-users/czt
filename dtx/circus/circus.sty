@@ -62,7 +62,7 @@
 \DeclareOption{cntbysection}{\PassOptionsToPackage{cntbysection}{czt}}
 
 % New options from this package
-\DeclareOption{ctkkeyword}{\@ctkkeyword@true}
+\DeclareOption{ctkkeyword}{\PackageInfo{circus}{'ctkkeyword' option chosen} \@ctkkeyword@true}
 
 % default option as using math italics for mathcode names.
 \ExecuteOptions{mathit,colour,cntglobally}
@@ -859,12 +859,11 @@
 \def \tick   {\zordop{\csym@tick}}
 
 % Special Circus tool controlling commands
-\newcommand{\circblockbegin}{\begin{block}}
-\newcommand{\circblockend}{\end{block}}
+\newcommand{\circblockbegin}{\begin{zedblock}}
+\newcommand{\circblockend}{\end{zedblock}}
 \newcommand{\circtoolson}{\ifTypesetCircusToolsCmds \hbox{[\textsl{\textbf{Circus tools on}}]} \else \relax \fi}
 \newcommand{\circtoolsoff}{\ifTypesetCircusToolsCmds \hbox{[\textsl{\textbf{Circus tools off}}]} \else \relax \fi}
 \newcommand{\circnote}[1]{\ifTypesetCircusToolsCmds \ensuremath{\t2}\hbox{\small \textsf{#1}}\ensuremath{\also} \else \relax \fi}
-
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
