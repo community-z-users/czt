@@ -771,18 +771,17 @@ ui/src/main/resources/net/sourceforge/czt/ui/czt_about.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
 z2alloy/pom.xml -text
-z2alloy/simple.tex -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/AlloyPrinter.java -text
 z2alloy/src/test/java/net/sourceforge/czt/z2alloy/test/AlloyEquality.java -text
 z2alloy/src/test/java/net/sourceforge/czt/z2alloy/test/Z2AlloyTest.java -text
-z2alloy/src/test/resources/AB.als -text
 z2alloy/src/test/resources/AB.tex -text
-z2alloy/src/test/resources/box_office.als -text
+z2alloy/src/test/resources/AB_fold.als -text
 z2alloy/src/test/resources/box_office.tex -text
-z2alloy/src/test/resources/quant.als -text
+z2alloy/src/test/resources/box_office_fold.als -text
 z2alloy/src/test/resources/quant.tex -text
-z2alloy/src/test/resources/st.als -text
+z2alloy/src/test/resources/quant_fold.als -text
 z2alloy/src/test/resources/st.tex -text
+z2alloy/src/test/resources/st_fold.als -text
 zlive/doc/2004goals.ppt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text

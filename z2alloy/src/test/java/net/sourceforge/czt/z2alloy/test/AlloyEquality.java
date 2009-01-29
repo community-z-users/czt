@@ -24,11 +24,23 @@ import edu.mit.csail.sdg.alloy4compiler.parser.Module;
 public class AlloyEquality
 {
 
+/**
+ * checks that a Z2Alloy module and an Alloy Module are equal: the signitures are equal, the facts are equal, the funcs are equal
+ * 
+ * essentially checks that the names and types of sigs, facts, and funcs are the same.
+ * 
+ * @return true if all sigs, facts, and funcs are equal, false otherwise
+ */  
   public static boolean equals(Z2Alloy z2alloy, Module module)
   {
     return equalsSigs(z2alloy, module) && equalsFacts(z2alloy, module) && equalsFuncs(z2alloy, module);
   }
-
+  /**
+   * matches up the sigs from each module by their label. Recursively calls equalsSig on each pair
+   * removes this/ from the start of sigs in the Module
+   * 
+   * @return true is all sigs are equal, false otherwise
+   */
   private static boolean equalsSigs (Z2Alloy z2alloy, Module module) {
     HashMap<String, Sig> z2alloySigs = new HashMap<String, Sig>(z2alloy.sigmap_);
     HashMap<String, Sig> moduleSigs = new HashMap<String, Sig>();
@@ -46,8 +58,15 @@ public class AlloyEquality
     return true;
   }
 
+  
+  /**
+   * only facts atm are sig facts -> ie sig X{..}{fact}
+   * these are represented inside the Module as a list of pairs: this/sig$fact -> fact
+   * 
+   * matches these with the sigfacts in z2alloy by the sig name, then calls equalsExpr on th body on the fact bodies
+   * @return true if all facts are equal, false otherwise
+  */
   private static boolean equalsFacts (Z2Alloy z2alloy, Module module) {
-    // only facts atm are sig facts -> ie sig X{..}{fact}
     HashMap<String, Expr> z2alloyPreds = new HashMap<String, Expr>();
     for (Entry<Sig, Expr> entry : z2alloy.sigfacts_.entrySet()) {
       z2alloyPreds.put(entry.getKey().label, entry.getValue());
@@ -73,6 +92,14 @@ public class AlloyEquality
     return true;
   }
 
+  /**
+   * checks  funcs (sigpreds and other functions) for equality
+   * does not check funcs created by Alloy from the body of runs (ie in the form run {...})
+   * removes this/ from the start of funcs
+   * matches funcs by label, then calls equalsFunc on each pair
+   * 
+   * @return if all the funcs are equal, false otherwise
+   */
   private static boolean equalsFuncs (Z2Alloy z2alloy, Module module) {
 
     HashMap<String, Func> z2alloyFuncs = new HashMap<String, Func>();
@@ -100,6 +127,16 @@ public class AlloyEquality
     return true;
   }
 
+  /**
+   * two sigs are equal if they are both null or:
+   *    they are both non null
+   *    they have equal labels
+   *    they have the same number of fields
+   *    their fields can be matched up by label, a call to equalExpr is true for all pairs
+   * otherwise it is not equal
+   * 
+   * @return true if the sigs are equal, false otherwise
+   */
   private static boolean equalsSig (Sig a, Sig b) {
     if (a == null && b == null) return true;
     if (a == null || b == null) return f(a,b);
@@ -117,6 +154,10 @@ public class AlloyEquality
     return true;
   }
 
+  /**
+   * fields are considered equal if they have equal labels, and equalsExpr is true for the sub expression.
+   * @return true if the fields are equal, false otherwise
+   */
   private static boolean equalsField (Field a, Field b)
   {
     if (!a.label.equals(b.label)) return f(a,b);
@@ -124,6 +165,14 @@ public class AlloyEquality
         ((ExprBinary) ((ExprQuant) b.boundingFormula).sub).right);
   }
 
+  /**
+   * expressions are equal if they are both null, or if they are both non null, have the same class, and the call to the equals method
+   * defined for the expression type
+   * 
+   * expression types currently defined are : ExprUnary, Sig, ExprBinary, ExprList, Field, ExprQuant, ExprVar, ExprCall, ExprConstant.
+   * 
+   * @return true if the exprs are equal, false otherwise
+   */
   private static boolean equalsExpr (Expr a, Expr b)
   {
     if (a == null && b == null) return true;
@@ -142,6 +191,12 @@ public class AlloyEquality
     if (a instanceof ExprConstant) return equalsExprConstant((ExprConstant) a, (ExprConstant) b);
     throw new RuntimeException(a + " " + b + " " + a.getClass());
   }
+  
+  /**
+   * exprunarys are equal if the ops are the same, and the sub expressions are equal
+   * 
+   * @return true if the exprunarys are equal, false otherwise
+   */
   private static boolean equalsExprUnary(ExprUnary a, ExprUnary b)
   {
     if (a.op != b.op) return f(a,b);
@@ -149,12 +204,24 @@ public class AlloyEquality
     return true;
   }
 
+  /**
+   * exprbinarys are equal if the ops are the same, the left parts of each expression are equal, and the right parts of each expression
+   * are equal
+   * @return true if the exprbinarys are equal, false otherwise
+   */
   private static boolean equalsExprBinary (ExprBinary a, ExprBinary b) {
     if (a.op != b.op) return f(a,b);
     if (!equalsExpr(a.left, b.left) || !equalsExpr(a.right, b.right)) return f(a,b);
     return true;
   }
 
+  /**
+   * exprlists are equal if the operation is equal, the number of exprs in the list is equal, and each expr is equal to the expr in 
+   * the same position of the other list
+   * 
+   * the operations are all commutative, but the same exprs in a different order are still considered not equal
+   * @return true if the exprlists are equal, false otherwise
+   */
   private static boolean equalsExprList(ExprList a, ExprList b)
   {
     if (a.op != b.op) return f(a,b);
@@ -167,6 +234,12 @@ public class AlloyEquality
     return true;
   }
 
+  /**
+   * exprquants are equal if the operation is equal, the number of vars is equal, the vars in each place in the sequence are equal,
+   * and the sub expressions are equal
+   * 
+   * @return true if the exprquants are equal, false otherwise
+   */
   private static boolean equalsExprQuant(ExprQuant a, ExprQuant b) {
     if (a.op != b.op) return f(a,b);
     if (a.vars.size() != b.vars.size()) return f(a,b);
@@ -177,6 +250,12 @@ public class AlloyEquality
     return true;
   }
 
+  /**
+   * exprcalls are equal if the numbers of arguments are equal, the arguments are equal, and the label of the function called is equal
+   * the the function itself is not checked
+   * 
+   * @return true if the exprcall is equal, false otherwise
+   */
   private static boolean equalsExprCall (ExprCall a, ExprCall b) {
     if (a.args.size() != b.args.size()) return f(a,b);
     for (int i = 0; i < a.args.size(); i++) {
@@ -185,7 +264,10 @@ public class AlloyEquality
     if (!equalsString(a.fun.label, b.fun.label)) return f(a,b);
     return true;
   }
-
+  
+  /**
+   * @return true if the exprvar label is equal, false otherwise
+   */
 
   private static boolean equalsExprVar(ExprVar a, ExprVar b)
   {
@@ -193,12 +275,27 @@ public class AlloyEquality
     return true;
   }
   
+  
+  /**
+   * @return true if both the label and expression are equal, false otherwise
+   */
   private static boolean equalsExprVarDecl (ExprVar a, ExprVar b) {
     if (!equalsString(a.label, b.label)) return f(a,b);
     if (!equalsExpr(a.expr, b.expr)) return f(a,b);
     return true;
   }
 
+  
+  /**
+   * two funcs are equal if they are both null, or:
+   *    they have the same label
+   *    the have the same number of parameters
+   *    the parameters in each position in the list are equal
+   *    the return declarations are equal
+   *    the body of the expressions are equal
+   *    
+   * @return true if the func is equal, false otherwise
+   */
   private static boolean equalsFunc(Func a, Func b) {
     if (a == null && b == null) return true;
     if (a == null || b == null) return f(a,b);
@@ -212,12 +309,26 @@ public class AlloyEquality
     return true;
   }
 
+  
+  /**
+   * 
+   * exprconstants are equal if they have the same operation, num (0 if not a number), and string ("" if not a string constant)
+   * 
+   * @return true if the exprconstants are equal, false otherwise
+   */
   private static boolean equalsExprConstant(ExprConstant a, ExprConstant b) {
     if (a.op != b.op) return f(a,b);
     if (a.num != b.num) return f(a,b);
     if (!equalsString(a.string, b.string)) return f(a,b);
     return true;
   }
+  
+  /**
+   * Alloy puts the module sigs/funcs come from before the name. Currently only single module models are used, so they all start with
+   * this/
+   * 
+   * removes this/ from the front of the string before comparison
+   */
 
   private static boolean equalsString(String a, String b) {
     a = a.replace("this/", "");
@@ -225,13 +336,21 @@ public class AlloyEquality
     return a.equals(b);
   }
 
+  
+  /**
+   * if two things are not equal, it prints the objects and classes to System.err
+   */
   private static boolean f(Object a, Object b) {
     String message = a + " != " + b + "\n";
     message += (a == null ? a : a.getClass()) + " !=  " + (b == null ? null :  b.getClass()) + "\n";
     System.err.println(message);
-//    return false;
-  throw new RuntimeException(message);
+    return false;
+  //throw new RuntimeException(message);
   }
+  
+  /**
+   * Alloy puts some junk in the AST. This strips it out so it matches the Z2Alloy AST
+   */
 
   private static Expr strip(Expr expr)
   {

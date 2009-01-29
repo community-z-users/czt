@@ -23,7 +23,21 @@ import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 public class AlloyPrinter extends VisitReturn
 {
-  public Object visitSig (Sig sig, Expr fact, Func pred) throws Err {
+  /**
+   * returns a String representation of the sig which looks like :
+   * (lone/one/some/abstract) sig sigLabel (extends parent) {
+   *    fieldLabel : field,
+   *    fieldLabel : field,
+   *    ...
+   * } {
+   *    fact
+   * }
+   * pred
+   * some_sigLabel : run {some sigLabel}
+   * 
+   * Calls visitThis for the fields, fact and pred
+   */
+  public String visitSig (Sig sig, Expr fact, Func pred) throws Err {
     String ret = "";
     if (sig.isLone != null) ret += "lone ";
     if (sig.isOne != null) ret += "one ";
@@ -49,6 +63,15 @@ public class AlloyPrinter extends VisitReturn
     return ret;
   }
 
+  /**
+   * returns a String representation of the func which looks like:
+   * func/pred fLabel [params] (: returnDecl) {
+   *    body
+   * }
+   * 
+   * calls visitThis for the returnDecl and body
+   * 
+   */
   public String print(Func f) throws Err
   {
     StringBuffer result = new StringBuffer();
@@ -69,6 +92,14 @@ public class AlloyPrinter extends VisitReturn
   }
 
 
+  /**
+   * returns a String representation of the ExprVar list which looks like:
+   * label1 : expr1, label2 : expr2, ..., labeln : exprn
+   * 
+   * calls visitThis for the exprs.
+   * 
+   */
+  
   public String print(ConstList<ExprVar> list) throws Err
   {
     StringBuffer result = new StringBuffer(" ");
@@ -80,14 +111,28 @@ public class AlloyPrinter extends VisitReturn
     return result.toString();
   }
 
+  
+  /**
+   * returns a String representation of the ExprBinary which looks like:
+   * 
+   * ( left op right )
+   * calling visitThis for the left and right expression
+   * 
+   */
   @Override
-  public Object visit(ExprBinary x) throws Err
+  public String visit(ExprBinary x) throws Err
   {
     return "(" + visitThis(x.left) + " " + x.op + " " + visitThis(x.right) + ")";
   }
 
+  /**
+   * returns a String representation of the ExprList which looks like:
+   * (expr1 op expr2 op ... op exprn)
+   * calling visitThis for each expr
+   */
+  
   @Override
-  public Object visit(ExprList x) throws Err
+  public String visit(ExprList x) throws Err
   {
     String opstring = x.op.toString().toLowerCase();
     String ret = "(";
@@ -100,8 +145,15 @@ public class AlloyPrinter extends VisitReturn
     return ret;
   }
 
+  /**
+   * returns a String representation of the ExprList which looks like:
+   * funLabel [arg1, arg2, ..., argn]
+   * 
+   * calling visitThis for each arg
+   * 
+   */
   @Override
-  public Object visit(ExprCall x) throws Err
+  public String visit(ExprCall x) throws Err
   {
     String ret = x.fun.label;
     ret += "[";
@@ -116,26 +168,41 @@ public class AlloyPrinter extends VisitReturn
     return ret;
   }
 
+  /**
+   * returns a printed version of the constant
+   */
+  
   @Override
-  public Object visit(ExprConstant x) throws Err
+  public String visit(ExprConstant x) throws Err
   {
     return x.toString();
   }
 
+  // TODO
   @Override
-  public Object visit(ExprITE x) throws Err
+  public String visit(ExprITE x) throws Err
   {
     return x.toString();
   }
 
+  // TODO
   @Override
-  public Object visit(ExprLet x) throws Err
+  public String visit(ExprLet x) throws Err
   {
     return x.toString();
   }
 
+  /**
+   * returns a String representation of the ExprQuant. If the ExprQuant operation id comprehension is looks like:
+   *  {vars | subexpr}
+   * otherwise :
+   * op vars | subexpr
+   * 
+   * calling visitThis for the subexpr and print for the vars
+   */
+  
   @Override
-  public Object visit(ExprQuant x) throws Err
+  public String visit(ExprQuant x) throws Err
   {
     String ret = "";
     if (x.op != ExprQuant.Op.COMPREHENSION) {
@@ -150,8 +217,15 @@ public class AlloyPrinter extends VisitReturn
     return ret;
   }
 
+  /**
+   * returns a String representation of the ExprUnary which looks like:
+   * op subexpr
+   * 
+   * If the operation is cast2int or cast2sigint the op is ommitted.
+   * If the operation is oneOf, someOf, loneOf, setOf then the of is ommitted.
+   */
   @Override
-  public Object visit(ExprUnary x) throws Err
+  public String visit(ExprUnary x) throws Err
   {
     String op = x.op.toString() + " ";
     if (op.contains("of")){
@@ -163,20 +237,29 @@ public class AlloyPrinter extends VisitReturn
     return op + visitThis(x.sub);
   }
 
+  /**
+   * returns the label of the exprVar
+   */
   @Override
-  public Object visit(ExprVar x) throws Err
+  public String visit(ExprVar x) throws Err
   {
     return x.label;
   }
 
+  /**
+   * returns the label of the sig
+   */
   @Override
-  public Object visit(Sig x) throws Err
+  public String visit(Sig x) throws Err
   {
     return x.label;
   }
 
+  /**
+   * returns the label of the field
+   */
   @Override
-  public Object visit(Field x) throws Err
+  public String visit(Field x) throws Err
   {
     return x.label;
   }

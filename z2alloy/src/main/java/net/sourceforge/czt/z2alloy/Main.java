@@ -42,6 +42,10 @@ import edu.mit.csail.sdg.alloy4compiler.ast.Sig;
  */
 public class Main
 {
+  
+  /**
+   * parses, translates, and prints to System.out the resulting alloy model
+   */
   public static void main(String[] args)
   throws Exception
   {
@@ -77,6 +81,12 @@ public class Main
 
   }
 
+  /**
+   * uses AlloyPrinter to create a string of the whole model.
+   * 
+   * this string should generally be parsable by the alloy analyser
+   */
+  
   public static String print (Z2Alloy model) {
 //    String ret = "\nopen functions\n";
     String ret = "";
@@ -96,6 +106,9 @@ public class Main
     }
   }
 
+  /**
+   * translates the input into a Z2Alloy model
+   */
   public static Z2Alloy translate (File input, boolean unfolding) throws Exception {
     FileSource source = new FileSource(input);
     SectionManager manager = new SectionManager("zpatt");

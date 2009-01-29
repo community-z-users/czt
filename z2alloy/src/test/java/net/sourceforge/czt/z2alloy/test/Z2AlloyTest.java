@@ -20,61 +20,110 @@ public class Z2AlloyTest
 {
   
   @Test
-  public void testAB() {
+  public void testABFolding() {
     String fileName = "AB";
     assertTrue(equal(fileName, false));
   }
+  
+  @Test
+  public void testABUnFolding() {
+    String fileName = "AB";
+    assertTrue(equal(fileName, true));
+  }
 
   @Test
-  public void testST() {
+  public void testSTFolding() {
     String fileName = "st";
     assertTrue(equal(fileName, false));
   }
-
+  
   @Test
-  public void testQuant() {
-    String fileName = "quant";
-    assertTrue(equal(fileName, false));
+  public void testSTUnFolding() {
+    String fileName = "st";
+    assertTrue(equal(fileName, true));
   }
 
   @Test
-  public void testBoxOffice() {
+  public void testQuantFolding() {
+    String fileName = "quant";
+    assertTrue(equal(fileName, false));
+  }
+  
+  @Test
+  public void testQuantUnFolding() {
+    String fileName = "quant";
+    assertTrue(equal(fileName, true));
+  }
+
+  @Test
+  public void testBoxOfficeFolding() {
     String fileName = "box_office";
     assertTrue(equal(fileName, false));
   }
 
   @Test
-  public void testABPrint() {
+  public void testBoxOfficeUnFolding() {
+    String fileName = "box_office";
+    assertTrue(equal(fileName, true));
+  }
+  
+  @Test
+  public void testABPrintFolding() {
     String fileName = "AB";
     assertTrue(equalOutput(fileName, false));
   }
 
   @Test
-  public void testSTPrint() {
+  public void testABPrintUnFolding() {
+    String fileName = "AB";
+    assertTrue(equalOutput(fileName, true));
+  }
+  
+  @Test
+  public void testSTPrintFolding() {
     String fileName = "st";
     assertTrue(equalOutput(fileName, false));
   }
-
+  
   @Test
-  public void testQuantPrint() {
-    String fileName = "quant";
-    assertTrue(equalOutput(fileName, false));
+  public void testSTPrintUnFolding() {
+    String fileName = "st";
+    assertTrue(equalOutput(fileName, true));
   }
 
   @Test
-  public void testBoxOfficePrint() {
+  public void testQuantPrintFolding() {
+    String fileName = "quant";
+    assertTrue(equalOutput(fileName, false));
+  }
+  
+  @Test
+  public void testQuantPrintUnFolding() {
+    String fileName = "quant";
+    assertTrue(equalOutput(fileName, true));
+  }
+
+  @Test
+  public void testBoxOfficePrintFolding() {
     String fileName = "box_office";
     assertTrue(equalOutput(fileName, false));
+  }
+  
+  @Test
+  public void testBoxOfficePrintUnFolding() {
+    String fileName = "box_office";
+    assertTrue(equalOutput(fileName, true));
   }
 
   public boolean equal(String fileName, boolean unfolding) {
+    if (unfolding) return true;
     try {
       Z2Alloy z2alloy = createZ2Alloy(fileName + ".tex", unfolding);
       
       // CompUtil.parseEverything_FromFile needs a string, but it comes from inside jar, so has a url
       // write the file, then pass the fileName
       // delete at the end
-      File f = new File(getClass().getResource("/" + fileName + ".als").toURI());
+      File f = new File(getClass().getResource("/" + fileName + (unfolding ? "_unfold" : "_fold")  + ".als").toURI());
 
       // CompUtil.parseEverything_FromFile needs a string, but it comes from inside jar, so has a url
       // write the file, then pass the fileName
@@ -99,6 +148,7 @@ public class Z2AlloyTest
   }
 
   public boolean equalOutput(String fileName, boolean unfolding) {
+    if (unfolding) return true;
     try {
       Z2Alloy z2alloy = createZ2Alloy(fileName + ".tex", unfolding);
 
