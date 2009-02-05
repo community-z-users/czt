@@ -378,7 +378,7 @@ ZSectVisitor<Expr>
    *  
    *  returns null in this case
    *  
-   *  Other cases: RefExprs, LambdaExpr, just visit(result).
+   *  TODO Other cases: RefExprs, LambdaExpr, just visit(result).
    *  
    */
   public Expr visitAxPara(AxPara para)
@@ -402,22 +402,10 @@ ZSectVisitor<Expr>
             net.sourceforge.czt.z.ast.Expr toBeNormalized =
               ParseUtils.parseExpr(exprSource, section_, manager_);
             result = (net.sourceforge.czt.z.ast.Expr)
-            preprocess(toBeNormalized);
+	      preprocess(toBeNormalized);
             TypeCheckUtils.typecheck(result, manager_, false, section_);
           }
-          if (result instanceof RefExpr) {
-            PrimSig sig;
-            try {
-              sig = new PrimSig(null, sigName);
-              addField(sig, "data", visit(result));
-              addSig(sig);
-              return null;
-            }
-            catch (Err e) {
-              throw new RuntimeException(e);
-            }
-          }
-	  else if (result instanceof LambdaExpr) {
+          if (result instanceof LambdaExpr) {
 	    String name = print(cDecl.getName());
             if (functions_.containsKey(name)) return null;
 	    LambdaExpr lambda = (LambdaExpr) result;
