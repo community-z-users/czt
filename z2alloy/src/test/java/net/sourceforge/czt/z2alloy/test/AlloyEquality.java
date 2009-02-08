@@ -23,7 +23,7 @@ import edu.mit.csail.sdg.alloy4compiler.parser.Module;
 
 public class AlloyEquality
 {
-
+  
 /**
  * checks that a Z2Alloy module and an Alloy Module are equal: the signitures are equal, the facts are equal, the funcs are equal
  * 
@@ -210,8 +210,12 @@ public class AlloyEquality
    * @return true if the exprbinarys are equal, false otherwise
    */
   private static boolean equalsExprBinary (ExprBinary a, ExprBinary b) {
-    if (a.op != b.op) return f(a,b);
-    if (!equalsExpr(a.left, b.left) || !equalsExpr(a.right, b.right)) return f(a,b);
+    if (a.op != b.op) {
+      return f(a,b);
+    }
+    if (!equalsExpr(a.left, b.left) || !equalsExpr(a.right, b.right)) {
+      return f(a,b);
+    }
     return true;
   }
 
@@ -345,7 +349,7 @@ public class AlloyEquality
     message += (a == null ? a : a.getClass()) + " !=  " + (b == null ? null :  b.getClass()) + "\n";
     System.err.println(message);
     return false;
-  //throw new RuntimeException(message);
+    //throw new RuntimeException(message);
   }
   
   /**
@@ -356,7 +360,7 @@ public class AlloyEquality
   {
     if (expr instanceof ExprUnary) {
       ExprUnary exprunary = (ExprUnary) expr;
-      if (exprunary.op == ExprUnary.Op.NOOP) {
+      if (exprunary.op == ExprUnary.Op.NOOP) { // noops are put in by the alloy parser
         return strip(exprunary.sub);
       }
       if (exprunary.op == ExprUnary.Op.ONEOF) {
@@ -365,6 +369,13 @@ public class AlloyEquality
         }
         if (exprunary.sub instanceof ExprUnary) {
           return strip(exprunary.sub);
+        }
+      }
+      if (exprunary.op == ExprUnary.Op.SETOF) { // a relation is always a set
+        if (exprunary.sub instanceof ExprBinary) {
+          if (((ExprBinary) exprunary.sub).op.toString().contains("->")) {
+            return exprunary.sub;
+          }
         }
       }
     }

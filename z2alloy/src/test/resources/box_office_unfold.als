@@ -1,3 +1,4 @@
+ 
 sig Seat{
 }{pred_Seat[]}
 pred pred_Seat[ ] {}
@@ -10,10 +11,10 @@ some_Customer : run { some Customer }
 
 sig BoxOffice{
         seating: set  Seat,
-        sold: Seat ->lone Customer,
+        sold: Seat -> Customer,
 }{pred_BoxOffice[seating, sold]}
-pred pred_BoxOffice[ seating: set  Seat, sold: Seat ->lone Customer] {
-	dom[sold] in seating
+pred pred_BoxOffice[ seating: set  Seat, sold: set  Seat -> Customer] {
+	sold in Seat ->lone Customer and dom[sold] in seating
 }
 some_BoxOffice : run { some BoxOffice }
 
@@ -83,14 +84,14 @@ pred pred_dec[ ] {}
 some_dec : run { some dec }
 
 sig Date{
-        month: one  Month,
-        day: one  { i: Int | i >= 1 and i <= 31},
+        month: Month,
+        day: Int,
 }{pred_Date[month, day]}
-pred pred_Date[ month: one  Month, day: one  { i: Int | i >= 1 and i <= 31}] {
-	month in (sep + apr + jun + nov) => day <= 30
+pred pred_Date[ month: Month, day: Int] {
+	day in { i: Int | i >= 1 and i <= 31} and (month in (sep + apr + jun + nov) => day <= 30)
 }
-some_Date : run { some Date } for 6 int
+some_Date : run { some Date }
 
-fun dom[ r: univ -> univ] : set  univ {
+fun dom[ r: (univ -> univ)] : set  univ {
 	r . univ
 }

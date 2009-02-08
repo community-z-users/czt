@@ -36,6 +36,7 @@ import java.util.Queue;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleTable;
@@ -151,7 +152,7 @@ import edu.mit.csail.sdg.alloy4compiler.ast.Sig.PrimSig;
 
 
 public class Z2Alloy
-implements
+implements TermVisitor<Expr>,
 AndExprVisitor<Expr>,
 AndPredVisitor<Expr>,
 ApplExprVisitor<Expr>,
@@ -199,8 +200,8 @@ ZSectVisitor<Expr>
   public Map<Sig, Expr> sigfacts_ = new HashMap<Sig, Expr>();
   public Map<Term, String> schemaName_ = new HashMap<Term, String>();
   public Map<String, Func> functions_ = new HashMap<String, Func>();
-  
- // private Map<String, Expr> paramTypes_ = new HashMap<String, Expr>();
+
+  // private Map<String, Expr> paramTypes_ = new HashMap<String, Expr>();
 
   /**
    * A mapping from ZName ids to alloy names.
@@ -220,6 +221,11 @@ ZSectVisitor<Expr>
 
   //==================== Visitor Methods ==================
 
+  public Expr visitTerm(Term term)       
+  {      
+    System.err.println(term.getClass() + " not yet implemented");        
+    return null;         
+  }
 
   /**
    * translates an and expression (schema conjunction) into an alloy and expression. The schemas are translated into a call to the
@@ -230,8 +236,8 @@ ZSectVisitor<Expr>
    *    
    *    A \land B => pred_A[a] and pred_B[b]
    *    
-  * Currently the actual variables from the signiture are not used in the pred calls. Instead new ones are created. This works, assuming
-  * the variables are declared with the same name as in the predicate declaration.
+   * Currently the actual variables from the signiture are not used in the pred calls. Instead new ones are created. This works, assuming
+   * the variables are declared with the same name as in the predicate declaration.
    * 
    * @return the expression
    */
@@ -329,6 +335,27 @@ ZSectVisitor<Expr>
           Expr pred = i.gte(left).and(i.lte(right));
           return pred.comprehensionOver(i, new ExprVar[0]);
         }
+        if (binOp.equals(ZString.CAT)) {
+//        currently uses the definition of append from util/sequniv.als
+//        fun append [s1, s2: Int -> univ] : s1+s2 {
+//        let shift = {i', i: seq/Int | int[i'] = int[i] + int[lastIdx[s1]] + 1 } |
+//        no s1 => s2 else (s1 + shift.s2)
+//        }
+
+          try {
+            ExprVar s1 = ExprVar.make(null, "s1", SIGINT.product(UNIV));
+            ExprVar s2 = ExprVar.make(null, "s2", SIGINT.product(UNIV));
+            List<ExprVar> vars = new ArrayList<ExprVar>();
+            vars.add(s1);
+            vars.add(s2);
+            Expr res = s1.plus(s2);
+            Func append = new Func(null, "seq/append", vars, res);
+            return append.call(left, right);
+          }
+          catch (Err e) {
+            throw new RuntimeException(e);
+          }
+        }
         System.err.println(applExpr.getClass() + " not yet implemented");
         return null;
       }
@@ -347,6 +374,39 @@ ZSectVisitor<Expr>
             dom.setBody(r.join(UNIV));
             functions_.put(dom.label, dom);
             return dom.call(body);
+          }
+          catch (Err e) {
+            throw new RuntimeException(e);
+          }
+        }
+        if (print(refExpr.getName()).equals("last")) {
+          // fun last [s: Int -> univ]: lone (Int.s) { s[lastIdx[s]] }
+          Expr body = visit(applExpr.getRightExpr());
+          ExprVar s = ExprVar.make(null, "s", SIGINT.product(UNIV));
+          List<ExprVar> vars = new ArrayList<ExprVar>();
+          vars.add(s);
+          Expr ret = SIGINT.join(s).loneOf();
+          try {
+            Func last = new Func(null, "seq/last", vars, ret);
+            return last.call(body);
+          }
+          catch (Err e) {
+            throw new RuntimeException(e);
+          }
+        }
+        if (print(refExpr.getName()).equals("front")) {
+          // seq/butlast is equivalent to front in Z
+          // fun butlast [s: Int -> univ] : s {
+          //   (seq/Int - lastIdx[s]) <: s
+          // }
+          Expr body = visit(applExpr.getRightExpr());
+          ExprVar s = ExprVar.make(null, "s", SIGINT.product(UNIV));
+          List<ExprVar> vars = new ArrayList<ExprVar>();
+          vars.add(s);
+          Expr ret = SIGINT.product(UNIV);
+          try {
+            Func butLast = new Func(null, "seq/butlast", vars, ret);
+            return butLast.call(body);
           }
           catch (Err e) {
             throw new RuntimeException(e);
@@ -401,34 +461,34 @@ ZSectVisitor<Expr>
             exprSource.setMarkup(Markup.LATEX);
             net.sourceforge.czt.z.ast.Expr toBeNormalized =
               ParseUtils.parseExpr(exprSource, section_, manager_);
-            result = (net.sourceforge.czt.z.ast.Expr)
-	      preprocess(toBeNormalized);
+            result = (net.sourceforge.czt.z.ast.Expr) preprocess(toBeNormalized);
             TypeCheckUtils.typecheck(result, manager_, false, section_);
           }
           if (result instanceof LambdaExpr) {
-	    String name = print(cDecl.getName());
+            String name = print(cDecl.getName());
+
             if (functions_.containsKey(name)) return null;
-	    LambdaExpr lambda = (LambdaExpr) result;
-	    List<ExprVar> vars = new ArrayList<ExprVar>();
-	    vars.add((ExprVar) visit(lambda.getZSchText().getZDeclList()));
-	    if (vars_ != null) {
-	      for (ExprVar exprVar : vars_) {
-		vars.add(exprVar);
-	      }
-	    }
-	    Expr body = visit(lambda.getExpr());
-	    try {
-	      TypeAnn type = lambda.getExpr().getAnn(TypeAnn.class);
-	      Expr returnDecl = visit(type);
-	      Func func = new Func(null, name, vars, returnDecl);
-	      if (body != null) func.setBody(body);
-	      functions_.put(func.label, func);
-	    }
-	    catch (Err e) {
-	      throw new RuntimeException(e);
-	    }
-	    return null;
-	  }
+            LambdaExpr lambda = (LambdaExpr) result;
+            List<ExprVar> vars = new ArrayList<ExprVar>();
+            vars.add((ExprVar) visit(lambda.getZSchText().getZDeclList()));
+            if (vars_ != null) {
+              for (ExprVar exprVar : vars_) {
+                vars.add(exprVar);
+              }
+            }
+            Expr body = visit(lambda.getExpr());
+            try {
+              TypeAnn type = lambda.getExpr().getAnn(TypeAnn.class);
+              Expr returnDecl = visit(type);
+              Func func = new Func(null, name, vars, returnDecl);
+              if (body != null) func.setBody(body);
+              functions_.put(func.label, func);
+            }
+            catch (Err e) {
+              throw new RuntimeException(e);
+            }
+            return null;
+          }
           schemaName_.put(result, sigName);
           if (result instanceof SchExpr2) {
             processSchExpr2((SchExpr2) result);
@@ -509,7 +569,7 @@ ZSectVisitor<Expr>
     else {
       pred = pred1.and(pred2);
     }
-    
+
     if (firstVar == null) {
       System.err.println("firstVar of ExistsPred must not be null");
       return null;
@@ -528,7 +588,7 @@ ZSectVisitor<Expr>
    * 
    * all var1, ..., var2 | pred1 => pred2
    */
-  
+
   public Expr visitForallPred(ForallPred allPred)
   {
     ExprVar firstVar = (ExprVar) visit(allPred.getZSchText().getZDeclList());
@@ -578,7 +638,7 @@ ZSectVisitor<Expr>
    * 
    * returns null
    */
-  
+
   public Expr visitFreetype(Freetype freetype)
   {
     try {
@@ -610,7 +670,7 @@ ZSectVisitor<Expr>
    * sig B {}
    * sig C {}
    */
-  
+
   public Expr visitGivenPara(GivenPara para)
   {
     for (Name name : para.getNames()) {
@@ -623,41 +683,53 @@ ZSectVisitor<Expr>
     }
     return null;
   }
- /**
-  * if a sig with the name of the givenType has been encountered before, returns the sig.
-  * otherwise assumes it is a sequence
-  * 
-  * @return Sig.SEQIDX or the sig with the matching name
-  */
+  /**
+   * if a sig with the name of the givenType has been encountered before, returns the sig.
+   * otherwise: arithmos/nat/num => Int
+   *            seq              => seq
+   * 
+   * @return the sig, or null if no sig matches
+   */
   public Expr visitGivenType(GivenType givenType)
   {
-    Expr type = sigmap_.get(print(givenType.getName()));
-    if (type == null){
-      type = Sig.SEQIDX;
+    if (print(givenType.getName()).equals(ZString.ARITHMOS)) {
+      return SIGINT;
     }
-    return type;
+    if (print(givenType.getName()).equals(ZString.NAT)) {
+      return SIGINT;
+    }
+    if (print(givenType.getName()).equals(ZString.NUM)) {
+      return SIGINT;
+    }
+    if (print(givenType.getName()).equals(ZString.NUMBER)) {
+      return SIGINT;
+    }
+    if (print(givenType.getName()).equals("seq")) {
+      return SEQIDX;
+    }
+    return sigmap_.get(print(givenType.getName()));
   }
 
   /**
-  * translates an iff expression (schema equivalance) into an alloy iff expression. The schemas are translated into a call to the
-  * predicate translated by the schema
-  * 
-  * eg A has a predicate of pred_A[a]{...}
-  *    B has a predicate of pred_B[b]{...}
-  *    
-  *    A \iff B => pred_A[a] <=> pred_B[b]
-  *    
-  * Currently the actual variables from the signiture are not used in the pred calls. Instead new ones are created. This works, assuming
-  * the variables are declared with the same name as in the predicate declaration.
-  * @return the expression
-  */
-  
+   * translates an iff expression (schema equivalance) into an alloy iff expression. The schemas are translated into a call to the
+   * predicate translated by the schema
+   * 
+   * eg A has a predicate of pred_A[a]{...}
+   *    B has a predicate of pred_B[b]{...}
+   *    
+   *    A \iff B => pred_A[a] <=> pred_B[b]
+   *    
+   * Currently the actual variables from the signiture are not used in the pred calls. Instead new ones are created. This works, assuming
+   * the variables are declared with the same name as in the predicate declaration.
+   * @return the expression
+   */
+
   public Expr visitIffExpr(IffExpr iffExpr)
   {
     Expr[] comps = schExpr2SigComponent(iffExpr);
     return comps[0].iff(comps[1]);
   }
-  
+
   /**
    * translates an implies expression (schema implication) into an alloy implies expression. The schemas are translated into a call to the
    * predicate translated by the schema
@@ -702,7 +774,7 @@ ZSectVisitor<Expr>
     return null;
   }
 
-  
+
   /**
    * kinds of MemPred currently translated:
    * 
@@ -728,7 +800,6 @@ ZSectVisitor<Expr>
         System.err.println("Left and right of memPred must be non null");
         return null;
       }
-
       return left.equal(right);
     }
     if (memPred.getLeftExpr() instanceof TupleExpr &&
@@ -835,10 +906,10 @@ ZSectVisitor<Expr>
     }
     return body.setOf();
   }
-/**
- * if the type of the subexpression is not null, creates the set of the translation
- * @return the expression, or null if the subexpression translates to null
- */
+  /**
+   * if the type of the subexpression is not null, creates the set of the translation
+   * @return the expression, or null if the subexpression translates to null
+   */
   public Expr visitPowerType(PowerType powerType)
   {
     Expr body = visit(powerType.getType());
@@ -848,7 +919,7 @@ ZSectVisitor<Expr>
     }
     return body.setOf();
   }
-  
+
   /**
    * translates from a z prod expr to an alloy version using visit to recursively translate the sub expressions
    * 
@@ -904,6 +975,7 @@ ZSectVisitor<Expr>
    * 
    * pfun               expr0 -> lone expr1
    * seq                seq expr0
+   * arithmos           Int
    * 
    * otherwise if the name has is that of an already encountered signiture, it uses that signiture
    * 
@@ -911,17 +983,23 @@ ZSectVisitor<Expr>
    */
   public Expr visitRefExpr(RefExpr refExpr)
   {
-    if (isInfixOperator(refExpr.getZName(), ZString.PFUN)) { // pfun
+    if (isInfixOperator(refExpr.getZName(), ZString.PFUN)) {
       return visit(refExpr.getZExprList().get(0)).any_arrow_lone(visit(refExpr.getZExprList().get(1)));
     }
-    if (isPostfixOperator(refExpr.getZName(), "seq")) { // seq
-      return SEQIDX.any_arrow_lone(visit(refExpr.getZExprList().get(0)));
+    else if (isPostfixOperator(refExpr.getZName(), "seq")) {
+      return SEQIDX.isSeq_arrow_lone(visit(refExpr.getZExprList().get(0)));
     }
-    if (sigmap_.containsKey(print(refExpr.getName()))){
+    else if (print(refExpr.getZName()).equals(ZString.ARITHMOS)) {
+      return SIGINT;
+    }
+    else if (sigmap_.containsKey(print(refExpr.getName()))){
       return sigmap_.get(print(refExpr.getName()));
     }
 
-    return ExprVar.make(null, print(refExpr.getZName()), visit(refExpr.getAnn(TypeAnn.class)));
+    String name = print(refExpr.getZName());
+    Expr type = visit(refExpr.getAnn(TypeAnn.class));
+
+    return ExprVar.make(null, name, type);
   }
 
   /** Ignore rules. */
@@ -930,7 +1008,7 @@ ZSectVisitor<Expr>
     return null;
   }
 
-  
+
   /**
    * creates a new signiture to represent the schema
    * 
@@ -1017,11 +1095,11 @@ ZSectVisitor<Expr>
    * @return the expression
    * 
    */
-  
+
   public Expr visitSetCompExpr(SetCompExpr setCompExpr)
   {
     ExprVar firstVar = (ExprVar)
-      visit(setCompExpr.getZSchText().getZDeclList());
+    visit(setCompExpr.getZSchText().getZDeclList());
     Expr pred = visit(setCompExpr.getZSchText().getPred());
     return pred.comprehensionOver(firstVar, vars_);
   }
@@ -1074,13 +1152,12 @@ ZSectVisitor<Expr>
     return visit(typeAnn.getType());
   }
 
-
   public Expr visitVarDecl(VarDecl vDecl)
   {
     return ExprVar.make(null, print(vDecl.getName()), visit(vDecl.getExpr()));
   }
 
-  
+
   /**
    * uses visit to recursively translate the elements fo the ZDeclList
    * 
@@ -1412,4 +1489,5 @@ ZSectVisitor<Expr>
       return refExpr.getName().accept(this);
     }
   }
+
 }

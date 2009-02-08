@@ -20,103 +20,43 @@ public class Z2AlloyTest
 {
   
   @Test
-  public void testABFolding() {
-    String fileName = "AB";
-    assertTrue(equal(fileName, false));
+  public void testAB() {
+    test("AB");
   }
   
   @Test
-  public void testABUnFolding() {
-    String fileName = "AB";
+  public void testST() {
+    test("st");
+  }
+
+  @Test
+  public void testQuant() {
+    test("quant");
+  }
+
+  @Test
+  public void testBoxOffice() {
+    test("box_office");
+  }
+  
+  @Test
+  public void testSeq() {
+    test("seq");
+  }
+  
+  @Test
+  public void testFrontLast() {
+    test("front_last");
+  }
+
+  public void test(String fileName) {
     assertTrue(equal(fileName, true));
-  }
-
-  @Test
-  public void testSTFolding() {
-    String fileName = "st";
     assertTrue(equal(fileName, false));
-  }
-  
-  @Test
-  public void testSTUnFolding() {
-    String fileName = "st";
-    assertTrue(equal(fileName, true));
-  }
-
-  @Test
-  public void testQuantFolding() {
-    String fileName = "quant";
-    assertTrue(equal(fileName, false));
-  }
-  
-  @Test
-  public void testQuantUnFolding() {
-    String fileName = "quant";
-    assertTrue(equal(fileName, true));
-  }
-
-  @Test
-  public void testBoxOfficeFolding() {
-    String fileName = "box_office";
-    assertTrue(equal(fileName, false));
-  }
-
-  @Test
-  public void testBoxOfficeUnFolding() {
-    String fileName = "box_office";
-    assertTrue(equal(fileName, true));
-  }
-  
-  @Test
-  public void testABPrintFolding() {
-    String fileName = "AB";
+    assertTrue(equalOutput(fileName, true));;
     assertTrue(equalOutput(fileName, false));
-  }
-
-  @Test
-  public void testABPrintUnFolding() {
-    String fileName = "AB";
-    assertTrue(equalOutput(fileName, true));
-  }
-  
-  @Test
-  public void testSTPrintFolding() {
-    String fileName = "st";
-    assertTrue(equalOutput(fileName, false));
-  }
-  
-  @Test
-  public void testSTPrintUnFolding() {
-    String fileName = "st";
-    assertTrue(equalOutput(fileName, true));
-  }
-
-  @Test
-  public void testQuantPrintFolding() {
-    String fileName = "quant";
-    assertTrue(equalOutput(fileName, false));
-  }
-  
-  @Test
-  public void testQuantPrintUnFolding() {
-    String fileName = "quant";
-    assertTrue(equalOutput(fileName, true));
-  }
-
-  @Test
-  public void testBoxOfficePrintFolding() {
-    String fileName = "box_office";
-    assertTrue(equalOutput(fileName, false));
-  }
-  
-  @Test
-  public void testBoxOfficePrintUnFolding() {
-    String fileName = "box_office";
-    assertTrue(equalOutput(fileName, true));
   }
 
   public boolean equal(String fileName, boolean unfolding) {
-    if (unfolding) return true;
     try {
       Z2Alloy z2alloy = createZ2Alloy(fileName + ".tex", unfolding);
       
@@ -148,7 +88,6 @@ public class Z2AlloyTest
   }
 
   public boolean equalOutput(String fileName, boolean unfolding) {
-    if (unfolding) return true;
     try {
       Z2Alloy z2alloy = createZ2Alloy(fileName + ".tex", unfolding);
 

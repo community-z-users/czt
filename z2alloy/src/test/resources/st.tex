@@ -9,18 +9,18 @@ of Ian Hayes' specification case studies book.
 [SYM, VAL]
 \end{zed}
 
-\begin{schema}{\Delta ST}
+\begin{schema}{Delta ST}
  st, st' : SYM \pfun VAL \\
 \end{schema}
 
-\begin{schema}{\Xi ST}
-  \Delta ST
+\begin{schema}{Xi ST}
+  Delta ST
 \where
   st = st'
 \end{schema}
 
 \begin{schema}{LookUp}
-  \Xi ST \\
+  Xi ST \\
   s?:SYM \\
   v!:VAL
 \where
@@ -29,7 +29,7 @@ of Ian Hayes' specification case studies book.
 \end{schema}
 
 \begin{schema}{Add}
-  \Delta ST \\
+  Delta ST \\
   s?:SYM \\
   v?: VAL
 \where
@@ -38,7 +38,7 @@ of Ian Hayes' specification case studies book.
 \end{schema}
 
 \begin{schema}{Replace}
-  \Delta ST \\
+  Delta ST \\
   s?: SYM \\
   v?: VAL
 \where
@@ -47,7 +47,7 @@ of Ian Hayes' specification case studies book.
 \end{schema}
 
 \begin{schema}{Delete}
-  \Delta ST \\
+  Delta ST \\
   s?: SYM
 \where
   s? \in \dom(st) \\
@@ -55,7 +55,7 @@ of Ian Hayes' specification case studies book.
 \end{schema}
 
 %\begin{theorem}{AddDelete}
-%\vdash? \forall \Delta ST; s?: SYM; v?:VAL @ Add \semi Delete \implies st = st'
+%\vdash? \forall Delta ST; s?: SYM; v?:VAL @ Add \semi Delete \implies st = st'
 %\end{theorem}
 
 \begin{zed}
@@ -67,7 +67,7 @@ of Ian Hayes' specification case studies book.
 \end{zed}
 
 \begin{schema}{NotPresent}
-  \Xi ST \\
+  Xi ST \\
   s?: SYM \\
   rep!: Report
 \where
@@ -76,7 +76,7 @@ of Ian Hayes' specification case studies book.
 \end{schema}
 
 \begin{schema}{Present}
-  \Xi ST \\
+  Xi ST \\
   s?: SYM \\
   rep!: Report
 \where

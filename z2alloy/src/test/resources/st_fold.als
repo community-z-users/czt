@@ -12,26 +12,28 @@ sig DeltaST{
         st: (SYM ->lone VAL),
         st': (SYM ->lone VAL),
 }{pred_DeltaST[st, st']}
-pred pred_DeltaST(st : (SYM ->lone VAL), st' : (SYM ->lone VAL)){}
+pred pred_DeltaST[st : SYM ->lone VAL, st' : SYM ->lone VAL]{}
 some_DeltaST : run { some DeltaST }
 
 sig XiST{
-        st: (SYM ->lone VAL),
-        st': (SYM ->lone VAL),
+        st: SYM ->lone VAL,
+        st': SYM ->lone VAL,
 }{pred_XiST[st, st']}
-pred pred_XiST(st : (SYM ->lone VAL), st' : (SYM ->lone VAL)){
-        (pred_DeltaST[st, st'] and (st = st'))
+pred pred_XiST[st : SYM ->lone VAL, st' : SYM ->lone VAL]{
+        pred_DeltaST[st, st'] and st = st'
 }
 some_XiST : run { some XiST }
 
 sig LookUp{
-        st: (SYM ->lone VAL),
-        st': (SYM ->lone VAL),
+        st: SYM ->lone VAL,
+        st': SYM ->lone VAL,
         s_in: one  SYM,
         v_out: one  VAL,
 }{pred_LookUp[st, st', s_in, v_out]}
-pred pred_LookUp(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, v_out : one  VAL){
-        (pred_XiST[st, st'] and (s_in in dom[st]) and (v_out = (s_in . st)))
+pred pred_LookUp[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : one  SYM, v_out : one  VAL]{
+        pred_XiST[st, st']
+		s_in in dom[st]
+		v_out = s_in.st
 }
 some_LookUp : run { some LookUp }
 
@@ -47,23 +49,27 @@ pred pred_Add(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, v_
 some_Add : run { some Add }
 
 sig Replace{
-        st: (SYM ->lone VAL),
-        st': (SYM ->lone VAL),
-        s_in: one  SYM,
-        v_in: one  VAL,
+        st: SYM ->lone VAL,
+        st': SYM ->lone VAL,
+        s_in: SYM,
+        v_in: VAL,
 }{pred_Replace[st, st', s_in, v_in]}
-pred pred_Replace(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, v_in : one  VAL){
-        (pred_DeltaST[st, st'] and (s_in in dom[st]) and (st' = (st ++ (s_in -> v_in))))
+pred pred_Replace[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : SYM, v_in : VAL]{
+	pred_DeltaST[st, st']
+	s_in in dom[st]
+	st' = st ++ s_in -> v_in
 }
 some_Replace : run { some Replace }
 
 sig Delete{
         st: (SYM ->lone VAL),
         st': (SYM ->lone VAL),
-        s_in: one  SYM,
+        s_in: SYM,
 }{pred_Delete[st, st', s_in]}
-pred pred_Delete(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM){
-        (pred_DeltaST[st, st'] and (s_in in dom[st]) and (st' = ndres[s_in, st]))
+pred pred_Delete[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : SYM]{
+    pred_DeltaST[st, st']
+	s_in in dom[st]
+	st' = ndres[s_in, st]
 }
 some_Delete : run { some Delete }
 
@@ -98,86 +104,90 @@ pred pred_Symbol_not_found(){}
 some_Symbol_not_found : run { some Symbol_not_found }
 
 sig NotPresent{
-        st: (SYM ->lone VAL),
-        st': (SYM ->lone VAL),
-        s_in: one  SYM,
-        rep_out: one  Report,
+        st: SYM ->lone VAL,
+        st': SYM ->lone VAL,
+        s_in: SYM,
+        rep_out: Report,
 }{pred_NotPresent[st, st', s_in, rep_out]}
-pred pred_NotPresent(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, rep_out : one  Report){
-        (pred_XiST[st, st'] and ! (s_in in dom[st]) and (rep_out = Symbol_not_present))
+pred pred_NotPresent[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : SYM, rep_out : Report]{
+	pred_XiST[st, st']
+	! s_in in dom[st]
+	rep_out = Symbol_not_present
 }
 some_NotPresent : run { some NotPresent }
 
 sig Present{
         st: (SYM ->lone VAL),
         st': (SYM ->lone VAL),
-        s_in: one  SYM,
-        rep_out: one  Report,
+        s_in: SYM,
+        rep_out: Report,
 }{pred_Present[st, st', s_in, rep_out]}
-pred pred_Present(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, rep_out : one  Report){
-        (pred_XiST[st, st'] and (s_in in dom[st]) and (rep_out = Symbol_present))
+pred pred_Present[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : SYM, rep_out : Report]{
+	pred_XiST[st, st']
+	s_in in dom[st]
+	rep_out = Symbol_present
 }
 some_Present : run { some Present }
 
 sig Success{
-        rep_out: one  Report,
+        rep_out: Report,
 }{pred_Success[rep_out]}
-pred pred_Success(rep_out : one  Report){
-        (rep_out = OK)
+pred pred_Success[rep_out : Report]{
+        rep_out = OK
 }
 some_Success : run { some Success }
 
 sig STLookUp{
-        st: (SYM ->lone VAL),
-        st': (SYM ->lone VAL),
-        s_in: one  SYM,
-        rep_out: one  Report,
-        v_out: one  VAL,
+        st: SYM ->lone VAL,
+        st': SYM ->lone VAL,
+        s_in: SYM,
+        rep_out: Report,
+        v_out: VAL,
 }{pred_STLookUp[st, st', s_in, rep_out, v_out]}
-pred pred_STLookUp(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, rep_out : one  Report, v_out : one  VAL){
-        ((pred_LookUp[st, st', s_in, v_out] and pred_Success[rep_out]) or pred_NotPresent[st, st', s_in, rep_out])
+pred pred_STLookUp[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : SYM, rep_out : Report, v_out : VAL]{
+	(pred_LookUp[st, st', s_in, v_out] and pred_Success[rep_out]) or pred_NotPresent[st, st', s_in, rep_out]
 }
 some_STLookUp : run { some STLookUp }
 
 sig STAdd{
-        st: (SYM ->lone VAL),
-        st': (SYM ->lone VAL),
-        s_in: one  SYM,
-        rep_out: one  Report,
-        v_in: one  VAL,
+        st: SYM ->lone VAL,
+        st': SYM ->lone VAL,
+        s_in: SYM,
+        rep_out: Report,
+        v_in: VAL,
 }{pred_STAdd[st, st', s_in, rep_out, v_in]}
-pred pred_STAdd(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, rep_out : one  Report, v_in : one  VAL){
-        ((pred_Add[st, st', s_in, v_in] and pred_Success[rep_out]) or pred_Present[st, st', s_in, rep_out])
+pred pred_STAdd[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : SYM, rep_out : Report, v_in : VAL]{
+        (pred_Add[st, st', s_in, v_in] and pred_Success[rep_out]) or pred_Present[st, st', s_in, rep_out]
 }
 some_STAdd : run { some STAdd }
 
 sig STReplace{
-        st: (SYM ->lone VAL),
-        st': (SYM ->lone VAL),
-        s_in: one  SYM,
-        v_in: one  VAL,
-        rep_out: one  Report,
+        st: SYM ->lone VAL,
+        st': SYM ->lone VAL,
+        s_in: SYM,
+        v_in: VAL,
+        rep_out: Report,
 }{pred_STReplace[st, st', s_in, v_in, rep_out]}
-pred pred_STReplace(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, v_in : one  VAL, rep_out : one  Report){
-        ((pred_Replace[st, st', s_in, v_in] and pred_Success[rep_out]) or pred_NotPresent[st, st', s_in, rep_out])
+pred pred_STReplace[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : SYM, v_in : VAL, rep_out : Report]{
+        (pred_Replace[st, st', s_in, v_in] and pred_Success[rep_out]) or pred_NotPresent[st, st', s_in, rep_out]
 }
 some_STReplace : run { some STReplace }
 
 sig STDelete{
-        st: (SYM ->lone VAL),
-        st': (SYM ->lone VAL),
-        s_in: one  SYM,
-        rep_out: one  Report,
+        st: SYM ->lone VAL,
+        st': SYM ->lone VAL,
+        s_in: SYM,
+        rep_out: Report,
 }{pred_STDelete[st, st', s_in, rep_out]}
-pred pred_STDelete(st : (SYM ->lone VAL), st' : (SYM ->lone VAL), s_in : one  SYM, rep_out : one  Report){
-        ((pred_Delete[st, st', s_in] and pred_Success[rep_out]) or pred_NotPresent[st, st', s_in, rep_out])
+pred pred_STDelete[st : SYM ->lone VAL, st' : SYM ->lone VAL, s_in : SYM, rep_out : Report]{
+        (pred_Delete[st, st', s_in] and pred_Success[rep_out]) or pred_NotPresent[st, st', s_in, rep_out]
 }
 some_STDelete : run { some STDelete }
 
-fun dom(r : (univ -> univ)): set  univ{
-        (r . univ)
+fun dom[r : univ -> univ]: set  univ{
+        r . univ
 }
 
-fun ndres(ex : set  univ, r : (univ -> univ)): (univ -> univ){
-        ((dom[r] - ex) <: r)
+fun ndres[ex : set  univ, r : univ -> univ]: univ -> univ{
+        (dom[r] - ex) <: r
 }

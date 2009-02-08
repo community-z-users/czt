@@ -116,12 +116,18 @@ public class AlloyPrinter extends VisitReturn
    * returns a String representation of the ExprBinary which looks like:
    * 
    * ( left op right )
+   * 
+   * unless the op is ISSEQ_ARROW_LONE in which case it looks like: seq right
+   * 
    * calling visitThis for the left and right expression
    * 
    */
   @Override
   public String visit(ExprBinary x) throws Err
   {
+    if (x.op.equals(ExprBinary.Op.ISSEQ_ARROW_LONE)) {
+      return "(seq " + visitThis(x.right) + ")";
+    }
     return "(" + visitThis(x.left) + " " + x.op + " " + visitThis(x.right) + ")";
   }
 
@@ -234,7 +240,7 @@ public class AlloyPrinter extends VisitReturn
     if (x.op == ExprUnary.Op.CAST2INT || x.op == ExprUnary.Op.CAST2SIGINT) {
       op = "";
     }
-    return op + visitThis(x.sub);
+    return "(" + op + visitThis(x.sub) + ")";
   }
 
   /**
