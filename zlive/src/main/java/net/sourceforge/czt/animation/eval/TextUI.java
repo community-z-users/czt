@@ -198,9 +198,13 @@ public class TextUI {
       output_.print(sect + "> ");
       output_.flush();
       String str = input.readLine();
-      str = str.trim();
-      if (str == null || str.equals("quit") || str.equals("exit"))
+      if (str == null) {
         break;
+      }
+      str = str.trim();
+      if (str.equals("quit") || str.equals("exit")) {
+        break;
+      }
       else if ( ! str.equals("")) {
         String parts[] = str.split(" +", 2);
         processCmd(parts[0], parts.length > 1 ? parts[1] : "");
