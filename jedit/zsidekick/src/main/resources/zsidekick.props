@@ -21,6 +21,7 @@ plugin.zsidekick.ZSideKickPlugin.menu=sidekick-tree \
                                       zsidekick.toOldLatex \
                                       zsidekick.toUnicode \
                                       zsidekick.toXml \
+                                      zsidekick.domainCheck \
                                       zsidekick.nextWff \
                                       zsidekick.insertTypeForCurrentWff \
                                       zsidekick.rewriteCurrentWff \
@@ -37,6 +38,7 @@ zsidekick.toLatex.label=Convert to Latex mark-up
 zsidekick.toOldLatex.label=Convert to old Latex mark-up
 zsidekick.toUnicode.label=Convert to Unicode mark-up
 zsidekick.toXml.label=Convert to XML
+zsidekick.domainCheck.label=Domain check buffer
 zsidekick.nextWff.label=Highlight next wff
 #zsidekick.gotoDefinition.label=Goto definition of selected referencing name
 zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
@@ -50,7 +52,7 @@ zsidekick.showCompleteTree.label=Show complete syntax tree
 plugin.zsidekick.ZSideKickPlugin.option-pane=zsidekick
 options.zsidekick.label=ZSideKick
 options.zsidekick.code=new zsidekick.OptionPane();
-options.zsidekick.standardConformance=<html><h3>Extensions to Z Standard</h3></html>
+options.zsidekick.standardConformance=<html><h2>Extensions to Z Standard</h2></html>
 options.zsidekick.printNameIds=Print the Ids of names
 options.zsidekick.addSpaceBeforeLatexPunctation=Add space before latex punctation (, and ; characters)
 options.zsidekick.ignoreUnknownLatexCommands=Allow latex commands that do not have mark-up directives
@@ -58,6 +60,7 @@ options.zsidekick.resetButton=Reset all options to be Z Standard conforming
 options.zsidekick.useBeforeDecl=Allow use of variables before their declaration
 options.zsidekick.useStrongTyping=Use strong typing for typechecking Object-Z specifications
 options.zsidekick.debugZsideKick=Switch to debug mode; it logs information on JEdit-SectionManager.log
+options.zsidekick.cztPathLabel=CZT search paths
 
 # SideKick parsers
 sidekick.parser.z.label=Z

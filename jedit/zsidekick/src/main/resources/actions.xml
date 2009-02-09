@@ -23,6 +23,11 @@
       zsidekick.ZSideKickActions.toXml(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.domainCheck">
+    <CODE>
+      zsidekick.ZSideKickActions.domainCheck(view);
+    </CODE>
+  </ACTION>
   <ACTION NAME="zsidekick.nextWff">
     <CODE>
       zsidekick.ZSideKickActions.highlightNextWff(view);
