@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -403,7 +404,12 @@ public class SectionManager
   {
     return commands_.get(infoType);
   }
-
+  
+  public Iterator<Class<?>> getCommandKeys()
+  {
+    return Collections.unmodifiableSet(commands_.keySet()).iterator();
+  }
+    
   /**
    * Returns whether the given Key has already been computed
    * and is cached.
