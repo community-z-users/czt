@@ -19,9 +19,17 @@
 package zsidekick;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.sourceforge.czt.dc.z.DomainCheckException;
 import net.sourceforge.czt.dc.z.DomainCheckUtils;
+import net.sourceforge.czt.dc.z.SpecDCEnvAnn;
+import net.sourceforge.czt.session.Command;
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.textarea.*;
@@ -119,44 +127,81 @@ public class ZSideKickActions
   public static void domainCheck(View view)
     throws CommandException
   {
+    JOptionPane.showMessageDialog(view, "jEdit integration of this feature is still experimental. Please bare with us.");
     ParsedData parsedData = getParsedData(view);
     if (parsedData != null) 
     {      
       SectionManager manager = parsedData.getManager();
       Buffer buffer = parsedData.getBuffer();
-      final String name = buffer.getPath();
-      final String path = new File(name).getParent();
+      final String bufferPath = buffer.getPath(); // full qualified file name
+      final File file = new File(bufferPath);
+      final String name = file.getName(); // just last name of file
+      final String path = file.getParent(); // just the file directory
       if (path != null) {
         String oldpath = manager.getProperty("czt.path");
-        String localpath = ((oldpath == null || oldpath.isEmpty()) ? path : oldpath + ";" + path);
+        String localpath = ((oldpath == null || oldpath.isEmpty() || oldpath.equals(path)) ? 
+          path : oldpath  + ";" + path);
         assert localpath != null;
         manager.setProperty("czt.path", localpath);
+        JOptionPane.showMessageDialog(view, "CZT-path = " + localpath.replace(';', '\n'));
       }
-      /*
-      parsedData.spec_
+      JOptionPane.showMessageDialog(view, "Buffer path = " + buffer.getPath() + 
+        ";\nBuffer name = " + buffer.getName() +  // same as file.getName()
+        ";\nFile path = " + path +
+        ";\nFile name = " + name);      
+      StringBuilder commands = new StringBuilder("SectionManager.Commands = {");
+      Iterator<Class<?>> it = manager.getCommandKeys();
+      while (it.hasNext())
+      {
+        Class<?> cls = it.next();
+        Command cmd = manager.getCommand(cls);
+        commands.append("\n\t " + cls.getSimpleName() + " = " + cmd.getClass().getName());
+      }      
+      commands.append("}");
+      JOptionPane.showMessageDialog(view, commands.toString());
+      SpecDCEnvAnn specDCEnv;
+      try 
+      {
+        // full file name no extension        
+        specDCEnv = manager.get(new Key<SpecDCEnvAnn>(DomainCheckUtils.getFileNameNoExt(bufferPath), SpecDCEnvAnn.class));     
+      }
+      catch (CommandException e)
+      {
+        specDCEnv = null;
+        //StringWriter swriter = new StringWriter();
+        //PrintWriter pwriter = new PrintWriter(swriter, true);
+        e.printStackTrace(System.err);
+        //pwriter.close();        
+        JOptionPane.showMessageDialog(view, "Could not calculate domain checks for " + name
+          + ". Detailed error message:\n" + e.getMessage(), "Command Error!", JOptionPane.ERROR_MESSAGE);
+      }
       
-      Spec spec = manager.get(new Key<Spec>(name, Spec.class));
-      if (spec.getSect().size() > 0) {
-        data.addData(spec, manager, wffHighlight_, buffer);
-        if (! buffer.getBooleanProperty("zsidekick.disable-typechecking")) {          
-          for (Sect sect : spec.getSect()) {
-            if (sect instanceof ZSect) {                            
-              logger_.config("Command for SectTypeEnvAnn is "+manager.getCommand(SectTypeEnvAnn.class));
-              // typecheck the section.
-              manager.get(new Key<SectTypeEnvAnn>(((ZSect) sect).getName(), SectTypeEnvAnn.class));
-            }
-          }
+      if (specDCEnv != null)
+      {        
+        CztPrintString printString = null;        
+        try
+        {
+          // retrieve the dcSpec for the given specDCEnv
+          Spec dcSpec = specDCEnv.getDCSpec(manager);
+          assert dcSpec != null;
+          // retrieve the print string for the DC Spec
+          printString = DomainCheckUtils.getPrintString(name, manager, dcSpec);          
         }
+        catch (DomainCheckException ex)
+        {
+          final String message = "A domain check exception was thrown while trying to" +
+              " retrieve the contents of a domain checked specification contents for " + name + 
+              ". The details are " + ex.getMessage();
+          JOptionPane.showMessageDialog(view, message);
+          throw new CommandException(message);          
+        }
+        if (printString != null)
+        {
+          // create a new jEdit buffer in view and write the print string contents to it
+          Buffer bufferDC = jEdit.newFile(view);
+          bufferDC.insert(0, printString.toString());          
+        }        
       }
-      
-      
-      SectionManager manager = parsedData.getManager();
-      Key<XmlString> key = new Key<XmlString>(view.getBuffer().getPath(), XmlString.class);
-      XmlString xml = manager.get(key);
-      Buffer buffer = jEdit.newFile(view);
-      buffer.setStringProperty("encoding", "UTF-8");
-      buffer.insert(0, xml.toString());
-       * */
     }
   }
 

@@ -389,6 +389,7 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/version.java -text
 jedit/zeves/src/main/resources/zeves.html -text
 jedit/zeves/src/main/resources/zeves.props -text
 jedit/zlive/src/main/resources/zlive.html -text
+jedit/zsidekick/src/main/java/zsidekick/CztPath.form -text
 modeljunit/jdsl/overview/overview.pdf -text
 modeljunit/jdsl/tutorial/lesson06/tree.jpg -text
 modeljunit/jdsl/tutorial/lesson06/treeWithBoxes.jpg -text

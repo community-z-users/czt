@@ -20,13 +20,13 @@ package zsidekick;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.*;
 
-import org.gjt.sp.jedit.gui.*;
+import net.sourceforge.czt.session.SourceLocator;
 import org.gjt.sp.jedit.*;
 
 public class OptionPane extends AbstractOptionPane
 {
+  // property names
   private final String PRINT_IDS =
     ZSideKickPlugin.PROP_PRINT_IDS;
   private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
@@ -37,6 +37,10 @@ public class OptionPane extends AbstractOptionPane
     ZSideKickPlugin.PROP_USE_STRONG_TYPING;
   private final String DEBUG_ZSIDEKICK =
     ZSideKickPlugin.PROP_DEBUG_ZSIDEKICK;  
+  private final String PROP_CZTPATH_ZSIDEKICK =
+    ZSideKickPlugin.PROP_CZTPATH;
+
+  // property labels
   private final String PROP_LABEL_STD_CONFORMANCE =      
     ZSideKickPlugin.OPTION_PREFIX + "standardConformance";
   private final String PROP_LABEL_PRINT_IDS =
@@ -49,14 +53,17 @@ public class OptionPane extends AbstractOptionPane
     ZSideKickPlugin.OPTION_PREFIX + "useStrongTyping";
   private final String PROP_LABEL_DEBUG_ZSIDEKICK =
     ZSideKickPlugin.OPTION_PREFIX + "debugZsideKick";
+  private final String PROP_LABEL_CZTPATH_ZSIDEKICK =
+    ZSideKickPlugin.OPTION_PREFIX + "cztPathLabel";
   private final String PROP_LABEL_RESET =
     ZSideKickPlugin.OPTION_PREFIX + "resetButton";
-
+  
   private JCheckBox ignoreUnknownLatexCommands_;
   private JCheckBox printIds_;
   private JCheckBox useBeforeDecl_;
   private JCheckBox useStrongTyping_;
   private JCheckBox debug_;
+  private CztPath cztPath_;
 
   public OptionPane()
   {
@@ -102,8 +109,18 @@ public class OptionPane extends AbstractOptionPane
       new JButton(jEdit.getProperty(PROP_LABEL_RESET));
     resetButton.addActionListener(new ResetHandler());
     addComponent(resetButton);
+    
+    JButton cztPathButton = 
+      new JButton(jEdit.getProperty(PROP_LABEL_CZTPATH_ZSIDEKICK));
+    cztPathButton.addActionListener(new CztPathListener());
+    addComponent(cztPathButton);
+    
+    String paths = jEdit.getProperty(PROP_CZTPATH_ZSIDEKICK);
+    if (paths == null || paths.isEmpty()) { paths = ""; }
+    cztPath_ = new CztPath(SourceLocator.processCZTPaths(paths));
   }
 
+  @Override
   protected void _save()
   {
     boolean value = ignoreUnknownLatexCommands_.getModel().isSelected();
@@ -115,11 +132,17 @@ public class OptionPane extends AbstractOptionPane
     value = useStrongTyping_.getModel().isSelected();
     jEdit.setBooleanProperty(USE_STRONG_TYPING, value);    
     value = debug_.getModel().isSelected();
-    jEdit.setBooleanProperty(DEBUG_ZSIDEKICK, value);
+    jEdit.setBooleanProperty(DEBUG_ZSIDEKICK, value);    
+    String cztPath = cztPath_.buildPathList();
+    jEdit.setProperty(PROP_CZTPATH_ZSIDEKICK, cztPath);
+    JOptionPane.showMessageDialog(this, cztPath);  
+    
+    // update section manager properties please. TODO.
   }
 
   class ResetHandler implements ActionListener
   {
+    @Override
     public void actionPerformed(ActionEvent e)
     {
       printIds_.getModel().setSelected(false);
@@ -127,6 +150,14 @@ public class OptionPane extends AbstractOptionPane
       useBeforeDecl_.getModel().setSelected(false);
       useStrongTyping_.getModel().setSelected(false);
       debug_.getModel().setSelected(false);
+    }
+  }
+  
+  class CztPathListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      cztPath_.showDialog();            
     }
   }
 }

@@ -20,24 +20,17 @@ package zsidekick;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sourceforge.czt.session.SectionManager;
 import org.gjt.sp.jedit.*;
-import org.gjt.sp.jedit.textarea.TextAreaPainter;
 import errorlist.*;
 import sidekick.*;
 
 import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.*;
-import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
@@ -95,7 +88,7 @@ public class CztParser
   public SideKickParsedData parse(Buffer buffer,
                                   DefaultErrorSource errorSource)
   {   
-    ParsedData data = new ParsedData(buffer.getName());
+    ParsedData data = new ParsedData(buffer.getName(), getMarkup());
     try {
       if (debug_) { setFileLogger(); }
       SectionManager manager = getManager(buffer);
@@ -126,8 +119,8 @@ public class CztParser
         }
       }
       try {
-        ParseException parseException = (ParseException)
-          manager.get(new Key(source.getName(), ParseException.class));
+        ParseException parseException = 
+          manager.get(new Key<ParseException>(source.getName(), ParseException.class));
         if (parseException != null) {
           printErrors(parseException.getErrors(), buffer, errorSource);
         }
@@ -240,6 +233,13 @@ public class CztParser
     int width = buffer.getIntegerProperty("maxLineLen", 0);
     if (width > 0) {
       manager.setProperty(PROP_TXT_WIDTH, "" + width);
+    }
+    
+    propname = ZSideKickPlugin.PROP_CZTPATH;
+    value = jEdit.getProperty(propname);
+    if (value != null)
+    {
+      manager.setProperty(propname, value);
     }
   }
 }

@@ -18,10 +18,11 @@
  */
 package zsidekick;
 
+import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 import org.gjt.sp.jedit.*;
 
 public class ZSideKickPlugin
-  extends EditPlugin
+  extends EditPlugin implements TypecheckPropertiesKeys //TODO: NORMALISE THESE NAMES LATER!
 {
   public static final String NAME = "zsidekick";
   public static final String OPTION_PREFIX = "options.zsidekick.";
@@ -37,4 +38,6 @@ public class ZSideKickPlugin
     "ZSideKickPlugin.debug";
   public static final String DEBUG_LOG_FILENAME=
     "JEdit-SectionManager.log";
+  
+  public static final String PROP_CZTPATH = "czt.path";  
 }
