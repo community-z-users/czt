@@ -50,6 +50,9 @@ public class DefinitionTableVisitor
   private DefinitionTable table_;
   private final PrintVisitor printVisitor_;
   
+  /** The name of the section whose paragraphs are being processed. */
+  private String sectName_;
+
   /**
    * Creates a new definition table visitor.
    * The section information should be able to provide information of
@@ -85,16 +88,16 @@ public class DefinitionTableVisitor
     for (Para p : list) visit(p);
     return null;
   }
-  
+
   public Object visitAxPara(AxPara axPara)
-  { 
+  {
     // gets the generic names
     ZNameList genFormals = axPara.getZNameList();
-    
-    // gets the declarations 
+
+    // gets the declarations
     ZSchText schText = axPara.getZSchText();
     List<Decl> decls = schText.getZDeclList();
-    
+
     // processes all declarations from axPara with an empty stroke stack.
     // stroke stacks are used to process DecorExpr within InclDecls
     processDeclList(genFormals, decls, new Stack<Stroke>());
@@ -108,7 +111,7 @@ public class DefinitionTableVisitor
 
   public Object visitZSect(ZSect zSect)
   {
-    final String name = zSect.getName();
+	sectName_ = zSect.getName();
     List<DefinitionTable> parentTables =
       new ArrayList<DefinitionTable>();
     for (Parent parent : zSect.getParent()) {
@@ -117,7 +120,7 @@ public class DefinitionTableVisitor
       parentTables.add(parentTable);
     }
     try {
-      table_ = new DefinitionTable(name, parentTables);
+      table_ = new DefinitionTable(sectName_, parentTables);
     }
     catch (DefinitionTable.DefinitionException exception)
     {
@@ -131,12 +134,13 @@ public class DefinitionTableVisitor
   {
     term.accept(this);
   }
-  
-  protected void addDefinition(ZNameList genFormals, Name declName, Expr defExpr, DefinitionType type)
+
+  protected void addDefinition(ZNameList genFormals, Name declName,
+		  Expr defExpr, DefinitionType type)
   {
     String name = declName.accept(printVisitor_);
     DefinitionTable.Definition def =
-      new DefinitionTable.Definition(genFormals, defExpr, type);
+      new DefinitionTable.Definition(sectName_, genFormals, defExpr, type);
     try {
       table_.add(name, def);
     }
@@ -144,44 +148,44 @@ public class DefinitionTableVisitor
       throw new CztException(e);
     }
   }
-  
+
   private static int complexInclDeclSeed = 0;
   public static final String COMPLEX_INCLDECL_NAME_PATTERN = "complexInclDecl";
-  
+
   public static final Logger logger_ = Logger.getLogger(SectionManager.class.getName());
-  
+
   protected static String createNewInclDeclDefName()
   {
     complexInclDeclSeed++;
     return COMPLEX_INCLDECL_NAME_PATTERN + complexInclDeclSeed;
-  }    
-  
+  }
+
   private Name buildName(Name name, List<Stroke> strokes)
   {
     Name result = name;
     if (strokes != null && !strokes.isEmpty())
     {
       ZName zname = ZUtils.assertZName(name);
-      result = ZUtils.FACTORY.createZName(zname.getWord(), 
+      result = ZUtils.FACTORY.createZName(zname.getWord(),
         ZUtils.FACTORY.createZStrokeList(zname.getZStrokeList()));
-      ((ZName)result).getZStrokeList().addAll(strokes);      
+      ((ZName)result).getZStrokeList().addAll(strokes);
     }
     return result;
   }
-   
+
   private void addComplexRefExprInfo(ZNameList genFormals, Expr expr, List<Stroke> strokes)
-  {    
+  {
     Name complexName = ZUtils.FACTORY.createZName(createNewInclDeclDefName());
     Name bcomplexName = buildName(complexName, strokes);
     logger_.warning("Found a complex (schema) inclusion expression and could not calculate " +
       "definition table for inner element names. Adding it as schema " +
       "inclusion that is not a reference name. Adding it with name " + bcomplexName
       + " as INCLDECL. Other tools might want to try and process it further.");
-    addDefinition(genFormals, bcomplexName, expr, DefinitionType.INCLDECL);    
+    addDefinition(genFormals, bcomplexName, expr, DefinitionType.INCLDECL);
   }
-  
+
   protected void processRefExpr(ZNameList genFormals, RefExpr refExpr, List<Stroke> strokes)
-  {    
+  {
     // this name may contain strokes already
     Name name = refExpr.getName();
     String strName = name.accept(printVisitor_);
@@ -192,32 +196,32 @@ public class DefinitionTableVisitor
     if (def != null &&
         def.getDefinitionType().equals(DefinitionType.CONSTDECL) &&
         def.getExpr() instanceof SchExpr)
-    {            
-      SchExpr schExpr = (SchExpr)def.getExpr();                        
+    {
+      SchExpr schExpr = (SchExpr)def.getExpr();
 
       // with the same generic formals, add each declaration within this trivial INCLDECL
       processDeclList(genFormals, schExpr.getZSchText().getZDeclList(), strokes);
     }
-    else 
+    else
     {
       Name bname = buildName(name, strokes);
       logger_.info("Found a reference to a complex (schema) expression inclusion found while building definition table. " +
-        "These are usually Delta, Xi, or simple decorated schema inclusion expressions. Added " + bname + 
+        "These are usually Delta, Xi, or simple decorated schema inclusion expressions. Added " + bname +
         " as INCLDECL. Other tools might want to try and process it further.");
       addDefinition(genFormals, bname, refExpr, DefinitionType.INCLDECL);
     }
   }
-  
-  protected void processDeclList(ZNameList genFormals, List<Decl> decls, List<Stroke> strokes) 
+
+  protected void processDeclList(ZNameList genFormals, List<Decl> decls, List<Stroke> strokes)
   {
-    for (Decl decl : decls) 
+    for (Decl decl : decls)
     {
-      if (decl instanceof ConstDecl) 
-      {        
-        ConstDecl constDecl = (ConstDecl) decl;                
-        Name name = buildName(constDecl.getName(), strokes);          
+      if (decl instanceof ConstDecl)
+      {
+        ConstDecl constDecl = (ConstDecl) decl;
+        Name name = buildName(constDecl.getName(), strokes);
         addDefinition(genFormals, name, constDecl.getExpr(), DefinitionType.CONSTDECL);
-        
+
         // for schema expression definitions, add internal elements from declarations
         // these could be either direct VarDecls on top-level schemas, or inclusions.
         if (constDecl.getExpr() instanceof SchExpr)
@@ -225,8 +229,8 @@ public class DefinitionTableVisitor
           SchExpr schExpr = (SchExpr)constDecl.getExpr();
           // no strokes to be added
           processDeclList(genFormals, schExpr.getZSchText().getZDeclList(), strokes);
-        }        
-      } 
+        }
+      }
       else if (decl instanceof VarDecl)
       {
         VarDecl varDecl = (VarDecl) decl;
@@ -247,28 +251,28 @@ public class DefinitionTableVisitor
         // A general solution is difficult, since
         // the inclusion expression could be a schema expression that uses
         // fancy schema operators like composition and renaming, which
-        // obfuscates the set of names that it declares.  A possible 
+        // obfuscates the set of names that it declares.  A possible
         // solution might be to handle just the easy case here
         // (where the schema inclusion is just a name, or perhaps a
         // decorated name), and ignore the complex cases, or use the
-        // typechecker to map every declared name to its carrier set.        
+        // typechecker to map every declared name to its carrier set.
 
         // THIS GOES SOMEWHERE ELSE??
-        InclDecl inclDecl = (InclDecl) decl;        
+        InclDecl inclDecl = (InclDecl) decl;
         Expr expr = inclDecl.getExpr();
 
         // if it is a reference inclusion, then it is easy
         if (expr instanceof RefExpr)
         {
           RefExpr refExpr = (RefExpr) expr;
-          processRefExpr(genFormals, refExpr, strokes);          
+          processRefExpr(genFormals, refExpr, strokes);
         }
         // for decorated inclusions, add the stroked version of possible names
         else if (expr instanceof DecorExpr)
         {
           int strokeCnt = 0;
-          // get any previous strokes to consider          
-          DecorExpr dexpr = (DecorExpr)expr;          
+          // get any previous strokes to consider
+          DecorExpr dexpr = (DecorExpr)expr;
           boolean added = strokes.add(dexpr.getStroke());
           // for simple decorated expressions (i.e., S~'?, but not (S \land T)~')
           if (dexpr.getExpr() instanceof RefExpr)
@@ -277,21 +281,21 @@ public class DefinitionTableVisitor
             processRefExpr(genFormals, refExpr, strokes);
             if (added)
             {
-              // remove last one if added 
+              // remove last one if added
               strokes.remove(strokes.size()-1);
             }
           }
           else
-          {            
+          {
             addComplexRefExprInfo(genFormals, dexpr.getExpr(), strokes);
           }
         }
         // otherwise, we would need a dual-phase visiting.
         // e.g., (S \land T), go through S and T ?
-        else 
-        {                  
+        else
+        {
           addComplexRefExprInfo(genFormals, expr, strokes);
-        }        
+        }
       }
     }
   }

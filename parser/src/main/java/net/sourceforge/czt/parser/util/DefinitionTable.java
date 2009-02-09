@@ -22,6 +22,7 @@ package net.sourceforge.czt.parser.util;
 import java.util.*;
 
 import java.util.Collections;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
@@ -32,7 +33,7 @@ import net.sourceforge.czt.z.ast.*;
 public class DefinitionTable
 {
   private static final Logger logger_ = Logger.getLogger(SectionManager.class.getName());
-  
+
   /**
    * The name of the section.
    */
@@ -47,8 +48,8 @@ public class DefinitionTable
     new TreeMap<String,Definition>();
 
   /**
-   * Constructs a definition table for a new section. Changed the originally 
-   * public method to be protected. One should not directly update the DefinitionTable, 
+   * Constructs a definition table for a new section. Changed the originally
+   * public method to be protected. One should not directly update the DefinitionTable,
    * but use the lookup algorithm from the DefinitionTableVisitor instead.
    *
    * @param parents Definition tables of all direct parents of the new section.
@@ -58,18 +59,18 @@ public class DefinitionTable
     throws DefinitionException
   {
     section_ = section;
-    if (parents != null) 
+    if (parents != null)
     {
       // collect all exceptions in one chain of throwable causes
       // rather than stopping the collection upon finding the
       // first duplication problem. This way, we leave room for
       // whoever is calling this method to deal with a complete
-      // definition table appropriately. 
+      // definition table appropriately.
       List<DefinitionException> exceptions = new ArrayList<DefinitionException>(parents.size());
-      for (DefinitionTable table : parents) 
+      for (DefinitionTable table : parents)
       {
-        try 
-        {          
+        try
+        {
           addParentDefinitionTable(table);
         }
         catch(DefinitionException e)
@@ -77,7 +78,7 @@ public class DefinitionTable
           // collect the exception and carry on
           exceptions.add(e);
         }
-      } 
+      }
       // throw exception if one only, or throw their list otherwise
       if (exceptions.size() == 1)
       {
@@ -88,7 +89,7 @@ public class DefinitionTable
         final String message = "Multiple definition exceptions when creating definition" +
           "table. They happened while processing parents for section " + section;
         //throw new DefinitionException(message, exceptions);
-        logger_.warning(message + " with exceptions " + exceptions.toString());        
+        logger_.warning(message + " with exceptions " + exceptions.toString());
       }
     }
   }
@@ -99,20 +100,12 @@ public class DefinitionTable
    */
   private void addParentDefinitionTable(DefinitionTable parentTable)
     throws DefinitionException
-  {    
+  {
     assert parentTable != null;
-    if (!Collections.disjoint(definitions_.keySet(), parentTable.definitions_.keySet()))
-    {
-      final String message = "Definition table for parent section " +
-        parentTable.section_ + " contains definitions with the same name as those " +
-        "from current section " + section_ + " (i.e., definition tables are not disjoint). " +
-        "This occurs either because some section is not typechecked, or because type-compatible " +
-        "names (i.e., those with different declared types but same carrier set) were repeated " +
-        "(e.g., x declared as natural or integer has arithmos carrier set).";
-      //throw new DefinitionException(message);
-      logger_.warning(message);
+    // process them one-by-one, so add can check for duplicates.
+    for (Entry<String, Definition> def : parentTable.definitions_.entrySet()) {
+      add(def.getKey(), def.getValue());
     }
-    definitions_.putAll(parentTable.definitions_);
   }
 
   public String getSection()
@@ -148,11 +141,11 @@ public class DefinitionTable
    */
   protected void add(String defName, Definition def)
     throws DefinitionException
-  {    
-    assert defName != null && !defName.isEmpty() && def != null : 
+  {
+    assert defName != null && !defName.isEmpty() && def != null :
       "Invalid definition name and value to add to definition table: name = " + defName + "; value = " + def;
     Definition old = definitions_.put(defName, def);
-    if (old != null)
+    if (old != null && ! old.getSectionName().equals(def.getSectionName()))
     {
       final String message = "Definition table for section " + section_ +
         "already contains a definition for " + defName +
@@ -171,30 +164,30 @@ public class DefinitionTable
     extends Exception
   {
     private final List<DefinitionException> exceptions_;
-    
+
     public DefinitionException(String message)
     {
       super(message);
       exceptions_ = null;
     }
-    
+
     public DefinitionException(String message, Throwable cause)
     {
       super(message, cause);
       exceptions_ = null;
-    }    
-    
+    }
+
     public DefinitionException(String message, List<DefinitionException> exceptions)
     {
       super(message);
       exceptions_ = Collections.unmodifiableList(exceptions);
     }
-    
+
     public List<DefinitionException> getExceptions()
     {
       return exceptions_;
     }
-    
+
     public String toString()
     {
       String result = super.toString();
@@ -212,7 +205,7 @@ public class DefinitionTable
   {
     T visitDefinition(Definition def);
   }
-  
+
   /** This defines a definition, but without the name.
    *  That is, for the generic definition g[T,U] = T \fun U,
    *  this Definition records the type parameters T,U and
@@ -223,13 +216,15 @@ public class DefinitionTable
     private final ZNameList genericParams_;
     private final Expr definition_;
     private final DefinitionType defType_;
+    private final String sectName_;
 
-    public Definition(ZNameList generic, Expr definition, DefinitionType definitionType)
+    public Definition(String sectName, ZNameList generic, Expr definition, DefinitionType definitionType)
     {
       assert generic != null && definition != null && definitionType != null;
       genericParams_ = generic;
       definition_ = definition;
       defType_ = definitionType;
+      sectName_ = sectName;
     }
 
     /** Returns the list of generic type parameters of this definition.
@@ -252,14 +247,20 @@ public class DefinitionTable
     {
       return definition_;
     }
-    
+
     /** Tells you whether this name was declared via a constant
      * definition, or a variable declaration.
      * @return
      */
-    public DefinitionType getDefinitionType() 
+    public DefinitionType getDefinitionType()
     {
       return defType_;
+    }
+
+    /** The Z section that this definition was first defined in. */
+    public String getSectionName()
+    {
+    	return sectName_;
     }
 
     public String toString()
