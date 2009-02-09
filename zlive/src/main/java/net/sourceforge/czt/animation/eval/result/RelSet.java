@@ -102,6 +102,9 @@ public class RelSet extends EvalSet
     return false;
   }
 
+  /**
+   *  TODO: calculate this correctly for functions with small/finite dom&ran.
+   */
   public int size()
   {
     return Integer.MAX_VALUE;
