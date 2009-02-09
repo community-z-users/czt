@@ -62,7 +62,7 @@ public class FlatForall extends FlatPred
     Set<ZName> bound = sch.boundVars();
     for (ZName var : body_.freeVars()) {
       if (var.getId() == null) {
-        System.out.println("Warning: ZName doesn't have id.");
+        System.out.println("Warning: ZName "+var+" doesn't have an id.");
       }
       if ( ! bound.contains(var))
         freeVars_.add(var);

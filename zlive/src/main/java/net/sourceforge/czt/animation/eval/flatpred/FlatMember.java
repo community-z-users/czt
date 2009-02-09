@@ -220,8 +220,8 @@ public class FlatMember extends FlatPred
           double solns = set.estSize();
           Map<Object, Expr> argValues = knownValues(env);
           if (argValues != null) {
-            System.out.println("Reducing FlatMember estimate from "+solns
-                +" to log: "+Math.log(solns));
+            //System.out.println("Reducing FlatMember estimate from "+solns
+            //    +" to log: "+Math.log(solns));
             solns = Math.log(solns);   // much smaller
           }
           if (size != null)
