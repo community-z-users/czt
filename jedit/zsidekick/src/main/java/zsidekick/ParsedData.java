@@ -18,6 +18,7 @@
  */
 package zsidekick;
 
+import net.sourceforge.czt.session.Markup;
 import org.gjt.sp.jedit.*;
 import sidekick.*;
 
@@ -34,10 +35,12 @@ public class ParsedData
   Spec spec_;
   WffHighlight wffHighlight_;
   Buffer buffer_;
+  Markup markup_;
 
-  public ParsedData(String name)
+  public ParsedData(String name, Markup markup)
   {
     super(name);
+    markup_ = markup;
   }
 
   public void addData(Spec spec, SectionManager manager,
@@ -71,5 +74,10 @@ public class ParsedData
   public WffHighlight getWffHighlight()
   {
     return wffHighlight_;
+  }
+  
+  public Markup getMarkup()
+  {
+    return markup_;
   }
 }
