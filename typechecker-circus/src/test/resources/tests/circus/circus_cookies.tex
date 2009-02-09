@@ -1,6 +1,5 @@
 \documentclass{article}
 
-\usepackage{czt}
 \usepackage{vmargin}
 \usepackage[color]{circus}
 
@@ -79,7 +78,7 @@ It is not a total operation because there might not be enough money.
 
 Schema expressions as actions.
 %
-\begin{circusaction}   
+\begin{circusaction}
     InitState ~~\circdef~~ \lschexpract [~ State~' | money' = 0 \land quantity' = cookieQuantity ~] \rschexpract
 \end{circusaction}
 
@@ -91,7 +90,8 @@ Note this will generate type error for $InputMoney$ because $x?$ is not into sco
 \]
 %
 \begin{zed}
-    InputMoney ~~==~~ [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~]
+    InputMoney ~~==~~ \\
+        \t1 [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~]
 \end{zed}
 
 \begin{circusaction}
@@ -101,8 +101,8 @@ Note this will generate type error for $InputMoney$ because $x?$ is not into sco
 
 The parser also admits some special commands that are tokenised as hard spaces, such as \verb'\circblockbegin', \verb'\circblockend', \textit{etc.}
 %
-\begin{circusaction}    
-    Output ~~\circdef~~ 
+\begin{circusaction}
+    Output ~~\circdef~~
         \circblockbegin
             \lcircguard money \geq cookieValue \rcircguard \circguard\ \\
             (\circvar\ o: COOKIE \circspot \lschexpract OutputCookie \rschexpract \circseq (out~!o \then change~!money \then \Skip))
