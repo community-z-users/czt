@@ -152,7 +152,7 @@ public class FlatSetComp extends FlatPred
       solutionsReturned_++;
       ZName setName = getLastArg();
       SetComp set = new SetComp(predsAll_, resultName_,
-                                evalMode_.getEnvir0(), bounds_);
+                                evalMode_.getEnvir0().deepCopy(), bounds_);
       if (evalMode_.isInput(args_.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(setName);
         result = set.equals(otherSet);

@@ -228,4 +228,28 @@ public class Envir
     result.append("}");
     return result.toString();
   }
+  
+  /** Returns a copy of this environment, with no values shared.
+   *  This is sometimes necessary when an expression with free variables
+   *  (eg. SetComp) is being passed outside of its scope, so the value 
+   *  of those variables needs to be copied and frozen.
+   */
+  public Envir deepCopy()
+  {
+    Envir result = new Envir();
+    Envir src = this;
+    Envir tail = result; // the last node (so far) of the cloned list.
+    tail.expr_ = src.expr_;
+    tail.name_ = src.name_;
+    while (src.nextEnv != null) {
+      // invar: dest is non-null and its name_ and expr_ fields are
+      // a copy of src, but its nextEnv field must be copied from src.nextEnv.
+      tail.nextEnv = new Envir();
+      tail = tail.nextEnv;
+      src = src.nextEnv;
+      tail.name_ = src.name_;
+      tail.expr_ = src.expr_;
+    }
+    return result;
+  }
 }

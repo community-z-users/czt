@@ -43,7 +43,7 @@ public class EnvirTest
   private Envir y10 = empty.plus(y,i10);
   private Envir x10x20 = x20.plus(x,i10);
   private Envir x10y20 = x10.plus(y,i20);
-  
+
   public void testIsDefined()
   {
     Assert.assertTrue(x10y20.isDefined(x));
@@ -56,49 +56,49 @@ public class EnvirTest
     Assert.assertFalse(x10y20.isDefinedSince(x10,x));
     Assert.assertTrue(x10y20.isDefinedSince(x10,y));
   }
-  
+
   public void testDefinedSince()
   {
     Set<ZName> result = new HashSet<ZName>();
     result.add(y);
     Assert.assertEquals(result, x10y20.definedSince(x10));
   }
-  
+
   public void testEqualsEmptyEmpty()
   {
     Assert.assertTrue(empty.equals(empty2));
   }
-  
+
   public void testEqualsx10x20()
   {
     Assert.assertFalse(x10.equals(x20));
   }
-  
+
   public void testEqualsx10y10()
   {
     Assert.assertFalse(x10.equals(y10));
   }
- 
+
   public void testEqualsx10x10b()
   {
     Assert.assertTrue(x10.equals(x10b));
   }
-  
+
   public void testEqualsEmptyx10()
   {
     Assert.assertFalse(empty.equals(x10));
   }
-  
+
   public void testEqualsx10Empty()
   {
     Assert.assertFalse(x10.equals(empty));
   }
-  
+
   public void testEqualsx10x20x10()
   {
     Assert.assertFalse(x10x20.equals(x10));
   }
-  
+
   public void testLookupxEmpty()
   {
     try {
@@ -107,7 +107,7 @@ public class EnvirTest
     catch (EvalException ex) {
     }
   }
-  
+
   public void testLookupxx10()
   {
     Assert.assertEquals(i10, x10.lookup(x));
@@ -133,7 +133,7 @@ public class EnvirTest
     Assert.assertEquals(i5, env.lookup(y));
     Assert.assertEquals(i10, env.lookup(x));
   }
-  
+
   public void testPlusAll()
   {
     BindExpr args = (BindExpr) parseExpr("\\lblot x==0, y==10 \\rblot");
@@ -141,8 +141,23 @@ public class EnvirTest
     assertEquals(i0, env.lookup(x));
     assertEquals(i10, env.lookup(y));
   }
+
+  public void testDeepCopy()
+  {
+    Envir env = new Envir().plus(x,i10).plus(y,i20);
+    Envir env2 = env.deepCopy();
+    Assert.assertEquals(i10, env2.lookup(x));
+    Assert.assertEquals(i20, env2.lookup(y));
+    env.setValue(y,i5);
+    // check that the copy has not changed.
+    Assert.assertEquals(i10, env2.lookup(x));
+    Assert.assertEquals(i20, env2.lookup(y));
+    // and check that the original env has changed.
+    Assert.assertEquals(i10, env.lookup(x));
+    Assert.assertEquals(i5,  env.lookup(y));
+  }
 }
 
-  
-    
-    
+
+
+
