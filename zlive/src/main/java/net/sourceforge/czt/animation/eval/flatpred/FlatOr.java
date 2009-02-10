@@ -119,8 +119,9 @@ public class FlatOr extends FlatPred
     Set<ZName> rightVars = rightMode.getEnvir().definedSince(env0);
     // TODO: investigate why left_.boundVars_ is legal here --
     //       should be protected.
-    leftVars.removeAll(left_.boundVars_);
-    rightVars.removeAll(right_.boundVars_);
+    leftVars.retainAll(left_.freeVars());
+    rightVars.retainAll(right_.freeVars());
+    //System.err.println("Leftvars="+leftVars+", rightVars="+rightVars);
     if (leftVars.equals(rightVars)) {
       double solutions = leftMode.getSolutions() + rightMode.getSolutions();
       List<Mode> modes = new ArrayList<Mode>(2);
