@@ -40,6 +40,8 @@ Membership/equality with schemas (sets of bindings).
 
 \section{Testing finite schemas...}
 
+Note that this is a `dishonest' schema, because the type of $out!$
+means that values of $3 \upto 7$ are excluded from $\pre A$.
 \begin{schema}{A}
   x,x' : 0 \upto 10 \\
   out! : 0 \upto 20
@@ -61,7 +63,7 @@ Schemas A2 and A3 are equivalent to the precondition of schema A.
 
 Test unfolding of schema A and various schema operators.
 \begin{zed} \vdash? 
-  \# A = 5
+  \# A = 6
 \end{zed}
 \begin{zed} \vdash? 
   [A | x=2] = \{\lblot x==2,x'==8,out!==16 \rblot\}
