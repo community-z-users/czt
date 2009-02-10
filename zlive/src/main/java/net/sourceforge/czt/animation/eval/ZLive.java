@@ -557,8 +557,8 @@ public class ZLive
             getCurrentSection(), markup);
       }
       catch (Exception e) {
-        out.print("Error trying to print: " + term0);
-        e.printStackTrace(System.err);
+        out.println("Error: "+e.getLocalizedMessage());
+        out.println("while evaluating&printing the result: " + term0);
       }
     }
     out.flush();
