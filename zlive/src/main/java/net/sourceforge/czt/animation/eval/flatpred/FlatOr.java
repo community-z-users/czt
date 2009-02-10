@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import net.sourceforge.czt.animation.eval.Envir;
@@ -47,6 +48,11 @@ public class FlatOr extends FlatPred
   /** The left-hand predicate, once known. */
   private FlatPredList left_;
 
+  /** The variables that are created by *both* sides.
+   *  (This is known only after setMode).
+   */
+  protected Set<ZName> outputs_;
+  
   /** The right-hand predicate, once known. */
   private FlatPredList right_;
 
@@ -55,7 +61,13 @@ public class FlatOr extends FlatPred
    */
   private int from_ = 0;
 
-  /** Creates a new instance of FlatUnion. */
+  /** Creates a new instance of FlatOr.
+   *  The left and right sides can have different sets of free
+   *  variables (as well as different bound variables, obviously).
+   *  However, chooseMode() will succeed only when both sides
+   *  have the same set of output variables, so the differences in
+   *  the freevar sets must be only in the input variables.
+   */
   public FlatOr(FlatPredList left, FlatPredList right)
   {
     super();
@@ -96,16 +108,30 @@ public class FlatOr extends FlatPred
   {
     Mode result = null;
     Mode leftMode = left_.chooseMode(env0);
+    if (leftMode == null) {
+      return null;
+    }
     Mode rightMode = right_.chooseMode(env0);
-    if (leftMode != null && rightMode != null
-        && leftMode.compatible(rightMode)) {
+    if (rightMode == null) {
+      return null;
+    }
+    Set<ZName> leftVars = leftMode.getEnvir().definedSince(env0);
+    Set<ZName> rightVars = rightMode.getEnvir().definedSince(env0);
+    // TODO: investigate why left_.boundVars_ is legal here --
+    //       should be protected.
+    leftVars.removeAll(left_.boundVars_);
+    rightVars.removeAll(right_.boundVars_);
+    if (leftVars.equals(rightVars)) {
       double solutions = leftMode.getSolutions() + rightMode.getSolutions();
       List<Mode> modes = new ArrayList<Mode>(2);
       modes.add(leftMode);
       modes.add(rightMode);
-      // TODO: investigate why leftMode.inputs_ is legal here --
-      //       should be protected.
-      Envir env = leftMode.getEnvir();
+      // now create the output environment.
+      Envir env = env0;
+      for (ZName out : leftVars) {
+        assert args_.contains(out);
+        env = env.plus(out, null);
+      }
       result = new ModeList(this, env0, env, args_, solutions, modes);
     }
     return result;
@@ -121,8 +147,12 @@ public class FlatOr extends FlatPred
     super.setMode(mode);
     // and set the left_ and right_ modes.
     ModeList modes = (ModeList) mode;
-    left_.setMode(modes.get(0));
-    right_.setMode(modes.get(1));
+    Mode leftMode = modes.get(0);
+    Mode rightMode = modes.get(1);
+    left_.setMode(leftMode);
+    right_.setMode(rightMode);
+    outputs_ = leftMode.getEnvir().definedSince(leftMode.getEnvir0());
+    outputs_.removeAll(left_.boundVars_);
   }
 
   public void startEvaluation()
@@ -136,20 +166,35 @@ public class FlatOr extends FlatPred
     assert (evalMode_ != null);
     assert (solutionsReturned_ >= 0);
     boolean result = false;
+    Envir env = evalMode_.getEnvir();
     if (from_ == 0) {
       left_.startEvaluation();
       from_ = 1;
     }
     if (from_ == 1) {
       result = left_.nextEvaluation();
-      if (!result) {
+      if (result) {
+        // copy outputs from left output env into the main output env.
+        Envir leftEnv = left_.getOutputEnvir();
+        for (ZName out : outputs_) {
+          env.setValue(out, leftEnv.lookup(out));
+        }
+      }
+      else {
         right_.startEvaluation();
         from_ = 2;
       }
     }
     if (from_ == 2) {
       result = right_.nextEvaluation();
-      if (!result) {
+      if (result) {
+        // copy outputs from right output env into the main output env.
+        Envir rightEnv = right_.getOutputEnvir();
+        for (ZName out : outputs_) {
+          env.setValue(out, rightEnv.lookup(out));
+        }
+      }
+      else {
         from_ = 3;
       }
     }

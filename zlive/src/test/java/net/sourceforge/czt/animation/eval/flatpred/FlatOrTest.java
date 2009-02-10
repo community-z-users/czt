@@ -22,6 +22,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import java.io.FileNotFoundException;
 
 import junit.framework.Assert;
+import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.modeljunit.GreedyTester;
 import net.sourceforge.czt.z.ast.ZName;
@@ -86,6 +87,30 @@ public class FlatOrTest
         new Eval(3, "IIO", i2, i4, i0)   // ie. z in {2,3,5}
     );
     new GreedyTester(iut).generate(200);
+  }
+  
+  /** Tests that z takes the correct three values.
+   *  (Because FlatPredModel checks the number of solutions, 
+   *  but not the values with the output environments.) */
+  public void testZValues()
+  throws FileNotFoundException
+  {
+    Bounds bnds = new Bounds(null);
+    pred.inferBounds(bnds);
+    Envir env0 = new Envir().plus(x, i2).plus(y, i4);
+    Mode mode = pred.chooseMode(env0);
+    Envir env = mode.getEnvir();
+    assertTrue(env.isDefinedSince(env0, z));
+    assertNotNull(mode);
+    pred.setMode(mode);
+    pred.startEvaluation();
+    assertTrue(pred.nextEvaluation());
+    assertEquals(i2, env.lookup(z));
+    assertTrue(pred.nextEvaluation());
+    assertEquals(i3, env.lookup(z));
+    assertTrue(pred.nextEvaluation());
+    assertEquals(i5, env.lookup(z));
+    assertFalse(pred.nextEvaluation());
   }
 }
 
