@@ -185,7 +185,9 @@ public class ZSideKickActions
           Spec dcSpec = specDCEnv.getDCSpec(manager);
           assert dcSpec != null;
           // retrieve the print string for the DC Spec
-          printString = DomainCheckUtils.getPrintString(name, manager, dcSpec);          
+          // TODO: fix this compilation error: DomainCheckUtils.getPrintString(name, manager, dcSpec);
+          //    (getPrintString not defined, 14 Feb 2009).
+          printString = new LatexString("TODO: implement DomainCheckUtils.getPrintString(name, manager, dcSpec)");
         }
         catch (DomainCheckException ex)
         {
