@@ -21,9 +21,11 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>rules</artifactId>
     </dependency>
+    <!-- ModelJUnit from modeljunit.sourceforge.net -->
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>nz.ac.waikato.modeljunit</groupId>
       <artifactId>modeljunit</artifactId>
+      <version>1.5</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

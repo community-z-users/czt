@@ -24,7 +24,7 @@ import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Flatten;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.GreedyTester;
+import nz.ac.waikato.modeljunit.GreedyTester;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.ZName;

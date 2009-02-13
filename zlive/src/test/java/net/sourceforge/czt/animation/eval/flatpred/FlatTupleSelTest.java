@@ -22,7 +22,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import java.io.FileNotFoundException;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.GreedyTester;
+import nz.ac.waikato.modeljunit.GreedyTester;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 

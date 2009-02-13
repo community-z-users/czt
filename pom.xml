@@ -80,7 +80,6 @@
     <module>maven-gnast-plugin</module>
     <module>maven-jflex-plugin</module>
     <module>maven-sitesource-plugin</module>
-    <module>modeljunit</module>
     <module>parser</module>
     <module>parser-circus</module>
     <module>parser-oz</module>
@@ -275,13 +274,6 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>rules</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT ModelJUnit -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>modeljunit</artifactId>
         <version>${czt.version}</version>
       </dependency>
 

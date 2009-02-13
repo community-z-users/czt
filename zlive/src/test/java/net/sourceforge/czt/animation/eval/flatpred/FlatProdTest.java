@@ -27,7 +27,7 @@ import java.util.List;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.animation.eval.result.DiscreteSet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
-import net.sourceforge.czt.modeljunit.GreedyTester;
+import nz.ac.waikato.modeljunit.GreedyTester;
 import net.sourceforge.czt.z.ast.ZName;
 
 

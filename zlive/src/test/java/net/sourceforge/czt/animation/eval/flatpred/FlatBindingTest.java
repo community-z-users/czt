@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.GreedyTester;
-import net.sourceforge.czt.modeljunit.Tester;
+import nz.ac.waikato.modeljunit.GreedyTester;
+import nz.ac.waikato.modeljunit.Tester;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.ZName;

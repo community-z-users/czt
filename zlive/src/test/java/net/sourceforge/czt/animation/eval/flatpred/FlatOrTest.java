@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.GreedyTester;
+import nz.ac.waikato.modeljunit.GreedyTester;
 import net.sourceforge.czt.z.ast.ZName;
 
 

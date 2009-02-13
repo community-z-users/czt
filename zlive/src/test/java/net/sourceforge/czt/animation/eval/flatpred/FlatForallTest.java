@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.GreedyTester;
+import nz.ac.waikato.modeljunit.GreedyTester;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.ForallPred;

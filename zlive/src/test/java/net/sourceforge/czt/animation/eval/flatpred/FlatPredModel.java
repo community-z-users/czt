@@ -22,8 +22,8 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.UndefException;
-import net.sourceforge.czt.modeljunit.Action;
-import net.sourceforge.czt.modeljunit.FsmModel;
+import nz.ac.waikato.modeljunit.Action;
+import nz.ac.waikato.modeljunit.FsmModel;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
