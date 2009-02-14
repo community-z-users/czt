@@ -12,13 +12,13 @@ About
 
   The latest version includes parser, typechecker, and printer for Z,
   Object Z, and Circus, an animator for Z (supports only a restricted
-  subset of Z) as well as jEdit and eclipse plugins that give WYSIWYG
+  subset of Z) as well as jEdit and Eclipse plugins that give WYSIWYG
   editing of Z specifications and easy access to the CZT tools.
 
   Releases can be
   {{{http://sourceforge.net/project/showfiles.php?group_id=86250}
   downloaded from Sourceforge}}.  There are three bundles on the
-  Sourceforge web-site. The bundle <corejava> is deprecated and
+  Sourceforge web-site.  The bundle <corejava> is deprecated and
   contains only old releases of corejava. The bundle <czt> is a
   collection of all the tools that we consider mature enough to be
   distributed, and also contains <corejava>.  The bundle <typechecker>

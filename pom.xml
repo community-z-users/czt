@@ -3,12 +3,12 @@
   <groupId>net.sourceforge.czt</groupId>
   <artifactId>czt</artifactId>
   <packaging>pom</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.5-SNAPSHOT</version>
   <name>Community Z Tools</name>
   <properties>
-    <czt.version>1.1-SNAPSHOT</czt.version>
+    <czt.version>1.5-SNAPSHOT</czt.version>
     <czt.groupId>net.sourceforge.czt</czt.groupId>
-    <corejava.version>2.1.1-SNAPSHOT</corejava.version>
+    <corejava.version>2.1.5-SNAPSHOT</corejava.version>
   </properties>
   <description>
     Set of libraries and tools for editing, typechecking and animating

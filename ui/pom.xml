@@ -4,7 +4,7 @@
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
   </parent>
   <artifactId>ui</artifactId>
   <packaging>jar</packaging>
@@ -16,7 +16,7 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>zeves</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.5-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -28,7 +28,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.5-SNAPSHOT</version>
       <artifactId>typechecker-circus</artifactId>
     </dependency>
     <dependency>
@@ -41,7 +41,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.5-SNAPSHOT</version>
       <artifactId>domainchecker</artifactId>
     </dependency>
   </dependencies>
