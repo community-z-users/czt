@@ -1,9 +1,9 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.czt</groupId>
   <artifactId>czt</artifactId>
   <packaging>pom</packaging>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <name>Community Z Tools</name>
   <properties>
     <czt.version>1.5-SNAPSHOT</czt.version>
@@ -46,8 +46,8 @@
     </license>
   </licenses>
   <scm>
-    <developerConnection>scm:svn:https://czt.svn.sourceforge.net/svnroot/czt/trunk</developerConnection>
-    <url>http://svn.sourceforge.net/viewcvs.cgi/czt/trunk</url>
+    <developerConnection>scm:svn:https://czt.svn.sourceforge.net/svnroot/czt/tags/czt_1_5/czt_1_5</developerConnection>
+    <url>http://svn.sourceforge.net/viewcvs.cgi/czt/tags/czt_1_5/czt_1_5</url>
   </scm>
   <distributionManagement>
     <site>
