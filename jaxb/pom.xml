@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
   </parent>
   <artifactId>jaxb</artifactId>
   <packaging>jar</packaging>
@@ -47,15 +48,16 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-		<property name="build.compiler" value="extJavac" />
-                <xslt basedir="../zml/src/main/resources/net/sourceforge/czt/zml/xsd" destdir="${build.xsd}" style="../gnast/src/xsl/annotateJaxbBindings.xsl">
-                  <mapper type="glob" from="*.xsd" to="*.xsd" />
+		<property name="build.compiler" value="extJavac"/>
+                <xslt basedir="../zml/src/main/resources/net/sourceforge/czt/zml/xsd" destdir="${build.xsd}"
+                  style="../gnast/src/xsl/annotateJaxbBindings.xsl">
+                  <mapper type="glob" from="*.xsd" to="*.xsd"/>
                 </xslt>
-                <mkdir dir="${build.src}" />
+                <mkdir dir="${build.src}"/>
                 <exec executable="xjc">
-                  <arg value="-d" />
-                  <arg value="${build.src}" />
-                  <arg value="${build.xsd}" />
+                  <arg value="-d"/>
+                  <arg value="${build.src}"/>
+                  <arg value="${build.xsd}"/>
                 </exec>
               </tasks>
               <sourceRoot>${build.src}</sourceRoot>
