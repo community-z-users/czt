@@ -4,7 +4,7 @@
   <parent>
     <groupId>net.sourceforge.czt.jedit</groupId>
     <artifactId>jedit</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.6-SNAPSHOT</version>
   </parent>
   <artifactId>ZEvesPlugin</artifactId>
   <packaging>jar</packaging>
@@ -16,7 +16,7 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>zeves</artifactId>
-      <version>1.5-SNAPSHOT</version>
+      <version>1.6-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>${jedit.groupId}</groupId>
