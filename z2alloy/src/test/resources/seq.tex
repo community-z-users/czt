@@ -3,7 +3,10 @@
 \end{zed}
 
 \begin{schema}{B}
-  a, b, c : \seq A \\
+  a, b, c, d : \seq A \\
+  e : A \\
 \where
   a = b \cat c \\
+  e = last(a) \\
+  d = front(a) \\
 \end{schema}

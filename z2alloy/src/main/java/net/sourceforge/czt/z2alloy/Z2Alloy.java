@@ -379,6 +379,20 @@ ZSectVisitor<Expr>
         System.err.println(applExpr.getClass() + " not yet implemented");
         return null;
       }
+      if (applExpr.getLeftExpr() instanceof RefExpr) {
+        RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
+        if (print(refExpr.getName()).equals(ZString.LANGLE + " ,, " + ZString.RANGLE)) { // sequence
+          Expr body = visit(applExpr.getRightExpr());
+          if (body == NONE) {
+            return NONE.product(NONE);
+          }
+          else {
+            System.err.println("non empty sequences not translated yet");
+            return null;
+          }
+        }
+      }
+
     }
     else { // application
       if (applExpr.getLeftExpr() instanceof RefExpr) {
@@ -534,7 +548,7 @@ ZSectVisitor<Expr>
     System.err.println(para.getClass() + " not yet implemented");
     return null;
   }
-  
+
   public Expr visitBindSelExpr(BindSelExpr bindSelExpr)
   {
     Expr left = visit(bindSelExpr.getExpr());
@@ -550,7 +564,7 @@ ZSectVisitor<Expr>
     }
     return null;
   }
-  
+
   /**
    * TODO Clare write the comments and explain this
    */
@@ -598,7 +612,7 @@ ZSectVisitor<Expr>
     Map<String, Expr> fields = new HashMap<String, Expr>();
     for (Sig sig : predSigs) {
       for (Sig.Field field : sig.getFields()) {
-        fields.put(field.label, getFieldExpr(field));
+        fields.put(field.label, ExprVar.make(null, field.label, getFieldExpr(field)));
 
       }
     }
@@ -926,6 +940,7 @@ ZSectVisitor<Expr>
    * leq                        left <= right
    * greater                    left > right
    * geq                        left >= right
+   * neq                        ! left = right
    * </pre>
    * otherwise assumes it is membership => left in right
    */
@@ -972,6 +987,9 @@ ZSectVisitor<Expr>
       }
       if (isInfixOperator(refExpr.getZName(), ZString.GEQ)) {
         return left.gte(right);
+      }
+      if (isInfixOperator(refExpr.getZName(), ZString.NEQ)) {
+        return left.equal(right).not();
       }
     }
     Expr left = visit(memPred.getLeftExpr());
@@ -1179,7 +1197,7 @@ ZSectVisitor<Expr>
     for (NameTypePair p : schemaType.getSignature().getNameTypePair()) {
       fields.put(print(p.getName()), visit(p.getType()));
     }
-    
+
     for (Sig sig : sigmap_.values()) {
       boolean equal = sig.getFields().size() == fields.size();
       for (Sig.Field field : sig.getFields()) {
@@ -1316,7 +1334,8 @@ ZSectVisitor<Expr>
       return NONE;
     }
     else if (exprs.size() == 1) {
-      return visit(exprs.get(0));
+      Expr ret = visit(exprs.get(0));
+      return ret;
     }
     else {
       Expr expr = null;
@@ -1725,7 +1744,7 @@ ZSectVisitor<Expr>
       String word = zName.getWord();
       word = word.replaceAll(ZString.DELTA, "Delta");
       word = word.replaceAll(ZString.XI, "Xi");
-      word = word.replaceAll("\u03A6", "Psi");
+      word = word.replaceAll("\u03A6", "Phi");
       word = word.replaceAll("\u2295", "Distro");
       word = word.replaceAll("/", "Slash");
 
