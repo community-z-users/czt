@@ -25,15 +25,15 @@ public class AlloyPrinter extends VisitReturn
 {
   /**
    * returns a String representation of the sig which looks like :
-   * (lone/one/some/abstract) sig sigLabel (extends parent) {
+   * <pre>(lone/one/some/abstract) sig sigLabel (extends parent) {
    *    fieldLabel : field,
    *    fieldLabel : field,
-   *    ...
+   *    ... 
    * } {
    *    fact
-   * }
+   * } 
    * pred
-   * some_sigLabel : run {some sigLabel}
+   * some_sigLabel : run {some sigLabel}</pre>
    * 
    * Calls visitThis for the fields, fact and pred
    */
@@ -65,10 +65,9 @@ public class AlloyPrinter extends VisitReturn
 
   /**
    * returns a String representation of the func which looks like:
-   * func/pred fLabel [params] (: returnDecl) {
+   * <pre>func/pred fLabel [params] (: returnDecl) {
    *    body
-   * }
-   * 
+   * }</pre>
    * calls visitThis for the returnDecl and body
    * 
    */
@@ -94,8 +93,7 @@ public class AlloyPrinter extends VisitReturn
 
   /**
    * returns a String representation of the ExprVar list which looks like:
-   * label1 : expr1, label2 : expr2, ..., labeln : exprn
-   * 
+   * <pre>label1 : expr1, label2 : expr2, ..., labeln : exprn</pre>
    * calls visitThis for the exprs.
    * 
    */
@@ -114,10 +112,8 @@ public class AlloyPrinter extends VisitReturn
   
   /**
    * returns a String representation of the ExprBinary which looks like:
-   * 
-   * ( left op right )
-   * 
-   * unless the op is ISSEQ_ARROW_LONE in which case it looks like: seq right
+   * <pre> ( left op right )</pre>
+   * unless the op is ISSEQ_ARROW_LONE in which case it looks like: <pre>seq right</pre>
    * 
    * calling visitThis for the left and right expression
    * 
@@ -133,7 +129,7 @@ public class AlloyPrinter extends VisitReturn
 
   /**
    * returns a String representation of the ExprList which looks like:
-   * (expr1 op expr2 op ... op exprn)
+   * <pre>(expr1 op expr2 op ... op exprn) </pre>
    * calling visitThis for each expr
    */
   
@@ -153,7 +149,7 @@ public class AlloyPrinter extends VisitReturn
 
   /**
    * returns a String representation of the ExprList which looks like:
-   * funLabel [arg1, arg2, ..., argn]
+   * <pre>funLabel [arg1, arg2, ..., argn]</pre>
    * 
    * calling visitThis for each arg
    * 
@@ -199,10 +195,10 @@ public class AlloyPrinter extends VisitReturn
   }
 
   /**
-   * returns a String representation of the ExprQuant. If the ExprQuant operation id comprehension is looks like:
-   *  {vars | subexpr}
+   * returns a String representation of the ExprQuant. If the ExprQuant operation is comprehension is looks like:
+   * <pre> {vars | subexpr} </pre>
    * otherwise :
-   * op vars | subexpr
+   * <pre> op vars | subexpr </pre>
    * 
    * calling visitThis for the subexpr and print for the vars
    */
@@ -225,9 +221,9 @@ public class AlloyPrinter extends VisitReturn
 
   /**
    * returns a String representation of the ExprUnary which looks like:
-   * op subexpr
-   * 
+   * <pre>op subexpr</pre>
    * If the operation is cast2int or cast2sigint the op is ommitted.
+   * <br/>
    * If the operation is oneOf, someOf, loneOf, setOf then the of is ommitted.
    */
   @Override

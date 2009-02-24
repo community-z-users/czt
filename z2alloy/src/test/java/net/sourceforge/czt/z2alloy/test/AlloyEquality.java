@@ -26,7 +26,7 @@ public class AlloyEquality
   
 /**
  * checks that a Z2Alloy module and an Alloy Module are equal: the signitures are equal, the facts are equal, the funcs are equal
- * 
+ * <br>
  * essentially checks that the names and types of sigs, facts, and funcs are the same.
  * 
  * @return true if all sigs, facts, and funcs are equal, false otherwise
@@ -36,8 +36,7 @@ public class AlloyEquality
     return equalsSigs(z2alloy, module) && equalsFacts(z2alloy, module) && equalsFuncs(z2alloy, module);
   }
   /**
-   * matches up the sigs from each module by their label. Recursively calls equalsSig on each pair
-   * removes this/ from the start of sigs in the Module
+   * Matches up the sigs from each module by their label. Recursively calls equalsSig on each pair. Removes this/ from the start of sigs in the Module
    * 
    * @return true is all sigs are equal, false otherwise
    */
@@ -61,8 +60,9 @@ public class AlloyEquality
   
   /**
    * only facts atm are sig facts -> ie sig X{..}{fact}
+   * <br>
    * these are represented inside the Module as a list of pairs: this/sig$fact -> fact
-   * 
+   * <br>
    * matches these with the sigfacts in z2alloy by the sig name, then calls equalsExpr on th body on the fact bodies
    * @return true if all facts are equal, false otherwise
   */
@@ -93,10 +93,10 @@ public class AlloyEquality
   }
 
   /**
-   * checks  funcs (sigpreds and other functions) for equality
-   * does not check funcs created by Alloy from the body of runs (ie in the form run {...})
-   * removes this/ from the start of funcs
-   * matches funcs by label, then calls equalsFunc on each pair
+   * checks  funcs (sigpreds and other functions) for equality<br/>
+   * does not check funcs created by Alloy from the body of runs (ie in the form run {...})<br/>
+   * removes this/ from the start of funcs<br/>
+   * matches funcs by label, then calls equalsFunc on each pair<br/>
    * 
    * @return if all the funcs are equal, false otherwise
    */
@@ -128,12 +128,12 @@ public class AlloyEquality
   }
 
   /**
-   * two sigs are equal if they are both null or:
-   *    they are both non null
-   *    they have equal labels
-   *    they have the same number of fields
-   *    their fields can be matched up by label, a call to equalExpr is true for all pairs
-   * otherwise it is not equal
+   * two sigs are equal if they are both null or: <br/>
+   *    they are both non null<br/>
+   *    they have equal labels<br/>
+   *    they have the same number of fields<br/>
+   *    their fields can be matched up by label, a call to equalExpr is true for all pairs<br/>
+   * otherwise it is not equal<br/>
    * 
    * @return true if the sigs are equal, false otherwise
    */
@@ -167,7 +167,7 @@ public class AlloyEquality
 
   /**
    * expressions are equal if they are both null, or if they are both non null, have the same class, and the call to the equals method
-   * defined for the expression type
+   * defined for the expression type<br/>
    * 
    * expression types currently defined are : ExprUnary, Sig, ExprBinary, ExprList, Field, ExprQuant, ExprVar, ExprCall, ExprConstant.
    * 
@@ -291,11 +291,11 @@ public class AlloyEquality
 
   
   /**
-   * two funcs are equal if they are both null, or:
-   *    they have the same label
-   *    the have the same number of parameters
-   *    the parameters in each position in the list are equal
-   *    the return declarations are equal
+   * two funcs are equal if they are both null, or:<br/>
+   *    they have the same label<br/>
+   *    the have the same number of parameters<br/>
+   *    the parameters in each position in the list are equal<br/>
+   *    the return declarations are equal<br/>
    *    the body of the expressions are equal
    *    
    * @return true if the func is equal, false otherwise
