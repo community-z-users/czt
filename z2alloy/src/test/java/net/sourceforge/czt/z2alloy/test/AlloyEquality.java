@@ -349,7 +349,7 @@ public class AlloyEquality
     message += (a == null ? a : a.getClass()) + " !=  " + (b == null ? null :  b.getClass()) + "\n";
     System.err.println(message);
     return false;
-    //throw new RuntimeException(message);
+  //  throw new RuntimeException(message);
   }
   
   /**
@@ -368,6 +368,9 @@ public class AlloyEquality
           return strip(exprunary.sub);
         }
         if (exprunary.sub instanceof ExprUnary) {
+          return strip(exprunary.sub);
+        }
+        if (exprunary.sub instanceof ExprQuant) {
           return strip(exprunary.sub);
         }
       }

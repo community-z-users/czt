@@ -140,7 +140,6 @@ import net.sourceforge.czt.z.visitor.SchExprVisitor;
 import net.sourceforge.czt.z.visitor.SchemaTypeVisitor;
 import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
-import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
@@ -197,7 +196,6 @@ SchemaTypeVisitor<Expr>,
 SchExprVisitor<Expr>,
 SetCompExprVisitor<Expr>,
 SetExprVisitor<Expr>,
-TupleExprVisitor<Expr>,
 TypeAnnVisitor<Expr>,
 VarDeclVisitor<Expr>,
 ZDeclListVisitor<Expr>,
@@ -505,6 +503,10 @@ ZSectVisitor<Expr>
             result = (net.sourceforge.czt.z.ast.Expr) preprocess(toBeNormalized);
             TypeCheckUtils.typecheck(result, manager_, false, section_);
           }
+          if (result instanceof ApplExpr) {
+            System.err.println("Failed to normalize");
+            return null;
+          }
           if (result instanceof LambdaExpr) {
             String name = print(cDecl.getName());
 
@@ -566,18 +568,46 @@ ZSectVisitor<Expr>
   }
 
   /**
-   * TODO Clare write the comments and explain this
+   * Creates a new signiture which contains all the fields in the predicate schemas, except those in schemas quantified over
+   * <br>
+   * Includes a signiture predicate which is an exists predicate translated from the schema predicate, with the additon that any fields
+   * in more than one predicate schema are equal
+   * <br>
+   * eg
+   * <pre>A == \exists B, C @ D \and E </pre>
+   * <br>
+   * where B has fields b:X, C has fields b:X, c:Y, D has fields b : X, c : Y, d : Z, E has field b : X translates to:
+   * <pre>sig A {
+   *    d : Z
+   * }{pred_A[d]}
+   * pred pred_A[d : Z] {
+   *    some b_temp : B, c_temp : C | pred_D[c_temp.b, c_temp.c, d] and pred_E[c_temp.b] and c_temp.b = b_temp.b
+   * }
+   * 
    */
   public Expr visitExistsExpr(ExistsExpr existsExpr)
   {
+    
+    /*
+     * basically this method accumulates all the fields of predicate bits, then removes all fields in exists sigs
+     * the ones left over are the fields for the new signiture
+     * 
+     * then it creates all the predicate - using build which makes the predicate calls to the sigs from either the
+     * arguments of the predicate (fields of the new sig) or joins between the fields of the exists sigs and the sigs
+     * 
+     * also needs to find exists sigs with matching fields and ensure they are equal
+     */
+    
     ZDeclList incl = existsExpr.getZSchText().getZDeclList();
 
-    List<Sig> inclSigs = new ArrayList<Sig>();
-    ExprVar[] inclVars = new ExprVar[incl.size() -1];
+    List<Sig> inclSigs = new ArrayList<Sig>(); // the sigs quantified over
+    ExprVar[] inclVars = new ExprVar[incl.size() -1]; // the variables of the sigs quantified over
 
+    
+    // treats the first one separatly just for the call at the end
     Sig s = (Sig) visit(((InclDecl) incl.get(0)).getExpr());
     inclSigs.add(s);
-    ExprVar first = (ExprVar.make(null, s.label.toLowerCase() + "_temp", s));      
+    ExprVar first = (ExprVar.make(null, s.label.toLowerCase() + "_temp", s));
 
 
     for (int i = 1; i < incl.size(); i++) {
@@ -588,8 +618,8 @@ ZSectVisitor<Expr>
 
     Expr pred = visit(existsExpr.getExpr());
 
-    List<Sig> predSigs = new ArrayList<Sig>();
-    Stack<Expr> predParts = new Stack<Expr>();
+    List<Sig> predSigs = new ArrayList<Sig>(); // all the sigs in the body of the predicate
+    Stack<Expr> predParts = new Stack<Expr>(); // just for accumulating them above
     predParts.add(pred);
 
     while (! predParts.isEmpty()) {
@@ -609,20 +639,24 @@ ZSectVisitor<Expr>
       }
     }
 
-    Map<String, Expr> fields = new HashMap<String, Expr>();
+    Map<String, Expr> fields = new HashMap<String, Expr>(); // the fields for the new signiture
+    Map<String, Expr> vars = new HashMap<String, Expr>(); // the expressions to be used in predicate calls
     for (Sig sig : predSigs) {
       for (Sig.Field field : sig.getFields()) {
-        fields.put(field.label, ExprVar.make(null, field.label, getFieldExpr(field)));
+        fields.put(field.label, getFieldExpr(field));
+        vars.put(field.label, ExprVar.make(null, field.label, getFieldExpr(field)));
 
       }
     }
+    
     for (int i = 0; i < inclSigs.size(); i++) {
       for (Sig.Field field : inclSigs.get(i).getFields()) {
+        fields.remove(field.label); // fields in the quantified over sigs should not be in the signiture
         if (i == 0) {
-          fields.put(field.label, first.join(field));
+          vars.put(field.label, first.join(field)); // remember vars does not include the first because of the call at the end
         }
         else{
-          fields.put(field.label, inclVars[i-1].join(field));
+          vars.put(field.label, inclVars[i-1].join(field));
         }
       }
     }
@@ -634,15 +668,18 @@ ZSectVisitor<Expr>
         sig.addField(null, field.getKey(), field.getValue());
       }
       addSig(sig);
-      Expr predBody = build(pred, fields);
+      // unfolds the pred and builds it up into a tree contianing the pred calls, ands, ors
+      Expr predBody = build(pred, vars);
 
+      // the name of the duplicate field, and the list of expressions
+      // the expressions are such that they can be directly used in the equality expression
       Map<String, List<Expr>> dupFields = new HashMap<String, List<Expr>>();
       for (int i = 0; i < inclSigs.size(); i++) {
         for (Sig.Field field : inclSigs.get(i).getFields()) {
           if (!dupFields.containsKey(field.label)) {
             dupFields.put(field.label, new ArrayList<Expr>());
           }
-          if (i == 0) {
+          if (i == 0) { // remember vars does not include the first because of the call at the end
             dupFields.get(field.label).add(first.join(field));
           }
           else{
@@ -651,6 +688,8 @@ ZSectVisitor<Expr>
         }
       }
 
+      // starts from the second entry, and puts all the later entries equal to the first
+      // ie looks like first=second and first=third and first=fourth ...
       for (Entry<String, List<Expr>> entry : dupFields.entrySet()) {
         for (int i = 1; i < entry.getValue().size(); i++) {
           if (predBody == null) {
@@ -660,7 +699,7 @@ ZSectVisitor<Expr>
             predBody = predBody.and(entry.getValue().get(0).equal(entry.getValue().get(i)));
           }
         }
-      }
+      } 
 
       addSigPred(sig, predBody.forSome(first, inclVars));
 
@@ -1355,27 +1394,15 @@ ZSectVisitor<Expr>
       return expr;
     }
   }
-  /**
-   * TODO Clare no idea what this is for, or how it works right now
-   */
-  public Expr visitTupleExpr(TupleExpr tupleExpr)
-  {
-    for (net.sourceforge.czt.z.ast.Expr e : tupleExpr.getZExprList()) {
-      debug(e);
-      visit(e);
-      System.out.println(e.getClass());
-    }
-    return null;
-  }
 
   public Expr visitTypeAnn(TypeAnn typeAnn)
   {
     return visit(typeAnn.getType());
   }
 
-  /**
-   * TODO Clare write something for this
-   */
+/**
+ * creates a exprvar with the name and expr of the vDecl
+ */
   public Expr visitVarDecl(VarDecl vDecl)
   {
     return ExprVar.make(null, print(vDecl.getName()), visit(vDecl.getExpr()));
@@ -1675,7 +1702,9 @@ ZSectVisitor<Expr>
       }
       addSig(xi);
       for (int i = 0; i < xi.getFields().size() ; i += 2) {
-        addSigPred(xi, xi.getFields().get(i).equal(xi.getFields().get(i + 1)));
+        Sig.Field field1 = xi.getFields().get(i);
+        Sig.Field field2 = xi.getFields().get(i+1);
+        addSigPred(xi, ExprVar.make(null, field1.label, getFieldExpr(field1)).equal(ExprVar.make(null, field2.label, getFieldExpr(field2))));
       }
       return xi;
     }
@@ -1685,7 +1714,7 @@ ZSectVisitor<Expr>
   }
 
   private Expr build(Expr expr, Map<String, Expr> vars) {
-    if (expr instanceof ExprCall) {
+    if (expr instanceof ExprCall) { // not sure exactly when and why these are sometimes sigs and sometimes preds
       expr = (sigmap_.get(((ExprCall) expr).fun.label.replaceFirst("pred_", "")));      
     }
     if (expr instanceof Sig) {
@@ -1715,6 +1744,7 @@ ZSectVisitor<Expr>
       }
       return ret;
     }
+    // should put in new kinds of things as they are needed
     System.err.println("Not fully translated: " + expr.getClass() + " " + expr);
     return null;
   }

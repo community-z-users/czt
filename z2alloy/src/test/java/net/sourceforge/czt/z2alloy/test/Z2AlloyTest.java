@@ -48,11 +48,17 @@ public class Z2AlloyTest
   public void testFrontLast() {
     test("front_last");
   }
+  
+  @Test
+  public void bst() {
+    assertTrue(equal("bst", false));
+    assertTrue(equalOutput("bst", false));
+  }
 
   public void test(String fileName) {
     assertTrue(equal(fileName, true));
     assertTrue(equal(fileName, false));
-    assertTrue(equalOutput(fileName, true));;
+    assertTrue(equalOutput(fileName, true));
     assertTrue(equalOutput(fileName, false));
   }
 

@@ -5,8 +5,14 @@ of Ian Hayes' specification case studies book.
 [SYM, VAL]
 \end{zed}
 
-\begin{schema}{ST}
- st: SYM \pfun VAL \\
+\begin{schema}{\Delta ST}
+ st, st' : SYM \pfun VAL \\
+\end{schema}
+
+\begin{schema}{\Xi ST}
+  \Delta ST
+\where
+  st = st'
 \end{schema}
 
 \begin{schema}{LookUp}
@@ -44,9 +50,9 @@ of Ian Hayes' specification case studies book.
   st' = \{ s? \} \ndres st
 \end{schema}
 
-\begin{theorem}{AddDelete}
-\vdash? \forall \Delta ST; s?: SYM; v?:VAL @ Add \semi Delete \implies st = st'
-\end{theorem}
+%\begin{theorem}{AddDelete}
+%\vdash? \forall \Delta ST; s?: SYM; v?:VAL @ Add \semi Delete \implies st = st'
+%\end{theorem}
 
 \begin{zed}
   Report ::= OK
@@ -93,13 +99,15 @@ STDelete == (Delete \land Success) \lor NotPresent
 %\end{axdef}
 
 \begin{axdef}
-  \distro == \lambda s:\seq ST @
-      \{sym: SYM; val: VAL | (\exists index: \nat @ sym \mapsto val \in (s~index).st \land \forall i:\nat | i > index @ sym \notin \dom((s~i).st) \lor sym \mapsto val \in (s~i).st) @ sym \mapsto val \}
+  \distro == \lambda s:\seq (SYM \pfun VAL) @
+      \{sym: SYM; val: VAL | (\exists index: \nat @ sym \mapsto val \in s~index \land \forall i:\nat | i > index @ sym \notin \dom(s~i))@ sym \mapsto val \}
 \end{axdef}
 
-\begin{schema}{BST}
- bst : \seq ST \\
-\end{schema}
+\begin{zed}
+  BST == \seq (SYM \pfun VAL) \\
+  \Delta BST == [bst, bst' : BST] \\
+  \Xi BST == [\Delta BST | bst' = bst] \\
+\end{zed}
 
 \begin{schema}{BSearch0}
   \Xi BST \\
@@ -109,11 +117,11 @@ STDelete == (Delete \land Success) \lor NotPresent
   s? \in \dom(\distro bst) \land v! = (\distro bst)(s?)
 \end{schema}
 
-% \begin{schema}{BStart0}
-%   \Delta BST
-% \where
-%   bst' = bst \cat \langle \emptyset \rangle
-% \end{schema}
+\begin{schema}{BStart0}
+  \Delta BST
+\where
+  bst' = bst \cat \langle \emptyset \rangle
+\end{schema}
 
 \begin{schema}{BEnd0}
   \Delta BST
@@ -130,8 +138,8 @@ STDelete == (Delete \land Success) \lor NotPresent
 \where
   bst \neq \langle\rangle \\
   front(bst') = front(bst) \\
-  st = (last(bst)).st \\
-  st' = (last(bst')).st \\
+  st = last(bst) \\
+  st' = last(bst') \\
   ((s? \in \dom(st) \land st' = st \oplus \{ s? \mapsto v? \} \land rep! = OK)
     \lor
     (s? \notin \dom(st) \land st' = st \land rep! = Symbol\_not\_present))
@@ -141,10 +149,9 @@ STDelete == (Delete \land Success) \lor NotPresent
   \Delta BST \\
   \Delta ST
 \where
-  bst \neq \langle\rangle \\
-  front(bst) = front(bst') \\
-  st = (last(bst)).st \\
-  st' = (last(bst')).st
+  bst \neq \langle\rangle = front(bst) \\
+  st = last(bst) \\
+  st' = last(bst')
 \end{schema}
 
 \begin{zed}
@@ -163,8 +170,7 @@ STDelete == (Delete \land Success) \lor NotPresent
   \Xi BST \\
   rep!: Report
 \where
-  bst = \langle\rangle \\
-  rep! = Not\_within\_any\_block \\
+  bst = \langle\rangle \land rep! = Not\_within\_any\_block
 \end{schema}
 
 \begin{schema}{NotFound}
@@ -174,12 +180,12 @@ STDelete == (Delete \land Success) \lor NotPresent
 \where
   bst \neq \langle\rangle \\
   s? \notin \dom(\distro bst) \\
-  rep! = Symbol\_not\_found \\
+  rep! = Symbol\_not\_found
 \end{schema}
 
 \begin{zed}
   BSearch == (BSearch0 \land Success) \lor NotFound \lor Empty \\
-%   BStart == BStart0 \land Success \\
+  BStart == BStart0 \land Success \\
   BEnd == (BEnd0 \land Success) \lor Empty \\
   BLookUp == BLookUp1 \lor Empty \\
   BAdd == BAdd1 \lor Empty \\

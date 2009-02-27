@@ -680,6 +680,8 @@ z2alloy/src/test/resources/AB_unfold.als -text
 z2alloy/src/test/resources/box_office.tex -text
 z2alloy/src/test/resources/box_office_fold.als -text
 z2alloy/src/test/resources/box_office_unfold.als -text
+z2alloy/src/test/resources/bst2.tex -text
+z2alloy/src/test/resources/bst_fold.als -text
 z2alloy/src/test/resources/front_last.tex -text
 z2alloy/src/test/resources/front_last_fold.als -text
 z2alloy/src/test/resources/front_last_unfold.als -text

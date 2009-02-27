@@ -124,7 +124,12 @@ public class AlloyPrinter extends VisitReturn
     if (x.op.equals(ExprBinary.Op.ISSEQ_ARROW_LONE)) {
       return "(seq " + visitThis(x.right) + ")";
     }
-    return "(" + visitThis(x.left) + " " + x.op + " " + visitThis(x.right) + ")";
+    String left = visitThis(x.left).toString();
+    String right = visitThis(x.right).toString();
+    if (x.op.equals(ExprBinary.Op.JOIN) && x.right instanceof Field) {
+      return "(" + left + " " + "." + " @" + right + ")";
+    }
+    return "(" + left + " " + x.op + " " + right + ")";
   }
 
   /**
@@ -167,7 +172,7 @@ public class AlloyPrinter extends VisitReturn
     }
 
     ret += "]";
-    return ret;
+    return "(" + ret + ")";
   }
 
   /**
