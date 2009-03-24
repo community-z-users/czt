@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2008 Petra Malik, Clare Lenihan
+Copyright (C) 2008, 2009 Petra Malik, Clare Lenihan
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -493,7 +493,7 @@ ZSectVisitor<Expr>
         try {
           String sigName = print(cDecl.getName());
           net.sourceforge.czt.z.ast.Expr result = cDecl.getExpr();
-          if (unfolding_) {
+          if (unfolding_ && isSchema(result)) {
             Source exprSource =
               new StringSource("normalize~" +
                   print(cDecl.getName()));
@@ -504,7 +504,7 @@ ZSectVisitor<Expr>
             TypeCheckUtils.typecheck(result, manager_, false, section_);
           }
           if (result instanceof ApplExpr) {
-            System.err.println("Failed to normalize");
+            System.err.println("Failed to normalize + debug(result)");
             return null;
           }
           if (result instanceof LambdaExpr) {
@@ -1758,11 +1758,22 @@ ZSectVisitor<Expr>
     return ((ExprBinary) ((ExprQuant) field.boundingFormula).sub).right;
   }
 
-  private void debug(Term t)
+  private boolean isSchema(Term term)
+  {
+    boolean result = false;
+    TypeAnn type = term.getAnn(TypeAnn.class);
+    if (type.getType() instanceof PowerType) {
+      PowerType powertype = (PowerType) type.getType();
+      if (powertype.getType() instanceof SchemaType) return true;
+    }
+    return result;
+  }
+
+  private StringWriter debug(Term t)
   {
     StringWriter foo = new StringWriter();
     PrintUtils.print(t, foo, manager_, section_, Markup.UNICODE);
-    System.out.println("Debug: " + foo);
+    return foo;
   }
 
   class AlloyPrintVisitor extends PrintVisitor
