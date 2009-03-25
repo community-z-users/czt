@@ -504,7 +504,7 @@ ZSectVisitor<Expr>
             TypeCheckUtils.typecheck(result, manager_, false, section_);
           }
           if (result instanceof ApplExpr) {
-            System.err.println("Failed to normalize + debug(result)");
+            System.err.println("Failed to normalize " + debug(result));
             return null;
           }
           if (result instanceof LambdaExpr) {
