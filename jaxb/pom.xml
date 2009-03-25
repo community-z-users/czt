@@ -54,7 +54,7 @@
                   <mapper type="glob" from="*.xsd" to="*.xsd"/>
                 </xslt>
                 <mkdir dir="${build.src}"/>
-                <exec executable="xjc">
+                <exec executable="${JAVA_HOME}/bin/xjc">
                   <arg value="-d"/>
                   <arg value="${build.src}"/>
                   <arg value="${build.xsd}"/>
