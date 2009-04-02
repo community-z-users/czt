@@ -227,12 +227,12 @@ public class IdTest
       factory.createZName("b", factory.createZStrokeList(factory.list(factory.createNumStroke(2)))),
       factory.createZName("c"));
     
-    System.out.println("\n\nList of names BEFORE sorting : " + list);
+    //    System.out.println("\n\nList of names BEFORE sorting : " + list);
     list = net.sourceforge.czt.z.util.ZUtils.sortNames(list);
-    System.out.println("\nList of names AFTER sorting  : " + list);
-    System.out.println("\nNow lets insert              : " + list2);    
+    //    System.out.println("\nList of names AFTER sorting  : " + list);
+    //    System.out.println("\nNow lets insert              : " + list2);    
     net.sourceforge.czt.z.util.ZUtils.insertNames(list, list2);
-    System.out.println("\nList of names AFTER inserting: " + list);    
+    //    System.out.println("\nList of names AFTER inserting: " + list);    
   }
 
   public static class NameCollector

@@ -202,7 +202,7 @@ public class TypeCheckerTest
   protected Term parse(String file, SectionManager manager)
     throws Exception
   {
-    Term term = super.parse(file, manager);
+    Term term = super.parse(new File(file).toURL(), manager);
     if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
         PrintVisitor pv = new PrintVisitor();

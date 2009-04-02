@@ -16,8 +16,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import junit.framework.Test;
@@ -49,14 +51,19 @@ public class TypeCheckerTest
   //allow use before declaration
   protected boolean useBeforeDecl_ = false;
 
+  protected final static String TEST_DIR =
+      "/net/sourceforge/czt/typecheck/tests/";
+
   public static Test suite()
   {
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
     TypeCheckerTest checkerTest = new TypeCheckerTest(false);
-    checkerTest.collectTests(suite, "z/");
+    checkerTest.collectTests(suite,
+           TypeCheckerTest.class.getResource(TEST_DIR + "z/"));
     checkerTest = new TypeCheckerTest(true);
-    checkerTest.collectTests(suite, "z/useBeforeDecl/");
+    checkerTest.collectTests(suite,
+	   TypeCheckerTest.class.getResource(TEST_DIR + "z/useBeforeDecl/"));
     return suite;
   }
 
@@ -65,53 +72,40 @@ public class TypeCheckerTest
     useBeforeDecl_ = useBeforeDecl;
   }
 
-  //test all the files from a directory
-  protected void collectTests(TestSuite suite, String directoryName)
+  /**
+   * Tests all the files from a directory.
+   */
+  protected void collectTests(TestSuite suite, URL url)
   {
-    String cztHome = System.getProperty("czt.home");
-    String fullDirectoryName =
-      cztHome + "/typechecker/tests/" + directoryName;
-    File directory = new File(fullDirectoryName);
-    if (!directory.isDirectory())
-    {
-      directory =
-        new File(getClass().getResource("/" + directoryName).getFile());
-    }
-    File[] files = directory.listFiles();
-    for (int i = 0; i < files.length; i++)
-    {
-      String fileName = files[i].getName();
-      String fullPath = files[i].getAbsolutePath();
-      //if the file name ends with error, then we have a case with
-      //the typechecker should throw the exception specified at the
-      //start of the filename
-      if (fileName.endsWith(".error"))
-      {
-        int index = fileName.indexOf("-");
-        if (index < 1)
-        {
-          fail(fileName + " does not specify an exception name");
-        }
-        String exception = fileName.substring(0, index);
-        suite.addTest(createErrorTest(fullPath, exception));
+    try {
+      String protocol = url.getProtocol();
+      if (! "file".equals(protocol)) {
+	throw new IllegalArgumentException("Unsupported Protocol");
       }
-      //if the file name does not end with error, then we have a
-      //normal case
-      else if (fileName.endsWith(".tex"))
-      {
-        suite.addTest(new TestNormal(fullPath));
+      final File dir = new File(url.getFile());
+      String[] content = dir.list();
+      for (String name : content) {
+	//if the file name ends with error, then we have a case with
+	//the typechecker should throw the exception specified at the
+	//start of the filename
+	if (name.endsWith(".error")) {
+	  int index = name.indexOf("-");
+	  if (index < 1) {
+	    fail(name + " does not specify an exception name");
+	  }
+	  String exception = name.substring(0, index);
+	  suite.addTest(new TestError(new URL(url, name), exception));
+	}
+	//if the file name does not end with error, then we have a
+	//normal case
+	else if (name.endsWith(".tex")) {
+	  suite.addTest(new TestNormal(new URL(url, name)));
+	}
       }
     }
-  }
-
-  protected TestCase createNormalTest(String fullpath)
-  {
-    return new TestNormal(fullpath);
-  }
-
-  protected TestCase createErrorTest(String fullpath, String exception)
-  {
-    return new TestError(fullpath, exception);
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   protected SectionManager getManager()
@@ -119,13 +113,13 @@ public class TypeCheckerTest
     return new SectionManager();
   }
 
-  protected Term parse(String file, SectionManager manager)
+  protected Term parse(URL url, SectionManager manager)
     throws Exception
   {
-    Source source = new FileSource(file);
+    Source source = new UrlSource(url);
     source.setMarkup(Markup.LATEX);
-    manager.put(new Key<Source>(file, Source.class), source);
-    return manager.get(new Key<Spec>(file, Spec.class));
+    manager.put(new Key<Source>(url.toString(), Source.class), source);
+    return manager.get(new Key<Spec>(url.toString(), Spec.class));
   }
 
   protected List<? extends ErrorAnn> typecheck(Term term,
@@ -162,11 +156,11 @@ public class TypeCheckerTest
     extends TestCase
   {
 
-    private String file_;
+    private URL url_;
 
-    TestNormal(String file)
+    TestNormal(URL url)
     {
-      file_ = file;
+      url_ = url;
     }
 
     public void runTest()
@@ -176,29 +170,29 @@ public class TypeCheckerTest
       Term term = null;
       try
       {
-        System.out.println("Test normal: " + file_);
-        term = parse(file_, manager);
+	//        System.out.println("Test normal: " + url_);
+        term = parse(url_, manager);
         errors = typecheck(term, manager);
       }
       catch (RuntimeException e)
       {
         e.printStackTrace();
         fail("\nUnexpected runtime exception" +
-          "\n\tFile: " + file_ +
+          "\n\tFile: " + url_ +
           "\n\tException: " + e.toString());
       }
       catch (Throwable e)
       {
         e.printStackTrace();
         fail("\nUnexpected exception" +
-          "\n\tFile: " + file_ +
+          "\n\tFile: " + url_ +
           "\n\tException: " + e.toString());
       }
       if (errors.size() > 0)
       {
         ErrorAnn errorAnn = errors.get(0);
         fail("\nUnexpected type error" +
-          "\n\tFile: " + file_ +
+          "\n\tFile: " + url_ +
           "\n\tException: " + errorAnn.getErrorMessage().toString() +
           "\nError: " + errorAnn.toString());
       }
@@ -209,12 +203,12 @@ public class TypeCheckerTest
     extends TestCase
   {
 
-    private String file_;
+    private URL url_;
     private String exception_;
 
-    TestError(String file, String exception)
+    TestError(URL url, String exception)
     {
-      file_ = file;
+      url_ = url;
       exception_ = exception;
     }
 
@@ -224,8 +218,8 @@ public class TypeCheckerTest
       List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
       try
       {
-        System.out.println("Test error: " + file_);
-        Term term = parse(file_, manager);
+	//        System.out.println("Test error: " + url_);
+        Term term = parse(url_, manager);
         if (term == null)
         {
           fail("Parser returned null");
@@ -239,19 +233,19 @@ public class TypeCheckerTest
       {
         e.printStackTrace();
         fail("\nUnexpected runtime exception" +
-          "\n\tFile: " + file_ +
+          "\n\tFile: " + url_ +
           "\n\tException: " + e.toString());
       }
       catch (Throwable e)
       {
         fail("\nUnexpected exception" +
-          "\n\tFile: " + file_ +
+          "\n\tFile: " + url_ +
           "\n\tException: " + e.toString());
       }
       if (errors.size() == 0)
       {
         fail("\nNo type error found" +
-          "\n\tFile: " + file_ +
+          "\n\tFile: " + url_ +
           "\n\tExpected: " + exception_);
       }
       else
@@ -283,7 +277,7 @@ public class TypeCheckerTest
     private void incorrectError(String error)
     {
       fail("\nIncorrect type error" +
-        "\n\tFile: " + file_ +
+        "\n\tFile: " + url_ +
         "\n\tError: " + exception_ +
         "\n\tActual: " + error);
     }

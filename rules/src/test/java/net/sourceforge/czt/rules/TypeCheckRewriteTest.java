@@ -59,7 +59,8 @@ public class TypeCheckRewriteTest
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
     TypeCheckRewriteTest rewriteTest = new TypeCheckRewriteTest();
-    rewriteTest.collectTests(suite, "rewrite/");
+    rewriteTest.collectTests(suite,
+	   TypeCheckRewriteTest.class.getResource("/rewrite/"));
     return suite;
   }
 

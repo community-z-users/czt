@@ -58,23 +58,26 @@ public class TypeCheckerTest
 
     // Weak
     TypeCheckerTest checkerTest = new TypeCheckerTest(false, false);
-    checkerTest.collectTests(suite, "oz/");
+    checkerTest.collectTests(suite, TypeCheckerTest.class.getResource("/oz/"));
 
     // Strong
     checkerTest = new TypeCheckerTest(false, true);
-    checkerTest.collectTests(suite, "oz/");
+    checkerTest.collectTests(suite, TypeCheckerTest.class.getResource("/oz/"));
 
     // UseBeforeDecl
     checkerTest = new TypeCheckerTest(true, false);
-    checkerTest.collectTests(suite, "oz/useBeforeDecl/");
+    checkerTest.collectTests(suite,
+            TypeCheckerTest.class.getResource("/oz/useBeforeDecl/"));
 
     // StrongOnly
     checkerTest = new TypeCheckerTest(false, true);
-    checkerTest.collectTests(suite, "oz/strong/");
+    checkerTest.collectTests(suite,
+            TypeCheckerTest.class.getResource("/oz/strong/"));
 
     // WeakOnly
     checkerTest = new TypeCheckerTest(false, false);
-    checkerTest.collectTests(suite, "oz/weak/");
+    checkerTest.collectTests(suite,
+            TypeCheckerTest.class.getResource("/oz/weak/"));
 
     return suite;
   }
