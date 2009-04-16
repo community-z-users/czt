@@ -1,0 +1,2225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="486" Loc="lib/circus_mc_toolkit.tex" Line="9" Length="1" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="717" Loc="lib/circus_mc_toolkit.tex" Line="14" Length="3188" Col="0"/>
+        </Anns>
+        <Name>circus_mc_toolkit</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="774" Loc="lib/circus_mc_toolkit.tex" Line="15" Length="15" Col="40"/>
+            </Anns>
+            <Word>circus_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="25"/>
+                    </Anns>
+                    <Command>\gendj</Command>
+                    <Unicode>⩆</Unicode>
+                </Directive>
+                <Directive Type="PRE">
+                    <Anns>
+                        <LocAnn Line="40"/>
+                    </Anns>
+                    <Command>\regions</Command>
+                    <Unicode>⨂</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="65"/>
+                    </Anns>
+                    <Command>\dsetminus</Command>
+                    <Unicode>⇲</Unicode>
+                </Directive>
+                <Directive Type="IN">
+                    <Anns>
+                        <LocAnn Line="84"/>
+                    </Anns>
+                    <Command>\dcap</Command>
+                    <Unicode>◇</Unicode>
+                </Directive>
+            </LatexMarkupPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="804" Loc="lib/circus_mc_toolkit.tex" Line="16" Length="109" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+</Content>
+            </NarrPara>
+            <OptempPara Prec="40" Cat="Function" Assoc="Left">
+                <Anns>
+                    <LocAnn Start="1203" Loc="lib/circus_mc_toolkit.tex" Line="26" Length="60" Col="0"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="1243" Loc="lib/circus_mc_toolkit.tex" Line="27" Length="6" Col="28"/>
+                    </Anns>
+                    <Word>⩆</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1263" Loc="lib/circus_mc_toolkit.tex" Line="28" Length="2" Col="9"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="1265" Loc="lib/circus_mc_toolkit.tex" Line="30" Length="211" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="1280" Loc="lib/circus_mc_toolkit.tex" Line="30" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="31" Col="16"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="31" Col="16"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="31" Col="16"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="31" Col="14"/>
+                                    </Anns>
+                                    <Word> _ ⩆ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="1301" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="56" Col="61"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1344" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="4" Col="61"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <ProdExpr>
+                                        <Anns>
+                                            <LocAnn Start="1301" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="41" Col="59"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="1301" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="16" Col="18"/>
+                                                </Anns>
+                                                <PowerExpr>
+                                                    <Anns>
+                                                        <LocAnn Start="1309" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="8" Col="26"/>
+                                                        <ParenAnn>
+                                                            <Anns>
+                                                                <LocAnn Start="1308" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="10" Col="25"/>
+                                                            </Anns>
+                                                        </ParenAnn>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1316" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="1" Col="33"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1316" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="1" Col="33"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </PowerExpr>
+                                            </PowerExpr>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="1326" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="16" Col="43"/>
+                                                </Anns>
+                                                <PowerExpr>
+                                                    <Anns>
+                                                        <LocAnn Start="1334" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="8" Col="51"/>
+                                                        <ParenAnn>
+                                                            <Anns>
+                                                                <LocAnn Start="1333" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="10" Col="50"/>
+                                                            </Anns>
+                                                        </ParenAnn>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1341" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="1" Col="58"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1341" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="1" Col="58"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </PowerExpr>
+                                            </PowerExpr>
+                                        </ZExprList>
+                                    </ProdExpr>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="1349" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="8" Col="66"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1356" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="1" Col="73"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1356" Loc="lib/circus_mc_toolkit.tex" Line="31" Length="1" Col="73"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </PowerExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <ForallPred>
+                        <Anns>
+                            <LocAnn Start="1369" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="92" Col="4"/>
+                        </Anns>
+                        <ZSchText>
+                            <Anns>
+                                <LocAnn Start="1377" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="22" Col="16"/>
+                            </Anns>
+                            <ZDeclList>
+                                <Anns>
+                                    <LocAnn Start="1377" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="22" Col="16"/>
+                                </Anns>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="1377" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="22" Col="16"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1377" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="12"/>
+                                            </Anns>
+                                            <Word>S</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1380" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="15"/>
+                                            </Anns>
+                                            <Word>P</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="1383" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="16" Col="18"/>
+                                        </Anns>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Start="1391" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="8" Col="26"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="1390" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="10" Col="25"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="1398" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="33"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="1398" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="33"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </PowerExpr>
+                                </VarDecl>
+                            </ZDeclList>
+                        </ZSchText>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Start="1403" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="58" Col="49"/>
+                            </Anns>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Start="1403" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="10" Col="40"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="1405" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="6" Col="40"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="1405" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="6" Col="40"/>
+                                        </Anns>
+                                        <Word> _ ⩆ _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1403" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="38"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1403" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="38"/>
+                                                </Anns>
+                                                <Word>P</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1412" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="47"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1412" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="47"/>
+                                                </Anns>
+                                                <Word>S</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ZExprList>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Start="1417" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="44" Col="63"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1428" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="9" Col="63"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1428" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="9" Col="63"/>
+                                                </Anns>
+                                                <Word> _ ∖ _ </Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <ZExprList>
+                                                <ApplExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1417" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="9" Col="52"/>
+                                                        <ParenAnn>
+                                                            <Anns>
+                                                                <LocAnn Start="1416" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="11" Col="51"/>
+                                                            </Anns>
+                                                        </ParenAnn>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1417" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="7" Col="52"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1417" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="7" Col="52"/>
+                                                            </Anns>
+                                                            <Word>⋂</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1425" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="60"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1425" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="60"/>
+                                                            </Anns>
+                                                            <Word>P</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                                <ApplExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1439" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="22" Col="74"/>
+                                                        <ParenAnn>
+                                                            <Anns>
+                                                                <LocAnn Start="1438" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="25" Col="73"/>
+                                                            </Anns>
+                                                        </ParenAnn>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="1439" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="7" Col="74"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="1439" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="7" Col="74"/>
+                                                            </Anns>
+                                                            <Word>⋃</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <ApplExpr Mixfix="true">
+                                                        <Anns>
+                                                            <LocAnn Start="1448" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="13" Col="85"/>
+                                                            <ParenAnn>
+                                                                <Anns>
+                                                                    <LocAnn Start="1447" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="15" Col="82"/>
+                                                                </Anns>
+                                                            </ParenAnn>
+                                                        </Anns>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1450" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="9" Col="85"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1450" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="9" Col="85"/>
+                                                                </Anns>
+                                                                <Word> _ ∖ _ </Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                        <TupleExpr>
+                                                            <ZExprList>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="1448" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="83"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="1448" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="83"/>
+                                                                        </Anns>
+                                                                        <Word>S</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="1460" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="95"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="1460" Loc="lib/circus_mc_toolkit.tex" Line="33" Length="1" Col="95"/>
+                                                                        </Anns>
+                                                                        <Word>P</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                            </ZExprList>
+                                                        </TupleExpr>
+                                                    </ApplExpr>
+                                                </ApplExpr>
+                                            </ZExprList>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </ZExprList>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1476" Loc="lib/circus_mc_toolkit.tex" Line="34" Length="2" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="1741" Loc="lib/circus_mc_toolkit.tex" Line="41" Length="246" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="1756" Loc="lib/circus_mc_toolkit.tex" Line="41" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Start="1763" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="211" Col="12"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Start="1763" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="53" Col="12"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="1763" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="53" Col="12"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1763" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="8" Col="4"/>
+                                    </Anns>
+                                    <Word>⨂</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="1773" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="43" Col="34"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="1793" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="4" Col="34"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1773" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="18" Col="14"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1773" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="8" Col="14"/>
+                                            </Anns>
+                                            <Word>ℙ _ </Word>
+                                            <ZStrokeList>
+                                                <NumStroke Digit="1"/>
+                                            </ZStrokeList>
+                                        </ZName>
+                                        <ZExprList>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="1783" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="8" Col="24"/>
+                                                    <ParenAnn>
+                                                        <Anns>
+                                                            <LocAnn Start="1782" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="10" Col="23"/>
+                                                        </Anns>
+                                                    </ParenAnn>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1790" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="1" Col="31"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1790" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="1" Col="31"/>
+                                                        </Anns>
+                                                        <Word>X</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </PowerExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1798" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="18" Col="39"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1798" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="8" Col="39"/>
+                                            </Anns>
+                                            <Word>ℙ _ </Word>
+                                            <ZStrokeList>
+                                                <NumStroke Digit="1"/>
+                                            </ZStrokeList>
+                                        </ZName>
+                                        <ZExprList>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="1808" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="8" Col="49"/>
+                                                    <ParenAnn>
+                                                        <Anns>
+                                                            <LocAnn Start="1807" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="10" Col="48"/>
+                                                        </Anns>
+                                                    </ParenAnn>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1815" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="1" Col="56"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1815" Loc="lib/circus_mc_toolkit.tex" Line="42" Length="1" Col="56"/>
+                                                        </Anns>
+                                                        <Word>X</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </PowerExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <ForallPred>
+                        <Anns>
+                            <LocAnn Start="1829" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="145" Col="4"/>
+                        </Anns>
+                        <ZSchText>
+                            <Anns>
+                                <LocAnn Start="1837" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="21" Col="13"/>
+                            </Anns>
+                            <ZDeclList>
+                                <Anns>
+                                    <LocAnn Start="1837" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="21" Col="13"/>
+                                </Anns>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="1837" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="21" Col="13"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1837" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="1" Col="12"/>
+                                            </Anns>
+                                            <Word>S</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <RefExpr Mixfix="true" Explicit="true">
+                                        <Anns>
+                                            <LocAnn Start="1840" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="18" Col="15"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="1840" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="8" Col="15"/>
+                                            </Anns>
+                                            <Word>ℙ _ </Word>
+                                            <ZStrokeList>
+                                                <NumStroke Digit="1"/>
+                                            </ZStrokeList>
+                                        </ZName>
+                                        <ZExprList>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="1850" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="8" Col="25"/>
+                                                    <ParenAnn>
+                                                        <Anns>
+                                                            <LocAnn Start="1849" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="10" Col="24"/>
+                                                        </Anns>
+                                                    </ParenAnn>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="1857" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="1" Col="32"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="1857" Loc="lib/circus_mc_toolkit.tex" Line="44" Length="1" Col="32"/>
+                                                        </Anns>
+                                                        <Word>X</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </PowerExpr>
+                                        </ZExprList>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
+                        </ZSchText>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Start="1875" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="99" Col="21"/>
+                            </Anns>
+                            <ApplExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Start="1875" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="10" Col="10"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="1875" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="8" Col="10"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="1875" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="8" Col="10"/>
+                                        </Anns>
+                                        <Word>⨂</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="1884" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="19"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="1884" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="19"/>
+                                        </Anns>
+                                        <Word>S</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ZExprList>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Start="1888" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="86" Col="82"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="1947" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="9" Col="82"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="1947" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="9" Col="82"/>
+                                                </Anns>
+                                                <Word> _ ∖ _ </Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <ZExprList>
+                                                <SetCompExpr>
+                                                    <Anns>
+                                                        <LocAnn Start="1888" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="58" Col="23"/>
+                                                    </Anns>
+                                                    <ZSchText>
+                                                        <Anns>
+                                                            <LocAnn Start="1892" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="38" Col="28"/>
+                                                        </Anns>
+                                                        <ZDeclList>
+                                                            <Anns>
+                                                                <LocAnn Start="1892" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="21" Col="28"/>
+                                                            </Anns>
+                                                            <VarDecl>
+                                                                <Anns>
+                                                                    <LocAnn Start="1892" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="21" Col="28"/>
+                                                                </Anns>
+                                                                <ZNameList>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="1892" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="27"/>
+                                                                        </Anns>
+                                                                        <Word>P</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                </ZNameList>
+                                                                <RefExpr Mixfix="true" Explicit="true">
+                                                                    <Anns>
+                                                                        <LocAnn Start="1895" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="18" Col="30"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="1895" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="8" Col="30"/>
+                                                                        </Anns>
+                                                                        <Word>ℙ _ </Word>
+                                                                        <ZStrokeList>
+                                                                            <NumStroke Digit="1"/>
+                                                                        </ZStrokeList>
+                                                                    </ZName>
+                                                                    <ZExprList>
+                                                                        <PowerExpr>
+                                                                            <Anns>
+                                                                                <LocAnn Start="1905" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="8" Col="40"/>
+                                                                                <ParenAnn>
+                                                                                    <Anns>
+                                                                                        <LocAnn Start="1904" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="10" Col="39"/>
+                                                                                    </Anns>
+                                                                                </ParenAnn>
+                                                                            </Anns>
+                                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="1912" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="47"/>
+                                                                                </Anns>
+                                                                                <ZName>
+                                                                                    <Anns>
+                                                                                        <LocAnn Start="1912" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="47"/>
+                                                                                    </Anns>
+                                                                                    <Word>X</Word>
+                                                                                    <ZStrokeList/>
+                                                                                </ZName>
+                                                                                <ZExprList/>
+                                                                            </RefExpr>
+                                                                        </PowerExpr>
+                                                                    </ZExprList>
+                                                                </RefExpr>
+                                                            </VarDecl>
+                                                        </ZDeclList>
+                                                        <MemPred Mixfix="true">
+                                                            <Anns>
+                                                                <LocAnn Start="1917" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="13" Col="52"/>
+                                                            </Anns>
+                                                            <TupleExpr>
+                                                                <ZExprList>
+                                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                                        <Anns>
+                                                                            <LocAnn Start="1917" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="52"/>
+                                                                        </Anns>
+                                                                        <ZName>
+                                                                            <Anns>
+                                                                                <LocAnn Start="1917" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="52"/>
+                                                                            </Anns>
+                                                                            <Word>P</Word>
+                                                                            <ZStrokeList/>
+                                                                        </ZName>
+                                                                        <ZExprList/>
+                                                                    </RefExpr>
+                                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                                        <Anns>
+                                                                            <LocAnn Start="1929" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="64"/>
+                                                                        </Anns>
+                                                                        <ZName>
+                                                                            <Anns>
+                                                                                <LocAnn Start="1929" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="64"/>
+                                                                            </Anns>
+                                                                            <Word>S</Word>
+                                                                            <ZStrokeList/>
+                                                                        </ZName>
+                                                                        <ZExprList/>
+                                                                    </RefExpr>
+                                                                </ZExprList>
+                                                            </TupleExpr>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="1919" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="9" Col="54"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="1919" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="9" Col="54"/>
+                                                                    </Anns>
+                                                                    <Word> _ ⊆ _ </Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </MemPred>
+                                                    </ZSchText>
+                                                    <ApplExpr Mixfix="true">
+                                                        <Anns>
+                                                            <LocAnn Start="1933" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="10" Col="70"/>
+                                                        </Anns>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1935" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="6" Col="70"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1935" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="6" Col="70"/>
+                                                                </Anns>
+                                                                <Word> _ ⩆ _ </Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                        <TupleExpr>
+                                                            <ZExprList>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="1933" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="68"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="1933" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="68"/>
+                                                                        </Anns>
+                                                                        <Word>P</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="1942" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="77"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="1942" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="1" Col="77"/>
+                                                                        </Anns>
+                                                                        <Word>S</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                            </ZExprList>
+                                                        </TupleExpr>
+                                                    </ApplExpr>
+                                                </SetCompExpr>
+                                                <SetExpr>
+                                                    <Anns>
+                                                        <LocAnn Start="1957" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="17" Col="92"/>
+                                                    </Anns>
+                                                    <ZExprList>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="1961" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="9" Col="96"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="1961" Loc="lib/circus_mc_toolkit.tex" Line="45" Length="9" Col="96"/>
+                                                                </Anns>
+                                                                <Word>∅</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </ZExprList>
+                                                </SetExpr>
+                                            </ZExprList>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </ZExprList>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="1987" Loc="lib/circus_mc_toolkit.tex" Line="46" Length="2" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="2231" Loc="lib/circus_mc_toolkit.tex" Line="52" Length="263" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="2246" Loc="lib/circus_mc_toolkit.tex" Line="52" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Start="2253" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="228" Col="11"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Start="2253" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="48" Col="11"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Start="2253" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="48" Col="11"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="2253" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="7" Col="4"/>
+                                    </Anns>
+                                    <Word>minimal</Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="2262" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="39" Col="31"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="2280" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="4" Col="31"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="2262" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="16" Col="13"/>
+                                        </Anns>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Start="2270" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="8" Col="21"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="2269" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="10" Col="20"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2277" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="1" Col="28"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2277" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="1" Col="28"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </PowerExpr>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="2285" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="16" Col="36"/>
+                                        </Anns>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Start="2293" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="8" Col="44"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="2292" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="10" Col="43"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2300" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="1" Col="51"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2300" Loc="lib/circus_mc_toolkit.tex" Line="53" Length="1" Col="51"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </PowerExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <ForallPred>
+                        <Anns>
+                            <LocAnn Start="2313" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="168" Col="3"/>
+                        </Anns>
+                        <ZSchText>
+                            <Anns>
+                                <LocAnn Start="2321" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="20" Col="13"/>
+                            </Anns>
+                            <ZDeclList>
+                                <Anns>
+                                    <LocAnn Start="2321" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="20" Col="13"/>
+                                </Anns>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="2321" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="20" Col="13"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2321" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="2" Col="11"/>
+                                            </Anns>
+                                            <Word>SS</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="2325" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="16" Col="15"/>
+                                        </Anns>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Start="2333" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="8" Col="23"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="2332" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="10" Col="22"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2340" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="1" Col="30"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2340" Loc="lib/circus_mc_toolkit.tex" Line="55" Length="1" Col="30"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </PowerExpr>
+                                </VarDecl>
+                            </ZDeclList>
+                        </ZSchText>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Start="2356" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="125" Col="19"/>
+                            </Anns>
+                            <ApplExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Start="2356" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="10" Col="8"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="2356" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="7" Col="8"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="2356" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="7" Col="8"/>
+                                        </Anns>
+                                        <Word>minimal</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="2364" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="2" Col="16"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="2364" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="2" Col="16"/>
+                                        </Anns>
+                                        <Word>SS</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ZExprList>
+                                    <SetCompExpr>
+                                        <Anns>
+                                            <LocAnn Start="2369" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="112" Col="21"/>
+                                        </Anns>
+                                        <ZSchText>
+                                            <ZDeclList>
+                                                <Anns>
+                                                    <LocAnn Start="2372" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="11" Col="25"/>
+                                                </Anns>
+                                                <VarDecl>
+                                                    <Anns>
+                                                        <LocAnn Start="2372" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="11" Col="25"/>
+                                                    </Anns>
+                                                    <ZNameList>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="2372" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="1" Col="24"/>
+                                                            </Anns>
+                                                            <Word>S</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                    </ZNameList>
+                                                    <PowerExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="2375" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="8" Col="27"/>
+                                                        </Anns>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="2382" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="1" Col="34"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="2382" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="1" Col="34"/>
+                                                                </Anns>
+                                                                <Word>X</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </PowerExpr>
+                                                </VarDecl>
+                                            </ZDeclList>
+                                            <AndPred And="Wedge">
+                                                <Anns>
+                                                    <LocAnn Start="2386" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="90" Col="47"/>
+                                                </Anns>
+                                                <MemPred Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Start="2386" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="8" Col="40"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="2386" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="1" Col="38"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="2386" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="1" Col="38"/>
+                                                            </Anns>
+                                                            <Word>S</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="2392" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="2" Col="44"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="2392" Loc="lib/circus_mc_toolkit.tex" Line="56" Length="2" Col="44"/>
+                                                            </Anns>
+                                                            <Word>SS</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </MemPred>
+                                                <NegPred>
+                                                    <Anns>
+                                                        <LocAnn Start="2424" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="52" Col="20"/>
+                                                    </Anns>
+                                                    <ExistsPred>
+                                                        <Anns>
+                                                            <LocAnn Start="2432" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="44" Col="28"/>
+                                                            <ParenAnn>
+                                                                <Anns>
+                                                                    <LocAnn Start="2430" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="48" Col="26"/>
+                                                                </Anns>
+                                                            </ParenAnn>
+                                                        </Anns>
+                                                        <ZSchText>
+                                                            <Anns>
+                                                                <LocAnn Start="2440" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="22" Col="37"/>
+                                                            </Anns>
+                                                            <ZDeclList>
+                                                                <Anns>
+                                                                    <LocAnn Start="2440" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="11" Col="37"/>
+                                                                </Anns>
+                                                                <VarDecl>
+                                                                    <Anns>
+                                                                        <LocAnn Start="2440" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="11" Col="37"/>
+                                                                    </Anns>
+                                                                    <ZNameList>
+                                                                        <ZName>
+                                                                            <Anns>
+                                                                                <LocAnn Start="2440" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="36"/>
+                                                                            </Anns>
+                                                                            <Word>R</Word>
+                                                                            <ZStrokeList/>
+                                                                        </ZName>
+                                                                    </ZNameList>
+                                                                    <PowerExpr>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2443" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="8" Col="39"/>
+                                                                        </Anns>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="2450" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="46"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="2450" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="46"/>
+                                                                                </Anns>
+                                                                                <Word>X</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                    </PowerExpr>
+                                                                </VarDecl>
+                                                            </ZDeclList>
+                                                            <MemPred Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="2454" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="8" Col="52"/>
+                                                                </Anns>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="2454" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="50"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2454" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="50"/>
+                                                                        </Anns>
+                                                                        <Word>R</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <Anns>
+                                                                        <LocAnn Start="2460" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="2" Col="56"/>
+                                                                    </Anns>
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="2460" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="2" Col="56"/>
+                                                                        </Anns>
+                                                                        <Word>SS</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                            </MemPred>
+                                                        </ZSchText>
+                                                        <MemPred Mixfix="true">
+                                                            <Anns>
+                                                                <LocAnn Start="2465" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="11" Col="61"/>
+                                                            </Anns>
+                                                            <TupleExpr>
+                                                                <ZExprList>
+                                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                                        <Anns>
+                                                                            <LocAnn Start="2465" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="61"/>
+                                                                        </Anns>
+                                                                        <ZName>
+                                                                            <Anns>
+                                                                                <LocAnn Start="2465" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="61"/>
+                                                                            </Anns>
+                                                                            <Word>R</Word>
+                                                                            <ZStrokeList/>
+                                                                        </ZName>
+                                                                        <ZExprList/>
+                                                                    </RefExpr>
+                                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                                        <Anns>
+                                                                            <LocAnn Start="2475" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="71"/>
+                                                                        </Anns>
+                                                                        <ZName>
+                                                                            <Anns>
+                                                                                <LocAnn Start="2475" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="1" Col="71"/>
+                                                                            </Anns>
+                                                                            <Word>S</Word>
+                                                                            <ZStrokeList/>
+                                                                        </ZName>
+                                                                        <ZExprList/>
+                                                                    </RefExpr>
+                                                                </ZExprList>
+                                                            </TupleExpr>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="2467" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="7" Col="63"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="2467" Loc="lib/circus_mc_toolkit.tex" Line="57" Length="7" Col="63"/>
+                                                                    </Anns>
+                                                                    <Word> _ ⊂ _ </Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </MemPred>
+                                                    </ExistsPred>
+                                                </NegPred>
+                                            </AndPred>
+                                        </ZSchText>
+                                    </SetCompExpr>
+                                </ZExprList>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="2494" Loc="lib/circus_mc_toolkit.tex" Line="58" Length="2" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <OptempPara Prec="35" Cat="Function" Assoc="Left">
+                <Anns>
+                    <LocAnn Start="2812" Loc="lib/circus_mc_toolkit.tex" Line="66" Length="68" Col="0"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="2856" Loc="lib/circus_mc_toolkit.tex" Line="67" Length="10" Col="32"/>
+                    </Anns>
+                    <Word>⇲</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="2880" Loc="lib/circus_mc_toolkit.tex" Line="68" Length="2" Col="9"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="2882" Loc="lib/circus_mc_toolkit.tex" Line="70" Length="228" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="2897" Loc="lib/circus_mc_toolkit.tex" Line="70" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="71" Col="21"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="71" Col="21"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="71" Col="21"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="71" Col="18"/>
+                                    </Anns>
+                                    <Word> _ ⇲ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="2923" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="55" Col="57"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="2957" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="4" Col="57"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <ProdExpr>
+                                        <Anns>
+                                            <LocAnn Start="2923" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="33" Col="55"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="2923" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="16" Col="23"/>
+                                                </Anns>
+                                                <PowerExpr>
+                                                    <Anns>
+                                                        <LocAnn Start="2931" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="8" Col="31"/>
+                                                        <ParenAnn>
+                                                            <Anns>
+                                                                <LocAnn Start="2930" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="10" Col="30"/>
+                                                            </Anns>
+                                                        </ParenAnn>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="2938" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="1" Col="38"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="2938" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="1" Col="38"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </PowerExpr>
+                                            </PowerExpr>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="2948" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="8" Col="48"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="2955" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="1" Col="55"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="2955" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="1" Col="55"/>
+                                                        </Anns>
+                                                        <Word>X</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </PowerExpr>
+                                        </ZExprList>
+                                    </ProdExpr>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="2962" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="16" Col="62"/>
+                                        </Anns>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Start="2970" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="8" Col="70"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="2969" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="10" Col="69"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="2977" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="1" Col="77"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="2977" Loc="lib/circus_mc_toolkit.tex" Line="71" Length="1" Col="77"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </PowerExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <ForallPred>
+                        <Anns>
+                            <LocAnn Start="2991" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="106" Col="4"/>
+                        </Anns>
+                        <ZSchText>
+                            <Anns>
+                                <LocAnn Start="2999" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="33" Col="13"/>
+                            </Anns>
+                            <ZDeclList>
+                                <Anns>
+                                    <LocAnn Start="2999" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="33" Col="13"/>
+                                </Anns>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="2999" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="19" Col="13"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2999" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="12"/>
+                                            </Anns>
+                                            <Word>P</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="3002" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="16" Col="15"/>
+                                        </Anns>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Start="3010" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="8" Col="23"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="3009" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="10" Col="22"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="3017" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="30"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="3017" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="30"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </PowerExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="3021" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="11" Col="35"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="3021" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="34"/>
+                                            </Anns>
+                                            <Word>p</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="3024" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="8" Col="37"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="3031" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="44"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="3031" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="44"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </PowerExpr>
+                                </VarDecl>
+                            </ZDeclList>
+                        </ZSchText>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Start="3035" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="62" Col="63"/>
+                            </Anns>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Start="3035" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="14" Col="50"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="3037" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="10" Col="50"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="3037" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="10" Col="50"/>
+                                        </Anns>
+                                        <Word> _ ⇲ _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="3035" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="48"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="3035" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="48"/>
+                                                </Anns>
+                                                <Word>P</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="3048" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="61"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="3048" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="61"/>
+                                                </Anns>
+                                                <Word>p</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ZExprList>
+                                    <SetCompExpr>
+                                        <Anns>
+                                            <LocAnn Start="3052" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="45" Col="65"/>
+                                        </Anns>
+                                        <ZSchText>
+                                            <Anns>
+                                                <LocAnn Start="3056" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="21" Col="70"/>
+                                            </Anns>
+                                            <ZDeclList>
+                                                <Anns>
+                                                    <LocAnn Start="3056" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="11" Col="70"/>
+                                                </Anns>
+                                                <VarDecl>
+                                                    <Anns>
+                                                        <LocAnn Start="3056" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="11" Col="70"/>
+                                                    </Anns>
+                                                    <ZNameList>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="3056" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="69"/>
+                                                            </Anns>
+                                                            <Word>q</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                    </ZNameList>
+                                                    <PowerExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="3059" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="8" Col="72"/>
+                                                        </Anns>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="3066" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="79"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="3066" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="79"/>
+                                                                </Anns>
+                                                                <Word>X</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </PowerExpr>
+                                                </VarDecl>
+                                            </ZDeclList>
+                                            <MemPred Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Start="3070" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="7" Col="85"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="3070" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="83"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="3070" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="83"/>
+                                                        </Anns>
+                                                        <Word>q</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="3076" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="89"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="3076" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="89"/>
+                                                        </Anns>
+                                                        <Word>P</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </ZSchText>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="3080" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="13" Col="95"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="3082" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="9" Col="95"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="3082" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="9" Col="95"/>
+                                                    </Anns>
+                                                    <Word> _ ∖ _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="3080" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="93"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="3080" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="93"/>
+                                                            </Anns>
+                                                            <Word>q</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="3092" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="105"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="3092" Loc="lib/circus_mc_toolkit.tex" Line="73" Length="1" Col="105"/>
+                                                            </Anns>
+                                                            <Word>p</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </SetCompExpr>
+                                </ZExprList>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="3110" Loc="lib/circus_mc_toolkit.tex" Line="74" Length="2" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <OptempPara Prec="44" Cat="Function" Assoc="Left">
+                <Anns>
+                    <LocAnn Start="3626" Loc="lib/circus_mc_toolkit.tex" Line="85" Length="63" Col="0"/>
+                </Anns>
+                <Operand List="false"/>
+                <Operator>
+                    <Anns>
+                        <LocAnn Start="3670" Loc="lib/circus_mc_toolkit.tex" Line="86" Length="5" Col="32"/>
+                    </Anns>
+                    <Word>◇</Word>
+                </Operator>
+                <Operand List="false"/>
+            </OptempPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="3689" Loc="lib/circus_mc_toolkit.tex" Line="87" Length="2" Col="9"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Start="3691" Loc="lib/circus_mc_toolkit.tex" Line="89" Length="214" Col="0"/>
+                </Anns>
+                <ZNameList>
+                    <ZName>
+                        <Anns>
+                            <LocAnn Start="3706" Loc="lib/circus_mc_toolkit.tex" Line="89" Length="1" Col="15"/>
+                        </Anns>
+                        <Word>X</Word>
+                        <ZStrokeList/>
+                    </ZName>
+                </ZNameList>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="90" Col="16"/>
+                    </Anns>
+                    <ZDeclList>
+                        <Anns>
+                            <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="90" Col="16"/>
+                        </Anns>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="90" Col="16"/>
+                            </Anns>
+                            <ZNameList>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/circus_mc_toolkit.tex" Line="90" Col="13"/>
+                                    </Anns>
+                                    <Word> _ ◇ _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                            </ZNameList>
+                            <RefExpr Mixfix="true" Explicit="true">
+                                <Anns>
+                                    <LocAnn Start="3727" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="55" Col="52"/>
+                                </Anns>
+                                <ZName>
+                                    <Anns>
+                                        <LocAnn Start="3761" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="4" Col="52"/>
+                                    </Anns>
+                                    <Word> _ → _ </Word>
+                                    <ZStrokeList/>
+                                </ZName>
+                                <ZExprList>
+                                    <ProdExpr>
+                                        <Anns>
+                                            <LocAnn Start="3727" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="33" Col="50"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="3727" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="16" Col="18"/>
+                                                </Anns>
+                                                <PowerExpr>
+                                                    <Anns>
+                                                        <LocAnn Start="3735" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="8" Col="26"/>
+                                                        <ParenAnn>
+                                                            <Anns>
+                                                                <LocAnn Start="3734" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="10" Col="25"/>
+                                                            </Anns>
+                                                        </ParenAnn>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="3742" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="1" Col="33"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="3742" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="1" Col="33"/>
+                                                            </Anns>
+                                                            <Word>X</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </PowerExpr>
+                                            </PowerExpr>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Start="3752" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="8" Col="43"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="3759" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="1" Col="50"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="3759" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="1" Col="50"/>
+                                                        </Anns>
+                                                        <Word>X</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </PowerExpr>
+                                        </ZExprList>
+                                    </ProdExpr>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="3766" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="16" Col="57"/>
+                                        </Anns>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Start="3774" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="8" Col="65"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="3773" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="10" Col="64"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="3781" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="1" Col="72"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="3781" Loc="lib/circus_mc_toolkit.tex" Line="90" Length="1" Col="72"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </PowerExpr>
+                                </ZExprList>
+                            </RefExpr>
+                        </VarDecl>
+                    </ZDeclList>
+                    <ForallPred>
+                        <Anns>
+                            <LocAnn Start="3795" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="97" Col="4"/>
+                        </Anns>
+                        <ZSchText>
+                            <Anns>
+                                <LocAnn Start="3804" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="33" Col="14"/>
+                            </Anns>
+                            <ZDeclList>
+                                <Anns>
+                                    <LocAnn Start="3804" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="33" Col="14"/>
+                                </Anns>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="3804" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="19" Col="14"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="3804" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="13"/>
+                                            </Anns>
+                                            <Word>P</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="3807" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="16" Col="16"/>
+                                        </Anns>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Start="3815" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="8" Col="24"/>
+                                                <ParenAnn>
+                                                    <Anns>
+                                                        <LocAnn Start="3814" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="10" Col="23"/>
+                                                    </Anns>
+                                                </ParenAnn>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="3822" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="31"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="3822" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="31"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </PowerExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Start="3826" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="11" Col="36"/>
+                                    </Anns>
+                                    <ZNameList>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="3826" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="35"/>
+                                            </Anns>
+                                            <Word>p</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                    </ZNameList>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Start="3829" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="8" Col="38"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="3836" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="45"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="3836" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="45"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </PowerExpr>
+                                </VarDecl>
+                            </ZDeclList>
+                        </ZSchText>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Start="3840" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="52" Col="59"/>
+                            </Anns>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Start="3840" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="9" Col="51"/>
+                                </Anns>
+                                <RefExpr Mixfix="false" Explicit="false">
+                                    <Anns>
+                                        <LocAnn Start="3842" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="5" Col="51"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Start="3842" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="5" Col="51"/>
+                                        </Anns>
+                                        <Word> _ ◇ _ </Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="3840" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="49"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="3840" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="49"/>
+                                                </Anns>
+                                                <Word>P</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false" Explicit="false">
+                                            <Anns>
+                                                <LocAnn Start="3848" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="57"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Start="3848" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="57"/>
+                                                </Anns>
+                                                <Word>p</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ZExprList>
+                                    <SetCompExpr>
+                                        <Anns>
+                                            <LocAnn Start="3852" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="40" Col="61"/>
+                                        </Anns>
+                                        <ZSchText>
+                                            <Anns>
+                                                <LocAnn Start="3856" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="21" Col="66"/>
+                                            </Anns>
+                                            <ZDeclList>
+                                                <Anns>
+                                                    <LocAnn Start="3856" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="11" Col="66"/>
+                                                </Anns>
+                                                <VarDecl>
+                                                    <Anns>
+                                                        <LocAnn Start="3856" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="11" Col="66"/>
+                                                    </Anns>
+                                                    <ZNameList>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="3856" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="65"/>
+                                                            </Anns>
+                                                            <Word>q</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                    </ZNameList>
+                                                    <PowerExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="3859" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="8" Col="68"/>
+                                                        </Anns>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="3866" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="75"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="3866" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="75"/>
+                                                                </Anns>
+                                                                <Word>X</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </PowerExpr>
+                                                </VarDecl>
+                                            </ZDeclList>
+                                            <MemPred Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Start="3870" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="7" Col="81"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="3870" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="79"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="3870" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="79"/>
+                                                        </Anns>
+                                                        <Word>q</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false" Explicit="false">
+                                                    <Anns>
+                                                        <LocAnn Start="3876" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="85"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Start="3876" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="85"/>
+                                                        </Anns>
+                                                        <Word>P</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </ZSchText>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="3880" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="8" Col="91"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="3882" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="4" Col="91"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="3882" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="4" Col="91"/>
+                                                    </Anns>
+                                                    <Word> _ ∩ _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="3880" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="89"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="3880" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="89"/>
+                                                            </Anns>
+                                                            <Word>q</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="3887" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="96"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="3887" Loc="lib/circus_mc_toolkit.tex" Line="92" Length="1" Col="96"/>
+                                                            </Anns>
+                                                            <Word>p</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </SetCompExpr>
+                                </ZExprList>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </ZSchText>
+            </AxPara>
+        </ZParaList>
+    </ZSect>
+</Spec>
+

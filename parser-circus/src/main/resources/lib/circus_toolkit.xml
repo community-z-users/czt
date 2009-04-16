@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="472" Loc="lib/circus_toolkit.tex" Line="9" Length="1" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="785" Loc="lib/circus_toolkit.tex" Line="15" Length="16" Col="0"/>
+        </Anns>
+        <Name>circus_toolkit</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="838" Loc="lib/circus_toolkit.tex" Line="16" Length="17" Col="36"/>
+            </Anns>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Anns>
+                <LocAnn Start="857" Loc="lib/circus_toolkit.tex" Line="16" Length="15" Col="55"/>
+            </Anns>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+        </ZParaList>
+    </ZSect>
+</Spec>
+
