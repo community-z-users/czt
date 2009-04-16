@@ -1,8 +1,14 @@
------------------------------------------------------------------------------
--- A REACTIVE BUFFER    - Case Study                                                                                    -
--- Action Refinement: controller and ring partitions                                                -
--- Example extracted from the paper "A Refinement Strategy for Circus"          -
------------------------------------------------------------------------------
+\documentclass{article}
+
+\usepackage{circus}
+
+\begin{document} 
+
+%-----------------------------------------------------------------------------
+%-- A REACTIVE BUFFER    - Case Study                                        -
+%-- Action Refinement: controller and ring partitions                        -
+%-- Example extracted from the paper "A Refinement Strategy for Circus"      -
+%-----------------------------------------------------------------------------
 
 You must always include the circus\_toolkit, and also check inside
 it to see the LaTeX commands the parser recognises (or to create
@@ -62,10 +68,10 @@ available soon. The bottom line is that apart from
 % some  schemas can be given in multiple horizontal paragraph within a single Z environment.
 \begin{zed}
     RingState ~~== ~~ [~ ring : \seq \nat | \#~ring = maxring ~] \\
-    CBufferState ~~==~~ (ControllerState \lor RingState)      
+    CBufferState ~~==~~ (ControllerState \lor RingState)
 \end{zed}
 
-\begin{circusaction} 
+\begin{circusaction}
     \circstate\ CBufferState
 \end{circusaction}
 
@@ -246,3 +252,5 @@ available soon. The bottom line is that apart from
 \begin{circus}
     \circend
 \end{circus}
+
+\end{document}
