@@ -140,7 +140,7 @@
     \DeclareMathSymbol{\csym@rpar}{\mathclose}{letters}{"83}%
     \def \csym@lcircrename   {[}%{\left[}
     \def \csym@rcircrename   {]}%{\right]}
-
+    
   %%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
 
     \DeclareMathSymbol{\csym@circrefines}{\mathrel}{symbols}{"76}%   \sqsubseteq
@@ -198,6 +198,20 @@
     \DeclareMathSymbol{\cmcsym@dsetminusbase}{\mathbin}{symbols}{"26}%
     \def \cmcsym@dsetminus {\zbig{\cmcsym@dsetminusbase}}
     \DeclareMathSymbol{\cmcsym@dcap}{\mathbin}{arrows}{"08}% \lozenge
+    
+  %%%%%%%%%%%%%%%%% 7) Special symbols used for Z bags            %
+
+    % added symbols for bags within Circus.sty
+    \def \zsym@lbag    {{[}\mkern-3mu{[}~}%{[\![~}
+    \def \zsym@rbag    {{]}\mkern-3mu{]}~}%{]\!]~}
+    \def \zsym@inbag   {\mbox{\texttt{E}}}
+    \def \zsym@uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
+                        to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
+    \let \zsym@otimes   \otimes    
+    \let \zsym@uplus    \uplus
+    \let \zsym@bcount   \sharp
+    \let \zsym@subbageq \sqsubseteq
+    
 }{%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % AMS font setup                                                %
@@ -280,6 +294,19 @@
     \let \cmcsym@regions   \otimes
     \let \cmcsym@dsetminus \searrow
     \DeclareMathSymbol{\cmcsym@dcap}{\mathbin}{AMSa}{"06}% \lozenge
+    
+  %%%%%%%%%%%%%%%%% 7) Special symbols used for Z bags            %
+
+    % added symbols for bags within Circus.sty
+    \def \zsym@lbag    {{[}\mkern-2mu{[}~}%{[\![~}
+    \def \zsym@rbag    {{]}\mkern-2mu{]}~}%{]\!]~}
+    \def \zsym@inbag   {\mbox{\texttt{E}}}                 % ??? find something better ??? 
+    \def \zsym@uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
+                        to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
+    \let \zsym@otimes   \otimes
+    \let \zsym@uplus    \uplus
+    \let \zsym@bcount   \sharp
+    \let \zsym@subbageq \sqsubseteq    
 }
 
 % sets the math version
@@ -863,17 +890,41 @@
 \newcommand{\circblockend}{\end{zedblock}}
 \newcommand{\circtoolson}{\ifTypesetCircusToolsCmds \hbox{[\textsl{\textbf{Circus tools on}}]} \else \relax \fi}
 \newcommand{\circtoolsoff}{\ifTypesetCircusToolsCmds \hbox{[\textsl{\textbf{Circus tools off}}]} \else \relax \fi}
-\newcommand{\circnote}[1]{\ifTypesetCircusToolsCmds \ensuremath{\t2}\hbox{\small \textsf{#1}}\ensuremath{\also} \else \relax \fi}
+
+\newlength{\circnotewidth}
+\setlength{\circnotewidth}{.75\linewidth}
+%\newlength{\circnoteindent}
+%\circnoteindent=\zedtab or dimen?
+%\setlength{\circnoteindent}{2em}
+\newcommand{\circnote}[1]{\ifTypesetCircusToolsCmds \ensuremath{\t1}\parbox{\circnotewidth}{\small \textsf{#1}}\ensuremath{\\} \else \relax \fi}
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Some useful symbols for the UTP:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Extra symbols for Bags                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
 
-%\def\II{\hbox{\texttt{\slshape I \kern -7.5pt I}}}
-%\def\circledR{{\mathhexbox\msafam@72 }}
+\def \bag     {\zpreop{\ztoolkit{bag}}}              % G
+\def \bcount  {\zbinop{\zsym@bcount}}                % F
+\def \otimes  {\zbinop{\zsym@otimes}}                % F
+\def \uplus   {\zbinop{\zsym@uplus}}                 % F
+\def \uminus  {\zbinop{\zsym@uminus}}                % F
+\def \subbageq{\zrelop{\zSmall{\zsym@subbageq}}}     % R  % \subbageq smaller to avoid confusion with \circrefines, which has the same symbol
+\def \inbag   {\zrelop{\zsym@inbag}}                 % R
+\def \lbag    {\zopenop{\zsym@lbag}}
+\def \rbag    {\zcloseop{~\zsym@rbag}}
 
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \endinput
 %%
 %% End of file `circus.sty'. 
+%
+%% Some useful symbols for the UTP:
+
+%\def\II{\hbox{\texttt{\slshape I \kern -7.5pt I}}}
+%\def\circledR{{\mathhexbox\msafam@72 }}
+
