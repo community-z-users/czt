@@ -469,6 +469,7 @@ public final class CircusUtils
     }
   }
   
+  private static final String ANONYMOUS_PATTERN        = "Anonymous";  
   private static final String FULLNAME_LINE_COLUMN     = "{0}_L{1}C{2}";
   private static final String FULLNAME_LOC_LINE_COLUMN = "{0}_F{{1})L{2}C{3}";
   private static final String FULLNAME_UNIQUE_ID       = "{0}_{1}";  
@@ -518,6 +519,11 @@ public final class CircusUtils
     return createFullQualifiedName(name, null, false);
   }
   
+  public static String createAnonymousName()
+  {
+    return createFullQualifiedName(ANONYMOUS_PATTERN);
+  }
+  
   /**
    * Creates a fully qualified name according to the location annotation
    * information, if avaiable. It also considers the LocAnn.getLoc() value if
@@ -549,6 +555,14 @@ public final class CircusUtils
   public static ZName createFullQualifiedName(ZName name)
   {
     return createFullQualifiedName(name, false);
+  }
+  
+  public static ZName createAnonymousZName()
+  {
+    String qualifiedName = createFullQualifiedName(createAnonymousName(), null, false);    
+    // create a name with the same ID
+    ZName result = FACTORY.createZName(qualifiedName);
+    return result;
   }
   
   public static ZName qualifyName(ZName first, ZName second)
