@@ -1,0 +1,14 @@
+\begin{zsection}
+  \SECTION NamedConjPara \parents set\_toolkit
+\end{zsection}
+
+Named theorem with generics
+\begin{theorem}{extensionality}[X]
+   \vdash? \forall S, T: \power~X @ S = T \iff \\
+        \t2 (\forall x: S @ x \in T) \land (\forall y: T @ y \in S)
+\end{theorem}
+
+Named theorem without generics
+\begin{theorem}{natSumAssociates}
+   \vdash? \forall x, y: \nat @ x + y = y + x
+\end{theorem}

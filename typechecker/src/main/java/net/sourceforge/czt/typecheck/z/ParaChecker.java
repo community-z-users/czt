@@ -246,7 +246,31 @@ public class ParaChecker
     }
 
     //the annotation for a conjecture paragraph is an empty signature
+    //unless it has a name, in which case a global name is added with 
+    //an empty type. this is important to avod ducplicated theorem names    
     Signature signature = factory().createSignature();
+    
+    // As names are optional (and yet non-standard), if it returns null
+    // just proceed as usual. Otherwise, add the name as a declared global
+    // name with empty (prod?) type.
+    String conjName = conjPara.getName();
+    if (conjName != null)
+    { 
+      Name thmName = factory().createZDeclName(conjName);
+      
+      // empty (prod?) type for theorems, except that we add the generics
+      // this may be useful for theorem provers. They will never need 
+      // instantiation at the ConjPara level anyway.
+      Type2 thmType2 = factory().createProdType(factory().<Type2>list());
+      Type thmType = addGenerics(thmType2);
+            
+      NameTypePair thmPair = factory().createNameTypePair(thmName, thmType);
+      signature.getNameTypePair().add(thmPair);
+    }
+    // conjName != null => !signature.isEmpty() = error case test is catching this. leave it out for now
+    //assert (conjName == null || !signature.getNameTypePair().isEmpty()) : "named theorem has signature.";
+    
+    // add the (possibly non empty) signature
     addSignatureAnn(conjPara, signature);
 
     //exit the variable scope

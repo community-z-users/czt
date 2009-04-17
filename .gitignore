@@ -5469,14 +5469,6 @@ typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/useBeforeDe
 typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/useBeforeDecl/target
 typechecker/src/test/target
 typechecker/target
-typechecker/tests/*.aux
-typechecker/tests/*.blg
-typechecker/tests/*.log
-typechecker/tests/*.tmp
-typechecker/tests/.classpath
-typechecker/tests/.project
-typechecker/tests/.settings
-typechecker/tests/target
 ui/*.aux
 ui/*.blg
 ui/*.log
