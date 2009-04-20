@@ -8,6 +8,7 @@
   <entry key="net.sourceforge.czt.parser.util.ParseException">net.sourceforge.czt.parser.util.ParseExceptionCommand</entry>
   <entry key="net.sourceforge.czt.parser.util.LatexMarkupFunction">net.sourceforge.czt.parser.util.LatexMarkupCommand</entry>
   <entry key="net.sourceforge.czt.parser.util.OpTable">net.sourceforge.czt.parser.util.OpTableCommand</entry>
+  <entry key="net.sourceforge.czt.parser.util.ThmTable">net.sourceforge.czt.parser.util.ThmTableCommand</entry>
   <entry key="net.sourceforge.czt.parser.util.DefinitionTable">net.sourceforge.czt.parser.util.DefinitionTableService</entry>
   <entry key="net.sourceforge.czt.parser.util.JokerTable">net.sourceforge.czt.parser.util.JokerTableCommand</entry>
   <entry key="net.sourceforge.czt.z.ast.SectTypeEnvAnn">net.sourceforge.czt.typecheck.z.TypeCheckCommand</entry>
