@@ -88,6 +88,9 @@ action code
 
     /** The table of operators. */
     protected OpTable opTable_;
+    
+    /** The table of named conjectures */
+    protected ThmTable thmTable_;
 
 <add:pattern>
     /** The table of joker names. */
@@ -663,12 +666,53 @@ action code
       try {
         opTable_ = new OpTable(section, parentOpTables);
       }
-      catch (OpTable.OperatorException e) {
+      catch (InfoTable.InfoTableException e) {
         parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_OPTABLES,
                             new Object[] { e.getMessage() },
                             getLocation(line, column));
      }
      opScanner_.setOperatorTable(opTable_);
+    }
+    
+    private ThmTable getThmTable(String section, int line, int column)
+      throws ParseException
+    {
+      try {
+        return sectInfo_.get(new Key&lt;ThmTable&gt;(section, ThmTable.class));
+      }
+      catch (CommandException e) {
+        Object [] args = { "Named conjectures table",
+                           section, e.getMessage() };
+        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
+                            args, new LocInfoImpl(getLoc(), line, column));
+        return null;
+      }
+    }
+    
+    private void resetThmTable(String section, List&lt;Parent&gt; parents,
+                              int line, int column)
+      throws ParseException
+    {
+      List parentThmTables = factory_.list();
+      if (Section.PRELUDE.getName().equals(section)) {
+        assert parents.size() == 0;
+      }
+      else {
+        for (Parent parent : parents) {
+          ThmTable parentThms = getThmTable(parent.getWord(), line, column);
+          if (parentThms != null) {
+            parentThmTables.add(parentThms);
+          }
+        }
+      }
+      try {
+        thmTable_ = new ThmTable(section, parentThmTables);
+      }
+      catch (InfoTable.InfoTableException e) {
+        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_THMTABLES,
+                            new Object[] { e.getMessage() },
+                            getLocation(line, column));
+     }     
     }
 
 <add:pattern>
@@ -723,7 +767,7 @@ action code
       return result;
     }
 
-    private ZSect updateZSect(ZSect zSect, OpTable opTable
+    private ZSect updateZSect(ZSect zSect, OpTable opTable, ThmTable thmTable
       <add:pattern>, JokerTable jokerTable </add:pattern>)
     {
       final boolean parseError = parser.error_;
@@ -769,10 +813,17 @@ action code
 
       Set dependencies = new HashSet();
       for (Parent parent : sect.getParent()) {
-        dependencies.add(new Key&lt;OpTable&gt;(parent.getWord(), OpTable.class));
+        dependencies.add(new Key(parent.getWord(), OpTable.class));
       }
+      
+      Set thmdependencies = new HashSet();
+      for (Parent parent : sect.getParent()) {
+        thmdependencies.add(new Key(parent.getWord(), ThmTable.class));
+      }
+      
       sectInfo_.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), sect, dependencies);
       sectInfo_.put(new Key&lt;OpTable&gt;(sectName, OpTable.class), opTable, dependencies);
+      sectInfo_.put(new Key&lt;ThmTable&gt;(sectName, ThmTable.class), thmTable, thmdependencies);
 <add:pattern>
       sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable, dependencies);
 </add:pattern>
@@ -2522,7 +2573,7 @@ specification ::=
         emptySectionHeader:header paragraphList:pl
         {:
            header.setParaList(pl);
-           ZSect zSect = updateZSect(header, opTable_
+           ZSect zSect = updateZSect(header, opTable_, thmTable_
              <add:pattern>, jokerTable_ </add:pattern>);
            RESULT = createSpec(factory_.list(zSect));
            <add:circus>
@@ -2553,6 +2604,7 @@ emptySectionHeader ::=
 </add:circus>
            final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
            resetOpTable(name, parents, eleft, eright);
+           resetThmTable(name, parents, eleft, eright);
 <add:pattern>
            resetJokerTable(name, parents, eleft, eright);
 </add:pattern>
@@ -2588,7 +2640,7 @@ section ::=
                //logProductionResult(pl, "PARAGRAPH LIST AT SECTION", pl.isEmpty() ? null : getLocation(pl.get(0)));
            </add:circus>
            header.setParaList(pl);
-           RESULT = updateZSect(header, opTable_
+           RESULT = updateZSect(header, opTable_, thmTable_
              <add:pattern>, jokerTable_ </add:pattern>);
            if (pl.size() > 0) {
              Para plPara = pl.get(pl.size()-1);
@@ -2641,6 +2693,7 @@ sectionHeader ::=
            }
 </add:circus>
            resetOpTable(name, p, pleft, pright);
+           resetThmTable(name, p, pleft, pright);
 <add:pattern>
            resetJokerTable(name, p, pleft, pright);
 </add:pattern>
@@ -2956,6 +3009,18 @@ unboxedParagraphItem ::=
            RESULT = factory_.createConjPara(ofp, p);
            RESULT.getAnns().add(n); // add it as an annotation for now.
            addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
+           
+           try
+           {
+             thmTable_.add((ConjPara)RESULT);
+           }
+           catch (ThmTable.ThmTableException e)
+           {
+             //final Symbol token = new Symbol(Sym.ZED, nleft, nright);
+               parser.report_error(ZParseMessage.MSG_CANNOT_ADD_THM,
+                                   new Object[] { e.getMessage() },
+                                   getLocation(nleft, nright));
+           }           
         :}
         |
         optFormalParameters:ofp CONJECTURE:c predicate:p
@@ -2971,7 +3036,7 @@ unboxedParagraphItem ::=
              opTable_.add(ot);
            }
            catch (OpTable.OperatorException e) {
-             final Symbol token = new Symbol(Sym.ZED, otleft, otright);
+             //final Symbol token = new Symbol(Sym.ZED, otleft, otright);
              parser.report_error(ZParseMessage.MSG_CANNOT_ADD_OP,
                                  new Object[] { e.getMessage() },
                                  getLocation(otleft, otright));
