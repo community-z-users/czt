@@ -31,7 +31,7 @@
 
 \begin{theorem}{theorem4a}
   \vdash? \Xi Simple =
-	    [ [ x : \nat ] ; [ x' : \nat ] | x = x' ] 
+	    [ [ x : \nat ] ; [ x' : \nat ] | x = x' ]
 \end{theorem}
 
 \begin{theorem}{theorem4b}
@@ -127,7 +127,7 @@
           [x:\arithmos | (\exists y:\arithmos @ x\in\nat \land y\in\nat)]
 \end{theorem}
 
-\begin{theorem}{SimpleHide3}
+\begin{theorem}{SimpleHide4}
   \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(x) =
           [y:\arithmos | (\exists x:\arithmos @ x\in\nat \land y\in\nat)]
 \end{theorem}
@@ -152,7 +152,7 @@
 
 \begin{theorem}{theorem10}
   \vdash? (\exists Simple @ SimpleConstDecl) =
-    [ y : \arithmos | 
+    [ y : \arithmos |
       (\exists x : \nat @ y = 3) ]
 \end{theorem}
 
