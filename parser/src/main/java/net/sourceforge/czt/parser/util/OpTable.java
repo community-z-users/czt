@@ -28,9 +28,14 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.Assoc;
+import net.sourceforge.czt.z.ast.Cat;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.Oper;
+import net.sourceforge.czt.z.ast.Operand;
+import net.sourceforge.czt.z.ast.Operator;
+import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -40,12 +45,8 @@ import net.sourceforge.czt.z.util.ZString;
  * section or inherited from  parent sections,
  * plus facilities for defining new operators.
  */
-public class OpTable
+public class OpTable extends InfoTable
 {
-  /**
-   * The name of the section.
-   */
-  private String section_;
 
   /**
    * Records all operators defined in this section.
@@ -91,39 +92,41 @@ public class OpTable
    * It checks that the operators defined in the parents are
    * consistent, according to the 3 rules in the Z standard.
    *
+   * @param section 
    * @param parents Operator tables of all direct parents of the new section.
+   * @throws OperatorException 
    * @czt.todo we could take a set/map of Sections here?
    *           Or the section manager plus a set of parent names?
    */
   public OpTable(String section, Collection<OpTable> parents)
-    throws OperatorException
+    throws InfoTable.InfoTableException
   {
-    section_ = section;
-    if (parents != null) {
-      for (OpTable table : parents) {
-        addParentOpTable(table);
-      }
-    }
+    super(section);
+    addParents(parents);
+  }
+  
+  /**
+   * 
+   * @param <T>
+   * @param <E>
+   * @param table
+   * @throws E
+   */ 
+  @Override
+  protected <T extends InfoTable> void addParentTable(T table) throws InfoTable.InfoTableException
+  {
+    addParentOpTable((OpTable)table);
   }
 
   private void addParentOpTable(OpTable parentTable)
     throws OperatorException
   {
+    assert parentTable != null && ops_ != null;
     ops_.putAll(parentTable.ops_);
     addOpTokens(parentTable);
     addPrecedences(parentTable);
     addAssociativities(parentTable);
     optempPara_.putAll(parentTable.optempPara_);
-  }
-
-  /**
-   * Removes all decorations, that are strokes,
-   * from a decorword and returns the word part.
-   */
-  public static String getWord(String decorword)
-  {
-    Decorword dw = new Decorword(decorword);
-    return dw.getWord();
   }
 
   public static String getOpNameWithoutStrokes(List<Oper> oper)
@@ -152,41 +155,11 @@ public class OpTable
     }
     return result.toString();
   }
-
-  public String getSection()
+  public String toString()
   {
-    return section_;
+    return "OpTable for " + getSection() + "\n" + opTokens_;
   }
-
-  /**
-   * Looks up opname to see if it is defined as an operator
-   * in this section or in any of the ancestor sections.
-   * The resulting OpInfo structure contains all the details about
-   * the operator, including the name of the section it was defined in.
-   *
-   * @param opname Operator name.  Example " _ + _ ".
-   * @return       Returns <code>null</code> if <code>opname</code>
-   *               is not an operator.
-   * @czt.todo What about "\power_1"?
-   */
-  public OpInfo lookup(String /*@non_null@*/ opname)
-  {
-    throw new UnsupportedOperationException();
-  }
-  public OpInfo lookup(List<String> list)
-  {
-    StringBuffer opname = new StringBuffer();
-    for (String s : list) {
-      if (ZString.ARG_TOK.equals(s) || ZString.LISTARG_TOK.equals(s)) {
-        opname.append(s);
-      }
-      else {
-        opname.append(getWord(s));
-      }
-    }
-    OpInfo result = (OpInfo) ops_.get(opname.toString());
-    return result;
-  }
+  
   public OpInfo lookup(OperatorName operatorName)
   {
     return (OpInfo) ops_.get(operatorName.getWord());
@@ -209,11 +182,6 @@ public class OpTable
     return (Assoc) assoc_.get(prec);
   }
 
-  public String toString()
-  {
-    return "OpTable for " + section_ + "\n" + opTokens_;
-  }
-
   /**
    * Adds a new operator.
    *
@@ -228,7 +196,7 @@ public class OpTable
       throw new OperatorException("Error: operator template with less " +
                                   "than 2 arguments");
     }
-    OpInfo info = new OpInfo(section_, opPara);
+    OpInfo info = new OpInfo(getSection(), opPara);
     String name = getOpNameWithoutStrokes(opPara.getOper());
     addOperator(name, info);
     Oper first = (Oper) oper.get(0);
@@ -644,30 +612,55 @@ public class OpTable
     }
   }
 
+  public OpInfo lookup(List<String> list)
+  {
+    StringBuffer opname = new StringBuffer();
+    for (String s : list)
+    {
+      if (ZString.ARG_TOK.equals(s) || ZString.LISTARG_TOK.equals(s))
+      {
+        opname.append(s);
+      }
+      else
+      {
+        opname.append(getWord(s));
+      }
+    }
+    OpInfo result = (OpInfo) ops_.get(opname.toString());
+    return result;
+  }
+
+  /**
+   * Looks up opname to see if it is defined as an operator
+   * in this section or in any of the ancestor sections.
+   * The resulting OpInfo structure contains all the details about
+   * the operator, including the name of the section it was defined in.
+   *
+   * @param opname Operator name.  Example " _ + _ ".
+   * @return       Returns <code>null</code> if <code>opname</code>
+   * is not an operator.
+   * @czt.todo What about "\power_1"?
+   */
+  public OpInfo lookup(String opname)
+  {
+    throw new UnsupportedOperationException();
+  }
+   
   /**
    * An operator info.
    */
-  public static class OpInfo
+  public static class OpInfo extends InfoTable.Info
   {
-    /**
-     * The name of the section where this operator is defined.
-     */
-    private String section_;
     private Cat cat_;
     private Assoc assoc_;
     private BigInteger prec_;
 
     public OpInfo(String section, OptempPara opPara)
     {
-      section_ = section;
+      super(section);
       cat_ = opPara.getCat();
       assoc_ = opPara.getAssoc();
       prec_ = opPara.getPrec();
-    }
-
-    public String getSection()
-    {
-      return section_;
     }
 
     public Cat getCat()
@@ -690,7 +683,7 @@ public class OpTable
    * @czt.todo How should this class look like?
    */
   public static class OperatorException
-    extends CommandException
+    extends InfoTable.InfoTableException
   {
     public OperatorException(String message)
     {

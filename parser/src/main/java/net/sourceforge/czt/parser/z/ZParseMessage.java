@@ -46,7 +46,9 @@ public enum ZParseMessage
   MSG_DUPLICATE_INIT ("Duplicate initial state declaration"),
   MSG_OPNAME_ERROR ("Cannot parse operator name ({0})"),
   MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables ({0})"),
+  MSG_CANNOT_MERGE_THMTABLES("Cannot merge the parent named conjecture tables ({0})"),
   MSG_CANNOT_ADD_OP ("Cannot add operator template ({0})"),
+  MSG_CANNOT_ADD_THM ("Cannot add named conjecture ({0})"),
   MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space"),
   MSG_LATEX_COMMAND_DEFINED_TWICE("Command {0} defined twice: {1}, {2}"),
 

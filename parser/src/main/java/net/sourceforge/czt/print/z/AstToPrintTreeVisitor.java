@@ -27,6 +27,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.util.TokenImpl;
@@ -550,7 +551,7 @@ public class AstToPrintTreeVisitor
         try {
           opTable_ = new OpTable(zSect.getName(), parentOpTables);
         }
-        catch (OpTable.OperatorException e) {
+        catch (InfoTable.InfoTableException e) {
           throw new CannotPrintAstException(e);
         }
       }

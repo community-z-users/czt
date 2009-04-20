@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2009 Leo Freitas
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,46 +28,46 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
-public class OpTableVisitor
+public class ThmTableVisitor
   extends AbstractVisitor<Object>
   implements TermVisitor<Object>,
-             OptempParaVisitor<Object>,
+             ConjParaVisitor<Object>,
              ParaVisitor<Object>,
              ZParaListVisitor<Object>,
              ZSectVisitor<Object>
 {
-  private OpTable table_;
+  private ThmTable table_;
 
   /**
-   * Creates a new operator table visitor.
+   * Creates a new named conjecrure table visitor.
    * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * type <code>net.sourceforge.czt.parser.util.ThmTable.class</code>.
    */
-  public OpTableVisitor(SectionInfo sectInfo)
+  public ThmTableVisitor(SectionInfo sectInfo)
   {
     super(sectInfo);
   }
 
-  public Class<OpTable> getInfoType()
+  public Class<ThmTable> getInfoType()
   {
-    return OpTable.class;
+    return ThmTable.class;
   }
 
   public Object run(Term term)
     throws CommandException
   {
     super.run(term);
-    return getOpTable();
+    return getThmTable();
   }
 
-  protected OpTable getOpTable()
+  protected ThmTable getThmTable()
   {
     return table_;
   }
 
   public Object visitTerm(Term term)
   {
-    final String message = "OpTables can only be build for ZSects; " +
+    final String message = "ThmTables can only be build for ZSects; " +
       "was tried for " + term.getClass();
     throw new UnsupportedOperationException(message);
   }
@@ -78,12 +78,12 @@ public class OpTableVisitor
     return null;
   }
 
-  public Object visitOptempPara(OptempPara optempPara)
+  public Object visitConjPara(ConjPara conjPara)
   {
     try {
-      table_.add(optempPara);
+      table_.add(conjPara);
     }
-    catch (OpTable.OperatorException e) {
+    catch (ThmTable.ThmTableException e) {
       throw new CztException(e);
     }
     return null;
@@ -97,14 +97,14 @@ public class OpTableVisitor
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    List<OpTable> parentTables = new ArrayList<OpTable>();
+    List<ThmTable> parentTables = new ArrayList<ThmTable>();
     for (Parent parent : zSect.getParent()) {
-      OpTable parentTable =
-        (OpTable) get(parent.getWord(), OpTable.class);
+      ThmTable parentTable =
+        (ThmTable) get(parent.getWord(), ThmTable.class);
       parentTables.add(parentTable);
     }
     try {
-      table_ = new OpTable(name, parentTables);
+      table_ = new ThmTable(name, parentTables);
     }
     catch (InfoTable.InfoTableException e)
     {
