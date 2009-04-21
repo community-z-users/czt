@@ -270,6 +270,13 @@
         <version>${czt.version}</version>
       </dependency>     
       
+      <!-- ZEves -->
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>zeves</artifactId>
+        <version>${czt.version}</version>
+      </dependency>     
+      
       <!-- CZT Rules -->
       <dependency>
         <groupId>${czt.groupId}</groupId>
