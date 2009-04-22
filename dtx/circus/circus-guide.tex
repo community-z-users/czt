@@ -1717,6 +1717,31 @@
 
 \newpage
 \appendix
+
+\section{Environments}\label{app:ref-env}
+
+\subsection{Informal argument}
+
+To typeset an informal argument, you write in \LaTeX\
+\begin{verbatim}
+\begin{argue}
+    S \dres (T \dres R) \\
+\t1     = \id S \comp \id T \comp R \\
+\t1     = \id (S \cap T) \comp R & law about $\id$ \\
+\t1	= (S \cap T) \dres R.
+\end{argue}
+\end{verbatim}
+%
+which corresponds to
+%
+\begin{argue}
+    S \dres (T \dres R) \\
+\t1     = \id S \comp \id T \comp R \\
+\t1     = \id (S \cap T) \comp R & law about $\id$ \\
+\t1	= (S \cap T) \dres R.
+\end{argue}
+
+\newpage
 \section{Reference card}\label{app:ref-card}
 
 \setcounter{secnumdepth}{2}
