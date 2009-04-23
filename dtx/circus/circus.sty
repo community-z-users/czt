@@ -111,9 +111,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                               %
 
-% declares the math version for fonts as circus
-\DeclareMathVersion{circus}
-\PackageInfo{circus}{Creating `circus' math version}
+% declares the math version for fonts as circus -
+% there is no need to create a new math version for Circus
+%\DeclareMathVersion{circus}
+%\PackageInfo{circus}{Creating `circus' math version}
 
 \@ifpackageloaded{lucidabr}{%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -310,8 +311,9 @@
 }
 
 % sets the math version
-\mathversion{circus}%
-\PackageInfo{circus}{Current math version set to `circus'}
+% keep the math version as CZT
+%\mathversion{circus}%
+%\PackageInfo{circus}{Current math version set to `circus'}
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -969,4 +971,3 @@
 
 %\def\II{\hbox{\texttt{\slshape I \kern -7.5pt I}}}
 %\def\circledR{{\mathhexbox\msafam@72 }}
-
