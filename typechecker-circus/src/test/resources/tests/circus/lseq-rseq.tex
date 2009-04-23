@@ -1,0 +1,72 @@
+
+% Note the implicit header containing
+% begin{zsection}
+% \SECTION Specification \parents standard\_toolkit, circus\_toolkit
+% end{zsection}
+
+% notice you don't need - to texify, just uncomment the lines :-)
+%\documentclass{article}
+%\usepackage{circus}
+%\begin{document}
+% for it to parse / typecheck! You do to texify it.
+%
+
+First you need to find the right unicode chars for \verb'\lseq' and \verb'\rseq'
+They cannot be the same as \verb'\langle' and \verb'\rangle'.
+%Zprechar \lseq  %U+????  % this is \langle U+27E8
+%Zpostchar \rseq %U+????  % this is \rangle U+27E9
+
+So, I just use a "string" version instead. Note that the LaTeX
+markup directive starts with a double percentual sign followed
+by "%%Zxy cmd spell", where x = "'pre'/'post'/'in'/''",
+y = "char/word", cmd = "latex command", spell = "U+???? / 'string'" [for char/word].
+%%Zpreword \lseq  lseq
+%%Zpostword \rseq rseq
+
+Finally, although it would parse nicely, \verb'\lseq' and \verb'\rseq'
+wouldn't render properly since they are not known LaTeX, you need to
+define the command. This is irrespective of parsing / typechecking
+\newcommand{\lseq}{\mathrm{lseq}}
+\newcommand{\rseq}{\mathrm{rseq}}
+Note also that, nothing stops you from defining the command as
+\verb'\renewcommand{\lseq}{\langle}'
+\verb'\renewcommand{\rseq}{\rangle}'
+and the parser doesn't care that the underlying LaTeX rendering
+is inconsistent with the LaTeX markup directive. This would only
+be noticeable if you were to convert between the various formats
+(e.g., UNICODE, XML, LaTeX), where you would get the $\lseq$ / $\rseq$
+from the LaTex markup directive! It is good practice to keep those in synch.
+
+Now you've characterised the new LaTeX command to be parsed, you
+need to tell the parser what does it represent: an operator template
+with variable arguments, where we give both the template and its definition:
+\begin{zed}
+\function (\lseq \listarg \rseq)
+\end{zed}
+\begin{zed}
+\lseq \listarg \rseq [ X ]  == \lambda s : \seq X @ s
+\end{zed}
+
+To illustrate its use, we define "reverse" just like "rev" but using our new commands.
+\begin{gendef}[X]
+   reverse: \seq~X \fun \seq~X
+\where
+   reverse~ \lseq \rseq = \langle \rangle
+   \\
+   \forall x: X; s: \seq~X @ reverse~(\lseq x \rseq \cat s) = (reverse~s)\cat \lseq x \rseq
+\end{gendef}
+
+And some examples of usage that should be true, and certainly typecheck :-)
+\begin{theorem}{seqEuiv1}
+   \vdash? \lseq 1 \rseq = \langle 1 \rangle
+\end{theorem}
+
+\begin{theorem}{revEquiv1}[X]
+    \vdash? \forall s: \seq~X @ reverse~s = rev~s
+\end{theorem}
+
+\begin{theorem}{revEquiv2}[X]
+    \vdash? \forall x: X; s: \seq~X @ reverse~(\lseq x \rseq \cat s) = rev~(\langle x \rangle \cat s)
+\end{theorem}
+
+\end{document}
