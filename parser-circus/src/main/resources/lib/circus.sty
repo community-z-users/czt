@@ -111,9 +111,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                               %
 
-% declares the math version for fonts as circus
-\DeclareMathVersion{circus}
-\PackageInfo{circus}{Creating `circus' math version}
+% declares the math version for fonts as circus -
+% there is no need to create a new math version for Circus
+%\DeclareMathVersion{circus}
+%\PackageInfo{circus}{Creating `circus' math version}
 
 \@ifpackageloaded{lucidabr}{%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -140,7 +141,7 @@
     \DeclareMathSymbol{\csym@rpar}{\mathclose}{letters}{"83}%
     \def \csym@lcircrename   {[}%{\left[}
     \def \csym@rcircrename   {]}%{\right]}
-    
+
   %%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
 
     \DeclareMathSymbol{\csym@circrefines}{\mathrel}{symbols}{"76}%   \sqsubseteq
@@ -198,7 +199,7 @@
     \DeclareMathSymbol{\cmcsym@dsetminusbase}{\mathbin}{symbols}{"26}%
     \def \cmcsym@dsetminus {\zbig{\cmcsym@dsetminusbase}}
     \DeclareMathSymbol{\cmcsym@dcap}{\mathbin}{arrows}{"08}% \lozenge
-    
+
   %%%%%%%%%%%%%%%%% 7) Special symbols used for Z bags            %
 
     % added symbols for bags within Circus.sty
@@ -207,11 +208,11 @@
     \def \zsym@inbag   {\mbox{\texttt{E}}}
     \def \zsym@uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
                         to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
-    \let \zsym@otimes   \otimes    
+    \let \zsym@otimes   \otimes
     \let \zsym@uplus    \uplus
     \let \zsym@bcount   \sharp
     \let \zsym@subbageq \sqsubseteq
-    
+
 }{%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % AMS font setup                                                %
@@ -294,24 +295,25 @@
     \let \cmcsym@regions   \otimes
     \let \cmcsym@dsetminus \searrow
     \DeclareMathSymbol{\cmcsym@dcap}{\mathbin}{AMSa}{"06}% \lozenge
-    
+
   %%%%%%%%%%%%%%%%% 7) Special symbols used for Z bags            %
 
     % added symbols for bags within Circus.sty
     \def \zsym@lbag    {{[}\mkern-2mu{[}~}%{[\![~}
     \def \zsym@rbag    {{]}\mkern-2mu{]}~}%{]\!]~}
-    \def \zsym@inbag   {\mbox{\texttt{E}}}                 % ??? find something better ??? 
+    \def \zsym@inbag   {\mbox{\texttt{E}}}                 % ??? find something better ???
     \def \zsym@uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
                         to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
     \let \zsym@otimes   \otimes
     \let \zsym@uplus    \uplus
     \let \zsym@bcount   \sharp
-    \let \zsym@subbageq \sqsubseteq    
+    \let \zsym@subbageq \sqsubseteq
 }
 
 % sets the math version
-\mathversion{circus}%
-\PackageInfo{circus}{Current math version set to `circus'}
+% keep the math version as CZT
+%\mathversion{circus}%
+%\PackageInfo{circus}{Current math version set to `circus'}
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -919,12 +921,53 @@
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Extra environments from zed.sty                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% NOT PARSEABLE - pointless.
+% Same as zed environment, yet allows column alignment
+%\def\syntax{\@zed\@znoskip \halign\bgroup
+%  \strut$\@zlign##$\hfil &\hfil$\@zlign{}##{}$\hfil
+%  &$\@zlign##$\hfil\cr}
+%\let\endsyntax=\endzed
+
+% Environment to display informal proof steps / arguments,
+% but it considers the alignment as in zed-csp, and colours
+% as in encoded here (which renders the same as there, but
+% slightly differently coded).
+\def\@argue{\ifvmode\@zleavevmode\fi
+  $$\global\zt@ptrue
+  \@setzsize
+  \advance\linewidth by-\zedindent
+  \advance\displayindent by\zedindent
+  \def\\{\crcr}% Must have \def and not \let for nested alignments.
+  \let\par=\relax
+  \tabskip=0pt}
+\def\argue{\@argue \interzedlinepenalty=\interdisplaylinepenalty
+  \openup\@jot \halign to\linewidth\bgroup
+  {\strut$\color{ZedColor}\@zlign##$}\hfil \tabskip=0pt plus1fil
+  &\hbox to0pt{\hss[\@zlign##\unskip]}\tabskip=0pt\cr
+  \noalign{\vskip-\@jot}}
+\let\endargue=\endzed
+
+% Environment to display natural deduction inference rules
+\def\infrule{\@zed\@znoskip \halign\bgroup
+  \strut\quad$\@zlign##$\quad\hfil&\quad\@zlign##\hfil\cr}
+\let\endinfrule=\endzed
+
+\def\derive{\crcr \noalign{\vskip\@jot} \omit\@zrulefill
+  \@ifnextchar[{\@xderive}{\@yderive}}
+\def\@xderive[#1]{&$\smash{\lower 0.5ex\hbox{$[\;#1\;]$}}$\cr
+  \noalign{\vskip\@jot}}
+\def\@yderive{\cr \noalign{\vskip\@jot}}
+
 \endinput
 %%
-%% End of file `circus.sty'. 
+%% End of file `circus.sty'.
 %
 %% Some useful symbols for the UTP:
 
 %\def\II{\hbox{\texttt{\slshape I \kern -7.5pt I}}}
 %\def\circledR{{\mathhexbox\msafam@72 }}
-
