@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import net.sourceforge.czt.util.CztException;
 
@@ -98,11 +99,16 @@ public class CircusSymMap
    */
   private static Set<String> getCircusSymbolNamesOnly()
   {
-    // get both symbol tables
-    Set<String> result = new TreeSet<String>(getMap().keySet());
+    // get both symbol tables for Circus and Z
+    Set<String> result = new TreeSet<String>(getMap().keySet());    
+    Map<String,Integer> zSymbols = new TreeMap<String,Integer>(net.sourceforge.czt.parser.z.SymMap.getMap());    
     
-    // remove all Z elements
-    result.removeAll(net.sourceforge.czt.parser.z.SymMap.getMap().keySet());
+    // disconsider ANDALSO and ZCOMP from Z
+    zSymbols.values().remove(Sym.ANDALSO);
+    zSymbols.values().remove(Sym.ZCOMP);
+        
+    // remove all Z elements, but those reused for REPSEQ (ZCOMP) and CIRCGUARD (ANDASLO) :-(
+    result.removeAll(zSymbols.keySet());
     
     // remove any other extension element here - if needed 
     // result.removeAll(net.sourceforge.czt.parser.z.SymMap.getMap().keySet());

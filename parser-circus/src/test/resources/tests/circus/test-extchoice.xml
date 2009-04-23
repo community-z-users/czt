@@ -2,7 +2,7 @@
 <Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ZSect>
         <Anns>
-            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="0" Col="0"/>
+            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="0" Col="0"/>
         </Anns>
         <Name>Specification</Name>
         <Parent>
@@ -15,18 +15,18 @@
             <LatexMarkupPara/>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="20" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="1" Col="4"/>
+                    <LocAnn Start="20" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="1" Col="5"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex"/>
                         </Anns>
                         <ZNameList/>
                         <ZNameList>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="34" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="1" Length="3" Col="18"/>
+                                    <LocAnn Start="34" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="1" Length="3" Col="19"/>
                                 </Anns>
                                 <Word>out</Word>
                                 <ZStrokeList/>
@@ -44,7 +44,7 @@
             </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="51" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="2" Length="4" Col="12"/>
+                    <LocAnn Start="51" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="2" Length="4" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -52,11 +52,11 @@
             </NarrPara>
             <ns3:ProcessPara>
                 <Anns>
-                    <LocAnn Start="75" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="316" Col="4"/>
+                    <LocAnn Start="75" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="316" Col="4"/>
                 </Anns>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="89" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="1" Col="18"/>
+                        <LocAnn Start="89" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="1" Col="18"/>
                     </Anns>
                     <Word>P</Word>
                     <ZStrokeList/>
@@ -64,48 +64,48 @@
                 <ZNameList/>
                 <ns3:BasicProcess>
                     <Anns>
-                        <LocAnn Start="100" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="291" Col="29"/>
+                        <LocAnn Start="100" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="5" Length="291" Col="29"/>
                     </Anns>
                     <ZParaList>
                         <AxPara Box="OmitBox">
                             <Anns>
-                                <LocAnn Start="140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="29" Col="25"/>
+                                <LocAnn Start="140" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="29" Col="25"/>
                                 <ns3:CircusStateAnn/>
                             </Anns>
                             <ZNameList/>
                             <ZSchText>
                                 <Anns>
-                                    <LocAnn Start="140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="29" Col="25"/>
+                                    <LocAnn Start="140" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="29" Col="25"/>
                                 </Anns>
                                 <ZDeclList>
                                     <ConstDecl>
                                         <Anns>
-                                            <LocAnn Start="140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="29" Col="25"/>
+                                            <LocAnn Start="140" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="29" Col="25"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="140" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="5" Col="25"/>
+                                                <LocAnn Start="140" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="5" Col="25"/>
                                             </Anns>
                                             <Word>State</Word>
                                             <ZStrokeList/>
                                         </ZName>
                                         <SchExpr>
                                             <Anns>
-                                                <LocAnn Start="149" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="20" Col="34"/>
+                                                <LocAnn Start="149" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="20" Col="34"/>
                                             </Anns>
                                             <ZSchText>
                                                 <ZDeclList>
                                                     <Anns>
-                                                        <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="7" Col="38"/>
+                                                        <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="7" Col="38"/>
                                                     </Anns>
                                                     <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="7" Col="38"/>
+                                                            <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="7" Col="38"/>
                                                         </Anns>
                                                         <ZNameList>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="1" Col="37"/>
+                                                                    <LocAnn Start="152" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="1" Col="37"/>
                                                                 </Anns>
                                                                 <Word>x</Word>
                                                                 <ZStrokeList/>
@@ -113,11 +113,11 @@
                                                         </ZNameList>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="155" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="4" Col="40"/>
+                                                                <LocAnn Start="155" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="4" Col="40"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="155" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="4" Col="40"/>
+                                                                    <LocAnn Start="155" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="4" Col="40"/>
                                                                 </Anns>
                                                                 <Word>?</Word>
                                                                 <ZStrokeList/>
@@ -128,7 +128,7 @@
                                                 </ZDeclList>
                                                 <TruePred>
                                                     <Anns>
-                                                        <LocAnn Start="162" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="4" Col="47"/>
+                                                        <LocAnn Start="162" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="6" Length="4" Col="47"/>
                                                     </Anns>
                                                 </TruePred>
                                             </ZSchText>
@@ -139,44 +139,44 @@
                         </AxPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="186" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="138" Col="12"/>
+                                <LocAnn Start="186" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="138" Col="12"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="186" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="12"/>
+                                    <LocAnn Start="186" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="12"/>
                                 </Anns>
                                 <Word>A</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ns3:GuardedAction>
                                 <Anns>
-                                    <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="113" Col="47"/>
+                                    <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="113" Col="47"/>
                                 </Anns>
                                 <ns3:InterleaveAction>
                                     <Anns>
-                                        <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="61" Col="89"/>
+                                        <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="61" Col="89"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="261" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="65" Col="87"/>
+                                                <LocAnn Start="261" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="65" Col="87"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <ns3:ExtChoiceAction>
                                         <Anns>
-                                            <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="16" Col="89"/>
+                                            <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="16" Col="89"/>
                                             <ParenAnn>
                                                 <Anns>
-                                                    <LocAnn Start="262" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="18" Col="88"/>
+                                                    <LocAnn Start="262" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="18" Col="88"/>
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="89"/>
+                                                <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="89"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="89"/>
+                                                    <LocAnn Start="263" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="89"/>
                                                 </Anns>
                                                 <Word>a1</Word>
                                                 <ZStrokeList/>
@@ -185,11 +185,11 @@
                                         </ns3:CallAction>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="277" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="103"/>
+                                                <LocAnn Start="277" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="103"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="277" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="103"/>
+                                                    <LocAnn Start="277" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="103"/>
                                                 </Anns>
                                                 <Word>a2</Word>
                                                 <ZStrokeList/>
@@ -199,20 +199,20 @@
                                     </ns3:ExtChoiceAction>
                                     <ns3:ExtChoiceAction>
                                         <Anns>
-                                            <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="16" Col="134"/>
+                                            <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="16" Col="134"/>
                                             <ParenAnn>
                                                 <Anns>
-                                                    <LocAnn Start="307" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="18" Col="133"/>
+                                                    <LocAnn Start="307" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="18" Col="133"/>
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="134"/>
+                                                <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="134"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="134"/>
+                                                    <LocAnn Start="308" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="134"/>
                                                 </Anns>
                                                 <Word>a3</Word>
                                                 <ZStrokeList/>
@@ -221,11 +221,11 @@
                                         </ns3:CallAction>
                                         <ns3:CallAction>
                                             <Anns>
-                                                <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="148"/>
+                                                <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="148"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="148"/>
+                                                    <LocAnn Start="322" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="148"/>
                                                 </Anns>
                                                 <Word>a4</Word>
                                                 <ZStrokeList/>
@@ -235,15 +235,15 @@
                                     </ns3:ExtChoiceAction>
                                     <ns3:CircusNameSet>
                                         <Anns>
-                                            <LocAnn Start="289" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="115"/>
+                                            <LocAnn Start="289" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="115"/>
                                         </Anns>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="289" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="115"/>
+                                                <LocAnn Start="289" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="115"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="289" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="115"/>
+                                                    <LocAnn Start="289" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="115"/>
                                                 </Anns>
                                                 <Word>ns1</Word>
                                                 <ZStrokeList/>
@@ -253,15 +253,15 @@
                                     </ns3:CircusNameSet>
                                     <ns3:CircusNameSet>
                                         <Anns>
-                                            <LocAnn Start="295" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="121"/>
+                                            <LocAnn Start="295" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="121"/>
                                         </Anns>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="295" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="121"/>
+                                                <LocAnn Start="295" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="121"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="295" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="121"/>
+                                                    <LocAnn Start="295" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="3" Col="121"/>
                                                 </Anns>
                                                 <Word>ns2</Word>
                                                 <ZStrokeList/>
@@ -272,29 +272,29 @@
                                 </ns3:InterleaveAction>
                                 <OrPred>
                                     <Anns>
-                                        <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="24" Col="47"/>
+                                        <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="24" Col="47"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="209" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="28" Col="35"/>
+                                                <LocAnn Start="209" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="28" Col="35"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="8" Col="42"/>
+                                            <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="8" Col="42"/>
                                             <ParenAnn>
                                                 <Anns>
-                                                    <LocAnn Start="210" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="10" Col="36"/>
+                                                    <LocAnn Start="210" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="10" Col="36"/>
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="4" Col="37"/>
+                                                <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="4" Col="37"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="4" Col="37"/>
+                                                    <LocAnn Start="211" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="4" Col="37"/>
                                                 </Anns>
                                                 <Word>size</Word>
                                                 <ZStrokeList/>
@@ -305,11 +305,11 @@
                                             <ZExprList>
                                                 <NumExpr>
                                                     <Anns>
-                                                        <LocAnn Start="218" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="44"/>
+                                                        <LocAnn Start="218" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="44"/>
                                                     </Anns>
                                                     <ZNumeral Value="0">
                                                         <Anns>
-                                                            <LocAnn Start="218" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="44"/>
+                                                            <LocAnn Start="218" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="44"/>
                                                         </Anns>
                                                     </ZNumeral>
                                                 </NumExpr>
@@ -318,10 +318,10 @@
                                     </MemPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="8" Col="53"/>
+                                            <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="8" Col="53"/>
                                             <ParenAnn>
                                                 <Anns>
-                                                    <LocAnn Start="226" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="10" Col="52"/>
+                                                    <LocAnn Start="226" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="10" Col="52"/>
                                                 </Anns>
                                             </ParenAnn>
                                         </Anns>
@@ -329,11 +329,11 @@
                                             <ZExprList>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="4" Col="53"/>
+                                                        <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="4" Col="53"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="4" Col="53"/>
+                                                            <LocAnn Start="227" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="4" Col="53"/>
                                                         </Anns>
                                                         <Word>size</Word>
                                                         <ZStrokeList/>
@@ -342,11 +342,11 @@
                                                 </RefExpr>
                                                 <NumExpr>
                                                     <Anns>
-                                                        <LocAnn Start="234" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="60"/>
+                                                        <LocAnn Start="234" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="60"/>
                                                     </Anns>
                                                     <ZNumeral Value="0">
                                                         <Anns>
-                                                            <LocAnn Start="234" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="60"/>
+                                                            <LocAnn Start="234" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="1" Col="60"/>
                                                         </Anns>
                                                     </ZNumeral>
                                                 </NumExpr>
@@ -354,11 +354,11 @@
                                         </TupleExpr>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="232" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="58"/>
+                                                <LocAnn Start="232" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="58"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="232" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="58"/>
+                                                    <LocAnn Start="232" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="7" Length="2" Col="58"/>
                                                 </Anns>
                                                 <Word> _ &gt; _ </Word>
                                                 <ZStrokeList/>
@@ -371,7 +371,7 @@
                         </ns3:ActionPara>
                         <ns3:ActionPara>
                             <Anns>
-                                <LocAnn Start="366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="11" Col="12"/>
+                                <LocAnn Start="366" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="11" Col="12"/>
                             </Anns>
                             <ZName>
                                 <Word>$$mainAction_L9C12</Word>
@@ -379,12 +379,12 @@
                             </ZName>
                             <ns3:CallAction>
                                 <Anns>
-                                    <LocAnn Start="366" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="11" Col="12"/>
+                                    <LocAnn Start="366" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="11" Col="12"/>
                                     <ns3:OnTheFlyDefAnn/>
                                 </Anns>
                                 <ZName>
                                     <Anns>
-                                        <LocAnn Start="376" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="1" Col="22"/>
+                                        <LocAnn Start="376" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="9" Length="1" Col="22"/>
                                     </Anns>
                                     <Word>A</Word>
                                     <ZStrokeList/>
@@ -397,7 +397,7 @@
             </ns3:ProcessPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="405" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="11" Length="4" Col="12"/>
+                    <LocAnn Start="405" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\test-extchoice.tex" Line="11" Length="4" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

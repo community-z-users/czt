@@ -2,7 +2,7 @@
 <Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <NarrSect>
         <Anns>
-            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="0" Length="2057" Col="0"/>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="0" Length="2057" Col="0"/>
         </Anns>
         <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\documentclass{article}
 
@@ -52,12 +52,12 @@ parent.
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Start="2057" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="57" Length="20374" Col="0"/>
+            <LocAnn Start="2057" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="57" Length="20374" Col="0"/>
         </Anns>
         <Name>circus_channels</Name>
         <Parent>
             <Anns>
-                <LocAnn Start="2113" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="58" Length="15" Col="39"/>
+                <LocAnn Start="2113" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="58" Length="15" Col="39"/>
             </Anns>
             <Word>circus_toolkit</Word>
         </Parent>
@@ -68,7 +68,7 @@ parent.
             <LatexMarkupPara/>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="2143" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="59" Length="1056" Col="14"/>
+                    <LocAnn Start="2143" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="59" Length="1056" Col="14"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 \begin{verbatim}
@@ -102,25 +102,25 @@ Let us define some typed channels,
             </NarrPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="3218" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="24" Col="2"/>
+                    <LocAnn Start="3218" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="24" Col="2"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Start="3232" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="10" Col="16"/>
+                            <LocAnn Start="3232" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="10" Col="16"/>
                         </Anns>
                         <ZNameList/>
                         <ZNameList>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="3232" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="1" Col="16"/>
+                                    <LocAnn Start="3232" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="1" Col="16"/>
                                 </Anns>
                                 <Word>a</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="3235" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="1" Col="19"/>
+                                    <LocAnn Start="3235" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="1" Col="19"/>
                                 </Anns>
                                 <Word>b</Word>
                                 <ZStrokeList/>
@@ -128,11 +128,11 @@ Let us define some typed channels,
                         </ZNameList>
                         <RefExpr Mixfix="false" Explicit="false">
                             <Anns>
-                                <LocAnn Start="3238" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="4" Col="22"/>
+                                <LocAnn Start="3238" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="4" Col="22"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="3238" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="4" Col="22"/>
+                                    <LocAnn Start="3238" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="91" Length="4" Col="22"/>
                                 </Anns>
                                 <Word>?</Word>
                                 <ZStrokeList/>
@@ -144,7 +144,7 @@ Let us define some typed channels,
             </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="3259" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="94" Length="1112" Col="0"/>
+                    <LocAnn Start="3259" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="94" Length="1112" Col="0"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\begin{verbatim}
      begin{circus}
@@ -161,24 +161,24 @@ are right after the $\circchannel$ keyword.
             </NarrPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="4391" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Col="3"/>
+                    <LocAnn Start="4391" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Col="3"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
                         </Anns>
                         <ZNameList>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="4406" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="18"/>
+                                    <LocAnn Start="4406" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="18"/>
                                 </Anns>
                                 <Word>X</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="4409" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="21"/>
+                                    <LocAnn Start="4409" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="21"/>
                                 </Anns>
                                 <Word>Y</Word>
                                 <ZStrokeList/>
@@ -187,21 +187,21 @@ are right after the $\circchannel$ keyword.
                         <ZNameList>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="4413" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="25"/>
+                                    <LocAnn Start="4413" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="25"/>
                                 </Anns>
                                 <Word>g</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="4416" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="28"/>
+                                    <LocAnn Start="4416" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="28"/>
                                 </Anns>
                                 <Word>h</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="4419" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="31"/>
+                                    <LocAnn Start="4419" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="31"/>
                                 </Anns>
                                 <Word>i</Word>
                                 <ZStrokeList/>
@@ -209,16 +209,16 @@ are right after the $\circchannel$ keyword.
                         </ZNameList>
                         <RefExpr Mixfix="true" Explicit="true">
                             <Anns>
-                                <LocAnn Start="4423" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="8" Col="37"/>
+                                <LocAnn Start="4423" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="8" Col="37"/>
                                 <ParenAnn>
                                     <Anns>
-                                        <LocAnn Start="4422" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="10" Col="34"/>
+                                        <LocAnn Start="4422" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="10" Col="34"/>
                                     </Anns>
                                 </ParenAnn>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="4425" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="4" Col="37"/>
+                                    <LocAnn Start="4425" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="4" Col="37"/>
                                 </Anns>
                                 <Word> _ ? _ </Word>
                                 <ZStrokeList/>
@@ -226,11 +226,11 @@ are right after the $\circchannel$ keyword.
                             <ZExprList>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <Anns>
-                                        <LocAnn Start="4423" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="35"/>
+                                        <LocAnn Start="4423" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="35"/>
                                     </Anns>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="4423" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="35"/>
+                                            <LocAnn Start="4423" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="35"/>
                                         </Anns>
                                         <Word>X</Word>
                                         <ZStrokeList/>
@@ -239,11 +239,11 @@ are right after the $\circchannel$ keyword.
                                 </RefExpr>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <Anns>
-                                        <LocAnn Start="4430" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="42"/>
+                                        <LocAnn Start="4430" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="42"/>
                                     </Anns>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="4430" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="42"/>
+                                            <LocAnn Start="4430" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="128" Length="1" Col="42"/>
                                         </Anns>
                                         <Word>Y</Word>
                                         <ZStrokeList/>
@@ -257,7 +257,7 @@ are right after the $\circchannel$ keyword.
             </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="4449" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="131" Length="1777" Col="0"/>
+                    <LocAnn Start="4449" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="131" Length="1777" Col="0"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\begin{verbatim}
      begin{circus}
@@ -277,25 +277,25 @@ for translation to and from ZML. This name is defined as a given set in the
             </NarrPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="6246" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="182" Col="3"/>
+                    <LocAnn Start="6246" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="182" Col="3"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
                         </Anns>
                         <ZNameList/>
                         <ZNameList>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="6260" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="182" Length="1" Col="17"/>
+                                    <LocAnn Start="6260" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="182" Length="1" Col="17"/>
                                 </Anns>
                                 <Word>c</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="6263" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="182" Length="1" Col="20"/>
+                                    <LocAnn Start="6263" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="182" Length="1" Col="20"/>
                                 </Anns>
                                 <Word>d</Word>
                                 <ZStrokeList/>
@@ -313,25 +313,25 @@ for translation to and from ZML. This name is defined as a given set in the
             </ns3:ChannelPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="6271" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="183" Col="3"/>
+                    <LocAnn Start="6271" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="183" Col="3"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
                         </Anns>
                         <ZNameList/>
                         <ZNameList>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="6285" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="183" Length="1" Col="17"/>
+                                    <LocAnn Start="6285" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="183" Length="1" Col="17"/>
                                 </Anns>
                                 <Word>z</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="6288" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="183" Length="1" Col="20"/>
+                                    <LocAnn Start="6288" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="183" Length="1" Col="20"/>
                                 </Anns>
                                 <Word>w</Word>
                                 <ZStrokeList/>
@@ -349,7 +349,7 @@ for translation to and from ZML. This name is defined as a given set in the
             </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="6306" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="186" Length="995" Col="0"/>
+                    <LocAnn Start="6306" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="186" Length="995" Col="0"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\begin{verbatim}
      begin{circus}
@@ -368,7 +368,7 @@ define a schema named $S$ with two channels $a$ and $b$
             </NarrPara>
             <AxPara Box="SchBox">
                 <Anns>
-                    <LocAnn Start="7303" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="213" Length="75" Col="0"/>
+                    <LocAnn Start="7303" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="213" Length="75" Col="0"/>
                 </Anns>
                 <ZNameList/>
                 <ZSchText>
@@ -376,7 +376,7 @@ define a schema named $S$ with two channels $a$ and $b$
                         <ConstDecl>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="7318" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="213" Length="1" Col="15"/>
+                                    <LocAnn Start="7318" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="213" Length="1" Col="15"/>
                                 </Anns>
                                 <Word>S</Word>
                                 <ZStrokeList/>
@@ -384,27 +384,27 @@ define a schema named $S$ with two channels $a$ and $b$
                             <SchExpr>
                                 <ZSchText>
                                     <Anns>
-                                        <LocAnn Start="7324" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="41" Col="7"/>
+                                        <LocAnn Start="7324" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="41" Col="7"/>
                                     </Anns>
                                     <ZDeclList>
                                         <Anns>
-                                            <LocAnn Start="7324" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="10" Col="7"/>
+                                            <LocAnn Start="7324" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="10" Col="7"/>
                                         </Anns>
                                         <VarDecl>
                                             <Anns>
-                                                <LocAnn Start="7324" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="10" Col="7"/>
+                                                <LocAnn Start="7324" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="10" Col="7"/>
                                             </Anns>
                                             <ZNameList>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="7324" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="1" Col="3"/>
+                                                        <LocAnn Start="7324" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="1" Col="3"/>
                                                     </Anns>
                                                     <Word>a</Word>
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="7327" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="1" Col="6"/>
+                                                        <LocAnn Start="7327" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="1" Col="6"/>
                                                     </Anns>
                                                     <Word>b</Word>
                                                     <ZStrokeList/>
@@ -412,11 +412,11 @@ define a schema named $S$ with two channels $a$ and $b$
                                             </ZNameList>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="7330" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="4" Col="9"/>
+                                                    <LocAnn Start="7330" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="4" Col="9"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="7330" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="4" Col="9"/>
+                                                        <LocAnn Start="7330" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="214" Length="4" Col="9"/>
                                                     </Anns>
                                                     <Word>?</Word>
                                                     <ZStrokeList/>
@@ -427,21 +427,21 @@ define a schema named $S$ with two channels $a$ and $b$
                                     </ZDeclList>
                                     <AndPred And="Wedge">
                                         <Anns>
-                                            <LocAnn Start="7345" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="20" Col="9"/>
+                                            <LocAnn Start="7345" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="20" Col="9"/>
                                         </Anns>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Start="7345" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="5" Col="3"/>
+                                                <LocAnn Start="7345" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="5" Col="3"/>
                                             </Anns>
                                             <TupleExpr>
                                                 <ZExprList>
                                                     <RefExpr Mixfix="false" Explicit="false">
                                                         <Anns>
-                                                            <LocAnn Start="7345" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="3"/>
+                                                            <LocAnn Start="7345" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="3"/>
                                                         </Anns>
                                                         <ZName>
                                                             <Anns>
-                                                                <LocAnn Start="7345" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="3"/>
+                                                                <LocAnn Start="7345" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="3"/>
                                                             </Anns>
                                                             <Word>a</Word>
                                                             <ZStrokeList/>
@@ -450,11 +450,11 @@ define a schema named $S$ with two channels $a$ and $b$
                                                     </RefExpr>
                                                     <RefExpr Mixfix="false" Explicit="false">
                                                         <Anns>
-                                                            <LocAnn Start="7349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="7"/>
+                                                            <LocAnn Start="7349" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="7"/>
                                                         </Anns>
                                                         <ZName>
                                                             <Anns>
-                                                                <LocAnn Start="7349" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="7"/>
+                                                                <LocAnn Start="7349" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="7"/>
                                                             </Anns>
                                                             <Word>b</Word>
                                                             <ZStrokeList/>
@@ -465,11 +465,11 @@ define a schema named $S$ with two channels $a$ and $b$
                                             </TupleExpr>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="7347" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="2" Col="5"/>
+                                                    <LocAnn Start="7347" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="2" Col="5"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="7347" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="2" Col="5"/>
+                                                        <LocAnn Start="7347" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="2" Col="5"/>
                                                     </Anns>
                                                     <Word> _ &gt; _ </Word>
                                                     <ZStrokeList/>
@@ -479,17 +479,17 @@ define a schema named $S$ with two channels $a$ and $b$
                                         </MemPred>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Start="7357" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="8" Col="15"/>
+                                                <LocAnn Start="7357" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="8" Col="15"/>
                                             </Anns>
                                             <TupleExpr>
                                                 <ZExprList>
                                                     <RefExpr Mixfix="false" Explicit="false">
                                                         <Anns>
-                                                            <LocAnn Start="7357" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="15"/>
+                                                            <LocAnn Start="7357" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="15"/>
                                                         </Anns>
                                                         <ZName>
                                                             <Anns>
-                                                                <LocAnn Start="7357" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="15"/>
+                                                                <LocAnn Start="7357" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="15"/>
                                                             </Anns>
                                                             <Word>b</Word>
                                                             <ZStrokeList/>
@@ -498,11 +498,11 @@ define a schema named $S$ with two channels $a$ and $b$
                                                     </RefExpr>
                                                     <NumExpr>
                                                         <Anns>
-                                                            <LocAnn Start="7364" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="22"/>
+                                                            <LocAnn Start="7364" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="22"/>
                                                         </Anns>
                                                         <ZNumeral Value="0">
                                                             <Anns>
-                                                                <LocAnn Start="7364" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="22"/>
+                                                                <LocAnn Start="7364" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="1" Col="22"/>
                                                             </Anns>
                                                         </ZNumeral>
                                                     </NumExpr>
@@ -510,11 +510,11 @@ define a schema named $S$ with two channels $a$ and $b$
                                             </TupleExpr>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="7359" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="4" Col="17"/>
+                                                    <LocAnn Start="7359" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="4" Col="17"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="7359" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="4" Col="17"/>
+                                                        <LocAnn Start="7359" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="216" Length="4" Col="17"/>
                                                     </Anns>
                                                     <Word> _ ? _ </Word>
                                                     <ZStrokeList/>
@@ -531,7 +531,7 @@ define a schema named $S$ with two channels $a$ and $b$
             </AxPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="7378" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="217" Length="214" Col="12"/>
+                    <LocAnn Start="7378" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="217" Length="214" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 \begin{verbatim}
@@ -546,19 +546,19 @@ With the $\circchannelfrom$ keyword, we can declare these channels as well.
             </NarrPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="7612" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="230" Col="3"/>
+                    <LocAnn Start="7612" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="230" Col="3"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
                         </Anns>
                         <ZNameList/>
                         <ZNameList/>
                         <RefExpr Mixfix="false" Explicit="false">
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="7630" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="230" Length="1" Col="21"/>
+                                    <LocAnn Start="7630" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="230" Length="1" Col="21"/>
                                 </Anns>
                                 <Word>S</Word>
                                 <ZStrokeList/>
@@ -570,7 +570,7 @@ With the $\circchannelfrom$ keyword, we can declare these channels as well.
             </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="7648" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="233" Length="857" Col="0"/>
+                    <LocAnn Start="7648" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="233" Length="857" Col="0"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\begin{verbatim}
      begin{circus}
@@ -586,12 +586,12 @@ Another option is to have schemas with generic types.
             </NarrPara>
             <AxPara Box="SchBox">
                 <Anns>
-                    <LocAnn Start="8507" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="265" Length="75" Col="0"/>
+                    <LocAnn Start="8507" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="265" Length="75" Col="0"/>
                 </Anns>
                 <ZNameList>
                     <ZName>
                         <Anns>
-                            <LocAnn Start="8525" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="265" Length="1" Col="18"/>
+                            <LocAnn Start="8525" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="265" Length="1" Col="18"/>
                         </Anns>
                         <Word>X</Word>
                         <ZStrokeList/>
@@ -602,7 +602,7 @@ Another option is to have schemas with generic types.
                         <ConstDecl>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="8522" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="265" Length="1" Col="15"/>
+                                    <LocAnn Start="8522" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="265" Length="1" Col="15"/>
                                 </Anns>
                                 <Word>T</Word>
                                 <ZStrokeList/>
@@ -610,27 +610,27 @@ Another option is to have schemas with generic types.
                             <SchExpr>
                                 <ZSchText>
                                     <Anns>
-                                        <LocAnn Start="8531" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="38" Col="7"/>
+                                        <LocAnn Start="8531" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="38" Col="7"/>
                                     </Anns>
                                     <ZDeclList>
                                         <Anns>
-                                            <LocAnn Start="8531" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="14" Col="7"/>
+                                            <LocAnn Start="8531" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="14" Col="7"/>
                                         </Anns>
                                         <VarDecl>
                                             <Anns>
-                                                <LocAnn Start="8531" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="14" Col="7"/>
+                                                <LocAnn Start="8531" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="14" Col="7"/>
                                             </Anns>
                                             <ZNameList>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="8531" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="1" Col="3"/>
+                                                        <LocAnn Start="8531" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="1" Col="3"/>
                                                     </Anns>
                                                     <Word>x</Word>
                                                     <ZStrokeList/>
                                                 </ZName>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="8534" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="1" Col="6"/>
+                                                        <LocAnn Start="8534" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="1" Col="6"/>
                                                     </Anns>
                                                     <Word>y</Word>
                                                     <ZStrokeList/>
@@ -638,15 +638,15 @@ Another option is to have schemas with generic types.
                                             </ZNameList>
                                             <PowerExpr>
                                                 <Anns>
-                                                    <LocAnn Start="8537" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="8" Col="9"/>
+                                                    <LocAnn Start="8537" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="8" Col="9"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="8544" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="1" Col="16"/>
+                                                        <LocAnn Start="8544" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="1" Col="16"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="8544" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="1" Col="16"/>
+                                                            <LocAnn Start="8544" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="266" Length="1" Col="16"/>
                                                         </Anns>
                                                         <Word>X</Word>
                                                         <ZStrokeList/>
@@ -658,17 +658,17 @@ Another option is to have schemas with generic types.
                                     </ZDeclList>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Start="8556" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="13" Col="3"/>
+                                            <LocAnn Start="8556" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="13" Col="3"/>
                                         </Anns>
                                         <TupleExpr>
                                             <ZExprList>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="8556" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="1" Col="3"/>
+                                                        <LocAnn Start="8556" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="1" Col="3"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="8556" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="1" Col="3"/>
+                                                            <LocAnn Start="8556" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="1" Col="3"/>
                                                         </Anns>
                                                         <Word>x</Word>
                                                         <ZStrokeList/>
@@ -677,11 +677,11 @@ Another option is to have schemas with generic types.
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="8568" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="1" Col="15"/>
+                                                        <LocAnn Start="8568" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="1" Col="15"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="8568" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="1" Col="15"/>
+                                                            <LocAnn Start="8568" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="1" Col="15"/>
                                                         </Anns>
                                                         <Word>y</Word>
                                                         <ZStrokeList/>
@@ -692,11 +692,11 @@ Another option is to have schemas with generic types.
                                         </TupleExpr>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="8558" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="9" Col="5"/>
+                                                <LocAnn Start="8558" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="9" Col="5"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="8558" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="9" Col="5"/>
+                                                    <LocAnn Start="8558" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="268" Length="9" Col="5"/>
                                                 </Anns>
                                                 <Word> _ ? _ </Word>
                                                 <ZStrokeList/>
@@ -712,7 +712,7 @@ Another option is to have schemas with generic types.
             </AxPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="8582" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="269" Length="546" Col="12"/>
+                    <LocAnn Start="8582" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="269" Length="546" Col="12"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 \begin{verbatim}
@@ -732,34 +732,34 @@ parameters for the schema generic actuals.
             </NarrPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="9149" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Col="4"/>
+                    <LocAnn Start="9149" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Col="4"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
                         </Anns>
                         <ZNameList/>
                         <ZNameList/>
                         <RefExpr Mixfix="false" Explicit="true">
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="9167" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Length="1" Col="22"/>
+                                    <LocAnn Start="9167" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Length="1" Col="22"/>
                                 </Anns>
                                 <Word>T</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZExprList>
                                 <Anns>
-                                    <LocAnn Start="9168" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Length="6" Col="23"/>
+                                    <LocAnn Start="9168" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Length="6" Col="23"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <Anns>
-                                        <LocAnn Start="9169" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Length="4" Col="24"/>
+                                        <LocAnn Start="9169" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Length="4" Col="24"/>
                                     </Anns>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="9169" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Length="4" Col="24"/>
+                                            <LocAnn Start="9169" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="287" Length="4" Col="24"/>
                                         </Anns>
                                         <Word>?</Word>
                                         <ZStrokeList/>
@@ -773,17 +773,17 @@ parameters for the schema generic actuals.
             </ns3:ChannelPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="9182" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Col="4"/>
+                    <LocAnn Start="9182" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Col="4"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
                         </Anns>
                         <ZNameList>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="9201" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="1" Col="23"/>
+                                    <LocAnn Start="9201" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="1" Col="23"/>
                                 </Anns>
                                 <Word>Y</Word>
                                 <ZStrokeList/>
@@ -793,22 +793,22 @@ parameters for the schema generic actuals.
                         <RefExpr Mixfix="false" Explicit="true">
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="9205" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="1" Col="27"/>
+                                    <LocAnn Start="9205" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="1" Col="27"/>
                                 </Anns>
                                 <Word>T</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZExprList>
                                 <Anns>
-                                    <LocAnn Start="9206" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="3" Col="28"/>
+                                    <LocAnn Start="9206" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="3" Col="28"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <Anns>
-                                        <LocAnn Start="9207" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="1" Col="29"/>
+                                        <LocAnn Start="9207" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="1" Col="29"/>
                                     </Anns>
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="9207" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="1" Col="29"/>
+                                            <LocAnn Start="9207" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="288" Length="1" Col="29"/>
                                         </Anns>
                                         <Word>Y</Word>
                                         <ZStrokeList/>
@@ -822,19 +822,19 @@ parameters for the schema generic actuals.
             </ns3:ChannelPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="9217" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="289" Col="4"/>
+                    <LocAnn Start="9217" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="289" Col="4"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
                         </Anns>
                         <ZNameList/>
                         <ZNameList/>
                         <RefExpr Mixfix="false" Explicit="false">
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="9235" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="289" Length="2" Col="22"/>
+                                    <LocAnn Start="9235" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="289" Length="2" Col="22"/>
                                 </Anns>
                                 <Word>T2</Word>
                                 <ZStrokeList/>
@@ -846,24 +846,24 @@ parameters for the schema generic actuals.
             </ns3:ChannelPara>
             <ns3:ChannelPara>
                 <Anns>
-                    <LocAnn Start="9286" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Col="4"/>
+                    <LocAnn Start="9286" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Col="4"/>
                 </Anns>
                 <ZDeclList>
                     <ns3:ChannelDecl>
                         <Anns>
-                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex"/>
                         </Anns>
                         <ZNameList>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="9305" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="23"/>
+                                    <LocAnn Start="9305" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="23"/>
                                 </Anns>
                                 <Word>A</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="9308" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="26"/>
+                                    <LocAnn Start="9308" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="26"/>
                                 </Anns>
                                 <Word>B</Word>
                                 <ZStrokeList/>
@@ -873,27 +873,27 @@ parameters for the schema generic actuals.
                         <RefExpr Mixfix="false" Explicit="true">
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="9312" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="2" Col="30"/>
+                                    <LocAnn Start="9312" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="2" Col="30"/>
                                 </Anns>
                                 <Word>T3</Word>
                                 <ZStrokeList/>
                             </ZName>
                             <ZExprList>
                                 <Anns>
-                                    <LocAnn Start="9314" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="12" Col="32"/>
+                                    <LocAnn Start="9314" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="12" Col="32"/>
                                 </Anns>
                                 <ProdExpr>
                                     <Anns>
-                                        <LocAnn Start="9315" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="10" Col="42"/>
+                                        <LocAnn Start="9315" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="10" Col="42"/>
                                     </Anns>
                                     <ZExprList>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="9315" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="33"/>
+                                                <LocAnn Start="9315" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="33"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="9315" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="33"/>
+                                                    <LocAnn Start="9315" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="33"/>
                                                 </Anns>
                                                 <Word>A</Word>
                                                 <ZStrokeList/>
@@ -902,11 +902,11 @@ parameters for the schema generic actuals.
                                         </RefExpr>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="9324" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="42"/>
+                                                <LocAnn Start="9324" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="42"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="9324" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="42"/>
+                                                    <LocAnn Start="9324" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="290" Length="1" Col="42"/>
                                                 </Anns>
                                                 <Word>B</Word>
                                                 <ZStrokeList/>
@@ -922,7 +922,7 @@ parameters for the schema generic actuals.
             </ns3:ChannelPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="9343" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="293" Length="2106" Col="0"/>
+                    <LocAnn Start="9343" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="293" Length="2106" Col="0"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\begin{verbatim}
      begin{circus}
@@ -955,23 +955,23 @@ Channel sets are given as a name and a corresponding channel set expression.
             </NarrPara>
             <ns3:ChannelSetPara>
                 <Anns>
-                    <LocAnn Start="11470" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="345" Length="31" Col="4"/>
+                    <LocAnn Start="11470" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="345" Length="31" Col="4"/>
                 </Anns>
                 <ZNameList/>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="11487" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="345" Length="1" Col="21"/>
+                        <LocAnn Start="11487" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="345" Length="1" Col="21"/>
                     </Anns>
                     <Word>C</Word>
                     <ZStrokeList/>
                 </ZName>
                 <ns3:CircusChannelSet>
                     <Anns>
-                        <LocAnn Start="11492" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="345" Length="9" Col="26"/>
+                        <LocAnn Start="11492" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="345" Length="9" Col="26"/>
                     </Anns>
                     <ns3:BasicChannelSetExpr>
                         <Anns>
-                            <LocAnn Start="11492" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="345" Length="9" Col="26"/>
+                            <LocAnn Start="11492" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="345" Length="9" Col="26"/>
                         </Anns>
                         <ns3:CircusCommunicationList/>
                     </ns3:BasicChannelSetExpr>
@@ -979,23 +979,23 @@ Channel sets are given as a name and a corresponding channel set expression.
             </ns3:ChannelSetPara>
             <ns3:ChannelSetPara>
                 <Anns>
-                    <LocAnn Start="11509" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="346" Length="42" Col="4"/>
+                    <LocAnn Start="11509" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="346" Length="42" Col="4"/>
                 </Anns>
                 <ZNameList/>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="11526" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="346" Length="2" Col="21"/>
+                        <LocAnn Start="11526" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="346" Length="2" Col="21"/>
                     </Anns>
                     <Word>C0</Word>
                     <ZStrokeList/>
                 </ZName>
                 <ns3:CircusChannelSet>
                     <Anns>
-                        <LocAnn Start="11532" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="346" Length="19" Col="27"/>
+                        <LocAnn Start="11532" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="346" Length="19" Col="27"/>
                     </Anns>
                     <ns3:BasicChannelSetExpr>
                         <Anns>
-                            <LocAnn Start="11532" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="346" Length="19" Col="27"/>
+                            <LocAnn Start="11532" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="346" Length="19" Col="27"/>
                         </Anns>
                         <ns3:CircusCommunicationList/>
                     </ns3:BasicChannelSetExpr>
@@ -1003,33 +1003,33 @@ Channel sets are given as a name and a corresponding channel set expression.
             </ns3:ChannelSetPara>
             <ns3:ChannelSetPara>
                 <Anns>
-                    <LocAnn Start="11559" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="53" Col="4"/>
+                    <LocAnn Start="11559" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="53" Col="4"/>
                 </Anns>
                 <ZNameList/>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="11576" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="2" Col="21"/>
+                        <LocAnn Start="11576" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="2" Col="21"/>
                     </Anns>
                     <Word>C1</Word>
                     <ZStrokeList/>
                 </ZName>
                 <ns3:CircusChannelSet>
                     <Anns>
-                        <LocAnn Start="11582" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="30" Col="27"/>
+                        <LocAnn Start="11582" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="30" Col="27"/>
                     </Anns>
                     <ns3:BasicChannelSetExpr>
                         <Anns>
-                            <LocAnn Start="11582" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="30" Col="27"/>
+                            <LocAnn Start="11582" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="30" Col="27"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11592" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="37"/>
+                                    <LocAnn Start="11592" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="37"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11592" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="37"/>
+                                            <LocAnn Start="11592" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="37"/>
                                         </Anns>
                                         <Word>a</Word>
                                         <ZStrokeList/>
@@ -1040,12 +1040,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11595" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="40"/>
+                                    <LocAnn Start="11595" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="40"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11595" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="40"/>
+                                            <LocAnn Start="11595" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="40"/>
                                         </Anns>
                                         <Word>b</Word>
                                         <ZStrokeList/>
@@ -1056,12 +1056,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11598" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="43"/>
+                                    <LocAnn Start="11598" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="43"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11598" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="43"/>
+                                            <LocAnn Start="11598" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="43"/>
                                         </Anns>
                                         <Word>c</Word>
                                         <ZStrokeList/>
@@ -1072,12 +1072,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11601" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="46"/>
+                                    <LocAnn Start="11601" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="46"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11601" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="46"/>
+                                            <LocAnn Start="11601" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="347" Length="1" Col="46"/>
                                         </Anns>
                                         <Word>d</Word>
                                         <ZStrokeList/>
@@ -1092,33 +1092,33 @@ Channel sets are given as a name and a corresponding channel set expression.
             </ns3:ChannelSetPara>
             <ns3:ChannelSetPara>
                 <Anns>
-                    <LocAnn Start="11620" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="55" Col="4"/>
+                    <LocAnn Start="11620" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="55" Col="4"/>
                 </Anns>
                 <ZNameList/>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="11637" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="21"/>
+                        <LocAnn Start="11637" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="21"/>
                     </Anns>
                     <Word>C2</Word>
                     <ZStrokeList/>
                 </ZName>
                 <ns3:CircusChannelSet>
                     <Anns>
-                        <LocAnn Start="11643" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="32" Col="27"/>
+                        <LocAnn Start="11643" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="32" Col="27"/>
                     </Anns>
                     <ns3:BasicChannelSetExpr>
                         <Anns>
-                            <LocAnn Start="11643" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="32" Col="27"/>
+                            <LocAnn Start="11643" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="32" Col="27"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11653" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="37"/>
+                                    <LocAnn Start="11653" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="37"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11653" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="37"/>
+                                            <LocAnn Start="11653" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="37"/>
                                         </Anns>
                                         <Word>x</Word>
                                         <ZStrokeList/>
@@ -1129,12 +1129,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11656" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="40"/>
+                                    <LocAnn Start="11656" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="40"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11656" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="40"/>
+                                            <LocAnn Start="11656" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="1" Col="40"/>
                                         </Anns>
                                         <Word>y</Word>
                                         <ZStrokeList/>
@@ -1145,12 +1145,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11659" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="43"/>
+                                    <LocAnn Start="11659" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="43"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11659" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="43"/>
+                                            <LocAnn Start="11659" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="43"/>
                                         </Anns>
                                         <Word>x1</Word>
                                         <ZStrokeList/>
@@ -1161,12 +1161,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11663" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="47"/>
+                                    <LocAnn Start="11663" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="47"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="false">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11663" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="47"/>
+                                            <LocAnn Start="11663" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="348" Length="2" Col="47"/>
                                         </Anns>
                                         <Word>y1</Word>
                                         <ZStrokeList/>
@@ -1181,19 +1181,19 @@ Channel sets are given as a name and a corresponding channel set expression.
             </ns3:ChannelSetPara>
             <ns3:ChannelSetPara>
                 <Anns>
-                    <LocAnn Start="11722" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="92" Col="4"/>
+                    <LocAnn Start="11722" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="92" Col="4"/>
                 </Anns>
                 <ZNameList>
                     <ZName>
                         <Anns>
-                            <LocAnn Start="11740" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="22"/>
+                            <LocAnn Start="11740" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="22"/>
                         </Anns>
                         <Word>A</Word>
                         <ZStrokeList/>
                     </ZName>
                     <ZName>
                         <Anns>
-                            <LocAnn Start="11743" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="25"/>
+                            <LocAnn Start="11743" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="25"/>
                         </Anns>
                         <Word>B</Word>
                         <ZStrokeList/>
@@ -1201,28 +1201,28 @@ Channel sets are given as a name and a corresponding channel set expression.
                 </ZNameList>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="11746" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="28"/>
+                        <LocAnn Start="11746" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="28"/>
                     </Anns>
                     <Word>C3</Word>
                     <ZStrokeList/>
                 </ZName>
                 <ns3:CircusChannelSet>
                     <Anns>
-                        <LocAnn Start="11752" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="62" Col="34"/>
+                        <LocAnn Start="11752" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="62" Col="34"/>
                     </Anns>
                     <ns3:BasicChannelSetExpr>
                         <Anns>
-                            <LocAnn Start="11752" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="62" Col="34"/>
+                            <LocAnn Start="11752" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="62" Col="34"/>
                         </Anns>
                         <ns3:CircusCommunicationList>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11762" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="44"/>
+                                    <LocAnn Start="11762" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="44"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="true">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11762" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="44"/>
+                                            <LocAnn Start="11762" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="44"/>
                                         </Anns>
                                         <Word>x2</Word>
                                         <ZStrokeList/>
@@ -1230,16 +1230,16 @@ Channel sets are given as a name and a corresponding channel set expression.
                                     <ZExprList>
                                         <ProdExpr>
                                             <Anns>
-                                                <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="10" Col="56"/>
+                                                <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="10" Col="56"/>
                                             </Anns>
                                             <ZExprList>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="47"/>
+                                                        <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="47"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="47"/>
+                                                            <LocAnn Start="11765" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="47"/>
                                                         </Anns>
                                                         <Word>A</Word>
                                                         <ZStrokeList/>
@@ -1248,11 +1248,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="11774" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="56"/>
+                                                        <LocAnn Start="11774" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="56"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="11774" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="56"/>
+                                                            <LocAnn Start="11774" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="56"/>
                                                         </Anns>
                                                         <Word>B</Word>
                                                         <ZStrokeList/>
@@ -1267,12 +1267,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11778" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="60"/>
+                                    <LocAnn Start="11778" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="60"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="true">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11778" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="60"/>
+                                            <LocAnn Start="11778" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="60"/>
                                         </Anns>
                                         <Word>y2</Word>
                                         <ZStrokeList/>
@@ -1280,11 +1280,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                     <ZExprList>
                                         <RefExpr Mixfix="true" Explicit="true">
                                             <Anns>
-                                                <LocAnn Start="11781" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="8" Col="65"/>
+                                                <LocAnn Start="11781" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="8" Col="65"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="11783" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="4" Col="65"/>
+                                                    <LocAnn Start="11783" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="4" Col="65"/>
                                                 </Anns>
                                                 <Word> _ ? _ </Word>
                                                 <ZStrokeList/>
@@ -1292,11 +1292,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                             <ZExprList>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="11781" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="63"/>
+                                                        <LocAnn Start="11781" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="63"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="11781" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="63"/>
+                                                            <LocAnn Start="11781" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="63"/>
                                                         </Anns>
                                                         <Word>A</Word>
                                                         <ZStrokeList/>
@@ -1305,11 +1305,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="11788" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="70"/>
+                                                        <LocAnn Start="11788" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="70"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="11788" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="70"/>
+                                                            <LocAnn Start="11788" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="70"/>
                                                         </Anns>
                                                         <Word>B</Word>
                                                         <ZStrokeList/>
@@ -1324,12 +1324,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11792" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="74"/>
+                                    <LocAnn Start="11792" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="74"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="true">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11792" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="74"/>
+                                            <LocAnn Start="11792" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="74"/>
                                         </Anns>
                                         <Word>x1</Word>
                                         <ZStrokeList/>
@@ -1337,11 +1337,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                     <ZExprList>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="11795" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="77"/>
+                                                <LocAnn Start="11795" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="77"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="11795" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="77"/>
+                                                    <LocAnn Start="11795" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="77"/>
                                                 </Anns>
                                                 <Word>A</Word>
                                                 <ZStrokeList/>
@@ -1354,12 +1354,12 @@ Channel sets are given as a name and a corresponding channel set expression.
                             </ns3:Communication>
                             <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Generic" CommPattern="ChannelSet">
                                 <Anns>
-                                    <LocAnn Start="11799" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="81"/>
+                                    <LocAnn Start="11799" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="81"/>
                                 </Anns>
                                 <RefExpr Mixfix="false" Explicit="true">
                                     <ZName>
                                         <Anns>
-                                            <LocAnn Start="11799" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="81"/>
+                                            <LocAnn Start="11799" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="2" Col="81"/>
                                         </Anns>
                                         <Word>y1</Word>
                                         <ZStrokeList/>
@@ -1367,11 +1367,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                     <ZExprList>
                                         <RefExpr Mixfix="false" Explicit="false">
                                             <Anns>
-                                                <LocAnn Start="11802" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="84"/>
+                                                <LocAnn Start="11802" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="84"/>
                                             </Anns>
                                             <ZName>
                                                 <Anns>
-                                                    <LocAnn Start="11802" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="84"/>
+                                                    <LocAnn Start="11802" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="350" Length="1" Col="84"/>
                                                 </Anns>
                                                 <Word>B</Word>
                                                 <ZStrokeList/>
@@ -1388,31 +1388,31 @@ Channel sets are given as a name and a corresponding channel set expression.
             </ns3:ChannelSetPara>
             <ns3:ChannelSetPara>
                 <Anns>
-                    <LocAnn Start="11822" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="72" Col="4"/>
+                    <LocAnn Start="11822" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="72" Col="4"/>
                 </Anns>
                 <ZNameList/>
                 <ZName>
                     <Anns>
-                        <LocAnn Start="11839" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="21"/>
+                        <LocAnn Start="11839" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="21"/>
                     </Anns>
                     <Word>C4</Word>
                     <ZStrokeList/>
                 </ZName>
                 <ns3:CircusChannelSet>
                     <Anns>
-                        <LocAnn Start="11846" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="48" Col="48"/>
+                        <LocAnn Start="11846" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="48" Col="48"/>
                     </Anns>
                     <ApplExpr Mixfix="true">
                         <Anns>
-                            <LocAnn Start="11846" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="48" Col="48"/>
+                            <LocAnn Start="11846" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="48" Col="48"/>
                         </Anns>
                         <RefExpr Mixfix="false" Explicit="false">
                             <Anns>
-                                <LocAnn Start="11866" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="9" Col="48"/>
+                                <LocAnn Start="11866" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="9" Col="48"/>
                             </Anns>
                             <ZName>
                                 <Anns>
-                                    <LocAnn Start="11866" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="9" Col="48"/>
+                                    <LocAnn Start="11866" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="9" Col="48"/>
                                 </Anns>
                                 <Word> _ ? _ </Word>
                                 <ZStrokeList/>
@@ -1428,7 +1428,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                     <RefExpr Mixfix="false" Explicit="false">
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="11849" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="31"/>
+                                                <LocAnn Start="11849" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="31"/>
                                             </Anns>
                                             <Word> _ ? _ </Word>
                                             <ZStrokeList/>
@@ -1439,11 +1439,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                         <ZExprList>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="11846" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="28"/>
+                                                    <LocAnn Start="11846" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="28"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="11846" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="28"/>
+                                                        <LocAnn Start="11846" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="28"/>
                                                     </Anns>
                                                     <Word>C1</Word>
                                                     <ZStrokeList/>
@@ -1454,7 +1454,7 @@ Channel sets are given as a name and a corresponding channel set expression.
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="11857" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="39"/>
+                                                            <LocAnn Start="11857" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="39"/>
                                                         </Anns>
                                                         <Word> _ ? _ </Word>
                                                         <ZStrokeList/>
@@ -1465,11 +1465,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                                     <ZExprList>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="11854" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="36"/>
+                                                                <LocAnn Start="11854" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="36"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="11854" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="36"/>
+                                                                    <LocAnn Start="11854" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="36"/>
                                                                 </Anns>
                                                                 <Word>C2</Word>
                                                                 <ZStrokeList/>
@@ -1478,11 +1478,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                                         </RefExpr>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="11862" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="44"/>
+                                                                <LocAnn Start="11862" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="44"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="11862" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="44"/>
+                                                                    <LocAnn Start="11862" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="44"/>
                                                                 </Anns>
                                                                 <Word>C3</Word>
                                                                 <ZStrokeList/>
@@ -1497,20 +1497,20 @@ Channel sets are given as a name and a corresponding channel set expression.
                                 </ApplExpr>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Start="11877" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="17" Col="70"/>
+                                        <LocAnn Start="11877" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="17" Col="70"/>
                                         <ParenAnn>
                                             <Anns>
-                                                <LocAnn Start="11876" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="19" Col="58"/>
+                                                <LocAnn Start="11876" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="19" Col="58"/>
                                             </Anns>
                                         </ParenAnn>
                                     </Anns>
                                     <RefExpr Mixfix="false" Explicit="false">
                                         <Anns>
-                                            <LocAnn Start="11888" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="70"/>
+                                            <LocAnn Start="11888" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="70"/>
                                         </Anns>
                                         <ZName>
                                             <Anns>
-                                                <LocAnn Start="11888" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="70"/>
+                                                <LocAnn Start="11888" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="70"/>
                                             </Anns>
                                             <Word> _ ? _ </Word>
                                             <ZStrokeList/>
@@ -1521,15 +1521,15 @@ Channel sets are given as a name and a corresponding channel set expression.
                                         <ZExprList>
                                             <ApplExpr Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Start="11877" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="10" Col="62"/>
+                                                    <LocAnn Start="11877" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="10" Col="62"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false" Explicit="false">
                                                     <Anns>
-                                                        <LocAnn Start="11880" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="62"/>
+                                                        <LocAnn Start="11880" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="62"/>
                                                     </Anns>
                                                     <ZName>
                                                         <Anns>
-                                                            <LocAnn Start="11880" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="62"/>
+                                                            <LocAnn Start="11880" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="4" Col="62"/>
                                                         </Anns>
                                                         <Word> _ ? _ </Word>
                                                         <ZStrokeList/>
@@ -1540,11 +1540,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                                     <ZExprList>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="11877" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="59"/>
+                                                                <LocAnn Start="11877" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="59"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="11877" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="59"/>
+                                                                    <LocAnn Start="11877" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="59"/>
                                                                 </Anns>
                                                                 <Word>C0</Word>
                                                                 <ZStrokeList/>
@@ -1553,11 +1553,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                                         </RefExpr>
                                                         <RefExpr Mixfix="false" Explicit="false">
                                                             <Anns>
-                                                                <LocAnn Start="11885" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="67"/>
+                                                                <LocAnn Start="11885" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="67"/>
                                                             </Anns>
                                                             <ZName>
                                                                 <Anns>
-                                                                    <LocAnn Start="11885" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="67"/>
+                                                                    <LocAnn Start="11885" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="2" Col="67"/>
                                                                 </Anns>
                                                                 <Word>C1</Word>
                                                                 <ZStrokeList/>
@@ -1569,11 +1569,11 @@ Channel sets are given as a name and a corresponding channel set expression.
                                             </ApplExpr>
                                             <RefExpr Mixfix="false" Explicit="false">
                                                 <Anns>
-                                                    <LocAnn Start="11893" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="1" Col="75"/>
+                                                    <LocAnn Start="11893" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="1" Col="75"/>
                                                 </Anns>
                                                 <ZName>
                                                     <Anns>
-                                                        <LocAnn Start="11893" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="1" Col="75"/>
+                                                        <LocAnn Start="11893" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="351" Length="1" Col="75"/>
                                                     </Anns>
                                                     <Word>C</Word>
                                                     <ZStrokeList/>
@@ -1590,7 +1590,7 @@ Channel sets are given as a name and a corresponding channel set expression.
             </ns3:ChannelSetPara>
             <NarrPara>
                 <Anns>
-                    <LocAnn Start="11912" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="354" Length="10519" Col="0"/>
+                    <LocAnn Start="11912" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\channels.tex" Line="354" Length="10519" Col="0"/>
                 </Anns>
                 <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\begin{verbatim}
     begin{circus}
