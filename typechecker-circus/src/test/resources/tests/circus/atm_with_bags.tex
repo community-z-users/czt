@@ -4,14 +4,19 @@
 % To avoid formulas in $ $ to be broken across lines
 \relpenalty=10000 \binoppenalty=10000
 
+\title{A complete \Circus\ example of ATMs using bags}
+\author{Ana Cavalcanti
+        and
+        Marie-Claude Gaudel}
+
+\date{23 April 2009}
+
 \begin{document}
 
-\section{A complete \Circus\ example of ATMs using bags}
-\label{section:circus-notation}
+\maketitle
 
-A \Circus\ model is a sequence of paragraphs, just like in Z, but
-they can also declare channels and processes. We initialise the
-specification by giving it a name and what other specifications
+A \Circus\ model is a sequence of paragraphs, just like in Z, but they can also declare channels
+and processes. We initialise the specification by giving it a name and what other specifications
 does it depend on.
 \begin{zsection}
   \SECTION atm\_with\_bags \parents bag\_toolkit\_spivey, circus\_toolkit
@@ -324,4 +329,3 @@ combinators are the usual CSP operators for internal and external
 choice, parallelism, interleaving and so on.
 
 \end{document}
-
