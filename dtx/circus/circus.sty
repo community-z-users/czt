@@ -737,8 +737,8 @@
 % some names are reused (e.g., if)
 %
 \def\mathsl#1{\hbox{\slshape #1}}
-\def\circusword#1{\z@word{\mathsl{\underline{#1}}}}
-\def\circuskeyword#1{\z@word{\mathsl{\textbf{\underline{#1}}}}}
+\def\circusword#1{\z@word{\mathsl{#1}}}
+\def\circuskeyword#1{\z@word{\mathsl{\textbf{#1}}}}
 \def\circustoolkit#1{\if@ctkkeyword@ \circuskeyword{#1} \else \circusword{#1} \fi}
 
 %%%%%%%%%%%%%%%%% 1) Guarded commands                           %
