@@ -530,7 +530,11 @@ typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/Error
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/WarningMessage_en.properties -text
 typechecker-circus/src/test/resources/tests/circus/VarDeclCallScope-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/actpara_duplicate_name-RedeclaredDef.error -text
+typechecker-circus/src/test/resources/tests/circus/atm_with_bags.dvi -text
+typechecker-circus/src/test/resources/tests/circus/atm_with_bags.pdf -text svneol=unset#application/pdf
+typechecker-circus/src/test/resources/tests/circus/buffer-refinement-multienv.dvi -text
 typechecker-circus/src/test/resources/tests/circus/circus_cookies-SchexprActionVarOutOfScope.error -text
+typechecker-circus/src/test/resources/tests/circus/circus_cookies.dvi -text
 typechecker-circus/src/test/resources/tests/circus/circus_cookies.pdf -text svneol=unset#application/pdf
 typechecker-circus/src/test/resources/tests/circus/comm-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatchInApplExpr.error -text
