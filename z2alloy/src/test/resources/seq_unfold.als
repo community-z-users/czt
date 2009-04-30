@@ -1,16 +1,36 @@
-sig A{
-}{pred_A[]}
-pred pred_A[ ] {}
-some_A : run { some A }
+sig A{}
 
 sig B{
-        a: (set  (Int -> A)),
-        b: (set  (Int -> A)),
-        c: (set  (Int -> A)),
-        d: (set  (Int -> A)),
-        e: (one  A),
-}{pred_B[a, b, c, d, e]}
-pred pred_B[ a: (set  (Int -> A)), b: (set  (Int -> A)), c: (set  (Int -> A)), d: (set  (Int -> A)), e: (one  A)] {
-((a in (seq A)) and (b in (seq A)) and (c in (seq A)) and (d in (seq A)) and (a = seq/append[b, c]) and (e = seq/last[a]) and (d = seq/butlast[a]))
+	a: (set  (Int -> A)),
+	b: (set  (Int -> A)),
+	c: (set  (Int -> A)),
+	d: (set  (Int -> A)),
+	e: A,
+}{(pred_B[a, b, c, d, e])}
+
+
+pred pred_B[a: (set  (Int -> A)), b: (set  (Int -> A)), c: (set  (Int -> A)), d: (set  (Int -> A)), e: A] {
+	(((((a in (seq A)) && (b in (seq A))) && (c in (seq A))) && (d in (seq A))) && (((a = (append[b, c])) && (e = (last[a]))) && (d = (front[a]))))
 }
-some_B : run { some B }
+
+fun ndres[ex: (set  univ), r: (univ -> univ)] : (univ -> univ) {
+	(((dom[r]) - ex) <: r)
+}
+
+fun append[s1: (seq univ), s2: (seq univ)] : (seq univ) {
+	(seq/append[s1, s2])
+}
+
+fun dom[r: (univ -> univ)] : (set  univ) {
+	(r . univ)
+}
+
+fun last[s: (seq univ)] : (one  univ) {
+	(seq/last[s])
+}
+
+fun front[s: (seq univ)] : (seq univ) {
+	(seq/butlast[s])
+}
+
+
