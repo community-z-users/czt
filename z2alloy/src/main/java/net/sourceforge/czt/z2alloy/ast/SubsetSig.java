@@ -7,16 +7,25 @@ public class SubsetSig extends Sig {
 	
 	public SubsetSig (String label, Sig parent, Expr pred, boolean abs, boolean lone, boolean one, boolean some) {
 		super (label, pred, abs, lone, one, one);
-		this.parent = parent;
+		for (Field f : parent) {
+			addField(f);
+		}
+ 		this.parent = parent;
 	}
 	
 	public SubsetSig (String label, Sig parent, Expr pred) {
 		super (label, pred);
+		for (Field f : parent) {
+			addField(f);
+		}
 		this.parent = parent;
 	}
 	
 	public SubsetSig (String label, Sig parent) {
 		super(label);
+		for (Field f : parent) {
+			addField(f);
+		}
 		this.parent = parent;
 	}
 	
@@ -24,10 +33,6 @@ public class SubsetSig extends Sig {
 		return visitor.visit(this);
 	}
 	
-	public SubsetSig copy() {
-		return new SubsetSig(label(), parent.copy(), pred().copy(), isAbstract(), isLone(), isOne(), isSome());
-	}
-	
-	public Sig parent() {return parent.copy();}
+	public Sig parent() {return parent;}
 	
 }

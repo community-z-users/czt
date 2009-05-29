@@ -70,11 +70,6 @@ public class Enum extends Sig {
 		public void addPred(Expr e) {}
 	}
 	
-	public Enum copy() {
-		List<String> children = new ArrayList<String>();
-		for (SubSig child : this.children) children.add(child.label());
-		return new Enum(parent.label(), children);
-	}
 	
 	public String toString() {
 		return "enum" + parent.label();

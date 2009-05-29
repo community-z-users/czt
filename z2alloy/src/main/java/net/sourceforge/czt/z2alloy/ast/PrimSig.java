@@ -18,9 +18,4 @@ public class PrimSig extends Sig {
 	public <T> T accept(VisitReturn<T> visitor) {
 		return visitor.visit(this);
 	}
-	
-	public PrimSig copy() {
-		return new PrimSig(label(), pred().copy(), isAbstract(), isLone(), isOne(), isSome());
-	}
-
 }

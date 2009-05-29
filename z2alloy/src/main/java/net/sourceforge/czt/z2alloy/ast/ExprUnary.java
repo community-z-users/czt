@@ -13,17 +13,14 @@ public class ExprUnary extends Expr {
 	public <T> T accept(VisitReturn<T> visitor) {
 		return visitor.visit(this);
 	}
-	
-	public ExprUnary copy() {
-		return new ExprUnary(op, sub.copy());
-	}
+
 	
 	public ExprUnary.Op op() {
 		return op;
 	}
 	
 	public Expr sub() {
-		return sub.copy();
+		return sub;
 	}
 	
 	public String toString() {

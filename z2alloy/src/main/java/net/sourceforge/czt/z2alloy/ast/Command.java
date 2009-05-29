@@ -66,8 +66,8 @@ public class Command {
 	public Command (Command that) {
 		this.label = that.label;
 		this.isCheck = that.isCheck;
-		this.bodyExpr = that.bodyExpr == null ? null : that.bodyExpr.copy();
-		this.bodyFunc = that.bodyFunc == null ? null : that.bodyFunc.copy();
+		this.bodyExpr = that.bodyExpr == null ? null : that.bodyExpr;
+		this.bodyFunc = that.bodyFunc == null ? null : that.bodyFunc;
 	}
 
 	public String label() {
@@ -76,15 +76,8 @@ public class Command {
 	
 	public boolean check() {return isCheck;}
 	public boolean run() {return !check();}
-	public Expr bodyExpr() {return bodyExpr == null ? null : bodyExpr.copy();}
-	public Func bodyFunc() {return bodyFunc == null ? null : bodyFunc.copy();}
-	
-	public Command copy() {
-		if (this.bodyExpr == null) {
-			return new Command(this.label, this.isCheck, bodyFunc.copy());
-		}
-		return new Command(this.label, this.isCheck, bodyExpr.copy());
-	}
+	public Expr bodyExpr() {return bodyExpr == null ? null : bodyExpr;}
+	public Func bodyFunc() {return bodyFunc == null ? null : bodyFunc;}
 	
 	public String toString() {
 		return label;

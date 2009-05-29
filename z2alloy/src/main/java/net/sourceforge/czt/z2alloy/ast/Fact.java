@@ -15,7 +15,7 @@ public class Fact {
 	}
 	
 	public Expr expr() {
-		return expr.copy();
+		return expr;
 	}
 	
 	public String toString() {

@@ -21,17 +21,12 @@ public class ExprVar extends Expr {
 		return visitor.visit(this);
 	}
 	
-	public ExprVar copy() {
-		if (expr == null) return new ExprVar(label);
-		return new ExprVar(label, expr.copy());
-	}
-	
 	public String label() {
 		return label;
 	}
 	
 	public Expr expr() {
-		return expr.copy();
+		return expr;
 	}
 	
 	public String toString() {

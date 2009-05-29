@@ -67,13 +67,11 @@ public abstract class Sig extends Expr implements Iterable<Field> {
 	}
 	
 	public Expr pred() {
-		return this.pred.copy();
+		return this.pred;
 	}
 	public String label() {
 		return label;
 	}
-	
-	public abstract Sig copy();
 	
 	public boolean isAbstract() {return isAbstract;}
 
@@ -85,7 +83,7 @@ public abstract class Sig extends Expr implements Iterable<Field> {
 	
 	public List<Field> fields() {
 		List<Field> fields = new ArrayList<Field>();
-		for (Field field : this.fields) fields.add(field.copy());
+		for (Field field : this.fields) fields.add(field);
 		return fields;
 	}
 	

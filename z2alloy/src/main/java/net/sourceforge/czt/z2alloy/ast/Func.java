@@ -75,19 +75,11 @@ public class Func {
 	}
 	
 	public Expr returnDecl() {
-		return returnDecl.copy();
+		return returnDecl;
 	}
 	
 	public Expr body() {
-		return body.copy();
-	}
-	
-	public Func copy() {
-		List<ExprVar> newParams = new ArrayList<ExprVar>();
-		for (ExprVar exprvar : this.params) newParams.add(exprvar.copy());
-		Func ret = isPred ? new Func(this.label, newParams) : new Func(this.label, newParams, this.returnDecl.copy());
-		ret.body = body.copy();
-		return ret;
+		return body;
 	}
 
 }

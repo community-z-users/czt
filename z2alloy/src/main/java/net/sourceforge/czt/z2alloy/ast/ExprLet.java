@@ -17,20 +17,16 @@ public class ExprLet extends Expr {
 		return visitor.visit(this);
 	}
 	
-	public ExprLet copy() {
-		return new ExprLet(label.copy(), var.copy(), sub.copy());
-	}
-	
 	public Expr label() {
-		return label.copy();
+		return label;
 	}
 	
 	public Expr var() {
-		return var.copy();
+		return var;
 	}
 	
 	public Expr sub() {
-		return sub.copy();
+		return sub;
 	}
 	
 	public String toString() {

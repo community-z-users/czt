@@ -13,16 +13,12 @@ public final class Field extends Expr {
 		return visitor.visit(this);
 	}
 	
-	public Field copy() {
-		return new Field(label, expr.copy());
-	}
-	
 	public String label() {
 		return label;
 	}
 	
 	public Expr expr() {
-		return expr.copy();
+		return expr;
 	}
 	
 	public String toString() {

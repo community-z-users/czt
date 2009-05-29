@@ -31,20 +31,16 @@ public final class ExprBinary extends Expr {
 		return visitor.visit(this);
 	}
 	
-	public ExprBinary copy() {
-		return new ExprBinary(op, left.copy(), right.copy());
-	}
-	
 	public ExprBinary.Op op() {
 		return op;
 	}
 	
 	public Expr left() {
-		return left.copy();
+		return left;
 	}
 	
 	public Expr right() {
-		return right.copy();
+		return right;
 	}
 
 	/** This class contains all possible binary operators. */

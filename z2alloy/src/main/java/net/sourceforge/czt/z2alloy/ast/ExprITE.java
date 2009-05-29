@@ -18,20 +18,16 @@ public class ExprITE extends Expr {
 		return visitor.visit(this);
 	}
 	
-	public ExprITE copy() {
-		return new ExprITE(cond.copy(), left.copy(), right.copy());
-	}
-	
 	public Expr cond() {
-		return cond.copy();
+		return cond;
 	}
 	
 	public Expr left() {
-		return left.copy();
+		return left;
 	}
 	
 	public Expr right() {
-		return right.copy();
+		return right;
 	}
 	
 	public String toString() {

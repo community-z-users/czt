@@ -26,10 +26,8 @@ public final class ExprQuant extends Expr {
 		return visitor.visit(this);
 	}
 	
-	public ExprQuant copy() {
-		List<ExprVar> vars = new ArrayList<ExprVar>();
-		for (ExprVar var : this.vars) vars.add(var.copy());
-		return new ExprQuant(op, vars, sub.copy());
+	public Expr sub() {
+		return sub;
 	}
 	
 	public ExprQuant.Op op() {
@@ -38,12 +36,8 @@ public final class ExprQuant extends Expr {
 	
 	public List<ExprVar> vars() {
 		List<ExprVar> vars = new ArrayList<ExprVar>();
-		for (ExprVar var : this.vars) vars.add(var.copy());
+		for (ExprVar var : this.vars) vars.add(var);
 		return vars;
-	}
-	
-	public Expr sub() {
-		return sub.copy();
 	}
     
     /** This class contains all possible quantification operators. */

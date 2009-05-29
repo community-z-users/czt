@@ -24,14 +24,8 @@ public final class ExprCall extends Expr {
 		return visitor.visit(this);
 	}
 	
-	public ExprCall copy() {
-		List<Expr> args = new ArrayList<Expr>();
-		for (Expr arg : this.args) args.add(arg.copy());
-		return new ExprCall(fun.copy(), args);
-	}
-	
 	public Func fun() {
-		return fun.copy();
+		return fun;
 	}
 	
 	public List<Expr> args() {
