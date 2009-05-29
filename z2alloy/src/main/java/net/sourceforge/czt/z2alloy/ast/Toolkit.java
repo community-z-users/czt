@@ -82,5 +82,4 @@ public class Toolkit extends Module {
 		front.setBody(butLast.call(s));
 		return front;
 	}
-
 }
