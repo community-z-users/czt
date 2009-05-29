@@ -13,8 +13,6 @@ public abstract class Expr implements Cloneable {
 	 */
     public abstract <T> T accept(VisitReturn<T> visitor);
     
-    public abstract Expr copy();
-    
 	/** creates a new Expr: this && x */
     public final Expr and(Expr x){return new ExprBinary(ExprBinary.Op.AND, this, x);}
     /** creates a new Expr: this || x */
