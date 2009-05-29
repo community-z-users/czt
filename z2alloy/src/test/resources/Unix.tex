@@ -1,0 +1,95 @@
+\begin{zsection}
+  \SECTION ds \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+[BYTE] \\
+\end{zed}
+
+\begin{axdef}
+ZERO : BYTE \\
+\end{axdef}
+
+\begin{schema}{FILE}
+	contents : \seq BYTE
+\end{schema}
+
+\begin{schema}{DS}
+	file : FILE
+\end{schema}
+
+\begin{schema}{InitDS}
+	DS~' \\
+\where
+	file'.contents = \langle \rangle
+\end{schema}
+
+\begin{zed}
+  after ==
+  (\lambda f : FILE ; offset : \nat 
+     @ (\lambda i : 1 .. \#f.contents - offset @ f.contents(i+offset)))
+\end{zed}
+
+\begin{schema}{readFILE}\\
+  \Xi DS \\
+  offset?, length? : \nat \\
+  data! : FILE
+\where
+  data!.contents = ( 1 \upto length? ) \dres ( after(file, offset?) )
+\end{schema}
+
+\begin{zed}
+  zero == (\lambda n : \nat @ ( \lambda k : 1 \upto n @ ZERO ) )
+\end{zed}
+
+\begin{zed}
+  shift  == (\lambda f : FILE ; offset : \nat @ ( 1 \upto offset ) \ndres ( zero~offset \cat f.contents ))
+\end{zed}
+
+\begin{schema}{writeFILE}
+  \Delta DS \\
+  offset? : \nat \\
+  data? : FILE
+\where
+  file'.contents = ( zero~offset? \oplus file.contents ) \oplus ( shift(data?, offset?  ))
+\end{schema}
+
+\begin{zed}
+  [FID]
+\end{zed}
+
+\begin{zed}
+  SS == [ fstore : FID \pfun FILE ]
+\end{zed}
+
+\begin{schema}{InitSS}
+  SS~'
+\where
+  fstore' = \emptyset
+\end{schema}
+
+\begin{schema}{createSS}
+  \Delta SS \\
+  fid? : FID
+\where
+  \exists_{1} f : FILE @ f.contents = \emptyset \land fstore' = fstore \oplus \{ fid? \mapsto  f\}
+\end{schema}
+
+\begin{schema}{destroySS}
+  \Delta SS \\
+  fid? : FID
+\where
+  fid? \in \dom fstore \\
+  fstore' = \{ fid? \} \ndres fstore
+\end{schema}
+
+\begin{schema}{\Phi SS}
+  \Delta SS;   ~ 
+  \Delta DS;  ~ 
+  fid? : FID
+\where
+  fid? \in \dom fstore \\
+  file = fstore(fid?) \\
+  fstore' = fstore \oplus \{ fid? \mapsto file' \}
+\end{schema}
+

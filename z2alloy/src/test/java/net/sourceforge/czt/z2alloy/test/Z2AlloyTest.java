@@ -48,6 +48,11 @@ public class Z2AlloyTest
   public void bst() {
     assertTrue(equal("bst", false));
   }
+  
+  @Test
+  public void unix() {
+	  assertTrue(equal("Unix", false));
+  }
 
   public void test(String fileName) {
     assertTrue(equal(fileName, true));
@@ -63,12 +68,11 @@ public class Z2AlloyTest
 			String t1 = translate.nextLine();
 			String t2 = read.nextLine();
 			if (! t1.equals(t2)) {
-				System.err.println(t1 + " vs " + t2);
-				return false;
+				throw new RuntimeException(t1 + " vs " + t2);
 			}
 		}
-		if (translate.hasNext()) System.out.println("error translate: " + translate.next());
-		if (read.hasNext()) System.out.println("error read: " + read.next());
+		if (translate.hasNext()) throw new RuntimeException("error translate: " + translate.next());
+		if (read.hasNext()) throw new RuntimeException("error read: " + read.next());
 		return (translate.hasNext() == read.hasNext());
 	} catch (URISyntaxException e) {
 		throw new RuntimeException(e);
