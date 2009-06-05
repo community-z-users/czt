@@ -3,7 +3,9 @@
     if (getSignature().getNameTypePair().size() > CHANNEL_NTP_INDEX) {
       return getSignature().getNameTypePair().get(CHANNEL_NTP_INDEX);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid communication type name type pair list size. Expected a value greater than " + 
+        CHANNEL_NTP_INDEX + " but found " + getSignature().getNameTypePair().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
  
   public net.sourceforge.czt.z.ast.Name getChannelName()
@@ -27,7 +29,9 @@
     if (size > COMM_PATTERN_INDEX) {
       return getSignature().getNameTypePair().subList(COMM_PATTERN_INDEX, size);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();    
+    final String message = "Invalid communication type name type pair list size. Expected a value greater than " + 
+        COMM_PATTERN_INDEX + " but found " + size;
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
   
   public boolean isSynchronisation()

@@ -10,7 +10,9 @@
     if (numeral instanceof ZNumeral) {
       return (ZNumeral) numeral;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Z) implementation of Numeral" +
+      " but found " + String.valueOf(numeral);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   /**
@@ -24,6 +26,8 @@
     if (numeral instanceof ZNumeral) {
       return new java.math.BigInteger(((ZNumeral) numeral).getValue().toString());
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Z) implementation of Numeral" +
+      " but found " + String.valueOf(numeral);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 

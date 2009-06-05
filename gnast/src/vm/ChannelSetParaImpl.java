@@ -5,7 +5,9 @@
     if (rnl instanceof net.sourceforge.czt.z.ast.ZNameList) {
       return (net.sourceforge.czt.z.ast.ZNameList) rnl;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Z) implementation of NameList" +
+      " but found " + String.valueOf(rnl);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
 
@@ -15,5 +17,7 @@
     if (declName instanceof net.sourceforge.czt.z.ast.ZName) {
       return (net.sourceforge.czt.z.ast.ZName) declName;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Z) implementation of Name" +
+      " but found " + String.valueOf(declName);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }

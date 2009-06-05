@@ -10,5 +10,7 @@
     {
       return (net.sourceforge.czt.circus.ast.BasicProcess)result;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();    
+    final String message = "Expected the BasicProcess element for ProcessD " +
+      " but found " + String.valueOf(result);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }

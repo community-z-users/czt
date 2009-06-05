@@ -22,21 +22,27 @@
     if (channelSets instanceof net.sourceforge.czt.circus.ast.CircusChannelSetList) {
       return (net.sourceforge.czt.circus.ast.CircusChannelSetList) channelSets;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Circus) implementation of ChannelSetList" +
+      " but found " + String.valueOf(channelSets);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
   
   public net.sourceforge.czt.circus.ast.ZSignatureList getMainSignatures()
   {
     if (getSignatureList().size() > MAIN_SIGNATURES_INDEX)
     {
-      net.sourceforge.czt.circus.ast.SignatureList sigList = getSignatureList().
-        get(MAIN_SIGNATURES_INDEX);
+      net.sourceforge.czt.circus.ast.SignatureList sigList = getSignatureList().get(MAIN_SIGNATURES_INDEX);
       if (sigList instanceof net.sourceforge.czt.circus.ast.ZSignatureList)
       {
         return (net.sourceforge.czt.circus.ast.ZSignatureList) sigList;
       }
+      final String message = "Expected the Circus implementation of local Z SignatureList" +
+        " but found " + String.valueOf(sigList);
+      throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid process signature list size. Expected a value greater than " + 
+        MAIN_SIGNATURES_INDEX + " for basic process signatures but found " + getSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature getFormalParamsOrIndexes()
@@ -46,7 +52,9 @@
     {
       return getMainSignatures().get(FORMAL_PARAMS_INDEX);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid top-level process signature list size. Expected a value greater than " + 
+        FORMAL_PARAMS_INDEX + " for fomal paramters but found " + getMainSignatures().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature setFormalParamsOrIndexes(net.sourceforge.czt.z.ast.Signature sig)
@@ -57,7 +65,9 @@
       assert sig != null;
       getMainSignatures().set(FORMAL_PARAMS_INDEX, sig);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid top-lvel process signature list size. Expected a value greater than " + 
+        FORMAL_PARAMS_INDEX + " for fomal paramters but found " + getMainSignatures().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature getStateSignature()
@@ -67,7 +77,9 @@
     {
       return getMainSignatures().get(STATE_SIGNATURE_INDEX);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid basic process signature main signature list size. Expected a value greater than " + 
+        STATE_SIGNATURE_INDEX + " for process state signature but found " + getMainSignatures().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature setStateSignature(net.sourceforge.czt.z.ast.Signature sig)
@@ -78,7 +90,9 @@
       assert sig != null;
       return getMainSignatures().set(STATE_SIGNATURE_INDEX, sig);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid basic process signature main signature list size. Expected a value greater than " + 
+        STATE_SIGNATURE_INDEX + " for process state signature but found " + getMainSignatures().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.circus.ast.ProcessSignatureList getProcessSignatures()
@@ -91,8 +105,13 @@
       {
         return (net.sourceforge.czt.circus.ast.ProcessSignatureList) sigList;
       }
+      final String message = "Expected the implementation of Process SignatureList" +
+        " but found " + String.valueOf(sigList);
+      throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid top-level process signature list size. Expected a value greater than " + 
+        PROCESS_SIGNATURES_INDEX + " for inner process signatures but found " + getSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public boolean isBasicProcessSignature()
@@ -119,8 +138,13 @@
       {
         return (net.sourceforge.czt.circus.ast.ZSignatureList) sigList;
       }
+      final String message = "Expected the implementation of local Z SignatureList" +
+        " but found " + String.valueOf(sigList);
+      throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid basic process signature list size. Expected a value greater than " + 
+        LOCALZ_SIGNATURES_INDEX + " for local z signature but found " + getMainSignatures().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.circus.ast.ActionSignatureList getActionSignatures()
@@ -134,8 +158,14 @@
       {
         return (net.sourceforge.czt.circus.ast.ActionSignatureList) sigList;
       }
+      final String message = "Expected the implementation of local Action SignatureList" +
+        " but found " + String.valueOf(sigList);
+      throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
+
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid basic process signature list size. Expected a value greater than " + 
+        ACTION_SIGNATURES_INDEX + " for actions signature but found " + getSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
   
   /**
@@ -146,10 +176,10 @@
    */
   protected <K, V> void addToMapAndCheckConsistency(java.util.Map<K,V> map, K key, V value)
   {
-    assert !map.containsKey(key) : "Illegal value for " + getProcessZName() + ". " + "The key " + key + " already had a previous value assigned.";
+    assert !map.containsKey(key) : "Illegal value for " + getProcessName() + ". " + "The key " + key + " already had a previous value assigned.";
     V old = map.put(key, value);
 //    if (old != null)      
-//      throw new net.sourceforge.czt.util.CztException("Illegal value for " + getProcessZName() + ". " + 
+//      throw new net.sourceforge.czt.util.CztException("Illegal value for " + getProcessName() + ". " + 
 //        "The key " + key + " already had a previous value assigned.");
   }
   
@@ -227,7 +257,16 @@
     // for other processes this includes all entries of all of its inner basic processes.
     else
     {
-      net.sourceforge.czt.z.ast.ZName procName = getProcessZName();
+      net.sourceforge.czt.z.ast.ZName procName;
+      if (getProcessName() == null) 
+      {
+        //assert !getFormalParamsOrIndexes().getNameTypePair().isEmpty() : "unamed non-basic process must be parameterised(?)";
+        procName = net.sourceforge.czt.circus.util.CircusUtils.createAnonymousZName();
+      }
+      else
+      {
+        procName = getProcessZName();
+      }
       for (net.sourceforge.czt.circus.ast.ProcessSignature pSig : getProcessSignatures())
       {
         for(java.util.Map.Entry<net.sourceforge.czt.z.ast.ZName, 
@@ -269,7 +308,16 @@
     // for other processes this includes all entries of all of its inner basic processes.
     else
     {
-      net.sourceforge.czt.z.ast.ZName procName = getProcessZName();
+      net.sourceforge.czt.z.ast.ZName procName;
+      if (getProcessName() == null) 
+      {
+        //assert !getFormalParamsOrIndexes().getNameTypePair().isEmpty() : "unamed non-basic process must be parameterised(?)";
+        procName = net.sourceforge.czt.circus.util.CircusUtils.createAnonymousZName();
+      }
+      else
+      {
+        procName = getProcessZName();
+      }
       for (net.sourceforge.czt.circus.ast.ProcessSignature pSig : getProcessSignatures())
       {
         for(java.util.Map.Entry<net.sourceforge.czt.z.ast.ZName, 
@@ -312,7 +360,16 @@
     // for other processes this includes all entries of all of its inner basic processes.
     else
     {
-      net.sourceforge.czt.z.ast.ZName procName = getProcessZName();
+      net.sourceforge.czt.z.ast.ZName procName;
+      if (getProcessName() == null) 
+      {
+        //assert !getFormalParamsOrIndexes().getNameTypePair().isEmpty() : "unamed non-basic process must be parameterised(?)";
+        procName = net.sourceforge.czt.circus.util.CircusUtils.createAnonymousZName();
+      }
+      else
+      {
+        procName = getProcessZName();
+      }
       for (net.sourceforge.czt.circus.ast.ProcessSignature pSig : getProcessSignatures())
       {
         for(java.util.Map.Entry<net.sourceforge.czt.z.ast.ZName, 
@@ -354,7 +411,16 @@
     // for other processes this includes all entries of all of its inner basic processes.
     else
     {
-      net.sourceforge.czt.z.ast.ZName procName = getProcessZName();
+      net.sourceforge.czt.z.ast.ZName procName;
+      if (getProcessName() == null) 
+      {
+        //assert !getFormalParamsOrIndexes().getNameTypePair().isEmpty() : "unamed non-basic process must be parameterised(?)";
+        procName = net.sourceforge.czt.circus.util.CircusUtils.createAnonymousZName();
+      }
+      else
+      {
+        procName = getProcessZName();
+      }
       for (net.sourceforge.czt.circus.ast.ProcessSignature pSig : getProcessSignatures())
       {
         for(java.util.Map.Entry<net.sourceforge.czt.z.ast.ZName, 

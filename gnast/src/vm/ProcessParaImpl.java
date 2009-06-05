@@ -4,7 +4,9 @@
     if (rnl instanceof net.sourceforge.czt.z.ast.ZNameList) {
       return (net.sourceforge.czt.z.ast.ZNameList) rnl;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Z) implementation of NameList" +
+      " but found " + String.valueOf(rnl);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
 
@@ -14,7 +16,9 @@
     if (declName instanceof net.sourceforge.czt.z.ast.ZName) {
       return (net.sourceforge.czt.z.ast.ZName) declName;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Z) implementation of Name" +
+      " but found " + String.valueOf(declName);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public boolean isBasicProcess()
@@ -28,7 +32,9 @@
     {
       return net.sourceforge.czt.circus.util.CircusUtils.getBasicProcess(getCircusProcess());
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();    
+    final String message = "Expected BasicProcess element for ProcessPara " +
+      " but found " + String.valueOf(getCircusProcess());
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
   
   public void setCircusBasicProcess(net.sourceforge.czt.circus.ast.BasicProcess term)

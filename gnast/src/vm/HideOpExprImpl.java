@@ -5,6 +5,8 @@
     if (refNameList instanceof ZNameList) {
       return ((ZNameList) refNameList).getName();
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Z) implementation of NameList" +
+      " but found " + String.valueOf(refNameList);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 

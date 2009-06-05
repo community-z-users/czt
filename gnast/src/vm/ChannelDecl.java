@@ -1,3 +1,6 @@
+  final static int CHANNEL_GENFORMAL_INDEX = 0;
+  final static int CHANNEL_NAMELIST_INDEX = 1;
+
   /**
    * This is a convenience method. It represents the non-null (possibly empty)
    * list of generic formal parameters for this channel declaration.

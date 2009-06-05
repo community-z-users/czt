@@ -4,7 +4,9 @@
     if (al instanceof net.sourceforge.czt.circus.ast.CircusActionList) {
       return (net.sourceforge.czt.circus.ast.CircusActionList) al;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Circus) implementation of ActionList" +
+      " but found " + String.valueOf(al);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public int getNumberOfGuards()
@@ -18,5 +20,7 @@
     if (ca instanceof net.sourceforge.czt.circus.ast.GuardedAction) {
        return (net.sourceforge.czt.circus.ast.GuardedAction)ca;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the GuardedAction within Circus GuardedAction list" +
+      " but found " + String.valueOf(ca);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }

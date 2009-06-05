@@ -4,5 +4,7 @@
     if (cl instanceof net.sourceforge.czt.circus.ast.CircusCommunicationList) {
       return (net.sourceforge.czt.circus.ast.CircusCommunicationList) cl;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Circus) implementation of CommunicationList" +
+      " but found " + String.valueOf(cl);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }

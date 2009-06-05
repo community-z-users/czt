@@ -10,6 +10,8 @@
     if (schText instanceof ZSchText) {
       return (ZSchText) schText;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Z) implementation of SchText" +
+      " but found " + String.valueOf(schText);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 

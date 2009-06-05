@@ -25,7 +25,9 @@
     {
       return (net.sourceforge.czt.circus.ast.ZSignatureList) sigList;
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Expected the default (Circus) implementation of SignatureList" +
+      " but found " + String.valueOf(sigList);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature getFormalParams()
@@ -34,7 +36,9 @@
     {
       return getZSignatureList().get(FORMAL_PARAMS_INDEX);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid action signature list size. Expected a value greater than " + 
+        FORMAL_PARAMS_INDEX + " but found " + getZSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature setFormalParams(net.sourceforge.czt.z.ast.Signature sig)
@@ -44,7 +48,9 @@
       assert sig != null;
       return getZSignatureList().set(FORMAL_PARAMS_INDEX, sig);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid action signature list size. Expected a value greater than " + 
+        FORMAL_PARAMS_INDEX + " but found " + getZSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature getLocalVars()
@@ -53,7 +59,9 @@
     {
       return getZSignatureList().get(LOCAL_VARS_INDEX);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid action signature list size. Expected a value greater than " + 
+        LOCAL_VARS_INDEX + " but found " + getZSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature setLocalVars(net.sourceforge.czt.z.ast.Signature sig)
@@ -63,7 +71,9 @@
       assert sig != null;
       return getZSignatureList().set(LOCAL_VARS_INDEX, sig);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid action signature list size. Expected a value greater than " + 
+        LOCAL_VARS_INDEX + " but found " + getZSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature getUsedChannels()
@@ -72,7 +82,9 @@
     {
       return getZSignatureList().get(USED_CHANNELS_INDEX);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid action signature list size. Expected a value greater than " + 
+        USED_CHANNELS_INDEX + " but found " + getZSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.z.ast.Signature setUsedChannels(net.sourceforge.czt.z.ast.Signature sig)
@@ -82,7 +94,9 @@
       assert sig != null;
       return getZSignatureList().set(USED_CHANNELS_INDEX, sig);
     }
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    final String message = "Invalid action signature list size. Expected a value greater than " + 
+        USED_CHANNELS_INDEX + " but found " + getZSignatureList().size();
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
   public net.sourceforge.czt.circus.ast.CircusCommunicationList getUsedCommunications()
