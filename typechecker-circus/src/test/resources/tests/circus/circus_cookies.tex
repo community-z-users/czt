@@ -49,7 +49,7 @@
 \end{circusaction}
 
 \begin{schema}{OutputCookieOk}
-   \Delta State \\
+   \Delta State \\   
    o!: COOKIE
 \where
    money \geq cookieValue \\
@@ -110,7 +110,7 @@ The parser also admits some special commands that are tokenised as hard spaces, 
 \end{circusaction}
 
 \begin{circusaction}
-   \t1 \circspot InitState \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X)
+   \t1 \circspot \circvar o!: COOKIE \circspot OutputCookie % InitState \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X)
 \end{circusaction}
 
 \begin{circus}

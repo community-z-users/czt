@@ -541,6 +541,7 @@ typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatch
 typechecker-circus/src/test/resources/tests/circus/dot-field-multenv.pdf -text svneol=unset#application/pdf
 typechecker-circus/src/test/resources/tests/circus/name-IsNotChannelName.error -text
 typechecker-circus/src/test/resources/tests/circus/nested_parameterised_mu-NestedFormalParamsInAction.error -text
+typechecker-circus/src/test/resources/tests/circus/paramprocess_rename-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/rename_indexed_process-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/tc31_param_process-RedeclaredDef.error -text
 typechecker-circus/src/test/resources/tests/circus/tc3211_paramact-UndeclaredIdentifier.error -text
