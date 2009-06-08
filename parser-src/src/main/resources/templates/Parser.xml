@@ -4815,6 +4815,13 @@ actionPara ::=
  * but we have chosen to be similar to processDesc.
  */
 actionDesc ::=
+        DECORWORD:dw channelRenaming:cr
+        {:                  
+          RESULT = factory_.createRenameAction(factory_.createCallAction(
+          createCircusName(dw), factory_.createZExprList()), cr);
+          addLocAnn(RESULT, getLocation(dw.getLocation(), getLocation(cr)));
+        :} %prec _RENAME        
+        |
         paramAction:pa
         {: RESULT = pa; :}
         |
@@ -5140,6 +5147,14 @@ parenthesisedAction ::=
             RESULT = factory_.createCallAction(createCircusName(an), el);
             addLocAnn(RESULT, getLocation(lp1, el.get(el.size()-1)));
         :}
+        |
+        /* Action channel renaming */
+        LPAREN:lp circusAction:ca RPAREN:rp channelRenaming:cr
+        {:            
+            addParenthesisAnn(lp, ca, rp);
+            RESULT = factory_.createRenameAction(ca, cr);
+            addLocAnn(RESULT, getLocation(lp, rp));
+        :} %prec _RENAME         
         ;
 
 guard ::=
