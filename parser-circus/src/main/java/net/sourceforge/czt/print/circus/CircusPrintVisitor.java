@@ -30,6 +30,7 @@ import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.ExtChoiceActionIte;
 import net.sourceforge.czt.circus.ast.ExtChoiceProcessIte;
 import net.sourceforge.czt.circus.ast.GuardedAction;
+import net.sourceforge.czt.circus.ast.RenameAction;
 import net.sourceforge.czt.circus.ast.HideProcess;
 import net.sourceforge.czt.circus.ast.ImplicitChannelAnn;
 import net.sourceforge.czt.circus.ast.IntChoiceProcess;
@@ -608,6 +609,14 @@ public class CircusPrintVisitor
         print(CircusKeyword.CIRCHIDING);
         visit(term.getChannelSet());
         printRPAREN(term);
+        return null;
+    }
+    
+    public Object visitRenameAction(RenameAction term) {
+        visit(term.getCircusAction());
+        print(CircusToken.LCIRCRENAME);
+        visit(term.getAssignmentPairs());
+        print(CircusToken.RCIRCRENAME);
         return null;
     }
     
