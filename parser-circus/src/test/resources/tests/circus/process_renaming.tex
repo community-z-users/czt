@@ -45,3 +45,15 @@ Renaming also works for processes with generic actuals themselves.
      \circprocess\ RenamingProcess5 \circdef A[\nat] \lcircrename c := d \rcircrename \\
      \circprocess\ RenamingProcess6 \circdef B \extchoice (A[\nat]) \lcircrename c := d \rcircrename
 \end{circus}
+
+
+\begin{circus}
+     \circprocess\ RenamingProcess7 \circdef \circbegin \\
+        A1 \circdef c?x \then \Skip \\
+        A2 \circdef d?x \then \Skip \\
+        B1 \circdef A1 \lcircrename c := d \rcircrename \\
+        B2 \circdef A2 \lcircrename d := c \rcircrename \\
+        \circspot (B1 \intchoice B2) \lcircrename d := c \rcircrename \\
+     \circend
+\end{circus}     
+

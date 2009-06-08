@@ -426,13 +426,16 @@ parser-circus/src/test/resources/tests/circus/just-main-action-stateless-bp.xml 
 parser-circus/src/test/resources/tests/circus/just-main-action-stateless-multienv-bp.tex -text
 parser-circus/src/test/resources/tests/circus/just-main-action-stateless-multienv-bp.xml -text
 parser-circus/src/test/resources/tests/circus/missing-circend-errors.tex -text
+parser-circus/src/test/resources/tests/circus/onthefly_parameterised_muaction.xml -text
 parser-circus/src/test/resources/tests/circus/parallel_actions_processes.xml -text
+parser-circus/src/test/resources/tests/circus/param_process.xml -text
 parser-circus/src/test/resources/tests/circus/processDesc.tex -text
 parser-circus/src/test/resources/tests/circus/processDesc.xml -text
 parser-circus/src/test/resources/tests/circus/process_renaming.xml -text
 parser-circus/src/test/resources/tests/circus/processes.tex -text
 parser-circus/src/test/resources/tests/circus/processes.xml -text
 parser-circus/src/test/resources/tests/circus/reactive-buffer-singleenv.tex -text
+parser-circus/src/test/resources/tests/circus/special-symbols.xml -text
 parser-circus/src/test/resources/tests/circus/steam-boiler-multienv.tex -text
 parser-circus/src/test/resources/tests/circus/steam-boiler-multienv.xml -text
 parser-circus/src/test/resources/tests/circus/steam-boiler-original.pdf -text

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="0" Length="2103" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\documentclass{article}
+
+\usepackage{czt}
+\usepackage[color]{circus}
+
+\begin{document}
+
+\title{Special \LaTeX\ symbols within \Circus\ tools}
+\author{Leo Freitas}
+\date{April 2008}
+
+\maketitle
+
+The parser accepts some extra commands useful for \LaTeX\ typesetting.
+They are:
+\begin{itemize}
+   \item \verb'\circblockbegin' and \verb'\circblockend' --- parsed as hard space
+   \item \verb'\circminipagebegin' and \verb'\circminipageend' --- parsed as hard space
+   \item \verb'\circnote{whatever text without \ or \\ in it}' --- parsed as comment
+   \item \verb'' --- parsed as comment
+   \item \verb'\znewpage' and \verb'\zbreak' --- parsed as new lines
+\end{itemize}
+Their meaning are self-evident: it switches block indentation and
+mini-page configuration;~allows the user to add commentary text
+within formal material;~enables the user to switch on/off the
+Circus tools within parts of the text;~and breaks page or formulae
+accordingly.
+
+The commands \verb'\circblockbegin' and \verb'\circblockend' can appear anywhere
+a \verb'\begin{block}/\end{block}'
+can appear (\textit{i.e.,} within mathematical formulae). And similarly for mini page.
+The command \verb'' is intended to appear within Z or Circus environments,
+but could indeed appear anywhere. The commands \verb'\znewpage' and \verb'\zbreak' can
+appear only within a Z or Circus environment. Finally, the commands
+\verb'' can appear only where ever narrative text
+can (\textit{i.e.,} they cannot appear within Z or Circus environments.
+
+These commands are parsed as either hard space or comments.
+That is, their UNICODE representation is either of a \verb'~' (hard space)
+or just ignored (\textit{i.e.,} don't appear at all) as they are comments.
+This has the obvious consequence that translation among markups is no longer
+injective. This is already the case in Standard Z: \verb'\t1 ... \t9' is
+also translated as hard space and would not translate back to \LaTeX\ as
+the appropriate tabbing commands.
+
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="0" Col="0"/>
+        </Anns>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="2122" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="48" Col="3"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2136" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="48" Length="1" Col="17"/>
+                                </Anns>
+                                <Word>c</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <ZName>
+                                <Word>$$SYNCH</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Start="2206" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="50" Length="143" Col="4"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="2220" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="50" Length="1" Col="18"/>
+                    </Anns>
+                    <Word>P</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:BasicProcess>
+                    <Anns>
+                        <LocAnn Start="2231" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="50" Length="118" Col="29"/>
+                    </Anns>
+                    <ZParaList>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Start="2253" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="51" Length="24" Col="7"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2253" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="51" Length="1" Col="7"/>
+                                </Anns>
+                                <Word>C</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:PrefixingAction>
+                                <Anns>
+                                    <LocAnn Start="2264" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="51" Length="13" Col="18"/>
+                                </Anns>
+                                <ns3:SkipAction>
+                                    <Anns>
+                                        <LocAnn Start="2272" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="51" Length="5" Col="26"/>
+                                    </Anns>
+                                </ns3:SkipAction>
+                                <ns3:Communication MultiSych="0" Indexed="false" CommUsage="Normal" CommPattern="Synch">
+                                    <Anns>
+                                        <LocAnn Start="2264" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="51" Length="1" Col="18"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false" Explicit="false">
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2264" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="51" Length="1" Col="18"/>
+                                            </Anns>
+                                            <Word>c</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <ns3:CircusFieldList/>
+                                </ns3:Communication>
+                            </ns3:PrefixingAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Start="2304" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="53" Length="15" Col="4"/>
+                            </Anns>
+                            <ZName>
+                                <Word>$$mainAction_L53C4</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:SkipAction>
+                                <Anns>
+                                    <LocAnn Start="2304" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="53" Length="15" Col="4"/>
+                                    <ns3:OnTheFlyDefAnn/>
+                                </Anns>
+                            </ns3:SkipAction>
+                        </ns3:ActionPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="2231" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="50" Length="118" Col="29"/>
+                                <ns3:CircusStateAnn/>
+                                <ns3:CircusStateAnn/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="2231" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="50" Length="118" Col="29"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="2231" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="50" Length="118" Col="29"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="2231" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="50" Length="118" Col="29"/>
+                                            </Anns>
+                                            <Word>$$defaultSt_L50C29</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <ZSchText>
+                                                <ZDeclList/>
+                                                <TruePred/>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                    </ZParaList>
+                </ns3:BasicProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="2363" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="56" Length="120" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+
+</Content>
+            </NarrPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Start="2502" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="67" Length="41" Col="3"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Start="2515" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="67" Length="28" Col="16"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2515" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="67" Length="21" Col="16"/>
+                                </Anns>
+                                <Word>should_be_processed</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <RefExpr Mixfix="false" Explicit="false">
+                            <Anns>
+                                <LocAnn Start="2539" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="67" Length="4" Col="40"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="2539" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="67" Length="4" Col="40"/>
+                                </Anns>
+                                <Word>?</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="2557" Loc="C:\research\tools\java\sourceforge\czt\1.0\trunk\parser-circus\target\test-classes\tests\circus\special-symbols.tex" Line="68" Length="18" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+\end{document}</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>

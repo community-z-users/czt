@@ -1,0 +1,36 @@
+\begin{zsection}
+    \SECTION smartscanning\_noeofproblem \parents circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c: \nat
+\end{circus}
+
+\begin{circus}
+  \circprocess\ P \circdef \circbegin
+\end{circus}
+
+Because of the intricate lookahead mechanism for \Circus\ prefixing,
+and because of the unfortunate situation that $\circguard$ and $\Semi$
+share symbols with the Z tokenizer (for \texttt{ANDASLO} and 
+\texttt{ZCOMP} $\semi$), the lookahead mechanism was fooled to think
+no ``\Circus'' symbol was found, hence went too far ahead and gave
+the ``error location'' at EOF, rather at the occurring point.
+\begin{circusaction}
+   A \circdef c?x \then (x \leq 0 \circguard \Skip)
+\end{circusaction}
+This is now fixed by telling the lookahead about those two special cases.
+This is not ideal; the ideal would be to have completely disjoint alphabets.
+The problem for that is that there is no alternative symbol to ampersand in
+Unicode, unfortunately. 
+
+The actual error is the missing $\lcircguard$ parenthesis.
+
+
+\begin{circusaction}
+   \circspot A
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}
