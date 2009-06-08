@@ -104,6 +104,7 @@ public enum CircusConcreteSyntaxSymbol
   MU_ACTION("Recursive action"),
   GUARDED_ACTION("Guarded action"),
   HIDE_ACTION("Hide action"),
+  RENAME_ACTION("Rename action"),
   PREFIX_ACTION("Prefixing action"),
   SUBST_ACTION("Substitution action"),
   LETVAR_ACTION("Local environment for variable declaration"),

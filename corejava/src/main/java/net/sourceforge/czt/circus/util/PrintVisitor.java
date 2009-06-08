@@ -49,6 +49,7 @@ import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.ActionPara;
+import net.sourceforge.czt.circus.ast.RenameAction;
 import net.sourceforge.czt.circus.ast.NameSetType;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ActionSignature;
@@ -87,6 +88,7 @@ import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
 import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
 import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
 import net.sourceforge.czt.circus.visitor.CircusCommunicationListVisitor;
+import net.sourceforge.czt.circus.visitor.RenameActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.CommunicationVisitor;
 import net.sourceforge.czt.circus.visitor.InputFieldVisitor;
@@ -201,6 +203,7 @@ public class PrintVisitor
   BasicActionVisitor<String>,
   MuActionVisitor<String>,
   GuardedActionVisitor<String>,
+  RenameActionVisitor<String>,
   VarDeclCommandVisitor<String>,
   NameTypePairVisitor<String>,  
   SignatureVisitor<String>,
@@ -909,6 +912,16 @@ public class PrintVisitor
     result.append(visitList(term.getZExprList(), "(", ", ", ")"));
     return result.toString();
   }  
+  
+  public String visitRenameAction(RenameAction term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visit(term.getCircusAction()));
+    result.append("[");
+    result.append(visit(term.getAssignmentPairs()));
+    result.append("] ");    
+    return result.toString();
+  }
   
   public String visitChannelType(ChannelType term)
   {

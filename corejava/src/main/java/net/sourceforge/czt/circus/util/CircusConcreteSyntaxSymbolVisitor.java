@@ -10,6 +10,7 @@ package net.sourceforge.czt.circus.util;
 
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.ast.OutputFieldAnn;
+import net.sourceforge.czt.circus.ast.RenameAction;
 import net.sourceforge.czt.circus.visitor.*;
 
 import net.sourceforge.czt.z.ast.RefExpr;
@@ -137,6 +138,12 @@ public class CircusConcreteSyntaxSymbolVisitor
   {
     return CircusConcreteSyntaxSymbol.HIDE_ACTION;
   }
+  
+  public CircusConcreteSyntaxSymbol visitRenameAction(RenameAction term)
+  {
+    return CircusConcreteSyntaxSymbol.RENAME_ACTION;
+  }
+
 
   public CircusConcreteSyntaxSymbol visitAlphabetisedParallelProcess(AlphabetisedParallelProcess term)
   {
