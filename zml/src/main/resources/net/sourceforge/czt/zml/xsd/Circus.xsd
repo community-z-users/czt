@@ -498,13 +498,13 @@
       <xs:documentation>
         Encapsulates two lists used for assignments.
         <p>
-          Syntactically, that corresponds to either channels in <code>RenamingProcess</code>,
+          Syntactically, that corresponds to either channels in <code>RenameProcess</code>,
           or to variables in an assignment command. Semantically, it is also used to determine
           which (process) state variables were updated, and in which order.
         </p>
         <p>
           It represents two lists of equal size for the left and right hand sides. 
-          Moreover, for <code>RenamingProcess</code>, the RHS list can only contain 
+          Moreover, for <code>RenameProcess</code>, the RHS list can only contain 
           <code>RefExpr</code>, as channels might have generic actuals.
           For state updates, the RHS may be a predicate, in which case it is given as
           an SchExpr to operate upon the process state.
@@ -1024,6 +1024,15 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+    <xs:element name="RenameAction" type="CIRCUS:RenameAction" substitutionGroup="CIRCUS:Action1">
+    <xs:annotation>
+      <xs:documentation>
+        Circus action with channel renaming. As channels in Circus are strongly-typed, type-checking is expected.
+        Note that, since the class derives from <code>Action1</code>, the grammar does not accept on-the-fly renaming 
+        of parameterised actions ex: (x: \nat @ c!x -> Stop)[c := b]. This is a design decision for uniformity purposes.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
   <xs:element name="PrefixingAction" type="CIRCUS:PrefixingAction" substitutionGroup="CIRCUS:Action1">
     <xs:annotation>
       <xs:documentation>
@@ -2653,6 +2662,21 @@
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>
           <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RenameAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:Action1">
+        <xs:sequence>                            
+          <xs:element ref="CIRCUS:AssignmentPairs">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property generateElementProperty="true"/>
