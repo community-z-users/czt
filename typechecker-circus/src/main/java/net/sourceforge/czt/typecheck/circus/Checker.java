@@ -24,6 +24,7 @@ import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionSignatureAnn;
 import net.sourceforge.czt.circus.ast.ActionSignatureList;
 import net.sourceforge.czt.circus.ast.ActionType;
+import net.sourceforge.czt.circus.ast.AssignmentPairs;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CallProcess;
@@ -48,6 +49,8 @@ import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CommunicationList;
 import net.sourceforge.czt.circus.ast.NameSetList;
 import net.sourceforge.czt.circus.ast.QualifiedDecl;
+import net.sourceforge.czt.circus.ast.RenameAction;
+import net.sourceforge.czt.circus.ast.RenameProcess;
 import net.sourceforge.czt.circus.ast.SignatureList;
 import net.sourceforge.czt.circus.ast.StateUpdate;
 import net.sourceforge.czt.circus.ast.ZSignatureList;
@@ -1096,7 +1099,142 @@ public abstract class Checker<R>
   {
     throw new UnsupportedOperationException("cannot call last used channel directly, but only through a Communication checker");
   }
+  
+  /**
+   * Typechecks the assignment pairs of either a rename process or action.
+   * It raises an exception if called with invalid term (e.g., one different from
+   * a rename process or action). The assignment pairs are given, and the result
+   * communication list is filled (TODO).
+   * @param term
+   * @param apairs
+   * @param commList
+   */
+  protected void typeCheckRenameListAssignmentPairs(Term term, CircusCommunicationList commList)
+  {
+    assert term != null && commList != null : "invalid term (null) or communication list (null)";
+    
+        
+    boolean isProcess;
+    AssignmentPairs apairs;
+    if (term instanceof RenameProcess)
+    {
+      isProcess = true;
+      // make sure we can use getCurrentProcessName()
+      checkProcessParaScope(term, null);
+      apairs = ((RenameProcess)term).getAssignmentPairs();
+    }
+    else if (term instanceof RenameAction)
+    {
+      isProcess = false;
+      // make sure we can use getCurrentProcessName() and getCurrentActionName()
+      checkActionParaScope(term, null);      
+      apairs = ((RenameAction)term).getAssignmentPairs();
+    }
+    else
+    {
+      throw new IllegalArgumentException("Invalid term for typeCheckRenameListAssignmentPairs. Neither process, nor action rename.");
+    }
+    
+    
+    
+    // the parser enforces              #ln1 = #ln2    
+    ZNameList lhs = apairs.getZLHS();
+    ZExprList rhs = apairs.getZRHS();
 
+    // check for duplicate names and their local scope    
+    List<NameTypePair> channelNames = factory().list();
+
+    // check no duplicate names in the renaming list
+    checkForDuplicateNames(lhs, term);
+
+    // check the names in the rename list are channel names
+    int i = 1;
+    for (Name name : lhs)
+    {
+      // get the type - globally
+      Type type = getGlobalType(name);
+      if (type instanceof ChannelType)
+      {
+        channelNames.add(factory().createNameTypePair(name, type));
+      }
+      else
+      {
+        if (isProcess)
+        {
+          Object[] params = { getCurrentProcessName(), name, i, type };
+          error(term, ErrorMessage.IS_NOT_CHANNEL_NAME_IN_RENAME_PROCESS, params);
+        }
+        else
+        {
+          Object[] params = { getCurrentProcessName(), getCurrentActionName(), name, i, type };
+          error(term, ErrorMessage.IS_NOT_CHANNEL_NAME_IN_RENAME_ACTION, params);
+        }        
+      }
+      i++;
+    }
+
+    // their sizes is enforced by the parser, by double check here
+    // for the case of manually created assignments
+    if (lhs.size() != rhs.size())
+    {
+      String value = (isProcess ? "process renaming" : ("action renaming for " + getCurrentActionName()));
+      Object[] params = {
+        getCurrentProcessName(), 
+        value, lhs.size(), rhs.size()
+      };
+      error(term, ErrorMessage.UNBALANCED_ASSIGNMENT_PAIRS, params);
+    }
+    else
+    {
+      i = 1;
+      Iterator<Expr> itExpr = rhs.iterator();
+      for (NameTypePair ntp : channelNames)
+      {
+        // get the values
+        assert itExpr.hasNext();
+
+        Expr expr = itExpr.next();
+        Type2 expected = GlobalDefs.unwrapType(ntp.getType());
+        Type2 found = expr.accept(exprChecker());
+
+        if (!unify(found, expected).equals(UResult.SUCC))
+        {
+          if (isProcess)
+          {
+            Object[] params = {
+              getCurrentProcessName(),
+              ntp.getName(), i, expected, found
+            };
+            error(term, ErrorMessage.RENAME_PROCESS_LIST_DONT_UNIFY, params);
+          }
+          else
+          {
+            Object[] params = {
+              getCurrentProcessName(), getCurrentActionName(),
+              ntp.getName(), i, expected, found
+            };
+            error(term, ErrorMessage.RENAME_ACTION_LIST_DONT_UNIFY, params);
+          }
+        }
+        i++;
+      }
+    }
+    
+    checkCircusNameStrokes(channelNames);
+    
+    // TODO: used channels/communications must change deep down into all actions! Oh my god!
+    if (isProcess)
+    {
+      warningManager().warn("Process signature for rename process still requires update on all used communications." +
+        "\n\tProcess...: {0}", getCurrentProcessName());
+    }
+    else
+    {
+      warningManager().warn("Process signature for rename process still requires update on all used communications." +
+        "\n\tProcess...: {0}\n\tAction....: {1}", getCurrentProcessName(), getCurrentActionName());
+    }
+  }
+  
   /***********************************************************************
    * Syntax validation methods 
    **********************************************************************/

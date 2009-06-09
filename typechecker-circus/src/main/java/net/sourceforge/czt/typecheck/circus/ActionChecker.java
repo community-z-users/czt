@@ -39,6 +39,7 @@ import net.sourceforge.czt.circus.ast.ParAction;
 import net.sourceforge.czt.circus.ast.ParallelAction;
 import net.sourceforge.czt.circus.ast.ParamAction;
 import net.sourceforge.czt.circus.ast.PrefixingAction;
+import net.sourceforge.czt.circus.ast.RenameAction;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.ast.SubstitutionAction;
 import net.sourceforge.czt.circus.ast.ParActionIte;
@@ -61,6 +62,7 @@ import net.sourceforge.czt.circus.visitor.ParActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.ParallelActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
+import net.sourceforge.czt.circus.visitor.RenameActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
@@ -140,6 +142,7 @@ public class ActionChecker
   ParallelActionVisitor<CircusCommunicationList>,               //  C.12.17
   AlphabetisedParallelActionVisitor<CircusCommunicationList>,   //  C.12.17-2
   HideActionVisitor<CircusCommunicationList>,                   //  C.12.18
+  RenameActionVisitor<CircusCommunicationList>,                 //  NEW
   MuActionVisitor<CircusCommunicationList>,                     //  C.12.21
   ActionIteVisitor<CircusCommunicationList>,                      
   //SeqActionIteVisitor,                                    C.12.22
@@ -799,6 +802,24 @@ public class ActionChecker
     
     // update name sets used    
     GlobalDefs.addNoDuplicates(0, cs, actionSignature_.getUsedChannelSets()); 
+    
+    return commList;
+  }
+  
+  /**
+   * 
+   * @param term 
+   * @return 
+   * @law NEW
+   */
+  public CircusCommunicationList visitRenameAction(RenameAction term)
+  {    
+    checkActionParaScope(term, null);
+
+    // first type check the process - it might add implicitly generic channels to the current process scope.
+    CircusCommunicationList commList = term.getCircusAction().accept(actionChecker());
+    
+    typeCheckRenameListAssignmentPairs(term, commList);
     
     return commList;
   }
