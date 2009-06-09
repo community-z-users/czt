@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage[color]{circus}
+
+\begin{document}
+
+\begin{zsection}
+  \SECTION\ action\_rename \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d: \nat \cross \nat
+\end{circus}
+
+Channel $e$ must be declared before it can appear in a renaming list.
+That is, no implicit channel declaration occurs in channel renaming.
+\begin{circus}
+   \circprocess\ P \circdef \circbegin \\
+        A \circdef c?x?y \then \Skip \\
+        B \circdef A \lcircrename c := d \rcircrename \\
+        \circspot (A \extchoice B) \lcircrename d := e \rcircrename \\
+   \circend
+\end{circus}
+
+
+\end{document} 

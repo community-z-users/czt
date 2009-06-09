@@ -532,6 +532,7 @@ typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/Error
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_pt.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/WarningMessage_en.properties -text
 typechecker-circus/src/test/resources/tests/circus/VarDeclCallScope-CommDotfieldDontUnify.error -text
+typechecker-circus/src/test/resources/tests/circus/action_rename-RenameActionListDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/actpara_duplicate_name-RedeclaredDef.error -text
 typechecker-circus/src/test/resources/tests/circus/atm_with_bags.dvi -text
 typechecker-circus/src/test/resources/tests/circus/atm_with_bags.pdf -text svneol=unset#application/pdf
