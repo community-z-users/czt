@@ -19,7 +19,7 @@ public final class ExprQuant extends Expr {
 	   super();
 	   this.op = op;
 	   this.sub = sub;
-	   this.vars = Collections.unmodifiableList(vars);
+	   this.vars = new ArrayList<ExprVar>(vars);
    }
    
 	public <T> T accept(VisitReturn<T> visitor) {
@@ -35,9 +35,7 @@ public final class ExprQuant extends Expr {
 	}
 	
 	public List<ExprVar> vars() {
-		List<ExprVar> vars = new ArrayList<ExprVar>();
-		for (ExprVar var : this.vars) vars.add(var);
-		return vars;
+		return Collections.unmodifiableList(vars);
 	}
     
     /** This class contains all possible quantification operators. */

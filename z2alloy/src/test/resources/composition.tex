@@ -1,0 +1,25 @@
+\subsection{Z}
+	\begin{zed}
+	[A]
+\end{zed}
+
+\begin{schema}{B}
+	a : A
+\end{schema}
+
+\begin{schema}{C}
+	\Delta B
+\where
+	a = a'
+\end{schema}
+
+\begin{schema}{D}
+	\Delta B
+\where
+	a \neq a'
+\end{schema}
+
+\begin{zed}
+	E == C \semi D
+\end{zed}
+

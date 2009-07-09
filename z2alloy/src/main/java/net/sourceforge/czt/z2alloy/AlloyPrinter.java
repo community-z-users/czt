@@ -63,7 +63,7 @@ public class AlloyPrinter extends VisitReturn<String>
 		if (sig instanceof SubsetSig) ret += " in " + visit(((SubsetSig) sig).parent());
 
 		// abbreviated version for fieldless +  predless sigs
-		if (sig.getFields().isEmpty() && sig.pred() instanceof ExprConstant
+		if (sig.fields().isEmpty() && sig.pred() instanceof ExprConstant
 				&& ((ExprConstant) sig.pred() == ExprConstant.TRUE)) {
 			return ret + "{}";
 		}
@@ -136,7 +136,6 @@ public class AlloyPrinter extends VisitReturn<String>
 	 * calling visitThis for the left and right expression
 	 * 
 	 */
-	@Override
 	public String visit(ExprBinary x)
 	{
 		if (x.op().equals(ExprBinary.Op.SEQ)) {
@@ -157,7 +156,6 @@ public class AlloyPrinter extends VisitReturn<String>
 	 * calling visitThis for each arg
 	 * 
 	 */
-	@Override
 	public String visit(ExprCall x)
 	{
 		String ret = x.fun().label();
@@ -177,7 +175,6 @@ public class AlloyPrinter extends VisitReturn<String>
 	 * returns a printed version of the constant
 	 */
 
-	@Override
 	public String visit(ExprConstant x)
 	{
 		if (x.op() == ExprConstant.Op.TRUE) return visitThis(ExprConstant.ONE.equal(ExprConstant.ONE));
@@ -186,14 +183,12 @@ public class AlloyPrinter extends VisitReturn<String>
 	}
 
 	// TODO
-	@Override
 	public String visit(ExprITE x) 
 	{
 		return x.toString();
 	}
 
 	// TODO
-	@Override
 	public String visit(ExprLet x) 
 	{
 		return x.toString();
@@ -208,7 +203,6 @@ public class AlloyPrinter extends VisitReturn<String>
 	 * calling visitThis for the subexpr and print for the vars
 	 */
 
-	@Override
 	public String visit(ExprQuant x) 
 	{
 		String ret = "";
@@ -231,7 +225,6 @@ public class AlloyPrinter extends VisitReturn<String>
 	 * <br/>
 	 * If the operation is oneOf, someOf, loneOf, setOf then the of is ommitted.
 	 */
-	@Override
 	public String visit(ExprUnary x) 
 	{
 		String op = x.op().toString() + " ";
@@ -247,7 +240,6 @@ public class AlloyPrinter extends VisitReturn<String>
 	/**
 	 * returns the label of the exprVar
 	 */
-	@Override
 	public String visit(ExprVar x) 
 	{
 		return x.label();
@@ -256,7 +248,6 @@ public class AlloyPrinter extends VisitReturn<String>
 	/**
 	 * returns the label of the sig
 	 */
-	@Override
 	public String visit(Sig x)
 	{
 		return x.label();
@@ -265,13 +256,11 @@ public class AlloyPrinter extends VisitReturn<String>
 	/**
 	 * returns the label of the field
 	 */
-	@Override
 	public String visit(Field x)
 	{
 		return x.label();
 	}
 
-	@Override
 	public String visit(Enum x) {
 		return x.label();
 	}

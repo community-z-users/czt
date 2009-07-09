@@ -53,8 +53,21 @@ public abstract class Sig extends Expr implements Iterable<Field> {
     public Iterator<Field> iterator() {
     	return fields.iterator();
     }
-	public List<Field> getFields() {
+	public List<Field> fields() {
 		return Collections.unmodifiableList(fields);
+	}
+	
+	public Field field(String label) {
+		for (Field f : fields) {
+			if (f.label().equals(label)) {
+				return f;
+			}
+		}
+		return null;
+	}
+	
+	public boolean containsField(String label) {
+		return field(label) != null;
 	}
 	
 	public void addPred(Expr pred) {
@@ -80,12 +93,6 @@ public abstract class Sig extends Expr implements Iterable<Field> {
 	public boolean isSome() {return isSome;}
 	
 	public boolean isLone() {return isLone;}
-	
-	public List<Field> fields() {
-		List<Field> fields = new ArrayList<Field>();
-		for (Field field : this.fields) fields.add(field);
-		return fields;
-	}
 	
 	public String toString() {
 		return label;

@@ -139,12 +139,12 @@ sig STReplace{
 	st: (SYM ->lone VAL),
 	st': (SYM ->lone VAL),
 	s_in: SYM,
-	v_in: VAL,
 	rep_out: Report,
-}{(pred_STReplace[st, st', s_in, v_in, rep_out])}
+	v_in: VAL,
+}{(pred_STReplace[st, st', s_in, rep_out, v_in])}
 
 
-pred pred_STReplace[st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, v_in: VAL, rep_out: Report] {
+pred pred_STReplace[st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report, v_in: VAL] {
 	(((pred_Replace[st, st', s_in, v_in]) && (pred_Success[rep_out])) || (pred_NotPresent[st, st', s_in, rep_out]))
 }
 
@@ -239,61 +239,61 @@ pred pred_PhiBST[bst: (seq ST), bst': (seq ST), st: (SYM ->lone VAL), st': (SYM 
 }
 
 sig BLookUp0{
-	bst: (seq ST),
-	bst': (seq ST),
 	st: (SYM ->lone VAL),
 	st': (SYM ->lone VAL),
 	s_in: SYM,
 	rep_out: Report,
 	v_out: VAL,
-}{(pred_BLookUp0[bst, bst', st, st', s_in, rep_out, v_out])}
+	bst: (seq ST),
+	bst': (seq ST),
+}{(pred_BLookUp0[st, st', s_in, rep_out, v_out, bst, bst'])}
 
 
-pred pred_BLookUp0[bst: (seq ST), bst': (seq ST), st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report, v_out: VAL] {
+pred pred_BLookUp0[st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report, v_out: VAL, bst: (seq ST), bst': (seq ST)] {
 	((pred_STLookUp[st, st', s_in, rep_out, v_out]) && (pred_PhiBST[bst, bst', st, st']))
 }
 
 sig BAdd0{
-	bst: (seq ST),
-	bst': (seq ST),
 	st: (SYM ->lone VAL),
 	st': (SYM ->lone VAL),
 	s_in: SYM,
 	rep_out: Report,
 	v_in: VAL,
-}{(pred_BAdd0[bst, bst', st, st', s_in, rep_out, v_in])}
+	bst: (seq ST),
+	bst': (seq ST),
+}{(pred_BAdd0[st, st', s_in, rep_out, v_in, bst, bst'])}
 
 
-pred pred_BAdd0[bst: (seq ST), bst': (seq ST), st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report, v_in: VAL] {
+pred pred_BAdd0[st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report, v_in: VAL, bst: (seq ST), bst': (seq ST)] {
 	((pred_STAdd[st, st', s_in, rep_out, v_in]) && (pred_PhiBST[bst, bst', st, st']))
 }
 
 sig BReplace0{
-	bst: (seq ST),
-	bst': (seq ST),
 	st: (SYM ->lone VAL),
 	st': (SYM ->lone VAL),
 	s_in: SYM,
-	v_in: VAL,
 	rep_out: Report,
-}{(pred_BReplace0[bst, bst', st, st', s_in, v_in, rep_out])}
+	v_in: VAL,
+	bst: (seq ST),
+	bst': (seq ST),
+}{(pred_BReplace0[st, st', s_in, rep_out, v_in, bst, bst'])}
 
 
-pred pred_BReplace0[bst: (seq ST), bst': (seq ST), st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, v_in: VAL, rep_out: Report] {
-	((pred_STReplace[st, st', s_in, v_in, rep_out]) && (pred_PhiBST[bst, bst', st, st']))
+pred pred_BReplace0[st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report, v_in: VAL, bst: (seq ST), bst': (seq ST)] {
+	((pred_STReplace[st, st', s_in, rep_out, v_in]) && (pred_PhiBST[bst, bst', st, st']))
 }
 
 sig BDelete0{
-	bst: (seq ST),
-	bst': (seq ST),
 	st: (SYM ->lone VAL),
 	st': (SYM ->lone VAL),
 	s_in: SYM,
 	rep_out: Report,
-}{(pred_BDelete0[bst, bst', st, st', s_in, rep_out])}
+	bst: (seq ST),
+	bst': (seq ST),
+}{(pred_BDelete0[st, st', s_in, rep_out, bst, bst'])}
 
 
-pred pred_BDelete0[bst: (seq ST), bst': (seq ST), st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report] {
+pred pred_BDelete0[st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report, bst: (seq ST), bst': (seq ST)] {
 	((pred_STDelete[st, st', s_in, rep_out]) && (pred_PhiBST[bst, bst', st, st']))
 }
 
@@ -301,51 +301,51 @@ sig BLookUp1{
 	v_out: VAL,
 	bst': (seq ST),
 	rep_out: Report,
-	s_in: SYM,
 	bst: (seq ST),
-}{(pred_BLookUp1[v_out, bst', rep_out, s_in, bst])}
+	s_in: SYM,
+}{(pred_BLookUp1[v_out, bst', rep_out, bst, s_in])}
 
 
-pred pred_BLookUp1[v_out: VAL, bst': (seq ST), rep_out: Report, s_in: SYM, bst: (seq ST)] {
-	some i: {i: Int | (i >= 0)}, sym: SYM, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST | (pred_BLookUp0[bst, bst', (deltast_temp . (SYM ->lone VAL)), (deltast_temp . (SYM ->lone VAL)), s_in, rep_out, v_out])
+pred pred_BLookUp1[v_out: VAL, bst': (seq ST), rep_out: Report, bst: (seq ST), s_in: SYM] {
+	some i: {i: Int | (i >= 0)}, sym: SYM, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST | (pred_BLookUp0[(deltast_temp . (SYM ->lone VAL)), (deltast_temp . (SYM ->lone VAL)), s_in, rep_out, v_out, bst, bst'])
 }
 
 sig BAdd1{
 	bst': (seq ST),
 	rep_out: Report,
-	s_in: SYM,
 	bst: (seq ST),
+	s_in: SYM,
 	v_in: VAL,
-}{(pred_BAdd1[bst', rep_out, s_in, bst, v_in])}
+}{(pred_BAdd1[bst', rep_out, bst, s_in, v_in])}
 
 
-pred pred_BAdd1[bst': (seq ST), rep_out: Report, s_in: SYM, bst: (seq ST), v_in: VAL] {
-	some i: {i: Int | (i >= 0)}, sym: SYM, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST | (pred_BAdd0[bst, bst', (deltast_temp . (SYM ->lone VAL)), (deltast_temp . (SYM ->lone VAL)), s_in, rep_out, v_in])
+pred pred_BAdd1[bst': (seq ST), rep_out: Report, bst: (seq ST), s_in: SYM, v_in: VAL] {
+	some i: {i: Int | (i >= 0)}, sym: SYM, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST | (pred_BAdd0[(deltast_temp . (SYM ->lone VAL)), (deltast_temp . (SYM ->lone VAL)), s_in, rep_out, v_in, bst, bst'])
 }
 
 sig BReplace1{
 	bst': (seq ST),
 	rep_out: Report,
-	s_in: SYM,
 	bst: (seq ST),
+	s_in: SYM,
 	v_in: VAL,
-}{(pred_BReplace1[bst', rep_out, s_in, bst, v_in])}
+}{(pred_BReplace1[bst', rep_out, bst, s_in, v_in])}
 
 
-pred pred_BReplace1[bst': (seq ST), rep_out: Report, s_in: SYM, bst: (seq ST), v_in: VAL] {
-	some i: {i: Int | (i >= 0)}, sym: SYM, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST | (pred_BReplace0[bst, bst', (deltast_temp . (SYM ->lone VAL)), (deltast_temp . (SYM ->lone VAL)), s_in, v_in, rep_out])
+pred pred_BReplace1[bst': (seq ST), rep_out: Report, bst: (seq ST), s_in: SYM, v_in: VAL] {
+	some i: {i: Int | (i >= 0)}, sym: SYM, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST | (pred_BReplace0[(deltast_temp . (SYM ->lone VAL)), (deltast_temp . (SYM ->lone VAL)), s_in, rep_out, v_in, bst, bst'])
 }
 
 sig BDelete1{
 	bst': (seq ST),
 	rep_out: Report,
-	s_in: SYM,
 	bst: (seq ST),
-}{(pred_BDelete1[bst', rep_out, s_in, bst])}
+	s_in: SYM,
+}{(pred_BDelete1[bst', rep_out, bst, s_in])}
 
 
-pred pred_BDelete1[bst': (seq ST), rep_out: Report, s_in: SYM, bst: (seq ST)] {
-	some i: {i: Int | (i >= 0)}, sym: SYM, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST | (pred_BDelete0[bst, bst', (deltast_temp . (SYM ->lone VAL)), (deltast_temp . (SYM ->lone VAL)), s_in, rep_out])
+pred pred_BDelete1[bst': (seq ST), rep_out: Report, bst: (seq ST), s_in: SYM] {
+	some i: {i: Int | (i >= 0)}, sym: SYM, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST, deltast_temp: DeltaST | (pred_BDelete0[(deltast_temp . (SYM ->lone VAL)), (deltast_temp . (SYM ->lone VAL)), s_in, rep_out, bst, bst'])
 }
 
 sig Empty{
@@ -396,54 +396,54 @@ pred pred_BEnd[bst: (seq ST), bst': (seq ST), rep_out: Report] {
 }
 
 sig BLookUp{
-	bst: (seq ST),
+	v_out: VAL,
 	bst': (seq ST),
 	rep_out: Report,
-	v_out: VAL,
+	bst: (seq ST),
 	s_in: SYM,
-}{(pred_BLookUp[bst, bst', rep_out, v_out, s_in])}
+}{(pred_BLookUp[v_out, bst', rep_out, bst, s_in])}
 
 
-pred pred_BLookUp[bst: (seq ST), bst': (seq ST), rep_out: Report, v_out: VAL, s_in: SYM] {
-	((pred_BLookUp1[v_out, bst', rep_out, s_in, bst]) || (pred_Empty[bst, bst', rep_out]))
+pred pred_BLookUp[v_out: VAL, bst': (seq ST), rep_out: Report, bst: (seq ST), s_in: SYM] {
+	((pred_BLookUp1[v_out, bst', rep_out, bst, s_in]) || (pred_Empty[bst, bst', rep_out]))
 }
 
 sig BAdd{
-	bst: (seq ST),
 	bst': (seq ST),
 	rep_out: Report,
+	bst: (seq ST),
 	s_in: SYM,
 	v_in: VAL,
-}{(pred_BAdd[bst, bst', rep_out, s_in, v_in])}
+}{(pred_BAdd[bst', rep_out, bst, s_in, v_in])}
 
 
-pred pred_BAdd[bst: (seq ST), bst': (seq ST), rep_out: Report, s_in: SYM, v_in: VAL] {
-	((pred_BAdd1[bst', rep_out, s_in, bst, v_in]) || (pred_Empty[bst, bst', rep_out]))
+pred pred_BAdd[bst': (seq ST), rep_out: Report, bst: (seq ST), s_in: SYM, v_in: VAL] {
+	((pred_BAdd1[bst', rep_out, bst, s_in, v_in]) || (pred_Empty[bst, bst', rep_out]))
 }
 
 sig BReplace{
-	bst: (seq ST),
 	bst': (seq ST),
 	rep_out: Report,
+	bst: (seq ST),
 	s_in: SYM,
 	v_in: VAL,
-}{(pred_BReplace[bst, bst', rep_out, s_in, v_in])}
+}{(pred_BReplace[bst', rep_out, bst, s_in, v_in])}
 
 
-pred pred_BReplace[bst: (seq ST), bst': (seq ST), rep_out: Report, s_in: SYM, v_in: VAL] {
-	((pred_BReplace1[bst', rep_out, s_in, bst, v_in]) || (pred_Empty[bst, bst', rep_out]))
+pred pred_BReplace[bst': (seq ST), rep_out: Report, bst: (seq ST), s_in: SYM, v_in: VAL] {
+	((pred_BReplace1[bst', rep_out, bst, s_in, v_in]) || (pred_Empty[bst, bst', rep_out]))
 }
 
 sig BDelete{
-	bst: (seq ST),
 	bst': (seq ST),
 	rep_out: Report,
+	bst: (seq ST),
 	s_in: SYM,
-}{(pred_BDelete[bst, bst', rep_out, s_in])}
+}{(pred_BDelete[bst', rep_out, bst, s_in])}
 
 
-pred pred_BDelete[bst: (seq ST), bst': (seq ST), rep_out: Report, s_in: SYM] {
-	((pred_BDelete1[bst', rep_out, s_in, bst]) || (pred_Empty[bst, bst', rep_out]))
+pred pred_BDelete[bst': (seq ST), rep_out: Report, bst: (seq ST), s_in: SYM] {
+	((pred_BDelete1[bst', rep_out, bst, s_in]) || (pred_Empty[bst, bst', rep_out]))
 }
 
 fun ndres[ex: (set  univ), r: (univ -> univ)] : (univ -> univ) {

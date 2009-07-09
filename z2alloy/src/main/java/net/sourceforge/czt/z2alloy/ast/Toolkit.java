@@ -13,6 +13,7 @@ public class Toolkit extends Module {
 		addFunc(ndres());
 		addFunc(append());
 		addFunc(dom());
+//		addFunc(ran());
 		addFunc(last());
 		addFunc(front());
 	}
@@ -57,6 +58,16 @@ public class Toolkit extends Module {
 		dom.setBody(r.join(UNIV));
 		return dom;
 	}
+	
+	private Func ran() {
+		List<ExprVar> vars = new ArrayList<ExprVar>();
+		ExprVar r = new ExprVar("r", UNIV.product(UNIV));
+		vars.add(r);
+		Func dom = new Func("ran", vars, UNIV.setOf());
+		dom.setBody(UNIV.join(r));
+		return dom;
+	}
+	
 	
 	private Func last() {
 		ExprVar s = new ExprVar("s", UNIV.seq());

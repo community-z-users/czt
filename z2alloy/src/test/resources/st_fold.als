@@ -132,12 +132,12 @@ sig STReplace{
 	st: (SYM ->lone VAL),
 	st': (SYM ->lone VAL),
 	s_in: SYM,
-	v_in: VAL,
 	rep_out: Report,
-}{(pred_STReplace[st, st', s_in, v_in, rep_out])}
+	v_in: VAL,
+}{(pred_STReplace[st, st', s_in, rep_out, v_in])}
 
 
-pred pred_STReplace[st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, v_in: VAL, rep_out: Report] {
+pred pred_STReplace[st: (SYM ->lone VAL), st': (SYM ->lone VAL), s_in: SYM, rep_out: Report, v_in: VAL] {
 	(((pred_Replace[st, st', s_in, v_in]) && (pred_Success[rep_out])) || (pred_NotPresent[st, st', s_in, rep_out]))
 }
 
