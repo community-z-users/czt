@@ -35,13 +35,17 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>de.jflex</groupId>
         <artifactId>maven-jflex-plugin</artifactId>
+	<version>1.4.3</version>
         <executions>
           <execution>
             <phase>process-sources</phase>
             <configuration>
-              <sourceDirectory>${project.build.directory}/generated-sources/parser-src-jflex</sourceDirectory>
+              <outputDirectory>${project.build.directory}/generated-sources/jflex</outputDirectory>
+              <lexDefinitions>
+                <lexDefinition>${project.build.directory}/generated-sources/parser-src-jflex</lexDefinition>
+              </lexDefinitions>
             </configuration>
             <goals>
               <goal>generate</goal>
