@@ -326,9 +326,9 @@
 
       <!-- JFlex -->
       <dependency>
-        <groupId>jflex</groupId>
+        <groupId>de.jflex</groupId>
         <artifactId>jflex</artifactId>
-        <version>1.4.1</version>
+        <version>1.4.3</version>
       </dependency>
 
       <!-- Maven Plugin API -->
