@@ -1,0 +1,19 @@
+
+\begin{zsection}
+   \SECTION resultparam \parents circus\_toolkit
+\end{zsection}
+
+A process with various forms of result parameter. Note that, although
+only $p'$ will be used, $p$ can be assessed, and so is $p!$ in scope.
+%
+\begin{circus}
+   \circprocess P \circdef \circbegin \\
+   	\circstate S == [ v: \nat ] \\
+	TestRes \circdef (\circres p : \nat \circspot p \prefixcolon [ true, p' = 10 ]) \\
+	Use \circdef TestRes(v) \\
+	Op == [ \Delta S; p!: \nat | p! = v ] \\
+	TestRes2 \circdef (\circres p: \nat \circspot \lschexpract Op \rschexpract) \\
+	TestRes3 \circdef (\circres p: \nat \circspot p := p + 1) \\
+	\circspot \Skip \\
+   \circend	
+\end{circus}
