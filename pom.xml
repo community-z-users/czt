@@ -9,6 +9,7 @@
     <czt.version>1.6-SNAPSHOT</czt.version>
     <czt.groupId>net.sourceforge.czt</czt.groupId>
     <corejava.version>2.1.5-SNAPSHOT</corejava.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <description>
     Set of libraries and tools for editing, typechecking and animating
