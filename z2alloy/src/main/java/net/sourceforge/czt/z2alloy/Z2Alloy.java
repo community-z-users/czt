@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2008 Petra Malik, Clare Lenihan
+Copyright (C) 2008, 2009 Petra Malik, Clare Lenihan
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -70,6 +70,7 @@ import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.GivenType;
 import net.sourceforge.czt.z.ast.HideExpr;
 import net.sourceforge.czt.z.ast.IffExpr;
+import net.sourceforge.czt.z.ast.IffPred;
 import net.sourceforge.czt.z.ast.ImpliesExpr;
 import net.sourceforge.czt.z.ast.ImpliesPred;
 import net.sourceforge.czt.z.ast.InStroke;
@@ -132,6 +133,7 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
 import net.sourceforge.czt.z.visitor.HideExprVisitor;
 import net.sourceforge.czt.z.visitor.IffExprVisitor;
+import net.sourceforge.czt.z.visitor.IffPredVisitor;
 import net.sourceforge.czt.z.visitor.ImpliesExprVisitor;
 import net.sourceforge.czt.z.visitor.ImpliesPredVisitor;
 import net.sourceforge.czt.z.visitor.InclDeclVisitor;
@@ -179,22 +181,56 @@ import net.sourceforge.czt.z2alloy.ast.Toolkit;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 
-public class Z2Alloy implements TermVisitor<Expr>, AndExprVisitor<Expr>,
-AndPredVisitor<Expr>, ApplExprVisitor<Expr>, AxParaVisitor<Expr>,
-BindSelExprVisitor<Expr>, CompExprVisitor<Expr>, ConstDeclVisitor<Expr>, DecorExprVisitor<Expr>,  ExistsExprVisitor<Expr>,
-Exists1PredVisitor<Expr>, ExistsPredVisitor<Expr>,
-ForallPredVisitor<Expr>, FreeParaVisitor<Expr>, FreetypeVisitor<Expr>,
-GivenParaVisitor<Expr>, GivenTypeVisitor<Expr>, HideExprVisitor<Expr>, IffExprVisitor<Expr>,
-ImpliesExprVisitor<Expr>, ImpliesPredVisitor<Expr>, InclDeclVisitor<Expr>, LambdaExprVisitor<Expr>,
-LatexMarkupParaVisitor<Expr>, MemPredVisitor<Expr>,
-NarrParaVisitor<Expr>, NumExprVisitor<Expr>, OrExprVisitor<Expr>,
-OrPredVisitor<Expr>, PowerExprVisitor<Expr>, PowerTypeVisitor<Expr>,
-ProdExprVisitor<Expr>, ProdTypeVisitor<Expr>, RefExprVisitor<Expr>,
-RuleVisitor<Expr>, SchemaTypeVisitor<Expr>, SchExprVisitor<Expr>,
-SetCompExprVisitor<Expr>, SetExprVisitor<Expr>, ThetaExprVisitor<Expr>, TruePredVisitor<Expr>, TupleExprVisitor<Expr>, TypeAnnVisitor<Expr>,
-VarDeclVisitor<Expr>, ZDeclListVisitor<Expr>, ZExprListVisitor<Expr>,
-ZFreetypeListVisitor<Expr>, ZSectVisitor<Expr> {
-
+public class Z2Alloy implements TermVisitor<Expr>,
+				AndExprVisitor<Expr>,
+				AndPredVisitor<Expr>,
+				ApplExprVisitor<Expr>,
+				AxParaVisitor<Expr>,
+				BindSelExprVisitor<Expr>,
+				CompExprVisitor<Expr>,
+				ConstDeclVisitor<Expr>,
+				DecorExprVisitor<Expr>,
+				ExistsExprVisitor<Expr>,
+				Exists1PredVisitor<Expr>,
+				ExistsPredVisitor<Expr>,
+				ForallPredVisitor<Expr>,
+				FreeParaVisitor<Expr>,
+				FreetypeVisitor<Expr>,
+				GivenParaVisitor<Expr>,
+				GivenTypeVisitor<Expr>,
+				HideExprVisitor<Expr>,
+				IffExprVisitor<Expr>,
+				IffPredVisitor<Expr>,
+				ImpliesExprVisitor<Expr>,
+				ImpliesPredVisitor<Expr>,
+				InclDeclVisitor<Expr>,
+				LambdaExprVisitor<Expr>,
+				LatexMarkupParaVisitor<Expr>,
+				MemPredVisitor<Expr>,
+				NarrParaVisitor<Expr>,
+				NumExprVisitor<Expr>,
+				OrExprVisitor<Expr>,
+				OrPredVisitor<Expr>,
+				PowerExprVisitor<Expr>,
+				PowerTypeVisitor<Expr>,
+				ProdExprVisitor<Expr>,
+				ProdTypeVisitor<Expr>,
+				RefExprVisitor<Expr>,
+				RuleVisitor<Expr>,
+				SchemaTypeVisitor<Expr>,
+				SchExprVisitor<Expr>,
+				SetCompExprVisitor<Expr>,
+				SetExprVisitor<Expr>,
+				ThetaExprVisitor<Expr>,
+				TruePredVisitor<Expr>,
+				TupleExprVisitor<Expr>,
+				TypeAnnVisitor<Expr>,
+				VarDeclVisitor<Expr>,
+				ZDeclListVisitor<Expr>,
+				ZExprListVisitor<Expr>,
+				ZFreetypeListVisitor<Expr>,
+				ZSectVisitor<Expr>
+{
 	private SectionManager manager_;
 	private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
 	private String section_ = "z2alloy";
@@ -1075,6 +1111,14 @@ ZFreetypeListVisitor<Expr>, ZSectVisitor<Expr> {
 		return comps[0].iff(comps[1]);
 	}
 
+	public Expr visitIffPred(IffPred iffPred) {
+	        Expr left = visit(iffPred.getLeftPred());
+                Expr right = visit(iffPred.getRightPred());
+	        if (left == null || right == null)
+                        throw new RuntimeException("arguments of iffPred must not be null");
+		return left.iff(right);
+	}
+
 	/**
 	 * translates an implies expression (schema implication) into an alloy
 	 * implies expression. The schemas are translated into a call to the
@@ -1244,7 +1288,7 @@ ZFreetypeListVisitor<Expr>, ZSectVisitor<Expr> {
 		Expr left = visit(memPred.getLeftExpr());
 		Expr right = visit(memPred.getRightExpr());
 		if (left == null || right == null) {
-			System.err.println("Left and right Expr of MemPred not be null");
+			System.err.println("Left and right Expr of MemPred must not be null");
 			System.out.println(memPred.getRightExpr().getClass());
 			return null;
 		}
