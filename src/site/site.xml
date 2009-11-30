@@ -20,7 +20,8 @@
     </menu>
     <menu name="Documentation">
       <item name="CZT Manual" href="http://czt.sourceforge.net/manual.html"/>
-      <item name="CZT Wiki" href="http://czt.wiki.sourceforge.net/"/>
+      <item name="CZT Developer Info" href="developer.html"/>
+      <item name="CZT Design Info" href="design.html"/>
       <item name="API documentation" href="./apidocs/index.html"/>
     </menu>
     <menu ref="modules"/>

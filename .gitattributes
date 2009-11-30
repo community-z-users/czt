@@ -520,9 +520,11 @@ specreader/src/test/resources/lib/sectionnotfound_expected.tex -text
 specreader/src/test/resources/lib/sequence_toolkit.tex -text
 specreader/src/test/resources/lib/set_toolkit.tex -text
 specreader/src/test/resources/lib/standard_toolkit.tex -text
+src/site/apt/developer.apt -text
 src/site/resources/images/cztlogo.jpg -text
 src/site/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 src/site/resources/images/project.jpg -text
+src/site/xdoc/design.xml -text
 typechecker-circus/pom.xml -text
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorAnn.java -text
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorMessage.java -text

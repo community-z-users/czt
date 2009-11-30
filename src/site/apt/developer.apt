@@ -1,0 +1,57 @@
+Developer Guidelines
+
+  This document is targeted at developers, that are persons who want
+  to contribute to the Community Z Tools project.
+
+* General remarks
+
+  Make yourself familiar with the project by following the
+  announcements and discussions on
+  {{{http://lists.sourceforge.net/lists/listinfo/czt-devel}
+  czt-devel}}.
+
+  When you want to contribute code, it is best to start from the
+  sources from subversion. See the
+  {{{http://sourceforge.net/svn/?group_id=86250} documentation about
+  subversion on sourceforge}} for more information about how to access
+  the CZT repository. If you are not yet a member of the CZT project,
+  you may contribute patches via the
+  {{{http://sourceforge.net/projects/czt} czt page on
+  sourceforge}}. If you are already a member, you should have write
+  access to (parts of) the subversion repository.
+
+* Some notes about using subversion:
+
+  * Make yourself familiar with subversion, for instance by reading
+    the book {{{http://svnbook.red-bean.com/} Version Control with
+    Subversion}}
+
+  * Before commiting, make sure that your changes don't break
+    compilability and unit tests to avoid disrupting the work of other
+    developers.
+
+  * Check-in often to help other developers keep their code in sync
+    with your code.
+
+* CZT project layout
+
+  The CZT project consists of several subprojects, each living in its
+  own subdirectory. The file and directory structure within this
+  directory should follow the
+  {{{http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html}
+  maven directory layout}}.
+
+  ZML is the most important one, containing the Schema files that
+  define the XML markup for Z and its extensions.  If you are
+  developing with Java, you probably need to use the corejava
+  library. It provides AST interfaces and classes for standard Z and
+  its extensions as well as the possibility to read and write XML,
+  which is defined by the Schema files in the previously mentioned
+  subproject ZML.
+
+* Java style guidelines
+
+  In order to make it easier for other developers to read your Java
+  source code, please follow the
+  {{{http://geosoft.no/development/javastyle.html} Java Programming
+  Style Guidelines from Geotechnical Software Services}}.
