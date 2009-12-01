@@ -126,7 +126,7 @@ public class Main
 		}
 		manager.get(new Key(sect.getName(), SectTypeEnvAnn.class)); // typecheck
 
-		Z2Alloy foo = new Z2Alloy(manager);
+		Z2Alloy foo = Z2Alloy.setInstance(manager);
 		foo.setUnfolding(unfolding);
 		sect.accept(foo);
 		return foo;

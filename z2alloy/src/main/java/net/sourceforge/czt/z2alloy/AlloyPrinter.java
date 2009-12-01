@@ -1,9 +1,11 @@
 package net.sourceforge.czt.z2alloy;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.z2alloy.ast.Enum;
+import net.sourceforge.czt.z2alloy.ast.Expr;
 import net.sourceforge.czt.z2alloy.ast.ExprBinary;
 import net.sourceforge.czt.z2alloy.ast.ExprCall;
 import net.sourceforge.czt.z2alloy.ast.ExprConstant;
@@ -14,6 +16,7 @@ import net.sourceforge.czt.z2alloy.ast.ExprUnary;
 import net.sourceforge.czt.z2alloy.ast.ExprVar;
 import net.sourceforge.czt.z2alloy.ast.Field;
 import net.sourceforge.czt.z2alloy.ast.Func;
+import net.sourceforge.czt.z2alloy.ast.PrimSig;
 import net.sourceforge.czt.z2alloy.ast.Sig;
 import net.sourceforge.czt.z2alloy.ast.SubSig;
 import net.sourceforge.czt.z2alloy.ast.SubsetSig;
@@ -69,7 +72,12 @@ public class AlloyPrinter extends VisitReturn<String>
 		}
 
 		ret += "{\n";
-		for (Field f : sig) {
+		List<Field> printedFields = null;
+		if (sig instanceof PrimSig) printedFields = sig.fields();
+		if (sig instanceof SubsetSig) printedFields = ((SubsetSig) sig).extraFields();
+		if (sig instanceof SubSig) printedFields = ((SubSig) sig).extraFields();	
+				
+		for (Field f : printedFields) {
 			ret += "\t" + f.label() + ": " + visitThis(f.expr()) + ",\n";
 		}
 		ret += "}{";
@@ -102,7 +110,17 @@ public class AlloyPrinter extends VisitReturn<String>
 		}
 		result.append(" {");
 		if (f.getBody() != ExprConstant.TRUE) {
-			result.append("\n\t" + visitThis(f.getBody()) + "\n");
+			List<Expr> splitBody = splitPred(f.getBody());
+			for (Expr sub : splitBody) {
+				String subExpr = visitThis(sub);
+				if (subExpr.startsWith("(") && subExpr.endsWith(")")) {
+					subExpr = subExpr.substring(1, subExpr.length() - 1);
+				}
+				result.append("\n\t" + subExpr);				
+			}
+			if (! splitBody.isEmpty()) {
+				result.append("\n");
+			}
 		}
 		result.append("}");
 		return result.toString();
@@ -263,5 +281,26 @@ public class AlloyPrinter extends VisitReturn<String>
 
 	public String visit(Enum x) {
 		return x.label();
+	}
+	
+	/*
+	 * split top level and chains into separate predicates, so they can go on different lines
+	 * eg instead of ((1==1) && (1==2))
+	 * (1==1)
+	 * (1==2)
+	 * 
+	 * makes it much, much nicer to read, and far fewer annoying stupid brackets
+	 */
+	private List<Expr> splitPred(Expr e) {
+		List<Expr> exprs = new ArrayList<Expr>();
+		if (e instanceof ExprBinary && ((ExprBinary) e).op().equals(ExprBinary.Op.AND)) {
+			ExprBinary exprBinary = (ExprBinary) e;
+			exprs.addAll(splitPred(exprBinary.left()));
+			exprs.addAll(splitPred(exprBinary.right()));
+		}
+		else {
+			exprs.add(e);
+		}
+		return exprs;
 	}
 }

@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.z2alloy;
 
-import static net.sourceforge.czt.z.util.ZUtils.assertZBranchList;
 import static net.sourceforge.czt.z2alloy.ast.Sig.NONE;
 import static net.sourceforge.czt.z2alloy.ast.Sig.SEQIDX;
 import static net.sourceforge.czt.z2alloy.ast.Sig.SIGINT;
@@ -51,11 +50,9 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.AndExpr;
-import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.BindSelExpr;
-import net.sourceforge.czt.z.ast.Branch;
 import net.sourceforge.czt.z.ast.CompExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
@@ -65,14 +62,12 @@ import net.sourceforge.czt.z.ast.ExistsExpr;
 import net.sourceforge.czt.z.ast.ExistsPred;
 import net.sourceforge.czt.z.ast.ForallPred;
 import net.sourceforge.czt.z.ast.FreePara;
-import net.sourceforge.czt.z.ast.Freetype;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.GivenType;
 import net.sourceforge.czt.z.ast.HideExpr;
 import net.sourceforge.czt.z.ast.IffExpr;
 import net.sourceforge.czt.z.ast.IffPred;
 import net.sourceforge.czt.z.ast.ImpliesExpr;
-import net.sourceforge.czt.z.ast.ImpliesPred;
 import net.sourceforge.czt.z.ast.InStroke;
 import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.LambdaExpr;
@@ -85,11 +80,11 @@ import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.NumStroke;
 import net.sourceforge.czt.z.ast.OrExpr;
-import net.sourceforge.czt.z.ast.OrPred;
 import net.sourceforge.czt.z.ast.OutStroke;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.PowerExpr;
 import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.Pred2;
 import net.sourceforge.czt.z.ast.ProdExpr;
 import net.sourceforge.czt.z.ast.ProdType;
 import net.sourceforge.czt.z.ast.RefExpr;
@@ -107,7 +102,6 @@ import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
-import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
@@ -116,7 +110,6 @@ import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.AndExprVisitor;
-import net.sourceforge.czt.z.visitor.AndPredVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
@@ -128,14 +121,12 @@ import net.sourceforge.czt.z.visitor.ExistsExprVisitor;
 import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
 import net.sourceforge.czt.z.visitor.ForallPredVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
-import net.sourceforge.czt.z.visitor.FreetypeVisitor;
 import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
 import net.sourceforge.czt.z.visitor.HideExprVisitor;
 import net.sourceforge.czt.z.visitor.IffExprVisitor;
 import net.sourceforge.czt.z.visitor.IffPredVisitor;
 import net.sourceforge.czt.z.visitor.ImpliesExprVisitor;
-import net.sourceforge.czt.z.visitor.ImpliesPredVisitor;
 import net.sourceforge.czt.z.visitor.InclDeclVisitor;
 import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
 import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
@@ -143,7 +134,6 @@ import net.sourceforge.czt.z.visitor.MemPredVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.NumExprVisitor;
 import net.sourceforge.czt.z.visitor.OrExprVisitor;
-import net.sourceforge.czt.z.visitor.OrPredVisitor;
 import net.sourceforge.czt.z.visitor.PowerExprVisitor;
 import net.sourceforge.czt.z.visitor.PowerTypeVisitor;
 import net.sourceforge.czt.z.visitor.ProdExprVisitor;
@@ -161,9 +151,7 @@ import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
 import net.sourceforge.czt.z.visitor.ZExprListVisitor;
-import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
-import net.sourceforge.czt.z2alloy.ast.Enum;
 import net.sourceforge.czt.z2alloy.ast.Expr;
 import net.sourceforge.czt.z2alloy.ast.ExprBinary;
 import net.sourceforge.czt.z2alloy.ast.ExprCall;
@@ -178,12 +166,14 @@ import net.sourceforge.czt.z2alloy.ast.PrimSig;
 import net.sourceforge.czt.z2alloy.ast.Sig;
 import net.sourceforge.czt.z2alloy.ast.SubsetSig;
 import net.sourceforge.czt.z2alloy.ast.Toolkit;
+import net.sourceforge.czt.z2alloy.visitors.FreetypeVisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.Pred2VisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.SchExprVisitorImpl;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 
 public class Z2Alloy implements TermVisitor<Expr>,
 				AndExprVisitor<Expr>,
-				AndPredVisitor<Expr>,
 				ApplExprVisitor<Expr>,
 				AxParaVisitor<Expr>,
 				BindSelExprVisitor<Expr>,
@@ -195,14 +185,12 @@ public class Z2Alloy implements TermVisitor<Expr>,
 				ExistsPredVisitor<Expr>,
 				ForallPredVisitor<Expr>,
 				FreeParaVisitor<Expr>,
-				FreetypeVisitor<Expr>,
 				GivenParaVisitor<Expr>,
 				GivenTypeVisitor<Expr>,
 				HideExprVisitor<Expr>,
 				IffExprVisitor<Expr>,
 				IffPredVisitor<Expr>,
 				ImpliesExprVisitor<Expr>,
-				ImpliesPredVisitor<Expr>,
 				InclDeclVisitor<Expr>,
 				LambdaExprVisitor<Expr>,
 				LatexMarkupParaVisitor<Expr>,
@@ -210,7 +198,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 				NarrParaVisitor<Expr>,
 				NumExprVisitor<Expr>,
 				OrExprVisitor<Expr>,
-				OrPredVisitor<Expr>,
 				PowerExprVisitor<Expr>,
 				PowerTypeVisitor<Expr>,
 				ProdExprVisitor<Expr>,
@@ -228,7 +215,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 				VarDeclVisitor<Expr>,
 				ZDeclListVisitor<Expr>,
 				ZExprListVisitor<Expr>,
-				ZFreetypeListVisitor<Expr>,
 				ZSectVisitor<Expr>
 {
 	private SectionManager manager_;
@@ -237,8 +223,11 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	private boolean unfolding_ = false;
 	private List<ExprVar> vars_;
 	private List<Expr> exprs_;
+	
+	private boolean body = false;
 
 	private Module module_ = new Module();
+	private RelationMap relationMap_ = new RelationMap(module_);
 
 	private Map<String, Expr> macros_ = new HashMap<String, Expr>();
 
@@ -257,9 +246,23 @@ public class Z2Alloy implements TermVisitor<Expr>,
 
 	private Map<String, String> names_ = new HashMap<String, String>();
 
-	public Z2Alloy(SectionManager manager) throws Exception {
+	/* this is a somewhat clumsy singleton pattern - its clumsy because I need
+	 * the SectionManager argument for the instantiation
+	 */
+	private static Z2Alloy instance;
+
+	public static Z2Alloy getInstance() {
+		return instance;
+	}
+	
+	public static Z2Alloy setInstance(SectionManager manager) throws Exception {
+		return new Z2Alloy(manager);
+	}
+	
+	private Z2Alloy(SectionManager manager) throws Exception {
 		manager_ = manager;
 		module_.addModule(new Toolkit());
+		instance = this;
 	}
 
 	public void setUnfolding(boolean unfolding) {
@@ -304,26 +307,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	}
 
 	/**
-	 * translates an and predicate (ie conjunction) into an alloy and
-	 * expression.The kind of conjunction used (newline, \and, chain) does not
-	 * change the result
-	 * 
-	 * left and right expressions are recurisvely translated using visit
-	 * 
-	 * @return the expression if it successfully translated, or null it
-	 *         something fails
-	 */
-	public Expr visitAndPred(AndPred andPred) {
-		Expr left = visit(andPred.getLeftPred());
-		Expr right = visit(andPred.getRightPred());
-		if (left == null || right == null) {
-			System.err.println("left and right of andpred must not be null");
-			return null;
-		}
-		return left.and(visit(andPred.getRightPred()));
-	}
-
-	/**
 	 * translates a function application <br>
 	 * types of application expressions currently translated:
 	 * 
@@ -347,6 +330,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	 *         something fails
 	 */
 	public Expr visitApplExpr(ApplExpr applExpr) {
+		Expr ret = null;
 		if (applExpr.getMixfix()) {
 			if (applExpr.getRightExpr() instanceof TupleExpr
 					&& applExpr.getLeftExpr() instanceof RefExpr) {
@@ -357,59 +341,65 @@ public class Z2Alloy implements TermVisitor<Expr>,
 				Expr right = visit(exprs.get(1));
 				if (left == null || right == null) {
 					System.err.println("left and right of a binary expression must not be null");
-					return null;
+					ret = null;
 				}
-				if (binOp.equals(ZString.CUP)) {
-					return left.plus(right);
+				if (binOp == null) {
+					// make this general, for other things which wind up here
+					// this is just when it is actually relational image
 				}
-				if (binOp.equals(ZString.OPLUS)) {
-					return left.override(right);
+				else if (binOp.equals(ZString.CUP)) {
+					ret = left.plus(right);
 				}
-				if (binOp.equals(ZString.MAPSTO)) {
-					return left.product(right);
+				else if (binOp.equals(ZString.OPLUS)) {
+					ret = left.override(right);
 				}
-				if (binOp.equals(ZString.NDRES)) {
+				else if (binOp.equals(ZString.MAPSTO)) {
+					ret = left.product(right);
+				}
+				else if (binOp.equals(ZString.NDRES)) {
 					List<Expr> args = new ArrayList<Expr>();
 					args.add(left);
 					args.add(right);
 					if (module_.containsFunc("ndres"))
-						return module_.getFunc("ndres").call(args);
+						ret = module_.getFunc("ndres").call(args);
 				}
-				if (binOp.equals(ZString.DRES)) {
-					return left.domain(right);
+				else if (binOp.equals(ZString.DRES)) {
+					ret = left.domain(right);
 				}
-				if (binOp.equals(ZString.IMP)) {
-					return left.implies(right);
+				else if (binOp.equals(ZString.IMP)) {
+					ret = left.implies(right);
 				}
-				if (binOp.equals("..")) {
+				else if (binOp.equals("..")) {
 					ExprVar i = new ExprVar("i", SIGINT);
 					Expr pred = i.gte(left).and(i.lte(right));
-					return pred.comprehensionOver(Arrays
+					ret = pred.comprehensionOver(Arrays
 							.asList(new ExprVar[] { i }));
 				}
-				if (binOp.equals(ZString.CAT)) {
+				else if (binOp.equals(ZString.CAT)) {
 					if (module_.containsFunc("append"))
-						return module_.getFunc("append").call(left, right);
+						ret = module_.getFunc("append").call(left, right);
 				}
-				if (binOp.equals(ZString.PLUS)) {
-					return left.plus(right);
+				else if (binOp.equals(ZString.PLUS)) {
+					ret = left.plus(right);
 				}
-				if (binOp.equals(ZString.MINUS)) {
-					return left.minus(right);
+				else if (binOp.equals(ZString.MINUS)) {
+					ret = left.minus(right);
 				}
-				System.err.println(applExpr.getClass() + " not yet implemented");
-				return null;
+				else {
+					System.err.println(applExpr.getClass() + " not yet implemented");
+					ret = null;
+				}
 			}
-			if (applExpr.getLeftExpr() instanceof RefExpr) {
+			else if (applExpr.getLeftExpr() instanceof RefExpr) {
 				RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
 				if (print(refExpr.getName()).equals(
 						ZString.LANGLE + " ,, " + ZString.RANGLE)) { // sequence
 					Expr body = visit(applExpr.getRightExpr());
 					if (body == NONE) {
-						return NONE.product(NONE);
+						ret = NONE.product(NONE);
 					} else {
 						System.err.println("non empty sequences not translated yet");
-						return null;
+						ret = null;
 					}
 				}
 			}
@@ -420,50 +410,52 @@ public class Z2Alloy implements TermVisitor<Expr>,
 				if (print(refExpr.getName()).equals("dom")) {
 					Expr body = visit(applExpr.getRightExpr());
 					if (module_.containsFunc("dom"))
-						return module_.getFunc("dom").call(body);
+						ret = module_.getFunc("dom").call(body);
 				}
-				if (print(refExpr.getName()).equals("ran")) {
+				else if (print(refExpr.getName()).equals("ran")) {
 					Expr body = visit(applExpr.getRightExpr());
-					if (module_.containsFunc("ran"))
-						return module_.getFunc("ran").call(body);
+					if (module_.containsFunc("ran")) 
+						ret = module_.getFunc("ran").call(body);
 				}
-				if (print(refExpr.getName()).equals("last")) {
+				else if (print(refExpr.getName()).equals("last")) {
 					Expr body = visit(applExpr.getRightExpr());
 					if (module_.containsFunc("last"))
-						return module_.getFunc("last").call(body);
+						ret = module_.getFunc("last").call(body);
 				}
-				if (print(refExpr.getName()).equals("front")) {
+				else if (print(refExpr.getName()).equals("front")) {
 					Expr body = visit(applExpr.getRightExpr());
 					if (module_.containsFunc("front"))
-						return module_.getFunc("front").call(body);
+						ret = module_.getFunc("front").call(body);
 				}
-				if (module_.containsFunc(print(refExpr.getZName()))) {
+				else if (module_.containsFunc(print(refExpr.getZName()))) {
 					Func fun = module_.getFunc(print(refExpr.getZName()));
 					if (applExpr.getRightExpr() instanceof TupleExpr) {
 						Expr first = visit(applExpr.getRightExpr());
 						if (first != null) {
 							exprs_.add(0, first);
 						}
-						return fun.call(exprs_);
+						ret = fun.call(exprs_);
 					}
 					Expr body = visit(applExpr.getRightExpr());
-					return fun.call(body);
+					ret = fun.call(body);
 				}
 			}
 		}
-		Expr left = visit(applExpr.getLeftExpr());
-		Expr right = visit(applExpr.getRightExpr());
+		if (ret == null) {
+			Expr left = visit(applExpr.getLeftExpr());
+			Expr right = visit(applExpr.getRightExpr());
 
-		if (left instanceof ExprVar && ((ExprVar) left).label().equals("# _ ")) {
-			return right.cardinality();
+			if (left instanceof ExprVar && ((ExprVar) left).label().equals("# _ ")) {
+				ret = right.cardinality();
+			}
+			else if (left == null || right == null) {
+				System.err.println("left and right exprs must not be null in an ApplExpr");
+				ret = null;
+			}
+			ret = right.join(left);
 		}
-
-		if (left == null || right == null) {
-			System.err.println("left and right exprs must not be null in an ApplExpr");
-			return null;
-		}
-
-		return right.join(left);
+		ret = processRelation(ret, applExpr);
+		return ret;
 	}
 
 	/**
@@ -508,10 +500,12 @@ public class Z2Alloy implements TermVisitor<Expr>,
 					Sig sig = (Sig) exprVar.expr();
 					SubsetSig subsetSig = new SubsetSig(exprVar.label(), sig);
 					addSig(subsetSig);
+					body = true;
 					Expr pred = visit(schText.getPred());
 					if (pred != null) {
 						addSigPred(subsetSig, pred);
 					}
+					body = false;
 				}
 			}
 		}
@@ -525,6 +519,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		return left.join(right);
 	}
 	
+	// TODO figure out wtf this is supposed to be
 	public Expr visitCompExpr(CompExpr compExpr) {
 		Expr leftExpr = visit(compExpr.getLeftExpr());
 		Expr rightExpr = visit(compExpr.getRightExpr());
@@ -534,7 +529,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 			// assumes it comes from the first element
 			Expr leftmost = left.pred();
 			if (! (leftmost instanceof ExprCall)) {
-				System.out.println("error");
 				return null;
 			}
 			leftmost = ((ExprCall) leftmost).fun().body();
@@ -550,7 +544,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 					return null;
 				}
 			}
-			System.out.println(((ExprCall) leftmost).fun().label());
 			String name = ((ExprCall) leftmost).fun().label().substring(10);
 			if (! module_.containsSig(name)) {
 				System.err.println("not translated");
@@ -609,7 +602,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
 				return null;
 			}
 			if (result instanceof SchExpr) {
-				return visit(result);
+				return new SchExprVisitorImpl(sigName).visitSchExpr((SchExpr) result);
 			}
 			Expr value = visit(result);
 			macros_.put(sigName, value);
@@ -696,8 +689,10 @@ public class Z2Alloy implements TermVisitor<Expr>,
 			inclVars[i - 1] = (new ExprVar(s.label().toLowerCase() + "_temp", s));
 		}
 
+		body = true;
 		Expr pred = visit(existsExpr.getExpr());
-
+		body = false;
+		
 		List<Sig> predSigs = new ArrayList<Sig>(); // all the sigs in the body
 		// of the predicate
 		Stack<Expr> predParts = new Stack<Expr>(); // just for accumulating them
@@ -816,9 +811,11 @@ public class Z2Alloy implements TermVisitor<Expr>,
 
 		Expr pred;
 
+		body = true;
 		Expr pred1 = visit(exists1Pred.getZSchText().getPred());
 		Expr pred2 = visit(exists1Pred.getPred());
-
+		body = false;
+		
 		if (pred2 == null) {
 			System.err.println("pred of ExistsPred must not be null");
 			return null;
@@ -875,9 +872,11 @@ public class Z2Alloy implements TermVisitor<Expr>,
 
 		Expr pred;
 
+		body = true;
 		Expr pred1 = visit(existsPred.getZSchText().getPred());
 		Expr pred2 = visit(existsPred.getPred());
-
+		body = false;
+		
 		if (pred2 == null) {
 			System.err.println("pred of ExistsPred must not be null");
 			return null;
@@ -933,9 +932,11 @@ public class Z2Alloy implements TermVisitor<Expr>,
 
 		Expr pred;
 
+		body = true;
 		Expr pred1 = visit(allPred.getZSchText().getPred());
 		Expr pred2 = visit(allPred.getPred());
-
+		body = false;
+		
 		if (pred2 == null) {
 			System.err.println("pred of allpred must not be null");
 			return null;
@@ -951,10 +952,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		}
 		rest.add(firstVar);
 		return pred.forAll(rest);
-	}
-
-	public Expr visitFreePara(FreePara para) {
-		return visit(para.getFreetypeList());
 	}
 
 	/***
@@ -974,22 +971,8 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	 * @return null
 	 * 
 	 */
-	public Expr visitFreetype(Freetype freetype) {
-		String parent = print(freetype.getName());
-		Iterator<Branch> i = assertZBranchList(freetype.getBranchList())
-		.iterator();
-		List<String> children = new ArrayList<String>();
-		while (i.hasNext()) {
-			Branch branch = (Branch) i.next();
-			if (branch.getExpr() != null)
-				System.err
-				.println("free types must be simple enumerations, but "
-						+ branch.getName() + " branch has expression "
-						+ branch.getExpr());
-			children.add(print(branch.getName()));
-		}
-		module_.addSig(new Enum(parent, children));
-		return null;
+	public Expr visitFreePara(FreePara para) {
+		return new FreetypeVisitorImpl().visit(para);
 	}
 
 	/**
@@ -1144,24 +1127,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		return comps[0].implies(comps[1]);
 	}
 
-	/**
-	 * translates an implies predicate into an alloy implies expression. <br>
-	 * left and right expressions are recurisvely translated using visit
-	 * 
-	 * @return the expression if it successfully translated, or null it
-	 *         something fails
-	 */
-	public Expr visitImpliesPred(ImpliesPred impl) {
-		Expr left = visit(impl.getLeftPred());
-		Expr right = visit(impl.getRightPred());
-		if (left == null || right == null) {
-			System.err
-			.println("Left and right of impliespred must be non null");
-			return null;
-		}
-		return left.implies(right);
-	}
-
 	public Expr visitInclDecl(InclDecl inclDecl) {
 		return visit(inclDecl.getExpr());
 	}
@@ -1184,7 +1149,9 @@ public class Z2Alloy implements TermVisitor<Expr>,
 				vars.add(exprVar);
 			}
 		}
+		body = true;
 		Expr body = visit(lambda.getExpr());
+		this.body = false;
 		TypeAnn type = lambda.getExpr().getAnn(TypeAnn.class);
 		Expr returnDecl = visit(type);
 
@@ -1209,7 +1176,9 @@ public class Z2Alloy implements TermVisitor<Expr>,
 				vars.add(exprVar);
 			}
 		}
+		this.body = true;
 		Expr body = visit(lambda.getExpr());
+		this.body = false;
 		TypeAnn type = lambda.getExpr().getAnn(TypeAnn.class);
 		Expr returnDecl = visit(type);
 		Func func = new Func(name, vars, returnDecl);
@@ -1289,7 +1258,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		Expr right = visit(memPred.getRightExpr());
 		if (left == null || right == null) {
 			System.err.println("Left and right Expr of MemPred must not be null");
-			System.out.println(memPred.getRightExpr().getClass());
 			return null;
 		}
 		return left.in(right);
@@ -1331,21 +1299,9 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		Expr[] comps = schExpr2SigComponent(orExpr);
 		return comps[0].or(comps[1]);
 	}
-
-	/**
-	 * translates an or predicate (ie disjunction) into an alloy or expression. <br/>
-	 * left and right expressions are recurisvely translated using visit
-	 * 
-	 * @return the expression if it successfully translated, or null it
-	 *         something fails
-	 */
-	public Expr visitOrPred(OrPred orPred) {
-		Expr left = visit(orPred.getLeftPred());
-		if (left != null) {
-			return left.or(visit(orPred.getRightPred()));
-		}
-		System.err.println("left pred of orPred must not be null");
-		return null;
+	
+	public Expr visitPred2(Pred2 pred2) {
+		return new Pred2VisitorImpl().visit(pred2);
 	}
 
 	/**
@@ -1372,7 +1328,8 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	public Expr visitPowerType(PowerType powerType) {
 		Expr body = visit(powerType.getType());
 		if (body == null) {
-			System.err.println("body of power type must not be null");
+			System.err.println("body of power type must not be null: " + powerType);
+			System.err.println("BODY: " + powerType.getType().getClass());
 			return null;
 		}
 		return body.setOf();
@@ -1383,7 +1340,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	 * recursively translate the sub expressions <br/>
 	 * eg
 	 * 
-	 * <pre>
+	 * <pre>m,jk
 	 * expr1 \cross ... \cross exprn =&gt; expr1 -&gt; ... -&gt; exprn
 	 * </pre>
 	 * 
@@ -1410,7 +1367,9 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	 *         to null
 	 */
 	public Expr visitProdType(ProdType prodType) {
-		Expr prod = null;
+//		Expr prod = null;
+		Expr first = null;
+		Expr second = null;
 		for (Type2 type : prodType.getType()) {
 			Expr cont = visit(type);
 			if (cont == null) {
@@ -1420,13 +1379,15 @@ public class Z2Alloy implements TermVisitor<Expr>,
 					&& ((ExprUnary) cont).op() == ExprUnary.Op.SETOF) {
 				cont = ((ExprUnary) cont).sub();
 			}
-			if (prod == null) {
-				prod = cont;
+			if (first == null) {
+				first = cont;
 			} else {
-				prod = prod.product(cont);
+				second = cont;
+				return relationMap_.retrieve(first, second);
 			}
 		}
-		return prod;
+		System.err.println("this didn't work properly!");
+		return null;
 	}
 
 	/**
@@ -1435,6 +1396,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	 * 
 	 * <pre>
 	 * pfun               expr0 -&gt; lone expr1
+	 * rel				  expr0 -&gt; expr1
 	 * seq                seq expr0
 	 * arithmos           Int
 	 * nat                nat[]
@@ -1446,51 +1408,58 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	 * type annotations.
 	 */
 	public Expr visitRefExpr(RefExpr refExpr) {
+		Expr ret = null;
 		if (isInfixOperator(refExpr.getZName(), ZString.PFUN)) {
-			return visit(refExpr.getZExprList().get(0)).any_arrow_lone(
-					visit(refExpr.getZExprList().get(1)));
+			ret = relationMap_.createPFun(
+				visit(refExpr.getZExprList().get(0)),
+				visit(refExpr.getZExprList().get(1))
+			);
+		} else if (isInfixOperator(refExpr.getZName(), ZString.REL)) {
+			ret = relationMap_.create(visit(refExpr.getZExprList().get(0)), visit(refExpr.getZExprList().get(1)));
 		} else if (isPostfixOperator(refExpr.getZName(), "seq")) {
-			return visit(refExpr.getZExprList().get(0)).seq();
+			ret = relationMap_.createSeq(visit(refExpr.getZExprList().get(0)));
 		} else if (print(refExpr.getZName()).equals(ZString.ARITHMOS)) {
-			return SIGINT;
+			ret = SIGINT;
 		} else if (print(refExpr.getZName()).equals(ZString.NAT)) {
 			ExprVar i = new ExprVar("i", SIGINT);
 			Expr sub = i.gte(ExprConstant.ZERO);
 			List<ExprVar> vars = new ArrayList<ExprVar>();
 			vars.add(i);
-			return sub.comprehensionOver(vars);
+			ret = sub.comprehensionOver(vars);
 		} else if (print(refExpr.getZName()).equals(ZString.NUM)) {
-			return SIGINT;
+			ret = SIGINT;
 		} else if (print(refExpr.getZName()).equals(ZString.EMPTYSET)) {
 			Expr type = visit(refExpr.getAnn(TypeAnn.class));
 			int num = arity(type);
-			Expr ret = NONE;
+			ret = NONE;
 			for (int i = 1; i < num; i++) ret = NONE.product(NONE);
-			return ret;
 		} else if (module_.containsSig(print(refExpr.getName()))) {
-			return module_.getSig(print(refExpr.getName()));
+			ret = module_.getSig(print(refExpr.getName()));
 		} else if (print(refExpr.getName()).contains("Delta")
 				&& module_.containsSig(print(refExpr.getName()).replaceFirst(
 						"Delta", ""))) {
-			return addDelta(module_.getSig(print(refExpr.getName())
+			ret = addDelta(module_.getSig(print(refExpr.getName())
 					.replaceFirst("Delta", "")));
 		} else if (print(refExpr.getName()).contains("Xi")) {
-			return addXi(module_.getSig(print(refExpr.getName()).replaceFirst(
+			ret = addXi(module_.getSig(print(refExpr.getName()).replaceFirst(
 					"Xi", "")));
-		} else if (fields_.containsKey(print(refExpr.getName()))) {
-			return new ExprVar(print(refExpr.getName()), fields_
-					.get(print(refExpr.getName())));
 		}
-		if (macros_.containsKey(print(refExpr.getName()))) {
-			return macros_.get(print(refExpr.getName()));
+//		else if (fields_.containsKey(print(refExpr.getName()))) {
+//			System.out.println("field");
+//			ret = new ExprVar(print(refExpr.getName()), fields_
+//					.get(print(refExpr.getName())));
+//		}
+		else if (macros_.containsKey(print(refExpr.getName()))) {
+			ret = macros_.get(print(refExpr.getName()));
 		}
-
-		String name = print(refExpr.getZName());
-		Expr type = visit(refExpr.getAnn(TypeAnn.class));
-		if (type == null) {
-			return new ExprVar(name, null);
+		
+		else {
+			String name = print(refExpr.getZName());
+			Expr type = visit(refExpr.getAnn(TypeAnn.class));
+			ret = new ExprVar(name, type);
 		}
-		return new ExprVar(name, type);
+		ret = processRelation(ret, refExpr);
+		return ret;
 	}
 
 	/** Ignore rules. */
@@ -1579,7 +1548,9 @@ public class Z2Alloy implements TermVisitor<Expr>,
 			}
 		}
 		addSig(sig);
+		body = true;
 		Expr pred = visit(schExpr.getZSchText().getPred());
+		body = false;
 		if (fieldPred != null) {
 			addSigPred(sig, fieldPred);
 		}
@@ -1588,7 +1559,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 			addSigPred(sig, pred);
 		}
 		return null;
-
 	}
 
 	/**
@@ -1770,18 +1740,6 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		return result;
 	}
 
-	/**
-	 * visits each element of the list
-	 * 
-	 * @return null
-	 */
-	public Expr visitZFreetypeList(ZFreetypeList list) {
-		for (Freetype freetype : list) {
-			visit(freetype);
-		}
-		return null;
-	}
-
 	public Expr visitZSect(ZSect zSect) {
 		Source specSource = new StringSource("\\begin{zsection} "
 				+ "\\SECTION " + section_ + " " + "\\parents "
@@ -1869,27 +1827,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		return f.call(args.toArray(new Expr[0]));
 	}
 
-	private void addSigPred(Sig sig, Expr pred) {
-		Func existingPred = module_.getFunc("pred_" + sig);
-		if (existingPred == null) {
-			System.err.println("No pred for " + sig + " so " + pred
-					+ " cannot be added");
-			return;
-		}
-		
-		if (existingPred.getBody() == ExprConstant.TRUE) {
-			existingPred.setBody(pred);
-		} else {
-			existingPred.setBody(existingPred.getBody().and(pred));
-		}
-		if (! thetaQuantified.isEmpty()) {
-			existingPred.setBody(new ExprQuant(ExprQuant.Op.SOME, thetaQuantified, existingPred.body().and(thetaPred)));
-			thetaQuantified.clear();
-			thetaPred = ExprConstant.TRUE;
-		}
-	}
-
-	private boolean isPostfixOperator(ZName name, String op) {
+	public static boolean isPostfixOperator(ZName name, String op) {
 		try {
 			OperatorName opName = new OperatorName(name);
 			String[] opWords = opName.getWords();
@@ -1899,7 +1837,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		}
 	}
 
-	private String isInfixOperator(ZName name) {
+	public static String isInfixOperator(ZName name) {
 		try {
 			OperatorName opName = new OperatorName(name);
 			if (!opName.isInfix())
@@ -1910,7 +1848,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		}
 	}
 
-	private boolean isInfixOperator(ZName name, String op) {
+	public static boolean isInfixOperator(ZName name, String op) {
 		try {
 			OperatorName opName = new OperatorName(name);
 			String[] opWords = opName.getWords();
@@ -1920,14 +1858,14 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		}
 	}
 
-	private String print(Term t) {
+	public String print(Term t) {
 		if (t != null)
 			return t.accept(printVisitor_);
 		else
 			return "";
 	}
 
-	private Expr visit(Term t) {
+	public Expr visit(Term t) {
 		if (t != null) {
 			stack.push(t);
 			Expr e = t.accept(this);
@@ -2006,11 +1944,22 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		return fieldsList;
 	}
 
-	private void addSig(Sig sig) {
+	/**
+	 * adds the signature to the module
+	 * the most important thing this does is set up the predicate - it creates a new pred which takes
+	 * all the fields of the signature as arguments, and sets the predicate body to true
+	 * a call to this pred is then set as the constraint for the signature
+	 * 
+	 * this should therefore only be called after all the fields have been included, otherwise the pred
+	 * will have incorrect arguments
+	 * @param sig
+	 */
+	public void addSig(Sig sig) {		
 		module_.addSig(sig);
 		List<ExprVar> vars = new ArrayList<ExprVar>();
 		for (Field f : sig.fields()) {
 			vars.add(new ExprVar(f.label(), f.expr()));
+			// TODO clare wtf is this for?
 			fields_.put(f.label(), f.expr());
 		}
 		Func f = new Func("pred_" + sig.label(), vars);
@@ -2020,6 +1969,29 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		for (int i = 0; i < sig.fields().size(); i++)
 			fields[i] = sig.fields().get(i);
 		sig.addPred(f.call(fields));
+	}
+	
+	/**
+	 * utility - adds a new constraint to a pred
+	 * if the pred was true, it replaces it, otherwise it is joined to the existing constraint with 'and'
+	 */
+	public void addSigPred(Sig sig, Expr pred) {
+		Func existingPred = module_.getFunc("pred_" + sig);
+		if (existingPred == null) {
+			System.err.println("No pred for " + sig + " so " + pred + " cannot be added");
+			return;
+		}
+		if (existingPred.getBody() == ExprConstant.TRUE) {
+			existingPred.setBody(pred);
+		} else {
+			existingPred.setBody(existingPred.getBody().and(pred));
+		}
+		//TODO clare fix this shit - something to do with theta I think
+		if (! thetaQuantified.isEmpty()) {
+			existingPred.setBody(new ExprQuant(ExprQuant.Op.SOME, thetaQuantified, existingPred.body().and(thetaPred)));
+			thetaQuantified.clear();
+			thetaPred = ExprConstant.TRUE;
+		}
 	}
 
 	private void addField(Sig sig, Field field) {
@@ -2094,6 +2066,19 @@ public class Z2Alloy implements TermVisitor<Expr>,
 		return 1;
 	}
 
+	private Expr processRelation(Expr expr1, net.sourceforge.czt.z.ast.Expr expr2) {
+		if (! body) return expr1;
+		Expr t = visit(expr2.getAnn(TypeAnn.class));
+		while  (t instanceof ExprUnary && (((ExprUnary) t).op().equals(ExprUnary.Op.SETOF))) {
+				t = ((ExprUnary) t).sub();
+		}
+		if (relationMap_.contains(t)) {
+			Sig s = (Sig) t;
+			return expr1.join(s.field(s.label().toLowerCase()));
+		}
+		return expr1;
+	}
+	
 	private void debug(Term t) {
 		StringWriter foo = new StringWriter();
 		PrintUtils.print(t, foo, manager_, section_, Markup.UNICODE);

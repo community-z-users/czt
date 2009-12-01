@@ -10,12 +10,13 @@ public class Toolkit extends Module {
 	public Toolkit() {
 		super();
 
-		addFunc(ndres());
-		addFunc(append());
-		addFunc(dom());
+//TODO clare work out what to do with these
+//		addFunc(ndres());
+//		addFunc(append());
+//		addFunc(dom());
 //		addFunc(ran());
-		addFunc(last());
-		addFunc(front());
+//		addFunc(last());
+//		addFunc(front());
 	}
 	
 	private Func ndres() {

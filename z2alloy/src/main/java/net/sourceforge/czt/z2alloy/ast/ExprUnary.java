@@ -6,6 +6,9 @@ public class ExprUnary extends Expr {
 
     public ExprUnary (Op op, Expr sub) {
     	super();
+    	if (sub == null) {
+    		throw new NullPointerException("Sub expressions may not be null");
+    	}
     	this.op = op;
     	this.sub = sub;
     }
