@@ -393,8 +393,7 @@ public class Z2Alloy implements TermVisitor<Expr>,
       }
       else if (applExpr.getLeftExpr() instanceof RefExpr) {
 	RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
-	if (print(refExpr.getName()).equals(
-					    ZString.LANGLE + " ,, " + ZString.RANGLE)) { // sequence
+	if (print(refExpr.getName()).equals(ZString.LANGLE + " ,, " + ZString.RANGLE)) { // sequence
 	  Expr body = visit(applExpr.getRightExpr());
 	  if (body == NONE) {
 	    ret = NONE.product(NONE);
@@ -408,22 +407,23 @@ public class Z2Alloy implements TermVisitor<Expr>,
     else { // application
       if (applExpr.getLeftExpr() instanceof RefExpr) {
 	RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
-	if (print(refExpr.getName()).equals("dom")) {
+	String name = print(refExpr.getName());
+	if (name.equals("dom")) {
 	  Expr body = visit(applExpr.getRightExpr());
 	  if (module_.containsFunc("dom"))
 	    ret = module_.getFunc("dom").call(body);
 	}
-	else if (print(refExpr.getName()).equals("ran")) {
+	else if (name.equals("ran")) {
 	  Expr body = visit(applExpr.getRightExpr());
 	  if (module_.containsFunc("ran")) 
 	    ret = module_.getFunc("ran").call(body);
 	}
-	else if (print(refExpr.getName()).equals("last")) {
+	else if (name.equals("last")) {
 	  Expr body = visit(applExpr.getRightExpr());
 	  if (module_.containsFunc("last"))
 	    ret = module_.getFunc("last").call(body);
 	}
-	else if (print(refExpr.getName()).equals("front")) {
+	else if (name.equals("front")) {
 	  Expr body = visit(applExpr.getRightExpr());
 	  if (module_.containsFunc("front"))
 	    ret = module_.getFunc("front").call(body);
@@ -760,11 +760,13 @@ public class Z2Alloy implements TermVisitor<Expr>,
     // ie looks like first=second and first=third and first=fourth ...
     for (Entry<String, List<Expr>> entry : dupFields.entrySet()) {
       for (int i = 1; i < entry.getValue().size(); i++) {
+	Expr firstExpr = entry.getValue().get(0);
+	Expr ithExpr = entry.getValue().get(i);
 	if (predBody == null) {
-	  predBody = entry.getValue().get(0).equal(
-						   entry.getValue().get(i));
-	} else {
-	  predBody = predBody.and(entry.getValue().get(0).equal(entry.getValue().get(i)));
+	  predBody = firstExpr.equal(ithExpr);
+	}
+	else {
+	  predBody = predBody.and(firstExpr.equal(ithExpr));
 	}
       }
     }
@@ -1295,8 +1297,8 @@ public class Z2Alloy implements TermVisitor<Expr>,
    * expr1 \cross ... \cross exprn =&gt; expr1 -&gt; ... -&gt; exprn
    * </pre>
    * 
-   * @return the expression or null if any of the sub expressions translate to
-   *         null
+   * @return the expression or null if any of the sub expressions
+   *         translate to null
    */
   public Expr visitProdExpr(ProdExpr prodExpr) {
     Expr expr = visit(prodExpr.getZExprList().get(0));
@@ -1353,59 +1355,63 @@ public class Z2Alloy implements TermVisitor<Expr>,
    * nat                nat[]
    * </pre>
    * 
-   * otherwise if the name has is that of an already encountered signiture, it
-   * uses that signiture <br>
-   * finally it creates an ExprVar with the given name and a type from the
-   * type annotations.
+   * otherwise if the name has is that of an already encountered
+   * signiture, it uses that signiture <br> finally it creates an
+   * ExprVar with the given name and a type from the type annotations.
    */
   public Expr visitRefExpr(RefExpr refExpr) {
+    String name = print(refExpr.getName());
     Expr ret = null;
     if (isInfixOperator(refExpr.getZName(), ZString.PFUN)) {
-      ret = relationMap_.createPFun(
-				    visit(refExpr.getZExprList().get(0)),
-				    visit(refExpr.getZExprList().get(1))
-				    );
-    } else if (isInfixOperator(refExpr.getZName(), ZString.REL)) {
+      ret = relationMap_.createPFun(visit(refExpr.getZExprList().get(0)),
+				    visit(refExpr.getZExprList().get(1)));
+    }
+    else if (isInfixOperator(refExpr.getZName(), ZString.REL)) {
       ret = relationMap_.create(visit(refExpr.getZExprList().get(0)),
 				visit(refExpr.getZExprList().get(1)));
-    } else if (isPostfixOperator(refExpr.getZName(), "seq")) {
+    }
+    else if (isPostfixOperator(refExpr.getZName(), "seq")) {
       ret = relationMap_.createSeq(visit(refExpr.getZExprList().get(0)));
-    } else if (print(refExpr.getZName()).equals(ZString.ARITHMOS)) {
+    }
+    else if (print(refExpr.getZName()).equals(ZString.ARITHMOS)) {
       ret = SIGINT;
-    } else if (print(refExpr.getZName()).equals(ZString.NAT)) {
+    }
+    else if (print(refExpr.getZName()).equals(ZString.NAT)) {
       ExprVar i = new ExprVar("i", SIGINT);
       Expr sub = i.gte(ExprConstant.ZERO);
       List<ExprVar> vars = new ArrayList<ExprVar>();
       vars.add(i);
       ret = sub.comprehensionOver(vars);
-    } else if (print(refExpr.getZName()).equals(ZString.NUM)) {
+    }
+    else if (print(refExpr.getZName()).equals(ZString.NUM)) {
       ret = SIGINT;
-    } else if (print(refExpr.getZName()).equals(ZString.EMPTYSET)) {
+    }
+    else if (print(refExpr.getZName()).equals(ZString.EMPTYSET)) {
       Expr type = visit(refExpr.getAnn(TypeAnn.class));
       int num = arity(type);
       ret = NONE;
       for (int i = 1; i < num; i++) ret = NONE.product(NONE);
-    } else if (module_.containsSig(print(refExpr.getName()))) {
-      ret = module_.getSig(print(refExpr.getName()));
-    } else if (print(refExpr.getName()).contains("Delta")
-	       && module_.containsSig(print(refExpr.getName()).replaceFirst("Delta", ""))) {
-      ret = addDelta(module_.getSig(print(refExpr.getName())
-				    .replaceFirst("Delta", "")));
-    } else if (print(refExpr.getName()).contains("Xi")) {
-      ret = addXi(module_.getSig(print(refExpr.getName()).replaceFirst("Xi", "")));
     }
-    //		else if (fields_.containsKey(print(refExpr.getName()))) {
+    else if (module_.containsSig(name)) {
+      ret = module_.getSig(name);
+    }
+    else if (name.contains("Delta")
+	     && module_.containsSig(name.replaceFirst("Delta", ""))) {
+      ret = addDelta(module_.getSig(name.replaceFirst("Delta", "")));
+    }
+    else if (name.contains("Xi")) {
+      ret = addXi(module_.getSig(name.replaceFirst("Xi", "")));
+    }
+    //		else if (fields_.containsKey(name)) {
     //			System.out.println("field");
-    //			ret = new ExprVar(print(refExpr.getName()), fields_
-    //					.get(print(refExpr.getName())));
+    //			ret = new ExprVar(name, fields_.get(name));
     //		}
-    else if (macros_.containsKey(print(refExpr.getName()))) {
-      ret = macros_.get(print(refExpr.getName()));
+    else if (macros_.containsKey(name)) {
+      ret = macros_.get(name);
     }
     else {
-      String name = print(refExpr.getZName());
       Expr type = visit(refExpr.getAnn(TypeAnn.class));
-      ret = new ExprVar(name, type);
+      ret = new ExprVar(print(refExpr.getZName()), type);
     }
     ret = processRelation(ret, refExpr);
     return ret;
@@ -1485,7 +1491,8 @@ public class Z2Alloy implements TermVisitor<Expr>,
 	}
       } else if (d instanceof InclDecl) {
 	InclDecl incdecl = (InclDecl) d;
-	Expr sigfieldpred = processSigField((Sig) visit(incdecl.getExpr()), sig);
+	Expr sigfieldpred = processSigField((Sig) visit(incdecl.getExpr()),
+					    sig);
 	if (fieldPred != null) {
 	  fieldPred = fieldPred.and(sigfieldpred);
 	} else {
@@ -1542,7 +1549,11 @@ public class Z2Alloy implements TermVisitor<Expr>,
     ExprVar exprVar = new ExprVar("temp", type);
     List<ExprVar> temp = new ArrayList<ExprVar>();
     temp.add(exprVar);
-    return new ExprQuant(ExprQuant.Op.COMPREHENSION, temp, pred.and(new ExprQuant(ExprQuant.Op.SOME, vars_, oPred.equal(exprVar))));
+    return new ExprQuant(ExprQuant.Op.COMPREHENSION,
+			 temp,
+			 pred.and(new ExprQuant(ExprQuant.Op.SOME,
+						vars_,
+						oPred.equal(exprVar))));
   }
 
   /**
@@ -1607,10 +1618,12 @@ public class Z2Alloy implements TermVisitor<Expr>,
     Expr pred = null;
     for (Field f : sig.fields()) {
       if (pred == null) {
-	pred = exprVar.join(f).equal(new ExprVar(f.label() + strokes, f.expr()));
+	pred = exprVar.join(f).equal(new ExprVar(f.label() + strokes,
+						 f.expr()));
       }
       else {
-	pred = pred.and(exprVar.join(f).equal(new ExprVar(f.label() + strokes, f.expr())));
+	pred = pred.and(exprVar.join(f).equal(new ExprVar(f.label() + strokes,
+							  f.expr())));
       }
     }
     if (thetaPred == ExprConstant.TRUE || thetaPred == null) {
@@ -1679,17 +1692,16 @@ public class Z2Alloy implements TermVisitor<Expr>,
   }
 
   public Expr visitZSect(ZSect zSect) {
-    Source specSource = new StringSource("\\begin{zsection} "
-					 + "\\SECTION " + section_ + " " + "\\parents "
-					 + zSect.getName() + ", " + "expansion\\_rules, "
-					 + "simplification\\_rules" + "\\end{zsection}", section_);
+    String sect = "\\begin{zsection} "
+      + "\\SECTION " + section_ + " " + "\\parents "
+      + zSect.getName() + ", " + "expansion\\_rules, "
+      + "simplification\\_rules" + "\\end{zsection}";
+    Source specSource = new StringSource(sect, section_);
     specSource.setMarkup(Markup.LATEX);
     manager_.put(new Key<Source>(section_, Source.class), specSource);
-    
     for (Para para : zSect.getZParaList()) {
       visit(para);
     }
-    
     return null;
   }
 
@@ -1879,13 +1891,14 @@ public class Z2Alloy implements TermVisitor<Expr>,
   }
 
   /**
-   * adds the signature to the module
-   * the most important thing this does is set up the predicate - it creates a new pred which takes
-   * all the fields of the signature as arguments, and sets the predicate body to true
-   * a call to this pred is then set as the constraint for the signature
+   * adds the signature to the module the most important thing this
+   * does is set up the predicate - it creates a new pred which takes
+   * all the fields of the signature as arguments, and sets the
+   * predicate body to true a call to this pred is then set as the
+   * constraint for the signature
    * 
-   * this should therefore only be called after all the fields have been included, otherwise the pred
-   * will have incorrect arguments
+   * this should therefore only be called after all the fields have
+   * been included, otherwise the pred will have incorrect arguments
    * @param sig
    */
   public void addSig(Sig sig) {		
@@ -1906,8 +1919,9 @@ public class Z2Alloy implements TermVisitor<Expr>,
   }
 
   /**
-   * utility - adds a new constraint to a pred
-   * if the pred was true, it replaces it, otherwise it is joined to the existing constraint with 'and'
+   * utility - adds a new constraint to a pred if the pred was true,
+   * it replaces it, otherwise it is joined to the existing constraint
+   * with 'and'
    */
   public void addSigPred(Sig sig, Expr pred) {
     Func existingPred = module_.getFunc("pred_" + sig);
@@ -1923,7 +1937,9 @@ public class Z2Alloy implements TermVisitor<Expr>,
     }
     //TODO clare fix this shit - something to do with theta I think
     if (! thetaQuantified.isEmpty()) {
-      existingPred.setBody(new ExprQuant(ExprQuant.Op.SOME, thetaQuantified, existingPred.body().and(thetaPred)));
+      existingPred.setBody(new ExprQuant(ExprQuant.Op.SOME,
+					 thetaQuantified,
+					 existingPred.body().and(thetaPred)));
       thetaQuantified.clear();
       thetaPred = ExprConstant.TRUE;
     }
@@ -1962,7 +1978,8 @@ public class Z2Alloy implements TermVisitor<Expr>,
   }
 
   private Expr build(Expr expr, Map<String, Expr> vars) {
-    if (expr instanceof ExprCall) { // not sure exactly when and why these
+    if (expr instanceof ExprCall) {
+      // not sure exactly when and why these
       // are sometimes sigs and sometimes
       // preds
       expr = (module_.getSig(((ExprCall) expr).fun().label().replaceFirst("pred_", "")));
@@ -1983,7 +2000,8 @@ public class Z2Alloy implements TermVisitor<Expr>,
 
 
   /*
-   * TODO Clare: make this actually work properly in all cases (maybe this should be in the AST?)
+   * TODO Clare: make this actually work properly in all cases (maybe
+   * this should be in the AST?)
    */
   private int arity(Expr expr) {
     if (expr instanceof ExprBinary && ((ExprBinary) expr).op().isArrow) {
@@ -2002,7 +2020,8 @@ public class Z2Alloy implements TermVisitor<Expr>,
   private Expr processRelation(Expr expr1, net.sourceforge.czt.z.ast.Expr expr2) {
     if (! body) return expr1;
     Expr t = visit(expr2.getAnn(TypeAnn.class));
-    while  (t instanceof ExprUnary && (((ExprUnary) t).op().equals(ExprUnary.Op.SETOF))) {
+    while  (t instanceof ExprUnary &&
+	    (((ExprUnary) t).op().equals(ExprUnary.Op.SETOF))) {
       t = ((ExprUnary) t).sub();
     }
     if (relationMap_.contains(t)) {
