@@ -67,7 +67,6 @@ import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.GivenType;
 import net.sourceforge.czt.z.ast.HideExpr;
 import net.sourceforge.czt.z.ast.IffExpr;
-import net.sourceforge.czt.z.ast.IffPred;
 import net.sourceforge.czt.z.ast.ImpliesExpr;
 import net.sourceforge.czt.z.ast.InStroke;
 import net.sourceforge.czt.z.ast.InclDecl;
@@ -126,7 +125,6 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
 import net.sourceforge.czt.z.visitor.HideExprVisitor;
 import net.sourceforge.czt.z.visitor.IffExprVisitor;
-import net.sourceforge.czt.z.visitor.IffPredVisitor;
 import net.sourceforge.czt.z.visitor.ImpliesExprVisitor;
 import net.sourceforge.czt.z.visitor.InclDeclVisitor;
 import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
@@ -137,6 +135,7 @@ import net.sourceforge.czt.z.visitor.NumExprVisitor;
 import net.sourceforge.czt.z.visitor.OrExprVisitor;
 import net.sourceforge.czt.z.visitor.PowerExprVisitor;
 import net.sourceforge.czt.z.visitor.PowerTypeVisitor;
+import net.sourceforge.czt.z.visitor.Pred2Visitor;
 import net.sourceforge.czt.z.visitor.ProdExprVisitor;
 import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
 import net.sourceforge.czt.z.visitor.RefExprVisitor;
@@ -190,7 +189,6 @@ GivenParaVisitor<Expr>,
 GivenTypeVisitor<Expr>,
 HideExprVisitor<Expr>,
 IffExprVisitor<Expr>,
-IffPredVisitor<Expr>,
 ImpliesExprVisitor<Expr>,
 InclDeclVisitor<Expr>,
 LambdaExprVisitor<Expr>,
@@ -201,6 +199,7 @@ NumExprVisitor<Expr>,
 OrExprVisitor<Expr>,
 PowerExprVisitor<Expr>,
 PowerTypeVisitor<Expr>,
+Pred2Visitor<Expr>,
 ProdExprVisitor<Expr>,
 ProdTypeVisitor<Expr>,
 RefExprVisitor<Expr>,
@@ -388,7 +387,7 @@ ZSectVisitor<Expr>
           ret = left.minus(right);
         }
         else {
-          System.err.println(applExpr.getClass() + " not yet implemented");
+          System.err.println("ApplExpr " + binOp + " not yet implemented");
           throw new RuntimeException();
         }
       }
@@ -1059,14 +1058,6 @@ ZSectVisitor<Expr>
   public Expr visitIffExpr(IffExpr iffExpr) {
     Pair<Expr, Expr> comps = schExpr2SigComponent(iffExpr);
     return comps.getFirst().iff(comps.getSecond());
-  }
-
-  public Expr visitIffPred(IffPred iffPred) {
-    Expr left = visit(iffPred.getLeftPred());
-    Expr right = visit(iffPred.getRightPred());
-    if (left == null || right == null)
-      throw new RuntimeException("arguments of iffPred must not be null");
-    return left.iff(right);
   }
 
   /**
