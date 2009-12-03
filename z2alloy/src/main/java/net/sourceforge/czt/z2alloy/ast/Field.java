@@ -1,10 +1,10 @@
 package net.sourceforge.czt.z2alloy.ast;
 
-public final class Field extends Expr {
+public final class Field extends AlloyExpr {
   private final String label;
-  private final Expr expr;
+  private final AlloyExpr expr;
 
-  public Field(String label, Expr expr) {
+  public Field(String label, AlloyExpr expr) {
     this.label = label;
     this.expr = expr;
   }
@@ -17,7 +17,7 @@ public final class Field extends Expr {
     return label;
   }
 
-  public Expr expr() {
+  public AlloyExpr expr() {
     return expr;
   }
 

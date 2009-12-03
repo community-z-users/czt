@@ -1,12 +1,12 @@
 package net.sourceforge.czt.z2alloy.ast;
 
-public class ExprLet extends Expr {
+public class ExprLet extends AlloyExpr {
 
   private final ExprVar label;
-  private final Expr var;
-  private final Expr sub;
+  private final AlloyExpr var;
+  private final AlloyExpr sub;
 
-  public ExprLet(ExprVar label, Expr var, Expr sub) {
+  public ExprLet(ExprVar label, AlloyExpr var, AlloyExpr sub) {
     super();
     this.label = label;
     this.var = var;
@@ -17,15 +17,15 @@ public class ExprLet extends Expr {
     return visitor.visit(this);
   }
 
-  public Expr label() {
+  public AlloyExpr label() {
     return label;
   }
 
-  public Expr var() {
+  public AlloyExpr var() {
     return var;
   }
 
-  public Expr sub() {
+  public AlloyExpr sub() {
     return sub;
   }
 

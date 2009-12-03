@@ -42,7 +42,7 @@ public class Toolkit extends Module {
     List<ExprVar> vars = new ArrayList<ExprVar>();
     vars.add(s1);
     vars.add(s2);
-    Expr res = UNIV.seq();
+    AlloyExpr res = UNIV.seq();
     Func append = new Func("append", vars, res);
 
     Func seqappend = new Func("seq/append", vars, res);
@@ -73,7 +73,7 @@ public class Toolkit extends Module {
     ExprVar s = new ExprVar("s", UNIV.seq());
     List<ExprVar> vars = new ArrayList<ExprVar>();
     vars.add(s);
-    Expr ret = UNIV.oneOf();
+    AlloyExpr ret = UNIV.oneOf();
     Func last = new Func("last", vars, ret);
     Func seqlast = new Func("seq/last", vars, ret);
 
@@ -85,7 +85,7 @@ public class Toolkit extends Module {
     ExprVar s = new ExprVar("s", UNIV.seq());
     List<ExprVar> vars = new ArrayList<ExprVar>();
     vars.add(s);
-    Expr ret = UNIV.seq();
+    AlloyExpr ret = UNIV.seq();
 
     Func front = new Func("front", vars, ret);
     Func butLast = new Func("seq/butlast", vars, ret);

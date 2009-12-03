@@ -1,6 +1,6 @@
 package net.sourceforge.czt.z2alloy.ast;
 
-public final class ExprConstant extends Expr {
+public final class ExprConstant extends AlloyExpr {
 
   private final Op op;
 
@@ -35,23 +35,23 @@ public final class ExprConstant extends Expr {
     return this;
   }
 
-  public static final Expr TRUE = new ExprConstant(Op.TRUE, 0);
+  public static final AlloyExpr TRUE = new ExprConstant(Op.TRUE, 0);
 
-  public static final Expr FALSE = new ExprConstant(Op.FALSE, 0);
+  public static final AlloyExpr FALSE = new ExprConstant(Op.FALSE, 0);
 
-  public static final Expr IDEN = new ExprConstant(Op.IDEN, 0);
+  public static final AlloyExpr IDEN = new ExprConstant(Op.IDEN, 0);
 
-  public static final Expr MIN = new ExprConstant(Op.MIN, 0);
+  public static final AlloyExpr MIN = new ExprConstant(Op.MIN, 0);
 
-  public static final Expr MAX = new ExprConstant(Op.MAX, 0);
+  public static final AlloyExpr MAX = new ExprConstant(Op.MAX, 0);
 
-  public static final Expr NEXT = new ExprConstant(Op.NEXT, 0);
+  public static final AlloyExpr NEXT = new ExprConstant(Op.NEXT, 0);
 
-  public static final Expr ZERO = new ExprConstant(Op.NUMBER, 0);
+  public static final AlloyExpr ZERO = new ExprConstant(Op.NUMBER, 0);
 
-  public static final Expr ONE = new ExprConstant(Op.NUMBER, 1);
+  public static final AlloyExpr ONE = new ExprConstant(Op.NUMBER, 1);
 
-  public static Expr makeNUMBER(int n) {
+  public static AlloyExpr makeNUMBER(int n) {
     if (n == 0)
       return ZERO;
     if (n == 1)

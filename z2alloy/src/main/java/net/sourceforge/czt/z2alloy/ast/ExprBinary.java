@@ -4,14 +4,14 @@ package net.sourceforge.czt.z2alloy.ast;
  * Represents a binary expression
  */
 
-public final class ExprBinary extends Expr {
+public final class ExprBinary extends AlloyExpr {
 
   /** the operator */
   private final Op op;
   /** the expression on the left */
-  private final Expr left;
+  private final AlloyExpr left;
   /** the expression on the right */
-  private final Expr right;
+  private final AlloyExpr right;
 
   /**
    * creates a new binary expression
@@ -23,7 +23,7 @@ public final class ExprBinary extends Expr {
    * @param right
    *          The right expression
    */
-  public ExprBinary(Op op, Expr left, Expr right) {
+  public ExprBinary(Op op, AlloyExpr left, AlloyExpr right) {
     super();
     this.op = op;
     this.left = left;
@@ -39,11 +39,11 @@ public final class ExprBinary extends Expr {
     return op;
   }
 
-  public Expr left() {
+  public AlloyExpr left() {
     return left;
   }
 
-  public Expr right() {
+  public AlloyExpr right() {
     return right;
   }
 

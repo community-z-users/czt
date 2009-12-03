@@ -13,11 +13,11 @@ public class Func {
 
   private final List<ExprVar> params;
 
-  private final Expr returnDecl;
+  private final AlloyExpr returnDecl;
 
-  private Expr body;
+  private AlloyExpr body;
 
-  public Func(String label, List<ExprVar> params, Expr returnDecl) {
+  public Func(String label, List<ExprVar> params, AlloyExpr returnDecl) {
     this.label = label;
     this.isPred = false;
     this.params = Collections.unmodifiableList(params);
@@ -33,21 +33,21 @@ public class Func {
     body = ExprConstant.TRUE;
   }
 
-  public Expr getBody() {
+  public AlloyExpr getBody() {
     return body;
   }
 
-  public Expr setBody(Expr body) {
-    Expr temp = this.body;
+  public AlloyExpr setBody(AlloyExpr body) {
+    AlloyExpr temp = this.body;
     this.body = body;
     return temp;
   }
 
-  public Expr call(List<Expr> args) {
+  public AlloyExpr call(List<AlloyExpr> args) {
     return new ExprCall(this, args);
   }
 
-  public Expr call(Expr... args) {
+  public AlloyExpr call(AlloyExpr... args) {
     return new ExprCall(this, Arrays.asList(args));
   }
 
@@ -76,11 +76,11 @@ public class Func {
     return params;
   }
 
-  public Expr returnDecl() {
+  public AlloyExpr returnDecl() {
     return returnDecl;
   }
 
-  public Expr body() {
+  public AlloyExpr body() {
     return body;
   }
 

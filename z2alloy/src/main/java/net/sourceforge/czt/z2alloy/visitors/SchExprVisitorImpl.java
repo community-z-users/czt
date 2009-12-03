@@ -13,7 +13,7 @@ import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.visitor.SchExprVisitor;
 import net.sourceforge.czt.z2alloy.Z2Alloy;
-import net.sourceforge.czt.z2alloy.ast.Expr;
+import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import net.sourceforge.czt.z2alloy.ast.ExprVar;
 import net.sourceforge.czt.z2alloy.ast.Field;
 import net.sourceforge.czt.z2alloy.ast.Func;
@@ -21,7 +21,7 @@ import net.sourceforge.czt.z2alloy.ast.Module;
 import net.sourceforge.czt.z2alloy.ast.PrimSig;
 import net.sourceforge.czt.z2alloy.ast.Sig;
 
-public class SchExprVisitorImpl implements SchExprVisitor<Expr> {
+public class SchExprVisitorImpl implements SchExprVisitor<AlloyExpr> {
 
   private String name;
 
@@ -56,9 +56,9 @@ public class SchExprVisitorImpl implements SchExprVisitor<Expr> {
   // * </pre>
   // *
   // */
-  public Expr visitSchExpr(SchExpr schExpr) {
+  public AlloyExpr visitSchExpr(SchExpr schExpr) {
     Sig sig = new PrimSig(name);
-    Expr fieldPred = null;
+    AlloyExpr fieldPred = null;
     for (Decl d : schExpr.getZSchText().getZDeclList()) {
       if (d instanceof VarDecl) {
         VarDecl vardecl = (VarDecl) d;
@@ -69,7 +69,7 @@ public class SchExprVisitorImpl implements SchExprVisitor<Expr> {
         }
       } else if (d instanceof InclDecl) {
         InclDecl incldecl = (InclDecl) d;
-        Expr newPred = addInclSig((Sig) Z2Alloy.getInstance().visit(
+        AlloyExpr newPred = addInclSig((Sig) Z2Alloy.getInstance().visit(
             incldecl.getExpr()), sig);
         if (newPred != null && fieldPred != null)
           fieldPred = newPred.and(fieldPred);
@@ -81,7 +81,7 @@ public class SchExprVisitorImpl implements SchExprVisitor<Expr> {
       }
     }
     Z2Alloy.getInstance().addSig(sig);
-    Expr pred = Z2Alloy.getInstance().visit(schExpr.getZSchText().getPred());
+    AlloyExpr pred = Z2Alloy.getInstance().visit(schExpr.getZSchText().getPred());
     if (fieldPred != null) {
       Z2Alloy.getInstance().addSigPred(sig, fieldPred);
     }
@@ -96,12 +96,12 @@ public class SchExprVisitorImpl implements SchExprVisitor<Expr> {
    * note that the expr returned is the new predicate the fields and stuff are
    * added within this method
    */
-  private Expr addInclSig(Sig inclSig, Sig sig) {
+  private AlloyExpr addInclSig(Sig inclSig, Sig sig) {
     // so we can easily see if a field is already present
     Map<String, Field> sigfieldnames = new HashMap<String, Field>();
     // the fields needed for calling the predicate of the included sig at the
     // end
-    List<Expr> args = new ArrayList<Expr>();
+    List<AlloyExpr> args = new ArrayList<AlloyExpr>();
     // collect all the fields already included in the signature
     for (Field sigfield : sig.fields()) {
       sigfieldnames.put(sigfield.label(), sigfield);
@@ -136,7 +136,7 @@ public class SchExprVisitorImpl implements SchExprVisitor<Expr> {
     else {
       return null;
     }
-    return f.call(args.toArray(new Expr[0]));
+    return f.call(args.toArray(new AlloyExpr[0]));
   }
 
 }

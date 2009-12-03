@@ -11,7 +11,7 @@ public abstract class VisitReturn<T> {
   /**
    * This is the start method that begins a traversal over the given expression.
    */
-  public final T visitThis(Expr x) {
+  public final T visitThis(AlloyExpr x) {
     return x.accept(this);
   }
 

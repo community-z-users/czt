@@ -2,10 +2,10 @@ package net.sourceforge.czt.z2alloy.ast;
 
 public class Fact {
 
-  private final Expr expr;
+  private final AlloyExpr expr;
   private final String label;
 
-  public Fact(Expr expr, String label) {
+  public Fact(AlloyExpr expr, String label) {
     this.expr = expr;
     this.label = label;
   }
@@ -14,7 +14,7 @@ public class Fact {
     return label;
   }
 
-  public Expr expr() {
+  public AlloyExpr expr() {
     return expr;
   }
 

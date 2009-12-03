@@ -9,7 +9,7 @@ public class SubSig extends Sig {
   private final Sig parent;
   private final List<Field> extraFields;
 
-  public SubSig(String label, Sig parent, Expr pred, boolean abs, boolean lone,
+  public SubSig(String label, Sig parent, AlloyExpr pred, boolean abs, boolean lone,
       boolean one, boolean some) {
     super(label, parent, abs, lone, one, one);
     for (Field f : parent) {
@@ -19,7 +19,7 @@ public class SubSig extends Sig {
     extraFields = new ArrayList<Field>();
   }
 
-  public SubSig(String label, Sig parent, Expr pred) {
+  public SubSig(String label, Sig parent, AlloyExpr pred) {
     super(label, pred);
     for (Field f : parent) {
       addField(f);

@@ -1,14 +1,14 @@
 package net.sourceforge.czt.z2alloy.ast;
 
-public class ExprITE extends Expr {
+public class ExprITE extends AlloyExpr {
 
-  private final Expr cond;
+  private final AlloyExpr cond;
 
-  private final Expr left;
+  private final AlloyExpr left;
 
-  private final Expr right;
+  private final AlloyExpr right;
 
-  public ExprITE(Expr cond, Expr left, Expr right) {
+  public ExprITE(AlloyExpr cond, AlloyExpr left, AlloyExpr right) {
     this.cond = cond;
     this.left = left;
     this.right = right;
@@ -18,15 +18,15 @@ public class ExprITE extends Expr {
     return visitor.visit(this);
   }
 
-  public Expr cond() {
+  public AlloyExpr cond() {
     return cond;
   }
 
-  public Expr left() {
+  public AlloyExpr left() {
     return left;
   }
 
-  public Expr right() {
+  public AlloyExpr right() {
     return right;
   }
 

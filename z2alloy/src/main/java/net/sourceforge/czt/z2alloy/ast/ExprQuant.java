@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class ExprQuant extends Expr {
+public final class ExprQuant extends AlloyExpr {
 
   /** The operator (ALL, NO, LONE, ONE, SOME, SUM, or COMPREHENSION) */
   private final Op op;
@@ -13,9 +13,9 @@ public final class ExprQuant extends Expr {
   private final List<ExprVar> vars;
 
   /** The body of the quantified expression. */
-  private final Expr sub;
+  private final AlloyExpr sub;
 
-  public ExprQuant(Op op, List<ExprVar> vars, Expr sub) {
+  public ExprQuant(Op op, List<ExprVar> vars, AlloyExpr sub) {
     super();
     this.op = op;
     this.sub = sub;
@@ -26,7 +26,7 @@ public final class ExprQuant extends Expr {
     return visitor.visit(this);
   }
 
-  public Expr sub() {
+  public AlloyExpr sub() {
     return sub;
   }
 

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class ExprCall extends Expr {
+public final class ExprCall extends AlloyExpr {
 
   /** The actual function being called; never null. */
   private final Func fun;
 
   /** The list of arguments to the call. */
-  private final List<Expr> args;
+  private final List<AlloyExpr> args;
 
-  public ExprCall(Func fun, List<Expr> args) {
+  public ExprCall(Func fun, List<AlloyExpr> args) {
     super();
     this.fun = fun;
     this.args = Collections.unmodifiableList(args);
@@ -26,9 +26,9 @@ public final class ExprCall extends Expr {
     return fun;
   }
 
-  public List<Expr> args() {
-    List<Expr> args = new ArrayList<Expr>();
-    for (Expr arg : this.args)
+  public List<AlloyExpr> args() {
+    List<AlloyExpr> args = new ArrayList<AlloyExpr>();
+    for (AlloyExpr arg : this.args)
       args.add(arg);
     return args;
   }

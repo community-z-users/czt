@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.z2alloy.ast.Enum;
-import net.sourceforge.czt.z2alloy.ast.Expr;
+import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import net.sourceforge.czt.z2alloy.ast.ExprBinary;
 import net.sourceforge.czt.z2alloy.ast.ExprCall;
 import net.sourceforge.czt.z2alloy.ast.ExprConstant;
@@ -125,8 +125,8 @@ public class AlloyPrinter extends VisitReturn<String> {
     }
     result.append(" {");
     if (f.getBody() != ExprConstant.TRUE) {
-      List<Expr> splitBody = splitPred(f.getBody());
-      for (Expr sub : splitBody) {
+      List<AlloyExpr> splitBody = splitPred(f.getBody());
+      for (AlloyExpr sub : splitBody) {
         String subExpr = visitThis(sub);
         if (subExpr.startsWith("(") && subExpr.endsWith(")")) {
           subExpr = subExpr.substring(1, subExpr.length() - 1);
@@ -321,8 +321,8 @@ public class AlloyPrinter extends VisitReturn<String> {
    * 
    * makes it much, much nicer to read, and far fewer annoying stupid brackets
    */
-  private List<Expr> splitPred(Expr e) {
-    List<Expr> exprs = new ArrayList<Expr>();
+  private List<AlloyExpr> splitPred(AlloyExpr e) {
+    List<AlloyExpr> exprs = new ArrayList<AlloyExpr>();
     if (e instanceof ExprBinary
         && ((ExprBinary) e).op().equals(ExprBinary.Op.AND)) {
       ExprBinary exprBinary = (ExprBinary) e;

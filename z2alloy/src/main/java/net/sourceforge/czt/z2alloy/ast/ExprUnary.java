@@ -1,11 +1,11 @@
 package net.sourceforge.czt.z2alloy.ast;
 
-public class ExprUnary extends Expr {
+public class ExprUnary extends AlloyExpr {
 
   private final Op op;
-  private final Expr sub;
+  private final AlloyExpr sub;
 
-  public ExprUnary(Op op, Expr sub) {
+  public ExprUnary(Op op, AlloyExpr sub) {
     super();
     if (sub == null) {
       throw new NullPointerException("Sub expressions may not be null");
@@ -22,7 +22,7 @@ public class ExprUnary extends Expr {
     return op;
   }
 
-  public Expr sub() {
+  public AlloyExpr sub() {
     return sub;
   }
 

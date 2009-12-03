@@ -12,16 +12,16 @@ import net.sourceforge.czt.z.visitor.ImpliesPredVisitor;
 import net.sourceforge.czt.z.visitor.OrPredVisitor;
 import net.sourceforge.czt.z.visitor.Pred2Visitor;
 import net.sourceforge.czt.z2alloy.Z2Alloy;
-import net.sourceforge.czt.z2alloy.ast.Expr;
+import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import edu.mit.csail.sdg.alloy4.Pair;
 
-public class Pred2VisitorImpl implements Pred2Visitor<Expr>,
-    AndPredVisitor<Expr>, IffPredVisitor<Expr>, ImpliesPredVisitor<Expr>,
-    OrPredVisitor<Expr> {
+public class Pred2VisitorImpl implements Pred2Visitor<AlloyExpr>,
+    AndPredVisitor<AlloyExpr>, IffPredVisitor<AlloyExpr>, ImpliesPredVisitor<AlloyExpr>,
+    OrPredVisitor<AlloyExpr> {
 
-  public Expr visit(Term t) {
+  public AlloyExpr visit(Term t) {
     if (t != null) {
-      Expr e = t.accept(this);
+      AlloyExpr e = t.accept(this);
       return e;
     }
     return null;
@@ -37,49 +37,49 @@ public class Pred2VisitorImpl implements Pred2Visitor<Expr>,
    * @return the expression if it successfully translated, or null it something
    *         fails
    */
-  public Expr visitAndPred(AndPred andPred) {
-    Pair<Expr, Expr> subExprs = subExprs(andPred);
+  public AlloyExpr visitAndPred(AndPred andPred) {
+    Pair<AlloyExpr, AlloyExpr> subExprs = subExprs(andPred);
     if (subExprs != null) {
       return subExprs.a.and(subExprs.b);
     }
     return null;
   }
 
-  public Expr visitIffPred(IffPred iffPred) {
-    Pair<Expr, Expr> subExprs = subExprs(iffPred);
+  public AlloyExpr visitIffPred(IffPred iffPred) {
+    Pair<AlloyExpr, AlloyExpr> subExprs = subExprs(iffPred);
     if (subExprs != null) {
       return subExprs.a.iff(subExprs.b);
     }
     return null;
   }
 
-  public Expr visitImpliesPred(ImpliesPred impliesPred) {
-    Pair<Expr, Expr> subExprs = subExprs(impliesPred);
+  public AlloyExpr visitImpliesPred(ImpliesPred impliesPred) {
+    Pair<AlloyExpr, AlloyExpr> subExprs = subExprs(impliesPred);
     if (subExprs != null) {
       return subExprs.a.implies(subExprs.b);
     }
     return null;
   }
 
-  public Expr visitOrPred(OrPred orPred) {
-    Pair<Expr, Expr> subExprs = subExprs(orPred);
+  public AlloyExpr visitOrPred(OrPred orPred) {
+    Pair<AlloyExpr, AlloyExpr> subExprs = subExprs(orPred);
     if (subExprs != null) {
       return subExprs.a.or(subExprs.b);
     }
     return null;
   }
 
-  private Pair<Expr, Expr> subExprs(Pred2 pred2) {
-    Expr left = Z2Alloy.getInstance().visit(pred2.getLeftPred());
-    Expr right = Z2Alloy.getInstance().visit(pred2.getRightPred());
+  private Pair<AlloyExpr, AlloyExpr> subExprs(Pred2 pred2) {
+    AlloyExpr left = Z2Alloy.getInstance().visit(pred2.getLeftPred());
+    AlloyExpr right = Z2Alloy.getInstance().visit(pred2.getRightPred());
     if (left == null || right == null) {
       System.err.println("left and right of andpred must not be null");
       return null;
     }
-    return new Pair<Expr, Expr>(left, right);
+    return new Pair<AlloyExpr, AlloyExpr>(left, right);
   }
 
-  public Expr visitPred2(Pred2 pred2) {
+  public AlloyExpr visitPred2(Pred2 pred2) {
     System.err.println(pred2 + " is not implemented yet");
     return null;
   }

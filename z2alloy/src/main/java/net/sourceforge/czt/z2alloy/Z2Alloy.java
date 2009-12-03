@@ -39,138 +39,17 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
 import net.sourceforge.czt.rules.rewriter.Strategies;
-import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.z.ast.AndExpr;
-import net.sourceforge.czt.z.ast.ApplExpr;
-import net.sourceforge.czt.z.ast.AxPara;
-import net.sourceforge.czt.z.ast.BindSelExpr;
-import net.sourceforge.czt.z.ast.CompExpr;
-import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.Decl;
-import net.sourceforge.czt.z.ast.DecorExpr;
-import net.sourceforge.czt.z.ast.Exists1Pred;
-import net.sourceforge.czt.z.ast.ExistsExpr;
-import net.sourceforge.czt.z.ast.ExistsPred;
-import net.sourceforge.czt.z.ast.ForallPred;
-import net.sourceforge.czt.z.ast.FreePara;
-import net.sourceforge.czt.z.ast.GivenPara;
-import net.sourceforge.czt.z.ast.GivenType;
-import net.sourceforge.czt.z.ast.HideExpr;
-import net.sourceforge.czt.z.ast.IffExpr;
-import net.sourceforge.czt.z.ast.ImpliesExpr;
-import net.sourceforge.czt.z.ast.InStroke;
-import net.sourceforge.czt.z.ast.InclDecl;
-import net.sourceforge.czt.z.ast.LambdaExpr;
-import net.sourceforge.czt.z.ast.LatexMarkupPara;
-import net.sourceforge.czt.z.ast.MemPred;
-import net.sourceforge.czt.z.ast.Name;
-import net.sourceforge.czt.z.ast.NameTypePair;
-import net.sourceforge.czt.z.ast.NarrPara;
-import net.sourceforge.czt.z.ast.NegPred;
-import net.sourceforge.czt.z.ast.NextStroke;
-import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.NumStroke;
-import net.sourceforge.czt.z.ast.OrExpr;
-import net.sourceforge.czt.z.ast.OutStroke;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.PowerExpr;
-import net.sourceforge.czt.z.ast.PowerType;
-import net.sourceforge.czt.z.ast.Pred2;
-import net.sourceforge.czt.z.ast.ProdExpr;
-import net.sourceforge.czt.z.ast.ProdType;
-import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.SchExpr;
-import net.sourceforge.czt.z.ast.SchExpr2;
-import net.sourceforge.czt.z.ast.SchemaType;
-import net.sourceforge.czt.z.ast.SetCompExpr;
-import net.sourceforge.czt.z.ast.SetExpr;
-import net.sourceforge.czt.z.ast.Stroke;
-import net.sourceforge.czt.z.ast.ThetaExpr;
-import net.sourceforge.czt.z.ast.TruePred;
-import net.sourceforge.czt.z.ast.TupleExpr;
-import net.sourceforge.czt.z.ast.Type2;
-import net.sourceforge.czt.z.ast.TypeAnn;
-import net.sourceforge.czt.z.ast.VarDecl;
-import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZExprList;
-import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.ast.ZNameList;
-import net.sourceforge.czt.z.ast.ZSchText;
-import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.PrintVisitor;
-import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.AndExprVisitor;
-import net.sourceforge.czt.z.visitor.ApplExprVisitor;
-import net.sourceforge.czt.z.visitor.AxParaVisitor;
-import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
-import net.sourceforge.czt.z.visitor.CompExprVisitor;
-import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
-import net.sourceforge.czt.z.visitor.DecorExprVisitor;
-import net.sourceforge.czt.z.visitor.Exists1PredVisitor;
-import net.sourceforge.czt.z.visitor.ExistsExprVisitor;
-import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
-import net.sourceforge.czt.z.visitor.ForallPredVisitor;
-import net.sourceforge.czt.z.visitor.FreeParaVisitor;
-import net.sourceforge.czt.z.visitor.GivenParaVisitor;
-import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
-import net.sourceforge.czt.z.visitor.HideExprVisitor;
-import net.sourceforge.czt.z.visitor.IffExprVisitor;
-import net.sourceforge.czt.z.visitor.ImpliesExprVisitor;
-import net.sourceforge.czt.z.visitor.InclDeclVisitor;
-import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
-import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
-import net.sourceforge.czt.z.visitor.MemPredVisitor;
-import net.sourceforge.czt.z.visitor.NarrParaVisitor;
-import net.sourceforge.czt.z.visitor.NegPredVisitor;
-import net.sourceforge.czt.z.visitor.NumExprVisitor;
-import net.sourceforge.czt.z.visitor.OrExprVisitor;
-import net.sourceforge.czt.z.visitor.PowerExprVisitor;
-import net.sourceforge.czt.z.visitor.PowerTypeVisitor;
-import net.sourceforge.czt.z.visitor.Pred2Visitor;
-import net.sourceforge.czt.z.visitor.ProdExprVisitor;
-import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
-import net.sourceforge.czt.z.visitor.RefExprVisitor;
-import net.sourceforge.czt.z.visitor.SchExprVisitor;
-import net.sourceforge.czt.z.visitor.SchemaTypeVisitor;
-import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
-import net.sourceforge.czt.z.visitor.SetExprVisitor;
-import net.sourceforge.czt.z.visitor.StrokeVisitor;
-import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
-import net.sourceforge.czt.z.visitor.TruePredVisitor;
-import net.sourceforge.czt.z.visitor.TupleExprVisitor;
-import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
-import net.sourceforge.czt.z.visitor.VarDeclVisitor;
-import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
-import net.sourceforge.czt.z.visitor.ZExprListVisitor;
-import net.sourceforge.czt.z.visitor.ZSectVisitor;
-import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
-import net.sourceforge.czt.z2alloy.ast.ExprBinary;
-import net.sourceforge.czt.z2alloy.ast.ExprCall;
-import net.sourceforge.czt.z2alloy.ast.ExprConstant;
-import net.sourceforge.czt.z2alloy.ast.ExprQuant;
-import net.sourceforge.czt.z2alloy.ast.ExprUnary;
-import net.sourceforge.czt.z2alloy.ast.ExprVar;
-import net.sourceforge.czt.z2alloy.ast.Field;
-import net.sourceforge.czt.z2alloy.ast.Func;
-import net.sourceforge.czt.z2alloy.ast.Module;
-import net.sourceforge.czt.z2alloy.ast.PrimSig;
-import net.sourceforge.czt.z2alloy.ast.Sig;
-import net.sourceforge.czt.z2alloy.ast.SubsetSig;
-import net.sourceforge.czt.z2alloy.ast.Toolkit;
-import net.sourceforge.czt.z2alloy.visitors.FreetypeVisitorImpl;
-import net.sourceforge.czt.z2alloy.visitors.Pred2VisitorImpl;
-import net.sourceforge.czt.z2alloy.visitors.SchExprVisitorImpl;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.*;
+import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.z2alloy.ast.*;
+import net.sourceforge.czt.z2alloy.visitors.*;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 
@@ -245,8 +124,8 @@ ZSectVisitor<AlloyExpr>
    * A mapping from ZName ids to alloy names.
    */
 
-  private Map<net.sourceforge.czt.z.ast.Expr, String> names =
-    new HashMap<net.sourceforge.czt.z.ast.Expr, String>();
+  private Map<Expr, String> names =
+    new HashMap<Expr, String>();
 
   private Map<String, String> names_ = new HashMap<String, String>();
 
@@ -579,14 +458,14 @@ ZSectVisitor<AlloyExpr>
   public AlloyExpr visitConstDecl(ConstDecl cDecl) {
     try {
       String sigName = print(cDecl.getName());
-      net.sourceforge.czt.z.ast.Expr result = cDecl.getExpr();
+      Expr result = cDecl.getExpr();
       if (unfolding_) {
         Source exprSource = new StringSource("normalize~"
             + print(cDecl.getName()));
         exprSource.setMarkup(Markup.LATEX);
-        net.sourceforge.czt.z.ast.Expr toBeNormalized = ParseUtils
+        Expr toBeNormalized = ParseUtils
         .parseExpr(exprSource, section_, manager_);
-        result = (net.sourceforge.czt.z.ast.Expr) preprocess(toBeNormalized);
+        result = (Expr) preprocess(toBeNormalized);
         TypeCheckUtils.typecheck(result, manager_, false,
             section_);
       }
@@ -944,7 +823,7 @@ ZSectVisitor<AlloyExpr>
    * 
    */
   public AlloyExpr visitFreePara(FreePara para) {
-    return new FreetypeVisitorImpl().visit(para);
+    return new FreetypeVisitorImpl().visitFreePara(para);
   }
 
   /**
@@ -1581,7 +1460,7 @@ ZSectVisitor<AlloyExpr>
       return ret;
     } else {
       AlloyExpr expr = null;
-      for (net.sourceforge.czt.z.ast.Expr e : exprs) {
+      for (Expr e : exprs) {
         AlloyExpr ve = visit(e);
         if (ve == null) {
           System.err.println("Elements of setexpr must not be null");
@@ -1678,7 +1557,7 @@ ZSectVisitor<AlloyExpr>
   }
 
   public AlloyExpr visitZExprList(ZExprList zExprList) {
-    Iterator<net.sourceforge.czt.z.ast.Expr> iter = zExprList.iterator();
+    Iterator<Expr> iter = zExprList.iterator();
     AlloyExpr result = visit(iter.next());
     if (iter.hasNext()) {
       List<AlloyExpr> list = new ArrayList<AlloyExpr>();
@@ -2044,7 +1923,7 @@ ZSectVisitor<AlloyExpr>
     return 1;
   }
 
-  private AlloyExpr processRelation(AlloyExpr expr1, net.sourceforge.czt.z.ast.Expr expr2) {
+  private AlloyExpr processRelation(AlloyExpr expr1, Expr expr2) {
     if (! body) return expr1;
     AlloyExpr t = visit(expr2.getAnn(TypeAnn.class));
     while  (t instanceof ExprUnary &&

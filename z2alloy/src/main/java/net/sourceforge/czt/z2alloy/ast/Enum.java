@@ -52,7 +52,7 @@ public class Enum extends Sig {
   public void addField(Field f) {
   }
 
-  public void addPred(Expr e) {
+  public void addPred(AlloyExpr e) {
   }
 
   /**
@@ -67,7 +67,7 @@ public class Enum extends Sig {
     public void addField(Field f) {
     }
 
-    public void addPred(Expr e) {
+    public void addPred(AlloyExpr e) {
     }
 
   }
@@ -84,7 +84,7 @@ public class Enum extends Sig {
     public void addField(Field f) {
     }
 
-    public void addPred(Expr e) {
+    public void addPred(AlloyExpr e) {
     }
   }
 

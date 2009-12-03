@@ -12,7 +12,7 @@ public class Command {
   /** True if the command is a 'check', false if it is a 'run' */
   private final boolean isCheck;
   /** The body of the expression the command must satisfy. If it satisfies a function, it is null */
-  private final Expr bodyExpr;
+  private final AlloyExpr bodyExpr;
   /** The function the command must satisfy. If it satisfies an expression, it is null */
   private final Func bodyFunc;
 
@@ -24,7 +24,7 @@ public class Command {
    * @param isCheck True if the command is a 'check', false if it is a 'run'
    * @param bodyExpr The body of the expression the command must satisfy
    * */
-  public Command (boolean isCheck, Expr bodyExpr) {
+  public Command (boolean isCheck, AlloyExpr bodyExpr) {
     this(isCheck ? "check_" : "run " + i++, isCheck, bodyExpr);
   }
 
@@ -43,7 +43,7 @@ public class Command {
    * @param isCheck True if the command is a 'check', false if it is a 'run'
    * @param bodyExpr The expression the command must satisfy
    */
-  public Command (String label, boolean isCheck, Expr bodyExpr) {
+  public Command (String label, boolean isCheck, AlloyExpr bodyExpr) {
     this.label = label;
     this.isCheck = isCheck;
     this.bodyExpr = bodyExpr;
@@ -76,7 +76,7 @@ public class Command {
 
   public boolean check() {return isCheck;}
   public boolean run() {return !check();}
-  public Expr bodyExpr() {return bodyExpr == null ? null : bodyExpr;}
+  public AlloyExpr bodyExpr() {return bodyExpr == null ? null : bodyExpr;}
   public Func bodyFunc() {return bodyFunc == null ? null : bodyFunc;}
 
   public String toString() {

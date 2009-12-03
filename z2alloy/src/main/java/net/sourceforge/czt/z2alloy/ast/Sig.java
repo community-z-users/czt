@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class Sig extends Expr implements Iterable<Field> {
+public abstract class Sig extends AlloyExpr implements Iterable<Field> {
 
   public static final PrimSig UNIV = new PrimSig("univ");
 
@@ -21,11 +21,11 @@ public abstract class Sig extends Expr implements Iterable<Field> {
   private final boolean isSome;
 
   private final String label;
-  private Expr pred;
+  private AlloyExpr pred;
 
   private final List<Field> fields;
 
-  public Sig(String label, Expr pred, boolean abs, boolean lone, boolean one,
+  public Sig(String label, AlloyExpr pred, boolean abs, boolean lone, boolean one,
       boolean some) {
     if (lone && one)
       throw new IllegalArgumentException("Cannot be both lone and one");
@@ -42,7 +42,7 @@ public abstract class Sig extends Expr implements Iterable<Field> {
     this.fields = new ArrayList<Field>();
   }
 
-  public Sig(String label, Expr pred) {
+  public Sig(String label, AlloyExpr pred) {
     this(label, pred, false, false, false, false);
   }
 
@@ -75,7 +75,7 @@ public abstract class Sig extends Expr implements Iterable<Field> {
     return field(label) != null;
   }
 
-  public void addPred(Expr pred) {
+  public void addPred(AlloyExpr pred) {
     if (this.pred == ExprConstant.TRUE) {
       this.pred = pred;
     } else {
@@ -83,7 +83,7 @@ public abstract class Sig extends Expr implements Iterable<Field> {
     }
   }
 
-  public Expr pred() {
+  public AlloyExpr pred() {
     return this.pred;
   }
 
