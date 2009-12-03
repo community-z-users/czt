@@ -57,8 +57,8 @@ public class Z2AlloyTest {
   }
 
   /* tests logical and, or, not, implication, iff */
-  // wip @Test public void testBooleanOperators1() { test("booleanoperators1",
-  // true); }
+   @Test public void testBooleanOperators1() { test("booleanoperators1", true); }
+   
   /*
    * These are old tests - they don't work because of changes to the printer
    * they should be cleaned up, fixed up and included above ASAP

@@ -76,6 +76,7 @@ import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.NegPred;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.NumStroke;
@@ -131,6 +132,7 @@ import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
 import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.MemPredVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.NegPredVisitor;
 import net.sourceforge.czt.z.visitor.NumExprVisitor;
 import net.sourceforge.czt.z.visitor.OrExprVisitor;
 import net.sourceforge.czt.z.visitor.PowerExprVisitor;
@@ -152,7 +154,7 @@ import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
 import net.sourceforge.czt.z.visitor.ZExprListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
-import net.sourceforge.czt.z2alloy.ast.Expr;
+import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import net.sourceforge.czt.z2alloy.ast.ExprBinary;
 import net.sourceforge.czt.z2alloy.ast.ExprCall;
 import net.sourceforge.czt.z2alloy.ast.ExprConstant;
@@ -172,71 +174,72 @@ import net.sourceforge.czt.z2alloy.visitors.SchExprVisitorImpl;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 
-public class Z2Alloy implements TermVisitor<Expr>,
-AndExprVisitor<Expr>,
-ApplExprVisitor<Expr>,
-AxParaVisitor<Expr>,
-BindSelExprVisitor<Expr>,
-CompExprVisitor<Expr>,
-ConstDeclVisitor<Expr>,
-DecorExprVisitor<Expr>,
-ExistsExprVisitor<Expr>,
-Exists1PredVisitor<Expr>,
-ExistsPredVisitor<Expr>,
-ForallPredVisitor<Expr>,
-FreeParaVisitor<Expr>,
-GivenParaVisitor<Expr>,
-GivenTypeVisitor<Expr>,
-HideExprVisitor<Expr>,
-IffExprVisitor<Expr>,
-ImpliesExprVisitor<Expr>,
-InclDeclVisitor<Expr>,
-LambdaExprVisitor<Expr>,
-LatexMarkupParaVisitor<Expr>,
-MemPredVisitor<Expr>,
-NarrParaVisitor<Expr>,
-NumExprVisitor<Expr>,
-OrExprVisitor<Expr>,
-PowerExprVisitor<Expr>,
-PowerTypeVisitor<Expr>,
-Pred2Visitor<Expr>,
-ProdExprVisitor<Expr>,
-ProdTypeVisitor<Expr>,
-RefExprVisitor<Expr>,
-RuleVisitor<Expr>,
-SchemaTypeVisitor<Expr>,
-SchExprVisitor<Expr>,
-SetCompExprVisitor<Expr>,
-SetExprVisitor<Expr>,
-ThetaExprVisitor<Expr>,
-TruePredVisitor<Expr>,
-TupleExprVisitor<Expr>,
-TypeAnnVisitor<Expr>,
-VarDeclVisitor<Expr>,
-ZDeclListVisitor<Expr>,
-ZExprListVisitor<Expr>,
-ZSectVisitor<Expr>
+public class Z2Alloy implements TermVisitor<AlloyExpr>,
+AndExprVisitor<AlloyExpr>,
+ApplExprVisitor<AlloyExpr>,
+AxParaVisitor<AlloyExpr>,
+BindSelExprVisitor<AlloyExpr>,
+CompExprVisitor<AlloyExpr>,
+ConstDeclVisitor<AlloyExpr>,
+DecorExprVisitor<AlloyExpr>,
+ExistsExprVisitor<AlloyExpr>,
+Exists1PredVisitor<AlloyExpr>,
+ExistsPredVisitor<AlloyExpr>,
+ForallPredVisitor<AlloyExpr>,
+FreeParaVisitor<AlloyExpr>,
+GivenParaVisitor<AlloyExpr>,
+GivenTypeVisitor<AlloyExpr>,
+HideExprVisitor<AlloyExpr>,
+IffExprVisitor<AlloyExpr>,
+ImpliesExprVisitor<AlloyExpr>,
+InclDeclVisitor<AlloyExpr>,
+LambdaExprVisitor<AlloyExpr>,
+LatexMarkupParaVisitor<AlloyExpr>,
+MemPredVisitor<AlloyExpr>,
+NarrParaVisitor<AlloyExpr>,
+NegPredVisitor<AlloyExpr>,
+NumExprVisitor<AlloyExpr>,
+OrExprVisitor<AlloyExpr>,
+PowerExprVisitor<AlloyExpr>,
+PowerTypeVisitor<AlloyExpr>,
+Pred2Visitor<AlloyExpr>,
+ProdExprVisitor<AlloyExpr>,
+ProdTypeVisitor<AlloyExpr>,
+RefExprVisitor<AlloyExpr>,
+RuleVisitor<AlloyExpr>,
+SchemaTypeVisitor<AlloyExpr>,
+SchExprVisitor<AlloyExpr>,
+SetCompExprVisitor<AlloyExpr>,
+SetExprVisitor<AlloyExpr>,
+ThetaExprVisitor<AlloyExpr>,
+TruePredVisitor<AlloyExpr>,
+TupleExprVisitor<AlloyExpr>,
+TypeAnnVisitor<AlloyExpr>,
+VarDeclVisitor<AlloyExpr>,
+ZDeclListVisitor<AlloyExpr>,
+ZExprListVisitor<AlloyExpr>,
+ZSectVisitor<AlloyExpr>
 {
   private SectionManager manager_;
   private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private boolean unfolding_ = false;
   private List<ExprVar> vars_;
-  private List<Expr> exprs_;
+  private List<AlloyExpr> exprs_;
 
   private boolean body = false;
 
   private Module module_ = new Module();
   private RelationMap relationMap_ = new RelationMap(module_);
 
-  private Map<String, Expr> macros_ = new HashMap<String, Expr>();
+  private Map<String, AlloyExpr> macros_ = new HashMap<String, AlloyExpr>();
 
-  private Map<String, Expr> fields_ = new HashMap<String, Expr>();
+  private Map<String, AlloyExpr> fields_ = new HashMap<String, AlloyExpr>();
 
   private Stack<Term> stack = new Stack<Term>();
 
   private List<ExprVar> thetaQuantified = new ArrayList<ExprVar>();
-  private Expr thetaPred = ExprConstant.TRUE;
+  private AlloyExpr thetaPred = ExprConstant.TRUE;
 
   /**
    * A mapping from ZName ids to alloy names.
@@ -276,7 +279,7 @@ ZSectVisitor<Expr>
 
   // ==================== Visitor Methods ==================
 
-  public Expr visitTerm(Term term) {
+  public AlloyExpr visitTerm(Term term) {
     System.err.println(term.getClass() + " not yet implemented");
     throw new RuntimeException(print(term));
   }
@@ -302,8 +305,8 @@ ZSectVisitor<Expr>
    * 
    * @return the expression
    */
-  public Expr visitAndExpr(AndExpr andExpr) {
-    Pair<Expr, Expr> comps = schExpr2SigComponent(andExpr);
+  public AlloyExpr visitAndExpr(AndExpr andExpr) {
+    Pair<AlloyExpr, AlloyExpr> comps = schExpr2SigComponent(andExpr);
     return comps.getFirst().and(comps.getSecond());
   }
 
@@ -330,16 +333,16 @@ ZSectVisitor<Expr>
    * @return the expression if it successfully translated, or null it
    *         something fails
    */
-  public Expr visitApplExpr(ApplExpr applExpr) {
-    Expr ret = null;
+  public AlloyExpr visitApplExpr(ApplExpr applExpr) {
+    AlloyExpr ret = null;
     if (applExpr.getMixfix()) {
       if (applExpr.getRightExpr() instanceof TupleExpr
           && applExpr.getLeftExpr() instanceof RefExpr) {
         RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
         String binOp = isInfixOperator(refExpr.getZName());
         ZExprList exprs = ((TupleExpr) applExpr.getRightExpr()).getZExprList();
-        Expr left = visit(exprs.get(0));
-        Expr right = visit(exprs.get(1));
+        AlloyExpr left = visit(exprs.get(0));
+        AlloyExpr right = visit(exprs.get(1));
         if (left == null || right == null) {
           System.err.println("left and right of a binary expression must not be null");
           throw new RuntimeException();
@@ -358,7 +361,7 @@ ZSectVisitor<Expr>
           ret = left.product(right);
         }
         else if (binOp.equals(ZString.NDRES)) {
-          List<Expr> args = new ArrayList<Expr>();
+          List<AlloyExpr> args = new ArrayList<AlloyExpr>();
           args.add(left);
           args.add(right);
           if (module_.containsFunc("ndres"))
@@ -372,7 +375,7 @@ ZSectVisitor<Expr>
         }
         else if (binOp.equals("..")) {
           ExprVar i = new ExprVar("i", SIGINT);
-          Expr pred = i.gte(left).and(i.lte(right));
+          AlloyExpr pred = i.gte(left).and(i.lte(right));
           ret = pred.comprehensionOver(Arrays
               .asList(new ExprVar[] { i }));
         }
@@ -394,7 +397,7 @@ ZSectVisitor<Expr>
       else if (applExpr.getLeftExpr() instanceof RefExpr) {
         RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
         if (print(refExpr.getName()).equals(ZString.LANGLE + " ,, " + ZString.RANGLE)) { // sequence
-          Expr body = visit(applExpr.getRightExpr());
+          AlloyExpr body = visit(applExpr.getRightExpr());
           if (body == NONE) {
             ret = NONE.product(NONE);
           } else {
@@ -409,42 +412,42 @@ ZSectVisitor<Expr>
         RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
         String name = print(refExpr.getName());
         if (name.equals("dom")) {
-          Expr body = visit(applExpr.getRightExpr());
+          AlloyExpr body = visit(applExpr.getRightExpr());
           if (module_.containsFunc("dom"))
             ret = module_.getFunc("dom").call(body);
         }
         else if (name.equals("ran")) {
-          Expr body = visit(applExpr.getRightExpr());
+          AlloyExpr body = visit(applExpr.getRightExpr());
           if (module_.containsFunc("ran")) 
             ret = module_.getFunc("ran").call(body);
         }
         else if (name.equals("last")) {
-          Expr body = visit(applExpr.getRightExpr());
+          AlloyExpr body = visit(applExpr.getRightExpr());
           if (module_.containsFunc("last"))
             ret = module_.getFunc("last").call(body);
         }
         else if (name.equals("front")) {
-          Expr body = visit(applExpr.getRightExpr());
+          AlloyExpr body = visit(applExpr.getRightExpr());
           if (module_.containsFunc("front"))
             ret = module_.getFunc("front").call(body);
         }
         else if (module_.containsFunc(print(refExpr.getZName()))) {
           Func fun = module_.getFunc(print(refExpr.getZName()));
           if (applExpr.getRightExpr() instanceof TupleExpr) {
-            Expr first = visit(applExpr.getRightExpr());
+            AlloyExpr first = visit(applExpr.getRightExpr());
             if (first != null) {
               exprs_.add(0, first);
             }
             ret = fun.call(exprs_);
           }
-          Expr body = visit(applExpr.getRightExpr());
+          AlloyExpr body = visit(applExpr.getRightExpr());
           ret = fun.call(body);
         }
       }
     }
     if (ret == null) {
-      Expr left = visit(applExpr.getLeftExpr());
-      Expr right = visit(applExpr.getRightExpr());
+      AlloyExpr left = visit(applExpr.getLeftExpr());
+      AlloyExpr right = visit(applExpr.getRightExpr());
 
       if (left instanceof ExprVar && ((ExprVar) left).label().equals("# _ ")) {
         ret = right.cardinality();
@@ -484,7 +487,7 @@ ZSectVisitor<Expr>
    * 
    */
   // TODO Other cases: RefExprs, LambdaExpr, just visit(result).
-  public Expr visitAxPara(AxPara para) {
+  public AlloyExpr visitAxPara(AxPara para) {
     if (para.getName().size() > 0) {
       System.err.println("Generic definitions not handled yet.");
       throw new RuntimeException();
@@ -495,7 +498,7 @@ ZSectVisitor<Expr>
       visit(schText.getZDeclList().get(0));
     }
     else if (schText.getZDeclList().size() == 1) {
-      Expr expr = visit(schText.getZDeclList().get(0));
+      AlloyExpr expr = visit(schText.getZDeclList().get(0));
       if (expr instanceof ExprVar) {
         ExprVar exprVar = (ExprVar) expr;
         if (exprVar.expr() instanceof Sig) {
@@ -503,7 +506,7 @@ ZSectVisitor<Expr>
           SubsetSig subsetSig = new SubsetSig(exprVar.label(), sig);
           addSig(subsetSig);
           body = true;
-          Expr pred = visit(schText.getPred());
+          AlloyExpr pred = visit(schText.getPred());
           if (pred != null) {
             addSigPred(subsetSig, pred);
           }
@@ -515,21 +518,21 @@ ZSectVisitor<Expr>
   }
 
   // TODO figure out wtf this is supposed to be
-  public Expr visitBindSelExpr(BindSelExpr bindSelExpr) {
-    Expr left = visit(bindSelExpr.getExpr());
+  public AlloyExpr visitBindSelExpr(BindSelExpr bindSelExpr) {
+    AlloyExpr left = visit(bindSelExpr.getExpr());
     ExprVar right = new ExprVar(print(bindSelExpr.getName()));
     return left.join(right);
   }
 
   // TODO figure out wtf this is supposed to be
-  public Expr visitCompExpr(CompExpr compExpr) {
-    Expr leftExpr = visit(compExpr.getLeftExpr());
-    Expr rightExpr = visit(compExpr.getRightExpr());
+  public AlloyExpr visitCompExpr(CompExpr compExpr) {
+    AlloyExpr leftExpr = visit(compExpr.getLeftExpr());
+    AlloyExpr rightExpr = visit(compExpr.getRightExpr());
     if (leftExpr instanceof Sig && rightExpr instanceof Sig) {
       Sig left = (Sig) leftExpr;
       Sig right = (Sig) rightExpr;
       // assumes it comes from the first element
-      Expr leftmost = left.pred();
+      AlloyExpr leftmost = left.pred();
       if (! (leftmost instanceof ExprCall)) {
         return null;
       }
@@ -555,8 +558,8 @@ ZSectVisitor<Expr>
       ExprVar quantSig = new ExprVar("temp", quant);
       List<ExprVar> vars = new ArrayList<ExprVar>();
       vars.add(quantSig);
-      List<Expr> vars1 = new ArrayList<Expr>();
-      List<Expr> vars2 = new ArrayList<Expr>();
+      List<AlloyExpr> vars1 = new ArrayList<AlloyExpr>();
+      List<AlloyExpr> vars2 = new ArrayList<AlloyExpr>();
       for (Field f : quant) {
         vars1.add(new ExprVar(f.label(), f.expr()));
         vars1.add(quantSig.join(f));
@@ -573,7 +576,7 @@ ZSectVisitor<Expr>
     }
   }
 
-  public Expr visitConstDecl(ConstDecl cDecl) {
+  public AlloyExpr visitConstDecl(ConstDecl cDecl) {
     try {
       String sigName = print(cDecl.getName());
       net.sourceforge.czt.z.ast.Expr result = cDecl.getExpr();
@@ -603,7 +606,7 @@ ZSectVisitor<Expr>
       if (result instanceof SchExpr) {
         return new SchExprVisitorImpl(sigName).visitSchExpr((SchExpr) result);
       }
-      Expr value = visit(result);
+      AlloyExpr value = visit(result);
       macros_.put(sigName, value);
       return null;
     } catch (CommandException e) {
@@ -613,8 +616,8 @@ ZSectVisitor<Expr>
     }
   }
 
-  public Expr visitDecorExpr(DecorExpr decorExpr) {
-    Expr expr = visit(decorExpr.getExpr());
+  public AlloyExpr visitDecorExpr(DecorExpr decorExpr) {
+    AlloyExpr expr = visit(decorExpr.getExpr());
     if (expr instanceof Sig) {
       Sig sig = (Sig) expr;
       Sig sigStroke = new PrimSig(sig.label() + print(decorExpr.getStroke()));
@@ -656,7 +659,7 @@ ZSectVisitor<Expr>
    * }
    * 
    */
-  public Expr visitExistsExpr(ExistsExpr existsExpr) {
+  public AlloyExpr visitExistsExpr(ExistsExpr existsExpr) {
     /*
      * basically this method accumulates all the fields of predicate bits,
      * then removes all fields in exists sigs the ones left over are the
@@ -685,15 +688,15 @@ ZSectVisitor<Expr>
       inclVars[i - 1] = (new ExprVar(s.label().toLowerCase() + "_temp", s));
     }
     body = true;
-    Expr pred = visit(existsExpr.getExpr());
+    AlloyExpr pred = visit(existsExpr.getExpr());
     body = false;
     List<Sig> predSigs = new ArrayList<Sig>(); // all the sigs in the body
     // of the predicate
-    Stack<Expr> predParts = new Stack<Expr>(); // just for accumulating them
+    Stack<AlloyExpr> predParts = new Stack<AlloyExpr>(); // just for accumulating them
     // above
     predParts.add(pred);
     while (!predParts.isEmpty()) {
-      Expr temp = predParts.pop();
+      AlloyExpr temp = predParts.pop();
       if (temp instanceof Sig) {
         predSigs.add((Sig) temp);
       } else if (temp instanceof ExprCall) {
@@ -705,9 +708,9 @@ ZSectVisitor<Expr>
         throw new RuntimeException();
       }
     }
-    Map<String, Expr> fields = new HashMap<String, Expr>(); // the fields
+    Map<String, AlloyExpr> fields = new HashMap<String, AlloyExpr>(); // the fields
     // for the new signiture
-    Map<String, Expr> vars = new HashMap<String, Expr>(); // the expressions
+    Map<String, AlloyExpr> vars = new HashMap<String, AlloyExpr>(); // the expressions
     // to be used in predicate calls
     for (Sig sig : predSigs) {
       for (Field field : sig.fields()) {
@@ -730,21 +733,21 @@ ZSectVisitor<Expr>
     }
     PrimSig sig;
     sig = new PrimSig(names.get(existsExpr));
-    for (Entry<String, Expr> field : fields.entrySet()) {
+    for (Entry<String, AlloyExpr> field : fields.entrySet()) {
       sig.addField(new Field(field.getKey(), field.getValue()));
     }
     addSig(sig);
     // unfolds the pred and builds it up into a tree contianing the pred
     // calls, ands, ors
-    Expr predBody = build(pred, vars);
+    AlloyExpr predBody = build(pred, vars);
     // the name of the duplicate field, and the list of expressions
     // the expressions are such that they can be directly used in the
     // equality expression
-    Map<String, List<Expr>> dupFields = new HashMap<String, List<Expr>>();
+    Map<String, List<AlloyExpr>> dupFields = new HashMap<String, List<AlloyExpr>>();
     for (int i = 0; i < inclSigs.size(); i++) {
       for (Field field : inclSigs.get(i).fields()) {
         if (!dupFields.containsKey(field.label())) {
-          dupFields.put(field.label(), new ArrayList<Expr>());
+          dupFields.put(field.label(), new ArrayList<AlloyExpr>());
         }
         if (i == 0) { // remember vars does not include the first
           // because of the call at the end
@@ -758,10 +761,10 @@ ZSectVisitor<Expr>
     // starts from the second entry, and puts all the later entries equal to
     // the first
     // ie looks like first=second and first=third and first=fourth ...
-    for (Entry<String, List<Expr>> entry : dupFields.entrySet()) {
+    for (Entry<String, List<AlloyExpr>> entry : dupFields.entrySet()) {
       for (int i = 1; i < entry.getValue().size(); i++) {
-        Expr firstExpr = entry.getValue().get(0);
-        Expr ithExpr = entry.getValue().get(i);
+        AlloyExpr firstExpr = entry.getValue().get(0);
+        AlloyExpr ithExpr = entry.getValue().get(i);
         if (predBody == null) {
           predBody = firstExpr.equal(ithExpr);
         }
@@ -790,14 +793,14 @@ ZSectVisitor<Expr>
    * 
    * @return the expression, or null if something is null that should not be
    */
-  public Expr visitExists1Pred(Exists1Pred exists1Pred) {
+  public AlloyExpr visitExists1Pred(Exists1Pred exists1Pred) {
     ExprVar firstVar = (ExprVar) visit(exists1Pred.getZSchText()
         .getZDeclList());
     List<ExprVar> rest = vars_;
-    Expr pred;
+    AlloyExpr pred;
     body = true;
-    Expr pred1 = visit(exists1Pred.getZSchText().getPred());
-    Expr pred2 = visit(exists1Pred.getPred());
+    AlloyExpr pred1 = visit(exists1Pred.getZSchText().getPred());
+    AlloyExpr pred2 = visit(exists1Pred.getPred());
     body = false;
     if (pred2 == null) {
       System.err.println("pred of ExistsPred must not be null");
@@ -828,15 +831,15 @@ ZSectVisitor<Expr>
    * 
    * @return the epxression, or null if something is null that should not be
    */
-  public Expr visitExistsPred(ExistsPred existsPred) {
+  public AlloyExpr visitExistsPred(ExistsPred existsPred) {
     ExprVar firstVar = null;
-    Expr first = visit(existsPred.getZSchText().getZDeclList());
-    Expr sigPred = null;
+    AlloyExpr first = visit(existsPred.getZSchText().getZDeclList());
+    AlloyExpr sigPred = null;
     List<ExprVar> rest = vars_;		
 
     if (first instanceof ExprVar) firstVar = (ExprVar) first;
     else if (first instanceof Sig) {
-      List<Expr> sigCallVars = new ArrayList<Expr>();
+      List<AlloyExpr> sigCallVars = new ArrayList<AlloyExpr>();
       Sig s = (Sig) first;
       for (Field f : s) {
         ExprVar temp = new ExprVar(f.label(), f.expr());
@@ -850,10 +853,10 @@ ZSectVisitor<Expr>
       }
       sigPred = module_.getFunc("pred_" + s.label()).call(sigCallVars);
     }
-    Expr pred;
+    AlloyExpr pred;
     body = true;
-    Expr pred1 = visit(existsPred.getZSchText().getPred());
-    Expr pred2 = visit(existsPred.getPred());
+    AlloyExpr pred1 = visit(existsPred.getZSchText().getPred());
+    AlloyExpr pred2 = visit(existsPred.getPred());
     body = false;
     if (pred2 == null) {
       System.err.println("pred of ExistsPred must not be null");
@@ -898,13 +901,13 @@ ZSectVisitor<Expr>
    * all var1, ..., var2 | pred1 =&gt; pred2
    * </pre>
    */
-  public Expr visitForallPred(ForallPred allPred) {
+  public AlloyExpr visitForallPred(ForallPred allPred) {
     ExprVar firstVar = (ExprVar) visit(allPred.getZSchText().getZDeclList());
     List<ExprVar> rest = vars_;
-    Expr pred;
+    AlloyExpr pred;
     body = true;
-    Expr pred1 = visit(allPred.getZSchText().getPred());
-    Expr pred2 = visit(allPred.getPred());
+    AlloyExpr pred1 = visit(allPred.getZSchText().getPred());
+    AlloyExpr pred2 = visit(allPred.getPred());
     body = false;
     if (pred2 == null) {
       System.err.println("pred of allpred must not be null");
@@ -940,7 +943,7 @@ ZSectVisitor<Expr>
    * @return null
    * 
    */
-  public Expr visitFreePara(FreePara para) {
+  public AlloyExpr visitFreePara(FreePara para) {
     return new FreetypeVisitorImpl().visit(para);
   }
 
@@ -960,7 +963,7 @@ ZSectVisitor<Expr>
    * sig C {}
    * </pre>
    */
-  public Expr visitGivenPara(GivenPara para) {
+  public AlloyExpr visitGivenPara(GivenPara para) {
     for (Name name : para.getNames()) {
       module_.addSig(new PrimSig(print(name)));
     }
@@ -979,7 +982,7 @@ ZSectVisitor<Expr>
    * 
    * @return the sig, or null if no sig matches
    */
-  public Expr visitGivenType(GivenType givenType) {
+  public AlloyExpr visitGivenType(GivenType givenType) {
     if (print(givenType.getName()).equals(ZString.ARITHMOS)) {
       return SIGINT;
     }
@@ -990,17 +993,17 @@ ZSectVisitor<Expr>
   }
 
   @Override
-  public Expr visitHideExpr(HideExpr hideExpr) {
+  public AlloyExpr visitHideExpr(HideExpr hideExpr) {
     Sig newSig = new PrimSig(names.get(hideExpr));
     List<String> hiddenNames = new ArrayList<String>();
     for (Name n : hideExpr.getZNameList()) hiddenNames.add(print(n));
     List<ExprVar> hidden = new ArrayList<ExprVar>();
     List<String> hiddenNamesIncluded = new ArrayList<String>();
     List<Field> fields = new ArrayList<Field>();
-    Expr sub = null;
+    AlloyExpr sub = null;
     if (hideExpr.getExpr() instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) hideExpr.getExpr();
-      Expr expr = visit(refExpr);
+      AlloyExpr expr = visit(refExpr);
       if (expr instanceof Sig) {
         Sig sig = (Sig) expr;
         fields = sig.fields();
@@ -1055,8 +1058,8 @@ ZSectVisitor<Expr>
    * 
    * @return the expression
    */
-  public Expr visitIffExpr(IffExpr iffExpr) {
-    Pair<Expr, Expr> comps = schExpr2SigComponent(iffExpr);
+  public AlloyExpr visitIffExpr(IffExpr iffExpr) {
+    Pair<AlloyExpr, AlloyExpr> comps = schExpr2SigComponent(iffExpr);
     return comps.getFirst().iff(comps.getSecond());
   }
 
@@ -1079,21 +1082,21 @@ ZSectVisitor<Expr>
    * 
    * @return the expression
    */
-  public Expr visitImpliesExpr(ImpliesExpr impliesExpr) {
-    Pair<Expr, Expr> comps = schExpr2SigComponent(impliesExpr);
+  public AlloyExpr visitImpliesExpr(ImpliesExpr impliesExpr) {
+    Pair<AlloyExpr, AlloyExpr> comps = schExpr2SigComponent(impliesExpr);
     return comps.getFirst().implies(comps.getSecond());
   }
 
-  public Expr visitInclDecl(InclDecl inclDecl) {
+  public AlloyExpr visitInclDecl(InclDecl inclDecl) {
     return visit(inclDecl.getExpr());
   }
 
   /** Ignore Latex markup paragraphs. */
-  public Expr visitLatexMarkupPara(LatexMarkupPara para) {
+  public AlloyExpr visitLatexMarkupPara(LatexMarkupPara para) {
     return null;
   }
 
-  public Expr visitLambdaExpr(LambdaExpr lambda) {
+  public AlloyExpr visitLambdaExpr(LambdaExpr lambda) {
     String name = names.get(lambda);
     if (module_.containsFunc(name)) return null;
     List<ExprVar> vars = new ArrayList<ExprVar>();
@@ -1104,10 +1107,10 @@ ZSectVisitor<Expr>
       }
     }
     body = true;
-    Expr body = visit(lambda.getExpr());
+    AlloyExpr body = visit(lambda.getExpr());
     this.body = false;
     TypeAnn type = lambda.getExpr().getAnn(TypeAnn.class);
-    Expr returnDecl = visit(type);
+    AlloyExpr returnDecl = visit(type);
     ExprVar j = new ExprVar("j", returnDecl);
     vars.add(j);
     ExprQuant exprQuant =
@@ -1127,10 +1130,10 @@ ZSectVisitor<Expr>
       }
     }
     this.body = true;
-    Expr body = visit(lambda.getExpr());
+    AlloyExpr body = visit(lambda.getExpr());
     this.body = false;
     TypeAnn type = lambda.getExpr().getAnn(TypeAnn.class);
-    Expr returnDecl = visit(type);
+    AlloyExpr returnDecl = visit(type);
     Func func = new Func(name, vars, returnDecl);
     if (body != null) func.setBody(body);
     module_.addFunc(func);
@@ -1154,12 +1157,12 @@ ZSectVisitor<Expr>
    * 
    * otherwise assumes it is membership => left in right
    */
-  public Expr visitMemPred(MemPred memPred) {
+  public AlloyExpr visitMemPred(MemPred memPred) {
     if (memPred.getRightExpr() instanceof SetExpr
         && ((SetExpr) memPred.getRightExpr()).getZExprList().size() == 1) {
       // equality
-      Expr left = visit(memPred.getLeftExpr());
-      Expr right = visit(memPred.getRightExpr());
+      AlloyExpr left = visit(memPred.getLeftExpr());
+      AlloyExpr right = visit(memPred.getRightExpr());
       if (left == null || right == null) {
         System.err.println("Left and right of memPred must be non null");
         throw new RuntimeException();
@@ -1170,8 +1173,8 @@ ZSectVisitor<Expr>
         && memPred.getRightExpr() instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) memPred.getRightExpr();
       ZExprList exprs = ((TupleExpr) memPred.getLeftExpr()).getZExprList();
-      Expr left = visit(exprs.get(0));
-      Expr right = visit(exprs.get(1));
+      AlloyExpr left = visit(exprs.get(0));
+      AlloyExpr right = visit(exprs.get(1));
       if (left == null || right == null) {
         System.err.println("Left and right of refExpr must be non null");
         throw new RuntimeException();
@@ -1201,8 +1204,8 @@ ZSectVisitor<Expr>
         return left.equal(right).not();
       }
     }
-    Expr left = visit(memPred.getLeftExpr());
-    Expr right = visit(memPred.getRightExpr());
+    AlloyExpr left = visit(memPred.getLeftExpr());
+    AlloyExpr right = visit(memPred.getRightExpr());
     if (left == null || right == null) {
       System.err.println("Left and right Expr of MemPred must not be null");
       throw new RuntimeException();
@@ -1211,14 +1214,18 @@ ZSectVisitor<Expr>
   }
 
   /** Ignore narrative paragraphs. */
-  public Expr visitNarrPara(NarrPara para) {
+  public AlloyExpr visitNarrPara(NarrPara para) {
     return null;
+  }
+  
+  public AlloyExpr visitNegPred(NegPred negPred) {
+    return visit(negPred.getPred()).not();
   }
 
   /**
    * @return an alloy integer expression with the given value
    */
-  public Expr visitNumExpr(NumExpr numexpr) {
+  public AlloyExpr visitNumExpr(NumExpr numexpr) {
     return ExprConstant.makeNUMBER(numexpr.getValue().intValue());
   }
 
@@ -1242,12 +1249,12 @@ ZSectVisitor<Expr>
    * 
    * @return the expression
    */
-  public Expr visitOrExpr(OrExpr orExpr) {
-    Pair<Expr, Expr> comps = schExpr2SigComponent(orExpr);
+  public AlloyExpr visitOrExpr(OrExpr orExpr) {
+    Pair<AlloyExpr, AlloyExpr> comps = schExpr2SigComponent(orExpr);
     return comps.getFirst().or(comps.getSecond());
   }
 
-  public Expr visitPred2(Pred2 pred2) {
+  public AlloyExpr visitPred2(Pred2 pred2) {
     return new Pred2VisitorImpl().visit(pred2);
   }
 
@@ -1257,8 +1264,8 @@ ZSectVisitor<Expr>
    * 
    * @return the expression or null if the sub expression translates to null
    */
-  public Expr visitPowerExpr(PowerExpr powerExpr) {
-    Expr body = visit(powerExpr.getExpr());
+  public AlloyExpr visitPowerExpr(PowerExpr powerExpr) {
+    AlloyExpr body = visit(powerExpr.getExpr());
     if (body == null) {
       System.err.println("body of power expr must not be null");
       throw new RuntimeException();
@@ -1272,8 +1279,8 @@ ZSectVisitor<Expr>
    * 
    * @return the expression, or null if the subexpression translates to null
    */
-  public Expr visitPowerType(PowerType powerType) {
-    Expr body = visit(powerType.getType());
+  public AlloyExpr visitPowerType(PowerType powerType) {
+    AlloyExpr body = visit(powerType.getType());
     if (body == null) {
       System.err.println("body of power type must not be null: " + powerType);
       System.err.println("BODY: " + powerType.getType().getClass());
@@ -1294,10 +1301,10 @@ ZSectVisitor<Expr>
    * @return the expression or null if any of the sub expressions
    *         translate to null
    */
-  public Expr visitProdExpr(ProdExpr prodExpr) {
-    Expr expr = visit(prodExpr.getZExprList().get(0));
+  public AlloyExpr visitProdExpr(ProdExpr prodExpr) {
+    AlloyExpr expr = visit(prodExpr.getZExprList().get(0));
     for (int i = 1; i < prodExpr.getZExprList().size(); i++) {
-      Expr current = visit(prodExpr.getZExprList().get(i));
+      AlloyExpr current = visit(prodExpr.getZExprList().get(i));
       if (current == null || expr == null) {
         System.err.println("body of prodexprs must not be  null");
         throw new RuntimeException();
@@ -1313,12 +1320,12 @@ ZSectVisitor<Expr>
    * @return the expression or null if some of the sub expressions translate
    *         to null
    */
-  public Expr visitProdType(ProdType prodType) {
+  public AlloyExpr visitProdType(ProdType prodType) {
     //		Expr prod = null;
-    Expr first = null;
-    Expr second = null;
+    AlloyExpr first = null;
+    AlloyExpr second = null;
     for (Type2 type : prodType.getType()) {
-      Expr cont = visit(type);
+      AlloyExpr cont = visit(type);
       if (cont == null) {
         System.err.println("elements of ProdType must not be null");
         throw new RuntimeException();
@@ -1353,9 +1360,9 @@ ZSectVisitor<Expr>
    * signiture, it uses that signiture <br> finally it creates an
    * ExprVar with the given name and a type from the type annotations.
    */
-  public Expr visitRefExpr(RefExpr refExpr) {
+  public AlloyExpr visitRefExpr(RefExpr refExpr) {
     String name = print(refExpr.getName());
-    Expr ret = null;
+    AlloyExpr ret = null;
     if (isInfixOperator(refExpr.getZName(), ZString.PFUN)) {
       ret = relationMap_.createPFun(visit(refExpr.getZExprList().get(0)),
           visit(refExpr.getZExprList().get(1)));
@@ -1372,7 +1379,7 @@ ZSectVisitor<Expr>
     }
     else if (print(refExpr.getZName()).equals(ZString.NAT)) {
       ExprVar i = new ExprVar("i", SIGINT);
-      Expr sub = i.gte(ExprConstant.ZERO);
+      AlloyExpr sub = i.gte(ExprConstant.ZERO);
       List<ExprVar> vars = new ArrayList<ExprVar>();
       vars.add(i);
       ret = sub.comprehensionOver(vars);
@@ -1381,7 +1388,7 @@ ZSectVisitor<Expr>
       ret = SIGINT;
     }
     else if (print(refExpr.getZName()).equals(ZString.EMPTYSET)) {
-      Expr type = visit(refExpr.getAnn(TypeAnn.class));
+      AlloyExpr type = visit(refExpr.getAnn(TypeAnn.class));
       int num = arity(type);
       ret = NONE;
       for (int i = 1; i < num; i++) ret = NONE.product(NONE);
@@ -1404,7 +1411,7 @@ ZSectVisitor<Expr>
       ret = macros_.get(name);
     }
     else {
-      Expr type = visit(refExpr.getAnn(TypeAnn.class));
+      AlloyExpr type = visit(refExpr.getAnn(TypeAnn.class));
       ret = new ExprVar(print(refExpr.getZName()), type);
     }
     ret = processRelation(ret, refExpr);
@@ -1412,17 +1419,17 @@ ZSectVisitor<Expr>
   }
 
   /** Ignore rules. */
-  public Expr visitRule(Rule r) {
+  public AlloyExpr visitRule(Rule r) {
     return null;
   }
 
-  public Expr visitSchemaType(SchemaType schemaType) {
+  public AlloyExpr visitSchemaType(SchemaType schemaType) {
     // this doesn't really work. It matches the 'first' sig which has the
     // same number of fields, with the same names
     // could check the types
     // If there are two schemas with the same number and names of fields it
     // fails.
-    Map<String, Expr> fields = new HashMap<String, Expr>();
+    Map<String, AlloyExpr> fields = new HashMap<String, AlloyExpr>();
     for (NameTypePair p : schemaType.getSignature().getNameTypePair()) {
       fields.put(print(p.getName()), visit(p.getType()));
     }
@@ -1467,14 +1474,14 @@ ZSectVisitor<Expr>
    * </pre>
    * 
    */
-  public Expr visitSchExpr(SchExpr schExpr) {
+  public AlloyExpr visitSchExpr(SchExpr schExpr) {
     String schName = names.get(schExpr);
     if (schName == null) {
       System.err.println("SchExprs must have names");
       throw new RuntimeException();
     }
     Sig sig = new PrimSig(schName);
-    Expr fieldPred = null;
+    AlloyExpr fieldPred = null;
     for (Decl d : schExpr.getZSchText().getZDeclList()) {
       if (d instanceof VarDecl) {
         VarDecl vardecl = (VarDecl) d;
@@ -1485,7 +1492,7 @@ ZSectVisitor<Expr>
         }
       } else if (d instanceof InclDecl) {
         InclDecl incdecl = (InclDecl) d;
-        Expr sigfieldpred = processSigField((Sig) visit(incdecl.getExpr()),
+        AlloyExpr sigfieldpred = processSigField((Sig) visit(incdecl.getExpr()),
             sig);
         if (fieldPred != null) {
           fieldPred = fieldPred.and(sigfieldpred);
@@ -1499,7 +1506,7 @@ ZSectVisitor<Expr>
     }
     addSig(sig);
     body = true;
-    Expr pred = visit(schExpr.getZSchText().getPred());
+    AlloyExpr pred = visit(schExpr.getZSchText().getPred());
     body = false;
     if (fieldPred != null) {
       addSigPred(sig, fieldPred);
@@ -1526,12 +1533,12 @@ ZSectVisitor<Expr>
    * @return the expression
    * 
    */
-  public Expr visitSetCompExpr(SetCompExpr setCompExpr) {
+  public AlloyExpr visitSetCompExpr(SetCompExpr setCompExpr) {
     ExprVar firstVar = (ExprVar) visit(setCompExpr.getZSchText()
         .getZDeclList());
     List<ExprVar> rest = vars_;
-    Expr pred = visit(setCompExpr.getZSchText().getPred());
-    Expr oPred = visit(setCompExpr.getExpr());
+    AlloyExpr pred = visit(setCompExpr.getZSchText().getPred());
+    AlloyExpr oPred = visit(setCompExpr.getExpr());
     vars_.add(firstVar);
     if (pred == null) {
       pred = ExprConstant.TRUE;
@@ -1539,7 +1546,7 @@ ZSectVisitor<Expr>
     if (oPred == null) {
       return pred.comprehensionOver(rest);
     }
-    Expr type = visit(setCompExpr.getExpr().getAnn(TypeAnn.class));
+    AlloyExpr type = visit(setCompExpr.getExpr().getAnn(TypeAnn.class));
     ExprVar exprVar = new ExprVar("temp", type);
     List<ExprVar> temp = new ArrayList<ExprVar>();
     temp.add(exprVar);
@@ -1562,7 +1569,7 @@ ZSectVisitor<Expr>
    * {} =&gt; none
    * </pre>
    */
-  public Expr visitSetExpr(SetExpr setExpr) {
+  public AlloyExpr visitSetExpr(SetExpr setExpr) {
     if (setExpr.getExprList() == null) {
       return NONE;
     }
@@ -1570,12 +1577,12 @@ ZSectVisitor<Expr>
     if (exprs.size() == 0) {
       return NONE;
     } else if (exprs.size() == 1) {
-      Expr ret = visit(exprs.get(0));
+      AlloyExpr ret = visit(exprs.get(0));
       return ret;
     } else {
-      Expr expr = null;
+      AlloyExpr expr = null;
       for (net.sourceforge.czt.z.ast.Expr e : exprs) {
-        Expr ve = visit(e);
+        AlloyExpr ve = visit(e);
         if (ve == null) {
           System.err.println("Elements of setexpr must not be null");
           throw new RuntimeException();
@@ -1590,8 +1597,8 @@ ZSectVisitor<Expr>
     }
   }
 
-  public Expr visitThetaExpr(ThetaExpr thetaExpr) {
-    Expr expr = visit(thetaExpr.getExpr());
+  public AlloyExpr visitThetaExpr(ThetaExpr thetaExpr) {
+    AlloyExpr expr = visit(thetaExpr.getExpr());
     if (! (expr instanceof Sig)) {
       System.err.println("not translated");
       throw new RuntimeException();
@@ -1609,7 +1616,7 @@ ZSectVisitor<Expr>
       }
     }
     thetaQuantified.add(exprVar);
-    Expr pred = null;
+    AlloyExpr pred = null;
     for (Field f : sig.fields()) {
       if (pred == null) {
         pred = exprVar.join(f).equal(new ExprVar(f.label() + strokes,
@@ -1629,22 +1636,22 @@ ZSectVisitor<Expr>
     return exprVar;
   }
 
-  public Expr visitTruePred(TruePred arg0) {
+  public AlloyExpr visitTruePred(TruePred arg0) {
     return ExprConstant.TRUE;
   }
 
-  public Expr visitTupleExpr(TupleExpr tupleExpr) {
+  public AlloyExpr visitTupleExpr(TupleExpr tupleExpr) {
     return visit(tupleExpr.getZExprList());
   }
 
-  public Expr visitTypeAnn(TypeAnn typeAnn) {
+  public AlloyExpr visitTypeAnn(TypeAnn typeAnn) {
     return visit(typeAnn.getType());
   }
 
   /**
    * creates a exprvar with the name and expr of the vDecl
    */
-  public Expr visitVarDecl(VarDecl vDecl) {
+  public AlloyExpr visitVarDecl(VarDecl vDecl) {
     return new ExprVar(print(vDecl.getName()), visit(vDecl.getExpr()));
   }
 
@@ -1655,9 +1662,9 @@ ZSectVisitor<Expr>
    * 
    * @return the first element
    */
-  public Expr visitZDeclList(ZDeclList zDeclList) {
+  public AlloyExpr visitZDeclList(ZDeclList zDeclList) {
     Iterator<Decl> iter = zDeclList.iterator();
-    Expr result = visit(iter.next());
+    AlloyExpr result = visit(iter.next());
     if (iter.hasNext()) {
       List<ExprVar> list = new ArrayList<ExprVar>();
       while (iter.hasNext()) {
@@ -1670,22 +1677,22 @@ ZSectVisitor<Expr>
     return result;
   }
 
-  public Expr visitZExprList(ZExprList zExprList) {
+  public AlloyExpr visitZExprList(ZExprList zExprList) {
     Iterator<net.sourceforge.czt.z.ast.Expr> iter = zExprList.iterator();
-    Expr result = visit(iter.next());
+    AlloyExpr result = visit(iter.next());
     if (iter.hasNext()) {
-      List<Expr> list = new ArrayList<Expr>();
+      List<AlloyExpr> list = new ArrayList<AlloyExpr>();
       while (iter.hasNext()) {
         list.add(visit(iter.next()));
       }
       exprs_ = list;
     } else {
-      exprs_ = new ArrayList<Expr>();
+      exprs_ = new ArrayList<AlloyExpr>();
     }
     return result;
   }
 
-  public Expr visitZSect(ZSect zSect) {
+  public AlloyExpr visitZSect(ZSect zSect) {
     String sect = "\\begin{zsection} "
       + "\\SECTION " + section_ + " " + "\\parents "
       + zSect.getName() + ", " + "expansion\\_rules, "
@@ -1712,14 +1719,14 @@ ZSectVisitor<Expr>
    * 
    * This relies on the the recursive call returning an expression in the form given above
    */
-  private Pair<Expr, Expr> schExpr2SigComponent(SchExpr2 schExpr2) {
+  private Pair<AlloyExpr, AlloyExpr> schExpr2SigComponent(SchExpr2 schExpr2) {
     // there are 2 options for this recursion.
     // either it is a sub expression (A Op B) - this is done
     // or it is a base case (A) - not done 
     // if it is a base case it should be a PrimSig, which needs to transform into 
     // the predicate call
-    Expr left = visit(schExpr2.getLeftExpr());
-    Expr right = visit(schExpr2.getRightExpr());
+    AlloyExpr left = visit(schExpr2.getLeftExpr());
+    AlloyExpr right = visit(schExpr2.getRightExpr());
     if (left instanceof PrimSig) {
       PrimSig leftsig = (PrimSig) left;
       left = callSigPred(leftsig);
@@ -1732,7 +1739,7 @@ ZSectVisitor<Expr>
       System.err.println("left and right of SchExpr2 must not be null");
       throw new RuntimeException();
     }
-    return new Pair<Expr,Expr>(left, right );
+    return new Pair<AlloyExpr,AlloyExpr>(left, right );
   }
 
   /**
@@ -1754,23 +1761,23 @@ ZSectVisitor<Expr>
    * it is useful, but cheating because it only works if the variables needed
    * exactly match the names in the signature declaration
    */
-  private Expr callSigPred(PrimSig sig) {
+  private AlloyExpr callSigPred(PrimSig sig) {
     Func leftPred = module_.getFunc("pred_" + sig.label());
     // this makes new exprvars for each field from the signature
-    List<Expr> content = new ArrayList<Expr>();
+    List<AlloyExpr> content = new ArrayList<AlloyExpr>();
     for (Field f : sig.fields()) {
-      Expr fieldExpr = f;
+      AlloyExpr fieldExpr = f;
       fieldExpr = new ExprVar(f.label(), fieldExpr);
       content.add(fieldExpr);
     }
-    Expr[] args = content.toArray(new Expr[0]);
+    AlloyExpr[] args = content.toArray(new AlloyExpr[0]);
     return leftPred.call(args);
   }
 
-  private Expr processSigField(Sig sigField, Sig sig) {
+  private AlloyExpr processSigField(Sig sigField, Sig sig) {
     // so we can easily see if a field is already present
     Map<String, Field> sigfieldnames = new HashMap<String, Field>();
-    List<Expr> args = new ArrayList<Expr>();
+    List<AlloyExpr> args = new ArrayList<AlloyExpr>();
     for (Field sigfield : sig.fields()) {
       sigfieldnames.put(sigfield.label(), sigfield);
     }
@@ -1793,7 +1800,7 @@ ZSectVisitor<Expr>
     else {
       return null;
     }
-    return f.call(args.toArray(new Expr[0]));
+    return f.call(args.toArray(new AlloyExpr[0]));
   }
 
   public static boolean isPostfixOperator(ZName name, String op) {
@@ -1834,10 +1841,10 @@ ZSectVisitor<Expr>
       return "";
   }
 
-  public Expr visit(Term t) {
+  public AlloyExpr visit(Term t) {
     if (t != null) {
       stack.push(t);
-      Expr e = t.accept(this);
+      AlloyExpr e = t.accept(this);
       stack.pop();
       return e;
     }
@@ -1856,7 +1863,7 @@ ZSectVisitor<Expr>
     }
   }
 
-  private Expr processSchExpr2(SchExpr2 schExpr2) {
+  private AlloyExpr processSchExpr2(SchExpr2 schExpr2) {
     String schName = names.get(schExpr2);
     if (schName == null) {
       System.err.println("SchExpr2s must have names");
@@ -1873,7 +1880,7 @@ ZSectVisitor<Expr>
   }
 //TODO clare document this beast
   private List<Field> fields(SchExpr2 schExpr2) {
-    Map<String, Expr> fields = new HashMap<String, Expr>();
+    Map<String, AlloyExpr> fields = new HashMap<String, AlloyExpr>();
     Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
     subexprs.offer((SchExpr2) schExpr2);
     List<String> order = new ArrayList<String>();
@@ -1881,7 +1888,7 @@ ZSectVisitor<Expr>
       SchExpr2 subexpr = subexprs.poll();
       if (subexpr.getLeftExpr() instanceof RefExpr) {
         if (!fields.containsKey(print(subexpr.getLeftExpr()))) {
-          Expr field = visit(subexpr.getLeftExpr());
+          AlloyExpr field = visit(subexpr.getLeftExpr());
           fields.put(print(subexpr.getLeftExpr()), field);
           order.add(print(subexpr.getLeftExpr()));
         }
@@ -1890,7 +1897,7 @@ ZSectVisitor<Expr>
       }
       if (subexpr.getRightExpr() instanceof RefExpr) {
         if (!fields.containsKey(print(subexpr.getRightExpr()))) {
-          Expr field = visit(subexpr.getRightExpr());
+          AlloyExpr field = visit(subexpr.getRightExpr());
           fields.put(print(subexpr.getRightExpr()), field);
           order.add(print(subexpr.getRightExpr()));
         }
@@ -1932,7 +1939,7 @@ ZSectVisitor<Expr>
     Func f = new Func("pred_" + sig.label(), vars);
     f.setBody(ExprConstant.TRUE);
     module_.addFunc(f);
-    Expr[] fields = new Expr[sig.fields().size()];
+    AlloyExpr[] fields = new AlloyExpr[sig.fields().size()];
     for (int i = 0; i < sig.fields().size(); i++)
       fields[i] = sig.fields().get(i);
     sig.addPred(f.call(fields));
@@ -1943,7 +1950,7 @@ ZSectVisitor<Expr>
    * it replaces it, otherwise it is joined to the existing constraint
    * with 'and'
    */
-  public void addSigPred(Sig sig, Expr pred) {
+  public void addSigPred(Sig sig, AlloyExpr pred) {
     Func existingPred = module_.getFunc("pred_" + sig);
     if (existingPred == null) {
       System.err.println("No pred for " + sig + " so " + pred
@@ -1981,7 +1988,7 @@ ZSectVisitor<Expr>
     return delta;
   }
 
-  private Expr addXi(Sig sig) {
+  private AlloyExpr addXi(Sig sig) {
     PrimSig xi = new PrimSig("Xi" + sig.label());
     for (Field field : sig.fields()) {
       xi.addField(new Field(field.label(), field.expr()));
@@ -1997,7 +2004,7 @@ ZSectVisitor<Expr>
     return xi;
   }
 
-  private Expr build(Expr expr, Map<String, Expr> vars) {
+  private AlloyExpr build(AlloyExpr expr, Map<String, AlloyExpr> vars) {
     if (expr instanceof ExprCall) {
       // not sure exactly when and why these
       // are sometimes sigs and sometimes
@@ -2006,7 +2013,7 @@ ZSectVisitor<Expr>
     }
     if (expr instanceof Sig) {
       Sig signiture = (Sig) expr;
-      Expr[] exprs = new Expr[signiture.fields().size()];
+      AlloyExpr[] exprs = new AlloyExpr[signiture.fields().size()];
       for (int i = 0; i < signiture.fields().size(); i++) {
         exprs[i] = vars.get(signiture.fields().get(i).label());
       }
@@ -2023,7 +2030,7 @@ ZSectVisitor<Expr>
    * TODO Clare: make this actually work properly in all cases (maybe
    * this should be in the AST?)
    */
-  private int arity(Expr expr) {
+  private int arity(AlloyExpr expr) {
     if (expr instanceof ExprBinary && ((ExprBinary) expr).op().isArrow) {
       ExprBinary exprBinary = (ExprBinary) expr;
       return 1 + arity(exprBinary.left()) + arity(exprBinary.right());
@@ -2037,9 +2044,9 @@ ZSectVisitor<Expr>
     return 1;
   }
 
-  private Expr processRelation(Expr expr1, net.sourceforge.czt.z.ast.Expr expr2) {
+  private AlloyExpr processRelation(AlloyExpr expr1, net.sourceforge.czt.z.ast.Expr expr2) {
     if (! body) return expr1;
-    Expr t = visit(expr2.getAnn(TypeAnn.class));
+    AlloyExpr t = visit(expr2.getAnn(TypeAnn.class));
     while  (t instanceof ExprUnary &&
         (((ExprUnary) t).op().equals(ExprUnary.Op.SETOF))) {
       t = ((ExprUnary) t).sub();
