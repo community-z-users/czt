@@ -343,7 +343,7 @@ ZSectVisitor<Expr>
         Expr right = visit(exprs.get(1));
         if (left == null || right == null) {
           System.err.println("left and right of a binary expression must not be null");
-          ret = null;
+          throw new RuntimeException();
         }
         if (binOp == null) {
           // make this general, for other things which wind up here
@@ -389,7 +389,7 @@ ZSectVisitor<Expr>
         }
         else {
           System.err.println(applExpr.getClass() + " not yet implemented");
-          ret = null;
+          throw new RuntimeException();
         }
       }
       else if (applExpr.getLeftExpr() instanceof RefExpr) {
@@ -400,7 +400,7 @@ ZSectVisitor<Expr>
             ret = NONE.product(NONE);
           } else {
             System.err.println("non empty sequences not translated yet");
-            ret = null;
+            throw new RuntimeException();
           }
         }
       }
@@ -452,7 +452,7 @@ ZSectVisitor<Expr>
       }
       else if (left == null || right == null) {
         System.err.println("left and right exprs must not be null in an ApplExpr");
-        ret = null;
+        throw new RuntimeException();
       }
       ret = right.join(left);
     }
@@ -488,7 +488,7 @@ ZSectVisitor<Expr>
   public Expr visitAxPara(AxPara para) {
     if (para.getName().size() > 0) {
       System.err.println("Generic definitions not handled yet.");
-      return null;
+      throw new RuntimeException();
     }
     ZSchText schText = para.getZSchText();
     if (schText.getZDeclList().size() == 1 &&
@@ -544,13 +544,13 @@ ZSectVisitor<Expr>
         }
         else {
           System.err.println("not translated " + leftmost.getClass());
-          return null;
+          throw new RuntimeException();
         }
       }
       String name = ((ExprCall) leftmost).fun().label().substring(10);
       if (! module_.containsSig(name)) {
         System.err.println("not translated");
-        return null;
+        throw new RuntimeException();
       }
       Sig quant = module_.getSig(name);
       ExprVar quantSig = new ExprVar("temp", quant);
@@ -570,7 +570,7 @@ ZSectVisitor<Expr>
     }
     else {
       System.err.println("not implemented");
-      return null;
+      throw new RuntimeException();
     }
   }
 
@@ -590,7 +590,7 @@ ZSectVisitor<Expr>
       }
       // if (result instanceof ApplExpr) {
       //   System.err.println("Failed to normalize");
-      //   return null;
+      //   throw new RuntimeException();
       // }
       names.put(result, sigName);
       if (result instanceof SchExpr2) {
@@ -628,7 +628,7 @@ ZSectVisitor<Expr>
     }
     else {
       System.err.println("not yet translated");
-      return null;
+      throw new RuntimeException();
     }
   }
 
@@ -703,7 +703,7 @@ ZSectVisitor<Expr>
       } else {
         System.err.println("Not fully translated: " + temp.getClass()
             + " " + temp);
-        return null;
+        throw new RuntimeException();
       }
     }
     Map<String, Expr> fields = new HashMap<String, Expr>(); // the fields
@@ -802,7 +802,7 @@ ZSectVisitor<Expr>
     body = false;
     if (pred2 == null) {
       System.err.println("pred of ExistsPred must not be null");
-      return null;
+      throw new RuntimeException();
     }
     if (pred1 == null) {
       pred = pred2;
@@ -858,7 +858,7 @@ ZSectVisitor<Expr>
     body = false;
     if (pred2 == null) {
       System.err.println("pred of ExistsPred must not be null");
-      return null;
+      throw new RuntimeException();
     }
     if (sigPred != null) {
       if( pred1 == null) {
@@ -880,7 +880,7 @@ ZSectVisitor<Expr>
     }
     if (firstVar == null) {
       System.err.println("firstVar of ExistsPred must not be null");
-      return null;
+      throw new RuntimeException();
     }
     rest.add(firstVar);
     return pred.forSome(rest);
@@ -909,7 +909,7 @@ ZSectVisitor<Expr>
     body = false;
     if (pred2 == null) {
       System.err.println("pred of allpred must not be null");
-      return null;
+      throw new RuntimeException();
     }
     if (pred1 == null) {
       pred = pred2;
@@ -918,6 +918,7 @@ ZSectVisitor<Expr>
     }
     if (firstVar == null) {
       System.err.println("fistVar of allpred must not be null");
+      throw new RuntimeException();
     }
     rest.add(firstVar);
     return pred.forAll(rest);
@@ -1009,6 +1010,7 @@ ZSectVisitor<Expr>
       else {
         System.err.println("class: " + hideExpr.getExpr().getClass());
         System.err.println(hideExpr.getClass() + " not currently translated");
+        throw new RuntimeException();
       }
     }
     else if (hideExpr.getExpr() instanceof SchExpr2) {
@@ -1019,7 +1021,7 @@ ZSectVisitor<Expr>
     else {
       System.err.println("class: " + hideExpr.getExpr().getClass());
       System.err.println(hideExpr.getClass() + " not currently translated");
-      return null;
+      throw new RuntimeException();
     }
     for (Field f : fields) {
       if (hiddenNames.contains(f.label()) &&
@@ -1169,7 +1171,7 @@ ZSectVisitor<Expr>
       Expr right = visit(memPred.getRightExpr());
       if (left == null || right == null) {
         System.err.println("Left and right of memPred must be non null");
-        return null;
+        throw new RuntimeException();
       }
       return left.equal(right);
     }
@@ -1181,7 +1183,7 @@ ZSectVisitor<Expr>
       Expr right = visit(exprs.get(1));
       if (left == null || right == null) {
         System.err.println("Left and right of refExpr must be non null");
-        return null;
+        throw new RuntimeException();
       }
       if (isInfixOperator(refExpr.getZName(), ZString.NOTMEM)) {
         return left.in(right).not();
@@ -1212,7 +1214,7 @@ ZSectVisitor<Expr>
     Expr right = visit(memPred.getRightExpr());
     if (left == null || right == null) {
       System.err.println("Left and right Expr of MemPred must not be null");
-      return null;
+      throw new RuntimeException();
     }
     return left.in(right);
   }
@@ -1268,7 +1270,7 @@ ZSectVisitor<Expr>
     Expr body = visit(powerExpr.getExpr());
     if (body == null) {
       System.err.println("body of power expr must not be null");
-      return null;
+      throw new RuntimeException();
     }
     return body.setOf();
   }
@@ -1284,7 +1286,7 @@ ZSectVisitor<Expr>
     if (body == null) {
       System.err.println("body of power type must not be null: " + powerType);
       System.err.println("BODY: " + powerType.getType().getClass());
-      return null;
+      throw new RuntimeException();
     }
     return body.setOf();
   }
@@ -1307,7 +1309,7 @@ ZSectVisitor<Expr>
       Expr current = visit(prodExpr.getZExprList().get(i));
       if (current == null || expr == null) {
         System.err.println("body of prodexprs must not be  null");
-        return null;
+        throw new RuntimeException();
       }
       expr = expr.product(current);
     }
@@ -1328,7 +1330,7 @@ ZSectVisitor<Expr>
       Expr cont = visit(type);
       if (cont == null) {
         System.err.println("elements of ProdType must not be null");
-        return null;
+        throw new RuntimeException();
       } else if (cont instanceof ExprUnary
           && ((ExprUnary) cont).op() == ExprUnary.Op.SETOF) {
         cont = ((ExprUnary) cont).sub();
@@ -1341,7 +1343,7 @@ ZSectVisitor<Expr>
       }
     }
     System.err.println("this didn't work properly!");
-    return null;
+    throw new RuntimeException();
   }
 
   /**
@@ -1478,7 +1480,7 @@ ZSectVisitor<Expr>
     String schName = names.get(schExpr);
     if (schName == null) {
       System.err.println("SchExprs must have names");
-      return null;
+      throw new RuntimeException();
     }
     Sig sig = new PrimSig(schName);
     Expr fieldPred = null;
@@ -1501,7 +1503,7 @@ ZSectVisitor<Expr>
         }
       } else {
         System.err.println(d.getClass() + " not yet implemented");
-        return null;
+        throw new RuntimeException();
       }
     }
     addSig(sig);
@@ -1585,7 +1587,7 @@ ZSectVisitor<Expr>
         Expr ve = visit(e);
         if (ve == null) {
           System.err.println("Elements of setexpr must not be null");
-          return null;
+          throw new RuntimeException();
         }
         if (expr == null) {
           expr = ve;
@@ -1601,7 +1603,7 @@ ZSectVisitor<Expr>
     Expr expr = visit(thetaExpr.getExpr());
     if (! (expr instanceof Sig)) {
       System.err.println("not translated");
-      return null;
+      throw new RuntimeException();
     }
     Sig sig = (Sig) expr;
     String strokes = "";
@@ -1737,7 +1739,7 @@ ZSectVisitor<Expr>
     }
     if (left == null || right == null) {
       System.err.println("left and right of SchExpr2 must not be null");
-      return null;
+      throw new RuntimeException();
     }
     return new Pair<Expr,Expr>(left, right );
   }
@@ -1867,7 +1869,7 @@ ZSectVisitor<Expr>
     String schName = names.get(schExpr2);
     if (schName == null) {
       System.err.println("SchExpr2s must have names");
-      return null;
+      throw new RuntimeException();
     }
     Sig sig = new PrimSig(schName);
     List<Field> exprs = fields(schExpr2);
@@ -1878,7 +1880,7 @@ ZSectVisitor<Expr>
     addSigPred(sig, visit(schExpr2));
     return null;
   }
-
+//TODO clare document this beast
   private List<Field> fields(SchExpr2 schExpr2) {
     Map<String, Expr> fields = new HashMap<String, Expr>();
     Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
@@ -1909,7 +1911,7 @@ ZSectVisitor<Expr>
     for(String l : order) {
       if (!(fields.get(l) instanceof Sig)) {
         System.err.println("error");
-        return null;
+        throw new RuntimeException();
       }
       Sig s = (Sig) fields.get(l);
       fieldsList.addAll(s.fields());
@@ -1955,7 +1957,7 @@ ZSectVisitor<Expr>
     if (existingPred == null) {
       System.err.println("No pred for " + sig + " so " + pred
           + " cannot be added");
-      return;
+      throw new RuntimeException();
     }
     if (existingPred.getBody() == ExprConstant.TRUE) {
       existingPred.setBody(pred);
@@ -2022,7 +2024,7 @@ ZSectVisitor<Expr>
     // should put in new kinds of things as they are needed
     System.err.println("Not fully translated: " + expr.getClass() + " "
         + expr);
-    return null;
+    throw new RuntimeException();
   }
 
 
