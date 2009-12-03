@@ -17,68 +17,85 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 public class Enum extends Sig {
-	/** the parent signature. No fields/predicates can be added to this */
-	private final PrimSig parent;
-	/** the children signatures. No fields/predicates can be added to any of these */
-	private final List<SubSig> children;
-	
-	/**
-	 * Creates a new enum of a parent, and a list of children with given names
-	 * @param parent The name of the parent
-	 * @param children The names of the children, in the given 
-	 */
-	public Enum (String parent, List<String> children) {
-		super(parent);
-		this.parent = new EnumParent(parent);
-		List<SubSig> childrenTemp = new ArrayList<SubSig>();
-		for (String child : children) {
-			childrenTemp.add(new EnumChild(child, this.parent));
-		}
-		this.children = Collections.unmodifiableList(childrenTemp);
-	}
-	
-	public PrimSig parent() {return parent;}
-	public List<SubSig> children() {return Collections.unmodifiableList(children);}
-	
-	public void addField(Field f) {}
-	public void addPred(Expr e) {}
-	
-	/**
-	 * Represents an EnumParent
-	 * This is the same as a PrimSig, except the predicate is always true, and trying to add a field does nothing.
-	 */
-	private class EnumParent extends PrimSig {
-		private EnumParent(String label) {
-			super(label);
-		}
-		public void addField(Field f) {}
-		public void addPred(Expr e) {}
+  /** the parent signature. No fields/predicates can be added to this */
+  private final PrimSig parent;
+  /** the children signatures. No fields/predicates can be added to any of these */
+  private final List<SubSig> children;
 
-	}
-	
-	/**
-	 * Represents an EnumChild.
-	 * This is the same as a SubSig, except the predicate is always true, and trying to add a field does nothing.
-	 */
-	private class EnumChild extends SubSig {
-		private EnumChild(String label, PrimSig parent) {
-			super(label, parent);
-		}
-		public void addField(Field f) {}
-		public void addPred(Expr e) {}
-	}
-	
-	
-	public String toString() {
-		return "enum" + parent.label();
-		
-	}
+  /**
+   * Creates a new enum of a parent, and a list of children with given names
+   * 
+   * @param parent
+   *          The name of the parent
+   * @param children
+   *          The names of the children, in the given
+   */
+  public Enum(String parent, List<String> children) {
+    super(parent);
+    this.parent = new EnumParent(parent);
+    List<SubSig> childrenTemp = new ArrayList<SubSig>();
+    for (String child : children) {
+      childrenTemp.add(new EnumChild(child, this.parent));
+    }
+    this.children = Collections.unmodifiableList(childrenTemp);
+  }
 
-	@Override
-	public <T> T accept(VisitReturn<T> visitor) {
-		return visitor.visit(this);
-	}
-	
+  public PrimSig parent() {
+    return parent;
+  }
+
+  public List<SubSig> children() {
+    return Collections.unmodifiableList(children);
+  }
+
+  public void addField(Field f) {
+  }
+
+  public void addPred(Expr e) {
+  }
+
+  /**
+   * Represents an EnumParent This is the same as a PrimSig, except the
+   * predicate is always true, and trying to add a field does nothing.
+   */
+  private class EnumParent extends PrimSig {
+    private EnumParent(String label) {
+      super(label);
+    }
+
+    public void addField(Field f) {
+    }
+
+    public void addPred(Expr e) {
+    }
+
+  }
+
+  /**
+   * Represents an EnumChild. This is the same as a SubSig, except the predicate
+   * is always true, and trying to add a field does nothing.
+   */
+  private class EnumChild extends SubSig {
+    private EnumChild(String label, PrimSig parent) {
+      super(label, parent);
+    }
+
+    public void addField(Field f) {
+    }
+
+    public void addPred(Expr e) {
+    }
+  }
+
+  public String toString() {
+    return "enum" + parent.label();
+
+  }
+
+  @Override
+  public <T> T accept(VisitReturn<T> visitor) {
+    return visitor.visit(this);
+  }
+
 }

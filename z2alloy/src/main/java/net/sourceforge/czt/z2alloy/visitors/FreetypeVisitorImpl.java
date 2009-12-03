@@ -18,53 +18,49 @@ import net.sourceforge.czt.z2alloy.Z2Alloy;
 import net.sourceforge.czt.z2alloy.ast.Enum;
 import net.sourceforge.czt.z2alloy.ast.Expr;
 
-public class FreetypeVisitorImpl implements
-	FreeParaVisitor<Expr>, FreetypeVisitor<Expr>, ZFreetypeListVisitor<Expr>
-{
-	
-	public Expr visit(Term t) {
-		if (t != null) {
-			Expr e = t.accept(this);
-			return e;
-		}
-		return null;
-	}
+public class FreetypeVisitorImpl implements FreeParaVisitor<Expr>,
+    FreetypeVisitor<Expr>, ZFreetypeListVisitor<Expr> {
 
-	/*
-	 * TODO clare: confirm that this just wraps around a free type declaration
-	 */
-	public Expr visitFreePara(FreePara para) {
-		return visit(para.getFreetypeList());
-	}
-	
-	public Expr visitFreetype(Freetype freetype) {
-		String parent = Z2Alloy.getInstance().print(freetype.getName());
-		Iterator<Branch> i = assertZBranchList(freetype.getBranchList())
-		.iterator();
-		List<String> children = new ArrayList<String>();
-		while (i.hasNext()) {
-			Branch branch = (Branch) i.next();
-			if (branch.getExpr() != null)
-				System.err
-				.println("free types must be simple enumerations, but "
-						+ branch.getName() + " branch has expression "
-						+ branch.getExpr());
-			children.add(Z2Alloy.getInstance().print(branch.getName()));
-		}
-		Z2Alloy.getInstance().module().addSig(new Enum(parent, children));
-		return null;
-	}
-	
-	/**
-	 * visits each element of the list
-	 * 
-	 * @return null
-	 */
-	public Expr visitZFreetypeList(ZFreetypeList list) {
-		for (Freetype freetype : list) {
-			visit(freetype);
-		}
-		return null;
-	}
-	
+  public Expr visit(Term t) {
+    if (t != null) {
+      Expr e = t.accept(this);
+      return e;
+    }
+    return null;
+  }
+
+  /*
+   * TODO clare: confirm that this just wraps around a free type declaration
+   */
+  public Expr visitFreePara(FreePara para) {
+    return visit(para.getFreetypeList());
+  }
+
+  public Expr visitFreetype(Freetype freetype) {
+    String parent = Z2Alloy.getInstance().print(freetype.getName());
+    Iterator<Branch> i = assertZBranchList(freetype.getBranchList()).iterator();
+    List<String> children = new ArrayList<String>();
+    while (i.hasNext()) {
+      Branch branch = (Branch) i.next();
+      if (branch.getExpr() != null)
+        System.err.println("free types must be simple enumerations, but "
+            + branch.getName() + " branch has expression " + branch.getExpr());
+      children.add(Z2Alloy.getInstance().print(branch.getName()));
+    }
+    Z2Alloy.getInstance().module().addSig(new Enum(parent, children));
+    return null;
+  }
+
+  /**
+   * visits each element of the list
+   * 
+   * @return null
+   */
+  public Expr visitZFreetypeList(ZFreetypeList list) {
+    for (Freetype freetype : list) {
+      visit(freetype);
+    }
+    return null;
+  }
+
 }

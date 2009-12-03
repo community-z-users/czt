@@ -43,101 +43,101 @@ import net.sourceforge.czt.z2alloy.ast.Sig;
 public class Main
 {
 
-	/**
-	 * parses, translates, and prints to System.out the resulting alloy model
-	 */
-	public static void main(String[] args)
-	throws Exception
-	{
-		Logger logger = Logger.getLogger("");
-		for (Handler h : logger.getHandlers()) {
-			h.setLevel(Level.SEVERE);
-		}
+  /**
+   * parses, translates, and prints to System.out the resulting alloy model
+   */
+  public static void main(String[] args)
+  throws Exception
+  {
+    Logger logger = Logger.getLogger("");
+    for (Handler h : logger.getHandlers()) {
+      h.setLevel(Level.SEVERE);
+    }
 
-		boolean unfolding = false;
-		String input = null;
-		for (int i = 0; i < args.length; i++) {
-			if ("-h".equals(args[i]) ||
-					"-help".equals(args[i]) ||
-					"--help".equals(args[i])) {
-				System.err.println(usage());
-				return;
-			}
-			if ("-u".equals(args[i]) ||
-					"-unfolding".equals(args[i])) {
-				unfolding = true;
-			}
-			else {
-				input = args[i];
-			}
-		}
-		if (input == null) {
-			System.err.println(usage());
-			System.exit(1);
-		}
+    boolean unfolding = false;
+    String input = null;
+    for (int i = 0; i < args.length; i++) {
+      if ("-h".equals(args[i]) ||
+          "-help".equals(args[i]) ||
+          "--help".equals(args[i])) {
+        System.err.println(usage());
+        return;
+      }
+      if ("-u".equals(args[i]) ||
+          "-unfolding".equals(args[i])) {
+        unfolding = true;
+      }
+      else {
+        input = args[i];
+      }
+    }
+    if (input == null) {
+      System.err.println(usage());
+      System.exit(1);
+    }
 
-		Z2Alloy foo = translate(new File(input), unfolding);
-		System.out.println(print(foo));
+    Z2Alloy foo = translate(new File(input), unfolding);
+    System.out.println(print(foo));
 
-	}
+  }
 
-	/**
-	 * uses AlloyPrinter to create a string of the whole model.
-	 * 
-	 * this string should generally be parsable by the alloy analyser
-	 */
+  /**
+   * uses AlloyPrinter to create a string of the whole model.
+   * 
+   * this string should generally be parsable by the alloy analyser
+   */
 
-	public static String print (Z2Alloy model) {
-		//    String ret = "\nopen functions\n";
-		String ret = "";
-		AlloyPrinter p = new AlloyPrinter();
+  public static String print (Z2Alloy model) {
+    //    String ret = "\nopen functions\n";
+    String ret = "";
+    AlloyPrinter p = new AlloyPrinter();
 
-		for (Object element : model.module()) {
-			if (element instanceof Sig) {
-				ret += p.visitSig((Sig) element) + "\n\n";
-			}
-			else if (element instanceof Func) {
-				ret += p.print((Func) element) + "\n\n";
-			}
-		}      
-		return ret;
-	}
+    for (Object element : model.module()) {
+      if (element instanceof Sig) {
+        ret += p.visitSig((Sig) element) + "\n\n";
+      }
+      else if (element instanceof Func) {
+        ret += p.print((Func) element) + "\n\n";
+      }
+    }      
+    return ret;
+  }
 
-	/**
-	 * translates the input into a Z2Alloy model
-	 */
-	public static Z2Alloy translate (File input, boolean unfolding) throws Exception {
-		FileSource source = new FileSource(input);
-		SectionManager manager = new SectionManager("zpatt");
-		String name = "spec";
-		manager.put(new Key(name, Source.class), source);
-		Spec spec = (Spec) manager.get(new Key(name, Spec.class));
+  /**
+   * translates the input into a Z2Alloy model
+   */
+  public static Z2Alloy translate (File input, boolean unfolding) throws Exception {
+    FileSource source = new FileSource(input);
+    SectionManager manager = new SectionManager("zpatt");
+    String name = "spec";
+    manager.put(new Key(name, Source.class), source);
+    Spec spec = (Spec) manager.get(new Key(name, Spec.class));
 
 
-		// now create the output file
-		// choose the section -- we just take the last one!
-		ZSect sect;
-		List sects = spec.getSect();
-		if (sects.size() > 0 && sects.get(sects.size()-1) instanceof ZSect) {
-			sect = (ZSect) spec.getSect().get(sects.size()-1);
-		}
-		else {
-			throw new Exception("last section is not a ZSect");
-		}
-		manager.get(new Key(sect.getName(), SectTypeEnvAnn.class)); // typecheck
+    // now create the output file
+    // choose the section -- we just take the last one!
+    ZSect sect;
+    List sects = spec.getSect();
+    if (sects.size() > 0 && sects.get(sects.size()-1) instanceof ZSect) {
+      sect = (ZSect) spec.getSect().get(sects.size()-1);
+    }
+    else {
+      throw new Exception("last section is not a ZSect");
+    }
+    manager.get(new Key(sect.getName(), SectTypeEnvAnn.class)); // typecheck
 
-		Z2Alloy foo = Z2Alloy.setInstance(manager);
-		foo.setUnfolding(unfolding);
-		sect.accept(foo);
-		return foo;
+    Z2Alloy foo = Z2Alloy.setInstance(manager);
+    foo.setUnfolding(unfolding);
+    sect.accept(foo);
+    return foo;
 
-	}
+  }
 
-	/**
-	 * TODO: needs updating!
-	 */
-	public static String usage()
-	{
-		return "Args: spec.tex";
-	}
+  /**
+   * TODO: needs updating!
+   */
+  public static String usage()
+  {
+    return "Args: spec.tex";
+  }
 }
