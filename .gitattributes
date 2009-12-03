@@ -685,6 +685,7 @@ ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=uns
 z2alloy/pom.xml -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/AlloyPrinter.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/RelationMap.java -text
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/AlloyExpr.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/Command.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/Enum.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/ExprBinary.java -text
