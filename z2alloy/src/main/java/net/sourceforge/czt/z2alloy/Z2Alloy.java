@@ -1836,6 +1836,8 @@ ZSectVisitor<AlloyExpr>
           + " cannot be added");
       throw new RuntimeException();
     }
+    // True and P = P, so get rid of True's here
+    // it might be nice if this happened in the ast?
     if (existingPred.getBody() == ExprConstant.TRUE) {
       existingPred.setBody(pred);
     } else {
@@ -1859,19 +1861,35 @@ ZSectVisitor<AlloyExpr>
 
   private Sig addDelta(Sig sig) {
     PrimSig delta = new PrimSig("Delta" + sig.label());
+    List<AlloyExpr> preFields = new ArrayList<AlloyExpr>();
+    List<AlloyExpr> postFields = new ArrayList<AlloyExpr>();
     for (Field field : sig.fields()) {
-      delta.addField(new Field(field.label(), field.expr()));
-      delta.addField(new Field(field.label() + "'", field.expr()));
+      Field pre = new Field(field.label(), field.expr());
+      Field post = new Field(field.label() + "'", field.expr());
+      delta.addField(pre);
+      delta.addField(post);
+      preFields.add(pre);
+      postFields.add(post);
     }
     addSig(delta);
+    Func pred = module_.getFunc("pred_" + sig.label());
+    addSigPred(delta, pred.call(preFields));
+    addSigPred(delta, pred.call(postFields));
     return delta;
   }
 
   private AlloyExpr addXi(Sig sig) {
     PrimSig xi = new PrimSig("Xi" + sig.label());
+    List<AlloyExpr> preFields = new ArrayList<AlloyExpr>();
+    List<AlloyExpr> postFields = new ArrayList<AlloyExpr>();
+
     for (Field field : sig.fields()) {
-      xi.addField(new Field(field.label(), field.expr()));
-      xi.addField(new Field(field.label() + "'", field.expr()));
+      Field pre = new Field(field.label(), field.expr());
+      Field post = new Field(field.label() + "'", field.expr());
+      xi.addField(pre);
+      xi.addField(post);
+      preFields.add(pre);
+      postFields.add(post);
     }
     addSig(xi);
     for (int i = 0; i < xi.fields().size(); i += 2) {
@@ -1880,6 +1898,9 @@ ZSectVisitor<AlloyExpr>
       addSigPred(xi, new ExprVar(field1.label(), field1.expr())
       .equal(new Field(field2.label(), field2.expr())));
     }
+    Func pred = module_.getFunc("pred_" + sig.label());
+    addSigPred(xi, pred.call(preFields));
+    addSigPred(xi, pred.call(postFields));
     return xi;
   }
 

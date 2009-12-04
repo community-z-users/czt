@@ -56,9 +56,18 @@ public class Z2AlloyTest {
     test("equality1", true);
   }
 
-  /* tests logical and, or, not, implication, iff */
-   @Test public void testBooleanOperators1() { test("booleanoperators1", true); }
-   
+  /** tests logical and, or, not, implication, iff */
+  @Test
+  public void testBooleanOperators1() {
+    test("booleanoperators1", true);
+  }
+
+  /** tests simple the use of delta/xi in a schema */
+  @Test
+  public void testDelta1() {
+    test("delta1", true);
+  }
+
   /*
    * These are old tests - they don't work because of changes to the printer
    * they should be cleaned up, fixed up and included above ASAP

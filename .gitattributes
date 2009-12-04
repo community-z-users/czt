@@ -727,6 +727,9 @@ z2alloy/src/test/resources/composition.tex -text
 z2alloy/src/test/resources/composition_fold.als -text
 z2alloy/src/test/resources/comprehension.tex -text
 z2alloy/src/test/resources/comprehension_fold.als -text
+z2alloy/src/test/resources/delta1.tex -text
+z2alloy/src/test/resources/delta1_fold.als -text
+z2alloy/src/test/resources/delta1_unfold.als -text
 z2alloy/src/test/resources/equality1.tex -text
 z2alloy/src/test/resources/equality1_fold.als -text
 z2alloy/src/test/resources/equality1_unfold.als -text
