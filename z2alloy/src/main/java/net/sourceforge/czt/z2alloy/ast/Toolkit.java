@@ -9,16 +9,47 @@ public class Toolkit extends Module {
 
   public Toolkit() {
     super();
-
-    // TODO clare work out what to do with these
-    // addFunc(ndres());
-    // addFunc(append());
-    // addFunc(dom());
-    // addFunc(ran());
-    // addFunc(last());
-    // addFunc(front());
+//    addFunc(ndres());
+//    addFunc(append());
+//    addFunc(dom());
+//    addFunc(ran());
+//    addFunc(last());
+//    addFunc(front());
   }
 
+  public Func getFunc(String label) {
+    Func ret = super.getFunc(label);
+    if (ret == null) {
+        ret = add(label);
+        if (ret != null) {
+          super.addFunc(ret);
+        }
+    }
+    return ret;
+  }
+  
+  private Func add(String label) {
+    if (label.equals("ndres")) {
+      return ndres();
+    }
+    else if (label.equals("append")) {
+      return append();
+    }
+    else if (label.equals("dom")) {
+      return dom();
+    }
+    else if (label.equals("ran")) {
+      return ran();
+    }
+    else if (label.equals("last")) {
+      return last();
+    }
+    else if (label.equals("front")) {
+      return front();
+    }
+    return null;
+  }
+  
   private Func ndres() {
     List<ExprVar> vars = new ArrayList<ExprVar>();
     ExprVar r = new ExprVar("r", UNIV.product(UNIV));
