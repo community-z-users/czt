@@ -682,6 +682,7 @@ ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_about.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
+z2alloy/logging.properties -text
 z2alloy/pom.xml -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/AlloyPrinter.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/RelationMap.java -text
