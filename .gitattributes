@@ -762,6 +762,8 @@ z2alloy/src/test/resources/schema2_unfold.als -text
 z2alloy/src/test/resources/schema3.tex -text
 z2alloy/src/test/resources/schema3_fold.als -text
 z2alloy/src/test/resources/schema3_unfold.als -text
+z2alloy/src/test/resources/schema4.tex -text
+z2alloy/src/test/resources/schema4_fold.als -text
 z2alloy/src/test/resources/schemaquant.tex -text
 z2alloy/src/test/resources/schemaquant_fold.als -text
 z2alloy/src/test/resources/seq.tex -text

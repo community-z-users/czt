@@ -1,0 +1,24 @@
+\begin{schema}{A}
+	a, b : \num
+\where
+	a = b
+\end{schema}
+
+\begin{schema}{B}
+	a : \num
+\where
+	a > 1
+\end{schema}
+
+\begin{schema}{C}
+	b : \num
+\where
+	b = 3
+\end{schema}	
+
+\begin{zed}
+	D == (A \land B) \lor C \\
+	E == (A \lor B) \land C \\
+	F == (A \iff B) \implies C \\
+	G == (A \implies B) \iff C \\
+\end{zed}

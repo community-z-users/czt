@@ -49,6 +49,12 @@ public class Z2AlloyTest {
   public void testSchema3() {
     test("schema3", true);
   }
+  
+  /** tests schema conjunction, disjunction, implication and equivalence */
+  @Test
+  public void testSchema4() {
+    test("schema4", false);
+  }
 
   /** tests a schema with an equality constraint */
   @Test
