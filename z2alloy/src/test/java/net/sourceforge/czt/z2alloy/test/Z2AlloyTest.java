@@ -67,6 +67,12 @@ public class Z2AlloyTest {
   public void testDelta1() {
     test("delta1", true);
   }
+  
+  /** tests numerical operators */
+  @Test
+  public void testNumbes1() {
+    test("numbers1", true);
+  }
 
   /*
    * These are old tests - they don't work because of changes to the printer

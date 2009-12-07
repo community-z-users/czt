@@ -118,8 +118,10 @@ public class Module implements Iterable<Object> {
     if (funcByLabel.containsKey(label))
       return funcByLabel.get(label);
     for (Module m : includedModules) {
-      if (m.funcByLabel.containsKey(label))
-        return m.funcByLabel.get(label);
+      Func f = m.getFunc(label);
+      if (f != null) {
+        return f;
+      }
     }
     return null;
   }

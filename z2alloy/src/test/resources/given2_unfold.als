@@ -1,3 +1,5 @@
+open util/integer
+
 sig A{}
 
 sig B{}

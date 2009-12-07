@@ -27,6 +27,7 @@ public class RelationMap {
   }
 
   public Sig create(AlloyExpr left, AlloyExpr right) {
+    new RuntimeException().printStackTrace();
     String name = left.toString() + "_" + right.toString();
     if (! relations.containsKey(name)) {
       if (right instanceof PrimSig) {

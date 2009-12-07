@@ -88,8 +88,7 @@ public class Main
    */
 
   public static String print (Z2Alloy model) {
-    //    String ret = "\nopen functions\n";
-    String ret = "";
+    String ret = "open util/integer\n\n";
     AlloyPrinter p = new AlloyPrinter();
 
     for (Object element : model.module()) {

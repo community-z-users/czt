@@ -227,8 +227,7 @@ ZSectVisitor<AlloyExpr>
           throw new RuntimeException();
         }
         if (binOp == null) {
-          // make this general, for other things which wind up here
-          // this is just when it is actually relational image
+          // this means it isn't an infix operator?
         }
         else if (binOp.equals(ZString.CUP)) {
           ret = left.plus(right);
@@ -262,11 +261,30 @@ ZSectVisitor<AlloyExpr>
           if (module_.containsFunc("append"))
             ret = module_.getFunc("append").call(left, right);
         }
-        else if (binOp.equals(ZString.PLUS)) {
-          ret = left.plus(right);
-        }
         else if (binOp.equals(ZString.MINUS)) {
-          ret = left.minus(right);
+          if (module_.containsFunc("sub")) {
+            ret = module_.getFunc("sub").call(left, right);
+          }
+        }
+        else if (binOp.equals(ZString.PLUS)) {
+          if (module_.containsFunc("add")) {
+            ret = module_.getFunc("add").call(left, right);
+          }
+        }
+        else if (binOp.equals(ZString.MULT)) {
+          if (module_.containsFunc("mul")) {
+            ret = module_.getFunc("mul").call(left, right);
+          }
+        }
+        else if (binOp.equals("div")) {
+          if (module_.containsFunc("div")) {
+            ret = module_.getFunc("div").call(left, right);
+          }
+        }
+        else if (binOp.equals("mod")) {
+          if (module_.containsFunc("rem")) {
+            ret = module_.getFunc("rem").call(left, right);
+          }
         }
         else {
           System.err.println("ApplExpr " + binOp + " not yet implemented");
@@ -275,14 +293,25 @@ ZSectVisitor<AlloyExpr>
       }
       else if (applExpr.getLeftExpr() instanceof RefExpr) {
         RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
+        AlloyExpr body = visit(applExpr.getRightExpr());
         if (print(refExpr.getName()).equals(ZString.LANGLE + " ,, " + ZString.RANGLE)) { // sequence
-          AlloyExpr body = visit(applExpr.getRightExpr());
           if (body == NONE) {
             ret = NONE.product(NONE);
           } else {
             System.err.println("non empty sequences not translated yet");
             throw new RuntimeException();
           }
+        }
+        else if (print(refExpr.getName()).equals("# _ ")) {
+          ret = body.cardinality();
+        }
+        else if (print(refExpr.getName()).equals("- _ ")) {
+          if (module_.containsFunc("negate"))
+            ret = module_.getFunc("negate").call(body);
+        }
+        else if (print(refExpr.getName()).equals("succ _ ")) {
+          if (module_.containsFunc("next"))
+            ret = module_.getFunc("next").call(body);
         }
       }
     }
@@ -328,10 +357,7 @@ ZSectVisitor<AlloyExpr>
       AlloyExpr left = visit(applExpr.getLeftExpr());
       AlloyExpr right = visit(applExpr.getRightExpr());
 
-      if (left instanceof ExprVar && ((ExprVar) left).label().equals("# _ ")) {
-        ret = right.cardinality();
-      }
-      else if (left == null || right == null) {
+      if (left == null || right == null) {
         System.err.println("left and right exprs must not be null in an ApplExpr");
         throw new RuntimeException();
       }
@@ -1696,6 +1722,17 @@ ZSectVisitor<AlloyExpr>
     try {
       OperatorName opName = new OperatorName(name);
       if (!opName.isInfix())
+        return null;
+      return opName.getWords()[1];
+    } catch (OperatorName.OperatorNameException e) {
+      return null;
+    }
+  }
+  
+  public static String isPrefixOperator(ZName name) {
+    try {
+      OperatorName opName = new OperatorName(name);
+      if (!opName.isPrefix())
         return null;
       return opName.getWords()[1];
     } catch (OperatorName.OperatorNameException e) {

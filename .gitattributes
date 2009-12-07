@@ -747,6 +747,9 @@ z2alloy/src/test/resources/given2_fold.als -text
 z2alloy/src/test/resources/given2_unfold.als -text
 z2alloy/src/test/resources/hiding.tex -text
 z2alloy/src/test/resources/hiding_fold.als -text
+z2alloy/src/test/resources/numbers1.tex -text
+z2alloy/src/test/resources/numbers1_fold.als -text
+z2alloy/src/test/resources/numbers1_unfold.als -text
 z2alloy/src/test/resources/quant.tex -text
 z2alloy/src/test/resources/quant_fold.als -text
 z2alloy/src/test/resources/quant_unfold.als -text

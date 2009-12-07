@@ -1,3 +1,5 @@
+open util/integer
+
 sig A{
 	i: {i: Int | (i >= 0)},
 }{(pred_A[i])}
