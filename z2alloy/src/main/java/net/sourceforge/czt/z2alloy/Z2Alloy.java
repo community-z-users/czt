@@ -78,6 +78,7 @@ MemPredVisitor<AlloyExpr>,
 NarrParaVisitor<AlloyExpr>,
 NegPredVisitor<AlloyExpr>,
 NumExprVisitor<AlloyExpr>,
+OptempParaVisitor<AlloyExpr>,
 OrExprVisitor<AlloyExpr>,
 PowerExprVisitor<AlloyExpr>,
 PowerTypeVisitor<AlloyExpr>,
@@ -1125,6 +1126,11 @@ ZSectVisitor<AlloyExpr>
   
   public AlloyExpr visitNegPred(NegPred negPred) {
     return visit(negPred.getPred()).not();
+  }
+
+  /** Ignore operator templates. */
+  public AlloyExpr visitOptempPara(OptempPara optempPara) {
+    return null;
   }
 
   /**
