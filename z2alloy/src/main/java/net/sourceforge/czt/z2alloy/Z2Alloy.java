@@ -230,6 +230,9 @@ ZSectVisitor<AlloyExpr>
         if (binOp == null) {
           // this means it isn't an infix operator?
         }
+	else if (binOp.equals(ZString.SETMINUS)) {
+	  ret = left.minus(right);
+	}
         else if (binOp.equals(ZString.CUP)) {
           ret = left.plus(right);
         }
