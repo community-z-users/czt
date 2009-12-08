@@ -44,7 +44,6 @@ public class RelationMap {
 
   public Sig createSeq(AlloyExpr body) {
     String name = "Seq_" + body.toString();
-    System.out.println(body.toString());
     if (! relations.containsKey(name)) {
       Sig relation = createRelation(SIGINT, body, name);
       relation.addPred(relation.fields().get(0).in(body.seq()));
