@@ -34,39 +34,39 @@ public class Toolkit extends Module {
     twoArgs.add(y);
     List<ExprVar> oneArg = new ArrayList<ExprVar>();
     oneArg.add(x);
-    if (label.equals("negate")) {
+    if ("negate".equals(label)) {
       return new Func("integer/negate", oneArg, SIGINT);
     }
-    else if (label.equals("sub")) {
+    else if ("sub".equals(label)) {
       return new Func("integer/sub", twoArgs, SIGINT);
     }
-    else if (label.equals("add")) {
+    else if ("add".equals(label)) {
       return new Func("integer/add", twoArgs, SIGINT);
     }
-    else if (label.equals("mul")) {
+    else if ("mul".equals(label)) {
       return new Func("integer/mul", twoArgs, SIGINT);
     }
-    else if (label.equals("div")) {
+    else if ("div".equals(label)) {
       return new Func("integer/div", twoArgs, SIGINT);
     }
-    else if (label.equals("rem")) {
+    else if ("rem".equals(label)) {
       return new Func("integer/rem", twoArgs, SIGINT);
     }
-    else if (label.equals("next")) {
+    else if ("next".equals(label)) {
       return new Func("integer/next", oneArg, SIGINT);
     }
-    else if (label.equals("append")) {
+    else if ("append".equals(label)) {
       List<ExprVar> vars = new ArrayList<ExprVar>();
       vars.add(new ExprVar("s1", UNIV.seq()));
       vars.add(new ExprVar("s2", UNIV.seq()));
       return new Func("seq/append", vars, UNIV.seq());
     }
-    else if (label.equals("last")) {
+    else if ("last".equals(label)) {
         List<ExprVar> vars = new ArrayList<ExprVar>();
         vars.add(new ExprVar("s", UNIV.seq()));
         return new Func("seq/last", vars, UNIV.one());
     }
-    else if (label.equals("front")) {
+    else if ("front".equals(label)) {
       List<ExprVar> vars = new ArrayList<ExprVar>();
       vars.add(new ExprVar("s", UNIV.seq()));
       return  new Func("seq/front", vars, UNIV.seq());
@@ -77,13 +77,13 @@ public class Toolkit extends Module {
   }
 
   private Func add(String label) {
-    if (label.equals("ndres")) {
+    if ("ndres".equals(label)) {
       return ndres();
     }
-    else if (label.equals("dom")) {
+    else if ("dom".equals(label)) {
       return dom();
     }
-    else if (label.equals("ran")) {
+    else if ("ran".equals(label)) {
       return ran();
     }
     else {
@@ -126,5 +126,4 @@ public class Toolkit extends Module {
     dom.setBody(UNIV.join(r));
     return dom;
   }
-
 }
