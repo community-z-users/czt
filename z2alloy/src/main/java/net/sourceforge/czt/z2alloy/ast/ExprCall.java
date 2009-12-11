@@ -10,9 +10,9 @@ public final class ExprCall extends AlloyExpr {
   private final Func fun;
 
   /** The list of arguments to the call. */
-  private final List<AlloyExpr> args;
+  private final List<? extends AlloyExpr> args;
 
-  public ExprCall(Func fun, List<AlloyExpr> args) {
+  public ExprCall(Func fun, List<? extends AlloyExpr> args) {
     super();
     this.fun = fun;
     this.args = Collections.unmodifiableList(args);

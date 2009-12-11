@@ -33,23 +33,142 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
-import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
 import net.sourceforge.czt.rules.rewriter.Strategies;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.z2alloy.ast.*;
-import net.sourceforge.czt.z2alloy.visitors.*;
+import net.sourceforge.czt.z.ast.AndExpr;
+import net.sourceforge.czt.z.ast.ApplExpr;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.BindSelExpr;
+import net.sourceforge.czt.z.ast.CompExpr;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.DecorExpr;
+import net.sourceforge.czt.z.ast.ExistsExpr;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.FreePara;
+import net.sourceforge.czt.z.ast.GivenPara;
+import net.sourceforge.czt.z.ast.GivenType;
+import net.sourceforge.czt.z.ast.HideExpr;
+import net.sourceforge.czt.z.ast.IffExpr;
+import net.sourceforge.czt.z.ast.ImpliesExpr;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.InclDecl;
+import net.sourceforge.czt.z.ast.LambdaExpr;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.NegPred;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.OptempPara;
+import net.sourceforge.czt.z.ast.OrExpr;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.PowerExpr;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.Pred2;
+import net.sourceforge.czt.z.ast.ProdExpr;
+import net.sourceforge.czt.z.ast.ProdType;
+import net.sourceforge.czt.z.ast.QntPred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchExpr2;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.SetCompExpr;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.ThetaExpr;
+import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.OperatorName;
+import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.visitor.AndExprVisitor;
+import net.sourceforge.czt.z.visitor.ApplExprVisitor;
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
+import net.sourceforge.czt.z.visitor.CompExprVisitor;
+import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
+import net.sourceforge.czt.z.visitor.DecorExprVisitor;
+import net.sourceforge.czt.z.visitor.FreeParaVisitor;
+import net.sourceforge.czt.z.visitor.GivenParaVisitor;
+import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
+import net.sourceforge.czt.z.visitor.HideExprVisitor;
+import net.sourceforge.czt.z.visitor.IffExprVisitor;
+import net.sourceforge.czt.z.visitor.ImpliesExprVisitor;
+import net.sourceforge.czt.z.visitor.InclDeclVisitor;
+import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
+import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
+import net.sourceforge.czt.z.visitor.MemPredVisitor;
+import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.NegPredVisitor;
+import net.sourceforge.czt.z.visitor.NumExprVisitor;
+import net.sourceforge.czt.z.visitor.OptempParaVisitor;
+import net.sourceforge.czt.z.visitor.OrExprVisitor;
+import net.sourceforge.czt.z.visitor.PowerExprVisitor;
+import net.sourceforge.czt.z.visitor.PowerTypeVisitor;
+import net.sourceforge.czt.z.visitor.Pred2Visitor;
+import net.sourceforge.czt.z.visitor.ProdExprVisitor;
+import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
+import net.sourceforge.czt.z.visitor.QntPredVisitor;
+import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.SchExprVisitor;
+import net.sourceforge.czt.z.visitor.SchemaTypeVisitor;
+import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
+import net.sourceforge.czt.z.visitor.SetExprVisitor;
+import net.sourceforge.czt.z.visitor.StrokeVisitor;
+import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
+import net.sourceforge.czt.z.visitor.TruePredVisitor;
+import net.sourceforge.czt.z.visitor.TupleExprVisitor;
+import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
+import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
+import net.sourceforge.czt.z.visitor.ZExprListVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
+import net.sourceforge.czt.z2alloy.ast.ExprBinary;
+import net.sourceforge.czt.z2alloy.ast.ExprCall;
+import net.sourceforge.czt.z2alloy.ast.ExprConstant;
+import net.sourceforge.czt.z2alloy.ast.ExprQuant;
+import net.sourceforge.czt.z2alloy.ast.ExprUnary;
+import net.sourceforge.czt.z2alloy.ast.ExprVar;
+import net.sourceforge.czt.z2alloy.ast.Field;
+import net.sourceforge.czt.z2alloy.ast.Func;
+import net.sourceforge.czt.z2alloy.ast.Module;
+import net.sourceforge.czt.z2alloy.ast.PrimSig;
+import net.sourceforge.czt.z2alloy.ast.Sig;
+import net.sourceforge.czt.z2alloy.ast.SubsetSig;
+import net.sourceforge.czt.z2alloy.ast.Toolkit;
+import net.sourceforge.czt.z2alloy.visitors.FreetypeVisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.Pred2VisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.QuantifierVisitor;
+import net.sourceforge.czt.z2alloy.visitors.SchExprVisitorImpl;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 
@@ -61,10 +180,6 @@ BindSelExprVisitor<AlloyExpr>,
 CompExprVisitor<AlloyExpr>,
 ConstDeclVisitor<AlloyExpr>,
 DecorExprVisitor<AlloyExpr>,
-ExistsExprVisitor<AlloyExpr>,
-Exists1PredVisitor<AlloyExpr>,
-ExistsPredVisitor<AlloyExpr>,
-ForallPredVisitor<AlloyExpr>,
 FreeParaVisitor<AlloyExpr>,
 GivenParaVisitor<AlloyExpr>,
 GivenTypeVisitor<AlloyExpr>,
@@ -85,6 +200,7 @@ PowerTypeVisitor<AlloyExpr>,
 Pred2Visitor<AlloyExpr>,
 ProdExprVisitor<AlloyExpr>,
 ProdTypeVisitor<AlloyExpr>,
+QntPredVisitor<AlloyExpr>,
 RefExprVisitor<AlloyExpr>,
 RuleVisitor<AlloyExpr>,
 SchemaTypeVisitor<AlloyExpr>,
@@ -104,22 +220,25 @@ ZSectVisitor<AlloyExpr>
   private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private boolean unfolding_ = false;
-  private List<ExprVar> vars_;
-  private List<AlloyExpr> exprs_;
+  
+  //this is public only temporarily
+  public List<ExprVar> vars_ = new ArrayList<ExprVar>();
+  public List<AlloyExpr> exprs_ = new ArrayList<AlloyExpr>();
 
-  private boolean body = false;
+  // this is public only temporarily 
+  public boolean body = false;
 
   private Module module_ = new Module();
   private RelationMap relationMap_ = new RelationMap(module_);
 
   private Map<String, AlloyExpr> macros_ = new HashMap<String, AlloyExpr>();
 
-  private Map<String, AlloyExpr> fields_ = new HashMap<String, AlloyExpr>();
 
   private Stack<Term> stack = new Stack<Term>();
 
-  private List<ExprVar> thetaQuantified = new ArrayList<ExprVar>();
-  private AlloyExpr thetaPred = ExprConstant.TRUE;
+  // these are public only temporarily.
+  public List<ExprVar> thetaQuantified = new ArrayList<ExprVar>();
+  public AlloyExpr thetaPred = ExprConstant.TRUE;
 
   /**
    * A mapping from ZName ids to alloy names.
@@ -515,6 +634,9 @@ ZSectVisitor<AlloyExpr>
       if (result instanceof SchExpr) {
         return new SchExprVisitorImpl(sigName).visitSchExpr((SchExpr) result);
       }
+      if (result instanceof ExistsExpr) {
+        return new QuantifierVisitor(sigName).visitExistsExpr((ExistsExpr) result);
+      }
       AlloyExpr value = visit(result);
       macros_.put(sigName, value);
       return null;
@@ -541,298 +663,6 @@ ZSectVisitor<AlloyExpr>
       System.err.println("not yet translated");
       throw new RuntimeException();
     }
-  }
-
-  /**
-   * Creates a new signiture which contains all the fields in the predicate
-   * schemas, except those in schemas quantified over <br>
-   * Includes a signiture predicate which is an exists predicate translated
-   * from the schema predicate, with the additon that any fields in more than
-   * one predicate schema are equal <br>
-   * eg
-   * 
-   * <pre>
-   * A == \exists B, C @ D \and E
-   * </pre>
-   * 
-   * <br>
-   * where B has fields b:X, C has fields b:X, c:Y, D has fields b : X, c : Y,
-   * d : Z, E has field b : X translates to:
-   * 
-   * <pre>
-   * sig A {
-   *    d : Z
-   * }{pred_A[d]}
-   * pred pred_A[d : Z] {
-   *    some b_temp : B, c_temp : C | pred_D[c_temp.b, c_temp.c, d] and pred_E[c_temp.b] and c_temp.b = b_temp.b
-   * }
-   * 
-   */
-  public AlloyExpr visitExistsExpr(ExistsExpr existsExpr) {
-    /*
-     * basically this method accumulates all the fields of predicate bits,
-     * then removes all fields in exists sigs the ones left over are the
-     * fields for the new signiture
-     * 
-     * then it creates all the predicate - using build which makes the
-     * predicate calls to the sigs from either the arguments of the
-     * predicate (fields of the new sig) or joins between the fields of the
-     * exists sigs and the sigs
-     * 
-     * also needs to find exists sigs with matching fields and ensure they
-     * are equal
-     */
-    ZDeclList incl = existsExpr.getZSchText().getZDeclList();
-    List<Sig> inclSigs = new ArrayList<Sig>(); // the sigs quantified over
-    ExprVar[] inclVars = new ExprVar[incl.size() - 1]; // the variables of
-    // the sigs
-    // quantified over
-    // treats the first one separatly just for the call at the end
-    Sig s = (Sig) visit(((InclDecl) incl.get(0)).getExpr());
-    inclSigs.add(s);
-    ExprVar first = (new ExprVar(s.label().toLowerCase() + "_temp", s));
-    for (int i = 1; i < incl.size(); i++) {
-      s = (Sig) visit(((InclDecl) incl.get(i)).getExpr());
-      inclSigs.add(s);
-      inclVars[i - 1] = (new ExprVar(s.label().toLowerCase() + "_temp", s));
-    }
-    body = true;
-    AlloyExpr pred = visit(existsExpr.getExpr());
-    body = false;
-    List<Sig> predSigs = new ArrayList<Sig>(); // all the sigs in the body
-    // of the predicate
-    Stack<AlloyExpr> predParts = new Stack<AlloyExpr>(); // just for accumulating them
-    // above
-    predParts.add(pred);
-    while (!predParts.isEmpty()) {
-      AlloyExpr temp = predParts.pop();
-      if (temp instanceof Sig) {
-        predSigs.add((Sig) temp);
-      } else if (temp instanceof ExprCall) {
-        predSigs.add(module_.getSig(((ExprCall) temp).fun().label()
-            .replaceFirst("pred_", "")));
-      } else {
-        System.err.println("Not fully translated: " + temp.getClass()
-            + " " + temp);
-        throw new RuntimeException();
-      }
-    }
-    Map<String, AlloyExpr> fields = new HashMap<String, AlloyExpr>(); // the fields
-    // for the new signiture
-    Map<String, AlloyExpr> vars = new HashMap<String, AlloyExpr>(); // the expressions
-    // to be used in predicate calls
-    for (Sig sig : predSigs) {
-      for (Field field : sig.fields()) {
-        fields.put(field.label(), field.expr());
-        vars.put(field.label(),
-            new ExprVar(field.label(), field.expr()));
-      }
-    }
-    for (int i = 0; i < inclSigs.size(); i++) {
-      for (Field field : inclSigs.get(i).fields()) {
-        fields.remove(field.label()); // fields in the quantified over
-        // sigs should not be in the signiture
-        if (i == 0) {
-          vars.put(field.label(), first.join(field.expr()));
-          // remember vars does not include them first because of the call at the end
-        } else {
-          vars.put(field.label(), inclVars[i - 1].join(field.expr()));
-        }
-      }
-    }
-    PrimSig sig;
-    sig = new PrimSig(names.get(existsExpr));
-    for (Entry<String, AlloyExpr> field : fields.entrySet()) {
-      sig.addField(new Field(field.getKey(), field.getValue()));
-    }
-    addSig(sig);
-    // unfolds the pred and builds it up into a tree contianing the pred
-    // calls, ands, ors
-    AlloyExpr predBody = build(pred, vars);
-    // the name of the duplicate field, and the list of expressions
-    // the expressions are such that they can be directly used in the
-    // equality expression
-    Map<String, List<AlloyExpr>> dupFields = new HashMap<String, List<AlloyExpr>>();
-    for (int i = 0; i < inclSigs.size(); i++) {
-      for (Field field : inclSigs.get(i).fields()) {
-        if (!dupFields.containsKey(field.label())) {
-          dupFields.put(field.label(), new ArrayList<AlloyExpr>());
-        }
-        if (i == 0) { // remember vars does not include the first
-          // because of the call at the end
-          dupFields.get(field.label()).add(first.join(field.expr()));
-        }
-        else {
-          dupFields.get(field.label()).add(inclVars[i - 1].join(field.expr()));
-        }
-      }
-    }
-    // starts from the second entry, and puts all the later entries equal to
-    // the first
-    // ie looks like first=second and first=third and first=fourth ...
-    for (Entry<String, List<AlloyExpr>> entry : dupFields.entrySet()) {
-      for (int i = 1; i < entry.getValue().size(); i++) {
-        AlloyExpr firstExpr = entry.getValue().get(0);
-        AlloyExpr ithExpr = entry.getValue().get(i);
-        if (predBody == null) {
-          predBody = firstExpr.equal(ithExpr);
-        }
-        else {
-          predBody = predBody.and(firstExpr.equal(ithExpr));
-        }
-      }
-    }
-    vars_.add(first);
-    addSigPred(sig, predBody.forSome(vars_));
-    return null;
-  }
-
-  /**
-   * uses visit to recursively translate variables and predicates.
-   * 
-   * <pre>
-   * \exists_1 var1, ... varn @ pred1 | pred2
-   * </pre>
-   * 
-   * translates to :
-   * 
-   * <pre>
-   * one var1, ..., varn | pred1 and pred2
-   * </pre>
-   * 
-   * @return the expression, or null if something is null that should not be
-   */
-  public AlloyExpr visitExists1Pred(Exists1Pred exists1Pred) {
-    ExprVar firstVar = (ExprVar) visit(exists1Pred.getZSchText()
-        .getZDeclList());
-    List<ExprVar> rest = vars_;
-    AlloyExpr pred;
-    body = true;
-    AlloyExpr pred1 = visit(exists1Pred.getZSchText().getPred());
-    AlloyExpr pred2 = visit(exists1Pred.getPred());
-    body = false;
-    if (pred2 == null) {
-      System.err.println("pred of ExistsPred must not be null");
-      throw new RuntimeException();
-    }
-    if (pred1 == null) {
-      pred = pred2;
-    }
-    else {
-      pred = pred1.and(pred2);
-    }
-    rest.add(firstVar);
-    return pred.forOne(rest);
-  }
-
-  /**
-   * uses visit to recursively translate variables and predicates.
-   * 
-   * <pre>
-   * \exists var1, ..., varn @ pred1 | pred2
-   * </pre>
-   * 
-   * translates to
-   * 
-   * <pre>
-   * some var1, ... var2 | pred1 and pred2
-   * </pre>
-   * 
-   * @return the epxression, or null if something is null that should not be
-   */
-  public AlloyExpr visitExistsPred(ExistsPred existsPred) {
-    ExprVar firstVar = null;
-    AlloyExpr first = visit(existsPred.getZSchText().getZDeclList());
-    AlloyExpr sigPred = null;
-    List<ExprVar> rest = vars_;		
-
-    if (first instanceof ExprVar) firstVar = (ExprVar) first;
-    else if (first instanceof Sig) {
-      List<AlloyExpr> sigCallVars = new ArrayList<AlloyExpr>();
-      Sig s = (Sig) first;
-      for (Field f : s) {
-        ExprVar temp = new ExprVar(f.label(), f.expr());
-        sigCallVars.add(temp);
-        if (s.fields().get(0).equals(f)) {
-          firstVar = temp;
-        }
-        else {
-          vars_.add(temp);
-        }
-      }
-      sigPred = module_.getFunc("pred_" + s.label()).call(sigCallVars);
-    }
-    AlloyExpr pred;
-    body = true;
-    AlloyExpr pred1 = visit(existsPred.getZSchText().getPred());
-    AlloyExpr pred2 = visit(existsPred.getPred());
-    body = false;
-    if (pred2 == null) {
-      System.err.println("pred of ExistsPred must not be null");
-      throw new RuntimeException();
-    }
-    if (sigPred != null) {
-      if( pred1 == null) {
-        pred1 = sigPred;
-      }
-      else {
-        pred1 = pred1.and(sigPred);
-      }
-    }
-    if (pred1 == null) {
-      pred = pred2;
-    } else {
-      pred = pred1.and(pred2);
-    }
-    if (! thetaQuantified.isEmpty()) {
-      pred = thetaPred.and(pred).forSome(thetaQuantified);
-      thetaPred = ExprConstant.TRUE;
-      thetaQuantified.clear();
-    }
-    if (firstVar == null) {
-      System.err.println("firstVar of ExistsPred must not be null");
-      throw new RuntimeException();
-    }
-    rest.add(firstVar);
-    return pred.forSome(rest);
-  }
-
-  /**
-   * uses visit to recurisvely translate variables and predicates
-   * 
-   * <pre>
-   * \forall var1, ..., varn @ pred1 | pred2
-   * </pre>
-   * 
-   * translates to:
-   * 
-   * <pre>
-   * all var1, ..., var2 | pred1 =&gt; pred2
-   * </pre>
-   */
-  public AlloyExpr visitForallPred(ForallPred allPred) {
-    ExprVar firstVar = (ExprVar) visit(allPred.getZSchText().getZDeclList());
-    List<ExprVar> rest = vars_;
-    AlloyExpr pred;
-    body = true;
-    AlloyExpr pred1 = visit(allPred.getZSchText().getPred());
-    AlloyExpr pred2 = visit(allPred.getPred());
-    body = false;
-    if (pred2 == null) {
-      System.err.println("pred of allpred must not be null");
-      throw new RuntimeException();
-    }
-    if (pred1 == null) {
-      pred = pred2;
-    } else {
-      pred = pred1.implies(pred2);
-    }
-    if (firstVar == null) {
-      System.err.println("fistVar of allpred must not be null");
-      throw new RuntimeException();
-    }
-    rest.add(firstVar);
-    return pred.forAll(rest);
   }
 
   /**
@@ -1256,6 +1086,10 @@ ZSectVisitor<AlloyExpr>
     }
     System.err.println("this didn't work properly!");
     throw new RuntimeException();
+  }
+  
+  public AlloyExpr visitQntPred(QntPred qntPred) {
+    return new QuantifierVisitor().visit(qntPred);
   }
 
   /**
@@ -1858,8 +1692,6 @@ ZSectVisitor<AlloyExpr>
     List<ExprVar> vars = new ArrayList<ExprVar>();
     for (Field f : sig.fields()) {
       vars.add(new ExprVar(f.label(), f.expr()));
-      // TODO clare wtf is this for?
-      fields_.put(f.label(), f.expr());
     }
     Func f = new Func("pred_" + sig.label(), vars);
     f.setBody(ExprConstant.TRUE);

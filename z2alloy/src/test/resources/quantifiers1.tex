@@ -1,0 +1,15 @@
+\begin{schema}{A}
+	a : \power \num
+\where
+	\forall x : \num | x \geq 1 @ x \in a \\
+	\exists x : \num | x \geq 1 @ x \in a \\
+	\exists_{1} x : \num | x \geq 1 @ x \in a \\
+	
+	\forall x : \num @ x \in a \\
+	\exists x : \num @ x \in a \\
+	\exists_{1} x : \num @ x \in a \\
+	
+	\forall x : \num; y : \num | x \geq 1 @ x \in a \\
+	\exists x : \num; y : \num | x \geq 1 @ x \in a \\
+	\exists_{1} x : \num; y : \num | x \geq 1 @ x \in a \\
+\end{schema}

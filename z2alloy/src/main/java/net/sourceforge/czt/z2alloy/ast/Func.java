@@ -43,7 +43,7 @@ public class Func {
     return temp;
   }
 
-  public AlloyExpr call(List<AlloyExpr> args) {
+  public AlloyExpr call(List<? extends AlloyExpr> args) {
     return new ExprCall(this, args);
   }
 

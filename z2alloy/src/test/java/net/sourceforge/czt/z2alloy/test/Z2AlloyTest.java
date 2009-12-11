@@ -79,6 +79,28 @@ public class Z2AlloyTest {
   public void testNumbes1() {
     test("numbers1", true);
   }
+  
+  /** tests simple quantification predicates */
+  @Test
+  public void testQuantifiers1() {
+    test("quantifiers1", true);
+  }
+
+  /**
+   * tests quantifier predicates which include schemas in various places
+   */
+  @Test
+  public void testQuantifier2() {
+    test("quantifiers2", false);
+  }
+ 
+  /**
+   * tests quantifier expressions
+   */
+  @Test
+  public void testQuantifiers3() {
+    test("quantifiers3", false);
+  }
 
   /*
    * These are old tests - they don't work because of changes to the printer

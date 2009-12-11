@@ -754,6 +754,13 @@ z2alloy/src/test/resources/numbers1_unfold.als -text
 z2alloy/src/test/resources/quant.tex -text
 z2alloy/src/test/resources/quant_fold.als -text
 z2alloy/src/test/resources/quant_unfold.als -text
+z2alloy/src/test/resources/quantifiers1.tex -text
+z2alloy/src/test/resources/quantifiers1_fold.als -text
+z2alloy/src/test/resources/quantifiers1_unfold.als -text
+z2alloy/src/test/resources/quantifiers2.tex -text
+z2alloy/src/test/resources/quantifiers2_fold.als -text
+z2alloy/src/test/resources/quantifiers3.tex -text
+z2alloy/src/test/resources/quantifiers3_fold.als -text
 z2alloy/src/test/resources/schema1.tex -text
 z2alloy/src/test/resources/schema1_fold.als -text
 z2alloy/src/test/resources/schema1_unfold.als -text
