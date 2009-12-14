@@ -709,6 +709,7 @@ z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/Toolkit.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/VisitReturn.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/FreetypeVisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/Pred2VisitorImpl.java -text
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/QuantifierVisitor.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/SchExprVisitorImpl.java -text
 z2alloy/src/test/java/net/sourceforge/czt/z2alloy/test/Z2AlloyTest.java -text
 z2alloy/src/test/resources/AB.tex -text
