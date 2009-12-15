@@ -17,7 +17,7 @@ public class ExprLet extends AlloyExpr {
     return visitor.visit(this);
   }
 
-  public AlloyExpr label() {
+  public ExprVar label() {
     return label;
   }
 
