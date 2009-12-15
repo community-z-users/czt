@@ -351,7 +351,8 @@ ExistsExprVisitor<AlloyExpr>
 
     // gets the predicate part
     AlloyExpr zPred = Z2Alloy.getInstance().visit(existsExpr.getExpr());
-
+    AlloyExpr zDeclPred = Z2Alloy.getInstance().visit(existsExpr.getZSchText().getPred());
+    
     // gets the sigs used in the predicate
     Set<Sig> inclSigs = new SigVisitor().visitThis(zPred);
 
@@ -376,10 +377,15 @@ ExistsExprVisitor<AlloyExpr>
     Z2Alloy.getInstance().addSig(sig);
     // uses the predicate, but replaces the variables so they come from the right place
     AlloyExpr pred = new ReplaceVariables(variables).visitThis(zPred);
-    
+
     AlloyExpr dupPred = fixDups(dups(incl));
     
     pred = (dupPred == null ? pred : pred.and(dupPred));
+
+    if (zDeclPred != null) {
+      AlloyExpr declPred = new ReplaceVariables(variables).visitThis(zDeclPred);
+      pred = pred.and(declPred);
+    }
     
     Z2Alloy.getInstance().addSigPred(sig, pred.forSome(includedVariables.getSecond()));
     return null;
@@ -487,6 +493,9 @@ ExistsExprVisitor<AlloyExpr>
 
     public AlloyExpr visit(Sig x) {
       Func f = Z2Alloy.getInstance().module().getFunc("pred_" + x.label());
+      if (f == null) {
+        return ExprConstant.TRUE;
+      }
       List<AlloyExpr> args = new ArrayList<AlloyExpr>();
       for (ExprVar exprVar : f.params()) {
         args.add(replaceVariables_.get(exprVar.label()));
@@ -494,14 +503,60 @@ ExistsExprVisitor<AlloyExpr>
       return f.call(args);
     }
 
-    public AlloyExpr visit(ExprConstant x) { throw new RuntimeException(); }
-    public AlloyExpr visit(ExprITE x) { throw new RuntimeException(); }
-    public AlloyExpr visit(ExprLet x) { throw new RuntimeException(); }
-    public AlloyExpr visit(ExprQuant x) { throw new RuntimeException(); }
-    public AlloyExpr visit(ExprUnary x) { throw new RuntimeException(); }
-    public AlloyExpr visit(ExprVar x) { throw new RuntimeException(); }
-    public AlloyExpr visit(Field x) { throw new RuntimeException(); }
-    public AlloyExpr visit(Enum x) { throw new RuntimeException(); }
+    public AlloyExpr visit(ExprConstant x) {
+      return x;
+    }
+    
+    public AlloyExpr visit(ExprITE x) {
+      return new ExprITE(
+          visitThis(x.cond()),
+          visitThis(x.left()),
+          visitThis(x.right())
+      );
+    }
+    
+    public AlloyExpr visit(ExprLet x) {
+      Map<String, AlloyExpr> updates = new HashMap<String, AlloyExpr>(replaceVariables_);
+      updates.put(x.label().label(), x.label());
+      
+      return new ExprLet(
+          x.label(),
+          visitThis(x.var()),
+          new ReplaceVariables(updates).visitThis(x.sub())
+      );
+    }
+    
+    public AlloyExpr visit(ExprQuant x) {
+      List<ExprVar> newVars = new ArrayList<ExprVar>();
+      Map<String, AlloyExpr> updates = new HashMap<String, AlloyExpr>(replaceVariables_);
+      
+      for (ExprVar exprVar : x.vars()) {
+        newVars.add(new ExprVar(exprVar.label(), visitThis(exprVar.expr())));
+        updates.put(exprVar.label(), exprVar);
+      }
+      
+      return new ExprQuant(
+          x.op(),
+          newVars,
+          new ReplaceVariables(updates).visitThis(x.sub())
+      );
+      
+    }
+    public AlloyExpr visit(ExprUnary x) {
+      return new ExprUnary(x.op(), visitThis(x.sub()));
+    }
+    public AlloyExpr visit(ExprVar x) {
+      if (replaceVariables_.containsKey(x.label())) {
+        return replaceVariables_.get(x.label());
+      }
+      return new ExprVar(x.label(), visitThis(x.expr()));
+    }
+    public AlloyExpr visit(Field x) {
+      return x;
+    }
+    public AlloyExpr visit(Enum x) {
+      return x;
+    }
 
   }
 
