@@ -65,4 +65,41 @@ pred pred_F[x: Int, a: (set  Int)] {
 	some x: Int, A_temp: A | ((pred_B[(A_temp . x), a]) && ((A_temp . x) = x))
 }
 
+sig G{
+	x: Int,
+	a: (set  Int),
+}{(pred_G[x, a])}
+
+
+pred pred_G[x: Int, a: (set  Int)] {
+	some x: Int | ((pred_B[x, a]) && (x > 5))
+}
+
+sig H{
+	x: Int,
+	a: (set  Int),
+}{(pred_H[x, a])}
+
+
+pred pred_H[x: Int, a: (set  Int)] {
+	some A_temp: A | ((pred_B[(A_temp . x), a]) && ((A_temp . x) > 5))
+}
+
+sig I{
+	x: Int,
+}{(pred_I[x])}
+
+
+pred pred_I[x: Int] {
+	some a: (set  Int) | (pred_B[x, a])
+}
+
+sig J{
+}{(pred_J[])}
+
+
+pred pred_J[] {
+	some x: Int, a: (set  Int) | (pred_B[x, a])
+}
+
 
