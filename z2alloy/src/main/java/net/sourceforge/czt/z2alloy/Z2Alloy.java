@@ -169,6 +169,7 @@ import net.sourceforge.czt.z2alloy.visitors.FreetypeVisitorImpl;
 import net.sourceforge.czt.z2alloy.visitors.Pred2VisitorImpl;
 import net.sourceforge.czt.z2alloy.visitors.QuantifierVisitor;
 import net.sourceforge.czt.z2alloy.visitors.SchExprVisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.ZDeclListVisitorImpl;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 
@@ -212,7 +213,6 @@ TruePredVisitor<AlloyExpr>,
 TupleExprVisitor<AlloyExpr>,
 TypeAnnVisitor<AlloyExpr>,
 VarDeclVisitor<AlloyExpr>,
-ZDeclListVisitor<AlloyExpr>,
 ZExprListVisitor<AlloyExpr>,
 ZSectVisitor<AlloyExpr>
 {
@@ -222,7 +222,6 @@ ZSectVisitor<AlloyExpr>
   private boolean unfolding_ = false;
   
   //this is public only temporarily
-  public List<ExprVar> vars_ = new ArrayList<ExprVar>();
   public List<AlloyExpr> exprs_ = new ArrayList<AlloyExpr>();
 
   // this is public only temporarily 
@@ -838,13 +837,7 @@ ZSectVisitor<AlloyExpr>
   public AlloyExpr visitLambdaExpr(LambdaExpr lambda) {
     String name = names.get(lambda);
     if (module_.containsFunc(name)) return null;
-    List<ExprVar> vars = new ArrayList<ExprVar>();
-    vars.add((ExprVar) visit(lambda.getZSchText().getZDeclList()));
-    if (vars_ != null) {
-      for (ExprVar exprVar : vars_) {
-        vars.add(exprVar);
-      }
-    }
+    List<ExprVar> vars = new ZDeclListVisitorImpl().visitZDeclList(lambda.getZSchText().getZDeclList());
     body = true;
     AlloyExpr body = visit(lambda.getExpr());
     this.body = false;
@@ -861,13 +854,7 @@ ZSectVisitor<AlloyExpr>
     String name = names.get(lambda);
     if (module_.containsFunc(name))
       return null;
-    List<ExprVar> vars = new ArrayList<ExprVar>();
-    vars.add((ExprVar) visit(lambda.getZSchText().getZDeclList()));
-    if (vars_ != null) {
-      for (ExprVar exprVar : vars_) {
-        vars.add(exprVar);
-      }
-    }
+    List<ExprVar> vars = new ZDeclListVisitorImpl().visitZDeclList(lambda.getZSchText().getZDeclList());
     this.body = true;
     AlloyExpr body = visit(lambda.getExpr());
     this.body = false;
@@ -1282,12 +1269,9 @@ ZSectVisitor<AlloyExpr>
    * 
    */
   public AlloyExpr visitSetCompExpr(SetCompExpr setCompExpr) {
-    ExprVar firstVar = (ExprVar) visit(setCompExpr.getZSchText()
-        .getZDeclList());
-    List<ExprVar> rest = vars_;
+    List<ExprVar> rest = new ZDeclListVisitorImpl().visitZDeclList(setCompExpr.getZSchText().getZDeclList());
     AlloyExpr pred = visit(setCompExpr.getZSchText().getPred());
     AlloyExpr oPred = visit(setCompExpr.getExpr());
-    vars_.add(firstVar);
     if (pred == null) {
       pred = ExprConstant.TRUE;
     }
@@ -1301,7 +1285,7 @@ ZSectVisitor<AlloyExpr>
     return new ExprQuant(ExprQuant.Op.COMPREHENSION,
         temp,
         pred.and(new ExprQuant(ExprQuant.Op.SOME,
-            vars_,
+            rest,
             oPred.equal(exprVar))));
   }
 
@@ -1401,28 +1385,6 @@ ZSectVisitor<AlloyExpr>
    */
   public AlloyExpr visitVarDecl(VarDecl vDecl) {
     return new ExprVar(print(vDecl.getName()), visit(vDecl.getExpr()));
-  }
-
-  /**
-   * uses visit to recursively translate the elements fo the ZDeclList <br/>
-   * sets internally a list containing translations all elements other than
-   * the first, in order
-   * 
-   * @return the first element
-   */
-  public AlloyExpr visitZDeclList(ZDeclList zDeclList) {
-    Iterator<Decl> iter = zDeclList.iterator();
-    AlloyExpr result = visit(iter.next());
-    if (iter.hasNext()) {
-      List<ExprVar> list = new ArrayList<ExprVar>();
-      while (iter.hasNext()) {
-        list.add((ExprVar) visit(iter.next()));
-      }
-      vars_ = list;
-    } else {
-      vars_ = new ArrayList<ExprVar>();
-    }
-    return result;
   }
 
   public AlloyExpr visitZExprList(ZExprList zExprList) {
