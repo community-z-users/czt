@@ -27,7 +27,6 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -96,19 +95,14 @@ SetCompExprVisitor<AlloyExpr>,
 SetExprVisitor<AlloyExpr>,
 ThetaExprVisitor<AlloyExpr>,
 TruePredVisitor<AlloyExpr>,
-TupleExprVisitor<AlloyExpr>,
 TypeAnnVisitor<AlloyExpr>,
 VarDeclVisitor<AlloyExpr>,
-ZExprListVisitor<AlloyExpr>,
 ZSectVisitor<AlloyExpr>
 {
   private SectionManager manager_;
   private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
   private String section_ = "z2alloy";
   private boolean unfolding_ = false;
-  
-  //this is public only temporarily
-  public List<AlloyExpr> exprs_ = new ArrayList<AlloyExpr>();
 
   // this is public only temporarily 
   public boolean body = false;
@@ -117,7 +111,6 @@ ZSectVisitor<AlloyExpr>
   private RelationMap relationMap_ = new RelationMap(module_);
 
   private Map<String, AlloyExpr> macros_ = new HashMap<String, AlloyExpr>();
-
 
   private Stack<Term> stack = new Stack<Term>();
 
@@ -234,9 +227,9 @@ ZSectVisitor<AlloyExpr>
         if (binOp == null) {
           // this means it isn't an infix operator?
         }
-	else if (binOp.equals(ZString.SETMINUS)) {
-	  ret = left.minus(right);
-	}
+        else if (binOp.equals(ZString.SETMINUS)) {
+          ret = left.minus(right);
+        }
         else if (binOp.equals(ZString.CUP)) {
           ret = left.plus(right);
         }
@@ -350,11 +343,8 @@ ZSectVisitor<AlloyExpr>
         else if (module_.containsFunc(print(refExpr.getZName()))) {
           Func fun = module_.getFunc(print(refExpr.getZName()));
           if (applExpr.getRightExpr() instanceof TupleExpr) {
-            AlloyExpr first = visit(applExpr.getRightExpr());
-            if (first != null) {
-              exprs_.add(0, first);
-            }
-            ret = fun.call(exprs_);
+            List<AlloyExpr> right = new TupleExprVisitorImpl().visitTupleExpr((TupleExpr) applExpr.getRightExpr());
+            ret = fun.call(right);
           }
           AlloyExpr body = visit(applExpr.getRightExpr());
           ret = fun.call(body);
@@ -829,7 +819,7 @@ ZSectVisitor<AlloyExpr>
   public AlloyExpr visitNarrPara(NarrPara para) {
     return null;
   }
-  
+
   public AlloyExpr visitNegPred(NegPred negPred) {
     return visit(negPred.getPred()).not();
   }
@@ -960,7 +950,7 @@ ZSectVisitor<AlloyExpr>
     System.err.println("this didn't work properly!");
     throw new RuntimeException();
   }
-  
+
   public AlloyExpr visitQntPred(QntPred qntPred) {
     return new QuantifierVisitor().visit(qntPred);
   }
@@ -1258,10 +1248,6 @@ ZSectVisitor<AlloyExpr>
     return ExprConstant.TRUE;
   }
 
-  public AlloyExpr visitTupleExpr(TupleExpr tupleExpr) {
-    return visit(tupleExpr.getZExprList());
-  }
-
   public AlloyExpr visitTypeAnn(TypeAnn typeAnn) {
     return visit(typeAnn.getType());
   }
@@ -1271,21 +1257,6 @@ ZSectVisitor<AlloyExpr>
    */
   public AlloyExpr visitVarDecl(VarDecl vDecl) {
     return new ExprVar(print(vDecl.getName()), visit(vDecl.getExpr()));
-  }
-
-  public AlloyExpr visitZExprList(ZExprList zExprList) {
-    Iterator<Expr> iter = zExprList.iterator();
-    AlloyExpr result = visit(iter.next());
-    if (iter.hasNext()) {
-      List<AlloyExpr> list = new ArrayList<AlloyExpr>();
-      while (iter.hasNext()) {
-        list.add(visit(iter.next()));
-      }
-      exprs_ = list;
-    } else {
-      exprs_ = new ArrayList<AlloyExpr>();
-    }
-    return result;
   }
 
   public AlloyExpr visitZSect(ZSect zSect) {
@@ -1419,7 +1390,7 @@ ZSectVisitor<AlloyExpr>
       return null;
     }
   }
-  
+
   public static String isPrefixOperator(ZName name) {
     try {
       OperatorName opName = new OperatorName(name);
@@ -1485,7 +1456,7 @@ ZSectVisitor<AlloyExpr>
     addSigPred(sig, visit(schExpr2));
     return null;
   }
-//TODO clare document this beast
+  //TODO clare document this beast
   private List<Field> fields(SchExpr2 schExpr2) {
     Map<String, AlloyExpr> fields = new HashMap<String, AlloyExpr>();
     Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
