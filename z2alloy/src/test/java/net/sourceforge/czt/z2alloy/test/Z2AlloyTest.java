@@ -76,7 +76,7 @@ public class Z2AlloyTest {
   
   /** tests numerical operators */
   @Test
-  public void testNumbes1() {
+  public void testNumbers1() {
     test("numbers1", true);
   }
   

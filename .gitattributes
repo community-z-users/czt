@@ -708,6 +708,7 @@ z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/SubsetSig.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/Toolkit.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/VisitReturn.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/AbstractVisitor.java -text
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/ExprVisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/FreetypeVisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/Pred2VisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/PredVisitorImpl.java -text
