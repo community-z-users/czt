@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Exists1Pred;
@@ -22,6 +21,7 @@ import net.sourceforge.czt.z.visitor.Exists1PredVisitor;
 import net.sourceforge.czt.z.visitor.ExistsExprVisitor;
 import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
 import net.sourceforge.czt.z.visitor.ForallPredVisitor;
+import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.z2alloy.Z2Alloy;
 import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import net.sourceforge.czt.z2alloy.ast.Enum;
@@ -39,7 +39,8 @@ import net.sourceforge.czt.z2alloy.ast.PrimSig;
 import net.sourceforge.czt.z2alloy.ast.Sig;
 import net.sourceforge.czt.z2alloy.ast.VisitReturn;
 
-public class QuantifierVisitor implements
+public class QuantifierVisitor extends AbstractVisitor implements
+QntPredVisitor<AlloyExpr>,
 ForallPredVisitor<AlloyExpr>,
 ExistsPredVisitor<AlloyExpr>,
 Exists1PredVisitor<AlloyExpr>,
@@ -55,11 +56,10 @@ ExistsExprVisitor<AlloyExpr>
   public QuantifierVisitor() {
     name_ = "";
   }
-
-  public AlloyExpr visit(Term t) {
-    if (t != null) {
-      AlloyExpr e = t.accept(this);
-      return e;
+  
+  public AlloyExpr visitQntPred(QntPred qntPred) {
+    if (qntPred != null) {
+      return qntPred.accept(this);
     }
     return null;
   }
@@ -134,8 +134,8 @@ ExistsExprVisitor<AlloyExpr>
     AlloyExpr pred;
     Z2Alloy.getInstance().body = true;
 
-    AlloyExpr pred1 = Z2Alloy.getInstance().visit(qntPred.getZSchText().getPred());
-    AlloyExpr pred2 = Z2Alloy.getInstance().visit(qntPred.getPred());
+    AlloyExpr pred1 = visit(qntPred.getZSchText().getPred());
+    AlloyExpr pred2 = visit(qntPred.getPred());
 
     Z2Alloy.getInstance().body = false;
 
@@ -206,7 +206,7 @@ ExistsExprVisitor<AlloyExpr>
     Iterator<Decl> iter = zDeclList.iterator();
     List<AlloyExpr> ret = new ArrayList<AlloyExpr>();
     while (iter.hasNext()) {
-      ret.add(Z2Alloy.getInstance().visit(iter.next()));
+      ret.add(visit(iter.next()));
     }
     return ret;
   }
@@ -350,8 +350,8 @@ ExistsExprVisitor<AlloyExpr>
     Map<String, AlloyExpr> variables = includedVariables.getFirst();
 
     // gets the predicate part
-    AlloyExpr zPred = Z2Alloy.getInstance().visit(existsExpr.getExpr());
-    AlloyExpr zDeclPred = Z2Alloy.getInstance().visit(existsExpr.getZSchText().getPred());
+    AlloyExpr zPred = visit(existsExpr.getExpr());
+    AlloyExpr zDeclPred = visit(existsExpr.getZSchText().getPred());
     
     // gets the sigs used in the predicate
     Set<Sig> inclSigs = new SigVisitor().visitThis(zPred);

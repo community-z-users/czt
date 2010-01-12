@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.Branch;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.Freetype;
@@ -15,25 +14,19 @@ import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 import net.sourceforge.czt.z2alloy.Z2Alloy;
-import net.sourceforge.czt.z2alloy.ast.Enum;
 import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
+import net.sourceforge.czt.z2alloy.ast.Enum;
 
-public class FreetypeVisitorImpl implements FreeParaVisitor<AlloyExpr>,
-    FreetypeVisitor<AlloyExpr>, ZFreetypeListVisitor<AlloyExpr> {
-
-  public AlloyExpr visit(Term t) {
-    if (t != null) {
-      AlloyExpr e = t.accept(this);
-      return e;
-    }
-    return null;
-  }
+public class FreetypeVisitorImpl extends AbstractVisitor implements
+  FreeParaVisitor<AlloyExpr>,
+  FreetypeVisitor<AlloyExpr>,
+  ZFreetypeListVisitor<AlloyExpr> {
 
   /*
    * TODO clare: confirm that this just wraps around a free type declaration
    */
   public AlloyExpr visitFreePara(FreePara para) {
-    return visit(para.getFreetypeList());
+    return visitZFreetypeList((ZFreetypeList) para.getFreetypeList());
   }
 
   public AlloyExpr visitFreetype(Freetype freetype) {
@@ -58,7 +51,7 @@ public class FreetypeVisitorImpl implements FreeParaVisitor<AlloyExpr>,
    */
   public AlloyExpr visitZFreetypeList(ZFreetypeList list) {
     for (Freetype freetype : list) {
-      visit(freetype);
+      visitFreetype(freetype);
     }
     return null;
   }

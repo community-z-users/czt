@@ -21,7 +21,7 @@ import net.sourceforge.czt.z2alloy.ast.Module;
 import net.sourceforge.czt.z2alloy.ast.PrimSig;
 import net.sourceforge.czt.z2alloy.ast.Sig;
 
-public class SchExprVisitorImpl implements SchExprVisitor<AlloyExpr> {
+public class SchExprVisitorImpl extends AbstractVisitor implements SchExprVisitor<AlloyExpr> {
 
   private String name;
 
@@ -64,12 +64,11 @@ public class SchExprVisitorImpl implements SchExprVisitor<AlloyExpr> {
         VarDecl vardecl = (VarDecl) d;
         ZNameList nameList = vardecl.getName();
         for (Name name : nameList) {
-          sig.addField(new Field(Z2Alloy.getInstance().print(name), Z2Alloy
-              .getInstance().visit(vardecl.getExpr())));
+          sig.addField(new Field(Z2Alloy.getInstance().print(name), visit(vardecl.getExpr())));
         }
       } else if (d instanceof InclDecl) {
         InclDecl incldecl = (InclDecl) d;
-        AlloyExpr newPred = addInclSig((Sig) Z2Alloy.getInstance().visit(
+        AlloyExpr newPred = addInclSig((Sig) visit(
             incldecl.getExpr()), sig);
         if (newPred != null && fieldPred != null)
           fieldPred = newPred.and(fieldPred);
@@ -81,7 +80,7 @@ public class SchExprVisitorImpl implements SchExprVisitor<AlloyExpr> {
       }
     }
     Z2Alloy.getInstance().addSig(sig);
-    AlloyExpr pred = Z2Alloy.getInstance().visit(schExpr.getZSchText().getPred());
+    AlloyExpr pred = visit(schExpr.getZSchText().getPred());
     if (fieldPred != null) {
       Z2Alloy.getInstance().addSigPred(sig, fieldPred);
     }

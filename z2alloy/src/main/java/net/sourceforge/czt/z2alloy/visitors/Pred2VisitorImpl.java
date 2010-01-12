@@ -1,6 +1,5 @@
 package net.sourceforge.czt.z2alloy.visitors;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.IffPred;
 import net.sourceforge.czt.z.ast.ImpliesPred;
@@ -15,17 +14,12 @@ import net.sourceforge.czt.z2alloy.Z2Alloy;
 import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import edu.mit.csail.sdg.alloy4.Pair;
 
-public class Pred2VisitorImpl implements Pred2Visitor<AlloyExpr>,
-    AndPredVisitor<AlloyExpr>, IffPredVisitor<AlloyExpr>, ImpliesPredVisitor<AlloyExpr>,
-    OrPredVisitor<AlloyExpr> {
-
-  public AlloyExpr visit(Term t) {
-    if (t != null) {
-      AlloyExpr e = t.accept(this);
-      return e;
-    }
-    return null;
-  }
+public class Pred2VisitorImpl extends AbstractVisitor implements
+  Pred2Visitor<AlloyExpr>,
+  AndPredVisitor<AlloyExpr>,
+  IffPredVisitor<AlloyExpr>,
+  ImpliesPredVisitor<AlloyExpr>,
+  OrPredVisitor<AlloyExpr> {
 
   /**
    * translates an and predicate (ie conjunction) into an alloy and
@@ -80,7 +74,9 @@ public class Pred2VisitorImpl implements Pred2Visitor<AlloyExpr>,
   }
 
   public AlloyExpr visitPred2(Pred2 pred2) {
-    System.err.println(pred2 + " is not implemented yet");
+    if (pred2 != null) {
+      return pred2.accept(this);
+    }
     return null;
   }
 }

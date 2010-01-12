@@ -31,7 +31,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Stack;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -59,42 +58,21 @@ import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 
 public class Z2Alloy implements TermVisitor<AlloyExpr>,
-AndExprVisitor<AlloyExpr>,
-ApplExprVisitor<AlloyExpr>,
 AxParaVisitor<AlloyExpr>,
-BindSelExprVisitor<AlloyExpr>,
-CompExprVisitor<AlloyExpr>,
 ConstDeclVisitor<AlloyExpr>,
 DecorExprVisitor<AlloyExpr>,
 FreeParaVisitor<AlloyExpr>,
 GivenParaVisitor<AlloyExpr>,
 GivenTypeVisitor<AlloyExpr>,
-HideExprVisitor<AlloyExpr>,
-IffExprVisitor<AlloyExpr>,
-ImpliesExprVisitor<AlloyExpr>,
 InclDeclVisitor<AlloyExpr>,
-LambdaExprVisitor<AlloyExpr>,
 LatexMarkupParaVisitor<AlloyExpr>,
-MemPredVisitor<AlloyExpr>,
 NarrParaVisitor<AlloyExpr>,
-NegPredVisitor<AlloyExpr>,
-NumExprVisitor<AlloyExpr>,
 OptempParaVisitor<AlloyExpr>,
-OrExprVisitor<AlloyExpr>,
-PowerExprVisitor<AlloyExpr>,
 PowerTypeVisitor<AlloyExpr>,
-Pred2Visitor<AlloyExpr>,
-ProdExprVisitor<AlloyExpr>,
+PredVisitor<AlloyExpr>,
 ProdTypeVisitor<AlloyExpr>,
-QntPredVisitor<AlloyExpr>,
-RefExprVisitor<AlloyExpr>,
 RuleVisitor<AlloyExpr>,
 SchemaTypeVisitor<AlloyExpr>,
-SchExprVisitor<AlloyExpr>,
-SetCompExprVisitor<AlloyExpr>,
-SetExprVisitor<AlloyExpr>,
-ThetaExprVisitor<AlloyExpr>,
-TruePredVisitor<AlloyExpr>,
 TypeAnnVisitor<AlloyExpr>,
 VarDeclVisitor<AlloyExpr>,
 ZSectVisitor<AlloyExpr>
@@ -109,10 +87,7 @@ ZSectVisitor<AlloyExpr>
 
   private Module module_ = new Module();
   private RelationMap relationMap_ = new RelationMap(module_);
-
   private Map<String, AlloyExpr> macros_ = new HashMap<String, AlloyExpr>();
-
-  private Stack<Term> stack = new Stack<Term>();
 
   // these are public only temporarily.
   public List<ExprVar> thetaQuantified = new ArrayList<ExprVar>();
@@ -820,10 +795,6 @@ ZSectVisitor<AlloyExpr>
     return null;
   }
 
-  public AlloyExpr visitNegPred(NegPred negPred) {
-    return visit(negPred.getPred()).not();
-  }
-
   /** Ignore operator templates. */
   public AlloyExpr visitOptempPara(OptempPara optempPara) {
     return null;
@@ -859,10 +830,6 @@ ZSectVisitor<AlloyExpr>
   public AlloyExpr visitOrExpr(OrExpr orExpr) {
     Pair<AlloyExpr, AlloyExpr> comps = schExpr2SigComponent(orExpr);
     return comps.getFirst().or(comps.getSecond());
-  }
-
-  public AlloyExpr visitPred2(Pred2 pred2) {
-    return new Pred2VisitorImpl().visit(pred2);
   }
 
   /**
@@ -920,6 +887,10 @@ ZSectVisitor<AlloyExpr>
     }
     return expr;
   }
+  
+  public AlloyExpr visitPred(Pred pred) {
+    return new PredVisitorImpl().visitPred(pred);
+  }
 
   /**
    * translates from a prodType to the equivalant expression in alloy
@@ -949,10 +920,6 @@ ZSectVisitor<AlloyExpr>
     }
     System.err.println("this didn't work properly!");
     throw new RuntimeException();
-  }
-
-  public AlloyExpr visitQntPred(QntPred qntPred) {
-    return new QuantifierVisitor().visit(qntPred);
   }
 
   /**
@@ -1244,10 +1211,6 @@ ZSectVisitor<AlloyExpr>
     return exprVar;
   }
 
-  public AlloyExpr visitTruePred(TruePred arg0) {
-    return ExprConstant.TRUE;
-  }
-
   public AlloyExpr visitTypeAnn(TypeAnn typeAnn) {
     return visit(typeAnn.getType());
   }
@@ -1421,10 +1384,7 @@ ZSectVisitor<AlloyExpr>
 
   public AlloyExpr visit(Term t) {
     if (t != null) {
-      stack.push(t);
-      AlloyExpr e = t.accept(this);
-      stack.pop();
-      return e;
+      return t.accept(this);
     }
     return null;
   }
@@ -1533,7 +1493,7 @@ ZSectVisitor<AlloyExpr>
           + " cannot be added");
       throw new RuntimeException();
     }
-    // True and P = P, so get rid of True's here
+    // (True and P) = P, so get rid of True's here
     // it might be nice if this happened in the ast?
     if (existingPred.getBody() == ExprConstant.TRUE) {
       existingPred.setBody(pred);
