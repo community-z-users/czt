@@ -3,25 +3,17 @@ package net.sourceforge.czt.z2alloy.visitors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.parser.util.Pair;
-import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Exists1Pred;
 import net.sourceforge.czt.z.ast.ExistsExpr;
-import net.sourceforge.czt.z.ast.ExistsPred;
 import net.sourceforge.czt.z.ast.ForallPred;
 import net.sourceforge.czt.z.ast.QntPred;
-import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.visitor.Exists1PredVisitor;
 import net.sourceforge.czt.z.visitor.ExistsExprVisitor;
-import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
-import net.sourceforge.czt.z.visitor.ForallPredVisitor;
-import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.z2alloy.Z2Alloy;
 import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import net.sourceforge.czt.z2alloy.ast.Enum;
@@ -39,29 +31,14 @@ import net.sourceforge.czt.z2alloy.ast.PrimSig;
 import net.sourceforge.czt.z2alloy.ast.Sig;
 import net.sourceforge.czt.z2alloy.ast.VisitReturn;
 
-public class QuantifierVisitor extends AbstractVisitor implements
-QntPredVisitor<AlloyExpr>,
-ForallPredVisitor<AlloyExpr>,
-ExistsPredVisitor<AlloyExpr>,
-Exists1PredVisitor<AlloyExpr>,
+public class ExistsExprVisitorImpl extends AbstractVisitor implements
 ExistsExprVisitor<AlloyExpr>
 {
 
   private final String name_;
 
-  public QuantifierVisitor(String name) {
+  public ExistsExprVisitorImpl(String name) {
     name_ = name; 
-  }
-
-  public QuantifierVisitor() {
-    name_ = "";
-  }
-  
-  public AlloyExpr visitQntPred(QntPred qntPred) {
-    if (qntPred != null) {
-      return qntPred.accept(this);
-    }
-    return null;
   }
 
   /*
@@ -72,7 +49,7 @@ ExistsExprVisitor<AlloyExpr>
     // these should come in two varieties
     // some are just ExprVar, which are nice
     // others are sigs, which are more complex
-    List<AlloyExpr> decls = visitZDeclList(qntPred.getZSchText().getZDeclList());
+    List<AlloyExpr> decls = new ZDeclListVisitorImpl().visitZDeclList(qntPred.getZSchText().getZDeclList());
 
     List<String> inclDeclOrder = new ArrayList<String>();
     Map<String, AlloyExpr> inclDecls = new HashMap<String, AlloyExpr>();
@@ -161,54 +138,12 @@ ExistsExprVisitor<AlloyExpr>
         pred = pred1.implies(pred2);
       }
     }
-    if (! Z2Alloy.getInstance().thetaQuantified.isEmpty()) {
-      pred = Z2Alloy.getInstance().thetaPred.and(pred).forSome(Z2Alloy.getInstance().thetaQuantified);
-      Z2Alloy.getInstance().thetaPred = ExprConstant.TRUE;
-      Z2Alloy.getInstance().thetaQuantified.clear();
-    }
-
+    
     if (decls.getFirst().isEmpty()) {
       System.err.println("quantifier predicates must include declared variables");
       throw new RuntimeException();
     }
     return pred;
-  }
-
-  /**
-   * uses visit to recursively translate variables and predicates.
-   * 
-   * <pre>
-   * \exists var1, ..., varn @ pred1 | pred2
-   * </pre>
-   * 
-   * translates to
-   * 
-   * <pre>
-   * some var1, ... var2 | pred1 and pred2
-   * </pre>
-   * 
-   * @return the epxression, or null if something is null that should not be
-   */
-  public AlloyExpr visitExistsPred(ExistsPred existsPred) {
-    Pair<List<ExprVar>, AlloyExpr> decls = processQuantPredDecls(existsPred);
-    AlloyExpr pred = processQuantPred(existsPred, true, decls.getSecond());
-    return pred.forSome(decls.getFirst());
-  }
-
-  /**
-   * uses visit to recursively translate the elements fo the ZDeclList <br/>
-   * sets internally a list containing translations all elements other than
-   * the first, in order
-   * 
-   * @return the first element
-   */
-  public List<AlloyExpr> visitZDeclList(ZDeclList zDeclList) {
-    Iterator<Decl> iter = zDeclList.iterator();
-    List<AlloyExpr> ret = new ArrayList<AlloyExpr>();
-    while (iter.hasNext()) {
-      ret.add(visit(iter.next()));
-    }
-    return ret;
   }
 
   /**
@@ -342,7 +277,7 @@ ExistsExprVisitor<AlloyExpr>
    * 
    */
   public AlloyExpr visitExistsExpr(ExistsExpr existsExpr) {
-    List<AlloyExpr> incl = visitZDeclList(existsExpr.getZSchText().getZDeclList());
+    List<AlloyExpr> incl = new ZDeclListVisitorImpl().visitZDeclList(existsExpr.getZSchText().getZDeclList());
     
     // gets the declared variables, and maps the names to the expression for the variables used in the predicate
     Pair<Map<String, AlloyExpr>, List<ExprVar>> includedVariables = includedVariables(incl);

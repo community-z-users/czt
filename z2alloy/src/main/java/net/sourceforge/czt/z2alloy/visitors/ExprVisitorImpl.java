@@ -10,13 +10,68 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.AndExpr;
+import net.sourceforge.czt.z.ast.ApplExpr;
+import net.sourceforge.czt.z.ast.BindSelExpr;
+import net.sourceforge.czt.z.ast.CompExpr;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.DecorExpr;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.HideExpr;
+import net.sourceforge.czt.z.ast.IffExpr;
+import net.sourceforge.czt.z.ast.ImpliesExpr;
+import net.sourceforge.czt.z.ast.InclDecl;
+import net.sourceforge.czt.z.ast.LambdaExpr;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.OrExpr;
+import net.sourceforge.czt.z.ast.PowerExpr;
+import net.sourceforge.czt.z.ast.ProdExpr;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchExpr2;
+import net.sourceforge.czt.z.ast.SetCompExpr;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.ThetaExpr;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.z.visitor.AndExprVisitor;
+import net.sourceforge.czt.z.visitor.ApplExprVisitor;
+import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
+import net.sourceforge.czt.z.visitor.CompExprVisitor;
+import net.sourceforge.czt.z.visitor.DecorExprVisitor;
+import net.sourceforge.czt.z.visitor.ExprVisitor;
+import net.sourceforge.czt.z.visitor.HideExprVisitor;
+import net.sourceforge.czt.z.visitor.IffExprVisitor;
+import net.sourceforge.czt.z.visitor.ImpliesExprVisitor;
+import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
+import net.sourceforge.czt.z.visitor.NumExprVisitor;
+import net.sourceforge.czt.z.visitor.OrExprVisitor;
+import net.sourceforge.czt.z.visitor.PowerExprVisitor;
+import net.sourceforge.czt.z.visitor.ProdExprVisitor;
+import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.SchExprVisitor;
+import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
+import net.sourceforge.czt.z.visitor.SetExprVisitor;
+import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
 import net.sourceforge.czt.z2alloy.Z2Alloy;
-import net.sourceforge.czt.z2alloy.ast.*;
+import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
+import net.sourceforge.czt.z2alloy.ast.ExprBinary;
+import net.sourceforge.czt.z2alloy.ast.ExprCall;
+import net.sourceforge.czt.z2alloy.ast.ExprConstant;
+import net.sourceforge.czt.z2alloy.ast.ExprQuant;
+import net.sourceforge.czt.z2alloy.ast.ExprUnary;
+import net.sourceforge.czt.z2alloy.ast.ExprVar;
+import net.sourceforge.czt.z2alloy.ast.Field;
+import net.sourceforge.czt.z2alloy.ast.Func;
+import net.sourceforge.czt.z2alloy.ast.PrimSig;
+import net.sourceforge.czt.z2alloy.ast.Sig;
 
-public class ExprVisitorImpl extends AbstractVisitor implements
+public class ExprVisitorImpl extends ExprVisitorAbs implements
 ExprVisitor<AlloyExpr>,
 AndExprVisitor<AlloyExpr>,
 ApplExprVisitor<AlloyExpr>,
@@ -37,14 +92,11 @@ SetCompExprVisitor<AlloyExpr>,
 SetExprVisitor<AlloyExpr>,
 ThetaExprVisitor<AlloyExpr>
 {
-
-  public AlloyExpr visitExpr(Expr expr) {
-    if (expr != null) {
-      return expr.accept(this);
-    }
-    return null;
+  
+  public ExprVisitorImpl(PredVisitorAbs pred) {
+    super(pred);
   }
-
+  
   /**
    * translates an and expression (schema conjunction) into an alloy and
    * expression. The schemas are translated into a call to the predicate
@@ -227,7 +279,7 @@ ThetaExprVisitor<AlloyExpr>
         else if (Z2Alloy.getInstance().module().containsFunc(Z2Alloy.getInstance().print(refExpr.getZName()))) {
           Func fun = Z2Alloy.getInstance().module().getFunc(Z2Alloy.getInstance().print(refExpr.getZName()));
           if (applExpr.getRightExpr() instanceof TupleExpr) {
-            List<AlloyExpr> right = new TupleExprVisitorImpl().visitTupleExpr((TupleExpr) applExpr.getRightExpr());
+            List<AlloyExpr> right = new TupleExprVisitorImpl(pred()).visitTupleExpr((TupleExpr) applExpr.getRightExpr());
             ret = fun.call(right);
           }
           AlloyExpr body = visit(applExpr.getRightExpr());
@@ -423,7 +475,13 @@ ThetaExprVisitor<AlloyExpr>
   public AlloyExpr visitLambdaExpr(LambdaExpr lambda) {
     String name = Z2Alloy.getInstance().names().get(lambda);
     if (Z2Alloy.getInstance().module().containsFunc(name)) return null;
-    List<ExprVar> vars = new ZDeclListVisitorImpl().visitZDeclList(lambda.getZSchText().getZDeclList());
+    List<AlloyExpr> vars = new ZDeclListVisitorImpl().visitZDeclList(lambda.getZSchText().getZDeclList());
+    List<ExprVar> vars2 = new ArrayList<ExprVar>();
+    for (AlloyExpr alloyExpr : vars) {
+      if (alloyExpr instanceof ExprVar) {
+        vars2.add((ExprVar) alloyExpr);
+      }
+    }
     Z2Alloy.getInstance().body = true;
     AlloyExpr body = visit(lambda.getExpr());
     Z2Alloy.getInstance().body = false;
@@ -432,7 +490,7 @@ ThetaExprVisitor<AlloyExpr>
     ExprVar j = new ExprVar("j", returnDecl);
     vars.add(j);
     ExprQuant exprQuant =
-      new ExprQuant(ExprQuant.Op.COMPREHENSION, vars, j.equal(body)); 
+      new ExprQuant(ExprQuant.Op.COMPREHENSION, vars2, j.equal(body)); 
     return exprQuant;
   }
   
@@ -668,14 +726,20 @@ ThetaExprVisitor<AlloyExpr>
    * 
    */
   public AlloyExpr visitSetCompExpr(SetCompExpr setCompExpr) {
-    List<ExprVar> rest = new ZDeclListVisitorImpl().visitZDeclList(setCompExpr.getZSchText().getZDeclList());
+    List<AlloyExpr> rest = new ZDeclListVisitorImpl().visitZDeclList(setCompExpr.getZSchText().getZDeclList());
+    List<ExprVar> vars2 = new ArrayList<ExprVar>();
+    for (AlloyExpr alloyExpr : rest) {
+      if (alloyExpr instanceof ExprVar) {
+        vars2.add((ExprVar) alloyExpr);
+      }
+    }
     AlloyExpr pred = visit(setCompExpr.getZSchText().getPred());
     AlloyExpr oPred = visit(setCompExpr.getExpr());
     if (pred == null) {
       pred = ExprConstant.TRUE;
     }
     if (oPred == null) {
-      return pred.comprehensionOver(rest);
+      return pred.comprehensionOver(vars2);
     }
     AlloyExpr type = visit(setCompExpr.getExpr().getAnn(TypeAnn.class));
     ExprVar exprVar = new ExprVar("temp", type);
@@ -684,7 +748,7 @@ ThetaExprVisitor<AlloyExpr>
     return new ExprQuant(ExprQuant.Op.COMPREHENSION,
         temp,
         pred.and(new ExprQuant(ExprQuant.Op.SOME,
-            rest,
+            vars2,
             oPred.equal(exprVar))));
   }
 
@@ -740,13 +804,7 @@ ThetaExprVisitor<AlloyExpr>
  //     strokes+= Z2Alloy.getInstance().printVisitor().visitStroke(s);
   //  }
     ExprVar exprVar = new ExprVar(sig.label().toLowerCase() + strokes, sig);
-
-    for (ExprVar ev : Z2Alloy.getInstance().thetaQuantified) {
-      if (ev.label().equals(exprVar.label())) {
-        return ev;
-      }
-    }
-    Z2Alloy.getInstance().thetaQuantified.add(exprVar);
+    
     AlloyExpr pred = null;
     for (Field f : sig.fields()) {
       if (pred == null) {
@@ -758,12 +816,7 @@ ThetaExprVisitor<AlloyExpr>
             f.expr())));
       }
     }
-    if (Z2Alloy.getInstance().thetaPred == ExprConstant.TRUE || Z2Alloy.getInstance().thetaPred == null) {
-      Z2Alloy.getInstance().thetaPred = pred;
-    }
-    else {
-      Z2Alloy.getInstance().thetaPred = Z2Alloy.getInstance().thetaPred.and(pred);
-    }
+    theta(exprVar, pred);
     return exprVar;
   }
 
@@ -797,27 +850,6 @@ ThetaExprVisitor<AlloyExpr>
       return arity(((ExprVar) expr).expr());
     }
     return 1;
-  }
-  
-  private AlloyExpr build(AlloyExpr expr, Map<String, AlloyExpr> vars) {
-    if (expr instanceof ExprCall) {
-      // not sure exactly when and why these
-      // are sometimes sigs and sometimes
-      // preds
-      expr = (Z2Alloy.getInstance().module().getSig(((ExprCall) expr).fun().label().replaceFirst("pred_", "")));
-    }
-    if (expr instanceof Sig) {
-      Sig signiture = (Sig) expr;
-      AlloyExpr[] exprs = new AlloyExpr[signiture.fields().size()];
-      for (int i = 0; i < signiture.fields().size(); i++) {
-        exprs[i] = vars.get(signiture.fields().get(i).label());
-      }
-      return Z2Alloy.getInstance().module().getFunc("pred_" + signiture.label()).call(exprs);
-    }
-    // should put in new kinds of things as they are needed
-    System.err.println("Not fully translated: " + expr.getClass() + " "
-        + expr);
-    throw new RuntimeException();
   }
   
   private AlloyExpr addXi(Sig sig) {

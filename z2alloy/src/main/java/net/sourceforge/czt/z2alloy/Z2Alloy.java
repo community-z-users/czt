@@ -86,10 +86,6 @@ ZSectVisitor<AlloyExpr>
   private RelationMap relationMap_ = new RelationMap(module_);
   private Map<String, AlloyExpr> macros_ = new HashMap<String, AlloyExpr>();
 
-  // these are public only temporarily.
-  public List<ExprVar> thetaQuantified = new ArrayList<ExprVar>();
-  public AlloyExpr thetaPred = ExprConstant.TRUE;
-
   /**
    * A mapping from ZName ids to alloy names.
    */
@@ -230,10 +226,10 @@ ZSectVisitor<AlloyExpr>
         return null;
       }
       if (result instanceof SchExpr) {
-        return new SchExprVisitorImpl(sigName).visitSchExpr((SchExpr) result);
+        return new SchExprVisitorImpl(sigName, null).visitSchExpr((SchExpr) result);
       }
       if (result instanceof ExistsExpr) {
-        return new QuantifierVisitor(sigName).visitExistsExpr((ExistsExpr) result);
+        return new ExistsExprVisitorImpl(sigName).visitExistsExpr((ExistsExpr) result);
       }
       AlloyExpr value = visit(result);
       macros_.put(sigName, value);
@@ -246,7 +242,7 @@ ZSectVisitor<AlloyExpr>
   }
   
   public AlloyExpr visitExpr(Expr expr) {
-    return new ExprVisitorImpl().visitExpr(expr);
+    return new ExprVisitorImpl(null).visitExpr(expr);
   }
 
   /**
@@ -328,13 +324,20 @@ ZSectVisitor<AlloyExpr>
     String name = names.get(lambda);
     if (module_.containsFunc(name))
       return null;
-    List<ExprVar> vars = new ZDeclListVisitorImpl().visitZDeclList(lambda.getZSchText().getZDeclList());
+    List<AlloyExpr> vars = new ZDeclListVisitorImpl().visitZDeclList(lambda.getZSchText().getZDeclList());
     this.body = true;
     AlloyExpr body = visit(lambda.getExpr());
     this.body = false;
     TypeAnn type = lambda.getExpr().getAnn(TypeAnn.class);
     AlloyExpr returnDecl = visit(type);
-    Func func = new Func(name, vars, returnDecl);
+    List<ExprVar> vars2 = new ArrayList<ExprVar>();
+    for (AlloyExpr alloyExpr : vars) {
+      if (alloyExpr instanceof ExprVar) {
+        vars2.add((ExprVar) alloyExpr);
+      }
+    }
+    
+    Func func = new Func(name, vars2, returnDecl);
     if (body != null) func.setBody(body);
     module_.addFunc(func);
     return null;
@@ -621,14 +624,6 @@ ZSectVisitor<AlloyExpr>
       existingPred.setBody(pred);
     } else {
       existingPred.setBody(existingPred.getBody().and(pred));
-    }
-    //TODO clare fix this shit - something to do with theta I think
-    if (! thetaQuantified.isEmpty()) {
-      existingPred.setBody(new ExprQuant(ExprQuant.Op.SOME,
-          thetaQuantified,
-          existingPred.body().and(thetaPred)));
-      thetaQuantified.clear();
-      thetaPred = ExprConstant.TRUE;
     }
   }
 

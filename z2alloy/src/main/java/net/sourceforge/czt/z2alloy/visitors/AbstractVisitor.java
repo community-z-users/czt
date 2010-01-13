@@ -6,7 +6,7 @@ import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 
 public class AbstractVisitor {
 
-  public AlloyExpr visit(Term t) {
+  protected AlloyExpr visit(Term t) {
     if (t != null) {
       return t.accept(Z2Alloy.getInstance());
     }

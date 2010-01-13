@@ -33,7 +33,6 @@ import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z2alloy.ast.Func;
-import net.sourceforge.czt.z2alloy.ast.Module;
 import net.sourceforge.czt.z2alloy.ast.Sig;
 
 /** Translate a Z specification from ZML format into B format.

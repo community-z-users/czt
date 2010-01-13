@@ -2,7 +2,6 @@ package net.sourceforge.czt.z2alloy.visitors;
 
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.NegPred;
-import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Pred2;
 import net.sourceforge.czt.z.ast.QntPred;
 import net.sourceforge.czt.z.ast.RefExpr;
@@ -14,28 +13,20 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.MemPredVisitor;
 import net.sourceforge.czt.z.visitor.NegPredVisitor;
 import net.sourceforge.czt.z.visitor.Pred2Visitor;
-import net.sourceforge.czt.z.visitor.PredVisitor;
 import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z2alloy.Z2Alloy;
 import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import net.sourceforge.czt.z2alloy.ast.ExprConstant;
 
-public class PredVisitorImpl extends AbstractVisitor implements
-PredVisitor<AlloyExpr>,
+public class PredVisitorImpl extends PredVisitorAbs implements
 MemPredVisitor<AlloyExpr>,
 NegPredVisitor<AlloyExpr>,
 Pred2Visitor<AlloyExpr>,
 QntPredVisitor<AlloyExpr>,
 TruePredVisitor<AlloyExpr>
 {
-
-  public AlloyExpr visitPred(Pred pred) {
-    if (pred != null) {
-      return pred.accept(this);
-    }
-    return null;
-  }
+  
   /**
    * kinds of MemPred currently translated:
    * 
@@ -57,7 +48,7 @@ TruePredVisitor<AlloyExpr>
     if (memPred.getRightExpr() instanceof SetExpr
         && ((SetExpr) memPred.getRightExpr()).getZExprList().size() == 1) {
       // equality
-      AlloyExpr left = visit(memPred.getLeftExpr());
+      AlloyExpr left = new ExprVisitorImpl(this).visitExpr(memPred.getLeftExpr());
       AlloyExpr right = visit(memPred.getRightExpr());
       if (left == null || right == null) {
         System.err.println("Left and right of memPred must be non null");
@@ -118,7 +109,7 @@ TruePredVisitor<AlloyExpr>
   }
   
   public AlloyExpr visitQntPred(QntPred qntPred) {
-    return new QuantifierVisitor().visitQntPred(qntPred);
+    return new QntPredVisitorImpl().visitQntPred(qntPred);
   }
   
   public AlloyExpr visitTruePred(TruePred arg0) {

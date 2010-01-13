@@ -708,11 +708,14 @@ z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/SubsetSig.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/Toolkit.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/ast/VisitReturn.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/AbstractVisitor.java -text
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/ExistsExprVisitorImpl.java -text
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/ExprVisitorAbs.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/ExprVisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/FreetypeVisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/Pred2VisitorImpl.java -text
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/PredVisitorAbs.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/PredVisitorImpl.java -text
-z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/QuantifierVisitor.java -text
+z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/QntPredVisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/SchExprVisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/TupleExprVisitorImpl.java -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/visitors/ZDeclListVisitorImpl.java -text
@@ -789,8 +792,8 @@ z2alloy/src/test/resources/st_fold.als -text
 z2alloy/src/test/resources/st_unfold.als -text
 z2alloy/src/test/resources/substitution.tex -text
 z2alloy/src/test/resources/substitution_fold.als -text
-z2alloy/src/test/resources/theta.tex -text
-z2alloy/src/test/resources/theta_fold.als -text
+z2alloy/src/test/resources/theta1.tex -text
+z2alloy/src/test/resources/theta1_fold.als -text
 zlive/doc/2004goals.ppt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text

@@ -101,6 +101,14 @@ public class Z2AlloyTest {
   public void testQuantifiers3() {
     test("quantifiers3", false);
   }
+  
+  /** tests simple theta expressions
+   * this is actually a really bad test because it shows up that alloy uses atoms
+   */
+  @Test
+  public void testTheta1() {
+    test("theta1", false);
+  }
 
   /*
    * These are old tests - they don't work because of changes to the printer

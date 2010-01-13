@@ -6,14 +6,14 @@ import java.util.List;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
-import net.sourceforge.czt.z2alloy.ast.ExprVar;
+import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 
-public class ZDeclListVisitorImpl extends AbstractVisitor implements ZDeclListVisitor<List<ExprVar>> {
+public class ZDeclListVisitorImpl extends AbstractVisitor implements ZDeclListVisitor<List<AlloyExpr>> {
 
-  public List<ExprVar> visitZDeclList(ZDeclList zDeclList) {
-    List<ExprVar> list = new ArrayList<ExprVar>();
+  public List<AlloyExpr> visitZDeclList(ZDeclList zDeclList) {
+    List<AlloyExpr> list = new ArrayList<AlloyExpr>();
     for (Decl decl : zDeclList) {
-        list.add((ExprVar) visit(decl));
+        list.add(visit(decl));
      }
     return list;
   }

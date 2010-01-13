@@ -10,7 +10,6 @@ import net.sourceforge.czt.z.visitor.IffPredVisitor;
 import net.sourceforge.czt.z.visitor.ImpliesPredVisitor;
 import net.sourceforge.czt.z.visitor.OrPredVisitor;
 import net.sourceforge.czt.z.visitor.Pred2Visitor;
-import net.sourceforge.czt.z2alloy.Z2Alloy;
 import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
 import edu.mit.csail.sdg.alloy4.Pair;
 
@@ -20,7 +19,7 @@ public class Pred2VisitorImpl extends AbstractVisitor implements
   IffPredVisitor<AlloyExpr>,
   ImpliesPredVisitor<AlloyExpr>,
   OrPredVisitor<AlloyExpr> {
-
+  
   /**
    * translates an and predicate (ie conjunction) into an alloy and
    * expression.The kind of conjunction used (newline, \and, chain) does not
@@ -64,8 +63,8 @@ public class Pred2VisitorImpl extends AbstractVisitor implements
   }
 
   private Pair<AlloyExpr, AlloyExpr> subExprs(Pred2 pred2) {
-    AlloyExpr left = Z2Alloy.getInstance().visit(pred2.getLeftPred());
-    AlloyExpr right = Z2Alloy.getInstance().visit(pred2.getRightPred());
+    AlloyExpr left = visit(pred2.getLeftPred());
+    AlloyExpr right = visit(pred2.getRightPred());
     if (left == null || right == null) {
       System.err.println("left and right of andpred must not be null");
       return null;

@@ -14,12 +14,17 @@ public class TupleExprVisitorImpl extends AbstractVisitor implements
   ZExprListVisitor<List<AlloyExpr>>,
   TupleExprVisitor<List<AlloyExpr>>
 {
+  
+  private PredVisitorAbs pred_;
+  
+  public TupleExprVisitorImpl(PredVisitorAbs pred) {
+    pred_ = pred;
+  }
 
-  @Override
   public List<AlloyExpr> visitZExprList(ZExprList zExprList) {
     List<AlloyExpr> list = new ArrayList<AlloyExpr>();
     for (Expr e : zExprList) {
-      list.add(visit(e));
+      list.add(new ExprVisitorImpl(pred_).visit(e));
     }
     return list;
   }

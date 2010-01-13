@@ -21,11 +21,12 @@ import net.sourceforge.czt.z2alloy.ast.Module;
 import net.sourceforge.czt.z2alloy.ast.PrimSig;
 import net.sourceforge.czt.z2alloy.ast.Sig;
 
-public class SchExprVisitorImpl extends AbstractVisitor implements SchExprVisitor<AlloyExpr> {
+public class SchExprVisitorImpl extends ExprVisitorAbs implements SchExprVisitor<AlloyExpr> {
 
   private String name;
-
-  public SchExprVisitorImpl(String name) {
+  
+  public SchExprVisitorImpl(String name, PredVisitorImpl pred) {
+    super(pred);
     this.name = name;
   }
 
