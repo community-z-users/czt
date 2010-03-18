@@ -355,10 +355,10 @@ end{circus}
     \circend
 \end{circus}
 
-%\begin{circus}
-%      \circchannelset\ IChannels == \lchanset outValuePayer, inValueReceiver, inM, outM, controlM \rchanset \\
-%      \circprocess ConcreteWorld \circdef Controller \lpar IChannels \rpar Purses \circhide IChannels
-%\end{circus}
+\begin{circus}
+      \circchannelset\ IChannels == \lchanset outValuePayer, inValueReceiver, inM, outM, controlM \rchanset \\
+      \circprocess ConcreteWorld \circdef (Controller \lpar IChannels \rpar Purses) \circhide IChannels
+\end{circus}
 
 \end{document}
 

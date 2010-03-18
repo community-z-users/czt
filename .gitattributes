@@ -545,8 +545,11 @@ typechecker-circus/src/test/resources/tests/circus/circus_cookies.pdf -text svne
 typechecker-circus/src/test/resources/tests/circus/comm-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatchInApplExpr.error -text
 typechecker-circus/src/test/resources/tests/circus/dot-field-multenv.pdf -text svneol=unset#application/pdf
+typechecker-circus/src/test/resources/tests/circus/hide_test-NonChannelsetInPowerExpr.error -text
+typechecker-circus/src/test/resources/tests/circus/hide_test.tex -text
 typechecker-circus/src/test/resources/tests/circus/name-IsNotChannelName.error -text
 typechecker-circus/src/test/resources/tests/circus/nested_parameterised_mu-NestedFormalParamsInAction.error -text
+typechecker-circus/src/test/resources/tests/circus/parallel_test-CircusApplExprTodo.error -text
 typechecker-circus/src/test/resources/tests/circus/paramprocess_rename-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/rename_indexed_process-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/resultparam.tex -text

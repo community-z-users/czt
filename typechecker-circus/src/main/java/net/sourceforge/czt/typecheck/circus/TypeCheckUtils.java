@@ -233,6 +233,8 @@ public class TypeCheckUtils
         typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);      
       ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
+      e.printStackTrace();
+
     }
     catch(net.sourceforge.czt.util.CztException f)
     {
@@ -244,6 +246,7 @@ public class TypeCheckUtils
       ErrorAnn error = typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params); 
       ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
+      f.printStackTrace();
     }
     catch(Throwable t)
     {
@@ -254,6 +257,8 @@ public class TypeCheckUtils
       // use any checker to report the error
       ErrorAnn error = typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params); 
       ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
+      System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
+      t.printStackTrace();
     }
     return typeChecker.errors();
   }

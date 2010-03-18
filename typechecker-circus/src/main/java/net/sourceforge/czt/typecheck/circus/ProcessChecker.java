@@ -140,8 +140,13 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
 
   protected List<Object> getChannelSetErrorParams()
   {
-    // within the ProcessChecker, it must be for an process use rather than at declaration point.    
-    return Arrays.asList("process", getCurrentProcessName());
+    // within the ProcessChecker, it must be for an process use rather than at declaration point.
+    List<Object> errorParams = factory().list();
+    errorParams.add("process");
+    errorParams.add(getCurrentProcessName().toString());
+    return errorParams;
+    // Avoid this simple version: it gives a read-only array, which is wrong as errorParams will grow with more info from where this is called.
+    //return Arrays.asList("process", getCurrentProcessName());
   }
 
   /**
