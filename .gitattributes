@@ -554,7 +554,6 @@ typechecker-circus/src/test/resources/tests/circus/nested_parameterised_mu-Neste
 typechecker-circus/src/test/resources/tests/circus/nsexpr_wrongelem-InvalidTypeInNamesetExpr.error -text
 typechecker-circus/src/test/resources/tests/circus/parallel_csexpr.tex -text
 typechecker-circus/src/test/resources/tests/circus/parallel_csexprerr-NonChannelSetInPowerExpr.error -text
-typechecker-circus/src/test/resources/tests/circus/parallel_test-CircusApplExprTodo.error -text
 typechecker-circus/src/test/resources/tests/circus/paramprocess_rename-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/rename_indexed_process-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/resultparam.tex -text
