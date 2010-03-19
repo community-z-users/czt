@@ -170,6 +170,12 @@ import net.sourceforge.czt.z.util.ZString;
   private boolean directive_ = false;
 
   /**
+   * True iff within a axdef or gendef definition
+   * It can be used to mark labelled predicates.
+   */
+  private boolean inAxiomaticBox_ = false;
+
+  /**
    * The source to be scanned.
    */
   private Source source_ = null;
@@ -560,6 +566,7 @@ NAME =   {NOT_LB}*
           yybegin(ZED);
           assert ! addSpace_;
           begin("axdef");
+          inAxiomaticBox_ = true;
           return result(ZString.AX);
         }
   "\\begin" {IGNORE}* "{gendef}"
@@ -567,6 +574,7 @@ NAME =   {NOT_LB}*
           yybegin(ZED);
           assert ! addSpace_;
           begin("gendef");
+          inAxiomaticBox_ = true;
           return result(ZString.GENAX);
         }
   "\\begin" {IGNORE}* "{schema}" {IGNORE}* "{" / {NAME} "}" {IGNORE}* "["
@@ -873,6 +881,7 @@ NAME =   {NOT_LB}*
           }
 </add:oz>
           String result = addSpace() + ZString.END;
+          inAxiomaticBox_ = false;
           return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{gendef}"
@@ -886,6 +895,7 @@ NAME =   {NOT_LB}*
           }
 </add:oz>
           String result = addSpace() + ZString.END;
+          inAxiomaticBox_ = false;
           return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{schema}"
@@ -992,7 +1002,21 @@ NAME =   {NOT_LB}*
         {
           // do nothing
         }
-</add:circus>
+  "\\Label" "{" {TEXT}* "}"
+        {
+          // TODO: add labellel predicates
+          // do nothing for now
+          assert inAxiomaticBox_ ;
+        }
+//
+//   "\\Label" "{"
+//        {
+//          // TODO: Add labellel predicates for axioms
+//          assert inAxiomaticBox_ ;
+//          yybegin(CIRCLABEL);
+//          return ... brackets ...
+//        }
+ </add:circus>
 <add:oz>
   "\\begin" {IGNORE}* "{classcom}"
         {
@@ -1386,6 +1410,25 @@ NAME =   {NOT_LB}*
          //return result(result);
         }
 }
+
+//&lt;CIRCLABEL&gt; {
+//  "}"
+//    {
+//      assert inAxiomaticBox_;
+///      yybegin(ZED);
+//      return .... closing bracket ...
+//    }
+//
+//  "enabled"
+//  "disabled"
+//
+//  ({LETTER})*
+//    {
+//    }
+//
+//  .
+//    { error ? }
+//}
 </add:circus>
 
 &lt;ERROR&gt; {
