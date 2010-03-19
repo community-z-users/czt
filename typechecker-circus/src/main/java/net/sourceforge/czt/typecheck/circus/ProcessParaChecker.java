@@ -239,8 +239,12 @@ public class ProcessParaChecker extends Checker<Signature>
       errorParams.add(getCurrentNameSetName());                
       NameSetType nsType = typeCheckNameSet(ns, errorParams);
       
-      type = factory().createPowerType(GlobalDefs.unwrapType(nsType));
+      PowerType pType = factory().createPowerType(GlobalDefs.unwrapType(nsType));
       
+      // TODO: check if this is needed. I think so because processes might contain generic
+      //       types in its state from the process generics.
+      type = addGenerics(pType);
+
       // restors the process para scope.
       old = setCurrentNameSetName(old);
       oldNameSet = setCurrentNameSet(oldNameSet);

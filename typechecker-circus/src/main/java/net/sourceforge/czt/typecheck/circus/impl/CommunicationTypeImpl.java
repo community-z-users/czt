@@ -85,7 +85,7 @@ public class CommunicationTypeImpl extends Type2Impl implements CommunicationTyp
   public String toString()
   {
     CommunicationType commType = (CommunicationType) term_;
-    return commType.toString();
+    return "comm " + commType.toString();
   }
 
   public boolean equals(Object obj)

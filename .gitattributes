@@ -544,11 +544,16 @@ typechecker-circus/src/test/resources/tests/circus/circus_cookies.dvi -text
 typechecker-circus/src/test/resources/tests/circus/circus_cookies.pdf -text svneol=unset#application/pdf
 typechecker-circus/src/test/resources/tests/circus/comm-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatchInApplExpr.error -text
+typechecker-circus/src/test/resources/tests/circus/csnsexpr_various.tex -text
+typechecker-circus/src/test/resources/tests/circus/debug/typechecker-test.tex -text
 typechecker-circus/src/test/resources/tests/circus/dot-field-multenv.pdf -text svneol=unset#application/pdf
 typechecker-circus/src/test/resources/tests/circus/hide_test-NonChannelsetInPowerExpr.error -text
 typechecker-circus/src/test/resources/tests/circus/hide_test.tex -text
 typechecker-circus/src/test/resources/tests/circus/name-IsNotChannelName.error -text
 typechecker-circus/src/test/resources/tests/circus/nested_parameterised_mu-NestedFormalParamsInAction.error -text
+typechecker-circus/src/test/resources/tests/circus/nsexpr_wrongelem-InvalidTypeInNamesetExpr.error -text
+typechecker-circus/src/test/resources/tests/circus/parallel_csexpr.tex -text
+typechecker-circus/src/test/resources/tests/circus/parallel_csexprerr-NonChannelSetInPowerExpr.error -text
 typechecker-circus/src/test/resources/tests/circus/parallel_test-CircusApplExprTodo.error -text
 typechecker-circus/src/test/resources/tests/circus/paramprocess_rename-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/rename_indexed_process-PostcheckingCallError.error -text

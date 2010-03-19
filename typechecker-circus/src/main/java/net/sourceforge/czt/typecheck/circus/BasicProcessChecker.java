@@ -28,6 +28,7 @@ import net.sourceforge.czt.circus.visitor.NameSetParaVisitor;
 import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.SignatureAnn;
 import net.sourceforge.czt.z.ast.Type2;
@@ -222,16 +223,27 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
     Signature paraSig = term.accept(processParaChecker());                
     assert paraSig.getNameTypePair().size() == 1 : 
       "too many pairs in process para checker signature result";
-            
+
+    // get the typechecked name set from annotations
     Type2 type = getType2FromAnns(term);
-    if (type instanceof NameSetType)
+
+    // unwrap it from its power type
+    Type2 innerType = type;
+    if (type instanceof PowerType)
+    {
+      innerType = GlobalDefs.powerType(type).getType();
+    }
+
+    // if of the right kind, add to the basic process signature
+    if (innerType instanceof NameSetType)
     { 
-      // TODO:? unify paraSig with term's? nah. leave it
+      // TODO:? unify paraSig with term's? leave it for now.
       basicProcessSig_.getBasicProcessLocalZSignatures().add(paraSig);      
     }
+    // raise a basic process level error otherwise.
     else
     {        
-      raiseBasicProcessParaTypeError(term, "NameSetType", type);
+      raiseBasicProcessParaTypeError(term, "NameSetType", innerType);
     }    
     
     //addSignatureAnn(term, paraSig);

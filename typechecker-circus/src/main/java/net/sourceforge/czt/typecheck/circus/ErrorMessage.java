@@ -130,8 +130,7 @@ public enum ErrorMessage
   NON_NAMESET_IN_SETEXPR,
   NON_CHANNELSET_IN_POWEREXPR,
   TYPE_MISMATCH_IN_NAMESET_EXPR,
-
-  CIRCUS_APPLEXPR_TODO,
+  INVALID_TYPE_IN_NAMESET_EXPR,
     
   /** Messages within PostChecker.java */  
   

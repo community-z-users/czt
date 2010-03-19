@@ -81,7 +81,7 @@ public class ChannelTypeImpl extends Type2Impl implements ChannelType
   public String toString()
   {
     ChannelType channelType = (ChannelType) term_;
-    return channelType.toString();
+    return "channel " + channelType.toString();
   }
 
   public boolean equals(Object obj)

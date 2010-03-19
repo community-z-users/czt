@@ -21,6 +21,7 @@ import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusChannelSet;
+import net.sourceforge.czt.circus.ast.CircusType;
 import net.sourceforge.czt.circus.ast.SigmaExpr;
 import net.sourceforge.czt.circus.ast.CircusNameSet;
 import net.sourceforge.czt.circus.ast.NameSetType;
@@ -31,7 +32,6 @@ import net.sourceforge.czt.circus.visitor.SigmaExprVisitor;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
-import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
@@ -40,7 +40,6 @@ import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.util.ZUtils;
-import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
 
 /**
@@ -55,8 +54,7 @@ public class ExprChecker
     BasicChannelSetExprVisitor<Type2>,  // C.5.1, C.5.2
     CircusChannelSetVisitor<Type2>,     // C.5.1, C.5.2, C.5.3, C.5.4, C.5.5, C.5.6 
     SetExprVisitor<Type2>,              // C.9.1, C.9.2 - inner expressions    
-    CircusNameSetVisitor<Type2>,        // C.9.1, C.9.2, C.9.3, C.9.4, C.9.5, C.9.6
-    ApplExprVisitor<Type2>,
+    CircusNameSetVisitor<Type2>,        // C.9.1, C.9.2, C.9.3, C.9.4, C.9.5, C.9.6    
     SigmaExprVisitor<Type2>
 {  
   
@@ -111,54 +109,15 @@ public class ExprChecker
    * or P \\lpar CS \\up CS2 \\rpar Q.
    *
    * Otherwise, we just use the zExprChecker_ for Z expressions instead.
+   *
+   * = this takes place in the UnificationEnv for ChannelSetType and NameSetType. 
    * 
    * @param term
    * @return
    */
-  @Override
-  public Type2 visitApplExpr(ApplExpr term)
-  {
-    Type2 result;
-    if (isWithinChannelSet_ || inChannelSetPara_)
-    {
-      List<Object> params = factory().list();
-      params.add("channel");
-      params.add((inProcessPara_ ? "process" :
-          (inActionPara_ ? "action" :
-          (inChannelSetPara_ ? "channel set" : "???"))));
-      params.add((inActionPara_ ?
-          (getCurrentProcessName().toString() + "\n\tAction...:" +
-           getCurrentActionName().toString()) :
-          (inProcessPara_ ? getCurrentProcessName() :
-              (inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
-      params.add(term);
-      error(term, ErrorMessage.CIRCUS_APPLEXPR_TODO, params);
-      // TODO
-      result = term.accept(zExprChecker_);
-    }
-    else if (isWithinNameSet_ || inNameSetPara_)
-    {
-      List<Object> params = factory().list();
-      params.add("name");
-      params.add((inProcessPara_ ? "process" :
-          (inActionPara_ ? "action" :
-          (inChannelSetPara_ ? "channel set" : "???"))));
-      params.add((inActionPara_ ?
-          (getCurrentProcessName().toString() + "\n\tAction...:" +
-           getCurrentActionName().toString()) :
-          (inProcessPara_ ? getCurrentProcessName() :
-              (inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
-      params.add(term);
-      error(term, ErrorMessage.CIRCUS_APPLEXPR_TODO, params);
-      // TODO
-      result = term.accept(zExprChecker_);
-    }
-    else
-    {
-      result = term.accept(zExprChecker_);
-    }
-    return result;
-  }
+  //@Override
+  //public Type2 visitApplExpr(ApplExpr term)
+  
 
   /**
    * The type of channel set displays is a signature containing name-type 
@@ -315,12 +274,32 @@ public class ExprChecker
         for(Expr expr : term.getZExprList())
         {
           Type2 found = expr.accept(exprChecker());
+
           // only RefExpr are allowed
           if (expr instanceof RefExpr)
-          {          
-            NameTypePair ntp = factory().createNameTypePair(
-              ((RefExpr)expr).getName(), found);
-            pairs.add(ntp);
+          {
+            // still we also need to make sure that they are not of any Circus
+            // type (e.g., they need to be variables: global or local).
+            if (!(found instanceof CircusType))
+            {
+              NameTypePair ntp = factory().createNameTypePair(
+                ((RefExpr)expr).getName(), found);
+              pairs.add(ntp);
+            }
+            else
+            {
+              List<Object> params = factory().list();
+              params.add(getCurrentProcessName());
+              params.add((inActionPara_ ? "action" : (inNameSetPara_ ? "name set" : "???")));
+              params.add((inActionPara_ ? getCurrentActionName() :
+                (inNameSetPara_ ? getCurrentNameSetName() : "error")));
+              params.add(expr);
+              params.add(i);
+              String clsName = found.getClass().getName();
+              params.add(clsName.substring(clsName.lastIndexOf(".")+1));
+              params.add(found);              
+              error(term, ErrorMessage.INVALID_TYPE_IN_NAMESET_EXPR, params);
+            }
           }
           else
           {

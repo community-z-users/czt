@@ -234,7 +234,6 @@ public class TypeCheckUtils
       ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
       e.printStackTrace();
-
     }
     catch(net.sourceforge.czt.util.CztException f)
     {
