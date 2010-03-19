@@ -310,21 +310,28 @@ public class UnificationEnv
       result = unifyVariableSignature((VariableSignature) sigB, sigA);
     }
     else {
-      Map<String, NameTypePair> mapA = factory_.hashMap();
-      Map<String, NameTypePair> mapB = factory_.hashMap();
-      for (NameTypePair pair : sigA.getNameTypePair()) {
-        //mapA.put(pair.getZName().toString(), pair);
-        mapA.put(ZUtils.toStringZName(pair.getZName()), pair);
-      }
-      for (NameTypePair pair : sigB.getNameTypePair()) {
-        //mapB.put(pair.getZName().toString(), pair);
-        mapB.put(ZUtils.toStringZName(pair.getZName()), pair);
-      }
-
-      UResult resultA = unifySignatureAux(mapA, mapB);
-      UResult resultB = unifySignatureAux(mapB, mapA);
-      result = UResult.conj(resultA, resultB);
+      result = unifyResolvedSignature(sigA, sigB);
     }
+    return result;
+  }
+
+  // for signatures without variable types
+  protected UResult unifyResolvedSignature(Signature sigA, Signature sigB)
+  {
+    Map<String, NameTypePair> mapA = factory_.hashMap();
+    Map<String, NameTypePair> mapB = factory_.hashMap();
+    for (NameTypePair pair : sigA.getNameTypePair()) {
+      //mapA.put(pair.getZName().toString(), pair);
+      mapA.put(ZUtils.toStringZName(pair.getZName()), pair);
+    }
+    for (NameTypePair pair : sigB.getNameTypePair()) {
+      //mapB.put(pair.getZName().toString(), pair);
+      mapB.put(ZUtils.toStringZName(pair.getZName()), pair);
+    }
+
+    UResult resultA = unifySignatureAux(mapA, mapB);
+    UResult resultB = unifySignatureAux(mapB, mapA);
+    UResult result = UResult.conj(resultA, resultB);
     return result;
   }
 

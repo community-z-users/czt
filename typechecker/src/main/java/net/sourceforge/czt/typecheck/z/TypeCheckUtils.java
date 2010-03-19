@@ -405,59 +405,78 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     throws IOException, net.sourceforge.czt.base.util.UnmarshalException
   {
     int result = 0;
-    
-    if (args.length == 0) {
+
+    if (args == null || args.length == 0) {
       printUsage();
       System.exit(result);
     }
 
     List<String> files = new java.util.ArrayList<String>();
-    boolean syntaxOnly = syntaxOnlyDefault();
-    boolean useBeforeDecl = useBeforeDeclDefault();
-    boolean printTypes = printTypesDefault();
-    boolean printZml = printZMLDefault();
-    boolean printBenchmark = printBenchmarkTimesDefault();
-    boolean useNameIds = useNameIdsDefault();
-    boolean raiseWarnings = raiseWarningsDefault();
-    String cztpath = cztPathDefault();
 
-    boolean useSpecReader = useSpecReaderDefault();
-    boolean isBufferingWanted = isSpecReaderBufferingWantedDefault();
-    boolean isNarrativeWanted = isSpecReaderNarrativeWantedDefault();
-          
+    // If we initialise flags here with default values, and different
+    // flags from the default ones are given, the flag control variables
+    // won't get changed. Instead use "null" for the case where they
+    // are indeed to be set to the default.
+    boolean defaultFlags = true;
+    Boolean syntaxOnly = null;
+    Boolean useBeforeDecl = null;
+    Boolean printTypes = null;
+    Boolean printZml = null;
+    Boolean printBenchmark = null;
+    Boolean useNameIds = null;
+    Boolean raiseWarnings = null;
+    Boolean useSpecReader = null;
+    Boolean isBufferingWanted = null;
+    Boolean isNarrativeWanted = null;
+    String cztpath = null;
+
+    SectionManager manager = getSectionManager();    
+      
     for (int i = 0; i < args.length; i++) 
     {
       if ("-s".equals(args[i])) 
       {
         syntaxOnly = true;
+        defaultFlags = false;
       }
       else if ("-d".equals(args[i]))
       {
         useBeforeDecl = true;
+        defaultFlags = false;
+        manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
       }
       else if ("-n".equals(args[i]))
       {
         useBeforeDecl = false;
+        defaultFlags = false;
+        manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
       }
       else if ("-t".equals(args[i]))
       {
-        printTypes = true;  
+        printTypes = true;
+        defaultFlags = false;
       }
       else if ("-p".equals(args[i]))
       {
-        printZml = true;  
+        printZml = true;
+        defaultFlags = false;
       }
       else if ("-b".equals(args[i]))
       {
-        printBenchmark = true;    
+        printBenchmark = true;
+        defaultFlags = false;
       }
       else if ("-i".equals(args[i]))
       {
-        useNameIds = true;    
+        useNameIds = true;
+        defaultFlags = false;
+        manager.setProperty(PROP_TYPECHECK_USE_NAMEIDS, String.valueOf(useNameIds));
       }
       else if ("-w".equals(args[i]))
       {
-        raiseWarnings = true;    
+        raiseWarnings = true;
+        defaultFlags = false;
+        manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));
       }
       else if (args[i].equals("-cp"))
       {          
@@ -468,13 +487,16 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
           System.exit(result);
         }
         i++;
-        cztpath = args[i].trim();        
+        defaultFlags = false;
+        cztpath = args[i].trim();
       }
       else if (args[i].startsWith("-g")) 
       {
           useSpecReader = true;
+          defaultFlags = false;
           isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
-          isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;
+          isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;          
+          manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));    
       }
       else if (args[i].startsWith("-")) 
       {
@@ -489,27 +511,39 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
               {
               case 's':
                 syntaxOnly = true;
+                defaultFlags = false;
                 break;
               case 'd':
                 useBeforeDecl = true;
+                defaultFlags = false;
+                manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
                 break;
               case 'n':
                 useBeforeDecl = false;
+                defaultFlags = false;
+                manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
                 break;
               case 't':
                 printTypes = true;
+                defaultFlags = false;
                 break;
               case 'p':
                 printZml = true;
+                defaultFlags = false;
                 break;
               case 'b':
                 printBenchmark = true;
+                defaultFlags = false;
                 break;
               case 'i':
                 useNameIds = true;
+                defaultFlags = false;
+                manager.setProperty(PROP_TYPECHECK_USE_NAMEIDS, String.valueOf(useNameIds));
                 break;
               case 'w':
                 raiseWarnings = true;
+                defaultFlags = false;
+                manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));
                 break;
               default:
                 printUsage();
@@ -527,15 +561,51 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       else
       {
         files.add(args[i]);    
-      }        
-    }       
-    SectionManager manager = getSectionManager();
-    
-    manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
-    manager.setProperty(PROP_TYPECHECK_USE_NAMEIDS, String.valueOf(useNameIds));
-    manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));    
-    manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));    
+      }
+    }
+    // TODO: use bitSet for this... rather ugly :-(
+
+    // if no flag is changed default flag is true,
+    // then we set all to the default values.
+    if (defaultFlags)
+    {
+      syntaxOnly        = syntaxOnlyDefault();
+      useBeforeDecl     = useBeforeDeclDefault();
+      printTypes        = printTypesDefault();
+      printZml          = printZMLDefault();
+      printBenchmark    = printBenchmarkTimesDefault();
+      useNameIds        = useNameIdsDefault();
+      raiseWarnings     = raiseWarningsDefault();
+      useSpecReader     = useSpecReaderDefault();
+      isBufferingWanted = isSpecReaderBufferingWantedDefault();
+      isNarrativeWanted = isSpecReaderNarrativeWantedDefault();
+      cztpath           = cztPathDefault();
+    }
+    // otherwise, we set all unset flags (e.g., null values) to false
+    else
+    {
+      syntaxOnly        = syntaxOnly != null ? syntaxOnly : false;
+      useBeforeDecl     = useBeforeDecl != null ? useBeforeDecl : false;
+      printTypes        = printTypes != null ? printTypes : false;
+      printZml          = printZml != null ? printZml : false;
+      printBenchmark    = printBenchmark != null ? printBenchmark : false;
+      useNameIds        = useNameIds != null ? useNameIds : false;
+      raiseWarnings     = raiseWarnings != null ? raiseWarnings : false;
+      useSpecReader     = useSpecReader != null ? useSpecReader : false;
+      isBufferingWanted = isBufferingWanted != null ? isBufferingWanted : false;
+      isNarrativeWanted = isNarrativeWanted != null ? isNarrativeWanted : false;
+      //cztpath           = cztpath != null ? cztpath : null;
+    }
+    //manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
+    //manager.setProperty(PROP_TYPECHECK_USE_NAMEIDS, String.valueOf(useNameIds));
+    //manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));
+    //manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));
     //manager.setProperty(PROP_TYPECHECK_SORT_DECL_NAMES, String.valueOf(????));
+
+    assert syntaxOnly != null && useBeforeDecl != null && printTypes != null &&
+        printZml != null && printBenchmark != null && useNameIds != null &&
+        raiseWarnings != null && useSpecReader != null &&
+        isBufferingWanted != null && isNarrativeWanted != null : "Invalid flags!";
     
     // add a potentially old czt path (? TODO: decide to add this or not ?)
     String localcztpath = "";
@@ -630,29 +700,31 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       long printZmlTime  = 0; 
       long numberOfErrors = 0;
       //if the parse succeeded, typecheck the term
-      if (term != null && !syntaxOnly) {
+      if (term != null && !syntaxOnly)
+      {
         List<? extends ErrorAnn> errors =
           this.lTypecheck(term, manager, useBeforeDecl, useNameIds, raiseWarnings, null);
-        
+
         // result is the number of errors to consider
-        numberOfErrors = printErrors(errors, raiseWarnings);        
+        numberOfErrors = printErrors(errors, raiseWarnings);
         result += numberOfErrors + parsingErrors;
-        
+
         /* ex:
          * 0        40            100
-         * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|         
+         * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|
          * lt = 40
          * ct = 100
          * tt = 60  (100-40)
          */
         lastTime = currentTime;
         currentTime = System.currentTimeMillis();
-        typeCheckTime = currentTime - lastTime;        
+        typeCheckTime = currentTime - lastTime;
 
-        if (printTypes) {
+        if (printTypes != null && printTypes)
+        {
           SectTypeEnvAnn sectTypeEnvAnn =
             term.getAnn(SectTypeEnvAnn.class);
-          if (sectTypeEnvAnn != null) 
+          if (sectTypeEnvAnn != null)
           {
             printTypes(sectTypeEnvAnn, manager, markup);
           }
@@ -661,18 +733,18 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
           }
           /* ex:
            * 0        40            100           120
-           * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|         
+           * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|
            * lt = 100
            * ct = 120
-           * ptt= 20 (120-100)  
+           * ptt= 20 (120-100)
            */
           lastTime = currentTime;
           currentTime = System.currentTimeMillis();
           printTypeTime = currentTime - lastTime;
-        }        
-      }            
-
-      if (term != null && printZml) {
+        }
+      }
+      if (term != null && printZml)
+      {
         try {
           XmlWriter writer = getXmlWriter();
           writer.write(term, System.err);
@@ -682,15 +754,15 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         }
         /* ex:
          * 0        40            100           120          150
-         * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|         
+         * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|
          * lt = 120
          * ct = 150
-         * pzt= 30 (150-120)  
+         * pzt= 30 (150-120)
          */
         lastTime = currentTime;
         currentTime = System.currentTimeMillis();
         printZmlTime = currentTime - lastTime;
-      }      
+      }
       timesPerFile.put(file, Arrays.asList(parsingErrors, numberOfErrors,
           parseTime, typeCheckTime, printTypeTime, printZmlTime, 
           parseTime+typeCheckTime+printTypeTime+printZmlTime));
