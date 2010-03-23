@@ -76,4 +76,7 @@ public interface TypecheckPropertiesKeys
    */
   String PROP_TYPECHECK_RESOLVE_MUTUAL_REC =
     "circus_typecheck_resolve_mutual_rec";
+
+  boolean PROP_TYPECHECK_CREATE_LETVAR_DEFAULT      = false;
+  boolean PROP_TYPECHECK_RESOLVE_MUTUAL_REC_DEFAULT = false;
 }

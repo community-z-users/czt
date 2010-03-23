@@ -23,6 +23,7 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.circus.WarningManager;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 
 /**
@@ -41,9 +42,12 @@ public class TypeCheckCommand
       manager.getBooleanProperty(PROP_TYPECHECK_USE_NAMEIDS);
     boolean sortDeclNames = false && // don't accept this for now
       manager.getBooleanProperty(PROP_TYPECHECK_SORT_DECL_NAMES);
-    boolean raiseWarnings =
-      manager.getBooleanProperty(PROP_TYPECHECK_RAISE_WARNINGS);    
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, 
-      sortDeclNames, useNameIds, raiseWarnings, null);
+    String warningOutput = manager.getProperty(PROP_TYPECHECK_WARNINGS_OUTPUT);
+    if (warningOutput == null || warningOutput.isEmpty())
+    {
+      warningOutput = PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT.toString();
+    }
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, useNameIds,
+        WarningManager.WarningOutput.valueOf(warningOutput), null);
   }
 }

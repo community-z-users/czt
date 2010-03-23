@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.typecheck.z;
 
+import net.sourceforge.czt.z.util.WarningManager;
+
 /**
  * <P>Contains String constants for the keys used in parse properties.</P>
  *
@@ -49,8 +51,8 @@ public interface TypecheckPropertiesKeys
   
   String PROP_TYPECHECK_USE_NAMEIDS =
     "typecheck_use_nameids";
-  
-  String PROP_TYPECHECK_RAISE_WARNINGS = 
+
+  String PROP_TYPECHECK_WARNINGS_OUTPUT =
     "typecheck_raise_warnings";  
   
   String PROP_TYPECHECK_USE_SPECREADER =
@@ -59,7 +61,7 @@ public interface TypecheckPropertiesKeys
   boolean PROP_TYPECHECK_DEBUG_DEFAULT           = false;
   boolean PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT = false;
   boolean PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT = false;
-  boolean PROP_TYPECHECK_USE_NAMEIDS_DEFAULT     = false;
-  boolean PROP_TYPECHECK_RAISE_WARNINGS_DEFAULT  = false;  
+  boolean PROP_TYPECHECK_USE_NAMEIDS_DEFAULT     = false;  
   boolean PROP_TYPECHECK_USE_SPECREADER_DEFAULT  = false;
+  WarningManager.WarningOutput PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT = WarningManager.WarningOutput.SHOW;
 }

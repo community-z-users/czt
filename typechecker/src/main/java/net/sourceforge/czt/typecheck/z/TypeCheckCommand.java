@@ -29,6 +29,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.WarningManager;
 
 /**
  * A command to compute the SectTypeInfo of a Z section.
@@ -46,9 +47,13 @@ public class TypeCheckCommand
       manager.getBooleanProperty(PROP_TYPECHECK_USE_NAMEIDS);
     boolean sortDeclNames =
       manager.getBooleanProperty(PROP_TYPECHECK_SORT_DECL_NAMES);
-    boolean raiseWarnings =
-      manager.getBooleanProperty(PROP_TYPECHECK_RAISE_WARNINGS);    
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, useNameIds, raiseWarnings, null);
+    String warningOutput = manager.getProperty(PROP_TYPECHECK_WARNINGS_OUTPUT);
+    if (warningOutput == null || warningOutput.isEmpty())
+    {
+      warningOutput = PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT.toString();
+    }
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, useNameIds,
+        WarningManager.WarningOutput.valueOf(warningOutput), null);
   }
 
   public boolean compute(String name, SectionManager manager)

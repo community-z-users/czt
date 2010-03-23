@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.circus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CircusFactory;
@@ -67,7 +68,7 @@ public class TypeCheckUtils
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo)
   {
-    return typecheck(term, sectInfo, false);
+    return typecheck(term, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT);
   }
   
   /**
@@ -81,7 +82,7 @@ public class TypeCheckUtils
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl)
   {
-    return typecheck(term, sectInfo, useBeforeDecl, false, null);
+    return typecheck(term, sectInfo, useBeforeDecl, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT, null);
   }
   
   /**
@@ -115,7 +116,8 @@ public class TypeCheckUtils
                                                    boolean sortDeclNames,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, false, false, sectName);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames,
+        PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
   }
   
   /**
@@ -133,7 +135,8 @@ public class TypeCheckUtils
                                                    boolean sortDeclNames,
                                                    boolean useNameIds)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, false, null);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, 
+        PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, null);
   }
   
   /**
@@ -153,7 +156,8 @@ public class TypeCheckUtils
                                                    boolean useNameIds,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, false, sectName);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, 
+        PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
   }
   
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
@@ -161,10 +165,10 @@ public class TypeCheckUtils
                                                    boolean useBeforeDecl,
                                                    boolean sortDeclNames,
                                                    boolean useNameIds,
-                                                   boolean raiseWarnings,
+                                                   WarningManager.WarningOutput warningOutput,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, raiseWarnings, sectName);
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, warningOutput, sectName);
   }
   
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
@@ -173,7 +177,8 @@ public class TypeCheckUtils
                                                 boolean useNameIds,
                                                 String sectName)
   {
-    return lTypecheck(term, sectInfo, useBeforeDecl, false, useNameIds, raiseWarningsDefault(), sectName);
+    return lTypecheck(term, sectInfo, useBeforeDecl, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT,
+        useNameIds, warningOutputDefault(), sectName);
   }
   
   /** An internal method of the typechecker. */
@@ -181,10 +186,11 @@ public class TypeCheckUtils
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
                                                 boolean useNameIds,
-                                                boolean raiseWarnings,
+                                                WarningManager.WarningOutput warningOutput,
                                                 String sectName)
   {
-    return lTypecheck(term, sectInfo, useBeforeDecl, false, useNameIds, raiseWarnings, sectName);
+    return lTypecheck(term, sectInfo, useBeforeDecl, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT,
+        useNameIds, warningOutput, sectName);
   }
   
   private String stackTraceAsString(Throwable e)
@@ -204,7 +210,7 @@ public class TypeCheckUtils
                                                 boolean useBeforeDecl,
                                                 boolean sortDeclNames,
                                                 boolean useNameIds,
-                                                boolean raiseWarnings,
+                                                WarningManager.WarningOutput warningOutput,
                                                 String sectName)
   {
     
@@ -213,9 +219,10 @@ public class TypeCheckUtils
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
     TypeChecker typeChecker = new TypeChecker(
       new net.sourceforge.czt.typecheck.circus.impl.Factory(zFactory, circusFactory ), 
-      sectInfo, useBeforeDecl, sortDeclNames, raiseWarnings);
+      sectInfo, useBeforeDecl, sortDeclNames);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
+    typeChecker.getWarningManager().setWarningOutput(warningOutput);
     
     // For Circus add the type checking robustness at the top-level
     // that means, we have it for both command based and non-command based requests.
@@ -259,7 +266,13 @@ public class TypeCheckUtils
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
       t.printStackTrace();
     }
-    return typeChecker.errors();
+    List<net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
+    errors.addAll(typeChecker.errors());
+    for(ErrorAnn err : typeChecker.getWarningManager().warnErrors())
+    {
+      errors.add(err);
+    }
+    return errors;
   }
   
   /** A convenience method for parsing an arbitrary input specification.

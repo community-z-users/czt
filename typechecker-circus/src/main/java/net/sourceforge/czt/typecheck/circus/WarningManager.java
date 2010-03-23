@@ -25,12 +25,13 @@ import net.sourceforge.czt.util.CztException;
  *
  * @author leo
  */
-public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
+public class WarningManager 
+    extends net.sourceforge.czt.z.util.WarningManager
 {
   private Markup markup_ = Markup.LATEX;
   private final SectionInfo sectInfo_;
   private Term term_ = null;
-  private List<ErrorAnn> warnErrors_ = new ArrayList<ErrorAnn>();
+  private List<ErrorAnn> warnErrors_ = new ArrayList<ErrorAnn>();  
   
   public WarningManager()
   {
@@ -154,5 +155,5 @@ public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
       sb.append(GlobalDefs.position(term));
     }
     doWarn(sb.toString());
-  }
+  }  
 }

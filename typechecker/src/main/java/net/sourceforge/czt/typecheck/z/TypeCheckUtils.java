@@ -36,6 +36,8 @@ import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
+import net.sourceforge.czt.z.util.WarningManager;
+import sun.nio.cs.ext.TIS_620;
 
 /**
  * Utilities for typechecking Z specifications.
@@ -65,7 +67,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo)
   {
-    return typecheck(term, sectInfo, false);
+    return typecheck(term, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT);
   }
 
 
@@ -97,7 +99,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                    String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, sectName);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, sectName);
   }
 
   /**
@@ -141,11 +143,11 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl,
                                                    boolean useNameIds,
-                                                   boolean raiseWarnings,
+                                                   WarningManager.WarningOutput warningOutput,
                                                    String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, raiseWarnings, sectName);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, warningOutput, sectName);
   }
 
   protected List<? extends ErrorAnn> lTypecheck(Term term,
@@ -154,7 +156,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                 boolean useNameIds,
                                                 String sectName)
   {
-    return lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, raiseWarningsDefault(), sectName);
+    return lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, WarningManager.WarningOutput.SHOW, sectName);
   }
 
   /** An internal method of the typechecker. */
@@ -162,7 +164,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
                                                 boolean useNameIds,
-                                                boolean raiseWarnings,
+                                                WarningManager.WarningOutput warningOutput,
                                                 String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();    
@@ -170,8 +172,8 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     TypeChecker typeChecker =
       new TypeChecker(new Factory(zFactory), sectInfo, useBeforeDecl);
     typeChecker.setPreamble(sectName, sectInfo);
-    typeChecker.setUseNameIds(useNameIds);
-    term.accept(typeChecker);
+    typeChecker.setUseNameIds(useNameIds);    
+    term.accept(typeChecker);    
     return typeChecker.errors();
   }
 
@@ -220,6 +222,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     System.err.println("       -p     print the AST");
     System.err.println("       -t     print global type declarations");
     System.err.println("       -b     print benchmarking times");
+    System.err.println("       -h     hide warnings (cannot hide when raising!)");
     System.err.println("       -w     raise warnings as errors");
     System.err.println("      -cp <l> specify the value for czt.path as");
     System.err.println("              a semicolon-separated list of dirs");
@@ -236,8 +239,9 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         (useNameIdsDefault() ? "-i " : "") +
         (printZMLDefault() ? "-p " : "") + 
         (printTypesDefault() ? "-t " : "") +
-        (printBenchmarkTimesDefault() ? "-b" : "") + 
-        (raiseWarningsDefault() ? "-w " : "") + 
+        (printBenchmarkTimesDefault() ? "-b" : "") +
+        (warningOutputDefault().equals(WarningManager.WarningOutput.RAISE) ? "-w" :
+          warningOutputDefault().equals(WarningManager.WarningOutput.HIDE) ? "-h" : "") +
         (useSpecReaderDefault() ? "-gb " : "")).trim() +
         "\"");
   }
@@ -256,6 +260,11 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   {
     return false;
   }
+
+  protected WarningManager.WarningOutput warningOutputDefault()
+  {
+    return PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT;
+  }
   
   protected boolean printTypesDefault()
   {
@@ -271,12 +280,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   {
     return PROP_TYPECHECK_USE_NAMEIDS_DEFAULT;
   }
-  
-  protected boolean raiseWarningsDefault()
-  { 
-    return PROP_TYPECHECK_RAISE_WARNINGS_DEFAULT;
-  }
-  
+
   protected String cztPathDefault()
   {
     return null;
@@ -354,20 +358,39 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     return result;
   }
   
-  protected int printErrors(List<? extends ErrorAnn> errors, boolean raiseWarnings)
+  protected List<Integer> printErrors(List<? extends ErrorAnn> errors, WarningManager.WarningOutput warningOutput)
   {
-    int result = 0;
+    int errorCount = 0;
+    int warningCount = 0;
+    boolean print = true;
     //print any errors
     for (ErrorAnn next : errors) {
-      // raiseWarnings => next.getErrorType(ErrorType.ERROR) only
-      if (raiseWarnings || next.getErrorType().equals(ErrorType.ERROR))
+      switch (next.getErrorType())
+      {
+        case ERROR:
+          errorCount++;
+          break;
+        case WARNING:
+          switch (warningOutput)
+          {
+            case RAISE:
+              errorCount++;
+              break;
+            case HIDE:
+              print = false; // hide but count
+            case SHOW:
+              warningCount++;
+              break;
+          }
+          break;
+      }
+      if (print)
       {
         System.out.println(next);
-        System.out.println();
-        result++;
-      }
+        System.out.println();        
+      }      
     }
-    return result;
+    return Arrays.asList(errorCount, warningCount);
   }
   
   protected void printTypes(SectTypeEnvAnn sectTypeEnvAnn, SectionManager sectInfo, Markup markup)
@@ -424,7 +447,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     Boolean printZml = null;
     Boolean printBenchmark = null;
     Boolean useNameIds = null;
-    Boolean raiseWarnings = null;
+    WarningManager.WarningOutput warningOutput = null;
     Boolean useSpecReader = null;
     Boolean isBufferingWanted = null;
     Boolean isNarrativeWanted = null;
@@ -474,9 +497,19 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       }
       else if ("-w".equals(args[i]))
       {
-        raiseWarnings = true;
+        warningOutput = WarningManager.WarningOutput.RAISE;
         defaultFlags = false;
-        manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));
+        manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
+      }
+      else if ("-h".equals(args[i]))
+      {
+        // raise has precedence over hide
+        if (warningOutput == null || !warningOutput.equals(WarningManager.WarningOutput.RAISE))
+        {
+          defaultFlags = false;
+          warningOutput = warningOutput.HIDE;
+          manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
+        }
       }
       else if (args[i].equals("-cp"))
       {          
@@ -541,9 +574,19 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                 manager.setProperty(PROP_TYPECHECK_USE_NAMEIDS, String.valueOf(useNameIds));
                 break;
               case 'w':
-                raiseWarnings = true;
+                warningOutput = WarningManager.WarningOutput.RAISE;
                 defaultFlags = false;
-                manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));
+                manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
+                break;
+              case 'h':
+                //args[i].indexOf('w') != -1
+                //warningOutput.equals(WarningManager.WarningOutput.RAISE)
+                if (warningOutput == null || (!warningOutput.equals(WarningManager.WarningOutput.RAISE) && args[i].indexOf('w') == -1))
+                {
+                  defaultFlags = false;
+                  warningOutput = warningOutput.HIDE;
+                  manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
+                }
                 break;
               default:
                 printUsage();
@@ -563,7 +606,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         files.add(args[i]);    
       }
     }
-    // TODO: use bitSet for this... rather ugly :-(
+    // TODO: use bitSet for this... rather ugly now :-(
 
     // if no flag is changed default flag is true,
     // then we set all to the default values.
@@ -575,7 +618,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       printZml          = printZMLDefault();
       printBenchmark    = printBenchmarkTimesDefault();
       useNameIds        = useNameIdsDefault();
-      raiseWarnings     = raiseWarningsDefault();
+      warningOutput     = warningOutputDefault();
       useSpecReader     = useSpecReaderDefault();
       isBufferingWanted = isSpecReaderBufferingWantedDefault();
       isNarrativeWanted = isSpecReaderNarrativeWantedDefault();
@@ -590,21 +633,15 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       printZml          = printZml != null ? printZml : false;
       printBenchmark    = printBenchmark != null ? printBenchmark : false;
       useNameIds        = useNameIds != null ? useNameIds : false;
-      raiseWarnings     = raiseWarnings != null ? raiseWarnings : false;
+      warningOutput     = warningOutput != null ? warningOutput : WarningManager.WarningOutput.SHOW;
       useSpecReader     = useSpecReader != null ? useSpecReader : false;
       isBufferingWanted = isBufferingWanted != null ? isBufferingWanted : false;
       isNarrativeWanted = isNarrativeWanted != null ? isNarrativeWanted : false;
       //cztpath           = cztpath != null ? cztpath : null;
-    }
-    //manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
-    //manager.setProperty(PROP_TYPECHECK_USE_NAMEIDS, String.valueOf(useNameIds));
-    //manager.setProperty(PROP_TYPECHECK_RAISE_WARNINGS, String.valueOf(raiseWarnings));
-    //manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));
-    //manager.setProperty(PROP_TYPECHECK_SORT_DECL_NAMES, String.valueOf(????));
-
+    }  
     assert syntaxOnly != null && useBeforeDecl != null && printTypes != null &&
         printZml != null && printBenchmark != null && useNameIds != null &&
-        raiseWarnings != null && useSpecReader != null &&
+        warningOutput != null && useSpecReader != null &&
         isBufferingWanted != null && isNarrativeWanted != null : "Invalid flags!";
     
     // add a potentially old czt path (? TODO: decide to add this or not ?)
@@ -619,7 +656,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       localcztpath = cztpath;
     }                
     
-    SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();        
+    SortedMap<String, List<Long>> benchmarkPerFile = new TreeMap<String, List<Long>>();
     long zeroTime = System.currentTimeMillis();     
     long currentTime = zeroTime;
     long lastTime = zeroTime;    
@@ -699,14 +736,17 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       long printTypeTime = 0;
       long printZmlTime  = 0; 
       long numberOfErrors = 0;
+      long numberOfWarnings = 0;
       //if the parse succeeded, typecheck the term
       if (term != null && !syntaxOnly)
       {
         List<? extends ErrorAnn> errors =
-          this.lTypecheck(term, manager, useBeforeDecl, useNameIds, raiseWarnings, null);
+          this.lTypecheck(term, manager, useBeforeDecl, useNameIds, warningOutput, null);
 
         // result is the number of errors to consider
-        numberOfErrors = printErrors(errors, raiseWarnings);
+        List<Integer> eCount = printErrors(errors, warningOutput);
+        numberOfErrors = eCount.get(0);
+        numberOfWarnings = eCount.get(1);
         result += numberOfErrors + parsingErrors;
 
         /* ex:
@@ -763,8 +803,8 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         currentTime = System.currentTimeMillis();
         printZmlTime = currentTime - lastTime;
       }
-      timesPerFile.put(file, Arrays.asList(parsingErrors, numberOfErrors,
-          parseTime, typeCheckTime, printTypeTime, printZmlTime, 
+      benchmarkPerFile.put(file, Arrays.asList(parsingErrors, numberOfErrors,
+          numberOfWarnings, parseTime, typeCheckTime, printTypeTime, printZmlTime, 
           parseTime+typeCheckTime+printTypeTime+printZmlTime));
       // Reset the currentTime offset
       currentTime = System.currentTimeMillis();
@@ -780,22 +820,35 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     
     if (printBenchmark) {      
       System.out.println(totalTime + "ms for " + files.size() + " files.");
-      for(String file : timesPerFile.keySet()) {
-        List<Long> times = timesPerFile.get(file);
-        System.out.println("\t" + times.get(6) + "ms for " + file + ":");
-        System.out.println("\t\tparsing errors.." + times.get(0));
+      for(String file : benchmarkPerFile.keySet()) {
+        // 0=parsingErrors,
+        // 1=numberOfErrors,
+        // 2=numberOfWarnings,
+        // 3=parseTime
+        // 4=typeCheckTime
+        // 5=printTypeTime
+        // 6=printZmlTime
+        // 7=totalTime
+        List<Long> benchmarks = benchmarkPerFile.get(file);
+        assert benchmarks != null && benchmarks.size() == 8;
+        System.out.println("\t" + benchmarks.get(7) + "ms for " + file + ":");
+        System.out.println("\t\tparsing errors.." + benchmarks.get(0));
         if (!syntaxOnly) {
-          System.out.println("\t\ttype errors....." + times.get(1));
+          System.out.println("\t\ttype errors....." + benchmarks.get(1));
+          //if (warningOutput.equals(WarningManager.WarningOutput.SHOW))
+          {
+            System.out.println("\t\twarnings........" + benchmarks.get(2));
+          }
         }
-        System.out.println("\t\tparser.........." + times.get(2) + "ms");
+        System.out.println("\t\tparser.........." + benchmarks.get(3) + "ms");
         if (!syntaxOnly) {
-          System.out.println("\t\ttypechecker....." + times.get(3) + "ms");
+          System.out.println("\t\ttypechecker....." + benchmarks.get(4) + "ms");
         }
         if (printTypes) {
-          System.out.println("\t\tprint types....." + times.get(4) + "ms");
+          System.out.println("\t\tprint types....." + benchmarks.get(5) + "ms");
         }
         if (printZml) {
-          System.out.println("\t\tprint zml......." + times.get(5) + "ms");          
+          System.out.println("\t\tprint zml......." + benchmarks.get(6) + "ms");
         }
       }             
     }        

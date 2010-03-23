@@ -34,10 +34,15 @@ public class WarningManager
   private Class<?> loggerClass_;
   private final TreeMap<String, List<String>> sectWarnings_;
 
+  public enum WarningOutput { SHOW, HIDE, RAISE };
+  
+  private WarningOutput warningOutput_;
+
   public WarningManager()
   {
     loggerClass_ = getClass();
     currentSectName_ = Section.ANONYMOUS.getName();
+    warningOutput_ = WarningOutput.SHOW;
     sectWarnings_ = new TreeMap<String, List<String>>();
   }
 
@@ -113,7 +118,11 @@ public class WarningManager
 
   protected void doWarn(String msg)
   {
-    CztLogger.getLogger(loggerClass_).warning(msg);
+    // only output when showing. Raise adds it to errors elsewhere, and hides does nothing
+    if (warningOutput_.equals(WarningOutput.SHOW))
+    {
+      CztLogger.getLogger(loggerClass_).warning(msg);
+    }
   }
 
   /**
@@ -128,5 +137,16 @@ public class WarningManager
   {
     String str = createWarning(message, arguments);
     doWarn(str);
+  }
+
+  public void setWarningOutput(WarningOutput out)
+  {
+    assert out != null;
+    warningOutput_ = out;
+  }
+
+  public WarningOutput getWarningOutput()
+  {
+    return warningOutput_;
   }
 }

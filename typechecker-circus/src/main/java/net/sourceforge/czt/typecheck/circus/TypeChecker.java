@@ -47,12 +47,13 @@ import net.sourceforge.czt.z.ast.ZParaList;
  */
 public class TypeChecker 
   extends net.sourceforge.czt.typecheck.z.TypeChecker
+  implements TypecheckPropertiesKeys
 {
   /**
    * Controls whether to create a LetVar action for place where 
    * implicit declarations or declared variable types are needed.
    */ 
-  protected boolean shouldCreateLetVars_ = false;
+  protected boolean shouldCreateLetVars_ = PROP_TYPECHECK_CREATE_LETVAR_DEFAULT;
  
   /* NOTE: All names here allow jokers! */
   
@@ -103,14 +104,9 @@ public class TypeChecker
 //  protected NameList actions4PostCheck_;
   
   // flag for whether the delcarations being checked are for circus formal parameters
-  protected boolean circusFormalParameters_ = false;
-  
-  protected boolean circusQualifiedParams_ = false;
-  
+  protected boolean circusFormalParameters_ = false;  
+  protected boolean circusQualifiedParams_ = false;  
   protected boolean isCheckingStatePara_ = false;
-  
-  protected boolean strictOnWarnings_ = false;
-  
     
   //the visitors used to typechecker a Circus program
   protected Checker<Signature> signatureChecker_;
@@ -136,14 +132,14 @@ public class TypeChecker
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, false, false, false);
+    this(factory, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT,
+        PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
   }
 
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo,
                      boolean useBeforeDecl,
-                     boolean sortDeclNames,
-                     boolean raiseWarnings)
+                     boolean sortDeclNames)
   {
     // create all the checkers as default - for Z
     super(factory, sectInfo, useBeforeDecl, sortDeclNames);     
@@ -187,12 +183,16 @@ public class TypeChecker
     currentChannelSet_ = null;
     stateName_ = null;
     onTheFlyProcesses_ = null;
+
     circusFormalParameters_ = false;
     circusQualifiedParams_ = false;
-    shouldCreateLetVars_ = false;
-    shouldCreateLetMu_ = false;    
     isCheckingStatePara_ = false;
-    strictOnWarnings_ = raiseWarnings;
+
+    shouldCreateLetVars_ = PROP_TYPECHECK_CREATE_LETVAR_DEFAULT;
+    shouldCreateLetMu_ = PROP_TYPECHECK_RESOLVE_MUTUAL_REC_DEFAULT;    
+
+    // raise warnings has priority over hide warnings (e.g., can only hide if not raising)
+    warningManager_.setWarningOutput(PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT);
     
 //    channels_ = new ArrayList<ChannelInfo>();
 //    chansets_ = getFactory().createZNameList();    

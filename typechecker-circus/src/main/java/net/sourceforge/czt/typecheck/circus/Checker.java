@@ -2852,20 +2852,16 @@ public abstract class Checker<R>
   { 
     errors().addAll(warningManager().warnErrors());
     warningManager().clearWarnErrors();
-  }
+  }  
   
-  protected boolean strictOnWarnings()
-  {
-    return typeChecker_.strictOnWarnings_;
-  }
-    
   protected Boolean getResult()
   {
     Boolean result = Boolean.TRUE;
     // if there are errors, make sure warnings are not considered
     if (errors().size() > 0) {      
       // if strict on warnings, then consider then as errors and return false
-      result = !strictOnWarnings();
+      result = !typeChecker_.getWarningManager().getWarningOutput().equals(WarningManager.WarningOutput.RAISE);
+
       // otherwise, give the result without considering warnings
       if (result)
       {
