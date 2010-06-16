@@ -205,7 +205,7 @@
     % added symbols for bags within Circus.sty
     \def \zsym@lbag    {{[}\mkern-3mu{[}~}%{[\![~}
     \def \zsym@rbag    {{]}\mkern-3mu{]}~}%{]\!]~}
-    \def \zsym@inbag   {\mbox{\texttt{E}}}
+    \def \zsym@inbag   {\mathrm{E}} %{\mbox{\texttt{E}}}, Leo 17/06/2010, see czt.sty->\zword 
     \def \zsym@uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
                         to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
     \let \zsym@otimes   \otimes
@@ -301,7 +301,7 @@
     % added symbols for bags within Circus.sty
     \def \zsym@lbag    {{[}\mkern-2mu{[}~}%{[\![~}
     \def \zsym@rbag    {{]}\mkern-2mu{]}~}%{]\!]~}
-    \def \zsym@inbag   {\mbox{\texttt{E}}}                 % ??? find something better ???
+    \def \zsym@inbag   {\mathrm{E}} %{\mbox{\texttt{E}}}                 % ??? find something better ??? , Leo 17/06/2010 see czt.sty->\zword 
     \def \zsym@uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
                         to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
     \let \zsym@otimes   \otimes
@@ -740,13 +740,6 @@
 \def\circusword#1{\zword{#1}} % changed from: \zword{\mathsl{#1}}
 \def\circuskeyword#1{\zkeyword{#1}}        %  \zkeyword{\mathsl{#1}}
 \def\circustoolkit#1{\if@ctkkeyword@ \circuskeyword{#1} \else \circusword{#1} \fi}
-
-\def\z@word#1{\z@op{#1}}
-\def\z@boldword#1{\z@word{\textbf{#1}}}
-\def\zword#1{\z@word{\mbox{\textrm{#1}}}}
-\def\zkeyword#1{\z@word{\mbox{\textrm{\textbf{#1}}}}}
-\def\ztoolkit#1{\if@tkkeyword@ \zkeyword{#1} \else \zword{#1} \fi}
-
 
 %%%%%%%%%%%%%%%%% 1) Guarded commands                           %
 

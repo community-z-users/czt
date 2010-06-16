@@ -568,7 +568,7 @@
 
     %%%%%%%%%%%%%%%%% A.2.5.4 - number toolkit symbols              %
     \def \zsym@num         {\mathbb Z}
-    \def \zsym@negate      {\mbox{-}}
+    \def \zsym@negate      {\mathrm{-}}
     \let \zsym@leq         \leq
     \let \zsym@geq         \geq
     \def \zsym@div         {div}
@@ -1553,8 +1553,13 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 %
 \def\z@word#1{\z@op{#1}}
 \def\z@boldword#1{\z@word{\textbf{#1}}}
-\def\zword#1{\z@word{\mbox{\textrm{#1}}}}
-\def\zkeyword#1{\z@word{\mbox{\textrm{\textbf{#1}}}}}
+
+% To avoid mixed fonts in default theorem-like environments,
+% remove \mbox and use \mathrm alone, Leo, 17/06/2010.
+%\def\zword#1{\z@word{\mbox{\textrm{#1}}}}
+%\def\zkeyword#1{\z@word{\mbox{\textrm{\textbf{#1}}}}}
+\def\zword#1{\z@word{\mathrm{#1}}}}
+\def\zkeyword#1{\z@word{\mathrm{\mathbf{#1}}}}}
 \def\ztoolkit#1{\if@tkkeyword@ \zkeyword{#1} \else \zword{#1} \fi}
 
 % Z keywords - scattered in the ZStd. They are collected
