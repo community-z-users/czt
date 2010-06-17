@@ -41,9 +41,4 @@ public class JaxbXmlReader
   {
     super(new JaxbToAst(), JaxbContext.PATH);
   }
-
-  protected URL getSchema()
-  {
-    return Resources.getZSchema();
-  }
 }
