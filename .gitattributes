@@ -400,6 +400,8 @@ parser-circus/src/test/java/net/sourceforge/czt/print/circus/PrintTest.java -tex
 parser-circus/src/test/resources/tests/circus/CookieMachine.tex -text
 parser-circus/src/test/resources/tests/circus/CookieMachine.xml -text
 parser-circus/src/test/resources/tests/circus/README.txt -text
+parser-circus/src/test/resources/tests/circus/act-interrupt.tex -text
+parser-circus/src/test/resources/tests/circus/act-interrupt.xml -text
 parser-circus/src/test/resources/tests/circus/basicprocesses.tex -text
 parser-circus/src/test/resources/tests/circus/basicprocesses.xml -text
 parser-circus/src/test/resources/tests/circus/buffer-refinement-multienv.tex -text
@@ -534,6 +536,7 @@ typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/Error
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_pt.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/WarningMessage_en.properties -text
 typechecker-circus/src/test/resources/tests/circus/VarDeclCallScope-CommDotfieldDontUnify.error -text
+typechecker-circus/src/test/resources/tests/circus/act-interrupt.tex -text
 typechecker-circus/src/test/resources/tests/circus/action_rename-RenameActionListDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/actpara_duplicate_name-RedeclaredDef.error -text
 typechecker-circus/src/test/resources/tests/circus/atm_with_bags.dvi -text

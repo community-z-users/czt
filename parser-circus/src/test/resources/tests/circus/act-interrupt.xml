@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/zpatt" xmlns="http://czt.sourceforge.net/zml" xmlns:ns4="http://czt.sourceforge.net/circuspatt" xmlns:ns3="http://czt.sourceforge.net/circus" xmlns:ns5="http://czt.sourceforge.net/object-z" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ZSect>
+        <Anns>
+            <LocAnn Length="603" Start="0" Col="0" Line="0" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+        </Anns>
+        <Name>act_interrupt</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Length="15" Start="54" Col="37" Line="1" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+            </Anns>
+            <Word>circus_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Length="4" Start="85" Col="14" Line="2" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ChannelPara>
+                <Anns>
+                    <LocAnn Length="24" Start="108" Col="3" Line="5" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                </Anns>
+                <ZDeclList>
+                    <ns3:ChannelDecl>
+                        <Anns>
+                            <LocAnn Length="10" Start="122" Col="17" Line="5" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Length="1" Start="122" Col="17" Line="5" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <Word>c</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Length="1" Start="125" Col="20" Line="5" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <Word>d</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                        <RefExpr Explicit="false" Mixfix="false">
+                            <Anns>
+                                <LocAnn Length="4" Start="128" Col="23" Line="5" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Length="4" Start="128" Col="23" Line="5" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <Word>?</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ns3:ChannelDecl>
+                </ZDeclList>
+            </ns3:ChannelPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Length="4" Start="146" Col="12" Line="6" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+            <ns3:ProcessPara>
+                <Anns>
+                    <LocAnn Length="415" Start="170" Col="4" Line="9" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Length="1" Start="184" Col="18" Line="9" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                    </Anns>
+                    <Word>P</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns3:BasicProcess>
+                    <Anns>
+                        <LocAnn Length="390" Start="195" Col="29" Line="9" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                    </Anns>
+                    <ZParaList>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Length="29" Start="231" Col="21" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                <ns3:CircusStateAnn/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Length="29" Start="231" Col="21" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Length="29" Start="231" Col="21" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="5" Start="231" Col="21" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>State</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <Anns>
+                                                <LocAnn Length="20" Start="240" Col="30" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <ZSchText>
+                                                <ZDeclList>
+                                                    <Anns>
+                                                        <LocAnn Length="7" Start="243" Col="34" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                    </Anns>
+                                                    <VarDecl>
+                                                        <Anns>
+                                                            <LocAnn Length="7" Start="243" Col="34" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                        </Anns>
+                                                        <ZNameList>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Length="1" Start="243" Col="33" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                                </Anns>
+                                                                <Word>x</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                        </ZNameList>
+                                                        <RefExpr Explicit="false" Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Length="4" Start="246" Col="36" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Length="4" Start="246" Col="36" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                                </Anns>
+                                                                <Word>?</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </VarDecl>
+                                                </ZDeclList>
+                                                <TruePred>
+                                                    <Anns>
+                                                        <LocAnn Length="4" Start="253" Col="43" Line="10" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                    </Anns>
+                                                </TruePred>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Start="277" Col="12" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Length="1" Start="277" Col="12" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <Word>A</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:PrefixingAction>
+                                <Anns>
+                                    <LocAnn Start="288" Col="23" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <ns3:PrefixingAction>
+                                    <Anns>
+                                        <LocAnn Start="298" Col="33" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    </Anns>
+                                    <ns3:AssignmentCommand>
+                                        <Anns>
+                                            <LocAnn Start="308" Col="43" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ns3:AssignmentPairs>
+                                            <Anns>
+                                                <LocAnn Length="3" Start="309" Col="44" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Length="1" Start="308" Col="43" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <ZExprList>
+                                                <RefExpr Explicit="false" Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Length="1" Start="312" Col="47" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Length="1" Start="312" Col="47" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                        </Anns>
+                                                        <Word>v</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
+                                        </ns3:AssignmentPairs>
+                                    </ns3:AssignmentCommand>
+                                    <ns3:Communication Indexed="false" MultiSych="0" CommPattern="Output" CommUsage="Normal">
+                                        <Anns>
+                                            <LocAnn Length="2" Start="298" Col="33" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <RefExpr Explicit="false" Mixfix="false">
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="2" Start="298" Col="33" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                </Anns>
+                                                <Word>d</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <ns3:CircusFieldList>
+                                            <ns3:DotField>
+                                                <Anns>
+                                                    <ns3:OutputFieldAnn/>
+                                                </Anns>
+                                                <RefExpr Explicit="false" Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Length="1" Start="300" Col="35" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                    </Anns>
+                                                    <ZName>
+                                                        <Anns>
+                                                            <LocAnn Length="1" Start="300" Col="35" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                        </Anns>
+                                                        <Word>v</Word>
+                                                        <ZStrokeList/>
+                                                    </ZName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ns3:DotField>
+                                        </ns3:CircusFieldList>
+                                    </ns3:Communication>
+                                </ns3:PrefixingAction>
+                                <ns3:Communication Indexed="false" MultiSych="0" CommPattern="Input" CommUsage="Normal">
+                                    <Anns>
+                                        <LocAnn Length="2" Start="288" Col="23" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    </Anns>
+                                    <RefExpr Explicit="false" Mixfix="false">
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="2" Start="288" Col="23" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>c</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <ns3:CircusFieldList>
+                                        <ns3:InputField>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="290" Col="25" Line="11" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                </Anns>
+                                                <Word>v</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <TruePred/>
+                                        </ns3:InputField>
+                                    </ns3:CircusFieldList>
+                                </ns3:Communication>
+                            </ns3:PrefixingAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Length="42" Start="330" Col="12" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Length="1" Start="330" Col="12" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <Word>B</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:ExtChoiceAction>
+                                <Anns>
+                                    <LocAnn Length="31" Start="341" Col="23" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <ns3:InterruptAction>
+                                    <Anns>
+                                        <LocAnn Length="18" Start="341" Col="23" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    </Anns>
+                                    <ns3:CallAction>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="341" Col="23" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="341" Col="23" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </ns3:CallAction>
+                                    <ns3:CallAction>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="358" Col="40" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="358" Col="40" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>B</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </ns3:CallAction>
+                                </ns3:InterruptAction>
+                                <ns3:CallAction>
+                                    <Anns>
+                                        <LocAnn Length="1" Start="371" Col="53" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="371" Col="53" Line="12" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <Word>A</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </ns3:CallAction>
+                            </ns3:ExtChoiceAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Length="57" Start="389" Col="12" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Length="1" Start="389" Col="12" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <Word>C</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:InterruptAction>
+                                <Anns>
+                                    <LocAnn Length="46" Start="400" Col="23" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <ns3:InterruptAction>
+                                    <Anns>
+                                        <LocAnn Length="29" Start="400" Col="23" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    </Anns>
+                                    <ns3:CallAction>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="400" Col="23" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="400" Col="23" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </ns3:CallAction>
+                                    <ns3:SeqAction>
+                                        <Anns>
+                                            <LocAnn Length="12" Start="417" Col="40" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ns3:CallAction>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="417" Col="40" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="417" Col="40" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                </Anns>
+                                                <Word>B</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </ns3:CallAction>
+                                        <ns3:CallAction>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="428" Col="51" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <ZName>
+                                                <Anns>
+                                                    <LocAnn Length="1" Start="428" Col="51" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                                </Anns>
+                                                <Word>A</Word>
+                                                <ZStrokeList/>
+                                            </ZName>
+                                            <ZExprList/>
+                                        </ns3:CallAction>
+                                    </ns3:SeqAction>
+                                </ns3:InterruptAction>
+                                <ns3:CallAction>
+                                    <Anns>
+                                        <LocAnn Length="1" Start="445" Col="68" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="445" Col="68" Line="13" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <Word>B</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </ns3:CallAction>
+                            </ns3:InterruptAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Length="60" Start="463" Col="12" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Length="1" Start="463" Col="12" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <Word>D</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:SeqAction>
+                                <Anns>
+                                    <LocAnn Length="48" Start="475" Col="24" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                </Anns>
+                                <ns3:InterruptAction>
+                                    <Anns>
+                                        <LocAnn Length="18" Start="475" Col="24" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        <ParenAnn>
+                                            <Anns>
+                                                <LocAnn Length="20" Start="474" Col="23" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                        </ParenAnn>
+                                    </Anns>
+                                    <ns3:CallAction>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="475" Col="24" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="475" Col="24" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </ns3:CallAction>
+                                    <ns3:CallAction>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="492" Col="41" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="492" Col="41" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>B</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </ns3:CallAction>
+                                </ns3:InterruptAction>
+                                <ns3:InterruptAction>
+                                    <Anns>
+                                        <LocAnn Length="18" Start="505" Col="54" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        <ParenAnn>
+                                            <Anns>
+                                                <LocAnn Length="20" Start="504" Col="53" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                        </ParenAnn>
+                                    </Anns>
+                                    <ns3:CallAction>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="505" Col="54" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="505" Col="54" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>A</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </ns3:CallAction>
+                                    <ns3:CallAction>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="522" Col="71" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Length="1" Start="522" Col="71" Line="14" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                            </Anns>
+                                            <Word>B</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ZExprList/>
+                                    </ns3:CallAction>
+                                </ns3:InterruptAction>
+                            </ns3:SeqAction>
+                        </ns3:ActionPara>
+                        <ns3:ActionPara>
+                            <Anns>
+                                <LocAnn Length="28" Start="541" Col="12" Line="15" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                            </Anns>
+                            <ZName>
+                                <Word>$$mainAction_L15C12</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns3:InterruptAction>
+                                <Anns>
+                                    <LocAnn Length="28" Start="541" Col="12" Line="15" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    <ns3:OnTheFlyDefAnn/>
+                                </Anns>
+                                <ns3:CallAction>
+                                    <Anns>
+                                        <LocAnn Length="1" Start="551" Col="22" Line="15" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="551" Col="22" Line="15" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <Word>A</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </ns3:CallAction>
+                                <ns3:CallAction>
+                                    <Anns>
+                                        <LocAnn Length="1" Start="568" Col="39" Line="15" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                    </Anns>
+                                    <ZName>
+                                        <Anns>
+                                            <LocAnn Length="1" Start="568" Col="39" Line="15" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                                        </Anns>
+                                        <Word>B</Word>
+                                        <ZStrokeList/>
+                                    </ZName>
+                                    <ZExprList/>
+                                </ns3:CallAction>
+                            </ns3:InterruptAction>
+                        </ns3:ActionPara>
+                    </ZParaList>
+                </ns3:BasicProcess>
+            </ns3:ProcessPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Length="4" Start="599" Col="12" Line="17" Loc="C:\research\tools\java\sf\czt\1.5\czt\parser-circus\target\test-classes\tests\circus\debug\act-interrupt.tex"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+</Content>
+            </NarrPara>
+        </ZParaList>
+    </ZSect>
+</Spec>

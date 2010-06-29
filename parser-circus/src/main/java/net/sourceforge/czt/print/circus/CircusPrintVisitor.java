@@ -685,6 +685,15 @@ public class CircusPrintVisitor
         printRPAREN(term);
         return null;
     }
+
+    public Object visitInterruptAction(InterruptAction term) {
+        printLPAREN(term);
+        visit(term.getLeftAction());
+        print(CircusKeyword.CIRCINTERRUPT);
+        visit(term.getRightAction());
+        printRPAREN(term);
+        return null;
+    }
     
     public Object visitExtChoiceAction(ExtChoiceAction term) {
         printLPAREN(term);

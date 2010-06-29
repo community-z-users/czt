@@ -317,6 +317,9 @@
     <item name="A &#x037E; B"
           description="Sequential composition"
           latex="A \circseq B"/>    
+    <item name="A &#x25B3; B"
+          description="Action Interrupt"
+          latex="A \circinterrupt B"/>    
     <item name="A &#x25FB; B"
           description="External choice"
           latex="A \extchoice B"/>

@@ -113,6 +113,7 @@ public enum CircusConcreteSyntaxSymbol
   
   /* (Concrete Binary) Action definitions */
   SEQ_ACTION("Sequential composition action"),
+  INTERRUPT_ACTION("Interrupt action"),
   EXTCH_ACTION("External choice action"),
   INTCH_ACTION("Internal choice action"),
   INTLV_ACTION("Interleave action"),

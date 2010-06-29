@@ -42,6 +42,7 @@
       <!-- REUSE ZCOMP, see Parser.xml terminal section for an explanation.
       <char id="REPSEQ" hex="2A1F" description="replicated sequential composition"/>      
       -->
+      <char id="CIRCINTERRUPT" hex="25B3" description="interrupt operator"/>
       <char id="INTERLEAVE" hex="2980" description="Process interleave"/>
       <char id="REPINTERLEAVE" hex="2AFC" description="Replicated interleave"/>
       <char id="REPPARALLEL" hex="2225" description="Replicated Parallelism or 01C1"/>      

@@ -1877,7 +1877,7 @@ terminal LocInfo
 
         // Keychars
         CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCSPOT, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN,
-        PREFIXCOLON, CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING,
+        PREFIXCOLON, CIRCSEQ, CIRCINTERRUPT, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING,
         EXTCHOICE, REPEXTCHOICE, INTCHOICE, REPINTCHOICE, CIRCASSIGN, CIRCSIMULATES,
         CHANNELIN, CHANNELOUT, CHANNELDOT, _CIRCGUARD, _REPSEQ,
 
@@ -2456,6 +2456,7 @@ precedence nonassoc     LINTER, RINTER;
 precedence nonassoc     LPAR, RPAR;
 precedence left         INTCHOICE;//, REPINTCHOICE;
 precedence left         EXTCHOICE;//, REPEXTCHOICE;
+precedence left         CIRCINTERRUPT;
 precedence left         CIRCSEQ, _REPSEQ; //TODO:CHECK _REPSEQ placement.
 precedence nonassoc     _CIRCGUARD;
 precedence right        PREFIXTHEN;
@@ -5030,6 +5031,12 @@ cspAction ::=
         circusAction:cal EXTCHOICE:cs circusAction:car
         {:
             RESULT = factory_.createExtChoiceAction(factory_.list(cal, car));
+            addLocAnn(RESULT, getLocation(cal, car));
+        :}
+        |
+        circusAction:cal CIRCINTERRUPT:cs circusAction:car
+        {:
+            RESULT = factory_.createInterruptAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |

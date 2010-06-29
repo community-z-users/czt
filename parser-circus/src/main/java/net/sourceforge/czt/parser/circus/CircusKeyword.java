@@ -102,6 +102,7 @@ public enum CircusKeyword implements Token {
   CIRCSEQ(CircusString.CIRCSEQ, NewlineCategory.BOTH),            /* \\circseq        , U+037E */
   INTERLEAVE(CircusString.INTERLEAVE, NewlineCategory.BOTH),      /* \\interleave     , U+2980 */
   CIRCHIDING(CircusString.CIRCHIDING, NewlineCategory.BOTH),      /* \\circhide       , U+2AF5 */
+  CIRCINTERRUPT(CircusString.CIRCINTERRUPT, NewlineCategory.BOTH),/* \\circinterrupt  , U+25C2?*/
   EXTCHOICE(CircusString.EXTCHOICE, NewlineCategory.BOTH),        /* \\extchoice      , U+25FB */
   INTCHOICE(CircusString.INTCHOICE, NewlineCategory.BOTH),        /* \\intchoice      , U+2293 */
   CIRCASSIGN(CircusString.CIRCASSIGN, NewlineCategory.BOTH),      /* :=               , :=     */

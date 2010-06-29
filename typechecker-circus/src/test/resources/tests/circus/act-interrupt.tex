@@ -1,0 +1,20 @@
+\begin{zsection}
+   \SECTION act\_interrupt \parents circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d: \nat
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+    	\t1 \circstate\ State == [~ x: \nat | true ~] \\
+        \t1 A \circdef c?v \then d!v \then x:= v \\
+        \t1 B \circdef A \circinterrupt B \extchoice A \\
+                % (A \circinterrupt (B \circseq A)) \circinterrupt B
+        \t1 C \circdef A \circinterrupt B \circseq A \circinterrupt B \\
+        \t1 D \circdef (A \circinterrupt B) \circseq (A \circinterrupt B) \\
+        \t1 \circspot A \circinterrupt B\\
+    \circend
+\end{circus}
+

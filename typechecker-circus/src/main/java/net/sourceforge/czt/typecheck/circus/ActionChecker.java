@@ -136,6 +136,7 @@ public class ActionChecker
   GuardedActionVisitor<CircusCommunicationList>,                //  C.12.11
   Action2Visitor<CircusCommunicationList>,
   //SeqActionVisitor,                                       C.12.12
+  //InterruptActionVisitor,
   //ExtChoiceActionVisitor,                                 C.12.13
   //IntChoiceActionVisitor,                                 C.12.14  
   InterleaveActionVisitor<CircusCommunicationList>,             //  C.12.15, C.12.16

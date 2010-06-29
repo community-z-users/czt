@@ -197,6 +197,11 @@ public class CircusConcreteSyntaxSymbolVisitor
     return CircusConcreteSyntaxSymbol.SEQ_ACTION;
   }
 
+  public CircusConcreteSyntaxSymbol visitInterruptAction(InterruptAction term)
+  {
+    return CircusConcreteSyntaxSymbol.INTERRUPT_ACTION;
+  }
+
   public CircusConcreteSyntaxSymbol visitAlphabetisedParallelAction(AlphabetisedParallelAction term)
   {
     return CircusConcreteSyntaxSymbol.ALPHAPAR_ACTION;

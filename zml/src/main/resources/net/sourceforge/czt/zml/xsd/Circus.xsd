@@ -1058,6 +1058,13 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="InterruptAction" type="CIRCUS:Action2" substitutionGroup="CIRCUS:Action2">
+    <xs:annotation>
+      <xs:documentation>
+        Interruption between two actions.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="ExtChoiceAction" type="CIRCUS:Action2" substitutionGroup="CIRCUS:Action2">
     <xs:annotation>
       <xs:documentation>
