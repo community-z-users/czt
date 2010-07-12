@@ -159,6 +159,17 @@ public class TypeCheckUtils
     return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, 
         PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
   }
+
+  public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   boolean useNameIds,
+                                                   WarningManager.WarningOutput warningOutput,
+                                                   String sectName)
+  {
+    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds,
+      PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT, warningOutput, sectName);
+  }
   
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
@@ -170,7 +181,7 @@ public class TypeCheckUtils
   {    
     return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, warningOutput, sectName);
   }
-  
+
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,

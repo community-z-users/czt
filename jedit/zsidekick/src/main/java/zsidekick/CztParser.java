@@ -88,17 +88,18 @@ public class CztParser
   public SideKickParsedData parse(Buffer buffer,
                                   DefaultErrorSource errorSource)
   {   
-    ParsedData data = new ParsedData(buffer.getName(), getMarkup());
-    try {
-      if (debug_) { setFileLogger(); }
+    ParsedData data = new ParsedData(buffer.getName(), getMarkup());    
+    try {      
       SectionManager manager = getManager(buffer);
+      if (debug_) { setFileLogger(); }
       final String name = buffer.getPath();
-      final String path = new File(name).getParent();
+      final String path = new File(name).getParent();      
       if (path != null) {
         String oldpath = manager.getProperty("czt.path");
         String localpath = ((oldpath == null || oldpath.isEmpty()) ? path : oldpath + ";" + path);
         assert localpath != null;
         manager.setProperty("czt.path", localpath);
+        logger_.config("CZT path as " + localpath);        
       }
       final Source source =
         new StringSource(buffer.getText(0, buffer.getLength()), name);
@@ -106,14 +107,19 @@ public class CztParser
       source.setMarkup(getMarkup());
       manager.put(new Key<Source>(name, Source.class), source);
       Spec spec = manager.get(new Key<Spec>(name, Spec.class));
+      logger_.config("Parsing " + source);
+      logger_.config("Command for Spec is "+manager.getCommand(Spec.class));      
       if (spec.getSect().size() > 0) {
         data.addData(spec, manager, wffHighlight_, buffer);
-        if (! buffer.getBooleanProperty("zsidekick.disable-typechecking")) {          
+        boolean typeChecking = !buffer.getBooleanProperty("zsidekick.disable-typechecking");
+        logger_.config("Typechecking? " + typeChecking);        
+        if (typeChecking) {
           for (Sect sect : spec.getSect()) {
             if (sect instanceof ZSect) {                            
-              logger_.config("Command for SectTypeEnvAnn is "+manager.getCommand(SectTypeEnvAnn.class));
+              logger_.config("Command for SectTypeEnvAnn is "+manager.getCommand(SectTypeEnvAnn.class));              
               // typecheck the section.
-              manager.get(new Key<SectTypeEnvAnn>(((ZSect) sect).getName(), SectTypeEnvAnn.class));
+              SectTypeEnvAnn ste = manager.get(new Key<SectTypeEnvAnn>(((ZSect) sect).getName(), SectTypeEnvAnn.class));
+              logger_.config("Typechecked with results as \n " + ste);
             }
           }
         }
@@ -123,21 +129,29 @@ public class CztParser
           manager.get(new Key<ParseException>(source.getName(), ParseException.class));
         if (parseException != null) {
           printErrors(parseException.getErrors(), buffer, errorSource);
-        }
+        }        
       }
-      catch (CommandException e) {
-        // TODO Is ignoring OK?
+      catch (CommandException e) {        
+        String message = e.getCause() + getClass().getName();
+        logger_.config("Command exception was thrown while printing parser errors: " + message);
+        errorSource.addError(ErrorSource.ERROR,
+                             buffer.getPath(),
+                             0,
+                             0,
+                             0,
+                             message);
       }
     }
-    catch (CommandException exception) {
+    catch (CommandException exception) {      
       errorSource.clear();
       Throwable cause = exception.getCause();
+      logger_.config("Command exception was thrown while printing type errors: " + exception.getMessage() + " \t " + cause.getMessage());
       if (cause instanceof CztErrorList) {
-        List<? extends CztError> errors = ((CztErrorList) cause).getErrors();
-        printErrors(errors, buffer, errorSource);
+        List<? extends CztError> errors = ((CztErrorList) cause).getErrors();        
+        printErrors(errors, buffer, errorSource);        
       }
       else if (cause instanceof IOException) {
-        String message = "Input output error: " + cause.getMessage();
+        String message = "Input output error: " + cause.getMessage();        
         errorSource.addError(ErrorSource.ERROR,
                              buffer.getPath(),
                              0,
@@ -146,7 +160,7 @@ public class CztParser
                              message);
       }
       else {
-        String message = cause + getClass().getName();
+        String message = cause + getClass().getName();        
         errorSource.addError(ErrorSource.ERROR,
                              buffer.getPath(),
                              0,
@@ -160,13 +174,14 @@ public class CztParser
       e.printStackTrace();
       String message =
         "Caught " + e.getClass().getName() + ": " + e.getMessage();
+      logger_.config("Throwable exception raised: " + message);      
       errorSource.addError(ErrorSource.ERROR,
                            buffer.getPath(),
                            0,
                            0,
                            0,
                            message);
-    }
+    }    
     return data;
   }
 
@@ -241,5 +256,5 @@ public class CztParser
     {
       manager.setProperty(propname, value);
     }
+    }
   }
-}

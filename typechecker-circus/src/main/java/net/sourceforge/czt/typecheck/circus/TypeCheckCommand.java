@@ -47,7 +47,7 @@ public class TypeCheckCommand
     {
       warningOutput = PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT.toString();
     }
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, useNameIds,
-        WarningManager.WarningOutput.valueOf(warningOutput), null);
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, sortDeclNames,
+      useNameIds, WarningManager.WarningOutput.valueOf(warningOutput), null);    
   }
 }
