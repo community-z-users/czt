@@ -407,11 +407,11 @@ abstract public class Checker<R>
   }
   
   /**
-   * Usage before declaration flag.
+   * Allow recursive types flag.
    */
-  protected boolean useBeforeDecl()
+  protected boolean recursiveTypes()
   {
-    return typeChecker_.useBeforeDecl_;
+    return typeChecker_.recursiveTypes_;
   }
   
   /**
@@ -545,7 +545,7 @@ abstract public class Checker<R>
     //get and visit the paragraphs of the current section
     zSect.getParaList().accept(this);
 
-    if ((useBeforeDecl() && sectTypeEnv().getSecondTime()) ||
+    if ((recursiveTypes() && sectTypeEnv().getSecondTime()) ||
         sectTypeEnv().getUseNameIds()) {
       try {
         SectTypeEnvAnn sectTypeEnvAnn =
@@ -563,7 +563,7 @@ abstract public class Checker<R>
                      sectTypeEnvAnn, Collections.<Key<?>>emptySet());
     }
 
-    if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
+    if (recursiveTypes() && !sectTypeEnv().getSecondTime()) {
       clearErrors();
       removeErrorAndTypeAnns(zSect);
       sectTypeEnv().setSecondTime(true);
@@ -610,7 +610,7 @@ abstract public class Checker<R>
   protected boolean needPostCheck()
   {
     //only check on the final traversal of the tree
-    return (!useBeforeDecl() || sectTypeEnv().getSecondTime());
+    return (!recursiveTypes() || sectTypeEnv().getSecondTime());
   }
   
   /**
@@ -881,9 +881,9 @@ abstract public class Checker<R>
     else
     {
       Type2 baseType = null;
-      //if use-before-decl is switched on and the expr is undeclared,
+      //if recursiveTypes is switched on and the expr is undeclared,
       //then set IsMem to true
-      if (useBeforeDecl() && exprType instanceof UnknownType)
+      if (recursiveTypes() && exprType instanceof UnknownType)
       {
         UnknownType uType = (UnknownType) exprType;
         if (uType.getZName() != null)

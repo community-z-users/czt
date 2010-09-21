@@ -234,9 +234,9 @@ public class CztParser
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_PRINT_NAME_IDS, value);
 
-    propname = ZSideKickPlugin.PROP_USE_BEFORE_DECL;
+    propname = ZSideKickPlugin.PROP_RECURSIVE_TYPES;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
-    manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, value);
+    manager.setProperty(PROP_TYPECHECK_RECURSIVE_TYPES, value);
 
     propname = ZSideKickPlugin.PROP_USE_STRONG_TYPING;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";

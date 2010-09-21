@@ -64,7 +64,7 @@ public class PreferenceConstants
    * will check that names are declared before they are used.
    * </p>
    */
-  public static final String PROP_TYPECHECK_USE_BEFORE_DECL = net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys.PROP_TYPECHECK_USE_BEFORE_DECL; //$NON-NLS-1$
+  public static final String PROP_TYPECHECK_RECURSIVE_TYPES = net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys.PROP_TYPECHECK_RECURSIVE_TYPES; //$NON-NLS-1$
 
   /**
    * A named preference that sets the property of the typechecker for oz.
@@ -678,7 +678,7 @@ public class PreferenceConstants
     store.setDefault(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
         true);
 
-    store.setDefault(PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL, true);
+    store.setDefault(PreferenceConstants.PROP_TYPECHECK_RECURSIVE_TYPES, true);
 
     store
         .setDefault(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING, true);

@@ -41,8 +41,8 @@ public class TypeCheckCommand
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager)
   {
-    boolean useBeforeDecl =
-      manager.getBooleanProperty(PROP_TYPECHECK_USE_BEFORE_DECL);
+    boolean recursiveTypes =
+      manager.getBooleanProperty(PROP_TYPECHECK_RECURSIVE_TYPES);
     boolean useNameIds =
       manager.getBooleanProperty(PROP_TYPECHECK_USE_NAMEIDS);
     boolean sortDeclNames =
@@ -52,7 +52,7 @@ public class TypeCheckCommand
     {
       warningOutput = PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT.toString();
     }
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, useNameIds,
+    return TypeCheckUtils.typecheck(term, manager, recursiveTypes, useNameIds,
         WarningManager.WarningOutput.valueOf(warningOutput), null);
   }
 

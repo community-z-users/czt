@@ -58,7 +58,7 @@ public class IdTest
   protected SectionManager manager_;
 
   //allow use before declaration
-  protected boolean useBeforeDecl_ = false;
+  protected boolean recursiveTypes_ = false;
 
   public static Test suite()
   {

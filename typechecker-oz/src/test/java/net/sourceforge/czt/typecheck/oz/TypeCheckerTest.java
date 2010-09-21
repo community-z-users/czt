@@ -67,7 +67,7 @@ public class TypeCheckerTest
     // UseBeforeDecl
     checkerTest = new TypeCheckerTest(true, false);
     checkerTest.collectTests(suite,
-            TypeCheckerTest.class.getResource("/oz/useBeforeDecl/"));
+            TypeCheckerTest.class.getResource("/oz/recursiveTypes/"));
 
     // StrongOnly
     checkerTest = new TypeCheckerTest(false, true);
@@ -82,9 +82,9 @@ public class TypeCheckerTest
     return suite;
   }
 
-  public TypeCheckerTest(boolean useBeforeDecl, boolean useStrongTyping)
+  public TypeCheckerTest(boolean recursiveTypes, boolean useStrongTyping)
   {
-    super(useBeforeDecl);
+    super(recursiveTypes);
     useStrongTyping_ = useStrongTyping;
   }
 
@@ -98,7 +98,7 @@ public class TypeCheckerTest
   {
     return TypeCheckUtils.typecheck(term,
                                     manager,
-                                    useBeforeDecl_,
+                                    recursiveTypes_,
                                     useStrongTyping_);
   }
 }

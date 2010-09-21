@@ -48,8 +48,8 @@ public class TypeCheckerTest
   extends TestCase
   implements TypecheckPropertiesKeys
 {
-  //allow use before declaration
-  protected boolean useBeforeDecl_ = false;
+  //allow recursive types
+  protected boolean recursiveTypes_ = false;
 
   protected final static String TEST_DIR =
       "/net/sourceforge/czt/typecheck/tests/";
@@ -63,13 +63,13 @@ public class TypeCheckerTest
            TypeCheckerTest.class.getResource(TEST_DIR + "z/"));
     checkerTest = new TypeCheckerTest(true);
     checkerTest.collectTests(suite,
-	   TypeCheckerTest.class.getResource(TEST_DIR + "z/useBeforeDecl/"));
+	   TypeCheckerTest.class.getResource(TEST_DIR + "z/recursiveTypes/"));
     return suite;
   }
 
-  public TypeCheckerTest(boolean useBeforeDecl)
+  public TypeCheckerTest(boolean recursiveTypes)
   {
-    useBeforeDecl_ = useBeforeDecl;
+    recursiveTypes_ = recursiveTypes;
   }
 
   /**
@@ -126,30 +126,7 @@ public class TypeCheckerTest
     SectionManager manager)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_);
-  /*
-  Spec spec = (Spec) term;
-  String value = useBeforeDecl_ ? "true" : "false";
-  manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, value);
-  try {
-  for (Sect sect : spec.getSect()) {
-  if (sect instanceof ZSect) {
-  String sectName = ((ZSect) sect).getName();
-  Key typekey = new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class);
-  manager_.get(typekey);
-  }
-  }
-  }
-  catch (CommandException e) {
-  if (e.getCause() instanceof TypeErrorException) {
-  return ((TypeErrorException) e.getCause()).errors();
-  }
-  else {
-  fail("\nUnexpected CommandException" + e.toString());
-  }
-  }
-  return new ArrayList();
-   */
+    return TypeCheckUtils.typecheck(term, manager, recursiveTypes_);
   }
 
   class TestNormal

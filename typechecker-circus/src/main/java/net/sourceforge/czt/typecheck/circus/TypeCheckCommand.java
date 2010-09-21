@@ -36,8 +36,8 @@ public class TypeCheckCommand
   @Override
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager) {
-    boolean useBeforeDecl = false && // don't accept this for now
-      manager.getBooleanProperty(PROP_TYPECHECK_USE_BEFORE_DECL);
+    boolean recursiveTypes = false && // don't accept this for now
+      manager.getBooleanProperty(PROP_TYPECHECK_RECURSIVE_TYPES);
     boolean useNameIds = false && // don't accept this for now
       manager.getBooleanProperty(PROP_TYPECHECK_USE_NAMEIDS);
     boolean sortDeclNames = false && // don't accept this for now
@@ -47,7 +47,7 @@ public class TypeCheckCommand
     {
       warningOutput = PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT.toString();
     }
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, sortDeclNames,
+    return TypeCheckUtils.typecheck(term, manager, recursiveTypes, sortDeclNames,
       useNameIds, WarningManager.WarningOutput.valueOf(warningOutput), null);    
   }
 }

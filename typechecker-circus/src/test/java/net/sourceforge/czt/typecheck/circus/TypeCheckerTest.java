@@ -92,9 +92,9 @@ public class TypeCheckerTest
     return suite;
   }
 
-  public TypeCheckerTest(boolean useBeforeDecl)
+  public TypeCheckerTest(boolean recursiveTypes)
   {
-    super(useBeforeDecl);
+    super(recursiveTypes);
   }
   
   protected void collectTests(TestSuite suite, List<String> directoryNames) 
@@ -220,7 +220,7 @@ public class TypeCheckerTest
   {
     return TypeCheckUtils.typecheck(term,
       manager,
-      useBeforeDecl_);
+      recursiveTypes_);
   }
   
   protected TestCase createNormalTest(String fullpath)

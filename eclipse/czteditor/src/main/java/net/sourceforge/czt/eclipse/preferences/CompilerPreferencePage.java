@@ -119,7 +119,7 @@ public class CompilerPreferencePage extends PreferencePage
         propertiesGroup,
         PreferencesMessages.CompilerPreferencePage_typecheck_use_before_decl,
         PreferencesMessages.CompilerPreferencePage_typecheck_use_before_decl_tooltip,
-        PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL);
+        PreferenceConstants.PROP_TYPECHECK_RECURSIVE_TYPES);
     addCheckBox(
         propertiesGroup,
         PreferencesMessages.CompilerPreferencePage_typecheck_use_strong_typing,

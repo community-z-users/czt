@@ -30,8 +30,8 @@ public class ZSideKickPlugin
     "ZSideKickPlugin.printIds";
   public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS =
     "ZSideKickPlugin.ignoreUnknownLatexCommands";
-  public static final String PROP_USE_BEFORE_DECL =
-    "ZSideKickPlugin.useBeforeDecl";
+  public static final String PROP_RECURSIVE_TYPES =
+    "ZSideKickPlugin.recursiveTypes";
   public static final String PROP_USE_STRONG_TYPING =
     "ZSideKickPlugin.useStrongTyping";  
   public static final String PROP_DEBUG_ZSIDEKICK = 

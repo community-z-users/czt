@@ -59,8 +59,9 @@ public class TypeCheckUtils
   }
   
   /**
-   * Typecheck and type annotate a term, with no default section 
-   * and not allowing names to be used before they are declared.
+   * Typecheck and type annotate a term, with no default section and
+   * not allowing names to be used before they are declared or
+   * recursive types.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @return the list of ErrorAnns in the AST added by the typechecker.
@@ -68,55 +69,55 @@ public class TypeCheckUtils
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo)
   {
-    return typecheck(term, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT);
+    return typecheck(term, sectInfo, PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT);
   }
   
   /**
    * Typecheck and type annotate a term, with no default section.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl)
+                                                   boolean recursiveTypes)
   {
-    return typecheck(term, sectInfo, useBeforeDecl, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT, null);
+    return typecheck(term, sectInfo, recursiveTypes, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT, null);
   }
   
   /**
    * Typecheck and type annotate a term, with no default section.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types
    * @param sortDeclNames 
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean sortDeclNames)
   {
-    return typecheck(term, sectInfo, useBeforeDecl, sortDeclNames, null);
+    return typecheck(term, sectInfo, recursiveTypes, sortDeclNames, null);
   }
   
   /**
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types
    * @param sortDeclNames 
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean sortDeclNames,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames,
+    return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames,
         PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
   }
   
@@ -124,18 +125,18 @@ public class TypeCheckUtils
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types
    * @param sortDeclNames 
    * @param useNameIds use name ids as part of the name
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean sortDeclNames,
                                                    boolean useNameIds)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, 
+    return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useNameIds, 
         PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, null);
   }
   
@@ -143,7 +144,7 @@ public class TypeCheckUtils
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types
    * @param sortDeclNames 
    * @param useNameIds use name ids as part of the name
    * @param sectName the section within which this term should be checked.
@@ -151,56 +152,56 @@ public class TypeCheckUtils
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean sortDeclNames,
                                                    boolean useNameIds,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, 
+    return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useNameIds, 
         PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
   }
 
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean useNameIds,
                                                    WarningManager.WarningOutput warningOutput,
                                                    String sectName)
   {
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds,
+    return instance_.lTypecheck(term, sectInfo, recursiveTypes, useNameIds,
       PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT, warningOutput, sectName);
   }
   
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean sortDeclNames,
                                                    boolean useNameIds,
                                                    WarningManager.WarningOutput warningOutput,
                                                    String sectName)
   {    
-    return instance_.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useNameIds, warningOutput, sectName);
+    return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useNameIds, warningOutput, sectName);
   }
 
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
-                                                boolean useBeforeDecl,
+                                                boolean recursiveTypes,
                                                 boolean useNameIds,
                                                 String sectName)
   {
-    return lTypecheck(term, sectInfo, useBeforeDecl, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT,
+    return lTypecheck(term, sectInfo, recursiveTypes, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT,
         useNameIds, warningOutputDefault(), sectName);
   }
   
   /** An internal method of the typechecker. */
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
-                                                boolean useBeforeDecl,
+                                                boolean recursiveTypes,
                                                 boolean useNameIds,
                                                 WarningManager.WarningOutput warningOutput,
                                                 String sectName)
   {
-    return lTypecheck(term, sectInfo, useBeforeDecl, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT,
+    return lTypecheck(term, sectInfo, recursiveTypes, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT,
         useNameIds, warningOutput, sectName);
   }
   
@@ -218,7 +219,7 @@ public class TypeCheckUtils
   /** An internal method of the typechecker. */
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
-                                                boolean useBeforeDecl,
+                                                boolean recursiveTypes,
                                                 boolean sortDeclNames,
                                                 boolean useNameIds,
                                                 WarningManager.WarningOutput warningOutput,
@@ -230,7 +231,7 @@ public class TypeCheckUtils
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
     TypeChecker typeChecker = new TypeChecker(
       new net.sourceforge.czt.typecheck.circus.impl.Factory(zFactory, circusFactory ), 
-      sectInfo, useBeforeDecl, sortDeclNames);
+      sectInfo, recursiveTypes, sortDeclNames);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
     typeChecker.getWarningManager().setWarningOutput(warningOutput);

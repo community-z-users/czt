@@ -334,7 +334,7 @@ public class ParaChecker
         factory().createNameSignaturePair(opName, factory().createSignature());
       List<NameSignaturePair> opPairs = selfType.getOperation();
       boolean added = false;
-      if (useBeforeDecl()) {
+      if (recursiveTypes()) {
         //before visiting, add this operation temporarily with an empty
         //signature to allow recursive definitions with itself
         NameSignaturePair existing = findNameSigPair(opName, opPairs);

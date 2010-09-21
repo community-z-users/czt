@@ -132,17 +132,17 @@ public class TypeChecker
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT,
+    this(factory, sectInfo, PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT,
         PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
   }
 
   public TypeChecker(net.sourceforge.czt.typecheck.circus.impl.Factory factory,
                      SectionManager sectInfo,
-                     boolean useBeforeDecl,
+                     boolean recursiveTypes,
                      boolean sortDeclNames)
   {
     // create all the checkers as default - for Z
-    super(factory, sectInfo, useBeforeDecl, sortDeclNames);     
+    super(factory, sectInfo, recursiveTypes, sortDeclNames);     
     
     // override the default creation with those for Circus.
     unificationEnv_ = new UnificationEnv(factory);

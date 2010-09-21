@@ -123,7 +123,7 @@ public class CZTPlugin extends AbstractUIPlugin
       public void propertyChange(PropertyChangeEvent event) {
         String property = event.getProperty();
         if (PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS.equals(property) ||
-            PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL.equals(property) ||
+            PreferenceConstants.PROP_TYPECHECK_RECURSIVE_TYPES.equals(property) ||
             PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING.equals(property)) {
           fSectionManager.setProperty(property, String.valueOf(event.getNewValue()));
         }
@@ -362,7 +362,7 @@ public class CZTPlugin extends AbstractUIPlugin
      * Sets the properties of the section manager
      */
     sectManager.setProperty(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, String.valueOf(store.getBoolean(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS)));
-    sectManager.setProperty(PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(store.getBoolean(PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL)));
+    sectManager.setProperty(PreferenceConstants.PROP_TYPECHECK_RECURSIVE_TYPES, String.valueOf(store.getBoolean(PreferenceConstants.PROP_TYPECHECK_RECURSIVE_TYPES)));
     sectManager.setProperty(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING, String.valueOf(store.getBoolean(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING)));
 
     /**

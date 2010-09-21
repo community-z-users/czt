@@ -58,8 +58,9 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   }
   
   /**
-   * Typecheck and type annotate a term, with no default section 
-   * and not allowing names to be used before they are declared.
+   * Typecheck and type annotate a term, with no default section and
+   * not allowing names to be used before they are declared or
+   * recursive types.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionManager</code> object to use.
    * @return the list of ErrorAnns in the AST added by the typechecker.
@@ -67,7 +68,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo)
   {
-    return typecheck(term, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT);
+    return typecheck(term, sectInfo, PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT);
   }
 
 
@@ -75,48 +76,48 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
    * Typecheck and type annotate a term, with no default section.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl)
+                                                   boolean recursiveTypes)
   {
-    return typecheck(term, sectInfo, useBeforeDecl, null);
+    return typecheck(term, sectInfo, recursiveTypes, null);
   }
 
   /**
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types.
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, sectName);
+    return utils.lTypecheck(term, sectInfo, recursiveTypes, PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, sectName);
   }
 
   /**
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types.
    * @param useNameIds use name ids as part of the name
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean useNameIds)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, null);
+    return utils.lTypecheck(term, sectInfo, recursiveTypes, useNameIds, null);
   }
 
 
@@ -124,45 +125,45 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types.
    * @param useNameIds use name ids as part of the name
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean useNameIds,
                                                    String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, sectName);
+    return utils.lTypecheck(term, sectInfo, recursiveTypes, useNameIds, sectName);
   }
   
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean useNameIds,
                                                    WarningManager.WarningOutput warningOutput,
                                                    String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, warningOutput, sectName);
+    return utils.lTypecheck(term, sectInfo, recursiveTypes, useNameIds, warningOutput, sectName);
   }
 
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
-                                                boolean useBeforeDecl,
+                                                boolean recursiveTypes,
                                                 boolean useNameIds,
                                                 String sectName)
   {
-    return lTypecheck(term, sectInfo, useBeforeDecl, useNameIds, WarningManager.WarningOutput.SHOW, sectName);
+    return lTypecheck(term, sectInfo, recursiveTypes, useNameIds, WarningManager.WarningOutput.SHOW, sectName);
   }
 
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
-                                                boolean useBeforeDecl,
+                                                boolean recursiveTypes,
                                                 boolean useNameIds,
                                                 WarningManager.WarningOutput warningOutput,
                                                 String sectName)
@@ -170,7 +171,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     ZFactory zFactory = new ZFactoryImpl();    
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
     TypeChecker typeChecker =
-      new TypeChecker(new Factory(zFactory), sectInfo, useBeforeDecl);
+      new TypeChecker(new Factory(zFactory), sectInfo, recursiveTypes);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);    
     term.accept(typeChecker);    
@@ -218,6 +219,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     System.err.println("flags: -s     syntax check only");
     System.err.println("       -d     allow use before declaration");
     System.err.println("       -n     force declarations before use");
+    System.err.println("       -r     allow recursive types");
     System.err.println("       -i     use name ids");
     System.err.println("       -p     print the AST");
     System.err.println("       -t     print global type declarations");
@@ -235,7 +237,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     System.err.println("\n");
     System.err.println("Default flags are: \"" +
         ((syntaxOnlyDefault() ? "-s " : "") +
-        (useBeforeDeclDefault() ? "-d " : "-n ") +
+        (recursiveTypesDefault() ? "-d " : "-n ") +
         (useNameIdsDefault() ? "-i " : "") +
         (printZMLDefault() ? "-p " : "") + 
         (printTypesDefault() ? "-t " : "") +
@@ -246,9 +248,9 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         "\"");
   }
 
-  protected boolean useBeforeDeclDefault()
+  protected boolean recursiveTypesDefault()
   {
-    return PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT;
+    return PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT;
   }
 
   protected boolean printBenchmarkTimesDefault()
@@ -442,7 +444,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     // are indeed to be set to the default.
     boolean defaultFlags = true;
     Boolean syntaxOnly = null;
-    Boolean useBeforeDecl = null;
+    Boolean recursiveTypes = null;
     Boolean printTypes = null;
     Boolean printZml = null;
     Boolean printBenchmark = null;
@@ -464,15 +466,15 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       }
       else if ("-d".equals(args[i]))
       {
-        useBeforeDecl = true;
+        recursiveTypes = true;
         defaultFlags = false;
-        manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
+        manager.setProperty(PROP_TYPECHECK_RECURSIVE_TYPES, String.valueOf(recursiveTypes));
       }
       else if ("-n".equals(args[i]))
       {
-        useBeforeDecl = false;
+        recursiveTypes = false;
         defaultFlags = false;
-        manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
+        manager.setProperty(PROP_TYPECHECK_RECURSIVE_TYPES, String.valueOf(recursiveTypes));
       }
       else if ("-t".equals(args[i]))
       {
@@ -546,15 +548,15 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                 syntaxOnly = true;
                 defaultFlags = false;
                 break;
-              case 'd':
-                useBeforeDecl = true;
-                defaultFlags = false;
-                manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
-                break;
               case 'n':
-                useBeforeDecl = false;
+                recursiveTypes = false;
                 defaultFlags = false;
-                manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
+                manager.setProperty(PROP_TYPECHECK_RECURSIVE_TYPES, String.valueOf(recursiveTypes));
+                break;
+              case 'r':
+                recursiveTypes = true;
+                defaultFlags = false;
+                manager.setProperty(PROP_TYPECHECK_RECURSIVE_TYPES, String.valueOf(recursiveTypes));
                 break;
               case 't':
                 printTypes = true;
@@ -613,7 +615,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     if (defaultFlags)
     {
       syntaxOnly        = syntaxOnlyDefault();
-      useBeforeDecl     = useBeforeDeclDefault();
+      recursiveTypes     = recursiveTypesDefault();
       printTypes        = printTypesDefault();
       printZml          = printZMLDefault();
       printBenchmark    = printBenchmarkTimesDefault();
@@ -628,7 +630,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     else
     {
       syntaxOnly        = syntaxOnly != null ? syntaxOnly : false;
-      useBeforeDecl     = useBeforeDecl != null ? useBeforeDecl : false;
+      recursiveTypes     = recursiveTypes != null ? recursiveTypes : false;
       printTypes        = printTypes != null ? printTypes : false;
       printZml          = printZml != null ? printZml : false;
       printBenchmark    = printBenchmark != null ? printBenchmark : false;
@@ -639,7 +641,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       isNarrativeWanted = isNarrativeWanted != null ? isNarrativeWanted : false;
       //cztpath           = cztpath != null ? cztpath : null;
     }  
-    assert syntaxOnly != null && useBeforeDecl != null && printTypes != null &&
+    assert syntaxOnly != null && recursiveTypes != null && printTypes != null &&
         printZml != null && printBenchmark != null && useNameIds != null &&
         warningOutput != null && useSpecReader != null &&
         isBufferingWanted != null && isNarrativeWanted != null : "Invalid flags!";
@@ -741,7 +743,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       if (term != null && !syntaxOnly)
       {
         List<? extends ErrorAnn> errors =
-          this.lTypecheck(term, manager, useBeforeDecl, useNameIds, warningOutput, null);
+          this.lTypecheck(term, manager, recursiveTypes, useNameIds, warningOutput, null);
 
         // result is the number of errors to consider
         List<Integer> eCount = printErrors(errors, warningOutput);

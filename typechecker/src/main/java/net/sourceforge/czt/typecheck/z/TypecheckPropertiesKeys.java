@@ -36,10 +36,10 @@ public interface TypecheckPropertiesKeys
     "typecheck_debug";
   
   /** When this property is <code>true</code>, the typechecker
-   *  will allow that names are used before they are declared.
+   *  will allow recursive types.
    */
-  String PROP_TYPECHECK_USE_BEFORE_DECL =
-    "typecheck_use_before_decl";
+  String PROP_TYPECHECK_RECURSIVE_TYPES =
+    "typecheck_recursive_types";
   
   /** 
    *  When this property is <code>true</code>, the typechecker
@@ -59,7 +59,7 @@ public interface TypecheckPropertiesKeys
     "typecheck_use_spec_reader";
   
   boolean PROP_TYPECHECK_DEBUG_DEFAULT           = false;
-  boolean PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT = false;
+  boolean PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT = false;
   boolean PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT = false;
   boolean PROP_TYPECHECK_USE_NAMEIDS_DEFAULT     = false;  
   boolean PROP_TYPECHECK_USE_SPECREADER_DEFAULT  = false;

@@ -36,10 +36,10 @@ public class TypeCheckCommand
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager)
   {
-    boolean useBeforeDecl =
-      manager.getBooleanProperty(PROP_TYPECHECK_USE_BEFORE_DECL);
+    boolean recursiveTypes =
+      manager.getBooleanProperty(PROP_TYPECHECK_RECURSIVE_TYPES);
     boolean strong =
       manager.getBooleanProperty(PROP_TYPECHECK_USE_STRONG_TYPING);
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, strong);
+    return TypeCheckUtils.typecheck(term, manager, recursiveTypes, strong);
   }
 }

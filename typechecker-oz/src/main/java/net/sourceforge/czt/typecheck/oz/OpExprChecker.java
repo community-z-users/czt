@@ -142,7 +142,7 @@ public class OpExprChecker
       ZName zPromName = ZUtils.assertZName(promName);
       NameSignaturePair opDef = findOperation(zPromName, classType);
 
-      //if the name is not found, and use-before-decl is enabled,
+      //if the name is not found, and recursive types is enabled,
       //then search for this name in the class
       if (opDef == null && sectTypeEnv().getSecondTime() &&
           (expr == null || isSelfExpr(expr))) {

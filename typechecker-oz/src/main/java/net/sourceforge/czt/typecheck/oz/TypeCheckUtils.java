@@ -67,39 +67,39 @@ public class TypeCheckUtils
    * Typecheck and type annotate a file.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionManager</code> object to use.
-   * @param useBeforeDecl allow use of variables before declaration
+   * @param recursiveTypes allow use of recursive types.
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl)
+                                                   boolean recursiveTypes)
   {
-    return typecheck(term, sectInfo, useBeforeDecl, false);
+    return typecheck(term, sectInfo, recursiveTypes, false);
   }
 
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean useStrongTyping)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, useStrongTyping, null);
+    return utils.lTypecheck(term, sectInfo, recursiveTypes, false, useStrongTyping, null);
   }
 
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+                                                   boolean recursiveTypes,
                                                    boolean sortDeclNames,
                                                    boolean useStrongTyping)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, sortDeclNames, useStrongTyping, null);
+    return utils.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useStrongTyping, null);
   }
   
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
-                                                boolean useBeforeDecl,
+                                                boolean recursiveTypes,
                                                 boolean sortDeclNames,
                                                 boolean useStrongTyping,
                                                 String sectName)
@@ -108,7 +108,7 @@ public class TypeCheckUtils
     OzFactory ozFactory = new OzFactoryImpl();
     TypeChecker typeChecker = new TypeChecker(new Factory(zFactory, ozFactory),
                                               sectInfo,
-                                              useBeforeDecl,
+                                              recursiveTypes,
                                               sortDeclNames,
                                               useStrongTyping);
     typeChecker.setPreamble(sectName, sectInfo);
@@ -147,7 +147,7 @@ public class TypeCheckUtils
     return toolkits;
   }
 
-  protected boolean useBeforeDeclDefault()
+  protected boolean recursiveTypesDefault()
   {
     return true;
   }

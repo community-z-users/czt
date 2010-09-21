@@ -121,8 +121,8 @@ public class TypeChecker
   //the list of errors and postcheck Terms in the current paragraph
   protected List<Object> paraErrors_;
 
-  //allow variable use before declaration
-  protected boolean useBeforeDecl_ = PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT;
+  //allow recursive types
+  protected boolean recursiveTypes_ = PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT;
   
   //allow decl names to be alphabetically sorted
   protected boolean sortDeclNames_ = PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT;
@@ -146,20 +146,20 @@ public class TypeChecker
   public TypeChecker(Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT, 
+    this(factory, sectInfo, PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT, 
       PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
   }
 
   public TypeChecker(Factory factory,
                      SectionManager sectInfo, 
-                     boolean useBeforeDecl)
+                     boolean recursiveTypes)
   {
-    this(factory, sectInfo, useBeforeDecl, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
+    this(factory, sectInfo, recursiveTypes, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
   }
 
   public TypeChecker(Factory factory,
                      SectionManager sectInfo,
-                     boolean useBeforeDecl,
+                     boolean recursiveTypes,
                      boolean sortDeclNames)
   {
     sectInfo_ = sectInfo;
@@ -172,7 +172,7 @@ public class TypeChecker
     carrierSet_ = new CarrierSet();
     errors_ = factory.list();
     paraErrors_ = factory.list();
-    useBeforeDecl_ = useBeforeDecl;
+    recursiveTypes_ = recursiveTypes;
     sortDeclNames_ = sortDeclNames;    
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);

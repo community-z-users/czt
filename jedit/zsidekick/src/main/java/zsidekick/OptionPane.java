@@ -31,8 +31,8 @@ public class OptionPane extends AbstractOptionPane
     ZSideKickPlugin.PROP_PRINT_IDS;
   private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
-  private final String USE_BEFORE_DECL =
-    ZSideKickPlugin.PROP_USE_BEFORE_DECL;
+  private final String RECURSIVE_TYPES =
+    ZSideKickPlugin.PROP_RECURSIVE_TYPES;
   private final String USE_STRONG_TYPING =
     ZSideKickPlugin.PROP_USE_STRONG_TYPING;
   private final String DEBUG_ZSIDEKICK =
@@ -47,8 +47,8 @@ public class OptionPane extends AbstractOptionPane
     ZSideKickPlugin.OPTION_PREFIX + "printNameIds";
   private final String PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.OPTION_PREFIX + "ignoreUnknownLatexCommands";
-  private final String PROP_LABEL_USE_BEFORE_DECL =
-    ZSideKickPlugin.OPTION_PREFIX + "useBeforeDecl";
+  private final String PROP_LABEL_RECURSIVE_TYPES =
+    ZSideKickPlugin.OPTION_PREFIX + "recursiveTypes";
   private final String PROP_LABEL_USE_STRONG_TYPING =
     ZSideKickPlugin.OPTION_PREFIX + "useStrongTyping";
   private final String PROP_LABEL_DEBUG_ZSIDEKICK =
@@ -60,7 +60,7 @@ public class OptionPane extends AbstractOptionPane
   
   private JCheckBox ignoreUnknownLatexCommands_;
   private JCheckBox printIds_;
-  private JCheckBox useBeforeDecl_;
+  private JCheckBox recursiveTypes_;
   private JCheckBox useStrongTyping_;
   private JCheckBox debug_;
   private CztPath cztPath_;
@@ -88,11 +88,11 @@ public class OptionPane extends AbstractOptionPane
     printIds_.getModel().setSelected(value);
     addComponent(printIds_);
 
-    useBeforeDecl_ = 
-      new JCheckBox(jEdit.getProperty(PROP_LABEL_USE_BEFORE_DECL));
-    value = jEdit.getBooleanProperty(USE_BEFORE_DECL);
-    useBeforeDecl_.getModel().setSelected(value);
-    addComponent(useBeforeDecl_);
+    recursiveTypes_ = 
+      new JCheckBox(jEdit.getProperty(PROP_LABEL_RECURSIVE_TYPES));
+    value = jEdit.getBooleanProperty(RECURSIVE_TYPES);
+    recursiveTypes_.getModel().setSelected(value);
+    addComponent(recursiveTypes_);
 
     useStrongTyping_ = 
       new JCheckBox(jEdit.getProperty(PROP_LABEL_USE_STRONG_TYPING));
@@ -127,8 +127,8 @@ public class OptionPane extends AbstractOptionPane
     jEdit.setBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS, value);
     value = printIds_.getModel().isSelected();
     jEdit.setBooleanProperty(PRINT_IDS, value);
-    value = useBeforeDecl_.getModel().isSelected();
-    jEdit.setBooleanProperty(USE_BEFORE_DECL, value);
+    value = recursiveTypes_.getModel().isSelected();
+    jEdit.setBooleanProperty(RECURSIVE_TYPES, value);
     value = useStrongTyping_.getModel().isSelected();
     jEdit.setBooleanProperty(USE_STRONG_TYPING, value);    
     value = debug_.getModel().isSelected();
@@ -147,7 +147,7 @@ public class OptionPane extends AbstractOptionPane
     {
       printIds_.getModel().setSelected(false);
       ignoreUnknownLatexCommands_.getModel().setSelected(false);
-      useBeforeDecl_.getModel().setSelected(false);
+      recursiveTypes_.getModel().setSelected(false);
       useStrongTyping_.getModel().setSelected(false);
       debug_.getModel().setSelected(false);
     }
