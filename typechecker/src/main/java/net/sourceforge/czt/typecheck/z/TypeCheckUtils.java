@@ -615,7 +615,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     if (defaultFlags)
     {
       syntaxOnly        = syntaxOnlyDefault();
-      recursiveTypes     = recursiveTypesDefault();
+      recursiveTypes    = recursiveTypesDefault();
       printTypes        = printTypesDefault();
       printZml          = printZMLDefault();
       printBenchmark    = printBenchmarkTimesDefault();
@@ -630,7 +630,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     else
     {
       syntaxOnly        = syntaxOnly != null ? syntaxOnly : false;
-      recursiveTypes     = recursiveTypes != null ? recursiveTypes : false;
+      recursiveTypes    = recursiveTypes != null ? recursiveTypes : false;
       printTypes        = printTypes != null ? printTypes : false;
       printZml          = printZml != null ? printZml : false;
       printBenchmark    = printBenchmark != null ? printBenchmark : false;
