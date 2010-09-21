@@ -415,7 +415,7 @@ abstract public class Checker<R>
   }
   
   /**
-   * Usage before declaration flag.
+   * Sort declaration names flag.
    */
   protected boolean sortDeclNames()
   {
@@ -502,7 +502,7 @@ abstract public class Checker<R>
    * the warning message arguments can be done.
    * </p>
    * @param zSect the Z section term to typecheck
-   * @return the typpes declared by the given zSect parameter
+   * @return the types declared by the given zSect parameter
    */
   protected List<NameSectTypeTriple> checkZSect(ZSect zSect)
   {
