@@ -131,8 +131,7 @@ public class ParaChecker
       ZName first = attrDecls.get(i).getZName();
       for (int j = i + 1; j < attrDecls.size(); j++) {
         ZName second = attrDecls.get(j).getZName();
-        if (ZUtils.namesEqual(first, second) &&
-            !ZUtils.idsEqual(first.getId(), second.getId())) {
+        if (ZUtils.namesEqual(first, second) && true) {
           Object [] params = {second, className()};
           error(second, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
         }
@@ -378,7 +377,7 @@ public class ParaChecker
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
       ClassRefType current = getSelfType();
 
-      //check whether the nane of the inherited class is actually a
+      //check whether the name of the inherited class is actually a
       //class paragraph.
       ClassRef classRef = classRefType.getThisClass();
       ZName superName = getZName(expr);
@@ -387,8 +386,10 @@ public class ParaChecker
         error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
       }
 
-      //check that there is no cyclic inheritance, but only the use
-      //before declaration is enabled.
+      //add a dependency between this class and the super class
+      addDependency(superName);
+
+      //check that there is no cyclic inheritance
       List<ClassRef> currentSuperClasses = current.getSuperClass();
       List<ClassRef> superClasses = getSuperClasses(classRefType);
       for (ClassRef superClass : superClasses) {
@@ -404,7 +405,7 @@ public class ParaChecker
         }
       }
 
-      //add the name of the superclass to current's superclass list
+      //add the name of the superclass to current classes's superclass list
       ClassRef thisClass = classRefType.getThisClass();
       if (!contains(currentSuperClasses, thisClass)) {
         currentSuperClasses.add(thisClass);

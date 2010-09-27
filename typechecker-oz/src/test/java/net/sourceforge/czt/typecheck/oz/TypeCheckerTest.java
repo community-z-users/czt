@@ -57,34 +57,41 @@ public class TypeCheckerTest
     TestSuite suite = new TestSuite();
 
     // Weak
-    TypeCheckerTest checkerTest = new TypeCheckerTest(false, false);
+    TypeCheckerTest checkerTest = new TypeCheckerTest(false, false, false);
     checkerTest.collectTests(suite, TypeCheckerTest.class.getResource("/oz/"));
 
     // Strong
-    checkerTest = new TypeCheckerTest(false, true);
+    checkerTest = new TypeCheckerTest(false, false, true);
     checkerTest.collectTests(suite, TypeCheckerTest.class.getResource("/oz/"));
 
-    // UseBeforeDecl
-    checkerTest = new TypeCheckerTest(true, false);
+    // Use before declaration
+    checkerTest = new TypeCheckerTest(true, false, false);
+    checkerTest.collectTests(suite,
+            TypeCheckerTest.class.getResource("/oz/"));
+
+    // Recursive types
+    checkerTest = new TypeCheckerTest(false, true, false);
     checkerTest.collectTests(suite,
             TypeCheckerTest.class.getResource("/oz/recursiveTypes/"));
 
     // StrongOnly
-    checkerTest = new TypeCheckerTest(false, true);
+    checkerTest = new TypeCheckerTest(false, false, true);
     checkerTest.collectTests(suite,
             TypeCheckerTest.class.getResource("/oz/strong/"));
 
     // WeakOnly
-    checkerTest = new TypeCheckerTest(false, false);
+    checkerTest = new TypeCheckerTest(false, false, false);
     checkerTest.collectTests(suite,
             TypeCheckerTest.class.getResource("/oz/weak/"));
 
     return suite;
   }
 
-  public TypeCheckerTest(boolean recursiveTypes, boolean useStrongTyping)
+  public TypeCheckerTest(boolean useBeforeDecl,
+			 boolean recursiveTypes,
+			 boolean useStrongTyping)
   {
-    super(recursiveTypes);
+    super(useBeforeDecl, recursiveTypes);
     useStrongTyping_ = useStrongTyping;
   }
 
@@ -98,6 +105,7 @@ public class TypeCheckerTest
   {
     return TypeCheckUtils.typecheck(term,
                                     manager,
+				    useBeforeDecl_,
                                     recursiveTypes_,
                                     useStrongTyping_);
   }

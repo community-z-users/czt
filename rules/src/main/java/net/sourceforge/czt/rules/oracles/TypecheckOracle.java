@@ -44,7 +44,7 @@ public class TypecheckOracle
     //    expr.getAnns().clear();
     final Expr type = (Expr) args.get(1);
     List errors =
-      TypeCheckUtils.typecheck(expr, manager, false, true, section);
+      TypeCheckUtils.typecheck(expr, manager, false, false, true, section);
     if (errors == null || errors.isEmpty()) {
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
       CarrierSet visitor = new CarrierSet();

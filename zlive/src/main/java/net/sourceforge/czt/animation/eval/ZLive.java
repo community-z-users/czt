@@ -502,7 +502,7 @@ public class ZLive
   throws EvalException, TypeErrorException
   {
     List<? extends ErrorAnn> errors =
-      TypeCheckUtils.typecheck(term, sectman_, false, getCurrentSection());
+      TypeCheckUtils.typecheck(term, sectman_, false, false, getCurrentSection());
     if (errors.size() > 0) {
       throw new TypeErrorException("unfolded term contains type errors", errors);
     }

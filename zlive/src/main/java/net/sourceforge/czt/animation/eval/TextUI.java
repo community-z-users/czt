@@ -535,7 +535,7 @@ public class TextUI {
       Markup markup = zlive_.getMarkup();
       src.setMarkup(markup);
       Expr expr = ParseUtils.parseExpr(src, section, manager);
-      List<? extends ErrorAnn> errs = TypeCheckUtils.typecheck(expr, manager, false, section);
+      List<? extends ErrorAnn> errs = TypeCheckUtils.typecheck(expr, manager, false, false, section);
       if (errs.size() > 0)
         output_.println("Type errors: "+errs);
       RuleTable rules = (RuleTable)
@@ -723,7 +723,7 @@ public class TextUI {
     if (term instanceof ExprPred)
       term = ((ExprPred)term).getExpr();
     List<? extends ErrorAnn> errors =
-      TypeCheckUtils.typecheck(term, manager, false, section);
+      TypeCheckUtils.typecheck(term, manager, false, false, section);
     if (errors.size() > 0) {
       throw new TypeErrorException("term contains type errors", errors);
     }

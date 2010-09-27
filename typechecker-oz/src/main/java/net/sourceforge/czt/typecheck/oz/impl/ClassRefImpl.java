@@ -37,16 +37,16 @@ public class ClassRefImpl
     super(classRef);
   }
 
-  public void setName(Name name)
+  public void setName(ZName name)
   {
     ClassRef classRef = (ClassRef) term_;
     classRef.setName(name);
   }
 
-  public Name getName()
+  public ZName getName()
   {
     ClassRef classRef = (ClassRef) term_;
-    Name result = classRef.getName();
+    ZName result = classRef.getName();
     return result;
   }
 

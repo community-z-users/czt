@@ -66,7 +66,7 @@ public class TypeCheckRewriteTest
 
   public TypeCheckRewriteTest()
   {
-    super(false);
+    super(false, false);
   }
 
   protected SectionManager getManager()
@@ -86,7 +86,7 @@ public class TypeCheckRewriteTest
     Term rewrittenTerm = preprocess(term, manager);
     String sectName = term.accept(new GetZSectNameVisitor());
     return TypeCheckUtils.typecheck(rewrittenTerm, manager, 
-				    false, true, sectName);
+				    false, false, true, sectName);
   }
 
   public void loadRules(SectionManager manager)

@@ -335,6 +335,14 @@ abstract public class Checker<R>
   }
   
   /**
+   * Returns the dependency graph for the specification.
+   */
+  protected DependencyGraph<Integer> dependencies()
+  {
+    return typeChecker_.dependencies_;
+  }
+
+  /**
    * Returns a section manager.
    */
   protected SectionManager sectInfo()
@@ -405,7 +413,23 @@ abstract public class Checker<R>
   {
     return typeChecker_.paraErrors_;
   }
+
+  /**
+   * Returns the list of names that have been used without being defined.
+   */
+  protected List<ZName> undeclaredNames()
+  {
+    return typeChecker_.undeclaredNames_;
+  }
   
+  /**
+   * Allow variable use before declaration flag;
+   */
+  protected boolean useBeforeDecl()
+  {
+    return typeChecker_.useBeforeDecl_;
+  }
+
   /**
    * Allow recursive types flag.
    */
@@ -545,6 +569,62 @@ abstract public class Checker<R>
     //get and visit the paragraphs of the current section
     zSect.getParaList().accept(this);
 
+    //if use before declaration is enabled and this is the first visit
+    //reorder the paragraphs and re-typecheck
+    ZParaList orderedParaList = zSect.getZParaList();
+    ZSect orderedZSect = zSect;
+    if (useBeforeDecl() && 
+	!recursiveTypes() && 
+	!sectTypeEnv().getSecondTime()) {
+
+      //for all of the undeclared names, check if they are declared
+      //after they are used, and add the dependency
+      for (ZName zName : undeclaredNames()) {
+	UndeclaredAnn uAnn = 
+	  (UndeclaredAnn) zName.getAnn(UndeclaredAnn.class);
+	removeAnn(zName, uAnn);
+	
+	int paraID = sectTypeEnv().getParaID(zName);
+	if (paraID >= 0) {
+	  dependencies().add(paraID, uAnn.getParaID());
+	}
+      }
+
+      //get a reordered list that takes into account variable dependencies
+      List<Integer> reordered =  dependencies().bfs();
+
+      ZParaList paraList = factory().createZParaList(orderedParaList);
+
+      ZParaList reorderedParas = factory().createZParaList();
+      for (Integer nextParaID : reordered) {
+	//the paragraph with ID 0 refers to all parent paragraph NOT
+	//declared in this section
+	if (nextParaID != 0) {
+	  reorderedParas.add(paraList.getPara().get(nextParaID - 1));
+	}
+      }
+
+      //add the remaining paragraphs to the end
+      for (int i = 1; i < paraList.getPara().size(); i++) {
+	if (!reordered.contains(i)) {
+	  reorderedParas.add(paraList.getPara().get(i - 1));
+	}
+      }
+
+      //create a new para list with the reordered paras
+      zSect = factory().createZSect(zSect.getName(),
+				    zSect.getParent(),
+				    reorderedParas);
+
+      //remove all declaration information from the global type
+      //environment, as we are re-typechecking the specification from
+      //its starting state
+      sectTypeEnv().clearSectionInformation(zSect.getName());
+    }
+
+
+    //if recursive types are permitted and this is the second pass,
+    //copy the new type information into the SectTypeEnvAnn annotation
     if ((recursiveTypes() && sectTypeEnv().getSecondTime()) ||
         sectTypeEnv().getUseNameIds()) {
       try {
@@ -563,11 +643,18 @@ abstract public class Checker<R>
                      sectTypeEnvAnn, Collections.<Key<?>>emptySet());
     }
 
-    if (recursiveTypes() && !sectTypeEnv().getSecondTime()) {
+    //if recursive types or use before declaration are permitted and
+    //this is the first pass, clear the errors and typecheck again.
+    if ((recursiveTypes() || useBeforeDecl()) 
+	&&
+	!sectTypeEnv().getSecondTime()) {
       clearErrors();
       removeErrorAndTypeAnns(zSect);
       sectTypeEnv().setSecondTime(true);
       zSect.accept(specChecker());
+
+      //put the originally ordered paragraphs back in place
+      zSect = orderedZSect;
     }
     else {
       sectTypeEnv().setSecondTime(false);
@@ -598,7 +685,8 @@ abstract public class Checker<R>
   protected void clearErrors()
   {
     errors().clear();
-    paraErrors().clear();      
+    paraErrors().clear(); 
+    undeclaredNames().clear();
   }
     
   /**
@@ -610,7 +698,9 @@ abstract public class Checker<R>
   protected boolean needPostCheck()
   {
     //only check on the final traversal of the tree
-    return (!recursiveTypes() || sectTypeEnv().getSecondTime());
+    return ((!recursiveTypes() && !useBeforeDecl()) 
+	    || 
+	    sectTypeEnv().getSecondTime());
   }
   
   /**
@@ -630,6 +720,8 @@ abstract public class Checker<R>
   {
     for (Para para : list)
     {
+      sectTypeEnv().nextPara();
+
       //add the global definitions to the SectTypeEnv
       Signature signature = para.accept(paraChecker());
       List<NameTypePair> pairs = signature.getNameTypePair();
@@ -645,6 +737,7 @@ abstract public class Checker<R>
           error(zName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
       }
+
       if (needPostCheck())
       {
         postCheck();
@@ -822,12 +915,12 @@ abstract public class Checker<R>
     }
     checkForDuplicates(pairs, termList, errorMessage);
   }
-  
+
   //check for type mismatches in a list of decls. Add an ErrorAnn to
-  //any name that is in error
+  //any name that is in error. 
   protected void checkForDuplicates(List<NameTypePair> pairs,
-    List<Term> termList,  
-    String errorMessage)
+				    List<Term> termList,  
+				    String errorMessage)
   {
     Map<String, NameTypePair> map =  factory().hashMap();
     for (Iterator<NameTypePair> iter = pairs.iterator(); iter.hasNext(); )
@@ -843,9 +936,9 @@ abstract public class Checker<R>
         // check if the types don't match, raise an error
         checkPair(first, second, termList, errorMessage);
         
-        //merge the ids of the 2 names, and remove the duplicate
-        factory().merge(second.getZName(), first.getZName());
-        iter.remove();
+	//merge the ids of the 2 names, and remove the duplicate
+	factory().merge(second.getZName(), first.getZName());
+	iter.remove();
       }
       map.put(firstName.intern(), first);
     }
@@ -1298,7 +1391,7 @@ abstract public class Checker<R>
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
-        unknownType(unificationEnvType).getZName() == null)
+	       unknownType(unificationEnvType).getZName() == null)
       {
         VariableType vType = factory().createVariableType();
         result = vType;
@@ -1537,9 +1630,11 @@ abstract public class Checker<R>
     if (type instanceof UnknownType)
     {
       Type sectTypeEnvType = sectTypeEnv().getType(zName);
+
       if (!instanceOf(sectTypeEnvType, UnknownType.class))
       {
         type = sectTypeEnvType;
+	addDependency(zName);
       }
       else
       {
@@ -1558,8 +1653,10 @@ abstract public class Checker<R>
       unknownType(type).getZName() == null)
     {
       //add an UndeclaredAnn
-      UndeclaredAnn ann = new UndeclaredAnn();
+      UndeclaredAnn ann = 
+	new UndeclaredAnn(sectTypeEnv().getCurrentParaID());
       zName.getAnns().add(ann);
+      undeclaredNames().add(zName);
     }
     else
     {
@@ -1568,6 +1665,15 @@ abstract public class Checker<R>
     }
     
     return type;
+  }
+
+  //adds a dependencies between the paragraph in which zName is
+  //declared and the current paragraph
+  protected void addDependency(ZName zName)
+  {
+    int declParaID = sectTypeEnv().getParaID(zName);
+    int currentParaID = sectTypeEnv().getCurrentParaID();
+    dependencies().add(declParaID, currentParaID);
   }
   
   protected Type2 resolveUnknownType(Type2 type)

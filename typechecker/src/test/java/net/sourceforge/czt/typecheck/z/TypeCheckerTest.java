@@ -48,27 +48,41 @@ public class TypeCheckerTest
   extends TestCase
   implements TypecheckPropertiesKeys
 {
+  //allow use before declaration
+  protected boolean useBeforeDecl_ = false;
+
   //allow recursive types
   protected boolean recursiveTypes_ = false;
 
   protected final static String TEST_DIR =
-      "/net/sourceforge/czt/typecheck/tests/";
+    "/net/sourceforge/czt/typecheck/tests/";
 
   public static Test suite()
   {
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
-    TypeCheckerTest checkerTest = new TypeCheckerTest(false);
+    TypeCheckerTest checkerTest = new TypeCheckerTest(false, false);
     checkerTest.collectTests(suite,
            TypeCheckerTest.class.getResource(TEST_DIR + "z/"));
-    checkerTest = new TypeCheckerTest(true);
+
+    checkerTest = new TypeCheckerTest(true, false);
     checkerTest.collectTests(suite,
-	   TypeCheckerTest.class.getResource(TEST_DIR + "z/recursiveTypes/"));
+           TypeCheckerTest.class.getResource(TEST_DIR + "z/"));
+
+    checkerTest = new TypeCheckerTest(false, true);
+    checkerTest.collectTests(suite,
+			     TypeCheckerTest.class.getResource(TEST_DIR + "z/recursiveTypes/"));
+
+    checkerTest = new TypeCheckerTest(true, false);
+    checkerTest.collectTests(suite,
+			     TypeCheckerTest.class.getResource(TEST_DIR + "z/useBeforeDecl/"));
+
     return suite;
   }
 
-  public TypeCheckerTest(boolean recursiveTypes)
+  public TypeCheckerTest(boolean useBeforeDecl, boolean recursiveTypes)
   {
+    useBeforeDecl_ = useBeforeDecl;
     recursiveTypes_ = recursiveTypes;
   }
 
@@ -123,10 +137,11 @@ public class TypeCheckerTest
   }
 
   protected List<? extends ErrorAnn> typecheck(Term term,
-    SectionManager manager)
+					       SectionManager manager)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager, recursiveTypes_);
+    return TypeCheckUtils.typecheck(term, manager, 
+				    useBeforeDecl_, recursiveTypes_);
   }
 
   class TestNormal

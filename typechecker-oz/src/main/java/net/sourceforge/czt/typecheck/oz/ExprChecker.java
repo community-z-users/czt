@@ -157,10 +157,12 @@ public class ExprChecker
       //find any subclasses
       List<NameSectTypeTriple> triples = sectTypeEnv().getTriple();
       for (NameSectTypeTriple triple : triples) {
+
         Type2 nextType = unwrapType(triple.getType());
         if (isPowerClassRefType(nextType)) {
           ClassRefType subClass =
             (ClassRefType) powerType(nextType).getType();
+
           if (contains(subClass.getSuperClass(), cRef)) {
             //the subclasses must have the same number of parameters as
             //the "top-level" class
@@ -173,6 +175,8 @@ public class ExprChecker
               error(polyExpr,
                     ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
             }
+
+	    addDependency(subClass.getThisClass().getName());
 
             //all visible features must also be visible in the subclass
             List<NameTypePair> superAttrs = classRefType.getAttribute();

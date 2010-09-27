@@ -1183,25 +1183,32 @@ abstract public class Checker<R>
     return result;
   }
 
-  public String toString(ClassType ctype)
+  public String toString(ClassRefType ctype)
   {
     String result = new String();
-    result += "(CLASSTYPE\n";
-    result += "\tREF(" + ctype.getClasses() + ")\n";
+    result += "(CLASSTYPE " + ctype.getThisClass() + "\n";
+    result += "\tSUPER(";
+    for (ClassRef classRef :  ctype.getSuperClass()) {
+      result += classRef + " ";
+    }
+    result += ")\n";
+    result += "\tREF(\n";
+    for (ClassRef classRef :  ctype.getClasses()) {
+      result += "\t\t" + classRef + "\n";
+    }
+    result += ")\n";
     result += "\tATTR\n";
-    for (Object o : ctype.getAttribute()) {
-      NameTypePair pair = (NameTypePair) o;
+    for (NameTypePair pair : ctype.getAttribute()) {
       result += "\t\t" + pair.getZName() + " : " + pair.getType() + "\n";
     }
+    result += ")\n";
     result += "\tSTATE\n";
-    for (Object o : ctype.getState().getNameTypePair()) {
-      NameTypePair pair = (NameTypePair) o;
+    for (NameTypePair pair : ctype.getState().getNameTypePair()) {
       result += "\t\t" + pair.getZName() + " : " + toString(pair.getType()) + "\n";
     }
     result += "\tOPS\n";
-    for (Object o : ctype.getOperation()) {
-      NameSignaturePair p = (net.sourceforge.czt.oz.ast.NameSignaturePair) o;
-      result += "\t\t" + p.getZName() + " : " + p.getSignature() + "\n";
+    for (NameSignaturePair pair : ctype.getOperation()) {
+      result += "\t\t" + pair.getZName() + " : " + pair.getSignature() + "\n";
     }
     result += ")";
     return result;    

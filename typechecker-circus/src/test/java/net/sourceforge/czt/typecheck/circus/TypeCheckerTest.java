@@ -94,7 +94,7 @@ public class TypeCheckerTest
 
   public TypeCheckerTest(boolean recursiveTypes)
   {
-    super(recursiveTypes);
+    super(false, recursiveTypes);
   }
   
   protected void collectTests(TestSuite suite, List<String> directoryNames) 

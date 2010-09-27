@@ -94,7 +94,7 @@ public class LookupOracle
         // Now run the typechecker over the instantiated defn.
         // so that the whole term will be properly type annotated.
         List<? extends ErrorAnn> errors =
-        TypeCheckUtils.typecheck(getRightExpr(), manager, false, true, section);
+        TypeCheckUtils.typecheck(getRightExpr(), manager, false false, true, section);
         if (errors != null && ! errors.isEmpty()) {
         throw new TypeErrorException("typecheck failure after unfolding "+word, 
         errors);

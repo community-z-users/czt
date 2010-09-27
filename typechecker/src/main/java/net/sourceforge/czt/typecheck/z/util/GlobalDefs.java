@@ -47,6 +47,15 @@ public class GlobalDefs
   }
   
   /**
+   * Create an empty List.
+   * @return the empty list
+   */
+  public static <E> List<E> list()
+  {
+    return new java.util.ArrayList<E>();
+  }
+
+  /**
    * Create an empty Map.
    * @return the empty map
    */

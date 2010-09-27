@@ -66,15 +66,6 @@ public class Factory
     return result;
   }
 
-  public ClassRef createClassRef(ZName zName,
-                                 List<Type2> type,
-                                 List<NewOldPair> pairs)
-  {
-    Name refName = createZName(zName, false);
-    ClassRef result = createClassRef(refName, type, pairs);
-    return result;
-  }
-
   public ClassRef createClassRef(ZName zName)
   {
     ClassRef result = createClassRef(zName,
@@ -83,11 +74,11 @@ public class Factory
     return result;
   }
 
-  public ClassRef createClassRef(Name refName,
+  public ClassRef createClassRef(ZName zName,
                                  List<Type2> type,
                                  List<NewOldPair> pairs)
   {
-    ClassRef classRef = ozFactory_.createClassRef(refName, type, pairs);
+    ClassRef classRef = ozFactory_.createClassRef(zName, type, pairs);
     ClassRef result = new ClassRefImpl(classRef);
     return result;
   }

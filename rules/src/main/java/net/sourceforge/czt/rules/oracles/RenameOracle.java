@@ -53,7 +53,7 @@ public class RenameOracle
       SchExpr schExpr = (SchExpr) expr;
       // We typecheck before decorating to ensure that ids are correct
       List errors =
-        TypeCheckUtils.typecheck(expr, manager, false, true, section);
+        TypeCheckUtils.typecheck(expr, manager, false, false, true, section);
       if (errors == null || errors.isEmpty()) {
         final CollectStateVariablesVisitor collectVisitor =
           new CollectStateVariablesVisitor();

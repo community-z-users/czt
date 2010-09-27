@@ -1,0 +1,35 @@
+\begin{zsection}
+ \SECTION fastest \parents prelude
+\end{zsection}
+
+This is the example from Praxis/Fastest that uncovered the problem
+with using the recursive declaration option as a defacto use before
+declaration. See bug ID #3028511 at sf.net/projects/czt
+
+\begin{gendef}[X]
+optional: \power (\power X \cross \power (\power X))\\
+\end{gendef}
+
+\begin{zed}
+FFName == String \{2\}\\
+\end{zed}
+
+\begin{schema}{FF}
+name: FFName\\
+\end{schema}
+
+\begin{schema}{NI}
+hI: optional~HI\\
+\end{schema}
+
+\begin{schema}{HI}
+hF:FF\\
+\end{schema}
+
+\begin{zed}
+STRING == \power (\nat \cross \nat)\\
+\end{zed}
+
+\begin{axdef}
+String : \power (\power(\nat) \cross \power(STRING)) \\
+\end{axdef}

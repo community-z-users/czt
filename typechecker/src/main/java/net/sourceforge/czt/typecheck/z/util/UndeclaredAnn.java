@@ -23,7 +23,16 @@ package net.sourceforge.czt.typecheck.z.util;
  */
 public class UndeclaredAnn
 {
-  public UndeclaredAnn()
+  //the paragraph ID in which the attached name was referenced
+  protected int paraID_;
+
+  public UndeclaredAnn(int paraID)
   {
+    paraID_ = paraID;
+  }
+
+  public int getParaID()
+  {
+    return paraID_;
   }
 }

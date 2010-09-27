@@ -22,6 +22,7 @@ import java.io.*;
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
+import java.util.Iterator;
 
 import static net.sourceforge.czt.z.util.ZUtils.*;
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
@@ -29,6 +30,7 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
@@ -49,6 +51,12 @@ public class SectTypeEnv
 
   /** The map of variables and declared in a 2nd pass of a specification. */
   protected List<NameSectTypeTriple> declarations_;
+
+  /** A map from ZNames to the para ID in which they are declared. */
+  protected Map<ZName, Integer> paraInfo_;
+
+  /** The ID of the current para. */
+  protected int currentParaID_;
 
   /** The list of sections declared so far. */
   protected List<String> sectionDeclarations_;
@@ -75,6 +83,8 @@ public class SectTypeEnv
   {
     factory_ = factory;
     typeInfo_ = map();
+    paraInfo_ = map();
+    currentParaID_ = 0;
     declarations_ = factory_.list();
     sectionDeclarations_ = factory_.list();
     visibleSections_ = set();
@@ -120,6 +130,16 @@ public class SectTypeEnv
   public int size()
   {
     return typeInfo_.size();
+  }
+
+  public void nextPara()
+  {
+    currentParaID_++;
+  }
+
+  public int getCurrentParaID()
+  {
+    return currentParaID_;
   }
 
   /**
@@ -195,6 +215,7 @@ public class SectTypeEnv
     NameSectTypeTriple existing = getTriple(triple.getZName());
     if (existing == null) {
       typeInfo_.put(triple.getZName(), triple);
+      paraInfo_.put(triple.getZName(), currentParaID_);
     }
     //otherwise, overwrite the existing declaration, and note that
     //this declaration is a duplicate
@@ -290,6 +311,48 @@ public class SectTypeEnv
   }
 
   /**
+   * Return the para ID of a declared name.
+   */
+  public int getParaID(ZName zName)
+  {
+    int result = -1;
+
+    for (Map.Entry<ZName, Integer> entry : paraInfo_.entrySet()) {
+      if (namesEqual(zName, entry.getKey())) {
+	result = entry.getValue();
+	break;
+      }
+    }
+
+    //if there is no result and this is a Delta or Xi reference, look
+    //up the basname
+    if (result == -1 && (zName.getWord().startsWith(ZString.DELTA) ||
+			 zName.getWord().startsWith(ZString.XI))) {
+      ZName baseName = getBaseName(zName);
+      result = getParaID(baseName);
+    }
+
+    return result;
+  }
+
+  /**
+   * Clears the type environment of all details of a section.
+   */
+  public void clearSectionInformation(String sectName)
+  {
+    Set<Map.Entry<ZName, NameSectTypeTriple>> entrySet =
+      typeInfo_.entrySet();
+    for (Iterator<Map.Entry<ZName, NameSectTypeTriple>> 
+	   iter = entrySet.iterator(); iter.hasNext(); ) {      
+      NameSectTypeTriple triple = iter.next().getValue();
+      if (triple.getSect().equals(sectName)){
+	iter.remove();
+      }
+    }
+    //    typeInfo_.clear();
+  }
+
+  /**
    * For debugging purposes.
    */
   public void dump()
@@ -303,7 +366,21 @@ public class SectTypeEnv
       System.err.println(", (" + entry.getValue().getType() + ")))");
     }
   }
-  
+
+  /**
+   * Dump info about para ID declarations. For debugging purposes.
+   */
+  public void dumpParaIDInfo()
+  {
+    System.err.println("paraInfo:");
+    Set<Map.Entry<ZName, Integer>> entrySet =
+      paraInfo_.entrySet();
+    for (Map.Entry<ZName, Integer> entry : entrySet) {
+      System.err.println("\t" + entry.getValue() + " : " +
+			 entry.getKey());
+    }
+  }
+
   //private static int count = 1;
   protected NameSectTypeTriple getX(ZName zName, Map<ZName, NameSectTypeTriple> map)
   {

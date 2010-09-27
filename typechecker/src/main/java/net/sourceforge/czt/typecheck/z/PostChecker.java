@@ -116,10 +116,17 @@ public class PostChecker
     ZName zName = refExpr.getZName();
     UndeclaredAnn uAnn = zName.getAnn(UndeclaredAnn.class);
     ParameterAnn pAnn = refExpr.getAnn(ParameterAnn.class);
+
     final boolean nameIsUndeclared = uAnn != null;
     if (nameIsUndeclared) {
       ErrorAnn errorAnn = createUndeclaredNameError(zName);
-      removeAnn(zName, uAnn);
+
+      //if use before declaration is not enabled, or if it is but this
+      //is the second pass over the specification, remove the
+      //undeclared annotation
+      if (!useBeforeDecl() || sectTypeEnv().getSecondTime()) {
+	removeAnn(zName, uAnn);
+      }
 
       //if this ref expr was created for an ExprPred
       ExprPred exprPred = zName.getAnn(ExprPred.class);

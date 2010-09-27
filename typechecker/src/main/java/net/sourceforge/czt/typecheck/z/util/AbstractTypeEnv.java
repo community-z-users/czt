@@ -97,6 +97,22 @@ abstract public class AbstractTypeEnv
   }
 
   /**
+   * Get the base name of a delta or xi reference.
+   */
+  protected ZName getBaseName(ZName zName)
+  {
+    assert(zName.getWord().startsWith(ZString.DELTA) ||
+	   zName.getWord().startsWith(ZString.XI));
+
+    final int size = (ZString.DELTA).length();
+    String baseWord = zName.getWord().substring(size);
+    ZStrokeList strokes = factory_.getZFactory().createZStrokeList();
+    strokes.addAll(zName.getZStrokeList());
+    ZName baseName = factory_.createZName(baseWord, strokes);
+    return baseName;
+  }
+
+  /**
    * Lookup the base name of a delta or xi reference, returning the
    * parameter 'type' if the base name is not found, or is not a
    * schema.
@@ -110,11 +126,7 @@ abstract public class AbstractTypeEnv
     if (zName.getWord().startsWith(ZString.DELTA) ||
         zName.getWord().startsWith(ZString.XI)) {
 
-      final int size = (ZString.DELTA).length();
-      String baseWord = zName.getWord().substring(size);
-      ZStrokeList strokes = factory_.getZFactory().createZStrokeList();
-      strokes.addAll(zName.getZStrokeList());
-      ZName baseName = factory_.createZName(baseWord, strokes);
+      ZName baseName = getBaseName(zName);
       Type baseType = getType(baseName);
 
       //if this is a schema, determine and add the delta/xi type

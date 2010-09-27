@@ -391,6 +391,22 @@ public class Factory
     return factory_.createZRenameList(pairs);
   }
 
+  public ZParaList createZParaList()
+  {
+    return factory_.createZParaList();
+  }
+
+  public ZParaList createZParaList(List<Para> paras)
+  {
+    return factory_.createZParaList(paras);
+  }
+
+  public ZSect createZSect(String name, java.util.List<? extends Parent>
+			   parent, ParaList paraList)
+  {
+    return factory_.createZSect(name, parent, paraList);
+  }
+
   /**
    * <p>
    * Add a name id to the given name if it is a ZName without 

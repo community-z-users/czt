@@ -32,9 +32,11 @@ import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 import net.sourceforge.czt.typecheck.z.util.TypeEnv;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UnificationEnv;
+import net.sourceforge.czt.typecheck.z.util.DependencyGraph;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
@@ -47,24 +49,6 @@ import net.sourceforge.czt.z.visitor.ExprVisitor;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.PredVisitor;
 
-/*
-NOTE: This list of imports could cause confusion on which FACTORY we 
- *    intend to import.
- *
-import java.util.List;
-import java.util.logging.Logger;
-
-import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.util.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
-import net.sourceforge.czt.util.CztLogger;
-*/
 
 /**
  * <p>
@@ -106,6 +90,10 @@ public class TypeChecker
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv_;
 
+  //the dependency graph for calculating use before declaration
+  //dependencies
+  protected DependencyGraph<Integer> dependencies_;
+
   //a visitor for calculating carrier set
   protected CarrierSet carrierSet_;
 
@@ -120,6 +108,12 @@ public class TypeChecker
 
   //the list of errors and postcheck Terms in the current paragraph
   protected List<Object> paraErrors_;
+
+  //the list of undeclared names
+  protected List<ZName> undeclaredNames_;
+
+  //allow recursive types
+  protected boolean useBeforeDecl_ = PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT;
 
   //allow recursive types
   protected boolean recursiveTypes_ = PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT;
@@ -146,19 +140,39 @@ public class TypeChecker
   public TypeChecker(Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT, 
-      PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
+    this(factory, 
+	 sectInfo,
+	 PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT,
+	 PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT, 
+	 PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
+  }
+
+  public TypeChecker(Factory factory,
+                     boolean useBeforeDecl,
+                     SectionManager sectInfo)
+  {
+    this(factory, 
+	 sectInfo,
+	 useBeforeDecl,
+	 PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT, 
+	 PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
   }
 
   public TypeChecker(Factory factory,
                      SectionManager sectInfo, 
+                     boolean useBeforeDecl,
                      boolean recursiveTypes)
   {
-    this(factory, sectInfo, recursiveTypes, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
+    this(factory, 
+	 sectInfo, 
+	 useBeforeDecl, 
+	 recursiveTypes,
+	 PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT);
   }
 
   public TypeChecker(Factory factory,
                      SectionManager sectInfo,
+                     boolean useBeforeDecl,
                      boolean recursiveTypes,
                      boolean sortDeclNames)
   {
@@ -168,10 +182,13 @@ public class TypeChecker
     pending_ = new TypeEnv(factory);
     isPending_ = false;
     unificationEnv_ = new UnificationEnv(factory);
+    dependencies_ = new DependencyGraph<Integer>();
     markup_ = Markup.LATEX;
     carrierSet_ = new CarrierSet();
     errors_ = factory.list();
     paraErrors_ = factory.list();
+    undeclaredNames_ = factory.list();
+    useBeforeDecl_ = useBeforeDecl;
     recursiveTypes_ = recursiveTypes;
     sortDeclNames_ = sortDeclNames;    
     specChecker_ = new SpecChecker(this);
