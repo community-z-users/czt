@@ -955,7 +955,11 @@
 %                                                               %
 
 % Tab stops from \t1 to \t9 - relative to \zedtab
-\def\t#1{\hskip #1\zedtab}
+\let\tie=\t
+\def\t#1{\afterassignment\@t\count@=#1}
+\def\@t{\hskip\count@\zedtab}
+
+%\def\t#1{\hskip #1\zedtab}
 
 % Small vertical space within z paragraph mode - relative to \zedskip
 \def\@also{\crcr \noalign{\penalty\interdisplaylinepenalty\vskip\zedskip}}
