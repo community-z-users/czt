@@ -590,6 +590,10 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                 defaultFlags = false;
                 manager.setProperty(PROP_TYPECHECK_RECURSIVE_TYPES, String.valueOf(recursiveTypes));
                 break;
+	      case 'd':
+		useBeforeDecl = true;
+		defaultFlags = false;
+manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
               case 't':
                 printTypes = true;
                 defaultFlags = false;
@@ -647,6 +651,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     if (defaultFlags)
     {
       syntaxOnly        = syntaxOnlyDefault();
+      useBeforeDecl     = useBeforeDeclDefault();
       recursiveTypes    = recursiveTypesDefault();
       printTypes        = printTypesDefault();
       printZml          = printZMLDefault();
@@ -776,6 +781,13 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       //if the parse succeeded, typecheck the term
       if (term != null && !syntaxOnly)
       {
+	System.err.println("term = " + term);
+	System.err.println("manager = " + manager);
+	System.err.println("usebd = " +  useBeforeDecl);
+	System.err.println("rec = " + recursiveTypes);
+	System.err.println("usename = " + useNameIds);
+	System.err.println("warnin = " + warningOutput);
+
         List<? extends ErrorAnn> errors =
           this.lTypecheck(term, manager, useBeforeDecl, 
 			  recursiveTypes, useNameIds, warningOutput, null);
