@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION UndeclaredIdentifier\_OverridenDeltaReference\_1
+  \SECTION UndeclaredIdentifier\_OverridenDeltaReference\_2
 \end{zsection}
 
 Test that explicitly declared Delta names are not expanded when referenced
