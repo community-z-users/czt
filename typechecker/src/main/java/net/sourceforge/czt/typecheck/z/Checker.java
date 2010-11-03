@@ -1651,8 +1651,7 @@ abstract public class Checker<R>
     
     //if not in any of the environments, return a variable type with the
     //specified name
-    if (type instanceof UnknownType &&
-      unknownType(type).getZName() == null)
+    if (type instanceof UnknownType)
     {
       //add an UndeclaredAnn
       UndeclaredAnn ann = 
