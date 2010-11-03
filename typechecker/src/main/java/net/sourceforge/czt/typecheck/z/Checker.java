@@ -591,8 +591,7 @@ abstract public class Checker<R>
       }
 
       //get a reordered list that takes into account variable dependencies
-      List<Integer> reordered =  dependencies().bfs();
-
+      List<Integer> reordered = dependencies().bfs();
       ZParaList paraList = factory().createZParaList(orderedParaList);
 
       ZParaList reorderedParas = factory().createZParaList();
@@ -616,6 +615,9 @@ abstract public class Checker<R>
 				    zSect.getParent(),
 				    reorderedParas);
 
+      //      java.io.PrintWriter out = new java.io.PrintWriter(System.err);
+      //net.sourceforge.czt.print.z.PrintUtils.print(zSect, out, sectInfo(), Markup.LATEX);
+
       //remove all declaration information from the global type
       //environment, as we are re-typechecking the specification from
       //its starting state
@@ -637,7 +639,7 @@ abstract public class Checker<R>
         assert false : "No SectTypeEnvAnn for " + sectName();
       }
     }
-    else {
+    else if (!(useBeforeDecl() && !sectTypeEnv().getSecondTime())) { 
       SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
       sectInfo().put(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class),
                      sectTypeEnvAnn, Collections.<Key<?>>emptySet());
