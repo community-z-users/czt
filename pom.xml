@@ -79,7 +79,6 @@
     <module>jedit</module>
     <module>maven-cup-plugin</module>
     <module>maven-gnast-plugin</module>
-    <module>maven-sitesource-plugin</module>
     <module>parser</module>
     <module>parser-circus</module>
     <module>parser-oz</module>
@@ -517,6 +516,7 @@
         </plugins>
       </build>
     </profile>
+   <!--
     <profile>
       <id>site</id>
       <activation>
@@ -555,5 +555,6 @@
         </plugins>
       </build>
     </profile>
+    -->
   </profiles>
 </project>

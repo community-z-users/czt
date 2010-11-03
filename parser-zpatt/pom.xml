@@ -23,6 +23,7 @@
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>parser-src</artifactId>
+        <version>1.6-SNAPSHOT</version>
         <executions>
           <execution>
             <configuration>
@@ -56,6 +57,7 @@
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>maven-cup-plugin</artifactId>
+        <version>1.6-SNAPSHOT</version>
         <executions>
           <execution>
             <phase>process-sources</phase>
