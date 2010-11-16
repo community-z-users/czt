@@ -442,6 +442,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   {
     SectionManager sectionManager = new SectionManager();
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
+    sectionManager.setProperties(System.getProperties());
     return sectionManager;
   }
   
