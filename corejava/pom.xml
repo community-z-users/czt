@@ -8,7 +8,7 @@
   </parent>
   <artifactId>corejava</artifactId>
   <packaging>jar</packaging>
-  <version>${corejava.version}</version>
+  <version>2.1.5-SNAPSHOT</version>
   <name>CZT Corejava</name>
   <description>
     Provides AST classes for Z and Z extensions.

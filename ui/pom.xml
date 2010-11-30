@@ -80,7 +80,7 @@
                 <property name="dir" location="../lib"/>
                 <mkdir dir="${dir}"/>
                 <copy failonerror="false"
-                  file="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar"
+                  file="${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar"
                   tofile="${dir}/czt.jar"/>
               </tasks>
             </configuration>

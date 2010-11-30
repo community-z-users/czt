@@ -66,10 +66,10 @@
               <tasks>
                 <property name="dir" location="../../lib"/>
                 <property name="file"
-                  location="${project.build.directory}/${artifactId}-${version}.jar"/>
+                  location="${project.build.directory}/${project.artifactId}-${project.version}.jar"/>
                 <mkdir dir="${dir}"/>
                 <copy failonerror="false"
-                  file="${file}" tofile="${dir}/${artifactId}.jar"/>
+                  file="${file}" tofile="${dir}/${project.artifactId}.jar"/>
               </tasks>
             </configuration>
             <goals>
