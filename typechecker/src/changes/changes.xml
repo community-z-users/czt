@@ -3,6 +3,16 @@
   <body>
     <!-- Add new releases here -->
     <release version="1.1" date="unreleased">
+      <action dev="Tim" type="update">
+        Add a new type of annotation known as a DefinitionUseAnn,
+        which is annotated to all *reference* ZNames (that is, ZNames
+        inside RefExps) that refers to the declaring name.
+      </action>
+      <action dev="Tim" type="update">
+        Add use before declaration functionalty that does not permit
+        recursive types. What was previously the use before
+        declaration options is now the recursive types option.
+      </action>
       <action dev="Petra" type="update">
         Add a more detailed explanation of the error for the case
         that the hard space is missing between a schema name and
