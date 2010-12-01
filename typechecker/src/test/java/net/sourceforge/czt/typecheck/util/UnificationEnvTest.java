@@ -107,7 +107,7 @@ public class UnificationEnvTest
       String message = next[2];
 
       UResult unified = unificationEnv_.unify(first, second);
-      assertEquals(message, SUCC, unified);
+      assertEquals(message + "(" + first + ", " + second + ")", SUCC, unified);
     }
 
     //unification fails

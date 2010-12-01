@@ -164,17 +164,17 @@ public class TypeParser
 
     if ("GIVEN".equals(token)) {
       token = nextToken();
-      ZName zName = factory_.createZDeclName(token);
+      ZName zName = createZName(token);
       result = factory_.createGivenType(zName);
     }
     else if ("VARTYPE".equals(token)) {
       token = nextToken();
-      ZName zName = factory_.createZDeclName(token);
+      ZName zName = createZName(token);
       result = createVariableType(zName);
     }
     else if ("GENTYPE".equals(token)) {
       token = nextToken();
-      ZName zName = factory_.createZDeclName(token);
+      ZName zName = createZName(token);
       result = factory_.createGenParamType(zName);
     }
     else if ("(".equals(token)) {
@@ -202,7 +202,7 @@ public class TypeParser
     ZNameList names = factory_.createZNameList(nameList);
     while (!"\\]".equals(nextToken)) {
       String word = nextToken();
-      ZName zName = factory_.createZDeclName(word);
+      ZName zName = createZName(word);
       names.add(zName);
 
       nextToken = nextToken();
@@ -278,7 +278,7 @@ public class TypeParser
       String nextToken = null;
       while (!"]".equals(nextToken)) {
         String word = nextToken();
-        ZName zName = factory_.createZDeclName(word);
+        ZName zName = createZName(word);
         nextToken();   //consume the ":"
 
         Type type = parseType();
@@ -303,6 +303,14 @@ public class TypeParser
     VariableType result = factory_.createVariableType(zName);
     vTypes_.add(result);
     return result;
+  }
+
+  //create a name, but set the ID to 0
+  protected ZName createZName(String word)
+  {
+    ZName zName = factory_.createZDeclName(word);
+    zName.setId("0");
+    return zName;
   }
 
   protected static <T> List<T> list()

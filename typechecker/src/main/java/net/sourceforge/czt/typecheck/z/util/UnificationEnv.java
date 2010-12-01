@@ -152,7 +152,6 @@ public class UnificationEnv
   {
     UResult result = FAIL;
 
-
     //if the object IDs are the same, there is no need to
     //unify. Variable types are a special case
     if (typeA == typeB && !(typeA instanceof VariableType)) {

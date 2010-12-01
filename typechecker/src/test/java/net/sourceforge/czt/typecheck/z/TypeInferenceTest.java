@@ -18,17 +18,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.typecheck.z;
 
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import static net.sourceforge.czt.z.util.ZUtils.*;
+
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
-
 import net.sourceforge.czt.session.*;
 
+import net.sourceforge.czt.typecheck.z.impl.VariableType;
 import net.sourceforge.czt.typecheck.testutil.TypeParser;
 
 /**
@@ -36,7 +41,7 @@ import net.sourceforge.czt.typecheck.testutil.TypeParser;
  *
  * @author Tim Miller
  */
-public class TypeInference
+public class TypeInferenceTest
   extends TestCase
 {
   //the SectionManager to pass to the typechecker
@@ -51,7 +56,7 @@ public class TypeInference
   public static Test suite()
   {
     TestSuite suite = new TestSuite();
-    suite.addTestSuite(TypeInference.class);
+    suite.addTestSuite(TypeInferenceTest.class);
     return suite;
   }
 
@@ -80,8 +85,8 @@ public class TypeInference
     Type expTypeA = parseType("P (GIVEN A)");
     Type expTypeB = parseType("P (GIVEN B)");
 
-    assertEquals("testGivenPara - A", typeA, expTypeA);
-    assertEquals("testGivenPara - B", typeB, expTypeB);
+    assertTypeEquals("testGivenPara - A", typeA, expTypeA);
+    assertTypeEquals("testGivenPara - B", typeB, expTypeB);
   }
 
   public void testFreePara()
@@ -212,7 +217,7 @@ public class TypeInference
       Type expected = succ[i][1];
 
       String message = operation + " - index = " + i;
-      assertEquals(message, expected, actual);
+      assertTypeEquals(message, expected, actual);
     }
   }
 
@@ -222,8 +227,9 @@ public class TypeInference
     ZName zName = factory_.createZName(word);
     ZSect zSect = (ZSect) spec_.getSect().get(0);
     SectTypeEnvAnn ann = (SectTypeEnvAnn) zSect.getAnn(SectTypeEnvAnn.class);
+
     for (NameSectTypeTriple triple : ann.getNameSectTypeTriple()) {
-      if (zName.equals(triple.getName())) {
+      if (namesEqual(zName, triple.getZName())) {
         return triple.getType();
       }
     }
@@ -235,10 +241,59 @@ public class TypeInference
     return TypeParser.getType(type);
   }
 
+  protected void assertTypeEquals(String message, Term termA, Term termB)
+  {
+    assertTrue(message + "(" + termA + ", " + termB + ")",
+	       assertTypeEqualsProxy(termA, termB));
+  }
+
+  protected boolean assertTypeEqualsProxy(Term unresolvedTermA, 
+					  Term unresolvedTermB)
+  {
+    Term termA = resolve(unresolvedTermA);
+    Term termB = resolve(unresolvedTermB);
+
+    if (termA instanceof ZName) {
+      if (termB instanceof ZName) {
+	if (namesEqual((ZName) termA, (ZName) termB)) {
+	  return true;
+	}
+      }
+
+      return false;
+    }
+    else if (termA.getClass().equals(termB.getClass())) {
+      Object [] aChildren = termA.getChildren();
+      Object [] bChildren = termB.getChildren();
+      if (aChildren.length == bChildren.length) {
+	for (int i = 0; i < aChildren.length; i++) {
+	  if (aChildren[i] instanceof Term &&
+	      bChildren[i] instanceof Term) {
+	    if (!assertTypeEqualsProxy((Term) aChildren[i], (Term) bChildren[i])) {
+	      return false;
+	    }
+	  }
+	}
+      }
+      return true;
+    }
+
+    return false;
+  }
+
+  protected Term resolve(Term term)
+  {
+    Term result = term;
+    if (term instanceof VariableType) {
+      result = ((VariableType) term).getValue();
+    }
+    return result;
+  }
+
   //the header for each section
   protected String header()
   {
-    String header = "\\begin{zsection} \\SECTION tests \\end{zsection}";
+    String header = "\\begin{zsection} \\SECTION test \\end{zsection}";
     return header;
   }
 
