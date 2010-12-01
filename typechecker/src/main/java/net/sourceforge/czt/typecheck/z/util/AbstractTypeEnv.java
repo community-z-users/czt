@@ -176,9 +176,13 @@ abstract public class AbstractTypeEnv
         //        to take care of such rare cases, hence closing access to 
         //        the ID database. Other extensions requiring similar features
         //        should extend their corresponding typechecker factory accordingly.
-        if (zName.getId() == null) 
+        if (zName.getId() == null)  {
           //factory_.setId(zName, "deltaxi");
           factory_.setDeltaXiID(zName);
+	}
+
+	//move the definition-use annotation from the basename to this name
+	copyAnns(baseName, zName);
       }
     }
     return result;

@@ -306,6 +306,12 @@ public class SectTypeEnv
     if (result instanceof UnknownType) {
       result = getDeltaXiType(zName, result);
     }
+    //otherwise, if the type is known, add an annotation to the
+    //referencing name that points back to the defining name
+    else {
+      DefinitionUseAnn duAnn = new DefinitionUseAnn(triple.getZName());
+      addAnn(zName, duAnn);
+    }
 
     return result;
   }
