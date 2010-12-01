@@ -42,7 +42,7 @@ public class SourceLocator
   protected final String [] suffix_ = {
     ".tex", ".zed", ".zed8", ".zed16", ".oz", ".oz8", ".oz16",
     ".circus", ".circus8", ".circus16", ".zedpatt", ".zedpatt8", ".zedpatt16",
-    ".zml"};
+    ".zml", ".error"};
 
   /**
    * Tries to locate the resource named for the given section manager.
