@@ -18,45 +18,28 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
+import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * An implementation for TypeAnn that hides VariableType instances
- * if they have a value.
+ * An implementation for Ann that hides VariableType and
+ * VariableSignature instances if they have a value.
  */
-public class TypeAnnImpl
-  extends AnnImpl
-  implements TypeAnn
+public class AnnImpl
+  extends TermImpl
+  implements Ann
 {
-  protected TypeAnnImpl(TypeAnn typeAnn)
+  protected AnnImpl(Ann ann)
   {
-    super(typeAnn);
+    super(ann);
   }
 
-  public void setType(Type type)
+  public AnnImpl create(Object [] args)
   {
-    TypeAnn typeAnn = (TypeAnn) term_;
-    typeAnn.setType(type);
-  }
-
-  public Type getType()
-  {
-    TypeAnn typeAnn = (TypeAnn) term_;
-    Type result = typeAnn.getType();
-    if (result instanceof VariableType) {
-      VariableType vType = (VariableType) result;
-      if (vType.getValue() != null) {
-        result = vType.getValue();
-      }
-    }
-    return result;
-  }
-
-  public TypeAnnImpl create(Object [] args)
-  {
-    TypeAnn typeAnn = (TypeAnn) term_.create(args);
-    TypeAnnImpl result = new TypeAnnImpl(typeAnn);
+    Ann ann = (Ann) term_.create(args);
+    AnnImpl result = new AnnImpl(ann);
     return result;
   }
 
@@ -65,18 +48,20 @@ public class TypeAnnImpl
    */
   public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
-    if (v instanceof TypeAnnVisitor) {
-      TypeAnnVisitor<R> visitor = (TypeAnnVisitor<R>) v;
-      return visitor.visitTypeAnn(this);
+    if (v instanceof AnnVisitor) {
+      AnnVisitor<R> visitor = (AnnVisitor<R>) v;
+      return visitor.visitAnn(this);
     }
     return super.accept(v);
   }
 
   public boolean equals(Object obj)
   {
-    if (obj instanceof TypeAnn) {
-      TypeAnn typeAnn = (TypeAnn) obj;
-      return getType().equals(typeAnn.getType());
+    if (obj != null && obj instanceof Ann) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        AnnImpl object = (AnnImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -86,10 +71,7 @@ public class TypeAnnImpl
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "TypeAnnImpl".hashCode();
-    if (getType() != null) {
-      hashCode += constant * getType().hashCode();
-    }
+    hashCode += "AnnImpl".hashCode();
     return hashCode;
   }
 }

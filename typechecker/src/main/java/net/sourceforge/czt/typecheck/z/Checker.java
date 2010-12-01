@@ -615,9 +615,6 @@ abstract public class Checker<R>
 				    zSect.getParent(),
 				    reorderedParas);
 
-      //      java.io.PrintWriter out = new java.io.PrintWriter(System.err);
-      //net.sourceforge.czt.print.z.PrintUtils.print(zSect, out, sectInfo(), Markup.LATEX);
-
       //remove all declaration information from the global type
       //environment, as we are re-typechecking the specification from
       //its starting state
@@ -644,6 +641,7 @@ abstract public class Checker<R>
       sectInfo().put(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class),
                      sectTypeEnvAnn, Collections.<Key<?>>emptySet());
     }
+
 
     //if recursive types or use before declaration are permitted and
     //this is the first pass, clear the errors and typecheck again.

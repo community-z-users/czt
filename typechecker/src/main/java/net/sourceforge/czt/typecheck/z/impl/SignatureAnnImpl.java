@@ -28,14 +28,9 @@ import net.sourceforge.czt.z.visitor.*;
  * instances if they have a value.
  */
 public class SignatureAnnImpl
-  extends TermImpl
+  extends AnnImpl
   implements SignatureAnn
 {
-  /**
-   * A list of annotations.
-   */
-  private ListTerm<Object> anns_ = new ListTermImpl<Object>();
-
   protected SignatureAnnImpl(SignatureAnn signatureAnn)
   {
     super(signatureAnn);
@@ -98,20 +93,5 @@ public class SignatureAnnImpl
       hashCode += constant * getSignature().hashCode();
     }
     return hashCode;
-  }
-
-  public ListTerm<Object> getAnns()
-  {
-    return anns_;
-  }
-
-  public Object getAnn(Class aClass)
-  {
-    for (Object annotation : anns_) {
-      if (aClass.isInstance(annotation)) {
-        return annotation;
-      }
-    }
-    return null;
   }
 }
