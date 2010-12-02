@@ -181,8 +181,8 @@ abstract public class AbstractTypeEnv
           factory_.setDeltaXiID(zName);
 	}
 
-	//move the definition-use annotation from the basename to this name
-	copyAnns(baseName, zName);
+	//move the definition annotation from the basename to this name
+	copyLocAnn(zName, baseName);
       }
     }
     return result;

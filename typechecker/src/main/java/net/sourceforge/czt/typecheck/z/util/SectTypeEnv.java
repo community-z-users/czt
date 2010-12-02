@@ -142,6 +142,11 @@ public class SectTypeEnv
     return currentParaID_;
   }
 
+  public void resetParaID()
+  {
+    currentParaID_ = 0;
+  }
+
   /**
    * @return true if and only if this section has been checked.
    */
@@ -309,8 +314,9 @@ public class SectTypeEnv
     //otherwise, if the type is known, add an annotation to the
     //referencing name that points back to the defining name
     else {
-      DefinitionUseAnn duAnn = new DefinitionUseAnn(triple.getZName());
-      addAnn(zName, duAnn);
+      DefinitionAnn definitionAnn = 
+	factory_.createDefinitionAnn(triple.getZName());
+      addAnn(zName, definitionAnn);
     }
 
     return result;

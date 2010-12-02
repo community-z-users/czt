@@ -412,6 +412,11 @@ public class SyntaxSymbolVisitor
     return null;
   }
 
+  public ConcreteSyntaxSymbol visitDefinitionAnn(DefinitionAnn term)
+  {
+    return null;
+  }
+
   public ConcreteSyntaxSymbol visitSignature(Signature term)
   {
     return null;

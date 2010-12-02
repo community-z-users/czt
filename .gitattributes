@@ -676,7 +676,6 @@ typechecker-oz/src/test/resources/oz/weak/TypeMismatchInEquality-Vtype-Op-2.erro
 typechecker-oz/src/test/resources/oz/weak/TypeMismatchInEquality-Vtype-State-1.error -text
 typechecker-oz/src/test/resources/oz/weak/TypeMismatchInEquality-Vtype-State-2.error -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/impl/AnnImpl.java -text
-typechecker/src/main/java/net/sourceforge/czt/typecheck/z/util/DefinitionUseAnn.java -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/util/DependencyGraph.java -text
 typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/CharTuple.tex -text
 typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/TypeMismatchInExpr-Qnt1Expr-1.error -text

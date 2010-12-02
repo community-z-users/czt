@@ -242,7 +242,21 @@ public class GlobalDefs
   {
     dest.getAnns().addAll(src.getAnns());
   }
-  
+
+  /**
+   * Copies location annoatations from one <code>Term</code> to another.
+   * @param src the <code>Term</code> from which to read the annotations.
+   * @param dest the <code>Term</code> to which to add the annotations.
+   */
+  public static void copyLocAnn(Term src, Term dest)
+  {
+    Object locAnn = src.getAnn(LocAnn.class);
+    if (locAnn != null) {
+      dest.getAnns().add(locAnn);
+    }
+  }
+
+
   /**
    * Gets a type annotation from a term, returning an UnknownType is
    * no type is present.

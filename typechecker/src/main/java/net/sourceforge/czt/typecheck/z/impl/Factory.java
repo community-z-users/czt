@@ -306,6 +306,11 @@ public class Factory
     return factory_.createSectTypeEnvAnn(triples);
   }
 
+  public DefinitionAnn createDefinitionAnn(ZName zName)
+  {
+    return factory_.createDefinitionAnn(zName);
+  }
+
   public ZStrokeList createZStrokeList()
   {
     return factory_.createZStrokeList();
@@ -597,14 +602,6 @@ public class Factory
      setId(zName, "deltaxi");
   }
      
-  public void copyLocAnn(Term src, Term dest)
-  {
-    Object locAnn = src.getAnn(LocAnn.class);
-    if (locAnn != null) {
-      dest.getAnns().add(locAnn);
-    }
-  }
-
   public <E> List<E> list()
   {
     java.util.List<E> result = new ArrayList<E>();
