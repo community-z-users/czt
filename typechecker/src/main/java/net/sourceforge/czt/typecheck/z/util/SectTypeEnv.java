@@ -311,13 +311,6 @@ public class SectTypeEnv
     if (result instanceof UnknownType) {
       result = getDeltaXiType(zName, result);
     }
-    //otherwise, if the type is known, add an annotation to the
-    //referencing name that points back to the defining name
-    else {
-      DefinitionAnn definitionAnn = 
-	factory_.createDefinitionAnn(triple.getZName());
-      addAnn(zName, definitionAnn);
-    }
 
     return result;
   }

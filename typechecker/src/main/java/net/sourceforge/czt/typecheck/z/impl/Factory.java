@@ -306,11 +306,6 @@ public class Factory
     return factory_.createSectTypeEnvAnn(triples);
   }
 
-  public DefinitionAnn createDefinitionAnn(ZName zName)
-  {
-    return factory_.createDefinitionAnn(zName);
-  }
-
   public ZStrokeList createZStrokeList()
   {
     return factory_.createZStrokeList();

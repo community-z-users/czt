@@ -1159,15 +1159,6 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="DefinitionAnn" type="Z:DefinitionAnn"
-    substitutionGroup="Z:Ann">
-    <xs:annotation>
-      <xs:documentation>
-        A definition annotation.
-	Provides the declaring ZName for a referencing ZName.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
 
   <!-- The Base Type hierarchy.
        These usually appear inside annotations
@@ -2026,21 +2017,6 @@ more detail.
       <xs:extension base="Z:Ann">
         <xs:sequence>
           <xs:element ref="Z:Type"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="DefinitionAnn">
-    <xs:complexContent>
-      <xs:extension base="Z:Ann">
-        <xs:sequence>
-          <xs:element ref="Z:ZName">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

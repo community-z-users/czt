@@ -1151,11 +1151,6 @@ public class ZPrintVisitor
     throw new PrintException("Unexpected term SignatureAnn.");
   }
 
-  public Object visitDefinitionAnn(DefinitionAnn definitionAnn)
-  {
-    throw new PrintException("Unexpected term DefinitionAnn.");
-  }
-
   public Object visitTypeAnn(TypeAnn typeAnn)
   {
     throw new PrintException("Unexpected term TypeAnn.");

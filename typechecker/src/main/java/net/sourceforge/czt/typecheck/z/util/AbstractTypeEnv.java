@@ -180,9 +180,6 @@ abstract public class AbstractTypeEnv
           //factory_.setId(zName, "deltaxi");
           factory_.setDeltaXiID(zName);
 	}
-
-	//move the definition annotation from the basename to this name
-	copyLocAnn(zName, baseName);
       }
     }
     return result;

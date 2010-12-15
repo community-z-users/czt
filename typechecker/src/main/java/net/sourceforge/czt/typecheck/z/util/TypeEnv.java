@@ -264,13 +264,6 @@ public class TypeEnv
     if (pair == null) {
       result = getDeltaXiType(zName, result);
     }
-    //otherwise, if the type is known, add an annotation to the
-    //referencing name that points back to the defining name
-    else {
-      DefinitionAnn definitionAnn = 
-	factory_.createDefinitionAnn(pair.getZName());
-      addAnn(zName, definitionAnn);
-    }
 
     return result;
   }
