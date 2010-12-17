@@ -75,4 +75,14 @@ public interface SectionInfo
    * @return value's associated key
    */  
   <T> Key<T> retrieveKey(T value);
+
+  /**
+   * Set section management tracing on/off. Tracing information is useful for
+   * debugging purposes of the get/put protocols involved. It is up to each
+   * implementation how to achieve this. For instance, the <code>SectionManager</code>
+   * uses a <code>ConsoleHandler</code> from the Java logging API.
+   *
+   * @return the previous value of tracing flag
+   */
+  boolean setTracing(boolean on);
 }

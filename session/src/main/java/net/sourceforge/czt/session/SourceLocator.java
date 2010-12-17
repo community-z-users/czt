@@ -200,7 +200,7 @@ public class SourceLocator
   {    
     // log the stuff done through searching
     //System.out.println(msg);
-    getLogger().fine(msg);
+    getLogger().finest(msg);
   }
 
   /**

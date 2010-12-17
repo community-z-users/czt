@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,29 +32,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class is a repository for information about Z specs/sections.
- * It stores all the objects used during parsing and transforming,
- * and provides several services like computing the operator table
- * or the markup function for a given section.  Note that the keys
- * to access an object within the section manager are a (Name,Class)
- * pair, which means that several different kinds of objects can be
- * associated with the same name.
+ * This class is a repository for information about (Z) specs/sections.
+ * It stores all the objects used during CZT processing, such as parsing
+ * typechecking and so on. It provides several services, depending on the
+ * kind of key requested. For instance, it can compute the operator table
+ * or the markup function for a given section, or typecheck or domain check
+ * a given Term/Spec/ZSect. The keys to access an object within the section
+ * manager are a (Name,Class) pair, which means that several different kinds
+ * of objects can be associated with the same name.
  * <p>
  * One of the main goals of this class is to cache commonly used
- * objects (such as the parsed forms of toolkit sections) so that they
- * do not have to be repeatedly parsed.  This can give major performance
- * improvements!
+ * objects, such as the parsed forms of toolkit sections, so that they
+ * do not have to be repeatedly processed.  This can give great performance
+ * improvements.
  * </p>
  * <p>
  * However, a fundamental problem is that things can become
  * inconsistent if you add a section XYZ, then add other sections that
- * use it, then reload a new version of XYZ (the other sections will
+ * uses it, then reload a new version of XYZ (the other sections will
  * not notice this, so will still be using the old version of XYZ).
- * </p>
- * <p>
  * We have no good solution for this at the moment (we have
  * investigated recording dependency information, but found it
  * incredibly hard to get right!).  So our current solution is to
@@ -91,31 +95,60 @@ import java.util.logging.Logger;
  *   <li>a <em>command</em> map that stores a Command object for each kind of
  *   specification-related type of interest.  These Command objects are
  *   called when the section manager needs to calculate a given type of
- *   object and it is not already in the cache (see putCommand).</li>
+ *   object key and it is not already in the cache (see putCommand).</li>
  * </ul>
+ * </p>
+ * <p>
+ * There are two main operations available, get and put, and both expect a <code>Key&lt;Class&lt;?&gt;&gt;</code>
+ * as input. The output is the same type of the key's <code>Class&lt;?&gt;</code> type parameter. For instance,
+ * a call to <code>get(new Key&lt;Spec&gt;(string, Spec.class))</code> returns a <code>Spec</code> object if
+ * successful, or throw a <code>CommandException</code> otherwise.
+ * There are two main maps for a section manager. One that stores <code>Command</code>
+ * processing objects for a given <code>Class&lt;?&gt;</code>. That is, each kind of <code>Class&lt;?&gt;</code>
+ * within a key <bf>must</bf> have a corresponding <code>Command</code> within the map.
+ * For instance, for type checking Z we have <code>SectTypeEnvAnn.class</code> mapped to
+ * <codenet.sourceforge.czt.typecheck.z.TypeCheckCommand</code>. These mappings are according
+ * to associated .command files within the session project.
+ * </p>
+ * <p>
+ * The second map is between <code>Key</code> and its corresponding resource, as calculated
+ * by the Key's associated command. For instance, when parsing Z we have <code>Key&lt;Spec&gt;</code>
+ * mapped to the underlyign <code>Spec</code> object resulting from the computation of the command.
+ * One important distinction to be made is regarding managed and non-managed resources. That is,
+ * resources produced within CZT tools and resources used by CZT tools, respectively. The only
+ * non-managed resources are mappings for <code>Source</code> keys: these are usually file or
+ * URI resources from external sources. Everything else (so far) is managed by some CZT tool,
+ * like specifications by the parser(s), and type environments by the type checker(s).
  * </p>
  * 
  * @author Petra Malik
  * @author Mark Utting
+ * @author Leo Freitas
  */
 public class SectionManager
   implements Cloneable, SectionInfo
 {
   public static final String DEFAULT_EXTENSION = "z";
+  public static final boolean DEFAULT_TRACING = false;
+  public static final Level DEFAULT_LOGLEVEL = Level.CONFIG;
+  public static final Level DEFAULT_TRACELEVEL = Level.FINE;
+  public static final Level EXTRA_TRACELEVEL = Level.FINER;
+
   private String dialect_ = DEFAULT_EXTENSION;
   
   public static final String  SECTION_MANAGER_LIST_PROPERTY_SEPARATOR = ";";
   
 
   /**
-   * The Cache, a mapping from Key to Object.
-   * For each (key, object) pair, the object must be an instance of
-   * key.getType().
+   * The Cache, a mapping from Key to Object. For each (key, object) pair, the object
+   * must be an instance of key.getType(). It is the resource computed by each command
+   * associated with the key's type.
    */
   private Map<Key<?>, Object> content_ = new HashMap<Key<?>, Object>();
 
   /**
-   * The default commands.
+   * The default commands. They are those classes capable of computing instances
+   * of the resource class that comes from some key.getType().
    */
   private Map<Class<?>,Command> commands_ = new HashMap<Class<?>,Command>();
 
@@ -124,6 +157,32 @@ public class SectionManager
    * for the commands.
    */
   private Properties properties_ = new Properties();
+
+  //TODO: make these part of the managed properties?
+
+  /**
+   * Determines whether console handling is on or off messages. Trace format
+   * is determined by the <code>SimpleFormatter</code> local class below and
+   * it used a <code>ConsoleHandler</code>. Each FINE trace has a call depth
+   * number attached to it. It means how deep in the command computation call
+   * it occurred. For instance "SM-UPDATE-2" it means that <code>put</code>
+   * has been called from within two <code>get</code> contexts.
+   */
+  private boolean isTracing_ = DEFAULT_TRACING;
+
+  /** Original log level prior to tracing --- it is set back to logger when tracing is off */
+  private Level logLevel_ = DEFAULT_LOGLEVEL;
+  
+  /** Desired tracing level: 
+   *    FINE   = just UPDATES      (put); 
+   *    FINER  = UPDATE+QUERY      (get/put); 
+   *    FINEST = UPDATE+QUERY+CMDS (get/put/cmds.compute);
+   *
+   *  It presumes commands will follow this logging protocol.
+   */
+  private Level tracingLevel_ = DEFAULT_TRACELEVEL;
+
+  private ConsoleHandler consoleHandler_ = new ConsoleHandler();
 
   public SectionManager()
   {
@@ -136,12 +195,28 @@ public class SectionManager
    */
   public SectionManager(String extension)
   {
+    this(extension, DEFAULT_TRACING, DEFAULT_LOGLEVEL, DEFAULT_TRACELEVEL);
+  }
+
+  public SectionManager(String extension, boolean doTrace, Level logLevel, Level tracingLevel)
+  {
+    // create a console handler for tracig with simple formatting (see Formatter below).
+    consoleHandler_.setLevel(tracingLevel);
+    consoleHandler_.setFormatter(new SimpleFormatter(false, true, false, true));
+
+    isTracing_ = false;
+    // initialise the logger's handlers + isTracing_ flag via setTracing();
+    setTracingLevel(tracingLevel);
+    setTracing(doTrace);
+
+    // set the section manager logging level at start
+    getLogger().setLevel(logLevel);
     getLogger().config("Creating a new " + extension + " section manager");
     putCommands(extension);
     dialect_ = extension;
   }
 
-  private Logger getLogger()
+  public final Logger getLogger()
   {
     return Logger.getLogger(getClass().getName());
   }
@@ -149,6 +224,16 @@ public class SectionManager
   public String getDialect()
   {
     return dialect_;
+  }
+
+  public Level getTracingLevel()
+  {
+    return tracingLevel_;
+  }
+
+  public boolean isTracing()
+  {
+    return isTracing_;
   }
 
   /**
@@ -164,11 +249,11 @@ public class SectionManager
   @Override
   public SectionManager clone()
   {
-    SectionManager result = new SectionManager();
+    SectionManager result = new SectionManager(dialect_, isTracing_, logLevel_, tracingLevel_);
     copyMap(content_, result.content_);
     copyMap(commands_, result.commands_);
     copyMap(properties_, result.properties_);
-    result.dialect_ = this.dialect_;
+    //result.dialect_ = this.dialect_;
     return result;
   }
 
@@ -251,7 +336,7 @@ public class SectionManager
    * "/XYZ.commands" file (see session/src/main/resources).
    * @param extension 
    */
-  public void putCommands(String extension)
+  public final void putCommands(String extension)
   {
     getLogger().config("Set extension to '" + extension + "'");
     URL url = getClass().getResource("/" + extension + ".commands");
@@ -321,7 +406,7 @@ public class SectionManager
         Object command = commandClass.newInstance();
         if (command instanceof Command) {
           commands_.put(typeClass, (Command) command);
-          logger.config("Set command for " + typeClass + " to " + command);
+          logger.config("Set command for " + typeClass.getSimpleName() + " to " + command);
           return true;
         }
         final String message = "Cannot instantiate command " +
@@ -686,29 +771,53 @@ public class SectionManager
   public <T> T get(Key<T> key)
     throws CommandException
   {
-    getLogger().finer("Entering method get " + key);
+    if (isTracing_)
+    {
+      // log the SM query
+      final String msg0 = "SM-QUERY -ENTRY-"+callCnt_
+              + "\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
+              + "\n\t caller = " + whoWasCalling(0)
+              + "\n";
+      getLogger().finer(msg0);
+      // enter a request context
+      callCnt_++;
+    }
+
     final Class<?> infoType = key.getType();
     final String name = key.getName();
+    boolean cached = true;
     @SuppressWarnings("unchecked")
     T result = (T)content_.get(key);
     if (result == null) {
+      cached = false;
       Command command = commands_.get(infoType);
       if (command == null) {
         throw new CommandException("No command available to compute " + key);
       }
-      getLogger().finer("Trying command " + command.getClass());
-      command.compute(name, this);
+      // make the actual request
+      boolean cres = command.compute(name, this);
       result = (T) content_.get(new Key(name, infoType));
       if (result == null) {
         final String message = "Key " + key + " not computed by " + command;
         throw new CommandException(message);
       }
     }
-    final String message = "Leaving method get and returning " + result;
-    getLogger().finer(message);
+    assert result != null : "Section manager computed null result!";
+
+    if (isTracing_)
+    {
+      // close the context
+      callCnt_--;
+      // log SM query results
+      final String msg1 = "SM-QUERY -EXIT-"+callCnt_
+              + "\n\t result = " + result.getClass().getName()
+              + "\n\t cached = " + cached
+              + "\n";
+      getLogger().finer(msg1);
+    }
     return result;
   }
-
+  
   /**
    * Add a new (Key,Object) pair.
    * It is an error to call add with an existing key.
@@ -718,6 +827,36 @@ public class SectionManager
    * @param value  The value; must be an instance of key.getType().
    */
   public <T> void put(Key<T> key, T value)
+  {
+    put0(key, value, null);
+  }
+
+  /**
+   * Similar to put(key,value).
+   * At the moment, the dependencies are ignored.
+   * @param <T> key type
+   * @param key    The key to be added (must not be null).
+   * @param value  The value; must be an instance of key.getType().
+   * @param dependencies dependant keys
+   */
+  @Override
+  public <T> void put(Key<T> key, T value, Set<Key<?>> dependencies)
+  {
+    put0(key, value, dependencies);
+  }
+
+  /**
+   * Original version, but with all the parameters plus an extra call depth to
+   * consider when using tracing. That is, sometimes, it can be could be called
+   * with or without dependencies, and in order to give the right caller's path,
+   * this use of put0 is necessary.
+   * @param <T> resource key type
+   * @param key resource key
+   * @param value value to associate with given key
+   * @param dependencies ignored for now
+   * @param extraCallDepth extra stack depth to consider for caller tracing
+   */
+  private <T> void put0(Key<T> key, T value, Set<Key<?>> dependencies)
   {
     assert key != null;
     assert value != null;
@@ -733,21 +872,14 @@ public class SectionManager
       getLogger().warning(message);
     }
     content_.put(key, value);
-    getLogger().finer("put " + key);
-  }
-
-  /**
-   * Similar to put(key,value).
-   * At the moment, the dependencies are ignored.
-   * @param <T> key type
-   * @param key    The key to be added (must not be null).
-   * @param value  The value; must be an instance of key.getType().
-   * @param dependencies dependant keys
-   */
-  @Override
-  public <T> void put(Key<T> key, T value, Set<Key<?>> dependencies)
-  {
-    put(key, value);
+    if (isTracing_)
+    {
+      final String msg = "SM-UPDATE-"+callCnt_
+              +"\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
+              +"\n\t caller = " + whoWasCalling(1)
+              + "\n";
+      getLogger().fine(msg);
+    }
   }
 
   /**
@@ -756,7 +888,7 @@ public class SectionManager
    */
   public void reset()
   {
-    getLogger().config("Resetting section manager");
+    getLogger().config("Resetting section manager key-mapped resources.");
     for (Iterator<Key<?>> iter = content_.keySet().iterator(); iter.hasNext();) {
       final Key<?> key = iter.next();
       final String name = key.getName();
@@ -764,6 +896,11 @@ public class SectionManager
           ! name.endsWith("_toolkit")) {
         iter.remove();
       }
+    }
+    if (isTracing_)
+    {
+      final String msg = "Remaining resources = " + content_.keySet();
+      getLogger().fine(msg);
     }
   }
 
@@ -801,5 +938,156 @@ public class SectionManager
     String value = getProperty(propertyKey);    
     if (value == null) { value = ""; }
     return Arrays.asList(value.split(SECTION_MANAGER_LIST_PROPERTY_SEPARATOR));    
+  }
+
+  private int callCnt_ = 0;
+
+  private String whoWasCalling(int extraCallDepth)
+  {
+    Throwable t = new Throwable();
+    t.fillInStackTrace();
+    StackTraceElement[] stes = t.getStackTrace();
+    if (stes != null && stes.length >= (3+extraCallDepth))
+    {
+      final String msg = stes[2+extraCallDepth].getClassName() + "." + stes[2+extraCallDepth].getMethodName();
+      return msg;
+    }
+    return "????";
+  }
+
+  public final Level setTracingLevel(Level level)
+  {
+    Level result = tracingLevel_;
+    tracingLevel_ = level;
+    return result;
+  }
+
+  /**
+   * Set section management tracing on/off. The SectionManager uses a ConsoleHandler
+   * for logging with Level.FINE, which is the one implemented at get/put. Command
+   * implementations should use Level.FINER to avoid too verbose outputs. It is
+   * important to note that when tracing with the console, both the Logger and the
+   * Handler must have their levels set (e.g., the Logger's level overrides the Handler's).
+   *
+   * @return the previous value of tracing flag
+   */
+  @Override
+  public final boolean setTracing(boolean on)
+  {
+    return setTracing(on, consoleHandler_);
+  }
+
+  public boolean setTracing(boolean on, Handler handler)
+  {
+    Logger log = getLogger();
+    boolean result = isTracing_;
+    isTracing_ = on;
+    if (isTracing_)
+    {
+      log.addHandler(handler);
+      logLevel_ = log.getLevel();
+      log.setLevel(tracingLevel_);
+    }
+    else
+    {
+      log.removeHandler(handler);
+      log.setLevel(logLevel_);
+    }
+    return result;
+  }
+
+  class SimpleFormatter extends Formatter
+  {
+
+    private Date dat = new Date();
+    private final static String format = "{0,date} {0,time}";
+    private java.text.MessageFormat formatter;
+    private Object args[] = new Object[1];
+    private boolean fShowTimeStamp = true;
+    private boolean fShowRecordedMessage = true;
+    private boolean fShowSourceMethod = true;
+    private boolean fShowStackTrace = true;
+    // Line separator string.  This is the value of the line.separator
+    // property at the moment that the SimpleFormatter was created.
+    //private String lineSeparator = (String) java.security.AccessController.doPrivileged(
+    //        new sun.security.action.GetPropertyAction("line.separator"));
+    private String lineSeparator = "\r\n";//System.getProperty("line.separator");
+    public SimpleFormatter(boolean showTimeStamp, boolean showRecordedMessage,
+      boolean showSourceMethod, boolean showStackTrace)
+    {
+      fShowTimeStamp = showTimeStamp;
+      fShowRecordedMessage = showRecordedMessage;
+      fShowSourceMethod = showSourceMethod;
+      fShowStackTrace = showStackTrace;
+    }
+
+    /**
+     * Format the given LogRecord.
+     * @param record the log record to be formatted.
+     * @return a formatted log record
+     */
+    @Override
+    public synchronized String format(java.util.logging.LogRecord record)
+    {
+      StringBuilder sb = new StringBuilder();
+      if (fShowTimeStamp)
+      {
+        // Minimize memory allocations here.
+        dat.setTime(record.getMillis());
+        args[0] = dat;
+        StringBuffer text = new StringBuffer();
+        if (formatter == null)
+        {
+          formatter = new java.text.MessageFormat(format);
+        }
+        formatter.format(args, text, null);
+        sb.append(text);
+        sb.append(" ");
+        sb.append(lineSeparator);
+      }
+      if (fShowSourceMethod)
+      {
+        if (record.getSourceClassName() != null)
+        {
+          sb.append(record.getSourceClassName());
+        }
+        else
+        {
+          sb.append(record.getLoggerName());
+        }
+        if (record.getSourceMethodName() != null)
+        {
+          sb.append(" ");
+          sb.append(record.getSourceMethodName());
+        }
+        sb.append(lineSeparator);
+      }
+      if (fShowRecordedMessage)
+      {
+        String message = formatMessage(record);
+        sb.append(record.getLevel().getLocalizedName());
+        sb.append(": ");
+        sb.append(message);
+        sb.append(lineSeparator);
+      }
+      if (fShowStackTrace)
+      {
+        if (record.getThrown() != null)
+        {
+          try
+          {
+            java.io.StringWriter sw = new java.io.StringWriter();
+            java.io.PrintWriter pw = new java.io.PrintWriter(sw);
+            record.getThrown().printStackTrace(pw);
+            pw.close();
+            sb.append(sw.toString());
+          }
+          catch (Exception ex)
+          {
+          }
+        }
+      }
+      return sb.toString();
+    }
   }
 }
