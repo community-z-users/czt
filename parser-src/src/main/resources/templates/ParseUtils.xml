@@ -66,40 +66,49 @@ import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
 public class <class/>
   implements Command
 {
+  private static Logger getLogger(SectionInfo si)
+  {
+    return Logger.getLogger(si.getClass().getName());
+  }  
+
   public static Term parse(Source source,
                            SectionInfo sectInfo,
                            Properties properties)
     throws ParseException, IOException, UnmarshalException
   {
+    getLogger(sectInfo).finer("PU-parse-source = " + source);
+    Term result = null;
     if (source.getMarkup() == Markup.LATEX) {
       LatexParser parser = new LatexParser(source, sectInfo, properties);
-      return parser.parse();
+      result = parser.parse();
     }
     else if (source.getMarkup() == Markup.UNICODE) {
       UnicodeParser parser = new UnicodeParser(source, sectInfo, properties);
-      return parser.parse();
+      result = parser.parse();
     }
     else if (source.getMarkup() == Markup.ZML) {
       JaxbXmlReader reader = new JaxbXmlReader();
-      Term result = reader.read(new InputSource(source.getReader()));
+      result = reader.read(new InputSource(source.getReader()));
       if (result instanceof Spec) {
-	Spec spec = (Spec) result;
-	for (Sect sect : spec.getSect()) {
-	  if (sect instanceof ZSect) {
-	    ZSect zSect = (ZSect) sect;
-	    sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, null);
-	  }
-	}
+        Spec spec = (Spec) result;
+        for (Sect sect : spec.getSect()) {
+          if (sect instanceof ZSect) {
+            ZSect zSect = (ZSect) sect;
+            sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, null);
+          }
+        }
       }
       else if (result instanceof ZSect) {
-	ZSect zSect =  (ZSect) result;
-	sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, null);
+        ZSect zSect =  (ZSect) result;
+        sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, null);
       }
-      return result;
     }
     else {
       throw new UnsupportedOperationException();
     }
+    assert result != null;
+    getLogger(sectInfo).finer("PU-parse-result = " + result.getClass().getSimpleName());
+    return result;
   }
 
   public static Term parse(Source source, SectionInfo sectInfo)
@@ -268,6 +277,7 @@ public class <class/>
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
+    getLogger(manager).finest("PU-compute-name = " + name);
     Key&lt;Spec&gt; key = new Key&lt;Spec&gt;(name, Spec.class);
     if (manager.isCached(key)) {
       Spec spec = manager.get(key);
@@ -278,27 +288,37 @@ public class <class/>
                       zsect);
         }
       }
+      final String msg = "PU-compute-cached = cached Spec: put its ZSect for " + name;
+      getLogger(manager).finest(msg);
       return true;
     }
     try {
+      boolean result = false;
       Source source = manager.get(new Key&lt;Source&gt;(name, Source.class));
       if (source != null) {
         Term term = ParseUtils.parse(source, manager, manager.getProperties());
         if (term instanceof Spec) {
           manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term);
         }
+        result = term != null;
+        final String msg = "PU-compute-spec = parse " + (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
+        getLogger(manager).finest(msg);
       }
+      // What if result is false? The SM protocol does not use this flag! Why keep it? [Leo]
+      return result;
     }
     catch (ParseException exception) {
+      getLogger(manager).throwing(getClass().getName(), "compute", exception);
       throw new CommandException(exception);
     }
     catch (IOException exception) {
+      getLogger(manager).throwing(getClass().getName(), "compute", exception);
       throw new CommandException(exception);
     }
     catch (UnmarshalException exception) {
+      getLogger(manager).throwing(getClass().getName(), "compute", exception);
       throw new CommandException(exception);
-    }
-    return true;
+    }    
   }
 }
 </utils>
