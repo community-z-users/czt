@@ -52,7 +52,6 @@ public final class CztLogger
   public static boolean DEFAULT_SHOW_LOG_TIME_STAMP     = true;
   public static boolean DEFAULT_SHOW_LOG_RECORD_MESSAGE = true;
   public static boolean DEFAULT_SHOW_LOG_SOURCE_METHOD  = false;
-  public static boolean DEFAULT_SHOW_LOG_DIRECTORY      = false;
   public static boolean DEFAULT_SHOW_LOG_STACKTRACE     = true;
   public static Level DEFAULT_HANDLER_LEVEL = Level.CONFIG;
       
@@ -61,19 +60,17 @@ public final class CztLogger
     return new SimpleFormatter(
       DEFAULT_SHOW_LOG_TIME_STAMP, 
       DEFAULT_SHOW_LOG_RECORD_MESSAGE, 
-      DEFAULT_SHOW_LOG_SOURCE_METHOD, 
-      DEFAULT_SHOW_LOG_DIRECTORY, 
+      DEFAULT_SHOW_LOG_SOURCE_METHOD,
       DEFAULT_SHOW_LOG_STACKTRACE);
   }
   
   public final static Formatter DEFAULT_LOG_FORMATTER = createLogFormatter();  
   
   public static Formatter createLogFormatter(boolean showTimeStamp, 
-    boolean showRecordedMessage, boolean showSourceMethod, 
-    boolean showDirectory, boolean showStackTrace)
+    boolean showRecordedMessage, boolean showSourceMethod, boolean showStackTrace)
   {
     return new SimpleFormatter(showTimeStamp, showRecordedMessage, 
-      showSourceMethod, showDirectory, showStackTrace);
+      showSourceMethod, showStackTrace);
   }
   
   public static void setConsoleHandler(Logger logger)
@@ -89,9 +86,15 @@ public final class CztLogger
   public static void setConsoleHandler(Logger logger,
     Level handlerLevel, Level loggerLevel)
   {
+    setConsoleHandler(logger, handlerLevel, loggerLevel, DEFAULT_LOG_FORMATTER);
+  }
+
+  public static void setConsoleHandler(Logger logger,
+          Level handlerLevel, Level loggerLevel, Formatter formatter)
+  {
     ConsoleHandler ch = new ConsoleHandler();
-    ch.setLevel(handlerLevel);        
-    ch.setFormatter(DEFAULT_LOG_FORMATTER);     
+    ch.setLevel(handlerLevel);
+    ch.setFormatter(formatter);
     logger.addHandler(ch);
     logger.setLevel(loggerLevel);
   }
@@ -109,17 +112,23 @@ public final class CztLogger
   public static void setFileHandler(Logger logger, 
     Level handlerLevel, Level loggerLevel, String fileName)
   {        
-    try 
+    setFileHandler(logger, handlerLevel, loggerLevel, fileName, DEFAULT_LOG_FORMATTER);
+  }
+
+  public static void setFileHandler(Logger logger,
+    Level handlerLevel, Level loggerLevel, String fileName, Formatter formatter)
+  {
+    try
     {
       FileHandler fh = new FileHandler(fileName);
       fh.setLevel(handlerLevel);
-      fh.setFormatter(DEFAULT_LOG_FORMATTER);          
+      fh.setFormatter(formatter);
       logger.addHandler(fh);
       logger.setLevel(loggerLevel);
     } catch (IOException e)
     {
       logger.config("Could not create file handler for logger " + logger.getName() +
-        "\n\t An I/O exception was thrown while trying to create " + fileName + 
+        "\n\t An I/O exception was thrown while trying to create " + fileName +
         "\n\t I/O exception : " + e.getMessage());
     }
   }

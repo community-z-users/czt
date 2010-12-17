@@ -33,7 +33,6 @@ public class SimpleFormatter extends Formatter
   private boolean fShowTimeStamp = true;
   private boolean fShowRecordedMessage = true;
   private boolean fShowSourceMethod = true;
-  private boolean fShowDirectory = true;
   private boolean fShowStackTrace = true;
   // Line separator string.  This is the value of the line.separator
   // property at the moment that the SimpleFormatter was created.
@@ -41,12 +40,11 @@ public class SimpleFormatter extends Formatter
   //        new sun.security.action.GetPropertyAction("line.separator"));
   private String lineSeparator = "\r\n";//System.getProperty("line.separator");
   public SimpleFormatter(boolean showTimeStamp, boolean showRecordedMessage,
-    boolean showSourceMethod, boolean showDirectory, boolean showStackTrace)
+    boolean showSourceMethod, boolean showStackTrace)
   {
     fShowTimeStamp = showTimeStamp;
     fShowRecordedMessage = showRecordedMessage;
     fShowSourceMethod = showSourceMethod;
-    fShowDirectory = showDirectory;
     fShowStackTrace = showStackTrace;
   }
 
@@ -58,7 +56,7 @@ public class SimpleFormatter extends Formatter
   @Override
   public synchronized String format(java.util.logging.LogRecord record)
   {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     if (fShowTimeStamp)
     {
       // Minimize memory allocations here.
