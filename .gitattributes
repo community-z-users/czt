@@ -457,6 +457,7 @@ parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
+parser/src/test/resources/tests/z/basicsm.tex -text
 rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java -text
 rules/src/main/resources/lib/predicate_normalization_rules.tex -text
 rules/src/main/resources/net/sourceforge/czt/rules/images/closed.png -text svneol=unset#image/png
