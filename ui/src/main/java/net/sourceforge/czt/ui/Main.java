@@ -42,6 +42,7 @@ public class Main
 {
   public static final String PREFIX = "java -jar czt.jar ";
   private Level verbosityLevel_ = Level.WARNING;
+  private boolean debug_ = false;
 
   public static void main(String[] args)
     throws Throwable
@@ -50,7 +51,8 @@ public class Main
       CZTGui gui = new CZTGui();
       gui.go();
     }
-    else {
+    else
+    {
       Main main = new Main();
       main.run(args);
     }
@@ -74,7 +76,7 @@ public class Main
       throw e;
     }
   }
-  
+
   private String getDCFilename(String filename)
   {    
     int dotIdx = filename.lastIndexOf(".");
@@ -104,7 +106,6 @@ public class Main
       boolean isNarrativeWanted = false;      
       boolean useSpecReader = false; 
       boolean domainCheck = false;
-      Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-h".equals(args[i]) ||
             "-help".equals(args[i]) ||
@@ -112,7 +113,11 @@ public class Main
           System.err.println(usage());
           return;
         }
-        if ("-s".equals(args[i])) {
+        if ("--debug".equals(args[i]))
+        {
+          debug_ = true;
+        }
+        else if("-s".equals(args[i])) {
           syntaxCheckOnly = true;
         }
         else if ("-p".equals(args[i])) {
@@ -127,8 +132,7 @@ public class Main
           verbosityLevel_ = Level.INFO;
         }
         else if ("-vv".equals(args[i])) {
-          verbosityLevel_ = Level.CONFIG;
-          Logger.getLogger("").setLevel(verbosityLevel_);
+          verbosityLevel_ = SectionManager.DEFAULT_LOGLEVEL;
         }
         else if ("-id".equals(args[i]) ||
                  "-ids".equals(args[i])) {
@@ -169,8 +173,25 @@ public class Main
           cztpath = args[i].trim();
         }
         else {
-          setConsoleLogger(verbosityLevel_);
           SectionManager manager = new SectionManager(extension);
+          if (debug_)
+          {
+            manager.setTracingLevel(
+               verbosityLevel_.equals(SectionManager.DEFAULT_LOGLEVEL) ?     //    if extra verbosity
+                  SectionManager.EXTRA_TRACELEVEL :                          //      extr tracing
+                  SectionManager.DEFAULT_TRACELEVEL);                        //    else normal tracing            
+          }
+          manager.setTracing(debug_);
+          // this in case the user has some other console loggers set up.
+          // when debugging, always use normal tracing, unless extra verbosity
+          // is requested with -vv (e.g., -v is ignored for debugging purposes).
+          setConsoleHandlerLoggingLevel(manager.getLogger(),
+                  (debug_ ?                                                       // if debugging
+                      (verbosityLevel_.equals(SectionManager.DEFAULT_LOGLEVEL) ?  //    if extra verbosity
+                          SectionManager.EXTRA_TRACELEVEL :                     //      extra tracing
+                          SectionManager.DEFAULT_TRACELEVEL)                        //    else normal tracing
+                      : verbosityLevel_));                                        // else normal logging
+          //debug(manager, args[i]);          
           if (printIds) {
             manager.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS,
                                 "true");
@@ -205,8 +226,8 @@ public class Main
                manager.setProperty("czt.path", cztpath);
             }
           }
-          if (parse(source, manager, syntaxCheckOnly, prove, domainCheck) &&
-              output != null) {
+          boolean parsed = parse(source, manager, syntaxCheckOnly, prove, domainCheck);
+          if (parsed && output != null) {
             String dcOutput = getDCFilename(output);
             if (output.endsWith("8")) {
               UnicodeString unicode = manager.get(
@@ -475,7 +496,9 @@ public class Main
       }
       // check for errors.
       if (nrOfZSects < 1) {
-        System.err.println("WARNING: No Z sections found in " + source);
+        final String msg = "WARNING: No Z sections found in " + source;
+        logger.warning(msg);
+        System.err.println(msg);
       }
       try {
         ParseException parseException = manager.get(
@@ -504,6 +527,17 @@ public class Main
     return true;
   }
 
+  private void setConsoleHandlerLoggingLevel(Logger log, Level level)
+  {
+    log.setLevel(level);
+    Handler[] h = log.getHandlers();
+    for (int i = 0; i < h.length; i++) {
+      if (h[i] instanceof ConsoleHandler) {
+        h[i].setLevel(level);
+      }
+    }
+  }
+
   private static void printErrors(List<? extends CztError> errors)
   {
     for (CztError error : errors) {
@@ -514,15 +548,33 @@ public class Main
     }
   }
 
-  public static void setConsoleLogger(Level level)
+
+  private void debug(SectionManager manager, String fileName) throws CommandException
   {
-    Logger rootLogger = Logger.getLogger("");
-    Handler handler = null;
-    Handler[] h = rootLogger.getHandlers();
-    for (int i = 0; i < h.length; i++) {
-      if (h[i] instanceof ConsoleHandler) {
-        h[i].setLevel(level);
-      }
+    /*
+    if (!debug_) return;
+    // find the file for it
+    //Source source = manager.get(new Key<Source>(fileName, Source.class));
+    File f = new File(fileName);
+    if (f.exists())
+      manager.put(new Key<Source>(fileName, Source.class), new FileSource(f));
+    else
+      throw new CommandException("Invalid file name " + fileName);
+    // parse the specification with given name
+    Spec spec = manager.get(new Key<Spec>(fileName, Spec.class));
+    for(Sect sect : spec.getSect())
+    {
+      if (!(sect instanceof ZSect)) continue;
+      ZSect zSect = (ZSect) sect;
+      String sectionName = zSect.getName();
+      // typecheck it
+      manager.get(new Key<SectTypeEnvAnn>(sectionName,
+                            SectTypeEnvAnn.class));
+      // domain check it
+      manager.get(new Key<ZSectDCEnvAnn>(sectionName,
+                            ZSectDCEnvAnn.class));
     }
+    System.exit(0);
+     */
   }
 }
