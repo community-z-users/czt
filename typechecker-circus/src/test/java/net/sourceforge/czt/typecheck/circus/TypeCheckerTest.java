@@ -119,9 +119,9 @@ public class TypeCheckerTest
     }
     // if it is a list of directories...
     List<String> paths = Arrays.asList(cztHome);
-    if (cztHome != null && cztHome.indexOf(';') != -1)
+    if (cztHome != null && cztHome.indexOf(File.pathSeparatorChar) != -1)
     {
-      paths = Arrays.asList(cztHome.split(";"));
+      paths = Arrays.asList(cztHome.split(File.pathSeparator));
     }
     File[] files = null;
     for(String path : paths)
