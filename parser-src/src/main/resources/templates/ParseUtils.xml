@@ -39,6 +39,11 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 
+import java.util.Set;
+import java.util.HashSet;
+import net.sourceforge.czt.parser.util.OpTable;
+import net.sourceforge.czt.parser.util.ThmTable;
+
 <add:z>
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 </add:z>
@@ -63,20 +68,15 @@ import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
  *
  * @author Petra Malik, Tim Miller
  */
-public class <class/>
-  implements Command
+public class <class/> extends AbstractCommand
 {
-  private static Logger getLogger(SectionInfo si)
-  {
-    return Logger.getLogger(si.getClass().getName());
-  }  
 
   public static Term parse(Source source,
                            SectionInfo sectInfo,
                            Properties properties)
     throws ParseException, IOException, UnmarshalException
   {
-    getLogger(sectInfo).finer("PU-parse-source = " + source);
+    traceLog("PU-parse-source = " + source);
     Term result = null;
     if (source.getMarkup() == Markup.LATEX) {
       LatexParser parser = new LatexParser(source, sectInfo, properties);
@@ -107,7 +107,7 @@ public class <class/>
       throw new UnsupportedOperationException();
     }
     assert result != null;
-    getLogger(sectInfo).finer("PU-parse-result = " + result.getClass().getSimpleName());
+    traceLog("PU-parse-result = " + result.getClass().getSimpleName());
     return result;
   }
 
@@ -179,6 +179,7 @@ public class <class/>
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
     tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
+    // use the parser itself to create objects - makes easier section management.
     Spec spec = tmpsectman.get(new Key&lt;Spec&gt;(name, Spec.class));
     AxPara axPara = firstAxPara(spec);
     assert axPara != null;
@@ -240,6 +241,7 @@ public class <class/>
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
     tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
+    // Use the parser itself to create the objects - this makes section management easier
     Spec spec = tmpsectman.get(new Key&lt;Spec&gt;(name, Spec.class));
     AxPara axPara = firstAxPara(spec);
     assert axPara != null;
@@ -274,10 +276,90 @@ public class <class/>
     return new ParseUtils();
   }
 
+  // SECTION MANAGEMENT METHODS
+
+
+  /**
+   * Given a ZSection, it calculates the dependency keys from all parents, for
+   * the given Key information type T
+   * @param &lt;T&gt;
+   * @param term the ZSection to calculate parents from
+   * @param type the Key type
+   * @return set of keys with given type
+   */
+  public static /* &lt;T&gt; */ Set/* &lt;Key&lt;T&gt;&gt; */ calculateDependencies(ZSect term, Class/* &lt;T&gt; */ type)
+  {
+    Set/* &lt;Key&lt;T&gt;&gt; */ dependencies = new HashSet/* &lt;Key&lt;T&gt;&gt; */();
+    for (Parent parent : term.getParent())
+    {
+      dependencies.add(new Key/* &lt;T&gt; */(parent.getWord(), type));
+    }
+    return dependencies;
+  }
+
+  /**
+   * For non-parsed ZSect (e.g., created on-the-fly by tools), one needs to update
+   * a given section manager in a particular order. This method produces a similar
+   * effect as does the parser when processing Source(s). see DomainChecker for use.
+   */
+  public static void updateSectManager(net.sourceforge.czt.session.SectionInfo sectInfo, ZSect nonParsedZSect) throws CommandException
+  {
+    assert sectInfo != null &amp;&amp; nonParsedZSect != null;
+
+    final String sectName = nonParsedZSect.getName();
+    traceLog("PU-SMUPD-ZSECT = " + sectName);
+    sectInfo.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), nonParsedZSect,
+            calculateDependencies(nonParsedZSect, ThmTable.class));
+
+    // ONLY AFTER ADDING ZSect: calculate a OpTable for it (see OpTableCommand protocol).
+    try
+    {
+      sectInfo.get(new Key&lt;OpTable&gt;(sectName, OpTable.class));
+      sectInfo.get(new Key&lt;ThmTable&gt;(sectName, ThmTable.class));
+    }
+    catch (CommandException e)
+    {
+      final String msg = "PU-CMDEXP-TBL = " + e.getCause();
+      traceLog(msg);
+      throw e;
+    }
+  }
+
+  // Command METHODS
+
+  /**
+   * &lt;p&gt;
+   * This command parses the given ZSection or Specification with associated named source.
+   * There are two cases: manager update of Z sections of cached Spec added on the fly, and
+   * parsing of a named Source, most commonly FileSources.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * For the latter, the parser updates manager with ZSect and other resources, whereas
+   * the command updates the manager in case the resource is a Spec (e.g., it could be
+   * just a ZSect or even Term like Expr or Pred). If the Source resource cannot be found,
+   * or if a parsing error occurs, a CommandException is raised with appropriate underlying cause.
+   * &lt;/p&gt;
+   *
+   * -pre name.equals(ZSect.name) or name.equals(Spec.filename) or manager.isCached(Key(name,Spec))
+   * -pre !manager.isCached(Key(name, Spec))    implies Okay(manager.get(Key(name, Source))
+   * -post  manager.isCached(Key(name, Spec))   implies forall z: ZSect in Spec : manager.put(Key(z.name, ZSect))
+   * -post !manager.isCached(Key(name, Spec))
+   *       Okay(manager.get(Key(name, Source))) implies Parse(Key(name,Source)) and manager.put(Key(name, Spec))
+   * @param name ZSect or Spec resource Source name
+   * @param manager section manager database
+   * @return irrelevant (!)
+   * @throws CommandException if named Source resource cannot be found (SourceLocatorException) or
+   *  if a parsing exception occurs, which can be for various reasons (ParseException, IOException, etc).
+   */
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
-    getLogger(manager).finest("PU-compute-name = " + name);
+    // create a Spec key for the given name and check if it's cached,
+    // in which case, all of its ZSect are put to the manager. This
+    // happens when a Spec is created manually (e.g., does not come
+    // from parsing). Parsed ZSects are added by Parser.xml@updateZSect
+    traceLog("PU-compute-name = " + name);
     Key&lt;Spec&gt; key = new Key&lt;Spec&gt;(name, Spec.class);
     if (manager.isCached(key)) {
       Spec spec = manager.get(key);
@@ -286,37 +368,38 @@ public class <class/>
           ZSect zsect = (ZSect) sect;
           manager.put(new Key&lt;ZSect&gt;(zsect.getName(), ZSect.class),
                       zsect);
+
         }
       }
-      final String msg = "PU-compute-cached = cached Spec: put its ZSect for " + name;
-      getLogger(manager).finest(msg);
+      final String msg = "PU-SPEC-ONFLY-ZSECT = put ZSect for on-the-fly Spec " + name;
+      traceLog(msg);
       return true;
     }
     try {
+      // the usual case, Spec comes from some Source and is parsed.
       boolean result = false;
       Source source = manager.get(new Key&lt;Source&gt;(name, Source.class));
+      // If we find the source, parse it and add Spec to the manager
+      // The Parser.xml adds all ZSects (e.g., see updateZSect).
       if (source != null) {
         Term term = ParseUtils.parse(source, manager, manager.getProperties());
         if (term instanceof Spec) {
           manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term);
         }
         result = term != null;
-        final String msg = "PU-compute-spec = parse " + (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
-        getLogger(manager).finest(msg);
+        final String msg = "PU-PARSED = parse " + (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
+        traceLog(msg);
       }
       // What if result is false? The SM protocol does not use this flag! Why keep it? [Leo]
       return result;
     }
     catch (ParseException exception) {
-      getLogger(manager).throwing(getClass().getName(), "compute", exception);
       throw new CommandException(exception);
     }
     catch (IOException exception) {
-      getLogger(manager).throwing(getClass().getName(), "compute", exception);
       throw new CommandException(exception);
     }
     catch (UnmarshalException exception) {
-      getLogger(manager).throwing(getClass().getName(), "compute", exception);
       throw new CommandException(exception);
     }    
   }
