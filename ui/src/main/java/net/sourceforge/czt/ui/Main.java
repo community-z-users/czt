@@ -24,6 +24,7 @@ import java.lang.reflect.*;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.*;
+import net.sourceforge.czt.dc.z.DomainCheckPropertyKeys;
 
 import net.sourceforge.czt.dc.z.ZSectDCEnvAnn;
 import net.sourceforge.czt.parser.util.*;
@@ -81,7 +82,8 @@ public class Main
   {    
     int dotIdx = filename.lastIndexOf(".");
     assert dotIdx != -1 : "invalid file name (no .ext): " + filename; 
-    String filenameDC = filename.substring(0, dotIdx) + "_dc" + filename.substring(dotIdx);          
+    String filenameDC = filename.substring(0, dotIdx) + 
+            DomainCheckPropertyKeys.DOMAIN_CHECK_GENERAL_NAME_SUFFIX + filename.substring(dotIdx);
     return filenameDC;
   }
 
@@ -219,8 +221,8 @@ public class Main
             // if null or empty, just use the parent; otherwise concatenate the 
             // parent at the beginning, since lookup is FIFO ordered.
             cztpath = ((cztpath == null || cztpath.isEmpty()) ? fileParent : 
-              (oldcztpath.isEmpty() ? (fileParent + ";" + cztpath) : 
-                (fileParent + ";" + oldcztpath + ";" + cztpath)));            
+              (oldcztpath.isEmpty() ? (fileParent + File.pathSeparator + cztpath) :
+                (fileParent + File.pathSeparator + oldcztpath + File.pathSeparator + cztpath)));
             if (cztpath != null && !cztpath.trim().isEmpty())
             {
                manager.setProperty("czt.path", cztpath);
@@ -239,7 +241,8 @@ public class Main
               
               if (domainCheck)
               {
-                unicode = manager.get(new Key<UnicodeString>(source.getName() + "_dc", UnicodeString.class));
+                unicode = manager.get(new Key<UnicodeString>(source.getName() +
+                        DomainCheckPropertyKeys.DOMAIN_CHECK_GENERAL_NAME_SUFFIX, UnicodeString.class));
                 stream = new FileOutputStream(dcOutput);
                 writer = new OutputStreamWriter(stream, "UTF-8");
                 writer.write(unicode.toString());
@@ -256,7 +259,8 @@ public class Main
               
               if (domainCheck)
               {
-                unicode = manager.get(new Key<UnicodeString>(source.getName() + "_dc", UnicodeString.class));
+                unicode = manager.get(new Key<UnicodeString>(source.getName() +
+                        DomainCheckPropertyKeys.DOMAIN_CHECK_GENERAL_NAME_SUFFIX, UnicodeString.class));
                 stream = new FileOutputStream(dcOutput);
                 writer = new OutputStreamWriter(stream, "UTF-16");
                 writer.write(unicode.toString());
@@ -273,7 +277,8 @@ public class Main
               
               if (domainCheck)
               {
-                latex = manager.get(new Key<LatexString>(source.getName() + "_dc", LatexString.class));
+                latex = manager.get(new Key<LatexString>(source.getName() +
+                        DomainCheckPropertyKeys.DOMAIN_CHECK_GENERAL_NAME_SUFFIX, LatexString.class));
                 stream = new FileOutputStream(dcOutput);
                 writer = new OutputStreamWriter(stream);
                 writer.write(latex.toString());
@@ -372,33 +377,48 @@ public class Main
   /**
    * The first string contains the command to be invoked,
    * the following are arguments to the command.
+   * @param args
+   * @throws Throwable
    */
-  public static void command(String[] args)
+  protected static void command(String[] args)
     throws Throwable
   {
+    assert args != null && args.length > 0;
     Properties props = getCommands();
     if (props != null) {
-      final String name = props.getProperty(args[0]);
-      if (name == null) {
-        System.err.println("Cannot find tool " + args[0]);
-        System.err.println("Available tools are:\n" + printProperties(props));
-        return;
-      }
-      Class cmdClass = Class.forName(name);
-      Method main =
-        cmdClass.getMethod("main", new Class[] { args.getClass() });
-      try {
-        String[] arguments = new String[args.length - 1];
-        for (int i = 0; i < arguments.length; i++) {
-          arguments[i] = args[i + 1];
+      if (props.keySet().contains(args[0]))
+      {
+        final String name = props.getProperty(args[0]);
+        if (name == null) {
+          System.err.println("Cannot find tool " + args[0]);
+          System.err.println("Available tools are:\n" + printProperties(props));
+          return;
         }
-        main.invoke(null, new Object[] { arguments });
+        Class cmdClass = Class.forName(name);
+        Method main =
+          cmdClass.getMethod("main", new Class[] { args.getClass() });
+        try {
+          String[] arguments = new String[args.length - 1];
+          for (int i = 0; i < arguments.length; i++) {
+            arguments[i] = args[i + 1];
+          }
+          main.invoke(null, new Object[] { arguments });
+        }
+        catch (InvocationTargetException e) {
+          Throwable cause = e.getCause();
+          if (cause != null) throw cause;
+          throw e;
+        }
       }
-      catch (InvocationTargetException e) {
-        Throwable cause = e.getCause();
-        if (cause != null) throw cause;
-        throw e;
+      else
+      {
+        System.err.println("Unknown CZT command \'" + args[0] + "\'\n");
+        System.err.println(usage());
       }
+    }
+    else
+    {
+      throw new RuntimeException("Could not retrieve property file for known commands!");
     }
   }
 
@@ -410,9 +430,8 @@ public class Main
   public static String printProperties(Properties props)
   {
     StringBuilder builder = new StringBuilder();
-    for (Map.Entry entry : props.entrySet()) {
-      builder.append("  " + entry.getKey() +
-                     " (bound to " + entry.getValue() + ")\n");
+    for (Map.Entry<Object, Object> entry : props.entrySet()) {
+      builder.append("  ").append(entry.getKey()).append(" (bound to ").append(entry.getValue()).append(")\n");
     }
     return builder.toString();
   }

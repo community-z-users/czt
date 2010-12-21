@@ -461,7 +461,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     String cztpath = manager.getProperty("czt.path");
     String filename = file != null ? file.getParent() : null;
     cztpath = ((cztpath == null || cztpath.isEmpty()) ?
-      filename : filename + ";" + cztpath);
+      filename : filename + File.pathSeparator + cztpath);
     if (cztpath != null && !cztpath.isEmpty())
     {
       manager.setProperty("czt.path", cztpath);
