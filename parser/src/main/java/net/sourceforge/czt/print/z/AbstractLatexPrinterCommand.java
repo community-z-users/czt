@@ -31,7 +31,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
 public abstract class AbstractLatexPrinterCommand
-  extends AbstractPrinterCommand
+  extends AbstractPrinterCommand implements LatexPrinterPropertyKeys
 {
   protected Scanner prepare(ZmlScanner scanner, Term term)
   {
@@ -65,22 +65,37 @@ public abstract class AbstractLatexPrinterCommand
     return Sym.TOKENSEQ;
   }
 
+  private boolean latexWrapping_ = PROP_LATEXPRINTER_WRAPPING_DEFAULT;
+
   // TODO: make it parameterised by extension?
   public final static String LATEX_PREAMBLE =
-          "\\documentclass{article}\n\\usepackage{czt}\n\n%----------------------------------\n\\begin{document}\n\n";
+          "\\documentclass{article}\n\\usepackage{czt}\n\n\\begin{document}\n%----------------------------------\n\n";
 
   public final static String LATEX_POSTSCRIPT =
           "\n\n%----------------------------------\n\\end{document}";
 
   protected void latexPreamble(Writer out, SectionManager sectInfo) throws IOException
   {
-    out.write(LATEX_PREAMBLE);
+    if (latexWrapping_)
+    {
+      out.write(LATEX_PREAMBLE);
+    }
   }
-
 
   protected void latexPostscript(Writer out, SectionManager sectInfo) throws IOException
   {
-    out.write(LATEX_POSTSCRIPT);
+    if (latexWrapping_)
+    {
+      out.write(LATEX_POSTSCRIPT);
+    }
+  }
+
+  protected void getPropConfigFrom(SectionManager sectInfo)
+  {
+    latexWrapping_ =
+      (sectInfo.hasProperty(PROP_LATEXPRINTER_WRAPPING) ?
+        sectInfo.getBooleanProperty(PROP_LATEXPRINTER_WRAPPING) :
+        PROP_LATEXPRINTER_WRAPPING_DEFAULT);
   }
 }
 

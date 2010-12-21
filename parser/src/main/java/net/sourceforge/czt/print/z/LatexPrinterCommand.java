@@ -48,6 +48,7 @@ public class LatexPrinterCommand
     throws CommandException
   {
     try {
+      getPropConfigFrom(manager);
       traceLog("LATEX-PRINT = " + name);
       final Writer writer = new StringWriter();
       final Key<Term> key = new Key<Term>(name, Term.class);
