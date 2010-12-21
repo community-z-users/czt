@@ -28,15 +28,29 @@ import net.sourceforge.czt.z.ast.ZSect;
 public class OpTableCommand
   implements Command
 {
+  /**
+   * Computes operator table for a given ZSection name. It first checks whether
+   * there is an OpTable cached. If there isn't, it retrieves the ZSect for name.
+   * This will either parse it or retrieve from the manager (e.g., manually
+   * created ZSect). Parsing already updates OpTable, so it will be cached and found.
+   * Finally, for manually added ZSect (e.g., when OpTable still not cached),
+   * it calculates the OpTable using the visitor.
+   *
+   * @param name
+   * @param manager
+   * @return
+   * @throws CommandException
+   */
+  // TODO: why not use the visitor's dependencies as well, like in OpTableService? (Leo)
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
-    final Key key = new Key(name, OpTable.class);
-    if ( ! manager.isCached(key)) {
-      ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
-      if ( ! manager.isCached(key)) {
+    final Key<OpTable> key = new Key<OpTable>(name, OpTable.class);
+    if ( !manager.isCached(key)) {
+      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
+      if ( !manager.isCached(key)) {
         OpTableVisitor visitor = new OpTableVisitor(manager);
-        OpTable opTable = (OpTable) visitor.run(zSect);
+        OpTable opTable = visitor.run(zSect);
         manager.put(key, opTable);
       }
     }

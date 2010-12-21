@@ -29,12 +29,12 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class ThmTableVisitor
-  extends AbstractVisitor<Object>
-  implements TermVisitor<Object>,
-             ConjParaVisitor<Object>,
-             ParaVisitor<Object>,
-             ZParaListVisitor<Object>,
-             ZSectVisitor<Object>
+  extends AbstractVisitor<ThmTable>
+  implements TermVisitor<ThmTable>,
+             ConjParaVisitor<ThmTable>,
+             ParaVisitor<ThmTable>,
+             ZParaListVisitor<ThmTable>,
+             ZSectVisitor<ThmTable>
 {
   private ThmTable table_;
 
@@ -53,7 +53,8 @@ public class ThmTableVisitor
     return ThmTable.class;
   }
 
-  public Object run(Term term)
+  @Override
+  public ThmTable run(Term term)
     throws CommandException
   {
     super.run(term);
@@ -65,20 +66,20 @@ public class ThmTableVisitor
     return table_;
   }
 
-  public Object visitTerm(Term term)
+  public ThmTable visitTerm(Term term)
   {
     final String message = "ThmTables can only be build for ZSects; " +
       "was tried for " + term.getClass();
     throw new UnsupportedOperationException(message);
   }
 
-  public Object visitZParaList(ZParaList list)
+  public ThmTable visitZParaList(ZParaList list)
   {
     for (Para p : list) visit(p);
     return null;
   }
 
-  public Object visitConjPara(ConjPara conjPara)
+  public ThmTable visitConjPara(ConjPara conjPara)
   {
     try {
       table_.add(conjPara);
@@ -89,18 +90,17 @@ public class ThmTableVisitor
     return null;
   }
 
-  public Object visitPara(Para para)
+  public ThmTable visitPara(Para para)
   {
     return null;
   }
 
-  public Object visitZSect(ZSect zSect)
+  public ThmTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
     List<ThmTable> parentTables = new ArrayList<ThmTable>();
     for (Parent parent : zSect.getParent()) {
-      ThmTable parentTable =
-        (ThmTable) get(parent.getWord(), ThmTable.class);
+      ThmTable parentTable = get(parent.getWord(), ThmTable.class);
       parentTables.add(parentTable);
     }
     try {

@@ -24,34 +24,65 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
-public class TermCommand
-  implements Command
+public class TermCommand extends AbstractCommand
 {
-  public boolean compute(String name, SectionManager manager)
-    throws CommandException
+
+  /**
+   * <p>
+   * Command to resolve given named resource Source as either a ZSect or Spec.
+   * If either ZSect or Spec are cached, then the manager is updated with a
+   * Key(Name,Term) for the resolved ZSect or Spec. Otherwise, the command attempts
+   * to parse the given named resource as a ZSect and a Key(Name,Term) is added as well.
+   * </p>
+   * <p>
+   * Within CZT, this command is mostly used by various other printing related commands.
+   * </p>
+   * @param name
+   * @param manager
+   * @return
+   * @throws CommandException
+   */
+  @Override
+  public boolean compute(String name, SectionManager manager) throws CommandException
   {
-    final Key newKey = new Key(name, Term.class);
-    Key zSectKey = new Key(name, ZSect.class);
-    Key specKey = new Key(name, Spec.class);
+    // create a new key for the resource for Term
+    final Key<Term> newKey = new Key<Term>(name, Term.class);
+    Key<ZSect> zSectKey = new Key<ZSect>(name, ZSect.class);
+    Key<Spec> specKey = new Key<Spec>(name, Spec.class);
+    traceLog("TermCmd-compute = " + name);
+
+    // if name is a cached ZSection, associate the Term key to it and finish.
     if (manager.isCached(zSectKey)) {
       manager.put(newKey, manager.get(zSectKey));
       return true;
     }
+    // if name is a cached Spec, associate the term key to it and finish.
     if (manager.isCached(specKey)) {
       manager.put(newKey, manager.get(specKey));
       return true;
     }
+
+    // otherwise, the manager doesn't know about the resource.
     Term term = null;
     try {
-      term = (ZSect) manager.get(zSectKey);
+      // try parsing it: it requires the name to have a known Source Key
+      term = manager.get(zSectKey);
     }
+    // if there are no known Source keys for name as ZSect, try parsing it as Spec
     catch (CommandException exception) {
-      term = (Spec) manager.get(specKey);
+      traceLog("TermCmd-Not-ZSect = try as spec");
+      term = manager.get(specKey);
+
+      // if it fails, an CommandException will be raise, and we are done (failing).
     }
-    if (term != null) {
+
+    // if we get here, term must either be a ZSect or Spec; add it to the manager
+    //if (term != null) {
       manager.put(newKey, term);
       return true;
-    }
-    return false;
+    //}
+    //assert term != null;
+    //  should never reach here.
+    //return false;
   }
 }

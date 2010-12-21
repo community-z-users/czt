@@ -31,14 +31,14 @@ public class AbstractVisitor<R>
   implements Visitor<R>
 {
   private SectionInfo sectInfo_;
-  private Set<Key> dependencies_ = new HashSet<Key>();
+  private  Set<Key<?>> dependencies_ = new HashSet<Key<?>>();
 
   public AbstractVisitor(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
   }
 
-  public Object run(Term term)
+  public R run(Term term)
     throws CommandException
   {
     try {
@@ -53,7 +53,7 @@ public class AbstractVisitor<R>
     }
   }
 
-  public Set<Key> getDependencies()
+  public Set<Key<?>> getDependencies()
   {
     return dependencies_;
   }
@@ -64,10 +64,14 @@ public class AbstractVisitor<R>
    * <p>If the section manager throws a CommandException, this
    * exception is wrapped into a RuntimeException and thrown.
    * It can be retrieved by calling getCause().</p>
+   * @param <T>
+   * @param name
+   * @param type
+   * @return
    */
-  protected Object get(String name, Class<?> type)
+  protected <T> T get(String name, Class<T> type)
   {
-    Key key = new Key(name, type);
+    Key<T> key = new Key<T>(name, type);
     dependencies_.add(key);
     try {
       return sectInfo_.get(key);

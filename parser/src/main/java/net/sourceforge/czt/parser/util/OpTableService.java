@@ -48,14 +48,14 @@ public class OpTableService
     return OpTable.class;
   }
 
-  public Object run(ZSect sect)
+  public OpTable run(ZSect sect)
     throws CommandException
   {
     OpTableVisitor visitor = new OpTableVisitor(sectInfo_);
     return visitor.run(sect);
   }
 
-  public Object run(ZSect sect, SectionInfo sectInfo)
+  public OpTable run(ZSect sect, SectionInfo sectInfo)
     throws CommandException
   {
     OpTableVisitor visitor = new OpTableVisitor(sectInfo);
@@ -67,14 +67,14 @@ public class OpTableService
     throws CommandException
   {
     OpTableVisitor visitor = new OpTableVisitor(manager);
-    Key key = new Key(name, ZSect.class);
-    ZSect zsect = (ZSect) manager.get(key);
+    Key<ZSect> key = new Key<ZSect>(name, ZSect.class);
+    ZSect zsect = manager.get(key);
     if (zsect != null) {
-      OpTable opTable = (OpTable) visitor.run(zsect);
+      OpTable opTable = visitor.run(zsect);
       if (opTable != null) {
-        Set dep = visitor.getDependencies();
+        Set<Key<?>> dep = visitor.getDependencies();
         dep.add(key);
-        manager.put(new Key(name, OpTable.class), opTable, dep);
+        manager.put(new Key<OpTable>(name, OpTable.class), opTable, dep);
         return true;
       }
     }

@@ -31,15 +31,30 @@ import net.sourceforge.czt.z.ast.ZSect;
 public class ThmTableCommand
   implements Command
 {
+  /**
+   * Computes conjectures table for a given ZSection name. It first checks whether
+   * there is a ThmTable cached. If there isn't, it retrieves the ZSect for name.
+   * This will either parse it or retrieve from the manager (e.g., manually
+   * created ZSect). Parsing already updates ThmTable, so it will be cached and found.
+   * Finally, for manually added ZSect (e.g., when ThmTable still not cached),
+   * it calculates the ThmTable using the visitor.
+   *
+   * @param name
+   * @param manager
+   * @return
+   * @throws CommandException
+   */
+  // TODO: why not use the visitor's dependencies as well, like in ThmTableService? (Leo)
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
     final Key<ThmTable> key = new Key<ThmTable>(name, ThmTable.class);
     if ( ! manager.isCached(key)) {
-      ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
+      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
       if ( ! manager.isCached(key)) {
         ThmTableVisitor visitor = new ThmTableVisitor(manager);
-        ThmTable thmTable = (ThmTable) visitor.run(zSect);
+        ThmTable thmTable = visitor.run(zSect);
         manager.put(key, thmTable);
       }
     }

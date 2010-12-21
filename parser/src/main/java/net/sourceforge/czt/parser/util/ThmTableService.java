@@ -32,31 +32,33 @@ public class ThmTableService implements Command
    * Creates a new named conjecture table service.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.ThmTable.class</code>.
+   * @param sectInfo 
    */
   public ThmTableService(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
   }
 
-  public Class getInfoType()
+  public Class<?> getInfoType()
   {
     return ThmTable.class;
   }
 
-  public Object run(ZSect sect)
+  public ThmTable run(ZSect sect)
     throws CommandException
   {
     ThmTableVisitor visitor = new ThmTableVisitor(sectInfo_);
     return visitor.run(sect);
   }
 
-  public Object run(ZSect sect, SectionInfo sectInfo)
+  public ThmTable run(ZSect sect, SectionInfo sectInfo)
     throws CommandException
   {
     ThmTableVisitor visitor = new ThmTableVisitor(sectInfo);
     return visitor.run(sect);
   }
 
+  @Override
   public boolean compute(String name,
                          SectionManager manager)
     throws CommandException
@@ -65,9 +67,9 @@ public class ThmTableService implements Command
     Key<ZSect> key = new Key<ZSect>(name, ZSect.class);
     ZSect zsect = manager.get(key);
     if (zsect != null) {
-      ThmTable thmTable = (ThmTable) visitor.run(zsect);
+      ThmTable thmTable = visitor.run(zsect);
       if (thmTable != null) {
-        Set dep = visitor.getDependencies();
+        Set<Key<?>> dep = visitor.getDependencies();
         dep.add(key);
         manager.put(new Key<ThmTable>(name, ThmTable.class), thmTable, dep);
         return true;

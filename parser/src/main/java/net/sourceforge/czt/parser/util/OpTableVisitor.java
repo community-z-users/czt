@@ -29,12 +29,12 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class OpTableVisitor
-  extends AbstractVisitor<Object>
-  implements TermVisitor<Object>,
-             OptempParaVisitor<Object>,
-             ParaVisitor<Object>,
-             ZParaListVisitor<Object>,
-             ZSectVisitor<Object>
+  extends AbstractVisitor<OpTable>
+  implements TermVisitor<OpTable>,
+             OptempParaVisitor<OpTable>,
+             ParaVisitor<OpTable>,
+             ZParaListVisitor<OpTable>,
+             ZSectVisitor<OpTable>
 {
   private OpTable table_;
 
@@ -53,7 +53,7 @@ public class OpTableVisitor
     return OpTable.class;
   }
 
-  public Object run(Term term)
+  public OpTable run(Term term)
     throws CommandException
   {
     super.run(term);
@@ -65,20 +65,20 @@ public class OpTableVisitor
     return table_;
   }
 
-  public Object visitTerm(Term term)
+  public OpTable visitTerm(Term term)
   {
     final String message = "OpTables can only be build for ZSects; " +
       "was tried for " + term.getClass();
     throw new UnsupportedOperationException(message);
   }
 
-  public Object visitZParaList(ZParaList list)
+  public OpTable visitZParaList(ZParaList list)
   {
     for (Para p : list) visit(p);
     return null;
   }
 
-  public Object visitOptempPara(OptempPara optempPara)
+  public OpTable visitOptempPara(OptempPara optempPara)
   {
     try {
       table_.add(optempPara);
@@ -89,12 +89,12 @@ public class OpTableVisitor
     return null;
   }
 
-  public Object visitPara(Para para)
+  public OpTable visitPara(Para para)
   {
     return null;
   }
 
-  public Object visitZSect(ZSect zSect)
+  public OpTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
     List<OpTable> parentTables = new ArrayList<OpTable>();

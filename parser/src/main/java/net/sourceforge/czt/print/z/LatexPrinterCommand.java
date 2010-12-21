@@ -23,32 +23,28 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.Spec;
 
 public class LatexPrinterCommand
   extends AbstractLatexPrinterCommand
   implements Command
 {
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
     try {
       final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
+      final Key<Term> key = new Key<Term>(name, Term.class);
+      final Term term = manager.get(key);
       printLatex(term, writer, manager, null);
       writer.close();
-      manager.put(new Key(name, LatexString.class),
+      manager.put(new Key<LatexString>(name, LatexString.class),
                   new LatexString(writer.toString()));
       return true;
     }
@@ -66,6 +62,10 @@ public class LatexPrinterCommand
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>
    * and
    * <code>net.sourceforge.czt.parser.util.LatexMarkupTable.class</code>.
+   * @param term 
+   * @param out
+   * @param sectInfo
+   * @param sectionName
    */
   public void printLatex(Term term,
                          Writer out,
