@@ -194,7 +194,7 @@ public class DCTerm extends TrivialDCTerm implements
    * domain checks over unresolved names. This function is defined 
    * under the dc\_toolkit.tex
    */
-  private static final String APPLIESTO_NAME = "\\appliesToNofix";
+  private static final String APPLIESTO_NAME = "appliesToNofix"; // this name is UNICODE, not LaTeX from DC_toolkit!
   private static final String DOM_NAME = "dom";
   
   public static final String[] TOTAL_OPS = { ZString.FUN, ZString.SURJ, ZString.INJ, ZString.BIJ };
@@ -229,8 +229,8 @@ public class DCTerm extends TrivialDCTerm implements
   {
     super(factory);
     defTable_ = null;    
-    infixAppliesTo_ = defaultInfixAppliesTo();
-    applyPredTransformers_ = defaultApplyPredTransformers();
+    infixAppliesTo_ = PROP_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT;
+    applyPredTransformers_ = PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS_DEFAULT;
     domName_ = factory_.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
     appliesToOpName_ = factory_.createZName(APPLIESTO_NAME); //factory_.createZName(ZString.ARG + APPLIESTO_NAME + ZString.ARG); // relation infix binary operator (see dc_toolkit.tex)!
     printVisitor_ = new PrintVisitor(); // defTable uses a PrintVisitor for lookup names.

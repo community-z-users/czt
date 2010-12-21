@@ -9,14 +9,18 @@
 
 package net.sourceforge.czt.dc.z;
 
+import net.sourceforge.czt.session.CommandException;
+
 /**
  *
  * @author leo
  */
-public class DomainCheckException extends Exception
+public class DomainCheckException extends CommandException
 {
   
-  /** Creates a new instance of DomainCheckException */
+  /** Creates a new instance of DomainCheckException
+   * @param message
+   */
   public DomainCheckException(String message)  
   {
      super(message);

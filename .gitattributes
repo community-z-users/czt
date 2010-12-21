@@ -63,6 +63,7 @@ doc/refcard/z/refcard.p2.latb -text
 doc/refcard/z/refcard.pdf -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zcs -text
 domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
+domainchecker/src/test/resources/tests/z/basicsm.tex -text
 dtx/circus/circus-guide.bib -text
 dtx/circus/circus-guide.dvi -text
 dtx/circus/circus-guide.pdf -text svneol=unset#application/pdf

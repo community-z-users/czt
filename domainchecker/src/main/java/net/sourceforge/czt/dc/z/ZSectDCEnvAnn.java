@@ -7,8 +7,6 @@ package net.sourceforge.czt.dc.z;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -47,10 +45,10 @@ public class ZSectDCEnvAnn extends AnnImpl implements DomainCheckPropertyKeys {
   /**
    * Create the given environment as place holder for DC Z sect and its 
    * list of domain checks per paragraph. This list is redundant in the
-   * sense that the list encompas all zsect conjectures. The list may contain
+   * sense that the list encompass all zsect conjectures. The list may contain
    * more paragraph than the Z sect, though. This happens whenever trivial 
    * paragraph have been removed whilst creating the Z section.
-   * @param zsect
+   * @param originalZSectName
    * @param dcs
    */
   protected ZSectDCEnvAnn(String originalZSectName, List<Pair<Para, Pred>> dcs)
@@ -65,7 +63,7 @@ public class ZSectDCEnvAnn extends AnnImpl implements DomainCheckPropertyKeys {
     init(originalZSectName, dcs);
   }
   
-  protected void init(String originalZSectName, List<Pair<Para, Pred>> dcs)
+  protected final void init(String originalZSectName, List<Pair<Para, Pred>> dcs)
   {
     assert dcs != null : "null list of domain checks";
     assert originalZSectName != null && !originalZSectName.isEmpty() : "invalid Z section name";
@@ -78,7 +76,9 @@ public class ZSectDCEnvAnn extends AnnImpl implements DomainCheckPropertyKeys {
    * for equality.  Returns true if and only if the specified object is
    * also a(n) ZNameImpl and all the getter methods except getAnns
    * return equal objects.
+   * @param obj
    */
+  @Override
   public boolean equals(Object obj)
   {
     if (obj != null) {
@@ -113,6 +113,7 @@ public class ZSectDCEnvAnn extends AnnImpl implements DomainCheckPropertyKeys {
   /**
    * Returns the hash code value for this ZNameImpl.
    */
+  @Override
   public int hashCode()
   {
     final int constant = 31;
@@ -173,24 +174,14 @@ public class ZSectDCEnvAnn extends AnnImpl implements DomainCheckPropertyKeys {
   {
     return originalZSectName_;
   }
+
+  public String getDCZSectName()
+  {
+    return originalZSectName_ + DOMAIN_CHECK_GENERAL_NAME_SUFFIX;
+  }
   
   public List<Pair<Para, Pred>> getDomainChecks()
   {
     return domainChecks_;
-  }
-  
-  // convenience method
-  public ZSect getDCZSect(SectionInfo manager) throws DomainCheckException
-  {    
-    assert manager != null : "invalid section manager";
-    try
-    {
-      return manager.get(new Key<ZSect>(getOriginalZSectName() + DOMAIN_CHECK_GENERAL_NAME_SUFFIX, ZSect.class));
-    }
-    catch (CommandException ex)
-    {
-      throw new DomainCheckException("Could not retrieve domain checked ZSect " + getOriginalZSectName() +
-        ". That is a severe error and should never happen when ZSectDCEnvAnn is created properly.");
-    }    
   }
 }

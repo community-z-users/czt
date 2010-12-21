@@ -28,17 +28,15 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.CztPrintString;
-import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Sect;
@@ -56,8 +54,10 @@ import net.sourceforge.czt.z.util.Factory;
  * @author leo
  */
 public class DomainCheckUtils implements DomainCheckPropertyKeys 
-{  
+{
   private final DomainChecker domainChecker_;
+  private SectionManager sectionManager_ = null;
+  private boolean isConfigured_ = false;
   
   /**
    * Do not generate instances of this class.
@@ -72,9 +72,19 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
   {
     domainChecker_ = new DomainChecker(factory);
   }
-  
+
+  protected DomainChecker getDC()
+  {
+    return domainChecker_;
+  }
+
+  protected Factory getZFactory()
+  {
+    return domainChecker_.getZFactory();
+  }
+
   /* UTILITY SETUP METHODS */
-  
+
   protected String name()
   {
     return "zeddomaincheck";
@@ -155,200 +165,159 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
   {
     return SectionManager.DEFAULT_EXTENSION;
   }  
-  
+
   /**
    * This method should be called as few times as possible, as it returns
-   * a brand new section manager 
+   * a brand new section manager . It is to be used by the top-level DC application only
    * @param extension the CZT extension to use
    * @return a fresh new section manager. */
   protected SectionManager getSectionManager(String extension)
   {
-    SectionManager sectionManager = new SectionManager(extension);
-    sectionManager.putCommand(ZSectDCEnvAnn.class, DomainCheckUtils.getCommand());
-    sectionManager.putCommand(SpecDCEnvAnn.class, DomainCheckUtils.getCommand());
-    return sectionManager;
-  }  
-  
-  /* UTILITY DOMAIN CHECK CALCULATION WRAPPING METHODS */
-  
-  /** Sets the domainChecker properties and initialisation up */
-  protected void setupDomainChecker(SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-  {
-    // prepare the domain checker properties
-    domainChecker_.setInfixAppliesTo(useInfixAppliesto);    
-    domainChecker_.setProcessingParents(processParents);
-    domainChecker_.setAddingTrivialDC(addTrivialDC);
-    domainChecker_.setApplyPredTransformers(applyPredTrans);
-    domainChecker_.setSectInfo(manager);
-    
-    // MUST be after setSectInfo, as it resets the default parent sections to ignore
-    if (parentsToIgnore != null)
+    // if null or for a different dialect, get a new one
+    if (sectionManager_ == null || (!sectionManager_.getDialect().equals(extension)))
     {
-      for(String parent : parentsToIgnore)
+      sectionManager_ = new SectionManager(extension);
+      sectionManager_.putCommand(ZSectDCEnvAnn.class, DomainCheckUtils.getCommand());
+      //sectionManager_.putCommand(SpecDCEnvAnn.class, DomainCheckUtils.getCommand());
+      isConfigured_ = false;
+    }
+    return sectionManager_;
+  }
+
+  protected void setConfigured(boolean value)
+  {
+    isConfigured_ = value;
+  }
+
+  protected boolean isConfigured()
+  {
+    return isConfigured_;
+  }
+
+  /**
+   * Configures the underlying domain checker to take the section manager properties into account.
+   * Should be called by the top-level method only. If the section manager changes, the configuration
+   * gets automatically reset. But if properties are changed manually (e.g., properties set), this
+   * needs to be updated.
+   */
+  protected void config()
+  {
+    if (!isConfigured_)
+    {
+      assert sectionManager_ != null;
+      try
       {
-        domainChecker_.addParentSectionToIgnore(parent);
-      }    
+        domainChecker_.setSectInfo(sectionManager_); // configs the domain checker
+      }
+      catch (DomainCheckException ex)
+      {
+        sectionManager_.getLogger().warning("DC-ERROR-SET-SM = " + ex.getMessage());
+      }
+      assert domainChecker_.getManager() != null;
+      isConfigured_ = true;
     }
   }
-  
+
   /** 
-   * Retrieves the ZSect DC Env for the given term. It sets up the
+   * Retrieves the ZSect DC Env for the given ZSect. It sets up the
    * domain checker and calls the underlying {@link #DomainChecker.createZSectDCEnvAnn(ZSect)}.
    * This method is useful for Command classes that need to calculate 
    * domain checks for ZSect to be stored in the section manager.
-   * @param term Z section to calculate domain checks
-   * @param manager section manager
-   * @param parentsToIgnore 
-   * @param useInfixAppliesto
-   * @param processParents 
-   * @param addTrivialDC 
-   * @param applyPredTrans 
+   * @param zSect Z section to calculate domain checks
    * @return ZSect DC environment
    * @throws DomainCheckException if DC calculation throws an exception
    */
-  protected ZSectDCEnvAnn retrieveZSectDCEnv(ZSect term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+  protected ZSectDCEnvAnn calculateZSectDCEnv(ZSect zSect)
     throws DomainCheckException
   {
-    assert term != null;    
-    setupDomainChecker(manager, parentsToIgnore, useInfixAppliesto, 
-      processParents, addTrivialDC, applyPredTrans);
-    ZSectDCEnvAnn result = domainChecker_.createZSectDCEnvAnn(term);
+    assert zSect != null;
+    config();
+    ZSectDCEnvAnn result = domainChecker_.createZSectDCEnvAnn(zSect);
     // check consistency between given z section and assigned name within the 
     // environment created by the domain checker calculator
-    assert result != null && result.getOriginalZSectName().equals(term.getName());
+    assert result != null && result.getOriginalZSectName().equals(zSect.getName());
     return result;
   }
   
-  protected ZSectDCEnvAnn retrieveTermDCEnv(Term term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
+  protected ZSectDCEnvAnn calculateTermDCEnv(Term term)
     throws DomainCheckException
   {
-    assert term != null && !(term instanceof Spec);    
-    setupDomainChecker(manager, parentsToIgnore, useInfixAppliesto, 
-      processParents, addTrivialDC, applyPredTrans);
+    assert term != null && !(term instanceof Spec);
+    config();
     ZSectDCEnvAnn result = domainChecker_.createZSectDCEnvAnn(term);
     return result;
   }
-  
-  /** 
-   * Retrieves the Spec DC Env for the given term. It sets up the domain checker 
-   * and calls the underlying {@link #DomainChecker.createSpecDCEnvAnn(Spec)}.
-   * This method is useful for Command classes that need to calculate 
-   * domain checks for Spec to be stored in the section manager.
-   * @param term Z specification to calculate domain checks
-   * @param manager section manager
-   * @param parentsToIgnore 
-   * @param useInfixAppliesto
-   * @param processParents 
-   * @param addTrivialDC 
-   * @param applyPredTrans 
-   * @return Spec DC environment
-   * @throws DomainCheckException if DC calculation throws an exception
-   */
-  protected SpecDCEnvAnn retrieveSpecDCEnv(Spec term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-    throws DomainCheckException
+
+  protected void print(ZSect dcZSect, String path)
+          throws DomainCheckException
   {
-    assert term != null;
-    setupDomainChecker(manager, parentsToIgnore, useInfixAppliesto, 
-      processParents, addTrivialDC, applyPredTrans);    
-    SpecDCEnvAnn result = domainChecker_.createSpecDCEnvAnn(term);
-    return result;
-  }
-  
-  /** 
-   * Local domain check method that retrieves the DC ZSect with all calculated 
-   * domain checks for the given Z section. It calls {@link #retrieveZSectDCEnv(ZSect, 
-   * SectionManager, List, boolean, boolean, boolean, boolean)} and extract the
-   * inner section from the ZSect DC environment.
-   * This method is useful for top-level use where the method's result
-   * is the calculated domain checked section within the SectionManager.
-   * Note this will not add the ZSectDCEnvAnn to the manager.
-   * @param term Z section to calculate domain checks
-   * @param manager section manager
-   * @param parentsToIgnore 
-   * @param useInfixAppliesto
-   * @param processParents 
-   * @param addTrivialDC 
-   * @param applyPredTrans 
-   * @return DC ZSect 
-   * @throws DomainCheckException if DC calculation throws an exception,
-   *         or if it is not possible to retrieve the DC ZSect from the
-   *         resulting <code>ZSectDCEnvAnn</code>
-   */
-  protected ZSect lDomainCheck(ZSect term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-    throws DomainCheckException
-  {    
-    assert term != null;
-    ZSectDCEnvAnn result = retrieveZSectDCEnv(term, manager, parentsToIgnore, 
-      useInfixAppliesto, processParents, addTrivialDC, applyPredTrans);
-    if (result == null)
+    assert dcZSect != null && path != null;
+    // check weather the dcFileName already exists, deleting it if so.
+    // ex: dcZSect=sect_dc, path = ./foo  => ./foo/sect_dc.tex
+    final String dcFileName = path + File.separatorChar +
+            dcZSect.getName() + Markup.getDefaultFileExtention(Markup.LATEX);
+
+    // make sure there is a section manager configured
+    config();
+
+    File dcFile = new File(dcFileName);
+    if (dcFile.exists())
     {
-      throw new DomainCheckException("Could not calculatee domain check conjectures for the given Z section " + term.getName());
-    }    
-    // check consistency between given z section and assigned name within the 
-    // environment created by the domain checker calculator.
-    ZSect dcZSect = result.getDCZSect(manager);    
-    assert dcZSect != null && dcZSect.getName().startsWith(term.getName());
-    return dcZSect;
-  }
-  
-  protected ZSect lDomainCheckTerm(Term term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-    throws DomainCheckException
-  {    
-    assert term != null;
-    ZSectDCEnvAnn result = retrieveTermDCEnv(term, manager, parentsToIgnore, 
-      useInfixAppliesto, processParents, addTrivialDC, applyPredTrans);
-    if (result == null)
-    {
-      throw new DomainCheckException("Could not calculatee domain check conjectures for the given term");
-    }    
-    ZSect dcZSect = result.getDCZSect(manager);
-    assert dcZSect != null;    
-    return dcZSect;
-  }
-  
-  /** 
-   * Local domain check method that retrieves the DC Spec with all calculated 
-   * domain checks for the given Spec. It calls {@link #retrieveSpecDCEnv(Spec, 
-   * SectionManager, List, boolean, boolean, boolean, boolean)} and extract the
-   * inner section from the ZSect DC environment.
-   * This method is useful for top-level use where the method's result
-   * is the calculated domain checked section within the SectionManager.
-   * Note this will not add the SpecDCEnvAnn to the manager.
-   * @param term Z spec to calculate domain checks
-   * @param manager section manager
-   * @param parentsToIgnore 
-   * @param useInfixAppliesto
-   * @param processParents 
-   * @param addTrivialDC 
-   * @param applyPredTrans 
-   * @return DC Spec 
-   * @throws DomainCheckException if DC calculation throws an exception,
-   *         or if it is not possible to retrieve the DC ZSect from the
-   *         resulting <code>ZSectDCEnvAnn</code>
-   */
-  protected Spec lDomainCheck(Spec term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-    throws DomainCheckException
-  {    
-    SpecDCEnvAnn result = retrieveSpecDCEnv(term, manager, parentsToIgnore, useInfixAppliesto, 
-      processParents, addTrivialDC, applyPredTrans);    
-    if (result == null)
-    {
-      throw new DomainCheckException("Could not calculate domain check conjectures for the given specification term");
+      boolean couldDelete = dcFile.delete();
+      final String msg = "DCUtils-PRINT-FILEERROR = file already exists; trying to delete "
+              + dcFileName + " = " + couldDelete;
+      domainChecker_.getManager().getLogger().warning(msg);
+      if (!couldDelete)
+        throw new DomainCheckException(msg);
     }
-    Spec dcSpec = result.getDCSpec(manager);
-    assert dcSpec != null;    
-    return dcSpec;
+
+    // add the file to be created as a source for the DC ZSect in SectionManager
+    Key<Source> dcSource = new Key<Source>(dcZSect.getName(), Source.class);
+    if (!domainChecker_.getManager().isCached(dcSource))
+    {
+      FileSource dcFileSource = new FileSource(dcFile);
+      domainChecker_.getManager().put(dcSource, dcFileSource);
+    }
+
+    // ask for the print string for the given ZSect in LATEX, please
+    CztPrintString output = domainChecker_.print(dcZSect, Markup.LATEX);
+    domainChecker_.getManager().getLogger().info("DCUtils-PRINT = " + dcFileName);
+
+    // write the printed result on to the dc filename
+    try
+    {
+      FileWriter writer = new FileWriter(dcFileName);
+      writer.write(output.toString());
+      writer.close();
+    }
+    catch (IOException e)
+    {
+      throw new DomainCheckException("DCUtils-PRINT-ERROR = " + dcFileName, e);
+    }
   }
   
+//  /**
+//   * Retrieves the Spec DC Env for the given term. It sets up the domain checker
+//   * and calls the underlying {@link #DomainChecker.createSpecDCEnvAnn(Spec)}.
+//   * This method is useful for Command classes that need to calculate
+//   * domain checks for Spec to be stored in the section manager.
+//   * @param term Z specification to calculate domain checks
+//   * @return Spec DC environment
+//   * @throws DomainCheckException if DC calculation throws an exception
+//   */
+//  protected SpecDCEnvAnn calculateSpecDCEnv(Spec term)
+//    throws DomainCheckException
+//  {
+//    assert term != null && domainChecker_.getManager() != null;
+//    SpecDCEnvAnn result = domainChecker_.createSpecDCEnvAnn(term);
+//    return result;
+//  }
+
+
   /* AUXILIARY TOP-LEVEL METHODS */
-  
+
+  static final DomainCheckUtils domainCheckUtils_ = new DomainCheckUtils();
+
   /** 
    * For a file "./dir/foo.ext", returns "./dir/foo_dc.ext".   
    * If .ext is not present, _dc is just added to the end.
@@ -365,7 +334,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     else
     {
       return filename.substring(0, dotIdx) + 
-        DOMAIN_CHECK_GENERAL_NAME_SUFFIX + 
+        DOMAIN_CHECK_GENERAL_NAME_SUFFIX +
         filename.substring(dotIdx);
     }    
   }
@@ -402,126 +371,38 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     // transforms c:\temp\myfile.tex into myfile
     String resource = removePath(getFileNameNoExt(filename));        
     return resource;
-  }
-  
-  /* AUXILIARY TOP-LEVEL METHODS */
-  
-  protected static final DomainCheckUtils domainCheckUtils_ = createDomainCheckUtils();
-  
-  protected static DomainCheckUtils createDomainCheckUtils()
-  {
-    return new DomainCheckUtils();
-  }
-  
-  public static ZSect domainCheck(ZSect term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-    throws DomainCheckException
-  {
-    return domainCheckUtils_.lDomainCheck(term, manager, parentsToIgnore, useInfixAppliesto, 
-      processParents, addTrivialDC, applyPredTrans);
-  }
-  
-  public static Spec domainCheck(Spec term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-    throws DomainCheckException
-  {
-    return domainCheckUtils_.lDomainCheck(term, manager, parentsToIgnore, useInfixAppliesto, 
-      processParents, addTrivialDC, applyPredTrans);
-  }
-  
-  public static ZSect domainCheckTerm(Term term, SectionManager manager, List<String> parentsToIgnore,
-    boolean useInfixAppliesto, boolean processParents, boolean addTrivialDC, boolean applyPredTrans)
-    throws DomainCheckException
-  {
-    return domainCheckUtils_.lDomainCheckTerm(term, manager, parentsToIgnore, 
-      useInfixAppliesto, processParents, addTrivialDC, applyPredTrans);
-  }
-  
-  public static void print(String fileName, SectionManager manager, Spec dcSpec) throws DomainCheckException
-  {        
-    // the new file name to print
-    String dcFileName = getDCFilename(fileName);
-    String dcFileNoDirNoPath = removePath(getFileNameNoExt(dcFileName));
-    
-    // check the section manager knows about the DC spec presence    
-    try
-    {
-      manager.get(new Key<Spec>(dcFileNoDirNoPath, Spec.class));
-    }
-    catch (CommandException e)
-    {
-      throw new DomainCheckException("Cannot print the given domain checked specification for file " + fileName +
-        ". It was not properly setup within the section manager, which generated an exception. Please, see" +
-        " the cause for details.", e);
-    }
-    
-    // prepare the printer's key depending on the markup extracted from the filename extension    
-    Markup markup = Markup.getMarkup(dcFileName);    
-    Key<? extends CztPrintString> key;
-    switch (markup)
-    {
-      case LATEX:
-        //output = manager.get(new Key<LatexString>(dcfilename, LatexString.class));
-        key = new Key<LatexString>(dcFileNoDirNoPath, LatexString.class);
-        break;
-      case UNICODE:        
-        //output = manager.get(new Key<UnicodeString>(dcspecToPrint, UnicodeString.class));
-        key = new Key<UnicodeString>(dcFileNoDirNoPath, UnicodeString.class);
-        break;
-      case ZML:
-        //output = manager.get(new Key<XmlString>(dcspecToPrint, XmlString.class));
-        key = new Key<XmlString>(dcFileNoDirNoPath, XmlString.class);
-        break;
-      default: 
-        throw new DomainCheckException("Invalid file name extension. Could not retrieve " +
-          "its markup format to produce DC section for " + dcFileNoDirNoPath + " in file " + dcFileName);
-    }  
-    
-    // compute the printed dcSpec
-    CztPrintString output;
-    try
-    {
-      output = manager.get(key);
-    }
-    catch (CommandException e)
-    {
-      throw new DomainCheckException("Cannot print the given domain checked specification for file " + fileName +
-        ". The section manager could not instruct the right printer to perform the command. Please, see cause for details.", e);
-    }
-    
-    // check weather the dcFileName already exists, deleting it if so.    
-    File dcFile = new File(dcFileName);    
-    String extraMsg = dcFileName;
-    if (dcFile.exists())
-    {
-      extraMsg = ", which already existed";
-      System.out.println("Deleting old DC generated file " + dcFileName);
-      boolean couldDelete = dcFile.delete();
-      if (couldDelete) { extraMsg += " but could not be deleted"; }
-    }
-    
-    // write the printed result on to the dc filename
-    try
-    {
-      FileWriter writer = new FileWriter(dcFileName);
-      System.out.println("Printing DC sections for Spec as " + dcFileNoDirNoPath + 
-        " in file " + dcFileName);
-      writer.write(output.toString());
-      writer.close();
-    }
-    catch (IOException e)
-    {
-      throw new DomainCheckException("Cannot print the given domain checked specification for file " + fileName +
-        ". An I/O exception was throw while trying to save the printed results to file " + extraMsg +
-        ". Please, see cause for details.", e);
-    }
   }   
   
   /* TOP-LEVEL METHODS FOR STANT-ALONE EXECUTION */
-  
+
+  private void commandException(String job, boolean debug, CommandException e, String extra)
+  {
+    System.err.println("Command exception has happened while " + job
+            + "\n\t message = " + e.getMessage()
+            + "\n\t cause   = " + (e.getCause() != null ? e.getCause().getMessage() : "none")
+            + "\n\t clue    = " + extra);
+    if (debug)
+      e.printStackTrace();
+    //System.exit(-1);
+  }
+
+  private void cztException(String job, boolean debug, CztException e, String extra)
+  {
+    System.err.println("CZT exception " + e.getClass().getSimpleName()
+            + "has happened while " + job
+            + "\n\t message = " + e.getMessage()
+            + "\n\t cause   = " + (e.getCause() != null ? e.getCause().getMessage() : "none")
+            + "\n\t clue    = " + extra
+            + "\n\t BUG!    = opps. Please report it to czt-devel@lists.sourceforge.net");
+    if (debug)
+      e.printStackTrace();
+    //System.exit(-1);
+  }
+
   protected void run(String [] args)
   {
     int result = 0;
+    byte exitCode = 0;
     
     if (args.length == 0) {
       printUsage();
@@ -535,6 +416,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     boolean processParents = processParentsDefault();
     boolean addTrivialDC = addTrivialDCDefault();    
     boolean applyPredTransf = applyPredTransfDefault();
+    boolean debug = false;
     String cztpath = cztPathDefault();
     String parentsToIgnore = parentToIgnoreListDefault();
     for (int i = 0; i < args.length; i++) 
@@ -559,13 +441,17 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       {
         applyPredTransf = true;
       }
+      else if ("--debug".equals(args[i]))
+      {
+        debug = true;
+      }
       else if (args[i].equals("-i"))
       {
         if (i == args.length)
         {
           printUsage();
           System.err.println("\nYou need to provide an argument for `-i'");
-          System.exit(result);
+          System.exit(exitCode);
         }
         i++;        
         parentsToIgnore = args[i].trim();
@@ -576,7 +462,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
         {
           printUsage();
           System.err.println("\nYou need to provide an argument for `-cp'");
-          System.exit(result);
+          System.exit(exitCode);
         }
         i++;
         cztpath = args[i].trim();        
@@ -592,12 +478,14 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       }        
     }       
     // retrieve section manager and update its CZT properties.
-    SectionManager manager = getSectionManager(getExtension());    
+    SectionManager manager = getSectionManager(getExtension());
     manager.setProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO, String.valueOf(useInfixAppliesTo));
     manager.setProperty(PROP_DOMAINCHECK_PROCESS_PARENTS, String.valueOf(processParents));
     manager.setProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC, String.valueOf(addTrivialDC));           
-    manager.setProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS, String.valueOf(applyPredTransf));    
-    
+    manager.setProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS, String.valueOf(applyPredTransf));
+    manager.setProperty(PROP_DOMAINCHECK_RAISE_TYPE_WARNINGS, String.valueOf(raiseWarnings));
+    manager.setTracing(debug);
+
     // add a potentially old czt path (? TODO: decide to add this or not ?)
     String localcztpath = "";
     if (cztpath != null && !cztpath.trim().isEmpty())
@@ -605,7 +493,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       String oldcztpath = manager.getProperty("czt.path");
       if (oldcztpath != null && !oldcztpath.trim().isEmpty())
       {
-        cztpath = oldcztpath + ";" + cztpath;
+        cztpath = oldcztpath + File.pathSeparator + cztpath;
       }      
       localcztpath = cztpath;
     }
@@ -616,12 +504,15 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       String oldpipath = manager.getProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE);
       if (oldpipath != null && !oldpipath.trim().isEmpty())
       {
-        parentsToIgnore = oldpipath + ";" + parentsToIgnore;
+        parentsToIgnore = oldpipath + File.pathSeparator + parentsToIgnore;
       }
       manager.setProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE, parentsToIgnore);            
       parentsToIgnoreList = manager.getListProperty(parentsToIgnore);
     }
-    
+
+    // make sure DomainChecker is aware of these SM properties
+    config();
+
     SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();        
     long zeroTime = System.currentTimeMillis();     
     long currentTime = zeroTime;
@@ -631,16 +522,17 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       
       // add the file parent to the path as well.      
       File archive = new File(file);
+      String filePath = ".";
       if (archive != null && archive.getParent() != null) 
       {
-        String fileParent = archive.getParent();
-        if (fileParent != null && !fileParent.isEmpty())
+        filePath = archive.getParent();
+        if (filePath != null && !filePath.isEmpty())
         {
-          localcztpath = fileParent;
+          localcztpath = filePath;
         }
         if (cztpath != null && !cztpath.isEmpty())
         {
-          localcztpath = fileParent + ";" + cztpath;
+          localcztpath = filePath + File.pathSeparator + cztpath;
         }             
       }            
       if (localcztpath != null && !localcztpath.trim().isEmpty())
@@ -655,43 +547,29 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       long domainCheckTime = 0;
       long printTime = 0;
       Spec spec = null;
-      List<SectTypeEnvAnn> types = new ArrayList<SectTypeEnvAnn>();            
+      List<SectTypeEnvAnn> types = new ArrayList<SectTypeEnvAnn>();
+      List<ZSectDCEnvAnn> dcVCs = new ArrayList<ZSectDCEnvAnn>();
+      String specNameNoPath = null;
       try 
       {                
         // retrieve it as either a ZSect or Spec - expects file name to be section name
-        spec = manager.get(new Key<Spec>(getFileNameNoExt(file), Spec.class));
+        specNameNoPath = removePath(getFileNameNoExt(file));
+        spec = manager.get(new Key<Spec>(specNameNoPath, Spec.class));
       }      
       catch (ParseException exception) {
         parsingErrors = exception.getErrorList().size();
-        exception.printErrorList();        
+        exception.printErrorList();
+        exitCode = -10;
       }
       catch (CommandException e)
       {
-        if (e.getCause() != null)
-        { 
-          System.err.println("Command exception has happened: \n\t" + e.getMessage());
-          System.err.println("It was caused by: \n\t" + e.getCause().getMessage());            
-          System.err.println("Perhaps the file does not contain a Z section with the same name.");
-          e.printStackTrace();          
-        }
-        else
-        {
-          System.err.println("Command exception has happened without a cause: \n\t" + e.getMessage());
-          System.err.println("Perhaps the file does not contain a Z section with the same name.");
-          e.printStackTrace();
-        }        
-      }
-      catch(UnsupportedAstClassException e)
-      {
-        System.err.println("An attempt to wrongly cast an AST class has happened.\n" +
-          "This is usually a bug, and should not happen. Please report it to czt-devel@lists.sourceforge.net");    
-        e.printStackTrace();        
+        commandException("parsing", debug, e, "file does not contain Z section " + specNameNoPath);
+        exitCode = -11;
       }
       catch(CztException f)
       {
-        System.err.println("A general CztException has happened.\n" +
-          "This is usually a bug, and should not happen. Please report it to czt-devel@lists.sourceforge.net");    
-        f.printStackTrace();        
+        cztException("parsing", debug, f, specNameNoPath);
+        exitCode = -12;
       }
       /* ex:
        * 0        40           
@@ -703,7 +581,8 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
       lastTime = currentTime;
       currentTime = System.currentTimeMillis();      
       parsingTime = currentTime - lastTime;        
-      
+
+      // I don't need to do this bit, actually, given the new ZSectDCEnvAnn Command protocol TODO: simplify
       // typecheck + domain cehck each section      
       if (spec != null)
       {
@@ -721,28 +600,22 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
         }
         catch (CommandException e)
         {
-          if (e.getCause() != null)
+          if (e.getCause() != null && e.getCause() instanceof TypeErrorException)
           {
-            if (e.getCause() instanceof TypeErrorException)
-            {
-              TypeErrorException te = (TypeErrorException)e.getCause();
-              typeErrors = domainChecker_.printErrors(te.errors(), raiseWarnings);
-            }
-            else
-            {
-              System.err.println("Command exception has happened: \n\t" + e.getMessage());
-              System.err.println("It was caused by: \n\t" + e.getCause().getMessage());            
-              System.err.println("Perhaps the file does not contain a Z section with the same name.");
-              e.printStackTrace();
-            }
+            TypeErrorException te = (TypeErrorException)e.getCause();
+            typeErrors = domainChecker_.printErrors(te.errors());
+            exitCode = -20;
           }
           else
           {
-            System.err.println("Command exception has happened without a cause: \n\t" + e.getMessage());
-            System.err.println("Perhaps the file does not contain a Z section with the same name.");
-            e.printStackTrace();
+            commandException("type checking", debug, e, file);
+            exitCode = -21;
           }
-          System.exit(-1);
+        }
+        catch (CztException f)
+        {
+          cztException("type checking", debug, f, file);
+          exitCode = -22;
         }
         /* ex:
          * 0        40           
@@ -757,56 +630,81 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
 
         //if the typecheck succeeded, domain check the spec
         assert spec != null;            
-        Spec dcSpec = null;
-        try 
+        
+        if (!types.isEmpty())
         {
-          // create the domain checked section
-          dcSpec = lDomainCheck(spec, manager, parentsToIgnoreList, useInfixAppliesTo, 
-            processParents, addTrivialDC, applyPredTransf);
-        }
-        catch (DomainCheckException e) 
-        {
-          System.err.println("A domain check exception has happened: " + e.getMessage());
-          e.printStackTrace();          
-        }        
-        // result is the number of errors to consider        
-        result += typeErrors + parsingErrors;
-
-        /* ex:
-         * 0        40            100
-         * |--Parse--|--TypeCheck--|--DomainCheck--|--PrintType--|         
-         * lt = 40
-         * ct = 100
-         * tt = 60  (100-40)
-         */
-        lastTime = currentTime;
-        currentTime = System.currentTimeMillis();
-        domainCheckTime = currentTime - lastTime;
-
-        if (dcSpec != null)
-        {
-          try 
+          try
           {
-            System.out.println("Printing DC ZSect for " + file);
-            print(file, manager, dcSpec);
-          }                
-          catch (DomainCheckException e)
-          {
-            System.err.println("Domain exception thrown while trying to domain check " + file);
-            e.printStackTrace();          
+            for (Sect sect : spec.getSect())
+            {
+              if (sect instanceof ZSect)
+              {
+                ZSect zs = (ZSect)sect;
+                ZSectDCEnvAnn dc = manager.get(new Key<ZSectDCEnvAnn>(zs.getName(), ZSectDCEnvAnn.class));
+                dcVCs.add(dc);
+              }
+            }
           }
-         
+          catch (CommandException e)
+          {
+            commandException("domain checking", debug, e, file);
+            exitCode = -30;
+          }
+          catch (CztException f)
+          {
+            cztException("domain checking", debug, f, file);
+            exitCode = -31;
+          }
+
+          // result is the number of errors to consider
+          result += typeErrors + parsingErrors;
+
           /* ex:
            * 0        40            100
-           * |--Parse--|--TypeCheck--|--DomainCheck--|--Print--|         
+           * |--Parse--|--TypeCheck--|--DomainCheck--|--PrintType--|
            * lt = 40
            * ct = 100
            * tt = 60  (100-40)
            */
           lastTime = currentTime;
           currentTime = System.currentTimeMillis();
-          printTime = currentTime - lastTime;          
-        } 
+          domainCheckTime = currentTime - lastTime;
+
+          // print the collected Domain Check VCs
+          if (!dcVCs.isEmpty())
+          {
+            try
+            {
+              System.out.println("Printing DC ZSect(s) for " + file);
+              for (ZSectDCEnvAnn zSectDC : dcVCs)
+              {
+                ZSect dcZSect = manager.get(new Key<ZSect>(zSectDC.getDCZSectName(), ZSect.class));
+                print(dcZSect, filePath);
+              }
+            }
+            catch (CommandException e)
+            {
+              commandException("printing DC ZSect", debug, e, file);
+              exitCode = -40;
+            }
+            catch (CztException f)
+            {
+              cztException("printing DC ZSect", debug, f, file);
+              exitCode = -41;
+            }
+
+            /* ex:
+             * 0        40            100
+             * |--Parse--|--TypeCheck--|--DomainCheck--|--Print--|
+             * lt = 40
+             * ct = 100
+             * tt = 60  (100-40)
+             */
+            lastTime = currentTime;
+            currentTime = System.currentTimeMillis();
+            printTime = currentTime - lastTime;
+          }
+        }
       }      
       timesPerFile.put(file, Arrays.asList(parsingErrors, typeErrors,
         parsingTime, typeCheckTime, domainCheckTime, printTime, typeCheckTime+domainCheckTime+printTime));
@@ -831,7 +729,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
         System.out.println("\t\tprinter........." + times.get(5) + "ms");                
       }             
     }        
-    System.exit(result);
+    System.exit(exitCode);
   }
    
   public static void main(String[] args)

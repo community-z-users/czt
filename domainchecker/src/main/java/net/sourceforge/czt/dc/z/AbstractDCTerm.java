@@ -73,7 +73,6 @@ public abstract class AbstractDCTerm<R> implements Visitor<R>, TermVisitor<R>
   @Override
   public R visitTerm(Term term)
   { 
-    throw new CztException("Domain Check Exception thrown (see causes) while visiting Term " + term.toString(), 
-        new DomainCheckException("Unknown term to calculate DC - " + term.getClass().getName()));
+    throw new CztException(new DomainCheckException("DC-NOVISITOR-ERROR = " + term.getClass().getSimpleName()));
   }
 }

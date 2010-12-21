@@ -44,7 +44,7 @@ public class SpecDCEnvAnn extends AnnImpl implements DomainCheckPropertyKeys {
    * 
    * <ul>
    *   <li><code>originalSpec = manager.get(new Key&lt;Spec&gt;(originalSpecResourceName_, Spec.class))</code></li>
-   *   <li><code>dcSpec =manager.get(new Key&lt;Spec&gt;(originalSpecResourceName_ + "_dc", Spec.class))</code></li>
+   *   <li><code>dcSpec =manager.get(new Key&lt;Spec&gt;(originalSpecResourceName_ + DOMAIN_CHECK_GENERAL_NAME_SUFFIX, Spec.class))</code></li>
    * </ul>
    */
   private String originalSpecResourceName_;
@@ -58,7 +58,7 @@ public class SpecDCEnvAnn extends AnnImpl implements DomainCheckPropertyKeys {
   /**
    * Create the given environment as place holder for DC Z sect and its 
    * list of domain checks per paragraph. This list is redundant in the
-   * sense that the list encompas all zsect conjectures. The list may contain
+   * sense that the list encompass all zsect conjectures. The list may contain
    * more paragraph than the Z sect, though. This happens whenever trivial 
    * paragraph have been removed whilst creating the Z section.
    * @param zsect

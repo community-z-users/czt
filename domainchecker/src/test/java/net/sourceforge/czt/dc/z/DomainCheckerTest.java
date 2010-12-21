@@ -28,10 +28,13 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
 
 /**
  * A JUnit test class for testing the domainchecker. This reads any
@@ -62,7 +65,10 @@ public class DomainCheckerTest
     File shouldDebug = new File("src/test/resources/tests/z/debug-please");
     try
     {
-      System.out.println("shouldDebug? \n path = " + shouldDebug.getPath() + "\n abs path = " + shouldDebug.getAbsolutePath() + "\n can path = " + shouldDebug.getCanonicalPath() + " \n exists? = " + shouldDebug.exists());
+      System.out.println("shouldDebug? \n\t path = " + shouldDebug.getPath() +
+              "\n\t abs path = " + shouldDebug.getAbsolutePath() +
+              "\n\t can path = " + shouldDebug.getCanonicalPath() +
+              "\n\t exists? = " + shouldDebug.exists());
     }
     catch (java.io.IOException e)
     {
@@ -84,10 +90,10 @@ public class DomainCheckerTest
 
   public static Test suite()
   {
-    CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
 
     DomainCheckerTest checkerTest = new DomainCheckerTest();
+    checkerTest.manager_.setTracing(DEBUG_TESTING);
     checkerTest.collectTests(suite, TESTS_SOURCEDIR);
     return suite;
   }  
@@ -97,7 +103,7 @@ public class DomainCheckerTest
   /** Creates a new instance of DomainCheckerTest */
   public DomainCheckerTest()
   {
-    manager_ = new SectionManager();
+    manager_ = DomainCheckUtils.domainCheckUtils_.getSectionManager(DomainCheckUtils.domainCheckUtils_.getExtension());
   }
   
   protected SectionManager getSectionManager() {
@@ -109,7 +115,9 @@ public class DomainCheckerTest
   protected void collectTest(TestSuite suite, File file) 
   {
     String fileName = file.getName();
-    if (fileName.indexOf("-errors") == -1 && fileName.endsWith(".tex"))
+    if (fileName.indexOf("-errors") == -1 && // don't process -errors file
+        fileName.indexOf(DOMAIN_CHECK_CONJECTURE_NAME_SUFFIX) == - 1 && // don't process _dc files for testing
+        fileName.endsWith(".tex")) // only process LaTeX files
     {
       suite.addTest(createTestCase(file));
     }
@@ -135,25 +143,25 @@ public class DomainCheckerTest
     }
     // if it is a list of directories...
     List<String> paths = Arrays.asList(cztHome);
-    if (cztHome != null && cztHome.indexOf(';') != -1)
+    if (cztHome != null && cztHome.indexOf(File.pathSeparatorChar) != -1)
     {
-      paths = Arrays.asList(cztHome.split(";"));
+      paths = Arrays.asList(cztHome.split(File.pathSeparator));
     }        
     File[] files = null;
     for(String path : paths)
     {
       String fullDirectoryName = path.trim() + (!path.isEmpty() ? "\\" : "") + directoryName;
-      System.out.println("Full directory name = " + fullDirectoryName);
+      System.out.println("Full directory name = \n\t" + fullDirectoryName);
       File directory = new File(fullDirectoryName);      
       if (!directory.isDirectory())
       {
         URL url = getClass().getResource("/");
         if (url != null) {          
-          System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
+          System.out.println("Looking for tests under: \n\t" + url.getFile() + fullDirectoryName);
           directory = new File(url.getFile() + fullDirectoryName);        
           if (! directory.isDirectory()) 
           {
-            System.out.println("No tests to perform on " + directory.getAbsolutePath());            
+            System.out.println("No tests to perform on: \n\t" + directory.getAbsolutePath());
           } 
           else 
           {            
@@ -214,13 +222,15 @@ public class DomainCheckerTest
         }
         else
         {
-          localcztpath += ";" + file_.getParent();
+          localcztpath += File.pathSeparator + file_.getParent();
         }    
         System.out.println("Setting czt.path = " + localcztpath);
         manager_.setProperty("czt.path", localcztpath); 
-        // transforms c:\temp\myfile.tex into myfile
+        // transforms (c:\temp\myfile.tex or tmp/myfile.tex) into myfile
         String resource = DomainCheckUtils.getSourceName(fileName_);
-        System.out.println("Retrieving Spec " +  resource + " for " + fileName_);                
+        System.out.println("Retrieving Spec " +  resource + " for \n\t" + fileName_);
+        // for parsing, we better fix the source as well for the section manager.
+        manager_.put(new Key<Source>(resource, Source.class), new FileSource(file_));
         Spec spec = manager_.get(new Key<Spec>(resource, Spec.class));
         if (spec == null)
         {
@@ -229,49 +239,29 @@ public class DomainCheckerTest
         else 
         {           
           System.out.println("Setting up section manager to domain check " + resource);
-          boolean useInfixAppliesTo =
-          (manager_.hasProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) ?
-            manager_.getBooleanProperty(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO) :
-            PROP_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
-          boolean processParents =
-            (manager_.hasProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) ?
-              manager_.getBooleanProperty(PROP_DOMAINCHECK_PROCESS_PARENTS) :
-              PROP_DOMAINCHECK_PROCESS_PARENTS_DEFAULT);
-          boolean addTrivialDC =
-            (manager_.hasProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) ?
-              manager_.getBooleanProperty(PROP_DOMAINCHECK_ADD_TRIVIAL_DC) :
-              PROP_DOMAINCHECK_ADD_TRIVIAL_DC_DEFAULT);
-          boolean applyPredTransf =
-            (manager_.hasProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) ?
-              manager_.getBooleanProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS) :
-              PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS_DEFAULT);
-          List<String> parentsToIgnore = 
-            (manager_.hasProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE) ? 
-             manager_.getListProperty(PROP_DOMAINCHECK_PARENTS_TO_IGNORE) : null);
-          
-          System.out.println("Collecting DCs for Spec in file " + fileName_);
-          Spec dcSpec = DomainCheckUtils.domainCheck(spec, manager_, parentsToIgnore, 
-            useInfixAppliesTo, processParents, addTrivialDC, applyPredTransf);
-          
-          if (dcSpec != null)
+          DomainCheckUtils.domainCheckUtils_.config();
+          System.out.println("Collecting DCs for Spec in file \n\t" + fileName_);
+          String path = file_.getParent() != null ? file_.getParent() : ".";
+          for (Sect sect : spec.getSect())
           {
-            System.out.println("Printing DC Spec for " + fileName_);
-            DomainCheckUtils.print(fileName_, manager_, dcSpec);
-            return ;        
+            if (sect instanceof ZSect)
+            {
+              ZSect zSect = (ZSect)sect;
+              ZSectDCEnvAnn zSectDCEnvAnn = DomainCheckUtils.domainCheckUtils_.calculateZSectDCEnv(zSect);
+              ZSect dcZSect = manager_.get(new Key<ZSect>(zSectDCEnvAnn.getDCZSectName(), ZSect.class));
+              DomainCheckUtils.domainCheckUtils_.print(dcZSect, path);
+            }
           }
-          else
-          {
-            fail("Could not calculate DC Spec for " + fileName_);
-          }
+          return ;
         }
       }
       catch (net.sourceforge.czt.parser.util.ParseException f)
       {
         printCauses(f);
+        f.printErrorList();
         fail("\nUnexpected parser exception" +
             "\n\tFile: " + fileName_ +
-            "\n\tException: " + f.toString());
-        f.printErrorList();        
+            "\n\tException: " + f.toString());     
       }
       catch (DomainCheckException f)
       {
