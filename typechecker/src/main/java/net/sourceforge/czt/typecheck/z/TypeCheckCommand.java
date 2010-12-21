@@ -23,7 +23,7 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
@@ -34,9 +34,8 @@ import net.sourceforge.czt.z.util.WarningManager;
 /**
  * A command to compute the SectTypeInfo of a Z section.
  */
-public class TypeCheckCommand
-  implements Command,
-             TypecheckPropertiesKeys
+public class TypeCheckCommand extends AbstractCommand
+          implements TypecheckPropertiesKeys
 {
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager)
@@ -59,12 +58,29 @@ public class TypeCheckCommand
         WarningManager.WarningOutput.valueOf(warningOutput), null);
   }
 
+
+  /**
+   * This command type checks the given ZSection name, providing no parsing
+   * or resource Source location error occur. If the ZSect is not yet cached,
+   * it gets parsed. It raises an exception
+   * type errors, if they exist.
+   *
+   * -pre name is of a ZSect
+   * -pre ZSect has no parsing error
+   * @param name ZSect name
+   * @param manager
+   * @return irrelevant (!)
+   * @throws CommandException if named resource Source cannot be located, or if
+   *    named ZSect has a parsing or type checking error.
+   */
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
     // Retrieve the section information.
     // It throws an exception if it is not available.
     // This also parses the section.
+    traceLog("TC-RETRIEVE-ZSECT = " + name);
     ZSect zs = manager.get(new Key<ZSect>(name, ZSect.class));
     if (zs != null) {
       //Typechecks the given section. This will include the SectTypeEnv we
@@ -72,14 +88,15 @@ public class TypeCheckCommand
       List<? extends ErrorAnn> errors = typecheck(zs, manager);
       if (! errors.isEmpty()) {
         int count = errors.size();
-        String message = "Section " + name + " contains " + count +
+        final String message = "Section " + name + " contains " + count +
           (count == 1 ? " error." : " errors.");
-        Exception nestedException = new TypeErrorException(message, errors);
-        message = "Indirect typechecking failed for section " + name +
-          ". It contains type errors." + "See exception cause for details.";
-        throw new CommandException(message, nestedException);
+        Exception nestedException = new TypeErrorException(message, errors);        
+        throw new CommandException(nestedException);
       }
+      traceLog("TC-TYPECHECK-OKAY");
+      return true;
     }
-    return true;
+    // these return values are kind of pointless as they are neither used, nor checked for! (Leo)
+    return false;
   }
 }

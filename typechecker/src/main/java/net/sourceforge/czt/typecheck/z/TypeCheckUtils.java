@@ -693,7 +693,7 @@ manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl
       String oldcztpath = manager.getProperty("czt.path");
       if (oldcztpath != null && !oldcztpath.trim().isEmpty())
       {
-        cztpath = oldcztpath + ";" + cztpath;
+        cztpath = oldcztpath + File.pathSeparator + cztpath;
       }      
       localcztpath = cztpath;
     }                
@@ -718,7 +718,7 @@ manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl
         }
         if (cztpath != null && !cztpath.isEmpty())
         {
-          localcztpath = fileParent + ";" + cztpath;
+          localcztpath = fileParent + File.pathSeparator + cztpath;
         }             
       }            
       if (localcztpath != null && !localcztpath.trim().isEmpty())
