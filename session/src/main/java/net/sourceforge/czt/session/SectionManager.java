@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.session;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -136,7 +137,7 @@ public class SectionManager
 
   private String dialect_ = DEFAULT_EXTENSION;
   
-  public static final String  SECTION_MANAGER_LIST_PROPERTY_SEPARATOR = ";";
+  public static final String  SECTION_MANAGER_LIST_PROPERTY_SEPARATOR = File.pathSeparator;
   
 
   /**

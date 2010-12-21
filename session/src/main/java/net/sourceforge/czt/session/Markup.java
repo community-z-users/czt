@@ -31,7 +31,7 @@ public enum Markup
   UNICODE,
   ZML;
   
-  public final String [] KNOWN_FILENAME_SUFFIXES = {
+  public final static String [] KNOWN_FILENAME_SUFFIXES = {
     ".tex", ".zed", ".zed8", ".zed16", ".oz", ".oz8", ".oz16",
     ".circus", ".circus8", ".circus16", ".zedpatt", ".zedpatt8", ".zedpatt16",
     ".zml"};
@@ -69,5 +69,16 @@ public enum Markup
       if (filename.toLowerCase().endsWith(suffix)) return Markup.ZML;
     }        
     return result;
+  }
+
+  public static String getDefaultFileExtention(Markup markup)
+  {
+    switch (markup)
+    {
+      case LATEX  : return ".tex";
+      case UNICODE: return ".zed16";
+      case ZML    : return ".zml";
+      default     : throw new Error();
+    }
   }
 }

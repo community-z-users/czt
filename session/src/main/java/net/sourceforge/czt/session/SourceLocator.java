@@ -36,13 +36,9 @@ import java.util.logging.Logger;
  * then searches for a variety of file extensions in the directory
  * specified by czt.path.
  */
-public class SourceLocator
-  implements Command
+public class SourceLocator extends AbstractCommand
 {
-  protected final String [] suffix_ = {
-    ".tex", ".zed", ".zed8", ".zed16", ".oz", ".oz8", ".oz16",
-    ".circus", ".circus8", ".circus16", ".zedpatt", ".zedpatt8", ".zedpatt16",
-    ".zml", ".error"};
+  private final static String[] suffix_ = Markup.KNOWN_FILENAME_SUFFIXES;
 
   /**
    * Tries to locate the resource named for the given section manager.
@@ -77,32 +73,32 @@ public class SourceLocator
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
-    debug("SL-locate " + name);
+    traceLog("SL-locate       = " + name);
     // see if "name" is a toolkit (i.e., czt.jar/lib/name.tex)
     String filename = "/lib/" + name + ".tex";
     URL url = getClass().getResource(filename);
     if (url != null) {
-      debug("SL-TK-found="+filename);
+      traceLog("SL-TK-found     = "+filename);
       manager.put(new Key<Source>(name, Source.class), new UrlSource(url));
       return true;
     }
-    debug("SL-non-toolkit ; try current directory.");
+    traceLog("SL-NO-TK        = try current directory.");
     // see if "name" is within the current directory 
     // with all possible sufixes (i.e., ./name.suffix)
     for (int i = 0; i < suffix_.length; i++) {
       filename = name + suffix_[i];
       File file = new File(filename);
       if (file.exists() && ! file.isDirectory()) {
-        debug("SL-CURDIR-found="+filename);
+        traceLog("SL-CURDIR-FOUND = "+filename);
         manager.put(new Key<Source>(name, Source.class), new FileSource(file));
         return true;
       }
     }
-    debug("SL-non-current-dir ; try czt.path");
+    traceLog("SL-NO-CURDIR    = try czt.path");
     // try to retrieve czt.path
     List<String> cztpaths = new ArrayList<String>();
     String path = manager.getProperty("czt.path");
-    debug("SL-SM-czt.path   = " + path);    
+    traceLog("SL-SM-czt.path  = " + path);
     // if empty or null, try czt.properties
     if (path == null || path.isEmpty())
     {
@@ -111,11 +107,10 @@ public class SourceLocator
       {
         // gets within czt.properties (if it exists) czt.path or "." by default
         path = cztprops.getProperty("czt.path", ".");
-        debug("SL-CZTP-SM-setProperties");
         // sets the manager with all properties within cztprops
         // hence overriding any previous properties within it.
-        manager.setProperties(cztprops);                              
-        debug("SL-CZTP-czt.properties=" + cztprops);
+        manager.setProperties(cztprops);
+        traceLog("SL-SM-CZT-prop  = " + cztprops);
       }
     }
     if (path != null && !path.isEmpty())
@@ -124,20 +119,20 @@ public class SourceLocator
       cztpaths = processCZTPaths(path);    
       for (String cztpath : cztpaths)
       {     
-        debug("SL-CZTP-cztpath[i]=" + cztpath);
+        traceLog("SL-SM-cztpath[i] = " + cztpath);
         // check czt.path/name with all possible sufixes as last resort
         for (int i = 0; i < suffix_.length; i++) {
           filename = cztpath + "/" + name + suffix_[i];
           File file = new File(filename);
           if (file.exists()) {
-            debug("SL-CZTP-found="+filename);
+            traceLog("SL-CZTP-found   = "+filename);
             manager.put(new Key<Source>(name, Source.class), new FileSource(file));
             return true;
           }
         }
       }
     }
-    debug("SL-CZTP-FAILED="+path);
+    traceLog("SL-CZTP-FAILED  = "+path);
     // raise an error that name could not be found.
     throw new SourceLocatorException(name, path);
   }
@@ -150,20 +145,20 @@ public class SourceLocator
    */
   public static Properties retrieveCZTProperties() throws CommandException
   {
-    debug("Trying czt.path as user.dir and look for czt.properties");
+    traceLog("Trying czt.path as user.dir and look for czt.properties");
     // if not set, look for the user working directory, or "." by default      
     String path = System.getProperty("user.dir", ".");
-    debug("SL-SYS-user.dir  = " + path);
+    traceLog("SL-SYS-user.dir  = " + path);
     String filename = path + "/czt.properties";
     File cztpropsfile = new File(filename);
-    debug("SL-CZTP-fileexists? = " + filename + " " + cztpropsfile.exists());
+    traceLog("SL-CZT-fileexists? = " + filename + " " + cztpropsfile.exists());
     Properties cztprops = null;
     if (cztpropsfile.exists())
     {
         // if czt.properties lives on the working directory (or ".")
         // retrieve its values
         cztprops = new Properties();
-        debug("SL-CZTP-retrival");
+        traceLog("SL-CZT-retrival");
         try 
         {          
           FileInputStream fis = new FileInputStream(cztpropsfile);
@@ -174,12 +169,12 @@ public class SourceLocator
           throw new SourceLocatorException("czt.properties", path, e);
         }        
     }
-    debug("SL-CZTP-czt.path = " + path);
+    traceLog("SL-CZT-czt.path = " + path);
     return cztprops;
   }
   
   /**
-   * Very simple path splitting through <code>path.split(";")</code>.
+   * Very simple path splitting through <code>path.split(File.pathSeparator)</code>.
    * Any more complicated behaviour can be defined differently elsewhere.
    * 
    * @param path the string to split, it expects the path to be non-null and non-empty
@@ -188,7 +183,7 @@ public class SourceLocator
   public static List<String> processCZTPaths(String path)
   {
     assert path != null && !path.isEmpty() : "invalid czt.path to process";
-    return Arrays.asList(path.split(";"));
+    return Arrays.asList(path.split(File.pathSeparator));
   }
   
   private static Logger getLogger()
