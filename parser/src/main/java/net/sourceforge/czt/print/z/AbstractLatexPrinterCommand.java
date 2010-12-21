@@ -19,15 +19,18 @@
 
 package net.sourceforge.czt.print.z;
 
+import java.io.IOException;
+import java.io.Writer;
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
-public class AbstractLatexPrinterCommand
+public abstract class AbstractLatexPrinterCommand
   extends AbstractPrinterCommand
 {
   protected Scanner prepare(ZmlScanner scanner, Term term)
@@ -60,6 +63,24 @@ public class AbstractLatexPrinterCommand
   protected int getSymTokenseq()
   {
     return Sym.TOKENSEQ;
+  }
+
+  // TODO: make it parameterised by extension?
+  public final static String LATEX_PREAMBLE =
+          "\\documentclass{article}\n\\usepackage{czt}\n\n%----------------------------------\n\\begin{document}\n\n";
+
+  public final static String LATEX_POSTSCRIPT =
+          "\n\n%----------------------------------\n\\end{document}";
+
+  protected void latexPreamble(Writer out, SectionManager sectInfo) throws IOException
+  {
+    out.write(LATEX_PREAMBLE);
+  }
+
+
+  protected void latexPostscript(Writer out, SectionManager sectInfo) throws IOException
+  {
+    out.write(LATEX_POSTSCRIPT);
   }
 }
 

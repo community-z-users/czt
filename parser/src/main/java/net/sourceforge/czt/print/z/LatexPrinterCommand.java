@@ -34,11 +34,21 @@ public class LatexPrinterCommand
   extends AbstractLatexPrinterCommand
   implements Command
 {
+  /**
+   * Given a section or spec name (e.g., it uses TermCommand) it computes the term
+   * to be printed as LaTeX output, and added to the Manager as a LatexString class.
+   * We wrap it up with usual LaTeX markup if property is requested in the manager.
+   * @param name
+   * @param manager
+   * @return
+   * @throws CommandException
+   */
   @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
     try {
+      traceLog("LATEX-PRINT = " + name);
       final Writer writer = new StringWriter();
       final Key<Term> key = new Key<Term>(name, Term.class);
       final Term term = manager.get(key);
@@ -80,10 +90,12 @@ public class LatexPrinterCommand
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
     try {
+      latexPreamble(out, sectInfo);
       parser.parse();
+      latexPostscript(out, sectInfo);
     }
     catch (Exception e) {
-      String msg = "An exception occurred while trying to print " +
+      final String msg = "An exception occurred while trying to print " +
         "LaTeX markup for term within section " + sectionName;
       throw new PrintException(msg, e);
     }

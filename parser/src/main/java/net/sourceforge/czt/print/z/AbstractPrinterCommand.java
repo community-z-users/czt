@@ -26,10 +26,11 @@ import net.sourceforge.czt.print.util.PrettyPrinter;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.util.TokenSequence;
+import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 
-public class AbstractPrinterCommand
+public abstract class AbstractPrinterCommand extends AbstractCommand
 {
   public TokenSequence toUnicode(Term term,
                                  SectionManager sectInfo,
