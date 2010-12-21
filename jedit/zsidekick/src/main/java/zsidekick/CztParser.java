@@ -96,7 +96,7 @@ public class CztParser
       final String path = new File(name).getParent();      
       if (path != null) {
         String oldpath = manager.getProperty("czt.path");
-        String localpath = ((oldpath == null || oldpath.isEmpty()) ? path : oldpath + ";" + path);
+        String localpath = ((oldpath == null || oldpath.isEmpty()) ? path : oldpath + File.pathSeparator + path);
         assert localpath != null;
         manager.setProperty("czt.path", localpath);
         logger_.config("CZT path as " + localpath);        

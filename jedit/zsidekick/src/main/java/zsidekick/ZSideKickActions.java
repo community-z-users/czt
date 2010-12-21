@@ -19,17 +19,13 @@
 package zsidekick;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.sourceforge.czt.dc.z.DomainCheckException;
 import net.sourceforge.czt.dc.z.DomainCheckUtils;
 import net.sourceforge.czt.dc.z.SpecDCEnvAnn;
-import net.sourceforge.czt.session.Command;
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.textarea.*;
@@ -140,7 +136,7 @@ public class ZSideKickActions
       if (path != null) {
         String oldpath = manager.getProperty("czt.path");
         String localpath = ((oldpath == null || oldpath.isEmpty() || oldpath.equals(path)) ? 
-          path : oldpath  + ";" + path);
+          path : oldpath  + File.pathSeparator + path);
         assert localpath != null;
         manager.setProperty("czt.path", localpath);
         JOptionPane.showMessageDialog(view, "CZT-path = " + localpath.replace(';', '\n'));

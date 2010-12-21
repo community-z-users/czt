@@ -316,7 +316,7 @@ private void downButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     fileChooser_.setMultiSelectionEnabled(true);
   }
    
-  private final String SECTION_MANAGER_PATH_SEPARATOR = ";\n";
+  private final String SECTION_MANAGER_PATH_SEPARATOR = File.pathSeparator + "\n";
   
   public String buildPathList()
   {
