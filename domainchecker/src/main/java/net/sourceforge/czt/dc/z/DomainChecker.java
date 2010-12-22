@@ -30,16 +30,10 @@ import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ThmTable;
-import net.sourceforge.czt.print.util.CztPrintString;
-import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.print.util.XmlString;
+import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
@@ -109,7 +103,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
 
   private static final Logger logger_ = Logger.getLogger(DomainChecker.class.getName());
   /**
-   * 
+   * Various class fields
    */
   private SectionManager sectManager_;
   private ZSect dcToolkit_;
@@ -144,6 +138,8 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
     "sequence_toolkit",
     "standard_toolkit"
   };
+
+  /* CLASS SETUP METHOS */
 
   public DomainChecker()
   {
@@ -336,10 +332,6 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
     return applyPredTransf_;
   }
 
-  /**
-   * 
-   * @param value
-   */
   public void setProcessingParents(boolean value)
   {
     processParents_ = value;
@@ -533,20 +525,8 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
       throw new DomainCheckException(msg);
     }
   }
-//
-//    try
-//    {
-//      checkSectionManager("bla");
-//    }
-//    catch (CztException e)
-//    {
-//      if (e.getCause() instanceof DomainCheckException)
-//        throw (DomainCheckException)e.getCause();
-//      else
-//        logger_.severe(e.getMessage());
-//    }
 
-  /** TOP-LEVEL SPECIFICATION TERM PROCESSING VISITOR */
+  /** TOP-LEVEL SPECIFICATION TERM PROCESSING VISITOR METHODS */
 
   /**
    * For UnparsedZSect or NarrSect, just return an empty list.
@@ -668,6 +648,95 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
     return result;
   }
 
+  /* AUXILIARY TERM PROCESSING METHODS */
+
+  /**
+   * Logs type ErrorAnn as warning if ERROR or if raising type checking warnings.
+   * The result is the same as <code>errors.size()</code>, if <code>isRaisingTypeWarnings()</code>;
+   * it is the same as the number of ERROR elements (e.g., don't raise warnings) otherwise.
+   *
+   * To be called only by typeCheck method below.
+   *
+   * @param errors list of type errors
+   * @return number of errors (and maybe warnings) print.
+   */
+  protected int printErrors(List<? extends ErrorAnn> errors)
+  {
+    int result = 0;
+    //print any errors
+    for (ErrorAnn next : errors)
+    {
+      // raiseWarnings => next.getErrorType(ErrorType.ERROR) only
+      if (logTypeWarnings_ || next.getErrorType().equals(ErrorType.ERROR))
+      {
+        // TODO: fix this? It might generate section management problems in case of
+        //       systemic management error / failure :-( = toString uses the SectionManager
+        logger_.warning(next.toString());
+        result++;
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Like in Parser.xml, we need to add OpTable and ThmTable (and other tables)
+   * for ZSections created on-the-fly (e.g., DC ZSect).
+   *
+   * To be called only by methods creating ZSects on the fly.
+   *
+   * @param zSect DC ZSect (or on the fly ones)
+   * @throws DomainCheckException
+   */
+  private void updateManager(ZSect zSect)
+          throws DomainCheckException
+  {
+    assert sectManager_ != null;
+    try
+    {
+      ParseUtils.updateSectManager(sectManager_, zSect);
+    }
+    catch (CommandException e)
+    {
+      final String msg = "DC-CMDEXP-TBL = " + e.getCause();
+      logger_.warning(msg);
+      throw new DomainCheckException(msg, e);
+    }
+  }
+
+  /**
+   * Type checks the given section name. Log type errors, if any and wrap command exceptions
+   * as domain check exceptions
+   * @param sectName section name to type check
+   * @throws DomainCheckException wrapped CommandException from type checking.
+   */
+  protected void typeCheck(String sectName) throws DomainCheckException
+  {
+    // attempt to typecheck the DC Z section, which should succeed.
+    // raise a warning if it doesn't.
+    try
+    {
+      // type check given spec? - if on-the-fly construction is wrong this will fail.
+      sectManager_.get(new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class));
+    }
+    catch (CommandException e)
+    {
+      if (e.getCause() != null)
+      {
+        final String msg = "Type error(s) in ZSect " + sectName
+                           + "\n\t caused by " + e.getCause().getClass().getSimpleName()
+                           + ": " + e.getCause().getMessage();
+        logger_.warning(msg);
+        if (e.getCause() instanceof TypeErrorException)
+        {
+          TypeErrorException typeErrorException = (TypeErrorException) e.getCause();
+          final int i = printErrors(typeErrorException.getErrors());
+          logger_.warning("DC-TYPECHK-ZSECT-ERROR = (" + sectName + ", " + i + ")");
+        }
+      }
+      throw new DomainCheckException("DC-TYPECHK-ZSECT-ERROR = " + sectName, e);
+    }
+  }
+
   /* ZSect DC RESULTS CREATION METHODS */
 
   /**
@@ -699,30 +768,6 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
   {
     String result = ONTHEFLY_ZSECT_NAME + onTheFlySeed_;
     onTheFlySeed_++;
-    return result;
-  }
-
-
-  /**
-   * Logs ErrorAnn as warning if ERROR or if raising type warnings.
-   * @param errors
-   * @return
-   */
-  protected int printErrors(List<? extends ErrorAnn> errors)
-  {
-    int result = 0;
-    //print any errors
-    for (ErrorAnn next : errors)
-    {
-      // raiseWarnings => next.getErrorType(ErrorType.ERROR) only
-      if (logTypeWarnings_ || next.getErrorType().equals(ErrorType.ERROR))
-      {
-        // TODO: fix this? It might generate section management problems in case of
-        //       systemic management error / failure :-( = toString uses the SectionManager
-        logger_.warning(next.toString());
-        result++;
-      }
-    }
     return result;
   }
 
@@ -866,36 +911,14 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
     // it is accessible as manager.get(new Key<ZSect>(sectName + DOMAIN_CHECK_GENERAL_NAME_SUFFIX, ZSect.class));
     populateResultsToDCZSect(zsectDC, dcList);
 
-    // update section manager with calculated results
-    updateManager(sectNameDC, zsectDC);
+    // update section manager with calculated results:
+    // (e.g., put DC ZSect as well as Op/Thm tables
+    updateManager(zsectDC);
 
-    // attempt to typecheck the DC Z section, which should succeed.
-    // raise a warning if it doesn't. 
-    try
-    {
-      // type check result - if on-the-fly construction is wrong this will fail.
-      sectManager_.get(new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class));
-    }
-    catch (CommandException e)
-    {
-      if (e.getCause() != null)
-      {
-        final String msg = "Type error in DC ZSect " + sectName
-                           + "\n\t " + e.getClass().getSimpleName() + ": " + e.getMessage()
-                           + "\n\t caused by " + e.getCause().getClass().getSimpleName()
-                           + ": " + e.getCause().getMessage();
-        logger_.warning(msg);
-        if (e.getCause() instanceof TypeErrorException)
-        {
-          TypeErrorException typeErrorException = (TypeErrorException) e.getCause();
-          int i = printErrors(typeErrorException.getErrors());
-          logger_.warning("Found " + i + " type erros/warnings. Check ZSect " + sectName);
-        }
-      }
-      //throw new DomainCheckException("Type error in DC ZSect " + sectName, e);
-    }
-    
-    // attempt to collect the ThmTable for the section
+    // type check DC Z section just created on the fly - it ought to succeed
+    typeCheck(sectNameDC);
+
+    // attempt to collect the ThmTable for the DC Z section = double checking updateManager worked. TODO: remove? yes?
     try
     {
       // ask section manager to calculate ThmTable for new DC ZSect
@@ -912,92 +935,6 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
     ZSectDCEnvAnn result = new ZSectDCEnvAnn(sectName, dcList);
     return result;
   }
-
-  /**
-   * Like in Parser.xml, we need to add OpTable and ThmTable (and other tables)
-   * for this ZSection.
-   * @param sectNameDC
-   * @param zSectDC
-   * @throws DomainCheckException
-   */
-  private void updateManager(String sectNameDC, ZSect zSectDC)
-          throws DomainCheckException
-  {
-    // tell the section manager about the presence of this new Z section
-    // no need to parse, we know it is okay - it's been constructed.
-    sectManager_.put(new Key<ZSect>(sectNameDC, ZSect.class), zSectDC /*,
-            ParseUtils.calculateDependencies(zsectDC, ThmTable.class)*/);
-
-    // ONLY AFTER ADDING ZSect: calculate a OpTable for it (see OpTableCommand protocol).
-    try
-    {
-      sectManager_.get(new Key<OpTable>(sectNameDC, OpTable.class));
-    }
-    catch (CommandException e)
-    {
-      final String msg = "DC-CMDEXP-OPTBL = " + e.getCause();
-      logger_.warning(msg);
-      throw new DomainCheckException(msg, e);
-    }
-    try
-    {
-      sectManager_.get(new Key<ThmTable>(sectNameDC, ThmTable.class));
-    }
-    catch (CommandException f)
-    {
-      final String msg = "DC-CMDEXP-OPTBL = " + f.getCause();
-      logger_.warning(msg);
-      throw new DomainCheckException(msg, f);
-    }
-  }
-
-//  // CREATES List<ZSectDCEnvAnn> for each Spec ZSect
-//  /**
-//   * Domain checks all Z sections within the given specification term.
-//   * The result are children Z sections with the corresponding spec Z section
-//   * as its parent, and with domain check conjectures for all its paragraphs.
-//   *
-//   * @param term specification to domain check
-//   * @return list of DC Z section as a list of domain check conjectures
-//   * @throws DomainCheckException
-//   */
-//  private List<ZSectDCEnvAnn> createZSectDCEnvAnn(Spec term)
-//          throws DomainCheckException
-//  {
-//    // presumes section manager has been configured
-//    checkSectionManager("");
-//
-//    // calculate the DC map for each ZSect within Spec term
-//    SortedMap<String, List<Pair<Para, Pred>>> dcMap = dc(term);
-//
-//    // for each ZSect, create a DC ZSect child with the DC elements.
-//    List<ZSectDCEnvAnn> result = new ArrayList<ZSectDCEnvAnn>(dcMap.size());
-//    for (Map.Entry<String, List<Pair<Para, Pred>>> entry : dcMap.entrySet())
-//    {
-//      // create a bare ZSect header
-//      String originalZSectName = entry.getKey();
-//      ZSect zsect = createDCZSectHeader(originalZSectName);
-//      List<Pair<Para, Pred>> dcs = entry.getValue();
-//
-//      // update the paragraphs of DC Z Sect with DC conjectures
-//      populateResultsToDCZSect(zsect, dcs);
-//
-//      ZSect original = ZUtils.retrieveZSect(term, originalZSectName);
-//      assert original != null;
-//
-//      // update the result
-//      result.add(new ZSectDCEnvAnn(originalZSectName, dcs));
-//    }
-//
-//        assert sectManager_ != null;
-//        sectManager_.put(new Key<ZSect>(sectName + DOMAIN_CHECK_GENERAL_NAME_SUFFIX, result);/
-//
-//
-//    // ensure result is consistent with collected info
-//    assert result.size() == dcMap.size() : "More DC's for mapped section than resulting List<ZSecT>!";
-//
-//    return result;
-//  }
 
   // CREATES ZSectDCEnvAnn for ZSect, Para, Pred, Expr, or Decl
   /**
@@ -1071,6 +1008,54 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
     return result;
   }
 
+  //  // CREATES List<ZSectDCEnvAnn> for each Spec ZSect
+//  /**
+//   * Domain checks all Z sections within the given specification term.
+//   * The result are children Z sections with the corresponding spec Z section
+//   * as its parent, and with domain check conjectures for all its paragraphs.
+//   *
+//   * @param term specification to domain check
+//   * @return list of DC Z section as a list of domain check conjectures
+//   * @throws DomainCheckException
+//   */
+//  private List<ZSectDCEnvAnn> createZSectDCEnvAnn(Spec term)
+//          throws DomainCheckException
+//  {
+//    // presumes section manager has been configured
+//    checkSectionManager("");
+//
+//    // calculate the DC map for each ZSect within Spec term
+//    SortedMap<String, List<Pair<Para, Pred>>> dcMap = dc(term);
+//
+//    // for each ZSect, create a DC ZSect child with the DC elements.
+//    List<ZSectDCEnvAnn> result = new ArrayList<ZSectDCEnvAnn>(dcMap.size());
+//    for (Map.Entry<String, List<Pair<Para, Pred>>> entry : dcMap.entrySet())
+//    {
+//      // create a bare ZSect header
+//      String originalZSectName = entry.getKey();
+//      ZSect zsect = createDCZSectHeader(originalZSectName);
+//      List<Pair<Para, Pred>> dcs = entry.getValue();
+//
+//      // update the paragraphs of DC Z Sect with DC conjectures
+//      populateResultsToDCZSect(zsect, dcs);
+//
+//      ZSect original = ZUtils.retrieveZSect(term, originalZSectName);
+//      assert original != null;
+//
+//      // update the result
+//      result.add(new ZSectDCEnvAnn(originalZSectName, dcs));
+//    }
+//
+//        assert sectManager_ != null;
+//        sectManager_.put(new Key<ZSect>(sectName + DOMAIN_CHECK_GENERAL_NAME_SUFFIX, result);/
+//
+//
+//    // ensure result is consistent with collected info
+//    assert result.size() == dcMap.size() : "More DC's for mapped section than resulting List<ZSecT>!";
+//
+//    return result;
+//  }
+
 //  /**
 //   * Domain checks all Z sections within the given specification term.
 //   * The result are children Z sections with the corresponding spec Z section
@@ -1119,71 +1104,4 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
 //    SpecDCEnvAnn result = new SpecDCEnvAnn(specKeyName, sects);
 //    return result;
 //  }
-
-  /**
-   * Prints the given DC ZSect in the given markup using CztPrintString.
-   * @param dcZSect
-   * @param markup
-   * @return 
-   * @throws DomainCheckException
-   */
-  public CztPrintString print(ZSect dcZSect, Markup markup) throws DomainCheckException
-  {
-    // make sure we have a seciton manager
-    final String dcZSectName = dcZSect.getName();
-    checkSectionManager("DC-PRINT-ZSECT = " + dcZSectName);
-
-    // check the section manager knows about the DC presence
-    try
-    {
-      sectManager_.get(new Key<ZSect>(dcZSectName, ZSect.class));
-    }
-    catch (CommandException e)
-    {
-      throw new DomainCheckException("DC-PRINT-UNKNOWN-ZSECT = " + dcZSectName, e);
-    }
-
-    // prepare the printer's key depending on the markup extracted from the filename extension
-    Key<? extends CztPrintString> key;
-    switch (markup)
-    {
-      case LATEX:
-        //output = manager.get(new Key<LatexString>(dcZSectName, LatexString.class));
-        key = new Key<LatexString>(dcZSectName, LatexString.class);
-        break;
-      case UNICODE:
-        //output = manager.get(new Key<UnicodeString>(dcZSectName, UnicodeString.class));
-        key = new Key<UnicodeString>(dcZSectName, UnicodeString.class);
-        break;
-      case ZML:
-        //output = manager.get(new Key<XmlString>(dcZSectName, XmlString.class));
-        key = new Key<XmlString>(dcZSectName, XmlString.class);
-        break;
-      default:
-        throw new DomainCheckException("DC-PRINT-UNKNOWN-MARKUP = " + markup);
-    }
-
-    // compute the printed dcSpec
-    CztPrintString output = null;
-    try
-    {
-      output = sectManager_.get(key);
-    }
-    catch (CommandException e)
-    {
-      final String msg = "DC-PRINT-ERROR = " + markup + " for " + dcZSectName;
-      throw new DomainCheckException(msg, e);
-    }
-    assert output != null;
-
-    // if not already there as a file, add the string contents for this ZSect as a potential source
-    Key<Source> dcSource = new Key<Source>(dcZSectName, Source.class);
-    if (!sectManager_.isCached(dcSource))
-    {
-      StringSource dcFileSource = new StringSource(
-              output.toString(), "CztPrintString["+key.getType().getSimpleName()+"]");
-      sectManager_.put(dcSource, dcFileSource);
-    }
-    return output;
-  }
 }

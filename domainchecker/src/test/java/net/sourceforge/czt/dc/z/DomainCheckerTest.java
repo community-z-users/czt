@@ -30,6 +30,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.z.ast.Sect;
@@ -55,7 +56,7 @@ public class DomainCheckerTest
   // true => looks into tests/circus/debug/*.tex;
   // false=> looks into tests/circus/*.tex
   protected static boolean DEBUG_TESTING = false; // true;
-  // true => executes the printing tests, which will reparse and print files.
+  // true => executes the printing tests, which will reparse and printToFile files.
   protected static boolean TESTING_PRINTING = false;
   protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.WARNING;
   protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
@@ -103,7 +104,7 @@ public class DomainCheckerTest
   /** Creates a new instance of DomainCheckerTest */
   public DomainCheckerTest()
   {
-    manager_ = DomainCheckUtils.domainCheckUtils_.getSectionManager(DomainCheckUtils.domainCheckUtils_.getExtension());
+    manager_ = DomainCheckUtils.getDCUtils().getSectionManager(DomainCheckUtils.getDCUtils().getExtension());
   }
   
   protected SectionManager getSectionManager() {
@@ -239,7 +240,7 @@ public class DomainCheckerTest
         else 
         {           
           System.out.println("Setting up section manager to domain check " + resource);
-          DomainCheckUtils.domainCheckUtils_.config();
+          DomainCheckUtils.getDCUtils().config();
           System.out.println("Collecting DCs for Spec in file \n\t" + fileName_);
           String path = file_.getParent() != null ? file_.getParent() : ".";
           for (Sect sect : spec.getSect())
@@ -247,9 +248,8 @@ public class DomainCheckerTest
             if (sect instanceof ZSect)
             {
               ZSect zSect = (ZSect)sect;
-              ZSectDCEnvAnn zSectDCEnvAnn = DomainCheckUtils.domainCheckUtils_.calculateZSectDCEnv(zSect);
-              ZSect dcZSect = manager_.get(new Key<ZSect>(zSectDCEnvAnn.getDCZSectName(), ZSect.class));
-              DomainCheckUtils.domainCheckUtils_.print(dcZSect, path);
+              ZSectDCEnvAnn zSectDCEnvAnn = DomainCheckUtils.getDCUtils().calculateZSectDCEnv(zSect);
+              DomainCheckUtils.getDCUtils().printToFile(zSectDCEnvAnn, path, Markup.LATEX);
             }
           }
           return ;

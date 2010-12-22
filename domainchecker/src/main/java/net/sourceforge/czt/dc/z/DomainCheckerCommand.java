@@ -54,13 +54,13 @@ public class DomainCheckerCommand extends AbstractCommand
   {
     // config the domain checker according to the given section manager 
     traceLog("DCCmd-ZSECT-CONFIG");
-    DomainCheckUtils.domainCheckUtils_.getDC().setSectInfo(manager);
+    DomainCheckUtils.getDCUtils().getDC().setSectInfo(manager);
 
     // compute ZSectDCEnvAnn for a given ZSect:
     //    a) assume zSect is: parsed, type correct, and with all SM tables in place
     //    b) create ZSect term; adds DefTable, OpTable, etc to SM
     traceLog("DC-ZSECT-COMPUTE = " + zSect.getName());
-    ZSectDCEnvAnn result = DomainCheckUtils.domainCheckUtils_.calculateZSectDCEnv(zSect);
+    ZSectDCEnvAnn result = DomainCheckUtils.getDCUtils().calculateZSectDCEnv(zSect);
 
     // type check resulting DC ZSection
     //    c) adds SectTypeEnv to SM
