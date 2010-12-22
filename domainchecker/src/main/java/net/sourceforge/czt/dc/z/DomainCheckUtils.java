@@ -31,8 +31,10 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.print.util.XmlString;
+import net.sourceforge.czt.print.z.LatexPrinterPropertyKeys;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
@@ -111,6 +113,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     sectionManager_ = manager;
     sectionManager_.putCommand(ZSectDCEnvAnn.class, DomainCheckUtils.getCommand());
     //sectionManager_.putCommand(SpecDCEnvAnn.class, DomainCheckUtils.getCommand());
+    sectionManager_.setProperty(LatexPrinterPropertyKeys.PROP_LATEXPRINTER_WRAPPING, String.valueOf(true));
     resetConfigured();
   }
 
@@ -685,6 +688,7 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     manager.setProperty(PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS, String.valueOf(applyPredTransf));
     manager.setProperty(PROP_DOMAINCHECK_RAISE_TYPE_WARNINGS, String.valueOf(raiseWarnings));
     manager.setProperty(PROP_DOMAINCHECK_PREFERED_MARKUP, preferedMarkup.toString());
+    manager.setProperty(LatexPrinterPropertyKeys.PROP_LATEXPRINTER_WRAPPING, String.valueOf(true));
     manager.setTracing(debug);
 
     // add a potentially old czt path (? TODO: decide to add this or not ?)
