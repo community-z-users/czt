@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.z.util;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -64,14 +65,31 @@ public class PrintVisitor
 {
   protected boolean printUnicode_;
   protected boolean printIds_;
+  protected int lineOffset_;
+  protected int columnOffset_;
 
   /**
    * Constructs a PrintVisitor that produces Unicode strings.
    */
   public PrintVisitor()
   {
-    printUnicode_ = true;
+    this(true);
+  }
+
+  /**
+   * Constructs a PrintVisitor that produces Unicode strings
+   * if the unicode parameter is true, and ASCII strings otherwise.
+   * The ASCII strings produced are designed to be human-readable,
+   * so are not necessarily in LaTeX markup.
+   *
+   * @param unicode true means Unicode characters may appear in the output.
+   */
+  public PrintVisitor(boolean unicode)
+  {
+    printUnicode_ = unicode;
     printIds_ = false;
+    lineOffset_ = 0;
+    columnOffset_ = 0;
   }
 
   public boolean setPrintIds(boolean bool)
@@ -98,18 +116,20 @@ public class PrintVisitor
     return printUnicode_;
   }
 
-  /**
-   * Constructs a PrintVisitor that produces Unicode strings
-   * if the unicode parameter is true, and ASCII strings otherwise.
-   * The ASCII strings produced are designed to be human-readable,
-   * so are not necessarily in LaTeX markup.
-   * 
-   * @param unicode true means Unicode characters may appear in the output.
-   */
-  public PrintVisitor(boolean unicode)
+  public void setOffset(int line, int column)
   {
-    printUnicode_ = unicode;
-    printIds_ = false;
+    lineOffset_ = line;
+    columnOffset_ = column;
+  }
+
+  public int getLineOffset()
+  {
+    return lineOffset_;
+  }
+
+  public int getColumnOffset()
+  {
+    return columnOffset_;
   }
   
   public String visitZNameList(ZNameList term)
@@ -280,11 +300,11 @@ public class PrintVisitor
     StringBuffer result = new StringBuffer();
     if (loc.getLine() != null &&
         loc.getLine().compareTo(java.math.BigInteger.ZERO) >= 0) {
-      result.append("line " + loc.getLine());
+      result.append("line " + loc.getLine().add(BigInteger.valueOf(getLineOffset())));
     }
     if (loc.getCol() != null &&
         loc.getCol().compareTo(java.math.BigInteger.ZERO) >= 0) {
-      result.append(" column " + loc.getCol());
+      result.append(" column " + loc.getCol().add(BigInteger.valueOf(getColumnOffset())));
     }
     if (loc.getStart() != null &&
         loc.getStart().compareTo(java.math.BigInteger.ZERO) >= 0) {

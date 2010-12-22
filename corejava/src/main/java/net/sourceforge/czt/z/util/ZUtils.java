@@ -26,6 +26,8 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.TermImpl;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -810,6 +812,24 @@ public final class ZUtils
     zPrintVisitor_.setPrintUnicode(b2);    
     
     return result;
+  }
+
+  /**
+   * <p>;
+   * Changes the toString() method of ZFactory (within the given Factory),
+   * so that is uses the toString() strategy for the given visitor, usually
+   * one kind of PrintVisitor.
+   * </p>
+   * <p>
+   * They are important in order to debug/inspect easily the rather complex
+   * scoping mechanisms for basic (locally declared) processes.
+   * </p>
+   * @param f factory
+   * @param toStringVisitor new visitor
+   */
+  protected static void setZFactoryToStringVisitor(Factory f, Visitor<String> toStringVisitor)
+  {
+    assertZFactoryImpl(f.getZFactory()).setToStringVisitor(toStringVisitor);
   }
 
   public static ZBranchList assertZBranchList(Term term)
