@@ -357,7 +357,7 @@ public class Main
       "       Note that this is for debugging purposes.  The output won't\n" +
       "       typecheck any more.\n" +
       "  -cp <l> specify the value for czt.path as a semicolon-separated list\n"+
-      "        of directories (e.g., -cp=./tests;/user/local/pkg/myfiles).\n"+
+      "        of directories (e.g., -cp=./tests" + File.pathSeparator + "/user/local/pkg/myfiles).\n"+
       "        The list is mandatory and must not be empty.\n"+
       "Dialects:\n" +
       "  z       Standard Z (default)\n" +
