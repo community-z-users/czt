@@ -66,7 +66,7 @@ import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
 /**
  * Utilities for parsing specifications.
  *
- * @author Petra Malik, Tim Miller
+ * @author Petra Malik, Tim Miller, Leo Freitas
  */
 public class <class/> extends AbstractCommand
 {
@@ -301,17 +301,25 @@ public class <class/> extends AbstractCommand
    * For non-parsed ZSect (e.g., created on-the-fly by tools), one needs to update
    * a given section manager in a particular order. This method produces a similar
    * effect as does the parser when processing Source(s). see DomainChecker for use.
+   * @param sectInfo section manager to update
+   * @param nonParsedZSect on-the-fly ZSect to add
+   * @throws CommandException in case some command fails
    */
+  @SuppressWarnings("unchecked")
   public static void updateSectManager(net.sourceforge.czt.session.SectionInfo sectInfo, ZSect nonParsedZSect) throws CommandException
   {
     assert sectInfo != null &amp;&amp; nonParsedZSect != null;
 
+    // get info + log data
     final String sectName = nonParsedZSect.getName();
     traceLog("PU-SMUPD-ZSECT = " + sectName);
+
+    // tell the section manager about the presence of this new Z section
+    // no need to parse, we know it is okay - it's been constructed.
     sectInfo.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), nonParsedZSect,
             calculateDependencies(nonParsedZSect, ThmTable.class));
 
-    // ONLY AFTER ADDING ZSect: calculate a OpTable for it (see OpTableCommand protocol).
+    // ONLY AFTER ADDING ZSect: calculate a OpTable for it (see Op/ThmTableCommand protocols).
     try
     {
       sectInfo.get(new Key&lt;OpTable&gt;(sectName, OpTable.class));
