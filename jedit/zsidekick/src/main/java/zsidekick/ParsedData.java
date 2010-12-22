@@ -22,11 +22,8 @@ import net.sourceforge.czt.session.Markup;
 import org.gjt.sp.jedit.*;
 import sidekick.*;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 
 public class ParsedData
   extends SideKickParsedData

@@ -26,27 +26,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gjt.sp.jedit.*;
 import errorlist.*;
+import net.sourceforge.czt.dc.z.ZSectDCEnvAnn;
 import sidekick.*;
 
 import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
 public class CztParser
   extends SideKickParser
-  implements ParsePropertiesKeys,
-             PrintPropertiesKeys,
-	     TypecheckPropertiesKeys
 {
   /* Z extension (dialect). */
   private String extension_;
   private Markup markup_;
   private WffHighlight wffHighlight_= new WffHighlight();
   private boolean debug_ = false;
-  private Logger logger_ = CztLogger.getLogger(SectionManager.class);
+  private static final Logger logger_ = CztLogger.getLogger(SectionManager.class);
 
   public CztParser(String extension, Markup markup)
   {
@@ -91,38 +87,57 @@ public class CztParser
     ParsedData data = new ParsedData(buffer.getName(), getMarkup());    
     try {      
       SectionManager manager = getManager(buffer);
+      manager.setTracing(debug_);
       if (debug_) { setFileLogger(); }
-      final String name = buffer.getPath();
-      final String path = new File(name).getParent();      
+      final String name_ = buffer.getPath(); // there is a field "name" elsewhere.
+      final String path = new File(name_).getParent();
       if (path != null) {
         String oldpath = manager.getProperty("czt.path");
         String localpath = ((oldpath == null || oldpath.isEmpty()) ? path : oldpath + File.pathSeparator + path);
         assert localpath != null;
         manager.setProperty("czt.path", localpath);
-        logger_.config("CZT path as " + localpath);        
+        logger_.config("JEDT-CZT-PATH = " + localpath);
       }
       final Source source =
-        new StringSource(buffer.getText(0, buffer.getLength()), name);
+        new StringSource(buffer.getText(0, buffer.getLength()), name_);
       source.setEncoding(buffer.getStringProperty("encoding"));
       source.setMarkup(getMarkup());
-      manager.put(new Key<Source>(name, Source.class), source);
-      Spec spec = manager.get(new Key<Spec>(name, Spec.class));
-      logger_.config("Parsing " + source);
-      logger_.config("Command for Spec is "+manager.getCommand(Spec.class));      
+      manager.put(new Key<Source>(name_, Source.class), source);
+      Spec spec = manager.get(new Key<Spec>(name_, Spec.class));
+      if (debug_)
+      {
+        logger_.finer("JEDT-CZT-PARSE = \n\t Source : " + source +
+                                       "\n\t Command: " + manager.getCommand(Spec.class));
+      }
       if (spec.getSect().size() > 0) {
         data.addData(spec, manager, wffHighlight_, buffer);
         boolean typeChecking = !buffer.getBooleanProperty("zsidekick.disable-typechecking");
-        logger_.config("Typechecking? " + typeChecking);        
         if (typeChecking) {
           for (Sect sect : spec.getSect()) {
             if (sect instanceof ZSect) {                            
-              logger_.config("Command for SectTypeEnvAnn is "+manager.getCommand(SectTypeEnvAnn.class));              
               // typecheck the section.
-              SectTypeEnvAnn ste = manager.get(new Key<SectTypeEnvAnn>(((ZSect) sect).getName(), SectTypeEnvAnn.class));
-              logger_.config("Typechecked with results as \n " + ste);
+              final String sectName = ((ZSect) sect).getName();
+              SectTypeEnvAnn ste = manager.get(new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class));
+              logger_.finer("JEDT-CZT-TYPECK = " + sectName + "\n\t" + ste);
             }
           }
         }
+        /*
+        boolean domainChecking = !buffer.getBooleanProperty("zsidekick.disable-domainchecking");
+        if (domainChecking)
+        {
+          for (Sect sect : spec.getSect())
+          {
+            if (sect instanceof ZSect)
+            {
+              final String sectName = ((ZSect) sect).getName();
+              ZSectDCEnvAnn zdcEnv = manager.get(new Key<ZSectDCEnvAnn>(sectName, ZSectDCEnvAnn.class));
+              logger_.finer("JEDT-CZT-DOMCK = " + sectName);
+            }
+          }
+        }
+         *
+         */
       }
       try {
         ParseException parseException = 
@@ -133,7 +148,7 @@ public class CztParser
       }
       catch (CommandException e) {        
         String message = e.getCause() + getClass().getName();
-        logger_.config("Command exception was thrown while printing parser errors: " + message);
+        logger_.warning("JEDT-CMDEXP-PARSE = " + message);
         errorSource.addError(ErrorSource.ERROR,
                              buffer.getPath(),
                              0,
@@ -145,13 +160,13 @@ public class CztParser
     catch (CommandException exception) {      
       errorSource.clear();
       Throwable cause = exception.getCause();
-      logger_.config("Command exception was thrown while printing type errors: " + exception.getMessage() + " \t " + cause.getMessage());
+      logger_.warning("JEDT-CMDEXP-TYPECK = " + exception.getMessage() + "\n\t" + cause.getMessage());
       if (cause instanceof CztErrorList) {
         List<? extends CztError> errors = ((CztErrorList) cause).getErrors();        
         printErrors(errors, buffer, errorSource);        
       }
       else if (cause instanceof IOException) {
-        String message = "Input output error: " + cause.getMessage();        
+        final String message = "Input output error: " + cause.getMessage();
         errorSource.addError(ErrorSource.ERROR,
                              buffer.getPath(),
                              0,
@@ -160,7 +175,7 @@ public class CztParser
                              message);
       }
       else {
-        String message = cause + getClass().getName();        
+        final String message = cause + getClass().getName();
         errorSource.addError(ErrorSource.ERROR,
                              buffer.getPath(),
                              0,
@@ -171,10 +186,10 @@ public class CztParser
     }
     catch (Throwable e) {
       errorSource.clear();
-      e.printStackTrace();
-      String message =
+      if (debug_) { e.printStackTrace(); }
+      final String message =
         "Caught " + e.getClass().getName() + ": " + e.getMessage();
-      logger_.config("Throwable exception raised: " + message);      
+      logger_.warning("JEDT-CMDEXP-??? = " + message);
       errorSource.addError(ErrorSource.ERROR,
                            buffer.getPath(),
                            0,
@@ -228,26 +243,27 @@ public class CztParser
   {
     String propname = ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
     String value = jEdit.getBooleanProperty(propname) ? "true" : "false";
-    manager.setProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, value);
+    manager.setProperty(ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, value);
 
     propname = ZSideKickPlugin.PROP_PRINT_IDS;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
-    manager.setProperty(PROP_PRINT_NAME_IDS, value);
+    manager.setProperty(ZSideKickPlugin.PROP_PRINT_NAME_IDS, value);
 
     propname = ZSideKickPlugin.PROP_RECURSIVE_TYPES;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
-    manager.setProperty(PROP_TYPECHECK_RECURSIVE_TYPES, value);
+    manager.setProperty(ZSideKickPlugin.PROP_TYPECHECK_RECURSIVE_TYPES, value);
 
     propname = ZSideKickPlugin.PROP_USE_STRONG_TYPING;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
-    manager.setProperty(PROP_TYPECHECK_USE_STRONG_TYPING, value);
+    manager.setProperty(ZSideKickPlugin.PROP_TYPECHECK_USE_STRONG_TYPING, value);
 
     propname = ZSideKickPlugin.PROP_DEBUG_ZSIDEKICK;
     debug_ = jEdit.getBooleanProperty(propname);
-    
-    int width = buffer.getIntegerProperty("maxLineLen", 0);
+
+    propname = ZSideKickPlugin.PROP_TXTWIDTH;
+    int width = buffer.getIntegerProperty(propname, 0);
     if (width > 0) {
-      manager.setProperty(PROP_TXT_WIDTH, "" + width);
+      manager.setProperty(ZSideKickPlugin.PROP_TXT_WIDTH, "" + width);
     }
     
     propname = ZSideKickPlugin.PROP_CZTPATH;

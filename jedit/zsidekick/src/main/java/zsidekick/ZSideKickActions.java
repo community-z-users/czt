@@ -23,18 +23,16 @@ import java.io.StringWriter;
 
 import java.util.Iterator;
 import javax.swing.JOptionPane;
-import net.sourceforge.czt.dc.z.DomainCheckException;
 import net.sourceforge.czt.dc.z.DomainCheckUtils;
-import net.sourceforge.czt.dc.z.SpecDCEnvAnn;
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.textarea.*;
 import sidekick.SideKickParsedData;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.print.z.*;
+
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
@@ -44,7 +42,6 @@ import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.rewriter.Strategies;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
 
 public class ZSideKickActions
   implements PrintPropertiesKeys
@@ -86,7 +83,7 @@ public class ZSideKickActions
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding",
                                System.getProperty( "file.encoding"));
-      buffer.setMode(latex.getExtension() + "tex");
+      buffer.setMode(latex.getExtension() + "latex");
       buffer.insert(0, latex.toString());
     }
   }
@@ -123,7 +120,6 @@ public class ZSideKickActions
   public static void domainCheck(View view)
     throws CommandException
   {
-    JOptionPane.showMessageDialog(view, "jEdit integration of this feature is still experimental. Please bare with us.");
     ParsedData parsedData = getParsedData(view);
     if (parsedData != null) 
     {      
@@ -132,7 +128,9 @@ public class ZSideKickActions
       final String bufferPath = buffer.getPath(); // full qualified file name
       final File file = new File(bufferPath);
       final String name = file.getName(); // just last name of file
-      final String path = file.getParent(); // just the file directory
+      final String path = file.getParent() != null ? file.getParent() : "."; // just the file directory
+/*
+      // TODO: DEBUG ONLY = REMOVE LATER
       if (path != null) {
         String oldpath = manager.getProperty("czt.path");
         String localpath = ((oldpath == null || oldpath.isEmpty() || oldpath.equals(path)) ? 
@@ -155,50 +153,35 @@ public class ZSideKickActions
       }      
       commands.append("}");
       JOptionPane.showMessageDialog(view, commands.toString());
-      SpecDCEnvAnn specDCEnv;
-      try 
+      // END TODO
+*/
+      try
       {
-        // full file name no extension        
-        specDCEnv = manager.get(new Key<SpecDCEnvAnn>(DomainCheckUtils.getFileNameNoExt(bufferPath), SpecDCEnvAnn.class));     
+        /* OKAY = creates a new (unnamed) buffer with results -> doesn't parse
+        DomainCheckUtils.getDCUtils().setSectionManager(manager);
+        DomainCheckUtils.getDCUtils().printToFile(null, path, Markup.LATEX);
+        CztPrintString result = DomainCheckUtils.getDCUtils().domainCheck(file);
+        Buffer bufferDC = jEdit.newFile(view, path);
+        jEdit.openFile(view, path)
+        bufferDC.setStringProperty("encoding", System.getProperty( "file.encoding"));
+        String mode = Markup.getMarkup(name).equals(Markup.LATEX) ? "latex" : "";
+        buffer.setMode(result.getExtension() + mode);
+        bufferDC.insert(0, result.toString());
+        */
+        final String dcFileName = DomainCheckUtils.getDCFilename(name);
+        DomainCheckUtils.getDCUtils().setSectionManager(manager);
+        DomainCheckUtils.getDCUtils().domainCheckToFile(file);
+        Buffer bufferDC = jEdit.openFile(view, dcFileName);
+        bufferDC.setStringProperty("encoding", System.getProperty( "file.encoding"));
+        String mode = Markup.getMarkup(name).equals(Markup.LATEX) ? "latex" : "";
+        buffer.setMode(manager.getDialect() + mode);
       }
       catch (CommandException e)
       {
-        specDCEnv = null;
-        //StringWriter swriter = new StringWriter();
-        //PrintWriter pwriter = new PrintWriter(swriter, true);
         e.printStackTrace(System.err);
         //pwriter.close();        
         JOptionPane.showMessageDialog(view, "Could not calculate domain checks for " + name
           + ". Detailed error message:\n" + e.getMessage(), "Command Error!", JOptionPane.ERROR_MESSAGE);
-      }
-      
-      if (specDCEnv != null)
-      {        
-        CztPrintString printString = null;        
-        try
-        {
-          // retrieve the dcSpec for the given specDCEnv
-          Spec dcSpec = specDCEnv.getDCSpec(manager);
-          assert dcSpec != null;
-          // retrieve the print string for the DC Spec
-          // TODO: fix this compilation error: DomainCheckUtils.getPrintString(name, manager, dcSpec);
-          //    (getPrintString not defined, 14 Feb 2009).
-          printString = new LatexString("TODO: implement DomainCheckUtils.getPrintString(name, manager, dcSpec)");
-        }
-        catch (DomainCheckException ex)
-        {
-          final String message = "A domain check exception was thrown while trying to" +
-              " retrieve the contents of a domain checked specification contents for " + name + 
-              ". The details are " + ex.getMessage();
-          JOptionPane.showMessageDialog(view, message);
-          throw new CommandException(message);          
-        }
-        if (printString != null)
-        {
-          // create a new jEdit buffer in view and write the print string contents to it
-          Buffer bufferDC = jEdit.newFile(view);
-          bufferDC.insert(0, printString.toString());          
-        }        
       }
     }
   }
@@ -219,7 +202,19 @@ public class ZSideKickActions
       wffHighlight.next();
       Term term = wffHighlight.getSelectedWff();
       if (term != null) {
-        String message = term.accept(new ConcreteSyntaxDescriptionVisitor());
+        String message;
+        ParsedData parsedData = getParsedData(view);
+        if (parsedData == null)
+          message = term.accept(new net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor());
+        else
+        {
+          Buffer buffer = getParsedData(view).getBuffer();
+          Mode mode = buffer.getMode();
+          if (mode != null && mode.getName() != null && mode.getName().startsWith("circus"))
+            message = term.accept(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
+          else
+            message = term.accept(new net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor());
+        }
         view.getStatus().setMessage(message);
       }
     }
@@ -253,7 +248,24 @@ public class ZSideKickActions
   {
     Type type = getTypeForCurrentWff(view);
     if (type != null) {
-      final String text = type.accept(new PrintVisitor());
+      net.sourceforge.czt.base.util.PrintVisitor visitor = null;
+      ParsedData parsedData = getParsedData(view);
+      if (parsedData == null)
+        visitor = new net.sourceforge.czt.z.util.PrintVisitor();
+      else
+      {
+        Buffer buffer = parsedData.getBuffer();
+        Mode mode = buffer.getMode();
+        if (mode == null)
+          visitor = new net.sourceforge.czt.z.util.PrintVisitor();
+        else if (mode.getName().startsWith("circus"))
+          visitor = new net.sourceforge.czt.circus.util.PrintVisitor();
+        else if (mode.getName().startsWith("oz"))
+          visitor = new net.sourceforge.czt.oz.util.PrintVisitor();
+        else //if (mode.getName().startsWith("z"))
+          visitor = new net.sourceforge.czt.z.util.PrintVisitor();
+      }
+      final String text = type.accept(visitor);
       final JEditTextArea textArea = view.getTextArea();
       final int caretPos = textArea.getCaretPosition();
       Selection selection = new Selection.Range(caretPos,

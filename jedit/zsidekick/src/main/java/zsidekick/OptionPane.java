@@ -57,6 +57,8 @@ public class OptionPane extends AbstractOptionPane
     ZSideKickPlugin.OPTION_PREFIX + "cztPathLabel";
   private final String PROP_LABEL_RESET =
     ZSideKickPlugin.OPTION_PREFIX + "resetButton";
+
+  //private final String PROP_LABEL_DOMAINCHECK
   
   private JCheckBox ignoreUnknownLatexCommands_;
   private JCheckBox printIds_;

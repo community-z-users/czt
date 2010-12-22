@@ -20,17 +20,14 @@ package zsidekick;
 
 import java.awt.*;
 import java.util.Iterator;
-import java.util.Stack;
 
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.textarea.*;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
 import net.sourceforge.czt.z.util.GetNameVisitor;
-import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.TermSelector;
 
 public class WffHighlight
