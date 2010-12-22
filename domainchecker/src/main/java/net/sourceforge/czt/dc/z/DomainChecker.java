@@ -26,6 +26,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.OpTable;
@@ -808,6 +809,17 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
 
         // add location information
         LocAnn loc = para.getAnn(LocAnn.class);
+
+        // try to add an offset to the toString print visitor
+        try
+        {
+          ZUtils.assertZPrintVisitor(ZUtils.assertZTermImpl(loc).getFactory().getToStringVisitor()).setOffset(1, 1);
+        }
+        catch (UnsupportedAstClassException ast)
+        {
+          // fail silently if not possible.
+          logger_.finest("DC-LOCANN-OFFSET-NOT-POSSIBLE");
+        }
         if (loc != null)
         {
           narrText = "DC for " + loc.toString() + "\n";

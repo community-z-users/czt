@@ -24,6 +24,7 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * Abstract domain check term. 
@@ -45,6 +46,12 @@ public abstract class AbstractDCTerm<R> implements Visitor<R>, TermVisitor<R>
       throw new IllegalArgumentException("Cannot create domain check term with a null factory");
     }
     factory_ = factory;
+    // NOTE: not effective to change this factory, since it won't have LocAnn! Change the LocAnn factory directly instead. :-(
+    //
+    // get underlying ToStringVisitor of the Z factory of the given factory and set LocAnn offsets.
+    //ZUtils.assertZPrintVisitor(
+    //        ZUtils.assertZFactoryImpl(
+    //          factory_.getZFactory()).getToStringVisitor()).setOffset(1, 1);
   }     
   
   protected Factory getZFactory()
