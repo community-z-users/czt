@@ -34,5 +34,5 @@ public interface LatexPrinterPropertyKeys {
   String PROP_LATEXPRINTER_WRAPPING =
     "latexprinter_wrapping";
 
-  boolean PROP_LATEXPRINTER_WRAPPING_DEFAULT = true;
+  boolean PROP_LATEXPRINTER_WRAPPING_DEFAULT = false;
 }
