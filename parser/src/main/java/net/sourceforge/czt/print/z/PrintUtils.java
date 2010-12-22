@@ -22,9 +22,18 @@ package net.sourceforge.czt.print.z;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.TermCommand;
+import net.sourceforge.czt.print.util.CztPrintString;
+import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.util.Section;
 
 /**
@@ -32,6 +41,7 @@ import net.sourceforge.czt.z.util.Section;
  *
  * @author Petra Malik
  */
+//TODO: why not have it as PrintUtils.xml in Parse Source for homogeneity, like ParseUtils?
 public final class PrintUtils
 {
   /**
@@ -82,5 +92,81 @@ public final class PrintUtils
       String message = "Attempt to print unsupported markup";
       throw new PrintException(message);
     }
+  }
+
+  /**
+   * Prints the given name in the given markup using CztPrintString. It is interpreted
+   * by the TermCommand protocol: tries it as ZSect first, then as Spec if fails.
+   * Notice that the LaTeX printer might take LaTeX wrapping (e.g., preamble/postscript)
+   * according to the section manager properties.
+   * 
+   * @param name resource name
+   * @param sectInfo sect manager
+   * @param markup which markup
+   * @return the result as LaTeX, Unicode, or XML CztPrintString.
+   * @throws CommandException if ZSect cannot be processed by the section manager, or if it cannot be printed.
+   */
+  public static CztPrintString printCztStringOf(String name, SectionManager sectInfo, Markup markup) throws CommandException
+  {
+    assert sectInfo != null && markup != null;
+
+    // check the section manager knows about ZSect = throws CmdExp otherwise
+    try
+    {
+      // get it as either ZSect or Spec (or Term)
+      sectInfo.get(new Key<Term>(name, Term.class));
+    }
+    catch (CommandException e)
+    {
+      final String msg = "PRINT-UNKNOWN-SOURCE = " + name;
+      sectInfo.getLogger().warning(msg);
+      throw new CommandException(msg, e);
+    }
+
+    // prepare the printer's key depending on the markup 
+    Key<? extends CztPrintString> key;
+    switch (markup)
+    {
+      case LATEX:
+        key = new Key<LatexString>(name, LatexString.class);
+        break;
+      case UNICODE:
+        key = new Key<UnicodeString>(name, UnicodeString.class);
+        break;
+      case ZML:
+        key = new Key<XmlString>(name, XmlString.class);
+        break;
+      default:
+        final String msg = "PRINT-UNKNOWN-MARKUP = " + markup;
+        sectInfo.getLogger().warning(msg);
+        throw new CommandException(msg);
+    }
+
+    // compute the printed dcSpec
+    CztPrintString output = null;
+    try
+    {
+      // print it as either ZSpec or Spec (or Term) - either way surround it with LaTeX preamble if Markup.LATEX
+      output = sectInfo.get(key);
+    }
+    catch (CommandException e)
+    {
+      final String msg = "PRINT-ERROR = " + markup + " for " + name;
+      sectInfo.getLogger().warning(msg);
+      throw new CommandException(msg, e);
+    }
+    assert output != null;
+
+    // if not already there as a Source, add the string contents for name as a potential source
+    Key<Source> source = new Key<Source>(name, Source.class);
+    if (!sectInfo.isCached(source))
+    {
+      StringSource strSource = new StringSource(
+              output.toString(), "CztPrintString["+key.getType().getSimpleName()+"]");
+      sectInfo.put(source, strSource);
+    }
+
+    // return (non-null) result
+    return output;
   }
 }

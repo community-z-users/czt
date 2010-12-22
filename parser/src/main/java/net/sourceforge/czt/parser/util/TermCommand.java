@@ -32,7 +32,8 @@ public class TermCommand extends AbstractCommand
    * Command to resolve given named resource Source as either a ZSect or Spec.
    * If either ZSect or Spec are cached, then the manager is updated with a
    * Key(Name,Term) for the resolved ZSect or Spec. Otherwise, the command attempts
-   * to parse the given named resource as a ZSect and a Key(Name,Term) is added as well.
+   * to parse the given named resource first as a ZSect, next as a Spec if first fails.
+   * It adds a Key(Name,Term) if either parse is successful.
    * </p>
    * <p>
    * Within CZT, this command is mostly used by various other printing related commands.
@@ -65,24 +66,22 @@ public class TermCommand extends AbstractCommand
     // otherwise, the manager doesn't know about the resource.
     Term term = null;
     try {
-      // try parsing it: it requires the name to have a known Source Key
+      // try parsing a ZSect: it requires the name to have a known Source Key
       term = manager.get(zSectKey);
     }
     // if there are no known Source keys for name as ZSect, try parsing it as Spec
     catch (CommandException exception) {
       traceLog("TermCmd-Not-ZSect = try as spec");
-      term = manager.get(specKey);
 
+      // try parsing a Spec: it requires the name to have a known Source key
+      term = manager.get(specKey);
       // if it fails, an CommandException will be raise, and we are done (failing).
     }
+    assert term != null;
 
     // if we get here, term must either be a ZSect or Spec; add it to the manager
     //if (term != null) {
-      manager.put(newKey, term);
-      return true;
-    //}
-    //assert term != null;
-    //  should never reach here.
-    //return false;
+    manager.put(newKey, term);
+    return true;
   }
 }
