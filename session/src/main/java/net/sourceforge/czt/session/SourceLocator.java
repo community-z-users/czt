@@ -186,18 +186,6 @@ public class SourceLocator extends AbstractCommand
     return Arrays.asList(path.split(File.pathSeparator));
   }
   
-  private static Logger getLogger()
-  {
-    return Logger.getLogger(SectionManager.class.getName());
-  }
-  
-  private static void debug(String msg)
-  {    
-    // log the stuff done through searching
-    //System.out.println(msg);
-    getLogger().finest(msg);
-  }
-
   /**
    * Exception thrown when source could not be found.
    */

@@ -1091,4 +1091,24 @@ public class SectionManager
       return sb.toString();
     }
   }
+
+  public static void traceLog(String msg)
+  {
+    Logger.getLogger(SectionManager.class.getName()).finest(msg);
+  }
+
+  public static void traceConfig(String msg)
+  {
+    Logger.getLogger(SectionManager.class.getName()).config(msg);
+  }
+
+  public static void traceWarning(String msg)
+  {
+    Logger.getLogger(SectionManager.class.getName()).warning(msg);
+  }
+
+  public static void traceInfo(String msg)
+  {
+    Logger.getLogger(SectionManager.class.getName()).info(msg);
+  }
 }
