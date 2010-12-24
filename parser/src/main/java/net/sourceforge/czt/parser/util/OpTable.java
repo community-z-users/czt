@@ -92,25 +92,24 @@ public class OpTable extends InfoTable
    * It checks that the operators defined in the parents are
    * consistent, according to the 3 rules in the Z standard.
    *
-   * @param section 
+   * @param sectionName
    * @param parents Operator tables of all direct parents of the new section.
-   * @throws OperatorException 
+   * @throws net.sourceforge.czt.parser.util.InfoTable.InfoTableException
    * @czt.todo we could take a set/map of Sections here?
    *           Or the section manager plus a set of parent names?
    */
-  public OpTable(String section, Collection<OpTable> parents)
+  public OpTable(String sectionName, Collection<OpTable> parents)
     throws InfoTable.InfoTableException
   {
-    super(section);
+    super(sectionName);
     addParents(parents);
   }
   
   /**
    * 
    * @param <T>
-   * @param <E>
    * @param table
-   * @throws E
+   * @throws net.sourceforge.czt.parser.util.InfoTable.InfoTableException
    */ 
   @Override
   protected <T extends InfoTable> void addParentTable(T table) throws InfoTable.InfoTableException
@@ -155,19 +154,21 @@ public class OpTable extends InfoTable
     }
     return result.toString();
   }
+
+  @Override
   public String toString()
   {
-    return "OpTable for " + getSection() + "\n" + opTokens_;
+    return "OpTable for " + getSectionName() + "\n" + opTokens_;
   }
   
   public OpInfo lookup(OperatorName operatorName)
   {
-    return (OpInfo) ops_.get(operatorName.getWord());
+    return ops_.get(operatorName.getWord());
   }
 
   public OperatorTokenType getTokenType(Decorword decorword)
   {
-    return (OperatorTokenType) opTokens_.get(decorword.getWord());
+    return opTokens_.get(decorword.getWord());
   }
 
   public BigInteger getPrec(String opWord)
@@ -179,12 +180,13 @@ public class OpTable extends InfoTable
   {
     BigInteger prec = precedence_.get(getWord(opWord));
     if (prec == null) return null;
-    return (Assoc) assoc_.get(prec);
+    return assoc_.get(prec);
   }
 
   /**
    * Adds a new operator.
    *
+   * @param opPara
    * @throws OperatorException if operator is incompatible
    *                           with existing operators.
    */
@@ -196,11 +198,11 @@ public class OpTable extends InfoTable
       throw new OperatorException("Error: operator template with less " +
                                   "than 2 arguments");
     }
-    OpInfo info = new OpInfo(getSection(), opPara);
+    OpInfo info = new OpInfo(getSectionName(), opPara);
     String name = getOpNameWithoutStrokes(opPara.getOper());
     addOperator(name, info);
-    Oper first = (Oper) oper.get(0);
-    Oper last = (Oper) oper.get(oper.size() - 1);
+    Oper first = oper.get(0);
+    Oper last = oper.get(oper.size() - 1);
     if (first instanceof Operand) {
       if (last instanceof Operand) {
         addInfix(opPara);
@@ -483,11 +485,11 @@ public class OpTable extends InfoTable
     throws OperatorException
   {
     final OperatorTokenType existingType =
-      (OperatorTokenType) opTokens_.get(word);
+      opTokens_.get(word);
     if (existingType != null && ! type.equals(existingType)) {
       OptempPara optempPara = optempPara_.get(word);
-      LocAnn locAnn1 = (LocAnn) optempPara.getAnn(LocAnn.class);
-      LocAnn locAnn2 = (LocAnn) opPara.getAnn(LocAnn.class);
+      LocAnn locAnn1 = optempPara.getAnn(LocAnn.class);
+      LocAnn locAnn2 = opPara.getAnn(LocAnn.class);
       String message =
         "Operator word " + word + " defined as operator token " + existingType;
       if (locAnn1 != null) {
@@ -522,7 +524,7 @@ public class OpTable extends InfoTable
     final Map<String,OperatorTokenType> parentOpTokens =
       parentTable.opTokens_;
     for (String word : parentOpTokens.keySet()) {
-      OperatorTokenType type = (OperatorTokenType) parentOpTokens.get(word);
+      OperatorTokenType type = parentOpTokens.get(word);
       assert type != null;
       addOpToken(word, type, parentTable.optempPara_.get(word));
     }
@@ -583,7 +585,7 @@ public class OpTable extends InfoTable
   {
     if (precedence != null) {
       assert assoc != null;
-      final Assoc existingAssoc = (Assoc) assoc_.get(precedence);
+      final Assoc existingAssoc = assoc_.get(precedence);
       if (existingAssoc != null && ! existingAssoc.equals(assoc)) {
         String message =
           "Precedence " + precedence + " is associated with " + existingAssoc +
@@ -606,7 +608,7 @@ public class OpTable extends InfoTable
   {
     final Map<BigInteger,Assoc> parentAssoc = parentTable.assoc_;
     for (BigInteger precedence : parentAssoc.keySet()) {
-      Assoc assoc = (Assoc) parentAssoc.get(precedence);
+      Assoc assoc = parentAssoc.get(precedence);
       assert assoc != null;
       addAssociativity(precedence, assoc);
     }
@@ -614,7 +616,7 @@ public class OpTable extends InfoTable
 
   public OpInfo lookup(List<String> list)
   {
-    StringBuffer opname = new StringBuffer();
+    StringBuilder opname = new StringBuilder();
     for (String s : list)
     {
       if (ZString.ARG_TOK.equals(s) || ZString.LISTARG_TOK.equals(s))
@@ -626,7 +628,7 @@ public class OpTable extends InfoTable
         opname.append(getWord(s));
       }
     }
-    OpInfo result = (OpInfo) ops_.get(opname.toString());
+    OpInfo result = ops_.get(opname.toString());
     return result;
   }
 

@@ -26,6 +26,7 @@ import net.sourceforge.czt.session.*;
 public class ParseExceptionCommand
   implements Command
 {
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {

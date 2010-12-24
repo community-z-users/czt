@@ -1,8 +1,21 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2011 Leo Freitas
+ * This file is part of the CZT project.
+ *
+ * The CZT project contains free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The CZT project is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with CZT; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.czt.parser.util;
 
 import java.util.Collection;
@@ -24,14 +37,13 @@ public class ThmTable extends InfoTable
   {
     super(section);
     addParents(parents);
-  }  
+  }
   
   /**
    * 
    * @param <T>
-   * @param <E>
    * @param table
-   * @throws E
+   * @throws net.sourceforge.czt.parser.util.InfoTable.InfoTableException
    */   
   @Override
   protected <T extends InfoTable> void addParentTable(T table) 
@@ -68,7 +80,7 @@ public class ThmTable extends InfoTable
     {
       throw new ThmTableException("Error: cannot add unnamed conjecture to conjecture table.");
     }    
-    ThmInfo thmInfo = new ThmInfo(getSection(), para);
+    ThmInfo thmInfo = new ThmInfo(getSectionName(), para);
     addTheorem(thmName, thmInfo);
     return;
   }  

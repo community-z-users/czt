@@ -38,6 +38,7 @@ public class ParseException
 
   /**
    * Constructs a new parse exception with the specified error list.
+   * @param errorList
    */
   public ParseException(List<CztError> errorList)
   {
@@ -55,6 +56,7 @@ public class ParseException
     return errorList_;
   }
 
+  @Override
   public List<CztError> getErrors()
   {
     return errorList_;
@@ -67,11 +69,12 @@ public class ParseException
     }
   }
 
+  @Override
   public String getMessage()
   {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (CztError parseError : errorList_) {
-      result.append("\n" + parseError.toString());
+      result.append("\n").append(parseError.toString());
     }
     return result.toString();
   }

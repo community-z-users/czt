@@ -153,7 +153,7 @@ public class AstToPrintTreeVisitor
   public Term run(Term term, OpTable opTable)
   {
     if (opTable != null) {
-      warningManager_.setCurrentSectName(opTable.getSection());  
+      warningManager_.setCurrentSectName(opTable.getSectionName());
       opTable_ = opTable;
       prec_ = new PrecedenceVisitor(opTable_);
     }

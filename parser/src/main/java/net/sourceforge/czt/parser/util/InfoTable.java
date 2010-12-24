@@ -1,17 +1,30 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2011 Leo Freitas
+ * This file is part of the CZT project.
+ *
+ * The CZT project contains free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The CZT project is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with CZT; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 package net.sourceforge.czt.parser.util;
 
 import java.util.Collection;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.z.util.ZString;
 
 /**
- *
- * @author leo
+ * Base class for section management tables.
+ * @author Leo Freitas
  */
 public abstract class InfoTable {
 
@@ -27,21 +40,21 @@ public abstract class InfoTable {
   /**
    * The name of the section.
    */
-  private String section_;
+  protected final String sectionName_;
   
   /**
-   *    
-   * @param <E> 
-   * @param section
-   * @param parents
-   * @throws net.sourceforge.czt.parser.util.InfoTable.InfoTableException
+   * Creates an information table for a given section name. DO NOT have a constructor
+   * for adding the parents - this could create incoherent initialisations due to the
+   * order of construction in Java.
+   * @param sectionName
    */
-  public InfoTable(String section) 
+  public InfoTable(String sectionName)
   {
-    section_ = section;    
+    assert sectionName != null;
+    sectionName_ = sectionName;
   }
   
-  protected void addParents(Collection<? extends InfoTable> parents) 
+  protected final void addParents(Collection<? extends InfoTable> parents)
     throws InfoTableException
   {
     if (parents != null) {
@@ -53,9 +66,9 @@ public abstract class InfoTable {
   
   protected abstract <T extends InfoTable> void addParentTable(T table) throws InfoTableException;
   
-  public String getSection()
+  public String getSectionName()
   {
-    return section_;
+    return sectionName_;
   }
 
   public static abstract class Info
@@ -63,16 +76,17 @@ public abstract class InfoTable {
     /**
      * The name of the section where this operator is defined.
      */
-    private String section_;
+    private String sectionName_;
     
-    protected Info(String section)
+    protected Info(String sectionName)
     {
-      section_ = section;
+      assert sectionName != null;
+      sectionName_ = sectionName;
     }
 
-    public String getSection()
+    public String getSectionName()
     {
-      return section_;
+      return sectionName_;
     }    
   }
   
@@ -81,6 +95,11 @@ public abstract class InfoTable {
     public InfoTableException(String message)
     {
       super(message);
+    }
+
+    public InfoTableException(String message, Throwable cause)
+    {
+      super(message, cause);
     }
   }
 }

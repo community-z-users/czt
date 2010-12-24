@@ -30,7 +30,7 @@ import net.sourceforge.czt.z.ast.*;
 /**
  * A definition table stores all the global definitions of a section.
  */
-public class DefinitionTable
+public class DefinitionTable extends InfoTable
 {
   private static final Logger logger_ = Logger.getLogger(SectionManager.class.getName());
 
@@ -52,13 +52,18 @@ public class DefinitionTable
    * public method to be protected. One should not directly update the DefinitionTable,
    * but use the lookup algorithm from the DefinitionTableVisitor instead.
    *
+   * @param sectionName
    * @param parents Definition tables of all direct parents of the new section.
+   * @throws net.sourceforge.czt.parser.util.DefinitionTable.DefinitionException
    */
-  protected DefinitionTable(String section,
+  protected DefinitionTable(String sectionName,
                          Collection<DefinitionTable> parents)
     throws DefinitionException
   {
-    section_ = section;
+    super(sectionName);
+
+    // do not use InfoTable.addParents in this specialised case
+    // in a constructor, we shall not override addParents either :-(
     if (parents != null)
     {
       // collect all exceptions in one chain of throwable causes
@@ -87,30 +92,50 @@ public class DefinitionTable
       else if (exceptions.size() > 1)
       {
         final String message = "Multiple definition exceptions when creating definition" +
-          "table. They happened while processing parents for section " + section;
-        //throw new DefinitionException(message, exceptions);
+          "table. They happened while processing parents for section " + sectionName +
+          ". This occurs either because the section is not typechecked, or because type-compatible " +
+          "names (i.e., those with different declared types but same carrier set) are repeated.";
         logger_.warning(message + " with exceptions " + exceptions.toString());
+        throw new DefinitionException(message, exceptions);
       }
     }
   }
 
-  /**
-   *
-   * @czt.todo Really throw the exception.
-   */
+  @Override
+  protected <T extends InfoTable> void addParentTable(T table) throws InfoTableException
+  {
+    addParentDefinitionTable((DefinitionTable)table);
+  }
+  
   private void addParentDefinitionTable(DefinitionTable parentTable)
     throws DefinitionException
   {
     assert parentTable != null;
-    // process them one-by-one, so add can check for duplicates.
-    for (Entry<String, Definition> def : parentTable.definitions_.entrySet()) {
-      add(def.getKey(), def.getValue());
-    }
-  }
 
-  public String getSection()
-  {
-    return section_;
+    // collect all exceptions from this one parent.
+    List<DefinitionException> exceptions = new ArrayList<DefinitionException>();
+
+    // process them one-by-one, so add can check for duplicates.
+    for (Entry<String, Definition> def : parentTable.definitions_.entrySet()) 
+    {
+      try
+      {
+        add(def.getKey(), def.getValue());
+      }
+      catch (DefinitionException e)
+      {
+        exceptions.add(e);
+      }
+    }
+
+    if (exceptions.size() == 1)
+    {
+      throw exceptions.get(0);
+    }
+    else if (exceptions.size() > 1)
+    {
+      throw new DefinitionException("DEFTBL-ADDPARENT", exceptions);
+    }
   }
 
   /**
@@ -126,9 +151,10 @@ public class DefinitionTable
     return definitions_.get(defname);
   }
 
+  @Override
   public String toString()
   {
-    return "DefinitionTable for " + section_ + "\n" + definitions_;
+    return "DefinitionTable for " + sectionName_ + "\n" + definitions_;
   }
 
   /**
@@ -136,6 +162,8 @@ public class DefinitionTable
    * protected. One should not directly update the DefinitionTable, but
    * use the lookup algorithm from the DefinitionTableVisitor instead.
    *
+   * @param defName
+   * @param def
    * @throws DefinitionException if definition is incompatible
    *                           with existing definitions.
    */
@@ -144,16 +172,13 @@ public class DefinitionTable
   {
     assert defName != null && !defName.isEmpty() && def != null :
       "Invalid definition name and value to add to definition table: name = " + defName + "; value = " + def;
+
     Definition old = definitions_.put(defName, def);
     if (old != null && ! old.getSectionName().equals(def.getSectionName()))
     {
-      final String message = "Definition table for section " + section_ +
-        "already contains a definition for " + defName +
-        ". This occurs either because the section is not typechecked, or because type-compatible " +
-        "names (i.e., those with different declared types but same carrier set) were repeated " +
-        "(e.g., x declared as natural or integer has arithmos carrier set).";
-      //throw new DefinitionException(message);
-      logger_.warning(message);
+      final String message = "Duplicated def \"" + defName + "\" in " + getSectionName();
+      throw new DefinitionException(message);
+      //logger_.warning(message);
     }
   }
 
@@ -161,7 +186,7 @@ public class DefinitionTable
    * @czt.todo How should this class look like?
    */
   public static class DefinitionException
-    extends Exception
+    extends InfoTable.InfoTableException
   {
     private final List<DefinitionException> exceptions_;
 
@@ -183,11 +208,18 @@ public class DefinitionTable
       exceptions_ = Collections.unmodifiableList(exceptions);
     }
 
+    public DefinitionException(String message, Throwable cause, List<DefinitionException> exceptions)
+    {
+      super(message, cause);
+      exceptions_ = Collections.unmodifiableList(exceptions);
+    }
+
     public List<DefinitionException> getExceptions()
     {
       return exceptions_;
     }
 
+    @Override
     public String toString()
     {
       String result = super.toString();
@@ -200,7 +232,9 @@ public class DefinitionTable
     }
   }
 
-  /** This interface allows visitors to visit definitions. */
+  /** This interface allows visitors to visit definitions.
+   * @param <T>
+   */
   public interface DefinitionVisitor<T>
   {
     T visitDefinition(Definition def);
@@ -211,20 +245,19 @@ public class DefinitionTable
    *  this Definition records the type parameters T,U and
    *  the right hand side expression.
    */
-  public static class Definition
+  public static class Definition extends InfoTable.Info
   {
     private final ZNameList genericParams_;
     private final Expr definition_;
     private final DefinitionType defType_;
-    private final String sectName_;
 
     public Definition(String sectName, ZNameList generic, Expr definition, DefinitionType definitionType)
     {
+      super(sectName);
       assert generic != null && definition != null && definitionType != null;
       genericParams_ = generic;
       definition_ = definition;
       defType_ = definitionType;
-      sectName_ = sectName;
     }
 
     /** Returns the list of generic type parameters of this definition.
@@ -242,6 +275,7 @@ public class DefinitionTable
      *  For a variable declaration (name:expr), this returns the type
      *  expression, expr.  Note that this is often more specific than
      *  the carrier set of name (as returned by the typechecker).
+     * @return
      */
     public Expr getExpr()
     {
@@ -257,12 +291,7 @@ public class DefinitionTable
       return defType_;
     }
 
-    /** The Z section that this definition was first defined in. */
-    public String getSectionName()
-    {
-    	return sectName_;
-    }
-
+    @Override
     public String toString()
     {
       return genericParams_.toString() + " " + definition_.toString() + " [" + defType_.toString() + "]";
