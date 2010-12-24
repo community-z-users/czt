@@ -232,11 +232,11 @@ public class DomainCheckUtils implements DomainCheckPropertyKeys
     if (dcFile.exists())
     {
       boolean couldDelete = dcFile.delete();
-      final String msg = "DCUtils-PRINT-FILEERROR = file already exists; trying to delete "
-                         + dcFileName + " = " + couldDelete;
-      manager.getLogger().warning(msg);
       if (!couldDelete)
       {
+        final String msg = "DCUtils-PRINT-FILE-WARNING = file already exists; trying to delete "
+                            + dcFileName + " = " + couldDelete;
+        manager.getLogger().warning(msg);
         throw new DomainCheckException(msg);
       }
     }

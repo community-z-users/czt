@@ -20,7 +20,6 @@ package net.sourceforge.czt.dc.z;
 
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Ann;
-import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.Fact;
 import net.sourceforge.czt.z.ast.GivenPara;
@@ -41,7 +40,6 @@ import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.AnnVisitor;
-import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.DirectiveVisitor;
 import net.sourceforge.czt.z.visitor.FactVisitor;
 import net.sourceforge.czt.z.visitor.GivenParaVisitor;
@@ -70,7 +68,6 @@ import net.sourceforge.czt.z.visitor.ZStrokeListVisitor;
  */
 public abstract class TrivialDCTerm extends AbstractDCTerm<Pred> implements
   GivenParaVisitor<Pred>,
-  ConjParaVisitor<Pred>,
   UnparsedParaVisitor<Pred>,
   NarrParaVisitor<Pred>,
   LatexMarkupParaVisitor<Pred>,
@@ -100,11 +97,6 @@ public abstract class TrivialDCTerm extends AbstractDCTerm<Pred> implements
   }
 
   public Pred visitGivenPara(GivenPara term)
-  {
-    return truePred();
-  }
-
-  public Pred visitConjPara(ConjPara term)
   {
     return truePred();
   }

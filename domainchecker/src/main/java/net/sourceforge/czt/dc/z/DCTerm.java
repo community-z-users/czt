@@ -107,8 +107,10 @@ import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 import net.sourceforge.czt.z.visitor.ZSchTextVisitor;
 
 import net.sourceforge.czt.z.ast.And;
+import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 
 /**
  * <p>
@@ -139,6 +141,7 @@ import net.sourceforge.czt.z.ast.ZDeclList;
 public class DCTerm extends TrivialDCTerm implements
   // Para visitors
   //ParaVisitor<Pred>,  see Para should use Term
+  ConjParaVisitor<Pred>,
   FreeParaVisitor<Pred>,
   ZFreetypeListVisitor<Pred>,
   FreetypeVisitor<Pred>,
@@ -194,7 +197,8 @@ public class DCTerm extends TrivialDCTerm implements
    * domain checks over unresolved names. This function is defined 
    * under the dc\_toolkit.tex
    */
-  private static final String APPLIESTO_NAME = "appliesToNofix"; // this name is UNICODE, not LaTeX from DC_toolkit!
+  private static final String APPLIESTO_NAME_INFIX = ZString.ARG_TOK + "appliesTo" + ZString.ARG_TOK;
+  private static final String APPLIESTO_NAME_NOFIX = "appliesToNofix"; // this name is UNICODE, not LaTeX from DC_toolkit!
   private static final String DOM_NAME = "dom";
   
   public static final String[] TOTAL_OPS = { ZString.FUN, ZString.SURJ, ZString.INJ, ZString.BIJ };
@@ -209,9 +213,9 @@ public class DCTerm extends TrivialDCTerm implements
   
   private boolean infixAppliesTo_;
   private boolean applyPredTransformers_;
-  
+  private ZName appliesToOpName_;
+
   private final ZName domName_;
-  private final ZName appliesToOpName_;
   private final PrintVisitor printVisitor_;
     
   /**
@@ -229,12 +233,18 @@ public class DCTerm extends TrivialDCTerm implements
   {
     super(factory);
     defTable_ = null;    
-    infixAppliesTo_ = PROP_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT;
-    applyPredTransformers_ = PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS_DEFAULT;
     domName_ = factory_.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
-    appliesToOpName_ = factory_.createZName(APPLIESTO_NAME); //factory_.createZName(ZString.ARG + APPLIESTO_NAME + ZString.ARG); // relation infix binary operator (see dc_toolkit.tex)!
+    applyPredTransformers_ = PROP_DOMAINCHECK_APPLY_PRED_TRANSFORMERS_DEFAULT;
+    setInfixAppliesTo(PROP_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
     printVisitor_ = new PrintVisitor(); // defTable uses a PrintVisitor for lookup names.
-  }  
+  }
+
+  private void setInfixAppliesTo(boolean value)
+  {
+    infixAppliesTo_ = value;
+    // is it (f appliesTo x) or (f, x) \in appliesToNoFix?
+    appliesToOpName_ = factory_.createZName(infixAppliesTo_ ? APPLIESTO_NAME_INFIX : APPLIESTO_NAME_NOFIX);
+  }
   
   /** TOP-LEVEL METHOD */
   
@@ -249,17 +259,19 @@ public class DCTerm extends TrivialDCTerm implements
    * 
    * @param term to domain check
    * @param dt definition lookup table; if null, applies$to will always be used.
+   * @param infixAppliesTo
+   * @param applyPredTransf
    * @return domain check predicate for given term
    */
   public Pred runDC(Term term, DefinitionTable dt, boolean infixAppliesTo, boolean applyPredTransf)
   {
     assert term != null : "Invalid term for DC";
-    infixAppliesTo_ = infixAppliesTo;
+    setInfixAppliesTo(infixAppliesTo);
     applyPredTransformers_ = applyPredTransf;
     defTable_ = dt; // a null dts means always "applies$to"!
     Pred result = dc(term);
     defTable_ = null;
-    infixAppliesTo_ = defaultInfixAppliesTo();
+    setInfixAppliesTo(defaultInfixAppliesTo());
     applyPredTransformers_ = defaultApplyPredTransformers();
     return result;
   }
@@ -692,7 +704,25 @@ public class DCTerm extends TrivialDCTerm implements
   //{
   //  return andPredList(term);
   //}
-  
+
+  /**
+   * This implements domain check for conjecture paragraphs:
+   * ConjPara : [X] "theorem" N \vdash? Pred.
+   *
+   * Z/Eves does not have DC for ConjPara, and this is missing.
+   * We implement it as the domain check of the associated Pred.
+   *
+   * DC([X] "theorem" N \vdash? Pred) \iff DC(Pred)
+   *
+   * @param term
+   * @return
+   */
+  @Override
+  public Pred visitConjPara(ConjPara term)
+  {
+    return dc(term.getPred());
+  }
+
   /**
    * This implements various free type paragraphs:
    * FreePara  : N ::= c | b \ldata E \rdata | ... &
@@ -995,7 +1025,7 @@ public class DCTerm extends TrivialDCTerm implements
         // f applies$to a, which is defined as \_ \appliesTo \_ -> (\exists_1 y: Y @ (a, y) \in f) in dc\_toolkit    
         TupleExpr appliesToArgs = factory_.createTupleExpr(name, packedArgs);
         
-        if (false) // isAppliesToInfix())
+        if (isAppliesToInfix())
         {        
           // this format is like f \appliesTo args (i.e. infix operator template)
           applPred = factory_.createRelOpAppl(appliesToArgs, appliesToOpName_); // as an operator
