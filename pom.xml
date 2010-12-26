@@ -94,6 +94,7 @@
     <module>rules</module>
     <module>ui</module>
     <module>util</module>
+    <module>vcg</module>
     <module>z2b</module>
     <module>zeves</module>
     <module>zlive</module>
@@ -269,6 +270,14 @@
         <version>${czt.version}</version>
       </dependency>     
       
+
+      <!-- CZT Z VCG -->
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>vcg</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
       <!-- ZEves -->
       <dependency>
         <groupId>${czt.groupId}</groupId>
