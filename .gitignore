@@ -5781,6 +5781,7 @@ util/src/test/java/net/target
 util/src/test/java/target
 util/src/test/target
 util/target
+vcg/target
 z2b/*.aux
 z2b/*.blg
 z2b/*.log
