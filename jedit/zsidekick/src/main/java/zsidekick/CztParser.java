@@ -26,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gjt.sp.jedit.*;
 import errorlist.*;
-import net.sourceforge.czt.dc.z.ZSectDCEnvAnn;
 import sidekick.*;
 
 import net.sourceforge.czt.parser.util.*;
@@ -122,22 +121,6 @@ public class CztParser
             }
           }
         }
-        /*
-        boolean domainChecking = !buffer.getBooleanProperty("zsidekick.disable-domainchecking");
-        if (domainChecking)
-        {
-          for (Sect sect : spec.getSect())
-          {
-            if (sect instanceof ZSect)
-            {
-              final String sectName = ((ZSect) sect).getName();
-              ZSectDCEnvAnn zdcEnv = manager.get(new Key<ZSectDCEnvAnn>(sectName, ZSectDCEnvAnn.class));
-              logger_.finer("JEDT-CZT-DOMCK = " + sectName);
-            }
-          }
-        }
-         *
-         */
       }
       try {
         ParseException parseException = 

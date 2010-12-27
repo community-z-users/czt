@@ -23,7 +23,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>domainchecker</artifactId>
+      <artifactId>vcg</artifactId>
     </dependency>
     <dependency>
       <groupId>${jedit.groupId}</groupId>

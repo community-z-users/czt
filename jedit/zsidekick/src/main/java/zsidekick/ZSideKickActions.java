@@ -21,9 +21,7 @@ package zsidekick;
 import java.io.File;
 import java.io.StringWriter;
 
-import java.util.Iterator;
 import javax.swing.JOptionPane;
-import net.sourceforge.czt.dc.z.DomainCheckUtils;
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.textarea.*;
@@ -41,10 +39,12 @@ import net.sourceforge.czt.rules.prover.ProofTree;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.rewriter.Strategies;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
+import net.sourceforge.czt.vcg.z.dc.DomainCheckUtils;
 import net.sourceforge.czt.z.ast.*;
 
 public class ZSideKickActions
-  implements PrintPropertiesKeys
+  implements PrintPropertiesKeys, DomainCheckPropertyKeys
 {
   public static ParsedData getParsedData(View view)
   {
@@ -168,9 +168,9 @@ public class ZSideKickActions
         buffer.setMode(result.getExtension() + mode);
         bufferDC.insert(0, result.toString());
         */
-        final String dcFileName = DomainCheckUtils.getDCFilename(name);
+        final String dcFileName = DomainCheckUtils.getVCFileName(name, VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
         DomainCheckUtils.getDCUtils().setSectionManager(manager);
-        DomainCheckUtils.getDCUtils().domainCheckToFile(file);
+        DomainCheckUtils.getDCUtils().vcgToFile(file);
         Buffer bufferDC = jEdit.openFile(view, dcFileName);
         bufferDC.setStringProperty("encoding", System.getProperty( "file.encoding"));
         String mode = Markup.getMarkup(name).equals(Markup.LATEX) ? "latex" : "";

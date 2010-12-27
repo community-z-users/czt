@@ -18,7 +18,7 @@
  */
 package zsidekick;
 
-import net.sourceforge.czt.dc.z.DomainCheckPropertyKeys;
+import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import org.gjt.sp.jedit.*;
