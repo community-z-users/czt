@@ -86,7 +86,7 @@ public class DomainCheckUtils extends VCGUtils implements DomainCheckPropertyKey
   @Override
   protected void printToolUsage()
   {
-    System.err.println("flags: -a     use infix applies to definition.");
+    System.err.println("       -a     use infix applies to definition.");
   }
 
   @Override

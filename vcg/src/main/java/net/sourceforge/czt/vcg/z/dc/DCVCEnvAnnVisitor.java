@@ -6,7 +6,6 @@
 package net.sourceforge.czt.vcg.z.dc;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.impl.FactImpl;
 
 /**
  *

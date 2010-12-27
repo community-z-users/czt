@@ -22,7 +22,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Ann;
-import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Stroke;
@@ -31,7 +30,6 @@ import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.AnnVisitor;
-import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.StrokeVisitor;
 import net.sourceforge.czt.z.visitor.TypeVisitor;
@@ -50,7 +48,6 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
         implements
         UnparsedParaVisitor<Pred>,
         NarrParaVisitor<Pred>,
-        LatexMarkupParaVisitor<Pred>,
         TypeVisitor<Pred>,
         AnnVisitor<Pred>,
         StrokeVisitor<Pred>,
@@ -98,12 +95,6 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
 
   @Override
   public Pred visitNarrPara(NarrPara term)
-  {
-    return truePred();
-  }
-
-  @Override
-  public Pred visitLatexMarkupPara(LatexMarkupPara term)
   {
     return truePred();
   }

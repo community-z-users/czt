@@ -57,4 +57,11 @@ public interface VCCollector<R> extends TermVisitor<R>
    * @throws VCCollectionException
    */
   VC<R> createVC(Para term, R vc) throws VCCollectionException;
+
+  /**
+   * Visits a given term - push down to AbstractVCCollector class
+   * @param term
+   * @return
+   */
+  //R visit(Term term);
 }

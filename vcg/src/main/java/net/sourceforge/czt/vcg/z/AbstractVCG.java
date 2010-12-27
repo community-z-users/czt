@@ -559,9 +559,15 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     List<VC<R>> result = factory_.list();
     for (T term : list)
     {
-      result.addAll(term.accept(this));
+      result.addAll(visit(term));
     }
     return result;
+  }
+
+  @Override
+  protected List<VC<R>> visit(Term term)
+  {
+    return term.accept(this);
   }
 
   /**

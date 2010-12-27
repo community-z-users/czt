@@ -6,7 +6,7 @@
     <artifactId>czt</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
-  <artifactId>vcd</artifactId>
+  <artifactId>vcg</artifactId>
   <packaging>jar</packaging>
   <name>CZT Z VCG</name>
   <description>

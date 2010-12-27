@@ -370,7 +370,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   protected Pred calculateVC(Para term) throws VCCollectionException
   {
-    return dc(term);
+    return visit(term);
   }
   
   /** PARAGRAPH VISITING METHODS */
@@ -379,7 +379,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
    * @param term
    * @return
    */
-  protected Pred dc(Term term)
+  @Override
+  protected Pred visit(Term term)
   {
     return predTransformer_.visit(term);
   }
@@ -433,7 +434,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitConjPara(ConjPara term)
   {
-    return dc(term.getPred());
+    return visit(term.getPred());
   }
 
   /**
@@ -452,7 +453,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitFreePara(FreePara term)
   {
-    return dc(term.getFreetypeList());
+    return visit(term.getFreetypeList());
   }
   
   /** DC a list of Freetype from a FreePara */
@@ -466,7 +467,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitFreetype(Freetype term) 
   {
-    return dc(ZUtils.assertZBranchList(term.getBranchList()));
+    return visit(ZUtils.assertZBranchList(term.getBranchList()));
   }
   
   /** DC a list of Branch from a Freetype */
@@ -483,7 +484,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     // constructors need dc, names don't
     if (term.getExpr() != null)
     {
-      return dc(term.getExpr());
+      return visit(term.getExpr());
     }
     else
     {
@@ -517,8 +518,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
         ZDeclList decl = ZUtils.getAxBoxDecls(term);
         Pred pred = ZUtils.getAxBoxPred(term);
         
-        Pred dcd = dc(decl); // DC(D)
-        Pred dcp = dc(pred); // DC(P)
+        Pred dcd = visit(decl); // DC(D)
+        Pred dcp = visit(pred); // DC(P)
 
         // DC(D) \land (\forall D @ DC(P))
         return predTransformer_.andPred(dcd, predTransformer_.forAllPred(decl, dcp));
@@ -531,7 +532,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
         assert (schExpr instanceof SchExpr) : "Invalid SchBox AxPara, no SchExpr within ConstDecl!";
         
         // for SchBox : DC([ D | P ]) \iff DC(D) \land (\forall D @ DC(P)), which comes from ZSchText DC in SchExpr ;)
-        return dc(schExpr);
+        return visit(schExpr);
 
       case OmitBox:
         // for OmitBox (horiz. def or abbreviations), use getSchemaDefExpr method
@@ -546,7 +547,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
         assert horizExpr != null : "Invalid horizontal definition: neither schema construction, nor abbreviation (null)!";
         
         // for OmitBox: DC(n[X] == E) \iff DC(E), where E could be a SchExpr ([ D | P])
-        return dc(horizExpr);
+        return visit(horizExpr);
         
       default: 
         // this case should never happen, yet we need to return something 
@@ -573,12 +574,12 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     
     //assert pred != null : "Invalid schema text predicate";
     
-    Pred dcd = dc(decl); // DC(D)
+    Pred dcd = visit(decl); // DC(D)
     
     // case the pred within the given ZSchText is null,
     // which happens in some productions like ConstDecl,
     // just result in "true", which is harmless.
-    Pred dcp = (pred != null ? dc(pred) : predTransformer_.truePred()); // DC(P)
+    Pred dcp = (pred != null ? visit(pred) : predTransformer_.truePred()); // DC(P)
     
     // DC(D) \land (\forall D @ DC(P))
     return predTransformer_.andPred(dcd, predTransformer_.forAllPred(decl, dcp));
@@ -628,7 +629,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitVarDecl(VarDecl term)
   {
-    return dc(term.getExpr());
+    return visit(term.getExpr());
   }
   
   /**
@@ -648,7 +649,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitConstDecl(ConstDecl term)
   {
-    return dc(term.getExpr());
+    return visit(term.getExpr());
   }
   
   /**
@@ -678,7 +679,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitInclDecl(InclDecl term)
   {
-    return dc(term.getExpr());
+    return visit(term.getExpr());
   }
   
   /** EXPRESSION TERMS */
@@ -712,7 +713,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitExpr2(Expr2 term)
   {
-    return predTransformer_.andPred(dc(term.getLeftExpr()), dc(term.getRightExpr()));
+    return predTransformer_.andPred(visit(term.getLeftExpr()), visit(term.getRightExpr()));
   }
   
   /**
@@ -731,8 +732,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     ZExprList flatArgs = ZUtils.getApplExprArguments(term); // falttens TupleExpr into a ZExprList
     
     // build basic DC: considers generic instantiation and application arguments
-    Pred dcF = dc(name);     // check DC((_F_)) for generic instantiations (MISSING IN Z/EVES!!!)
-    Pred dcEList = dc(flatArgs); // check all (_F_) arguments (MISSING IN Z/EVES!!!)   
+    Pred dcF = visit(name);     // check DC((_F_)) for generic instantiations (MISSING IN Z/EVES!!!)
+    Pred dcEList = visit(flatArgs); // check all (_F_) arguments (MISSING IN Z/EVES!!!)
     Pred basicDC = predTransformer_.andPred(dcF, dcEList);
     
     // by default, use f applies$to a, (i.e. defTable_ may be null)
@@ -798,7 +799,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitExpr1(Expr1 term)
   {
-    return dc(term.getExpr());
+    return visit(term.getExpr());
   }
 
   /**
@@ -818,7 +819,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitExpr0N(Expr0N term) 
   {    
-    return dc(term.getZExprList());
+    return visit(term.getZExprList());
   }
   
   /**
@@ -844,10 +845,10 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitQnt1Expr(Qnt1Expr term) 
   {
     // DC(D) \land (\forall D @ DC(P)), for [ D | P ]
-    Pred dcschtext = dc(term.getZSchText());
+    Pred dcschtext = visit(term.getZSchText());
     
     Expr expr = term.getExpr();    
-    Pred dce = dc(expr); // DC(E)
+    Pred dce = visit(expr); // DC(E)
     
     // DC(D) \land (\forall D @ DC(P)) \land DC(E)
     return predTransformer_.andPred(dcschtext, dce);
@@ -958,8 +959,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
     assert term.getZSchText().getPred() == null : "Parsing must set SchText.Pred on LetExpr to null!"; 
     
-    Pred dcd = dc(constdecl);     // DC(D)
-    Pred dce = dc(term.getExpr());// DC(E)
+    Pred dcd = visit(constdecl);     // DC(D)
+    Pred dce = visit(term.getExpr());// DC(E)
     
     // (\LET x == E1, ... @ DC(E)), as an expression to be transformed in a predicate
     LetExpr letexpr = factory_.createLetExpr(term.getZSchText(),
@@ -1026,9 +1027,9 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     Expr expr1 = term.getLeftExpr();
     Expr expr2 = term.getRightExpr();
     
-    Pred dcp = dc(pred);   // DC(P)
-    Pred dce1 = dc(expr1); // DC(E1)
-    Pred dce2 = dc(expr2); // DC(E2);
+    Pred dcp = visit(pred);   // DC(P)
+    Pred dce1 = visit(expr1); // DC(E1)
+    Pred dce2 = visit(expr2); // DC(E2);
     
     // (\IF P \THEN DC(E1) \ELSE DC(E2)), as a schema expression
     Expr condExpr = factory_.createCondExpr(pred, 
@@ -1059,7 +1060,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     
     assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
     
-    return dc(constdecl);
+    return visit(constdecl);
   }
   
   /**
@@ -1076,7 +1077,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitRefExpr(RefExpr term) 
   {
-    return dc(term.getZExprList());
+    return visit(term.getZExprList());
   }
   
   /**
@@ -1094,7 +1095,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitSchExpr(SchExpr term) 
   {
-    return dc(term.getZSchText());
+    return visit(term.getZSchText());
   }
   
   /** 
@@ -1112,7 +1113,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitNumExpr(NumExpr term) 
   {
-    return dc(term.getZNumeral());
+    return visit(term.getZNumeral());
   }  
   
   /** PREDICATE TERMS */  
@@ -1179,8 +1180,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitOrPred(OrPred term)
   {
     Pred p = term.getLeftPred();
-    Pred dcp = dc(p);                          // DC(P)
-    Pred dcq = dc(term.getRightPred());        // DC(Q)
+    Pred dcp = visit(p);                          // DC(P)
+    Pred dcq = visit(term.getRightPred());        // DC(Q)
     Pred orpq = factory_.createOrPred(p, dcq); // (P \lor DC(Q))
     return predTransformer_.andPred(dcp, orpq);                 // DC(P) \land (P \lor DC(Q))
   }
@@ -1202,8 +1203,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitIffPred(IffPred term)
   {
-    Pred dcp = dc(term.getLeftPred()); // DC(P)
-    Pred dcq = dc(term.getRightPred());// DC(Q)
+    Pred dcp = visit(term.getLeftPred()); // DC(P)
+    Pred dcq = visit(term.getRightPred());// DC(Q)
     return predTransformer_.andPred(dcp, dcq);          // DC(P) \land DC(Q)
   }  
     
@@ -1240,7 +1241,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitNegPred(NegPred term)
   {
-    return dc(term.getPred());
+    return visit(term.getPred());
   }
 
   /**
@@ -1271,13 +1272,13 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     Expr expr1 = ZUtils.getMemPredLHS(term);// just getLeftExpr().
     Expr expr2 = ZUtils.getMemPredRHS(term);// for equality, unpacks singleton set!    
     
-    Pred dce1 = dc(expr1); // DC(E1)
-    Pred dce2 = dc(expr2); // DC(E2)
+    Pred dce1 = visit(expr1); // DC(E1)
+    Pred dce2 = visit(expr2); // DC(E2)
     
     // For the infix relation, it can be either: \in, =, or RelOp
     // For \in and =, there is no DC to perform. For RelOp, which is a RefExpr,
     // we need to check the (possible) generic instantiations. 
-    Pred dcIR = (ZUtils.isRelOpApplPred(term) ? dc(ZUtils.getRelOpName(term)) : predTransformer_.truePred());    // DC(IR)
+    Pred dcIR = (ZUtils.isRelOpApplPred(term) ? visit(ZUtils.getRelOpName(term)) : predTransformer_.truePred());    // DC(IR)
     
     return predTransformer_.andPred(dce1, predTransformer_.andPred(dcIR, dce2));
   }

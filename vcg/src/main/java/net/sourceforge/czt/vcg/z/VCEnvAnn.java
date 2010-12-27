@@ -78,7 +78,7 @@ public abstract class VCEnvAnn<R> extends AnnImpl implements VCGPropertyKeys
     if (v instanceof VCEnvAnnVisitor)
     {
       VCEnvAnnVisitor<R> visitor = (VCEnvAnnVisitor<R>) v;
-      return visitor.visitVCGEnvAnn(this);
+      return visitor.visitVCGEnvAnn((VCEnvAnn<R>) this);
     }
     return super.accept(v);
   }

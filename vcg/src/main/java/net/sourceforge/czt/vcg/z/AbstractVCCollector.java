@@ -59,6 +59,12 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   {
     return factory_;
   }
+
+  /**
+   * Visits the given term (e.g., <code>term.accept(this)</code>).
+   * @param term term to visit
+   */
+  protected abstract R visit(Term term);
   
   /**
    * For terms in general, just assume nothing is known about them,

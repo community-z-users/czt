@@ -105,6 +105,27 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     return getVCG().getManager();
   }
 
+  /**
+   * To reuse a section manager, set it as such, if VCG not already set?
+   * @param manager
+   * @throws VCGException
+   */
+  public void setSectionManager(SectionManager manager) throws VCGException
+  {
+    if (manager.getCommand(getVCG().getVCEnvAnnClass()) == null)
+    {
+      manager.putCommand(getVCG().getVCEnvAnnClass(), getCommand());
+    }
+    manager.setProperty(LatexPrinterPropertyKeys.PROP_LATEXPRINTER_WRAPPING,
+      String.valueOf(latexOutputWrappingDefault()));
+    if (getVCG().isConfigured())
+    {
+      //throw new VCGException("VCGU-SM-ALREADY-SET");
+      SectionManager.traceWarning("VCG-SM-ALREADY-SET = " + getExtension());
+    }
+    getVCG().setSectionManager(manager);
+  }
+
   public boolean isConfigured()
   {
     return getVCG().isConfigured();

@@ -34,5 +34,5 @@ public interface VCEnvAnnVisitor<R> extends Visitor<R>
    * @param  term the ZSectDCEnvAnn to be visited.
    * @return some kind of <code>Object</code>.
    */
-  R visitVCGEnvAnn(VCEnvAnn term);
+  R visitVCGEnvAnn(VCEnvAnn<R> term);
 }

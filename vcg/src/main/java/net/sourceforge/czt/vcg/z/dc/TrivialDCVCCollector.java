@@ -24,6 +24,7 @@ import net.sourceforge.czt.vcg.z.TrivialVCCollector;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.Fact;
 import net.sourceforge.czt.z.ast.GivenPara;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NewOldPair;
@@ -37,6 +38,7 @@ import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.DirectiveVisitor;
 import net.sourceforge.czt.z.visitor.FactVisitor;
 import net.sourceforge.czt.z.visitor.GivenParaVisitor;
+import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.NameSectTypeTripleVisitor;
 import net.sourceforge.czt.z.visitor.NameTypePairVisitor;
 import net.sourceforge.czt.z.visitor.NewOldPairVisitor;
@@ -52,6 +54,7 @@ import net.sourceforge.czt.z.visitor.ZNumeralVisitor;
  * @date Dec 23, 2010
  */
 public abstract class TrivialDCVCCollector extends TrivialVCCollector implements
+        LatexMarkupParaVisitor<Pred>,
         GivenParaVisitor<Pred>,
         ThetaExprVisitor<Pred>,
         FactVisitor<Pred>,
@@ -72,6 +75,12 @@ public abstract class TrivialDCVCCollector extends TrivialVCCollector implements
   public TrivialDCVCCollector(Factory factory)
   {
     super(factory);
+  }
+
+  @Override
+  public Pred visitLatexMarkupPara(LatexMarkupPara term)
+  {
+    return truePred();
   }
 
   @Override
