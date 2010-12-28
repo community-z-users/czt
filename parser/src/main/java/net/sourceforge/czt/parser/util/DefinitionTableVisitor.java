@@ -177,10 +177,11 @@ public class DefinitionTableVisitor
   {
     Name complexName = ZUtils.FACTORY.createZName(createNewInclDeclDefName());
     Name bcomplexName = buildName(complexName, strokes);
-    logger_.warning("Found a complex (schema) inclusion expression and could not calculate " +
-      "definition table for inner element names. Adding it as schema " +
-      "inclusion that is not a reference name. Adding it with name " + bcomplexName
-      + " as INCLDECL. Other tools might want to try and process it further.");
+    //logger_.warning("Found a complex (schema) inclusion expression and could not calculate " +
+    //  "definition table for inner element names. Adding it as schema " +
+    //  "inclusion that is not a reference name. Adding it with name " + bcomplexName
+    //  + " as INCLDECL. Other tools might want to try and process it further.");
+    logger_.warning("DEFTBL-VISITOR-COMPLEX-SCHEMA-INCL = " + bcomplexName);
     addDefinition(genFormals, bcomplexName, expr, DefinitionType.INCLDECL);
   }
 
@@ -205,9 +206,10 @@ public class DefinitionTableVisitor
     else
     {
       Name bname = buildName(name, strokes);
-      logger_.info("Found a reference to a complex (schema) expression inclusion found while building definition table. " +
-        "These are usually Delta, Xi, or simple decorated schema inclusion expressions. Added " + bname +
-        " as INCLDECL. Other tools might want to try and process it further.");
+      //logger_.info("Found a reference to a complex (schema) expression inclusion found while building definition table. " +
+      //  "These are usually Delta, Xi, or simple decorated schema inclusion expressions. Added " + bname +
+      //  " as INCLDECL. Other tools might want to try and process it further.");
+      logger_.warning("DEFTBL-VISITOR-DELTAXI-SCHEMA-INCL = " + bname);
       addDefinition(genFormals, bname, refExpr, DefinitionType.INCLDECL);
     }
   }
