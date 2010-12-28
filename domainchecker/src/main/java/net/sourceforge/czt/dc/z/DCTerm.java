@@ -999,7 +999,7 @@ public class DCTerm extends TrivialDCTerm implements
     assert ZUtils.isApplicationExprValid(term) : "Invalid ApplExpr! It is neiter function operator application, nor an application expression.";
 
     // retrieve f and a, in f~a, or a~f~b, or (_ f _)[X]~a, etc...
-    RefExpr name = ZUtils.getApplExprName(term);
+    RefExpr name = ZUtils.getApplExprRef(term);
     ZExprList flatArgs = ZUtils.getApplExprArguments(term); // falttens TupleExpr into a ZExprList
     
     // build basic DC: considers generic instantiation and application arguments
