@@ -489,13 +489,13 @@ public final class ZUtils
 
   /** 
    * Returns true if term is an function operator application
-   * expression.  That is, an term is an ApplExpr with mixfix TRUE,
+   * expression.  That is, a ApplExpr term with mixfix TRUE,
    * and the first (left) expression as the name (e.g. " _ + _ ")
-   * (that is, a RefExpr) has mixfix FALSE, and the second (right)
-   * expression is (S,T).  For example: "(S + T)".  There is no case
-   * of ApplExpr where RefExpr mixfix is true.  For instance, both "A
-   * (\_ \fun\_)[S, T] B" and "(\_ \fun\_)[S, T] (A, B)" parse with
-   * ApplExpr and RefExpr mixfix false.
+   * (a RefExpr) with mixfix FALSE, and the second (right)
+   * expression as the parameters (e.g., TupleExpr (S,T)).
+   * For example: "(S + T)".  There is no case of ApplExpr where
+   * RefExpr mixfix is true. For instance, both "A (\_ \fun\_)[S, T] B"
+   * and "(\_ \fun\_)[S, T] (A, B)" parse with ApplExpr and RefExpr mixfix false.
    */  
   public static boolean isFcnOpApplExpr(Term term)
   {
@@ -511,13 +511,14 @@ public final class ZUtils
   }
 
   /** 
-   * Returns true if term is an application expression. That is, an
-   * term is an ApplExpr with mixfix FALSE, the first (left)
+   * Returns true if term is an application expression. That is, a
+   * ApplExpr term with mixfix FALSE, the first (left)
    * expression is the function name (e.g., \dom), (a RefExpr with
    * mixfix FALSE) and the second (right) expression is the
    * argument. For example: \dom~R or \id~R.  Note that this also
    * covers the case where function operator application is given
-   * explicitly, as in "(_+_)(S,T)".
+   * explicitly, as in "(_+_)(S,T)". Finally, the LEFT expr could
+   * also be part of a nested ApplExpr itself (e.g., (f~x)~y).
    */ 
   public static boolean isApplicationExpr(Term term)
   {
@@ -525,9 +526,34 @@ public final class ZUtils
     boolean result = isApplExpr(term);
     if (result) {
       ApplExpr appl = (ApplExpr) term;
-      result = (!appl.getMixfix() && 
-                isRefExpr(appl.getLeftExpr()) &&
-                ! ((RefExpr) appl.getLeftExpr()).getMixfix());
+      result = (!appl.getMixfix() &&
+                // explicit ApplExpr
+                ((isRefExpr(appl.getLeftExpr()) &&
+                  !((RefExpr) appl.getLeftExpr()).getMixfix())
+                //  ||
+                // nested application expression
+                //  (isApplicationExprValid(appl))
+                )
+               );
+    }
+    return result;
+  }
+
+  /**
+   * Nested application expressions (e.g., (f~x)~y) are ApplExpr with
+   * mixfix FALSE and left expr as an ApplExpr.
+   * @param term
+   * @return
+   */
+  public static boolean isNestedApplExpr(Term term)
+  {
+    // NOTE: doesn't work for jokers (?)
+    boolean result = isApplExpr(term);
+    if (result) {
+      ApplExpr appl = (ApplExpr) term;
+      result = (!appl.getMixfix() &&
+                isApplExpr(appl.getLeftExpr()) &&
+                isApplicationExprValid((ApplExpr)appl.getLeftExpr()));
     }
     return result;
   }
@@ -541,21 +567,26 @@ public final class ZUtils
    */
   public static boolean isApplicationExprValid(ApplExpr term)
   {
-    return isFcnOpApplExpr(term) || isApplicationExpr(term);
+    return isFcnOpApplExpr(term) || isApplicationExpr(term) || isNestedApplExpr(term);
   }
 
   /**
-   * Returns the ApplExpr name for the given term if it is a valid
-   * ApplExpr (i.e. isApplicationExprValid), or null otherwise. The
-   * name is the first (left) expression of the ApplExpr as a RefExpr,
-   * and can be either a function operator application, or just
-   * application expression.
+   * Returns the ApplExpr reference expression for the given term if it is
+   * a valid ApplExpr (i.e. isApplicationExprValid), or null otherwise. The
+   * reference is the first (left) expression of the ApplExpr as either a
+   * RefExpr or a nested ApplExpr. 
    */
-  public static RefExpr getApplExprName(Term term)
+  public static Expr getApplExprRef(Term term)
   {
-    RefExpr result = null;
-    if (isApplExpr(term) && isApplicationExprValid((ApplExpr) term)) {
-      result = (RefExpr) ((ApplExpr) term).getLeftExpr();
+    Expr result = null;
+    if (isApplExpr(term) && isApplicationExprValid((ApplExpr) term)) 
+    {
+      ApplExpr appl = (ApplExpr)term;
+      result = appl.getLeftExpr();
+      // either it's is a RefExpr or a nested ApplExpr. If neither, then error!
+      // ! (!isRefExpr(result) => isApplExpr(result) && isNestedApplExpr(term))
+      if (!(isRefExpr(result) || (isApplExpr(result) && isNestedApplExpr(term))))
+        throw new UnsupportedAstClassException("Invalid ApplExpr " + term);
     }
     return result;
   }
