@@ -64,6 +64,9 @@ import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.transformer.dc.ZPredTransformerDC;
@@ -135,6 +138,10 @@ import net.sourceforge.czt.z.visitor.ConjParaVisitor;
  * many spurious domain check results, as experiments showed to appear often
  * (i.e., domain check safe specification will always have a long chain of conjoined
  *        true predicates as their domain checking conditions).
+ * </p>
+ * <p>
+ * One should always call visit(term.???) rather than directly with term.??? because
+ * some terms have null parts, which are to be ignored. visit(null) takes care of that.
  * </p>
  * @author leo
  */
@@ -209,7 +216,6 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   private DefinitionTable defTable_;
   
   private boolean infixAppliesTo_;
-  private boolean applyPredTransformers_;
   private ZName appliesToOpName_;
 
   private final ZName domName_;
@@ -232,20 +238,21 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     super(factory);
     defTable_ = null;    
     domName_ = factory_.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
-    applyPredTransformers_ = PROP_VCG_DOMAINCHECK_APPLY_TRANSFORMERS_DEFAULT;
     setInfixAppliesTo(PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
     printVisitor_ = new PrintVisitor(); // defTable uses a PrintVisitor for lookup names.
     predTransformer_ = new ZPredTransformerDC(factory, this);
+    predTransformer_.setApplyTransformer(PROP_VCG_DOMAINCHECK_APPLY_TRANSFORMERS_DEFAULT);
+  }
+
+  @Override
+  public TermTransformer<Pred> getTransformer()
+  {
+    return predTransformer_;
   }
 
   public boolean isAppliesToInfix()
   {
     return infixAppliesTo_;
-  }
-
-  public boolean isApplyingPredTransformers()
-  {
-    return applyPredTransformers_;
   }
 
   protected final void setInfixAppliesTo(boolean value)
@@ -262,7 +269,50 @@ public class DCVCCollector extends TrivialDCVCCollector implements
 
   protected enum ApplType { TOTAL, PARTIAL, RELATIONAL };
 
-  public ApplType calculateApplicationType(RefExpr name)
+  // f(g(h(v)) -> g(h(v)) => g
+  //   g(h(v)) -> h(v)    => h
+  //     h(v)  -> v       => v (not nested) [error?]
+//  public static RefExpr getNestedApplExprName(Term term)
+//  {
+//    Expr result = null;
+//    if (ZUtils.isNestedApplExpr(term))
+//    {
+//      ApplExpr appl = (ApplExpr)term;
+//      if (!(appl.getLeftExpr() instanceof ApplExpr))
+//        throw new UnsupportedAstClassException("Invalid Nested ApplExpr " + term);
+//
+//      ApplExpr nested = (ApplExpr)appl.getLeftExpr();
+//
+//    }
+//    if (ZUtils.isApplExpr(term) && ZUtils.isApplicationExprValid((ApplExpr) term))
+//    {
+//      ApplExpr appl = (ApplExpr)term;
+//      result = appl.getLeftExpr();
+//
+//      if (isApplExpr(result) && ZUtils.isNestedApplExpr(term))
+//
+//      // either it's is a RefExpr or a nested ApplExpr. If neither, then error!
+//      // ! (!isRefExpr(result) => isApplExpr(result) && isNestedApplExpr(term))
+//      if (!(isRefExpr(result) || (isApplExpr(result) && isNestedApplExpr(term))))
+//        throw new UnsupportedAstClassException("Invalid ApplExpr " + term);
+//    }
+//    return (RefExpr)result;
+//
+//  }
+//
+//  // nested application expressions
+//  protected ApplType calculateApplApplicationType(ApplExpr appl)
+//  {
+//    ApplType result = ApplType.RELATIONAL;
+//    if (defTable_ != null)
+//    {
+//      ZUtils.getApplExprRef(appl);
+//    }
+//    return result;
+//  }
+//
+  // usual application expressions
+  protected ApplType calculateRefApplicationType(RefExpr name)
   {
     ApplType result = ApplType.RELATIONAL;
     if (defTable_ != null)
@@ -375,14 +425,27 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   
   /** PARAGRAPH VISITING METHODS */
   
-  /** Calculates DC for given term (i.e. visits term).
+  /** 
+   * Calculates DC for given term (i.e. visits term). As some Z productions have
+   * null terms, like AxPara \begin{axdef} x: \nat \end{axdef} has null predicate,
+   * implementations should take care of such situations accordingly. For null terms
+   * in this collector, we presume a harmless DC condition (e.g., true).
    * @param term
    * @return
    */
   @Override
-  protected Pred visit(Term term)
+  public Pred visit(Term term)
   {
-    return predTransformer_.visit(term);
+    if (term == null)
+    {
+      // for null terms, warn, but assume harmless (E.g., no VCs to be generated)
+      SectionManager.traceLog("VCG-DCCOL-NULL-TERM");
+      return truePred();
+    }
+    else
+    {
+      return predTransformer_.visit(term);
+    }
   }
 
   /**
@@ -529,7 +592,9 @@ public class DCVCCollector extends TrivialDCVCCollector implements
         Expr schExpr = ZUtils.getSchemaDefExpr(term);
         
         // for SchBox, expr must be an SchExpr! Well-formed/parsed ASTs should never suffer from this.
-        assert (schExpr instanceof SchExpr) : "Invalid SchBox AxPara, no SchExpr within ConstDecl!";
+        if (!(schExpr instanceof SchExpr))
+          throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-NOSCHEXPR = " + term));
+        //assert (schExpr instanceof SchExpr) : "Invalid SchBox AxPara, no SchExpr within ConstDecl!";
         
         // for SchBox : DC([ D | P ]) \iff DC(D) \land (\forall D @ DC(P)), which comes from ZSchText DC in SchExpr ;)
         return visit(schExpr);
@@ -543,8 +608,10 @@ public class DCVCCollector extends TrivialDCVCCollector implements
         // or else it is an abbreviation
         if (horizExpr == null)
           horizExpr = ZUtils.getAbbreviationExpr(term);
-        
-        assert horizExpr != null : "Invalid horizontal definition: neither schema construction, nor abbreviation (null)!";
+
+        if (horizExpr == null)
+          throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-NULL-HORIZEXPR = " + term));
+        //assert horizExpr != null : "Invalid horizontal definition: neither schema construction, nor abbreviation (null)!";
         
         // for OmitBox: DC(n[X] == E) \iff DC(E), where E could be a SchExpr ([ D | P])
         return visit(horizExpr);
@@ -579,7 +646,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     // case the pred within the given ZSchText is null,
     // which happens in some productions like ConstDecl,
     // just result in "true", which is harmless.
-    Pred dcp = (pred != null ? visit(pred) : predTransformer_.truePred()); // DC(P)
+    Pred dcp = visit(pred); // DC(P)
     
     // DC(D) \land (\forall D @ DC(P))
     return predTransformer_.andPred(dcd, predTransformer_.forAllPred(decl, dcp));
@@ -594,7 +661,9 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitOptempPara(OptempPara term)
   {
-    assert term.getPrec().signum() >= 0 : "Operator template paragraph precedence MUST be non-negative";
+    if (term.getPrec() != null && term.getPrec().signum() < 0)
+      throw new CztException(new VCCollectionException("VC-DC-COL-OPTEMPPARA-NEGPREC = " + term));
+    //assert term.getPrec().signum() >= 0 : "Operator template paragraph precedence MUST be non-negative";
     return predTransformer_.truePred();
   }
   
@@ -721,23 +790,36 @@ public class DCVCCollector extends TrivialDCVCCollector implements
    * as it handles function application (potentially) outside
    * their domains, which is the main point of domain checks.
    *
+   * This also covers what in Z/Eves are called IR/PR for infix
+   * and prefix relational operators. RefExpr as generic instantiations
+   * do not need domain check (E.g., \emptyset [X]).
+   *
    */
   @Override
   public Pred visitApplExpr(ApplExpr term) 
-  { 
-    assert ZUtils.isApplicationExprValid(term) : "Invalid ApplExpr! It is neiter function operator application, nor an application expression.";
+  {
+    if (!ZUtils.isApplicationExprValid(term))
+      throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-INVALID = " + term));
+    //assert ZUtils.isApplicationExprValid(term) : "Invalid ApplExpr! It is neiter function operator application, nor an application expression.";
 
     // retrieve f and a, in f~a, or a~f~b, or (_ f _)[X]~a, etc...
-    RefExpr name = ZUtils.getApplExprName(term);
+    Expr name = ZUtils.getApplExprRef(term);
+    if (!(name instanceof RefExpr || name instanceof ApplExpr))
+      throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-BADCALL = " + term));
+    //assert name instanceof RefExpr || name instanceof ApplExpr;
+
     ZExprList flatArgs = ZUtils.getApplExprArguments(term); // falttens TupleExpr into a ZExprList
     
     // build basic DC: considers generic instantiation and application arguments
-    Pred dcF = visit(name);     // check DC((_F_)) for generic instantiations (MISSING IN Z/EVES!!!)
-    Pred dcEList = visit(flatArgs); // check all (_F_) arguments (MISSING IN Z/EVES!!!)
+    // When name is ApplExpr, this covers DCs for nested appl (e.g., visit(name) will generate DC!
+    Pred dcF = visit(name);     // check DC((_F_)) for generic instantiations
+    Pred dcEList = visit(flatArgs); // check all (_F_) arguments 
     Pred basicDC = predTransformer_.andPred(dcF, dcEList);
     
     // by default, use f applies$to a, (i.e. defTable_ may be null)
-    ApplType applType = calculateApplicationType(name);
+    // NESTED applExpr always use RELATIONAL
+    ApplType applType = (name instanceof ApplExpr) ? ApplType.RELATIONAL :
+            calculateRefApplicationType((RefExpr)name);
     Pred applPred;
     Expr packedArgs = term.getRightExpr(); // keeps TupleExpr or just Expr in case of arity of 1    
     switch (applType) 
@@ -879,10 +961,14 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitSetCompExpr(SetCompExpr term)
   {
-    if (term.getExpr() == null) // \{ D | P \}
-      return predTransformer_.impliedZSchTextDC(term.getZSchText());
-    else
-      return predTransformer_.impliedZSchTextDC(term.getZSchText(), term.getExpr());
+    // this covers both cases when getExpr() is null and not
+    // the impiedZSchTextDC is just like visitZSchText, but with the extra expr
+    return predTransformer_.impliedZSchTextDC(term.getZSchText(), visit(term.getExpr()));
+
+    //if (term.getExpr() == null) // \{ D | P \}
+    //  return predTransformer_.impliedZSchTextDC(term.getZSchText());
+    //else
+    //  return predTransformer_.impliedZSchTextDC(term.getZSchText(), term.getExpr());
   }
  
   /**
@@ -908,8 +994,9 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitLambdaExpr(LambdaExpr term) 
   {
-    assert term.getExpr() != null : "Invalid LambdaExpr getExpr() term (null)!";
-    return predTransformer_.impliedZSchTextDC(term.getZSchText(), term.getExpr());
+    // shouldn't be null (e.g., not well parsed) but if it is, just return true for getExpr()
+    //assert term.getExpr() != null : "Invalid LambdaExpr getExpr() term (null)!";
+    return predTransformer_.impliedZSchTextDC(term.getZSchText(), visit(term.getExpr()));
   }
   
     /**
@@ -953,11 +1040,19 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitLetExpr(LetExpr term) 
   {
+    if (term.getZSchText() == null)
+      throw new CztException(new VCCollectionException("VC-DC-COL-LETEXPR-ZSCHTXT-NULL = " + term));
+
     // Check for the expressions within the list of declaration
     ZDeclList constdecl = term.getZSchText().getZDeclList();
-    
-    assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
-    assert term.getZSchText().getPred() == null : "Parsing must set SchText.Pred on LetExpr to null!"; 
+
+    if (!(predTransformer_.isOnlyConstDecl(constdecl)))
+      throw new CztException(new VCCollectionException("VC-DC-COL-LETEXPR-NOCONSTDECL = " + term));
+    //assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
+
+    if (term.getZSchText().getPred() != null)
+      throw new CztException(new VCCollectionException("VC-DC-COL-LETEXPR-ZSCHTXT-NONNULL-PRED = " + term));
+    //assert term.getZSchText().getPred() == null : "Parsing must set SchText.Pred on LetExpr to null!";
     
     Pred dcd = visit(constdecl);     // DC(D)
     Pred dce = visit(term.getExpr());// DC(E)
@@ -993,17 +1088,29 @@ public class DCVCCollector extends TrivialDCVCCollector implements
    */
   @Override
   public Pred visitMuExpr(MuExpr term) 
-  { 
-    ZDeclList decl = term.getZSchText().getZDeclList();
+  {
+    if (term.getZSchText() == null)
+      throw new CztException(new VCCollectionException("VC-DC-COL-MUEXPR-ZSCHTXT-NULL = " + term));
+
     // Pred for Mu could NOT be null!
-    assert term.getZSchText().getPred() != null : "Invalid MuExpr: getPred() is null!";
-    Pred pred = term.getZSchText().getPred();
-    
+    if (term.getZSchText().getPred() == null)
+      throw new CztException(new VCCollectionException("VC-DC-COL-MUEXPR-ZSCHTXT-NULL-PRED = " + term));
+    //assert term.getZSchText().getPred() != null : "Invalid MuExpr: getPred() is null!";
+
+    ZDeclList decl = term.getZSchText().getZDeclList();
+    Pred pred      = term.getZSchText().getPred();
+
+    //Pred dcd = visit(decl); // DC(D)
+    //Pred dcp = visit(pred); // DC(P)
+
     // \exists_1 D | true @ P
     Pred exists1 = factory_.createExists1Pred(factory_.createZSchText(decl, predTransformer_.truePred()), pred);
-    
+
+    // (\forall D @ DC(P) \land (P \implies DC(E))) ; term.getExpr() may be null for true when D is simple (not a schema, say).
+    //Pred dcAI = predTransformer_.impliedZSchTextDC(term.getZSchText(), visit(term.getExpr()));
+
     // DC(D) \land (\forall D @ DC(P) \land (P \implies DC(E))) \land (\exists_1 D | true @ P)
-    return predTransformer_.andPred(predTransformer_.impliedZSchTextDC(term.getZSchText(), term.getExpr()), exists1);
+    return predTransformer_.andPred(predTransformer_.impliedZSchTextDC(term.getZSchText(), visit(term.getExpr())), exists1);
   }
 
   
@@ -1057,8 +1164,10 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitBindExpr(BindExpr term)
   {
     ZDeclList constdecl = term.getZDeclList();
-    
-    assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
+
+    if (!(predTransformer_.isOnlyConstDecl(constdecl)))
+      throw new CztException(new VCCollectionException("VC-DC-COL-BINDEXPR-NOCONSTDECL = " + term));
+    //assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
     
     return visit(constdecl);
   }
@@ -1145,6 +1254,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitAndPred(AndPred term)
   {
+    // these two pred ought not to be null!
     return predTransformer_.impliedPred2DC(term.getLeftPred(), term.getRightPred());
   }
   
@@ -1224,7 +1334,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitQntPred(QntPred term)
   {
-    return predTransformer_.impliedZSchTextDC(term.getZSchText(), term.getPred());
+    return predTransformer_.impliedZSchTextDC(term.getZSchText(), visit(term.getPred()));
   }
   
   /**
@@ -1267,7 +1377,9 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   @Override
   public Pred visitMemPred(MemPred term)
   {
-    assert ZUtils.isMemPredValid(term) : "Invalid MemPred! It is neiter: equality, membership, or relational operator application." ;
+    if (!ZUtils.isMemPredValid(term))
+      throw new CztException(new VCCollectionException("VC-DC-COL-MEMPRED-INVALID = " + term));
+    //assert ZUtils.isMemPredValid(term) : "Invalid MemPred! It is neiter: equality, membership, or relational operator application." ;
     
     Expr expr1 = ZUtils.getMemPredLHS(term);// just getLeftExpr().
     Expr expr2 = ZUtils.getMemPredRHS(term);// for equality, unpacks singleton set!    

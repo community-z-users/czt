@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.z;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -136,7 +137,6 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     addTrivialVC_    = PROP_VCG_ADD_TRIVIAL_VC_DEFAULT;
     logTypeWarnings_ = PROP_VCG_RAISE_TYPE_WARNINGS_DEFAULT;
     processParents_  = PROP_VCG_PROCESS_PARENTS_DEFAULT;
-    applyTransf_     = PROP_VCG_APPLY_TRANSFORMERS_DEFAULT;
     parentsToIgnore_ = new TreeSet<String>();
   }
 
@@ -165,6 +165,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    *
    * @return
    */
+  @Override
   public abstract VCCollector<R> getVCCollector();
 
   /* CLASS PROPERTIES AND FIELDS */
@@ -261,12 +262,6 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     return logTypeWarnings_;
   }
 
-  @Override
-  public boolean isApplyingTransformers()
-  {
-    return applyTransf_;
-  }
-
   /**
    * Clears both sets of parents to process and to ignore
    */
@@ -299,11 +294,6 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     logTypeWarnings_ = value;
   }
 
-  public void setApplyTransformers(boolean value)
-  {
-    applyTransf_ = value;
-  }
-
   /**
    * Reset parameters, sets the section manager, then retrieves configuration for
    * known properties (i.e., it calls {@link #reset()} and {@link #config()} methods).
@@ -317,7 +307,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     {
       throw new VCGException("VCG-SM-NULL");
     }
-    else if (sectManager_ != manager)
+    else /*if (sectManager_ != manager)  in case properties change */
     {
       reset();
       sectManager_ = manager;
@@ -371,14 +361,14 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       setProcessingParents(processParents);
       setAddingTrivialVC(addTrivialVC);
       setRaiseTypeWarnings(raiseTW);
-      setApplyTransformers(applyTransf);
       clearParentsToIgnore();
       parentsToIgnore_.addAll(parentsToIgnore);
 
-      if (getVCCollector() == null)
+      if (getVCCollector() == null || getVCCollector().getTransformer() == null)
       {
         throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR");
       }
+      getVCCollector().getTransformer().setApplyTransformer(applyTransf);
 
       doConfig();
       
@@ -393,13 +383,49 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   {
     assert sectManager_ != null && !isConfigured_;
 
-    // do nothing = for derived classes.
+    // do nothing = for derived classes use.
   }
+
+  @Override
+  public final void setDefaultProperties(SectionManager manager)
+  {
+    if (manager == null)
+      logger_.warning("VCG-DEFPROP-NULL-SM");
+    else
+    {
+      manager.setProperty(PROP_VCG_PROCESS_PARENTS, String.valueOf(defaultProcessParents()));
+      manager.setProperty(PROP_VCG_ADD_TRIVIAL_VC, String.valueOf(defaultAddTrivialVC()));
+      manager.setProperty(PROP_VCG_APPLY_TRANSFORMERS, String.valueOf(defaultApplyTransformers()));
+      manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(defaultRaiseTypeWarnings()));
+
+      // build it from parents to ignore
+      String prop = "";
+      for (String path : defaultParentsToIgnore())
+      {
+        prop = path + File.pathSeparator;
+      }
+      if (!prop.isEmpty())
+      {
+        prop = prop.substring(0, prop.lastIndexOf(File.pathSeparator));
+      }
+      manager.setProperty(PROP_VCG_PARENTS_TO_IGNORE, prop);
+
+      doDefaultProperties(manager);
+    }
+  }
+
+  protected void doDefaultProperties(SectionManager manager)
+  {
+    assert manager != null;
+    // do nothing - for derived classes use.
+  }
+
 
   /**
    * Resets the VCG fields and section manager.
    */
-  protected void reset()
+  @Override
+  public void reset()
   {
     opTable_ = null;
     defTable_ = null;
@@ -407,12 +433,13 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     addTrivialVC_ = defaultAddTrivialVC();
     logTypeWarnings_ = defaultRaiseTypeWarnings();
     processParents_ = defaultProcessParents();
-    applyTransf_ = defaultApplyTransformers();
+    getVCCollector().getTransformer().setApplyTransformer(defaultApplyTransformers());
     clearParentsToIgnore();
     parentsToIgnore_.addAll(defaultParentsToIgnore());
     isConfigured_ = false;
   }
- 
+
+
   /* AUXILIARY VC CALCULATION METHODS */
 
   protected String createUniqueName(String prefix)
@@ -564,9 +591,17 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     return result;
   }
 
+  /**
+   * Visits the given term (e.g., <code>term.accept(this)</code>).
+   * AbstractVCG only takes care of top-level term structures,
+   * which MUST NOT be null ! If null, a proper exception is raised.
+   * @param term term to visit
+   */
   @Override
-  protected List<VC<R>> visit(Term term)
+  public List<VC<R>> visit(Term term)
   {
+    if (term == null)
+      throw new CztException(new VCGException("VCG-VISIT-TOPLEVEL-NULL-TERM"));
     return term.accept(this);
   }
 
@@ -626,8 +661,16 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     catch (CommandException e)
     {
       defTable_ = null;
-      raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ DefTable for: " + sectName
+      if (e instanceof DefinitionTable.DefinitionException)
+      {
+        logger_.warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName +
+                "\n\t " + e.getMessage());
+      }
+      else
+      {
+        raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ DefTable for: " + sectName
               /*+ "(i.e., can only use AppliesTo rather than \\dom)."*/ + "\n\t " + e.getMessage());
+      }
     }
     try
     {
@@ -925,7 +968,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   protected String createVCZSectPostcript(String sectName, int vcCount, int vcListSize)
   {
     String narrText = "\n\n VC Z section " + sectName + " has " + vcCount
-               + (vcCount == 1 ? " VC" : "VCs") + ".\n";
+               + (vcCount == 1 ? " VC" : " VCs") + ".\n";
     if (isAddingTrivialVC() && vcCount > 0)
     {
       narrText += "(of which " + (vcListSize - vcCount) + " were trivial).\n";

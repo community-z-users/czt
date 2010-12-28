@@ -59,6 +59,6 @@ public class VCGException extends CommandException
   @Override
   public String getMessage()
   {
-    return super.getMessage() + (sectName_ != null ? sectName_ : "");
+    return super.getMessage() + (sectName_ != null ? " = " + sectName_ : "");
   }
 }

@@ -25,7 +25,9 @@ import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
+import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCCollector;
@@ -153,6 +155,13 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   /* VCG CONFIGURATION METHODS */
 
   @Override
+  public void reset()
+  {
+    setInfixAppliesTo(defaultInfixAppliesTo());
+    super.reset();
+  }
+
+  @Override
   protected void doConfig() throws VCGException
   {
     super.doConfig();
@@ -164,10 +173,10 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   }
 
   @Override
-  protected void reset()
+  protected void doDefaultProperties(SectionManager manager)
   {
-    super.reset();
-    setInfixAppliesTo(defaultInfixAppliesTo());
+    super.doDefaultProperties(manager);
+    manager.setProperty(PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO, String.valueOf(defaultInfixAppliesTo()));
   }
 
   /* VC CALCULATION TERM VISITING METHODS */
@@ -297,5 +306,11 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
           throws VCCollectionException
   {
     throw new VCCollectionException("VCG-DC-TOPLEVEL-WRONG-CALL = use createZSectVCEnvAnn(ZSect)!");
+  }
+
+  @Override
+  public TermTransformer<List<VC<Pred>>> getTransformer() {
+    throw new CztException(
+            new VCCollectionException("VCG-DC-TOPLEVEL-WRONG-CALL = use getVCCollector().getTransformer()!"));
   }
 }

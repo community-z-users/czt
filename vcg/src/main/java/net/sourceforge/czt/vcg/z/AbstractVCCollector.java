@@ -62,9 +62,12 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
 
   /**
    * Visits the given term (e.g., <code>term.accept(this)</code>).
+   * It also must take care of default results in case of possibly
+   * null terms, as they appear within a properly parsed Z Spec(!)
    * @param term term to visit
    */
-  protected abstract R visit(Term term);
+  @Override
+  public abstract R visit(Term term);
   
   /**
    * For terms in general, just assume nothing is known about them,

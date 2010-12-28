@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION nestedappl \parents function\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [G]
+\end{zed}
+
+\begin{zed}
+   FT ::= Val | Fun \ldata G \rdata
+\end{zed}
+
+\begin{axdef}
+   invertP: (G \rel FT) \pfun (FT \rel G) \\
+   invertT: (G \rel FT) \fun (FT \rel G) 
+\end{axdef}
+
+Nested ApplExpr for inversion functions.
+\begin{schema}{S}
+   v: FT
+\where 
+  % v \in \ran~Fun \\
+   (invertP~Fun)~v = (invertT~Fun)~v
+\end{schema}
+
+Partial types, partial and total version of inverse.
+\begin{axdef}
+   PinvP: (G \pfun FT) \pfun (FT \pfun G) \\
+   PinvT: (G \pfun FT) \fun  (FT \pfun G) 
+\end{axdef}
+
+Nested ApplExpr for inversion functions.
+\begin{schema}{R}
+   v: FT
+\where 
+ %  v \in \ran~Fun \\
+   (PinvP~Fun)~v = (PinvT~Fun)~v
+\end{schema}
+
+Total types, partial and total versions of inverse.
+\begin{axdef}
+   TinvP: (G \fun FT) \pfun (FT \fun G) \\
+   TinvT: (G \fun FT) \fun  (FT \fun G) 
+\end{axdef}
+
+Nested ApplExpr for inversion functions.
+\begin{schema}{T}
+   v: FT
+\where 
+  % v \in \ran~Fun \\
+   (TinvP~Fun)~v = (TinvT~Fun)~v
+\end{schema}
+
+\end{document}

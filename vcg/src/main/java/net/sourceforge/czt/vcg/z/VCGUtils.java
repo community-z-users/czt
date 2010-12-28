@@ -98,15 +98,16 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     {
       SectionManager manager = new SectionManager(extension);
       manager.putCommand(getVCG().getVCEnvAnnClass(), getCommand());
-      manager.setProperty(LatexPrinterPropertyKeys.PROP_LATEXPRINTER_WRAPPING, 
-              String.valueOf(latexOutputWrappingDefault()));
+      setDefaultProperties(manager);
       getVCG().setSectionManager(manager);
     }
     return getVCG().getManager();
   }
 
   /**
-   * To reuse a section manager, set it as such, if VCG not already set?
+   * To reuse a section manager, set it as such, if VCG not already set.
+   * This methods is useful for top-level appl that already have a section
+   * manager (e.g., jEdit).
    * @param manager
    * @throws VCGException
    */
@@ -116,14 +117,20 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     {
       manager.putCommand(getVCG().getVCEnvAnnClass(), getCommand());
     }
+    setDefaultProperties(manager);
+    getVCG().setSectionManager(manager);
+  }
+
+  /**
+   * Sets any utility properties to the section manager and calls the VCG default properties as well.
+   * @param manager
+   */
+  protected void setDefaultProperties(SectionManager manager)
+  {
     manager.setProperty(LatexPrinterPropertyKeys.PROP_LATEXPRINTER_WRAPPING,
       String.valueOf(latexOutputWrappingDefault()));
-    if (getVCG().isConfigured())
-    {
-      //throw new VCGException("VCGU-SM-ALREADY-SET");
-      SectionManager.traceWarning("VCG-SM-ALREADY-SET = " + getExtension());
-    }
-    getVCG().setSectionManager(manager);
+    manager.setProperty(PROP_VCGU_PREFERRED_OUTPUT_MARKUP, Markup.LATEX.toString());
+    getVCG().setDefaultProperties(manager);
   }
 
   public boolean isConfigured()
@@ -156,7 +163,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     return ((printBenchmarkDefault() ? "-b " : "")
               + (getVCG().isProcessingParents() ? "-p " : "")
               + (getVCG().isAddingTrivialVC() ? "-t " : "")
-              + (getVCG().isApplyingTransformers() ? "-r " : "")
+              + (getVCG().getVCCollector().getTransformer().isApplyingTransformer() ? "-r " : "")
               + (getVCG().isRaisingTypeWarnings() ? "-w" : "")
               + ("-m" + preferedMarkupDefault()).trim());
   }
@@ -600,14 +607,28 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       System.exit(-1);
     }
 
+    // retrieve section manager and update its CZT properties.
+    SectionManager manager = null;
+    try
+    {
+      manager = createSectionManager(getExtension());
+    }
+    catch (VCGException e)
+    {
+      commandException("VCGU-SM-CREATE", e, getExtension());
+      System.exit(-1);
+    }
+    assert manager != null && isConfigured();
+   
     // collect default.
     VCG vcg = getVCG();
+
     List<String> files = new java.util.ArrayList<String>();
     boolean printBenchmark = printBenchmarkDefault();
     boolean raiseWarnings = vcg.isRaisingTypeWarnings();
     boolean processParents = vcg.isProcessingParents();
     boolean addTrivialDC = vcg.isAddingTrivialVC();
-    boolean applyPredTransf = vcg.isApplyingTransformers();
+    boolean applyPredTransf = vcg.getVCCollector().getTransformer().isApplyingTransformer();
     String cztpath = cztPathDefault();
     Markup preferedMarkup = preferedMarkupDefault();
     SortedSet<String> parentsToIgnore = vcg.getParentsToIgnore();
@@ -694,19 +715,6 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       }
     }
 
-    // retrieve section manager and update its CZT properties.
-    SectionManager manager = null;
-    try
-    {
-      manager = createSectionManager(getExtension());
-    }
-    catch (VCGException e)
-    {
-      commandException("VCGU-SM-CREATE", e, getExtension());
-      System.exit(-1);
-    }
-    assert manager != null && isConfigured();
-
     manager.setProperty(PROP_VCG_PROCESS_PARENTS, String.valueOf(processParents));
     manager.setProperty(PROP_VCG_ADD_TRIVIAL_VC, String.valueOf(addTrivialDC));
     manager.setProperty(PROP_VCG_APPLY_TRANSFORMERS, String.valueOf(applyPredTransf));
@@ -762,7 +770,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     // configure the section manager
     try
     {
-      getVCG().config();
+      getVCG().setSectionManager(manager);
     }
     catch (VCGException ex)
     {

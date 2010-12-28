@@ -52,7 +52,7 @@ public interface VCGPropertyKeys {
    * DEFAULT = true; TYPE = boolean
    */
   String PROP_VCG_ADD_TRIVIAL_VC =
-    "vcg_add_trivial_dc";
+    "vcg_add_trivial_vc";
 
   /**
    * When processing parent sections, it is useful to avoid certain

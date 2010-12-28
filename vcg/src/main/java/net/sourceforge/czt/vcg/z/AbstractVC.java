@@ -103,13 +103,13 @@ public abstract class AbstractVC<R> implements VC<R>
     }
     else if (ZUtils.isAxPara(para) && ((AxPara) para).getBox().equals(Box.AxBox))
     {
-      conjName = "axiom$" + axiomCnt_;
+      conjName = "axiom" + axiomCnt_;
       axiomCnt_++;
     }
     // in any case, always have a name for it.
     if (conjName == null || conjName.isEmpty())
     {
-      conjName = "vc$" + axiomCnt_;
+      conjName = "vc" + axiomCnt_;
       axiomCnt_++;
     }
     // add the conjecture name

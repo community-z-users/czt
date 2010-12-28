@@ -19,9 +19,9 @@
 package net.sourceforge.czt.vcg.z.transformer;
 
 
+import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -81,6 +81,7 @@ public abstract class AbstractTermTransformer<R> implements TermTransformer<R>
     return applyTransformer_;
   }
 
+  @Override
   public void setApplyTransformer(boolean value)
   {
     applyTransformer_ = value;

@@ -59,9 +59,13 @@ public interface VCCollector<R> extends TermVisitor<R>
   VC<R> createVC(Para term, R vc) throws VCCollectionException;
 
   /**
-   * Visits a given term - push down to AbstractVCCollector class
+   * Visits a given term.  As some Z productions have null terms, like
+   * AxPara \begin{axdef} x: \nat \end{axdef} has null predicate, implementations
+   * should take care of such situations accordingly.
    * @param term
    * @return
    */
-  //R visit(Term term);
+  R visit(Term term);
+
+  TermTransformer<R> getTransformer();
 }

@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.vcg.z;
 
-import java.util.List;
 import java.util.SortedSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.SectionManager;
@@ -48,6 +47,8 @@ public interface VCG<R> {
    */
   SectionManager config() throws VCGException;
   void setSectionManager(SectionManager manager) throws VCGException;
+  void setDefaultProperties(SectionManager manager);
+  void reset();
   SectionManager getManager();
 
 
@@ -91,7 +92,6 @@ public interface VCG<R> {
    */
   SortedSet<String> getParentsToIgnore();
   boolean isAddingTrivialVC();
-  boolean isApplyingTransformers();
   boolean isProcessingParents();
   boolean isRaisingTypeWarnings();
 

@@ -738,6 +738,8 @@ vcg/src/test/java/net/sourceforge/czt/vcg/z/VCGTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerTest.java -text
 vcg/src/test/resources/tests/z/basicsm.tex -text
 vcg/src/test/resources/tests/z/birthdaybook.tex -text
+vcg/src/test/resources/tests/z/nestedappl.tex -text
+vcg/src/test/resources/tests/z/nestedappl2.tex -text
 z2alloy/logging.properties -text
 z2alloy/pom.xml -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/AlloyPrinter.java -text

@@ -39,16 +39,24 @@ public interface TermTransformer<R>
    * @return
    */
   boolean isApplyingTransformer();
+  void setApplyTransformer(boolean value);
 
   //R transform(R... term);
 
   /**
-   * Returns a visitor implementing a protocol.
+   * Returns a visitor implementing a VCG protocol.
    * @param <R>
    * @param resClass
    * @return
    */
   Visitor<R> getTermVisitor();
 
+  /**
+   * Visit the given term. At this point only non-null terms are allowed.
+   * Default values for null terms are to be handled by corresponding collector classes.
+   * @param term
+   * @return
+   * @throws CztException if term is null
+   */
   R visit(Term term);
 }
