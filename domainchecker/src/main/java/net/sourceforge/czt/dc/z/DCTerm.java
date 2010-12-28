@@ -999,7 +999,7 @@ public class DCTerm extends TrivialDCTerm implements
     assert ZUtils.isApplicationExprValid(term) : "Invalid ApplExpr! It is neiter function operator application, nor an application expression.";
 
     // retrieve f and a, in f~a, or a~f~b, or (_ f _)[X]~a, etc...
-    RefExpr name = ZUtils.getApplExprRef(term);
+    Expr name = ZUtils.getApplExprRef(term);
     ZExprList flatArgs = ZUtils.getApplExprArguments(term); // falttens TupleExpr into a ZExprList
     
     // build basic DC: considers generic instantiation and application arguments
@@ -1008,7 +1008,7 @@ public class DCTerm extends TrivialDCTerm implements
     Pred basicDC = andPred(dcF, dcEList);
     
     // by default, use f applies$to a, (i.e. defTable_ may be null)
-    ApplType applType = calculateApplicationType(name);            
+    ApplType applType = name instanceof ApplExpr ? ApplType.RELATIONAL : calculateApplicationType((RefExpr)name);
     Pred applPred;
     Expr packedArgs = term.getRightExpr(); // keeps TupleExpr or just Expr in case of arity of 1    
     switch (applType) 
