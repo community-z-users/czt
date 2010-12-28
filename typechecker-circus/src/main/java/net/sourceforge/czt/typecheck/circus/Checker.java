@@ -2588,7 +2588,7 @@ public abstract class Checker<R>
     {
       // if this is a range (i.e. _ .. _), then it is also finite
       result = ZUtils.isFcnOpApplExpr(expr) && 
-        ZUtils.getApplExprName(expr).getZName().getWord().equals(
+        ((RefExpr)ZUtils.getApplExprRef(expr)).getZName().getWord().equals(
         ZString.ARG_TOK+ ZString.DOT + ZString.DOT +ZString.ARG_TOK);
     }
     return result;
