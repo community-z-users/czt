@@ -155,21 +155,12 @@ public class ZSideKickActions
       JOptionPane.showMessageDialog(view, commands.toString());
       // END TODO
 */
+      //JOptionPane.showMessageDialog(view, "BEFORE = " + String.valueOf(manager.getProperties()).replace(',', '\n'));
       try
       {
-        /* OKAY = creates a new (unnamed) buffer with results -> doesn't parse
-        DomainCheckUtils.getDCUtils().setSectionManager(manager);
-        DomainCheckUtils.getDCUtils().printToFile(null, path, Markup.LATEX);
-        CztPrintString result = DomainCheckUtils.getDCUtils().domainCheck(file);
-        Buffer bufferDC = jEdit.newFile(view, path);
-        jEdit.openFile(view, path)
-        bufferDC.setStringProperty("encoding", System.getProperty( "file.encoding"));
-        String mode = Markup.getMarkup(name).equals(Markup.LATEX) ? "latex" : "";
-        buffer.setMode(result.getExtension() + mode);
-        bufferDC.insert(0, result.toString());
-        */
         final String dcFileName = DomainCheckUtils.getVCFileName(name, VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
         DomainCheckUtils.getDCUtils().setSectionManager(manager);
+        //JOptionPane.showMessageDialog(view, "AFTER = " + String.valueOf(manager.getProperties()).replace(',', '\n'));
         DomainCheckUtils.getDCUtils().vcgToFile(file);
         Buffer bufferDC = jEdit.openFile(view, dcFileName);
         bufferDC.setStringProperty("encoding", System.getProperty( "file.encoding"));
