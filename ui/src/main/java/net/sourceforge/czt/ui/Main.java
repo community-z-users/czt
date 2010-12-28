@@ -24,9 +24,7 @@ import java.lang.reflect.*;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.*;
-import net.sourceforge.czt.dc.z.DomainCheckPropertyKeys;
 
-import net.sourceforge.czt.dc.z.ZSectDCEnvAnn;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.rules.RuleTable;
@@ -34,6 +32,8 @@ import net.sourceforge.czt.rules.prover.ProofTree;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.vcg.z.dc.DCVCEnvAnn;
+import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -83,7 +83,7 @@ public class Main
     int dotIdx = filename.lastIndexOf(".");
     assert dotIdx != -1 : "invalid file name (no .ext): " + filename; 
     String filenameDC = filename.substring(0, dotIdx) + 
-            DomainCheckPropertyKeys.DOMAIN_CHECK_GENERAL_NAME_SUFFIX + filename.substring(dotIdx);
+            DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX + filename.substring(dotIdx);
     return filenameDC;
   }
 
@@ -242,7 +242,7 @@ public class Main
               if (domainCheck)
               {
                 unicode = manager.get(new Key<UnicodeString>(source.getName() +
-                        DomainCheckPropertyKeys.DOMAIN_CHECK_GENERAL_NAME_SUFFIX, UnicodeString.class));
+                        DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX, UnicodeString.class));
                 stream = new FileOutputStream(dcOutput);
                 writer = new OutputStreamWriter(stream, "UTF-8");
                 writer.write(unicode.toString());
@@ -260,7 +260,7 @@ public class Main
               if (domainCheck)
               {
                 unicode = manager.get(new Key<UnicodeString>(source.getName() +
-                        DomainCheckPropertyKeys.DOMAIN_CHECK_GENERAL_NAME_SUFFIX, UnicodeString.class));
+                        DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX, UnicodeString.class));
                 stream = new FileOutputStream(dcOutput);
                 writer = new OutputStreamWriter(stream, "UTF-16");
                 writer.write(unicode.toString());
@@ -278,7 +278,7 @@ public class Main
               if (domainCheck)
               {
                 latex = manager.get(new Key<LatexString>(source.getName() +
-                        DomainCheckPropertyKeys.DOMAIN_CHECK_GENERAL_NAME_SUFFIX, LatexString.class));
+                        DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX, LatexString.class));
                 stream = new FileOutputStream(dcOutput);
                 writer = new OutputStreamWriter(stream);
                 writer.write(latex.toString());
@@ -485,8 +485,8 @@ public class Main
             }
             // domain check it if requested.
             if (domainCheck) {
-              manager.get(new Key<ZSectDCEnvAnn>(sectionName,
-                                  ZSectDCEnvAnn.class));
+              manager.get(new Key<DCVCEnvAnn>(sectionName,
+                                  DCVCEnvAnn.class));
             }
             // prove it if requested.
             if (zSect.getParaList() instanceof ZParaList &&
