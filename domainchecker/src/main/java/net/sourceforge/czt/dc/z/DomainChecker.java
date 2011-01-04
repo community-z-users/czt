@@ -595,9 +595,16 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
     catch (CommandException e)
     {
       defTable_ = null;
-      raiseDCExceptionWhilstVisiting("DC-PROCESS-ERROR = CmdExpt: coulnd't retrieve DefTable for " + sectName +
-                "(i.e., can only use AppliesTo rather than \\dom)." +
+      if (e instanceof DefinitionTable.DefinitionException)
+      {
+        logger_.warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName +
                 "\n\t " + e.getMessage());
+      }
+      else
+      {
+        raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ DefTable for: " + sectName
+              /*+ "(i.e., can only use AppliesTo rather than \\dom)."*/ + "\n\t " + e.getMessage());
+      }
     }
     try
     {
