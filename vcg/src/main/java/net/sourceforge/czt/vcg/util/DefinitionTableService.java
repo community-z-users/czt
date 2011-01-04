@@ -50,13 +50,14 @@ public class DefinitionTableService
    * Creates a new definition table service.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.DefinitionTable.class</code>.
+   * @param sectInfo
    */
   public DefinitionTableService(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
   }
 
-  public Class getInfoType()
+  public static Class<?> getCommandInfoType()
   {
     return DefinitionTable.class;
   }
@@ -76,7 +77,7 @@ public class DefinitionTableService
 
   protected void updateManager(SectionManager manager,
           Key<ZSect> sectKey, Key<DefinitionTable> defTblKey,
-          DefinitionTable table, Set dependencies)
+          DefinitionTable table, Set<Key<?>> dependencies)
   {
     if (table != null)
     {
@@ -104,7 +105,7 @@ public class DefinitionTableService
   {
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
     Key<ZSect> sectKey = new Key<ZSect>(name, ZSect.class);
-    ZSect zsect = (ZSect) manager.get(sectKey);
+    ZSect zsect = manager.get(sectKey);
     Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(name, DefinitionTable.class);
     DefinitionTable table;
     // don't calculate if cached
@@ -184,6 +185,7 @@ public class DefinitionTableService
   public static void main(String args[])
   {
     SectionManager manager = new SectionManager();
+    manager.putCommand(getCommandInfoType(), getCommand(manager));
     manager.setTracing(true);
     DefinitionTable table = null;
     java.io.File file = new java.io.File(args[0]);

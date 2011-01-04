@@ -283,10 +283,10 @@ public class DefinitionTable extends InfoTable
       "Invalid definition name and value to add to definition table: name = " + defName + "; value = " + def;
 
     Definition old = definitions_.put(defName, def);
-    if (old != null /*&& ! old.getSectionName().equals(def.getSectionName())*/)
+    if (old != null && ! old.getSectionName().equals(def.getSectionName()))
     {
       // TODO: why is it okay to have it in different section? Well, the parent section update needs to take care of duplicates then?
-      final String message = "Duplicated def \"" + defName + "\" in " + getSectionName();
+      final String message = "Duplicated def \"" + defName + "\" in " + def.getSectionName();
       throw new DefinitionException(message);
     }
   }
@@ -368,9 +368,12 @@ public class DefinitionTable extends InfoTable
      * Each definition has its section name, generic list, declared expression,
      * carrier set (if type information is available), and the kind of definition.
      * @param sectName
+     * @param defName 
      * @param generic
      * @param definition
      * @param unifiedType
+     * @param carrierSet
+     * @param definitionKind
      * @param definitionType
      */
     protected Definition(String sectName, Name defName, ZNameList generic,
