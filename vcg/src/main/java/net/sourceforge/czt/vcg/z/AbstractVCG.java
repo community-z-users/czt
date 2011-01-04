@@ -29,7 +29,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.OpTable;
@@ -383,7 +383,13 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   {
     assert sectManager_ != null && !isConfigured_;
 
-    // do nothing = for derived classes use.
+    // do nothing = for derived classes to use.
+
+    // make sure all visiting is at least accounted for - kinda of redundant but leave it
+    // (e.g., could remove after impl is more mature)
+    //VisitorUtils.checkVisitorRules(this);
+    //VisitorUtils.checkVisitorRules(getVCCollector());
+    //VisitorUtils.checkVisitorRules(getVCCollector().getTransformer().getTermVisitor());
   }
 
   @Override
@@ -560,7 +566,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     }
     catch (CommandException e)
     {
-      final String msg = "VCG-CMDEXP-TBL = " + e.getCause();
+      final String msg = "VCG-CMDEXP-TBL = " + (e.getCause() == null ? e : e.getCause());
       logger_.warning(msg);
       throw new VCGException(msg, e);
     }
@@ -875,6 +881,55 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     return result;
   }
 
+
+  // I DON'T LIKE THIS INHERITANCE TREE CONSEQUENCE. TROUBLE IS BECAUSE VISITING
+  // PROTOCOL FOR "VC COLLECTION" IS DIFFERENT AT TOP-LEVEL (e.g., ZSect, Parent, etc)
+  // AND AT LOW-LEVEL (e.g., AxPara, Pred, Expr, etc). Leave it for now.
+  
+  @Override
+  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
+          throws VCCollectionException
+  {
+    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
+  }
+
+  @Override
+  protected void afterCalculateVC(VC<List<VC<R>>> vc) throws VCCollectionException
+  {
+    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
+  }
+
+  @Override
+  protected List<VC<R>> calculateVC(Para term) throws VCCollectionException
+  {
+    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
+  }
+
+  @Override
+  protected VCType getVCType(List<VC<R>> vc) throws VCCollectionException
+  {
+    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
+  }
+
+  @Override
+  public VC<List<VC<R>>> createVC(Para term, VCType type, List<VC<R>> vc) throws VCCollectionException
+  {
+    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
+  }
+
+  @Override
+  public VC<List<VC<R>>> calculateVC(Term term, List<? extends InfoTable> tables)
+          throws VCCollectionException
+  {
+    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
+  }
+
+  @Override
+  public TermTransformer<List<VC<R>>> getTransformer() {
+    throw new CztException(
+            new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use getVCCollector().getTransformer()!"));
+  }
+
   /* VC ZSect CREATION METHODS */
 
   /**
@@ -1099,7 +1154,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     zsect.getZParaList().add(para);
 
     // VC on-the-fly Z section with std_toolkit as parent
-    VCEnvAnn<R> result = createZSectVCEnvAnn(zsect);
+    VCEnvAnn<R> result = createVCEnvAnn(zsect);
     return result;
   }
 
@@ -1126,7 +1181,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * @throws VCGException
    */
   @Override
-  public VCEnvAnn<R> createZSectVCEnvAnn(ZSect term) throws VCGException
+  public VCEnvAnn<R> createVCEnvAnn(ZSect term) throws VCGException
   {
     assert term != null;
     

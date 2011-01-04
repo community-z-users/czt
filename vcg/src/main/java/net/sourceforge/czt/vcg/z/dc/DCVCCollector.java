@@ -20,10 +20,9 @@ package net.sourceforge.czt.vcg.z.dc;
 
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
@@ -62,13 +61,13 @@ import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
+import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.vcg.z.transformer.dc.ZPredTransformerDC;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -219,7 +218,6 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   private ZName appliesToOpName_;
 
   private final ZName domName_;
-  private final PrintVisitor printVisitor_;
   private final ZPredTransformerDC predTransformer_;
     
   /**
@@ -227,7 +225,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
    */
   public DCVCCollector()
   {
-    this(new Factory());
+    this(ZUtils.createConsoleFactory());
   }  
   
   /** Creates a new instance of DCTerm
@@ -239,7 +237,6 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     defTable_ = null;    
     domName_ = factory_.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
     setInfixAppliesTo(PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
-    printVisitor_ = new PrintVisitor(); // defTable uses a PrintVisitor for lookup names.
     predTransformer_ = new ZPredTransformerDC(factory, this);
     predTransformer_.setApplyTransformer(PROP_VCG_DOMAINCHECK_APPLY_TRANSFORMERS_DEFAULT);
   }
@@ -312,30 +309,26 @@ public class DCVCCollector extends TrivialDCVCCollector implements
 //  }
 //
   // usual application expressions
-  protected ApplType calculateRefApplicationType(RefExpr name)
+  protected ApplType calculateRefApplicationType(RefExpr refName)
   {
     ApplType result = ApplType.RELATIONAL;
     if (defTable_ != null)
     {
       // attempt retrieving using usual toString?
-      DefinitionTable.Definition def = defTable_.lookup(name.getZName().toString());
+      DefinitionTable.Definition def = defTable_.lookup(refName.getZName().toString());
 
       // if fails, use print visitor - I guess with the embedding of PrintVisiting
       // within toString this should be just the same anyway...
       if (def == null)
       {
-        // following DefinitionTableVisitor implementation,
-        // parse the function name with printVisitor_ for the
-        // table lookup definition name.
-        String defName = name.getZName().accept(printVisitor_);
-        def = defTable_.lookup(defName);
+        def = defTable_.lookup(refName.getName());
       }
 
       // If there is a definition for defName
       if (def != null)
       {
         // If it is a VARDECL with a RefExpr type
-        if (def.getDefinitionType().equals(DefinitionType.VARDECL) &&
+        if (//def.getDefinitionKind().equals(DefinitionKind.VARDECL) &&
             def.getExpr() instanceof RefExpr)
         {
           RefExpr refExpr = (RefExpr)def.getExpr();
@@ -392,8 +385,15 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   /** VC COLLECTOR METHODS */
 
   @Override
-  public VC<Pred> createVC(Para term, Pred vc) throws VCCollectionException
+  protected VCType getVCType(Pred vc) throws VCCollectionException
   {
+    return VCType.NONE;
+  }
+
+  @Override
+  public VC<Pred> createVC(Para term, VCType type, Pred vc) throws VCCollectionException
+  {
+    assert type.equals(VCType.NONE);
     return new DCVC(term, vc);
   }
 
@@ -440,7 +440,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     {
       // for null terms, warn, but assume harmless (E.g., no VCs to be generated)
       SectionManager.traceLog("VCG-DCCOL-NULL-TERM");
-      return truePred();
+      return predTransformer_.truePred();
     }
     else
     {
@@ -468,7 +468,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
    */
   //public Pred visitPara(Para term) 
   //{
-  //  return truePred();
+  //  return predTransformer_.truePred();
   //}  
   
   // see DomainChecker.visitZSect! 

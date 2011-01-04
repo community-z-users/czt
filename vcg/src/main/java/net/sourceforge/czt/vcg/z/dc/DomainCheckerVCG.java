@@ -40,6 +40,7 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * <p>
@@ -81,7 +82,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
 
   public DomainCheckerVCG()
   {
-    this(new Factory());
+    this(ZUtils.createConsoleFactory());
   }
 
   public DomainCheckerVCG(Factory factory)
@@ -279,38 +280,5 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   protected ConjPara createVCConjPara(NameList genFormals, VC<Pred> vc)
   {
     return getZFactory().createConjPara(genFormals, vc.getVC());
-  }
-
-  @Override
-  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables) throws VCCollectionException {
-    throw new VCCollectionException("VCG-DC-TOPLEVEL-WRONG-CALL = use createZSectVCEnvAnn(ZSect)!");
-  }
-
-  @Override
-  protected void afterCalculateVC(VC<List<VC<Pred>>> vc) throws VCCollectionException {
-    throw new VCCollectionException("VCG-DC-TOPLEVEL-WRONG-CALL = use createZSectVCEnvAnn(ZSect)!");
-  }
-
-  @Override
-  protected List<VC<Pred>> calculateVC(Para term) throws VCCollectionException {
-    throw new VCCollectionException("VCG-DC-TOPLEVEL-WRONG-CALL = use createZSectVCEnvAnn(ZSect)!");
-  }
-
-  @Override
-  public VC<List<VC<Pred>>> createVC(Para term, List<VC<Pred>> vc) throws VCCollectionException {
-    throw new VCCollectionException("VCG-DC-TOPLEVEL-WRONG-CALL = use createZSectVCEnvAnn(ZSect)!");
-  }
-
-  @Override
-  public final VC<List<VC<Pred>>> calculateVC(Term term, List<? extends InfoTable> tables)
-          throws VCCollectionException
-  {
-    throw new VCCollectionException("VCG-DC-TOPLEVEL-WRONG-CALL = use createZSectVCEnvAnn(ZSect)!");
-  }
-
-  @Override
-  public TermTransformer<List<VC<Pred>>> getTransformer() {
-    throw new CztException(
-            new VCCollectionException("VCG-DC-TOPLEVEL-WRONG-CALL = use getVCCollector().getTransformer()!"));
   }
 }

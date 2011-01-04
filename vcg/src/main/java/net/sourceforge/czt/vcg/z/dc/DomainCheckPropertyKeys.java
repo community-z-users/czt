@@ -18,8 +18,8 @@
 */
 package net.sourceforge.czt.vcg.z.dc;
 
-import net.sourceforge.czt.vcg.z.*;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
 
 /**
  * <P>Contains String constants for the keys used in VCG properties.</P>

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package net.sourceforge.czt.vcg.z.dc;
+package net.sourceforge.czt.vcg.z.feasibility;
 
 import java.util.List;
 import net.sourceforge.czt.base.impl.BaseFactory;
@@ -13,55 +13,36 @@ import net.sourceforge.czt.z.ast.Pred;
 
 /**
  * <p>
- * Environment containing a DC Z section. A domain check Z section usually
- * contains a list of conjecture paragraphs with domain checking conditions
+ * Environment containing a Feasibility Z section. It contains a list of
+ * feasibility VCs as conjecture paragraphs with conditions
  * for each relevant paragraph of its parent Z section, where these paragraphs
  * come from. One cannot create such terms directly, hence no public constructor.
- * It can only be created through some of the {@link #DomainChecker} methods.
- * </p>
- * <p>
- * One can access this information through either the DC Z section
- * itself, or directly through a list of paragraph/predicate pairs. Note that
- * this list may be slightly bigger than the number of conjecture paragraphs.
- * That is because trivial DC (i.e., true) may be omitted according to user's choice.
- * </p>
- * <p>
- * To make it a term within CZT AST, we extend it as an AnnImpl class. In this
- * sense it follows all the CZT protocols for AST terms and their visitation.
+ * It can only be created through some of the {@link #FeasibilityChecker} methods.
  * </p>
  * @author leo
  */
-public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKeys {
+public class FeasibilityVCEnvAnn extends VCEnvAnn<Pred> implements FeasibilityPropertyKeys {
   
-  /**
-   * Create the given environment as place holder for DC Z sect and its 
-   * list of domain checks per paragraph. This list is redundant in the
-   * sense that the list encompass all zsect conjectures. The list may contain
-   * more paragraph than the Z sect, though. This happens whenever trivial 
-   * paragraph have been removed whilst creating the Z section.
-   * @param originalZSectName
-   * @param dcs
-   */
-  protected DCVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs)
+  protected FeasibilityVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs)
   {
     super(originalZSectName, dcs);
   }
   
-  protected DCVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs, BaseFactory factory)
+  protected FeasibilityVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs, BaseFactory factory)
   {
     super(originalZSectName, dcs, factory);
   }
   
   @Override
-  public DCVCEnvAnn create(Object[] args)
+  public FeasibilityVCEnvAnn create(Object[] args)
   {
-    DCVCEnvAnn result = null;
+    FeasibilityVCEnvAnn result = null;
     try
     {
       String originalSectName = (String)args[0];      
       @SuppressWarnings("unchecked")
       List<VC<Pred>> dcs = (List<VC<Pred>>)args[1];
-      result = new DCVCEnvAnn(originalSectName, dcs, getFactory());
+      result = new FeasibilityVCEnvAnn(originalSectName, dcs, getFactory());
     }
     catch (IndexOutOfBoundsException e) 
     {
@@ -84,7 +65,7 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
   @Override
   public String getVCSectName()
   {
-    return getOriginalZSectName() + VCG_DOMAINCHECK_SOURCENAME_SUFFIX;
+    return getOriginalZSectName() + VCG_FEASIBILITY_SOURCENAME_SUFFIX;
   }
 
 
@@ -99,7 +80,6 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
   {
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
-        //DCVCEnvAnn object = (DCVCEnvAnn) obj;// case it
         return true;
       }
     }
@@ -112,10 +92,8 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
   @Override
   public int hashCode()
   {
-    final int constant = 31;
-
     int hashCode = super.hashCode();
-    hashCode += "DCVCEnvAnn".hashCode();
+    hashCode += "FeasibilityVCEnvAnn".hashCode();
     return hashCode;
   }
 
@@ -125,9 +103,9 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
   @Override
   public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
-    if (v instanceof DCVCEnvAnnVisitor) {
-      DCVCEnvAnnVisitor<R> visitor = (DCVCEnvAnnVisitor<R>) v;
-      return visitor.visitDCVCEnvAnn(this);
+    if (v instanceof FeasibilityVCEnvAnnVisitor) {
+      FeasibilityVCEnvAnnVisitor<R> visitor = (FeasibilityVCEnvAnnVisitor<R>) v;
+      return visitor.visitFeasibilityVCEnvAnn(this);
     }
     return super.accept(v);
   }

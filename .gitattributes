@@ -703,6 +703,11 @@ ui/src/main/resources/net/sourceforge/czt/ui/czt_about.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
 vcg/pom.xml -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/CarrierSet.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTable.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTableService.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/UnificationEnv.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVCG.java -text
@@ -718,6 +723,7 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/VCGCommand.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCGException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCGPropertyKeys.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCGUtils.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/VCType.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DCVC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DCVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DCVCEnvAnn.java -text
@@ -728,6 +734,16 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DomainCheckUtils.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerCommand.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/TrivialDCVCCollector.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityCommand.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityException.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityPropertyKeys.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityUtils.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVC.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCCollector.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCEnvAnn.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCEnvAnnVisitor.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/TrivialFeasibilityVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/AbstractPredTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/AbstractTermTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/ZPredTransformer.java -text
@@ -739,8 +755,14 @@ vcg/src/test/java/net/sourceforge/czt/vcg/z/VCGTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerTest.java -text
 vcg/src/test/resources/tests/z/basicsm.tex -text
 vcg/src/test/resources/tests/z/birthdaybook.tex -text
+vcg/src/test/resources/tests/z/debug/axioms.tex -text
+vcg/src/test/resources/tests/z/debug/unusualdeftable.tex -text
+vcg/src/test/resources/tests/z/debug/usualdeftable.tex -text
+vcg/src/test/resources/tests/z/freetype.tex -text
 vcg/src/test/resources/tests/z/nestedappl.tex -text
 vcg/src/test/resources/tests/z/nestedappl2.tex -text
+vcg/src/test/resources/tests/z/schemas.tex -text
+vcg/src/test/resources/tests/z/sets.tex -text
 z2alloy/logging.properties -text
 z2alloy/pom.xml -text
 z2alloy/src/main/java/net/sourceforge/czt/z2alloy/AlloyPrinter.java -text

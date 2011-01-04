@@ -65,7 +65,7 @@ public interface VCG<R> {
    * @return Z section as a list of VC conjectures
    * @throws VCGException
    */
-  VCEnvAnn<R> createZSectVCEnvAnn(ZSect term) throws VCGException;
+  VCEnvAnn<R> createVCEnvAnn(ZSect term) throws VCGException;
 
   /**
    * VC calculation for the given term, presuming it is a ZSect, Para, Pred,

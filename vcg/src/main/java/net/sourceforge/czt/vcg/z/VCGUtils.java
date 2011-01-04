@@ -22,7 +22,6 @@ package net.sourceforge.czt.vcg.z;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
@@ -30,6 +29,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
@@ -45,6 +45,8 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.DefinitionTableService;
+import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -97,11 +99,19 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     if (getVCG().getManager() == null || (!getVCG().getManager().getDialect().equals(extension)))
     {
       SectionManager manager = new SectionManager(extension);
-      manager.putCommand(getVCG().getVCEnvAnnClass(), getCommand());
-      setDefaultProperties(manager);
-      getVCG().setSectionManager(manager);
+      setSectionManager(manager);
     }
     return getVCG().getManager();
+  }
+
+  protected void setDefaultCommands(SectionManager manager)
+  {
+    if (manager.getCommand(getVCG().getVCEnvAnnClass()) == null)
+    {
+      manager.putCommand(getVCG().getVCEnvAnnClass(), getCommand());
+    }
+    // override the Z DefTable cmd
+    manager.putCommand(DefinitionTable.class, DefinitionTableService.getCommand(manager));
   }
 
   /**
@@ -113,10 +123,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
    */
   public void setSectionManager(SectionManager manager) throws VCGException
   {
-    if (manager.getCommand(getVCG().getVCEnvAnnClass()) == null)
-    {
-      manager.putCommand(getVCG().getVCEnvAnnClass(), getCommand());
-    }
+    setDefaultCommands(manager);
     setDefaultProperties(manager);
     getVCG().setSectionManager(manager);
   }
@@ -373,7 +380,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
   /**
    * Retrieves the ZSect VC Env for the given ZSect. It sets up the
-   * domain checker and calls the underlying {@link VCG#createZSectVCEnvAnn(net.sourceforge.czt.z.ast.ZSect)}.
+   * domain checker and calls the underlying {@link VCG#createVCEnvAnn(net.sourceforge.czt.z.ast.ZSect)}.
    * This method is useful for Command classes that need to calculate
    * VCs for ZSect to be stored in the section manager.
    * @param zSect Z section to calculate VCs
@@ -384,7 +391,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
   {
     assert zSect != null;
     getVCG().config();
-    VCEnvAnn<R> result = getVCG().createZSectVCEnvAnn(zSect);
+    VCEnvAnn<R> result = getVCG().createVCEnvAnn(zSect);
 
     // check consistency between given z section and assigned name within the
     // environment created by the vcs calculator
@@ -812,7 +819,8 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       long vcgTime = 0;
       long printTime = 0;
       Spec spec = null;
-      List<VCEnvAnn<R>> vcs = new ArrayList<VCEnvAnn<R>>();
+      // OriginalSectName -> VCEnvAnn
+      SortedMap<String, VCEnvAnn<R>> vcs = new TreeMap<String, VCEnvAnn<R>>();
       String specNameNoPath = null;
       try
       {
@@ -900,7 +908,24 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
               {
                 ZSect zs = (ZSect) sect;
                 VCEnvAnn<R> vc = manager.get(createSMKey(zs.getName(), getVCG().getVCEnvAnnClass()));
-                vcs.add(vc);
+                VCEnvAnn<R> old = vcs.put(zs.getName(), vc);
+                
+                if (old != null)
+                  SectionManager.traceWarning("VCGU-DUPLICATE-VCENVANN = " + zs.getName());
+
+                // if processing parents, print them as well
+                if (processParents)
+                {
+                  for(Parent p : zs.getParent())
+                  {
+                    final String pName = p.getWord();
+                    if (!vcs.containsKey(pName))
+                    {
+                      vc = manager.get(createSMKey(pName, getVCG().getVCEnvAnnClass()));
+                      vcs.put(pName, vc);
+                    }
+                  }
+                }
               }
             }
           }
@@ -935,7 +960,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
             try
             {
               System.out.println("Printing VC ZSect(s) for " + file);
-              for (VCEnvAnn<R> zSectDC : vcs)
+              for (VCEnvAnn<R> zSectDC : vcs.values())
               {
                 printToFile(zSectDC, filePath, preferedMarkup);
               }
@@ -1062,3 +1087,5 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     return resource;
   }
 }
+//WATCH!
+//printToFile(manager.get(new Key("sectName", net.sourceforge.czt.vcg.z.dc.DCVCEnvAnn.class)), filePath, Markup.LATEX)

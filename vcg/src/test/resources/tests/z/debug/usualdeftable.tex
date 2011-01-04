@@ -1,0 +1,82 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION usualdeftable \parents set\_toolkit
+\end{zsection}
+
+Given sets
+\begin{zed}
+   [G, H]
+\end{zed}
+
+Usual free types (e.g., recursive, but not mutually recursive)
+\begin{zed}
+   FT ::= constant | func \ldata \nat \cross FT \rdata
+\end{zed}
+
+trivial/usual axdef
+\begin{axdef}
+   max: \nat
+\end{axdef}
+
+State schema with generics
+\begin{schema}{State}[X]
+   x: \nat \\
+   y: \power~\nat \\
+   f: \nat \fun \nat \\
+   g: X
+\where
+   y \cross y \subseteq f \\
+   x \in y
+\end{schema}
+
+Init schema with generic instantiation
+\begin{schema}{Init}
+   State~'
+\where
+   x' = 0 \\
+   y' = \{\} \\
+   f' = \{\} \\
+   g' = 0
+\end{schema}
+
+Usual state update with inputs and outputs, but with twist on generic instantiation
+\begin{schema}{OpUpdate}
+   \Delta State \\
+   i?: \nat \\
+   o!: \nat
+\where
+   g = g' = max \\ % resolves generic parameter implicitly
+   y' = y \\
+   i? \in y' \\
+   % \{i?\} \dres f = \{i?\} \dres f' \\ - avoid dependency with relation\_toolkit
+   f~x = i? \\
+   f'~i? = x' = o!
+\end{schema}
+
+And similarly for a state query operation
+\begin{schema}{OpQuery}
+  \Xi State \\
+  o!: \nat
+\where
+   g' = o! = f~x
+\end{schema}
+
+\begin{schema}{OpUpd2}
+   \Delta State
+\where
+    x' = x
+\end{schema}
+
+This is not very usual, but onkay.
+\begin{zed}
+   OX == \pre OpQuery
+\end{zed}
+
+\begin{axdef}
+   ox: OX
+\end{axdef}
+
+\end{document}

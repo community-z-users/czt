@@ -26,6 +26,7 @@ import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -40,14 +41,17 @@ public abstract class AbstractVC<R> implements VC<R>
   private String name_;
   private final Para para_;
   private final R vc_;
+  private final VCType vcType_;
   
   private static long axiomCnt_ = 0;
+  private static long vcCnt_ = 0;
 
-  public AbstractVC(Para term, R vc) throws VCCollectionException
+  protected AbstractVC(Para term, VCType type, R vc) throws VCCollectionException
   {
-    if (term == null || vc == null)
+    if (term == null || vc == null || type == null)
       throw new VCCollectionException("VC-CTOR-NULL-TERMVC");
     para_ = term;
+    vcType_ = type;
     vc_ = vc;
     LocAnn paraLoc = para_.getAnn(LocAnn.class);
     if (paraLoc != null)
@@ -84,13 +88,14 @@ public abstract class AbstractVC<R> implements VC<R>
   {
     // create the conjecture name or internal axiom name
     String conjName = null;
+    ZName conjPrefix = null;
     if (ZUtils.isAbbreviation(para))
     {
-      conjName = ZUtils.assertZName(ZUtils.getAbbreviationName(para)).getWord();
+      conjPrefix = ZUtils.assertZName(ZUtils.getAbbreviationName(para));
     }
-    else if (ZUtils.isSchema(para))
+    else if (ZUtils.isSimpleSchema(para))
     {
-      conjName = ZUtils.assertZName(ZUtils.getSchemaName(para)).getWord();
+      conjPrefix =ZUtils.assertZName(ZUtils.getSchemaName(para));
     }
     else if (para instanceof ConjPara)
     {
@@ -99,14 +104,23 @@ public abstract class AbstractVC<R> implements VC<R>
     else if (para instanceof FreePara)
     {
       // for multiple free types, just get the first name available.
-      conjName = ZUtils.assertZFreetypeList(((FreePara) para).getFreetypeList()).get(0).getZName().getWord();
+      conjPrefix = ZUtils.assertZFreetypeList(((FreePara) para).getFreetypeList()).get(0).getZName();
     }
     else if (ZUtils.isAxPara(para) && ((AxPara) para).getBox().equals(Box.AxBox))
     {
       conjName = "axiom" + axiomCnt_;
       axiomCnt_++;
     }
-    // in any case, always have a name for it.
+            
+    // if it was possible to extra a prefix name, try it        
+    if (conjPrefix != null)
+    {
+      conjName += "_" + conjPrefix.toString();
+      // conjPrefix.getWord() is not very good because with names with strokes
+      // we need a name visitor here
+    }
+
+    // in any case, always have a name for it (e.g., ConjPara with no name)
     if (conjName == null || conjName.isEmpty())
     {
       conjName = "vc" + axiomCnt_;
@@ -115,7 +129,12 @@ public abstract class AbstractVC<R> implements VC<R>
     // add the conjecture name
     assert conjName != null && !conjName.isEmpty() : "Invalid VC conjecture name";
     
-    return conjName + getVCNameSuffix();
+    // to avoid naming problems, add vcCnt_ to suffix
+    // (e.g., some names with strokes and without like \finsert and \finset_1
+    conjName += getVCNameSuffix() + vcCnt_;
+    vcCnt_++;
+
+    return conjName;
   }
 
   /**
@@ -129,6 +148,11 @@ public abstract class AbstractVC<R> implements VC<R>
   public Para getVCPara()
   {
     return para_;
+  }
+
+  public VCType getType()
+  {
+    return vcType_;
   }
 
   @Override
@@ -160,15 +184,23 @@ public abstract class AbstractVC<R> implements VC<R>
   {
     // since we cannot retrieve the theorem's name from a latex, neither
     // generate it from a ConjPara, just add some NarrText around instead.
-    String narrText = "";
+    StringBuilder narrText = new StringBuilder("VC");
+    if (!getType().equals(VCType.NONE))
+    {
+      narrText.append("[");
+      narrText.append(getType());
+      narrText.append("]");
+    }
+    narrText.append(" for ");
     if (getLoc() != null)
     {
-      narrText = "VC for " + getLoc().toString() + "\n";
+      narrText.append(getLoc().toString());
     }
     else
     {
-      narrText = "VC for " + getVCPara().toString() + "\n";
+      narrText.append(getVCPara().toString());
     }
-    return narrText;
+    narrText.append("\n");
+    return narrText.toString();
   }
 }

@@ -17,25 +17,37 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.czt.vcg.z;
+package net.sourceforge.czt.vcg.z.feasibility;
 
-import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.vcg.z.AbstractVC;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
+import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.TruePred;
 
 /**
  *
- * @param <R>
  * @author Leo Freitas
- * @date Dec 23, 2010
+ * @date Dec 24, 2010
  */
-public interface VC<R>
+public class FeasibilityVC extends AbstractVC<Pred> implements FeasibilityPropertyKeys
 {
-  Para getVCPara();
-  R getVC();
-  VCType getType();
-  boolean isTrivial();
-  String getInfo();
-  String getName();
-  LocAnn getLoc();
-  void setVCName(String name);
+
+  public FeasibilityVC(Para term, VCType type, Pred vc) throws VCCollectionException
+  {
+    super(term, type, vc);
+  }
+
+  @Override
+  public boolean isTrivial()
+  {
+    return (getVC() instanceof TruePred);
+  }
+
+  @Override
+  protected String getVCNameSuffix()
+  {
+    return VCG_FEASIBILITY_VCNAME_SUFFIX;
+  }
 }

@@ -56,7 +56,7 @@ public interface VCCollector<R> extends TermVisitor<R>
    * @return
    * @throws VCCollectionException
    */
-  VC<R> createVC(Para term, R vc) throws VCCollectionException;
+  VC<R> createVC(Para term, VCType type, R vc) throws VCCollectionException;
 
   /**
    * Visits a given term.  As some Z productions have null terms, like

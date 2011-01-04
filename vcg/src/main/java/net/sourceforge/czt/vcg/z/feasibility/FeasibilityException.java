@@ -17,25 +17,37 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.czt.vcg.z;
+package net.sourceforge.czt.vcg.z.feasibility;
 
-import net.sourceforge.czt.z.ast.LocAnn;
-import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
 
 /**
  *
- * @param <R>
  * @author Leo Freitas
- * @date Dec 23, 2010
+ * @date Dec 24, 2010
  */
-public interface VC<R>
+public class FeasibilityException extends VCCollectionException
 {
-  Para getVCPara();
-  R getVC();
-  VCType getType();
-  boolean isTrivial();
-  String getInfo();
-  String getName();
-  LocAnn getLoc();
-  void setVCName(String name);
+  /** Creates a new instance of VCGException
+   * @param message
+   */
+  public FeasibilityException(String message)
+  {
+     super(message);
+  }
+
+  public FeasibilityException(String message, Throwable cause)
+  {
+    super(message, cause);
+  }
+
+  public FeasibilityException(Throwable cause)
+  {
+    super(cause);
+  }
+
+  public FeasibilityException(String message, String origSectName, Throwable cause)
+  {
+    super(message, origSectName, cause);
+  }
 }

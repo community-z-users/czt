@@ -20,6 +20,7 @@
 package net.sourceforge.czt.vcg.z;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.util.Factory;
 

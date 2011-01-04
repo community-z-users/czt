@@ -53,6 +53,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     //ZUtils.assertZPrintVisitor(
     //        ZUtils.assertZFactoryImpl(
     //          factory_.getZFactory()).getToStringVisitor()).setOffset(1, 1);
+   // VisitorUtils.checkVisitorRules(this);
   }     
   
   protected Factory getZFactory()
@@ -111,8 +112,10 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
 
   protected abstract R calculateVC(Para term) throws VCCollectionException;
 
+  protected abstract VCType getVCType(R vc) throws VCCollectionException;
+
   @Override
-  public abstract VC<R> createVC(Para term, R vc) throws VCCollectionException;
+  public abstract VC<R> createVC(Para term, VCType type, R vc) throws VCCollectionException;
 
   /**
    * Calculate the verification condition for a given term in the context of
@@ -161,7 +164,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     }
 
     // create the result
-    VC<R> result = createVC(para, vc);
+    VC<R> result = createVC(para, getVCType(vc), vc);
 
     // finalise the calculation
     afterCalculateVC(result);

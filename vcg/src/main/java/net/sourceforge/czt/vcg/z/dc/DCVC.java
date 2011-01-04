@@ -21,6 +21,7 @@ package net.sourceforge.czt.vcg.z.dc;
 
 import net.sourceforge.czt.vcg.z.AbstractVC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
+import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.TruePred;
@@ -35,7 +36,7 @@ public class DCVC extends AbstractVC<Pred> implements DomainCheckPropertyKeys
 
   public DCVC(Para term, Pred vc) throws VCCollectionException
   {
-    super(term, vc);
+    super(term, VCType.NONE, vc);
   }
 
   @Override
