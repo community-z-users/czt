@@ -2756,7 +2756,7 @@ paragraphList ::=
                         !((ZNameList)nl).isEmpty());
                     final String msg = "a local " +
                         (hasGenerics ? "generic " : "") +
-                        (ZUtils.isSchema(p) ? "schema " :
+                        (ZUtils.isSimpleSchema(p) ? "schema " :
                             (((AxPara)p).getBox().equals(Box.OmitBox) ?
                                 "horizontal definition " :
                                 "axiomatic definition ")
@@ -2894,7 +2894,7 @@ unboxedParagraphList ::=
                             !((ZNameList)nl).isEmpty());
                         msg = "a local " +
                             (hasGenerics ? "generic " : "") +
-                            (ZUtils.isSchema(p) ? "schema " :
+                            (ZUtils.isSimpleSchema(p) ? "schema " :
                                 (((AxPara)p).getBox().equals(Box.OmitBox) ?
                                     "horizontal definition " :
                                     "axiomatic definition ")
