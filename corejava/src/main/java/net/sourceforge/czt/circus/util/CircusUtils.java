@@ -167,7 +167,7 @@ public final class CircusUtils
    * properly encoded as either a horizontal or a boxed schema; or an
    * <code>ActionPara</code> term with a <code>SchExprAction</code>.
    */
-  public static boolean isSchema(Para para)
+  public static boolean isSimpleSchema(Para para)
   {
     boolean result = ZUtils.isSimpleSchema(para);
     if (!result)
@@ -186,7 +186,7 @@ public final class CircusUtils
   public static Name getSchemaName(Para para)
   {
     Name result = null;
-    if (isSchema(para) || ZUtils.isHorizontalDef(para))
+    if (isSimpleSchema(para) || ZUtils.isHorizontalDef(para))
     {
       result = ZUtils.getSchemaName(para);
       if (result == null)
