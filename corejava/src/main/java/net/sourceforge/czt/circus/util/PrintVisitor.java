@@ -615,7 +615,7 @@ public class PrintVisitor
   public String visitAxPara(AxPara term)
   {
     StringBuilder result = new StringBuilder();
-    if (ZUtils.isSchema(term))
+    if (ZUtils.isSimpleSchema(term))
     {
       result.append("Schema");
       result.append(visitList(ZUtils.getAxParaZGenFormals(term), "[", ", ", "]"));

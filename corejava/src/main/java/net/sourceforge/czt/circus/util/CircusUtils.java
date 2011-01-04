@@ -169,7 +169,7 @@ public final class CircusUtils
    */
   public static boolean isSchema(Para para)
   {
-    boolean result = ZUtils.isSchema(para);
+    boolean result = ZUtils.isSimpleSchema(para);
     if (!result)
     {
       // If it is not an AxPara schema, it can still be a SchExprAction one.
@@ -180,7 +180,7 @@ public final class CircusUtils
   }
 
   /**
-   * If the given paragraph <code>isSchema(para)</code>, returns
+   * If the given paragraph <code>isSimpleSchema(para)</code>, returns
    * the declared schema name. Otherwise, the method returns null.
    */
   public static Name getSchemaName(Para para)

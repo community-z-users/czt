@@ -26,7 +26,6 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.TermImpl;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
-import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZName;
@@ -34,13 +33,47 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 public final class ZUtils
 {
-  public static final Factory FACTORY = new Factory();
 
   /**
    * Do not create instances of this class.
    */
   private ZUtils()
   {
+  }
+
+  public static final Factory FACTORY = createConsoleFactory();
+
+  /**
+   * Useful factory for debugging purposes. It prints ASCII names and
+   * LocAnn offset by one in line/col count and no name IDs.
+   * @return
+   */
+  public static Factory createConsoleFactory()
+  {
+    return createFactory(false, false, 1, 1);
+  }
+
+  /**
+   * Create a factory tailored for either debugging or UI purposes. Various
+   * parameters affect the base factory underlying print visitor's parameters.
+   * @param printUnicode
+   * @param printNameIds
+   * @param printLocLineOffset
+   * @param printLocColOffset
+   * @return
+   */
+  public static Factory createFactory(boolean printUnicode, boolean printNameIds, int printLocLineOffset,
+          int printLocColOffset)
+  {
+    // Make a factory that prints names in ASCII, not Unicode
+    // (This is better for debugging and for console output).
+    PrintVisitor printer = new PrintVisitor(printUnicode);
+    printer.setPrintIds(printNameIds);
+    printer.setOffset(printLocLineOffset, printLocColOffset);
+    ZFactoryImpl tmp = new ZFactoryImpl();
+    tmp.setToStringVisitor(printer);
+    Factory result = new Factory(tmp);
+    return result;
   }
 
   /**
@@ -87,6 +120,145 @@ public final class ZUtils
       (term instanceof AxPara) ||
       (term instanceof ConjPara) ||
       (term instanceof OptempPara);
+  }
+  
+  /*
+   * Abstract
+      <name="Expr" type="Z:Expr" abstract="true">
+      <name="Expr1" type="Z:Expr1" abstract="true"
+      <name="Expr2" type="Z:Expr2" abstract="true"
+      <name="SchExpr2" type="Z:SchExpr2"
+      <name="Expr0N" type="Z:Expr0N"
+      <name="Expr2N" type="Z:Expr2N"
+      <name="QntExpr" type="Z:QntExpr"
+      <name="Qnt1Expr" type="Z:Qnt1Expr"
+
+    Not schema calculus
+      <name="PowerExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
+      <name="NumExpr" type="Z:NumExpr" substitutionGroup="Z:Expr">
+      <name="SetExpr" type="Z:Expr0N" substitutionGroup="Z:Expr0N">
+      <name="ProdExpr" type="Z:Expr2N" substitutionGroup="Z:Expr2N">
+      <name="TupleExpr" type="Z:Expr2N" substitutionGroup="Z:Expr2N">
+      <name="SetCompExpr" type="Z:QntExpr"
+      <name="TupleSelExpr" type="Z:TupleSelExpr"
+
+    Schema calculus
+      <name="SchExpr" type="Z:SchExpr" substitutionGroup="Z:Expr">
+      <name="DecorExpr" type="Z:DecorExpr" substitutionGroup="Z:Expr1">
+      <name="HideExpr" type="Z:HideExpr" substitutionGroup="Z:Expr1">
+      <name="NegExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
+      <name="PreExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
+      <name="RenameExpr" type="Z:RenameExpr" substitutionGroup="Z:Expr1">
+      <name="ThetaExpr" type="Z:ThetaExpr" substitutionGroup="Z:Expr1">
+      <name="BindExpr" type="Z:BindExpr" substitutionGroup="Z:Expr">
+      <name="BindSelExpr" type="Z:BindSelExpr" substitutionGroup="Z:Expr1">
+
+      <name="PipeExpr" type="Z:SchExpr2" substitutionGroup="Z:SchExpr2">
+      <name="ProjExpr" type="Z:SchExpr2" substitutionGroup="Z:SchExpr2">
+      <name="AndExpr" type="Z:SchExpr2" substitutionGroup="Z:SchExpr2">
+      <name="OrExpr" type="Z:SchExpr2" substitutionGroup="Z:SchExpr2">
+      <name="ImpliesExpr" type="Z:SchExpr2" substitutionGroup="Z:SchExpr2">
+      <name="IffExpr" type="Z:SchExpr2" substitutionGroup="Z:SchExpr2">
+      <name="CompExpr" type="Z:SchExpr2" substitutionGroup="Z:SchExpr2">
+
+      Qnt1Expr = without Lambda/Let
+      <name="ExistsExpr" type="Z:Qnt1Expr"substitutionGroup="Z:Qnt1Expr">
+      <name="Exists1Expr" type="Z:Qnt1Expr" substitutionGroup="Z:Qnt1Expr">
+      <name="ForallExpr" type="Z:Qnt1Expr" substitutionGroup="Z:Qnt1Expr">
+
+    Mixed / depends 
+      <name="LambdaExpr" type="Z:Qnt1Expr" substitutionGroup="Z:Qnt1Expr">
+      <name="LetExpr" type="Z:Qnt1Expr" substitutionGroup="Z:Qnt1Expr">
+      <name="CondExpr" type="Z:CondExpr" substitutionGroup="Z:Expr">
+      <name="RefExpr" type="Z:RefExpr" substitutionGroup="Z:Expr">
+      <name="ApplExpr" type="Z:ApplExpr" substitutionGroup="Z:Expr2">
+      <name="MuExpr" type="Z:QntExpr" substitutionGroup="Z:QntExpr">
+   */
+
+  /**
+   * Enumerated type used to distinguish what kind of Z Expr is.
+   * It is useful for determining statically, without type information,
+   * the kind of term being handled. For instance, DefTable uses this
+   * to best guess the kind of OmitBox involved in a declaration.
+   */
+  // TODO: should ThetaExpr, BindExpr and BinSelExpr be PURE or SCHEMA?
+  public static enum ZExprKind {
+    /**
+     * Pure Z Expr
+     */
+    PURE,
+    /**
+     * Schema calculus expression
+     */
+    SCHEMA,
+    /**
+     * Depends on the inner expression
+     */
+    MIXED,
+    /**
+     * Couldn't figure out statically
+     */
+    UNKNOWN };
+
+  /**
+   * Returns whether or not a given expression is part of schema calculus
+   * @param expr
+   * @return
+   */
+  public static ZExprKind whatKindOfZExpr(Expr term)
+  {
+    ZExprKind result = ZExprKind.UNKNOWN;
+    if ((term instanceof PowerExpr) ||
+             (term instanceof NumExpr) ||
+             (term instanceof SetExpr) ||
+             (term instanceof ProdExpr) ||
+             (term instanceof TupleExpr) ||
+             (term instanceof SetCompExpr) ||
+             (term instanceof TupleSelExpr) ||
+             (term instanceof BindExpr) ||    // these two are pure, although schema related
+             (term instanceof ThetaExpr) ||
+             (term instanceof BindSelExpr))
+    {
+      /*
+      \begin{zed}
+         BLA == \lblot x == \nat \rblot   <-- consider pure
+      \end{zed}
+
+      \begin{axdef}
+          bla: \{ BLA \}
+      \end{axdef}
+
+      \begin{zed}
+         val == bla.x               <-- consider pure
+      \end{zed}
+       *
+       */
+      result = ZExprKind.PURE;
+    }
+    else if ((term instanceof SchExpr) ||
+             (term instanceof DecorExpr) ||
+             (term instanceof HideExpr) ||
+             (term instanceof NegExpr) ||
+             (term instanceof PreExpr) ||
+             (term instanceof RenameExpr) ||
+             // Pipe, Proj, And, Or, Implies, Iff, Comp
+             (term instanceof SchExpr2) ||
+             (term instanceof ExistsExpr) ||
+             (term instanceof Exists1Expr) ||
+             (term instanceof ForallExpr))
+    {
+      result = ZExprKind.SCHEMA;
+    }
+    else if ((term instanceof CondExpr) ||
+             (term instanceof LambdaExpr) ||
+             (term instanceof LetExpr) ||
+             (term instanceof MuExpr) ||
+             (term instanceof ApplExpr) ||
+             (term instanceof RefExpr))
+    {
+      result = ZExprKind.MIXED;
+    }
+    return result;
   }
 
   /** Schema or generic schema definition (vertical).
@@ -213,20 +385,20 @@ public final class ZUtils
 
   /**
    * Checks whether the given term <code>isHorizontalDef(Term)</code>
-   * and <code>isSchema(Term)</code>
+   * and <code>isSimpleSchema(Term)</code>
    */
   public static boolean isHorizontalSchema(Term term)
   {
-    return (isHorizontalDef(term) && isSchema(term));
+    return (isHorizontalDef(term) && isSimpleSchema(term));
   }
 
   /**
    * Checks whether the given term <code>isHorizontalDef(Term)</code>
-   * and <code>!isSchema(Term)</code>
+   * and <code>!isSimpleSchema(Term)</code>
    */
   public static boolean isAbbreviation(Term term)
   {
-    return (isHorizontalDef(term) && !isSchema(term));
+    return (isHorizontalDef(term) && !isSimpleSchema(term));
   }
 
   /**
@@ -246,8 +418,11 @@ public final class ZUtils
    * Checks whether the given paragraph is an <code>AxPara</code> term
    * encoded as a schema or not. That is, it checks whether the term
    * is properly encoded as either a horizontal or a boxed schema.
+   * Note that this does not include schema calculus constructs like
+   * R == S \land T on schemas S and T, but just SchExpr (usual) schemas.
+   * For the latter we need to rely on typing information.
    */
-  public static boolean isSchema(Term term) 
+  public static boolean isSimpleSchema(Term term)
   {
     boolean result = isAxPara(term);
     if (result) {
@@ -270,14 +445,66 @@ public final class ZUtils
     return result;
   }
 
+  public static boolean isDeltaXi(Name name)
+  {
+    boolean result = (name instanceof ZName);
+    if (result)
+    {
+      result = isDeltaXi(assertZName(name));
+    }
+    return result;
+  }
+
+  public static boolean isDeltaXi(ZName zName)
+  {
+    return (zName.getWord().startsWith(ZString.DELTA) || zName.getWord().startsWith(ZString.XI));
+  }
+
   /**
-   * If the given paragraph <code>isSchema(para)</code>, returns the
+   * Get the base name of a delta or xi reference.
+   */
+  public static ZName getSpecialSchemaBaseName(Factory factory, ZName zName)
+  {
+    assert isDeltaXi(zName) : "name is not a Delta / Xi ref expr - " + zName;
+    final int size = (ZString.DELTA).length();
+    String baseWord = zName.getWord().substring(size);
+    ZStrokeList strokes = factory.getZFactory().createZStrokeList();
+    strokes.addAll(zName.getZStrokeList());
+    ZName baseName = factory.createZName(baseWord, strokes);
+    return baseName;
+  }
+
+  public static ZName getSpecialSchemaBaseName(ZName zName)
+  {
+    return getSpecialSchemaBaseName(FACTORY, zName);
+  }
+
+  public static Name buildName(Factory factory, Name name, List<Stroke> strokes)
+  {
+    Name result = name;
+    if (strokes != null && !strokes.isEmpty() && name instanceof ZName)
+    {
+      ZName zname = ZUtils.assertZName(name);
+      result = factory.createZName(zname.getWord(),
+        factory.createZStrokeList(zname.getZStrokeList()));
+      ((ZName)result).getZStrokeList().addAll(strokes);
+    }
+    return result;
+  }
+
+  public static Name buildName(Name name, List<Stroke> strokes)
+  {
+    return buildName(FACTORY, name, strokes);
+  }
+
+  /**
+   * If the given paragraph <code>isSimpleSchema(para)</code>, returns the
    * declared schema name. Otherwise, the method returns null.
    */
   public static Name getSchemaName(Term term)
   {
     Name result = null;
-    if (isSchema(term) || isHorizontalDef(term)) {
+    if (isSimpleSchema(term) || isHorizontalDef(term)) {
       AxPara axp = (AxPara) term;
       assert isAxParaSchemaOrHorizDefValid(axp);
       result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getName();
@@ -288,7 +515,7 @@ public final class ZUtils
   public static Expr getSchemaDefExpr(Term term)  
   {
     Expr result = null;
-    if (isSchema(term)) {
+    if (isSimpleSchema(term)) {
       AxPara axp = (AxPara) term;
       assert isAxParaSchemaOrHorizDefValid(axp);
       result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getExpr();
@@ -299,7 +526,7 @@ public final class ZUtils
   public static ZNameList getSchemaZGenFormals(Term term)
   {
     ZNameList result = null;
-    if (isSchema(term)) {
+    if (isSimpleSchema(term)) {
       return getAxParaZGenFormals(term);
     }
     return result;
@@ -1250,4 +1477,6 @@ public final class ZUtils
     }
     return result;
   }
+
+  public static final StandardZ STDZ_NAMELIST_CHECKER = new StandardZ();
 }

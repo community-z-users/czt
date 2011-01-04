@@ -218,7 +218,9 @@ public class PrintVisitor
     boolean first = true;
     for (Type type : prodType.getType()) {
       if (! first) {
-        result.append(ZString.SPACE + ZString.CROSS + ZString.SPACE);
+        result.append(ZString.SPACE);
+        result.append(printUnicode_ ? ZString.CROSS : "x");
+        result.append(ZString.SPACE);
       }
       result.append(visit(type));
       first = false;
@@ -273,7 +275,19 @@ public class PrintVisitor
       result.append(zName.getWord());
     }
     else {
-      ZUtils.unicodeToAscii(zName.getWord(), result);
+      String word = zName.getWord();
+      int size = 0;
+      if (word.startsWith(ZString.DELTA))
+      {
+        size = ZString.DELTA.length();
+        result.append("Delta ");
+      }
+      else if(word.startsWith(ZString.XI))
+      {
+        size = ZString.XI.length();
+        result.append("Xi ");
+      }
+      ZUtils.unicodeToAscii(word.substring(size), result);
     }
     if (printIds_) {
       result.append("_" + zName.getId());
