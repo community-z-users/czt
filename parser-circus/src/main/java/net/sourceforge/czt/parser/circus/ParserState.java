@@ -272,7 +272,7 @@ public class ParserState
 
   protected boolean isValidStatePara(Para p)
   {
-    return ZUtils.isHorizontalDef(p) || CircusUtils.isSchema(p);
+    return ZUtils.isHorizontalDef(p) || CircusUtils.isSimpleSchema(p);
   }
 
   /**
