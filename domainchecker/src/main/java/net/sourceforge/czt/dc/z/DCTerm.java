@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.parser.util.DefinitionTable;
-import net.sourceforge.czt.parser.util.DefinitionKind;
+import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.z.ast.FalsePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.util.Factory;
