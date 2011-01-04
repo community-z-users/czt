@@ -793,7 +793,7 @@ public class SectionManager
       cached = false;
       Command command = commands_.get(infoType);
       if (command == null) {
-        throw new CommandException("No command available to compute " + key);
+        throw new UnknownCommandException("No command available to compute " + key);
       }
       // make the actual request
       boolean cres = command.compute(name, this);
