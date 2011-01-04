@@ -845,7 +845,7 @@ public class DomainChecker extends AbstractDCTerm<List<Pair<Para, Pred>>>
         {
           conjName = ZUtils.assertZName(ZUtils.getAbbreviationName(para)).getWord();
         }
-        else if (ZUtils.isSchema(para))
+        else if (ZUtils.isSimpleSchema(para))
         {
           conjName = ZUtils.assertZName(ZUtils.getSchemaName(para)).getWord();
         }
