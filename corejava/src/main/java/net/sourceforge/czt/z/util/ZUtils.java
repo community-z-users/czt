@@ -457,7 +457,17 @@ public final class ZUtils
 
   public static boolean isDeltaXi(ZName zName)
   {
-    return (zName.getWord().startsWith(ZString.DELTA) || zName.getWord().startsWith(ZString.XI));
+    return (isDelta(zName) || isXi(zName));
+  }
+  
+  public static boolean isXi(ZName zName)
+  {
+    return (zName.getWord().startsWith(ZString.XI));
+  }
+
+  public static boolean isDelta(ZName zName)
+  {
+    return (zName.getWord().startsWith(ZString.DELTA));
   }
 
   /**
