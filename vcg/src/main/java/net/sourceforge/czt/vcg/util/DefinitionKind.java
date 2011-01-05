@@ -1,20 +1,20 @@
 /*
-Copyright (C) 2005, 2006, 2007 Mark Utting
-This file is part of the czt project.
-
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Copyright (C) 2011 Leo Freitas
+ * This file is part of the CZT project.
+ *
+ * The CZT project contains free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The CZT project is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with CZT; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.vcg.util;
 
@@ -33,7 +33,7 @@ import net.sourceforge.czt.z.ast.SchExpr;
  * will have a map between ZName("X") to Def(List(T), E, AXIOM). This enumeration
  * (attempts to) summarise all possible cases.
  * </p>
- * @author leo
+ * @author Leo Freitas
  */
 // We changed from DefinitionType to avoid confusion with declared/carrier type information
 public class DefinitionKind {
@@ -91,10 +91,12 @@ public class DefinitionKind {
   public static final int SCHEMABINDING_VALUE = 4;
   //public static final DefinitionKind SCHEMABINDING = new DefinitionKind(SCHEMABINDING_VALUE);
 
+  // NOTE: With local decls within Definition, SCHEMADECL locals are inclusions references
+  //
   // All bindings that are simple inclusion expressions. The common ones are:
   // RefExpr (\Delta S), DecorExpr (S'), HideExpr (S \hides (x,y)), RenameExpr (S[x/y])
-  public static final int SCHEMAINCL_VALUE = 5;
-  public static final DefinitionKind SCHEMAINCLUSION = new DefinitionKind(SCHEMAINCL_VALUE);
+  //public static final int SCHEMAINCL_VALUE = 5;
+  //public static final DefinitionKind SCHEMAINCLUSION = new DefinitionKind(SCHEMAINCL_VALUE);
 
   // All bindings that are complex inclusion expressions.
   // Complex schema expressions are more difficult to handle, becuase their signature can vary.
@@ -106,10 +108,10 @@ public class DefinitionKind {
   // e.g., S == [ (T \land R) \hide (x) | P ] (1) schema construction for inclusion
   //       A == B \land C
   //       D == [ A | P ]                     (2) schema calculus inclusion
-  public static final int SCHEMAEXPR_VALUE = 6;
+  public static final int SCHEMAEXPR_VALUE = 5;
   public static final DefinitionKind SCHEMAEXPR = new DefinitionKind(SCHEMAEXPR_VALUE);
 
-  public static final int UNKNOWN_VALUE = 7; //for name below Integer.MAX_VALUE;
+  public static final int UNKNOWN_VALUE = 6; //for name below Integer.MAX_VALUE;
   public static final DefinitionKind UNKNOWN = new DefinitionKind(UNKNOWN_VALUE);
 
   private final SchExpr binding_;
@@ -117,7 +119,7 @@ public class DefinitionKind {
   private final int value_;
   
   private static final String[] NAMES = 
-    { "GIVENSET", "FREETYPE", "AXIOM", "SCHEMADECL", "SCHEMABINDING", "SCHEMAINCL", "SCHEMAEXPR", "UNKNOWN" };
+    { "GIVENSET", "FREETYPE", "AXIOM", "SCHEMADECL", "SCHEMABINDING", /*"SCHEMAINCL", */ "SCHEMAEXPR", "UNKNOWN" };
 
   private DefinitionKind(int v)
   {
@@ -132,6 +134,16 @@ public class DefinitionKind {
     binding_ = expr;
   }
 
+  public boolean isGlobal()
+  {
+    return value_ == GIVENSET_VALUE || value_ == AXIOM_VALUE || value_ == SCHEMADECL_VALUE;
+  }
+
+  public boolean isReference()
+  {
+    return value_ == SCHEMADECL_VALUE /*|| value_ == SCHEMAINCL_VALUE*/;
+  }
+
   public SchExpr getBindingSchExpr()
   {
     if (!isSchemaBinding())
@@ -141,7 +153,7 @@ public class DefinitionKind {
 
   public Name getSchName()
   {
-    if (!isSchemaBinding() && !isSchemaInclusion())
+    if (!isSchemaBinding() /*&& !isReference()*/)
       throw new UnsupportedOperationException("Only schema bindings have schema name");
     return name_;
   }
@@ -149,11 +161,6 @@ public class DefinitionKind {
   public boolean isSchemaBinding()
   {
     return value_ == SCHEMABINDING_VALUE;
-  }
-
-  public boolean isSchemaInclusion()
-  {
-    return value_ == SCHEMAINCL_VALUE;
   }
 
   /**

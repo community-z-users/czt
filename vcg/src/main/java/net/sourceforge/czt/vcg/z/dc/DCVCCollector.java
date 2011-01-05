@@ -64,6 +64,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
@@ -315,14 +316,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     if (defTable_ != null)
     {
       // attempt retrieving using usual toString?
-      DefinitionTable.Definition def = defTable_.lookup(refName.getZName().toString());
-
-      // if fails, use print visitor - I guess with the embedding of PrintVisiting
-      // within toString this should be just the same anyway...
-      if (def == null)
-      {
-        def = defTable_.lookup(refName.getName());
-      }
+      Definition def = defTable_.lookupName(refName.getZName());
 
       // If there is a definition for defName
       if (def != null)
@@ -382,7 +376,11 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     return result;
   }
 
-  /** VC COLLECTOR METHODS */
+  /** VC COLLECTOR METHODS
+   * @param vc
+   * @return
+   * @throws VCCollectionException
+   */
 
   @Override
   protected VCType getVCType(Pred vc) throws VCCollectionException

@@ -704,6 +704,8 @@ ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
 vcg/pom.xml -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/CarrierSet.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/Definition.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTable.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTableService.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java -text

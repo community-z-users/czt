@@ -41,6 +41,7 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Decl;
@@ -667,7 +668,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     catch (CommandException e)
     {
       defTable_ = null;
-      if (e instanceof DefinitionTable.DefinitionException)
+      if (e instanceof DefinitionException)
       {
         logger_.warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName +
                 "\n\t " + e.getMessage());

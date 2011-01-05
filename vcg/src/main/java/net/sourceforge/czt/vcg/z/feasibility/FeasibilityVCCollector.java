@@ -21,7 +21,7 @@ package net.sourceforge.czt.vcg.z.feasibility;
 import java.util.List;
 import java.util.Set;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
-import net.sourceforge.czt.vcg.util.DefinitionTable.Definition;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Branch;
@@ -35,6 +35,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
@@ -50,6 +51,7 @@ import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.visitor.BranchVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
@@ -290,13 +292,13 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
 
       case SchBox:
         // for schemas add\
-        Name schName = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getName();
+        ZName schName = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getZName();
         try
         {
           Set<Definition> bindings = defTable_.bindings(schName);
 
         }
-        catch (DefinitionTable.DefinitionException ex)
+        catch (DefinitionException ex)
         {
           throw new CztException(new VCCollectionException(ex));
         }
