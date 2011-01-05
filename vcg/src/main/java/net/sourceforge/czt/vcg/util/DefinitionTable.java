@@ -27,12 +27,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.InfoTable.InfoTableException;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZUtils;
+
 
 
 /**
@@ -323,7 +326,7 @@ public class DefinitionTable extends InfoTable
       if (result != null)
       {
         if (!result.getDefinitionKind().isGlobal() &&
-        !result.getDefinitionKind().isReference())
+            !result.getDefinitionKind().isReference())
         {
           // throw? checkGlobalDef?
         }
@@ -384,15 +387,47 @@ public class DefinitionTable extends InfoTable
     return result;
   }
 
-  public Set<Definition> bindings(ZName defName) throws DefinitionException
+  public SortedSet<Definition> bindings(ZName defName) throws DefinitionException
   {
     Definition def = lookupDeclName(defName);
+    SortedSet<Definition> result = new TreeSet<Definition>();
     // if this is a schema declaration, look for its bindings
     if (def != null && def.getDefinitionKind().isReference())
     {
+      checkGlobalDef(def.getSectionName(), def);
+      for(Definition localDef : def.getLocalDecls().values())
+      {
+        if (localDef.getDefinitionKind().isSchemaBinding())
+        {
+          assert localDef.getLocalDecls().isEmpty();
+          result.add(localDef);
+        }
+        else if (localDef.getDefinitionKind().isReference())
+        {
+          result.addAll(bindings(localDef.getDefName()));
+        }
+      }
+      // assert all elements have isSchemaBinding() kind
+
+//      assert knownSections_.size() >= definitions_.keySet().size();
+//      for (int i = knownSections_.size()-1; i >= 0; i--)
+//      {
+//        SortedMap<ZName, Definition> defOfSect = definitions_.get(i);
+//        if (defOfSect != null)
+//        {
+//          result = defOfSect.get(name);
+//          // if not a top-level name, try local names
+//          if (result == null)
+//          {
+//            result = lookupLocalNames(defOfSect.values(), name);
+//          }
+//        }
+//      }
+//
+//
 //      HashSet<Definition> result = new HashSet<Definition>();
 //      // lookup all def, in case of included from othe sections getSectDefinitions(def.getSectionName())
-//      for(Definition defLookup : definitions_.values())
+//      for(SortedMap.Entry<ZName, Definition> defLookup : definitions_.values())
 //      {
 //        DefinitionKind defKind = defLookup.getDefinitionKind();
 //
@@ -405,7 +440,7 @@ public class DefinitionTable extends InfoTable
 //        // if it is an inclusion, get the included name bindings as well if not the calee
 //        else if (defKind.isSchemaInclusion())
 //        {
-//          Name defLookupName = defLookup.getDefName();
+//          ZName defLookupName = defLookup.getDefName();
 //          boolean isDeltaXi = ZUtils.isDeltaXi(defLookupName);
 //          // get inner name if special
 //          if (isDeltaXi)
@@ -432,7 +467,7 @@ public class DefinitionTable extends InfoTable
 //          }
 //        }
 //      }
-      return null;//result;
+      return result;
     }
     else
     {

@@ -29,7 +29,8 @@ State schema with generics
    g: X
 \where
    y \cross y \subseteq f \\
-   x \in y
+   x \in y \\
+   y \cap y = y
 \end{schema}
 
 Init schema with generic instantiation
@@ -78,5 +79,12 @@ This is not very usual, but onkay.
 \begin{axdef}
    ox: OX
 \end{axdef}
+
+And now some name collusion as horizontal def
+\begin{zed} 
+   Man  == [ knowledge: G \fun G ] \\
+   Lion == [ knowledge: \power~(G \cross G) ] \\
+   Sphinx == [ Man; Lion ]
+\end{zed}
 
 \end{document}

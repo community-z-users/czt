@@ -20,6 +20,7 @@
 package net.sourceforge.czt.vcg.util;
 
 import java.util.Set;
+import java.util.SortedSet;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -226,7 +227,7 @@ public class DefinitionTableService
         assert table.lookupName(arg) != null;
         try
         {
-          Set<Definition> bindings = table.bindings(arg);
+          SortedSet<Definition> bindings = table.bindings(arg);
           final String result2 = bindings.toString().replaceAll(", ", ",\n");
           System.out.println("\n");
           System.out.println(result2);

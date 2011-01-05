@@ -19,6 +19,7 @@
 package net.sourceforge.czt.vcg.util;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -39,7 +40,7 @@ import net.sourceforge.czt.z.util.ZUtils;
  *
  * @authot Leo Freitas
  */
-public class Definition extends InfoTable.Info
+public class Definition extends InfoTable.Info implements Comparable<Definition>
 {
 
   private final ZName defName_;
@@ -211,5 +212,24 @@ public class Definition extends InfoTable.Info
     hash = 29 * hash + this.genericParams_.hashCode();
     hash = 29 * hash + this.locals_.hashCode();
     return hash;
+  }
+
+  @Override
+  public int compareTo(Definition o)
+  {
+    // first compare by DefKind order
+    int result = this.defKind_.value() - o.defKind_.value();
+    if (result == 0)
+    {
+      // next by name order
+      result = ZUtils.compareTo(this.getDefName(), o.getDefName());
+
+      // if the same binding, check if they come from the same schema name (e.g., handle name collusion)
+      if (result == 0 && this.defKind_.isSchemaBinding())
+      {
+        result = ZUtils.compareTo(this.defKind_.getSchName(), o.defKind_.getSchName());
+      }
+    }
+    return result;
   }
 }

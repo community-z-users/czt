@@ -52,6 +52,7 @@ public interface VCCollector<R> extends TermVisitor<R>
   /**
    * Given a paragraph and a VC, creates the underlying VC object.
    * @param term
+   * @param type
    * @param vc
    * @return
    * @throws VCCollectionException

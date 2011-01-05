@@ -18,8 +18,8 @@
  */
 package net.sourceforge.czt.vcg.util;
 
-import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
  * <p>
@@ -115,7 +115,7 @@ public class DefinitionKind {
   public static final DefinitionKind UNKNOWN = new DefinitionKind(UNKNOWN_VALUE);
 
   private final SchExpr binding_;
-  private final Name name_;
+  private final ZName name_;
   private final int value_;
   
   private static final String[] NAMES = 
@@ -126,7 +126,7 @@ public class DefinitionKind {
     this(v, null, null);
   }
 
-  private DefinitionKind(int v, Name schName, SchExpr expr)
+  private DefinitionKind(int v, ZName schName, SchExpr expr)
   {
     super();
     value_ = v;
@@ -136,7 +136,7 @@ public class DefinitionKind {
 
   public boolean isGlobal()
   {
-    return value_ == GIVENSET_VALUE || value_ == AXIOM_VALUE || value_ == SCHEMADECL_VALUE;
+    return value_ == GIVENSET_VALUE || value_ == AXIOM_VALUE || isReference();
   }
 
   public boolean isReference()
@@ -151,7 +151,7 @@ public class DefinitionKind {
     return binding_;
   }
 
-  public Name getSchName()
+  public ZName getSchName()
   {
     if (!isSchemaBinding() /*&& !isReference()*/)
       throw new UnsupportedOperationException("Only schema bindings have schema name");
@@ -251,7 +251,7 @@ public class DefinitionKind {
     return result;
   }
 */
-  public static DefinitionKind getSchBinding(Name name, SchExpr expr)
+  public static DefinitionKind getSchBinding(ZName name, SchExpr expr)
   {
     DefinitionKind result = new DefinitionKind(SCHEMABINDING_VALUE, name, expr);
     return result;

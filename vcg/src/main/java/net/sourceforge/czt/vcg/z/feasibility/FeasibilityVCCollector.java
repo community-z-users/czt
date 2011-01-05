@@ -18,17 +18,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.vcg.z.feasibility;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Branch;
-import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.Freetype;
-import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.ZBranchList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.base.ast.Term;
@@ -42,6 +41,7 @@ import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.vcg.z.transformer.ZPredTransformer;
 import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -50,14 +50,20 @@ import net.sourceforge.czt.z.visitor.AxParaVisitor;
 
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.visitor.BranchVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
 import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.ZBranchListVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
+
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  *
@@ -84,7 +90,11 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   private ZPredTransformer predTransformer_;
 
   private boolean nonEmptyGivenSets_;
-  
+
+  private final Stroke dash_;
+  private final Stroke output_;
+  private final ZName setInterName_;;
+
   /**
    * 
    */
@@ -99,10 +109,13 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   public FeasibilityVCCollector(Factory factory)
   {
     super(factory);
-    defTable_ = null;    
     predTransformer_ = new ZPredTransformer(factory, this);
     nonEmptyGivenSets_ = PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS_DEFAULT;
     predTransformer_.setApplyTransformer(PROP_VCG_FEASIBILITY_APPLY_TRANSFORMERS_DEFAULT);
+    defTable_ = null;    
+    output_ = factory_.createOutStroke();
+    dash_ = factory_.createNextStroke();
+    setInterName_ = factory_.createZName(ZString.ARG_TOK+ZString.CAP+ZString.ARG_TOK);
   }
 
   @Override
@@ -121,7 +134,11 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     nonEmptyGivenSets_ = value;
   }
 
-  /** VC COLLECTOR METHODS */
+  /** VC COLLECTOR METHODS
+   * @param vc
+   * @return
+   * @throws VCCollectionException
+   */
 
   @Override
   protected VCType getVCType(Pred vc) throws VCCollectionException
@@ -290,53 +307,78 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         // DC(D) \land (\forall D @ DC(P))
         return predTransformer_.andPred(dcd, predTransformer_.forAllPred(decl, dcp));
 
+      case OmitBox:
       case SchBox:
         // for schemas add\
         ZName schName = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getZName();
+        RefExpr schRef = factory_.createRefExpr(schName);
         try
         {
-          Set<Definition> bindings = defTable_.bindings(schName);
-
+          SortedSet<Definition> bindings = defTable_.bindings(schName);
+          ZSchText zSchText = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
+          zSchText.setPred(factory_.createTruePred()); // TODO: get user-defined one?
+          populateDeclList(zSchText.getZDeclList(), bindings);
+          Pred result = factory_.createForallPred(zSchText,
+                  factory_.createExprPred(factory_.createPreExpr(schRef)));
+          return result;
         }
         catch (DefinitionException ex)
         {
           throw new CztException(new VCCollectionException(ex));
         }
-
-
-        // for SchBox (schema), use use getSchDefExpr methods
-        Expr schExpr = ZUtils.getSchemaDefExpr(term);
-
-        // for SchBox, expr must be an SchExpr! Well-formed/parsed ASTs should never suffer from this.
-        if (!(schExpr instanceof SchExpr))
-          throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-NOSCHEXPR = " + term));
-        //assert (schExpr instanceof SchExpr) : "Invalid SchBox AxPara, no SchExpr within ConstDecl!";
-
-        // for SchBox : DC([ D | P ]) \iff DC(D) \land (\forall D @ DC(P)), which comes from ZSchText DC in SchExpr ;)
-        return visit(schExpr);
-
-      case OmitBox:
-        // for OmitBox (horiz. def or abbreviations), use getSchemaDefExpr method
-        // This can be either a SchExpr (for horizontal definitions) or other abbreviation.
-
-        // If this is a SchExpr...
-        Expr horizExpr = ZUtils.getSchemaDefExpr(term);
-        // or else it is an abbreviation
-        if (horizExpr == null)
-          horizExpr = ZUtils.getAbbreviationExpr(term);
-
-        if (horizExpr == null)
-          throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-NULL-HORIZEXPR = " + term));
-        //assert horizExpr != null : "Invalid horizontal definition: neither schema construction, nor abbreviation (null)!";
-
-        // for OmitBox: DC(n[X] == E) \iff DC(E), where E could be a SchExpr ([ D | P])
-        return visit(horizExpr);
-
       default:
         // this case should never happen, yet we need to return something
         // in the unlikely case the Java compiler messes up with Box Enums
         // (i.e. corrupted byte code classes)!
         throw new AssertionError("Invalid Box for AxPara! " + term.getBox());
     }
+  }
+
+  private boolean considerName(ZName name)
+  {
+    return !name.getZStrokeList().contains(dash_) &&
+           !name.getZStrokeList().contains(output_);
+
+  }
+
+  public void populateDeclList(ZDeclList zDeclList, SortedSet<Definition> bindings)
+  {
+
+    Iterator<Definition> it = bindings.iterator();
+
+    // process the first one
+    Definition currentBinding = it.hasNext() ? it.next() : null;
+    ZName currentName = currentBinding != null ? currentBinding.getDefName() : null;
+    Expr currentExpr;
+    VarDecl currentVarDecl = null;
+    List<VarDecl> decls = factory_.list();
+    if (currentName != null && considerName(currentName))
+    {
+      currentExpr =  currentBinding.getExpr();
+      currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
+      decls.add(currentVarDecl);
+    }
+    // if there is more
+    while (it.hasNext())
+    {
+      currentBinding = it.next();
+      currentName = currentBinding.getDefName();
+      currentExpr = currentBinding.getExpr();
+      if (considerName(currentName))
+      {
+        // if names colide, change known expression -> n : E1, n: E2 ==> n: E1 \cap E2
+        if (currentVarDecl != null && currentVarDecl.getZNameList().contains(currentName))
+        {
+          currentVarDecl.setExpr(factory_.createFunOpAppl(setInterName_, factory_.createTupleExpr(currentVarDecl.getExpr(), currentExpr)));
+        }
+        // otherwise create a new expression
+        else
+        {
+          currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
+          decls.add(currentVarDecl);
+        }
+      }
+    }
+    zDeclList.addAll(decls);
   }
 }
