@@ -212,7 +212,7 @@ public class SectionManager
 
     // set the section manager logging level at start
     getLogger().setLevel(logLevel);
-    getLogger().config("Creating a new " + extension + " section manager");
+    getLogger().finest("Creating a new " + extension + " section manager");
     putCommands(extension);
     dialect_ = extension;
   }
@@ -339,7 +339,7 @@ public class SectionManager
    */
   public final void putCommands(String extension)
   {
-    getLogger().config("Set extension to '" + extension + "'");
+    getLogger().finest("Set extension to '" + extension + "'");
     URL url = getClass().getResource("/" + extension + ".commands");
     if (url != null) {
       putCommands(url);
@@ -357,7 +357,7 @@ public class SectionManager
    */
   public void putCommands(URL url)
   {
-    getLogger().config("Load commands from URL '" + url + "'");
+    getLogger().finest("Load commands from URL '" + url + "'");
     final String errorMessage = "Error while loading default commands " +
       "for the section manager: Cannot open " + url.toString();
     try {
@@ -407,7 +407,7 @@ public class SectionManager
         Object command = commandClass.newInstance();
         if (command instanceof Command) {
           commands_.put(typeClass, (Command) command);
-          logger.config("Set command for " + typeClass.getSimpleName() + " to " + command);
+          logger.finest("Set command for " + typeClass.getSimpleName() + " to " + command);
           return true;
         }
         final String message = "Cannot instantiate command " +
@@ -464,7 +464,7 @@ public class SectionManager
     catch (ClassNotFoundException e) {
       final String message = "Cannot get class " + name +
         "; class cannot be found";
-      getLogger().config(message);
+      getLogger().finest(message);
     }
     return null;
   }
@@ -889,7 +889,7 @@ public class SectionManager
    */
   public void reset()
   {
-    getLogger().config("Resetting section manager key-mapped resources.");
+    getLogger().finest("Resetting section manager key-mapped resources.");
     for (Iterator<Key<?>> iter = content_.keySet().iterator(); iter.hasNext();) {
       final Key<?> key = iter.next();
       final String name = key.getName();
