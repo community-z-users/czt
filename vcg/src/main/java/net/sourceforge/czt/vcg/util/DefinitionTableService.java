@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.vcg.util;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Set;
 import java.util.SortedSet;
 import net.sourceforge.czt.session.Command;
@@ -184,7 +187,7 @@ public class DefinitionTableService
     return new DefinitionTableService(sectInfo);
   }
 
-  public static void main(String args[])
+  public static void main(String args[]) throws URISyntaxException
   {
     SectionManager manager = new SectionManager();
     manager.putCommand(getCommandInfoType(), getCommand(manager));
@@ -239,6 +242,20 @@ public class DefinitionTableService
         }
       }
     }
+
+    URL url = table.getClass().getResource("/lib/");//dc_toolkit.tex");
+    file = new File(url.toURI());
+    System.out.println("url.file   = " + url.getFile());
+    System.out.println("url.path   = " + url.getPath());
+    System.out.println("url.extf   = " + url.toExternalForm());
+    System.out.println("url.toStr  = " + url.toString());
+    System.out.println("URI.toStr  = " + url.toURI());
+    System.out.println("file.name  = " + file.getName());
+    System.out.println("file.parent= " + file.getParent());
+    System.out.println("file.path  = " + file.getPath());
+    System.out.println("file.abspth= " + file.getAbsolutePath());
+    System.out.println("file.tostr = " + file.toString());
+
   }
 
   private static void handleCmdException(CommandException ex)

@@ -28,7 +28,7 @@ import net.sourceforge.czt.z.ast.Pred;
  *
  * @author leo
  */
-public class FeasibilityUtils extends VCGUtils implements FeasibilityPropertyKeys
+public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPropertyKeys
 {
 
   private boolean nonEmptyGivenSets_;

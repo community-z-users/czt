@@ -505,6 +505,11 @@ public class DefinitionTableVisitor
     }
   }
 
+  protected Expr tryResolvingGenerics(ZNameList genFormals, Expr expr)
+  {
+    return expr;
+  }
+
   /**
    * Enforce the definition type structure for various kinds of definitions
    * @param genFormals
@@ -518,18 +523,23 @@ public class DefinitionTableVisitor
   {
     assert sectName_ != null;
     assert defKind.isGlobal();
-
     Type2 unifType = getType(declName); //TODO: should this be here (on possibly built names) or at addDef calls?
-    Definition def = new Definition(sectName_, declName, genFormals, defExpr, unifType, defKind);
+    Expr resolvedExpr = defExpr;
+    if (unifType != null)
+    {
+      // returns defExpr if it can't handle instantiation
+      resolvedExpr = tryResolvingGenerics(genFormals, defExpr);
+    }
+    Definition result = new Definition(sectName_, declName, genFormals, resolvedExpr, unifType, defKind);
     try
     {
-      table_.addGlobalDecl(sectName_, def);
+      table_.addGlobalDecl(sectName_, result);
     }
     catch (DefinitionException e)
     {
-      raiseUnsupportedCase(e.getMessage(), defKind, defExpr);
+      raiseUnsupportedCase("while adding global def: " + e.getMessage(), defKind, resolvedExpr);
     }
-    return def;
+    return result;
   }
 
   protected Definition addLocalDefinition(/*Definition parent,*/ ZNameList genFormals,
@@ -538,14 +548,22 @@ public class DefinitionTableVisitor
     assert currentGlobalDef_ != null;
     assert !defKind.isGlobal() : "cannot add global definition as a local def of " + currentGlobalDef_;
     Definition result = null;
+    Type2 unifType = getType(declName); //TODO: should this be here (on possibly built names) or at addDef calls?
+    Expr resolvedExpr = defExpr;
+    if (unifType != null)
+    {
+      // returns defExpr if it can't handle instantiation
+      resolvedExpr = tryResolvingGenerics(genFormals, defExpr);
+    }
     try
     {
-      result = currentGlobalDef_.addLocalDecl(declName, genFormals, defExpr, getType(declName), defKind);
+      result = currentGlobalDef_.addLocalDecl(declName, genFormals, resolvedExpr, unifType, defKind);
     }
     catch (DefinitionException e)
     {
-      //raiseUnsupportedCase(e.getMessage(), defKind, defExpr);
-      throw new CztException(e);
+      //raiseUnsupportedCase(e.getMessage(), defKind, resolvedExpr);
+      //throw new CztException(e);
+      raiseUnsupportedCase("while adding local def: " + e.getMessage(), defKind, resolvedExpr);
     }
     return result;
   }
@@ -562,7 +580,8 @@ public class DefinitionTableVisitor
     }
     catch (DefinitionException e)
     {
-      throw new CztException(e);
+      //throw new CztException(e);
+      raiseUnsupportedCase("while adding local ref: " + e.getMessage(), local.getDefinitionKind(), local.getExpr());
     }
   }
 
@@ -871,9 +890,9 @@ public class DefinitionTableVisitor
               // save top-level def where DecorExpr is being included from
               Definition topLevelDef = currentGlobalDef_;
               // add+process the DecorExpr as a top-level decl (e.g., add S' == [ x', y': T ] globally)
-              strokedDef = addDefinition(def.getDeclNames()/*genFormals*/, strokedName, schExpr, DefinitionKind.SCHEMADECL);
+              strokedDef = addDefinition(def.getGenericParams()/*genFormals*/, strokedName, schExpr, DefinitionKind.SCHEMADECL);
               currentGlobalDef_ = strokedDef;
-              processSchExpr(strokedDef.getDeclNames(), refName, schExpr, defKinds, strokes);
+              processSchExpr(strokedDef.getGenericParams(), refName, schExpr, defKinds, strokes);
 
               // restore top-level definition
               currentGlobalDef_ = topLevelDef;

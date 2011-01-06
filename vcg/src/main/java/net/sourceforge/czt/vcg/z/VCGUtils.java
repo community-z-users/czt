@@ -44,6 +44,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefinitionTableService;
 import net.sourceforge.czt.z.ast.Parent;
@@ -92,11 +93,13 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
    * This method should be called as few times as possible, as it returns
    * a brand new section manager . It is to be used by the top-level DC application only
    * @param extension the CZT extension to use
-   * @return a fresh new section manager. */
+   * @return a fresh new section manager.
+   * @throws VCGException
+   */
   public SectionManager createSectionManager(String extension) throws VCGException
   {
-    // if null or for a different dialect, get a new one
-    if (getVCG().getManager() == null || (!getVCG().getManager().getDialect().equals(extension)))
+    // if null or for a different dialect, get a new one; CHANGED: even if same dialect, get new one to avoid duplicated entries?
+    if (getVCG().getManager() == null /*|| (!getVCG().getManager().getDialect().equals(extension))*/)
     {
       SectionManager manager = new SectionManager(extension);
       setSectionManager(manager);
@@ -828,16 +831,18 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
         specNameNoPath = removePath(getFileNameNoExt(file));
         spec = manager.get(new Key<Spec>(specNameNoPath, Spec.class));
       }
-      catch (ParseException exception)
-      {
-        parsingErrors = exception.getErrorList().size();
-        exception.printErrorList();
-        exitCode = -10;
-      }
       catch (CommandException e)
       {
+        if (e.getCause() instanceof ParseException)
+        {
+          parsingErrors += printParseErrors((ParseException)e.getCause());
+          exitCode = -10;
+        }
+        else
+        {
+          exitCode = -11;
+        }
         commandException("parsing", e, "file does not contain Z section " + specNameNoPath);
-        exitCode = -11;
       }
       catch (CztException f)
       {
@@ -875,13 +880,21 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
         }
         catch (CommandException e)
         {
+          if (e.getCause() instanceof TypeErrorException)
+          {
+            typeErrors += printTypeErrors((TypeErrorException)e.getCause());
+            exitCode = -21;
+          }
+          else
+          {
+            exitCode = -22;
+          }
           commandException("type checking", e, file);
-          exitCode = -21;
         }
         catch (CztException f)
         {
           cztException("type checking", f, file);
-          exitCode = -22;
+          exitCode = -23;
         }
 
         /* ex:
@@ -931,13 +944,30 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
           }
           catch (CommandException e)
           {
+            if (e instanceof VCGException && e.getCause() instanceof CommandException)
+            {
+              CommandException vcge = (CommandException)e.getCause();
+              if (vcge.getCause() instanceof ParseException)
+              {
+                parsingErrors += printParseErrors((ParseException)vcge.getCause());
+                exitCode = -30;
+              }
+              else if (vcge.getCause() instanceof TypeErrorException)
+              {
+                typeErrors += printTypeErrors((TypeErrorException)vcge.getCause());
+                exitCode = -31;
+              }
+              else
+              {
+                exitCode = -32;
+              }
+            }
             commandException(getClass().getSimpleName(), e, file);
-            exitCode = -30;
           }
           catch (CztException f)
           {
             cztException(getClass().getSimpleName(), f, file);
-            exitCode = -31;
+            exitCode = -33;
           }
 
           // result is the number of errors to consider
@@ -1005,6 +1035,21 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     System.exit(exitCode);
   }
 
+  public static int printParseErrors(ParseException pe)
+  {
+    int result = pe.getErrorList().size();
+    pe.printErrorList();
+    return result;
+  }
+
+  public static int printTypeErrors(TypeErrorException te)
+  {
+    int result = te.getErrors().size();
+    // VCG already prints errors.
+    //te.printErrors();
+    return result;
+  }
+
   /* UTILITY CLASS STATIC METHODS */
 
   private static void checkString(String s)
@@ -1058,6 +1103,28 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       barIdx = filename.lastIndexOf("\\");
     }
     return barIdx == -1 ? filename : filename.substring(barIdx + 1);
+  }
+
+  /**
+   * For a file "./dir/foo.ext" or ".\dir\foo.ext", extracts
+   * the path such that the result is "./dir/". If "foo.ext"
+   * is given, "./" is returned.
+   * @param filename full file name to remove path
+   * @return path from file name
+   */
+  public static String extractPath(String filename)
+  {
+    checkString(filename);
+    int barIdx = filename.lastIndexOf(File.separatorChar);
+    if (barIdx == -1)
+    {
+      barIdx = filename.lastIndexOf("/");
+    }
+    if (barIdx == -1)
+    {
+      barIdx = filename.lastIndexOf("\\");
+    }
+    return barIdx == -1 ? "./" : filename.substring(0, barIdx);
   }
 
   /**

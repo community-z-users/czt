@@ -47,11 +47,11 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   private final DefinitionKind defKind_;
   private final ZNameList genericParams_;
   private final Expr definition_;
-  private final Type2 carrierSet_;
+  private final Type2 carrierType_;
   private final SortedMap<ZName, Definition> locals_;
 
   protected Definition(String sectName, ZName defName, 
-          ZNameList generic, Expr definition, Type2 carrierSet,
+          ZNameList generic, Expr definition, Type2 carrierType,
           DefinitionKind definitionKind)
   {
     super(sectName);
@@ -60,7 +60,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     defName_ = defName;
     definition_ = definition;
     defKind_ = definitionKind;
-    carrierSet_ = carrierSet; // type maybe null
+    carrierType_ = carrierType; // type maybe null
     locals_ = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);
   }
 
@@ -96,7 +96,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
    *  parameters, it returns an empty list.
    * @return List of the names of any type parameters.
    */
-  public ZNameList getDeclNames()
+  public ZNameList getGenericParams()
   {
     return genericParams_;
   }
@@ -111,6 +111,18 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   public Expr getExpr()
   {
     return definition_;
+  }
+
+  public Expr getExprWithResolvedGenerics()
+  {
+    Expr result = getExpr();
+    Type2 type = getCarrierSet();
+    // if we have type information, try to instantiate it
+    if (type != null)
+    {
+
+    }
+    return result;
   }
 
   /** Tells you whether this name was declared via a constant
@@ -128,7 +140,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
    */
   public Type2 getCarrierSet()
   {
-    return carrierSet_;
+    return carrierType_;
   }
 
   public ZName getDefName()
@@ -136,25 +148,42 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     return defName_;
   }
 
+  private static int localsDepth_ = 0;
+
+  private static String asMany(char ch, int count)
+  {
+    StringBuilder builder = new StringBuilder(count);
+    while (count > 0)
+    {
+      builder.append(ch);
+      count--;
+    }
+    return builder.toString();
+  }
+
   protected String printLocals(boolean simple)
   {
     StringBuilder buffer = new StringBuilder(locals_.size()+1 * 20);
+    buffer.append('\n');
+    buffer.append(asMany('\t', localsDepth_+1));
     buffer.append("Locals = {");
     if (!locals_.isEmpty())
     {
       Iterator<SortedMap.Entry<ZName, Definition>> itE = locals_.entrySet().iterator();
       buffer.append(" ");
-       while (itE.hasNext())
-       {
-         SortedMap.Entry<ZName, Definition> entry2 = itE.next();
-         buffer.append(DefinitionTable.printName(entry2.getKey()));
-         buffer.append("=");
-         buffer.append(entry2.getValue().toString(simple));
-         if (itE.hasNext())
-               buffer.append(", ");
-       }
+      while (itE.hasNext())
+      {
+        SortedMap.Entry<ZName, Definition> entry2 = itE.next();
+        buffer.append('\n');
+        buffer.append(asMany('\t', localsDepth_+2));
+        buffer.append(DefinitionTable.printName(entry2.getKey()));
+        buffer.append("=");
+        buffer.append(entry2.getValue().toString(simple));
+      }
+      //buffer.append('\n');
+      //buffer.append(asMany('\t', localsDepth_+1));
     }
-    buffer.append("}");
+    buffer.append(" }");
     return buffer.toString();
   }
 
@@ -167,8 +196,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
             "\n\t\t\t " + (genericParams_.isEmpty() ? "" :
                  "GENERICS= " + genericParams_.toString() +
       "\n\t\t\t ") + "KIND    = " + defKind_.toString() +
-                      (carrierSet_ == null ? "" :
-            "\n\t\t\t CARSET  = " + carrierSet_.toString().replaceAll("\n;","; ").replaceAll("\n]", "] ")) +
+                      (carrierType_ == null ? "" :
+            "\n\t\t\t CARSET  = " + carrierType_.toString().replaceAll("\n;","; ").replaceAll("\n]", "] ")) +
                       (locals_.isEmpty() ? "" :
             "\n\t\t\t LOCALS  = \n\t\t\t\t   " + locals_.toString().replaceAll("\n\t\t\t", "\n\t\t\t\t").replaceAll("}", "}\n\t\t"));
   }
@@ -177,10 +206,13 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   {
     if (simple)
     {
-      return (genericParams_.isEmpty() ? "" : " [" + genericParams_.toString() + "]") + defKind_.toString() +
+      localsDepth_++;
+      String result = (genericParams_.isEmpty() ? "" : " [" + genericParams_.toString() + "]") + defKind_.toString() +
              //"(" + DefinitionTable.printName(defName_) + ", " +
                     //+ ")"
-                   (!locals_.isEmpty() ? "\t" + printLocals(simple) : "");
+                   (!locals_.isEmpty() ? printLocals(simple) : "");
+      localsDepth_--;
+      return result;
     }
     else
       return toString();

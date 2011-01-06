@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.ast.Pred;
  *
  * @author leo
  */
-public class DomainCheckUtils extends VCGUtils implements DomainCheckPropertyKeys
+public class DomainCheckUtils extends VCGUtils<Pred> implements DomainCheckPropertyKeys
 {
 
   /* CLASS SETUP METHODS */

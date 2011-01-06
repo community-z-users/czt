@@ -493,10 +493,10 @@ public class DefinitionTable extends InfoTable
       {
         SortedMap.Entry<ZName, Definition> entry2 = itE.next();
         buffer.append(printName(entry2.getKey()));
-        buffer.append("\t\t= ");
+        buffer.append(" = ");
         buffer.append(entry2.getValue().toString(simple));
         if (itE.hasNext())
-               buffer.append("\n\t");
+          buffer.append("\n\t");
       }
       buffer.append('\n');
       return buffer.toString();

@@ -8,7 +8,7 @@
 
 Given sets
 \begin{zed}
-   [G, H]
+   [G]
 \end{zed}
 
 Usual free types (e.g., recursive, but not mutually recursive)
@@ -43,7 +43,7 @@ Init schema with generic instantiation
    g' = 0
 \end{schema}
 
-Usual state update with inputs and outputs, but with twist on generic instantiation
+Usual state update with inputs and outputs, with generics instantiated.
 \begin{schema}{OpUpdate}
    \Delta State \\
    i?: \nat \\
@@ -57,7 +57,7 @@ Usual state update with inputs and outputs, but with twist on generic instantiat
    f'~i? = x' = o!
 \end{schema}
 
-And similarly for a state query operation
+And similarly for a state query operation with generics for $g$ get resolved
 \begin{schema}{OpQuery}
   \Xi State \\
   o!: \nat
@@ -65,10 +65,18 @@ And similarly for a state query operation
    g' = o! = f~x
 \end{schema}
 
-\begin{schema}{OpUpd2}
-   \Delta State
+Update operation with generics carried through from top-level
+\begin{schema}{OpUpd2}[Y]
+   \Delta State[Y]
 \where
-    x' = x = g \\
+    x' = x 
+\end{schema}
+
+Update operation with generics resolved on inclusion.
+\begin{schema}{OpUpd3}
+   \Delta State[G]
+\where
+    y' = y 
 \end{schema}
 
 This is not very usual, but onkay.

@@ -492,8 +492,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
         if (e.getCause() instanceof TypeErrorException)
         {
           TypeErrorException typeErrorException = (TypeErrorException) e.getCause();
-          final int i = printErrors(typeErrorException.getErrors());
-          logger_.warning("VCG-TYPECHK-ZSECT-ERROR = (" + sectName + ", " + i + ")");
+          final int i = printTypeErrors(typeErrorException.getErrors());
+          //logger_.warning("VCG-TYPECHK-ZSECT-ERROR = (" + sectName + ", " + i + ")");
         }
       }
       throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
@@ -510,7 +510,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * @param errors list of type errors
    * @return number of errors (and maybe warnings) print.
    */
-  protected int printErrors(List<? extends ErrorAnn> errors)
+  protected int printTypeErrors(List<? extends ErrorAnn> errors)
   {
     int result = 0;
     //print any errors

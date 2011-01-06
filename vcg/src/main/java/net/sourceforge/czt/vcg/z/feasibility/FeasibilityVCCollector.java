@@ -222,7 +222,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       for (Name name : term.getNames())
       {
         Pred vc = factory_.createNegPred(factory_.createEquality(
-                    factory_.createRefExpr(name), factory_.createSetExpr()));
+                    factory_.createRefExpr(name),
+                    factory_.createSetExpr(factory_.createZExprList())));
         vc.getAnns().add(VCType.AXIOM);
         result = predTransformer_.andPred(result, vc);
       }
@@ -301,8 +302,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         ZDeclList decl = ZUtils.getAxBoxDecls(term);
         Pred pred = ZUtils.getAxBoxPred(term);
 
-        Pred dcd = visit(decl); // DC(D)
-        Pred dcp = visit(pred); // DC(P)
+        Pred dcd = truePred();//visit(decl); // DC(D)
+        Pred dcp = truePred();//visit(pred); // DC(P)
 
         // DC(D) \land (\forall D @ DC(P))
         return predTransformer_.andPred(dcd, predTransformer_.forAllPred(decl, dcp));
@@ -354,7 +355,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     List<VarDecl> decls = factory_.list();
     if (currentName != null && considerName(currentName))
     {
-      currentExpr =  currentBinding.getExpr();
+      currentExpr = currentBinding.getExpr();
       currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
       decls.add(currentVarDecl);
     }
@@ -363,9 +364,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     {
       currentBinding = it.next();
       currentName = currentBinding.getDefName();
-      currentExpr = currentBinding.getExpr();
       if (considerName(currentName))
       {
+        currentExpr = currentBinding.getExpr();
         // if names colide, change known expression -> n : E1, n: E2 ==> n: E1 \cap E2
         if (currentVarDecl != null && currentVarDecl.getZNameList().contains(currentName))
         {
