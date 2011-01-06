@@ -11,11 +11,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Spec;
 
@@ -60,6 +61,8 @@ public abstract class CztManagedTest extends TestCase
 
   private boolean debug_;
 
+  private String testsPath_;
+
   /**
    * Creates a new test case with a fresh section manager and given extension
    * @param extension usually "z" or "circus"
@@ -83,6 +86,7 @@ public abstract class CztManagedTest extends TestCase
     manager_.setTracing(debug);
     markup_ = DEFAULT_MARKUP;
     debug_ = debug;
+    testsPath_ = "./";
   }
 
   /**
@@ -108,6 +112,21 @@ public abstract class CztManagedTest extends TestCase
     return manager_;
   }
 
+  protected boolean isDebugging()
+  {
+    return debug_;
+  }
+
+  protected void setMarkup(Markup x)
+  {
+    markup_ = x;
+  }
+
+  protected Markup getMarkup()
+  {
+    return markup_;
+  }
+
   /**
    * Create a test suite by looking at all file resources within the given
    * relative test directory. It looks into this class (dynamic) resources
@@ -117,7 +136,7 @@ public abstract class CztManagedTest extends TestCase
    * @param negativeTestExceptionClass
    * @return
    */
-  protected Test suite(String relativeTestDirectory,
+  public Test suite(String relativeTestDirectory,
           Class<? extends Throwable> negativeTestExceptionClass)
   {
     TestSuite suite = new TestSuite();
@@ -132,6 +151,24 @@ public abstract class CztManagedTest extends TestCase
     return suite;
   }
 
+  protected String getTestsPath()
+  {
+    return testsPath_;
+  }
+
+  protected void createSource(URL url)
+  {
+    final String sourceData = url.getFile();
+    final String sourceName = SourceLocator.getSourceName(sourceData);
+    if (isDebugging())
+    {
+      System.out.println("createSource = " + sourceName + ", " + sourceData);
+    }
+    Source source = new FileSource(sourceData);
+    source.setMarkup(Markup.getMarkup(sourceData)); // extract the right markup
+    getManager().put(new Key<Source>(sourceName, Source.class), source);
+  }
+
   /**
    * Parses the given URL as a Spec term. It also adds the <code>UrlSource</code>
    * to the section manager as this is important for calculating certain structures.
@@ -142,19 +179,40 @@ public abstract class CztManagedTest extends TestCase
   protected Spec parse(URL url) throws CommandException
   {
     traceLog("CZT-TEST-PARSE " + url);
-    Source source = new UrlSource(url);
-    final String sourceData = url.toString();
-    source.setMarkup(markup_.getMarkup(sourceData)); // extract the right markup
-    manager_.put(new Key<Source>(url.toString(), Source.class), source);
+    createSource(url);
     try
     {
-      return manager_.get(new Key<Spec>(url.toString(), Spec.class));
+      return manager_.get(new Key<Spec>(getSourceName(url), Spec.class));
     }
     catch (CommandException e)
     {
       traceInfo("CZT-TEST-ERROR = " +
               (e.getCause() != null ? e.getCause().getMessage() : e.getMessage()));
       throw e;
+    }
+  }
+
+  protected String getSourceName(URL url)
+  {
+    return SourceLocator.getSourceName(url.getFile());
+  }
+
+  protected void setCZTPath()
+  {
+    String localcztpath = manager_.getProperty("czt.path");
+    if (localcztpath == null || localcztpath.isEmpty())
+    {
+      localcztpath = testsPath_;
+    }
+    else if (localcztpath.indexOf(testsPath_) == -1)
+    {
+      localcztpath += File.pathSeparator + testsPath_;
+    }
+    manager_.setProperty("czt.path", localcztpath);
+    if (debug_)
+    {
+      System.out.println("test.path= " + testsPath_);
+      System.out.println("czt.path = " + localcztpath);
     }
   }
 
@@ -193,13 +251,23 @@ public abstract class CztManagedTest extends TestCase
       throw new IllegalArgumentException("Unsupported Protocol");
     }
     final File dir = new File(url.getFile());
+    if (debug_)
+    {
+      manager_.getLogger().info("Looking for test files under " + dir);
+    }
+    if (!dir.isDirectory())
+    {
+      throw new IOException("Given resource is not a relative directory - " + dir);
+    }
+    testsPath_ = dir.toString();
+    setCZTPath();
     String[] content = dir.list();
     for (String name : content)
     {
       //if the file name ends with error, then we have a case with
       //the typechecker should throw the exception specified at the
       //start of the filename
-      if (name.endsWith(".error"))
+      if (includeTest(name, false))
       {
         int index = name.indexOf("-");
         if (index < 1)
@@ -211,11 +279,25 @@ public abstract class CztManagedTest extends TestCase
       }
       //if the file name does not end with error, then we have a
       //normal case
-      else if (name.endsWith(".tex"))
+      else if (includeTest(name, true))
       {
         suite.addTest(createPositiveTest(new URL(url, name)));
       }
     }
+  }
+
+  /**
+   *
+   * @param sourceName name of test file
+   * @param positive or negative test flag
+   * @return true if name is to be included for testing
+   */
+  protected boolean includeTest(String sourceName, boolean positive)
+  {
+    if (positive)
+      return sourceName.endsWith(".tex");
+    else
+      return sourceName.endsWith(".error");
   }
 
   protected TestCase createPositiveTest(URL url)
@@ -236,6 +318,16 @@ public abstract class CztManagedTest extends TestCase
     protected AbstractManagedTest(URL url)
     {
       url_ = url;
+    }
+
+    protected URL getURL()
+    {
+      return url_;
+    }
+
+    protected String getSourceName()
+    {
+      return CztManagedTest.this.getSourceName(url_);
     }
 
     /**
@@ -279,6 +371,12 @@ public abstract class CztManagedTest extends TestCase
           }
           fail(msg.toString());
         }
+        else
+        {
+          msg.append("\n EXPTION HANDLED DURING TESTING \n--------------------------------");
+          manager_.getLogger().finer(msg.toString());
+          System.err.println(msg.toString());
+        }
       }
     }
 
@@ -298,6 +396,15 @@ public abstract class CztManagedTest extends TestCase
      * @return handled or not
      */
     protected abstract boolean handledException(Throwable e, StringBuilder failureMsg);
+
+    protected void printStackTraceWithCauses(Throwable e)
+    {
+      e.printStackTrace();
+      if (e.getCause() != null)
+      {
+        printStackTraceWithCauses(e.getCause());
+      }
+    }
   }
 
   /**
@@ -330,6 +437,18 @@ public abstract class CztManagedTest extends TestCase
     @Override
     protected boolean handledException(Throwable e, StringBuilder failureMsg)
     {
+      if (e instanceof ParseException)
+      {
+        if (debug_)
+        {
+          printStackTraceWithCauses(e);
+        }
+        ParseException pe = (ParseException)e;
+        failureMsg.append("\n\t Reason   : ");
+        failureMsg.append(pe.getErrorList().size());
+        failureMsg.append(" parsing error(s)");
+        pe.printErrorList();
+      }
       return false;
     }
   }
