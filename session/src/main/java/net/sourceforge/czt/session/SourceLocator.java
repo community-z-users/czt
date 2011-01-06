@@ -186,6 +186,85 @@ public class SourceLocator extends AbstractCommand
     return Arrays.asList(path.split(File.pathSeparator));
   }
   
+  private static void checkString(String s)
+  {
+    if (s == null || s.isEmpty())
+    {
+      throw new IllegalArgumentException("SL-STR-NULL-OR-EMPTY");
+    }
+  }
+
+  /**
+   * For a file "./dir/foo.ext" or ".\dir\foo.ext", removes
+   * the path such that the result is "foo.ext". If "foo.ext"
+   * is given, it is directly returned.
+   * @param filename full file name to remove path
+   * @return file name with path removed
+   */
+  public static String removePath(String filename)
+  {
+    checkString(filename);
+    int barIdx = filename.lastIndexOf(File.separatorChar);
+    if (barIdx == -1)
+    {
+      barIdx = filename.lastIndexOf("/");
+    }
+    if (barIdx == -1)
+    {
+      barIdx = filename.lastIndexOf("\\");
+    }
+    return barIdx == -1 ? filename : filename.substring(barIdx + 1);
+  }
+
+  /**
+   * For a file "./dir/foo.ext" or ".\dir\foo.ext", extracts
+   * the path such that the result is "./dir/". If "foo.ext"
+   * is given, "./" is returned.
+   * @param filename full file name to remove path
+   * @return path from file name
+   */
+  public static String extractPath(String filename)
+  {
+    checkString(filename);
+    int barIdx = filename.lastIndexOf(File.separatorChar);
+    if (barIdx == -1)
+    {
+      barIdx = filename.lastIndexOf("/");
+    }
+    if (barIdx == -1)
+    {
+      barIdx = filename.lastIndexOf("\\");
+    }
+    return barIdx == -1 ? "./" : filename.substring(0, barIdx);
+  }
+
+  /**
+   * For a file "./dir/foo.ext", returns "./dir/foo".
+   * If no extension is present, the filename given is returned.
+   * @param filename full file name to remove extension
+   * @return filename without extension
+   */
+  public static String getFileNameNoExt(String filename)
+  {
+    checkString(filename);
+    int dotIdx = filename.lastIndexOf(".");
+    return dotIdx == -1 ? filename : filename.substring(0, dotIdx);
+  }
+
+  /**
+   * Get the CZT Source name from a given file. It removes the
+   * path for the file name without extension.
+   *
+   * @param filename
+   * @return
+   */
+  public static String getSourceName(String filename)
+  {
+    // transforms c:\temp\myfile.tex into myfile
+    String resource = removePath(getFileNameNoExt(filename));
+    return resource;
+  }
+  
   /**
    * Exception thrown when source could not be found.
    */
