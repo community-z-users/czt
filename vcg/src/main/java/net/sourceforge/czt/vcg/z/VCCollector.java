@@ -51,13 +51,14 @@ public interface VCCollector<R> extends TermVisitor<R>
 
   /**
    * Given a paragraph and a VC, creates the underlying VC object.
+   * @param vcId 
    * @param term
    * @param type
    * @param vc
    * @return
    * @throws VCCollectionException
    */
-  VC<R> createVC(Para term, VCType type, R vc) throws VCCollectionException;
+  VC<R> createVC(long vcId, Para term, VCType type, R vc) throws VCCollectionException;
 
   /**
    * Visits a given term.  As some Z productions have null terms, like
@@ -69,4 +70,8 @@ public interface VCCollector<R> extends TermVisitor<R>
   R visit(Term term);
 
   TermTransformer<R> getTransformer();
+
+  long getVCCount();
+
+  void resetVCCount();
 }

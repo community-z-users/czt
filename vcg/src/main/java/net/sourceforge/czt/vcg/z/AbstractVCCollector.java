@@ -36,6 +36,7 @@ import net.sourceforge.czt.z.util.Factory;
 public abstract class AbstractVCCollector<R> implements VCCollector<R>
 {  
   protected Factory factory_;
+  private long vcCnt_;
     
   /** Creates a new instance of AbstractVCCollector
    * @param factory 
@@ -46,6 +47,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     {
       throw new IllegalArgumentException("VCG-TERM-NULL-FACTORY");
     }
+    vcCnt_ = 0;
     factory_ = factory;
     // NOTE: not effective to change this factory, since it won't have LocAnn! Change the LocAnn factory directly instead. :-(
     //
@@ -59,6 +61,18 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   protected Factory getZFactory()
   {
     return factory_;
+  }
+
+  @Override
+  public long getVCCount()
+  {
+    return vcCnt_;
+  }
+
+  @Override
+  public void resetVCCount()
+  {
+    vcCnt_ = 0;
   }
 
   /**
@@ -115,7 +129,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   protected abstract VCType getVCType(R vc) throws VCCollectionException;
 
   @Override
-  public abstract VC<R> createVC(Para term, VCType type, R vc) throws VCCollectionException;
+  public abstract VC<R> createVC(long vcId, Para term, VCType type, R vc) throws VCCollectionException;
 
   /**
    * Calculate the verification condition for a given term in the context of
@@ -163,8 +177,9 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
       throw new VCCollectionException("VC-COLLECT-CALC-ERROR = " + para.toString(), e);
     }
 
-    // create the result
-    VC<R> result = createVC(para, getVCType(vc), vc);
+    // create the result with a unique number for this collector
+    vcCnt_++;
+    VC<R> result = createVC(vcCnt_, para, getVCType(vc), vc);
 
     // finalise the calculation
     afterCalculateVC(result);

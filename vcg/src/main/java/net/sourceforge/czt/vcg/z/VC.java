@@ -30,6 +30,7 @@ import net.sourceforge.czt.z.ast.Para;
  */
 public interface VC<R>
 {
+  long getVCId();
   Para getVCPara();
   R getVC();
   VCType getType();

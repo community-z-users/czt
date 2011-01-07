@@ -389,10 +389,10 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   }
 
   @Override
-  public VC<Pred> createVC(Para term, VCType type, Pred vc) throws VCCollectionException
+  public VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException
   {
     assert type.equals(VCType.NONE);
-    return new DCVC(term, vc);
+    return new DCVC(vcId, term, vc);
   }
 
   @Override
@@ -1290,7 +1290,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     Pred p = term.getLeftPred();
     Pred dcp = visit(p);                          // DC(P)
     Pred dcq = visit(term.getRightPred());        // DC(Q)
-    Pred orpq = factory_.createOrPred(p, dcq); // (P \lor DC(Q))
+    Pred orpq = predTransformer_.orPred(p, dcq);  // (P \lor DC(Q))
     return predTransformer_.andPred(dcp, orpq);                 // DC(P) \land (P \lor DC(Q))
   }
   

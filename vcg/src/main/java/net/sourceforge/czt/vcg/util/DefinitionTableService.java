@@ -242,7 +242,7 @@ public class DefinitionTableService
         }
       }
     }
-
+/*
     URL url = table.getClass().getResource("/lib/");//dc_toolkit.tex");
     file = new File(url.toURI());
     System.out.println("url.file   = " + url.getFile());
@@ -255,6 +255,8 @@ public class DefinitionTableService
     System.out.println("file.path  = " + file.getPath());
     System.out.println("file.abspth= " + file.getAbsolutePath());
     System.out.println("file.tostr = " + file.toString());
+ * 
+ */
 
   }
 

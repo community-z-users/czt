@@ -34,9 +34,9 @@ import net.sourceforge.czt.z.ast.TruePred;
 public class FeasibilityVC extends AbstractVC<Pred> implements FeasibilityPropertyKeys
 {
 
-  public FeasibilityVC(Para term, VCType type, Pred vc) throws VCCollectionException
+  public FeasibilityVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException
   {
-    super(term, type, vc);
+    super(vcId, term, type, vc);
   }
 
   @Override

@@ -119,8 +119,10 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
   /**
    * To reuse a section manager, set it as such, if VCG not already set.
-   * This methods is useful for top-level appl that already have a section
-   * manager (e.g., jEdit).
+   * This methods is useful for top-level applications that already have a section
+   * manager (e.g., jEdit). It sets default commands needed as well as default properties
+   * before configuring the manager and the VCG. If these properties change, the
+   * VCG needs to be reconfigured (e.g., {@link #getVCG().config() }).
    * @param manager
    * @throws VCGException
    */

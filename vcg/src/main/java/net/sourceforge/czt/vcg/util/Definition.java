@@ -113,18 +113,6 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     return definition_;
   }
 
-  public Expr getExprWithResolvedGenerics()
-  {
-    Expr result = getExpr();
-    Type2 type = getCarrierSet();
-    // if we have type information, try to instantiate it
-    if (type != null)
-    {
-
-    }
-    return result;
-  }
-
   /** Tells you whether this name was declared via a constant
    * definition, or a variable declaration.
    * @return
@@ -138,7 +126,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
    * Carrier set, if available; null otherwise.
    * @return
    */
-  public Type2 getCarrierSet()
+  public Type2 getCarrierType()
   {
     return carrierType_;
   }

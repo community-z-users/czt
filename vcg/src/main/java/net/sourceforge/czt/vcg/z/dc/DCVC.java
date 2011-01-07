@@ -34,9 +34,9 @@ import net.sourceforge.czt.z.ast.TruePred;
 public class DCVC extends AbstractVC<Pred> implements DomainCheckPropertyKeys
 {
 
-  public DCVC(Para term, Pred vc) throws VCCollectionException
+  public DCVC(long vcId, Para term, Pred vc) throws VCCollectionException
   {
-    super(term, VCType.NONE, vc);
+    super(vcId, term, VCType.NONE, vc);
   }
 
   @Override

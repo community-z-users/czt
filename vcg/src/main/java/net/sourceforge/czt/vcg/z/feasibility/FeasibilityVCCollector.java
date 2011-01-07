@@ -150,9 +150,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   }
 
   @Override
-  public VC<Pred> createVC(Para term, VCType type, Pred vc) throws VCCollectionException
+  public VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException
   {
-    return new FeasibilityVC(term, type, vc);
+    return new FeasibilityVC(vcId,term, type, vc);
   }
 
   @Override

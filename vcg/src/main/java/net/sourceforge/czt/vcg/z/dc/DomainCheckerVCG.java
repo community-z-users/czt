@@ -281,4 +281,12 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   {
     return getZFactory().createConjPara(genFormals, vc.getVC());
   }
+
+  @Override
+  protected String createVCZSectPreamble()
+  {
+    String result = "\\newcommand{\\appliesTo}{\\zbinop{appliesTo}} \n \\newcommand{\\appliesToNofix}{\\zpreop{appliesToNofix}} \n\n";
+    result += super.createVCZSectPreamble();
+    return result;
+  }
 }

@@ -20,6 +20,7 @@
 package net.sourceforge.czt.vcg.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 import net.sourceforge.czt.base.ast.Term;
@@ -474,6 +475,72 @@ public class DefinitionTableVisitor
       term.accept(this);
   }
 
+  /**
+   * Test whether a list contains a reference to an object.
+   * @param list the list to search.
+   * @param o the reference to search for.
+   * @return true if and only if the reference is in the list.
+   */
+  private boolean containsObject(List<?> list, Object o)
+  {
+    boolean result = false;
+    for (Iterator<?> iter = list.iterator(); iter.hasNext(); )
+    {
+      Object next = iter.next();
+      if (next == o)
+      {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
+
+  private <T extends Term> T cloneTerm(T term)
+  {
+    List<Term> listTerm = new ArrayList<Term>();
+    listTerm.add(term);
+    return cloneTerm(term, listTerm);
+  }
+
+  private <T extends Term> T cloneTerm(T term, List<Term> listTerm)
+  {
+    Object[] children = term.getChildren();
+    for (int i = 0; i < children.length; i++) {
+      Object child = children[i];
+      if (child instanceof Term &&
+          ! containsObject(listTerm, child)) {
+        children[i] = cloneTerm((Term) child, listTerm);
+      }
+    }
+    @SuppressWarnings("unchecked")
+    T result = (T)term.create(children);
+    assert result.equals(term);
+    cloneAnns(term, result);
+    return result;
+  }
+
+  //copy the LocAnn and UndeclaredAnn from term1 to term2
+  private void cloneAnns(Term term1, Term term2)
+  {
+    if (term1.getAnns() != null)
+    {
+      for(Object obj : term1.getAnns())
+      {
+        if (obj instanceof Term)
+        {
+          Term ann = (Term)obj;
+          Term cann = cloneTerm(ann);
+          term2.getAnns().add(cann);
+        }
+        else
+        {
+          term2.getAnns().add(obj);
+        }
+      }
+    }
+  }
+
   protected Type2 getType(Name declName)
   {
     Type2 result = null;
@@ -505,9 +572,15 @@ public class DefinitionTableVisitor
     }
   }
 
-  protected Expr tryResolvingGenerics(ZNameList genFormals, Expr expr)
+  protected Expr tryResolvingGenerics(ZNameList genFormals, Type2 carrierType, Expr expr)
   {
-    return expr;
+    Expr resolvedExpr = expr;
+    if (carrierType != null)
+    {
+      // returns defExpr if it can't handle instantiation
+      resolvedExpr = expr;
+    }
+    return resolvedExpr;
   }
 
   /**
@@ -525,11 +598,6 @@ public class DefinitionTableVisitor
     assert defKind.isGlobal();
     Type2 unifType = getType(declName); //TODO: should this be here (on possibly built names) or at addDef calls?
     Expr resolvedExpr = defExpr;
-    if (unifType != null)
-    {
-      // returns defExpr if it can't handle instantiation
-      resolvedExpr = tryResolvingGenerics(genFormals, defExpr);
-    }
     Definition result = new Definition(sectName_, declName, genFormals, resolvedExpr, unifType, defKind);
     try
     {
@@ -550,11 +618,6 @@ public class DefinitionTableVisitor
     Definition result = null;
     Type2 unifType = getType(declName); //TODO: should this be here (on possibly built names) or at addDef calls?
     Expr resolvedExpr = defExpr;
-    if (unifType != null)
-    {
-      // returns defExpr if it can't handle instantiation
-      resolvedExpr = tryResolvingGenerics(genFormals, defExpr);
-    }
     try
     {
       result = currentGlobalDef_.addLocalDecl(declName, genFormals, resolvedExpr, unifType, defKind);
@@ -571,17 +634,31 @@ public class DefinitionTableVisitor
   protected void addLocalReference(Definition local)
   {
     if (local == null)
+    {
       throw new CztException(new DefinitionException("Cannot add global definition reference for null"));
+    }
     assert currentGlobalDef_ != null;
     assert local != null && local.getDefinitionKind().isReference() : "cannot add global definition reference for " + local;
+    // get (deep) copies of carrier type and expr
+    Type2 carrierType = local.getCarrierType();
+    if (carrierType != null)
+    {
+      carrierType = cloneTerm(carrierType);
+    }
+    Expr localRef = cloneTerm(local.getExpr());
+
+    // try resolving generics
+    localRef = tryResolvingGenerics(currentGlobalDef_.getGenericParams(), carrierType, localRef);
+    Definition localDef = new Definition(local.getSectionName(), local.getDefName(), local.getGenericParams(), localRef, carrierType, local.getDefinitionKind());
+//    Definition localDef = local;
     try
     {
-      currentGlobalDef_.addLocalDecl(local);
+      currentGlobalDef_.addLocalDecl(localDef);
     }
     catch (DefinitionException e)
     {
       //throw new CztException(e);
-      raiseUnsupportedCase("while adding local ref: " + e.getMessage(), local.getDefinitionKind(), local.getExpr());
+      raiseUnsupportedCase("while adding (cloned+gen-instantiated) local ref: " + e.getMessage(), localDef.getDefinitionKind(), localDef.getExpr());
     }
   }
 

@@ -42,14 +42,15 @@ public abstract class AbstractVC<R> implements VC<R>
   private final Para para_;
   private final R vc_;
   private final VCType vcType_;
+  private final long vcId_;
   
   private static long axiomCnt_ = 0;
-  private static long vcCnt_ = 0;
 
-  protected AbstractVC(Para term, VCType type, R vc) throws VCCollectionException
+  protected AbstractVC(long vcId, Para term, VCType type, R vc) throws VCCollectionException
   {
-    if (term == null || vc == null || type == null)
-      throw new VCCollectionException("VC-CTOR-NULL-TERMVC");
+    if (term == null || vc == null || type == null || vcId <= 0)
+      throw new VCCollectionException("VC-CTOR-ILLEGAL-ARG-VC");
+    vcId_ = vcId;
     para_ = term;
     vcType_ = type;
     vc_ = vc;
@@ -67,7 +68,10 @@ public abstract class AbstractVC<R> implements VC<R>
       {
         //throw new VCCollectionException("VC-LOCANN-OFFSET-UNAVAILABLE", ast);
         //ignore if not possible.
-      }
+      } 
+      // simplify file name if possible
+      if (loc_.getLoc() != null && !loc_.getLoc().isEmpty())
+        loc_.setLoc(VCGUtils.getSourceName(loc_.getLoc()));
     }
     else
     {
@@ -115,9 +119,7 @@ public abstract class AbstractVC<R> implements VC<R>
     // if it was possible to extra a prefix name, try it        
     if (conjPrefix != null)
     {
-      conjName += "_" + conjPrefix.toString();
-      // conjPrefix.getWord() is not very good because with names with strokes
-      // we need a name visitor here
+      conjName = conjPrefix.toString();
     }
 
     // in any case, always have a name for it (e.g., ConjPara with no name)
@@ -131,8 +133,7 @@ public abstract class AbstractVC<R> implements VC<R>
     
     // to avoid naming problems, add vcCnt_ to suffix
     // (e.g., some names with strokes and without like \finsert and \finset_1
-    conjName += getVCNameSuffix() + vcCnt_;
-    vcCnt_++;
+    conjName += getVCNameSuffix() + vcId_;
 
     return conjName;
   }
@@ -150,6 +151,7 @@ public abstract class AbstractVC<R> implements VC<R>
     return para_;
   }
 
+  @Override
   public VCType getType()
   {
     return vcType_;
@@ -159,6 +161,12 @@ public abstract class AbstractVC<R> implements VC<R>
   public R getVC()
   {
     return vc_;
+  }
+
+  @Override
+  public long getVCId()
+  {
+    return vcId_;
   }
 
   @Override
@@ -185,9 +193,10 @@ public abstract class AbstractVC<R> implements VC<R>
     // since we cannot retrieve the theorem's name from a latex, neither
     // generate it from a ConjPara, just add some NarrText around instead.
     StringBuilder narrText = new StringBuilder("VC");
+    narrText.append(vcId_);
     if (!getType().equals(VCType.NONE))
     {
-      narrText.append("[");
+      narrText.append(" [");
       narrText.append(getType());
       narrText.append("]");
     }

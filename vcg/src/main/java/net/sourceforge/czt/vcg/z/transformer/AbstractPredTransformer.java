@@ -23,10 +23,15 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.And;
+import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.FalsePred;
+import net.sourceforge.czt.z.ast.ImpliesPred;
+import net.sourceforge.czt.z.ast.NegPred;
+import net.sourceforge.czt.z.ast.OrPred;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -46,6 +51,59 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
   public Pred truePred()
   {
     return factory_.createTruePred();
+  }
+
+  public Pred checkNeg(Pred pred)
+  {
+    Pred result = pred;
+    if (isApplyingTransformer() && pred instanceof NegPred)
+    {
+      Pred innerPred = ((NegPred)pred).getPred();
+      // \lnot (\lnot P) = P (DOUBLE-NEGATION)
+      if (innerPred instanceof NegPred)
+      {
+        // in case of more than 1 double negation
+        result = checkNeg(((NegPred)pred).getPred());
+      }
+      // \lnot false = true (UNIT-FALSE)
+      else if(innerPred instanceof FalsePred)
+      {
+        result = factory_.createTruePred();
+      }
+      // \lnot true = false (UNIT-TRUE)
+      else if (innerPred instanceof TruePred)
+      {
+        result = factory_.createFalsePred();
+      }
+      // \lnot (P \land Q) = \lnot P \lor \lnot Q (DEMORGAN-AND)
+      else if (innerPred instanceof AndPred)
+      {
+        AndPred ai = (AndPred)innerPred;
+        // negate each side and then push negations inward
+        Pred lhs = checkNeg(factory_.createNegPred(ai.getLeftPred()));
+        Pred rhs = checkNeg(factory_.createNegPred(ai.getRightPred()));
+        // or the result
+        result = orPred(lhs, rhs); // don't checkNeg here - orPred does it
+      }
+      // \lnot (P \lor Q) = \lnot P \land \lnot Q (DEMORGAN-OR)
+      else if (innerPred instanceof OrPred)
+      {
+        OrPred oi = (OrPred)innerPred;
+        // negate each side and then push negations inward
+        Pred lhs = checkNeg(factory_.createNegPred(oi.getLeftPred()));
+        Pred rhs = checkNeg(factory_.createNegPred(oi.getRightPred()));
+        // and the result
+        result = andPred(lhs, rhs); // don't checkNeg here - andPred does it
+      }
+      // \lnot (P \implies Q) = P \land \lnot Q (DEMORGAN-IMP)
+      else if (innerPred instanceof ImpliesPred)
+      {
+        ImpliesPred ip = (ImpliesPred)innerPred;
+        Pred rhs = checkNeg(factory_.createNegPred(ip.getRightPred()));
+        result = andPred(ip.getLeftPred(), rhs); // don't checkNeg here - andPred does it
+      }
+    }
+    return result;
   }
 
   /**
@@ -73,39 +131,163 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
     Pred result = null;
     if (isApplyingTransformer())
     {
-      // P \land false = \false \land P = P
+      // P \land false = false \land P = false (AND-ZERO)
       if (lhs instanceof FalsePred || rhs instanceof FalsePred)
       {
         result = factory_.createFalsePred();
       }
-      // true \land RHS = RHS
-      if (lhs instanceof TruePred)
+      // true \land RHS = RHS (AND-UNIT-R)
+      else if(lhs instanceof TruePred)
       {
         result = rhs;
       }
-      // LHS \land true = LHS
+      // LHS \land true = LHS (AND-UNIT-L)
       else if (rhs instanceof TruePred)
       {
         result = lhs;
       }
-      // LHS \land LHS = LHS
+      // LHS \land LHS = LHS (AND-IDEMPOTENT)
       else if (lhs.equals(rhs))
       {
-        result = lhs;
+        result = checkNeg(lhs);
       }
+      // \lnot P \land P  = P \land \lnot P = false (AND-CONTRADICTION)
+      else if ((lhs instanceof NegPred && ((NegPred)lhs).getPred().equals(rhs)) ||
+               (rhs instanceof NegPred && ((NegPred)rhs).getPred().equals(lhs)))
+      {
+        result = factory_.createFalsePred();
+      }
+      // These next two laws could be greatly simplified
+      // we leave them as such for clarity at first.
+      //
+      // (\lnot P \lor Q) \land P = Q \land P (AND-ABSORPTION-L)
+      else if (lhs instanceof OrPred)
+      {
+        OrPred olhs = (OrPred)lhs;
+        // (\lnot P \lor Q) \land P -> return LHS=Q
+        if (olhs.getLeftPred() instanceof NegPred &&
+            ((NegPred)olhs.getLeftPred()).equals(rhs))
+        {
+          lhs = olhs.getRightPred();
+        }
+        // (Q \lor \lnot P) \land P -> return LHS=Q
+        else if (olhs.getRightPred() instanceof NegPred &&
+            ((NegPred)olhs.getRightPred()).equals(rhs))
+        {
+          lhs = olhs.getLeftPred();
+        }
+        // let result as null: will create LHS \land RHS
+      }
+      // P \land (\lnot P \lor Q) = P \land Q (AND-ABSORPTION-R)
+      else if (rhs instanceof OrPred)
+      {
+        OrPred rlhs = (OrPred)rhs;
+        // P \land (\lnot P \lor Q) -> return RHS=Q
+        if (rlhs.getLeftPred() instanceof NegPred &&
+            ((NegPred)rlhs.getLeftPred()).equals(lhs))
+        {
+          rhs = rlhs.getRightPred();
+        }
+        // P \land (Q \lor \lnot P) -> return RHS=Q
+        else if (rlhs.getRightPred() instanceof NegPred &&
+            ((NegPred)rlhs.getRightPred()).equals(lhs))
+        {
+          rhs = rlhs.getLeftPred();
+        }
+        // let result as null: will create LHS \land RHS
+      }
+      // at last check if could push negation inwards
+      lhs = checkNeg(lhs);
+      rhs = checkNeg(rhs);
     }
     if (result == null)
     {
-      // Leave contradiction law (P \land \lnot P) out.
-      //Pred innerLHS = lhs instanceof NegPred ? ((NegPred)lhs).getPred() : lhs;
-      //Pred innerRHS = rhs instanceof NegPred ? ((NegPred)rhs).getPred() : rhs;
-      //if (innerLHS.equals(innerRHS))
-
-      result = factory_.createAndPred(lhs, rhs, And.Wedge);
+      result = checkNeg(factory_.createAndPred(lhs, rhs, And.Wedge));
     }
     return result;
   }
 
+  public Pred orPred(Pred lhs, Pred rhs)
+  {
+    assert lhs != null && rhs != null : "Invalid OrPred request!";
+    Pred result = null;
+    if (isApplyingTransformer())
+    {
+      // true or P = P or true = true (OR-ZERO)
+      if (lhs instanceof TruePred || rhs instanceof TruePred)
+      {
+        result = factory_.createTruePred();
+      }
+      // false or P = P (OR-UNIT-R)
+      else if (lhs instanceof FalsePred)
+      {
+        result = rhs;
+      }
+      // P or false = P (OR-UNIT-L)
+      else if (rhs instanceof FalsePred)
+      {
+        result = lhs;
+      }
+      // P or P = P (OR-IDEMPOTENT)
+      else if (lhs.equals(rhs))
+      {
+        result = lhs;
+      }
+      // \lnot P \lor P  = P \lor \lnot P = true (OR-EXCLUDED-MIDDLE)
+      else if ((lhs instanceof NegPred && ((NegPred)lhs).getPred().equals(rhs)) ||
+               (rhs instanceof NegPred && ((NegPred)rhs).getPred().equals(lhs)))
+      {
+        result = factory_.createTruePred();
+      }
+      // These next two laws could be greatly simplified
+      // we leave them as such for clarity at first.
+      //
+      // (\lnot P \land Q) \lor P = Q \lor P (OR-ABSORPTION-L)
+      else if (lhs instanceof AndPred)
+      {
+        AndPred alhs = (AndPred)lhs;
+        // (\lnot P \land Q) \lor P -> return LHS=Q
+        if (alhs.getLeftPred() instanceof NegPred &&
+            ((NegPred)alhs.getLeftPred()).equals(rhs))
+        {
+          lhs = alhs.getRightPred();
+        }
+        // (Q \land \lnot P) \lor P -> return LHS=Q
+        else if (alhs.getRightPred() instanceof NegPred &&
+            ((NegPred)alhs.getRightPred()).equals(rhs))
+        {
+          lhs = alhs.getLeftPred();
+        }
+        // let result as null: will create LHS \land RHS
+      }
+      // P \lor (\lnot P \land Q) = P \lor Q (AND-ABSORPTION-R)
+      else if (rhs instanceof AndPred)
+      {
+        AndPred rlhs = (AndPred)rhs;
+        // P \lor (\lnot P \land Q) -> return RHS=Q
+        if (rlhs.getLeftPred() instanceof NegPred &&
+            ((NegPred)rlhs.getLeftPred()).equals(lhs))
+        {
+          rhs = rlhs.getRightPred();
+        }
+        // P \lor (Q \land \lnot P) -> return RHS=Q
+        else if (rlhs.getRightPred() instanceof NegPred &&
+            ((NegPred)rlhs.getRightPred()).equals(lhs))
+        {
+          rhs = rlhs.getLeftPred();
+        }
+        // let result as null: will create LHS \lor RHS
+      }
+      // at last check if could push negation inwards
+      lhs = checkNeg(lhs);
+      rhs = checkNeg(rhs);
+    }
+    if (result == null)
+    {
+      result = checkNeg(factory_.createOrPred(lhs, rhs));
+    }
+    return result;
+  }
 
   /**
    * Recurses through the list of terms and build an {@link #andPred(net.sourceforge.czt.z.ast.Pred, net.sourceforge.czt.z.ast.Pred)}
@@ -142,6 +324,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
    * That is, "\forall decl @ pred". We apply the simple zero-law:
    * <ul>
    *  <li>\forall D @ true \iff true </li>
+   *  <li>\forall D | false @ true \iff true </li>
    * </ul>
    * Even if D is false, this is the right transformation as anything implies true.
    * @param decl
@@ -150,19 +333,26 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
    */
   public Pred forAllPred(ZDeclList decl, Pred pred)
   {
-    assert decl != null && pred != null : "Invalid ForAllPred request!";
-    // \forall D @ true \iff true (even if D is false!): Don't do it...
+    return forAllPred(factory_.createZSchText(decl, null), pred);
+  }
+
+  public Pred forAllPred(ZSchText zSchText, Pred pred)
+  {
+    assert zSchText != null && pred != null : "Invalid ForAllPred request!";
     Pred result = null;
     if (isApplyingTransformer())
     {
-      if (pred instanceof TruePred)
+      pred = checkNeg(pred);
+      zSchText.setPred(checkNeg(zSchText.getPred()));//If null, just sets null.
+      // (\forall D | P @ true) = (\forall D | false @ Q) = true
+      if (pred instanceof TruePred || zSchText.getPred() instanceof FalsePred)
       {
         result = truePred();
       }
     }
     if (result == null)
     {
-      result = factory_.createForallPred(factory_.createZSchText(decl, null), pred);
+      result = checkNeg(factory_.createForallPred(zSchText, pred));
     }
     return result;
   }
@@ -189,27 +379,38 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
     Pred result = null;
     if (isApplyingTransformer())
     {
-      // true ==> q     <==> q
-      // p    ==> true  <==> true (which is q)
-      if (p instanceof TruePred || q instanceof TruePred)
+      p = checkNeg(p);
+      q = checkNeg(q);
+      // true     ==> q     <==> q                  (IMP-UNIT-R)
+      // p        ==> true  <==> true (which is q)  (IMP-ZERO-R)
+      // \lnot p  ==> P     <==> P (which is q)     (IMP-CROSSOVER-R)
+      if (p instanceof TruePred || q instanceof TruePred ||
+          (p instanceof NegPred && ((NegPred)p).getPred().equals(q)))
       {
         result = q;
       }
-      // false ==> q     <==> true
-      // P     ==> P     <==> true
+      // false ==> q     <==> true              (IMP-FALSE-ANTC)
+      // P     ==> P     <==> true              (IMP-REFLECT)
       else if ((p instanceof FalsePred) || p.equals(q))
       {
         result = truePred();
       }
-      // p     ==> false <==> not p
-      else if (q instanceof FalsePred)
+      // p     ==> false <==> not p             (IMP-FALSE-CONSQ)
+      // P     ==> not P <==> not P             (IMP-CROSSOVER-L)
+      else if (q instanceof FalsePred || (q instanceof NegPred && ((NegPred)q).getPred().equals(p)))
       {
         result = factory_.createNegPred(p);
+      }
+      // R \implies P \land Q  <==> (R \implies P) \land (R \imples Q) IMP-CASE-SPLIT-CONSQ3
+      // (P \lor Q) \implies R <==> (P \imples R) \lor (Q \implies R) IMP-CASE-SPLIT-ANTC
+      else if (q instanceof AndPred || p instanceof OrPred)
+      {
+        // do nothing on this one for now.
       }
     }
     if (result == null)
     {
-      result = factory_.createImpliesPred(p, q);
+      result = checkNeg(factory_.createImpliesPred(p, q));
     }
     return result;
   }

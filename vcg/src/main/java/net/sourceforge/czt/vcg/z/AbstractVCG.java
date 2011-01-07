@@ -58,6 +58,7 @@ import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.Section;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.z.visitor.SectVisitor;
@@ -496,7 +497,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
           //logger_.warning("VCG-TYPECHK-ZSECT-ERROR = (" + sectName + ", " + i + ")");
         }
       }
-      throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
+      //throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
     }
   }
 
@@ -844,9 +845,13 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * @return list of VCs for each paragraph of given Z section
    * @throws VCCollectionException
    */
+  //TODO: This method is a good candidate to refactor the VCCollector calculateVC method?
   protected List<VC<R>> calculateVCS(ZSect zSect)
           throws VCCollectionException
   {
+    // reset VC collector VC count
+    getVCCollector().resetVCCount();
+
     // load the toolkit, if not there already.
     beforeGeneratingVCG(zSect);
 
@@ -913,7 +918,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   }
 
   @Override
-  public VC<List<VC<R>>> createVC(Para term, VCType type, List<VC<R>> vc) throws VCCollectionException
+  public VC<List<VC<R>>> createVC(long vcId, Para term, VCType type, List<VC<R>> vc) throws VCCollectionException
   {
     throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
   }
@@ -965,6 +970,14 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
        SectionManager.SECTION_MANAGER_LIST_PROPERTY_SEPARATOR)));
     // add at least the original ZSect to it
     parentsL.add(sectName);
+
+    // in case of annonymous specs, add standard toolkit
+    if (Section.ANONYMOUS.getName().equals(sectName) &&
+        !parentsL.contains(Section.STANDARD_TOOLKIT.getName()))
+    {
+      parentsL.add(0, Section.STANDARD_TOOLKIT.getName());
+    }
+
     for(String s : parentsL)
     {
       result.add(factory_.createParent(s));
@@ -1023,14 +1036,25 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
 
   protected String createVCZSectPostcript(String sectName, int vcCount, int vcListSize)
   {
-    String narrText = "\n\n VC Z section " + sectName + " has " + vcCount
-               + (vcCount == 1 ? " VC" : " VCs") + ".\n";
-    if (isAddingTrivialVC() && vcCount > 0)
+    StringBuilder result = new StringBuilder();
+    result.append("\n\n VC Z section \"");
+    result.append(sectName);
+    result.append("\" has $");
+    result.append(vcCount);
+    result.append("$ interesting ");
+    result.append(vcCount == 1 ? "VC" : "VCs");
+
+    // always add how many trivial ones were hidden, if there are any
+    if (/*isAddingTrivialVC() &&*/ vcCount > 0)
     {
-      narrText += "(of which " + (vcListSize - vcCount) + " were trivial).\n";
+      result.append(" (Total = ");
+      result.append(vcListSize);
+      result.append("; Trivially $true$ = ");
+      result.append(vcListSize - vcCount);
+      result.append(")");
     }
-    narrText += "\n";
-    return narrText;
+    result.append(".\n\n");
+    return result.toString();
   }
 
   /**
