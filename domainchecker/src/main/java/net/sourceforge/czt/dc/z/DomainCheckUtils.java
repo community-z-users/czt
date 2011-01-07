@@ -31,7 +31,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.print.z.LatexPrinterPropertyKeys;
