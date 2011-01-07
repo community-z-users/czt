@@ -5783,6 +5783,7 @@ util/src/test/java/net/target
 util/src/test/java/target
 util/src/test/target
 util/target
+vcg/nbactions.xml
 vcg/target
 z2b/*.aux
 z2b/*.blg
