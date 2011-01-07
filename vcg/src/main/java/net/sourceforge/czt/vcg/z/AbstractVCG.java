@@ -665,16 +665,29 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     }
     catch (CommandException e)
     {
-      resetDefTable();
-      if (e instanceof DefinitionException)
+      try
       {
-        getLogger().warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName +
-                "\n\t " + e.getMessage());
+        // try again = will get the partial/not-up-to-date deftable = one more chance.
+        defTbl = sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
+        if (e instanceof DefinitionException)
+         getLogger().warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName + " \n\t" + e.getMessage());
+        else
+          raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ DefTable for: " + sectName
+                /*+ "(i.e., can only use AppliesTo rather than \\dom)."*/ + "\n\t " + e.getMessage());
       }
-      else
+      catch (CommandException f)
       {
-        raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ DefTable for: " + sectName
-              /*+ "(i.e., can only use AppliesTo rather than \\dom)."*/ + "\n\t " + e.getMessage());
+        resetDefTable();
+        if (e instanceof DefinitionException)
+        {
+          getLogger().warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName +
+                  "\n\t " + f.getMessage());
+        }
+        else
+        {
+          raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ DefTable for: " + sectName
+                /*+ "(i.e., can only use AppliesTo rather than \\dom)."*/ + "\n\t " + f.getMessage());
+        }
       }
     }
     try

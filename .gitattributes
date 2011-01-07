@@ -758,9 +758,9 @@ vcg/src/main/resources/lib/fsb_toolkit.tex -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/VCGTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityTest.java -text
+vcg/src/test/resources/tests/z/axioms.tex -text
 vcg/src/test/resources/tests/z/basicsm.tex -text
 vcg/src/test/resources/tests/z/birthdaybook.tex -text
-vcg/src/test/resources/tests/z/debug/axioms.tex -text
 vcg/src/test/resources/tests/z/debug/unusualdeftable.tex -text
 vcg/src/test/resources/tests/z/debug/usualdeftable.tex -text
 vcg/src/test/resources/tests/z/freetype.tex -text
