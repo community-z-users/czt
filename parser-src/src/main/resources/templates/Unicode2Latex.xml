@@ -101,12 +101,12 @@ action code
 
   private String begin(String string)
   {
-    return "\\begin{" + string + "}";
+    return "\\begin{" + string + "}\n";
   }
 
   private String end(String string)
   {
-    return "\n\\end{" + string + "}\n";
+    return "\n\\end{" + string + "}\n\n";
   }
 
   private LatexCommand concate(LatexCommand c1, LatexCommand c2)
@@ -634,7 +634,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              SECTION specialSeq DECORWORD:dw sectHeadSeq:s
              {:
                 String result = begin("zsection");
-                result += "\\SECTION " + toLatexInSectHead(dw.getName()) + " ";
+                result += "\t \\SECTION " + toLatexInSectHead(dw.getName()) + " ";
                 if (s != null) { result += s.getName(); }
                 result += end("zsection");
                 parser.write(result);
@@ -672,7 +672,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
 
    zpara ::= ZED THEOREM decorword:w tokenSeq:s END
              {:
-System.out.println("DEBUG: Unicode2Latex sees THEOREM "+w.getName());
+                System.out.println("DEBUG: Unicode2Latex sees THEOREM "+w.getName());
                 String result = begin("theorem") + "{" + w.getName() + "}";
                 if (s != null) result += s.getName();
                 result += end("theorem");
@@ -778,8 +778,6 @@ System.out.println("DEBUG: Unicode2Latex sees THEOREM "+w.getName());
             :}
 </add:circuspatt>
 <add:circus>
-            // TODO: Add here, like for OZ, the appropriate printing
-            // productions
             |
             CIRCUS tokenSeq:s END
             {:

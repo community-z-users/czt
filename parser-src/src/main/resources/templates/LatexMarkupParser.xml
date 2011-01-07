@@ -33,6 +33,7 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.Section;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -165,16 +166,16 @@ public class <class/>
          is(token, LatexSym.UNICODE));
     if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
-      sectName_ = "Specification";
-      parents_ = "standard_toolkit<add:oz>, oz_toolkit</add:oz><add:circus>, circus_prelude</add:circus>";
-      addMarkupFunction("prelude");
+      sectName_ = Section.ANONYMOUS.getName();
+      parents_ = Section.STANDARD_TOOLKIT.getName()<add:oz>+", oz_toolkit"</add:oz><add:circus>+", circus_prelude"</add:circus>;
+      addMarkupFunction(Section.PRELUDE.getName());
 <add:oz>
       addMarkupFunction("oz_toolkit");
 </add:oz>
 <add:circus>
       addMarkupFunction("circus_prelude");
 </add:circus>
-      addMarkupFunction("standard_toolkit");
+      addMarkupFunction(Section.STANDARD_TOOLKIT.getName());
     }
     if (sectHead_) { // we are just parsing a section header
       if (is(token, LatexSym.END)) { // end of section header
