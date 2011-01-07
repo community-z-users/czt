@@ -5476,6 +5476,7 @@ ui/*.tmp
 ui/.classpath
 ui/.project
 ui/.settings
+ui/nbactions.xml
 ui/src/*.aux
 ui/src/*.blg
 ui/src/*.log
