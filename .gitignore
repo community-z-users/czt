@@ -1508,6 +1508,7 @@ domainchecker/*.tmp
 domainchecker/.classpath
 domainchecker/.project
 domainchecker/.settings
+domainchecker/nbactions.xml
 domainchecker/src/*.aux
 domainchecker/src/*.blg
 domainchecker/src/*.log
