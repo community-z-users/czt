@@ -22,6 +22,7 @@ plugin.zsidekick.ZSideKickPlugin.menu=sidekick-tree \
                                       zsidekick.toUnicode \
                                       zsidekick.toXml \
                                       zsidekick.domainCheck \
+                                      zsidekick.fsbCheck \
                                       zsidekick.nextWff \
                                       zsidekick.insertTypeForCurrentWff \
                                       zsidekick.rewriteCurrentWff \
@@ -39,6 +40,7 @@ zsidekick.toOldLatex.label=Convert to old Latex mark-up
 zsidekick.toUnicode.label=Convert to Unicode mark-up
 zsidekick.toXml.label=Convert to XML
 zsidekick.domainCheck.label=Domain check buffer
+zsidekick.fsbCheck.label=Feasibility check buffer
 zsidekick.nextWff.label=Highlight next wff
 #zsidekick.gotoDefinition.label=Goto definition of selected referencing name
 zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula

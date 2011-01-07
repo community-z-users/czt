@@ -20,16 +20,14 @@ package zsidekick;
 
 import java.io.File;
 import java.io.StringWriter;
-
 import javax.swing.JOptionPane;
-import org.gjt.sp.jedit.*;
-import org.gjt.sp.jedit.Buffer;
-import org.gjt.sp.jedit.textarea.*;
-import sidekick.SideKickParsedData;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.print.util.*;
-import net.sourceforge.czt.print.z.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.OldLatexString;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
+import net.sourceforge.czt.print.z.PrintUtils;
 
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
@@ -38,13 +36,27 @@ import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
 import net.sourceforge.czt.rules.prover.ProofTree;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.rewriter.Strategies;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
-import net.sourceforge.czt.vcg.z.dc.DomainCheckUtils;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.vcg.z.VCGUtils;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchText;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.ZSect;
+import org.gjt.sp.jedit.Buffer;
+import org.gjt.sp.jedit.Mode;
+import org.gjt.sp.jedit.View;
+import org.gjt.sp.jedit.jEdit;
+import org.gjt.sp.jedit.textarea.JEditTextArea;
+import org.gjt.sp.jedit.textarea.Selection;
+import sidekick.SideKickParsedData;
 
-public class ZSideKickActions
-  implements PrintPropertiesKeys, DomainCheckPropertyKeys
+public class ZSideKickActions 
 {
   public static ParsedData getParsedData(View view)
   {
@@ -116,52 +128,33 @@ public class ZSideKickActions
       buffer.insert(0, xml.toString());
     }
   }
-  
-  public static void domainCheck(View view)
-    throws CommandException
+
+  /**
+   *
+   * @param <R>
+   * @param view
+   * @param utils
+   * @param vcFileNameSuffix
+   * @throws CommandException
+   */
+  public static <R> void vcg(View view, VCGUtils<R> utils, String vcFileNameSuffix) throws CommandException
   {
     ParsedData parsedData = getParsedData(view);
     if (parsedData != null) 
-    {      
+    {
       SectionManager manager = parsedData.getManager();
       Buffer buffer = parsedData.getBuffer();
       final String bufferPath = buffer.getPath(); // full qualified file name
       final File file = new File(bufferPath);
       final String name = file.getName(); // just last name of file
       final String path = file.getParent() != null ? file.getParent() : "."; // just the file directory
-/*
-      // TODO: DEBUG ONLY = REMOVE LATER
-      if (path != null) {
-        String oldpath = manager.getProperty("czt.path");
-        String localpath = ((oldpath == null || oldpath.isEmpty() || oldpath.equals(path)) ? 
-          path : oldpath  + File.pathSeparator + path);
-        assert localpath != null;
-        manager.setProperty("czt.path", localpath);
-        JOptionPane.showMessageDialog(view, "CZT-path = " + localpath.replace(';', '\n'));
-      }
-      JOptionPane.showMessageDialog(view, "Buffer path = " + buffer.getPath() + 
-        ";\nBuffer name = " + buffer.getName() +  // same as file.getName()
-        ";\nFile path = " + path +
-        ";\nFile name = " + name);      
-      StringBuilder commands = new StringBuilder("SectionManager.Commands = {");
-      Iterator<Class<?>> it = manager.getCommandKeys();
-      while (it.hasNext())
-      {
-        Class<?> cls = it.next();
-        Command cmd = manager.getCommand(cls);
-        commands.append("\n\t " + cls.getSimpleName() + " = " + cmd.getClass().getName());
-      }      
-      commands.append("}");
-      JOptionPane.showMessageDialog(view, commands.toString());
-      // END TODO
-*/
       //JOptionPane.showMessageDialog(view, "BEFORE = " + String.valueOf(manager.getProperties()).replace(',', '\n'));
       try
       {
-        final String dcFileName = DomainCheckUtils.getVCFileName(name, VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
-        DomainCheckUtils.getDCUtils().setSectionManager(manager);
+        final String dcFileName = VCGUtils.getVCFileName(name, vcFileNameSuffix);
+        utils.setSectionManager(manager);
         //JOptionPane.showMessageDialog(view, "AFTER = " + String.valueOf(manager.getProperties()).replace(',', '\n'));
-        DomainCheckUtils.getDCUtils().vcgToFile(file);
+        utils.vcgToFile(file);
         Buffer bufferDC = jEdit.openFile(view, dcFileName);
         bufferDC.setStringProperty("encoding", System.getProperty( "file.encoding"));
         String mode = Markup.getMarkup(name).equals(Markup.LATEX) ? "latex" : "";
@@ -171,7 +164,7 @@ public class ZSideKickActions
       {
         e.printStackTrace(System.err);
         //pwriter.close();        
-        JOptionPane.showMessageDialog(view, "Could not calculate domain checks for " + name
+        JOptionPane.showMessageDialog(view, "Could not calculate VCs with " + utils.getVCG().getClass().getSimpleName() + " for " + name
           + ". Detailed error message:\n" + e.getMessage(), "Command Error!", JOptionPane.ERROR_MESSAGE);
       }
     }
@@ -226,7 +219,7 @@ public class ZSideKickActions
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
       if (term != null) {
-        TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+        TypeAnn typeAnn = term.getAnn(TypeAnn.class);
         if (typeAnn != null) return typeAnn.getType();
         else reportError(view, "Selected formula doesn't have a type");
       }
@@ -471,7 +464,7 @@ public class ZSideKickActions
                                    SectionManager manager, String section)
   {
     if (newTerm != null && oldTerm != newTerm) {
-      final LocAnn locAnn = (LocAnn) oldTerm.getAnn(LocAnn.class);
+      final LocAnn locAnn = oldTerm.getAnn(LocAnn.class);
       final int start = locAnn.getStart().intValue();
       Selection selection =
         new Selection.Range(start,
@@ -501,11 +494,11 @@ public class ZSideKickActions
       ParsedData parsedData = getParsedData(view);
       if (parsedData != null) {
         SectionManager manager = parsedData.getManager();
-        manager.setProperty(PROP_TXT_WIDTH, "" + width);
+        manager.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, "" + width);
         ZSect zSect = wffHighlight.findZSectForCurrentWff();
         if (zSect != null) {
           String section = zSect.getName();
-          final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+          final LocAnn locAnn = term.getAnn(LocAnn.class);
           final int start = locAnn.getStart().intValue();
           Selection selection =
             new Selection.Range(start,

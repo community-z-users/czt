@@ -25,7 +25,16 @@
   </ACTION>
   <ACTION NAME="zsidekick.domainCheck">
     <CODE>
-      zsidekick.ZSideKickActions.domainCheck(view);
+      zsidekick.ZSideKickActions.vcg(view,
+        net.sourceforge.czt.vcg.z.dc.DomainCheckUtils.getDCUtils(),
+        net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.fsbCheck">
+    <CODE>
+      zsidekick.ZSideKickActions.vcg(view,
+        net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils.getFeasibilityUtils(),
+        net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys.VCG_FEASIBILITY_SOURCENAME_SUFFIX);
     </CODE>
   </ACTION>
   <ACTION NAME="zsidekick.nextWff">
