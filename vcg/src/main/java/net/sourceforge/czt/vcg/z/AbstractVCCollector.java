@@ -19,10 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.vcg.z;
 
 import java.util.List;
+import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -36,8 +38,16 @@ import net.sourceforge.czt.z.util.Factory;
 public abstract class AbstractVCCollector<R> implements VCCollector<R>
 {  
   protected Factory factory_;
+  protected final Logger logger_;
   private long vcCnt_;
-    
+
+  /**
+   * Definition table containing declared types of names. This is important
+   * to query known names to see weather they are partial functions that
+   * require domain check predicates or not.
+   */
+  private DefinitionTable defTable_;
+
   /** Creates a new instance of AbstractVCCollector
    * @param factory 
    */
@@ -49,6 +59,8 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     }
     vcCnt_ = 0;
     factory_ = factory;
+    defTable_ = null;
+    logger_ = Logger.getLogger(getClass().getName());
     // NOTE: not effective to change this factory, since it won't have LocAnn! Change the LocAnn factory directly instead. :-(
     //
     // get underlying ToStringVisitor of the Z factory of the given factory and set LocAnn offsets.
@@ -56,7 +68,22 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     //        ZUtils.assertZFactoryImpl(
     //          factory_.getZFactory()).getToStringVisitor()).setOffset(1, 1);
    // VisitorUtils.checkVisitorRules(this);
-  }     
+  }
+
+  protected Logger getLogger()
+  {
+    return logger_;
+  }
+
+  protected DefinitionTable getDefTable()
+  {
+    return defTable_;
+  }
+
+  protected void resetDefTable()
+  {
+    defTable_ = null;
+  }
   
   protected Factory getZFactory()
   {
@@ -96,7 +123,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   public R visitTerm(Term term)
   { 
     final String msg = "VCG-NOVISITOR-ERROR = " +term.getClass().getSimpleName();
-    SectionManager.traceWarning(msg);
+    logger_.warning(msg);
     /*return factory_.createFalsePred();*/
     throw new CztException(new VCGException(msg));
   }
@@ -106,6 +133,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
    * any available information tables. These tables <b>MUST</b> come from the
    * section manager of this collector. They could be, for instance, tables for
    * definitions, operators, and other related conjectures.
+   * @param ter
    * @param term
    * @param tables
    * @throws VCCollectionException
@@ -118,11 +146,23 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   //  return ?;
   //}
 
-  protected abstract void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
-          throws VCCollectionException;
+  protected void beforeCalculateVC(Term ter, List<? extends InfoTable> tables)
+          throws VCCollectionException
+  {
+    defTable_ = null; // a null dts means always "applies$to", rather than \in \dom~? when possible
+    for (InfoTable tbl : tables)
+    {
+      if (tbl instanceof DefinitionTable)
+      {
+        defTable_ = (DefinitionTable)tbl;
+      }
+    }
+  }
 
-  protected abstract void afterCalculateVC(VC<R> vc)
-          throws VCCollectionException;
+  protected void afterCalculateVC(VC<R> vc) throws VCCollectionException
+  {
+    resetDefTable();
+  }
 
   protected abstract R calculateVC(Para term) throws VCCollectionException;
 

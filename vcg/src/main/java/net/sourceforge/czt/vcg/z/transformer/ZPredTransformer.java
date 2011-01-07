@@ -19,12 +19,16 @@
 package net.sourceforge.czt.vcg.z.transformer;
 
 import java.util.Iterator;
+import java.util.List;
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -64,10 +68,23 @@ public class ZPredTransformer extends AbstractPredTransformer
    * @param pred
    * @return 
    */
-  public Expr predSchExpr(Pred pred)
+  public Expr predAsSchExpr(Pred pred)
   {
     assert pred != null : "Invalid SchExpr request!";
     return factory_.createSchExpr(factory_.createZSchText(factory_.createZDeclList(), pred));
+  }
+
+  /**
+   * For a zSchText (D | P) creates an \begin{schema}{schName}[genFormals] D \where P \end{schema}
+   * @param formals
+   * @param genFormals
+   * @param schName
+   * @param zSchText
+   * @return
+   */
+  public AxPara createSchExpr(List<? extends Name> formals , Name schName, ZSchText zSchText)
+  {
+    return factory_.createSchema(schName, formals, zSchText);
   }
 
   /**

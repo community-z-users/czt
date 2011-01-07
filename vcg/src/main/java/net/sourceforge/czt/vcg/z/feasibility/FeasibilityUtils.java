@@ -32,6 +32,7 @@ public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPrope
 {
 
   private boolean nonEmptyGivenSets_;
+  private boolean doCreateZSchemas_;
 
   /* CLASS SETUP METHODS */
 
@@ -46,7 +47,6 @@ public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPrope
 
   protected FeasibilityVCG getFeasibility()
   {
-
     return (FeasibilityVCG)getVCG();
   }
 
@@ -82,36 +82,47 @@ public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPrope
   @Override
   protected void printToolUsage()
   {
+    super.printToolUsage();
     System.err.println("       -g     add non-empty given set VC.");
+    System.err.println("       -z     create Z schemas for precondition VC.");
   }
 
   @Override
   protected String printToolDefaultFlagsUsage()
   {
     return (super.printToolDefaultFlagsUsage()
-              + (getFeasibility().isAddingNonemptyGivenSetVC() ? "-g " : ""));
+              + (getFeasibility().isAddingNonemptyGivenSetVC() ? "-g " : "")
+              + (getFeasibility().isCreatingZSchemas() ? "-z " : ""));
   }
 
   @Override
   protected boolean isKnownArg(String arg)
   {
-    boolean result = "-g".equals(arg);
+    boolean result = "-g".equals(arg) || "-z".equals(arg);
     return result ? result : super.isKnownArg(arg);
   }
 
   @Override
   protected void processArg(String arg)
   {
-    super.processArg(arg);
-    nonEmptyGivenSets_ = isKnownArg(arg);
+    if (arg.equals("-g"))
+      nonEmptyGivenSets_ = isKnownArg(arg);
+    else if (arg.equals("-z"))
+      doCreateZSchemas_ = isKnownArg(arg);
+    else
+      super.processArg(arg);
   }
 
   @Override
   protected void processCollectedProperties()
   {
+    super.processCollectedProperties();
     getVCG().getManager().setProperty(
-            PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS,
+            PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS,
             String.valueOf(nonEmptyGivenSets_));
+    getVCG().getManager().setProperty(
+            PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS,
+            String.valueOf(doCreateZSchemas_));
   }
 
   @Override

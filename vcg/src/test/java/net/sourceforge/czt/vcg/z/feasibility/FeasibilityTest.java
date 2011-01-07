@@ -34,7 +34,7 @@ import net.sourceforge.czt.z.ast.Pred;
 public class FeasibilityTest extends VCGTest implements FeasibilityPropertyKeys
 {
 
-  protected static final boolean DEBUG_TESTING = false;
+  protected static final boolean DEBUG_TESTING = true;
   protected final static String TEST_DIR =
           "/tests/z/debug/";
 
@@ -65,7 +65,7 @@ public class FeasibilityTest extends VCGTest implements FeasibilityPropertyKeys
   }
 
   /**
-   * Do not include "_fsb.tex" in tests
+   * Do not include "_dc.tex" in tests. this includes dc for fsb, though!
    * @param name
    * @param positive
    * @return
@@ -73,6 +73,7 @@ public class FeasibilityTest extends VCGTest implements FeasibilityPropertyKeys
   @Override
   protected boolean includeVCGTest(String name, boolean positive)
   {
-    return name.lastIndexOf(VCG_FEASIBILITY_SOURCENAME_SUFFIX) == -1;
+    return name.lastIndexOf("_dc"/*VCG_DOMAINCHECK_SOURCENAME_SUFFIX*/) == -1 &&
+           name.lastIndexOf(VCG_FEASIBILITY_SOURCENAME_SUFFIX) == -1;
   }
 }

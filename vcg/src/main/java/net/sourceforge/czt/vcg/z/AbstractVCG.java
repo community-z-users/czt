@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ErrorType;
@@ -111,14 +110,11 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   private boolean addTrivialVC_;
   private boolean logTypeWarnings_;
   private boolean processParents_;
-  private boolean applyTransf_;
   private boolean isConfigured_;
   private SortedSet<String> parentsToIgnore_;
 
   private OpTable opTable_;
-  private DefinitionTable defTable_;
   private SectionManager sectManager_;
-  protected final Logger logger_;
 
   /* CLASS SETUP METHOS */
 
@@ -132,10 +128,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     super(factory);
     assert factory != null;
     isConfigured_ = false;
-    defTable_ = null;
     opTable_ = null;
     sectManager_ = null;
-    logger_ = Logger.getLogger(getClass().getName());
     addTrivialVC_    = PROP_VCG_ADD_TRIVIAL_VC_DEFAULT;
     logTypeWarnings_ = PROP_VCG_RAISE_TYPE_WARNINGS_DEFAULT;
     processParents_  = PROP_VCG_PROCESS_PARENTS_DEFAULT;
@@ -156,11 +150,6 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   protected OpTable getOpTable()
   {
     return opTable_;
-  }
-
-  protected DefinitionTable getDefTable()
-  {
-    return defTable_;
   }
 
   /**
@@ -218,18 +207,20 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    *
    * @param parent
    */
+  @Override
   public void addParentSectionToIgnore(String parent)
   {
     assert parent != null && !parent.isEmpty() : "Invalid (null or empty) section name.";
     parentsToIgnore_.add(parent);
   }
 
+  @Override
   public SectionManager getManager()
   {
     /*
     if (sectManager_ == null)
     {
-      logger_.warning("VCG-SM-REQUEST = null!");
+      getLogger().warning("VCG-SM-REQUEST = null!");
     }
      *
      */
@@ -330,7 +321,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     if (sectManager_ == null)
     {
       final String msg = "VCG-PROCESS-ERROR = No SectMngr! Couldn't retrieve DefTbl for " + info;
-      logger_.severe(msg);
+      getLogger().severe(msg);
       throw new VCGException(msg);
     }
   }
@@ -375,7 +366,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       doConfig();
       
       isConfigured_ = true;
-      logger_.config("VCG-SM = load SM options");
+      getLogger().config("VCG-SM = load SM options");
     }
 
     return sectManager_;
@@ -398,7 +389,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   public final void setDefaultProperties(SectionManager manager)
   {
     if (manager == null)
-      logger_.warning("VCG-DEFPROP-NULL-SM");
+      getLogger().warning("VCG-DEFPROP-NULL-SM");
     else
     {
       manager.setProperty(PROP_VCG_PROCESS_PARENTS, String.valueOf(defaultProcessParents()));
@@ -435,9 +426,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   @Override
   public void reset()
   {
-    opTable_ = null;
-    defTable_ = null;
     sectManager_ = null;
+    clearNecessaryTables();
     addTrivialVC_ = defaultAddTrivialVC();
     logTypeWarnings_ = defaultRaiseTypeWarnings();
     processParents_ = defaultProcessParents();
@@ -469,10 +459,13 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
 
   /**
    * Type checks the given section name. Log type errors, if any and 
-   * wrap command exceptions as VCG exceptions
+   * wrap command exceptions as VCG exceptions. Override this if your
+   * VCG shouldn't raise a type error for some reason - do it by capturing
+   * the VCGException with a TypeErrorException cause.
    * @param sectName section name to type check
    * @throws VCGException wrapped CommandException from type checking.
    */
+  @Override
   public void typeCheck(String sectName) throws VCGException
   {
     // attempt to typecheck the DC Z section, which should succeed.
@@ -489,15 +482,15 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
         final String msg = "VCG-ZSECT-RES-TYPE-ERRORS = " + sectName
                 + "\n\t caused by " + e.getCause().getClass().getSimpleName()
                 + ": " + e.getCause().getMessage();
-        logger_.warning(msg);
+        getLogger().warning(msg);
         if (e.getCause() instanceof TypeErrorException)
         {
           TypeErrorException typeErrorException = (TypeErrorException) e.getCause();
           final int i = printTypeErrors(typeErrorException.getErrors());
-          //logger_.warning("VCG-TYPECHK-ZSECT-ERROR = (" + sectName + ", " + i + ")");
+          //getLogger().warning("VCG-TYPECHK-ZSECT-ERROR = (" + sectName + ", " + i + ")");
         }
       }
-      //throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
+      throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
     }
   }
 
@@ -522,7 +515,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       {
         // TODO: fix this? It might generate section management problems in case of
         //       systemic management error / failure :-( = toString uses the SectionManager
-        logger_.warning(next.toString());
+        getLogger().warning(next.toString());
         result++;
       }
     }
@@ -565,11 +558,13 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     try
     {
       ParseUtils.updateSectManager(sectManager_, zSect);
+      final String sectName = zSect.getName();
+     // sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
     }
     catch (CommandException e)
     {
       final String msg = "VCG-CMDEXP-TBL = " + (e.getCause() == null ? e : e.getCause());
-      logger_.warning(msg);
+      getLogger().warning(msg);
       throw new VCGException(msg, e);
     }
   }
@@ -643,7 +638,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    */
   protected void raiseDCExceptionWhilstVisiting(final String msg)
   {
-    logger_.warning(msg);
+    getLogger().warning(msg);
     throw new CztException(new VCGException(msg));
   }
 
@@ -655,23 +650,25 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * @param sectName
    */
   // TODO: should this be pushed down to derived classes? i.e., some VCG might not need then.
+  // THIS SHOULD BE REFACTORED TO beforeCalculateVC!
   protected void retrieveNecessaryTables(String sectName)
   {
     // checkSectionManager(sectName); - assume it will be in place
     assert isConfigured();
 
+    DefinitionTable defTbl = null;
     // attempt retrieving defintion + operator tables.
     try
     {
       // retrieve definition + operator tables for Z section being analysed
-      defTable_ = sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
+      defTbl = sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
     }
     catch (CommandException e)
     {
-      defTable_ = null;
+      resetDefTable();
       if (e instanceof DefinitionException)
       {
-        logger_.warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName +
+        getLogger().warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName +
                 "\n\t " + e.getMessage());
       }
       else
@@ -690,19 +687,31 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ OpTable for: " + sectName
               + "\n\t " + e.getMessage());
     }
+    try
+    {
+      beforeCalculateVC(null, Arrays.asList(defTbl, opTable_));
+    }
+    catch(VCCollectionException e)
+    {
+      clearNecessaryTables();
+      raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = setting tables for: " + sectName);
+    }
   }
 
-  protected void clearNecessaryTables(String sectName)
+  /**
+   *
+   */
+  protected void clearNecessaryTables()
   {
-    defTable_ = null;
+    resetDefTable();
     opTable_ = null;
   }
 
   protected List<? extends InfoTable> getAvailableSMTables()
   {
     List<InfoTable> result = factory_.list();
-    if (defTable_ != null)
-      result.add(defTable_);
+    if (getDefTable() != null)
+      result.add(getDefTable());
     if (opTable_ != null)
       result.add(opTable_);
     return result;
@@ -753,7 +762,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     if (parentsToIgnore_.contains(sectName))
     {
       final String msg = "VCG-IGNORE-PARENT = " + sectName;
-      logger_.info(msg);
+      getLogger().info(msg);
     }
     else
     {
@@ -805,7 +814,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     result.addAll(collect(term.getZParaList().toArray(new Para[0])));
 
     // clear definition and operator tables
-    clearNecessaryTables(sectName);
+    clearNecessaryTables();
 
     // return collected predicates
     return result;
@@ -820,7 +829,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    */
   protected void beforeGeneratingVCG(ZSect zSect) throws VCCollectionException
   {
-    logger_.finer("VCG-BEFORE-GENERATING-VCS = " + zSect.getName());
+    getLogger().finer("VCG-BEFORE-GENERATING-VCS = " + zSect.getName());
   }
 
   /**
@@ -833,7 +842,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    */
   protected void afterGeneratingVCG(ZSect zSect, List<VC<R>> vcList) throws VCCollectionException
   {
-    logger_.finer("VCG-AFTER-GENERATING-VCS = " + zSect.getName());
+    getLogger().finer("VCG-AFTER-GENERATING-VCS = " + zSect.getName());
   }
 
   /**
@@ -892,12 +901,12 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   // PROTOCOL FOR "VC COLLECTION" IS DIFFERENT AT TOP-LEVEL (e.g., ZSect, Parent, etc)
   // AND AT LOW-LEVEL (e.g., AxPara, Pred, Expr, etc). Leave it for now.
   
-  @Override
-  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
-          throws VCCollectionException
-  {
-    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
-  }
+//  @Override
+//  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
+//          throws VCCollectionException
+//  {
+//    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
+//  }
 
   @Override
   protected void afterCalculateVC(VC<List<VC<R>>> vc) throws VCCollectionException
@@ -952,6 +961,14 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    */
   protected abstract String getVCSectDefaultParentsList();
 
+  protected List<String> splitVCParentsList(String parents)
+  {
+    return new ArrayList<String>(
+      Arrays.asList((parents == null ? "" : parents).split(
+       SectionManager.SECTION_MANAGER_LIST_PROPERTY_SEPARATOR)));
+    // add at least the original ZSect to it
+  }
+
   /**
    * Creates a list of parents including the given section name, and all
    * those in the {@link #getVCSectDefaultParentsList()} (e.g., if it returns
@@ -964,11 +981,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   {
     List<Parent> result = factory_.list();
     // get defaults from derived class
-    final String parents = getVCSectDefaultParentsList();
-    List<String> parentsL = new ArrayList<String>(
-      Arrays.asList((parents == null ? "" : parents).split(
-       SectionManager.SECTION_MANAGER_LIST_PROPERTY_SEPARATOR)));
-    // add at least the original ZSect to it
+    List<String> parentsL = splitVCParentsList(getVCSectDefaultParentsList());
     parentsL.add(sectName);
 
     // in case of annonymous specs, add standard toolkit

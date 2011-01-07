@@ -23,6 +23,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Ann;
 import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.Type;
@@ -71,6 +72,12 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
     return factory_.createTruePred();
   }
 
+  @Override
+  protected Pred calculateVC(Para term) throws VCCollectionException
+  {
+    return visit(term);
+  }
+
   /**
    * For terms in general, just assume nothing is known about them,
    * hence their VC is the worst possible (i.e. false). That means,
@@ -83,7 +90,7 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
   public Pred visitTerm(Term term)
   {
     final String msg = "VCG-NOVISITOR-ERROR = " +term.getClass().getSimpleName();
-    SectionManager.traceWarning(msg);
+    getLogger().warning(msg);
     return factory_.createFalsePred();
   }
 

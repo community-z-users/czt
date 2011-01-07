@@ -754,7 +754,7 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/dc/ZPredTransformerDC.ja
 vcg/src/main/resources/lib/AppliesToDefTest.zcs -text
 vcg/src/main/resources/lib/AppliesToDefTest.zev -text
 vcg/src/main/resources/lib/dc_toolkit.tex -text
-vcg/src/main/resources/lib/pre_toolkit.tex -text
+vcg/src/main/resources/lib/fsb_toolkit.tex -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/VCGTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityTest.java -text

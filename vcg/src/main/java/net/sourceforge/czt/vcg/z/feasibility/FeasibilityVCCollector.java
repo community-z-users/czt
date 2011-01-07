@@ -18,10 +18,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.vcg.z.feasibility;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
-import net.sourceforge.czt.vcg.util.DefinitionTable;
+import java.util.TreeSet;
 import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -32,7 +33,6 @@ import net.sourceforge.czt.z.ast.ZBranchList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
-import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.TermTransformer;
@@ -81,19 +81,16 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   FeasibilityPropertyKeys
 {
 
-  /**
-   * Definition table containing declared types of names. This is important
-   * to query known names to see weather they are partial functions that
-   * require domain check predicates or not.
-   */
-  private DefinitionTable defTable_;
   private ZPredTransformer predTransformer_;
 
   private boolean nonEmptyGivenSets_;
+  private boolean doCreateZSchemas_;
 
   private final Stroke dash_;
   private final Stroke output_;
-  private final ZName setInterName_;;
+  private ZName currentName_;
+  private final ZName setInterName_;
+  private final ZName freeTypeCtorOpName_;
 
   /**
    * 
@@ -110,14 +107,16 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   {
     super(factory);
     predTransformer_ = new ZPredTransformer(factory, this);
-    nonEmptyGivenSets_ = PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS_DEFAULT;
     predTransformer_.setApplyTransformer(PROP_VCG_FEASIBILITY_APPLY_TRANSFORMERS_DEFAULT);
-    defTable_ = null;    
+    setNonemptyGivenSetVC(PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS_DEFAULT);
+    setCreateZSchemas(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT);
+    currentName_ = null;
     output_ = factory_.createOutStroke();
     dash_ = factory_.createNextStroke();
     setInterName_ = factory_.createZName(ZString.ARG_TOK+ZString.CAP+ZString.ARG_TOK);
+    freeTypeCtorOpName_ = factory_.createZName(ZString.ARG_TOK+ZString.INJ+ZString.ARG_TOK);
   }
-
+  
   @Override
   public TermTransformer<Pred> getTransformer()
   {
@@ -129,9 +128,19 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     return nonEmptyGivenSets_;
   }
 
+  public boolean isCreatingZSchemas()
+  {
+    return doCreateZSchemas_;
+  }
+
   protected final void setNonemptyGivenSetVC(boolean value)
   {
     nonEmptyGivenSets_ = value;
+  }
+
+  protected final void setCreateZSchemas(boolean value)
+  {
+    doCreateZSchemas_ = value;
   }
 
   /** VC COLLECTOR METHODS
@@ -159,26 +168,11 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
           throws VCCollectionException
   {
-    defTable_ = null; // a null dts means always "applies$to", rather than \in \dom~? when possible
-    for (InfoTable tbl : tables)
+    super.beforeCalculateVC(term, tables);
+    if (getDefTable() == null)
     {
-      if (tbl instanceof DefinitionTable)
-      {
-        defTable_ = (DefinitionTable)tbl;
-      }
+      throw new VCCollectionException("VCG-FSB-NO-DEFTBL: cannot calulate fsb vcs without DefTbl");
     }
-  }
-
-  @Override
-  protected void afterCalculateVC(VC<Pred> vc) throws VCCollectionException
-  {
-    defTable_ = null;
-  }
-
-  @Override
-  protected Pred calculateVC(Para term) throws VCCollectionException
-  {
-    return visit(term);
   }
 
   /** PARAGRAPH VISITING METHODS */
@@ -194,10 +188,11 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   @Override
   public Pred visit(Term term)
   {
+    assert getDefTable() != null;
     if (term == null)
     {
       // for null terms, warn, but assume harmless (E.g., no VCs to be generated)
-      SectionManager.traceLog("VCG-FSBCOL-NULL-TERM");
+      getLogger().finest("VCG-FSBCOL-NULL-TERM");
       return predTransformer_.truePred();
     }
     else
@@ -251,24 +246,35 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   @Override
   public Pred visitFreetype(Freetype term)
   {
-    return visit(ZUtils.assertZBranchList(term.getBranchList()));
+    currentName_ = term.getZName();
+    Pred result = visit(ZUtils.assertZBranchList(term.getBranchList()));
+    currentName_ = null;
+    return result;
   }
 
   /** DC a list of Branch from a Freetype */
   @Override
   public Pred visitZBranchList(ZBranchList term)
   {
+    // TODO: hum... maybe split these lemmas into various conjecrtures...
     return predTransformer_.andPredList(term);
   }
 
-  /** DC the expression E on a Freetype branch  "b \ldata E \rdata" as "DC(E)". */
+  /**  */
   @Override
   public Pred visitBranch(Branch term)
   {
-    // constructors need dc, names don't
+    // constructors: add feasibility lemma to be proved
     if (term.getExpr() != null)
     {
-      return predTransformer_.truePred();
+      assert currentName_ != null;
+      // E \inj FT
+      Expr ftExpr = factory_.createGenOpApp(freeTypeCtorOpName_,
+              factory_.list(term.getExpr(), factory_.createRefExpr(currentName_)));
+      // FT ::= f \ldata E \rdata ==> add: f \in E \inj FT
+      Pred result = factory_.createMemPred(term.getName(), ftExpr);
+      result.getAnns().add(VCType.RULE);
+      return result;
     }
     else
     {
@@ -298,29 +304,95 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     switch (term.getBox())
     {
       case AxBox:
-        // for AxBox (axdef and gendef), use getAxBoxXXX methods
-        ZDeclList decl = ZUtils.getAxBoxDecls(term);
-        Pred pred = ZUtils.getAxBoxPred(term);
-
-        Pred dcd = truePred();//visit(decl); // DC(D)
-        Pred dcp = truePred();//visit(pred); // DC(P)
-
-        // DC(D) \land (\forall D @ DC(P))
-        return predTransformer_.andPred(dcd, predTransformer_.forAllPred(decl, dcp));
+        // FSB(AX D | P ) => \exists D | true @ P
+        Pred pred = term.getZSchText().getPred();
+        return predTransformer_.existsPred(term.getZSchText().getZDeclList(), pred == null ? truePred() : pred);
 
       case OmitBox:
       case SchBox:
-        // for schemas add\
+        // for schemas add
         ZName schName = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getZName();
         RefExpr schRef = factory_.createRefExpr(schName);
         try
         {
-          SortedSet<Definition> bindings = defTable_.bindings(schName);
-          ZSchText zSchText = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
-          zSchText.setPred(factory_.createTruePred()); // TODO: get user-defined one?
-          populateDeclList(zSchText.getZDeclList(), bindings);
-          Pred result = factory_.createForallPred(zSchText,
-                  factory_.createExprPred(factory_.createPreExpr(schRef)));
+          Pred result;
+
+          // get the bindings and filter then by category
+          SortedSet<Definition> mixedBindings  = getDefTable().bindings(schName);
+          SortedSet<Definition> afterBindings  = filterBindings(mixedBindings, AFTER_FILTER);
+          SortedSet<Definition> beforeBindings = filterBindings(mixedBindings, BEFORE_FILTER);
+          assert Collections.disjoint(beforeBindings, afterBindings)
+                    && mixedBindings.containsAll(afterBindings)
+                    && mixedBindings.containsAll(beforeBindings)
+                    && (beforeBindings.size() + afterBindings.size() == mixedBindings.size());
+
+          boolean existential = beforeBindings.isEmpty() || afterBindings.isEmpty();
+          boolean notihngtodo = beforeBindings.isEmpty() && afterBindings.isEmpty();
+
+          // create the zSchText of assumptions and set the precondition to the user-suplied predicate
+          // populate the ZDeclList for the before bindings - this create a flat list of decl (e.g., all schemas expanded)
+          // we assume this will typecheck. if it doesn't it is up to the user.
+          //
+          // In case of existential (e.g., either is empty, then put after for before in assumptions: \exists S' @ Init)
+          ZSchText fsbAssumptions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
+          populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings.isEmpty() ? afterBindings : beforeBindings);
+          fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName));
+
+          AxPara schNameSigSchema = null;
+
+          // only consider precondition predicates for schemas with after variables
+          // schemas with before variables should have a existential proof!
+          //
+          // St  == [ x: T | I ]
+          // Sch == [ \Delta St; i?, o!: T | P ] ==> \forall [ x: T; i?: T | I \land USER-DEF-PRE ] @ \pre Sch
+          //                                         \forall x: T; i?: T @ I \land USER-DEF-PRE \implies \exist x': T; o!: T @ Sch
+          if (!existential) // before \neq {} \land after \neq {}
+          {
+
+            if (!isCreatingZSchemas())
+            {
+              // create the zSchText of conclusions as a flat list of decl
+              ZSchText fsbConclusions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
+              populateDeclList(fsbConclusions.getZDeclList(), afterBindings);
+
+              result = predTransformer_.forAllPred(fsbAssumptions,
+                    predTransformer_.existsPred(fsbConclusions, factory_.createTruePred()));
+            }
+            else
+            {
+              schNameSigSchema = predTransformer_.createSchExpr(term.getZNameList(), schName, fsbAssumptions);
+              // create the conclusions as a Z-centric \pre SchRef operator
+              result = predTransformer_.forAllPred(fsbAssumptions,
+                      factory_.createExprPred(factory_.createPreExpr(schRef)));
+            }
+          }
+          // no after bindings; if there are any before bindings then create existential proof
+          else if (!notihngtodo) // before \neq {} \lor after \neq {} and it is existential
+          {
+            if (!isCreatingZSchemas())
+            {
+              // fsbAssumptions will have either initialisation or just true
+              result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
+            }
+            else
+            {
+              schNameSigSchema = predTransformer_.createSchExpr(term.getZNameList(), schName, fsbAssumptions);
+              
+              // still to differentiate these two.
+              result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
+            }
+          }
+          // otherwise, there is nothing to do.
+          else
+          {
+            result = predTransformer_.truePred();
+          }
+
+          // if anything got created
+          if (schNameSigSchema != null)
+          {
+            // TODO: add AxPara to section? and make it a reference instead of fsbAssumptions
+          }
           return result;
         }
         catch (DefinitionException ex)
@@ -335,14 +407,20 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     }
   }
 
-  private boolean considerName(ZName name)
-  {
-    return !name.getZStrokeList().contains(dash_) &&
-           !name.getZStrokeList().contains(output_);
+  /* VC GENERATION HELPER METHODS */
 
+  /**
+   * User supplied predicate to be assumed as part of the given schema name
+   * @param name
+   * @return
+   */
+  protected Pred getUserDefinedSchemaPRE(ZName name)
+  {
+    // just true for now.
+    return predTransformer_.truePred();
   }
 
-  public void populateDeclList(ZDeclList zDeclList, SortedSet<Definition> bindings)
+  protected void populateDeclList(ZDeclList zDeclList, SortedSet<Definition> bindings)
   {
 
     Iterator<Definition> it = bindings.iterator();
@@ -353,7 +431,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     Expr currentExpr;
     VarDecl currentVarDecl = null;
     List<VarDecl> decls = factory_.list();
-    if (currentName != null && considerName(currentName))
+    if (currentName != null)
     {
       currentExpr = currentBinding.getExpr();
       currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
@@ -364,22 +442,77 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     {
       currentBinding = it.next();
       currentName = currentBinding.getDefName();
-      if (considerName(currentName))
+      currentExpr = currentBinding.getExpr();
+      // if names colide, change known expression -> n : E1, n: E2 ==> n: E1 \cap E2
+      if (currentVarDecl != null && currentVarDecl.getZNameList().contains(currentName))
       {
-        currentExpr = currentBinding.getExpr();
-        // if names colide, change known expression -> n : E1, n: E2 ==> n: E1 \cap E2
-        if (currentVarDecl != null && currentVarDecl.getZNameList().contains(currentName))
-        {
-          currentVarDecl.setExpr(factory_.createFunOpAppl(setInterName_, factory_.createTupleExpr(currentVarDecl.getExpr(), currentExpr)));
-        }
-        // otherwise create a new expression
-        else
-        {
-          currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
-          decls.add(currentVarDecl);
-        }
+        currentVarDecl.setExpr(factory_.createFunOpAppl(setInterName_, factory_.createTupleExpr(currentVarDecl.getExpr(), currentExpr)));
       }
+      // otherwise create a new expression
+      else
+      {
+        currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
+        decls.add(currentVarDecl);
+      }
+      
     }
     zDeclList.addAll(decls);
+  }
+
+  protected SortedSet<Definition> filterBindings(SortedSet<Definition> bindings, BindingFilter filter)
+  {
+    SortedSet<Definition> result = new TreeSet<Definition>(bindings);
+    Iterator<Definition> it = result.iterator();
+    while (it.hasNext())
+    {
+      Definition def = it.next();
+      // if this name is not to be considered, then remove it
+      if (!filter.considerName(def.getDefName()))
+      {
+        it.remove();
+      }
+    }
+    assert bindings.containsAll(result);
+    return result;
+  }
+
+  protected interface BindingFilter
+  {
+    public boolean considerName(ZName name);
+  }
+
+  private final BeforeBindings BEFORE_FILTER = new BeforeBindings();
+  private final AfterBindings  AFTER_FILTER  = new AfterBindings();
+
+  protected class BeforeBindings implements BindingFilter
+  {
+    /**
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    public boolean considerName(ZName name)
+    {
+      return !name.getZStrokeList().contains(dash_) &&
+             !name.getZStrokeList().contains(output_);
+
+    }
+  }
+
+  protected class AfterBindings implements BindingFilter
+  {
+    /**
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    public boolean considerName(ZName name)
+    {
+      return name.getZStrokeList().contains(dash_) ||
+             name.getZStrokeList().contains(output_);
+
+    }
   }
 }

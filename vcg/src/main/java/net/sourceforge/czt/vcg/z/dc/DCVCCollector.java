@@ -208,13 +208,6 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   private static final String APPLIESTO_NAME_NOFIX = "appliesToNofix"; // this name is UNICODE, not LaTeX from DC_toolkit!
   private static final String DOM_NAME = "dom";
     
-  /**
-   * Definition table containing declared types of names. This is important
-   * to query known names to see weather they are partial functions that
-   * require domain check predicates or not.
-   */
-  private DefinitionTable defTable_;
-  
   private boolean infixAppliesTo_;
   private ZName appliesToOpName_;
 
@@ -235,7 +228,6 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public DCVCCollector(Factory factory)
   {
     super(factory);
-    defTable_ = null;    
     domName_ = factory_.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
     setInfixAppliesTo(PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
     predTransformer_ = new ZPredTransformerDC(factory, this);
@@ -313,10 +305,10 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   protected ApplType calculateRefApplicationType(RefExpr refName)
   {
     ApplType result = ApplType.RELATIONAL;
-    if (defTable_ != null)
+    if (getDefTable() != null)
     {
       // attempt retrieving using usual toString?
-      Definition def = defTable_.lookupName(refName.getZName());
+      Definition def = getDefTable().lookupName(refName.getZName());
 
       // If there is a definition for defName
       if (def != null)
@@ -396,31 +388,13 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   }
 
   @Override
-  protected void beforeCalculateVC(Term ter, List<? extends InfoTable> tables)
+  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
           throws VCCollectionException
   {
-    defTable_ = null; // a null dts means always "applies$to", rather than \in \dom~? when possible
-    for (InfoTable tbl : tables)
-    {
-      if (tbl instanceof DefinitionTable)
-      {
-        defTable_ = (DefinitionTable)tbl;
-      }
-    }
+    super.beforeCalculateVC(term, tables);
+    // no need to check for null defTable_
   }
 
-  @Override
-  protected void afterCalculateVC(VC<Pred> vc) throws VCCollectionException
-  {
-    defTable_ = null;
-  }
-
-  @Override
-  protected Pred calculateVC(Para term) throws VCCollectionException
-  {
-    return visit(term);
-  }
-  
   /** PARAGRAPH VISITING METHODS */
   
   /** 
@@ -437,7 +411,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     if (term == null)
     {
       // for null terms, warn, but assume harmless (E.g., no VCs to be generated)
-      SectionManager.traceLog("VCG-DCCOL-NULL-TERM");
+      getLogger().finest("VCG-DCCOL-NULL-TERM");
       return predTransformer_.truePred();
     }
     else
@@ -1057,7 +1031,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     
     // (\LET x == E1, ... @ DC(E)), as an expression to be transformed in a predicate
     LetExpr letexpr = factory_.createLetExpr(term.getZSchText(),
-            predTransformer_.predSchExpr(dce));
+            predTransformer_.predAsSchExpr(dce));
     Pred letpred = factory_.createExprPred(letexpr);
     
     // DC(D) \land (\LET x == E1, ... @ DC(E))
@@ -1138,8 +1112,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     
     // (\IF P \THEN DC(E1) \ELSE DC(E2)), as a schema expression
     Expr condExpr = factory_.createCondExpr(pred, 
-            predTransformer_.predSchExpr(dce1),
-            predTransformer_.predSchExpr(dce2));
+            predTransformer_.predAsSchExpr(dce1),
+            predTransformer_.predAsSchExpr(dce2));
     Pred ifpred = factory_.createExprPred(condExpr);
     
     return predTransformer_.andPred(dcp, ifpred);

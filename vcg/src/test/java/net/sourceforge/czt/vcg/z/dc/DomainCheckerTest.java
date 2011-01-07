@@ -361,7 +361,7 @@ public class DomainCheckerTest extends VCGTest implements DomainCheckPropertyKey
   }
 
   /**
-   * Do not include "_fsb.tex" in tests
+   * Do not include "_dc.tex" in tests. this includes dc for fsb, though!
    * @param name
    * @param positive
    * @return

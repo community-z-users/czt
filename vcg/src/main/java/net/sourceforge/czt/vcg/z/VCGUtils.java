@@ -475,11 +475,10 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     // check weather the dcFileName already exists, deleting it if so.
     // ex: zSectVCEnv=sect_??, path = ./foo  => ./foo/sect_??.tex
     final String sectNameVC = zSectVCEnv.getVCSectName();
-    final String sectName = zSectVCEnv.getOriginalZSectName();
     final String vcFileName = path + File.separatorChar
                               + sectNameVC + Markup.getDefaultFileExtention(markup);
 
-    SectionManager manager = getVCG().config();
+    getVCG().config();
 
     // check there is indeed both DC ZSect and its original
     checkVCZSectConsistency(zSectVCEnv);

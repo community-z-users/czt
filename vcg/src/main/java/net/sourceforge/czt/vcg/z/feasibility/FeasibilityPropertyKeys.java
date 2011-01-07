@@ -37,8 +37,15 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
    * add VC predicates to ensure given sets are non-empty.
    * DEFAULT = true; TYPE = boolean
    */
-  String PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS =
-    "vcg_fsb_nonempty_given_sets";
+  String PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS =
+    "vcg_fsb_add_givenset_vcs";
+
+  /**
+   * When creating precondition for Z schemas, could generate VC as a
+   * flat list of compact Z Schemas. Default=false (e.g., Non-Z tool friendly!)
+   */
+  String PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS =
+    "vcg_fsb_create_zschemas";
 
 
   // default values from properties in VCGPropertyKeys
@@ -50,10 +57,11 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
   String  PROP_VCG_FEASIBILITY_PARENTS_TO_IGNORE_DEFAULT       = null;
 
   // new default values
-  boolean PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS_DEFAULT      = true;
+  boolean PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS_DEFAULT      = true;
+  boolean PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT       = false;
 
   // Feasibility toolkit name
-  String VCG_FEASIBILITY_TOOLKIT_NAME = "pre_toolkit";
+  String VCG_FEASIBILITY_TOOLKIT_NAME = "fsb_toolkit";
 
   // Feasibility Z State Markup directives
   // %%Zword \zstate zstate

@@ -86,6 +86,7 @@ public class DomainCheckUtils extends VCGUtils<Pred> implements DomainCheckPrope
   @Override
   protected void printToolUsage()
   {
+    super.printToolUsage();
     System.err.println("       -a     use infix applies to definition.");
   }
 
@@ -106,13 +107,16 @@ public class DomainCheckUtils extends VCGUtils<Pred> implements DomainCheckPrope
   @Override
   protected void processArg(String arg)
   {
-    super.processArg(arg);
-    isUsingInfixAppliesTo_ = isKnownArg(arg);
+    if (arg.equals("-a"))
+      isUsingInfixAppliesTo_ = isKnownArg(arg);
+    else
+      super.processArg(arg);
   }
 
   @Override
   protected void processCollectedProperties()
   {
+    super.processCollectedProperties();
     getVCG().getManager().setProperty(
             PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO,
             String.valueOf(isUsingInfixAppliesTo_));

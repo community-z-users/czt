@@ -20,7 +20,9 @@ package net.sourceforge.czt.vcg.z.feasibility;
 
 import java.util.List;
 import java.util.SortedSet;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollector;
@@ -30,6 +32,7 @@ import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.Section;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -82,13 +85,18 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   protected SortedSet<String> defaultParentsToIgnore()
   {
     SortedSet<String> result = super.defaultParentsToIgnore();
-    result.add(VCG_FEASIBILITY_TOOLKIT_NAME);
+    result.add(getVCSectDefaultParentsList());
     return result;
   }
 
   protected boolean defaultAddingNonemptyGivenSets()
   {
-    return PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS_DEFAULT;
+    return PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS_DEFAULT;
+  }
+
+  protected boolean defaultCreatingZSchemas()
+  {
+    return PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT;
   }
 
   @Override
@@ -109,15 +117,29 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
     fsbCheck_.setNonemptyGivenSetVC(value);
   }
 
+  public boolean isCreatingZSchemas()
+  {
+    return fsbCheck_.isCreatingZSchemas();
+  }
+
+  protected final void setCreateZSchemas(boolean value)
+  {
+    fsbCheck_.setCreateZSchemas(value);
+  }
+
   @Override
   protected void doConfig() throws VCGException
   {
     super.doConfig();
     SectionManager manager = getManager();
-    boolean nonEmptyGS = getManager().hasProperty(PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS) ?
-          manager.getBooleanProperty(PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS) :
+    boolean nonEmptyGS = getManager().hasProperty(PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS) ?
+          manager.getBooleanProperty(PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS) :
           defaultAddingNonemptyGivenSets();
+    boolean createZS = getManager().hasProperty(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS) ?
+          manager.getBooleanProperty(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS) :
+          defaultCreatingZSchemas();
     setNonemptyGivenSetVC(nonEmptyGS);
+    setCreateZSchemas(createZS);
   }
 
   @Override
@@ -125,14 +147,17 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   {
     super.reset();
     setNonemptyGivenSetVC(defaultAddingNonemptyGivenSets());
+    setCreateZSchemas(defaultCreatingZSchemas());
   }
 
   @Override
   protected void doDefaultProperties(SectionManager manager)
   {
     super.doDefaultProperties(manager);
-    manager.setProperty(PROP_VCG_FEASIBILITY_NONEMPTY_GIVENSETS,
+    manager.setProperty(PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS,
             String.valueOf(defaultAddingNonemptyGivenSets()));
+    manager.setProperty(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS,
+            String.valueOf(defaultCreatingZSchemas()));
   }
 
   /* VC CALCULATION TERM VISITING METHODS */
@@ -174,7 +199,13 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   protected String getVCSectDefaultParentsList()
   {
     // if more than one, separate with SectionManager.SECTION_MANAGER_LIST_PROPERTY_SEPARATOR
-    return VCG_FEASIBILITY_TOOLKIT_NAME;
+    String result = VCG_FEASIBILITY_TOOLKIT_NAME;
+    //if (needsFunctionToolkit_) TODO: add? Only needed if free types are around
+    //{
+    //  result += SectionManager.SECTION_MANAGER_LIST_PROPERTY_SEPARATOR;
+    //  result += Section.FUNCTION_TOOLKIT.getName();
+    //}
+    return result;
   }
 
   @Override
@@ -187,5 +218,32 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   protected ConjPara createVCConjPara(NameList genFormals, VC<Pred> vc)
   {
     return getZFactory().createConjPara(genFormals, vc.getVC());
+  }
+
+  @Override
+  public void typeCheck(String sectName) throws VCGException
+  {
+    try
+    {
+      super.typeCheck(sectName);
+    }
+    catch (VCGException e)
+    {
+      // if it is a type error on the FSB section created, then warn the user
+      // if it is on the user-suplied Z section, raise it as we expect type-correct input
+      if (e.getCause() != null && (e.getCause() instanceof CommandException) &&
+          e.getCause().getCause() != null && (e.getCause().getCause() instanceof TypeErrorException) &&
+          sectName != null && sectName.endsWith(VCG_FEASIBILITY_SOURCENAME_SUFFIX))
+      {
+        final String msg = "\nType errors when generating feasibility VCs for Z section " +
+          sectName.substring(0, sectName.length()-VCG_FEASIBILITY_SOURCENAME_SUFFIX.length()) +
+          ".\nThis may happen if complex gneric types are involved.";
+        logger_.info(msg);
+      }
+      else
+      {
+        throw e;
+      }
+    }
   }
 }
