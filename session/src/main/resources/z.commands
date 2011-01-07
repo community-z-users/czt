@@ -17,6 +17,6 @@
   <entry key="net.sourceforge.czt.print.util.OldLatexString">net.sourceforge.czt.print.z.OldLatexPrinterCommand</entry>
   <entry key="net.sourceforge.czt.print.util.UnicodeString">net.sourceforge.czt.print.z.UnicodePrinterCommand</entry>
   <entry key="net.sourceforge.czt.print.util.XmlString">net.sourceforge.czt.print.z.XmlPrinterCommand</entry>
-  <entry key="net.sourceforge.czt.vcg.z.DCVCEnvAnn">net.sourceforge.czt.vcg.z.dc.DomainCheckerCommand</entry>
-
+  <entry key="net.sourceforge.czt.vcg.z.dc.DCVCEnvAnn">net.sourceforge.czt.vcg.z.dc.DomainCheckerCommand</entry>
+  <entry key="net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCEnvAnn">net.sourceforge.czt.vcg.z.feasibility.FeasibilityCommand</entry>
 </properties>
