@@ -58,6 +58,7 @@ import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.z.visitor.SectVisitor;
@@ -120,7 +121,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
 
   public AbstractVCG()
   {
-    this(new Factory());
+    this(ZUtils.createConsoleFactory());
   }
 
   public AbstractVCG(Factory factory)
