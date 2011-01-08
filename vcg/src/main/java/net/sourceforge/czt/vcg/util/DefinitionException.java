@@ -56,15 +56,48 @@ public class DefinitionException extends InfoTable.InfoTableException
     return exceptions_;
   }
 
-  @Override
-  public String toString()
+  public int totalNumberOfErrors()
   {
-    String result = super.toString();
-    if (exceptions_ != null && !exceptions_.isEmpty())
+    int result = 1;
+    for(DefinitionException de : exceptions_)
     {
-      result += " with inner definition exceptions list as ";
-      result += exceptions_.toString();
+      result += de.totalNumberOfErrors();
     }
+    assert result >= exceptions_.size();
     return result;
+  }
+
+  private static int innerExpDepth_ = 0;
+  private static String asMany(char ch, int count)
+  {
+    StringBuilder builder = new StringBuilder(count);
+    while (count > 0)
+    {
+      builder.append(ch);
+      count--;
+    }
+    return builder.toString();
+  }
+
+  @Override
+  public String getMessage()
+  {
+    final String s = super.getMessage();
+    StringBuilder result = null;
+    if (!exceptions_.isEmpty())
+    {
+      innerExpDepth_++;
+      // previous msg + msg below + about 30 in length for each exception +/-
+      result = new StringBuilder(s.length() + 40 + (exceptions_.size()+1 * 30));
+      result.append(" with inner definition exceptions list as:");
+      for(DefinitionException de : exceptions_)
+      {
+        result.append('\n');
+        result.append(asMany('\t', innerExpDepth_));
+        result.append(de.getMessage());
+      }
+      innerExpDepth_--;
+    }
+    return s + (result != null ? result.toString() : "");
   }
 }

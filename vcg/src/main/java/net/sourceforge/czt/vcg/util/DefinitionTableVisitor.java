@@ -44,10 +44,7 @@ import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.Freetype;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.InclDecl;
-import net.sourceforge.czt.z.ast.LambdaExpr;
-import net.sourceforge.czt.z.ast.LetExpr;
 import net.sourceforge.czt.z.ast.LocAnn;
-import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NextStroke;
@@ -55,6 +52,7 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.PreExpr;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.QntExpr;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RenameExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
@@ -147,7 +145,19 @@ public class DefinitionTableVisitor
   public DefinitionTable run(Term term)
     throws CommandException
   {
-    super.run(term);
+    try
+    {
+      super.run(term);
+    }
+    catch (CztException e)
+    {
+      if (e.getCause() != null && e.getCause() instanceof DefinitionException)
+      {
+        errors_.addAll(((DefinitionException)e.getCause()).getExceptions());
+      }
+      else
+        throw e;
+    }
     if (errors_.isEmpty())
       return getDefinitionTable();
     else
@@ -257,7 +267,7 @@ public class DefinitionTableVisitor
 
         currentGlobalDef_ = null;
 
-        currentDefKind = figureOutDefKindForOmitBoxExpr(expr);
+        currentDefKind = figureOutDefKindForOmitBoxExpr(genFormals, expr);
         defKinds.push(currentDefKind);
         break;
         
@@ -424,6 +434,7 @@ public class DefinitionTableVisitor
     // attempt to create a table for this section
     // throws exception in case of duplicates from parents
     try {
+
       table_ = new DefinitionTable(sectName_, parentTables);
     }
     catch (DefinitionException exception)
@@ -465,7 +476,9 @@ public class DefinitionTableVisitor
 
     // visit this section to update table_
     visit(zSect.getParaList());
-    sectName_ = null;
+
+    // Leave it on in case of an exception being thrown - so we know which sectName_ it was?
+    //sectName_ = null;
     return null;
   }
 
@@ -693,7 +706,7 @@ public class DefinitionTableVisitor
             + "\n\t Term  : " + term.toString()));
   }
 
-  protected DefinitionKind figureOutDefKindForOmitBoxExpr(Expr expr)
+  protected DefinitionKind figureOutDefKindForOmitBoxExpr(ZNameList genFormals, Expr expr)
   {
     DefinitionKind result;
     ZUtils.ZExprKind exprKind = ZUtils.whatKindOfZExpr(expr);
@@ -709,8 +722,8 @@ public class DefinitionTableVisitor
         if (expr instanceof CondExpr)
         {
           // IF Pred THEN E1 ELSE E2 => see if they agree
-          DefinitionKind left = figureOutDefKindForOmitBoxExpr(((CondExpr)expr).getLeftExpr());
-          DefinitionKind right = figureOutDefKindForOmitBoxExpr(((CondExpr)expr).getRightExpr());
+          DefinitionKind left = figureOutDefKindForOmitBoxExpr(genFormals, ((CondExpr)expr).getLeftExpr());
+          DefinitionKind right = figureOutDefKindForOmitBoxExpr(genFormals, ((CondExpr)expr).getRightExpr());
 
           // either they agree or choose the easiest (e.g., lowest DefKind value
           if (left.equals(right) || (left.value() < right.value()))
@@ -718,25 +731,49 @@ public class DefinitionTableVisitor
           else
             result = right;
         }
+        else if (expr instanceof QntExpr)
+        {
+          QntExpr qexpr = (QntExpr)expr;
+
+          // save previous context and create a local one
+          DefinitionTable temp = table_;
+          Definition topLevel = currentGlobalDef_;
+          DefinitionTable local = new DefinitionTable(table_);
+          table_ = local;
+
+          // create local definition as a schema and add its Decl as bindings
+          ZName defName = factory_.createZName("local"+qexpr.hashCode());
+          SchExpr defExpr = factory_.createSchExpr(qexpr.getSchText());
+          currentGlobalDef_ = addGlobalDefinition(genFormals, defName, defExpr, DefinitionKind.SCHEMADECL);
+
         // Lambda Decl @ Expr => see Expr for adding this as AXIOM or SCHDECL
-        else if (expr instanceof LambdaExpr)
-          result = figureOutDefKindForOmitBoxExpr(((LambdaExpr)expr).getExpr());
         // Let X == E @ E2 => see E2
-        else if (expr instanceof LetExpr)
-          result = figureOutDefKindForOmitBoxExpr(((LetExpr)expr).getExpr());
         // Mu Decl @ E => see E
-        else if (expr instanceof MuExpr)
-          result = figureOutDefKindForOmitBoxExpr(((MuExpr)expr).getExpr());
+          DefinitionKind defKind = DefinitionKind.getSchBinding(defName, defExpr);
+          Stack<DefinitionKind> stack = new Stack<DefinitionKind>();
+          stack.push(defKind);
+          processDeclList(genFormals, qexpr.getZSchText().getZDeclList(), stack, new Stack<Stroke>());
+
+          result = figureOutDefKindForOmitBoxExpr(genFormals, qexpr.getExpr());
+
+          assert !stack.empty();
+          DefinitionKind old = stack.pop();
+          assert stack.empty() && old.isSchemaBinding();
+
+          // restore previous
+          currentGlobalDef_ = topLevel;
+          table_ = temp;
+        }
         // A(x) => see Ref for A (recursively if A is ApplExpr itself)
         else if (expr instanceof ApplExpr)
-          result = figureOutDefKindForOmitBoxExpr(ZUtils.getApplExprRef((ApplExpr)expr));
+          result = figureOutDefKindForOmitBoxExpr(genFormals, ZUtils.getApplExprRef((ApplExpr)expr));
         // R => lookup table for it and find its definition, if availabe.
         else if (expr instanceof RefExpr)
         {
           RefExpr rExpr = (RefExpr)expr;
           Definition def = table_.lookupName(rExpr.getZName());
           if (def != null)
-            result = figureOutDefKindForOmitBoxExpr(def.getExpr());
+            result = figureOutDefKindForOmitBoxExpr(genFormals, def.getExpr());
           else
             result = DefinitionKind.UNKNOWN;
         }
@@ -870,44 +907,54 @@ public class DefinitionTableVisitor
     {
       Definition state     = table_.lookupDeclName(refName);
       Definition stateDash = table_.lookupDeclName(strokedName);
-      assert state != null && stateDash != null;
 
-      // DON'T REUSE TERMS
-      //
-      // Delta = true
-      // Xi    = \theta S = \theta S'
-      Pred specialPred = ZUtils.isXi(includedName) ?
-        factory_.createEquality(
-          factory_.createThetaExpr(factory_.createRefExpr(refName),
-              factory_.createZStrokeList()),
-          factory_.createThetaExpr(factory_.createRefExpr(refName),
-              factory_.createZStrokeList(factory_.list(factory_.createNextStroke())))) :
-        factory_.createTruePred();
-      // Delta = [ S; S' | true ]
-      // Xi    = [ S; S' | \theta S = \theta S' ]
-      SchExpr specialExpr = factory_.createSchExpr(
-        factory_.createZSchText(factory_.createZDeclList(factory_.list(
-           factory_.createInclDecl(factory_.createRefExpr(refName)),
-           factory_.createInclDecl(factory_.createDecorExpr(
-                  factory_.createRefExpr(refName), factory_.createNextStroke())))),
-           specialPred));
-      LocAnn loc = refExpr.getAnn(LocAnn.class);
-      if (loc != null)
+      if (state == null || stateDash == null)
       {
-        specialExpr.getAnns().add(loc);
+        raiseUnsupportedCase("could not find " +
+                (state == null ? " before state decl of " + refName : "") +
+                (stateDash == null ? " after state decl of " + strokedName : ""),
+                defKinds.peek(), refExpr);
+        includedDef = state == null ? stateDash : state;
       }
-      // add it as a schema decl, so global
-      includedDef = addDefinition(genFormals, includedName, specialExpr, DefinitionKind.SCHEMADECL);
+      else
+      {
+        // DON'T REUSE TERMS
+        //
+        // Delta = true
+        // Xi    = \theta S = \theta S'
+        Pred specialPred = ZUtils.isXi(includedName) ?
+          factory_.createEquality(
+            factory_.createThetaExpr(factory_.createRefExpr(refName),
+                factory_.createZStrokeList()),
+            factory_.createThetaExpr(factory_.createRefExpr(refName),
+                factory_.createZStrokeList(factory_.list(factory_.createNextStroke())))) :
+          factory_.createTruePred();
+        // Delta = [ S; S' | true ]
+        // Xi    = [ S; S' | \theta S = \theta S' ]
+        SchExpr specialExpr = factory_.createSchExpr(
+          factory_.createZSchText(factory_.createZDeclList(factory_.list(
+             factory_.createInclDecl(factory_.createRefExpr(refName)),
+             factory_.createInclDecl(factory_.createDecorExpr(
+                    factory_.createRefExpr(refName), factory_.createNextStroke())))),
+             specialPred));
+        LocAnn loc = refExpr.getAnn(LocAnn.class);
+        if (loc != null)
+        {
+          specialExpr.getAnns().add(loc);
+        }
+        // add it as a schema decl, so global
+        includedDef = addDefinition(genFormals, includedName, specialExpr, DefinitionKind.SCHEMADECL);
 
-      // also process its inner definitions, which should already be available as
-      //processSchExpr(genFormals, includedName, specialExpr, defKinds, strokes);
-      Definition topLevelDef = currentGlobalDef_;
-      currentGlobalDef_ = includedDef;
-      addLocalReference(state);
-      addLocalReference(stateDash);
-      currentGlobalDef_ = topLevelDef;
+        // also process its inner definitions, which should already be available as
+        //processSchExpr(genFormals, includedName, specialExpr, defKinds, strokes);
+        Definition topLevelDef = currentGlobalDef_;
+        currentGlobalDef_ = includedDef;
+        addLocalReference(state);
+        addLocalReference(stateDash);
+        currentGlobalDef_ = topLevelDef;
+      }
     }
-    assert includedDef != null;
+    assert includedDef != null;//?
 
     // if null, there is a problem: includedDef wasn't found and isn't special! - it is raised
     // otherwise, add a reference for includedDef for current global def
@@ -1082,6 +1129,8 @@ public class DefinitionTableVisitor
     currentName_.push(schName);
 
     DefinitionKind currentDefKind = defKinds.peek();
+
+    SectionManager.traceInfo("processing sch expr = " + schName + " as " + currentDefKind);
 
     // we can process SchExpr only when handling their declaraitons
     // or their inclusions as bindings. Otherwise there is a problem?

@@ -20,14 +20,11 @@ package net.sourceforge.czt.vcg.z.dc;
 
 import java.util.List;
 import java.util.SortedSet;
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
-import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCCollector;
@@ -35,7 +32,6 @@ import net.sourceforge.czt.vcg.z.VCEnvAnn;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.NameList;
-import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -196,6 +192,19 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
     loadDCToolkit();
   }
 
+  @Override
+  protected boolean isTableMandatory(Key<? extends InfoTable> key)
+  {
+    return false; // for DC, no tables are mandatory
+  }
+
+  @Override
+  protected boolean shouldTryTableAgain(Key<? extends InfoTable> key)
+  {
+    return false; // for DC, never try again, whatever the table
+  }
+
+
   /**
    * Method called after to processing ZSect VCs by {@link #vcsOf(net.sourceforge.czt.z.ast.ZSect)}.
    * Derived classes may want to post process information after generating VCs, as the VC list is also
@@ -285,7 +294,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   @Override
   protected String createVCZSectPreamble()
   {
-    String result = "\\newcommand{\\appliesTo}{\\zbinop{appliesTo}} \n \\newcommand{\\appliesToNofix}{\\zpreop{appliesToNofix}} \n\n";
+    String result = "\\newcommand{\\appliesTo}{\\zbinop{appliesTo}} \n\\newcommand{\\appliesToNofix}{\\zpreop{appliesToNofix}} \n\n";
     result += super.createVCZSectPreamble();
     return result;
   }

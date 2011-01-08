@@ -34,7 +34,7 @@ import net.sourceforge.czt.z.ast.Pred;
 public class FeasibilityTest extends VCGTest implements FeasibilityPropertyKeys
 {
 
-  protected static final boolean DEBUG_TESTING = true;
+  protected static final boolean DEBUG_TESTING = false;
   protected final static String TEST_DIR =
           "/tests/z/debug/";
 

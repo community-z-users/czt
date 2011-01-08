@@ -76,11 +76,14 @@ public class DefinitionTable extends InfoTable
     super(sectionName);
     knownSections_ = new ArrayList<String>();
     definitions_ = new TreeMap<Integer, SortedMap<ZName, Definition>>();
-    
+
     // do not use InfoTable.addParents in this specialised case
     // in a constructor, we shall not override addParents either :-(
     if (parents != null)
     {
+
+
+
       // collect all exceptions in one chain of throwable causes
       // rather than stopping the collection upon finding the
       // first duplication problem. This way, we leave room for
@@ -115,6 +118,22 @@ public class DefinitionTable extends InfoTable
     }
   }
 
+  /**
+   * Makes a structural (shallow) copy of this table
+   * @param copy
+   */
+  protected DefinitionTable(DefinitionTable copy)
+  {
+    super(copy.getSectionName());
+    knownSections_ = new ArrayList<String>(copy.knownSections_);
+    definitions_ = new TreeMap<Integer, SortedMap<ZName, Definition>>();
+    for(SortedMap.Entry<Integer, SortedMap<ZName, Definition>> entry : copy.definitions_.entrySet())
+    {
+      definitions_.put(entry.getKey(), new TreeMap<ZName, Definition>(entry.getValue()));
+    }
+    assert knownSections_.equals(copy.knownSections_) && definitions_.equals(copy.definitions_);
+  }
+
   @Override
   protected <T extends InfoTable> void addParentTable(T table) throws InfoTableException
   {
@@ -136,15 +155,19 @@ public class DefinitionTable extends InfoTable
       assert parentTable.knownSections_.size() > sectIndex;
       String sectName = parentTable.knownSections_.get(sectIndex);
       assert sectName != null;
-      for(Definition def : defEntry.getValue().values())
+      // avoid processing the same parent twice in case it is multiply inherited
+      if (!knownSections_.contains(sectName))
       {
-        try
+        for(Definition def : defEntry.getValue().values())
         {
-          addGlobalDecl(sectName, def);
-        }
-        catch (DefinitionException e)
-        {
-          exceptions.add(e);
+          try
+          {
+            addGlobalDecl(sectName, def);
+          }
+          catch (DefinitionException e)
+          {
+            exceptions.add(e);
+          }
         }
       }
     }
@@ -370,7 +393,7 @@ public class DefinitionTable extends InfoTable
     if (result == null)
     {
       assert knownSections_.size() >= definitions_.keySet().size();
-      for (int i = knownSections_.size()-1; i >= 0; i--)
+      for (int i = knownSections_.size()-1; i >= 0 && result == null; i--)
       {
         SortedMap<ZName, Definition> defOfSect = definitions_.get(i);
         if (defOfSect != null)

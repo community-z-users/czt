@@ -166,7 +166,7 @@ public abstract class VCGTest extends CztManagedTest
           SectionManager.traceWarning("VCG-RESULT-HAS-TYPE-ERRORS");
         }
       }
-      if (!result && isDebugging())
+      if (!result || isDebugging())
       {
         printStackTraceWithCauses(e);
       }

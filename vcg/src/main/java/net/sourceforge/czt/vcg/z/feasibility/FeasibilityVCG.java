@@ -20,9 +20,13 @@ package net.sourceforge.czt.vcg.z.feasibility;
 
 import java.util.List;
 import java.util.SortedSet;
+import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollector;
@@ -32,7 +36,6 @@ import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.Section;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -245,5 +248,20 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
         throw e;
       }
     }
+  }
+
+
+  @Override
+  protected boolean isTableMandatory(Key<? extends InfoTable> key)
+  {
+    // for Feasibility, both tables are mandatory.
+    return key.getType().isAssignableFrom(DefinitionTable.class) ||
+           key.getType().isAssignableFrom(OpTable.class);
+  }
+
+  @Override
+  protected boolean shouldTryTableAgain(Key<? extends InfoTable> key)
+  {
+    return false; // for Feasibility, never try again, whatever the table
   }
 }

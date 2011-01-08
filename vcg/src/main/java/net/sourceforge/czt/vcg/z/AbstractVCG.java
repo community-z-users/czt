@@ -637,11 +637,15 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * (see {@link #vcsOf(net.sourceforge.czt.z.ast.ZSect) }.
    * @param msg
    */
-  protected void raiseDCExceptionWhilstVisiting(final String msg)
+  protected void raiseVCGExceptionWhilstVisiting(final String msg, Throwable cause)
   {
     getLogger().warning(msg);
-    throw new CztException(new VCGException(msg));
+    throw new CztException(new VCGException(msg, cause));
   }
+
+  protected abstract boolean isTableMandatory(Key<? extends InfoTable> key);
+  protected abstract boolean shouldTryTableAgain(Key<? extends InfoTable> key);
+
 
   /**
    * Retrieves any necessary section manager information like definition and operator tables.
@@ -652,54 +656,77 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    */
   // TODO: should this be pushed down to derived classes? i.e., some VCG might not need then.
   // THIS SHOULD BE REFACTORED TO beforeCalculateVC!
-  protected void retrieveNecessaryTables(String sectName)
+  protected void retrieveTables(String sectName)
   {
     // checkSectionManager(sectName); - assume it will be in place
     assert isConfigured();
 
     DefinitionTable defTbl = null;
+    Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(sectName, DefinitionTable.class);
     // attempt retrieving defintion + operator tables.
     try
     {
       // retrieve definition + operator tables for Z section being analysed
-      defTbl = sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
+      defTbl = sectManager_.get(defTblKey);
     }
     catch (CommandException e)
     {
-      try
+      // if this table is mandatory, process the failures
+      if (isTableMandatory(defTblKey))
       {
-        // try again = will get the partial/not-up-to-date deftable = one more chance.
-        defTbl = sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
-        if (e instanceof DefinitionException)
-         getLogger().warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName + " \n\t" + e.getMessage());
-        else
-          raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ DefTable for: " + sectName
-                /*+ "(i.e., can only use AppliesTo rather than \\dom)."*/ + "\n\t " + e.getMessage());
-      }
-      catch (CommandException f)
-      {
-        resetDefTable();
-        if (e instanceof DefinitionException)
+        // if should try again, then do so
+        if (shouldTryTableAgain(defTblKey))
         {
-          getLogger().warning("VCG-DEFTBL-ZSECT-ERROR = " + sectName +
-                  "\n\t " + f.getMessage());
+          try
+          {
+            // try again = will get the partial/not-up-to-date deftable = one more chance.
+            if (e instanceof DefinitionException)
+            {
+              //getLogger().warning("VCG-DEFTBL-ZSECT-ERROR(1st time) = " + sectName + " \n\t" + e.getMessage());
+              defTbl = sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
+            }
+            else
+            {
+              raiseVCGExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR(1st time) = CmdExpt @ DefTable for: " + sectName
+                    /*+ "(i.e., can only use AppliesTo rather than \\dom)." + "\n\t " +*/, e/*.getMessage()*/);
+            }
+          }
+          catch (CommandException f)
+          {
+            resetDefTable();
+            //if (e instanceof DefinitionException)
+            //{
+            //  getLogger().warning("VCG-DEFTBL-ZSECT-ERROR(2nd time) = " + sectName +
+            //          "\n\t " + f.getMessage());
+            //}
+            //else
+            //{
+              raiseVCGExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR(2nd time) = CmdExpt @ DefTable for: " + sectName
+                   /*+ "(i.e., can only use AppliesTo rather than \\dom)." + "\n\t " +*/, f/*.getMessage()*/);
+            //}
+          }
         }
+        // otherwise, raise the error
         else
         {
-          raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ DefTable for: " + sectName
-                /*+ "(i.e., can only use AppliesTo rather than \\dom)."*/ + "\n\t " + f.getMessage());
+          raiseVCGExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR(only-time) = CmdExpt @ DefTable for: " + sectName, e);
         }
       }
+      // otherwise, carry on silently
     }
+    Key<OpTable> opTblKey = new Key<OpTable>(sectName, OpTable.class);
     try
     {
-      opTable_ = sectManager_.get(new Key<OpTable>(sectName, OpTable.class));
+      opTable_ = sectManager_.get(opTblKey);
     }
     catch (CommandException e)
     {
       opTable_ = null;
-      raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ OpTable for: " + sectName
-              + "\n\t " + e.getMessage());
+      if (isTableMandatory(opTblKey))
+      {
+        raiseVCGExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ OpTable for: " + sectName,
+              /*+ "\n\t " + */ e /*.getMessage()*/);
+      }
     }
     try
     {
@@ -708,7 +735,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     catch(VCCollectionException e)
     {
       clearNecessaryTables();
-      raiseDCExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = setting tables for: " + sectName);
+      raiseVCGExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = setting tables for: " + sectName, e);
     }
   }
 
@@ -791,7 +818,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       }
       catch (CommandException ex)
       {
-        raiseDCExceptionWhilstVisiting("VCG-VISIT-PARENT-ERROR = CmdExpt @ parent: " + sectName + "\n\t " + ex.getMessage());
+        raiseVCGExceptionWhilstVisiting("VCG-VISIT-PARENT-ERROR = CmdExpt @ parent: " + sectName 
+                /*+ "\n\t " +*/, ex/*.getMessage()*/);
       }
     }
 
@@ -817,7 +845,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   {
     String sectName = term.getName();
     
-    retrieveNecessaryTables(sectName);
+    retrieveTables(sectName);
 
     List<VC<R>> result = factory_.list();
     
@@ -901,7 +929,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
         throw (VCCollectionException)cause;
       }
       else
-        throw new VCCollectionException("VCG-VCSOF-ZSECT-TERM-VISIT-ERROR", zSect.getName(), e);
+        throw new VCCollectionException("VCG-VCSOF-ZSECT-TERM-VISIT-ERROR", zSect.getName(), cause);
     }
     assert result != null;
 
@@ -1076,7 +1104,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     {
       result.append(" (Total = ");
       result.append(vcListSize);
-      result.append("; Trivially $true$ = ");
+      result.append("; Simplified to $true$ = ");
       result.append(vcListSize - vcCount);
       result.append(")");
     }

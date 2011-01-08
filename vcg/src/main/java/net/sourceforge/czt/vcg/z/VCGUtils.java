@@ -46,6 +46,7 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.util.DefinitionTableService;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.Sect;
@@ -218,6 +219,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     {
       e.printStackTrace();
     }
+    //System.err.flush();
     //System.exit(-1);
   }
 
@@ -233,6 +235,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     {
       e.printStackTrace();
     }
+    //System.err.flush();
   }
 
   protected boolean printBenchmarkDefault()
@@ -289,19 +292,27 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     return new Key<T>(originalSectName, type);
   }
 
-  protected void printBenchmarks(SortedMap<String, List<Long>> timesPerFile)
+  protected void printBenchmarks(int exitCode, long totalNumberErrors, SortedMap<String, List<Long>> timesPerFile)
   {
+//     timesPerFile.put(file, Arrays.asList(parsingErrors, typeErrors,
+//              vcgErrors, printErrors, parsingTime, typeCheckTime,
+//              vcgTime, printTime, typeCheckTime + vcgTime + printTime));
+//
     for (String file : timesPerFile.keySet())
     {
       List<Long> times = timesPerFile.get(file);
-      System.out.println("\t" + times.get(6) + "ms for " + file + ":");
+      System.out.println("\t" + times.get(8) + "ms for " + file + ":");
       System.out.println("\t\tparsing errors.." + times.get(0));
       System.out.println("\t\ttype errors....." + times.get(1));
-      System.out.println("\t\tparser.........." + times.get(2) + "ms");
-      System.out.println("\t\ttypechecker....." + times.get(3) + "ms");
-      System.out.println("\t\tVC generation..." + times.get(4) + "ms");
-      System.out.println("\t\tprinter........." + times.get(5) + "ms");
+      System.out.println("\t\tVCG errors......" + times.get(2));
+      System.out.print  ("\t\tprint errors...." + times.get(3));
+      System.out.println(" (" + totalNumberErrors + " errors in total)");
+      System.out.println("\t\tparser.........." + times.get(4) + "ms");
+      System.out.println("\t\ttypechecker....." + times.get(5) + "ms");
+      System.out.println("\t\tVC generation..." + times.get(6) + "ms");
+      System.out.println("\t\tprinter........." + times.get(7) + "ms");
     }
+    System.out.println("\t with exit code = " + exitCode);
   }
 
   protected void writeToFile(CztPrintString output, String vcFileName) throws VCGException
@@ -818,6 +829,8 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
       long parsingErrors = 0;
       long typeErrors = 0;
+      long vcgErrors = 0;
+      long printErrors = 0;
       long parsingTime = 0;
       long typeCheckTime = 0;
       long vcgTime = 0;
@@ -864,40 +877,42 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
       // I don't need to do this bit, actually, given the new 
       // VCEnvAnn Command protocol
-      boolean wellTyped = false;
+      boolean wellTyped;
       if (spec != null)
       {
-        try
+        wellTyped = true;
+        for (Sect sect : spec.getSect())
         {
-          for (Sect sect : spec.getSect())
+          if (sect instanceof ZSect)
           {
-            if (sect instanceof ZSect)
+            try
             {
               ZSect zs = (ZSect) sect;
               getVCG().typeCheck(zs.getName());
             }
+            catch (CommandException e)
+            {
+              if (e.getCause() instanceof TypeErrorException)
+              {
+                typeErrors += printTypeErrors((TypeErrorException)e.getCause());
+                exitCode = -21;
+              }
+              else
+              {
+                exitCode = -22;
+              }
+              wellTyped = false;
+              commandException("type checking", e, file);
+            }
+            catch (CztException f)
+            {
+              wellTyped = false;
+              cztException("type checking", f, file);
+              exitCode = -23;
+            }
           }
-          wellTyped = true;
         }
-        catch (CommandException e)
-        {
-          if (e.getCause() instanceof TypeErrorException)
-          {
-            typeErrors += printTypeErrors((TypeErrorException)e.getCause());
-            exitCode = -21;
-          }
-          else
-          {
-            exitCode = -22;
-          }
-          commandException("type checking", e, file);
-        }
-        catch (CztException f)
-        {
-          cztException("type checking", f, file);
-          exitCode = -23;
-        }
-
+        
         /* ex:
          * 0        40
          * |--Parse--|--TypeCheck--|--VC--|--PrintVC--|
@@ -914,16 +929,18 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
         if (wellTyped)
         {
-          try
+          for (Sect sect : spec.getSect())
           {
-            for (Sect sect : spec.getSect())
+            if (sect instanceof ZSect)
             {
-              if (sect instanceof ZSect)
+              // don't stop upon first failure?
+              try
               {
+
                 ZSect zs = (ZSect) sect;
                 VCEnvAnn<R> vc = manager.get(createSMKey(zs.getName(), getVCG().getVCEnvAnnClass()));
                 VCEnvAnn<R> old = vcs.put(zs.getName(), vc);
-                
+
                 if (old != null)
                   SectionManager.traceWarning("VCGU-DUPLICATE-VCENVANN = " + zs.getName());
 
@@ -941,38 +958,72 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
                   }
                 }
               }
+              // TODO: please simplify this very nested exception causality, please(!!!)
+              catch (CommandException e)
+              {
+                String extra = file;
+                if (e instanceof VCGException)
+                {
+                  // if VCG during collection, expose possible def tbl errors
+                  if (e instanceof VCCollectionException && e.getCause() instanceof VCGException)
+                  {
+                    if (e.getCause().getCause() instanceof DefinitionException)
+                    {
+                      vcgErrors += ((DefinitionException)e.getCause().getCause()).totalNumberOfErrors();
+                      extra = ((DefinitionException)e.getCause().getCause()).getMessage();
+                      exitCode = -30;
+                    }
+                    else
+                    {
+                      vcgErrors++;
+                      extra = e.getCause().getMessage();
+                      exitCode = -31;
+                    }
+                  }
+                  // if VCG during CmdExp try to get parse / type errors
+                  else if (e.getCause() instanceof CommandException)
+                  {
+                    CommandException vcge = (CommandException)e.getCause();
+                    if (vcge.getCause() instanceof ParseException)
+                    {
+                      parsingErrors += printParseErrors((ParseException)vcge.getCause());
+                      exitCode = -32;
+                    }
+                    else if (vcge.getCause() instanceof TypeErrorException)
+                    {
+                      typeErrors += printTypeErrors((TypeErrorException)vcge.getCause());
+                      exitCode = -33;
+                    }
+                    else
+                    {
+                      extra = vcge.getMessage();
+                      exitCode = -34;
+                    }
+                    vcgErrors++;
+                  }
+                  else
+                  {
+                    vcgErrors++;
+                    extra = e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+                    exitCode = -35;
+                  }
+                }
+                else
+                {
+                  vcgErrors++;
+                  extra = e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+                  exitCode = -36;
+                }
+                commandException(getClass().getSimpleName(), e, extra);
+              }
+              catch (CztException f)
+              {
+                cztException(getClass().getSimpleName(), f, file);
+                vcgErrors++;
+                exitCode = -37;
+              }
             }
           }
-          catch (CommandException e)
-          {
-            if (e instanceof VCGException && e.getCause() instanceof CommandException)
-            {
-              CommandException vcge = (CommandException)e.getCause();
-              if (vcge.getCause() instanceof ParseException)
-              {
-                parsingErrors += printParseErrors((ParseException)vcge.getCause());
-                exitCode = -30;
-              }
-              else if (vcge.getCause() instanceof TypeErrorException)
-              {
-                typeErrors += printTypeErrors((TypeErrorException)vcge.getCause());
-                exitCode = -31;
-              }
-              else
-              {
-                exitCode = -32;
-              }
-            }
-            commandException(getClass().getSimpleName(), e, file);
-          }
-          catch (CztException f)
-          {
-            cztException(getClass().getSimpleName(), f, file);
-            exitCode = -33;
-          }
-
-          // result is the number of errors to consider
-          result += typeErrors + parsingErrors;
 
           /* ex:
            * 0        40            100
@@ -988,23 +1039,25 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
           // printToFile the collected Domain Check VCs
           if (!vcs.isEmpty())
           {
-            try
+            System.out.println("Printing VC ZSect(s) for " + file);
+            for (VCEnvAnn<R> zSectDC : vcs.values())
             {
-              System.out.println("Printing VC ZSect(s) for " + file);
-              for (VCEnvAnn<R> zSectDC : vcs.values())
+              try
               {
                 printToFile(zSectDC, filePath, preferedMarkup);
               }
-            }
-            catch (CommandException e)
-            {
-              commandException("VCGU-PRINT-VC-ZSECT", e, file);
-              exitCode = -40;
-            }
-            catch (CztException f)
-            {
-              cztException("VCGU-PRINT-VC-ZSECT", f, file);
-              exitCode = -41;
+              catch (CommandException e)
+              {
+                commandException("VCGU-PRINT-VC-ZSECT", e, file);
+                printErrors++;
+                exitCode = -40;
+              }
+              catch (CztException f)
+              {
+                cztException("VCGU-PRINT-VC-ZSECT", f, file);
+                printErrors++;
+                exitCode = -41;
+              }
             }
 
             /* ex:
@@ -1020,8 +1073,11 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
           }
         }
       }
+      // result is the number of errors to consider
+      result += typeErrors + parsingErrors + vcgErrors + printErrors;
       timesPerFile.put(file, Arrays.asList(parsingErrors, typeErrors,
-              parsingTime, typeCheckTime, vcgTime, printTime, typeCheckTime + vcgTime + printTime));
+              vcgErrors, printErrors, parsingTime, typeCheckTime,
+              vcgTime, printTime, parsingTime + typeCheckTime + vcgTime + printTime));
       // Reset the currentTime offset
     }
     currentTime = System.currentTimeMillis();
@@ -1031,7 +1087,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     if (printBenchmark)
     {
       System.out.println(totalTime + "ms for " + files.size() + " files.");
-      printBenchmarks(timesPerFile);
+      printBenchmarks(exitCode, result, timesPerFile);
     }
     System.exit(exitCode);
   }

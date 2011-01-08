@@ -20,9 +20,10 @@ package net.sourceforge.czt.vcg.z;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Ann;
 import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Stroke;
@@ -32,6 +33,7 @@ import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.AnnVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.OptempParaVisitor;
 import net.sourceforge.czt.z.visitor.StrokeVisitor;
 import net.sourceforge.czt.z.visitor.TypeVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
@@ -53,6 +55,7 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
         AnnVisitor<Pred>,
         StrokeVisitor<Pred>,
         ZStrokeListVisitor<Pred>,
+        OptempParaVisitor<Pred>,
         TermVisitor<Pred>
 {
 
@@ -89,9 +92,18 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
   @Override
   public Pred visitTerm(Term term)
   {
-    final String msg = "VCG-NOVISITOR-ERROR = " +term.getClass().getSimpleName();
+    final String msg = "VCG-NOVISITOR-ERROR(@trivial) = " +term.getClass().getSimpleName();
     getLogger().warning(msg);
     return factory_.createFalsePred();
+  }
+
+  @Override
+  public Pred visitOptempPara(OptempPara term)
+  {
+    if (term.getPrec() != null && term.getPrec().signum() < 0)
+      throw new CztException(new VCCollectionException("VC-TRIVIALCOL-OPTEMPPARA-NEGPREC = " + term));
+    //assert term.getPrec().signum() >= 0 : "Operator template paragraph precedence MUST be non-negative";
+    return truePred();
   }
 
   @Override

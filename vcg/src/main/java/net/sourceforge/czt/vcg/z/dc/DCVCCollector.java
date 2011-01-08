@@ -156,8 +156,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   BranchVisitor<Pred>,
   AxParaVisitor<Pred>,
   ZSchTextVisitor<Pred>,
-  OptempParaVisitor<Pred>,
-  
+
   //ZParaListVisitor<Pred>, see DomainChecker.visitZSect  
   
   // Declaration visitors 
@@ -630,14 +629,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
    * Z/Eves operators. We also check that the precedences are 
    * non-negative (i.e. assert it).
    */
-  @Override
-  public Pred visitOptempPara(OptempPara term)
-  {
-    if (term.getPrec() != null && term.getPrec().signum() < 0)
-      throw new CztException(new VCCollectionException("VC-DC-COL-OPTEMPPARA-NEGPREC = " + term));
-    //assert term.getPrec().signum() >= 0 : "Operator template paragraph precedence MUST be non-negative";
-    return predTransformer_.truePred();
-  }
+  //@Override
+  //public Pred visitOptempPara(OptempPara term)
   
   /** DECLARATION TERMS */
 
