@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 
@@ -197,10 +198,18 @@ public class ErrorAnn
   {
     if (object instanceof Term) {
       try {
-        Term term = (Term) ((Term) object).accept(getCarrierSet());
+        Term term = ((Term) object).accept(getCarrierSet());
         StringWriter writer = new StringWriter();
         print(term, writer, manager, sectName, markup_);
         return writer.toString();
+      }
+      catch (PrintException f)
+      {
+        String message = "Cannot be printed";
+        if (object instanceof Type) {
+          message = object.toString();
+        }
+        return message;
       }
       catch (Exception e) {
         String message = "Cannot be printed";
