@@ -5732,6 +5732,7 @@ util/src/main/java/net/sourceforge/czt/util/target
 util/src/main/java/net/sourceforge/target
 util/src/main/java/net/target
 util/src/main/java/target
+util/src/main/resources
 util/src/main/target
 util/src/target
 util/src/test/*.aux
