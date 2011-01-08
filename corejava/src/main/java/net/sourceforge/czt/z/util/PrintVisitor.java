@@ -340,178 +340,175 @@ public class PrintVisitor
       else if(word.startsWith(ZString.ARITHMOS))
       {
         size = ZString.ARITHMOS.length();
-        result.append("ARMOS ");
+        result.append("ARITHMOS");
       }
       else if(word.startsWith(ZString.NAT))
       {
         size = ZString.NAT.length();
-        result.append("NAT ");
+        result.append("NAT");
       }
       else if(word.startsWith(ZString.NUM))
       {
         size = ZString.NAT.length();
-        result.append("INT ");
+        result.append("INT");
       }
 //      else if(word.startsWith(ZString.POWER))
 //      {
 //        size = ZString.POWER.length();
 //        result.append("Power ");
 //      }
-      else if (word.startsWith(ZString.ARG_TOK) || word.endsWith(ZString.ARG_TOK))
-      {
-        if (word.startsWith(ZString.ARG_TOK))
-        {
-          size += ZString.ARG_TOK.length();
-          result.append(" _ ");
-        }
-
-        if (word.indexOf(ZString.REL.toString()) != -1)
-        {
-          size += ZString.REL.length();
-          result.append("<->");
-        }
-        else if (word.indexOf(ZString.FUN) != -1)
-        {
-          size += ZString.FUN.length();
-          result.append("-->");
-        }
-        else if (word.indexOf(ZString.NEQ) != -1)
-        {
-          size += ZString.NEQ.length();
-          result.append("!=");
-        }
-        else if (word.indexOf(ZString.NOTMEM) != -1)
-        {
-          size += ZString.NOTMEM.length();
-          result.append("!in");
-        }
-        else if (word.indexOf(ZString.EMPTYSET) != -1)
-        {
-          size += ZString.EMPTYSET.length();
-          result.append("{}");
-        }
-        else if (word.indexOf(ZString.SUBSETEQ) != -1)
-        {
-          size += ZString.SUBSETEQ.length();
-          result.append("c=");
-        }
-        else if (word.indexOf(ZString.CUP) != -1)
-        {
-          size += ZString.CUP.length();
-          result.append("CUP");
-        }
-        else if (word.indexOf(ZString.CAP) != -1)
-        {
-          size += ZString.CAP.length();
-          result.append("CAP");
-        }
-        else if (word.indexOf(ZString.SETMINUS) != -1)
-        {
-          size += ZString.SETMINUS.length();
-          result.append("\\");
-        }
-        else if (word.indexOf(ZString.SYMDIFF) != -1)
-        {
-          size += ZString.SYMDIFF.length();
-          result.append("\\-");
-        }
-        else if (word.indexOf(ZString.BIGCAP) != -1)
-        {
-          size += ZString.BIGCAP.length();
-          result.append("BCAP");
-        }
-        else if (word.indexOf(ZString.BIGCUP) != -1)
-        {
-          size += ZString.BIGCUP.length();
-          result.append("BCUP");
-        }
-        else if (word.indexOf(ZString.MAPSTO) != -1)
-        {
-          size += ZString.MAPSTO.length();
-          result.append("|->");
-        }
-        else if (word.indexOf(ZString.COMP) != -1)
-        {
-          size += ZString.COMP.length();
-          result.append(";");
-        }
-        else if (word.indexOf(ZString.CIRC) != -1)
-        {
-          size += ZString.CIRC.length();
-          result.append("o");
-        }
-        else if (word.indexOf(ZString.DRES) != -1)
-        {
-          size += ZString.DRES.length();
-          result.append("<|");
-        }
-        else if (word.indexOf(ZString.RRES) != -1)
-        {
-          size += ZString.RRES.length();
-          result.append("|>");
-        }
-        else if (word.indexOf(ZString.NDRES) != -1)
-        {
-          size += ZString.NDRES.length();
-          result.append("!<|");
-        }
-        else if (word.indexOf(ZString.NRRES) != -1)
-        {
-          size += ZString.NRRES.length();
-          result.append("!|>");
-        }
-        else if (word.indexOf(ZString.OPLUS) != -1)
-        {
-          size += ZString.OPLUS.length();
-          result.append("(+)");
-        }
-        else if (word.indexOf(ZString.PFUN) != -1)
-        {
-          size += ZString.PFUN.length();
-          result.append("-|->");
-        }
-        else if (word.indexOf(ZString.PINJ) != -1)
-        {
-          size += ZString.PINJ.length();
-          result.append(">-|->");
-        }
-        else if (word.indexOf(ZString.INJ) != -1)
-        {
-          size += ZString.INJ.length();
-          result.append(">-->");
-        }
-        else if (word.indexOf(ZString.PSURJ) != -1)
-        {
-          size += ZString.PSURJ.length();
-          result.append("-|->>");
-        }
-        else if (word.indexOf(ZString.SURJ) != -1)
-        {
-          size += ZString.SURJ.length();
-          result.append("-->>");
-        }
-        else if (word.indexOf(ZString.BIJ) != -1)
-        {
-          size += ZString.BIJ.length();
-          result.append(">-->>");
-        }
-        else if (word.indexOf(ZString.FFUN) != -1)
-        {
-          size += ZString.FFUN.length();
-          result.append("-||->");
-        }
-        else if (word.indexOf(ZString.FINJ) != -1)
-        {
-          size += ZString.FINJ.length();
-          result.append(">-||->");
-        }
-
-        if (word.endsWith(ZString.ARG_TOK))
-        {
-          size += ZString.ARG_TOK.length();
-          result.append(" _ ");
-        }
-      }
+//      else if (word.startsWith(ZString.ARG_TOK) && word.endsWith(ZString.ARG_TOK))
+//      {
+//        size += ZString.ARG_TOK.length();
+//        result.append("_ ");
+//
+//        if (word.indexOf(ZString.REL.toString()) != -1)
+//        {
+//          size += ZString.REL.length();
+//          result.append("<->");
+//        }
+//        else if (word.indexOf(ZString.FUN) != -1)
+//        {
+//          size += ZString.FUN.length();
+//          result.append("-->");
+//        }
+//        else if (word.indexOf(ZString.NEQ) != -1)
+//        {
+//          size += ZString.NEQ.length();
+//          result.append("!=");
+//        }
+//        else if (word.indexOf(ZString.NOTMEM) != -1)
+//        {
+//          size += ZString.NOTMEM.length();
+//          result.append("!in");
+//        }
+//        else if (word.indexOf(ZString.EMPTYSET) != -1)
+//        {
+//          size += ZString.EMPTYSET.length();
+//          result.append("{}");
+//        }
+//        else if (word.indexOf(ZString.SUBSETEQ) != -1)
+//        {
+//          size += ZString.SUBSETEQ.length();
+//          result.append("c=");
+//        }
+//        else if (word.indexOf(ZString.CUP) != -1)
+//        {
+//          size += ZString.CUP.length();
+//          result.append("CUP");
+//        }
+//        else if (word.indexOf(ZString.CAP) != -1)
+//        {
+//          size += ZString.CAP.length();
+//          result.append("CAP");
+//        }
+//        else if (word.indexOf(ZString.SETMINUS) != -1)
+//        {
+//          size += ZString.SETMINUS.length();
+//          result.append("\\");
+//        }
+//        else if (word.indexOf(ZString.SYMDIFF) != -1)
+//        {
+//          size += ZString.SYMDIFF.length();
+//          result.append("\\-");
+//        }
+//        else if (word.indexOf(ZString.BIGCAP) != -1)
+//        {
+//          size += ZString.BIGCAP.length();
+//          result.append("BCAP");
+//        }
+//        else if (word.indexOf(ZString.BIGCUP) != -1)
+//        {
+//          size += ZString.BIGCUP.length();
+//          result.append("BCUP");
+//        }
+//        else if (word.indexOf(ZString.MAPSTO) != -1)
+//        {
+//          size += ZString.MAPSTO.length();
+//          result.append("|->");
+//        }
+//        else if (word.indexOf(ZString.COMP) != -1)
+//        {
+//          size += ZString.COMP.length();
+//          result.append(";");
+//        }
+//        else if (word.indexOf(ZString.CIRC) != -1)
+//        {
+//          size += ZString.CIRC.length();
+//          result.append("o");
+//        }
+//        else if (word.indexOf(ZString.DRES) != -1)
+//        {
+//          size += ZString.DRES.length();
+//          result.append("<|");
+//        }
+//        else if (word.indexOf(ZString.RRES) != -1)
+//        {
+//          size += ZString.RRES.length();
+//          result.append("|>");
+//        }
+//        else if (word.indexOf(ZString.NDRES) != -1)
+//        {
+//          size += ZString.NDRES.length();
+//          result.append("!<|");
+//        }
+//        else if (word.indexOf(ZString.NRRES) != -1)
+//        {
+//          size += ZString.NRRES.length();
+//          result.append("!|>");
+//        }
+//        else if (word.indexOf(ZString.OPLUS) != -1)
+//        {
+//          size += ZString.OPLUS.length();
+//          result.append("(+)");
+//        }
+//        else if (word.indexOf(ZString.PFUN) != -1)
+//        {
+//          size += ZString.PFUN.length();
+//          result.append("-|->");
+//        }
+//        else if (word.indexOf(ZString.PINJ) != -1)
+//        {
+//          size += ZString.PINJ.length();
+//          result.append(">-|->");
+//        }
+//        else if (word.indexOf(ZString.INJ) != -1)
+//        {
+//          size += ZString.INJ.length();
+//          result.append(">-->");
+//        }
+//        else if (word.indexOf(ZString.PSURJ) != -1)
+//        {
+//          size += ZString.PSURJ.length();
+//          result.append("-|->>");
+//        }
+//        else if (word.indexOf(ZString.SURJ) != -1)
+//        {
+//          size += ZString.SURJ.length();
+//          result.append("-->>");
+//        }
+//        else if (word.indexOf(ZString.BIJ) != -1)
+//        {
+//          size += ZString.BIJ.length();
+//          result.append(">-->>");
+//        }
+//        else if (word.indexOf(ZString.FFUN) != -1)
+//        {
+//          size += ZString.FFUN.length();
+//          result.append("-||->");
+//        }
+//        else if (word.indexOf(ZString.FINJ) != -1)
+//        {
+//          size += ZString.FINJ.length();
+//          result.append(">-||->");
+//        }
+//
+//        if (size > ZString.ARG_TOK.length() && word.endsWith(ZString.ARG_TOK))
+//        {
+//          size += ZString.ARG_TOK.length();
+//          result.append(" _");
+//        }
+//      }
       ZUtils.unicodeToAscii(word.substring(size), result);
     }
     if (printIds_) {
