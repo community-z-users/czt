@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gjt.sp.jedit.*;
 import errorlist.*;
+import javax.swing.JOptionPane;
 import sidekick.*;
 
 import net.sourceforge.czt.parser.util.*;
@@ -179,11 +180,11 @@ public class CztParser
                            0,
                            0,
                            message);
-    }    
+    }
     return data;
   }
 
-  protected void printErrors(List<? extends CztError> errors,
+  protected static void printErrors(List<? extends CztError> errors,
                              Buffer buffer,
                              DefaultErrorSource errorSource)
   {

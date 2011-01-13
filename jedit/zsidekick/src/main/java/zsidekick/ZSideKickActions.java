@@ -18,6 +18,8 @@
  */
 package zsidekick;
 
+import errorlist.DefaultErrorSource;
+import errorlist.ErrorSource;
 import java.io.File;
 import java.io.StringWriter;
 import javax.swing.JOptionPane;
@@ -28,10 +30,10 @@ import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.print.z.PrintUtils;
-
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
+
 import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
 import net.sourceforge.czt.rules.prover.ProofTree;
 import net.sourceforge.czt.rules.prover.ProverUtils;
@@ -40,6 +42,9 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.vcg.util.DefinitionException;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
+import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.VCGUtils;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.LocAnn;
@@ -129,6 +134,8 @@ public class ZSideKickActions
     }
   }
 
+  private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG errors");
+
   /**
    *
    * @param <R>
@@ -139,6 +146,8 @@ public class ZSideKickActions
    */
   public static <R> void vcg(View view, VCGUtils<R> utils, String vcFileNameSuffix) throws CommandException
   {
+    vcgErrors_.clear();
+    ErrorSource.unregisterErrorSource(vcgErrors_);
     ParsedData parsedData = getParsedData(view);
     if (parsedData != null) 
     {
@@ -162,10 +171,25 @@ public class ZSideKickActions
       }
       catch (CommandException e)
       {
-        e.printStackTrace(System.err);
-        //pwriter.close();        
-        JOptionPane.showMessageDialog(view, "Could not calculate VCs with " + utils.getVCG().getClass().getSimpleName() + " for " + name
-          + ". Detailed error message:\n" + e.getMessage(), "Command Error!", JOptionPane.ERROR_MESSAGE);
+        if (e instanceof VCCollectionException &&
+            e.getCause() != null && e.getCause() instanceof VCGException &&
+            e.getCause().getCause() instanceof DefinitionException)
+        {
+
+          //JOptionPane.showMessageDialog(view, "Could not calculate VCs with " + utils.getVCG().getClass().getSimpleName() + " for " + name
+          //  + ". Detailed error message:\n" + ((DefinitionException)e.getCause().getCause()).getMessage(true), "Command Error!", JOptionPane.ERROR_MESSAGE);
+          CztParser.printErrors(((DefinitionException)e.getCause().getCause()).getErrors(), buffer, vcgErrors_);
+          if (vcgErrors_.getErrorCount() != 0)
+          {
+            ErrorSource.registerErrorSource(vcgErrors_);
+          }
+        }
+        else
+        {
+          e.printStackTrace(System.err);
+          JOptionPane.showMessageDialog(view, "Could not calculate VCs with " + utils.getVCG().getClass().getSimpleName() + " for " + name
+            + ". Detailed error message:\n" + e.getMessage(), "Command Error!", JOptionPane.ERROR_MESSAGE);
+        }
       }
     }
   }
