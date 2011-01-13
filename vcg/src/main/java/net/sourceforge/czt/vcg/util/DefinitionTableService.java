@@ -19,9 +19,9 @@
 
 package net.sourceforge.czt.vcg.util;
 
-import java.io.File;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
 import net.sourceforge.czt.session.Command;
@@ -189,6 +189,7 @@ public class DefinitionTableService
 
   public static void main(String args[]) throws URISyntaxException
   {
+    DefinitionTableVisitor.DEFAULT_DEBUG_DEFTBL_VISITOR = true;
     SectionManager manager = new SectionManager();
     manager.putCommand(getCommandInfoType(), getCommand(manager));
     manager.setTracing(true);
@@ -233,6 +234,7 @@ public class DefinitionTableService
           SortedSet<Definition> bindings = table.bindings(arg);
           final String result2 = bindings.toString().replaceAll(", ", ",\n");
           System.out.println("\n");
+          System.out.println("Bindings for " + args[1] + " = " + bindings.size());
           System.out.println(result2);
           System.out.println();
         }
@@ -242,6 +244,23 @@ public class DefinitionTableService
         }
       }
     }
+
+//    DefinitionException c =
+//      new DefinitionException("a",
+//        Arrays.asList(new DefinitionException("a.b",
+//            Arrays.asList(new DefinitionException("a.b.1"),
+//                          new DefinitionException("a.b.2",
+//                            Arrays.asList(new DefinitionException("a.b.2.1"))))),
+//                      new DefinitionException("a.c",
+//                        Arrays.asList(new DefinitionException("a.c.1"))),
+//                      new DefinitionException("a.d")));
+//    System.out.println("c = " + c.getMessage());
+//    System.out.println("c = " + c.totalNumberOfErrors());
+//    System.out.println("c = transitive list with " + c.getTransitiveExceptions().size());
+//    Iterator<DefinitionException> it = c.getTransitiveExceptions().iterator();
+//    while (it.hasNext())
+//      System.out.println("c = " + it.next().getMessage(false));
+      
 /*
     URL url = table.getClass().getResource("/lib/");//dc_toolkit.tex");
     file = new File(url.toURI());
@@ -291,5 +310,7 @@ public class DefinitionTableService
     {
       printException(e);
     }
+    System.err.println("-------------------------------------------");
+    System.err.println("TOTAL = " + dex.totalNumberOfErrors());
   }
 }

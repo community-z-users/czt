@@ -74,13 +74,13 @@ public class DomainCheckUtils extends VCGUtils<Pred> implements DomainCheckPrope
   }
 
   /**
-   * Top-level CZT UI tool name. e.g., "zedvcg_dc" for Z domain checks.
+   * Top-level CZT UI tool name. e.g., "zedvcgdc" for Z domain checks.
    * @return
    */
   @Override
   public String getToolName()
   {
-    return "zedvcg_dc";
+    return "zedvcgdc";
   }
 
   @Override

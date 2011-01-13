@@ -70,13 +70,13 @@ public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPrope
   }
 
   /**
-   * Top-level CZT UI tool name. e.g., "zedvcg_fsb" for Z domain checks.
+   * Top-level CZT UI tool name. e.g., "zedvcgfsb" for Z domain checks.
    * @return
    */
   @Override
   public String getToolName()
   {
-    return "zedvcg_fsb";
+    return "zedvcgfsb";
   }
 
   @Override

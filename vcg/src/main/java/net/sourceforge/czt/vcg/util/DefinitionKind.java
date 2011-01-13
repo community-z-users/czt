@@ -109,12 +109,12 @@ public class DefinitionKind {
   //       A == B \land C
   //       D == [ A | P ]                     (2) schema calculus inclusion
   public static final int SCHEMAEXPR_VALUE = 5;
-  public static final DefinitionKind SCHEMAEXPR = new DefinitionKind(SCHEMAEXPR_VALUE);
+  //public static final DefinitionKind SCHEMAEXPR = new DefinitionKind(SCHEMAEXPR_VALUE);
 
   public static final int UNKNOWN_VALUE = 6; //for name below Integer.MAX_VALUE;
   public static final DefinitionKind UNKNOWN = new DefinitionKind(UNKNOWN_VALUE);
 
-  private final SchExpr binding_;
+  //private final SchExpr binding_;
   private final ZName name_;
   private final int value_;
   
@@ -123,44 +123,70 @@ public class DefinitionKind {
 
   private DefinitionKind(int v)
   {
-    this(v, null, null);
+    this(v, null/*, null*/);
   }
 
-  private DefinitionKind(int v, ZName schName, SchExpr expr)
+  private DefinitionKind(int v, ZName schName/*, SchExpr expr*/)
   {
     super();
     value_ = v;
     name_ = schName;
-    binding_ = expr;
+    //binding_ = expr;
   }
 
   public boolean isGlobal()
   {
-    return value_ == GIVENSET_VALUE || value_ == AXIOM_VALUE || isReference();
+                                        // TODO: should this be just isSchemaDecl()? MAYBE
+    return isGivenSet() || isAxiom() || isSchemaReference();
   }
 
-  public boolean isReference()
+  /**
+   * Schema declarations like S in S == [ D | P ] or complex schema expressions like T in S == T \land R.
+   * These are to be used by global names only.
+   * @return
+   */
+  public boolean isSchemaReference()
   {
-    return value_ == SCHEMADECL_VALUE /*|| value_ == SCHEMAINCL_VALUE*/;
+    return isSchemaDecl() || isSchemaExpr();
   }
 
-  public SchExpr getBindingSchExpr()
+  public boolean hasSchemaName()
   {
-    if (!isSchemaBinding())
-      throw new UnsupportedOperationException("Only schema bindings have SchExpr");
-    return binding_;
+    return isSchemaBinding() || isSchemaExpr();
   }
 
   public ZName getSchName()
   {
-    if (!isSchemaBinding() /*&& !isReference()*/)
-      throw new UnsupportedOperationException("Only schema bindings have schema name");
+    if (!hasSchemaName())
+    {
+      throw new UnsupportedOperationException("Only schema bindings and complex schema expressions have schema name");
+    }
     return name_;
+  }
+  
+  public boolean isGivenSet()
+  {
+    return value_ == GIVENSET_VALUE;
+  }
+  
+  public boolean isAxiom()
+  {
+    return value_ == AXIOM_VALUE;
+  }
+
+  public boolean isSchemaDecl()
+  {
+    return value_ == SCHEMADECL_VALUE;
   }
 
   public boolean isSchemaBinding()
   {
     return value_ == SCHEMABINDING_VALUE;
+  }
+
+  public boolean isSchemaExpr()
+  {
+    return value_ == SCHEMAEXPR_VALUE;
   }
 
   /**
@@ -193,10 +219,10 @@ public class DefinitionKind {
 
     DefinitionKind other = (DefinitionKind)o;
     return (other.value_ == this.value_ &&
-            ((other.binding_ == null && this.binding_ == null &&
+            ((/*other.binding_ == null && this.binding_ == null &&*/
               other.name_ == null && this.name_ == null) ||
-             (other.binding_ != null &&
-              other.binding_.equals(this.binding_) &&
+             (/*other.binding_ != null &&
+              other.binding_.equals(this.binding_) &&*/
               other.name_ != null &&
               other.name_.equals(this.name_))));
 
@@ -211,8 +237,8 @@ public class DefinitionKind {
   @Override
   public int hashCode() {
     int result = this.value_;
-    if (binding_ != null)
-      result += binding_.hashCode();
+//    if (binding_ != null)
+//      result += binding_.hashCode();
     if (name_ != null)
       result += name_.hashCode();
     return result;
@@ -223,7 +249,7 @@ public class DefinitionKind {
   {
     return NAMES[value_] +
     (isSchemaBinding() ?
-       "(" + getSchName() + "@" + Integer.toHexString(getBindingSchExpr().hashCode()) + ")" : "");
+       "(" + getSchName() /*+ "@" + Integer.toHexString(getBindingSchExpr().hashCode())*/ + ")" : "");
       // (isSchemaInclusion() ? "(" + getSchName() + ")" : ""));
   }
 /*
@@ -251,12 +277,17 @@ public class DefinitionKind {
     return result;
   }
 */
-  public static DefinitionKind getSchBinding(ZName name, SchExpr expr)
+  public static DefinitionKind getSchBinding(ZName name/*, SchExpr expr*/)
   {
-    DefinitionKind result = new DefinitionKind(SCHEMABINDING_VALUE, name, expr);
+    DefinitionKind result = new DefinitionKind(SCHEMABINDING_VALUE, name/*, expr*/);
     return result;
   }
 
+  public static DefinitionKind getSchExpr(ZName name)
+  {
+    DefinitionKind result = new DefinitionKind(SCHEMAEXPR_VALUE, name);
+    return result;
+  }
 
 /*
   public static DefinitionKind getSchInclusion(Name refName)
@@ -265,11 +296,6 @@ public class DefinitionKind {
     return result;
   }
 
-  public static DefinitionKind getSchExpr(String sectName)
-  {
-    DefinitionKind result = new DefinitionKind(SCHEMAEXPR_VALUE);
-    return result;
-  }
 
   public static DefinitionKind getUnknown(String sectName)
   {

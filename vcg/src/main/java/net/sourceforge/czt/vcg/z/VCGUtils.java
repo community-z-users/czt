@@ -55,6 +55,7 @@ import net.sourceforge.czt.z.ast.ZSect;
 
 /**
  *
+ * @param <R>
  * @author Leo Freitas
  * @date Dec 25, 2010
  */
@@ -161,7 +162,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
   public abstract Command getCommand();
 
   /**
-   * Top-level CZT UI tool name. e.g., "zedvcg_dc" for Z domain checks.
+   * Top-level CZT UI tool name. e.g., "zedvcgdc" for Z domain checks.
    * @return
    */
   public abstract String getToolName();
@@ -207,35 +208,6 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     System.err.println("Default flags are: \""
                        + printToolDefaultFlagsUsage()
                        + "\"\n");
-  }
-
-  protected void commandException(String job, CommandException e, String extra)
-  {
-    System.err.println("Command exception has happened while " + job
-                       + "\n\t message = " + e.getMessage()
-                       + "\n\t cause   = " + (e.getCause() != null ? e.getCause().getMessage() : "none")
-                       + "\n\t clue    = " + extra);
-    if (debug_)
-    {
-      e.printStackTrace();
-    }
-    //System.err.flush();
-    //System.exit(-1);
-  }
-
-  protected void cztException(String job, CztException e, String extra)
-  {
-    System.err.println("CZT exception " + e.getClass().getSimpleName()
-                       + "has happened while " + job
-                       + "\n\t message = " + e.getMessage()
-                       + "\n\t cause   = " + (e.getCause() != null ? e.getCause().getMessage() : "none")
-                       + "\n\t clue    = " + extra
-                       + "\n\t BUG!    = opps. Please report it to czt-devel@lists.sourceforge.net");
-    if (debug_)
-    {
-      e.printStackTrace();
-    }
-    //System.err.flush();
   }
 
   protected boolean printBenchmarkDefault()
@@ -637,13 +609,13 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     }
     catch (VCGException e)
     {
-      commandException("VCGU-SM-CREATE", e, getExtension());
+      commandException("VCGU-SM-CREATE", e, getExtension(), debug_);
       System.exit(-1);
     }
     assert manager != null && isConfigured();
    
     // collect default.
-    VCG vcg = getVCG();
+    VCG<?> vcg = getVCG();
 
     List<String> files = new java.util.ArrayList<String>();
     boolean printBenchmark = printBenchmarkDefault();
@@ -796,7 +768,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     }
     catch (VCGException ex)
     {
-      commandException("VCGU-SM-CONFIG-ERROR", ex, cztpath);
+      commandException("VCGU-SM-CONFIG-ERROR", ex, cztpath, debug_);
       System.exit(-6);
     }
 
@@ -856,11 +828,11 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
         {
           exitCode = -11;
         }
-        commandException("parsing", e, "file does not contain Z section " + specNameNoPath);
+        commandException("parsing", e, "file does not contain Z section " + specNameNoPath, debug_);
       }
       catch (CztException f)
       {
-        cztException("parsing", f, specNameNoPath);
+        cztException("parsing", f, specNameNoPath, debug_);
         exitCode = -12;
       }
 
@@ -902,12 +874,12 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
                 exitCode = -22;
               }
               wellTyped = false;
-              commandException("type checking", e, file);
+              commandException("type checking", e, file, debug_);
             }
             catch (CztException f)
             {
               wellTyped = false;
-              cztException("type checking", f, file);
+              cztException("type checking", f, file, debug_);
               exitCode = -23;
             }
           }
@@ -1014,11 +986,11 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
                   extra = e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
                   exitCode = -36;
                 }
-                commandException(getClass().getSimpleName(), e, extra);
+                commandException(getClass().getSimpleName(), e, extra, debug_);
               }
               catch (CztException f)
               {
-                cztException(getClass().getSimpleName(), f, file);
+                cztException(getClass().getSimpleName(), f, file, debug_);
                 vcgErrors++;
                 exitCode = -37;
               }
@@ -1048,13 +1020,13 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
               }
               catch (CommandException e)
               {
-                commandException("VCGU-PRINT-VC-ZSECT", e, file);
+                commandException("VCGU-PRINT-VC-ZSECT", e, file, debug_);
                 printErrors++;
                 exitCode = -40;
               }
               catch (CztException f)
               {
-                cztException("VCGU-PRINT-VC-ZSECT", f, file);
+                cztException("VCGU-PRINT-VC-ZSECT", f, file, debug_);
                 printErrors++;
                 exitCode = -41;
               }
@@ -1092,6 +1064,87 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     System.exit(exitCode);
   }
 
+  /* ERROR HANDLING */
+
+//  public static interface VCGExceptionHandler<E>
+//  {
+//    public Class<E> getExceptionClass();
+//    public int handleException(E e);
+//  }
+//
+//  public static <E extends Throwable> void handleException(E e, String extra, VCGExceptionHandler<E> handler, boolean debug)
+//  {
+//
+//  }
+//
+//  public static Pair<Integer, Integer> handleExceptionInVCG(Throwable e, String extra, boolean debug)
+//  {
+//  // TODO: please simplify this very nested exception causality, please(!!!)
+//    Integer left = 0;  // number of errors
+//    Integer right = 0; // exit code
+//    if (e instanceof CommandException)
+//    {
+//      if (e instanceof VCGException)
+//      {
+//        // if VCG during collection, expose possible def tbl errors
+//        if (e instanceof VCCollectionException && e.getCause() instanceof VCGException)
+//        {
+//          if (e.getCause().getCause() instanceof DefinitionException)
+//          {
+//            left  = ((DefinitionException)e.getCause().getCause()).totalNumberOfErrors();
+//            extra = ((DefinitionException)e.getCause().getCause()).getMessage() + (extra != null ? "\n" + extra : "");
+//            right = -30;
+//          }
+//          else
+//          {
+//            left = 1;
+//            right = -31;
+//          }
+//        }
+//        // if VCG during CmdExp try to get parse / type errors
+//        else if (e.getCause() instanceof CommandException)
+//        {
+//          CommandException vcge = (CommandException)e.getCause();
+//          if (vcge.getCause() instanceof ParseException)
+//          {
+//            left = printParseErrors((ParseException)vcge.getCause());
+//            extra = vcge.getCause().getMessage() + (extra != null ? "\n" + extra : "");
+//            right = -32;
+//          }
+//          else if (vcge.getCause() instanceof TypeErrorException)
+//          {
+//            left = printTypeErrors((TypeErrorException)vcge.getCause());
+//            extra = vcge.getCause().getMessage() + (extra != null ? "\n" + extra : "");
+//            right = -33;
+//          }
+//          else
+//          {
+//            left = 1;
+//            right = -34;
+//          }
+//        }
+//        else
+//        {
+//          left = 1;
+//          right = -35;
+//        }
+//      }
+//      else
+//      {
+//        left = 1;
+//        right = -36;
+//      }
+//      commandException(e.getClass().getSimpleName(), (CommandException)e, extra, debug);
+//    }
+//    else if (e instanceof CztException)
+//    {
+//      cztException(e.getClass().getSimpleName(), (CztException)e, extra, debug);
+//      left = 1;
+//      right = -37;
+//    }
+//    return new Pair<Integer, Integer>(left, right);
+//  }
+
   public static int printParseErrors(ParseException pe)
   {
     int result = pe.getErrorList().size();
@@ -1105,6 +1158,35 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     // VCG already prints errors.
     //te.printErrors();
     return result;
+  }
+
+  protected static void commandException(String job, CommandException e, String extra, boolean debug)
+  {
+    System.err.println("Command exception has happened while " + job
+                       + "\n\t message = " + e.getMessage()
+                       + "\n\t cause   = " + (e.getCause() != null ? e.getCause().getMessage() : "none")
+                       + "\n\t clue    = " + extra);
+    if (debug)
+    {
+      e.printStackTrace();
+    }
+    //System.err.flush();
+    //System.exit(-1);
+  }
+
+  protected static void cztException(String job, CztException e, String extra, boolean debug)
+  {
+    System.err.println("CZT exception " + e.getClass().getSimpleName()
+                       + "has happened while " + job
+                       + "\n\t message = " + e.getMessage()
+                       + "\n\t cause   = " + (e.getCause() != null ? e.getCause().getMessage() : "none")
+                       + "\n\t clue    = " + extra
+                       + "\n\t BUG!    = opps. Please report it to czt-devel@lists.sourceforge.net");
+    if (debug)
+    {
+      e.printStackTrace();
+    }
+    //System.err.flush();
   }
 
   /* UTILITY CLASS STATIC METHODS */

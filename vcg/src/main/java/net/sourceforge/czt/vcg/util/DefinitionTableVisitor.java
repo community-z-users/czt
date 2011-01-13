@@ -56,6 +56,7 @@ import net.sourceforge.czt.z.ast.QntExpr;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RenameExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchExpr2;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.Type2;
@@ -80,6 +81,7 @@ import net.sourceforge.czt.z.visitor.FreetypeVisitor;
 import net.sourceforge.czt.z.visitor.ZBranchListVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.util.ZUtils.ZExprKind;
 
 /**
  * A visitor that computes a {@link DefinitionTable} from a given
@@ -102,6 +104,8 @@ public class DefinitionTableVisitor
              ZSectVisitor<DefinitionTable>
 {
   private DefinitionTable table_;
+  private final boolean debug_;
+  protected static boolean DEFAULT_DEBUG_DEFTBL_VISITOR = false;
   private final ZName freeTypeCtorOpName_;
 
   private SectTypeEnvAnn types_;
@@ -113,13 +117,19 @@ public class DefinitionTableVisitor
   private Stack<ZName> currentName_;
 
   private Definition currentGlobalDef_;
+  private LocAnn currentLocAnn_;
 
   private final Factory factory_;
   private final UnificationEnv typeUniEnv_;
 
-  public DefinitionTableVisitor(SectionInfo sectInfo)
+  protected DefinitionTableVisitor(SectionInfo sectInfo)
   {
     this(sectInfo, ZUtils.FACTORY);
+  }
+
+  protected DefinitionTableVisitor(SectionInfo sectInfo, Factory factory)
+  {
+    this(sectInfo, factory, DEFAULT_DEBUG_DEFTBL_VISITOR);
   }
 
   /**
@@ -128,14 +138,17 @@ public class DefinitionTableVisitor
    * type <code>net.sourceforge.czt.parser.util.DefinitionTable.class</code>.
    * @param sectInfo
    * @param factory
+   * @param debug
    */
-  public DefinitionTableVisitor(SectionInfo sectInfo, Factory factory)
+  protected DefinitionTableVisitor(SectionInfo sectInfo, Factory factory, boolean debug)
   {
     super(sectInfo);
     sectName_ = null;
+    currentLocAnn_ = null;
     currentGlobalDef_ = null;
     types_ = null;
     factory_ = factory;
+    debug_ = debug;
     typeUniEnv_ = new UnificationEnv();
     freeTypeCtorOpName_ = factory_.createZName(ZString.ARG_TOK+ZString.INJ+ZString.ARG_TOK);
     currentName_ = new Stack<ZName>();
@@ -161,8 +174,7 @@ public class DefinitionTableVisitor
     if (errors_.isEmpty())
       return getDefinitionTable();
     else
-      throw new DefinitionException(
-              "Exceptions raise whilst calculating DefTable for " + sectName_, errors_);
+      throw new DefinitionException(term, "Exceptions raise whilst calculating DefTable for " + sectName_, errors_);
   }
 
   protected DefinitionTable getDefinitionTable()
@@ -180,7 +192,7 @@ public class DefinitionTableVisitor
   {
     final String message = "DefinitionTables can only be build for ZSects; " +
       "was tried for " + term.getClass();
-    throw new CztException(new DefinitionException(message,
+    throw new CztException(new DefinitionException(term, message,
             new UnsupportedOperationException()));
   }
 
@@ -222,6 +234,9 @@ public class DefinitionTableVisitor
   @Override
   public DefinitionTable visitAxPara(AxPara axPara)
   {
+    // get location for raise unsupported error case
+    currentLocAnn_ = axPara.getAnn(LocAnn.class);
+
     // gets the generic names
     ZNameList genFormals = axPara.getZNameList();
 
@@ -262,7 +277,7 @@ public class DefinitionTableVisitor
       case OmitBox:
         assert ZUtils.isAxParaSchemaOrHorizDefValid(axPara);
         
-        Name name = ((ConstDecl)decls.get(0)).getName();
+        ZName name = ((ConstDecl)decls.get(0)).getZName();
         Expr expr = ((ConstDecl)decls.get(0)).getExpr();
 
         currentGlobalDef_ = null;
@@ -298,6 +313,7 @@ public class DefinitionTableVisitor
     }
 
     currentGlobalDef_ = null;
+    currentLocAnn_ = null;
     return null;
   }
 
@@ -310,6 +326,8 @@ public class DefinitionTableVisitor
   @Override
   public DefinitionTable visitGivenPara(GivenPara para)
   {
+    currentLocAnn_ = para.getAnn(LocAnn.class);
+
     // doesn't work for name jokers!
     for(Name given : para.getZNameList())
     {
@@ -325,13 +343,16 @@ public class DefinitionTableVisitor
                       DefinitionKind.GIVENSET);
       }
     }
+    currentLocAnn_ = null;
     return null;
   }
 
   @Override
   public DefinitionTable visitFreePara(FreePara para)
   {
+    currentLocAnn_ = para.getAnn(LocAnn.class);
     visit(para.getFreetypeList());
+    currentLocAnn_ = null;
     return null;
   }
 
@@ -407,6 +428,7 @@ public class DefinitionTableVisitor
   public DefinitionTable visitZSect(ZSect zSect)
   {
 	  sectName_ = zSect.getName();
+    currentLocAnn_ = zSect.getAnn(LocAnn.class);
     // collect information from parents - accumulate errors rather than raise then
     List<DefinitionTable> parentTables =
       new ArrayList<DefinitionTable>();
@@ -473,6 +495,8 @@ public class DefinitionTableVisitor
       // throw it otherwise
         throw e;
     }
+    // before processing para list, clear locAnn for DefException
+    currentLocAnn_ = null;
 
     // visit this section to update table_
     visit(zSect.getParaList());
@@ -646,12 +670,13 @@ public class DefinitionTableVisitor
 
   protected void addLocalReference(Definition local)
   {
+    assert currentGlobalDef_ != null;
     if (local == null)
     {
       throw new CztException(new DefinitionException("Cannot add global definition reference for null"));
     }
-    assert currentGlobalDef_ != null;
-    assert local != null && local.getDefinitionKind().isReference() : "cannot add global definition reference for " + local;
+                                              // TODO: should this be just isSchemaDecl()?  WAS isSchemaReference()
+    assert local != null && local.getDefinitionKind().isSchemaReference() : "cannot add global definition reference for " + local;
     // get (deep) copies of carrier type and expr
     Type2 carrierType = local.getCarrierType();
     if (carrierType != null)
@@ -671,7 +696,7 @@ public class DefinitionTableVisitor
     catch (DefinitionException e)
     {
       //throw new CztException(e);
-      raiseUnsupportedCase("while adding (cloned+gen-instantiated) local ref: " + e.getMessage(), localDef.getDefinitionKind(), localDef.getExpr());
+      raiseUnsupportedCase("while adding local ref (cloned+geninst): " + e.getMessage(), localDef.getDefinitionKind(), localDef.getExpr());
     }
   }
 
@@ -693,19 +718,36 @@ public class DefinitionTableVisitor
     return result;
   }
 
-  List<DefinitionException> errors_ = new ArrayList<DefinitionException>();
+  private List<DefinitionException> errors_ = new ArrayList<DefinitionException>();
 
+  /**
+   * Adds a definition exception to the list of errors caused during def table construction.
+   * @param message
+   * @param defKind
+   * @param term
+   */
   private void raiseUnsupportedCase(String message, DefinitionKind defKind, Term term)
   {
     LocAnn loc = term.getAnn(LocAnn.class);
-    errors_.add(new DefinitionException(
-            "DefTable could not handle Decl in " + sectName_
+    final String msg = "DefTable could not handle Decl in " + sectName_
             + "\n\t Kind  : " + String.valueOf(defKind)
             + "\n\t Reason: " + message
-            + "\n\t Loc   : " + (loc != null ? loc.toString() : "unknown")
-            + "\n\t Term  : " + term.toString()));
+            + "\n\t SrcLoc: " + (currentLocAnn_ != null ? currentLocAnn_.toString() : "unknown")
+            + "\n\t Term  : " + term.toString()
+            + "\n\t TrmLoc: " + (loc != null ? loc.toString() : "unknown");
+    errors_.add(new DefinitionException(currentLocAnn_, msg));
+    debug("unsupported case raised \t\t with stack = " + currentName_ + ": \n\"" + msg + "\"\n");
   }
 
+  /**
+   * Figures out what kind of expression is the one given, usually from a OmitBox AxPara.
+   * It decides according to {@link ZUtils#whatKindOfZExpr(net.sourceforge.czt.z.ast.Expr) }.
+   * If mixed, it carries out further (deeper) investigation, including references, applications,
+   * and expressions with local bindings.
+   * @param genFormals
+   * @param expr
+   * @return
+   */
   protected DefinitionKind figureOutDefKindForOmitBoxExpr(ZNameList genFormals, Expr expr)
   {
     DefinitionKind result;
@@ -713,6 +755,8 @@ public class DefinitionTableVisitor
     switch (exprKind)
     {
       case PURE:
+        // TODO: when schemas are used as types (e.g. \power S) then, it won't work properly!
+        //       we would then need type information.
         result = DefinitionKind.AXIOM;
         break;
       case SCHEMA:
@@ -749,7 +793,7 @@ public class DefinitionTableVisitor
         // Lambda Decl @ Expr => see Expr for adding this as AXIOM or SCHDECL
         // Let X == E @ E2 => see E2
         // Mu Decl @ E => see E
-          DefinitionKind defKind = DefinitionKind.getSchBinding(defName, defExpr);
+          DefinitionKind defKind = DefinitionKind.getSchBinding(defName/*, defExpr*/);
           Stack<DefinitionKind> stack = new Stack<DefinitionKind>();
           stack.push(defKind);
           processDeclList(genFormals, qexpr.getZSchText().getZDeclList(), stack, new Stack<Stroke>());
@@ -816,6 +860,11 @@ public class DefinitionTableVisitor
    * Add definition for the <code>decl</code> given with its underlying (power) type.
    * Unless it is a schema declaration, the type power(decl.getExpr()), otherwise it
    * would not be possible to distinguish C: P(E) and C == E in an axiom or schema Declpart
+   *
+   * Note that this does not process C == E within an OmitBox, when E is a schema,
+   * but only C == E with OmitBox for axiom or C == E coming from a ConstDecl inclusion.
+   * For C == E with OmitBox as a schema, we need a different solution because of the
+   * global declaration for C.
    * @param decl
    * @param genFormals
    * @param strokes
@@ -873,7 +922,6 @@ public class DefinitionTableVisitor
   protected void processRefExpr(ZNameList genFormals, RefExpr refExpr,
           Stack<Stroke> strokes, Stack<DefinitionKind> defKinds)
   {
-    assert !currentName_.empty();
     assert currentGlobalDef_ != null;
 
     // this name may contain strokes already - keep then.
@@ -893,7 +941,7 @@ public class DefinitionTableVisitor
       refName = origName;
     }
 
-    // if (is Delta/Xi S) then refNae = (S + next stroke in stack) else (S, which may contain strokes)
+    // if (is Delta/Xi S) then refName = (S + next stroke in stack) else (S, which may contain strokes)
     // that is: S' may be added globally for \Delta Xi case
     processRefName(genFormals, refName, strokes, defKinds);
 
@@ -903,6 +951,13 @@ public class DefinitionTableVisitor
     ZName strokedName = buildName(refName, strokes);
     ZName includedName = isSpecialRefName ? origName : strokedName;
     Definition includedDef = table_.lookupDeclName(includedName);
+
+    // inclusions need to be added if first time or if not yet added to current global
+    // for most cases, the first is enough, but more intricate uses of schema calculus may need second
+    // in particular with complex schema expressions (SchExpr2).
+    boolean needsLocalIncl = includedDef == null ||
+            !currentGlobalDef_.getLocalDecls().containsKey(includedName) /*|| !defKinds.peek().isSchemaExpr()*/;
+
     if (isSpecialRefName && includedDef == null)
     {
       Definition state     = table_.lookupDeclName(refName);
@@ -954,11 +1009,12 @@ public class DefinitionTableVisitor
         currentGlobalDef_ = topLevelDef;
       }
     }
-    assert includedDef != null;//?
+    assert includedDef != null : "null includedDef in processRefExpr for " + origName;//?
 
     // if null, there is a problem: includedDef wasn't found and isn't special! - it is raised
-    // otherwise, add a reference for includedDef for current global def
-    addLocalReference(includedDef);
+    // otherwise, add a reference for includedDef for current global def, but only if needed
+    if (needsLocalIncl)
+      addLocalReference(includedDef);
 
     // pop the stroke stack accordingly, if needed
     if (isSpecialRefName)
@@ -983,6 +1039,7 @@ public class DefinitionTableVisitor
   protected void processRefName(ZNameList genFormals, ZName refName,
           Stack<Stroke> strokes, Stack<DefinitionKind> defKinds)
   {
+    assert currentGlobalDef_ != null;
     assert !ZUtils.isDeltaXi(refName) : "Delta/Xi refNames are processed as InclDecl!";
 
     // look the name up: make sure it has been properly processed
@@ -992,12 +1049,14 @@ public class DefinitionTableVisitor
     if (def != null)
     {
       Expr defExpr = def.getExpr();
-      if (def.getDefinitionKind().isReference())
+                                 // TODO: should this be  isSchemaReference()?
+      if (def.getDefinitionKind().isSchemaReference())
       {
-        // process the elements for the schema expression
-        if (defExpr instanceof SchExpr)
-        {
-          SchExpr schExpr = (SchExpr)defExpr;
+        // process the elements for the schema expression, maybe a complex one
+        // if (defExpr instanceof SchExpr)
+        //{
+        //  SchExpr schExpr = (SchExpr)defExpr;
+        Expr schExpr = defExpr;
 
           // only have work to do if the name's changed (e.g., dashed / decorated)
           // only DecorExpr or Delta/Xi inclusion push strokes.
@@ -1006,7 +1065,8 @@ public class DefinitionTableVisitor
             // get the stroked definition
             ZName strokedName = buildName(refName, strokes);
             Definition strokedDef = table_.lookupName(strokedName);
-            boolean needsLocalReference = strokedDef == null;
+            boolean needsLocalReference = strokedDef == null; //||
+                    //!currentGlobalDef_.getLocalDecls().containsKey(strokedName) /*|| !defKinds.peek().isSchemaExpr()*/;
             // if already in the table, no need to process it
             // otherwise, add the stroked version of refName on top-level
             if (strokedDef == null)
@@ -1030,12 +1090,12 @@ public class DefinitionTableVisitor
           // otherwise, we are done
           //    this is the case where an RefExpr has already been properly processed
 
-        }
+        //}
         // complex reference for schema expression (e.g., should not have been added as SCHEMADECL, but SCHEMAEXPR)
-        else
-        {
-          raiseUnsupportedCase("complex definition for schema reference", def.getDefinitionKind(), defExpr);
-        }
+        //else
+        //{
+        //  raiseUnsupportedCase("complex definition for schema reference", def.getDefinitionKind(), defExpr);
+        //}
       }
       // this method should not be called for references that are not schema declarations
       else
@@ -1050,6 +1110,7 @@ public class DefinitionTableVisitor
     }
   }
 
+  // TODO: make these two stacks global variables?
   protected void processInclDecl(InclDecl decl, ZNameList genFormals,
           Stack<Stroke> strokes, Stack<DefinitionKind> defKinds)
   {
@@ -1087,9 +1148,10 @@ public class DefinitionTableVisitor
       }
       else
       {
+        assert !currentName_.empty();
         // SchExpr = on-the-fly constructions as decorated inclusion  S == [ [ x: T ]~'    ]
         // Expr    = complex schema calculus as decoared inclusion    S == [ (T \land R)~' ]
-        raiseUnsupportedCase("complex decorated inclusion", DefinitionKind.SCHEMAEXPR, decl);
+        raiseUnsupportedCase("complex decorated inclusion", DefinitionKind.getSchExpr(currentName_.peek()), decl);
       }
     }
     // somewhat unusual case: S == [ [ x: T | P ] | Q ]
@@ -1100,13 +1162,15 @@ public class DefinitionTableVisitor
     // somewhat usual case: S == [ St[x/y] | P ]
     else if (inclDeclExpr instanceof RenameExpr)
     {
+      assert !currentName_.empty();
       RenameExpr rexpr = (RenameExpr)inclDeclExpr;
-      raiseUnsupportedCase("not handling rename expr in inclusion", DefinitionKind.SCHEMAEXPR, rexpr);
+      raiseUnsupportedCase("not handling rename expr in inclusion", DefinitionKind.getSchExpr(currentName_.peek()), rexpr);
     }
     else
     {
+      assert !currentName_.empty();
       // S == [ (T \land R) | P ] => will need to use type information?
-      raiseUnsupportedCase("complex schema expression inclusion", DefinitionKind.SCHEMAEXPR, decl);
+      raiseUnsupportedCase("complex schema expression inclusion", DefinitionKind.getSchExpr(currentName_.peek()), decl);
     }
   }
 
@@ -1130,7 +1194,7 @@ public class DefinitionTableVisitor
 
     DefinitionKind currentDefKind = defKinds.peek();
 
-    SectionManager.traceInfo("processing sch expr = " + schName + " as " + currentDefKind);
+    debug("processing sch expr = " + schName + " as " + currentDefKind + "\t\t with stack = " + currentName_);
 
     // we can process SchExpr only when handling their declaraitons
     // or their inclusions as bindings. Otherwise there is a problem?
@@ -1144,7 +1208,7 @@ public class DefinitionTableVisitor
       SchExpr schExpr = (SchExpr)expr;
 
       // push inclusion kind onto the stack => these are local to the bindings
-      DefinitionKind schKind = defKinds.push(DefinitionKind.getSchBinding(schName, schExpr));
+      DefinitionKind schKind = defKinds.push(DefinitionKind.getSchBinding(schName/*, schExpr*/));
 
       processDeclList(genFormals, schExpr.getZSchText().getZDeclList(), defKinds, strokes);
 
@@ -1181,11 +1245,39 @@ public class DefinitionTableVisitor
 //             (term instanceof ExistsExpr) ||
 //             (term instanceof Exists1Expr) ||
 //             (term instanceof ForallExpr))
+    // S == T; as well as nested S == T \land R (e.g., T wil be processed as SchRef, even if T is a SchText - S == [ v: X ] \land R !)
+    else if (expr instanceof RefExpr)
+    {
+      // for reference
+      processRefExpr(genFormals, (RefExpr)expr, strokes, defKinds);
+      //raiseUnsupportedCase("complex definition for schema reference", currentDefKind, expr);
+    }
+    // complex reference for schema expression, yet known to be strictly schema calculus
+    else if (ZUtils.whatKindOfZExpr(expr).equals(ZExprKind.SCHEMA))
+    {
+      DefinitionKind schExprKind = defKinds.push(DefinitionKind.getSchExpr(schName));
 
-    // complex reference for schema expression (e.g., should not have been added as SCHEMADECL, but SCHEMAEXPR)
+      // for And, Or, Imp, Iff, Pipe, Proj, Comp (e.g., SchExpr2): just add each side as a SchExpr
+      // if they are complex expressions themselves, then, the process recurses
+      if (expr instanceof SchExpr2)
+      {
+        SchExpr2 sexpr = (SchExpr2)expr;
+        processSchExpr(genFormals, refName, sexpr.getLeftExpr(), defKinds, strokes);
+        processSchExpr(genFormals, refName, sexpr.getRightExpr(), defKinds, strokes);
+      }
+      else
+      {
+        raiseUnsupportedCase("complex schema calculus definition for schema", currentDefKind, expr);
+      }
+
+      // pop it from the stack
+      assert !defKinds.empty() : "empty definition stack";
+      DefinitionKind old = defKinds.pop();
+      assert old.equals(schExprKind) : "definition stack consistency: not SCHEXPR";
+    }
     else
     {
-      raiseUnsupportedCase("complex definition for schema reference", currentDefKind, expr);
+      raiseUnsupportedCase("complex definition for schema", currentDefKind, expr);
     }
 
     // clear current name
@@ -1228,9 +1320,18 @@ public class DefinitionTableVisitor
           // odd Ax case: inclusion in axiomatic box (!)
           else if (decl instanceof InclDecl)
           {
-            // inclusions are taken as global
-            //processInclDecl((InclDecl)decl, genFormals, strokes, defKinds);
-            raiseUnsupportedCase("TODO: schema inclusion in axiomatic definition", currentDefKind, decl);
+            // inclusions are taken as global. For now only process RefExpr inclusions
+            // as other forms are very rare / wierd?
+            //if (((InclDecl)decl).getExpr() instanceof RefExpr)
+            //{
+            //  currentGlobalDef_ = table_.lookupDeclName(((RefExpr)((InclDecl)decl).getExpr()).getZName());
+            //  processInclDecl((InclDecl)decl, genFormals, strokes, defKinds);
+            //  currentGlobalDef_ = null;
+            //
+            // TODO: this messes up testing because of some cases that it does not update currentGlobalDef_
+            //}
+            //else
+              raiseUnsupportedCase("schema expression inclusion in axiomatic definition", currentDefKind, decl);
           }
           break;
 
@@ -1254,7 +1355,7 @@ public class DefinitionTableVisitor
           else
           {
             // non-std schema
-            raiseUnsupportedCase("unknown schema declaration", currentDefKind, decl);
+            raiseUnsupportedCase("unknown schema declaration form", currentDefKind, decl);
           }
           break;
 
@@ -1291,5 +1392,12 @@ public class DefinitionTableVisitor
           raiseUnsupportedCase("invalid AxPara decl list", currentDefKind, decl);
       }
     }
+  }
+
+  private void debug(String msg)
+  {
+    if (debug_)
+      System.err.println(msg);
+//    SectionManager.traceInfo(msg);
   }
 }

@@ -85,9 +85,9 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     Definition oldLocalDef = locals_.put(defName, def);
     if (oldLocalDef != null)
     {
-      final String message = "Duplicated local def \"" + DefinitionTable.printName(defName) +
-              "\" of \"" + DefinitionTable.printName(defName_) + "\" in section " + getSectionName();
-      throw new DefinitionException(message);
+      final String message = "Duplicated local def \"" + DefinitionTable.printTerm(defName) +
+              "\" of \"" + DefinitionTable.printTerm(defName_) + "\" in section " + getSectionName();
+      throw new DefinitionException(oldLocalDef.getDefName(), message);
     }
   }
 
@@ -164,7 +164,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
         SortedMap.Entry<ZName, Definition> entry2 = itE.next();
         buffer.append('\n');
         buffer.append(asMany('\t', localsDepth_+2));
-        buffer.append(DefinitionTable.printName(entry2.getKey()));
+        buffer.append(DefinitionTable.printTerm(entry2.getKey()));
         buffer.append("=");
         buffer.append(entry2.getValue().toString(simple));
       }
@@ -179,15 +179,15 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   @Override
   public String toString()
   {
-    return definition_.toString() + 
-           "\n\t\t\t DEFNAME = " + DefinitionTable.printName(defName_) +
-            "\n\t\t\t " + (genericParams_.isEmpty() ? "" :
-                 "GENERICS= " + genericParams_.toString() +
-      "\n\t\t\t ") + "KIND    = " + defKind_.toString() +
+    return "\n\t DEFNAME = " + DefinitionTable.printTerm(defName_) +
+           "\n\t DEFEXPR = " + DefinitionTable.printTerm(definition_) +
+           "\n\t " + (genericParams_.isEmpty() ? "" :
+                 "GENERICS= " + DefinitionTable.printTerm(genericParams_) +
+           "\n\t ") + "KIND    = " + defKind_.toString() +
                       (carrierType_ == null ? "" :
-            "\n\t\t\t CARSET  = " + carrierType_.toString().replaceAll("\n;","; ").replaceAll("\n]", "] ")) +
+           "\n\t CARSET  = " + DefinitionTable.printTerm(carrierType_).replaceAll("\n;","; ").replaceAll("\n]", "] ")) +
                       (locals_.isEmpty() ? "" :
-            "\n\t\t\t LOCALS  = \n\t\t\t\t   " + locals_.toString().replaceAll("\n\t\t\t", "\n\t\t\t\t").replaceAll("}", "}\n\t\t"));
+           "\n\t LOCALS  = \n\t\t   " + locals_.toString().replaceAll("\n\t", "\n\t\t").replaceAll("}", "}\n\t"));
   }
 
   public String toString(boolean simple)
@@ -195,8 +195,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     if (simple)
     {
       localsDepth_++;
-      String result = (genericParams_.isEmpty() ? "" : " [" + genericParams_.toString() + "]") + defKind_.toString() +
-             //"(" + DefinitionTable.printName(defName_) + ", " +
+      String result = (genericParams_.isEmpty() ? "" : " [" + DefinitionTable.printTerm(genericParams_) + "]") + defKind_.toString() +
+             //"(" + DefinitionTable.printTerm(defName_) + ", " +
                     //+ ")"
                    (!locals_.isEmpty() ? printLocals(simple) : "");
       localsDepth_--;

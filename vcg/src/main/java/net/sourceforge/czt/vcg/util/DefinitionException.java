@@ -18,37 +18,77 @@
  */
 package net.sourceforge.czt.vcg.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztErrorImpl;
+import net.sourceforge.czt.parser.util.CztErrorList;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.z.ast.LocAnn;
 
 public class DefinitionException extends InfoTable.InfoTableException
+        implements CztErrorList, CztError
 {
 
+  private final LocAnn locAnn_;
   private final List<DefinitionException> exceptions_;
+  private ErrorType errorType_ = ErrorType.ERROR;
+  private int transitiveErrors_ = 0;
+  private List<DefinitionException> transitiveExp_ = null;
+
 
   public DefinitionException(String message)
   {
-    super(message);
-    exceptions_ = Collections.emptyList();
-  }
-
-  public DefinitionException(String message, Throwable cause)
-  {
-    super(message, cause);
-    exceptions_ = Collections.emptyList();
+    this(null, message);
   }
 
   public DefinitionException(String message, List<DefinitionException> exceptions)
   {
+    this(null, message, exceptions);
+  }
+
+  public DefinitionException(Term term, String message)
+  {
+    this(term.getAnn(LocAnn.class), message);
+  }
+
+  public DefinitionException(Term term, String message, Throwable cause)
+  {
+    this(term.getAnn(LocAnn.class), message, cause);
+  }
+
+  public DefinitionException(Term term, String message, List<DefinitionException> exceptions)
+  {
+    this(term.getAnn(LocAnn.class), message, exceptions);
+  }
+
+  public DefinitionException(LocAnn loc, String message)
+  {
     super(message);
+    locAnn_ = loc;
+    exceptions_ = Collections.emptyList();
+  }
+  
+  public DefinitionException(LocAnn loc, String message, Throwable cause)
+  {
+    super(message, cause);
+    locAnn_ = loc;
+    exceptions_ = Collections.emptyList();
+  }
+
+  public DefinitionException(LocAnn loc, String message, List<DefinitionException> exceptions)
+  {
+    super(message);
+    locAnn_ = loc;
     exceptions_ = Collections.unmodifiableList(exceptions);
   }
 
-  public DefinitionException(String message, Throwable cause, List<DefinitionException> exceptions)
+  public LocAnn getLoc()
   {
-    super(message, cause);
-    exceptions_ = Collections.unmodifiableList(exceptions);
+    return locAnn_;
   }
 
   public List<DefinitionException> getExceptions()
@@ -56,16 +96,45 @@ public class DefinitionException extends InfoTable.InfoTableException
     return exceptions_;
   }
 
+  public List<DefinitionException> getTransitiveExceptions()
+  {
+    if (transitiveExp_ == null)
+    {
+      transitiveExp_ = new ArrayList<DefinitionException>();
+      transitiveExp_.add(this);
+      for (DefinitionException de : exceptions_)
+      {
+        transitiveExp_.addAll(de.getTransitiveExceptions());
+      }
+    }
+    assert transitiveExp_.size() >= exceptions_.size();
+    return transitiveExp_;
+  }
+
   public int totalNumberOfErrors()
   {
-    int result = 1;
-    for(DefinitionException de : exceptions_)
+    if (transitiveErrors_ == 0)
     {
-      result += de.totalNumberOfErrors();
+      transitiveErrors_ = 1;
+      for(DefinitionException de : exceptions_)
+      {
+        transitiveErrors_ += de.totalNumberOfErrors();
+      }
     }
-    assert result >= exceptions_.size();
-    return result;
+    assert transitiveErrors_ >= exceptions_.size();
+    return transitiveErrors_;
   }
+
+/*
+  public DefinitionException getError(int index)
+  {
+    if (index <= 0)
+      return this;
+    else if (index > 0 && index < exceptions_.size())
+      return exceptions_.get(index-1);
+    else
+      return exceptions_.
+  }*/
 
   private static int innerExpDepth_ = 0;
   private static String asMany(char ch, int count)
@@ -79,12 +148,11 @@ public class DefinitionException extends InfoTable.InfoTableException
     return builder.toString();
   }
 
-  @Override
-  public String getMessage()
+  public String getMessage(boolean printInner)
   {
     final String s = super.getMessage();
     StringBuilder result = null;
-    if (!exceptions_.isEmpty())
+    if (!exceptions_.isEmpty() && printInner)
     {
       innerExpDepth_++;
       // previous msg + msg below + about 30 in length for each exception +/-
@@ -99,5 +167,71 @@ public class DefinitionException extends InfoTable.InfoTableException
       innerExpDepth_--;
     }
     return s + (result != null ? result.toString() : "");
+  }
+
+  @Override
+  public String getMessage()
+  {
+    return getMessage(false);
+  }
+
+  @Override
+  public List<? extends CztError> getErrors()
+  {
+    return getTransitiveExceptions();
+  }
+
+  @Override
+  public ErrorType getErrorType()
+  {
+    return errorType_;
+  }
+
+  public void setErrorType(ErrorType errorType)
+  {
+    errorType_ = errorType;
+  }
+
+  @Override
+  public String getInfo()
+  {
+
+    return transitiveErrors_ > 0 ? "\t with " + transitiveErrors_ + " inner error(s)" : null;
+  }
+
+  @Override
+  public int getLine()
+  {
+    return locAnn_ != null ? locAnn_.getLine().intValue() : -1;
+  }
+
+  @Override
+  public int getColumn()
+  {
+    return locAnn_ != null ? locAnn_.getCol().intValue() : -1;
+  }
+
+  @Override
+  public int getStart()
+  {
+    return locAnn_ != null ? locAnn_.getStart().intValue() : -1;
+  }
+
+  @Override
+  public int getLength()
+  {
+    return locAnn_ != null ? locAnn_.getLength().intValue() : -1;
+  }
+
+  @Override
+  public String getSource()
+  {
+    return locAnn_ != null ? locAnn_.getLoc() : "";
+  }
+
+  @Override
+  public int compareTo(CztError o)
+  {
+    return CztErrorImpl.compareTo(this, o);
   }
 }

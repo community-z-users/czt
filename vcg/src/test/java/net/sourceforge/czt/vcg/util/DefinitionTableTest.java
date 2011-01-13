@@ -16,22 +16,24 @@
  * along with CZT; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.czt.vcg.z.feasibility;
+
+package net.sourceforge.czt.vcg.util;
 
 import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
+import net.sourceforge.czt.parser.util.CztManagedTest;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.vcg.z.VCGException;
-import net.sourceforge.czt.vcg.util.VCGTest;
-import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils;
+import net.sourceforge.czt.z.ast.Spec;
 
 /**
  *
  * @author Leo Freitas
- * @date Jan 6, 2011
+ * @date Jan 13, 2011
  */
-public class FeasibilityTest extends VCGTest implements FeasibilityPropertyKeys
+public class DefinitionTableTest extends VCGTest
 {
 
   protected static final boolean DEBUG_TESTING = false;
@@ -42,18 +44,18 @@ public class FeasibilityTest extends VCGTest implements FeasibilityPropertyKeys
   {
     SectionManager manager = FeasibilityUtils.getFeasibilityUtils().createSectionManager(
             FeasibilityUtils.getFeasibilityUtils().getExtension());
-    FeasibilityTest test = new FeasibilityTest(manager, DEBUG_TESTING);
+    VCGTest test = new DefinitionTableTest(manager, DEBUG_TESTING);
     Test result = test.suite(TEST_DIR, null);
     System.out.println("Number of tests: " + result.countTestCases());
     return result;
   }
 
-  protected FeasibilityTest(String extension, boolean debug)
+  protected DefinitionTableTest(String extension, boolean debug)
   {
     super(extension, debug);
   }
 
-  protected FeasibilityTest(SectionManager manager, boolean debug)
+  protected DefinitionTableTest(SectionManager manager, boolean debug)
   {
     super(manager, debug);
   }
@@ -61,19 +63,48 @@ public class FeasibilityTest extends VCGTest implements FeasibilityPropertyKeys
   @Override
   protected TestCase createPositiveTest(URL url)
   {
-    return new NormalVCGTest<Pred>(url, FeasibilityUtils.getFeasibilityUtils());
+    return new NormalDefTableTest(url);
   }
 
-  /**
-   * Do not include "_dc.tex" in tests. this includes dc for fsb, though!
-   * @param name
-   * @param positive
-   * @return
-   */
   @Override
   protected boolean includeVCGTest(String name, boolean positive)
   {
-    return name.lastIndexOf("_dc"/*VCG_DOMAINCHECK_SOURCENAME_SUFFIX*/) == -1 &&
-           name.lastIndexOf(VCG_FEASIBILITY_SOURCENAME_SUFFIX) == -1;
+    return true; // include all
+  }
+
+  public class NormalDefTableTest extends CztManagedTest.TestNormal
+  {
+    public NormalDefTableTest(URL url)
+    {
+      super(url);
+    }
+
+    @Override
+    protected void doTest(Spec term) throws Exception
+    {
+      // do nothing
+    }
+
+    /**
+     * Exceptions on positive tests are errors.
+     * @param e
+     * @param failureMsg
+     * @return false
+     */
+    @Override
+    protected boolean handledException(Throwable e, StringBuilder failureMsg)
+    {
+      boolean result = super.handledException(e, failureMsg);
+      if (!result)
+      {
+        if (e instanceof DefinitionException)
+        {
+          failureMsg.append("DefinitionException = \n");
+          failureMsg.append(((DefinitionException)e).getMessage(true));
+          result = true;//don't fail, but print out --- TODO: change to false when more examples are handled.
+        }
+      }
+      return result;
+    }
   }
 }

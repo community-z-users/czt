@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.InfoTable.InfoTableException;
 import net.sourceforge.czt.z.ast.ZName;
@@ -188,10 +189,10 @@ public class DefinitionTable extends InfoTable
     if (!def.getSectionName().equals(sectName))
     {
       final String message = "Inconsistent sections within defined name: " +
-              printName(def.getDefName()) + ". Given " + sectName +
+              printTerm(def.getDefName()) + ". Given " + sectName +
               ", declared section is " + def.getSectionName() +
               " in DefTbl for " + getSectionName();
-      throw new DefinitionException(message);
+      throw new DefinitionException(def.getDefName(), message);
     }
     checkSectionConsistency(sectName, def.getLocalDecls().values());
   }
@@ -216,7 +217,7 @@ public class DefinitionTable extends InfoTable
     {
       final String message = "Definition kind is not top-level declaration in "
               + sectName + "\n\t" + def ;
-      throw new DefinitionException(message);
+      throw new DefinitionException(def.getDefName(), message);
     }
   }
 
@@ -231,6 +232,8 @@ public class DefinitionTable extends InfoTable
     // check sect names are consistent, even if different from getSectionName() of this table.
     checkSectionConsistency(sectName, def);
 
+    ZName defName = def.getDefName();
+
     // get / create defs for calling section
     SortedMap<ZName, Definition> defOfSect;
     int key = knownSections_.indexOf(sectName);
@@ -242,25 +245,25 @@ public class DefinitionTable extends InfoTable
       defOfSect = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);
       SortedMap<ZName, Definition> old = definitions_.put(key, defOfSect);
       if (old != null)
-        throw new DefinitionException("Inconsistent (new) definition indexes for " + sectName);
+        throw new DefinitionException(defName, "Inconsistent (new) definition indexes for " + sectName);
     }
     else
     {
       if (!definitions_.containsKey(key))
-        throw new DefinitionException("Inconsistent (old) definition indexes for " + sectName);
+        throw new DefinitionException(defName, "Inconsistent (old) definition indexes for " + sectName);
       defOfSect = definitions_.get(key);
     }
     assert defOfSect != null && key >= 0;
     assert knownSections_.size() >= definitions_.keySet().size();
 
     // add definition or raise duplicates
-    Definition old = defOfSect.put(def.getDefName(), def);
+    Definition old = defOfSect.put(defName, def);
     if (old != null)
     {
       final String message = "Duplicated def \"" +
-              printName(def.getDefName()) + "\" from section " +
+              printTerm(def.getDefName()) + "\" from section " +
               def.getSectionName() + " in section " + getSectionName();
-      throw new DefinitionException(message);
+      throw new DefinitionException(defName, message);
     }
   }
 
@@ -349,7 +352,9 @@ public class DefinitionTable extends InfoTable
       if (result != null)
       {
         if (!result.getDefinitionKind().isGlobal() &&
-            !result.getDefinitionKind().isReference())
+                // TODO: should this be just isSchemaDecl()? NO
+            !result.getDefinitionKind().isSchemaReference())
+           //!result.getDefinitionKind().isSchemaDecl())
         {
           // throw? checkGlobalDef?
         }
@@ -415,7 +420,9 @@ public class DefinitionTable extends InfoTable
     Definition def = lookupDeclName(defName);
     SortedSet<Definition> result = new TreeSet<Definition>();
     // if this is a schema declaration, look for its bindings
-    if (def != null && def.getDefinitionKind().isReference())
+
+                        // TODO: should this be isSchemaReference()? MAYBE
+    if (def != null && def.getDefinitionKind().isSchemaDecl())
     {
       checkGlobalDef(def.getSectionName(), def);
       for(Definition localDef : def.getLocalDecls().values())
@@ -425,7 +432,8 @@ public class DefinitionTable extends InfoTable
           assert localDef.getLocalDecls().isEmpty();
           result.add(localDef);
         }
-        else if (localDef.getDefinitionKind().isReference())
+                      // TODO: should this be isSchemaReference()?
+        else if (localDef.getDefinitionKind().isSchemaDecl())
         {
           result.addAll(bindings(localDef.getDefName()));
         }
@@ -494,7 +502,7 @@ public class DefinitionTable extends InfoTable
     }
     else
     {
-      throw new DefinitionException("Unknown schema name in DefTbl " + defName);
+      throw new DefinitionException(defName, "Unknown schema name in DefTbl " + defName);
     }
   }
 
@@ -515,7 +523,7 @@ public class DefinitionTable extends InfoTable
       while (itE.hasNext())
       {
         SortedMap.Entry<ZName, Definition> entry2 = itE.next();
-        buffer.append(printName(entry2.getKey()));
+        buffer.append(printTerm(entry2.getKey()));
         buffer.append(" = ");
         buffer.append(entry2.getValue().toString(simple));
         if (itE.hasNext())
@@ -550,7 +558,7 @@ public class DefinitionTable extends InfoTable
            while (itE.hasNext())
            {
              SortedMap.Entry<ZName, Definition> entry2 = itE.next();
-             buffer.append(printName(entry2.getKey()));
+             buffer.append(printTerm(entry2.getKey()));
              buffer.append("\t= ");
              buffer.append(entry2.getValue().toString());
              if (itE.hasNext())
@@ -564,9 +572,9 @@ public class DefinitionTable extends InfoTable
     return buffer.toString();
   }
 
-  public static String printName(ZName name)
+  public static String printTerm(Term term)
   {
-    return name.accept(printVisitor_);
+    return term.accept(printVisitor_);
   }
 
   /** This interface allows visitors to visit definitions.

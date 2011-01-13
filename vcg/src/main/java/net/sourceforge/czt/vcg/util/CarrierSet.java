@@ -87,7 +87,7 @@ public class CarrierSet
       return (Expr)type.accept(this);
     } catch(ClassCastException e)
     {
-      throw new DefinitionException("Could not calculate carrier set for type " + type);
+      throw new DefinitionException(type, "Could not calculate carrier set for type " + type);
     }
   }
 

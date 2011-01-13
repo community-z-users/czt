@@ -17,7 +17,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.czt.vcg.z;
+package net.sourceforge.czt.vcg.util;
 
 import java.net.URL;
 import junit.framework.TestCase;
@@ -26,6 +26,10 @@ import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.vcg.z.VCEnvAnn;
+import net.sourceforge.czt.vcg.z.VCGException;
+import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
+import net.sourceforge.czt.vcg.z.VCGUtils;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -147,7 +151,7 @@ public abstract class VCGTest extends CztManagedTest
         if (e instanceof TypeErrorException)
         {
           TypeErrorException te = (TypeErrorException)e;
-          VCGUtils.printTypeErrors((TypeErrorException)e);
+          VCGUtils.printTypeErrors(te);
           result = true;
         }
         else if (e instanceof VCGException && e.getCause() instanceof CommandException)
@@ -163,7 +167,14 @@ public abstract class VCGTest extends CztManagedTest
             VCGUtils.printTypeErrors((TypeErrorException)vcge.getCause());
             result = true;
           }
-          SectionManager.traceWarning("VCG-RESULT-HAS-TYPE-ERRORS");
+          else if (/*e instanceof VCCollectionException &&*/ vcge instanceof VCGException &&
+                  vcge.getCause() instanceof DefinitionException)
+          {
+            failureMsg.append("DefTbl errors = \n");
+            failureMsg.append(((DefinitionException)vcge.getCause()).getMessage(true));
+            result = true;
+          }
+          SectionManager.traceWarning("VCG-RESULT-HAS-ERRORS");
         }
       }
       if (!result || isDebugging())
