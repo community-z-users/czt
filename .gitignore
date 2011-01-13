@@ -996,6 +996,7 @@ corejava/*.tmp
 corejava/.classpath
 corejava/.project
 corejava/.settings
+corejava/nbactions.xml
 corejava/src/*.aux
 corejava/src/*.blg
 corejava/src/*.log
