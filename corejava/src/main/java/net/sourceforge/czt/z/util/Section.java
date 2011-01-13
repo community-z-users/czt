@@ -35,7 +35,11 @@ public enum Section
   PRELUDE("prelude"),
 
   /** The name of the mathematical toolkit. */
-  STANDARD_TOOLKIT("standard_toolkit");
+  STANDARD_TOOLKIT("standard_toolkit"),
+  NUMBER_TOOLKIT("number_toolkit"),
+  RELATION_TOOLKIT("relation_toolkit"),
+  SEQUENCE_TOOLKIT("sequence_toolkit"),
+  SET_TOOLKIT("set_toolkit");
 
   private String name_;
 

@@ -732,7 +732,8 @@ public final class ZUtils
    * expression as the parameters (e.g., TupleExpr (S,T)).
    * For example: "(S + T)".  There is no case of ApplExpr where
    * RefExpr mixfix is true. For instance, both "A (\_ \fun\_)[S, T] B"
-   * and "(\_ \fun\_)[S, T] (A, B)" parse with ApplExpr and RefExpr mixfix false.
+   * and "(\_ \fun\_)[S, T] (A, B)" parse with ApplExpr true/false but 
+   * RefExpr mixfix false in both cases.
    */  
   public static boolean isFcnOpApplExpr(Term term)
   {
