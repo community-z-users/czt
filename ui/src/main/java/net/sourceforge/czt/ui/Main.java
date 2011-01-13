@@ -394,9 +394,8 @@ public class Main
           System.err.println("Available tools are:\n" + printProperties(props));
           return;
         }
-        Class cmdClass = Class.forName(name);
-        Method main =
-          cmdClass.getMethod("main", new Class[] { args.getClass() });
+        Class<?> cmdClass = Class.forName(name);
+        Method main = cmdClass.getMethod("main", new Class<?>[] { args.getClass() });
         try {
           String[] arguments = new String[args.length - 1];
           for (int i = 0; i < arguments.length; i++) {
