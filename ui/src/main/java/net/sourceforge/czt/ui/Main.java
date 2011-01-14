@@ -303,6 +303,16 @@ public class Main
                 writer.close();
               }
             }
+            else if (output.endsWith("aterm")) {
+              Spec spec = manager.get(
+                new Key<Spec>(source.getName(), Spec.class));
+              FileOutputStream stream = new FileOutputStream(output);
+              Writer writer = new OutputStreamWriter(stream);
+              ToATermVisitor visitor = new ToATermVisitor();
+              spec.accept(visitor);
+              writer.write(visitor.getResult());
+              writer.close();
+            }
             else {
               System.err.println("Unsupported output file " + output);
               return;
