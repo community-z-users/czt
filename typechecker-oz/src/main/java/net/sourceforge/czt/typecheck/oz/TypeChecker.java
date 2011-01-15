@@ -51,16 +51,17 @@ public class TypeChecker
   public TypeChecker(Factory factory,
                      SectionManager sectInfo)
   {
-    this(factory, sectInfo, true, false, false);
+    this(factory, sectInfo, false, true, false, false);
   }
 
   public TypeChecker(Factory factory,
                      SectionManager sectInfo,
+		     boolean useBeforeDecl,
                      boolean recursiveTypes,
                      boolean sortDeclNames,
                      boolean useStrongTyping)
   {
-    super(factory, sectInfo, recursiveTypes, sortDeclNames);
+    super(factory, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames);
     sectInfo_ = sectInfo;
     unificationEnv_ = new UnificationEnv(factory, useStrongTyping);
     carrierSet_ = new CarrierSet();

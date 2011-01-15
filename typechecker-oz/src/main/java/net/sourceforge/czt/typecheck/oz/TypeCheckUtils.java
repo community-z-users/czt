@@ -35,6 +35,7 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.Factory;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
+import net.sourceforge.czt.z.util.WarningManager;
 
 /**
  * Utilities for typechecking Object-Z specifications.
@@ -88,28 +89,46 @@ public class TypeCheckUtils
 
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo,
+						   boolean useBeforeDecl,
                                                    boolean recursiveTypes,
                                                    boolean sortDeclNames,
-                                                   boolean useStrongTyping)
+						   boolean useStrongTyping,
+						   String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useStrongTyping, null);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames, useStrongTyping, null, sectName);
   }
   
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
+						boolean useBeforeDecl,
                                                 boolean recursiveTypes,
                                                 boolean sortDeclNames,
-                                                boolean useStrongTyping,
+						WarningManager.WarningOutput warningOutput,
+                                                String sectName)
+  {
+    TypeCheckUtils utils = new TypeCheckUtils();
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames, false, null, sectName);
+  }
+
+  /** An internal method of the typechecker. */
+  protected List<? extends ErrorAnn> lTypecheck(Term term,
+                                                SectionManager sectInfo,
+						boolean useBeforeDecl,
+                                                boolean recursiveTypes,
+                                                boolean sortDeclNames,
+						boolean useStrongTyping,
+						WarningManager.WarningOutput warningOutput,
                                                 String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
     TypeChecker typeChecker = new TypeChecker(new Factory(zFactory, ozFactory),
                                               sectInfo,
+					      useBeforeDecl,
                                               recursiveTypes,
-                                              sortDeclNames,
+					      sortDeclNames,
                                               useStrongTyping);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.visitTerm(term);
