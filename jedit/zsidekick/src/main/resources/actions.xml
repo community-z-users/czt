@@ -76,13 +76,28 @@
       return buffer.getBooleanProperty("zsidekick.disable-typechecking");
     </IS_SELECTED>
   </ACTION>
+  <ACTION NAME="zsidekick.show_current_sm_options">
+    <CODE>
+      zsidekick.ZSideKickActions.showOptions(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.reset_sm">
+    <CODE>
+      jEdit.setBooleanProperty("zsidekick.reset_sm", true);
+    </CODE>
+  </ACTION>
+  <!--
   <ACTION NAME="zsidekick.showCompleteTree">
     <CODE>
-      buffer.putBooleanProperty("zsidekick.show-complete-tree",
-                ! buffer.getBooleanProperty("zsidekick.show-complete-tree"));
+      buffer.putBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE,
+                ! buffer.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE));
     </CODE>
     <IS_SELECTED>
-      return buffer.getBooleanProperty("zsidekick.show-complete-tree");
+      return buffer.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE);
     </IS_SELECTED>
   </ACTION>
+  -->
 </ACTIONS>

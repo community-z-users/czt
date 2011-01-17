@@ -21,7 +21,10 @@ package zsidekick;
 import errorlist.DefaultErrorSource;
 import errorlist.ErrorSource;
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.LatexString;
@@ -46,6 +49,7 @@ import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.VCGUtils;
+import net.sourceforge.czt.vcg.z.dc.DCVCEnvAnn;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Pred;
@@ -134,6 +138,33 @@ public class ZSideKickActions
     }
   }
 
+  public static void showOptions(View view)
+  {
+    ParsedData parsedData = getParsedData(view);
+    if (parsedData != null && parsedData.getManager() != null)
+    {
+      JOptionPane.showMessageDialog(view, parsedData.getManager().getProperties().toString().replaceAll(", ", "\n "), "CZT Properties", JOptionPane.INFORMATION_MESSAGE);
+    }
+    else
+    {
+      JOptionPane.showMessageDialog(view, "No manager created yet. Parse first!", "CZT Properties", JOptionPane.INFORMATION_MESSAGE);
+    }
+    if (ZSideKickPlugin.debug_)
+    {
+      String jEditlog = (view.getBuffer() != null ? view.getBuffer().getDirectory() : "./");
+      jEditlog += jEditlog.endsWith("/") ?  "jedit-log.txt" : "/jedit-log.txt";
+      try
+      {
+        jEdit.getProperties().store(new java.io.FileWriter(jEditlog), "show-options");
+        JOptionPane.showMessageDialog(view, "Saved jEdit properties to " + jEditlog, "CZT Properties", JOptionPane.INFORMATION_MESSAGE);
+      }
+      catch (IOException ex)
+      {
+         JOptionPane.showMessageDialog(view, "Failed to save jEdit properties to " + jEditlog, "CZT Properties", JOptionPane.ERROR_MESSAGE);
+      }
+    }
+  }
+
   private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG errors");
 
   /**
@@ -157,13 +188,15 @@ public class ZSideKickActions
       final File file = new File(bufferPath);
       final String name = file.getName(); // just last name of file
       final String path = file.getParent() != null ? file.getParent() : "."; // just the file directory
-      //JOptionPane.showMessageDialog(view, "BEFORE = " + String.valueOf(manager.getProperties()).replace(',', '\n'));
       try
       {
         final String dcFileName = VCGUtils.getVCFileName(name, vcFileNameSuffix);
         utils.setSectionManager(manager);
-        //JOptionPane.showMessageDialog(view, "AFTER = " + String.valueOf(manager.getProperties()).replace(',', '\n'));
+        ZSideKickPlugin.setProperties(manager); // MUST BE AFTER SET SECT MANAGER TO AVOID DEFAULT OVERRIDE !
+        if (ZSideKickPlugin.debug_) { showOptions(view); }
         utils.vcgToFile(file);
+//        DCVCEnvAnn r = manager.get(new Key<DCVCEnvAnn>(VCGUtils.getSourceName(name), DCVCEnvAnn.class));
+//        JOptionPane.showMessageDialog(view, "DCVC size = " + r.getVCs().size());
         Buffer bufferDC = jEdit.openFile(view, dcFileName);
         bufferDC.setStringProperty("encoding", System.getProperty( "file.encoding"));
         String mode = Markup.getMarkup(name).equals(Markup.LATEX) ? "latex" : "";

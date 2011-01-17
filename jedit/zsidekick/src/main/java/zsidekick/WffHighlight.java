@@ -41,24 +41,25 @@ public class WffHighlight
     textArea_ = textArea;
   }
 
+  @Override
   public String getToolTipText(int x, int y)
   {
     if (termSelector_ != null) {
       final Term term = termSelector_.getSelectedTerm();
       if (term != null) {
         final int offset = textArea_.xyToOffset(x, y);
-        final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+        final LocAnn locAnn = term.getAnn(LocAnn.class);
         if (locAnn.getStart().intValue() <= offset &&
             offset <= locAnn.getEnd().intValue()) {
           GetNameVisitor visitor = new GetNameVisitor();
-          if (jEdit.getBooleanProperty(ZSideKickPlugin.PROP_PRINT_IDS)) {
+          if (jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_PRINT_NAME_IDS)) {
             visitor.setPrintIds(true);
           }
           ConcreteSyntaxDescriptionVisitor csdv =
             new ConcreteSyntaxDescriptionVisitor();
           csdv.setNameVisitor(visitor);
           String text = "<html>" + term.accept(csdv);
-          TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+          TypeAnn typeAnn = term.getAnn(TypeAnn.class);
           if (typeAnn != null) {
             text += "<br/>Type: " +
               typeAnn.getType().accept(visitor);
@@ -71,12 +72,13 @@ public class WffHighlight
     return null;
   }
 
+  @Override
   public void paintValidLine(Graphics2D gfx, int screenLine,
 			     int physicalLine, int start, int end, int y)
   {
     if (termSelector_ != null && termSelector_.getSelectedTerm() != null) {
       final Term term = termSelector_.getSelectedTerm();
-      final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      final LocAnn locAnn = term.getAnn(LocAnn.class);
       final int matchStart = locAnn.getStart().intValue();
       final int matchEnd = locAnn.getEnd().intValue();
       if (matchStart < end && matchEnd >= start) {
@@ -110,7 +112,9 @@ public class WffHighlight
   public void setSpec(Spec spec)
   {
     termSelector_ = new TermSelector(spec);
-    textArea_.repaint();
+    // At the very first parse, setSpec might occur prior to setTextArea, hence a nullpointer exception!
+    if (textArea_ != null)
+      textArea_.repaint();
   }
 
   /**

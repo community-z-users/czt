@@ -26,44 +26,22 @@ import org.gjt.sp.jedit.*;
 
 public class OptionPane extends AbstractOptionPane
 {
-  // property names
-  private final String PRINT_IDS =
-    ZSideKickPlugin.PROP_PRINT_IDS;
-  private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
-    ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
-  private final String RECURSIVE_TYPES =
-    ZSideKickPlugin.PROP_RECURSIVE_TYPES;
-  private final String USE_STRONG_TYPING =
-    ZSideKickPlugin.PROP_USE_STRONG_TYPING;
-  private final String DEBUG_ZSIDEKICK =
-    ZSideKickPlugin.PROP_DEBUG_ZSIDEKICK;  
-  private final String PROP_CZTPATH_ZSIDEKICK =
-    ZSideKickPlugin.PROP_CZTPATH;
-
-  // property labels
-  private final String PROP_LABEL_STD_CONFORMANCE =      
-    ZSideKickPlugin.OPTION_PREFIX + "standardConformance";
-  private final String PROP_LABEL_PRINT_IDS =
-    ZSideKickPlugin.OPTION_PREFIX + "printNameIds";
-  private final String PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS =
-    ZSideKickPlugin.OPTION_PREFIX + "ignoreUnknownLatexCommands";
-  private final String PROP_LABEL_RECURSIVE_TYPES =
-    ZSideKickPlugin.OPTION_PREFIX + "recursiveTypes";
-  private final String PROP_LABEL_USE_STRONG_TYPING =
-    ZSideKickPlugin.OPTION_PREFIX + "useStrongTyping";
-  private final String PROP_LABEL_DEBUG_ZSIDEKICK =
-    ZSideKickPlugin.OPTION_PREFIX + "debugZsideKick";
-  private final String PROP_LABEL_CZTPATH_ZSIDEKICK =
-    ZSideKickPlugin.OPTION_PREFIX + "cztPathLabel";
-  private final String PROP_LABEL_RESET =
-    ZSideKickPlugin.OPTION_PREFIX + "resetButton";
-
-  //private final String PROP_LABEL_DOMAINCHECK
-  
   private JCheckBox ignoreUnknownLatexCommands_;
+  private JCheckBox showCompleteTree_;
   private JCheckBox printIds_;
+  private JCheckBox printZEves_;
+  private JTextField textWitdh_;
+  private JCheckBox useBeforeDecl_;
+  private JCheckBox raiseWarnings_;
   private JCheckBox recursiveTypes_;
   private JCheckBox useStrongTyping_;
+  private JCheckBox vcgProcessParents_;
+  private JCheckBox vcgAddTrivialVC_;
+  private JCheckBox vcgApplyTransf_;
+  private JCheckBox vcgDCInfixApplies_;
+  private JCheckBox vcgFSBAddGSetVC_;
+  private JCheckBox vcgFSBAddSchema_;
+
   private JCheckBox debug_;
   private CztPath cztPath_;
 
@@ -72,52 +50,134 @@ public class OptionPane extends AbstractOptionPane
     super("zsidekick");
   }
 
+  @Override
   protected void _init()
   {
-    addComponent(new JLabel(jEdit.getProperty(PROP_LABEL_STD_CONFORMANCE)));
+    addComponent(new JLabel(jEdit.getProperty("options.zsidekick.standardConformance")));
 
-    String string =
-      jEdit.getProperty(PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS);
-    ignoreUnknownLatexCommands_ = new JCheckBox(string);
-
-    boolean value = jEdit.getBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS);
+    String label  = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS);
+    boolean value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS);
+    ignoreUnknownLatexCommands_ = new JCheckBox(label);
     ignoreUnknownLatexCommands_.getModel().setSelected(value);
     addComponent(ignoreUnknownLatexCommands_);
 
-    printIds_ =
-      new JCheckBox(jEdit.getProperty(PROP_LABEL_PRINT_IDS));
-    value = jEdit.getBooleanProperty(PRINT_IDS);
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE);
+    showCompleteTree_ = new JCheckBox(label);
+    showCompleteTree_.getModel().setSelected(value);
+    addComponent(showCompleteTree_);
+
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_PRINT_NAME_IDS);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_PRINT_NAME_IDS);
+    printIds_ = new JCheckBox(label);
     printIds_.getModel().setSelected(value);
     addComponent(printIds_);
 
-    recursiveTypes_ = 
-      new JCheckBox(jEdit.getProperty(PROP_LABEL_RECURSIVE_TYPES));
-    value = jEdit.getBooleanProperty(RECURSIVE_TYPES);
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_PRINT_ZEVES);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_PRINT_ZEVES);
+    printZEves_ = new JCheckBox(label);
+    printZEves_.getModel().setSelected(value);
+    addComponent(printZEves_);
+
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_TXT_WIDTH);
+    int width = jEdit.getIntegerProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TXT_WIDTH, 80);
+    textWitdh_ = new JTextField(ZSideKickPlugin.PROPERTY_PREFIX + // this one is different: see Console.GeneralOptionPane ;-)
+              ZSideKickPlugin.PROP_TXT_WIDTH);
+    textWitdh_.setText(String.valueOf(width));
+    addComponent(new JLabel(label), textWitdh_);
+
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_WARNINGS_OUTPUT);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_WARNINGS_OUTPUT);
+    raiseWarnings_ = new JCheckBox(label);
+    raiseWarnings_.getModel().setSelected(value);
+    addComponent(raiseWarnings_);
+
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_RECURSIVE_TYPES);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_RECURSIVE_TYPES);
+    recursiveTypes_ = new JCheckBox(label);
     recursiveTypes_.getModel().setSelected(value);
     addComponent(recursiveTypes_);
 
-    useStrongTyping_ = 
-      new JCheckBox(jEdit.getProperty(PROP_LABEL_USE_STRONG_TYPING));
-    value = jEdit.getBooleanProperty(USE_STRONG_TYPING);
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_USE_BEFORE_DECL);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_USE_BEFORE_DECL);
+    useBeforeDecl_ = new JCheckBox(label);
+    useBeforeDecl_.getModel().setSelected(value);
+    addComponent(useBeforeDecl_);
+
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_USE_STRONG_TYPING);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_USE_STRONG_TYPING);
+    useStrongTyping_ = new JCheckBox(label);
     useStrongTyping_.getModel().setSelected(value);
     addComponent(useStrongTyping_);
-    
-    debug_ = new JCheckBox(jEdit.getProperty(PROP_LABEL_DEBUG_ZSIDEKICK));
-    value = jEdit.getBooleanProperty(DEBUG_ZSIDEKICK);
-    debug_.getModel().setSelected(value);
-    addComponent(debug_);    
 
-    JButton resetButton =
-      new JButton(jEdit.getProperty(PROP_LABEL_RESET));
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_VCG_PROCESS_PARENTS);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_VCG_PROCESS_PARENTS);
+    vcgProcessParents_ = new JCheckBox(label);
+    vcgProcessParents_.getModel().setSelected(value);
+    addComponent(vcgProcessParents_);
+
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_VCG_ADD_TRIVIAL_VC);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_VCG_ADD_TRIVIAL_VC);
+    vcgAddTrivialVC_ = new JCheckBox(label);
+    vcgAddTrivialVC_.getModel().setSelected(value);
+    addComponent(vcgAddTrivialVC_);
+
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_VCG_APPLY_TRANSFORMERS);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_VCG_APPLY_TRANSFORMERS);
+    vcgApplyTransf_ = new JCheckBox(label);
+    vcgApplyTransf_.getModel().setSelected(value);
+    addComponent(vcgApplyTransf_);
+
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+              ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO);
+    value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO);
+    vcgDCInfixApplies_ = new JCheckBox(label);
+    vcgDCInfixApplies_.getModel().setSelected(value);
+    addComponent(vcgDCInfixApplies_);
+
+    label = jEdit.getProperty("options.zsidekick.resetButton");
+    JButton resetButton = new JButton(label);
     resetButton.addActionListener(new ResetHandler());
     addComponent(resetButton);
-    
-    JButton cztPathButton = 
-      new JButton(jEdit.getProperty(PROP_LABEL_CZTPATH_ZSIDEKICK));
+
+    label = jEdit.getProperty("options.zsidekick.debugZsideKick");
+    value = jEdit.getBooleanProperty("zsidekick.debugZsideKick");
+    debug_ = new JCheckBox(label);
+    debug_.getModel().setSelected(value);
+    addComponent(debug_);
+
+    label = jEdit.getProperty("options.zsidekick.cztPathLabel");
+    JButton cztPathButton = new JButton(label);
     cztPathButton.addActionListener(new CztPathListener());
     addComponent(cztPathButton);
     
-    String paths = jEdit.getProperty(PROP_CZTPATH_ZSIDEKICK);
+    String paths = jEdit.getProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_CZTPATH);
     if (paths == null || paths.isEmpty()) { paths = ""; }
     cztPath_ = new CztPath(SourceLocator.processCZTPaths(paths));
   }
@@ -126,20 +186,67 @@ public class OptionPane extends AbstractOptionPane
   protected void _save()
   {
     boolean value = ignoreUnknownLatexCommands_.getModel().isSelected();
-    jEdit.setBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS, value);
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, value);
+
+    value = showCompleteTree_.getModel().isSelected();
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE, value);
+
     value = printIds_.getModel().isSelected();
-    jEdit.setBooleanProperty(PRINT_IDS, value);
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_PRINT_NAME_IDS, value);
+
+    value = printZEves_.getModel().isSelected();
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_PRINT_ZEVES, value);
+
+    String widthStr = textWitdh_.getText();
+		if(widthStr != null && widthStr.length() > 0)
+			jEdit.setProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TXT_WIDTH, String.valueOf(Integer.valueOf(widthStr)));
+		else
+			jEdit.unsetProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TXT_WIDTH);
+
+    value = useBeforeDecl_.getModel().isSelected();
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_USE_BEFORE_DECL, value);
+
+    value = raiseWarnings_.getModel().isSelected();
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_WARNINGS_OUTPUT, value);
+
     value = recursiveTypes_.getModel().isSelected();
-    jEdit.setBooleanProperty(RECURSIVE_TYPES, value);
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+              ZSideKickPlugin.PROP_TYPECHECK_RECURSIVE_TYPES, value);
+
     value = useStrongTyping_.getModel().isSelected();
-    jEdit.setBooleanProperty(USE_STRONG_TYPING, value);    
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_TYPECHECK_USE_STRONG_TYPING, value);
+
+    value = vcgProcessParents_.getModel().isSelected();
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_VCG_PROCESS_PARENTS, value);
+
+    value = vcgAddTrivialVC_.getModel().isSelected();
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_VCG_ADD_TRIVIAL_VC, value);
+
+    value = vcgApplyTransf_.getModel().isSelected();
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_VCG_APPLY_TRANSFORMERS, value);
+
+    value = vcgDCInfixApplies_.getModel().isSelected();
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO, value);
+
     value = debug_.getModel().isSelected();
-    jEdit.setBooleanProperty(DEBUG_ZSIDEKICK, value);    
+    jEdit.setBooleanProperty("zsidekick.debugZsideKick", value);
+
     String cztPath = cztPath_.buildPathList();
-    jEdit.setProperty(PROP_CZTPATH_ZSIDEKICK, cztPath);
-    JOptionPane.showMessageDialog(this, cztPath);  
-    
-    // update section manager properties please. TODO.
+    jEdit.setProperty(ZSideKickPlugin.PROPERTY_PREFIX + 
+            ZSideKickPlugin.PROP_CZTPATH, cztPath);
   }
 
   class ResetHandler implements ActionListener
@@ -157,6 +264,7 @@ public class OptionPane extends AbstractOptionPane
   
   class CztPathListener implements ActionListener
   {
+    @Override
     public void actionPerformed(ActionEvent e)
     {
       cztPath_.showDialog();            

@@ -26,6 +26,7 @@ import org.gjt.sp.jedit.Buffer;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
+import org.gjt.sp.jedit.jEdit;
 
 public class CztTreeNode
   extends DefaultMutableTreeNode
@@ -59,7 +60,7 @@ public class CztTreeNode
     super(createAsset(term, dialect, buffer));
     term_ = term;
     if (dialect.equals("circus") ||
-        buffer.getBooleanProperty("zsidekick.show-complete-tree")) {
+        jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE)) {
       Object[] children = term.getChildren();
       for (Object o : children) {
         if (o instanceof Term) {
@@ -97,7 +98,7 @@ public class CztTreeNode
   static private Position getStart(Term term, Buffer buffer)
   {
     int start = 0;
-    LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+    LocAnn locAnn = term.getAnn(LocAnn.class);
     if (locAnn != null) {
       if (locAnn.getStart() != null) {
         start = locAnn.getStart().intValue();
@@ -119,7 +120,7 @@ public class CztTreeNode
   private static Position getEnd(Term term, Buffer buffer)
   {
     int end = buffer.getLength();
-    LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+    LocAnn locAnn = term.getAnn(LocAnn.class);
     if (locAnn != null &&
         locAnn.getStart() != null && locAnn.getStart().intValue() >= 0 &&
         locAnn.getLength() != null && locAnn.getLength().intValue() >= 0 &&
