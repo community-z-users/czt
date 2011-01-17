@@ -44,7 +44,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
 {
 
   private final ZName defName_;
-  private final DefinitionKind defKind_;
+  private DefinitionKind defKind_;
   private final ZNameList genericParams_;
   private final Expr definition_;
   private final Type2 carrierType_;
@@ -89,6 +89,16 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
               "\" of \"" + DefinitionTable.printTerm(defName_) + "\" in section " + getSectionName();
       throw new DefinitionException(oldLocalDef.getDefName(), message);
     }
+  }
+
+  protected void updateDefKind(DefinitionKind defKind) throws DefinitionException
+  {
+    if (defKind_.isSchemaReference() && defKind.isSchemaReference())
+    {
+      defKind_ = defKind;
+    }
+    else
+      throw new DefinitionException("Cannot update schema reference " + getDefName() + " from " + defKind_ + " to " + defKind);
   }
 
   /** Returns the list of generic type parameters of this definition.
@@ -152,7 +162,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   protected String printLocals(boolean simple)
   {
     StringBuilder buffer = new StringBuilder(locals_.size()+1 * 20);
-    buffer.append('\n');
+    //buffer.append('\n');
     buffer.append(asMany('\t', localsDepth_+1));
     buffer.append("Locals = {");
     if (!locals_.isEmpty())
@@ -164,8 +174,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
         SortedMap.Entry<ZName, Definition> entry2 = itE.next();
         buffer.append('\n');
         buffer.append(asMany('\t', localsDepth_+2));
-        buffer.append(DefinitionTable.printTerm(entry2.getKey()));
-        buffer.append("=");
+        //buffer.append(DefinitionTable.printTerm(entry2.getKey()));
+        //buffer.append("=");
         buffer.append(entry2.getValue().toString(simple));
       }
       //buffer.append('\n');
@@ -187,7 +197,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
                       (carrierType_ == null ? "" :
            "\n\t CARSET  = " + DefinitionTable.printTerm(carrierType_).replaceAll("\n;","; ").replaceAll("\n]", "] ")) +
                       (locals_.isEmpty() ? "" :
-           "\n\t LOCALS  = \n\t\t   " + locals_.toString().replaceAll("\n\t", "\n\t\t").replaceAll("}", "}\n\t"));
+           "\n\t LOCALS  = \n\t\t   " + printLocals(false).replaceAll("\n\t", "\n\t\t").replaceAll("}", "}\n\t"));
   }
 
   public String toString(boolean simple)
@@ -245,7 +255,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
       result = ZUtils.compareTo(this.getDefName(), o.getDefName());
 
       // if the same binding, check if they come from the same schema name (e.g., handle name collusion)
-      if (result == 0 && this.defKind_.isSchemaBinding())
+      if (result == 0 && this.defKind_.hasSchemaName())
       {
         result = ZUtils.compareTo(this.defKind_.getSchName(), o.defKind_.getSchName());
       }

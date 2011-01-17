@@ -20,8 +20,6 @@
 package net.sourceforge.czt.vcg.util;
 
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
 import net.sourceforge.czt.session.Command;
@@ -30,6 +28,8 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -189,6 +189,7 @@ public class DefinitionTableService
 
   public static void main(String args[]) throws URISyntaxException
   {
+    long startTime = System.nanoTime();
     DefinitionTableVisitor.DEFAULT_DEBUG_DEFTBL_VISITOR = true;
     SectionManager manager = new SectionManager();
     manager.putCommand(getCommandInfoType(), getCommand(manager));
@@ -198,7 +199,28 @@ public class DefinitionTableService
     String sourceName = getSourceName(file.getName());
     manager.put(new Key<net.sourceforge.czt.session.Source>(sourceName, net.sourceforge.czt.session.Source.class),
             new net.sourceforge.czt.session.FileSource(file));
+    Key<Spec> specKey = new Key<Spec>(sourceName, Spec.class);
+    Key<SectTypeEnvAnn> typeKey = new Key<SectTypeEnvAnn>(sourceName, SectTypeEnvAnn.class);
     Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(sourceName, DefinitionTable.class);
+    long setupTime = System.nanoTime();
+    try
+    {
+      manager.get(specKey);
+    }
+    catch(CommandException ex)
+    {
+      System.out.println("Parsing errors!");
+    }
+    long parseTime = System.nanoTime();
+    try
+    {
+      manager.get(typeKey);
+    }
+    catch(CommandException ex)
+    {
+      System.out.println("Typechecking errors!");
+    }
+    long typeTime = System.nanoTime();
     try
     {
       table = manager.get(defTblKey);
@@ -216,34 +238,71 @@ public class DefinitionTableService
         handleCmdException(fx);
       }
     }
-
+    long defTblTime = System.nanoTime();
+    long dtCons = 0, dtOther = 0, dtBinding = 0;
     if (table != null)
-    { 
+    {
+      DefinitionException consistency = table.checkOverallConsistency();
+      dtCons = System.nanoTime();
+
       final String result = table.toString(false, true);
-      System.out.println("\n");
+      System.out.println("\n------------------------------- DEFTABLE -------------------------------");
       System.out.println(result);
       System.out.println();
-      
-      if (args.length > 1)
-      {
 
-        ZName arg = ZUtils.FACTORY.createZName(args[1]);
-        assert table.lookupName(arg) != null;
-        try
+      Set<Definition> defs = table.lookupDefinitions(sourceName);
+      System.out.println("\n------------------------------- SCHREFS --------------------------------");
+      for(Definition d : defs)
+      {
+        if (d.getDefinitionKind().isSchemaReference())
         {
-          SortedSet<Definition> bindings = table.bindings(arg);
-          final String result2 = bindings.toString().replaceAll(", ", ",\n");
-          System.out.println("\n");
-          System.out.println("Bindings for " + args[1] + " = " + bindings.size());
-          System.out.println(result2);
-          System.out.println();
-        }
-        catch (DefinitionException ex)
-        {
-          System.err.println("Could not retrive bindings for " + args[1]);
+          System.out.println(d.toString());
         }
       }
+      dtOther = System.nanoTime();
+      if (args.length > 1)
+      {
+        ZName arg = ZUtils.FACTORY.createZName(args[1]);
+        System.out.println("\n------------------------------- BINDINGS -------------------------------");
+        if (table.lookupName(arg) == null)
+        {
+          System.out.println("Could not find bindings for " + arg);
+        }
+        else
+        {
+          try
+          {
+            SortedSet<Definition> bindings = table.bindings(arg);
+            dtBinding = System.nanoTime() - dtOther;
+            final String result2 = bindings.toString().replaceAll(", ", ",\n");
+            System.out.println("Bindings for " + args[1] + " = " + bindings.size());
+            System.out.println(result2);
+          }
+          catch (DefinitionException ex)
+          {
+            System.err.println("Could not retrive bindings for " + args[1]);
+          }
+        }
+        System.out.println("\n------------------------------------------------------------------------");
+        System.out.println();
+      }
+
+      System.out.println("CONSISTENCY-CHECK = " + (consistency == null ? " okay! " : " has " + (consistency.totalNumberOfErrors()-1) + " errors"));
+      System.out.println(consistency == null ? "" : consistency.getMessage(true));
     }
+    long finishTime = System.nanoTime();
+    long nano2msec = 1000000;
+    System.out.println("\n------------------------------------------------------------------------");
+    System.out.println("START-TIME = " + startTime / nano2msec);
+    System.out.println("SETUP-TIME = " + (setupTime / nano2msec) + "\t " + ((setupTime-startTime)/nano2msec));
+    System.out.println("PARSE-TIME = " + (parseTime / nano2msec) + "\t " + ((parseTime-setupTime)/nano2msec));
+    System.out.println("TYPEC-TIME = " + (typeTime / nano2msec) + "\t " + ((typeTime-parseTime)/nano2msec));
+    System.out.println("DEFTB-TIME = " + (defTblTime / nano2msec) + "\t " + ((defTblTime-typeTime)/nano2msec));
+    System.out.println("DTCON-TIME = " + (dtCons / nano2msec) + "\t " + ((dtCons-defTblTime)/nano2msec));
+    System.out.println("DTOTH-TIME = " + (dtOther / nano2msec) + "\t " + ((dtOther-dtCons)/nano2msec));
+    System.out.println("DTBIN-TIME = " + (dtBinding / nano2msec) + "\t " + ((dtBinding-dtOther)/nano2msec));
+    System.out.println("TOTAL-TIME = " + (finishTime / nano2msec) + "\t " + ((finishTime-startTime)/nano2msec));
+    System.out.println();
 
 //    DefinitionException c =
 //      new DefinitionException("a",

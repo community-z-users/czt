@@ -33,6 +33,11 @@ import java.util.TreeSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.InfoTable.InfoTableException;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -46,7 +51,13 @@ import net.sourceforge.czt.z.util.ZUtils;
  */
 public class DefinitionTable extends InfoTable
 {
+  /**
+   * default flag for printing unicode or not = (false)
+   */
   protected static final boolean DEFTBL_PRINTVISITOR_UNICODE = false;
+  /**
+   * console printing visitor
+   */
   protected static final PrintVisitor printVisitor_ = new PrintVisitor(DEFTBL_PRINTVISITOR_UNICODE);
 
   /**
@@ -135,12 +146,28 @@ public class DefinitionTable extends InfoTable
     assert knownSections_.equals(copy.knownSections_) && definitions_.equals(copy.definitions_);
   }
 
+  /**
+   * Adds a parent table to this one. Usually called during initial construction --- the
+   * definition table does accumulate its parents definitions.
+   * @param <T>
+   * @param table
+   * @throws net.sourceforge.czt.parser.util.InfoTable.InfoTableException
+   */
   @Override
   protected <T extends InfoTable> void addParentTable(T table) throws InfoTableException
   {
     addParentDefinitionTable((DefinitionTable)table);
   }
-  
+
+  /**
+   * adds all given parent table (e.g., it also checks the table is indeed of a parent,
+   * throwing an exception if not) definitions as global definitions of the current child table.
+   * It accumulates any exception
+   * thrown in the process as a list for the one that might indeed be thrown.
+   *
+   * @param parentTable
+   * @throws DefinitionException
+   */
   private void addParentDefinitionTable(DefinitionTable parentTable)
     throws DefinitionException
   {
@@ -183,6 +210,15 @@ public class DefinitionTable extends InfoTable
     }
   }
 
+  /**
+   * checks if the given definition, and all its local children have the
+   * same section information as the section provided. this method is usually
+   * called with sectName as the current section, but also as the table parents.
+   * This check is recursive (see {@link #checkSectionConsistency(java.lang.String, java.util.Collection) }).
+   * @param sectName
+   * @param def
+   * @throws DefinitionException
+   */
   private void checkSectionConsistency(String sectName, Definition def)
      throws DefinitionException
   {
@@ -209,6 +245,13 @@ public class DefinitionTable extends InfoTable
     }
   }
 
+  /**
+   * check whether or not <code>def</code> has {@link DefinitionKind#isGlobal() }
+   * throwing an exception if it doesn't.
+   * @param sectName
+   * @param def
+   * @throws DefinitionException
+   */
   private void checkGlobalDef(String sectName, Definition def)
     throws DefinitionException
   {
@@ -221,7 +264,50 @@ public class DefinitionTable extends InfoTable
     }
   }
 
-  protected void addGlobalDecl(String sectName, Definition def)
+  /**
+   * check whether or not <code>def</code> has {@link DefinitionKind#isGlobal() }
+   * throwing an exception if it doesn't.
+   * @param sectName
+   * @param def
+   * @throws DefinitionException
+   */
+  private void checkLocalDef(String sectName, Definition def)
+    throws DefinitionException
+  {
+    // only local allowed here --- although there is come mixed, like schemaReference (local+global)
+    if (def.getDefinitionKind().isGlobal() && !def.getDefinitionKind().isLocal()) // TODO: this is not quite right
+    {
+      final String message = "Definition kind is not local declaration in "
+              + sectName + "\n\t" + def ;
+      throw new DefinitionException(def.getDefName(), message);
+    }
+  }
+
+
+  /**
+   * Adds the given definition for the current section. It checks that the
+   * definition's section (and the section of all its local definitions, see {@link #checkSectionConsistency(java.lang.String, java.util.Collection) }
+   * are indeed for the current section, and that it is a global definition, see {@link #checkGlobalDef(java.lang.String, net.sourceforge.czt.vcg.util.Definition) }.
+   * It then finds the right indexes within the internal table structures to add this definition,
+   * creating one if this is the first definition. Finally, it checks whether the definition is a
+   * duplicate or not. In all these cases, it might thrown an exception.
+   * @param def
+   * @throws DefinitionException
+   */
+  protected void addGlobalDecl(Definition def) throws DefinitionException
+  {
+    addGlobalDecl(sectionName_, def);
+  }
+
+  /**
+   * Adds the given definition as a global definition within the given section name,
+   * which is to be either the current section or one of its parents. This is only called
+   * by {@link #addGlobalDecl(java.lang.String, net.sourceforge.czt.vcg.util.Definition) }.
+   * @param sectName
+   * @param def
+   * @throws DefinitionException
+   */
+  private void addGlobalDecl(String sectName, Definition def)
     throws DefinitionException
   {
     assert def != null && def.getSectionName() != null;
@@ -267,12 +353,244 @@ public class DefinitionTable extends InfoTable
     }
   }
 
+  /**
+   * Get all the mapped definitions for a given section name.
+   * This returns a map backed by the underlying table. That is,
+   * changes to the resulting map, will imply changes in the table!
+   * @param sectName
+   * @return
+   */
   protected SortedMap<ZName, Definition> getDefinitions(String sectName)
   {
     assert knownSections_.size() >= definitions_.keySet().size();
     return definitions_.get(knownSections_.indexOf(sectName));
   }
 
+//  protected SortedSet<ZName> schemaDeclNamesFromType(SchemaType type)
+//  {
+//    SortedSet<ZName> result = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
+//    for(NameTypePair ntp : type.getSignature())
+//    {
+//      result.add(ntp.getZName());
+//    }
+//  }
+//
+
+  public DefinitionException checkOverallConsistency()
+  {
+    SortedSet<ZName> namesToFind = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
+    SortedSet<ZName> namesFound = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
+    List<DefinitionException> result = new ArrayList<DefinitionException>();
+    // go through all sections
+    for (int i = knownSections_.size()-1; i >= 0; i--)
+    {
+      String sectName = knownSections_.get(i);
+      SortedMap<ZName, Definition> global = getDefinitions(sectName);
+      // go through all definitions of given section
+      for(SortedMap.Entry<ZName, Definition> globalEntry : global.entrySet())
+      {
+        ZName globalName = globalEntry.getKey();
+        Definition globalDef = globalEntry.getValue();
+
+        namesFound.add(globalName);
+
+        // check it is global and names match
+        try
+        {
+          checkGlobalDef(sectName, globalDef);
+        }
+        catch(DefinitionException e)
+        {
+          result.add(e);
+        }
+        if (!ZUtils.namesEqual(globalName, globalDef.getDefName()))
+        {
+          result.add(new DefinitionException("inconsistent global name in " +
+                  sectName + " = (MAP: " + DefinitionTable.printTerm(globalName) + ", DEF: " + DefinitionTable.printTerm(globalDef.getDefName()) + ")"));
+        }
+
+        // SCHEMADECL kind *MUST* be SchExpr, and SCHEMAEXPR kind *MUSTN'T* !
+        DefinitionKind globalDefKind = globalDef.getDefinitionKind();
+        if (globalDefKind.isSchemaReference())
+        {
+          if (globalDefKind.isSchemaDecl() &&
+              !(globalDef.getExpr() instanceof SchExpr))
+          {
+            result.add(new DefinitionException("inconsistent schema expr in " +
+                    sectName + " = (DEF: " + DefinitionTable.printTerm(globalName) + ", EXPECT: SchExpr, FOUND: "
+                    + globalDef.getExpr().getClass().getSimpleName() + ")"));
+          }
+          // in complex inclusions, this could be a schema reference as SchExpr, like Tokeneer TISControlledRealWorld'
+//          else if (globalDefKind.isSchemaExpr() &&
+//                   globalDef.getExpr() instanceof SchExpr)
+//          {
+//            result.add(new DefinitionException("inconsistent schema calculus in " +
+//                    sectName + " = (DEF: " + globalName + ", EXPECT: not SchExpr, FOUND: SchExpr" + ")"));
+//          }
+
+          // global definitions can only have schema name if they are for SCHEXPR
+          if (globalDefKind.hasSchemaName())
+          {
+            if (!globalDefKind.isSchemaExpr())
+              result.add(new DefinitionException("inconsistent global definition kind = " + globalDefKind));
+            else if (!namesFound.contains(globalDefKind.getSchName()))
+              // check the reference exists later on, if not processed yet (e.g., forward reference?)
+              namesToFind.add(globalDefKind.getSchName());
+          }
+
+          // if we have type, check the names in the type are indeed those we find bindings definition for (!!!)
+          Type2 globalType = globalDef.getCarrierType();
+          if (globalType != null)
+          {
+            if (!UnificationEnv.isSchemaPowerType(globalType))
+            {
+              result.add(new DefinitionException("type of " + DefinitionTable.printTerm(globalName) +
+                      " defined as " + globalDefKind + " is not a schema = " + globalType));
+            }
+            // this part is rather (computationally) expensive, yet quite good double check: typecheck x def table!
+            else
+            {
+              // first get the type names
+              boolean allNamesRemoved = true; // don't use a set for the bindings names because there may be more bindings than in the type in case of name collusion.
+              SortedSet<ZName> namesCollusion = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
+              SortedSet<ZName> namesInType = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
+              for(NameTypePair ntp : UnificationEnv.schemaType(UnificationEnv.powerType(globalType).getType()).getSignature().getNameTypePair())
+              {
+                namesInType.add(ntp.getZName());
+              }
+
+              // next get the bindings
+              try
+              {
+                SortedSet<Definition> bindingsOf = bindings(globalName);
+                for(Definition bindDef : bindingsOf)
+                {
+                  ZName globalBindingName = bindDef.getDefName();
+                  DefinitionKind globalBindingKind = bindDef.getDefinitionKind();
+
+                  // check it is binding and names match
+                  try
+                  {
+                    checkLocalDef(sectName, bindDef);
+                  }
+                  catch(DefinitionException e)
+                  {
+                    result.add(e);
+                  }
+                  if (!ZUtils.namesEqual(globalBindingName, bindDef.getDefName()))
+                  {
+                    result.add(new DefinitionException("inconsistent binding name of " +
+                            DefinitionTable.printTerm(globalName) + " in " + sectName +
+                            " = (MAP: " + DefinitionTable.printTerm(globalBindingName) +
+                            ", DEF: " + DefinitionTable.printTerm(bindDef.getDefName()) + ")"));
+                  }
+
+                  if (globalBindingKind.isSchemaBinding())
+                  {
+                    if (!namesFound.contains(globalBindingKind.getSchName()))
+                    {
+                        // check the reference exists later on, if not processed yet (e.g., forward reference?)
+                        namesToFind.add(globalBindingKind.getSchName());
+                    }
+                  }
+                  else
+                  // if not a binding, error
+                  {
+                    result.add(new DefinitionException("inconsistent def kind for binding of global name "
+                            + DefinitionTable.printTerm(globalName) + " = " + globalBindingKind));
+                  }
+
+                  // remove found binding from the names collected from set.
+                  boolean br = namesInType.remove(globalBindingName);
+                  if (!br)
+                  {
+                    if (!namesCollusion.add(globalBindingName))
+                    {// TODO: what if add is false?
+                      SectionManager.traceInfo("multiple collusion for bindings of globalName " + 
+                              DefinitionTable.printTerm(globalName) + " = " +
+                              DefinitionTable.printTerm(globalBindingName));
+                    }
+                  }
+                  allNamesRemoved = br && allNamesRemoved;
+
+                  // check the local name exists later on
+                  if (!namesFound.contains(globalBindingName))
+                    namesToFind.add(globalBindingName);
+                }
+              }
+              catch (DefinitionException ex)
+              {
+                result.add(ex);
+              }
+
+              if (allNamesRemoved && namesInType.isEmpty())
+              {
+                // we are okay; no collusion
+              }
+              // !allNamesRemoved || !namesInType.isEmpty()
+              else if (allNamesRemoved)
+              {
+                // did not found bindings from namesInType: serious! bindings code is missing something
+                assert !namesInType.isEmpty();
+                result.add(new DefinitionException("bindings of " + 
+                        DefinitionTable.printTerm(globalName) + " were not found = " +
+                        DefinitionTable.printList(namesInType)));
+              }
+              else if (namesInType.isEmpty())
+              {
+                // found more bindings than names in type: log the fact that there are name collusions.
+                assert !allNamesRemoved;
+                SectionManager.traceInfo("name collusion for bindings of globalName " + 
+                        DefinitionTable.printTerm(globalName) + " = " + DefinitionTable.printList(namesCollusion));
+              }
+            }
+          }
+        }
+
+        // check all local names for each global name
+        SortedMap<ZName, Definition> local = globalDef.getLocalDecls();
+        for (SortedMap.Entry<ZName, Definition> localEntry : local.entrySet())
+        {
+          ZName localName = localEntry.getKey();
+          Definition localDef = localEntry.getValue();
+
+          namesFound.add(localName);
+          namesToFind.remove(localName);
+
+          // check it is local and names match
+          try
+          {
+            checkLocalDef(sectName, localDef);
+          }
+          catch(DefinitionException e)
+          {
+            result.add(e);
+          }
+          if (!ZUtils.namesEqual(localName, localDef.getDefName()))
+          {
+            result.add(new DefinitionException("inconsistent local name of " +
+                    globalName + " in " + sectName + " = (MAP: " + localName + ", DEF: " + localDef.getDefName() + ")"));
+          }
+
+          // TODO: anything else on local names?
+        }
+      }
+      SectionManager.traceLog("DEFTBL-CONSISTENCY-CHECK-FOR-" + sectName + " = " + result.size() + " errors");
+    }
+    namesToFind.removeAll(namesFound);
+    if (!namesToFind.isEmpty())
+    {
+      result.add(new DefinitionException("found references to names without definitions = " + namesToFind.toString()));
+    }
+    return result.isEmpty() ? null : new DefinitionException("DefTable consistency failed (see details)", result);
+  }
+
+  /**
+   * Gets all definitions of a a given section name as a unmodifiable set.
+   * It is homomorphic to the values of {@link #getDefinitions(java.lang.String) }.
+   * @param sectName
+   * @return
+   */
   public Set<Definition> lookupDefinitions(final String sectName)
   {
     assert sectName != null;
@@ -320,10 +638,10 @@ public class DefinitionTable extends InfoTable
   }
 
   /**
-   * Looks up a unique name within the given sect.
-   * @param sectName
-   * @param name
-   * @return
+   * Looks up a (unique) name within the given sect only.
+   * @param sectName section to look into.
+   * @param name definition name
+   * @return the Definition for the name, or null if not found.
    */
   protected Definition lookupDeclName(String sectName, ZName name)
   {
@@ -338,28 +656,18 @@ public class DefinitionTable extends InfoTable
   }
 
   /**
-   * Looks up a unique name within the current sect and its declared parents.
-   * The name must be a global name according to {@link DefinitionKind#isGlobal() }.
-   * @param name
-   * @return
+   * Looks up a (unique) name within the current sect and its declared parents.
+   * The name should be a global name according to {@link DefinitionKind#isGlobal() }.
+   * @param name definition name
+   * @return the name if found, or null otherwise
    */
   public Definition lookupDeclName(ZName name) 
   {
     Definition result = null;
-    for (int i = knownSections_.size()-1; i >= 0; i--)
+    for (int i = knownSections_.size()-1; i >= 0 && result == null; i--)
     {
-      result = lookupDeclName(knownSections_.get(i), name);
-      if (result != null)
-      {
-        if (!result.getDefinitionKind().isGlobal() &&
-                // TODO: should this be just isSchemaDecl()? NO
-            !result.getDefinitionKind().isSchemaReference())
-           //!result.getDefinitionKind().isSchemaDecl())
-        {
-          // throw? checkGlobalDef?
-        }
-        break;
-      }
+      String sectName = knownSections_.get(i);
+      result = lookupDeclName(sectName, name);
     }
     return result;
   }
@@ -389,6 +697,14 @@ public class DefinitionTable extends InfoTable
     return result;
   }
 
+  /**
+   * Looks a (unique) possibly local name within this section and all its declared parents.
+   * It is first checks whether {@code name} is global or not (e.g., {@link #lookupDeclName(net.sourceforge.czt.z.ast.ZName) }).
+   * If not (e.g., got null as result), then it tries, within all definitions from all sections
+   * to look for either global names of parents or local names anywhere.
+   * @param name definition name
+   * @return the definition (local or global) if found, null otherwise
+   */
   public Definition lookupName(ZName name)
   {
     // look top-level
@@ -415,14 +731,22 @@ public class DefinitionTable extends InfoTable
     return result;
   }
 
+  /**
+   * Looks up all local bindings of the definition for the given name.
+   * If this name is not a schema reference (as in {@link DefinitionKind#isSchemaReference() }),
+   * then an exception is thrown, since other definition kinds do not have bindings. ?
+   * TODO: MAYBE RELAX THIS A BIT AND HAVE BINDINGS FROM AXIOMS, SAY DEFINED WITH LAMBDA or MU etc?
+   * @param defName definition name
+   * @return set of bindings associated with this name definition, if any.
+   * @throws DefinitionException
+   */
   public SortedSet<Definition> bindings(ZName defName) throws DefinitionException
   {
     Definition def = lookupDeclName(defName);
     SortedSet<Definition> result = new TreeSet<Definition>();
     // if this is a schema declaration, look for its bindings
-
                         // TODO: should this be isSchemaReference()? MAYBE
-    if (def != null && def.getDefinitionKind().isSchemaDecl())
+    if (def != null && def.getDefinitionKind().isSchemaReference())
     {
       checkGlobalDef(def.getSectionName(), def);
       for(Definition localDef : def.getLocalDecls().values())
@@ -430,15 +754,24 @@ public class DefinitionTable extends InfoTable
         if (localDef.getDefinitionKind().isSchemaBinding())
         {
           assert localDef.getLocalDecls().isEmpty();
+          checkLocalDef(localDef.getSectionName(), localDef);
           result.add(localDef);
         }
                       // TODO: should this be isSchemaReference()?
-        else if (localDef.getDefinitionKind().isSchemaDecl())
+        else if (localDef.getDefinitionKind().isSchemaReference())
         {
           result.addAll(bindings(localDef.getDefName()));
         }
       }
-      // assert all elements have isSchemaBinding() kind
+      return result;
+    }
+    else
+    {
+      throw new DefinitionException(defName, "Unknown schema name in DefTbl " + defName);
+    }
+  }
+  // ALTERNATIVE RECURSIVE ALGORITHM WHEN THERE WERE NO LOCAL DEFINITIONS.
+        // assert all elements have isSchemaBinding() kind
 
 //      assert knownSections_.size() >= definitions_.keySet().size();
 //      for (int i = knownSections_.size()-1; i >= 0; i--)
@@ -498,14 +831,15 @@ public class DefinitionTable extends InfoTable
 //          }
 //        }
 //      }
-      return result;
-    }
-    else
-    {
-      throw new DefinitionException(defName, "Unknown schema name in DefTbl " + defName);
-    }
-  }
 
+  /**
+   * Specialised to string method that might print parents or not, and
+   * also can provide simpler output containing less definition information
+   * (see {@link Definition#toString(boolean) }).
+   * @param printParents
+   * @param simple
+   * @return
+   */
   public String toString(boolean printParents, boolean simple)
   {
     if (printParents)
@@ -534,6 +868,10 @@ public class DefinitionTable extends InfoTable
     }
   }
 
+  /**
+   * Prints the table definitions, and of its parents, in a form useful for debugging.
+   * @return
+   */
   @Override
   public String toString()
   {
@@ -572,9 +910,25 @@ public class DefinitionTable extends InfoTable
     return buffer.toString();
   }
 
+  /**
+   * Uses a console print visitor to print the given term
+   * @param term
+   * @return
+   */
   public static String printTerm(Term term)
   {
     return term.accept(printVisitor_);
+  }
+
+  public static String printList(Collection<? extends Term> list)
+  {
+    StringBuilder result = new StringBuilder(list.size()*30);
+    for(Term t : list)
+    {
+      result.append(printTerm(t));
+      result.append("  ");
+    }
+    return result.toString().trim();
   }
 
   /** This interface allows visitors to visit definitions.
@@ -582,6 +936,11 @@ public class DefinitionTable extends InfoTable
    */
   public interface DefinitionVisitor<T>
   {
+    /**
+     *
+     * @param def
+     * @return
+     */
     T visitDefinition(Definition def);
   }
 }

@@ -40,18 +40,22 @@ import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.DecorExpr;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Expr1;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.Freetype;
 import net.sourceforge.czt.z.ast.GivenPara;
+import net.sourceforge.czt.z.ast.HideExpr;
 import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.NegExpr;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.PreExpr;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.Qnt1Expr;
 import net.sourceforge.czt.z.ast.QntExpr;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RenameExpr;
@@ -588,7 +592,7 @@ public class DefinitionTableVisitor
         if (ZUtils.namesEqual(declName, nstt.getName()))
         {
           // unwrap generic types, if necessary
-          result = typeUniEnv_.unwrapType(nstt.getType());
+          result = UnificationEnv.unwrapType(nstt.getType());
         }
       }
     }
@@ -599,14 +603,16 @@ public class DefinitionTableVisitor
 		  Expr defExpr, DefinitionKind defKind)
   {
     assert defKind != null;
-    if (defKind.isGlobal())
+    if (defKind.isGlobal())// && !defKind.isLocal())
     {
       return addGlobalDefinition(genFormals, declName, defExpr, defKind);
     }
-    else
+    else //if (defKind.isLocal() && !defKind.isGlobal())
     {
       return addLocalDefinition(genFormals, declName, defExpr, defKind);
     }
+    //else
+    //  throw new CztException(new DefinitionException("TODO = " + declName + " for " + sectName_ + " Kind = " + defKind));
   }
 
   protected Expr tryResolvingGenerics(ZNameList genFormals, Type2 carrierType, Expr expr)
@@ -632,13 +638,13 @@ public class DefinitionTableVisitor
 		  Expr defExpr, DefinitionKind defKind)
   {
     assert sectName_ != null;
-    assert defKind.isGlobal();
+    assert defKind.isGlobal() : "cannot add local definition as a global def of " + sectName_;
     Type2 unifType = getType(declName); //TODO: should this be here (on possibly built names) or at addDef calls?
     Expr resolvedExpr = defExpr;
     Definition result = new Definition(sectName_, declName, genFormals, resolvedExpr, unifType, defKind);
     try
     {
-      table_.addGlobalDecl(sectName_, result);
+      table_.addGlobalDecl(/*sectName_, */result);
     }
     catch (DefinitionException e)
     {
@@ -651,7 +657,7 @@ public class DefinitionTableVisitor
           ZName declName, Expr defExpr, DefinitionKind defKind)
   {
     assert currentGlobalDef_ != null;
-    assert !defKind.isGlobal() : "cannot add global definition as a local def of " + currentGlobalDef_;
+    assert !defKind.isGlobal() /*defKind.isLocal()*/ : "cannot add global definition as a local def of " + currentGlobalDef_;
     Definition result = null;
     Type2 unifType = getType(declName); //TODO: should this be here (on possibly built names) or at addDef calls?
     Expr resolvedExpr = defExpr;
@@ -697,6 +703,19 @@ public class DefinitionTableVisitor
     {
       //throw new CztException(e);
       raiseUnsupportedCase("while adding local ref (cloned+geninst): " + e.getMessage(), localDef.getDefinitionKind(), localDef.getExpr());
+    }
+  }
+
+  private void updateGlobalDefKind(DefinitionKind schDefKind)
+  {
+    assert currentGlobalDef_ != null : "cannot update def kind for null global def";
+    try
+    {
+      currentGlobalDef_.updateDefKind(schDefKind);
+    }
+    catch(DefinitionException e)
+    {
+      raiseUnsupportedCase("could not update schdecl to schexpr", schDefKind, currentGlobalDef_.getExpr());
     }
   }
 
@@ -997,7 +1016,7 @@ public class DefinitionTableVisitor
         {
           specialExpr.getAnns().add(loc);
         }
-        // add it as a schema decl, so global
+        // add it as a schema decl, so global = it is a SchExpr (e.g., it has S \land S')? No. It is [ S; S' ] okay.
         includedDef = addDefinition(genFormals, includedName, specialExpr, DefinitionKind.SCHEMADECL);
 
         // also process its inner definitions, which should already be available as
@@ -1065,8 +1084,8 @@ public class DefinitionTableVisitor
             // get the stroked definition
             ZName strokedName = buildName(refName, strokes);
             Definition strokedDef = table_.lookupName(strokedName);
-            boolean needsLocalReference = strokedDef == null; //||
-                    //!currentGlobalDef_.getLocalDecls().containsKey(strokedName) /*|| !defKinds.peek().isSchemaExpr()*/;
+            boolean needsLocalReference = strokedDef == null ||
+                    !currentGlobalDef_.getLocalDecls().containsKey(strokedName) /*|| !defKinds.peek().isSchemaExpr()*/;
             // if already in the table, no need to process it
             // otherwise, add the stroked version of refName on top-level
             if (strokedDef == null)
@@ -1076,7 +1095,13 @@ public class DefinitionTableVisitor
               // add+process the DecorExpr as a top-level decl (e.g., add S' == [ x', y': T ] globally)
               strokedDef = addDefinition(def.getGenericParams()/*genFormals*/, strokedName, schExpr, DefinitionKind.SCHEMADECL);
               currentGlobalDef_ = strokedDef;
-              processSchExpr(strokedDef.getGenericParams(), refName, schExpr, defKinds, strokes);
+              
+              // this is being globally defined, so update defKind in case of SCHEXPR
+              DefinitionKind schDefKind = processSchExpr(strokedDef.getGenericParams(), refName, schExpr, defKinds, strokes);
+              if (schDefKind.isSchemaExpr())
+              {
+                updateGlobalDefKind(schDefKind);
+              }
 
               // restore top-level definition
               currentGlobalDef_ = topLevelDef;
@@ -1154,24 +1179,30 @@ public class DefinitionTableVisitor
         raiseUnsupportedCase("complex decorated inclusion", DefinitionKind.getSchExpr(currentName_.peek()), decl);
       }
     }
-    // somewhat unusual case: S == [ [ x: T | P ] | Q ]
-    else if (inclDeclExpr instanceof SchExpr)
-    {
-      processDeclList(genFormals, ((SchExpr)inclDeclExpr).getZSchText().getZDeclList(), defKinds, strokes);
-    }
-    // somewhat usual case: S == [ St[x/y] | P ]
-    else if (inclDeclExpr instanceof RenameExpr)
-    {
-      assert !currentName_.empty();
-      RenameExpr rexpr = (RenameExpr)inclDeclExpr;
-      raiseUnsupportedCase("not handling rename expr in inclusion", DefinitionKind.getSchExpr(currentName_.peek()), rexpr);
-    }
     else
     {
       assert !currentName_.empty();
-      // S == [ (T \land R) | P ] => will need to use type information?
-      raiseUnsupportedCase("complex schema expression inclusion", DefinitionKind.getSchExpr(currentName_.peek()), decl);
+      // if it is an inclusion, we can just ignore the result, since it is not being globally defined
+      processSchExpr(genFormals, currentName_.peek(), inclDeclExpr, defKinds, strokes);
     }
+    // somewhat unusual case: S == [ [ x: T | P ] | Q ]
+//    else if (inclDeclExpr instanceof SchExpr)
+//    {
+//      processDeclList(genFormals, ((SchExpr)inclDeclExpr).getZSchText().getZDeclList(), defKinds, strokes);
+//    }
+//    // somewhat usual case: S == [ St[x/y] | P ]
+//    else if (inclDeclExpr instanceof RenameExpr)
+//    {
+//      assert !currentName_.empty();
+//      RenameExpr rexpr = (RenameExpr)inclDeclExpr;
+//      raiseUnsupportedCase("not handling rename expr in inclusion", DefinitionKind.getSchExpr(currentName_.peek()), rexpr);
+//    }
+//    else
+//    {
+//      assert !currentName_.empty();
+//      // S == [ (T \land R) | P ] => will need to use type information?
+//      raiseUnsupportedCase("complex schema expression inclusion", DefinitionKind.getSchExpr(currentName_.peek()), decl);
+//    }
   }
 
   /**
@@ -1183,8 +1214,9 @@ public class DefinitionTableVisitor
    * @param expr
    * @param defKinds
    * @param strokes
+   * @return the defkind for this schema as either Expr or Decl
    */
-  protected void processSchExpr(ZNameList genFormals, ZName refName, Expr expr,
+  protected DefinitionKind processSchExpr(ZNameList genFormals, ZName refName, Expr expr,
           Stack<DefinitionKind> defKinds, Stack<Stroke> strokes)
   {
     // current schema being processed considering strokes
@@ -1192,9 +1224,12 @@ public class DefinitionTableVisitor
     ZName schName = ZUtils.assertZName(buildName(refName, strokes));
     currentName_.push(schName);
 
+    assert !defKinds.isEmpty() : "empty defkinds stack in processSchExpr";
     DefinitionKind currentDefKind = defKinds.peek();
+    assert currentDefKind.isSchemaReference() ||
+           currentDefKind.isSchemaBinding() : "defKind stack top is not a schema-related = " + currentDefKind;
 
-    debug("processing sch expr = " + schName + " as " + currentDefKind + "\t\t with stack = " + currentName_);
+    //debug("processing sch expr = " + schName + " as " + currentDefKind + "\t\t with stack = " + currentName_);
 
     // we can process SchExpr only when handling their declaraitons
     // or their inclusions as bindings. Otherwise there is a problem?
@@ -1217,63 +1252,76 @@ public class DefinitionTableVisitor
       DefinitionKind old = defKinds.pop();
       assert old.equals(schKind) : "definition stack consistency: not SCHBINDING"; // ??? or just .value() equals?
     }
-    else if (expr instanceof PreExpr)
-    {
-      Expr prExpr = ((PreExpr)expr).getExpr();
-      if (prExpr instanceof RefExpr)
-      {
-        processRefExpr(genFormals, (RefExpr)prExpr, strokes, defKinds);
-      }
-      else
-      {
-        raiseUnsupportedCase("complex definition for schema precondition", currentDefKind, expr);
-      }
-    }
-//    else if (expr instanceof HideExpr)
-//    {
-//
-//    }
-//    else if (expr instanceof NegExpr)
-//    {
-//      ((NegExpr)expr).getExpr()
-//    }
-//             (term instanceof HideExpr) ||
-//             (term instanceof NegExpr) ||
-//             (term instanceof RenameExpr) ||
-//             // Pipe, Proj, And, Or, Implies, Iff, Comp
-//             (term instanceof SchExpr2) ||
-//             (term instanceof ExistsExpr) ||
-//             (term instanceof Exists1Expr) ||
-//             (term instanceof ForallExpr))
     // S == T; as well as nested S == T \land R (e.g., T wil be processed as SchRef, even if T is a SchText - S == [ v: X ] \land R !)
     else if (expr instanceof RefExpr)
     {
       // for reference
+      boolean needToUpdateDefKind = !currentDefKind.isSchemaExpr();
+      if (needToUpdateDefKind)
+      {
+        currentDefKind = defKinds.push(DefinitionKind.getSchExpr(schName));
+      }
+
       processRefExpr(genFormals, (RefExpr)expr, strokes, defKinds);
       //raiseUnsupportedCase("complex definition for schema reference", currentDefKind, expr);
+
+      if (needToUpdateDefKind)
+      {
+        // pop it from the stack
+        assert !defKinds.empty() : "empty definition stack";
+        DefinitionKind old = defKinds.pop();
+        assert old.equals(currentDefKind) : "definition stack consistency: not SCHEXPR";
+      }
     }
     // complex reference for schema expression, yet known to be strictly schema calculus
     else if (ZUtils.whatKindOfZExpr(expr).equals(ZExprKind.SCHEMA))
     {
-      DefinitionKind schExprKind = defKinds.push(DefinitionKind.getSchExpr(schName));
+      // an expression within the schema calculus, update the resulting DefKind to be SCHEXPR for the callee.
+      currentDefKind = defKinds.push(DefinitionKind.getSchExpr(schName));
 
       // for And, Or, Imp, Iff, Pipe, Proj, Comp (e.g., SchExpr2): just add each side as a SchExpr
       // if they are complex expressions themselves, then, the process recurses
       if (expr instanceof SchExpr2)
       {
         SchExpr2 sexpr = (SchExpr2)expr;
+
+        // these are not being globally defined, hence we can ignore the result.
         processSchExpr(genFormals, refName, sexpr.getLeftExpr(), defKinds, strokes);
         processSchExpr(genFormals, refName, sexpr.getRightExpr(), defKinds, strokes);
       }
+      // for PreExpr, just analyse the inner expression
+      else if (expr instanceof PreExpr)
+      {
+        // these are not being globally defined, hence we can ignore the result.
+        processSchExpr(genFormals, refName, ((PreExpr)expr).getExpr(), defKinds, strokes);
+      }
+      else if (expr instanceof Expr1)
+      {
+        if (expr instanceof HideExpr || expr instanceof RenameExpr)
+        {
+          raiseUnsupportedCase("TODO: handling Hide/Rename local bindings", currentDefKind, expr);
+        }
+        
+        // Hide, Neg, Rename
+
+        // these are not being globally defined, hence we can ignore the result.
+        processSchExpr(genFormals, refName, ((Expr1)expr).getExpr(), defKinds, strokes);
+      }
+      else if (expr instanceof Qnt1Expr)
+      {
+        //((Qnt1Expr)expr).getZSchText();
+        // Exists, Exists1, ForallExpr - whatKindOfZExpr above filter other Qnt1Expr like Lambda.
+        raiseUnsupportedCase("TODO: handling Exists/Forall local bindings", currentDefKind, expr);
+      }
       else
       {
-        raiseUnsupportedCase("complex schema calculus definition for schema", currentDefKind, expr);
+        raiseUnsupportedCase("complex schema calculus definition", currentDefKind, expr);
       }
 
       // pop it from the stack
       assert !defKinds.empty() : "empty definition stack";
       DefinitionKind old = defKinds.pop();
-      assert old.equals(schExprKind) : "definition stack consistency: not SCHEXPR";
+      assert old.equals(currentDefKind) : "definition stack consistency: not SCHEXPR";
     }
     else
     {
@@ -1284,6 +1332,12 @@ public class DefinitionTableVisitor
     assert !currentName_.empty();
     ZName old = currentName_.pop();
     assert old.equals(schName);
+
+    // return the kind of definition this SchExpr processing turned out to be
+    // this is to be used to update top-level global declarations as possibly SCHEXPR
+    assert currentDefKind.isSchemaReference() ||
+           currentDefKind.isSchemaBinding() : "resulting defKind is not a schema related";
+    return currentDefKind;
   }
 
   /**
@@ -1344,12 +1398,12 @@ public class DefinitionTableVisitor
           {
             ConstDecl cDecl = (ConstDecl)decl;
 
-            // add the schema definition itself after processing its bindings
+            // add the schema definition itself before processing its bindings, so that locals can be added.
             currentGlobalDef_ = addGlobalDefinition(genFormals, cDecl.getZName(), cDecl.getExpr(), currentDefKind);
 
-            // process the SchExpr - don't add it as INCLUSION within processSchExpr,  but below
-            processSchExpr(genFormals, cDecl.getZName(), cDecl.getExpr(), defKinds, strokes);
-
+            // process the SchExpr; this is being globally defined, so update defKind in case of SCHEXPR
+            DefinitionKind schDefKind = processSchExpr(genFormals, cDecl.getZName(), cDecl.getExpr(), defKinds, strokes);
+            updateGlobalDefKind(schDefKind);
             currentGlobalDef_ = null;
           }
           else

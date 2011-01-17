@@ -140,6 +140,11 @@ public class DefinitionKind {
     return isGivenSet() || isAxiom() || isSchemaReference();
   }
 
+  public boolean isLocal()
+  {
+    return isSchemaReference() || isFreeTypeBranch();
+  }
+
   /**
    * Schema declarations like S in S == [ D | P ] or complex schema expressions like T in S == T \land R.
    * These are to be used by global names only.
@@ -167,6 +172,11 @@ public class DefinitionKind {
   public boolean isGivenSet()
   {
     return value_ == GIVENSET_VALUE;
+  }
+
+  public boolean isFreeTypeBranch()
+  {
+    return value_ == FREETYPE_VALUE;
   }
   
   public boolean isAxiom()
@@ -248,7 +258,7 @@ public class DefinitionKind {
   public String toString()
   {
     return NAMES[value_] +
-    (isSchemaBinding() ?
+    (hasSchemaName() ?
        "(" + getSchName() /*+ "@" + Integer.toHexString(getBindingSchExpr().hashCode())*/ + ")" : "");
       // (isSchemaInclusion() ? "(" + getSchName() + ")" : ""));
   }

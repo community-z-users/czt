@@ -232,7 +232,7 @@ public class UnificationEnv
    * @return if <code>type</code> is a generic type, return the inner
    * <code>Type2</code> object. Otherwise, return <code>type</code>
    */
-  public Type2 unwrapType(Type type)
+  public static Type2 unwrapType(Type type)
   {
     Type2 result = null;
     if (type instanceof GenericType)
@@ -250,6 +250,19 @@ public class UnificationEnv
       result = (Type2) type;
     }
 
+    return result;
+  }
+
+  /**
+   * returns true if the given type is \power(SchType)
+   * @param type
+   * @return
+   */
+  protected static boolean isSchemaPowerType(Type type)
+  {
+    Type2 type2 = unwrapType(type);
+    boolean result = (type2 instanceof PowerType) &&
+      (powerType(type2).getType() instanceof SchemaType);
     return result;
   }
 

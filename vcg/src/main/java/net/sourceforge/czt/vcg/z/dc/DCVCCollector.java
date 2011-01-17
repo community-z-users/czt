@@ -564,7 +564,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
         
         // for SchBox, expr must be an SchExpr! Well-formed/parsed ASTs should never suffer from this.
         if (!(schExpr instanceof SchExpr))
-          throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-NOSCHEXPR = " + term));
+          throw new CztException(new DomainCheckException("VC-DC-COL-APPLEXPR-NOSCHEXPR = " + term));
         //assert (schExpr instanceof SchExpr) : "Invalid SchBox AxPara, no SchExpr within ConstDecl!";
         
         // for SchBox : DC([ D | P ]) \iff DC(D) \land (\forall D @ DC(P)), which comes from ZSchText DC in SchExpr ;)
@@ -581,7 +581,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
           horizExpr = ZUtils.getAbbreviationExpr(term);
 
         if (horizExpr == null)
-          throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-NULL-HORIZEXPR = " + term));
+          throw new CztException(new DomainCheckException("VC-DC-COL-APPLEXPR-NULL-HORIZEXPR = " + term));
         //assert horizExpr != null : "Invalid horizontal definition: neither schema construction, nor abbreviation (null)!";
         
         // for OmitBox: DC(n[X] == E) \iff DC(E), where E could be a SchExpr ([ D | P])
@@ -764,13 +764,13 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitApplExpr(ApplExpr term) 
   {
     if (!ZUtils.isApplicationExprValid(term))
-      throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-INVALID = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-APPLEXPR-INVALID = " + term));
     //assert ZUtils.isApplicationExprValid(term) : "Invalid ApplExpr! It is neiter function operator application, nor an application expression.";
 
     // retrieve f and a, in f~a, or a~f~b, or (_ f _)[X]~a, etc...
     Expr name = ZUtils.getApplExprRef(term);
     if (!(name instanceof RefExpr || name instanceof ApplExpr))
-      throw new CztException(new VCCollectionException("VC-DC-COL-APPLEXPR-BADCALL = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-APPLEXPR-BADCALL = " + term));
     //assert name instanceof RefExpr || name instanceof ApplExpr;
 
     ZExprList flatArgs = ZUtils.getApplExprArguments(term); // falttens TupleExpr into a ZExprList
@@ -1006,17 +1006,17 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitLetExpr(LetExpr term) 
   {
     if (term.getZSchText() == null)
-      throw new CztException(new VCCollectionException("VC-DC-COL-LETEXPR-ZSCHTXT-NULL = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-LETEXPR-ZSCHTXT-NULL = " + term));
 
     // Check for the expressions within the list of declaration
     ZDeclList constdecl = term.getZSchText().getZDeclList();
 
     if (!(predTransformer_.isOnlyConstDecl(constdecl)))
-      throw new CztException(new VCCollectionException("VC-DC-COL-LETEXPR-NOCONSTDECL = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-LETEXPR-NOCONSTDECL = " + term));
     //assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
 
     if (term.getZSchText().getPred() != null)
-      throw new CztException(new VCCollectionException("VC-DC-COL-LETEXPR-ZSCHTXT-NONNULL-PRED = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-LETEXPR-ZSCHTXT-NONNULL-PRED = " + term));
     //assert term.getZSchText().getPred() == null : "Parsing must set SchText.Pred on LetExpr to null!";
     
     Pred dcd = visit(constdecl);     // DC(D)
@@ -1055,11 +1055,11 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitMuExpr(MuExpr term) 
   {
     if (term.getZSchText() == null)
-      throw new CztException(new VCCollectionException("VC-DC-COL-MUEXPR-ZSCHTXT-NULL = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-MUEXPR-ZSCHTXT-NULL = " + term));
 
     // Pred for Mu could NOT be null!
     if (term.getZSchText().getPred() == null)
-      throw new CztException(new VCCollectionException("VC-DC-COL-MUEXPR-ZSCHTXT-NULL-PRED = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-MUEXPR-ZSCHTXT-NULL-PRED = " + term));
     //assert term.getZSchText().getPred() != null : "Invalid MuExpr: getPred() is null!";
 
     ZDeclList decl = term.getZSchText().getZDeclList();
@@ -1131,7 +1131,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     ZDeclList constdecl = term.getZDeclList();
 
     if (!(predTransformer_.isOnlyConstDecl(constdecl)))
-      throw new CztException(new VCCollectionException("VC-DC-COL-BINDEXPR-NOCONSTDECL = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-BINDEXPR-NOCONSTDECL = " + term));
     //assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
     
     return visit(constdecl);
@@ -1343,7 +1343,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitMemPred(MemPred term)
   {
     if (!ZUtils.isMemPredValid(term))
-      throw new CztException(new VCCollectionException("VC-DC-COL-MEMPRED-INVALID = " + term));
+      throw new CztException(new DomainCheckException("VC-DC-COL-MEMPRED-INVALID = " + term));
     //assert ZUtils.isMemPredValid(term) : "Invalid MemPred! It is neiter: equality, membership, or relational operator application." ;
     
     Expr expr1 = ZUtils.getMemPredLHS(term);// just getLeftExpr().

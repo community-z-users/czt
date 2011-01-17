@@ -165,7 +165,7 @@ public class CarrierSet
   {
     List<Expr> exprs = factory_.list();
     List<Type2> types = prodType.getType();
-    for (Iterator iter = types.iterator(); iter.hasNext(); ) {
+    for (Iterator<Type2> iter = types.iterator(); iter.hasNext(); ) {
       Type type = (Type) iter.next();
       Expr expr = (Expr) type.accept(this);
       exprs.add(expr);

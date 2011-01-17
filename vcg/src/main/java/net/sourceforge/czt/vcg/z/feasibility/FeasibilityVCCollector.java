@@ -304,101 +304,23 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     switch (term.getBox())
     {
       case AxBox:
-        // FSB(AX D | P ) => \exists D | true @ P
-        Pred pred = term.getZSchText().getPred();
-        return predTransformer_.existsPred(term.getZSchText().getZDeclList(), pred == null ? truePred() : pred);
+        return handleAxiom(term.getZSchText());
 
       case OmitBox:
       case SchBox:
-        // for schemas add
-        ZName schName = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getZName();
-        RefExpr schRef = factory_.createRefExpr(schName);
-        try
+        // for OmitBox term might not be a schema
+        ZName termName = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getZName();
+        Definition termDef = getDefTable().lookupName(termName);
+        if (termDef != null)
         {
-          Pred result;
-
-          // get the bindings and filter then by category
-          SortedSet<Definition> mixedBindings  = getDefTable().bindings(schName);
-          SortedSet<Definition> afterBindings  = filterBindings(mixedBindings, AFTER_FILTER);
-          SortedSet<Definition> beforeBindings = filterBindings(mixedBindings, BEFORE_FILTER);
-          assert Collections.disjoint(beforeBindings, afterBindings)
-                    && mixedBindings.containsAll(afterBindings)
-                    && mixedBindings.containsAll(beforeBindings)
-                    && (beforeBindings.size() + afterBindings.size() == mixedBindings.size());
-
-          boolean existential = beforeBindings.isEmpty() || afterBindings.isEmpty();
-          boolean notihngtodo = beforeBindings.isEmpty() && afterBindings.isEmpty();
-
-          // create the zSchText of assumptions and set the precondition to the user-suplied predicate
-          // populate the ZDeclList for the before bindings - this create a flat list of decl (e.g., all schemas expanded)
-          // we assume this will typecheck. if it doesn't it is up to the user.
-          //
-          // In case of existential (e.g., either is empty, then put after for before in assumptions: \exists S' @ Init)
-          ZSchText fsbAssumptions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
-          populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings.isEmpty() ? afterBindings : beforeBindings);
-          fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName));
-
-          AxPara schNameSigSchema = null;
-
-          // only consider precondition predicates for schemas with after variables
-          // schemas with before variables should have a existential proof!
-          //
-          // St  == [ x: T | I ]
-          // Sch == [ \Delta St; i?, o!: T | P ] ==> \forall [ x: T; i?: T | I \land USER-DEF-PRE ] @ \pre Sch
-          //                                         \forall x: T; i?: T @ I \land USER-DEF-PRE \implies \exist x': T; o!: T @ Sch
-          if (!existential) // before \neq {} \land after \neq {}
-          {
-
-            if (!isCreatingZSchemas())
-            {
-              // create the zSchText of conclusions as a flat list of decl
-              ZSchText fsbConclusions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
-              populateDeclList(fsbConclusions.getZDeclList(), afterBindings);
-
-              result = predTransformer_.forAllPred(fsbAssumptions,
-                    predTransformer_.existsPred(fsbConclusions, factory_.createTruePred()));
-            }
-            else
-            {
-              schNameSigSchema = predTransformer_.createSchExpr(term.getZNameList(), schName, fsbAssumptions);
-              // create the conclusions as a Z-centric \pre SchRef operator
-              result = predTransformer_.forAllPred(fsbAssumptions,
-                      factory_.createExprPred(factory_.createPreExpr(schRef)));
-            }
-          }
-          // no after bindings; if there are any before bindings then create existential proof
-          else if (!notihngtodo) // before \neq {} \lor after \neq {} and it is existential
-          {
-            if (!isCreatingZSchemas())
-            {
-              // fsbAssumptions will have either initialisation or just true
-              result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
-            }
-            else
-            {
-              schNameSigSchema = predTransformer_.createSchExpr(term.getZNameList(), schName, fsbAssumptions);
-              
-              // still to differentiate these two.
-              result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
-            }
-          }
-          // otherwise, there is nothing to do.
-          else
-          {
-            result = predTransformer_.truePred();
-          }
-
-          // if anything got created
-          if (schNameSigSchema != null)
-          {
-            // TODO: add AxPara to section? and make it a reference instead of fsbAssumptions
-          }
-          return result;
+          Expr termExpr  = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getExpr();
+//          assert termDef.getExpr().equals(termExpr);
+          if (termDef.getDefinitionKind().isSchemaReference())
+            return handleSchema(termDef);
+          else if (termDef.getDefinitionKind().isAxiom())
+            return handleHorizDef(termDef);
         }
-        catch (DefinitionException ex)
-        {
-          throw new CztException(new VCCollectionException(ex));
-        }
+        throw new CztException(new FeasibilityException("VC-FSB-AXPARA-PROBLEM = " + termName));
       default:
         // this case should never happen, yet we need to return something
         // in the unlikely case the Java compiler messes up with Box Enums
@@ -408,6 +330,122 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   }
 
   /* VC GENERATION HELPER METHODS */
+
+  // FSB(AX D | P ) => \exists D | true @ P
+  protected Pred handleAxiom(ZSchText zSchText)
+  {
+    Pred pred = zSchText.getPred();
+    return predTransformer_.existsPred(zSchText.getZDeclList(), pred == null ? truePred() : pred);
+  }
+
+  // FSB(N == E) => \exists N : E | true @ true
+  protected Pred handleHorizDef(Definition horizDef)
+  {
+    assert horizDef != null && horizDef.getDefinitionKind().isAxiom();
+    return predTransformer_.existsPred(factory_.createZDeclList(
+            factory_.list(factory_.createVarDecl(factory_.createZNameList(factory_.list(horizDef.getDefName())), horizDef.getExpr()))), truePred());
+  }
+
+  // FSB(S == [D | P]) ==> before(D) = {} XOR after(D) = {} => \exists bindings(S) @ P
+  // FSB(S == [D | P]) ==> before(D != {} &&  after(D)!= {} => \forall before(D) | userPre(Op) @ \exists after(D) @ P
+  // FSB(S == [D | P]) ==> before(D) = {} &&  after(D) = {} => P, where its free variables must be in (type-) context
+  protected Pred handleSchema(Definition schDef)
+  {
+    assert schDef != null && schDef.getDefinitionKind().isSchemaReference();
+    // for schemas add
+    ZName schName  = schDef.getDefName();
+    Expr schExpr   = schDef.getExpr();
+    RefExpr schRef = factory_.createRefExpr(schName);
+    try
+    {
+      Pred result;
+      // get the bindings and filter then by category
+      SortedSet<Definition> mixedBindings  = getDefTable().bindings(schName);
+
+      //if (mixedBindings.isEmpty())
+      //{
+      SortedSet<Definition> afterBindings  = filterBindings(mixedBindings, AFTER_FILTER);
+      SortedSet<Definition> beforeBindings = filterBindings(mixedBindings, BEFORE_FILTER);
+      assert Collections.disjoint(beforeBindings, afterBindings)
+                && mixedBindings.containsAll(afterBindings)
+                && mixedBindings.containsAll(beforeBindings)
+                && (beforeBindings.size() + afterBindings.size() == mixedBindings.size());
+
+      boolean existential = beforeBindings.isEmpty() || afterBindings.isEmpty();
+      boolean notihngtodo = beforeBindings.isEmpty() && afterBindings.isEmpty();
+
+      // create the zSchText of assumptions and set the precondition to the user-suplied predicate
+      // populate the ZDeclList for the before bindings - this create a flat list of decl (e.g., all schemas expanded)
+      // we assume this will typecheck. if it doesn't it is up to the user.
+      //
+      // In case of existential (e.g., either is empty, then put after for before in assumptions: \exists S' @ Init)
+      ZSchText fsbAssumptions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
+      populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings.isEmpty() ? afterBindings : beforeBindings);
+      fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName));
+
+      AxPara schNameSigSchema = null;
+
+      // only consider precondition predicates for schemas with after variables
+      // schemas with before variables should have a existential proof!
+      //
+      // St  == [ x: T | I ]
+      // Sch == [ \Delta St; i?, o!: T | P ] ==> \forall [ x: T; i?: T | I \land USER-DEF-PRE ] @ \pre Sch
+      //                                         \forall x: T; i?: T @ I \land USER-DEF-PRE \implies \exist x': T; o!: T @ Sch
+      if (!existential) // before \neq {} \land after \neq {}
+      {
+
+        if (!isCreatingZSchemas())
+        {
+          // create the zSchText of conclusions as a flat list of decl: [ | true ]
+          ZSchText fsbConclusions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
+          // conclusions = [ d1', ... dn', do!: T | true ]
+          populateDeclList(fsbConclusions.getZDeclList(), afterBindings);
+          // \forall assumptions @ \exists conclusions @ true
+          result = predTransformer_.forAllPred(fsbAssumptions,
+                predTransformer_.existsPred(fsbConclusions, factory_.createTruePred()));
+        }
+        else
+        {
+          schNameSigSchema = predTransformer_.createSchExpr(schDef.getGenericParams(), schName, fsbAssumptions);
+          // create the conclusions as a Z-centric \pre SchRef operator
+          result = predTransformer_.forAllPred(fsbAssumptions,
+                  factory_.createExprPred(factory_.createPreExpr(schRef)));
+        }
+      }
+      // no after bindings; if there are any before bindings then create existential proof
+      else if (!notihngtodo) // before \neq {} XOR after \neq {} and it is existential
+      {
+        if (!isCreatingZSchemas())
+        {
+          // fsbAssumptions will have either initialisation or just true
+          result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
+        }
+        else
+        {
+          schNameSigSchema = predTransformer_.createSchExpr(schDef.getGenericParams(), schName, fsbAssumptions);
+
+          // still to differentiate these two.
+          result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
+        }
+      }
+      // otherwise, there is nothing to do: just return P
+      else // before = after = {}
+      {
+        result = predTransformer_.truePred(); // TODO: still to return P from ZName (!!!)
+      }
+
+      // if anything got created
+      if (schNameSigSchema != null)
+      {
+        // TODO: add AxPara to section? and make it a reference instead of fsbAssumptions
+      }
+      return result;
+    }
+    catch (DefinitionException ex)
+    {
+      throw new CztException(new FeasibilityException("VC-FSB-SCHEMA-DEFEXCEPTION for " + schName, ex));
+    }
+  }
 
   /**
    * User supplied predicate to be assumed as part of the given schema name
@@ -462,17 +500,20 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   protected SortedSet<Definition> filterBindings(SortedSet<Definition> bindings, BindingFilter filter)
   {
     SortedSet<Definition> result = new TreeSet<Definition>(bindings);
-    Iterator<Definition> it = result.iterator();
-    while (it.hasNext())
+    if (!result.isEmpty())
     {
-      Definition def = it.next();
-      // if this name is not to be considered, then remove it
-      if (!filter.considerName(def.getDefName()))
+      Iterator<Definition> it = result.iterator();
+      while (it.hasNext())
       {
-        it.remove();
+        Definition def = it.next();
+        // if this name is not to be considered, then remove it
+        if (!filter.considerName(def.getDefName()))
+        {
+          it.remove();
+        }
       }
+      assert bindings.containsAll(result);
     }
-    assert bindings.containsAll(result);
     return result;
   }
 
