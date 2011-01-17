@@ -3877,6 +3877,7 @@ parser/doc/z/.classpath
 parser/doc/z/.project
 parser/doc/z/.settings
 parser/doc/z/target
+parser/nbactions.xml
 parser/src/*.aux
 parser/src/*.blg
 parser/src/*.log
