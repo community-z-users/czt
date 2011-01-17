@@ -1,0 +1,85 @@
+
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}
+	 \SECTION function\_toolkit\_fsb \parents~fsb\_toolkit , function\_toolkit
+\end{zsection}
+
+VC ZSection Created at Mon Jan 17 16:34:46 GMT 2011.
+
+VC5 for line 18 column 1 start 337 length 99 in "function_toolkit"
+\begin{zed}
+theorem  \_  {\pfun} \_  \_ vc\_ fsb5 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \pfun \_~: \power \{ f : X \rel Y | \forall p , q : f | p . 1 = q . 1 @ p . 2 = q . 2 \} | \\
+     \t4 true @ true
+\end{zed}
+
+VC9 for line 34 column 1 start 800 length 101 in "function_toolkit"
+\begin{zed}
+theorem  \_  {\pinj} \_  \_ vc\_ fsb9 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \pinj \_~: \power \{ f : X \rel Y | \forall p , q : f @ p . 1 = q . 1 \iff p . 2 = q . 2 \} | \\
+     \t4 true @ true
+\end{zed}
+
+VC13 for line 51 column 1 start 1328 length 65 in "function_toolkit"
+\begin{zed}
+theorem  \_  {\inj} \_  \_ vc\_ fsb13 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \inj \_~: \power ( ( X \pinj Y ) \cap ( X \fun Y ) ) | true @ true
+\end{zed}
+
+VC17 for line 66 column 1 start 1666 length 70 in "function_toolkit"
+\begin{zed}
+theorem  \_  {\psurj} \_  \_ vc\_ fsb17 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \psurj \_~: \power \{ f : X \pfun Y | \ran f = Y \} | true @ true
+\end{zed}
+
+VC21 for line 82 column 1 start 2059 length 66 in "function_toolkit"
+\begin{zed}
+theorem  \_  {\surj} \_  \_ vc\_ fsb21 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \surj \_~: \power ( ( X \psurj Y ) \cap ( X \fun Y ) ) | true @ true
+\end{zed}
+
+VC25 for line 97 column 1 start 2388 length 65 in "function_toolkit"
+\begin{zed}
+theorem  \_  {\bij} \_  \_ vc\_ fsb25 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \bij \_~: \power ( ( X \surj Y ) \cap ( X \inj Y ) ) | true @ true
+\end{zed}
+
+VC29 for line 112 column 1 start 2723 length 72 in "function_toolkit"
+\begin{zed}
+theorem  \_  {\ffun} \_  \_ vc\_ fsb29 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \ffun \_~: \power ( ( X \pfun Y ) \cap \finset ( X \cross Y ) ) | true @ true
+\end{zed}
+
+VC33 for line 126 column 1 start 3009 length 67 in "function_toolkit"
+\begin{zed}
+theorem  \_  {\finj} \_  \_ vc\_ fsb33 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \finj \_~: \power ( ( X \ffun Y ) \cap ( X \pinj Y ) ) | true @ true
+\end{zed}
+
+VC37 for line 140 column 1 start 3303 length 188 in "function_toolkit"
+\begin{zed}
+theorem~axiom1208\_ vc\_ fsb37 [ L , X ] \vdash ? \\
+   \t2 \exists \disjoint \_~: \power ( L \rel \power X ) | true @ \\
+    \t3 \forall f : L \rel \power X @ \disjoint f \iff ( \forall p , q : f | p \neq q @ p . 2 \cap q . 2 =~\emptyset )
+\end{zed}
+
+VC41 for line 157 column 1 start 3710 length 198 in "function_toolkit"
+\begin{zed}
+theorem~axiom1212\_ vc\_ fsb41 [ L , X ] \vdash ? \\
+   \t2 \exists \_ \partition \_~: ( L \rel \power X ) \rel \power X | true @ \\
+    \t3 \forall f : L \rel \power X ; a : \power X @ f \partition a \iff \disjoint f \land \bigcup ( \ran f ) = a
+\end{zed}
+
+
+
+ VC Z section "function_toolkit_fsb" has $10$ interesting VCs (Total = 42; Simplified to $true$ = 32).
+
+
+
+%----------------------------------
+\end{document}

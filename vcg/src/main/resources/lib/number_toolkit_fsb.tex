@@ -1,0 +1,106 @@
+
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}
+	 \SECTION number\_toolkit\_fsb \parents~fsb\_toolkit , number\_toolkit
+\end{zsection}
+
+VC ZSection Created at Mon Jan 17 16:28:29 GMT 2011.
+
+VC5 for line 17 column 1 start 258 length 103 in "number_toolkit"
+\begin{zed}
+theorem~axiom595\_ vc\_ fsb5 \vdash ? \\
+   \t2 \exists succ~\_~: \power ( \nat \cross \nat ) | true @ ( succ~\_ ) = \lambda n : \nat @ n + 1
+\end{zed}
+
+VC7 for line 28 column 1 start 462 length 49 in "number_toolkit"
+\begin{zed}
+theorem~axiom597\_ vc\_ fsb7 \vdash ? \exists \num : \power \arithmos | true @ true
+\end{zed}
+
+VC11 for line 48 column 1 start 972 length 443 in "number_toolkit"
+\begin{zed}
+theorem~axiom601\_ vc\_ fsb11 \vdash ? \\
+   \t2 \exists \negate \_~: \power ( \arithmos \cross \arithmos ) | true @ \\
+    \t3 ( \forall x , y : \num @ {\exists}_{1}~z : \num @ ( ( x , y ) , z ) \in ( \_ + \_ ) \\
+     \t4 \forall x : \num @ {\exists}_{1}~y : \num @ ( x , y ) \in ( \negate \_ ) \\
+     \t4 \forall i , j , k : \num @ \\
+      \t5 ( i + j ) + k = i + ( j + k ) \land i + j = j + i \land i + \negate i = 0 \land i + 0 = i \\
+     \t4 \num = \{ z : \arithmos | \exists x : \nat @ z = x \lor z =~\negate x \} )
+\end{zed}
+
+VC15 for line 103 column 1 start 2567 length 215 in "number_toolkit"
+\begin{zed}
+theorem~axiom605\_ vc\_ fsb15 \vdash ? \\
+   \t2 \exists \_ - \_~: \power ( ( \arithmos \cross \arithmos ) \cross \arithmos ) | true @ \\
+    \t3 ( \forall x , y : \num @ {\exists}_{1}~z : \num @ ( ( x , y ) , z ) \in ( \_ - \_ ) \\
+     \t4 \forall i , j : \num @ i - j = i + \negate j )
+\end{zed}
+
+VC19 for line 137 column 1 start 3408 length 133 in "number_toolkit"
+\begin{zed}
+theorem~axiom609\_ vc\_ fsb19 \vdash ? \\
+   \t2 \exists \_ \leq \_~: \power ( \arithmos \cross \arithmos ) | true @ \forall i , j : \num @ i \leq j \iff j - i \in \nat
+\end{zed}
+
+VC23 for line 152 column 1 start 3712 length 125 in "number_toolkit"
+\begin{zed}
+theorem~axiom613\_ vc\_ fsb23 \vdash ? \\
+   \t2 \exists \_~<~\_~: \power ( \arithmos \cross \arithmos ) | true @ \forall i , j : \num @ i < j \iff i + 1 \leq j
+\end{zed}
+
+VC27 for line 168 column 1 start 4011 length 127 in "number_toolkit"
+\begin{zed}
+theorem~axiom617\_ vc\_ fsb27 \vdash ? \\
+   \t2 \exists \_ \geq \_~: \power ( \arithmos \cross \arithmos ) | true @ \forall i , j : \num @ i \geq j \iff j \leq i
+\end{zed}
+
+VC31 for line 183 column 1 start 4277 length 118 in "number_toolkit"
+\begin{zed}
+theorem~axiom621\_ vc\_ fsb31 \vdash ? \\
+   \t2 \exists \_~>~\_~: \power ( \arithmos \cross \arithmos ) | true @ \forall i , j : \num @ i > j \iff j < i
+\end{zed}
+
+VC33 for line 194 column 1 start 4506 length 60 in "number_toolkit"
+\begin{zed}
+theorem~\nat _{1}\_ vc\_ fsb33 \vdash ? \exists \nat _{1}~: \power \{ x : \nat | \lnot x = 0 \} | true @ true
+\end{zed}
+
+VC35 for line 203 column 1 start 4684 length 60 in "number_toolkit"
+\begin{zed}
+theorem~\num _{1}\_ vc\_ fsb35 \vdash ? \exists \num _{1}~: \power \{ x : \num | \lnot x = 0 \} | true @ true
+\end{zed}
+
+VC39 for line 215 column 1 start 4905 length 350 in "number_toolkit"
+\begin{zed}
+theorem~axiom627\_ vc\_ fsb39 \vdash ? \\
+   \t2 \exists \_ * \_~: \power ( ( \arithmos \cross \arithmos ) \cross \arithmos ) | true @ \\
+    \t3 ( \forall x , y : \num @ {\exists}_{1}~z : \num @ ( ( x , y ) , z ) \in ( \_ * \_ ) \\
+     \t4 \forall i , j , k : \num @ \\
+      \t5 ( i * j ) * k = i * ( j * k ) \land i * j = j * i \land \\
+       \t6 i * ( j + k ) = i * j + ( i * k ) \land 0 * i = 0 \land 1 * i = i )
+\end{zed}
+
+VC44 for line 263 column 1 start 6264 length 420 in "number_toolkit"
+\begin{zed}
+theorem~axiom632\_ vc\_ fsb44 \vdash ? \\
+   \t2 \exists \_ \div \_~, \_ \mod \_~: \power ( ( \arithmos \cross \arithmos ) \cross \arithmos ) | true @ \\
+    \t3 ( \forall x : \num ; y : \num _{1} @ {\exists}_{1}~z : \num @ ( ( x , y ) , z ) \in ( \_ \div \_ ) \\
+     \t4 \forall x : \num ; y : \num _{1} @ {\exists}_{1}~z : \num @ ( ( x , y ) , z ) \in ( \_ \mod \_ ) \\
+     \t4 \forall i : \num ; j : \num _{1} @ \\
+      \t5 i = ( i \div j ) * j + ( i \mod j ) \land \\
+       \t6 ( 0 \leq i \mod j < j \lor j < i \mod j \leq 0 ) )
+\end{zed}
+
+
+
+ VC Z section "number_toolkit_fsb" has $12$ interesting VCs (Total = 45; Simplified to $true$ = 33).
+
+
+
+%----------------------------------
+\end{document}
