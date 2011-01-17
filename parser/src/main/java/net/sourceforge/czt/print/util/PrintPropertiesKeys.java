@@ -36,11 +36,15 @@ public interface PrintPropertiesKeys
    */
   String PROP_PRINT_NAME_IDS = "print_name_ids";
 
-  String PROP_Z_EVES = "print_z_eves";
+  String PROP_PRINT_ZEVES = "print_z_eves";
 
   /**
    * The number of columns after which the pretty printer should
    * break the line (that is, insert a newline).
    */
   String PROP_TXT_WIDTH = "txt_width";
+
+  boolean PROP_PRINT_NAME_IDS_DEFAULT = false;
+  boolean PROP_PRINT_ZEVES_DEFAULT    = false;
+  int PROP_TXT_WIDTH_DEFAULT          = 80; // ?
 }

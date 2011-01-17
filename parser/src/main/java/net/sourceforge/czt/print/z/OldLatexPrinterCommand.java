@@ -76,7 +76,7 @@ public class OldLatexPrinterCommand
     toPrintTree.setOldZ(true);
     Term tree = toPrintTree(toPrintTree, term, sectionName);
     Properties props = new Properties(sectInfo.getProperties());
-    props.setProperty(PrintPropertiesKeys.PROP_Z_EVES, "true");
+    props.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, "true");
     ZmlScanner scanner = new ZmlScanner(tree, props);
     Unicode2OldLatex parser = new Unicode2OldLatex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);

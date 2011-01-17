@@ -96,7 +96,7 @@ public class ZPrintVisitor
 
   private boolean eves()
   {
-    return getBooleanProperty(PROP_Z_EVES);
+    return getBooleanProperty(PROP_PRINT_ZEVES);
   }
 
   private boolean ids()

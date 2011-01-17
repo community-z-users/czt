@@ -38,4 +38,6 @@ public interface ParsePropertiesKeys
    * is sometimes convenient.
    */
   String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS = "ignore_unknown_latex_commands";
+
+  boolean PROP_IGNORE_UNKNOWN_LATEX_COMMANDS_DEFAULT = false;
 }
