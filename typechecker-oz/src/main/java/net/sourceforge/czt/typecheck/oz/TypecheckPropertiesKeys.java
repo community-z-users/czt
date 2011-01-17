@@ -33,4 +33,6 @@ public interface TypecheckPropertiesKeys
 {
   String PROP_TYPECHECK_USE_STRONG_TYPING =
     "typecheck_use_strong_typing";
+
+  boolean PROP_TYPECHECK_USE_STRONG_TYPING_DEFAULT = false;
 }
