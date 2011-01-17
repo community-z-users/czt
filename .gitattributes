@@ -907,4 +907,7 @@ zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/steam-boiler-orig
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/steam-boiler-singleenv.xml -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/bbook.utf16 svneol=native#unset
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/birthdaybook.utf16 -text
+zml/src/main/resources/net/sourceforge/czt/zml/examples/z/tokeneer/tokeneer_41_2_all_merged_for_parsing.tex -text
+zml/src/main/resources/net/sourceforge/czt/zml/examples/z/tokeneer/tokeneer_41_2_all_merged_for_typechecking.tex -text
+zml/src/main/resources/net/sourceforge/czt/zml/examples/z/tokeneer/tokeneer_41_2_all_merged_original.tex -text
 zml/src/site/resources/zml/Z_2_1.xsd -text
