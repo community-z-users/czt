@@ -83,7 +83,7 @@ public class TypeCheckUtils
                                                    boolean recursiveTypes,
                                                    boolean useStrongTyping)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
+    net.sourceforge.czt.typecheck.oz.TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, recursiveTypes, false, useStrongTyping, null);
   }
 
@@ -95,7 +95,7 @@ public class TypeCheckUtils
 						   boolean useStrongTyping,
 						   String sectName)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
+    net.sourceforge.czt.typecheck.oz.TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames, useStrongTyping, null, sectName);
   }
   
@@ -108,7 +108,7 @@ public class TypeCheckUtils
 						WarningManager.WarningOutput warningOutput,
                                                 String sectName)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
+    net.sourceforge.czt.typecheck.oz.TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames, false, null, sectName);
   }
 

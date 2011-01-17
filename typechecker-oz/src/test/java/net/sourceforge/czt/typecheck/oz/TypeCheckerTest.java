@@ -103,10 +103,9 @@ public class TypeCheckerTest
   protected List typecheck(Term term, SectionManager manager)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term,
-                                    manager,
-				    useBeforeDecl_,
-                                    recursiveTypes_,
-                                    useStrongTyping_);
+    // Important to use the complete method parameters otherwise there is capture with useNameIds with same signture in z.TypeCheck!
+    return net.sourceforge.czt.typecheck.oz.TypeCheckUtils.typecheck(term,
+            manager, useBeforeDecl_, recursiveTypes_, false, useStrongTyping_, null)
+            ;
   }
 }
