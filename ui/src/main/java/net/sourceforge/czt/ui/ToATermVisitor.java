@@ -34,9 +34,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.visitor.*;
 
 public class ToATermVisitor
-  implements TermVisitor<Object>,
-             NarrParaVisitor<Object>,
-             NarrSectVisitor<Object>
+  implements TermVisitor<Object>
 {
   private StringBuffer result = new StringBuffer();
 
@@ -51,90 +49,44 @@ public class ToATermVisitor
   }
  
   public Object visitTerm(Term term) {
-    boolean isAList = false;
     if (term instanceof List){
       write("[");
-      isAList = true;
+      handleChildren(term.getChildren());
+      write("]");
     }
     else {
       String str = term.getClass().getName();
       String newString = str.substring(str.lastIndexOf('.') + 1);
-      if (newString.contains("Impl")) {
-        newString = newString.substring(0 , newString.indexOf("Impl"));
+      if (newString.endsWith("Impl")) {
+        newString = newString.substring(0 , newString.length()-4);
       }
+      write(newString);
       if (term.getChildren().length != 0) {
-        write(newString + "(");
-      }
-      else {
-        write(newString);
-      }
-    }
-    int index = 0;
-    for (Object obj : term.getChildren()) {
-      if(obj instanceof Term){
-        Term t = (Term) obj;
-        Object o = t.accept(this);
-        if (o != null) {
-          if (index < term.getChildren().length - 1) {
-            if (index != term.getChildren().length - 1
-                && !(term.getChildren()[index+1] instanceof NarrPara
-                     && index == term.getChildren().length - 2)) {
-              write(", ");
-            }
-          }
-        }
-      }
-      else {
-        if (obj != null) {
-          write("\"" + obj.toString() + "\"");
-        }
-        else {
-          write("null");
-        }
-        if (index < term.getChildren().length - 1) {
-          if (index != term.getChildren().length - 1 
-              && !(term.getChildren()[index+1] instanceof NarrPara &&
-                   index == term.getChildren().length - 2)) {
-            write(", ");
-          }
-        }
-      }
-      index++;
-    }
-    if (isAList) { write("]"); }
-    else {
-      if(term.getChildren().length != 0){
+        write("(");
+        handleChildren(term.getChildren());
         write(")");
       }
     }
     if (term.getAnns().size() != 0) {
       write("{");
-    }
-    index = 0;
-    for (Object obs : term.getAnns()) {
-      if (obs instanceof Term) {
-        Term t = (Term) obs;
-        t.accept(this);
-        if (index != term.getAnns().size() - 1) {
-          write(", ");
-        }
-      }
-      index++;
-    }
-    if (term.getAnns().size() != 0) {
+      handleChildren(term.getAnns().toArray());
       write("}");
     }
-    return term;
+    return null;
   }
 
-  /** Ignore narrative paragraphs. */
-  public Object visitNarrPara(NarrPara para)
-  {
-    return null;
-  }
-  
-  public Object visitNarrSect(NarrSect sect)
-  {
-    return null;
+  private void handleChildren(Object[] children) {
+    for (int index = 0; index < children.length; index++) {
+      if (index > 0) write(", ");
+      if (children[index] instanceof Term) {
+        Object o = ((Term) children[index]).accept(this);
+      }
+      else if (children[index] != null) {
+        write("\"" + children[index].toString() + "\"");
+      }
+      else {
+        write("null");
+      }
+    }
   }
 }
