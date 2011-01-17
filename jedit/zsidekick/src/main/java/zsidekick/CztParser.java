@@ -82,7 +82,7 @@ public class CztParser
     {
       manager_ = new SectionManager(extension_);
       jEdit.unsetProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_RESET_SM);
-      //if (debug_)
+      if (debug_)
       {
         JOptionPane.showMessageDialog(null, "Create new section manager for " + extension_ + "\n in " + buffer.getPath());
       }

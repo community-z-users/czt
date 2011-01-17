@@ -279,7 +279,10 @@ private void downButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     
   private void initFields(List<String> paths)
   {
-    javax.swing.JOptionPane.showMessageDialog(pathPanel, "Original CZT-paths = " + paths.toString().replace(',', '\n'));
+    if (ZSideKickPlugin.debug_)
+    {
+      javax.swing.JOptionPane.showMessageDialog(pathPanel, "Original CZT-paths = " + paths.toString().replace(',', '\n'));
+    }
     
     // setup the add button listener
     PathFieldListener pathListener_ = new PathFieldListener();    
