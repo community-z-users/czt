@@ -38,12 +38,12 @@ public interface DomainCheckPropertyKeys extends VCGPropertyKeys {
    * DEFAULT = true; TYPE = boolean
    */
   String PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO =
-    "dc_vcg_use_infix_appliesto";
+    "vcg_dc_use_infix_appliesto";
 
   // default values from properties in VCGPropertyKeys
   boolean PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT     = true;
   boolean PROP_VCG_DOMAINCHECK_PROCESS_PARENTS_DEFAULT         = false;
-  boolean PROP_VCG_DOMAINCHECK_ADD_TRIVIAL_DC_DEFAULT          = false;
+  boolean PROP_VCG_DOMAINCHECK_ADD_TRIVIAL_VC_DEFAULT          = false;
   boolean PROP_VCG_DOMAINCHECK_APPLY_TRANSFORMERS_DEFAULT      = true;
   boolean PROP_VCG_DOMAINCHECK_RAISE_TYPE_WARNINGS_DEFAULT     = true; /* by default raise warnings as errors */
   Markup  PROP_VCG_DOMAINCHECK_PREFERRED_MARKUP_DEFAULT        = Markup.LATEX;

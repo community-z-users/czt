@@ -50,7 +50,7 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
 
   // default values from properties in VCGPropertyKeys
   boolean PROP_VCG_FEASIBILITY_PROCESS_PARENTS_DEFAULT         = false;
-  boolean PROP_VCG_FEASIBILITY_ADD_TRIVIAL_DC_DEFAULT          = false;
+  boolean PROP_VCG_FEASIBILITY_ADD_TRIVIAL_VC_DEFAULT          = false;
   boolean PROP_VCG_FEASIBILITY_APPLY_TRANSFORMERS_DEFAULT      = true;
   boolean PROP_VCG_FEASIBILITY_RAISE_TYPE_WARNINGS_DEFAULT     = true; /* by default raise warnings as errors */
   Markup  PROP_VCG_FEASIBILITY_PREFERRED_MARKUP_DEFAULT        = Markup.LATEX;

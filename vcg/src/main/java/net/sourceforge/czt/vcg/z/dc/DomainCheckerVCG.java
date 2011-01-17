@@ -90,7 +90,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   @Override
   protected boolean defaultAddTrivialVC()
   {
-    return PROP_VCG_DOMAINCHECK_ADD_TRIVIAL_DC_DEFAULT;
+    return PROP_VCG_DOMAINCHECK_ADD_TRIVIAL_VC_DEFAULT;
   }
 
   @Override

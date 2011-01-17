@@ -44,6 +44,7 @@ import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.util.ZUtils;
 
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
@@ -342,13 +343,19 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   protected Pred handleHorizDef(Definition horizDef)
   {
     assert horizDef != null && horizDef.getDefinitionKind().isAxiom();
+    Expr expr = horizDef.getExpr();
+    if (expr instanceof NumExpr)
+    {
+      // N == Number => \exists N: \power \{ Number \} | true @ true (?)
+      expr = factory_.createSetExpr(factory_.createZExprList(factory_.list(expr)));
+    }
     return predTransformer_.existsPred(factory_.createZDeclList(
-            factory_.list(factory_.createVarDecl(factory_.createZNameList(factory_.list(horizDef.getDefName())), horizDef.getExpr()))), truePred());
+            factory_.list(factory_.createVarDecl(factory_.createZNameList(factory_.list(horizDef.getDefName())), expr))), truePred());
   }
 
-  // FSB(S == [D | P]) ==> before(D) = {} XOR after(D) = {} => \exists bindings(S) @ P
-  // FSB(S == [D | P]) ==> before(D != {} &&  after(D)!= {} => \forall before(D) | userPre(Op) @ \exists after(D) @ P
-  // FSB(S == [D | P]) ==> before(D) = {} &&  after(D) = {} => P, where its free variables must be in (type-) context
+  // FSB(S == [D | P]) ==> before(D)  = {} XOR after(D) = {} => \exists bindings(S) @ P
+  // FSB(S == [D | P]) ==> before(D) != {} &&  after(D)!= {} => \forall before(D) | userPre(Op) @ \exists after(D) @ P
+  // FSB(S == [D | P]) ==> before(D)  = {} &&  after(D) = {} => P, where its free variables must be in (type-) context
   protected Pred handleSchema(Definition schDef)
   {
     assert schDef != null && schDef.getDefinitionKind().isSchemaReference();

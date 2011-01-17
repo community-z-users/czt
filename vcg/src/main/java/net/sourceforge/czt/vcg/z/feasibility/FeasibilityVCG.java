@@ -63,7 +63,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   @Override
   protected boolean defaultAddTrivialVC()
   {
-    return PROP_VCG_FEASIBILITY_ADD_TRIVIAL_DC_DEFAULT;
+    return PROP_VCG_FEASIBILITY_ADD_TRIVIAL_VC_DEFAULT;
   }
 
   @Override

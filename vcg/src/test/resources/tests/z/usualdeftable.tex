@@ -3,7 +3,7 @@
 \begin{document}
 
 \begin{zsection}
-\SECTION usualdeftable \parents set\_toolkit
+\SECTION usualdeftable \parents function\_toolkit
 \end{zsection}
 
 Given sets
@@ -25,7 +25,7 @@ State schema with generics
 \begin{schema}{State}[X]
    x: \nat \\
    y: \power~\nat \\
-   f: \nat \fun \nat \\
+   f: \nat \pfun \nat \\
    g: X
 \where
    y \cross y \subseteq f \\
@@ -52,7 +52,7 @@ Usual state update with inputs and outputs, with generics instantiated.
    g = g' = max \\ % resolves generic parameter implicitly
    y' = y \\
    i? \in y' \\
-   % \{i?\} \dres f = \{i?\} \dres f' \\ - avoid dependency with relation\_toolkit
+   \{i?\} \dres f = \{i?\} \dres f' \\ % avoid dependency with relation\_toolkit
    f~x = i? \\
    f'~i? = x' = o!
 \end{schema}

@@ -1096,7 +1096,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     result.append(sectName);
     result.append("\" has $");
     result.append(vcCount);
-    result.append("$ interesting ");
+    result.append("$");
+    result.append(isAddingTrivialVC() ? "" :  " interesting ");
     result.append(vcCount == 1 ? "VC" : "VCs");
 
     // always add how many trivial ones were hidden, if there are any
