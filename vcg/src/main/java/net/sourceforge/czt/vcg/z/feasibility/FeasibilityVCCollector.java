@@ -400,16 +400,17 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       //                                         \forall x: T; i?: T @ I \land USER-DEF-PRE \implies \exist x': T; o!: T @ Sch
       if (!existential) // before \neq {} \land after \neq {}
       {
-
         if (!isCreatingZSchemas())
         {
           // create the zSchText of conclusions as a flat list of decl: [ | true ]
           ZSchText fsbConclusions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
           // conclusions = [ d1', ... dn', do!: T | true ]
           populateDeclList(fsbConclusions.getZDeclList(), afterBindings);
-          // \forall assumptions @ \exists conclusions @ true
+          // \forall assumptions @ \exists conclusions @ Sch
+          Pred invariant = getSchemaInvariant(schRef);//, schExpr); // try expanding the schema invariants - if fails, just use the schema reference
           result = predTransformer_.forAllPred(fsbAssumptions,
-                predTransformer_.existsPred(fsbConclusions, factory_.createTruePred()));
+                predTransformer_.existsPred(fsbConclusions, 
+                invariant == null ? factory_.createExprPred(schRef) : invariant));
         }
         else
         {
@@ -461,8 +462,40 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
    */
   protected Pred getUserDefinedSchemaPRE(ZName name)
   {
+    ZName nameNoStrokes = factory_.createZName(name.getWord());
+    Definition schDef = getDefTable().lookupName(nameNoStrokes);
+    Pred result = predTransformer_.truePred();
+    if (schDef != null)
+    {
+      try
+      {
+        SortedSet<Definition> mixed = getDefTable().bindings(nameNoStrokes);
+        SortedSet<Definition> after = filterBindings(mixed, AFTER_FILTER);
+        if (after.isEmpty())
+        {
+          //result = factory_.createExprPred(schDef.getExpr());
+          result = factory_.createExprPred(factory_.createRefExpr(nameNoStrokes));
+        }
+      }
+      catch(DefinitionException e)
+      {
+        // ignore
+      }
+    }
     // just true for now.
-    return predTransformer_.truePred();
+    return result;
+  }
+
+  protected Pred getSchemaInvariant(Expr expr)
+  {
+    Pred result = factory_.createExprPred(expr);
+    // USE RULES TO CALCULATE
+//    if (expr instanceof SchExpr)
+//    {
+//      SchExpr sexpr = (SchExpr)expr;
+//      sexpr.getZSchText().
+//    }
+    return result;
   }
 
   protected void populateDeclList(ZDeclList zDeclList, SortedSet<Definition> bindings)
