@@ -74,7 +74,11 @@ abstract public class Checker<R>
   //the current class name
   protected ZName className()
   {
-    return typeChecker_.classPara_.getClassName();
+    ZName result = null;
+    if (typeChecker_.classPara_ != null) {
+      result = typeChecker_.classPara_.getClassName();
+    }
+    return result;
   }
 
   //the current class para
@@ -483,7 +487,10 @@ abstract public class Checker<R>
                             VisibilityList visibilityList,
                             ErrorMessage errorMessage)
   {
-    List<ZName> declNames = factory().list(className());
+    List<ZName> declNames = factory().list();
+    if (className() != null) {
+      declNames.add(className());
+    }
 
     //collect the names
     List<NameTypePair> attrDecls = classType.getAttribute();
