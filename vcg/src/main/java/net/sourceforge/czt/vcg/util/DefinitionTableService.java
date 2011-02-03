@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.util;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.SortedSet;
@@ -27,6 +28,7 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
@@ -150,33 +152,6 @@ public class DefinitionTableService
     }
   }
 
-  static String removePath(String filename)
-  {
-    int barIdx = filename.lastIndexOf(java.io.File.separatorChar);
-    if (barIdx == -1)
-    {
-      barIdx = filename.lastIndexOf("/");
-    }
-    if (barIdx == -1)
-    {
-      barIdx = filename.lastIndexOf("\\");
-    }
-    return barIdx == -1 ? filename : filename.substring(barIdx + 1);
-  }
-
-  static String getFileNameNoExt(String filename)
-  {
-    int dotIdx = filename.lastIndexOf(".");
-    return dotIdx == -1 ? filename : filename.substring(0, dotIdx);
-  }
-
-  static String getSourceName(String filename)
-  {
-    // transforms c:\temp\myfile.tex into myfile
-    String resource = removePath(getFileNameNoExt(filename));
-    return resource;
-  }
-
   public static Command getCommand()
   {
     return new DefinitionTableService();
@@ -193,16 +168,18 @@ public class DefinitionTableService
     DefinitionTableVisitor.DEFAULT_DEBUG_DEFTBL_VISITOR = true;
     SectionManager manager = new SectionManager();
     manager.putCommand(getCommandInfoType(), getCommand(manager));
-    manager.setTracing(true);
+    manager.setTracing(false);
     DefinitionTable table = null;
-    java.io.File file = new java.io.File(args[0]);
-    String sourceName = getSourceName(file.getName());
+    File file = new File(args[0]);
+    String sourceName = SourceLocator.getSourceName(file.getName());
+    SourceLocator.addCZTPathFor(file, manager);
     manager.put(new Key<net.sourceforge.czt.session.Source>(sourceName, net.sourceforge.czt.session.Source.class),
             new net.sourceforge.czt.session.FileSource(file));
     Key<Spec> specKey = new Key<Spec>(sourceName, Spec.class);
     Key<SectTypeEnvAnn> typeKey = new Key<SectTypeEnvAnn>(sourceName, SectTypeEnvAnn.class);
     Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(sourceName, DefinitionTable.class);
     long setupTime = System.nanoTime();
+    boolean exceptionThrown = false;
     try
     {
       manager.get(specKey);
@@ -228,6 +205,7 @@ public class DefinitionTableService
     catch (CommandException ex)
     {
       handleCmdException(ex);
+      //exceptionThrown = true;
       // try a second time to see if the one with errors was cached
       try
       {
@@ -245,48 +223,56 @@ public class DefinitionTableService
       DefinitionException consistency = table.checkOverallConsistency();
       dtCons = System.nanoTime();
 
-      final String result = table.toString(false, true);
-      System.out.println("\n------------------------------- DEFTABLE -------------------------------");
-      System.out.println(result);
-      System.out.println();
+      if (!exceptionThrown)
+      {
 
-      Set<Definition> defs = table.lookupDefinitions(sourceName);
-      System.out.println("\n------------------------------- SCHREFS --------------------------------");
-      for(Definition d : defs)
-      {
-        if (d.getDefinitionKind().isSchemaReference())
-        {
-          System.out.println(d.toString());
-        }
-      }
-      dtOther = System.nanoTime();
-      if (args.length > 1)
-      {
-        ZName arg = ZUtils.FACTORY.createZName(args[1]);
-        System.out.println("\n------------------------------- BINDINGS -------------------------------");
-        if (table.lookupName(arg) == null)
-        {
-          System.out.println("Could not find bindings for " + arg);
-        }
-        else
-        {
-          try
-          {
-            SortedSet<Definition> bindings = table.bindings(arg);
-            dtBinding = System.nanoTime() - dtOther;
-            final String result2 = bindings.toString().replaceAll(", ", ",\n");
-            System.out.println("Bindings for " + args[1] + " = " + bindings.size());
-            System.out.println(result2);
-          }
-          catch (DefinitionException ex)
-          {
-            System.err.println("Could not retrive bindings for " + args[1]);
-          }
-        }
-        System.out.println("\n------------------------------------------------------------------------");
+        final String result = table.toString(false, true);
+        System.out.println("\n------------------------------- DEFTABLE -------------------------------");
+        System.out.println(result);
         System.out.println();
-      }
 
+        Set<Definition> defs = table.lookupDefinitions(sourceName);
+        System.out.println("\n------------------------------- SCHREFS --------------------------------");
+        for(Definition d : defs)
+        {
+          if (d.getDefinitionKind().isSchemaReference())
+          {
+            System.out.println(d.toString());
+          }
+        }
+        dtOther = System.nanoTime();
+        if (args.length > 1)
+        {
+          ZName arg = ZUtils.FACTORY.createZName(args[1]);
+          System.out.println("\n------------------------------- BINDINGS -------------------------------");
+          if (table.lookupName(arg) == null)
+          {
+            System.out.println("Could not find bindings for " + arg);
+          }
+          else
+          {
+            try
+            {
+              SortedSet<Definition> bindings = table.bindings(arg);
+              dtBinding = System.nanoTime() - dtOther;
+              final String result2 = bindings.toString().replaceAll(", ", ",\n");
+              System.out.println("Bindings for " + args[1] + " = " + bindings.size());
+              System.out.println(result2);
+            }
+            catch (DefinitionException ex)
+            {
+              System.err.println("Could not retrive bindings for " + args[1]);
+            }
+          }
+          System.out.println("\n------------------------------------------------------------------------");
+          System.out.println();
+        }
+      }
+      else
+      {
+        dtOther = System.nanoTime();
+        dtBinding = System.nanoTime();
+      }
       System.out.println("CONSISTENCY-CHECK = " + (consistency == null ? " okay! " : " has " + (consistency.totalNumberOfErrors()-1) + " errors"));
       System.out.println(consistency == null ? "" : consistency.getMessage(true));
     }
