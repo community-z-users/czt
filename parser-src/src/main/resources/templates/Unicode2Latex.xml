@@ -564,6 +564,9 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    //CIRCCHANSET, CIRCPROC, CIRCDO, CIRCVAR, CIRCVAL,
                    //CIRCRES, CIRCVRES, CIRCNAMESET, CIRCASSERTREF,
                    //CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
+
+                   /* Support for Circus Time */
+                   LCIRCTIMEOUT, RCIRCTIMEOUT,
 </add:circus>
 <add:zpatt>
                    JOKER, RULE, RULELINE, PROVISO,
@@ -1012,7 +1015,17 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              RINTER
              {:
                 RESULT = resultTT("~\\rinter~", CircusString.RINTER);
-             :}                             
+             :}
+             /* Support for Circus Time */
+             LCIRCTIMEOUT
+             {:
+                RESULT = resultTT("~\\lcirctimeout~", CircusString.LCIRCTIMEOUT);
+             :}
+             |
+             RCIRCTIMEOUT
+             {:
+                RESULT = resultTT("~\\rcirctimeout~", CircusString.RCIRCTIMEOUT);
+             :}
 </add:circus>
              ;
 

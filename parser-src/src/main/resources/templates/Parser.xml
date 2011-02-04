@@ -1925,6 +1925,8 @@ terminal LocInfo
         // acording to how it is expected to be in CSP_M.
         // USE _RENAME :)
 
+        /* Support for Circus Time */
+        LCIRCTIMEOUT, RCIRCTIMEOUT, CIRCWAIT, CIRCDEADLINE,
 </add:circus>
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
@@ -2466,6 +2468,8 @@ precedence right        PREFIXTHEN;
 //CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
 //CIRCSKIP, CIRCSTOP, CIRCCHAOS,
 //LCIRCCHANSET, RCIRCCHANSET,
+/* Support for Circus Time */
+precedence left         CIRCDEADLINE;
 </add:circus>
 precedence left         IFF;
 precedence right        IMP;
@@ -2520,6 +2524,9 @@ precedence left         LSQUARE, RSQUARE;
 precedence nonassoc     LCIRCRENAME, RCIRCRENAME; // it doesn't matter if put before _RENAME
 precedence nonassoc     LSCHEXPRACT, RSCHEXPRACT;
 precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
+/* Support for Circus Time: TODO: are these right for Circus time? */
+precedence nonassoc     LCIRCTIMEOUT, RCIRCTIMEOUT;
+precedence nonassoc     CIRCWAIT;
 precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
 </add:circus>
@@ -2530,6 +2537,7 @@ precedence left         DECORWORD
                           , CHANNELNAME, FIELDNAME, CHANNELERROR
                         </add:circus>
                         <add:oz>, INITWORD</add:oz>;
+
 
 
 /// specifications /////////////////////////////////////////////////////////
@@ -4968,6 +4976,13 @@ cspAction ::=
           addLocAnn(RESULT, cc);
         :}
         |
+        /* Support for Circus Time; TODO: check if precedences are right here */
+        CIRCWAIT:cw expression:e
+        {:
+            RESULT = factory_.createWaitAction(e);
+            addLocAnn(RESULT, getLocation(cw, e));
+        :}
+        |
         CIRCMU:cm name:n CIRCSPOT circusAction:ca
         {:
             RESULT = factory_.createMuAction(ca, n);
@@ -5045,6 +5060,22 @@ cspAction ::=
             RESULT = factory_.createSeqAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
+        |
+        /* Support for Circus Time; TODO: check if precedences are right here */
+        circusAction:ca CIRCDEADLINE expression:e
+        {:
+            RESULT = factory_.createDeadlineAction(ca, e);
+            addLocAnn(RESULT, getLocation(ca, e));
+        :}
+        |
+        //TODO: check if this is the right place, given chosen precedences!
+        /* Support for Circus Time */
+        circusAction:cal LCIRCTIMEOUT expression:e RCIRCTIMEOUT circusAction:car
+        {:
+            RESULT = factory_.createTimeoutAction(factory_.list(cal, car), e);
+            addLocAnn(RESULT, getLocation(cal, car));
+        :}
+        |
         /* Due to a series of reasonable conflicts (listed below), we see that
          * the best choice is to introduce suitable notation (guard brackets,
          * AKA toirtoise angle brackets) for guarded actions.
@@ -5064,7 +5095,6 @@ cspAction ::=
          * #606, #677, and #728 of Parser.xml version 1.263 (on commit; 1.262 before commit).
          * (see file transition.table.before.guardbrackets.txt on CZT_HOME/parser/tests/circus).
          */
-        |
         LCIRCGUARD:lg guard:g RCIRCGUARD:rg ANDALSO:cg circusAction:ca
         {:
             RESULT = factory_.createGuardedAction(ca, g);
