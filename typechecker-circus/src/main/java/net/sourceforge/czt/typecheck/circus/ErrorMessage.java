@@ -104,6 +104,9 @@ public enum ErrorMessage
   
   IS_NOT_CHANNEL_NAME_IN_RENAME_ACTION,
   RENAME_ACTION_LIST_DONT_UNIFY,
+
+  /* Specific to Circus Time */
+  CIRCUS_TIME_EXPR_DONT_UNIFY,
   
   /** CommandChecker.java  */
 
@@ -136,7 +139,7 @@ public enum ErrorMessage
   
   POSTCHECKING_NAMESET_ERROR,
   POSTCHECKING_CALL_ERROR,
-  
+
   /** Messages within SpecChecker.java */  
   /** Messages within ExprChecker.java */  
   /** Messages within PredChecker.java */  

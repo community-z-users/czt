@@ -17,6 +17,7 @@ package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
 import java.util.ListIterator;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.Action2;
 import net.sourceforge.czt.circus.ast.ActionD;
 import net.sourceforge.czt.circus.ast.ActionIte;
@@ -46,6 +47,9 @@ import net.sourceforge.czt.circus.ast.ParActionIte;
 import net.sourceforge.czt.circus.ast.ParallelActionIte;
 import net.sourceforge.czt.circus.ast.AlphabetisedParallelActionIte;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
+import net.sourceforge.czt.circus.ast.DeadlineAction;
+import net.sourceforge.czt.circus.ast.TimeoutAction;
+import net.sourceforge.czt.circus.ast.WaitAction;
 import net.sourceforge.czt.circus.visitor.Action2Visitor;
 import net.sourceforge.czt.circus.visitor.ActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionVisitor;
@@ -61,14 +65,18 @@ import net.sourceforge.czt.circus.visitor.ParamActionVisitor;
 import net.sourceforge.czt.circus.visitor.ParActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.ParallelActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor;
+import net.sourceforge.czt.circus.visitor.DeadlineActionVisitor;
 import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
 import net.sourceforge.czt.circus.visitor.RenameActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor;
+import net.sourceforge.czt.circus.visitor.TimeoutActionVisitor;
+import net.sourceforge.czt.circus.visitor.WaitActionVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GenericType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
@@ -79,6 +87,7 @@ import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * <p> bla bla bla </p>
@@ -151,7 +160,12 @@ public class ActionChecker
   //IntChoiceActionIteVisitor,                              C.12.24  
   ParActionIteVisitor<CircusCommunicationList>,                 //  C.12.25, C.12.26
   ParallelActionIteVisitor<CircusCommunicationList>,            //  C.12.27
-  AlphabetisedParallelActionIteVisitor<CircusCommunicationList> //  C.12.27-2
+  AlphabetisedParallelActionIteVisitor<CircusCommunicationList>,//  C.12.27-2
+
+  /* Support for Circus Time (hack F Zeyda) */
+  TimeoutActionVisitor<CircusCommunicationList>,
+  WaitActionVisitor<CircusCommunicationList>,
+  DeadlineActionVisitor<CircusCommunicationList>
   
 {
   /** Creates a new instance of ActionChecker */
@@ -301,6 +315,22 @@ public class ActionChecker
     params.add("action");
     params.add(getCurrentActionName());      
     return params;
+  }
+
+  protected void typeCheckTimeExpr(Term term, Expr expr)
+  {
+    // whatever the type, even if with generic, it must be at least ARITHMOS
+    // this include both \nat and \real for the time of TIME.
+    Type2 found = GlobalDefs.unwrapType(expr.accept(exprChecker()));
+    Type2 expected = factory().createGivenType(factory().createZDeclName(ZString.ARITHMOS));
+    if (!unify(found, expected).equals(UResult.SUCC))
+    {
+      Object[] params = {
+        getCurrentProcessName(), getCurrentActionName(),
+        term.getClass().getSimpleName(), expr, expected, found
+      };
+      error(term, ErrorMessage.CIRCUS_TIME_EXPR_DONT_UNIFY, params);
+    }
   }
   
   protected CircusCommunicationList typeCheckParActionIte(ParActionIte term, ChannelSet cs)
@@ -938,5 +968,31 @@ public class ActionChecker
   {
     CircusCommunicationList commList = typeCheckParActionIte(term, term.getChannelSet());    
     return commList;
-  }    
+  }
+
+  /* Support for Circus Time (hack F Zeyda) */
+  @Override
+  public CircusCommunicationList visitTimeoutAction(TimeoutAction term)
+  {
+    CircusCommunicationList commList = visitAction2(term);
+    typeCheckTimeExpr(term, term.getExpr());
+    return commList;
+  }
+
+  @Override
+  public CircusCommunicationList visitWaitAction(WaitAction term)
+  {
+    CircusCommunicationList commList = visitBasicAction(term);
+    typeCheckTimeExpr(term, term.getExpr());
+    return commList;
+  }
+
+  @Override
+  public CircusCommunicationList visitDeadlineAction(DeadlineAction term)
+  {
+    checkActionParaScope(term, null);
+    CircusCommunicationList commList = visit(term.getCircusAction());
+    typeCheckTimeExpr(term, term.getExpr());
+    return commList;
+  }
 }
