@@ -20,7 +20,6 @@
 package net.sourceforge.czt.parser.circus;
 
 import net.sourceforge.czt.circus.util.CircusString;
-import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
@@ -49,7 +48,10 @@ public enum CircusToken
   RSCHEXPRACT(CircusString.RSCHEXPRACT, NewlineCategory.BEFORE),
   LCIRCRENAME(CircusString.LCIRCRENAME, NewlineCategory.AFTER),
   RCIRCRENAME(CircusString.RCIRCRENAME, NewlineCategory.BEFORE),
-  
+  /* Support for Circus Time */
+  LCIRCTIMEOUT(CircusString.LCIRCTIMEOUT, NewlineCategory.AFTER),
+  RCIRCTIMEOUT(CircusString.RCIRCTIMEOUT, NewlineCategory.BEFORE),
+
   CIRCUS(CircusString.CIRCUS, NewlineCategory.BOTH),
   CIRCUSACTION(CircusString.CIRCUSACTION, NewlineCategory.BOTH);
 

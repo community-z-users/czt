@@ -393,7 +393,6 @@ jedit/zeves/src/main/resources/zeves.props -text
 jedit/zlive/src/main/resources/zlive.html -text
 jedit/zsidekick/src/main/java/zsidekick/CztPath.form -text
 parser-circus/doc/circus/circus.bnf.syntax.sty -text
-parser-circus/src/main/resources/lib/circus.sty -text
 parser-circus/src/main/resources/lib/circus.unicode.latb -text
 parser-circus/src/main/resources/lib/circus_mc_toolkit.tex -text
 parser-circus/src/main/resources/lib/circus_prelude.tex -text

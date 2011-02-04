@@ -1170,4 +1170,34 @@ public class CircusPrintVisitor
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Not supported yet.");
     return null;
   }
+
+  /* Support for Circus Time (hack F Zeyda) */
+    public Object visitTimeoutAction(TimeoutAction term) {
+        printLPAREN(term);
+        visit(term.getLeftAction());
+        print(CircusToken.LCIRCTIMEOUT);
+        visit(term.getExpr());
+        print(CircusToken.RCIRCTIMEOUT);
+        visit(term.getRightAction());
+        printRPAREN(term);
+        return null;
+    }
+
+    public Object visitWaitAction(WaitAction term) {
+        printLPAREN(term);
+        print(CircusKeyword.CIRCWAIT);
+        visit(term.getExpr());
+        printRPAREN(term);
+        return null;
+    }
+
+    public Object visitDeadlineAction(DeadlineAction term) {
+        printLPAREN(term);
+        visit(term.getCircusAction());
+        print(CircusKeyword.CIRCDEADLINE);
+        visit(term.getExpr());
+        printRPAREN(term);
+        return null;
+    }
+
 }
