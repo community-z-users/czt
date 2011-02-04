@@ -307,7 +307,7 @@ public class Main
               Spec spec = manager.get(
                 new Key<Spec>(source.getName(), Spec.class));
               FileOutputStream stream = new FileOutputStream(output);
-              Writer writer = new OutputStreamWriter(stream);
+              Writer writer = new OutputStreamWriter(stream, "UTF-8");
               ToATermVisitor visitor = new ToATermVisitor();
               spec.accept(visitor);
               writer.write(visitor.getResult());
