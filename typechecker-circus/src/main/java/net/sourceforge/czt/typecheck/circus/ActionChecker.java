@@ -81,6 +81,7 @@ import net.sourceforge.czt.z.ast.GenericType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NewOldPair;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
@@ -168,11 +169,15 @@ public class ActionChecker
   DeadlineActionVisitor<CircusCommunicationList>
   
 {
+  private final Expr arithmos_;
+  
   /** Creates a new instance of ActionChecker */
   public ActionChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
     setCurrentActionSignature(null);
+    arithmos_ = factory().createRefExpr(factory().createZDeclName(ZString.ARITHMOS));
+    
   }
   
   private ActionSignature actionSignature_;  
@@ -322,7 +327,13 @@ public class ActionChecker
     // whatever the type, even if with generic, it must be at least ARITHMOS
     // this include both \nat and \real for the time of TIME.
     Type2 found = GlobalDefs.unwrapType(expr.accept(exprChecker()));
-    Type2 expected = factory().createGivenType(factory().createZDeclName(ZString.ARITHMOS));
+    Type2 expected = arithmos_.accept(exprChecker());
+    if (expected instanceof PowerType)
+    {
+      expected = ((PowerType)expected).getType();
+    }
+    // if arithmos type is wrong somehow, this will catch it.
+    // DON'T CACHE arithmos type as it won't work from the beginning.
     if (!unify(found, expected).equals(UResult.SUCC))
     {
       Object[] params = {
