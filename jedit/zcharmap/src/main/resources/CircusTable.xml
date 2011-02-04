@@ -410,5 +410,20 @@
           unicode="&#x2294; x: T &#x2219; A(x)"
           latex="\Intchoice x: T \circspot A(x)"/>    
   </row>
+  <!-- Support for Circus Time -->
+  <row heading="Circus Time">
+    <item name="A &#x21BB; TExp &#x22B3; B"
+          description="Timeout Action"
+          unicode="A &#x21BB; TExp &#x27E7; B"
+          latex="A \lcirctimeout TExp \rcirctimeout B"/>
+    <item name="wait TExp"
+          description="Wait Action"
+          unicode="wait TExp"
+          latex="\circwait TExp"/>
+    <item name="A deadline TExp"
+          description="Deadline Action"
+          unicode="A deadline TExp"
+          latex="A \circdeadline TExp"/>
+  </row>
 </table>         
 
