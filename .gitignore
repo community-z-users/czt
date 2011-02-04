@@ -4783,6 +4783,7 @@ typechecker-circus/*.tmp
 typechecker-circus/.classpath
 typechecker-circus/.project
 typechecker-circus/.settings
+typechecker-circus/nbactions.xml
 typechecker-circus/src/*.aux
 typechecker-circus/src/*.blg
 typechecker-circus/src/*.log
