@@ -40,6 +40,8 @@ public class SourceLocator extends AbstractCommand
 {
   private final static String[] suffix_ = Markup.KNOWN_FILENAME_SUFFIXES;
 
+  public static final String PROP_CZT_PATH = "czt.path";
+
   /**
    * Tries to locate the resource named for the given section manager.
    * The lookup algorithm for name as follows:
@@ -97,7 +99,7 @@ public class SourceLocator extends AbstractCommand
     traceLog("SL-NO-CURDIR    = try czt.path");
     // try to retrieve czt.path
     List<String> cztpaths = new ArrayList<String>();
-    String path = manager.getProperty("czt.path");
+    String path = manager.getProperty(PROP_CZT_PATH);
     traceLog("SL-SM-czt.path  = " + path);
     // if empty or null, try czt.properties
     if (path == null || path.isEmpty())
@@ -106,7 +108,7 @@ public class SourceLocator extends AbstractCommand
       if (cztprops != null)
       {
         // gets within czt.properties (if it exists) czt.path or "." by default
-        path = cztprops.getProperty("czt.path", ".");
+        path = cztprops.getProperty(PROP_CZT_PATH, ".");
         // sets the manager with all properties within cztprops
         // hence overriding any previous properties within it.
         manager.setProperties(cztprops);
@@ -263,6 +265,28 @@ public class SourceLocator extends AbstractCommand
     // transforms c:\temp\myfile.tex into myfile
     String resource = removePath(getFileNameNoExt(filename));
     return resource;
+  }
+
+  public static String getCZTPathFor(File file, SectionManager manager)
+  {
+    assert file != null && manager != null;
+    String localcztpath = manager.getProperty(PROP_CZT_PATH);
+    if (localcztpath == null || localcztpath.isEmpty())
+    {
+      localcztpath = file.getParent();
+    }
+    else
+    {
+      localcztpath += File.pathSeparator + file.getParent();
+    }
+    return localcztpath;
+  }
+
+  public static void addCZTPathFor(File file, SectionManager manager)
+  {
+    String localcztpath = getCZTPathFor(file, manager);
+    assert localcztpath != null || !localcztpath.isEmpty();
+    manager.setProperty(PROP_CZT_PATH, localcztpath);
   }
   
   /**
