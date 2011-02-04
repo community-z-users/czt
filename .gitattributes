@@ -551,6 +551,8 @@ typechecker-circus/src/test/resources/tests/circus/buffer-refinement-multienv.dv
 typechecker-circus/src/test/resources/tests/circus/circus_cookies-SchexprActionVarOutOfScope.error -text
 typechecker-circus/src/test/resources/tests/circus/circus_cookies.dvi -text
 typechecker-circus/src/test/resources/tests/circus/circus_cookies.pdf -text svneol=unset#application/pdf
+typechecker-circus/src/test/resources/tests/circus/circustime-CircusTimeExprDontUnify.error -text
+typechecker-circus/src/test/resources/tests/circus/circustime.tex -text
 typechecker-circus/src/test/resources/tests/circus/comm-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/comm_unification-TypeMismatchInApplExpr.error -text
 typechecker-circus/src/test/resources/tests/circus/csnsexpr_various.tex -text
