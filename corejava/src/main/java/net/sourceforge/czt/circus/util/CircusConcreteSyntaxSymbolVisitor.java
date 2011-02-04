@@ -563,6 +563,20 @@ public class CircusConcreteSyntaxSymbolVisitor
     return CircusConcreteSyntaxSymbol.PROOF_OBLIGATION_ANN;
   }
 
+  /* Support for Circus Time */
+  public CircusConcreteSyntaxSymbol visitTimeoutAction(TimeoutAction action) {
+    return CircusConcreteSyntaxSymbol.TIMEOUT_ACTION;
+  }
+
+  public CircusConcreteSyntaxSymbol visitWaitAction(WaitAction action) {
+    return CircusConcreteSyntaxSymbol.WAIT_ACTION;
+  }
+
+  public CircusConcreteSyntaxSymbol visitDeadlineAction(DeadlineAction action) {
+    return CircusConcreteSyntaxSymbol.DEADLINE_ACTION;
+  }
+
+
   public interface Utils
     extends IsEmptyNameList
   {
