@@ -1000,7 +1000,17 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  
+
+  <!-- Wait Action -->
+  <xs:element name="WaitAction" type="CIRCUS:WaitAction" substitutionGroup="CIRCUS:BasicAction">
+    <xs:annotation>
+      <xs:documentation>
+        Wait action of Circus Time.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+
   <!-- CSP Action :: Unary -->  
   <xs:element name="MuAction" type="CIRCUS:MuAction" substitutionGroup="CIRCUS:Action1">
     <xs:annotation>
@@ -1048,7 +1058,16 @@
         </p>        
       </xs:documentation>
     </xs:annotation>
-  </xs:element>  
+  </xs:element>
+  
+  <!-- Deadline Action -->
+  <xs:element name="DeadlineAction" type="CIRCUS:DeadlineAction" substitutionGroup="CIRCUS:Action1">
+    <xs:annotation>
+      <xs:documentation>
+        Deadline action of Circus Time.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   
   <!-- CSP Action :: Binary -->
   <xs:element name="SeqAction" type="CIRCUS:Action2" substitutionGroup="CIRCUS:Action2">
@@ -1116,6 +1135,15 @@
       <xs:documentation>
         Alphabetised Parallel composition between two actions;
         it includes the channel set expression for both alphabets as synchronisation sets.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- Timeout Action -->
+  <xs:element name="TimeoutAction" type="CIRCUS:TimeoutAction" substitutionGroup="CIRCUS:Action2">
+    <xs:annotation>
+      <xs:documentation>
+        Timeout action of Circus Time.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -2631,7 +2659,18 @@
       <xs:extension base="CIRCUS:CircusAction"/>
     </xs:complexContent>
   </xs:complexType>
-  
+
+  <!-- Wait Action -->
+  <xs:complexType name="WaitAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:BasicAction">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <!--
   <xs:complexType name="ActualParamAction">
     <xs:complexContent>
@@ -2718,6 +2757,17 @@
           <xs:element name="NewNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>
           -->
           <xs:element ref="Z:RenameList"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Deadline Action -->
+  <xs:complexType name="DeadlineAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:Action1">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2821,6 +2871,17 @@
           </xs:element>
           -->
           <xs:element ref="CIRCUS:ChannelSet" minOccurs="2" maxOccurs="2"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Timout Action -->
+  <xs:complexType name="TimeoutAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:Action2">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
