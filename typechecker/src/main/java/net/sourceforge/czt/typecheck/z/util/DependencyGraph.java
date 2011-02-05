@@ -46,7 +46,16 @@ public class DependencyGraph<E> {
    */
   public void add(E e1, E e2)
   {
-    if (!dependencies_.contains(new Pair<E,E>(e1, e2))) {
+    //determine whether this pair already exists.
+    boolean pairExists = false;
+    for (Pair<E,E> pair : dependencies_) {
+      if (pair.equals(new Pair<E,E>(e1, e2))) {
+	pairExists = true;
+	break;
+      }
+    }
+
+    if (!pairExists) {
       dependencies_.add(new Pair<E,E>(e1, e2));
       nodes_.add(e1);
       nodes_.add(e2);
@@ -137,7 +146,6 @@ public class DependencyGraph<E> {
     queue.addAll(rootNodes);
 
     while (queue.size() > 0) {
-
       int n = 0;
       E next = null;
       while (n < queue.size()) {
@@ -151,14 +159,13 @@ public class DependencyGraph<E> {
 	n++;
 	//        next = queue.get(++n);
       }
-      Set<E> dependents = getDependents(next);
 
+      Set<E> dependents = getDependents(next);
       for (E e : dependents) {
 	if (!queue.contains(e)) {
 	  queue.add(e);
 	}
       }
-
     }
 
     return result;
@@ -166,10 +173,11 @@ public class DependencyGraph<E> {
 
   public void dump()
   {
-    System.err.println("dependencies_:");
+    System.out.println("digraph {");
     for (Pair<E,E> pair : dependencies_) {
-      System.err.println("\t" + pair.left + " --> " + pair.right);
+      System.out.println("\t" + pair.left + " -> " + pair.right);
     }
+    System.out.println("}");
   }
 
   /**

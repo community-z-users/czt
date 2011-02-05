@@ -145,6 +145,7 @@ public class SectTypeEnv
   public void resetParaID()
   {
     currentParaID_ = 0;
+    paraInfo_.clear();
   }
 
   /**

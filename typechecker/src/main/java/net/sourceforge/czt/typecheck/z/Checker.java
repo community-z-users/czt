@@ -547,6 +547,7 @@ abstract public class Checker<R>
 
     //set this as the new section in SectTypeEnv
     sectTypeEnv().setSection(sectName());
+    //sectTypeEnv().resetParaID();
 
     //get and visit the parent sections of the current section
     List<Parent> parents = zSect.getParent();
@@ -598,7 +599,7 @@ abstract public class Checker<R>
       for (Integer nextParaID : reordered) {
 	//the paragraph with ID 0 refers to all parent paragraph NOT
 	//declared in this section
-	if (nextParaID != 0) {
+	if (nextParaID > 0) {
 	  reorderedParas.add(paraList.getPara().get(nextParaID - 1));
 	}
       }
@@ -1672,7 +1673,9 @@ abstract public class Checker<R>
   {
     int declParaID = sectTypeEnv().getParaID(zName);
     int currentParaID = sectTypeEnv().getCurrentParaID();
-    dependencies().add(declParaID, currentParaID);
+    if (declParaID != currentParaID) {
+      dependencies().add(declParaID, currentParaID);
+    }
   }
   
   protected Type2 resolveUnknownType(Type2 type)
