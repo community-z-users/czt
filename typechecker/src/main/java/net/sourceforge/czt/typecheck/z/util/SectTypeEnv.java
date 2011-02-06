@@ -400,7 +400,7 @@ public class SectTypeEnv
 
   //get a triple whose name matches a specified name and it
   //defined in a currently visible scope.
-  private NameSectTypeTriple getTriple(ZName zName)
+  public NameSectTypeTriple getTriple(ZName zName)
   {
     NameSectTypeTriple result = getX(zName, typeInfo_);    
     if (result != null && !visibleSections_.contains(result.getSect())) {

@@ -110,12 +110,19 @@ public class DeclChecker
     //of name/type pairs
     else {
       LocAnn locAnn = (LocAnn) expr.getAnn(LocAnn.class);
+      LocAnn baseNameLocAnn = getBaseNameLocAnn(expr);
       List<NameTypePair> lPairs = vSchemaType.getSignature().getNameTypePair();
       for (NameTypePair pair : lPairs) {
         //copy the name
         ZName newName = factory().createZName(pair.getZName(), true);
-
+	
         addAnn(newName, locAnn);
+	
+	//add the location of the declaring name is this is a schema refexpr
+	if (baseNameLocAnn != null) {
+	  addAnn(newName, baseNameLocAnn);
+	}
+
         NameTypePair newPair =
           factory().createNameTypePair(newName, pair.getType());
         pairs.add(newPair);
@@ -135,5 +142,25 @@ public class DeclChecker
       pairs.addAll(nextPairs);
     }
     return pairs;
+  }
+
+  //get the location of the declaring schema name of a schema
+  //reference expr
+  protected LocAnn getBaseNameLocAnn(Expr expr)
+  {
+    LocAnn result = null;
+
+    if (expr instanceof RefExpr) {
+      NameSectTypeTriple triple = 
+	sectTypeEnv().getTriple(((RefExpr) expr).getZName());
+      if (triple != null) {
+	result = (LocAnn) triple.getZName().getAnn(LocAnn.class);
+      }
+    }
+    else if (expr instanceof DecorExpr) {
+      result = getBaseNameLocAnn(((DecorExpr) expr).getExpr());
+    }
+
+    return result;
   }
 }
