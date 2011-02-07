@@ -547,7 +547,7 @@ abstract public class Checker<R>
 
     //set this as the new section in SectTypeEnv
     sectTypeEnv().setSection(sectName());
-    //sectTypeEnv().resetParaID();
+    sectTypeEnv().resetParaID();
 
     //get and visit the parent sections of the current section
     List<Parent> parents = zSect.getParent();
