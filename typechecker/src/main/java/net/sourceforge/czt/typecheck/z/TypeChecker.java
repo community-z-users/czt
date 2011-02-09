@@ -188,8 +188,10 @@ public class TypeChecker
     errors_ = factory.list();
     paraErrors_ = factory.list();
     undeclaredNames_ = factory.list();
-    useBeforeDecl_ = useBeforeDecl;
     recursiveTypes_ = recursiveTypes;
+    //disable use before decl if recursive types is also turned on
+    //as this subsumes use before decl, but enabling both causes problems
+    useBeforeDecl_ = recursiveTypes ? false : useBeforeDecl;
     sortDeclNames_ = sortDeclNames;    
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
