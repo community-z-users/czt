@@ -34,6 +34,7 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @param <R> 
  * @author Leo Freitas
  * @date Dec 24, 2010
+ * $Id$
  */
 public abstract class AbstractVC<R> implements VC<R>
 {
