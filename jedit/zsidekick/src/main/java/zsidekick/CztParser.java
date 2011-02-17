@@ -78,15 +78,15 @@ public class CztParser
 
   public SectionManager getManager(Buffer buffer)
   {
-    if (manager_ == null || jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_RESET_SM))
-    {
+    //if (manager_ == null || jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_RESET_SM))
+    //{
       manager_ = new SectionManager(extension_);
       jEdit.unsetProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_RESET_SM);
       if (debug_)
       {
         JOptionPane.showMessageDialog(null, "Create new section manager for " + extension_ + "\n in " + buffer.getPath());
       }
-    }
+    //}
     ZSideKickPlugin.setProperties(manager_);
     return manager_;
   }
@@ -118,6 +118,15 @@ public class CztParser
         assert localpath != null;
         manager.setProperty("czt.path", localpath);
         logger_.config("JEDT-CZT-PATH = " + localpath);
+      }
+      Key<Spec> specKey = new Key<Spec>(name_, Spec.class);
+      // if the buffer has been modified, reparse the spec by removing its key
+      // as well as all keys it depends on.
+      if (buffer.isDirty())
+      {
+        //manager.removeKey(specKey); TODO?
+        logger_.finer("JEDIT-CZT-REMOVEKEY = dirty buffer " + specKey.getName());
+        buffer.save(jEdit.getActiveView(), null);
       }
       final Source source =
               new StringSource(buffer.getText(0, buffer.getLength()), name_);
