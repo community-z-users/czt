@@ -5788,6 +5788,7 @@ util/src/test/java/target
 util/src/test/target
 util/target
 vcg/nbactions.xml
+vcg/src/test/resources/tests/z/czt.sty
 vcg/target
 z2b/*.aux
 z2b/*.blg
