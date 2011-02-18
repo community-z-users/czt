@@ -98,7 +98,15 @@ public class LatexMarkupFunction
       reportError(getCommandDirective(command), markupDirective);
     }
     commandToDirective_.put(command, markupDirective);
-    unicodeToDirective_.put(unicode, markupDirective);
+    // uniqueness at Unicode won't work (e.g., 180 Unicode for 210 LaTex with Fuzz) --- we need to differentiate at printing
+    //if (!unicodeToDirective_.containsKey(unicode))
+    //{
+      unicodeToDirective_.put(unicode, markupDirective);
+    //}
+    //else
+    //{
+    //  reportError(getUnicodeDirective(unicode), markupDirective);
+    //}
     directives_.add(markupDirective);
   }
 
@@ -113,7 +121,15 @@ public class LatexMarkupFunction
       }
       else {
         commandToDirective_.put(command, directive);
-        unicodeToDirective_.put(directive.getUnicode(), directive);
+        final String unicode = directive.getUnicode();
+        //if (!unicodeToDirective_.containsKey(unicode))
+        //{
+          unicodeToDirective_.put(unicode, directive);
+        //}
+        //else
+        //{
+        //  reportError(getUnicodeDirective(unicode), directive);
+        //}
       }
       assert getCommandDirective(command) != null;
     }
