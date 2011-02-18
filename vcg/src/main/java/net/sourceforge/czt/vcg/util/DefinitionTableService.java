@@ -226,10 +226,10 @@ public class DefinitionTableService
       if (!exceptionThrown)
       {
 
-        final String result = table.toString(false, true);
-        System.out.println("\n------------------------------- DEFTABLE -------------------------------");
-        System.out.println(result);
-        System.out.println();
+//        final String result = table.toString(false, true);
+//        System.out.println("\n------------------------------- DEFTABLE -------------------------------");
+//        System.out.println(result);
+//        System.out.println();
 
         Set<Definition> defs = table.lookupDefinitions(sourceName);
         System.out.println("\n------------------------------- SCHREFS --------------------------------");
@@ -245,7 +245,8 @@ public class DefinitionTableService
         {
           ZName arg = ZUtils.FACTORY.createZName(args[1]);
           System.out.println("\n------------------------------- BINDINGS -------------------------------");
-          if (table.lookupName(arg) == null)
+          Definition def = table.lookupName(arg);
+          if (def == null)
           {
             System.out.println("Could not find bindings for " + arg);
           }
@@ -263,6 +264,8 @@ public class DefinitionTableService
             {
               System.err.println("Could not retrive bindings for " + args[1]);
             }
+            System.out.println("\n-------------- of Def -------------");
+            System.out.println(def.toString());
           }
           System.out.println("\n------------------------------------------------------------------------");
           System.out.println();

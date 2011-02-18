@@ -50,6 +50,7 @@ import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NegExpr;
+import net.sourceforge.czt.z.ast.NewOldPair;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Parent;
@@ -111,6 +112,8 @@ public class DefinitionTableVisitor
   private final boolean debug_;
   protected static boolean DEFAULT_DEBUG_DEFTBL_VISITOR = false;
   private final ZName freeTypeCtorOpName_;
+  private final List<DefinitionException> errors_;
+
 
   private SectTypeEnvAnn types_;
   
@@ -148,6 +151,7 @@ public class DefinitionTableVisitor
   {
     super(sectInfo);
     sectName_ = null;
+    errors_ = new ArrayList<DefinitionException>();
     currentLocAnn_ = null;
     currentGlobalDef_ = null;
     types_ = null;
@@ -615,17 +619,6 @@ public class DefinitionTableVisitor
     //  throw new CztException(new DefinitionException("TODO = " + declName + " for " + sectName_ + " Kind = " + defKind));
   }
 
-  protected Expr tryResolvingGenerics(ZNameList genFormals, Type2 carrierType, Expr expr)
-  {
-    Expr resolvedExpr = expr;
-    if (carrierType != null)
-    {
-      // returns defExpr if it can't handle instantiation
-      resolvedExpr = expr;
-    }
-    return resolvedExpr;
-  }
-
   /**
    * Enforce the definition type structure for various kinds of definitions
    * @param genFormals
@@ -683,25 +676,13 @@ public class DefinitionTableVisitor
     }
                                               // TODO: should this be just isSchemaDecl()?  WAS isSchemaReference()
     assert local != null && local.getDefinitionKind().isSchemaReference() : "cannot add global definition reference for " + local;
-    // get (deep) copies of carrier type and expr
-    Type2 carrierType = local.getCarrierType();
-    if (carrierType != null)
-    {
-      carrierType = cloneTerm(carrierType);
-    }
-    Expr localRef = cloneTerm(local.getExpr());
-
-    // try resolving generics
-    localRef = tryResolvingGenerics(currentGlobalDef_.getGenericParams(), carrierType, localRef);
-    Definition localDef = new Definition(local.getSectionName(), local.getDefName(), local.getGenericParams(), localRef, carrierType, local.getDefinitionKind());
-//    Definition localDef = local;
+    Definition localDef = new Definition(currentGlobalDef_.getGenericParams(), local);
     try
     {
       currentGlobalDef_.addLocalDecl(localDef);
     }
     catch (DefinitionException e)
     {
-      //throw new CztException(e);
       raiseUnsupportedCase("while adding local ref (cloned+geninst): " + e.getMessage(), localDef.getDefinitionKind(), localDef.getExpr());
     }
   }
@@ -718,6 +699,35 @@ public class DefinitionTableVisitor
       raiseUnsupportedCase("could not update schdecl to schexpr", schDefKind, currentGlobalDef_.getExpr());
     }
   }
+
+  private void modifyLocalBindings(Expr1 expr)
+  {
+    assert currentGlobalDef_ != null : "cannot modify bindings of null global def";
+    List<NewOldPair> bindings = factory_.list();
+    if (expr instanceof HideExpr)
+    {
+      for(Name hide : ((HideExpr)expr).getZNameList())
+      {
+        bindings.add(factory_.createNewOldPair(null, hide));
+      }
+    }
+    else if (expr instanceof RenameExpr)
+    {
+      bindings.addAll(((RenameExpr)expr).getZRenameList());
+    }
+    // assert expr instanceof HideExpr || expr instanceof RenameExpr;
+    // otherwise bindings will be empty, which will raise an exception
+    try
+    {
+      currentGlobalDef_.updateSpecialBindings(bindings);
+    }
+    catch (DefinitionException e)
+    {
+      errors_.add(e);
+      debug("error whilst modifying local bindinds \t\t with stack = " + currentName_ + ": \n\"" + e.getMessage(true) + "\"\n");
+    }
+  }
+
 
   /**
    * Append to the given name the given list of strokes, if the list is not empty
@@ -736,8 +746,6 @@ public class DefinitionTableVisitor
     }
     return result;
   }
-
-  private List<DefinitionException> errors_ = new ArrayList<DefinitionException>();
 
   /**
    * Adds a definition exception to the list of errors caused during def table construction.
@@ -1044,6 +1052,38 @@ public class DefinitionTableVisitor
     }
   }
 
+  protected void processDecorExpr(ZNameList genFormals, DecorExpr dexpr,
+          Stack<Stroke> strokes, Stack<DefinitionKind> defKinds)
+  {
+    Expr expr = dexpr.getExpr();
+
+    // simple decorated inclusion: S == [ St~' ]
+    if (expr instanceof RefExpr)
+    {
+      RefExpr refExpr = (RefExpr)expr;
+
+      // get any previous strokes to consider, in case one DecorExpr
+      Stroke stroke = strokes.push(dexpr.getStroke());
+
+      // process the reference expr to see whether decorated version is needed.
+      // NOTE: this means RefName+Stroke will be added as a binding for the
+      //       schema this DecorExpr is being included by
+      processRefName(genFormals, refExpr.getZName(), strokes, defKinds);
+
+      // remove the decoration from stroke stack
+      assert !strokes.empty() : "empty stroke stack";
+      Stroke old = strokes.pop();
+      assert stroke.equals(old) : "stack stroke consistency: wrong decor expr stroke";
+    }
+    else
+    {
+      assert !currentName_.empty();
+      // SchExpr = on-the-fly constructions as decorated inclusion  S == [ [ x: T ]~'    ]
+      // Expr    = complex schema calculus as decoared inclusion    S == [ (T \land R)~' ]
+      raiseUnsupportedCase("complex decorated inclusion", DefinitionKind.getSchExpr(currentName_.peek()), dexpr);
+    }
+  }
+
   /**
    * Look the reference name to see if already properly processed, raising
    * various errors in case it has not. If the reference has a definition
@@ -1151,33 +1191,7 @@ public class DefinitionTableVisitor
     else if (inclDeclExpr instanceof DecorExpr)
     {
       DecorExpr dexpr = (DecorExpr)inclDeclExpr;
-      Expr expr = dexpr.getExpr();
-
-      // simple decorated inclusion: S == [ St~' ]
-      if (expr instanceof RefExpr)
-      {
-        RefExpr refExpr = (RefExpr)expr;
-
-        // get any previous strokes to consider, in case one DecorExpr
-        Stroke stroke = strokes.push(dexpr.getStroke());
-
-        // process the reference expr to see whether decorated version is needed.
-        // NOTE: this means RefName+Stroke will be added as a binding for the
-        //       schema this DecorExpr is being included by
-        processRefName(genFormals, refExpr.getZName(), strokes, defKinds);
-        
-        // remove the decoration from stroke stack
-        assert !strokes.empty() : "empty stroke stack";
-        Stroke old = strokes.pop();
-        assert stroke.equals(old) : "stack stroke consistency: wrong decor expr stroke";
-      }
-      else
-      {
-        assert !currentName_.empty();
-        // SchExpr = on-the-fly constructions as decorated inclusion  S == [ [ x: T ]~'    ]
-        // Expr    = complex schema calculus as decoared inclusion    S == [ (T \land R)~' ]
-        raiseUnsupportedCase("complex decorated inclusion", DefinitionKind.getSchExpr(currentName_.peek()), decl);
-      }
+      processDecorExpr(genFormals, dexpr, strokes, defKinds);
     }
     else
     {
@@ -1297,15 +1311,23 @@ public class DefinitionTableVisitor
       }
       else if (expr instanceof Expr1)
       {
-        if (expr instanceof HideExpr || expr instanceof RenameExpr)
-        {
-          raiseUnsupportedCase("TODO: handling Hide/Rename local bindings", currentDefKind, expr);
-        }
-        
-        // Hide, Neg, Rename
+        // Hide, Neg, Rename, DecorExpr
 
-        // these are not being globally defined, hence we can ignore the result.
-        processSchExpr(genFormals, refName, ((Expr1)expr).getExpr(), defKinds, strokes);
+        if (expr instanceof DecorExpr)
+        {
+          processDecorExpr(genFormals, (DecorExpr)expr, strokes, defKinds);
+        }
+        else
+        {
+          // these are not being globally defined, hence we can ignore the result.
+          processSchExpr(genFormals, refName, ((Expr1)expr).getExpr(), defKinds, strokes);
+
+          // Hide, Rename
+          if (!(expr instanceof NegExpr))
+          {
+            modifyLocalBindings((Expr1)expr);
+          }
+        }
       }
       else if (expr instanceof Qnt1Expr)
       {

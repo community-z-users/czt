@@ -18,7 +18,6 @@
  */
 package net.sourceforge.czt.vcg.util;
 
-import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
@@ -133,6 +132,12 @@ public class DefinitionKind {
     name_ = schName;
     //binding_ = expr;
   }
+
+  // avoid clonning, please...
+//  protected DefinitionKind(DefinitionKind copy)
+//  {
+//    this(copy.value_, copy.name_ == null ? copy.name_ : Definition.cloneTerm(copy.name_));
+//  }
 
   public boolean isGlobal()
   {

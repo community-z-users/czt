@@ -18,13 +18,18 @@
  */
 package net.sourceforge.czt.vcg.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NewOldPair;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
@@ -48,6 +53,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   private final ZNameList genericParams_;
   private final Expr definition_;
   private final Type2 carrierType_;
+  private final List<NewOldPair> specialBindings_; // local bindings for Hide/Rename; new for Hide is null.
   private final SortedMap<ZName, Definition> locals_;
 
   protected Definition(String sectName, ZName defName, 
@@ -61,8 +67,140 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     definition_ = definition;
     defKind_ = definitionKind;
     carrierType_ = carrierType; // type maybe null
+    specialBindings_ = new ArrayList<NewOldPair>();
     locals_ = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);
   }
+
+  protected Definition(ZNameList contextGenerics, Definition deepCopy)
+  {
+    super(deepCopy == null ? null : deepCopy.getSectionName());
+    assert contextGenerics != null && deepCopy != null;
+    genericParams_ = cloneTerm(deepCopy.genericParams_);
+    defName_ = cloneTerm(deepCopy.defName_);
+    defKind_ = deepCopy.defKind_; //new DefinitionKind(local.defKind_);
+    carrierType_ = deepCopy.carrierType_ == null ? null : cloneTerm(deepCopy.carrierType_);
+    Expr copiedExpr = cloneTerm(deepCopy.definition_);
+    assert genericParams_.equals(deepCopy.genericParams_) &&
+           defName_.equals(deepCopy.defName_) &&
+           defKind_.equals(deepCopy.defKind_) &&
+           copiedExpr.equals(deepCopy.definition_) &&
+           ((carrierType_ == null && deepCopy.carrierType_ == null) ||
+            (carrierType_ != null && carrierType_.equals(deepCopy.carrierType_)));
+    definition_ = tryResolvingGenerics(contextGenerics, carrierType_, copiedExpr);
+
+    // try to avoid cloning local definitions --- have a list of hidden / renamed terms instead
+//    locals_ = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);
+//    for(SortedMap.Entry<ZName, Definition> localEntry : local.locals_.entrySet())
+//    {
+//      ZName localName = cloneTerm(localEntry.getKey());
+//      Definition localDef = new Definition(contextGenerics, localEntry.getValue());
+//      assert localName.equals(localEntry.getKey()) &&
+//             localDef.equals(localEntry.getValue());
+//      locals_.put(localName, localDef);
+//    }
+    locals_ = new TreeMap<ZName, Definition>(deepCopy.locals_);
+    assert locals_.size() == deepCopy.locals_.size();
+
+    // copy the local bindings: TODO? Clone or not?
+    specialBindings_ = new ArrayList<NewOldPair>(deepCopy.specialBindings_);
+  }
+
+  /**
+   * Copies all from the given definition, yet changes a local name's name accordingly.
+   * @param copy
+   * @param newLocalName
+   */
+  protected Definition(Definition copy, ZName newLocalName)
+  {
+    super(copy.getSectionName());
+    defName_ = newLocalName;
+    genericParams_ = copy.genericParams_;
+    definition_ = copy.definition_;
+    defKind_ = copy.defKind_;
+    carrierType_ = copy.carrierType_;
+    locals_ = new TreeMap<ZName, Definition>(copy.locals_);
+    specialBindings_ = new ArrayList<NewOldPair>(copy.specialBindings_);
+  }
+
+
+  /**
+   * Test whether a list contains a reference to an object.
+   * @param list the list to search.
+   * @param o the reference to search for.
+   * @return true if and only if the reference is in the list.
+   */
+  private static boolean containsObject(List<?> list, Object o)
+  {
+    boolean result = false;
+    for (Iterator<?> iter = list.iterator(); iter.hasNext(); )
+    {
+      Object next = iter.next();
+      if (next == o)
+      {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
+
+  protected static <T extends Term> T cloneTerm(T term)
+  {
+    assert term != null;
+    List<Term> listTerm = new ArrayList<Term>();
+    listTerm.add(term);
+    return cloneTerm(term, listTerm);
+  }
+
+  private static <T extends Term> T cloneTerm(T term, List<Term> listTerm)
+  {
+    Object[] children = term.getChildren();
+    for (int i = 0; i < children.length; i++) {
+      Object child = children[i];
+      if (child instanceof Term &&
+          ! containsObject(listTerm, child)) {
+        children[i] = cloneTerm((Term) child, listTerm);
+      }
+    }
+    @SuppressWarnings("unchecked")
+    T result = (T)term.create(children);
+    assert result.equals(term);
+    cloneAnns(term, result);
+    return result;
+  }
+
+  //copy the LocAnn and UndeclaredAnn from term1 to term2
+  private static void cloneAnns(Term term1, Term term2)
+  {
+    if (term1.getAnns() != null)
+    {
+      for(Object obj : term1.getAnns())
+      {
+        if (obj instanceof Term)
+        {
+          Term ann = (Term)obj;
+          Term cann = cloneTerm(ann);
+          term2.getAnns().add(cann);
+        }
+        else
+        {
+          term2.getAnns().add(obj);
+        }
+      }
+    }
+  }
+
+  private Expr tryResolvingGenerics(ZNameList genFormals, Type2 carrierType, Expr expr)
+  {
+    Expr resolvedExpr = expr;
+    if (carrierType != null)
+    {
+      // returns defExpr if it can't handle instantiation
+      resolvedExpr = expr;
+    }
+    return resolvedExpr;
+  }
+
 
   public SortedMap<ZName, Definition> getLocalDecls()
   {
@@ -98,7 +236,127 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
       defKind_ = defKind;
     }
     else
-      throw new DefinitionException("Cannot update schema reference " + getDefName() + " from " + defKind_ + " to " + defKind);
+      throw new DefinitionException("Cannot update schema reference " + 
+              DefinitionTable.printTerm(getDefName()) +
+              " from " + defKind_ + " to " + defKind);
+  }
+
+  protected void updateSpecialBindings(List<NewOldPair> bindings) throws DefinitionException
+  {
+    if (bindings == null && bindings.isEmpty())
+    {
+      throw new DefinitionException("Empty local bindings to modify for " + DefinitionTable.printTerm(getDefName()));
+    }
+    specialBindings_.addAll(bindings);
+  }
+
+
+  /**
+   * Checks a given name is consistent with the definition found.
+   * @param exceptions
+   * @param oldName
+   * @param def
+   */
+  private void checkLocalModification(List<DefinitionException> exceptions, ZName oldName, Definition def)
+  {
+    if (def == null || !ZUtils.namesEqual(oldName, def.getDefName()))
+    {
+      exceptions.add(new DefinitionException("Could not modify local definition named \"" +
+              DefinitionTable.printTerm(oldName) + "\" of " +
+              DefinitionTable.printTerm(getDefName()) +
+              (def != null ? ": names differ - "
+                + DefinitionTable.printTerm(getDefName()) : "")));
+    }
+  }
+
+  /**
+   * Modifies the local bindings within this definition, recursively, for all its inner locals,
+   * collecting exceptions along the way, if they occur. This is to be used by the DefinitionTable only.
+   * @param localBindings
+   * @param exceptions
+   * @param newName
+   * @param oldName
+   * @return
+   */
+  private int modifyExtraBindings(SortedMap<ZName, Definition> localBindings,
+          List<DefinitionException> exceptions, Name newName, ZName oldName)
+  {
+    int found = localBindings.containsKey(oldName) ? 1 : 0;
+    // if we found the bindings to modify belong to given locals, do it
+    if (found == 1)
+    {
+      // check the modified name exists and is consistent (e.g., equal to defined name)
+      Definition localDefToRename = localBindings.remove(oldName);
+      checkLocalModification(exceptions, oldName, localDefToRename);
+
+
+      // something todo only if names differ (e.g., in case of hiding newName is null, so nothing to do)
+      if (newName != null && !ZUtils.namesEqual(newName, oldName))
+      {
+        // copy the local with a new name and update this.locals_
+        localDefToRename = new Definition(localDefToRename, ZUtils.assertZName(newName));
+        Definition oldDef = localBindings.put(ZUtils.assertZName(newName), localDefToRename);
+        if (oldDef != null)
+        {
+          exceptions.add(new DefinitionException("Name capture during renaming: new name \"" +
+                DefinitionTable.printTerm(newName) + "\" of " +
+                DefinitionTable.printTerm(getDefName()) + " is already defined."));
+        }
+      }
+    }
+    // otherwise look deeper into each local definition, until found. TODO: or should it go everywhere changing all?
+    else
+    {
+//      Iterator<Definition> it = localBindings.values().iterator();
+//      while (!found && it.hasNext())
+//      {
+//        Definition def = it.next();
+//        found = modifyExtraBindings(def.locals_, exceptions, newName, oldName);
+//      }
+      for(Definition def : localBindings.values())
+      {
+        found += modifyExtraBindings(def.locals_, exceptions, newName, oldName);
+      }
+    }
+    return found;
+  }
+
+  protected void modifyExtraBindings(List<NewOldPair> bindings) throws DefinitionException
+  {
+    assert bindings != null;
+    List<DefinitionException> exceptions = new ArrayList<DefinitionException>();
+    if (bindings.isEmpty())
+    {
+      exceptions.add(new DefinitionException("Empty local bindings to modify " + DefinitionTable.printTerm(getDefName())));
+    }
+    ZName defName = getDefName();
+    for(NewOldPair pair : bindings)
+    {
+      assert pair.getOldName() != null : "inconsistent local bindings modification: old name is null";
+      ZName oldName = pair.getZRefName(); // getZRefName may throw exception if getOldName = null
+
+      // if definition already contains the oldName, then process it
+      int found = modifyExtraBindings(locals_, exceptions, pair.getNewName(), oldName);
+      // if we couldn't find, raise an error
+      if (found <= 0)
+      {
+        exceptions.add(new DefinitionException("Could not find local binding for \"" +
+                DefinitionTable.printTerm(oldName) + "\" of " +
+                DefinitionTable.printTerm(defName)));
+      }
+      // if we found more than once, raise a warning. TODO: use WarningManager, please
+      else if (found > 1)
+      {
+        SectionManager.traceWarning("Local binding for \"" +
+                DefinitionTable.printTerm(oldName) + "\" of " +
+                DefinitionTable.printTerm(defName) + " found " +
+                found + " times");
+      }
+    }
+    if (!exceptions.isEmpty())
+    {
+      throw new DefinitionException("Inconsistent local bindings modification", exceptions);
+    }
   }
 
   /** Returns the list of generic type parameters of this definition.
@@ -159,6 +417,39 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     return builder.toString();
   }
 
+  protected String printSpecialBindings(boolean simple)
+  {
+    StringBuilder buffer = new StringBuilder(specialBindings_.size()+1 * 20);
+    buffer.append(asMany('\t', localsDepth_+1));
+    buffer.append("Extra bindings = { ");
+    if (!specialBindings_.isEmpty())
+    {
+      Iterator<NewOldPair> itB = specialBindings_.iterator();
+      buffer.append(" ");
+      while (itB.hasNext())
+      {
+        NewOldPair pair = itB.next();
+        buffer.append('\n');
+        buffer.append(asMany('\t', localsDepth_+2));
+        String oldName = DefinitionTable.printTerm(pair.getOldName());
+        Name newName = pair.getNewName();
+        if (newName == null)
+        {
+          buffer.append("HIDE ");
+          buffer.append(oldName);
+        }
+        else
+        {
+          buffer.append(DefinitionTable.printTerm(newName));
+          buffer.append('/');
+          buffer.append(oldName);
+        }
+      }
+    }
+    buffer.append(" }");
+    return buffer.toString();
+  }
+
   protected String printLocals(boolean simple)
   {
     StringBuilder buffer = new StringBuilder(locals_.size()+1 * 20);
@@ -197,7 +488,9 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
                       (carrierType_ == null ? "" :
            "\n\t CARSET  = " + DefinitionTable.printTerm(carrierType_).replaceAll("\n;","; ").replaceAll("\n]", "] ")) +
                       (locals_.isEmpty() ? "" :
-           "\n\t LOCALS  = \n\t\t   " + printLocals(false).replaceAll("\n\t", "\n\t\t").replaceAll("}", "}\n\t"));
+           "\n\t LOCALS  = \n\t\t   " + printLocals(false).replaceAll("\n\t", "\n\t\t").replaceAll("}", "}\n\t")) +
+                      (specialBindings_.isEmpty() ? "" :
+           "\n\t SPECIAL-BINDINGS = \n\t\t   " + printSpecialBindings(false).replaceAll("\n\t", "\n\t\t").replaceAll("}", "}\n\t"));
   }
 
   public String toString(boolean simple)
@@ -208,7 +501,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
       String result = (genericParams_.isEmpty() ? "" : " [" + DefinitionTable.printTerm(genericParams_) + "]") + defKind_.toString() +
              //"(" + DefinitionTable.printTerm(defName_) + ", " +
                     //+ ")"
-                   (!locals_.isEmpty() ? printLocals(simple) : "");
+                   (!locals_.isEmpty() ? printLocals(simple) : "") +
+                   (!specialBindings_.isEmpty() ? printSpecialBindings(simple) : "");
       localsDepth_--;
       return result;
     }
@@ -227,7 +521,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
               this.defName_.equals(d.defName_) &&
               this.defKind_.equals(d.defKind_) &&
               this.genericParams_.equals(d.genericParams_) &&
-              this.locals_.equals(d.locals_);
+              this.locals_.equals(d.locals_) &&
+              this.specialBindings_.equals(d.specialBindings_);
     }
     return result;
   }
@@ -241,6 +536,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     hash = 29 * hash + this.defKind_.hashCode();
     hash = 29 * hash + this.genericParams_.hashCode();
     hash = 29 * hash + this.locals_.hashCode();
+    hash = 29 * hash + this.specialBindings_.hashCode();
     return hash;
   }
 
