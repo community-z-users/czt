@@ -201,6 +201,7 @@ public class ZSideKickActions
         bufferDC.setStringProperty("encoding", System.getProperty( "file.encoding"));
         String mode = Markup.getMarkup(name).equals(Markup.LATEX) ? "latex" : "";
         buffer.setMode(manager.getDialect() + mode);
+        buffer.reload(jEdit.getActiveView());
       }
       catch (CommandException e)
       {

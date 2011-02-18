@@ -78,6 +78,7 @@ public class CztParser
 
   public SectionManager getManager(Buffer buffer)
   {
+    // TODO: maybe do a manager_.reset instead?
     //if (manager_ == null || jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_RESET_SM))
     //{
       manager_ = new SectionManager(extension_);
@@ -124,7 +125,7 @@ public class CztParser
       // as well as all keys it depends on.
       if (buffer.isDirty())
       {
-        //manager.removeKey(specKey); TODO?
+        manager.removeKey(specKey); //TODO?
         logger_.finer("JEDIT-CZT-REMOVEKEY = dirty buffer " + specKey.getName());
         buffer.save(jEdit.getActiveView(), null);
       }
