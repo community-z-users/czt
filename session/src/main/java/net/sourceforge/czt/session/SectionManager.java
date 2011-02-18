@@ -23,11 +23,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -147,6 +149,8 @@ public class SectionManager
    */
   private Map<Key<?>, Object> content_ = new HashMap<Key<?>, Object>();
 
+  private Map<Key<?>, Set<Key<?>>> dependencies_ = new HashMap<Key<?>, Set<Key<?>>>();
+
   /**
    * The default commands. They are those classes capable of computing instances
    * of the resource class that comes from some key.getType().
@@ -246,6 +250,7 @@ public class SectionManager
    * That is, content can be added to the new section manager without
    * affecting the old one, but destructive changes to its content will
    * show up in this section manager as well.
+   * @return
    */
   @Override
   public SectionManager clone()
@@ -254,6 +259,7 @@ public class SectionManager
     copyMap(content_, result.content_);
     copyMap(commands_, result.commands_);
     copyMap(properties_, result.properties_);
+    copyMap(dependencies_, result.dependencies_);
     //result.dialect_ = this.dialect_;
     return result;
   }
@@ -542,6 +548,29 @@ public class SectionManager
     return result;
   }
 
+  public void removeKey(Key<?> key)
+  {
+    removeDependencies(key);
+    content_.remove(key);
+  }
+
+  public Set<Key<?>> getDependencies(Key<?> key)
+  {
+    return dependencies_.get(key);
+  }
+
+  private void removeDependencies(Key<?> key)
+  {
+    Set<Key<?>> depKeys = getDependencies(key);
+    if (depKeys != null)
+    {
+      for(Key<?> dkey : depKeys)
+      {
+        removeKey(dkey);
+      }
+    }
+  }
+
   /**
    * <p>
    * Lookup a key in the section manager. It should never return <code>null</code>.
@@ -797,7 +826,7 @@ public class SectionManager
       }
       // make the actual request
       boolean cres = command.compute(name, this);
-      result = (T) content_.get(new Key(name, infoType));
+      result = (T) content_.get(new Key(name, infoType)); // why do we need a new key here?
       if (result == null) {
         final String message = "Key " + key + " not computed by " + command;
         throw new CommandException(message);
@@ -881,6 +910,16 @@ public class SectionManager
               + "\n";
       getLogger().fine(msg);
     }
+    if (dependencies != null)
+    {
+      Set<Key<?>> depKeys;
+      if (!dependencies_.containsKey(key))
+      {
+        dependencies_.put(key, new HashSet<Key<?>>());
+      }
+      depKeys = dependencies_.get(key);
+      depKeys.addAll(dependencies);
+    }
   }
 
   /**
@@ -890,13 +929,19 @@ public class SectionManager
   public void reset()
   {
     getLogger().finest("Resetting section manager key-mapped resources.");
+    List<Key<?>> keys = new ArrayList<Key<?>>();
     for (Iterator<Key<?>> iter = content_.keySet().iterator(); iter.hasNext();) {
       final Key<?> key = iter.next();
+      keys.add(key);
       final String name = key.getName();
       if (! "prelude".equals(name) &&
           ! name.endsWith("_toolkit")) {
         iter.remove();
       }
+    }
+    for (Key<?> dKey : keys)
+    {
+      removeDependencies(dKey);
     }
     if (isTracing_)
     {
