@@ -53,13 +53,13 @@ import net.sourceforge.czt.circus.util.CircusString;
 /**
  * Translator into old (Z-EVES) latex markup.
  *
- * <ul>
- *   <li>Arithmos is translated into \num (this is not always the
- *       right thing to do but the best approximation I could think of)</li>
- *   <li>The Z-EVES style of defining Z sections is used</li>
- *   <li>For global schema definitions, the latex command \defs
- *       is used instead of "=="</li>
- * </ul>
+ * &lt;ul&gt;
+ *   &lt;li&gt;Arithmos is translated into \num (this is not always the
+ *       right thing to do but the best approximation I could think of)&lt;/li&gt;
+ *   &lt;li&gt;The Z-EVES style of defining Z sections is used&lt;/li&gt;
+ *   &lt;li&gt;For global schema definitions, the latex command \defs
+ *       is used instead of "=="&lt;/li&gt;
+ * &lt;/ul&gt;
  */
 </add:oldz>
 action code
@@ -281,7 +281,7 @@ action code
 
   /**
    * Returns the LatexMarkupFunction for the given section.
-   * Also sets up <code>markup_</code> if a LatexMarkupFunction
+   * Also sets up &lt;code&gt;markup_&lt;/code&gt; if a LatexMarkupFunction
    * has been found.
    */
   protected LatexMarkupFunction getMarkupTable(String sectName)
@@ -311,7 +311,12 @@ action code
     if (table != null) {
       for (Iterator iter = table.iterator(); iter.hasNext();) {
         MarkupDirective directive = (MarkupDirective) iter.next();
-        unicode2latexMap_.put(directive.getUnicode(), directive);
+        final String unicode = directive.getUnicode();
+        <add:z>
+        // For Std Z printing, we should not consider FUZZ_TOOLKIT symbols!
+        if (!directive.getSection().equals(net.sourceforge.czt.z.util.Section.FUZZ_TOOLKIT.getName()))
+        </add:z>
+           unicode2latexMap_.put(unicode, directive);
       }
     }
     addStandardMapping(unicode2latexMap_);
