@@ -3,7 +3,7 @@
 \begin{document}
 
 \begin{zsection}
-\SECTION usualdeftable \parents function\_toolkit
+\SECTION usualdeftable \parents fuzz\_toolkit, standard\_toolkit
 \end{zsection}
 
 Given sets
@@ -18,7 +18,8 @@ Usual free types (e.g., recursive, but not mutually recursive)
 
 trivial/usual axdef
 \begin{axdef}
-   max: \nat
+   maximum: \nat \\
+   minimum: \nat
 \end{axdef}
 
 State schema with generics
@@ -29,7 +30,7 @@ State schema with generics
    g: X
 \where
    y \cross y \subseteq f \\
-   x \in y \\
+   x \in y \\ 
    y \cap y = y
 \end{schema}
 
@@ -49,7 +50,7 @@ Usual state update with inputs and outputs, with generics instantiated.
    i?: \nat \\
    o!: \nat
 \where
-   g = g' = max \\ % resolves generic parameter implicitly
+   g = g' = maximum \\ % resolves generic parameter implicitly
    y' = y \\
    i? \in y' \\
    \{i?\} \dres f = \{i?\} \dres f' \\ % avoid dependency with relation\_toolkit
@@ -113,11 +114,14 @@ These ones below are quite hard: they require type information because $\power O
 is not paert of the schema calculus per se, so $schAsType~0$ is taken as an omitbox
 (e.g., Std Z removed the $\defs$ from spivey-z, unfortunatelly!).
 %
-%\begin{zed}
+%\begin{}
 %   TestSchAsType0    == schAsType~0 \\
 %   TestSchAsType1    == schAsType~1 \\
 %   TestSchAsTypeAnd  == TestSchAsType0 \land TestSchAsType1
-%\end{zed}
+%\end{}
 
+\begin{zed}
+   MySchema \defs [ a, b: \nat ]
+\end{zed}
 
 \end{document}

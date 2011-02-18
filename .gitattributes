@@ -780,11 +780,13 @@ vcg/src/test/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityTest.java -te
 vcg/src/test/resources/tests/z/axioms.tex -text
 vcg/src/test/resources/tests/z/basicsm.tex -text
 vcg/src/test/resources/tests/z/birthdaybook.tex -text
+vcg/src/test/resources/tests/z/complexschemas.tex -text
 vcg/src/test/resources/tests/z/freetype.tex -text
 vcg/src/test/resources/tests/z/nestedappl.tex -text
 vcg/src/test/resources/tests/z/nestedappl2.tex -text
 vcg/src/test/resources/tests/z/schemas.tex -text
 vcg/src/test/resources/tests/z/sets.tex -text
+vcg/src/test/resources/tests/z/simpleprint.tex -text
 vcg/src/test/resources/tests/z/unusualdeftable.tex -text
 vcg/src/test/resources/tests/z/usualdeftable.tex -text
 z2alloy/logging.properties -text
