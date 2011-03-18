@@ -114,15 +114,7 @@ public class DeclChecker
       for (NameTypePair pair : lPairs) {
         //copy the name
         ZName newName = factory().createZName(pair.getZName(), true);
-	
-        addAnn(newName, locAnn);
-
-	//add the location from the name that is defined in the
-	//referenced schema expression, to the new name
-	LocAnn zNameLocAnn = pair.getZName().getAnn(LocAnn.class);
-	if (zNameLocAnn != null) {
-	  addAnn(newName, zNameLocAnn);
-	}
+	addAnn(newName, locAnn);
 
         NameTypePair newPair =
           factory().createNameTypePair(newName, pair.getType());

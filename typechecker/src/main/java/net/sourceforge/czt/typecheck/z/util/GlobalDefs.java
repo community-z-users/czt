@@ -250,9 +250,11 @@ public class GlobalDefs
    */
   public static void copyLocAnn(Term src, Term dest)
   {
-    Object locAnn = src.getAnn(LocAnn.class);
-    if (locAnn != null) {
-      dest.getAnns().add(locAnn);
+    List<Object> anns = src.getAnns();
+    for (Object ann : anns) {
+      if (ann instanceof LocAnn) {
+	dest.getAnns().add(ann);
+      }
     }
   }
 
@@ -411,5 +413,15 @@ public class GlobalDefs
       }
     }
     return result;
+  }
+
+  public static void printLocAnns(Term term, String info)
+  {
+    List<Object> anns = term.getAnns();
+    for (Object ann : anns) {
+      if (ann instanceof LocAnn) {
+	System.err.println(info + " : " + ann.toString());
+      }
+    }
   }
 }

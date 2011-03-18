@@ -1252,6 +1252,7 @@ public class ExprChecker
       strokes.addAll(oldName.getZStrokeList());
       strokes.addAll(stroke);
       ZName newName = factory().createZDeclName(oldName.getWord(), strokes);
+      copyLocAnn(oldName, newName);
       NameTypePair newPair =
         factory().createNameTypePair(newName, oldPair.getType());
       nameTypePairs.add(newPair);

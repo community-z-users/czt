@@ -137,7 +137,7 @@ abstract public class AbstractTypeEnv
 
         List<NameTypePair> newPairs = factory_.list();
         for (NameTypePair pair : signature.getNameTypePair()) {
-          ZName primedName = factory_.createZName(pair.getZName(), true);
+	  ZName primedName = factory_.createZName(pair.getZName(), true);
           primedName.getZStrokeList().add(factory_.createNextStroke());
           NameTypePair newPair =
             factory_.createNameTypePair(primedName, pair.getType());
@@ -177,7 +177,6 @@ abstract public class AbstractTypeEnv
         //        the ID database. Other extensions requiring similar features
         //        should extend their corresponding typechecker factory accordingly.
         if (zName.getId() == null)  {
-          //factory_.setId(zName, "deltaxi");
           factory_.setDeltaXiID(zName);
 	}
       }
