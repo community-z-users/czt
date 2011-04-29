@@ -223,11 +223,10 @@ public class Main
             cztpath = ((cztpath == null || cztpath.isEmpty()) ? fileParent : 
               (oldcztpath.isEmpty() ? (fileParent + File.pathSeparator + cztpath) :
                 (fileParent + File.pathSeparator + oldcztpath + File.pathSeparator + cztpath)));
-            if (cztpath != null && !cztpath.trim().isEmpty())
-            {
+  }
+  if (cztpath != null && !cztpath.trim().isEmpty()) {
                manager.setProperty("czt.path", cztpath);
             }
-          }
           boolean parsed = parse(source, manager, syntaxCheckOnly, prove, domainCheck);
           if (parsed && output != null) {
             String dcOutput = getDCFilename(output);
