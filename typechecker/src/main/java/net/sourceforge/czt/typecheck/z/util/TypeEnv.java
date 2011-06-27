@@ -37,7 +37,7 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * variables to their type/signature .
  */
 public class TypeEnv
-  extends AbstractTypeEnv
+  extends AbstractTypeEnv<NameTypePair>
 {
   /** A Factory. */
   protected Factory factory_;

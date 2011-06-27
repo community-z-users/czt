@@ -35,7 +35,7 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * This class is an abstract superclass for <code>TypeEnv</code> and
  * <code>SectTypeEnv</code>
  */
-abstract public class AbstractTypeEnv
+abstract public class AbstractTypeEnv<X>
 {
   /** A Factory. */
   protected Factory factory_;
@@ -78,7 +78,7 @@ abstract public class AbstractTypeEnv
    * This invariant is added in SectTypeEnv and TypeEnv.
    * </p>
    */
-  protected <X> X getX(ZName zName, Map<ZName, X> map)
+  protected X getX(ZName zName, Map<ZName, X> map)
   {
     X result = null;
     Set<Map.Entry<ZName, X>> entrySet = map.entrySet();

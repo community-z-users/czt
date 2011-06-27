@@ -39,7 +39,7 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * declaration, its section name, and its type.
  */
 public class SectTypeEnv
-  extends AbstractTypeEnv
+  extends AbstractTypeEnv<NameSectTypeTriple>
 {
   /** The name of the prelude section. */
   public static final String PRELUDE = Section.PRELUDE.getName();
