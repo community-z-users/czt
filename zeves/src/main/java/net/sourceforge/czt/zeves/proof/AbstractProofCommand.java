@@ -7,7 +7,6 @@
 package net.sourceforge.czt.zeves.proof;
 
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
