@@ -494,6 +494,7 @@ session/src/main/java/net/sourceforge/czt/session/UnknownCommandException.java -
 session/src/main/resources/circus.commands -text
 session/src/main/resources/circuspatt.commands -text
 session/src/main/resources/ozpatt.commands -text
+session/src/main/resources/zeves.commands -text
 specreader/COPYING.txt -text
 specreader/pom.xml -text
 specreader/src/main/java/net/sourceforge/czt/specreader/Block.java -text
