@@ -84,6 +84,7 @@ public class Plugin
   private TransformerFactory factory_ = TransformerFactory.newInstance();
 
 
+  @SuppressWarnings("CallToThreadDumpStack")
   public void execute()
     throws MojoExecutionException
   {
@@ -110,6 +111,10 @@ public class Plugin
       else if ("zpatt".equals(dialect)) {
         generateParser("net.sourceforge.czt.parser.zpatt", "{pattern}{zpatt}");
         generateZpattPrinter("net.sourceforge.czt.print.");
+      }
+      else if ("zeves".equals(dialect)) {
+        generateParser("net.sourceforge.czt.parser.zeves", "{zeves}");
+        generateZEvesPrinter("net.sourceforge.czt.print.");
       }
       else {
         throw new MojoExecutionException("Unsupported dialect " + dialect);
@@ -162,6 +167,15 @@ public class Plugin
     generateJFlex("ContextFreeScanner",
                   "net.sourceforge.czt.print.zpatt",
                   "{zpatt}{print}");
+  }
+
+  private void generateZEvesPrinter(String basePackage)
+    throws Exception
+  {
+    generateCup("Unicode2Latex", basePackage + "zeves", "{z}{zeves}");
+    generateJFlex("ContextFreeScanner",
+                 "net.sourceforge.czt.print.zeves",
+                 "{zeves}{print}");
   }
 
   private void generateOzPrinter(String basePackage)

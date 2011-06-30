@@ -34,6 +34,9 @@ import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.Source;
 
+<add:zeves>
+import net.sourceforge.czt.parser.zeves.Proofword;
+</add:zeves>
 /**
  * &lt;p&gt;The context-free lexer for
  * specifications in unicode format.&lt;/p&gt;
@@ -85,6 +88,18 @@ import net.sourceforge.czt.session.Source;
     reader_ = in;
   }
 
+
+  private static final java.util.Map symbolMap_ = net.sourceforge.czt.parser.util.DebugUtils.getFieldMap(Sym.class);
+  private void debug(int type, Object value)
+  {
+    //System.out.println("ContextFreeScanner: Sym=" + type + " val=" + symbolMap_.get(type) + " L" + getLine() + " C" + getColumn() + " is " + String.valueOf(value));
+    //System.out.flush();
+    //if (String.valueOf(value).startsWith("prove"))
+    //{
+    //  new Throwable().printStackTrace();
+    //}
+  }
+
   /**
    * Creates a new java_cup.runtime.Symbol with line and column
    * information about the current token.
@@ -92,6 +107,7 @@ import net.sourceforge.czt.session.Source;
    */
   private Symbol symbol(int type)
   {
+    debug(type, null);
     return new Symbol(type, getLine(), getColumn(), getLocation());
   }
 
@@ -105,6 +121,7 @@ import net.sourceforge.czt.session.Source;
    */
   private Symbol symbol(int type, Object value)
   {
+    debug(type, value);
     return new Symbol(type, getLine(), getColumn(), value);
   }
 
@@ -254,6 +271,7 @@ BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
     <add:pattern> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:pattern>    
     <add:circuspatt> | {CIRCUSJOKERCHAR} | {CIRCUSACTIONLAWCHAR} | {CIRCUSPROCESSLAWCHAR}</add:circuspatt>
     <add:circus> | {CIRCUSCHAR} | {CIRCUSACTIONCHAR} </add:circus>
+    <add:zeves> | {ZPROOFCHAR} | {ZPROOFSECTIONCHAR} </add:zeves>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
@@ -274,6 +292,11 @@ CIRCUSPROCESSLAWCHAR = "\u25A3" /* hollow contained version of Rule char */
 CIRCUSCHAR = "\u257A"       
 CIRCUSACTIONCHAR = "\u2576"  
 </add:circus>
+<add:zeves>
+ZPROOFCHAR = "\u251C"  /* big turnstyle not bold */
+ZPROOFSECTIONCHAR ="\u2523" /* big turnstyle BOLD */
+</add:zeves>
+
 
 /* Other SPECIAL characters (6.4.4.5) */
 NLCHAR = "\u2028" | {CR} {LF} | {CR} | {LF}  /* line separator TODO add BEF*/
@@ -290,6 +313,31 @@ TEXT = {NOT_BOXCHAR}*
 /***********************************************************************
   Lexis (7)
  ***********************************************************************/
+<add:zeves>
+/*
+For Unicode lexing the business is easier (?). Keep it simple / restrictive for now.
+*/
+PROOFWORDBEGIN  = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
+                  "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
+                  "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
+
+PROOFWORDMIDDLE = "by" | "enabled" | "expression" | "disabled" | "lemma" |
+                  "normalization" | "predicate" | "substitute" | "to"
+
+PROOFCMDBEGIN   = "check" | "declare" | "help" | "parent" | "print" | "quit" |
+                  "read" | "reset" | "retry" | "theorems" | "undo" |
+                  "zsection" | "ztags"
+
+PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
+                  "script" | "status" | "summary" | "to" | "through"
+
+PROOFWORDPART   = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
+PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}
+
+PROOFWORD = {PROOFWORDPART}
+
+THMNAME = ({LETTER} | {LL}) ({LETTER} | {DIGIT} | {LL})*
+</add:zeves>
 
 DECORWORD = {WORD} {STROKE}*
 WORD =   {WORDPART}+
@@ -320,6 +368,12 @@ CIRCUSPROCESSLAW = {CIRCUSPROCESSLAWCHAR}
 CIRCUS = {CIRCUSCHAR}
 CIRCUSACTION = {CIRCUSACTIONCHAR}
 </add:circus>
+<add:zeves>
+ZPROOF = {ZPROOFCHAR}
+ZPROOFSECTION = {ZPROOFSECTIONCHAR}
+ZPCMDSEMICOLON = "\u003B" /* just normal semicolon */
+ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
+</add:zeves>
 
 %state Z
 
@@ -348,9 +402,15 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
   </add:circuspatt>
   
   <add:circus>
+  /* Why aren't these productions outside YYINITIAL or those outside not inside? */
   {CIRCUS}            {  beginZed(); return symbol(Sym.CIRCUS); }   
   {CIRCUSACTION}      {  beginZed(); return symbol(Sym.CIRCUSACTION); }   
   </add:circus>
+
+  <add:zeves>
+  {ZPROOF}            { beginZed(); return symbol(Sym.ZPROOF); }
+  {ZPROOFSECTION}     { beginZed(); return symbol(Sym.ZPROOFSECTION); }
+  </add:zeves>
   
   <add:oz>
   /* Object-Z class paragraph */
@@ -384,6 +444,15 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
   /* Boxes */
   {END}         {  endZed(); return symbol(Sym.END); }
   {NL}          {  return symbol(Sym.NL); }
+
+  <add:zeves>
+//  {ZPROOFCOMMANDSEP}  { return symbol(Sym.ZPROOFCOMMANDSEP); }
+
+  {PROOFWORD}   { return symbol(Sym.PROOFWORD, new Proofword(yytext(), getLocation())); }
+
+  ({SPACE} | {NL})+ {THMNAME} ({SPACE} | {NL})+ / "to expression"
+                { return symbol(Sym.DECORWORD, new Decorword(yytext(), getLocation())); }
+  </add:zeves>
 
   /* strip spaces (context-sensitive lexis; 7.4.1)
      \t is added so that unicode files containing tabs
@@ -446,6 +515,7 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
                 }
   {NUMERAL}     {  return symbol(Sym.NUMERAL,
                                  new LocInt(yytext(), getLocation())); }
+
   {DECORWORD}   {  return symbol(Sym.DECORWORD,
                                  new Decorword(yytext(), getLocation())); }
 

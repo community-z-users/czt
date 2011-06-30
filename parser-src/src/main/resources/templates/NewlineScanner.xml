@@ -87,6 +87,11 @@ public class <class/>
     map.put("CHANNELOUT", NewlineCategory.NEITHER);
     map.put("CHANNELDOT", NewlineCategory.NEITHER);    
 </add:circus>
+<add:zeves>
+    insertInto(map, ZEvesProofToken.values());
+    insertInto(map, ZEvesProofKeyword.values());
+    map.put("PROOFWORD", NewlineCategory.BOTH);
+</add:zeves>
     for (String s : SymMap.getMap().keySet()) {
       if (! map.containsKey(s)) {
         String msg = "No category for " + s + " found";

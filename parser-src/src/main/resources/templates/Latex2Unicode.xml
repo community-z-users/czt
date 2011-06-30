@@ -47,6 +47,9 @@ import net.sourceforge.czt.zpatt.util.ZPattString;
 <add:circuspatt>
 import net.sourceforge.czt.circus.util.CircusPattString;
 </add:circuspatt>
+<add:zeves>
+import net.sourceforge.czt.zeves.util.ZEvesString;
+</add:zeves>
 
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
@@ -175,6 +178,14 @@ import net.sourceforge.czt.z.util.ZString;
    */
   private boolean inAxiomaticBox_ = false;
 
+  <add:zeves>
+  /**
+   * A boolean indicating whether we are within a zproof script or not.
+   */
+  private boolean inProofScript_ = false;
+
+  </add:zeves>
+
   /**
    * The source to be scanned.
    */
@@ -278,9 +289,16 @@ import net.sourceforge.czt.z.util.ZString;
     return result(sym, yytext());
   }
 
+  private void debug(LatexSym sym, String spelling)
+  {
+   //   System.out.println("Latex2Unicode     : " + spelling + "\t " + sym);
+   //   System.out.flush();
+  }
+
   private LocToken result(LatexSym sym, String spelling)
     throws IOException
   {
+    debug(sym, spelling);
     return new LocTokenImpl(sym, spelling, getLocation());
   }
 
@@ -405,6 +423,15 @@ import net.sourceforge.czt.z.util.ZString;
     CircusParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
   }
   </add:circus>
+  <add:zeves>
+  private void reportError(ErrorType type, ZEvesParseMessage msg,
+                           String arg0, String info)
+  {
+    final LocInfo locInfo = getLocation();
+    final Object[] args = { arg0, locInfo };
+    ZEvesParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
+  }
+  </add:zeves>
 
   private void reportUnknownLatexCommand(String command)
   {
@@ -544,6 +571,64 @@ TEXT = {NOT_SPECIAL}*
 NOT_LB = !(![^] | "{")
 NAME =   {NOT_LB}*
        | {NOT_LB}* "{" {NOT_LB}* "}" {NOT_LB}*
+
+<add:zeves>
+/*
+A proof word is any combination of proof word parts followed by remaining bits
+separated by IGNORE, which contains white space followed by possible more white
+space or a comment. And similarly for proof commands (e.g., prover interaction
+rather than proof script itself).
+
+ex:
+prove%blablabla
+by
+    %....
+    reduce;
+
+Given the lexis for proofs in LaTeX is a mix between a verbatim-like environment
+(e.g., proof words parts/cmds are in plain text) and Z-LaTeX (e.g., expressions,
+names, and predicates are marked-up); and the fact only CZT uses Unicode as an
+intermediary, it implies a solution within the LaTeX2Uniode lexer. That is, to have
+these "words" lexed specially when within a zproof environment. Note that means
+the user can still have then as identifiers (e.g., they are not "keywords" as such,
+but rather like implicit LaTeX markup declarations in plain text).
+
+They get lexed as LatexSym.PROOFWORD with the given spelling. The ContextFreeScanner
+then treats these as special as well, whereas the KeywordScanner is the one to identify
+and finally categorise the more complicated (Mixfix with Z lexis in the middle) proof
+commands (e.g., apply Z(THM)-NAME to expression Z-EXPR).
+
+An alternative design would be to have a separate ZPROOF lexical state, but that
+brings (more complicated?) problems, given the Z lexis is needed within many proof
+commands to lex expr/pred/names. Instead, we use a "flag" carrying on the expected
+behaviour ahead. This is not quite "context-free", but it is not unheard off either
+(e.g., BraceStack state information to control braces balancing within LaTeX and
+Z-LaTeX lexemes).
+
+*A simpler alternative would be good, but this will suffice for now.*
+*/
+
+PROOFWORDBEGIN  = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
+                  "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
+                  "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
+
+PROOFWORDMIDDLE = "by" | "enabled" | "expression" | "disabled" | "lemma" |
+                  "normalization" | "predicate" | "substitute" | "to"
+
+PROOFCMDBEGIN   = "check" | "declare" | "help" | "parent" | "print" | "quit" |
+                  "read" | "reset" | "retry" | "theorems" | "undo" |
+                  "zsection" | "ztags"
+
+PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
+                  "script" | "status" | "summary" | "to" | "through"
+
+PROOFWORDPART   = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
+PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}
+
+PROOFWORD       = {PROOFWORDBEGIN} ({IGNORE}+ {PROOFWORDPART})*
+PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
+</add:zeves>
+
 %state ZED
 %state MARKUP
 %state COMMENT_STATE
@@ -760,6 +845,43 @@ NAME =   {NOT_LB}*
           yybegin(ERROR);
         }
 </add:oz>
+<add:zeves>
+  "\\begin" {IGNORE}* "{zproofsection}" {IGNORE}* "{" / {NAME} "}" {IGNORE}* "{"
+        {
+          yybegin(ZED);//ZPROOF);
+          assert ! addSpace_;
+          begin("zproofsection");
+          braceStack_.push(BraceType.NAME);
+          return result(ZEvesString.ZPROOFSECTION);
+        }
+   // Here there is the problem that the environment is "\begin{zproof}[Name]" with "[...]"
+  "\\begin" {IGNORE}* "{zproof}" {IGNORE}* "{"
+        {
+          yybegin(ZED);//ZPROOF);
+          assert ! addSpace_;
+          begin("zproof");
+          inProofScript_ = true;
+          braceStack_.push(BraceType.NAME);
+          // braceStack_.push(BraceType.PROOF_NAME); later on ?
+          return result(ZEvesString.ZPROOF);
+        }
+  /* Nameless proofs are acceptable: they are the proof for the last declared Paragraph.
+     for simplicity, rule then out here
+  "\\begin" {IGNORE}* "{zproof}" {IGNORE}*
+        {
+          yybegin(ZED);//ZPROOF);
+          assert ! addSpace_;
+          begin("zproof");
+          inProofScript_ = true;
+          return result(ZEvesString.ZPROOF);
+        }
+  */
+  "\\begin" {IGNORE}* "{zproof}" {IGNORE}*
+        {
+          yybegin(ERROR);
+        }
+
+</add:zeves>
   ^{CHAR_MARKUP}
         {
           return result(LatexSym.CHAR_MARKUP);
@@ -842,6 +964,24 @@ NAME =   {NOT_LB}*
             return result(LatexSym.END_MARKUP);
           }
         }
+
+  <add:zeves>
+  {PROOFWORD}
+        {
+          String proofWord = yytext();
+
+          // if caught by mistake outside a z proof environment (e.g., "by" or "prove" as var name?)
+          // report the error and carry on to allow for better recovery later on, rather than hard crash
+          // with throw new ScanException. TODO: which is better?
+          if (!inProofScript_)
+          {
+            reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, null);//no extra information
+          }
+          return result(LatexSym.PROOFWORD, proofWord);
+          
+        }
+  </add:zeves>
+
 
   {IGNORE}
         {
@@ -938,6 +1078,27 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
+
+
+<add:zeves>
+    "\\end" {IGNORE}* "{zproofsection}"
+        {
+          end("zproofsection");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+    "\\end" {IGNORE}* "{zproof}"
+        {
+          end("zproof");
+          inProofScript_ = false;
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+</add:zeves>
+
+
 <add:pattern>
   "\\end" {IGNORE}* "{zedjoker}"
         {
@@ -1431,6 +1592,32 @@ NAME =   {NOT_LB}*
 //    { error ? }
 //}
 </add:circus>
+
+<add:zevesNO>
+&lt;ZPROOF&gt; {
+    "apply"
+
+    "\\begin" {IGNORE}* "{schema}" {IGNORE}* "{" / {NAME} "}" {IGNORE}* "["
+
+
+    // for proofs with simple commands only (e.g., not involving zed lexis at all
+    "\\end" {IGNORE}* "{zproofsection}"
+        {
+          end("zproofsection");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+    "\\end" {IGNORE}* "{zproof}"
+        {
+          end("zproof");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+
+}
+</add:zevesNO>
 
 &lt;ERROR&gt; {
   .

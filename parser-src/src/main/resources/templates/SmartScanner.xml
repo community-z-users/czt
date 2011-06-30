@@ -69,7 +69,7 @@ import net.sourceforge.czt.z.ast.ZStrokeList;
 class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
 {
   //indicates whether the previous token is a named box token
-  //i.e. SCH, GENSCH, CLASS, OPSCH
+  //i.e. SCH, GENSCH, CLASS, OPSCH, ZPROOF
   private boolean inBoxName = false;
 
 <add:circus>
@@ -298,6 +298,10 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
              result.sym == Sym.CLASS ||
              result.sym == Sym.OPSCH ||
 </add:oz>
+<add:zeves>
+             result.sym == Sym.ZPROOF ||
+             result.sym == Sym.ZPROOFSECTION ||
+</add:zeves>
              result.sym == Sym.GENSCH) 
     {
         inBoxName = true;

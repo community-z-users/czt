@@ -72,6 +72,12 @@ import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 </add:zpatt>
 
+<add:zeves>
+import net.sourceforge.czt.zeves.ast.*;
+import net.sourceforge.czt.zeves.util.Factory;
+</add:zeves>
+
+
 action code
 {:
 <add:oz>
@@ -1867,6 +1873,65 @@ terminal LocInfo
 <add:pattern>
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:pattern>
+<add:zeves>
+        // Proof environment chars
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, PROOFWORD,
+
+APPLY ,
+BACK ,
+CASES ,
+CONJUNCTIVE ,
+DISJUNCTIVE ,
+EQUALITY ,
+INSTANTIATE ,
+INVOKE ,
+NEXT ,
+PRENEX ,
+PROVE ,
+REARRANGE ,
+REDUCE ,
+REWRITE ,
+SIMPLIFY ,
+TRIVIAL ,
+TRY ,
+SPLIT ,
+USE ,
+WITH ,
+
+BY ,
+ENABLED ,
+EXPRESSION ,
+DISABLED ,
+LEMMA		 ,
+NORMALIZATION ,
+PREDICATE ,
+SUBSTITUTE ,
+TO		 ,
+
+CHECK ,
+DECLARE ,
+HELP ,
+PARENT ,
+PRINT ,
+QUIT ,
+READ ,
+RESET ,
+RETRY ,
+THEOREMS ,
+UNDO ,
+ZSECTION ,
+ZTAGS ,
+
+ABOUT		 ,
+DECLARATION ,
+FORMULA	 ,
+HISTORY	 ,
+PROOF		 ,
+SCRIPT		 ,
+STATUS		 ,
+SUMMARY	 ,
+THROUGH	,
+</add:zeves>
 <add:circus>
         // Environment chars
         CIRCUS, CIRCUSACTION,
@@ -2184,6 +2249,20 @@ non terminal Term jokerRef;
 non terminal DeclList
     jokerDeclList;
 </add:pattern>
+
+<add:zeves>
+non terminal ProofScript
+    zProof;
+    
+non terminal ProofCommandList
+    proofScript;
+
+non terminal ProofCommand
+    proofCommand;
+
+non terminal LocInfo
+    proofSep;
+</add:zeves>
 
 <add:circus>
 /// Circus paragraphs ///////////////////////////////////////////////
@@ -2853,6 +2932,11 @@ boxedParagraph ::=
         class:c
         {: RESULT = c; :}
 </add:oz>
+<add:zeves>
+        |
+        zProof:zp
+        {: RESULT = zp; :}
+</add:zeves>
         |
         error:e END:ed
         {:
@@ -3085,6 +3169,54 @@ schema ::=
            addLocAnn(RESULT, getLocation(gensch, end));
         :}
         ;
+
+<add:zeves>
+zProof ::=
+        ZPROOF:zp name:n optNL proofScript:ps END:end
+        {:
+           // resets the proof step counter at the beginning of a proof script
+           factory_.getZEvesFactory().resetProofSteps();
+           RESULT = factory_.createProofScript(n, ps);
+           addLocAnn(RESULT, getLocation(zp, end));
+        :}
+        ;
+
+proofScript ::= 
+        proofCommand:pc
+        {:
+           RESULT = factory_.createProofCommandList(factory_.list(pc));
+        :}
+        |
+        proofScript:ps proofSep proofCommand:pc
+        {:
+          ps.add(pc);
+          RESULT = ps;
+        :}
+        ;
+
+proofCommand ::=
+        APPLY:kw name:n expression:e proofSep:zpc
+        {:
+          RESULT = factory_.getZEvesFactory().createApplyToExprCommand(n, e);
+          addLocAnn(RESULT, getLocation(kw, zpc));
+        :}
+        |
+        APPLY:kw name:n proofSep:zpc
+        {:
+          RESULT = factory_.getZEvesFactory().createGlobalApplyCommand(n);
+          addLocAnn(RESULT, getLocation(kw, zpc));
+        :}
+        ;
+
+proofSep ::=
+        // do nothing
+        ZPROOFCOMMANDSEP:zpc optNL
+        {:
+          RESULT = zpc;
+        :}
+        ;
+
+</add:zeves>
 
 genericAxDefinition ::=
         GENAX:genax formalParameters:fp schemaText:st END:end

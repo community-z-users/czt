@@ -110,6 +110,10 @@ public class KeywordScanner
     addKeywords(result, CircusKeyword.values());
 </add:circus>
 
+<add:zeves>
+    //addKeywords(result, ZEvesProofKeyword.values());
+</add:zeves>
+
 <add:circuspatt>
     /* Adds all Circus pattern keyword tokens */
     addKeywords(result, CircusPattKeyword.values());
@@ -182,7 +186,8 @@ public class KeywordScanner
             (symbol.sym != Sym.TEXT ? String.valueOf(symbol.value) + ", " + 
                 (symbol.value != null ? symbol.value.getClass().getName() : "null") : "...shhh...") + ").";                    
     CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
-    if (symbol.sym == Sym.DECORWORD) {
+    if (symbol.sym == Sym.DECORWORD <add:zeves> || symbol.sym == Sym.PROOFWORD </add:zeves>
+    ) {
       Decorword decorword = (Decorword) symbol.value;
       if ("".equals(decorword.getWord())) {
         ZStrokeList strokes = decorword.getStrokes();
@@ -196,7 +201,7 @@ public class KeywordScanner
       Integer token = (Integer) keywords_.get(value);
       if (token != null) {
         logMessage =
-          "Returning " + token.intValue() + " instead.";
+          "Returning " + token.intValue() + " instead, which is named as token " + symbolMap_.get(token.intValue()) + ".";
         CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
         return new Symbol(token.intValue(),
                           symbol.left, symbol.right,

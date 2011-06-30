@@ -48,6 +48,10 @@ import net.sourceforge.czt.oz.util.OzString;
 <add:circus>
 import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
+<add:zeves>
+import net.sourceforge.czt.zeves.util.ZEvesString;
+</add:zeves>
+
 
 <add:oldz>
 /**
@@ -573,6 +577,64 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    /* Support for Circus Time */
                    LCIRCTIMEOUT, RCIRCTIMEOUT,
 </add:circus>
+<add:zeves>
+                   ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, PROOFWORD, 
+
+APPLY ,
+BACK ,
+CASES ,
+CONJUNCTIVE ,
+DISJUNCTIVE ,
+EQUALITY ,
+INSTANTIATE ,
+INVOKE ,
+NEXT ,
+PRENEX ,
+PROVE ,
+REARRANGE ,
+REDUCE ,
+REWRITE ,
+SIMPLIFY ,
+TRIVIAL ,
+TRY ,
+SPLIT ,
+USE ,
+WITH ,
+
+BY ,
+ENABLED ,
+EXPRESSION ,
+DISABLED ,
+LEMMA		 ,
+NORMALIZATION ,
+PREDICATE ,
+SUBSTITUTE ,
+TO		 ,
+
+CHECK ,
+DECLARE ,
+HELP ,
+PARENT ,
+PRINT ,
+QUIT ,
+READ ,
+RESET ,
+RETRY ,
+THEOREMS ,
+UNDO ,
+ZSECTION ,
+ZTAGS ,
+
+ABOUT		 ,
+DECLARATION ,
+FORMULA	 ,
+HISTORY	 ,
+PROOF		 ,
+SCRIPT		 ,
+STATUS		 ,
+SUMMARY	 ,
+THROUGH	,
+</add:zeves>
 <add:zpatt>
                    JOKER, RULE, RULELINE, PROVISO,
 </add:zpatt>
@@ -803,6 +865,24 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 parser.write(result);
             :}
 </add:circus>
+<add:zeves>
+            |
+            ZPROOF tokenSeq:s END
+            {:
+                String result = begin("zproof");
+                if (s != null) { result += s.getName(); }
+                result += end("zproof");
+                parser.write(result);
+            :}
+            |
+            ZPROOFSECTION tokenSeq:s END
+            {:
+                String result = begin("zproofsection");
+                if (s != null) { result += s.getName(); }
+                result += end("zproofsection");
+                parser.write(result);
+            :}
+</add:zeves>
              ;
 
   markup ::=
@@ -1052,6 +1132,13 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 String latex = indent + "\\t" + i;
                 RESULT = resultTT(latex, indent);
              :}
+ <add:zeves>
+             |
+             ZPROOFCOMMANDSEP
+             {:
+                RESULT = resultFT(";", ZEvesString.ZPROOFCOMMANDSEP);
+             :}
+ </add:zeves>
              ;
 
 <add:oz>

@@ -62,6 +62,9 @@ import net.sourceforge.czt.oz.jaxb.JaxbXmlReader;
 <add:tcoz>
 import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
 </add:tcoz>
+<add:zeves>
+import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+</add:zeves>
 
 /**
  * Utilities for parsing specifications.
