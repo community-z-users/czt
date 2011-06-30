@@ -5248,6 +5248,7 @@ typechecker/*.tmp
 typechecker/.classpath
 typechecker/.project
 typechecker/.settings
+typechecker/nbactions.xml
 typechecker/src/*.aux
 typechecker/src/*.blg
 typechecker/src/*.log
