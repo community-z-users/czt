@@ -1874,63 +1874,8 @@ terminal LocInfo
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:pattern>
 <add:zeves>
-        // Proof environment chars
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, PROOFWORD,
-
-APPLY ,
-BACK ,
-CASES ,
-CONJUNCTIVE ,
-DISJUNCTIVE ,
-EQUALITY ,
-INSTANTIATE ,
-INVOKE ,
-NEXT ,
-PRENEX ,
-PROVE ,
-REARRANGE ,
-REDUCE ,
-REWRITE ,
-SIMPLIFY ,
-TRIVIAL ,
-TRY ,
-SPLIT ,
-USE ,
-WITH ,
-
-BY ,
-ENABLED ,
-EXPRESSION ,
-DISABLED ,
-LEMMA		 ,
-NORMALIZATION ,
-PREDICATE ,
-SUBSTITUTE ,
-TO		 ,
-
-CHECK ,
-DECLARE ,
-HELP ,
-PARENT ,
-PRINT ,
-QUIT ,
-READ ,
-RESET ,
-RETRY ,
-THEOREMS ,
-UNDO ,
-ZSECTION ,
-ZTAGS ,
-
-ABOUT		 ,
-DECLARATION ,
-FORMULA	 ,
-HISTORY	 ,
-PROOF		 ,
-SCRIPT		 ,
-STATUS		 ,
-SUMMARY	 ,
-THROUGH	,
+        // Proof environment chars and specific proof words
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, PROOFWORD, THMNAME,
 </add:zeves>
 <add:circus>
         // Environment chars
@@ -2258,7 +2203,13 @@ non terminal ProofCommandList
     proofScript;
 
 non terminal ProofCommand
-    proofCommand;
+    proofCommand, innerProofCommand,
+    applyCommand, caseAnalysisCommand, normalizationCommand,
+    quantifiersCommand, simplificationCommand, substitutionCommand,
+    useCommand, withCommand;
+
+non terminal Term
+    exprPred;
 
 non terminal LocInfo
     proofSep;
@@ -3174,8 +3125,11 @@ schema ::=
 zProof ::=
         ZPROOF:zp name:n optNL proofScript:ps END:end
         {:
+           //proofScripts_.addProofScript(n);
+
            // resets the proof step counter at the beginning of a proof script
            factory_.getZEvesFactory().resetProofSteps();
+           
            RESULT = factory_.createProofScript(n, ps);
            addLocAnn(RESULT, getLocation(zp, end));
         :}
@@ -3195,22 +3149,92 @@ proofScript ::=
         ;
 
 proofCommand ::=
-        APPLY:kw name:n expression:e proofSep:zpc
+        PROOFWORD
+        {::}
+        ;
+
+        //innerProofCommand:ipc proofSep:zpc
+        //{:
+        //  //proofScripts_.countStep();
+        //  RESULT = ipc;
+        //:}
+        //;
+
+innerProofCommand ::=
+        applyCommand:acm
         {:
-          RESULT = factory_.getZEvesFactory().createApplyToExprCommand(n, e);
-          addLocAnn(RESULT, getLocation(kw, zpc));
+         // proofScripts.addApplyCmd(acm);
+          RESULT = acm;
+        :}
+        /*
+        |
+        caseAnalysisCommand:cam
+        {:
+         // proofScripts.addCasesCmd(cam);
+          RESULT = cam;
         :}
         |
-        APPLY:kw name:n proofSep:zpc
+        normalizationCommand:nm
         {:
-          RESULT = factory_.getZEvesFactory().createGlobalApplyCommand(n);
-          addLocAnn(RESULT, getLocation(kw, zpc));
+          //proofScripts.addNormCmd(nm);
+          RESULT = nm;
+        :}
+        |
+        quantifiersCommand:qm
+        {:
+         // proofScripts.addQuantCmd(qm);
+          RESULT = qm;
+        :}
+        |
+        simplificationCommand:sm
+        {:
+          //proofScripts.addSimpCmd(sm);
+          RESULT = sm;
+        :}
+        |
+        substitutionCommand:tm
+        {:
+          //proofScripts.addSubstCmd(tm);
+          RESULT = tm;
+        :}
+        |
+        useCommand:um
+        {:
+          //proofScripts.addUseCmd(um);
+          RESULT = um;
+        :}
+        |
+        withCommand:wm
+        {:
+          //proofScripts.addWithCmd(tm);
+          RESULT = tm;
+        :}
+        */
+        ;
+
+applyCommand ::=
+        PROOFWORD:ap THMNAME:n PROOFWORD:to PROOFWORD:ex expression:e
+        {:
+          //RESULT = factory_.getZEvesFactory().createApplyToExprCommand(n, e);
+          //addLocAnn(RESULT, getLocation(ap, e));
+        :}
+        |
+        PROOFWORD:ap THMNAME:n PROOFWORD:to PROOFWORD:ex predicate:p
+        {:
+          //RESULT = factory_.getZEvesFactory().createApplyToExprCommand(n, p);
+          //addLocAnn(RESULT, getLocation(ap, p));
+        :}
+        |
+        PROOFWORD:ap THMNAME:n
+        {:
+          //RESULT = factory_.getZEvesFactory().createGlobalApplyCommand(n);
+          //addLocAnn(RESULT, getLocation(ap, n));
         :}
         ;
 
 proofSep ::=
         // do nothing
-        ZPROOFCOMMANDSEP:zpc optNL
+        SEMICOLON:zpc optNL
         {:
           RESULT = zpc;
         :}

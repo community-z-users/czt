@@ -91,6 +91,7 @@ public class <class/>
     insertInto(map, ZEvesProofToken.values());
     insertInto(map, ZEvesProofKeyword.values());
     map.put("PROOFWORD", NewlineCategory.BOTH);
+    map.put("THMNAME", NewlineCategory.BOTH);
 </add:zeves>
     for (String s : SymMap.getMap().keySet()) {
       if (! map.containsKey(s)) {

@@ -215,11 +215,13 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     throws Exception
   {
     Symbol result = dumb_.pop();
-    if (result.sym == Sym.DECORWORD &amp;&amp; inBoxName) {
+    if ((result.sym == Sym.DECORWORD <add:zeves>//|| result.sym == Sym.PROOFWORD</add:zeves>
+            ) &amp;&amp; inBoxName) {
       //don't look ahead if the previous token was a box token
       inBoxName = false;
     }
-    else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) 
+    else if ((result.sym == Sym.DECORWORD <add:zeves>//|| result.sym == Sym.PROOFWORD</add:zeves>
+            ) &amp;&amp; !inBoxName)
     {
 <add:circus>      
       // if within a basic process, within an action definition, and

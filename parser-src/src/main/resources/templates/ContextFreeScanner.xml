@@ -88,16 +88,22 @@ import net.sourceforge.czt.parser.zeves.Proofword;
     reader_ = in;
   }
 
+  <add:zeves>
+  /**
+   * Flag for lexing the complex (mixfix) apply XXX to expr/pred XXX proof command.
+   */
+  private boolean seenApply_ = false;
+  </add:zeves>
 
+
+  private boolean debug_ = false ;
+  private long i = 1;
   private static final java.util.Map symbolMap_ = net.sourceforge.czt.parser.util.DebugUtils.getFieldMap(Sym.class);
   private void debug(int type, Object value)
   {
-    //System.out.println("ContextFreeScanner: Sym=" + type + " val=" + symbolMap_.get(type) + " L" + getLine() + " C" + getColumn() + " is " + String.valueOf(value));
-    //System.out.flush();
-    //if (String.valueOf(value).startsWith("prove"))
-    //{
-    //  new Throwable().printStackTrace();
-    //}
+    System.out.println("ContextFreeScanner (" + i + ") : Sym=" + type + " val=" + symbolMap_.get(type) + " L" + getLine() + " C" + getColumn() + " is " + String.valueOf(value));
+    i++;
+    System.out.flush();
   }
 
   /**
@@ -107,7 +113,7 @@ import net.sourceforge.czt.parser.zeves.Proofword;
    */
   private Symbol symbol(int type)
   {
-    debug(type, null);
+    if (debug_) debug(type, null);
     return new Symbol(type, getLine(), getColumn(), getLocation());
   }
 
@@ -121,7 +127,7 @@ import net.sourceforge.czt.parser.zeves.Proofword;
    */
   private Symbol symbol(int type, Object value)
   {
-    debug(type, value);
+    if (debug_) debug(type, value);
     return new Symbol(type, getLine(), getColumn(), value);
   }
 
@@ -316,7 +322,7 @@ TEXT = {NOT_BOXCHAR}*
 <add:zeves>
 /*
 For Unicode lexing the business is easier (?). Keep it simple / restrictive for now.
-*/
+
 PROOFWORDBEGIN  = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
                   "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
                   "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
@@ -335,8 +341,28 @@ PROOFWORDPART   = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
 PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}
 
 PROOFWORD = {PROOFWORDPART}
+*/
 
-THMNAME = ({LETTER} | {LL}) ({LETTER} | {DIGIT} | {LL})*
+PROOFWORDHEAD    = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
+                   "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
+                   "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
+
+PROOFWORDFOLLOWS = "by" | "enabled" | "disabled" | "lemma" |
+                   "normalization" | "substitute"
+
+PROOFWORDMIXED   = "expression" | "predicate" | "to"
+
+//PROOFIGNORE  = {SPACE} | {NLCHAR} | {CONTROL}
+
+//PROOFWORDPART    = {PROOFWORDHEAD} | {PROOFWORDFOLLOWS} | {PROOFWORDMIXED}
+//PROOFWORDBEGIN   = {PROOFWORDHEAD} ({PROOFIGNORE}? {PROOFWORDPART})*
+//PROOFWORDMIDDLE  = ("to" ({PROOFIGNORE}? {PROOFWORDMIXED})) //| {PROOFWORDMIXED}
+
+//PROOFWORD        = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
+
+PROOFWORD = {PROOFWORDHEAD} | {PROOFWORDFOLLOWS} | {PROOFWORDMIXED}
+
+//THMNAME = ({LETTER} | {LL}) ({LETTER} | {DIGIT} | {LL})*
 </add:zeves>
 
 DECORWORD = {WORD} {STROKE}*
@@ -371,8 +397,8 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
 <add:zeves>
 ZPROOF = {ZPROOFCHAR}
 ZPROOFSECTION = {ZPROOFSECTIONCHAR}
-ZPCMDSEMICOLON = "\u003B" /* just normal semicolon */
-ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
+//ZPCMDSEMICOLON = "\u003B" /* just normal semicolon */
+//ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
 </add:zeves>
 
 %state Z
@@ -408,8 +434,8 @@ ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
   </add:circus>
 
   <add:zeves>
-  {ZPROOF}            { beginZed(); return symbol(Sym.ZPROOF); }
-  {ZPROOFSECTION}     { beginZed(); return symbol(Sym.ZPROOFSECTION); }
+  {ZPROOF}            { seenApply_ = false; beginZed(); return symbol(Sym.ZPROOF); }
+  {ZPROOFSECTION}     { seenApply_ = false; beginZed(); return symbol(Sym.ZPROOFSECTION); }
   </add:zeves>
   
   <add:oz>
@@ -448,10 +474,35 @@ ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
   <add:zeves>
 //  {ZPROOFCOMMANDSEP}  { return symbol(Sym.ZPROOFCOMMANDSEP); }
 
-  {PROOFWORD}   { return symbol(Sym.PROOFWORD, new Proofword(yytext(), getLocation())); }
+  {PROOFWORD}   {
+                  String proofWord = yytext();
+                  // for global apply "apply NAME", this gets reset at the next proof command
+                  seenApply_ = proofWord.equals("apply");
+                  return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation()));
+                }
 
-  ({SPACE} | {NL})+ {THMNAME} ({SPACE} | {NL})+ / "to expression"
-                { return symbol(Sym.DECORWORD, new Decorword(yytext(), getLocation())); }
+//  {PROOFIGNORE}+ {THMNAME} {PROOFIGNORE}+ / " to "
+  {DECORWORD} / "to"
+                {
+                  // if we've seen apply, and have a name (decorword) followed by "to", then we
+                  // have a THMNAME
+                  if (seenApply_)
+                  {
+                    System.out.println("OUCH0 = " + yytext() + "; seen apply? = " + seenApply_);
+                    return symbol(Sym.THMNAME, new Decorword(yytext(), getLocation()));
+                  }
+                  // otherwise, it just gets to the next case. no "break" in the scanning.
+                  // see from Latex2Unicode.xml "if (directive_) {" in the {NL} production 
+                  // for the ZED lexical state
+                }
+
+  {PROOFWORDMIXED} / " "
+                { 
+                  String proofWord = yytext();
+                  System.out.println("OUCH1 = " + proofWord + "; seen apply? = " + seenApply_);
+                  if (proofWord.equals("expression") || proofWord.equals("predicate")) seenApply_ = false;
+                  return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation())); }
+
   </add:zeves>
 
   /* strip spaces (context-sensitive lexis; 7.4.1)
@@ -516,7 +567,11 @@ ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
   {NUMERAL}     {  return symbol(Sym.NUMERAL,
                                  new LocInt(yytext(), getLocation())); }
 
-  {DECORWORD}   {  return symbol(Sym.DECORWORD,
+  {DECORWORD}   {  
+                   <add:zeves>
+                      seenApply_ = false;
+                   </add:zeves>
+                   return symbol(Sym.DECORWORD,
                                  new Decorword(yytext(), getLocation())); }
 
   /* error fallback */

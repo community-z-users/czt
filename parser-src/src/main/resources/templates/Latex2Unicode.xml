@@ -184,6 +184,31 @@ import net.sourceforge.czt.z.util.ZString;
    */
   private boolean inProofScript_ = false;
 
+  /**
+   * Apply commands are complex:
+   *    a) APPLY thm-name ";"
+   *    b) APPLY thm-name TO EXPRESSION/PREDICATE expr/pred ";"
+   *
+   * We add a small (4) state(s) machine to control adding spaces and making
+   * the inner words as Proof words rather than Unicode.
+   *
+   * a) (-1) "apply" (0) name (1) ";"  (-1)
+   * b) (-1) "apply" (0) name (1) "to" (2) "expression" (-1)
+   *
+   * -1 = not within apply cmd yet
+   *  0 = just seen "apply" kw; wait for name
+   *  1 = just seen thm-name; wait for ";" and reset or wait "to"
+   *  2 = just seen "to"; wait for "expression" and reset
+   *
+   * where "name" lexis as the (LETTER | DIGIT)* group. We addSpace_=true
+   * just before (1) and (2); just after "expression" in state (2).
+   */
+  private int NOT_WITHIN_APPLY = -1;
+  private int JUST_AFTER_APPLY =  0;
+  private int JUST_AFTER_THMNM =  1;
+  private int JUST_AFTER_TO    =  2;
+  private int applyState_      = NOT_WITHIN_APPLY;
+
   </add:zeves>
 
   /**
@@ -214,7 +239,7 @@ import net.sourceforge.czt.z.util.ZString;
   /** 
    * Line number given in most recent %%Zloc directive.
    */
-  private int locLine = 1;
+  private int locLine = 1;   
 
   /** 
    * Column number given in most recent %%Zloc directive.
@@ -289,16 +314,18 @@ import net.sourceforge.czt.z.util.ZString;
     return result(sym, yytext());
   }
 
+  private boolean debug_ = false;
+  private long i = 1;
   private void debug(LatexSym sym, String spelling)
   {
-   //   System.out.println("Latex2Unicode     : " + spelling + "\t " + sym);
-   //   System.out.flush();
+      System.out.println("Latex2Unicode (" + i + ")  : " + spelling + "\t " + sym); i++;
+      System.out.flush();
   }
 
   private LocToken result(LatexSym sym, String spelling)
     throws IOException
   {
-    debug(sym, spelling);
+    if (debug_) debug(sym, spelling);
     return new LocTokenImpl(sym, spelling, getLocation());
   }
 
@@ -608,25 +635,34 @@ Z-LaTeX lexemes).
 *A simpler alternative would be good, but this will suffice for now.*
 */
 
-PROOFWORDBEGIN  = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
-                  "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
-                  "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
+PROOFWORDHEAD    = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
+                   "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
+                   "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
 
-PROOFWORDMIDDLE = "by" | "enabled" | "expression" | "disabled" | "lemma" |
-                  "normalization" | "predicate" | "substitute" | "to"
+PROOFWORDFOLLOWS = "by" | "enabled" | "disabled" | "lemma" |
+                   "normalization" | "substitute"
 
-PROOFCMDBEGIN   = "check" | "declare" | "help" | "parent" | "print" | "quit" |
-                  "read" | "reset" | "retry" | "theorems" | "undo" |
-                  "zsection" | "ztags"
+PROOFWORDMIXED   = "expression" | "predicate" | "to"
 
-PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
-                  "script" | "status" | "summary" | "to" | "through"
+PROOFWORDPART    = {PROOFWORDHEAD} | {PROOFWORDFOLLOWS} | {PROOFWORDMIXED}
 
-PROOFWORDPART   = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
-PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}
+//PROOFWORDBEGIN   = {PROOFWORDHEAD} ({IGNORE}+ {PROOFWORDPART})*
+//PROOFWORDMIDDLE  = ("to" {IGNORE}+ {PROOFWORDMIXED}) //| {PROOFWORDMIXED}
 
-PROOFWORD       = {PROOFWORDBEGIN} ({IGNORE}+ {PROOFWORDPART})*
-PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
+//PROOFWORD        = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
+
+PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "reduce;"
+
+//PROOFCMDBEGIN   = "check" | "declare" | "help" | "parent" | "print" | "quit" |
+//                  "read" | "reset" | "retry" | "theorems" | "undo" |
+//                  "zsection" | "ztags"
+
+//PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
+//                  "script" | "status" | "summary" | "to" | "through"
+
+//PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}
+//PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
+
 </add:zeves>
 
 %state ZED
@@ -968,7 +1004,14 @@ PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
   <add:zeves>
   {PROOFWORD}
         {
-          String proofWord = yytext();
+          // proof words *must* be separated
+          //addSpace_ = true;
+          String proofWord = //addSpace();
+          //proofWord +=
+          yytext();
+          if (proofWord.equals("to") || proofWord.equals("expression") || proofWord.equals("predicate")) addSpace_ = true;
+          
+          //String proofWord = yytext();
 
           // if caught by mistake outside a z proof environment (e.g., "by" or "prove" as var name?)
           // report the error and carry on to allow for better recovery later on, rather than hard crash
@@ -1435,6 +1478,7 @@ PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
         }
   {PUNCTATION}
         {
+          // To aid low-level debugging: {PUNCTATION}
           String result = addSpace();
           result += yytext();
           if (braceStack_.empty()) addSpace_ = true;
@@ -1442,12 +1486,14 @@ PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
         }
   ({LETTER} | [0-9])*
         {
+          // To aid low-level debugging: ({LETTER} | [0-9])*
           String result = addSpace();
           result += yytext();
           return result(result);
         }
   .
         {
+          // To aid low-level debugging: .
           String result = addSpace();
           result += yytext();
           return result(result);

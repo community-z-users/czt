@@ -111,6 +111,8 @@ public class KeywordScanner
 </add:circus>
 
 <add:zeves>
+    // Hum... they are not quite keywords given their peculiar fixity then?
+    // Also, this will mean too many token symbols for the parse?
     //addKeywords(result, ZEvesProofKeyword.values());
 </add:zeves>
 
