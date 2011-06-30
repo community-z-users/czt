@@ -89,10 +89,10 @@ public final class DebugUtils
     throws Exception
   {
     Map<Object,String> symbols = getFieldMap(cupSymbolTable);
-    Symbol symbol = null;
+    Symbol symbol = null; long i = 1;
     while ((symbol = scanner.next_token()).sym != 0) {
       String symbolName = symbols.get(new Integer(symbol.sym));
-      String result = "Token " + symbolName;
+      String result = "Token (" + i + ") "+ symbolName; i++;
       result += " at line " + symbol.left + " column " + symbol.right;
       if (symbol.value != null) {
         String value = symbol.value.toString();
