@@ -94,7 +94,12 @@ public enum LatexSym
   /**
    * The parents keyword.
    */
-  PARENTS;
+  PARENTS,
+
+  /**
+   * Part of a (Z/Eves) proof keyword
+   */
+  PROOFWORD;
 
   public String getName()
   {

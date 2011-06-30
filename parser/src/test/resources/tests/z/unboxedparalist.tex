@@ -1,0 +1,21 @@
+
+\begin{zed}
+    X == \power \nat 
+    \\
+    N == 10 
+    \\
+    F ::= Not | Yet \ldata \nat \rdata
+    \\ 
+    R ::= Not \ldata \num \rdata | Yet
+\end{zed}
+
+\begin{schema}{BBook}
+   known: \power \nat \\
+   birthday: \nat \pfun \nat
+\where
+   known = \dom birthday
+\end{schema}
+
+\begin{theorem}{Test}
+    \vdash?  BBook \implies known = \dom birthday
+\end{theorem}

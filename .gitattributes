@@ -464,6 +464,7 @@ parser-oz/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
 parser-src/pom.xml -text
 parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
+parser/doc/parser.eps -text
 parser/doc/parser.jpg -text
 parser/doc/parser.pdf -text svneol=unset#unset
 parser/doc/parser.sxd -text
@@ -474,6 +475,10 @@ parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/java/net/sourceforge/czt/print/z/LatexPrinterPropertyKeys.java -text
 parser/src/test/java/net/sourceforge/czt/parser/util/CztManagedTest.java -text
 parser/src/test/resources/tests/z/basicsm.tex -text
+parser/src/test/resources/tests/z/unboxedparalist.tex -text
+parser/src/test/resources/tests/z/unboxedparalist.utf8 -text
+parser/src/test/resources/tests/z/unboxedparalist.zed8 -text
+parser/src/test/resources/tests/z/unboxedparalist_parse_print.tex -text
 rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java -text
 rules/src/main/resources/lib/predicate_normalization_rules.tex -text
 rules/src/main/resources/net/sourceforge/czt/rules/images/closed.png -text svneol=unset#image/png
