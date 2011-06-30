@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ZEVESCHAR>
+  <SPECIAL>
+    <BOXCHAR>
+      <char id="ZPROOFCHAR" hex="251C" description="big turnstyle not bold"/>
+      <char id="ZPROOFSECTIONCHAR" hex="2523" description="big turnstyle bold"/>
+    </BOXCHAR>
+  </SPECIAL>
+</ZEVESCHAR>

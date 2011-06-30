@@ -75,6 +75,14 @@
                   in="${xml.dir}/zpattchar.xml"
                   out="${build.src}/net/sourceforge/czt/zpatt/util/ZPattString.java"
                   style="${src.xsl}/zpattchar2stringclass.xsl"/>
+                <xslt
+                  in="${xml.dir}/zeveschar.xml"
+                  out="${build.src}/net/sourceforge/czt/zeves/util/ZEvesChar.java"
+                  style="${src.xsl}/zeveschar2class.xsl"/>
+                <xslt
+                  in="${xml.dir}/zeveschar.xml"
+                  out="${build.src}/net/sourceforge/czt/zeves/util/ZEvesString.java"
+                  style="${src.xsl}/zeveschar2stringclass.xsl"/>
               </tasks>
               <sourceRoot>${basedir}/target/build/src</sourceRoot>
             </configuration>
