@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.czt</groupId>
@@ -98,6 +99,7 @@
     <module>zeves</module>
     <module>zlive</module>
     <module>zml</module>
+    <module>parser-zeves</module>
   </modules>
   <dependencies>
     <!-- JUnit -->
@@ -274,7 +276,12 @@
         <groupId>${czt.groupId}</groupId>
         <artifactId>zeves</artifactId>
         <version>${czt.version}</version>
-      </dependency>     
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser-zeves</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
       
       <!-- CZT Rules -->
       <dependency>
