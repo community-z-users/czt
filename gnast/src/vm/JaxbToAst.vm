@@ -116,7 +116,7 @@ public class ${class.Name}#if($ImportProject)
       ${prop.ListType.FullName} o = (${prop.ListType.FullName}) dispatch(obj);
       ${prop.VarName}.add(o);
     }
-#elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || $prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || $prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType')
+#elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || $prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || $prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || $prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalisationKind' || $prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || $prop.Type.Name == 'RewritePower')
     ${prop.Type.FullName} ${prop.VarName} = null;
     if (jaxbObject.${prop.GetterName}() != null) {
       String ${prop.VarName}Jaxb = jaxbObject.${prop.GetterName}().value();

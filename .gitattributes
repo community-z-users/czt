@@ -339,6 +339,8 @@ gnast/src/vm/CreateVisitor.vm -text
 gnast/src/vm/FlyweightFactory.vm -text
 gnast/src/vm/InputField.java -text
 gnast/src/vm/InputFieldImpl.java -text
+gnast/src/vm/Instantiations.java -text
+gnast/src/vm/InstantiationsImpl.java -text
 gnast/src/vm/JokerActionBindingImpl.java -text
 gnast/src/vm/JokerChannelSetBindingImpl.java -text
 gnast/src/vm/JokerCommunicationBindingImpl.java -text
@@ -354,8 +356,12 @@ gnast/src/vm/ProcessPara.java -text
 gnast/src/vm/ProcessParaImpl.java -text
 gnast/src/vm/ProcessSignature.java -text
 gnast/src/vm/ProcessSignatureImpl.java -text
+gnast/src/vm/ProofScript.java -text
+gnast/src/vm/ProofScriptImpl.java -text
 gnast/src/vm/SpecStmtCommand.java -text
 gnast/src/vm/SpecStmtCommandImpl.java -text
+gnast/src/vm/ZEvesFactory.java -text
+gnast/src/vm/ZEvesFactoryImpl.java -text
 gnast/src/vm/ZSect.java -text
 gnast/src/vm/ZSectImpl.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
