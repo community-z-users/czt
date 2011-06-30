@@ -471,6 +471,7 @@ parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesParseMessage.ja
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesParseResources.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesProofKeyword.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesProofToken.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesSymMap.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ScanningTest.java -text
 parser-zeves/src/test/resources/tests/zeves/simple.tex -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text

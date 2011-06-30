@@ -2,12 +2,44 @@
    \SECTION simple \parents prelude
 \end{zsection}
 
+Zpreword znote znote  % to enter comment state ?
+
 \begin{zproof}{simpleproof}
+% some comments before command is fine
 prove     by
                   reduce;
+prove by rewrite ; % comments after ; is fine
 cases;
+  conjunctive;
+%disjunctive       % comments within semicolon isn't fine?
+%;
+  equality substitute;
+  rearrange;
   simplify ;
 next;
   apply xyz to expression w + 1;
+  apply xyz to predicate (w \in S);
+  apply xyz; % everywhere
+  rewrite;
+  prove;
+  reduce;
+  prenex;
+  invoke (\_ bla \_);
+  invoke predicate S';
+  invoke Schema;
+  invoke (\_ Name \_);
+next;
+  trivial rewrite;
+  trivial simplify;
+  trivial rewrite;
+next;
+  use inPowerp[A, B][x := 10, y := 20]
+  with disabled (xyz, abc) rewrite;
+  with enabled (xyz) prove by reduce;
+  with normalization rewrite;
+  with expression (a+b) trivial rewrite;
+  with predicate (w \in S)
+    with normalization prove by reduce;
+next;
 \end{zproof}
 

@@ -3750,6 +3750,7 @@ parser-src/src/main/resources/transformer/target
 parser-src/src/main/target
 parser-src/src/target
 parser-src/target
+parser-zeves/nbactions.xml
 parser-zeves/target
 parser-zpatt/*.aux
 parser-zpatt/*.blg

@@ -118,6 +118,54 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
     NewlineCategory_ = NewlineCategory;
   }
 
+  public static ZEvesProofKeyword[] headProofWordsOnly()
+  {
+//    return new String[] {
+//       APPLY.getName(),
+//       BACK.getName(),
+//       CASES.getName(),
+//       CONJUNCTIVE.getName(),
+//       DISJUNCTIVE.getName(),
+//       EQUALITY.getName(),
+//       INSTANTIATE.getName(),
+//       INVOKE.getName(),
+//       NEXT.getName(),
+//       PRENEX.getName(),
+//       PROVE.getName(),
+//       REARRANGE.getName(),
+//       REDUCE.getName(),
+//       REWRITE.getName(),
+//       SIMPLIFY.getName(),
+//       TRIVIAL.getName(),
+//       TRY.getName(),
+//       SPLIT.getName(),
+//       USE.getName(),
+//       WITH.getName()
+//    };
+    return new ZEvesProofKeyword[] {
+       APPLY,
+       BACK,
+       CASES,
+       CONJUNCTIVE,
+       DISJUNCTIVE,
+       EQUALITY,
+       INSTANTIATE,
+       INVOKE,
+       NEXT,
+       PRENEX,
+       PROVE,
+       REARRANGE,
+       REDUCE,
+       REWRITE,
+       SIMPLIFY,
+       TRIVIAL,
+       TRY,
+       SPLIT,
+       USE,
+       WITH 
+    };
+  }
+
   public String getName()
   {
     return toString();
