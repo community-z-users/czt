@@ -4,7 +4,7 @@
 
 Zpreword znote znote  % to enter comment state ?
 
-\begin{zproof}{simpleproof}
+\begin{zproof}{testcommands}
 % some comments before command is fine
 prove     by
                   reduce;
@@ -43,3 +43,8 @@ next;
 next;
 \end{zproof}
 
+Here semicolons within mid-terms and right before end of environment
+\begin{zproof}{testcmdsep}
+  with expression (\{ x: \nat; y: \num | x > y \}) rewrite; % some comments then as well
+  with predicate (\{ x: \nat;z: \nat | x > z \}) rewrite;
+\end{zproof}
