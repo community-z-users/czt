@@ -1875,7 +1875,59 @@ terminal LocInfo
 </add:pattern>
 <add:zeves>
         // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, PROOFWORD, THMNAME,
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, 
+        APPLY ,
+BACK ,
+CASES ,
+CONJUNCTIVE ,
+DISJUNCTIVE ,
+EQUALITY ,
+INSTANTIATE ,
+INVOKE ,
+NEXT ,
+PRENEX ,
+PROVE ,
+REARRANGE ,
+TRIVIAL ,
+TRY ,
+SPLIT ,
+USE ,
+WITH ,
+
+BY ,
+ENABLED ,
+EXPRESSION ,
+DISABLED ,
+LEMMA		 ,
+NORMALIZATION ,
+PREDICATE ,
+SUBSTITUTE ,
+TO		 ,
+
+CHECK ,
+DECLARE ,
+HELP ,
+PARENT ,
+PRINT ,
+QUIT ,
+READ ,
+RESET ,
+RETRY ,
+THEOREMS ,
+UNDO ,
+ZSECTION ,
+ZTAGS ,
+
+ABOUT		 ,
+DECLARATION ,
+FORMULA	 ,
+HISTORY	 ,
+PROOF		 ,
+SCRIPT		 ,
+STATUS		 ,
+SUMMARY	 ,
+THROUGH	,
+
 </add:zeves>
 <add:circus>
         // Environment chars
@@ -1968,7 +2020,18 @@ terminal Decorword
 <add:circus>
         CHANNELNAME, FIELDNAME, CHANNELERROR,
 </add:circus>
+<add:zeves>
+        THMNAME,
+</add:zeves>
         DECORWORD, DECLWORD;
+
+<add:zeves>
+terminal ProofWord
+        PROOFWORD;
+
+terminal RewriteKind
+      REDUCE, REWRITE, SIMPLIFY;
+</add:zeves>
 
 non terminal Term
     input;
@@ -2208,8 +2271,14 @@ non terminal ProofCommand
     quantifiersCommand, simplificationCommand, substitutionCommand,
     useCommand, withCommand;
 
-non terminal Term
-    exprPred;
+non terminal Instantiations
+    instantiations;
+
+non terminal ZExprList
+    genericActuals;
+
+non terminal RewriteKind
+      innerSimplCmd;
 
 non terminal LocInfo
     proofSep;
@@ -2568,6 +2637,7 @@ precedence left         DECORWORD
                         </add:circus>
                         <add:oz>, INITWORD</add:oz>;
 
+<add:zeves>//TODO: check the need for precedence here of proof words </add:zeves>
 
 
 /// specifications /////////////////////////////////////////////////////////
@@ -3149,97 +3219,351 @@ proofScript ::=
         ;
 
 proofCommand ::=
-        PROOFWORD
-        {::}
+        innerProofCommand:ipc proofSep:zpc
+        {:
+          RESULT = ipc;
+          addLocAnn(RESULT, getLocation(ipc, zpc));
+        :}
         ;
 
-        //innerProofCommand:ipc proofSep:zpc
-        //{:
-        //  //proofScripts_.countStep();
-        //  RESULT = ipc;
-        //:}
-        //;
-
 innerProofCommand ::=
-        applyCommand:acm
+        applyCommand:acm 
         {:
-         // proofScripts.addApplyCmd(acm);
           RESULT = acm;
         :}
-        /*
         |
         caseAnalysisCommand:cam
         {:
-         // proofScripts.addCasesCmd(cam);
           RESULT = cam;
         :}
         |
         normalizationCommand:nm
         {:
-          //proofScripts.addNormCmd(nm);
           RESULT = nm;
         :}
         |
         quantifiersCommand:qm
         {:
-         // proofScripts.addQuantCmd(qm);
           RESULT = qm;
         :}
         |
         simplificationCommand:sm
         {:
-          //proofScripts.addSimpCmd(sm);
           RESULT = sm;
         :}
+        /*
         |
         substitutionCommand:tm
         {:
-          //proofScripts.addSubstCmd(tm);
           RESULT = tm;
-        :}
+        :}*/
         |
         useCommand:um
         {:
-          //proofScripts.addUseCmd(um);
           RESULT = um;
         :}
         |
         withCommand:wm
         {:
-          //proofScripts.addWithCmd(tm);
-          RESULT = tm;
+          RESULT = wm;
         :}
-        */
         ;
 
 applyCommand ::=
-        PROOFWORD:ap THMNAME:n PROOFWORD:to PROOFWORD:ex expression:e
+        // TODO: generalise this to  "getProofStepKind(RESULT)" and have a "switch" in there for
+        //       some user defined complexity rather than my own fixed?
+        //
+        // TODO: perhaps we can leave this THMNAME as just DECORWORD. In ContextFreeScanner I substitute
+        //       the incoming DECORWORD accordingly to THMNAME, but I impose no restriction on the name
+        APPLY:ap THMNAME:n TO EXPRESSION expression:e
         {:
-          //RESULT = factory_.getZEvesFactory().createApplyToExprCommand(n, e);
-          //addLocAnn(RESULT, getLocation(ap, e));
+          //checkValidTheoremName(n);
+          RESULT = factory_.getZEvesFactory().createApplyToExprCommand(createZName(n), e);
+          //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.LOCAL);
         :}
         |
-        PROOFWORD:ap THMNAME:n PROOFWORD:to PROOFWORD:ex predicate:p
+        APPLY:ap THMNAME:n TO PREDICATE predicate:p
         {:
-          //RESULT = factory_.getZEvesFactory().createApplyToExprCommand(n, p);
-          //addLocAnn(RESULT, getLocation(ap, p));
+          //checkValidTheoremName(n);
+          RESULT = factory_.getZEvesFactory().createApplyToPredCommand(createZName(n), p);
+          //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.LOCAL);
         :}
         |
-        PROOFWORD:ap THMNAME:n
+        APPLY:ap THMNAME:n
         {:
-          //RESULT = factory_.getZEvesFactory().createGlobalApplyCommand(n);
-          //addLocAnn(RESULT, getLocation(ap, n));
+          //checkValidTheoremName(n);
+          RESULT = factory_.getZEvesFactory().createGlobalApplyCommand(createZName(n));
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.GLOBAL);
         :}
         ;
 
+caseAnalysisCommand ::=
+        CASES:cam
+        {:
+          RESULT = factory_.getZEvesFactory().createCasesCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
+        :}
+        |
+        NEXT:cam
+        {:
+          RESULT = factory_.getZEvesFactory().createNextCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
+        :}
+        |
+        // split pred;
+        SPLIT:cam predicate:p
+        {:
+          RESULT = factory_.getZEvesFactory().createSplitCommand(p);
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.GLOBAL);
+        :}
+        ;
+//              cases  : Kind=Cases and P == null
+//              next   : Kind=Next  and P == null
+//              split P: Kind=Split and P != null
+
+normalizationCommand ::=
+        CONJUNCTIVE:nc
+        {:
+          RESULT = factory_.getZEvesFactory().createConjunctiveCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.UNUSUAL, ProofScope.GLOBAL);
+        :}
+        |
+        DISJUNCTIVE:nc
+        {:
+          RESULT = factory_.getZEvesFactory().createDisjunctiveCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.UNUSUAL, ProofScope.GLOBAL);
+        :}
+        |
+        REARRANGE:nc
+        {:
+          RESULT = factory_.getZEvesFactory().createRearrangeCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
+        :}
+        |
+        WITH:w NORMALIZATION:n innerProofCommand:ipc
+        {:
+          // TODO: "normaliZe" spelling in the code !
+          RESULT = factory_.getZEvesFactory().createWithNormalisationCommand(ipc);
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, getProofScope(ipc));
+        :}
+        ;
+//            conjunctive: Kind==Conjuncture and CMD == null
+//            disjunctive: Kind==Disjunctive and CMD == null
+//            rearrange  : Kind==Rearranghe  and CMD == null
+//            with normalisation CMD: Kind==Command and CMD != null
+
+
+quantifiersCommand ::=
+        PRENEX:p
+        {:
+          RESULT = factory_.getZEvesFactory().createPrenexCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
+        :}
+        |
+        INSTANTIATE:i
+        {:
+          RESULT = factory_.getZEvesFactory().createInstantiateCommand(null); // TODO  !!!
+          //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
+        :}
+        ;
+//          prenex     : InstList = null or empty
+//          instantiate: InstList != null and != empty
+
+simplificationCommand ::=
+        PROVE BY innerSimplCmd:isc
+        {:
+          switch (isc)
+          {
+            case Simplify:
+            // TODO: add an error case here, actually
+              RESULT = factory_.getZEvesFactory().createProveBySimplifyCommand();
+              break;
+            case Rewrite:
+              RESULT = factory_.getZEvesFactory().createProveByRewriteCommand();
+              break;
+            case Reduce:
+              RESULT = factory_.getZEvesFactory().createProveByReduceCommand();
+              break;
+            default:
+              throw new Error("invalid proof command rewrite kind " + isc);
+          }
+          //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
+        :}
+        // unqualified "prove" command is "by rewrite" in Z/Eves
+        PROVE
+        {:
+          RESULT = factory_.getZEvesFactory().createProveByRewriteCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
+        :}
+        |
+        TRIVIAL innerSimplCmd:isc
+        {:
+          switch (isc)
+          {
+            case Simplify:
+              RESULT = factory_.getZEvesFactory().createTrivialSimplifyCommand();
+              break;
+            case Rewrite:
+              RESULT = factory_.getZEvesFactory().createTrivialRewriteCommand();
+              break;
+            case Reduce:
+            // TODO: add an error case here, actually
+              RESULT = factory_.getZEvesFactory().createTrivialReduceCommand();
+              break;
+            default:
+              throw new Error("invalid proof command rewrite kind " + isc);
+          }
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.GLOBAL);
+        :}
+        |
+        innerSimplCmd:isc
+        {:
+          switch (isc)
+          {
+            case Simplify:
+              RESULT = factory_.getZEvesFactory().createSimplifyCommand();
+              break;
+            case Rewrite:
+              RESULT = factory_.getZEvesFactory().createRewriteCommand();
+              break;
+            case Reduce:
+              RESULT = factory_.getZEvesFactory().createReduceCommand();
+              break;
+            default:
+              throw new Error("invalid proof command rewrite kind " + isc);
+          }
+          //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
+        :}
+        ;
+
+innerSimplCmd ::=
+        SIMPLIFY
+        {:
+          RESULT = RewriteKind.Simplify;
+        :}
+        |
+        REWRITE
+        {:
+          RESULT = RewriteKind.Rewrite;
+        :}
+        |
+        REDUCE
+        {:
+          RESULT = RewriteKind.Reduce;
+        :}
+        ;
+
+//substitutionCommand ::=
+//          equality substitute [Expr]: Pred = null and Name = null and (Expr != null or EQ)  [global eq subst]
+//          invoke predicate Pred     : Expr = null and Name = null and Pred != null
+//          invoke [Name]             : Expr = null and Pred = null and (Name != null or INVOKE) [global invoke]
+
+useCommand ::=
+        USE name:thmN genericActuals:ga instantiations:inst
+        {:
+          //checkValidTheoremName(thmN);
+          RESULT = factory_.getZEvesFactory().createUseCommand(
+                      factory_.createRefExpr(thmN, ga, Boolean.FALSE, Boolean.TRUE), inst);
+          //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
+        :}
+        |
+        USE name:thmN genericActuals:ga
+        {:
+          //checkValidTheoremName(thmN);
+          RESULT = factory_.getZEvesFactory().createUseCommand(
+                      factory_.createRefExpr(thmN, ga, Boolean.FALSE, Boolean.TRUE));
+          //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
+        :}
+        |
+        USE name:thmN
+        {:
+          //checkValidTheoremName(thmN);
+          RESULT = factory_.getZEvesFactory().createUseCommand(factory_.createRefExpr(thmN));
+          //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
+        :}
+        ;
+
+genericActuals ::=
+        LSQUARE:ls expressionList:el RSQUARE:rs
+        {:
+           RESULT = el;
+           addLocAnn(RESULT, getLocation(ls, rs));
+        :}
+        ;
+
+/*
+
+non terminal Instantiations
+    instantiations;
+
+non terminal List &lt; &gt
+    instantiationList;
+
+non terminal Instantiation
+    instantiation;
+
+instantiations ::=
+        LSQUARE:ls instantiationList:il RSQUARE:rs
+        {:
+          RESULT = il;
+          addLocAnn(il, getLocation(ls, rs));
+        :}
+        ;
+
+instantiationList
+        instantiationList:il COMMA instantiation:i
+        {:
+           il.add(i);
+           RESULT = il;
+        :}
+        |
+        instantiation:i
+        {:
+           RESULT = factory_.createZExprList();
+           RESULT.add(e);
+        :}
+        ;
+         refNameList:rnl CIRCASSIGN:ca expressionList:el
+
+*/
+
+// TODO: call these something else because "with normalization" is not here?
+withCommand ::=
+        WITH EXPRESSION LPAREN expression:e RPAREN innerProofCommand:ipc
+        {:
+          RESULT = factory_.getZEvesFactory().createWithExpressionCommand(e, ipc);
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
+        :}
+        |
+        WITH PREDICATE LPAREN predicate:p RPAREN innerProofCommand:ipc
+        {:
+          RESULT = factory_.getZEvesFactory().createWithPredicateCommand(p, ipc);
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
+        :}
+        |
+        WITH ENABLED LPAREN nameList:nl RPAREN innerProofCommand:ipc
+        {:
+          RESULT = factory_.getZEvesFactory().createWithEnabledCommand(nl, ipc);
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, getProofScope(ipc));
+        :}
+        |
+        WITH DISABLED LPAREN nameList:nl RPAREN innerProofCommand:ipc
+        {:
+          RESULT = factory_.getZEvesFactory().createWithDisabledCommand(nl, ipc);
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, getProofScope(ipc));
+        :}
+        ;
+//      with expression E cmd : Expr != null and Pred = null and NameList = empty and Cmd != null
+//      with predicate P cmd  : Expr  = null and Pred = null and NameList = empty and Cmd = null
+//      with enabled NL cmd   : Expr  = null and Pred = null and NameLisst != empty and Cmd != null (same for disabled)
+
 proofSep ::=
         // do nothing
-        SEMICOLON:zpc optNL
+        ZPROOFCOMMANDSEP:zpc optNL
         {:
           RESULT = zpc;
         :}
         ;
-
 </add:zeves>
 
 genericAxDefinition ::=

@@ -28,6 +28,10 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 
+<add:zeves>
+import net.sourceforge.czt.util.CztException;
+</add:zeves>
+
 <add:circus>
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.InStroke;
@@ -206,6 +210,13 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   
   private TokenStack dumb_;
 
+  <add:zeves>
+  /**
+   * Tests whether we are within a Z proof environment or not.
+   */
+  private boolean inZProof = false;
+  </add:zeves>
+
   <class/>(net.sourceforge.czt.java_cup.runtime.Scanner dumbscanner)
   {
     dumb_ = new TokenStack(dumbscanner);
@@ -220,8 +231,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       //don't look ahead if the previous token was a box token
       inBoxName = false;
     }
-    else if ((result.sym == Sym.DECORWORD <add:zeves>//|| result.sym == Sym.PROOFWORD</add:zeves>
-            ) &amp;&amp; !inBoxName)
+    else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName)
     {
 <add:circus>      
       // if within a basic process, within an action definition, and
@@ -307,7 +317,23 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
              result.sym == Sym.GENSCH) 
     {
         inBoxName = true;
-    } 
+        <add:zeves>
+        inZProof = result.sym == Sym.ZPROOF;
+        </add:zeves>
+    }
+<add:zeves>
+    else if (result.sym == Sym.END)
+    {
+      inZProof = false;
+    }
+    else if (result.sym == Sym.SEMICOLON &amp;&amp; inZProof)
+    {
+      if (isProofCmdSep())
+      {
+        result.sym = Sym.ZPROOFCOMMANDSEP;
+      }
+    }
+</add:zeves>
 <add:circus>
     // if starting a basic process, mark it true and not def. action yet
     // unless the CIRCBEGIN is followed by a CIRCSPOT, in which case we 
@@ -421,6 +447,50 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
 </add:circus>    
     return result;
   }
+
+<add:zeves>
+  /**
+   * Current symbol is a semicolon, then it looks ahead to see whether it is a
+   * proof command separator or part of a Z term. It returns trus if a head proof
+   * word is found ahead with out any semicolon in between
+   * @return true if the current symbol is a semicolon preceeded by a head proof word, false otherwise
+   * @throws Exception
+   */
+  private boolean isProofCmdSep() throws Exception
+  {
+    // look ahead on the right place only, please
+    assert inZProof  : "invalid point to lookahead for proof cmd sep - not in a zproof environment";
+
+    // assume it is not proof cmd se
+    boolean result = false;
+
+    // get the next symbol
+    Symbol currsym = dumb_.pop();
+
+    // in case of an early EOF hit
+    if (currsym.sym == Sym.EOF)
+    {
+      result = false;
+      final String message = "Hit EOF at whilst trying to find end of a proof command during smart scanning";
+      System.err.println(message);
+      throw new CztException(message);
+    }
+
+    // this is a proof cmd sep if the next symbol is either END or a head proof word
+    result =
+      (currsym.sym == Sym.PROOFWORD &amp;&amp;
+        ZEvesSymMap.HEAD_PROOF_WORDS_ONLY.contains(get_sym_name(currsym)))
+      ||
+      (currsym.sym == Sym.END);
+
+    // put the symbol back onto the stack
+    if (result)
+    {
+      dumb_.push(currsym);
+    }
+    return result;
+  }
+</add:zeves>
 
   private boolean isColonDecl()
     throws Exception
