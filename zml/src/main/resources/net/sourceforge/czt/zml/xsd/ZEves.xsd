@@ -141,7 +141,7 @@
   </xs:annotation>
   </xs:element>
 
-  <xs:element name="NormalisationCommand" type="ZEVES:NormalisationCommand" substitutionGroup="ZEVES:WrappedCommand">
+  <xs:element name="NormalizationCommand" type="ZEVES:NormalizationCommand" substitutionGroup="ZEVES:WrappedCommand">
   <xs:annotation>
     <xs:documentation>
        Term rewriting via normal forms. There three kinds: conjunctive and disjunctive normal form; or
@@ -179,11 +179,11 @@
   </xs:annotation>
   </xs:element>
 
-  <xs:element name="Instantiations" type="ZEVES:Instantiations">
+  <xs:element name="InstantiationList" type="ZEVES:InstantiationList"/>
+  <xs:element name="Instantiation" type="ZEVES:Instantiation">
     <xs:annotation>
       <xs:documentation>
-        Encapsulates two lists used for quantifier instantiations. It corresponds to two lists: names
-        on the LHS and expressions on the RHS. These lists must be of equal size.
+        Encapsulates one instantiation or replacement for the instantiate or use commands. It belongs to a list of instantiations.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -191,7 +191,7 @@
   <xs:element name="InstantiationCommand" type="ZEVES:InstantiationCommand" substitutionGroup="ZEVES:ProofCommand" abstract="true">
   <xs:annotation>
     <xs:documentation>
-       Abstract command for instantiations. It contains instantiations for either quantifiers or theorem usages.
+       Abstract command for instantiations. It contains instantiations or replecements for either quantifiers or theorem usages.
     </xs:documentation>
   </xs:annotation>
   </xs:element>
@@ -310,20 +310,20 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:complexType name="NormalisationCommand">
+  <xs:complexType name="NormalizationCommand">
     <xs:complexContent>
       <xs:extension base="ZEVES:WrappedCommand">
         <!--
             conjunctive: Kind==Conjuncture and CMD == null
             disjunctive: Kind==Disjunctive and CMD == null
             rearrange  : Kind==Rearranghe  and CMD == null
-            with normalisation CMD: Kind==Command and CMD != null
+            with normalization CMD: Kind==Command and CMD != null
         -->
-        <xs:attribute name="Kind" type="ZEVES:NormalisationKind" use="optional" default="Command"/>
+        <xs:attribute name="Kind" type="ZEVES:NormalizationKind" use="optional" default="Command"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:simpleType name="NormalisationKind">
+  <xs:simpleType name="NormalizationKind">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Command"/>
       <xs:enumeration value="Conjunctive"/>
@@ -391,7 +391,7 @@
     <xs:complexContent>
       <xs:extension base="ZEVES:ProofCommand">
          <xs:sequence>
-          <xs:element ref="ZEVES:Instantiations">
+          <xs:element ref="ZEVES:InstantiationList">
               <xs:annotation>
               <xs:appinfo>
                 <jaxb:property generateElementProperty="true"/>
@@ -403,26 +403,22 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="Instantiations">
+  <xs:complexType name="InstantiationList">
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <!-- <xs:element ref="Z:Name" minOccurs="1" maxOccurs="unbounded"> -->
-          <xs:element ref="Z:NameList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LHS"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <!-- <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"> -->
-          <xs:element ref="Z:ExprList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RHS"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="ZEVES:Instantiation"  minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Instantiation">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:Name"/>
+          <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
