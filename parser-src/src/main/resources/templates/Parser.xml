@@ -2271,8 +2271,12 @@ non terminal ProofCommand
     quantifiersCommand, simplificationCommand, substitutionCommand,
     useCommand, withCommand;
 
-non terminal Instantiations
-    instantiations;
+non terminal Instantiation
+    instantiation, replacement;
+
+non terminal InstantiationList
+    instantiations, replacements,
+    instantiationList, replacementList;
 
 non terminal ZExprList
     genericActuals;
@@ -2282,6 +2286,9 @@ non terminal RewriteKind
 
 non terminal LocInfo
     proofSep;
+
+non terminal Boolean
+    instOrRepl;
 </add:zeves>
 
 <add:circus>
@@ -2629,6 +2636,10 @@ precedence nonassoc     CIRCWAIT;
 precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
 </add:circus>
+<add:zeves>
+// TODO: not sure about these...
+precedence nonassoc     ZPROOFCOMMANDSEP; //ZEVESINST, ZEVESREPL,
+</add:zeves>
 precedence left         DECORWORD
                         <add:circus>
                           // Do we need to add these precedences for Circus?
@@ -3342,15 +3353,14 @@ normalizationCommand ::=
         |
         WITH:w NORMALIZATION:n innerProofCommand:ipc
         {:
-          // TODO: "normaliZe" spelling in the code !
-          RESULT = factory_.getZEvesFactory().createWithNormalisationCommand(ipc);
+          RESULT = factory_.getZEvesFactory().createWithNormalizationCommand(ipc);
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, getProofScope(ipc));
         :}
         ;
 //            conjunctive: Kind==Conjuncture and CMD == null
 //            disjunctive: Kind==Disjunctive and CMD == null
 //            rearrange  : Kind==Rearranghe  and CMD == null
-//            with normalisation CMD: Kind==Command and CMD != null
+//            with normalization CMD: Kind==Command and CMD != null
 
 
 quantifiersCommand ::=
@@ -3360,14 +3370,59 @@ quantifiersCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
         :}
         |
-        INSTANTIATE:i
+        INSTANTIATE:i instantiations:inst
         {:
-          RESULT = factory_.getZEvesFactory().createInstantiateCommand(null); // TODO  !!!
-          //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
+          RESULT = factory_.getZEvesFactory().createInstantiateCommand(inst);
+          //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL); // or is it local? to a quantifier?
         :}
         ;
 //          prenex     : InstList = null or empty
 //          instantiate: InstList != null and != empty
+
+instantiations ::=
+        LSQUARE:ls instantiationList:il RSQUARE:rs
+        {:
+          RESULT = il;
+          //checkInstantiationListConsistency(il);
+          addLocAnn(il, getLocation(ls, rs));
+        :}
+        ;
+
+instantiationList ::=
+        instantiationList:il COMMA instantiation:i
+        {:
+           il.add(i);
+           RESULT = il;
+        :}
+        |
+        instantiation:i
+        {:
+           RESULT = factory_.createInstantiationList();
+           RESULT.add(i);
+        :}
+        ;
+
+instantiation ::=
+        name:n instOrRepl:isQtn expression:e
+        {:
+           RESULT = factory_.createInstantiation(n, e,
+              isQtn ? InstantiationKind.Quantifier :
+                      InstantiationKind.ThmReplacement);
+           addLocAnn(RESULT, getLocation(n, e));
+        :}
+        ;
+
+instOrRepl ::=
+        EQUALS EQUALS
+        {:
+          RESULT = true;
+        :}
+        |
+        COLON EQUALS
+        {:
+          RESULT = false;
+        :}
+        ;
 
 simplificationCommand ::=
         PROVE BY innerSimplCmd:isc
@@ -3453,17 +3508,47 @@ innerSimplCmd ::=
         :}
         ;
 
-//substitutionCommand ::=
+substitutionCommand ::=
+        EQUALITY SUBSTITUTE expression:e
+        {:
+          RESULT = factory_.getZEvesFactory().createEqualitySubstituteCommand(e);
+          //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.LOCAL);
+        :}
+        |
+        EQUALITY SUBSTITUTE
+        {:
+          RESULT = factory_.getZEvesFactory().createGlobalEqualitySubstituteCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
+        :}
+        |
+        INVOKE PREDICATE predicate:p
+        {:
+          RESULT = factory_.getZEvesFactory().createGlobalEqualitySubstituteCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
+        :}
+        |
+        INVOKE name:n
+        {:
+          RESULT = factory_.getZEvesFactory().createGlobalEqualitySubstituteCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.LOCAL);
+        :}
+        INVOKE
+        {:
+          RESULT = factory_.getZEvesFactory().createGlobalEqualitySubstituteCommand();
+          //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
+        :}
+        ;
 //          equality substitute [Expr]: Pred = null and Name = null and (Expr != null or EQ)  [global eq subst]
 //          invoke predicate Pred     : Expr = null and Name = null and Pred != null
 //          invoke [Name]             : Expr = null and Pred = null and (Name != null or INVOKE) [global invoke]
 
+
 useCommand ::=
-        USE name:thmN genericActuals:ga instantiations:inst
+        USE name:thmN genericActuals:ga instantiations:repl
         {:
           //checkValidTheoremName(thmN);
           RESULT = factory_.getZEvesFactory().createUseCommand(
-                      factory_.createRefExpr(thmN, ga, Boolean.FALSE, Boolean.TRUE), inst);
+                      factory_.createRefExpr(thmN, ga, Boolean.FALSE, Boolean.TRUE), repl);
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
         :}
         |
@@ -3492,40 +3577,36 @@ genericActuals ::=
         ;
 
 /*
-
-non terminal Instantiations
-    instantiations;
-
-non terminal List &lt; &gt
-    instantiationList;
-
-non terminal Instantiation
-    instantiation;
-
-instantiations ::=
-        LSQUARE:ls instantiationList:il RSQUARE:rs
+replacements ::=
+        LSQUARE:ls replacementList:rl RSQUARE:rs
         {:
-          RESULT = il;
-          addLocAnn(il, getLocation(ls, rs));
+          RESULT = rl;
+          addLocAnn(rl, getLocation(ls, rs));
         :}
         ;
 
-instantiationList
-        instantiationList:il COMMA instantiation:i
+replacementList ::=
+        replacementList:rl COMMA replacement:r
         {:
-           il.add(i);
-           RESULT = il;
+           rl.add(r);
+           RESULT = rl;
         :}
         |
-        instantiation:i
+        replacementList:r
         {:
-           RESULT = factory_.createZExprList();
-           RESULT.add(e);
+           RESULT = factory_.createInstantiationList();
+           RESULT.add(r);
         :}
         ;
-         refNameList:rnl CIRCASSIGN:ca expressionList:el
 
-*/
+replacement ::=
+        name:n COLON EQUALS expression:e
+        {:
+           RESULT = factory_.createInstantiation(n, e);
+           addLocAnn(RESULT, getLocation(n, e));
+        :}
+        ;
+        */
 
 // TODO: call these something else because "with normalization" is not here?
 withCommand ::=
