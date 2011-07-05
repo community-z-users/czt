@@ -465,6 +465,7 @@ parser-src/pom.xml -text
 parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text
 parser-zeves/pom.xml -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/LatexScannerDebugger.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ParserState.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/Proofword.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesParseError.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesParseMessage.java -text
@@ -472,6 +473,7 @@ parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesParseResources.
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesProofKeyword.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesProofToken.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesSymMap.java -text
+parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ProofScriptParsingTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ScanningTest.java -text
 parser-zeves/src/test/resources/tests/zeves/simple.tex -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
