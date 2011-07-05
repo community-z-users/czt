@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Plugin.name
 Bundle-SymbolicName: net.sourceforge.czt.eclipse;singleton:=true
-Bundle-Version: 1.5.0
+Bundle-Version: 1.6.0
 Bundle-Activator: net.sourceforge.czt.eclipse.CZTPlugin
 Bundle-Vendor: %Plugin.providerName
 Bundle-Localization: plugin
@@ -17,6 +17,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.views,
  org.eclipse.search,
  org.eclipse.ui.forms,
- org.eclipse.core.expressions
+ org.eclipse.core.expressions,
+ net.sourceforge.czt.library;bundle-version="1.5.0"
 Eclipse-LazyStart: true
-Bundle-ClassPath: net.sourceforge.czt.eclipse.jar, lib/czt.jar
+Bundle-ClassPath: net.sourceforge.czt.eclipse.jar
+Export-Package: net.sourceforge.czt.eclipse,
+ net.sourceforge.czt.eclipse.editors,
+ net.sourceforge.czt.eclipse.editors.parser,
+ net.sourceforge.czt.eclipse.editors.zeditor,
+ net.sourceforge.czt.eclipse.preferences,
+ net.sourceforge.czt.eclipse.util
