@@ -15,10 +15,10 @@ SimplificationCommand createTrivialSimplifyCommand();
 SimplificationCommand createTrivialRewriteCommand();
 SimplificationCommand createTrivialReduceCommand();
 
-NormalisationCommand createConjunctiveCommand();
-NormalisationCommand createDisjunctiveCommand();
-NormalisationCommand createRearrangeCommand();
-NormalisationCommand createWithNormalisationCommand(ProofCommand cmd);
+NormalizationCommand createConjunctiveCommand();
+NormalizationCommand createDisjunctiveCommand();
+NormalizationCommand createRearrangeCommand();
+NormalizationCommand createWithNormalizationCommand(ProofCommand cmd);
 
 CaseAnalysisCommand createCasesCommand();
 CaseAnalysisCommand createNextCommand();
@@ -36,8 +36,8 @@ SubstitutionCommand createInvokeCommand(Name name);
 SubstitutionCommand createInvokePredicateCommand(Pred pred);
 
 QuantifiersCommand createPrenexCommand();
-QuantifiersCommand createInstantiateCommand(Instantiations inst);
+QuantifiersCommand createInstantiateCommand(InstantiationList inst);
 
 UseCommand createUseCommand(RefExpr thmRef);
-UseCommand createUseCommand(RefExpr thmRef, Instantiations inst);
+UseCommand createUseCommand(RefExpr thmRef, InstantiationList inst);
 

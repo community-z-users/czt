@@ -339,8 +339,8 @@ gnast/src/vm/CreateVisitor.vm -text
 gnast/src/vm/FlyweightFactory.vm -text
 gnast/src/vm/InputField.java -text
 gnast/src/vm/InputFieldImpl.java -text
-gnast/src/vm/Instantiations.java -text
-gnast/src/vm/InstantiationsImpl.java -text
+gnast/src/vm/Instantiation.java -text
+gnast/src/vm/InstantiationImpl.java -text
 gnast/src/vm/JokerActionBindingImpl.java -text
 gnast/src/vm/JokerChannelSetBindingImpl.java -text
 gnast/src/vm/JokerCommunicationBindingImpl.java -text

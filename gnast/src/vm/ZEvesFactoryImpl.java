@@ -92,28 +92,28 @@ public SimplificationCommand createTrivialReduceCommand()
 	throw new UnsupportedOperationException("Trivial command can only be by rewrite or simplify");
 }
 
-public NormalisationCommand createConjunctiveCommand()
+public NormalizationCommand createConjunctiveCommand()
 {
 	countStep();
-	return createNormalisationCommand(proofStep_, null, NormalisationKind.Conjunctive);
+	return createNormalizationCommand(proofStep_, null, NormalizationKind.Conjunctive);
 }
 
-public NormalisationCommand createDisjunctiveCommand()
+public NormalizationCommand createDisjunctiveCommand()
 {
 	countStep();
-	return createNormalisationCommand(proofStep_, null, NormalisationKind.Conjunctive);
+	return createNormalizationCommand(proofStep_, null, NormalizationKind.Conjunctive);
 }
 
-public NormalisationCommand createRearrangeCommand()
+public NormalizationCommand createRearrangeCommand()
 {
 	countStep();
-	return createNormalisationCommand(proofStep_, null, NormalisationKind.Disjunctive);
+	return createNormalizationCommand(proofStep_, null, NormalizationKind.Disjunctive);
 }
 
-public NormalisationCommand createWithNormalisationCommand(ProofCommand cmd)
+public NormalizationCommand createWithNormalizationCommand(ProofCommand cmd)
 {
 	countStep();
-	return createNormalisationCommand(proofStep_, cmd, NormalisationKind.Command);
+	return createNormalizationCommand(proofStep_, cmd, NormalizationKind.Command);
 }
 
 public CaseAnalysisCommand createCasesCommand()
@@ -194,7 +194,7 @@ public QuantifiersCommand createPrenexCommand()
 	return createQuantifiersCommand(proofStep_, null);
 }
 
-public QuantifiersCommand createInstantiateCommand(Instantiations inst)
+public QuantifiersCommand createInstantiateCommand(InstantiationList inst)
 {
 	countStep();
 	return createQuantifiersCommand(proofStep_, inst);
@@ -206,7 +206,7 @@ public UseCommand createUseCommand(RefExpr thmRef)
 	return createUseCommand(proofStep_, null, thmRef);
 }
 
-public UseCommand createUseCommand(RefExpr thmRef, Instantiations inst)
+public UseCommand createUseCommand(RefExpr thmRef, InstantiationList inst)
 {
 	countStep();
 	return createUseCommand(proofStep_, inst, thmRef);
