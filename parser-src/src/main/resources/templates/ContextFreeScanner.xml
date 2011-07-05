@@ -93,6 +93,12 @@ import net.sourceforge.czt.parser.zeves.Proofword;
    * Flag for lexing the complex (mixfix) apply XXX to expr/pred XXX proof command.
    */
   private boolean seenApply_ = false;
+
+  private String cleanProofWord(String proofWord)
+  {
+    String result = proofWord.trim().replaceAll("\n", "");
+    return result;
+  }
   </add:zeves>
 
 
@@ -360,7 +366,7 @@ PROOFWORDMIXED   = "expression" | "predicate" | "to"
 
 //PROOFWORD        = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
 
-PROOFWORD = {PROOFWORDHEAD} | {PROOFWORDFOLLOWS} | {PROOFWORDMIXED}
+PROOFWORD = ({PROOFWORDHEAD} | {PROOFWORDFOLLOWS} | {PROOFWORDMIXED}) {NL}*
 
 //THMNAME = ({LETTER} | {LL}) ({LETTER} | {DIGIT} | {LL})*
 </add:zeves>
@@ -478,17 +484,18 @@ ZPROOFSECTION = {ZPROOFSECTIONCHAR}
                   String proofWord = yytext();
                   // for global apply "apply NAME", this gets reset at the next proof command
                   seenApply_ = proofWord.equals("apply");
+                  proofWord = cleanProofWord(proofWord);
                   return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation()));
                 }
 
 //  {PROOFIGNORE}+ {THMNAME} {PROOFIGNORE}+ / " to "
-  {DECORWORD} / "to"
+  ({DECORWORD} {NL}*) / "to"
                 {
                   // if we've seen apply, and have a name (decorword) followed by "to", then we
                   // have a THMNAME
                   if (seenApply_)
                   {
-                    System.out.println("OUCH0 = " + yytext() + "; seen apply? = " + seenApply_);
+                    //System.out.println("OUCH0 = " + yytext() + "; seen apply? = " + seenApply_);
                     return symbol(Sym.THMNAME, new Decorword(yytext(), getLocation()));
                   }
                   // otherwise, it just gets to the next case. no "break" in the scanning.
@@ -496,12 +503,14 @@ ZPROOFSECTION = {ZPROOFSECTIONCHAR}
                   // for the ZED lexical state
                 }
 
-  {PROOFWORDMIXED} / " "
+  ({PROOFWORDMIXED} {NL}*) / " "
                 { 
                   String proofWord = yytext();
-                  System.out.println("OUCH1 = " + proofWord + "; seen apply? = " + seenApply_);
+                  proofWord = cleanProofWord(proofWord);
+                  //System.out.println("OUCH1 = " + proofWord + "; seen apply? = " + seenApply_);
                   if (proofWord.equals("expression") || proofWord.equals("predicate")) seenApply_ = false;
-                  return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation())); }
+                  return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation()));
+                }
 
   </add:zeves>
 

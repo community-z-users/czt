@@ -3206,7 +3206,7 @@ schema ::=
 zProof ::=
         ZPROOF:zp name:n optNL proofScript:ps END:end
         {:
-           //proofScripts_.addProofScript(n);
+           //parserState_.addProofScript(n, RESULT);
 
            // resets the proof step counter at the beginning of a proof script
            factory_.getZEvesFactory().resetProofSteps();
@@ -3640,7 +3640,7 @@ withCommand ::=
 
 proofSep ::=
         // do nothing
-        ZPROOFCOMMANDSEP:zpc optNL
+        ZPROOFCOMMANDSEP:zpc 
         {:
           RESULT = zpc;
         :}

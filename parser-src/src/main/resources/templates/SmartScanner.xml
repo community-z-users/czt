@@ -226,8 +226,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     throws Exception
   {
     Symbol result = dumb_.pop();
-    if ((result.sym == Sym.DECORWORD <add:zeves>//|| result.sym == Sym.PROOFWORD</add:zeves>
-            ) &amp;&amp; inBoxName) {
+    if (result.sym == Sym.DECORWORD &amp;&amp; inBoxName) {
       //don't look ahead if the previous token was a box token
       inBoxName = false;
     }
@@ -478,7 +477,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
 
     // this is a proof cmd sep if the next symbol is either END or a head proof word
     result =
-      (currsym.sym == Sym.PROOFWORD &amp;&amp;
+      (//currsym.sym == Sym.PROOFWORD &amp;&amp;
         ZEvesSymMap.HEAD_PROOF_WORDS_ONLY.contains(get_sym_name(currsym)))
       ||
       (currsym.sym == Sym.END);
