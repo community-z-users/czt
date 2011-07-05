@@ -16,6 +16,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 
@@ -82,6 +83,13 @@ public class ZEvesUtils {
             throw new IllegalArgumentException("Z/Eves label is allowed only for ConjPara and Pred terms");
         Label l = (Label)term.getAnn(Label.class);
         return l;
+    }
+    
+    public static ZName getZNameAnn(Term term) {
+        if (!isConjecture(term))
+            throw new IllegalArgumentException("Z/Eves name is allowed only for ConjPara and Pred terms");
+        ZName name = (ZName)term.getAnn(ZName.class);
+        return name;
     }    
         
     public static Label createLabel(Term term) {        
@@ -91,7 +99,10 @@ public class ZEvesUtils {
     public static Label createLabel(Term term, Ability ability, Usage usage) {        
         String fromClsStr = term.getClass().getName();
         fromClsStr = fromClsStr.substring(fromClsStr.lastIndexOf(".")+1);
-        String thmName = fromClsStr + term.hashCode();
+//        String thmName = fromClsStr + term.hashCode();
+        // using just term.hashCode() sometimes gives a negative number, which Z/Eves does not accept
+        // instead, go to unsigned Hex (as in Object.toString())
+        String thmName = fromClsStr + Integer.toHexString(term.hashCode());
         return createLabel(thmName, ability, usage);
     }
     

@@ -167,6 +167,8 @@ public interface ZEvesXMLPatterns {
     public static final String NEG_EXPR_PATTERN = "&neg; {0}";
     public static final String LAMBDA_EXPR_PATTERN = QNT_PRED_PATTERN;
     
+    public static final String QNT_EXPR_PATTERN = QNT_PRED_PATTERN;
+    
     /**
      * {0} let-def          => getLetDef(term.getSchText());
      * {1} expression       => getExpr(term.getExpr());
@@ -181,6 +183,8 @@ public interface ZEvesXMLPatterns {
      *       RefExpr as Z/Eves does not allow all forms of schema-expression that CZT allows.
      */
     public static final String PRE_EXPR_PATTERN = "<word style=\"roman\"/>pre<word/>{0}";
+    
+    public static final String ROMAN_PATTERN = "<word style=\"roman\"/>{0}<word/>";
     
     /**
      * {0} expression       => getExpr(term.getExpr());
@@ -234,4 +238,34 @@ public interface ZEvesXMLPatterns {
      * {1} name list    => getZNameList.accept(this);
      */
     public static final String HIDE_EXPR_PATTERN = "{0} \\ ({1})";    
+    
+    /**
+     * {0} expression       => getExpr(term.getLeftExpr());
+     * {1} expression       => getExpr(term.getRightExpr());
+     *
+     * NOTE: Added parentheses on the argument, because it may bind stronger than the expression.
+     */
+    public static final String APPL_EXPR_PATTERN = "{0} ({1})";
+    
+    /**
+     * {0} expression   => getExpr(ZUtils.getApplExprArguments(term).get(0));
+     * {1} rel          => getExpr(ZUtils.getApplExprRef(term)); 
+     * {2} expression   => getExpr(ZUtils.getApplExprArguments(term).get(1));
+     *
+     */
+    public static final String MIXFIX_APPL_EXPR_PATTERN = "({0}) {1} ({2})";
+    
+    /**
+     * {0} expression   => getExpr(term.getZExprList().get(0));
+     * {1} rel          => getName(term.getZName()); 
+     * {2} expression   => getExpr(term.getZExprList().get(1));
+     *
+     */
+    public static final String MIXFIX_REF_EXPR_PATTERN = BIN_PRED_PATTERN;
+    
+    /**
+     * {0} rel          => getName(term.getZName()); 
+     * {1} expression   => getExpr(term.getZExprList().get(0));
+     */
+    public static final String PREFIX_REF_EXPR_PATTERN = "{0} {1}";
 }
