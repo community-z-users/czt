@@ -1821,6 +1821,7 @@ eclipse/czthelp/reference/preferences/editor/target
 eclipse/czthelp/reference/preferences/target
 eclipse/czthelp/reference/target
 eclipse/czthelp/target
+eclipse/cztlib/eclipse_build
 eclipse/target
 fonts/*.aux
 fonts/*.blg
