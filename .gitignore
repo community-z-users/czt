@@ -1823,6 +1823,7 @@ eclipse/czthelp/reference/target
 eclipse/czthelp/target
 eclipse/cztlib/eclipse_build
 eclipse/target
+eclipse/zeves/eclipse_build
 fonts/*.aux
 fonts/*.blg
 fonts/*.log
