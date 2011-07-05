@@ -447,8 +447,12 @@ public class CZTPlugin extends AbstractUIPlugin
 
   public static void log(Throwable e)
   {
-    log(new Status(IStatus.ERROR, getPluginID(), 1001,
-        "CZTUIMessages.JavaPlugin_internal_error", e));
+    log("CZTUIMessages.JavaPlugin_internal_error", e);
+  }
+
+  public static void log(String message, Throwable e)
+  {
+    log(new Status(IStatus.ERROR, getPluginID(), 1001, message, e));
   }
 
   public static String getPluginID()
