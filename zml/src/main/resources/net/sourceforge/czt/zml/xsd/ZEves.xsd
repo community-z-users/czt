@@ -191,7 +191,7 @@
   <xs:element name="InstantiationCommand" type="ZEVES:InstantiationCommand" substitutionGroup="ZEVES:ProofCommand" abstract="true">
   <xs:annotation>
     <xs:documentation>
-       Abstract command for instantiations. It contains instantiations or replecements for either quantifiers or theorem usages.
+       Abstract command for instantiations. It contains instantiations or replacements for either quantifiers or theorem usages.
     </xs:documentation>
   </xs:annotation>
   </xs:element>
@@ -420,9 +420,19 @@
           <xs:element ref="Z:Name"/>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
+        <xs:attribute name="Kind" type="ZEVES:InstantiationKind" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <!-- This attribute should in fact be of InstantiaitonList, given the list cannot have mixed instantiation kinds.
+       But this gives a slightly more complicated parsing situation, so we leave it more flexible like this for now.
+  -->
+  <xs:simpleType name="InstantiationKind">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Quantifier"/>
+      <xs:enumeration value="ThmReplacement"/>
+    </xs:restriction>
+  </xs:simpleType>
 
 
     <!--      prenex     : InstList = null or empty
