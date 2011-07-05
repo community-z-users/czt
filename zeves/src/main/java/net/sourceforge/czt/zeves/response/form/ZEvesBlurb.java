@@ -1,4 +1,4 @@
-package net.sourceforge.czt.zeves.response;
+package net.sourceforge.czt.zeves.response.form;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlMixed;
 
-public class ZEvesErrorMessage {
+import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
+
+public class ZEvesBlurb {
 
 	@XmlMixed
 	@XmlAnyElement(lax = true)
@@ -14,7 +16,7 @@ public class ZEvesErrorMessage {
 
 	@Override
 	public String toString() {
-		return "ERROR: " + ZEvesResponseUtil.concat(content, " ");
+		return ZEvesResponseUtil.concat(content, " ");
 	}
 
 }

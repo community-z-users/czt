@@ -7,9 +7,12 @@
 package net.sourceforge.czt.zeves;
 
 /**
- *
+ * 
  * @author leo
+ * @deprecated part of obsoleted {@link ZEvesSocket} implementation
+ * @see ZEvesException
  */
+@Deprecated
 public class ZEvesServerConnectionException extends Exception {
     
     static final long serialVersionUID = -7830153568452854242L;

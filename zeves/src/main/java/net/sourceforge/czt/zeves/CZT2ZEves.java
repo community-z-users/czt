@@ -24,7 +24,6 @@ import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 

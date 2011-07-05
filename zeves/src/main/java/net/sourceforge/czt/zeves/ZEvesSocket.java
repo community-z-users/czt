@@ -21,7 +21,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.zeves.proof.ProofScript;
-import net.sourceforge.czt.zeves.response.ZEvesResponse;
+//import net.sourceforge.czt.zeves.response.ZEvesResponse;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 import net.sourceforge.czt.zeves.ZEvesServerConnectionException;
 
@@ -36,9 +36,15 @@ import net.sourceforge.czt.zeves.ZEvesServerConnectionException;
  *       <li>4 Now it is possible to connect to the server and load the default context.</li>
  * </ul>
  * @author leo
+ * @deprecated use {@link ZEvesApi}
+ * @see ZEvesApi
  */
+@Deprecated
 public class ZEvesSocket {
-    
+
+	class ZEvesResponse { ZEvesResponse(String foo) {} // dummy
+	}
+	
     private boolean fConnected;
     private boolean fAutoFlushZEvesOut;
     private boolean fNeedsReconnection;
