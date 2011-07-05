@@ -3751,6 +3751,8 @@ parser-src/src/main/resources/transformer/target
 parser-src/src/main/target
 parser-src/src/target
 parser-src/target
+parser-zeves/.classpath
+parser-zeves/.project
 parser-zeves/nbactions.xml
 parser-zeves/target
 parser-zpatt/*.aux
@@ -5791,6 +5793,8 @@ util/src/test/java/net/target
 util/src/test/java/target
 util/src/test/target
 util/target
+vcg/.classpath
+vcg/.project
 vcg/nbactions.xml
 vcg/src/test/resources/tests/z/czt.sty
 vcg/target
