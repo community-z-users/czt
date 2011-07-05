@@ -1644,6 +1644,7 @@ eclipse/czteditor/META-INF/*.blg
 eclipse/czteditor/META-INF/*.log
 eclipse/czteditor/META-INF/*.tmp
 eclipse/czteditor/META-INF/target
+eclipse/czteditor/eclipse_build
 eclipse/czteditor/icons/*.aux
 eclipse/czteditor/icons/*.blg
 eclipse/czteditor/icons/*.log
