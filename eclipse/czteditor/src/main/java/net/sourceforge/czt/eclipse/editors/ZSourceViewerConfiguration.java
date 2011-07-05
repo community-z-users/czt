@@ -21,6 +21,7 @@ import net.sourceforge.czt.eclipse.util.IColorManager;
 import net.sourceforge.czt.eclipse.util.IZColorConstants;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IDocument;
@@ -32,10 +33,10 @@ import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -173,25 +174,34 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
       return super.getDoubleClickStrategy(sourceViewer, contentType);
   }
 
-  /**
-   * @see SourceViewerConfiguration#getAnnotationHover(ISourceViewer)
-   */
+  @Override
   public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer)
   {
-    return new ZAnnotationHover(ZAnnotationHover.VERTICAL_RULER_HOVER);
+    return new ZAnnotationHover()
+    {
+      protected boolean isIncluded(Annotation annotation)
+      {
+        return super.isIncluded(annotation)
+            && isShowInVerticalRuler(annotation);
+      }
+    };
   }
 
-  /**
-   * @see SourceViewerConfiguration#getOverviewRulerAnnotationHover(ISourceViewer)
-   * @since 3.0
-   */
+  @Override
   public IAnnotationHover getOverviewRulerAnnotationHover(
       ISourceViewer sourceViewer)
   {
-    return new ZAnnotationHover(ZAnnotationHover.OVERVIEW_RULER_HOVER);
+    return new ZAnnotationHover(true)
+    {
+      protected boolean isIncluded(Annotation annotation)
+      {
+        return super.isIncluded(annotation)
+            && isShowInOverviewRuler(annotation);
+      }
+    };
   }
 
-  /*
+/*
    * @see SourceViewerConfiguration#getConfiguredTextHoverStateMasks(ISourceViewer, String)
    * @since 2.1
    */
@@ -235,7 +245,8 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
     //      }
 
     //      return null;
-    return new ZTextHover(sourceViewer, contentType, getEditor());
+    //return new ZTextHover(sourceViewer, contentType, getEditor());
+    return new ZTextHover(sourceViewer, getEditor());
   }
 
   /**
