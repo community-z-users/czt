@@ -225,6 +225,10 @@ eclipse/czthelp/toc.xml -text
 eclipse/czthelp/topics_Concepts.xml -text
 eclipse/czthelp/topics_GettingStarted.xml -text
 eclipse/czthelp/topics_Reference.xml -text
+eclipse/cztlib/.classpath -text svneol=unset#text/plain
+eclipse/cztlib/.project -text svneol=unset#text/plain
+eclipse/cztlib/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+eclipse/cztlib/build.properties -text svneol=unset#text/plain
 eclipse/updatesite/.project -text
 eclipse/updatesite/artifacts.xml -text
 eclipse/updatesite/content.xml -text
