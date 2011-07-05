@@ -233,6 +233,35 @@ eclipse/updatesite/.project -text
 eclipse/updatesite/artifacts.xml -text
 eclipse/updatesite/content.xml -text
 eclipse/updatesite/site.xml -text
+eclipse/zeves/.classpath -text svneol=unset#text/plain
+eclipse/zeves/.project -text svneol=unset#text/plain
+eclipse/zeves/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+eclipse/zeves/build.properties -text svneol=unset#text/plain
+eclipse/zeves/icons/conj.png -text
+eclipse/zeves/icons/refresh.gif -text
+eclipse/zeves/icons/submitToPoint.png -text
+eclipse/zeves/icons/thm_proved.gif -text
+eclipse/zeves/icons/thm_unproved.gif -text
+eclipse/zeves/icons/z-eves.png -text
+eclipse/zeves/plugin.xml -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SubmitToPointCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorUtil.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesAnnotations.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesExecVisitor.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesPosVisitor.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunch.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunchTab.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunchTabGroup.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesLaunchConstants.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesMainLaunchTab.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesRemoteLaunch.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/FilteredTree2.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/IZEvesElement.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/TheoremTree.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEditorResults.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEvesOutputView.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEvesStateView.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEvesTheoremView.java -text svneol=unset#text/plain
 fonts/CZTSans-circus.ttf -text
 fonts/CZTSans.ttf -text
 fonts/INSTALL.txt -text
