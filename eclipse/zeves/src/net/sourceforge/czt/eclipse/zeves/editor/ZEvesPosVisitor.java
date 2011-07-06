@@ -275,7 +275,12 @@ public class ZEvesPosVisitor implements
 		return Collections.emptyList();
 	}
     
-    public void execSpec(Spec term) {        
+    public void execSpec(Spec term) {
+    	
+    	if (term == null) {
+    		return;
+    	}
+    	
         term.accept(this);
     }
     
