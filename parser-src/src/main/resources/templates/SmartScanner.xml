@@ -483,10 +483,9 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       (currsym.sym == Sym.END);
 
     // put the symbol back onto the stack
-    if (result)
-    {
-      dumb_.push(currsym);
-    }
+    dumb_.push(currsym);
+
+    // return whether to flip symbols or not
     return result;
   }
 </add:zeves>

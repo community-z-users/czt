@@ -94,9 +94,15 @@ import net.sourceforge.czt.parser.zeves.Proofword;
    */
   private boolean seenApply_ = false;
 
+  /**
+   * In occassions where proof words might have newlines or too much tabbing between them,
+   * we need to clear them up in order to avoid them being mistaken at KeywordScanner (e.g., "by \n" not recognised),
+   * and also in order to avoid optNL at Parser.xml all over the place. We match it against "\s", which is
+   * java.util.regex.Pattern for all white-space, which includes "\n\t\f\r" etc.
+   */
   private String cleanProofWord(String proofWord)
   {
-    String result = proofWord.trim().replaceAll("\n", "");
+    String result = proofWord.replaceAll("\\s", "");
     return result;
   }
   </add:zeves>
@@ -576,12 +582,14 @@ ZPROOFSECTION = {ZPROOFSECTIONCHAR}
   {NUMERAL}     {  return symbol(Sym.NUMERAL,
                                  new LocInt(yytext(), getLocation())); }
 
-  {DECORWORD}   {  
+  {DECORWORD}   {
+                   Symbol sym = symbol(
+                                 <add:zeves>seenApply_ ? Sym.THMNAME : </add:zeves>Sym.DECORWORD,
+                                 new Decorword(yytext(), getLocation()));
                    <add:zeves>
                       seenApply_ = false;
                    </add:zeves>
-                   return symbol(Sym.DECORWORD,
-                                 new Decorword(yytext(), getLocation())); }
+                   return sym; }
 
   /* error fallback */
   "\ud835" .    {
