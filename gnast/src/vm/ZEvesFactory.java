@@ -30,7 +30,7 @@ WithCommand createWithPredicateCommand(Pred pred, ProofCommand cmd);
 WithCommand createWithExpressionCommand(Expr expr, ProofCommand cmd);
 
 SubstitutionCommand createGlobalEqualitySubstituteCommand();
-SubstitutionCommand createGlobalInvokCommandCommand();
+SubstitutionCommand createGlobalInvokeCommand();
 SubstitutionCommand createEqualitySubstituteCommand(Expr expr);
 SubstitutionCommand createInvokeCommand(Name name);
 SubstitutionCommand createInvokePredicateCommand(Pred pred);

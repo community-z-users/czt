@@ -390,7 +390,7 @@ public#abstract($class) class ${class.ImplName}
     if (object instanceof Z${prop.Type.Name}) {
       return (Z${prop.Type.Name}) object;
     }
-    final String message = "Expected the implementation of Process SignatureList" +
+    final String message = "Expected the Z implementation of ${prop.Type.Name}" +
       " but found " + String.valueOf(object);
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }

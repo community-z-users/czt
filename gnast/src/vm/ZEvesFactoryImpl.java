@@ -164,7 +164,7 @@ public SubstitutionCommand createGlobalEqualitySubstituteCommand()
 	return createSubstitutionCommand(proofStep_, null, null, null, null, SubstitutionKind.Equality);
 }
 
-public SubstitutionCommand createGlobalInvokCommandCommand()
+public SubstitutionCommand createGlobalInvokeCommand()
 {
 	countStep();
 	return createSubstitutionCommand(proofStep_, null, null, null, null, SubstitutionKind.Invoke);
