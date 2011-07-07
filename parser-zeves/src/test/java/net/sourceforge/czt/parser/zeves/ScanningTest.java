@@ -6,6 +6,9 @@ import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.Source;
 
 /**
  * Unit test for simple App.
@@ -75,12 +78,11 @@ public class ScanningTest
     }
 
 
-  protected void scan(String name)
+  protected void scan(String name) throws IOException, Exception
   {
-    LatexScannerDebugger.main(new String[]
-            {
-              name
-            });
+    Source source = new FileSource(name);
+    source.setMarkup(Markup.LATEX);
+    LatexScannerDebugger.debugScanner(source);
   }
 
 
