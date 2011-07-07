@@ -76,6 +76,16 @@ public final class ZUtils
     return result;
   }
 
+  public static void setToStringVisitor(Term term, PrintVisitor printer)
+  {
+    if (term instanceof TermImpl)
+    {
+      ((TermImpl)term).getFactory().setToStringVisitor(printer);
+    }
+    else
+      throw new UnsupportedAstClassException("Couldn't cast given term as TermImpl");
+  }
+
   /**
    * Computes a list of all the NameTypePairs from the given signature
    * whose name ends with the given decoration.  If <code>decor</code>
