@@ -101,6 +101,8 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   STATUS(ZEvesString.STATUS , NewlineCategory.BOTH),
   SUMMARY(ZEvesString.SUMMARY , NewlineCategory.BOTH),
   THROUGH(ZEvesString.THROUGH , NewlineCategory.BOTH),
+
+  THMREPLACEMENT(":=", NewlineCategory.BOTH),
         ;
 
 

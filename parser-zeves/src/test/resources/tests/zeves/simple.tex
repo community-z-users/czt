@@ -2,48 +2,139 @@
    \SECTION simple \parents prelude
 \end{zsection}
 
-Zpreword znote znote  % to enter comment state ?
+Empty proof
 
-\begin{zproof}{testcommands}
-% some comments before command is fine
-prove     by      reduce;
-prove by rewrite ; % comments after ; is fine
+\begin{zproof}{emptyProof}
+\end{zproof}
+
+By single words
+
+\begin{zproof}{singleWord}
 cases;
-  conjunctive;
-%disjunctive       % comments within semicolon isn't fine?
-%;
-  equality substitute;
-  rearrange;
-  simplify ;
 next;
-  apply xyz to expression w + 1;
-  apply xyz to predicate (w \in S);
-  apply xyz; % everywhere
-  rewrite;
-  prove;
-  reduce;
-  prenex;
-  invoke (\_ bla \_);
-  invoke predicate S';
-  invoke Schema;
-  invoke (\_ Name \_);
-next;
-  trivial rewrite;
-  trivial simplify;
-  trivial rewrite;
-next;
-  use inPowerp[A, B][x := 10, y := 20]
-  with disabled (xyz, abc) rewrite;
-  with enabled (xyz) prove by reduce;
-  with normalization rewrite;
-  with expression (a+b) trivial rewrite;
-  with predicate (w \in S)
-    with normalization prove by reduce;
-next;
+conjunctive;
+disjunctive;
+prenex;
+rearrange;
+reduce;
+rewrite;
+simplify;
 \end{zproof}
 
-Here semicolons within mid-terms and right before end of environment
-\begin{zproof}{testcmdsep}
-  with expression (\{ x: \nat; y: \arithmos | x > y \}) rewrite; % some comments then as well
-  with predicate (\{ x: \nat;z: \arithmos | x > z \}) rewrite;
+By multiple words
+
+\begin{zproof}{multipleWords}
+trivial rewrite;
+trivial simplify;
+prove by rewrite;
+prove by reduce;
+equality substitute;
 \end{zproof}
+
+Per command kind. ApplyCommand
+
+\begin{zproof}{applyWordComplex}
+apply xyz to expression x + 1;
+apply abc to predicate a \in b;
+apply qwerty;
+\end{zproof}
+
+Case analysis command
+
+\begin{zproof}{caseAnalysisCmd}
+cases;
+next;
+split P;
+\end{zproof}
+
+Normalization command
+
+\begin{zproof}{normCmd}
+conjunctive;    % some comments involving ";"...
+disjunctive;
+rearrange;
+with normalization rewrite;
+\end{zproof}
+
+Quantifiers command
+
+\begin{zproof}{qntCmd}
+prenex;
+instantiate x == 10 + 5, y == \{ a: \nat; b:\nat | P(a,b) \},
+    z == true;
+prenex;
+\end{zproof}
+
+Simplification command
+
+\begin{zproof}{simpCmd}
+prove by reduce;
+rewrite;
+reduce;
+trivial simplify;
+trivial rewrite;
+simplify;
+prove by rewrite;
+% implicit prove by rewrite
+prove;
+\end{zproof}
+
+Susbstitution command
+
+\begin{zproof}{substCmd}
+equality substitute;
+equality substitute E;
+invoke predicate P;
+invoke Name;
+invoke;
+\end{zproof}
+
+Use command
+
+\begin{zproof}{useCmd}
+use otherName;
+use otherName2[X, Y];
+use name[X, \power \nat][x := 10];
+use name[x:= 10]; 
+use name[X, \power \nat][x:= 10, 
+  y := \{ a: \nat; b: \nat \}];
+
+% Funny case: Z/Eves doesn't like this newline between gen actuals and repl.
+% and the trouble is that the ContextFreeScanner "eats" new lines here, so they
+% don't appear in the token stream. This is necessary to avoid problem when
+% tokenising things like "prove NL by NL rewrite" and "by NL" isn't a keyword.
+% also, I would need to add loads of optional newlines in the parse too :-( TODO (NO HURRY).
+use name[X, \power \nat]
+[x:= 10,
+  y := \{ a: \nat; b: \nat \}];
+\end{zproof}
+
+With commands
+
+\begin{zproof}{withCmds}
+with predicate (P) rewrite;
+with expression (E) reduce;
+with enabled (A, B, C) rewrite;
+with disabled (A, B, C) reduce;
+\end{zproof}
+
+Combined commands
+
+\begin{zproof}{combinedCmd1}
+with normalization
+      with
+          normalization
+              reduce
+      ;           % and some comments
+
+% very intricate combined command
+with enabled (A, B, C)
+  with normalization
+    with predicate (P)
+      prove by reduce;
+\end{zproof}
+
+
+
+%prove by rewrite;
+%equality substitute;

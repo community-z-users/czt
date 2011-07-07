@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.zeves;
 
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +28,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.UnmarshalException;
 import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.zeves.Unicode2Latex;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Markup;
@@ -36,6 +40,8 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.SimpleFormatter;
+import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.zeves.util.PrintVisitor;
 
 /**
  *
@@ -82,27 +88,30 @@ public class LatexScannerDebugger {
     return result;
   }
 
+  public static void debugScanner(Source source) throws IOException, Exception
+  {
+     SectionInfo sectInfo_ = new SectionManager("zeves");
+     LatexScanner scanner = new LatexScanner(source, sectInfo_, new Properties());
+     DebugUtils.scan(scanner, Sym.class);
+  }
+
+
+  private static void debugParser(Source source) throws ParseException, IOException, UnmarshalException
+  {
+      SectionInfo sectInfo_ = new SectionManager("zeves");
+      Term term = ParseUtils.parse(source, sectInfo_);
+      PrintVisitor printer = new PrintVisitor(false);
+      printer.setPrintIds(false);
+      printer.setOffset(1, 1);
+      ZUtils.setToStringVisitor(term, printer);
+      //((TermImpl)term).getFactory().setToStringVisitor(printer);
+      System.out.println(term.toString());
+  }
+
   public static void main(String[] args)
   {
     try {
-     /* Map<String, Object> map= DebugUtils.getFieldMap2(Sym.class);
-
-      System.out.println(map);
-      map.keySet().retainAll(collectZEvesProofSymbolNames());
-      System.out.println("\n\n");
-      System.out.println(map);
-      System.out.println("\n\n");
-      Map<Object, String> flip = flipMap(map);
-      System.out.println(flip);
-      System.out.println("\n\n");
-      System.out.println("keys equal? " +
-          (map.keySet().containsAll(flip.values()) &&
-          map.keySet().size() == flip.values().size()));
-      System.out.println("vals equal? " +
-          (flip.keySet().containsAll(map.values()) &&
-          flip.keySet().size() == map.values().size()));
-      */
-
+     
 
       //Object o = DebugUtils.getFieldMap(Sym.class).get(new Integer(Sym.DECORWORD));
       //System.out.println("SmartScanner.get_sym() = " + o.getClass() + " " + o);
@@ -115,23 +124,22 @@ public class LatexScannerDebugger {
 //      circusMap.keySet().removeAll(zMap.keySet());
 //      System.out.println("ZEvesProof only Symbol Table \n\t" + new TreeMap(flipMap(circusMap)));
 
-      SectionInfo sectInfo_ = new SectionManager("zeves");
-      Source source = new FileSource(args[0]); // args[0] = -in
+      Source source = new FileSource(args[1]); // args[0] = -in
       source.setMarkup(Markup.LATEX);
-      LatexScanner scanner = new LatexScanner(source, sectInfo_, new Properties());
-
       SimpleFormatter formatter = new SimpleFormatter(false, true, false, false);
-      CztLogger.setConsoleHandler(CztLogger.getLogger(KeywordScanner.class), Level.ALL, Level.OFF, formatter);
-      //net.sourceforge.czt.java_cup.runtime.Symbol symbol = null;
-      //while ((symbol = scanner.next_token()).sym != 0) { }
-
-      //CztLogger.setConsoleHandler(CztLogger.getLogger(LatexMarkupParser.class), Level.ALL, Level.ALL, formatter);
-      //CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.ALL, formatter);
-      //CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.ALL, formatter);
-      //CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.ALL, formatter);
-
-      DebugUtils.scan(scanner, Sym.class);
-      
+      CztLogger.setConsoleHandler(CztLogger.getLogger(LatexMarkupParser.class), Level.ALL, Level.OFF, formatter);
+      if (args[0].equals("-s"))
+      {
+        CztLogger.setConsoleHandler(CztLogger.getLogger(KeywordScanner.class), Level.ALL, Level.OFF, formatter);
+        CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.OFF, formatter);
+        CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.OFF, formatter);
+        debugScanner(source);
+      }
+      else if (args[0].equals("-p"))
+      {
+        CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.OFF, formatter);
+        debugParser(source);
+      }
     }
     catch (Exception e) {
       e.printStackTrace();

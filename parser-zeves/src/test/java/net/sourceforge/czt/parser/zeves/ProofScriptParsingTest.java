@@ -31,38 +31,38 @@ import net.sourceforge.czt.session.SectionManager;
  * @date Jul 4, 2011
  */
 
-public class ProofScriptParsingTest {}
-//        extends CztManagedTest
-//{
-//
-//  protected ProofScriptParsingTest(boolean debug)
-//  {
-//    super("zeves", debug);
-//  }
-//
-//  protected ProofScriptParsingTest(SectionManager manager, boolean debug)
-//  {
-//    super(manager, debug);
-//  }
-//
-//  @Override
-//  protected TestCase createNegativeTest(URL url, String exception, Class<?> expCls)
-//  {
-//    throw new UnsupportedOperationException("Not supported yet.");
-//  }
-//
-//
-//  protected static final boolean DEBUG_TESTING = true;
-//  protected final static String TEST_DIR =
-//          "/tests/zeves/";
-//
-//  public static Test suite()
-//  {
-//    //String s, t = null;
-//    //s.replaceAll("", "").trim();
-//    ProofScriptParsingTest test = new ProofScriptParsingTest(DEBUG_TESTING);
-//    Test result = test.suite(TEST_DIR, null);
-//    System.out.println("Number of tests: " + result.countTestCases());
-//    return result;
-//  }
-//}
+public class ProofScriptParsingTest 
+        extends CztManagedTest
+{
+
+  protected ProofScriptParsingTest(boolean debug)
+  {
+    super("zeves", debug);
+  }
+
+  protected ProofScriptParsingTest(SectionManager manager, boolean debug)
+  {
+    super(manager, debug);
+  }
+
+  @Override
+  protected TestCase createNegativeTest(URL url, String exception, Class<?> expCls)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+
+  protected static final boolean DEBUG_TESTING = false;
+  protected final static String TEST_DIR =
+          "/tests/zeves/";
+
+  public static Test suite()
+  {
+    //String s, t = null;
+    //s.replaceAll("", "").trim();
+    ProofScriptParsingTest test = new ProofScriptParsingTest(DEBUG_TESTING);
+    Test result = test.suite(TEST_DIR, null);
+    System.out.println("Number of tests: " + result.countTestCases());
+    return result;
+  }
+}
