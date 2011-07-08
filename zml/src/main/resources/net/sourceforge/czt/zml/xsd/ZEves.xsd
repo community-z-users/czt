@@ -89,8 +89,20 @@
   <!-- Definitions of the elements in the order of appearance in the grammar -->
   <!-- ********************************************************************* -->
 
-  <!-- Section level paragraphs -->
+  <!-- Typechecking paragraphs -->
+  <xs:element name="ProofType" type="ZEVES:ProofType" substitutionGroup="Z:Type2">
+  <xs:annotation>
+    <xs:documentation>
+       Proof command information collected to form a proof script type.
+       This also means involved expressions, predicates, and names are checked.
+    </xs:documentation>
+  </xs:annotation>
+  </xs:element>
 
+  <xs:element name="ProofCommandInfo" type="ZEVES:ProofCommandInfo"/>
+  <xs:element name="ProofCommandInfoList" type="ZEVES:ProofCommandInfoList"/>
+  
+  <!-- Section level paragraphs -->
 
   <xs:element name="ProofScript" type="ZEVES:ProofScript" substitutionGroup="Z:Para">
   <xs:annotation>
@@ -224,6 +236,62 @@
   <!-- ***************************************************************** -->
   <!-- Definitions of complexTypes in the order of usage by the elements -->
   <!-- ***************************************************************** -->
+
+  <xs:complexType name="ProofType">
+    <xs:complexContent>
+      <xs:extension base="Z:Type2">
+        <xs:sequence>
+          <xs:element ref="ZEVES:ProofCommandInfoList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ProofCommandInfo">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <!-- TODO: discuss with Andrius
+          <xs:sequence>
+          <xs:element ref="Z:NameList"/> as the definitions used
+          <xs:element ref="Z:NameList"/> as the theorems refered to
+        </xs:sequence>
+        -->
+        <xs:attribute name="ProofStepRank"  type="xs:nonNegativeInteger" use="required"/>
+        <xs:attribute name="ProofStepKind"  type="ZEVES:ProofStepKind" use="required"/>
+        <xs:attribute name="ProofStepScope" type="ZEVES:ProofStepScope" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ProofStepKind">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Trivial"/>
+      <xs:enumeration value="Simple"/>
+      <xs:enumeration value="Medium"/>
+      <xs:enumeration value="Complex"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ProofStepScope">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Local"/>
+      <xs:enumeration value="Global"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ProofCommandInfoList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="ZEVES:ProofCommandInfo"  minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <!-- Outermost Paragraph Types -->
   <xs:complexType name="ProofScript">
