@@ -6,7 +6,13 @@ corejava/src/main/java/net/sourceforge/czt/z/util/WarningManager.java -text
 corejava/src/main/java/net/sourceforge/czt/zeves/jaxb/JaxbContext.java -text
 corejava/src/main/java/net/sourceforge/czt/zeves/jaxb/JaxbXmlReader.java -text
 corejava/src/main/java/net/sourceforge/czt/zeves/jaxb/JaxbXmlWriter.java -text
+corejava/src/main/java/net/sourceforge/czt/zeves/util/ConcreteSyntaxDescriptionVisitor.java -text
+corejava/src/main/java/net/sourceforge/czt/zeves/util/GetNameVisitor.java -text
+corejava/src/main/java/net/sourceforge/czt/zeves/util/LongDescriptionResourceBundle.java -text
 corejava/src/main/java/net/sourceforge/czt/zeves/util/PrintVisitor.java -text
+corejava/src/main/java/net/sourceforge/czt/zeves/util/ShortDescriptionResourceBundle.java -text
+corejava/src/main/java/net/sourceforge/czt/zeves/util/ZEvesConcreteSyntaxSymbol.java -text
+corejava/src/main/java/net/sourceforge/czt/zeves/util/ZEvesConcreteSyntaxSymbolVisitor.java -text
 corejava/src/main/xml/circuspattchar.xml -text
 corejava/src/main/xml/zeveschar.xml -text
 corejava/src/test/java/net/sourceforge/czt/circuspatt/impl/LawTest.java -text

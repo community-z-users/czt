@@ -40,8 +40,11 @@ import net.sourceforge.czt.zeves.ast.InstantiationKind;
 import net.sourceforge.czt.zeves.ast.InstantiationList;
 import net.sourceforge.czt.zeves.ast.NormalizationCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
+import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
+import net.sourceforge.czt.zeves.ast.ProofCommandInfoList;
 import net.sourceforge.czt.zeves.ast.ProofCommandList;
 import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.ast.ProofType;
 import net.sourceforge.czt.zeves.ast.QuantifiersCommand;
 import net.sourceforge.czt.zeves.ast.SimplificationCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
@@ -380,4 +383,42 @@ public class PrintVisitor
     return false;
   }
 
+  @Override
+  public String visitProofType(ProofType term)
+  {
+    return " : " + visit(term.getProofCommandInfoList());
+  }
+
+  @Override
+  public String visitProofCommandInfo(ProofCommandInfo term)
+  {
+    return term.getProofStepScope().toString() + " " +
+           term.getProofStepKind().toString() + " " +
+           term.getProofStepRank().toString();
+  }
+
+  @Override
+  public String visitProofCommandInfoList(ProofCommandInfoList term)
+  {
+    if (term.isEmpty())
+      return "";
+    else
+    {
+      StringBuilder result = new StringBuilder();
+      long step = 1;
+      Iterator<ProofCommandInfo> it = term.iterator();
+      result.append(step);
+      result.append(" = ");
+      result.append(visit(it.next()));
+      while (it.hasNext())
+      {
+        step++;
+        result.append("\n ");
+        result.append(step);
+        result.append(" = ");
+        result.append(visit(it.next()));
+      }
+      return result.toString();
+    }
+  }
 }
