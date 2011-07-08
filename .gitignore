@@ -5248,6 +5248,7 @@ typechecker-oz/tests/.classpath
 typechecker-oz/tests/.project
 typechecker-oz/tests/.settings
 typechecker-oz/tests/target
+typechecker-zeves/target
 typechecker/*.aux
 typechecker/*.blg
 typechecker/*.log
