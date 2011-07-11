@@ -1,15 +1,16 @@
 \begin{zsection}
-   \SECTION simple \parents prelude
+   \SECTION proofCmds \parents prelude
 \end{zsection}
 
 Empty proof
 
-\begin{zproof}{emptyProof}
+\begin{zproof}[emptyProof]
 \end{zproof}
+
 
 By single words
 
-\begin{zproof}{singleWord}
+\begin{zproof}[singleWord]
 cases;
 next;
 conjunctive;
@@ -23,7 +24,7 @@ simplify;
 
 By multiple words
 
-\begin{zproof}{multipleWords}
+\begin{zproof}[multipleWords]
 trivial rewrite;
 trivial simplify;
 prove by rewrite;
@@ -33,7 +34,7 @@ equality substitute;
 
 Per command kind. ApplyCommand
 
-\begin{zproof}{applyWordComplex}
+\begin{zproof}[applyWordComplex]
 apply xyz to expression x + 1;
 apply abc to predicate a \in b;
 apply qwerty;
@@ -41,7 +42,7 @@ apply qwerty;
 
 Case analysis command
 
-\begin{zproof}{caseAnalysisCmd}
+\begin{zproof}[caseAnalysisCmd]
 cases;
 next;
 split P;
@@ -49,7 +50,7 @@ split P;
 
 Normalization command
 
-\begin{zproof}{normCmd}
+\begin{zproof}[normCmd]
 conjunctive;    % some comments involving ";"...
 disjunctive;
 rearrange;
@@ -58,7 +59,7 @@ with normalization rewrite;
 
 Quantifiers command
 
-\begin{zproof}{qntCmd}
+\begin{zproof}[qntCmd]
 prenex;
 instantiate x == 10 + 5, y == \{ a: \nat; b:\nat | P(a,b) \},
     z == true;
@@ -67,7 +68,7 @@ prenex;
 
 Simplification command
 
-\begin{zproof}{simpCmd}
+\begin{zproof}[simpCmd]
 prove by reduce;
 rewrite;
 reduce;
@@ -81,7 +82,7 @@ prove;
 
 Susbstitution command
 
-\begin{zproof}{substCmd}
+\begin{zproof}[substCmd]
 equality substitute;
 equality substitute E;
 invoke predicate P;
@@ -89,29 +90,9 @@ invoke Name;
 invoke;
 \end{zproof}
 
-Use command
-
-\begin{zproof}{useCmd}
-use otherName;
-use otherName2[X, Y];
-use name[X, \power \nat][x := 10];
-use name[x:= 10]; 
-use name[X, \power \nat][x:= 10, 
-  y := \{ a: \nat; b: \nat \}];
-
-% Funny case: Z/Eves doesn't like this newline between gen actuals and repl.
-% and the trouble is that the ContextFreeScanner "eats" new lines here, so they
-% don't appear in the token stream. This is necessary to avoid problem when
-% tokenising things like "prove NL by NL rewrite" and "by NL" isn't a keyword.
-% also, I would need to add loads of optional newlines in the parse too :-( TODO (NO HURRY).
-use name[X, \power \nat]
-[x:= 10,
-  y := \{ a: \nat; b: \nat \}];
-\end{zproof}
-
 With commands
 
-\begin{zproof}{withCmds}
+\begin{zproof}[withCmds]
 with predicate (P) rewrite;
 with expression (E) reduce;
 with enabled (A, B, C) rewrite;
@@ -120,7 +101,7 @@ with disabled (A, B, C) reduce;
 
 Combined commands
 
-\begin{zproof}{combinedCmd1}
+\begin{zproof}[combinedCmd1]
 with normalization
       with
           normalization
@@ -134,7 +115,22 @@ with enabled (A, B, C)
       prove by reduce;
 \end{zproof}
 
+Use command
 
+\begin{zproof}[useCmd]
+use otherName;
+use otherName2[X, Y];
+use name[X, \power \nat][x := 10];
+use name[x:= 10];
+use name[X, \power \nat][x:= 10,
+  y := \{ a: \nat; b: \nat \}];
 
-%prove by rewrite;
-%equality substitute;
+% Funny case: Z/Eves doesn't like this newline between gen actuals and repl.
+% and the trouble is that the ContextFreeScanner "eats" new lines here, so they
+% don't appear in the token stream. This is necessary to avoid problem when
+% tokenising things like "prove NL by NL rewrite" and "by NL" isn't a keyword.
+% also, I would need to add loads of optional newlines in the parse too :-( TODO (NO HURRY).
+use name[X, \power \nat]
+[x:= 10,
+  y := \{ a: \nat; b: \nat \}];
+\end{zproof}

@@ -124,18 +124,18 @@ public class LatexScannerDebugger {
 //      circusMap.keySet().removeAll(zMap.keySet());
 //      System.out.println("ZEvesProof only Symbol Table \n\t" + new TreeMap(flipMap(circusMap)));
 
-      Source source = new FileSource(args[1]); // args[0] = -in
+      Source source = new FileSource(args[0]); // args[0] = -in
       source.setMarkup(Markup.LATEX);
       SimpleFormatter formatter = new SimpleFormatter(false, true, false, false);
       CztLogger.setConsoleHandler(CztLogger.getLogger(LatexMarkupParser.class), Level.ALL, Level.OFF, formatter);
-      if (args[0].equals("-s"))
+      if (args.length == 1 || args[1].equals("-s"))
       {
         CztLogger.setConsoleHandler(CztLogger.getLogger(KeywordScanner.class), Level.ALL, Level.OFF, formatter);
         CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.OFF, formatter);
         CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.OFF, formatter);
         debugScanner(source);
       }
-      else if (args[0].equals("-p"))
+      if (args.length == 1 || args[1].equals("-p"))
       {
         CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.OFF, formatter);
         debugParser(source);
