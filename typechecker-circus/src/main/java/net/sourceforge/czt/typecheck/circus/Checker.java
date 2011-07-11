@@ -103,8 +103,6 @@ public abstract class Checker<R>
   extends net.sourceforge.czt.typecheck.z.Checker<R>
 {
 
-  protected TypeChecker typeChecker_;
-  
   /**
    * As mu actions could be parameterised, but only when at the beginning of
    * a action paragraph, we keep a count over it to make sure inner parameterised
@@ -137,9 +135,15 @@ public abstract class Checker<R>
     return null;
   }
 
-  protected void resetActionCheckerVisitCount()
+  protected final void resetActionCheckerVisitCount()
   {
     actionCheckerVisitCount_ = 0;
+  }
+
+  // cast the underlying Z typeChecker_ protected object into a Circus typechecked object
+  protected TypeChecker getCircusTypeChecker()
+  {
+    return (TypeChecker)typeChecker_;
   }
   
   /**
@@ -149,7 +153,7 @@ public abstract class Checker<R>
    */
   protected net.sourceforge.czt.typecheck.circus.impl.Factory factory()
   {
-    return typeChecker_.getFactory();
+    return getCircusTypeChecker().getFactory();
   }
 
   /**
@@ -160,7 +164,7 @@ public abstract class Checker<R>
    */
   protected boolean shouldCreateLetVar()
   {
-    return typeChecker_.shouldCreateLetVars_;
+    return getCircusTypeChecker().shouldCreateLetVars_;
   }
 
   /**
@@ -169,7 +173,7 @@ public abstract class Checker<R>
    */
   protected boolean shouldCreateLetMu()
   {
-    return typeChecker_.shouldCreateLetMu_;
+    return getCircusTypeChecker().shouldCreateLetMu_;
   }
 
   /***********************************************************************
@@ -177,50 +181,52 @@ public abstract class Checker<R>
    **********************************************************************/
   protected ProcessChecker processChecker()
   {
-    return typeChecker_.processChecker_;
+    return getCircusTypeChecker().processChecker_;
   }
 
   protected Checker<Signature> processParaChecker()
   {
-    return typeChecker_.processParaChecker_;
+    return getCircusTypeChecker().processParaChecker_;
   }
 
   protected BasicProcessChecker basicProcessChecker()
   {
-    return typeChecker_.basicProcessChecker_;
+    return getCircusTypeChecker().basicProcessChecker_;
   }
   
   protected ActionChecker actionChecker()
   {
-    return typeChecker_.actionChecker_;
+    return getCircusTypeChecker().actionChecker_;
   }
 
   protected Checker<List<NameTypePair>> commChecker()
   {
-    return typeChecker_.commChecker_;
+    return getCircusTypeChecker().commChecker_;
   }
 
   protected Checker<CircusCommunicationList> commandChecker()
   {
-    return typeChecker_.commandChecker_;
+    return getCircusTypeChecker().commandChecker_;
   }
 
   protected CircusConcreteSyntaxSymbolVisitor concreteSyntaxSymbolVisitor()
   {
-    return typeChecker_.concreteSyntaxSymbolVisitor_;
+    return getCircusTypeChecker().concreteSyntaxSymbolVisitor_;
   }
 
   protected WarningManager warningManager()
   {
-    return typeChecker_.warningManager_;
+    return getCircusTypeChecker().warningManager_;
   }
   
+  @Override
   protected void setMarkup(Markup markup)
   {
     super.setMarkup(markup);
     warningManager().setMarkup(markup);
   }
   
+  @Override
   protected void setSectName(String sectName)
   {
     super.setSectName(sectName);
@@ -230,7 +236,7 @@ public abstract class Checker<R>
   // TODO
   protected Checker<Signature> signatureChecker()
   {
-    return typeChecker_.signatureChecker_;
+    return getCircusTypeChecker().signatureChecker_;
   }  
 //  protected Checker<Boolean> channelDeclChecker()
 //  {
@@ -334,7 +340,7 @@ public abstract class Checker<R>
    **********************************************************************/
   protected Name getCurrentProcessName()
   {
-    return typeChecker_.currentProcessName_;
+    return getCircusTypeChecker().currentProcessName_;
   }
 
   protected ZName getCurrentProcessZName()
@@ -344,14 +350,14 @@ public abstract class Checker<R>
 
   protected Name setCurrentProcessName(Name name)
   {
-    Name old = typeChecker_.currentProcessName_;
-    typeChecker_.currentProcessName_ = name;
+    Name old = getCircusTypeChecker().currentProcessName_;
+    getCircusTypeChecker().currentProcessName_ = name;
     return old;
   }
 
   protected CircusProcess getCurrentProcess()
   {
-    return typeChecker_.currentProcess_;
+    return getCircusTypeChecker().currentProcess_;
   }
   
   protected BasicProcess getCurrentBasicProcess()
@@ -362,14 +368,14 @@ public abstract class Checker<R>
 
   protected CircusProcess setCurrentProcess(CircusProcess process)
   {
-    CircusProcess old = typeChecker_.currentProcess_;
-    typeChecker_.currentProcess_ = process;
+    CircusProcess old = getCircusTypeChecker().currentProcess_;
+    getCircusTypeChecker().currentProcess_ = process;
     return old;
   }
   
   protected Name getCurrentChannelSetName()
   {
-    return typeChecker_.currentChannelSetName_;
+    return getCircusTypeChecker().currentChannelSetName_;
   }
 
   protected ZName getCurrentChannelSetZName()
@@ -379,20 +385,20 @@ public abstract class Checker<R>
 
   protected Name setCurrentChannelSetName(Name name)
   {
-    Name old = typeChecker_.currentChannelSetName_;
-    typeChecker_.currentChannelSetName_ = name;
+    Name old = getCircusTypeChecker().currentChannelSetName_;
+    getCircusTypeChecker().currentChannelSetName_ = name;
     return old;
   }
   
   protected ChannelSet getCurrentChannelSet()
   {
-    return typeChecker_.currentChannelSet_;
+    return getCircusTypeChecker().currentChannelSet_;
   }
 
   protected ChannelSet setCurrentChannelSet(ChannelSet channelSet)
   {
-    ChannelSet old = typeChecker_.currentChannelSet_;
-    typeChecker_.currentChannelSet_ = channelSet;
+    ChannelSet old = getCircusTypeChecker().currentChannelSet_;
+    getCircusTypeChecker().currentChannelSet_ = channelSet;
     return old;
   }
   
@@ -403,28 +409,28 @@ public abstract class Checker<R>
    */
   protected void setCircusFormalParametersDecl(boolean params, boolean qualified)
   {
-    typeChecker_.circusFormalParameters_ = params;
-    typeChecker_.circusQualifiedParams_  = qualified;
+    getCircusTypeChecker().circusFormalParameters_ = params;
+    getCircusTypeChecker().circusQualifiedParams_  = qualified;
   }
 
   protected boolean isCheckingCircusFormalParamDecl()
   {
-    return typeChecker_.circusFormalParameters_;
+    return getCircusTypeChecker().circusFormalParameters_;
   }
   
   protected boolean isQualifiedParamAllowed()
   {
-    return typeChecker_.circusQualifiedParams_; 
+    return getCircusTypeChecker().circusQualifiedParams_;
   }
   
   protected void setCheckingStatePara(boolean flag)
   {
-    typeChecker_.isCheckingStatePara_ = (flag && getCurrentBasicProcess() != null);
+    getCircusTypeChecker().isCheckingStatePara_ = (flag && getCurrentBasicProcess() != null);
   }
   
   protected boolean isCheckingStatePara()
   {
-    return typeChecker_.isCheckingStatePara_;
+    return getCircusTypeChecker().isCheckingStatePara_;
   }
   /**
    * Return whether the typechecker is within the scope of a process paragraph.
@@ -433,14 +439,14 @@ public abstract class Checker<R>
    */
   protected boolean isWithinProcessParaScope()
   {
-    return typeChecker_.currentProcessName_ != null &&
-      typeChecker_.currentProcess_ != null;
+    return getCircusTypeChecker().currentProcessName_ != null &&
+      getCircusTypeChecker().currentProcess_ != null;
   }
   
   protected boolean isWithinChannelSetParaScope()
   {
-    return (typeChecker_.currentChannelSetName_ != null &&
-      typeChecker_.currentChannelSet_ != null);
+    return (getCircusTypeChecker().currentChannelSetName_ != null &&
+      getCircusTypeChecker().currentChannelSet_ != null);
   }
 
   protected boolean checkProcessParaScope(Term term, Name name)
@@ -491,12 +497,12 @@ public abstract class Checker<R>
    **********************************************************************/
   protected void setOnTheFlyProcesses(ZParaList procs)
   {
-    typeChecker_.onTheFlyProcesses_ = procs;
+    getCircusTypeChecker().onTheFlyProcesses_ = procs;
   }
 
   protected ZParaList onTheFlyProcesses()
   {
-    return typeChecker_.onTheFlyProcesses_;
+    return getCircusTypeChecker().onTheFlyProcesses_;
   }
 
   /***********************************************************************
@@ -504,7 +510,7 @@ public abstract class Checker<R>
    **********************************************************************/
   protected Name getCurrentActionName()
   {
-    return typeChecker_.currentActionName_;
+    return getCircusTypeChecker().currentActionName_;
   }
 
   protected ZName getCurrentActionZName()
@@ -514,26 +520,26 @@ public abstract class Checker<R>
 
   protected Name setCurrentActionName(Name name)
   {
-    Name old = typeChecker_.currentActionName_;
-    typeChecker_.currentActionName_ = name;
+    Name old = getCircusTypeChecker().currentActionName_;
+    getCircusTypeChecker().currentActionName_ = name;
     return old;
   }
 
   protected CircusAction getCurrentAction()
   {
-    return typeChecker_.currentAction_;
+    return getCircusTypeChecker().currentAction_;
   }
 
   protected CircusAction setCurrentAction(CircusAction action)
   {
-    CircusAction old = typeChecker_.currentAction_;
-    typeChecker_.currentAction_ = action;
+    CircusAction old = getCircusTypeChecker().currentAction_;
+    getCircusTypeChecker().currentAction_ = action;
     return old;
   }
   
   protected Name getCurrentNameSetName()
   {
-    return typeChecker_.currentNameSetName_;
+    return getCircusTypeChecker().currentNameSetName_;
   }
 
   protected ZName getCurrentNameSetZName()
@@ -543,20 +549,20 @@ public abstract class Checker<R>
 
   protected Name setCurrentNameSetName(Name name)
   {
-    Name old = typeChecker_.currentNameSetName_;
-    typeChecker_.currentNameSetName_ = name;
+    Name old = getCircusTypeChecker().currentNameSetName_;
+    getCircusTypeChecker().currentNameSetName_ = name;
     return old;
   }
   
   protected NameSet getCurrentNameSet()
   {
-    return typeChecker_.currentNameSet_;
+    return getCircusTypeChecker().currentNameSet_;
   }
 
   protected NameSet setCurrentNameSet(NameSet nameSet)
   {
-    NameSet old = typeChecker_.currentNameSet_;
-    typeChecker_.currentNameSet_ = nameSet;
+    NameSet old = getCircusTypeChecker().currentNameSet_;
+    getCircusTypeChecker().currentNameSet_ = nameSet;
     return old;
   }
   
@@ -580,15 +586,15 @@ public abstract class Checker<R>
   protected boolean isWithinActionParaScope()
   {
     return (isWithinProcessParaScope() &&
-      typeChecker_.currentActionName_ != null &&
-      typeChecker_.currentAction_ != null);
+      getCircusTypeChecker().currentActionName_ != null &&
+      getCircusTypeChecker().currentAction_ != null);
   }  
   
   protected boolean isWithinNameSetParaScope()
   {
     return (isWithinProcessParaScope() &&
-      typeChecker_.currentNameSetName_ != null &&
-      typeChecker_.currentNameSet_ != null);
+      getCircusTypeChecker().currentNameSetName_ != null &&
+      getCircusTypeChecker().currentNameSet_ != null);
   }  
 
   protected boolean checkActionParaScope(Term term, Name name)
@@ -669,7 +675,7 @@ public abstract class Checker<R>
    **********************************************************************/
   protected Name getStateName()
   {
-    return typeChecker_.stateName_;
+    return getCircusTypeChecker().stateName_;
   }
 
   protected ZName getZStateName()
@@ -679,7 +685,7 @@ public abstract class Checker<R>
 
   protected void setStateName(Name name)
   {
-    typeChecker_.stateName_ = name;
+    getCircusTypeChecker().stateName_ = name;
   }
 
   protected Type getLocalType(Name name)
@@ -2078,7 +2084,7 @@ public abstract class Checker<R>
   
   protected List<Pair<Name, List<ErrorAnn>>> pendingCallErrors()
   {
-    return typeChecker_.pendingCallErrors_;
+    return getCircusTypeChecker().pendingCallErrors_;
   }
   
   protected void postCheck()
@@ -2860,7 +2866,7 @@ public abstract class Checker<R>
     // if there are errors, make sure warnings are not considered
     if (errors().size() > 0) {      
       // if strict on warnings, then consider then as errors and return false
-      result = !typeChecker_.getWarningManager().getWarningOutput().equals(WarningManager.WarningOutput.RAISE);
+      result = !getCircusTypeChecker().getWarningManager().getWarningOutput().equals(WarningManager.WarningOutput.RAISE);
 
       // otherwise, give the result without considering warnings
       if (result)
