@@ -544,6 +544,13 @@ import net.sourceforge.czt.z.util.ZString;
      * The brace that starts a name, for example a schema name.
      */
     NAME,
+    <add:zeves>
+
+    /**
+     * The brace that starts a proof name in \\begin{zproof}[NAME
+     */
+    PROOF_NAME,
+    </add:zeves>
 
     /**
      * All remaining braces.
@@ -891,14 +898,13 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
           return result(ZEvesString.ZPROOFSECTION);
         }
    // Here there is the problem that the environment is "\begin{zproof}[Name]" with "[...]"
-  "\\begin" {IGNORE}* "{zproof}" {IGNORE}* "{"
+  "\\begin" {IGNORE}* "{zproof}" {IGNORE}* "["
         {
           yybegin(ZED);//ZPROOF);
           assert ! addSpace_;
           begin("zproof");
           inProofScript_ = true;
-          braceStack_.push(BraceType.NAME);
-          // braceStack_.push(BraceType.PROOF_NAME); later on ?
+          braceStack_.push(BraceType.PROOF_NAME);
           return result(ZEvesString.ZPROOF);
         }
   /* Nameless proofs are acceptable: they are the proof for the last declared Paragraph.
@@ -912,7 +918,7 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
           return result(ZEvesString.ZPROOF);
         }
   */
-  "\\begin" {IGNORE}* "{zproof}" {IGNORE}*
+  "\\begin" {IGNORE}* "{zproof}" {IGNORE}* 
         {
           yybegin(ERROR);
         }
@@ -1464,8 +1470,35 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
           }
           return result(result);
         }
+  <add:zeves>
+        // either a proof word after white-space, or an empty proof environment
+   "]" / ({IGNORE}* ({PROOFWORD} | "\\end{zproof}"))
+        {
+          String result = "";
+          assert inProofScript_;
+          assert ! addSpace_;
+          if (braceStack_.empty()) {
+            final ErrorType errorType = ErrorType.ERROR;
+            reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "]");
+            return result(result);
+          }
+          BraceType brace = (BraceType) braceStack_.pop();
+          assert ! addSpace_;
+          if (brace.equals(BraceType.PROOF_NAME))
+          {
+            result += ZString.SPACE;
+          }
+          else
+          {
+            final ErrorType errorType = ErrorType.ERROR;
+            reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "]");
+          }
+          return result(result);
+        }
+  </add:zeves>
   {FUNCTION} | {RELATION}({RELATION}|{WS})*
         {
+          // To aid low-level debugging: {FUNCTION} | {RELATION}({RELATION}|{WS})*
           String result = addSpace();
           if (braceStack_.empty()) {
             result += ZString.SPACE;

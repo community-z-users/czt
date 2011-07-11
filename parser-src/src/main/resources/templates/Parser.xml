@@ -3381,6 +3381,7 @@ quantifiersCommand ::=
         |
         INSTANTIATE:i instantiations:inst
         {:
+          assert !inst.isEmpty();
           RESULT = factory_.getZEvesFactory().createInstantiateCommand(inst);
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL); // or is it local? to a quantifier?
         :}
