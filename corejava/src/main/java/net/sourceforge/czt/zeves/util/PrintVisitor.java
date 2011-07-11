@@ -114,7 +114,7 @@ public class PrintVisitor
 
   public String visitNarrPara(NarrPara term)
   {
-    StringBuilder result = new StringBuilder();
+    StringBuilder result = new StringBuilder("NarrPara {");
     for(Object o : term.getContent())
     {
       if (o instanceof Term)
@@ -126,6 +126,7 @@ public class PrintVisitor
         result.append(String.valueOf(o));
       }
     }
+    result.append("}\n");
     return result.toString();
   }
 
