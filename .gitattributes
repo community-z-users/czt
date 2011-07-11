@@ -364,6 +364,8 @@ gnast/src/vm/ActionPara.java -text
 gnast/src/vm/ActionParaImpl.java -text
 gnast/src/vm/ActionSignature.java -text
 gnast/src/vm/ActionSignatureImpl.java -text
+gnast/src/vm/ApplyCommand.java -text
+gnast/src/vm/ApplyCommandImpl.java -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
 gnast/src/vm/BasicProcess.java -text
