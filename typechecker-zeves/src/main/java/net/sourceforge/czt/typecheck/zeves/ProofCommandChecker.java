@@ -16,35 +16,36 @@
  * along with CZT; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.czt.typecheck.zeves;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.zeves.ast.ApplyCommand;
 import net.sourceforge.czt.zeves.ast.CaseAnalysisCommand;
+import net.sourceforge.czt.zeves.ast.CaseAnalysisKind;
 import net.sourceforge.czt.zeves.ast.Instantiation;
 import net.sourceforge.czt.zeves.ast.InstantiationKind;
-import net.sourceforge.czt.zeves.ast.InstantiationList;
 import net.sourceforge.czt.zeves.ast.NormalizationCommand;
 import net.sourceforge.czt.zeves.ast.NormalizationKind;
+import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
 import net.sourceforge.czt.zeves.ast.ProofStepKind;
 import net.sourceforge.czt.zeves.ast.ProofStepScope;
-import net.sourceforge.czt.zeves.ast.ProofType;
 import net.sourceforge.czt.zeves.ast.QuantifiersCommand;
 import net.sourceforge.czt.zeves.ast.SimplificationCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
+import net.sourceforge.czt.zeves.jaxb.gen.ProofType;
 import net.sourceforge.czt.zeves.visitor.ApplyCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.CaseAnalysisCommandVisitor;
-import net.sourceforge.czt.zeves.visitor.InstantiationListVisitor;
-import net.sourceforge.czt.zeves.visitor.InstantiationVisitor;
 import net.sourceforge.czt.zeves.visitor.NormalizationCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.QuantifiersCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.SimplificationCommandVisitor;
@@ -58,22 +59,64 @@ import net.sourceforge.czt.zeves.visitor.WithCommandVisitor;
  * @date Jul 8, 2011
  */
 public class ProofCommandChecker extends Checker<ProofCommandInfo>
-  implements 
-    NormalizationCommandVisitor<ProofCommandInfo>,
-    UseCommandVisitor<ProofCommandInfo>,
-    WithCommandVisitor<ProofCommandInfo>,
-    SubstitutionCommandVisitor<ProofCommandInfo>,
-    SimplificationCommandVisitor<ProofCommandInfo>,
-    CaseAnalysisCommandVisitor<ProofCommandInfo>,
-    QuantifiersCommandVisitor<ProofCommandInfo>,
-    ApplyCommandVisitor<ProofCommandInfo>,
-    InstantiationVisitor<ProofCommandInfo>,
-    InstantiationListVisitor<ProofCommandInfo>
+        implements
+        NormalizationCommandVisitor<ProofCommandInfo>,
+        UseCommandVisitor<ProofCommandInfo>,
+        WithCommandVisitor<ProofCommandInfo>,
+        SubstitutionCommandVisitor<ProofCommandInfo>,
+        SimplificationCommandVisitor<ProofCommandInfo>,
+        CaseAnalysisCommandVisitor<ProofCommandInfo>,
+        QuantifiersCommandVisitor<ProofCommandInfo>,
+        ApplyCommandVisitor<ProofCommandInfo>//,
+//    InstantiationVisitor<ProofCommandInfo>,
+//    InstantiationListVisitor<ProofCommandInfo>
 {
 
   public ProofCommandChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
+  }
+
+  // TODO: these typeCheckXXX functions could return ProofStepKind when expr / pred were complicated
+  protected void typeCheckInstantiation(ProofCommand term, Instantiation i, int cnt, int all, ErrorMessage msg)
+  {
+    Type2 varType = GlobalDefs.unwrapType(getType(i.getName()));
+    Type2 exprType = GlobalDefs.unwrapType(typeCheckExpr(term, i.getExpr(), null));
+    UResult res = unify(varType, exprType);
+    if (!res.equals(UResult.SUCC))
+    {
+      error(term, msg, getCurrentProofName(), cnt, all, i.getName(), varType, exprType);
+    }
+  }
+
+  protected Type typeCheckExpr(ProofCommand term, Expr expr, WarningMessage msg)
+  {
+    Type found = expr.accept(exprChecker());
+    if (msg != null) // && some form of type unification here?
+    {
+      warningManager().warn(term, msg, expr, getCurrentProofName(), expr, found);
+    }
+    return found;
+  }
+
+  protected void checkProofType(ProofCommand term, Term part, ErrorMessage msg, Type found)
+  {
+    if (!(found instanceof ProofType)) //UnknownType) // or check to be !ProofType
+    {
+      error(term, msg, getCurrentProofName(), part, found);
+    }
+  }
+
+  protected void typeCheckThmRef(ProofCommand term, Expr expr, ErrorMessage msg)
+  {
+    Type2 found = GlobalDefs.unwrapType(typeCheckExpr(term, expr, null));
+    checkProofType(term, term, msg, found);
+  }
+
+  protected void typeCheckThmRef(ProofCommand term, Name name, ErrorMessage msg)
+  {
+    Type2 found = GlobalDefs.unwrapType(getType(name));
+    checkProofType(term, name, msg, found);
   }
 
   @Override
@@ -90,7 +133,8 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
       {
         ProofCommandInfo innerPci = term.getProofCommand().accept(proofCommandChecker());
         result.setProofStepScope(innerPci.getProofStepScope());
-        result.setProofStepKind(ProofStepKind.Medium);
+        result.setProofStepKind(innerPci.getProofStepKind().ordinal() > ProofStepKind.Simple.ordinal() ?
+          innerPci.getProofStepKind() : ProofStepKind.Simple);
       }
     }
     else
@@ -105,22 +149,21 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
   public ProofCommandInfo visitUseCommand(UseCommand term)
   {
     ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
-    Type2 found = GlobalDefs.unwrapType(term.getTheoremRef().accept(exprChecker()));
-    if (found instanceof UnknownType) // or check to be !ProofType
-    {
-      error(term, ErrorMessage.USE_CMD_THMREF, getCurrentProofName(), term.getTheoremRef(), found);
-    }
 
-    int cnt = 1; int all = term.getInstantiationList().size();
+    typeCheckThmRef(term, term.getTheoremRef(), ErrorMessage.USE_CMD_THMREF);
+
+    int cnt = 1;
+    int all = term.getInstantiationList().size();
 
     if (all == 0)
     {
       warningManager().warn(term, WarningMessage.USE_CMD_EMPTY_INST,
               getCurrentProofName(), term.getTheoremRef());
+      result.setProofStepKind(ProofStepKind.Medium);
     }
     else
     {
-      for(Instantiation i : term.getInstantiationList())
+      for (Instantiation i : term.getInstantiationList())
       {
         if (i.getKind().equals(InstantiationKind.Quantifier))
         {
@@ -128,24 +171,55 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
         }
         else
         {
-          Type2 varType = GlobalDefs.unwrapType(getType(i.getName()));
-          Type2 exprType= GlobalDefs.unwrapType(i.getExpr().accept(exprChecker()));
-          UResult res   = unify(varType, exprType);
-          if (!res.equals(UResult.SUCC))
-          {
-            error(term, ErrorMessage.USE_CMD_REPL, getCurrentProofName(), cnt, all, i.getName(), varType, exprType);
-          }
+          typeCheckInstantiation(term, i, cnt, all, ErrorMessage.USE_CMD_REPL);
         }
         cnt++;
       }
+      result.setProofStepKind(ProofStepKind.Complex);
     }
+    result.setProofStepScope(ProofStepScope.Global);
     return result;
   }
 
   @Override
   public ProofCommandInfo visitWithCommand(WithCommand term)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
+    if (term.getProofCommand() == null //||
+       //(term.getNameList() != null term.getNameList() instanceof ZNameList && term.getZNameList().isEmpty())
+       )
+    {
+      error(term, ErrorMessage.WITH_CMD_INVALID, getCurrentProofName());
+    }
+    else
+    {
+      ProofStepKind base = ProofStepKind.Simple;
+      if (term.getEnabled() != null)
+      {
+        assert !term.getZNameList().isEmpty(); // TODO: check above for structural weird aspects
+        for (Name n : term.getZNameList())
+        {
+          typeCheckThmRef(term, n, ErrorMessage.WITH_CMD_THMNAME);
+        }
+      }
+      else if (term.getExpr() != null)
+      {
+        assert term.getPred() == null;
+        typeCheckExpr(term, term.getExpr(), null);
+        base = ProofStepKind.Medium;
+      }
+      else if (term.getPred() != null)
+      {
+        assert term.getExpr() == null;
+        typeCheckPred(term, term.getPred());
+        base = ProofStepKind.Medium;
+      }
+      ProofCommandInfo innerPci = term.getProofCommand().accept(proofCommandChecker());
+      result.setProofStepScope(innerPci.getProofStepScope());
+      result.setProofStepKind(innerPci.getProofStepKind().ordinal() > base.ordinal() ?
+          innerPci.getProofStepKind() : base);
+    }
+    return result;
   }
 
   @Override
@@ -157,26 +231,39 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
       case Equality:
         if (term.getPred() != null || term.getProofCommand() != null || (term.getNameList() instanceof ZNameList && !term.getZNameList().isEmpty()))
         {
+          // TODO: make it an error?
           warningManager().warn(term, WarningMessage.SUBST_CMD_INVALID_EQS, getCurrentProofName(), term);
         }
         if (term.getExpr() != null)
         {
-          Type found = term.getExpr().accept(exprChecker());
-          warningManager().warn(term, WarningMessage.SUBST_CMD_EXPR_EQS, getCurrentProofName(), term.getExpr(), found);
+          typeCheckExpr(term, term.getExpr(), WarningMessage.SUBST_CMD_EXPR_EQS);
+
+          result.setProofStepKind(ProofStepKind.Simple);
+          result.setProofStepScope(ProofStepScope.Local);
         }
-        // otherwise do nothing
+        else
+        {
+          result.setProofStepKind(ProofStepKind.Trivial);
+          result.setProofStepScope(ProofStepScope.Global);
+        }
         break;
       case Invoke:
         if (term.getExpr() != null || term.getProofCommand() != null)
         {
+          // TODO: make it an error?
           warningManager().warn(term, WarningMessage.SUBST_CMD_INVALID_INVOKE, getCurrentProofName(), term);
         }
         if (term.getPred() != null)
         {
+          assert term.getZNameList().isEmpty();
           typeCheckPred(term, term.getPred());
+
+          result.setProofStepKind(ProofStepKind.Simple);
+          result.setProofStepScope(ProofStepScope.Local);
         }
         else if (!term.getZNameList().isEmpty())
         {
+          assert term.getPred() == null;
           Type found = getType(term.getZNameList().get(0));
           if (found instanceof UnknownType)
           {
@@ -186,8 +273,15 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
           {
             error(term, ErrorMessage.SUBST_CMD_BADNAME_INVOKE, getCurrentProofName(), term.getZNameList().size());
           }
+
+          result.setProofStepKind(ProofStepKind.Simple);
+          result.setProofStepScope(ProofStepScope.Local);
         }
-        // otherwise do nothing
+        else
+        {
+          result.setProofStepKind(ProofStepKind.Trivial);
+          result.setProofStepScope(ProofStepScope.Global);
+        }
         break;
     }
     return result;
@@ -196,36 +290,130 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
   @Override
   public ProofCommandInfo visitSimplificationCommand(SimplificationCommand term)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
+    switch (term.getPower())
+    {
+      case None:
+        result.setProofStepKind(ProofStepKind.Simple);
+        break;
+      case Prove:
+        result.setProofStepKind(ProofStepKind.Trivial);
+        break;
+      case Trivial:
+        result.setProofStepKind(ProofStepKind.Medium);
+        break;
+    }
+    result.setProofStepScope(ProofStepScope.Global);
+    return result;
   }
 
   @Override
   public ProofCommandInfo visitCaseAnalysisCommand(CaseAnalysisCommand term)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
+    if (term.getKind().equals(CaseAnalysisKind.Split))
+    {
+      if (term.getPred() == null)
+      {
+        // TODO: make it an error?
+        warningManager().warn(term, WarningMessage.SPLIT_CMD_INVALID_PRED, getCurrentProofName());
+      }
+      else
+      {
+        typeCheckPred(term, term.getPred());
+      }
+      result.setProofStepKind(ProofStepKind.Medium);
+    }
+    else
+    {
+      result.setProofStepKind(ProofStepKind.Trivial);
+    }
+    result.setProofStepScope(ProofStepScope.Global);
+    return result;
   }
 
   @Override
   public ProofCommandInfo visitQuantifiersCommand(QuantifiersCommand term)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
+    if (term.getInstantiationList().isEmpty())
+    {
+      result.setProofStepKind(ProofStepKind.Trivial);
+    }
+    else
+    {
+      int cnt = 1;
+      int all = term.getInstantiationList().size();
+      //ÏProofStepKind psk = ProofStepKind.Trivial;
+      for (Instantiation i : term.getInstantiationList())
+      {
+        if (i.getKind().equals(InstantiationKind.ThmReplacement))
+        {
+          error(term, ErrorMessage.QNT_CMD_INVALID_INST, getCurrentProofName(), cnt, all, i.getName());
+        }
+        else
+        {
+          typeCheckInstantiation(term, i, cnt, all, ErrorMessage.QNT_CMD_INST);
+        }
+        cnt++;
+      }
+      // TODO: maybe add some discretion here given the complexity of the instantiated variable?
+      result.setProofStepKind(ProofStepKind.Complex);
+    }
+    result.setProofStepScope(ProofStepScope.Global);
+    return result;
   }
 
   @Override
   public ProofCommandInfo visitApplyCommand(ApplyCommand term)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
+    if (term.getProofCommand() != null || (term.getNameList() instanceof ZNameList && term.getZNameList().isEmpty()))
+    {
+      warningManager().warn(term, WarningMessage.APPLY_CMD_INVALID, getCurrentProofName(), term);
+    }
 
-  @Override
-  public ProofCommandInfo visitInstantiation(Instantiation term)
-  {
-    throw new UnsupportedOperationException("Not supported yet.");
+    typeCheckThmRef(term, term.getThmName(), ErrorMessage.APPLY_CMD_THMNAME);
+    
+    if (term.getPred() != null)
+    {
+      assert term.getExpr() == null;
+      typeCheckPred(term, term.getPred());
+      result.setProofStepKind(ProofStepKind.Medium);
+      result.setProofStepScope(ProofStepScope.Local);
+    }
+    else if (term.getExpr() != null)
+    {
+      assert term.getPred() == null;
+      typeCheckExpr(term, term.getExpr(), WarningMessage.APPLY_CMD_EXPR);
+      result.setProofStepKind(ProofStepKind.Medium);
+      result.setProofStepScope(ProofStepScope.Local);
+    }
+    else
+    {
+      assert term.getExpr() == null && term.getPred() == null;
+      result.setProofStepKind(ProofStepKind.Simple);
+      result.setProofStepScope(ProofStepScope.Global);
+    }
+    return result;
   }
-
-  @Override
-  public ProofCommandInfo visitInstantiationList(InstantiationList term)
-  {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+  // TODO: maybe add another checker... but this would be overkill perhaps
+//  @Override
+//  public ProofCommandInfo visitInstantiation(Instantiation term)
+//  {
+//    term.
+//  }
+//
+//  @Override
+//  public ProofCommandInfo visitInstantiationList(InstantiationList term)
+//  {
+//    ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
+//
+//    for (Instantiation i : term)
+//    {
+//      ProofCommandInfo instPCI = i.accept(proofCommandChecker());
+//    }
+//    result.setProofStepScope(ProofStepScope.Global);
+//    return result;
+//  }
 }

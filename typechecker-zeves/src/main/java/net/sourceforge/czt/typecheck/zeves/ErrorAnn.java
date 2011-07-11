@@ -25,14 +25,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.print.zeves.PrintUtils;
 
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.LocAnn;
 
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 
-import net.sourceforge.czt.print.zeves.PrintUtils;
 
 import net.sourceforge.czt.typecheck.zeves.util.CarrierSet;
 
@@ -73,7 +72,7 @@ public class ErrorAnn
       SectionManager sectInfo,
       String sectName,
       Markup markup) {
-    //PrintUtils.print(term, writer, sectInfo, sectName, markup_);
+    PrintUtils.print(term, writer, sectInfo, sectName, markup_);
   }
   
   /**

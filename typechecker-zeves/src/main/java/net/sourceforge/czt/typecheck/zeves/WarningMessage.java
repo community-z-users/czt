@@ -28,6 +28,16 @@ public enum WarningMessage {
   SUBST_CMD_INVALID_EQS("Invalid substitution command: non-null pred or proof command in equality substitute\n\tIn proof...: {0}\n\tCommand....: {1}", "Wrongly parsed equality substitute command in {1} of proof {0}."),
   SUBST_CMD_INVALID_INVOKE("Invalid substitution command: non-null expr or proof command in invoke\n\tIn proof...: {0}\n\tCommand....: {1}", "Wrongly parsed invoke command in {1} of proof {0}."),
 
+  SPLIT_CMD_INVALID_PRED("Invalid split command: null pred.\n\tIn proof...: {0}\n\tCommand....: {1}", "Wrongly parsed split command in {1} of proof {0}."),
+
+  APPLY_CMD_INVALID("Invalid apply command: non-null proof command or empty thm name in apply command\n\tIn proof...: {0}\n\tCommand....: {1}", "Wrongly parsed apply command command in {1} of proof {0}."),
+  APPLY_CMD_EXPR("Not checking apply command expression."
+                    + "\n\tIn proof...: {0}"
+                    + "\n\tat expr....: {1}"
+                    + "\n\twith type..: {2}",
+                    "We are not checking if explicit expression {1} in apply command is present in hypothesis list."),
+
+
   COULD_NOT_RESOLVE_PRED("Could not solve predicate in ''{0}''." +
       "\n\tTerm......: {1}" +
       "\n\tPred......: {2}",

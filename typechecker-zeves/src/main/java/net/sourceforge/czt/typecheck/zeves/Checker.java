@@ -48,8 +48,6 @@ public abstract class Checker<R>
   extends net.sourceforge.czt.typecheck.z.Checker<R>
 {
 
-  protected TypeChecker typeChecker_;
-
   protected Checker<ProofCommandInfo> proofCommandChecker_;
   
   public Checker(TypeChecker typeChecker)
@@ -77,28 +75,35 @@ public abstract class Checker<R>
       getConcreteSyntaxSymbol(term));    
     return null;
   }
-  
+
+  protected TypeChecker getTypeChecker()
+  {
+    return (TypeChecker)typeChecker_;
+  }
+
   protected net.sourceforge.czt.typecheck.zeves.impl.Factory factory()
   {
-    return typeChecker_.getFactory();
+    return getTypeChecker().getFactory();
   }
 
   protected ZEvesConcreteSyntaxSymbolVisitor concreteSyntaxSymbolVisitor()
   {
-    return typeChecker_.concreteSyntaxSymbolVisitor_;
+    return getTypeChecker().concreteSyntaxSymbolVisitor_;
   }
 
   protected WarningManager warningManager()
   {
-    return typeChecker_.warningManager_;
+    return getTypeChecker().warningManager_;
   }
   
+  @Override
   protected void setMarkup(Markup markup)
   {
     super.setMarkup(markup);
     warningManager().setMarkup(markup);
   }
   
+  @Override
   protected void setSectName(String sectName)
   {
     super.setSectName(sectName);
@@ -110,13 +115,13 @@ public abstract class Checker<R>
    **********************************************************************/
   protected Name getCurrentProofName()
   {
-    return typeChecker_.currentProofScript_;
+    return getTypeChecker().currentProofScript_;
   }
 
   protected Name setCurrentProofName(Name name)
   {
-    Name old = typeChecker_.currentProofScript_;
-    typeChecker_.currentProofScript_ = name;
+    Name old = getTypeChecker().currentProofScript_;
+    getTypeChecker().currentProofScript_ = name;
     return old;
   }
   
@@ -167,7 +172,6 @@ public abstract class Checker<R>
     return errorAnn;
   }
 
-  @Override
   protected ErrorAnn errorAnn(Term term, String error, Object... params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
@@ -232,7 +236,7 @@ public abstract class Checker<R>
     // if there are errors, make sure warnings are not considered
     if (errors().size() > 0) {      
       // if strict on warnings, then consider then as errors and return false
-      result = !typeChecker_.getWarningManager().getWarningOutput().equals(WarningManager.WarningOutput.RAISE);
+      result = !getTypeChecker().getWarningManager().getWarningOutput().equals(WarningManager.WarningOutput.RAISE);
 
       // otherwise, give the result without considering warnings
       if (result)
