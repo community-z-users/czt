@@ -393,9 +393,15 @@ public class PrintVisitor
   @Override
   public String visitProofCommandInfo(ProofCommandInfo term)
   {
-    return term.getProofStepScope().toString() + " " +
-           term.getProofStepKind().toString() + " " +
-           term.getProofStepRank().toString();
+    StringBuilder result = new StringBuilder();
+    result.append("PCI(S=");
+    result.append(String.valueOf(term.getProofStepScope()));
+    result.append(" K=");
+    result.append(String.valueOf(term.getProofStepKind()));
+    result.append(" R=");
+    result.append(String.valueOf(term.getProofStepRank()));
+    result.append(")");
+    return result.toString();
   }
 
   @Override
