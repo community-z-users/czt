@@ -56,7 +56,7 @@ public class ParaChecker
   {
     setCurrentProofName(term.getName());
 
-    ProofType pt = factory().getZEvesFactory().createProofType();
+    ProofType pt = factory().getZEvesFactory().createProofType(factory().getZEvesFactory().createProofCommandInfoList());
     for (ProofCommand pc : term.getProofCommandList())
     {
       ProofCommandInfo pct = pc.accept(proofCommandChecker());

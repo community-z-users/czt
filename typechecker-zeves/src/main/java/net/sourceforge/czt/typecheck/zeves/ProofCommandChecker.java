@@ -153,12 +153,12 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
     typeCheckThmRef(term, term.getTheoremRef(), ErrorMessage.USE_CMD_THMREF);
 
     int cnt = 1;
-    int all = term.getInstantiationList().size();
+    int all = term.getInstantiationList() == null ? 0 : term.getInstantiationList().size();
 
     if (all == 0)
     {
-      warningManager().warn(term, WarningMessage.USE_CMD_EMPTY_INST,
-              getCurrentProofName(), term.getTheoremRef());
+      //warningManager().warn(term, WarningMessage.USE_CMD_EMPTY_INST,
+      //        getCurrentProofName(), term.getTheoremRef());
       result.setProofStepKind(ProofStepKind.Medium);
     }
     else
@@ -261,7 +261,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
           result.setProofStepKind(ProofStepKind.Simple);
           result.setProofStepScope(ProofStepScope.Local);
         }
-        else if (!term.getZNameList().isEmpty())
+        else if (term.getNameList() != null && !term.getZNameList().isEmpty())
         {
           assert term.getPred() == null;
           Type found = getType(term.getZNameList().get(0));
@@ -336,7 +336,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
   public ProofCommandInfo visitQuantifiersCommand(QuantifiersCommand term)
   {
     ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
-    if (term.getInstantiationList().isEmpty())
+    if (term.getInstantiationList() == null)
     {
       result.setProofStepKind(ProofStepKind.Trivial);
     }
@@ -344,7 +344,6 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
     {
       int cnt = 1;
       int all = term.getInstantiationList().size();
-      //ÏProofStepKind psk = ProofStepKind.Trivial;
       for (Instantiation i : term.getInstantiationList())
       {
         if (i.getKind().equals(InstantiationKind.ThmReplacement))

@@ -41,26 +41,21 @@ import net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbolVisitor;
  * usually includes typing environment lookup and update, factory methods,
  * syntax checks, and so on.
  *
- * @param R 
+ * @param <R> 
  * @author Leo Freitas
  */
 public abstract class Checker<R>
   extends net.sourceforge.czt.typecheck.z.Checker<R>
 {
 
-  protected Checker<ProofCommandInfo> proofCommandChecker_;
-  
   public Checker(TypeChecker typeChecker)
   {
     super(typeChecker);
-    assert typeChecker != null;
-    typeChecker_ = typeChecker;
-    proofCommandChecker_ = new ProofCommandChecker(typeChecker);
   }
 
   protected Checker<ProofCommandInfo> proofCommandChecker()
   {
-    return proofCommandChecker_;
+    return getTypeChecker().proofCommandChecker_;
   }
   
   /**
@@ -68,6 +63,7 @@ public abstract class Checker<R>
    * @param term
    * @return
    */
+  @Override
   public R visitTerm(Term term)
   {    
     warningManager().warn(term, WarningMessage.UNKNOWN_TERM, 
@@ -81,6 +77,7 @@ public abstract class Checker<R>
     return (TypeChecker)typeChecker_;
   }
 
+  @Override
   protected net.sourceforge.czt.typecheck.zeves.impl.Factory factory()
   {
     return getTypeChecker().getFactory();
@@ -112,7 +109,9 @@ public abstract class Checker<R>
   
   /***********************************************************************
    * Methods for the various process related information 
-   **********************************************************************/
+   *********************************************************************
+   * @return
+   */
   protected Name getCurrentProofName()
   {
     return getTypeChecker().currentProofScript_;
@@ -156,27 +155,10 @@ public abstract class Checker<R>
     error(term, errorMsg, params.toArray());
   }
 
-  @Override
-  protected void error(Term term,
-    net.sourceforge.czt.typecheck.z.ErrorMessage error,
-    Object[] params)
-  {
-    ErrorAnn errorAnn = this.errorAnn(term, error.toString(), params);
-    error(term, errorAnn);
-  }
-
   protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object... params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
       sectName(), GlobalDefs.nearestLocAnn(term), markup());
-    return errorAnn;
-  }
-
-  protected ErrorAnn errorAnn(Term term, String error, Object... params)
-  {
-    ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
-      sectName(), GlobalDefs.nearestLocAnn(term),
-      markup());
     return errorAnn;
   }
 
@@ -203,7 +185,6 @@ public abstract class Checker<R>
    * Method called for predicat type checking. It raises a warning if not solved in the second run.
    * @param term
    * @param pred
-   * @param solved
    */
   protected void typeCheckPred(Term term, Pred pred)
   {    
@@ -224,12 +205,14 @@ public abstract class Checker<R>
     }
   }
 
+  @Override
   protected void addWarnings()
   { 
     errors().addAll(warningManager().warnErrors());
     warningManager().clearWarnErrors();
   }  
   
+  @Override
   protected Boolean getResult()
   {
     Boolean result = Boolean.TRUE;

@@ -68,6 +68,8 @@ public class TypeChecker
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     exprChecker_ = new ExprChecker(this);
+
+    proofCommandChecker_ = new ProofCommandChecker(this);
     
     warningManager_ = new WarningManager(TypeChecker.class, sectInfo);
     warningManager_.setMarkup(markup_);

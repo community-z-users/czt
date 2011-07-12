@@ -17,20 +17,20 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.typecheck.circus;
+package net.sourceforge.czt.typecheck.zeves;
 
 public class TypeCheckResources
   extends net.sourceforge.czt.typecheck.z.TypeCheckResources
 {
-  protected static final String CIRCUS_ERROR_MESSAGES =
-    "/net/sourceforge/czt/typecheck/circus/ErrorMessage_en.properties";
+  protected static final String ZEVES_ERROR_MESSAGES =
+    "/net/sourceforge/czt/typecheck/zeves/ErrorMessage_en.properties";
 
-  protected static final String CIRCUS_WARNING_MESSAGES =
-    "/net/sourceforge/czt/typecheck/circus/WarningMessage_en.properties";
+  protected static final String ZEVES_WARNING_MESSAGES =
+    "/net/sourceforge/czt/typecheck/zeves/WarningMessage_en.properties";
 
   static {
-    addFile(CIRCUS_ERROR_MESSAGES);
-    addFile(CIRCUS_WARNING_MESSAGES);
+    addFile(ZEVES_ERROR_MESSAGES);
+    addFile(ZEVES_WARNING_MESSAGES);
   }
 }
 

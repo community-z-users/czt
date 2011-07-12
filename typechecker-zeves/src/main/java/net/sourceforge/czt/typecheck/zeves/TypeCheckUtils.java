@@ -250,7 +250,7 @@ public class TypeCheckUtils
         stackTraceAsString(e) };
       // use any checker to report the error
       net.sourceforge.czt.typecheck.z.ErrorAnn error = 
-        typeChecker.proofCommandChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
+        typeChecker.proofCommandChecker_.errorAnn(term, net.sourceforge.czt.typecheck.zeves.ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
       ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
       e.printStackTrace();
@@ -262,7 +262,7 @@ public class TypeCheckUtils
         f.getClass().getSimpleName(),
         stackTraceAsString(f) };
       // use any checker to report the error
-      ErrorAnn error = typeChecker.proofCommandChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
+      ErrorAnn error = typeChecker.proofCommandChecker_.errorAnn(term, net.sourceforge.czt.typecheck.zeves.ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
       ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
       f.printStackTrace();
@@ -274,7 +274,7 @@ public class TypeCheckUtils
         t.getClass().getSimpleName(),
         stackTraceAsString(t) };
       // use any checker to report the error
-      ErrorAnn error = typeChecker.proofCommandChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
+      ErrorAnn error = typeChecker.proofCommandChecker_.errorAnn(term, net.sourceforge.czt.typecheck.zeves.ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
       ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
       t.printStackTrace();

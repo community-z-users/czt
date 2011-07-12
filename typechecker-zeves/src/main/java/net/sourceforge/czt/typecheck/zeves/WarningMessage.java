@@ -12,12 +12,12 @@ package net.sourceforge.czt.typecheck.zeves;
 public enum WarningMessage {
   // NOTE: in "\n\tXXX.......":, the "XXX.......".length()= 10 for beautification (see WarningManager loc info)
 
-  USE_CMD_EMPTY_INST(
-    "Empty instantiation list in use command." +
-    "\n\tIn proof...........: {0}" +
-    "\n\tTheorem reference..: {1}",
-    "We are not checking if instantiated variables in use command have a matching bounded variable in {1}. We let Z/Eves do that."
-  ),
+//  USE_CMD_EMPTY_INST(
+//    "Empty instantiation list in use command." +
+//    "\n\tIn proof...........: {0}" +
+//    "\n\tTheorem reference..: {1}",
+//    "We are not checking if instantiated variables in use command have a matching bounded variable in {1}. We let Z/Eves do that."
+//  ),
 
   SUBST_CMD_EXPR_EQS("Not checking equality substitute expression."
                     + "\n\tIn proof...: {0}"
@@ -38,10 +38,10 @@ public enum WarningMessage {
                     "We are not checking if explicit expression {1} in apply command is present in hypothesis list."),
 
 
-  COULD_NOT_RESOLVE_PRED("Could not solve predicate in ''{0}''." +
+  COULD_NOT_RESOLVE_PRED("Could not resolve predicate in ''{0}''." +
       "\n\tTerm......: {1}" +
       "\n\tPred......: {2}",
-      "A second attempt to resolve the given predicate failed. This might happen because of usage before\n\t" +
+      "A second attempt to resolve the given predicate has failed. This might happen because of usage before\n\t" +
       "declaration, which is not allowed, or because of an ill-formed term."),
 
  
