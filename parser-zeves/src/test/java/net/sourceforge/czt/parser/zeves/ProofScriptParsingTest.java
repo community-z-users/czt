@@ -62,7 +62,7 @@ public class ProofScriptParsingTest
     //s.replaceAll("", "").trim();
     ProofScriptParsingTest test = new ProofScriptParsingTest(DEBUG_TESTING);
     Test result = test.suite(TEST_DIR, null);
-    System.out.println("Number of tests: " + result.countTestCases());
+    System.out.println("Number of tests for Z/Eves proofs parsing: " + result.countTestCases());
     return result;
   }
 }
