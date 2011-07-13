@@ -75,6 +75,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 <add:zeves>
 import net.sourceforge.czt.zeves.ast.*;
 import net.sourceforge.czt.zeves.util.Factory;
+import net.sourceforge.czt.parser.zeves.ProofTable;
 </add:zeves>
 
 
@@ -102,6 +103,10 @@ action code
     /** The table of joker names. */
     protected JokerTable jokerTable_;
 </add:pattern>
+<add:zeves>
+    /** The table of proof scripts. */
+    protected ProofTable proofTable_;
+</add:zeves>
 
     /** The source currently being parsed. */
     protected Source source_ = null;
@@ -725,6 +730,64 @@ action code
      }     
     }
 
+<add:zeves>
+    private void addToProofTable(ProofScript script, int nleft, int nright)
+    {
+       try
+       {
+         proofTable_.add(script);
+       }
+       catch (ProofTable.ProofTableException e)
+       {
+         //final Symbol token = new Symbol(Sym.ZED, nleft, nright);
+           parser.report_error(ZEvesParseMessage.MSG_CANNOT_ADD_PROOFSCRIPT,
+                               new Object[] { e.getMessage() },
+                               getLocation(nleft, nright));
+       }
+    }
+
+    private ProofTable getProofTable(String section, int line, int column)
+      throws ParseException
+    {
+      try {
+        return sectInfo_.get(new Key&lt;ProofTable&gt;(section, ProofTable.class));
+      }
+      catch (CommandException e) {
+        Object [] args = { "Named proof scripts table",
+                           section, e.getMessage() };
+        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
+                            args, new LocInfoImpl(getLoc(), line, column));
+        return null;
+      }
+    }
+
+    private void resetProofTable(String section, List&lt;Parent&gt; parents,
+                              int line, int column)
+      throws ParseException
+    {
+      List parentProofTables = factory_.list();
+      if (Section.PRELUDE.getName().equals(section)) {
+        assert parents.size() == 0;
+      }
+      else {
+        for (Parent parent : parents) {
+          ProofTable parentProofs = getProofTable(parent.getWord(), line, column);
+          if (parentProofs != null) {
+            parentProofTables.add(parentProofs);
+          }
+        }
+      }
+      try {
+        proofTable_ = new ProofTable(section, parentProofTables);
+      }
+      catch (InfoTable.InfoTableException e) {
+        parser.report_error(ZEvesParseMessage.MSG_CANNOT_MERGE_PROOFTABLES,
+                            new Object[] { e.getMessage() },
+                            getLocation(line, column));
+     }
+    }
+</add:zeves>
+
 <add:pattern>
     private JokerTable getJokerTable(String section, int line, int column)
        throws CommandException
@@ -778,7 +841,8 @@ action code
     }
 
     private ZSect updateZSect(ZSect zSect, OpTable opTable, ThmTable thmTable
-      <add:pattern>, JokerTable jokerTable </add:pattern>)
+      <add:pattern>, JokerTable jokerTable </add:pattern>
+      <add:zeves>, ProofTable proofTable</add:zeves>)
     {
       final boolean parseError = parser.error_;
       final String sectName = zSect.getName();
@@ -837,6 +901,15 @@ action code
 <add:pattern>
       sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable, dependencies);
 </add:pattern>
+<add:zeves>
+      Set proofdependencies = new HashSet();
+      for (Parent parent : sect.getParent()) {
+        proofdependencies.add(new Key(parent.getWord(), ProofTable.class));
+      }
+      proofTable.checkAgainst(thmTable); // just warning in case of inconsistency (e.g., more proofs than conj para).
+      //proofTable.verifyConsistency(thmTable); -- for error
+      sectInfo_.put(new Key&lt;ProofTable&gt;(sectName, ProofTable.class), proofTable, proofdependencies);
+</add:zeves>
       return sect;
     }
 
@@ -1706,6 +1779,14 @@ parser code
     }
 
 </add:pattern>
+<add:zeves>
+    public void report_error(ZEvesParseMessage msg,
+                             Object[] params,
+                             LocInfo locInfo)
+    {
+      report_error(null, new ZEvesParseError(msg, params, locInfo));
+    }
+</add:zeves>
 <add:circus>
     public void report_error(CircusParseMessage msg,
                              Object[] params,
@@ -2700,7 +2781,8 @@ specification ::=
         {:
            header.setParaList(pl);
            ZSect zSect = updateZSect(header, opTable_, thmTable_
-             <add:pattern>, jokerTable_ </add:pattern>);
+             <add:pattern>, jokerTable_ </add:pattern>
+             <add:zeves>, proofTable_ </add:zeves>);
            RESULT = createSpec(factory_.list(zSect));
            <add:circus>
                //logProductionResult(pl, "EMPTY-SECTION-HEADER", getLocation(RESULT));
@@ -2734,6 +2816,9 @@ emptySectionHeader ::=
 <add:pattern>
            resetJokerTable(name, parents, eleft, eright);
 </add:pattern>
+<add:zeves>
+           resetProofTable(name, parents, eleft, eright);
+</add:zeves>
            RESULT = createZSect(name, parents);
 <add:circus>
            parserState_.clearAllProcessInformation();
@@ -2767,7 +2852,8 @@ section ::=
            </add:circus>
            header.setParaList(pl);
            RESULT = updateZSect(header, opTable_, thmTable_
-             <add:pattern>, jokerTable_ </add:pattern>);
+             <add:pattern>, jokerTable_ </add:pattern>
+             <add:zeves>, proofTable_ </add:zeves>);
            if (pl.size() > 0) {
              Para plPara = pl.get(pl.size()-1);
              //logProductionResult(plPara, "PARAGRAPH LOCATION AT SECTION", getLocation(plPara));
@@ -2823,6 +2909,9 @@ sectionHeader ::=
 <add:pattern>
            resetJokerTable(name, p, pleft, pright);
 </add:pattern>
+<add:zeves>
+           resetProofTable(name, p, pleft, pright);
+</add:zeves>
            RESULT = createZSect(name, p);
 <add:circus>
            parserState_.clearAllProcessInformation();
@@ -3219,12 +3308,15 @@ zProof ::=
            
            RESULT = factory_.createProofScript(n, ps);
            addLocAnn(RESULT, getLocation(zp, end));
+           addToProofTable(RESULT, nleft, nright);
+
         :}
         |
         ZPROOF:zp name:n END:end
         {:
            RESULT = factory_.createProofScript(n, factory_.createProofCommandList());
            addLocAnn(RESULT, getLocation(zp, end));
+           addToProofTable(RESULT, nleft, nright);
         :}
         ;
 
