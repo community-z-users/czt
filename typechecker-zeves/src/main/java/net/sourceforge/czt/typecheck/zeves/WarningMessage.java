@@ -23,7 +23,7 @@ public enum WarningMessage {
                     + "\n\tIn proof...: {0}"
                     + "\n\tat expr....: {1}"
                     + "\n\twith type..: {2}",
-                    "We are not checking if explicit expression {1} in equality substitute is present in hypothesis list."),
+                    "We are not checking if explicit expression {1} in equality substitute is present in hypothesis list of {0}."),
 
   SUBST_CMD_INVALID_EQS("Invalid substitution command: non-null pred or proof command in equality substitute\n\tIn proof...: {0}\n\tCommand....: {1}", "Wrongly parsed equality substitute command in {1} of proof {0}."),
   SUBST_CMD_INVALID_INVOKE("Invalid substitution command: non-null expr or proof command in invoke\n\tIn proof...: {0}\n\tCommand....: {1}", "Wrongly parsed invoke command in {1} of proof {0}."),
@@ -35,7 +35,7 @@ public enum WarningMessage {
                     + "\n\tIn proof...: {0}"
                     + "\n\tat expr....: {1}"
                     + "\n\twith type..: {2}",
-                    "We are not checking if explicit expression {1} in apply command is present in hypothesis list."),
+                    "We are not checking if explicit expression {1} in apply command is present in hypothesis list of {0}."),
 
 
   COULD_NOT_RESOLVE_PRED("Could not resolve predicate in ''{0}''." +
@@ -43,6 +43,11 @@ public enum WarningMessage {
       "\n\tPred......: {2}",
       "A second attempt to resolve the given predicate has failed. This might happen because of usage before\n\t" +
       "declaration, which is not allowed, or because of an ill-formed term."),
+
+
+  PROOF_SCRIPT_HAS_NO_CONJ("Proof script has no matching conjecture named {0}.", "It is possible to have older scripts without conjectures for reference, but this is not common/desirable?"),
+  ZSECT_THMTBL_ERROR("Could not calculate conjecture table for Z section '{0}'", "An attempt to calculate Z section '{0}' conjecture table failed"),
+  ZSECT_PROOFTBL_ERROR("Could not calculate proof script table for Z section '{0}'", "An attempt to calculate Z section '{0}' proof script table failed"),
 
  
   UNKNOWN_TERM("Typechecker is being asked to visit a unknown term" +

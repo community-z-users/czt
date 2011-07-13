@@ -17,18 +17,28 @@ package net.sourceforge.czt.typecheck.zeves;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.ThmTable;
+import net.sourceforge.czt.parser.zeves.ProofTable;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
@@ -45,7 +55,7 @@ import net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbolVisitor;
  * @author Leo Freitas
  */
 public abstract class Checker<R>
-  extends net.sourceforge.czt.typecheck.z.Checker<R>
+        extends net.sourceforge.czt.typecheck.z.Checker<R>
 {
 
   public Checker(TypeChecker typeChecker)
@@ -57,7 +67,7 @@ public abstract class Checker<R>
   {
     return getTypeChecker().proofCommandChecker_;
   }
-  
+
   /**
    * Overrides the default Z protocol to use the warning manager
    * @param term
@@ -65,16 +75,16 @@ public abstract class Checker<R>
    */
   @Override
   public R visitTerm(Term term)
-  {    
-    warningManager().warn(term, WarningMessage.UNKNOWN_TERM, 
-      this.getClass().getName(), 
-      getConcreteSyntaxSymbol(term));    
+  {
+    warningManager().warn(term, WarningMessage.UNKNOWN_TERM,
+            this.getClass().getName(),
+            getConcreteSyntaxSymbol(term));
     return null;
   }
 
   protected TypeChecker getTypeChecker()
   {
-    return (TypeChecker)typeChecker_;
+    return (TypeChecker) typeChecker_;
   }
 
   @Override
@@ -92,21 +102,21 @@ public abstract class Checker<R>
   {
     return getTypeChecker().warningManager_;
   }
-  
+
   @Override
   protected void setMarkup(Markup markup)
   {
     super.setMarkup(markup);
     warningManager().setMarkup(markup);
   }
-  
+
   @Override
   protected void setSectName(String sectName)
   {
     super.setSectName(sectName);
     warningManager().setCurrentSectName(sectName);
   }
-  
+
   /***********************************************************************
    * Methods for the various process related information 
    *********************************************************************
@@ -123,7 +133,19 @@ public abstract class Checker<R>
     getTypeChecker().currentProofScript_ = name;
     return old;
   }
-  
+
+  protected Type getCurrentProofRefConjType()
+  {
+    return getTypeChecker().currentProofConjType_;
+  }
+
+  protected Type setCurrentProofRefConjType(Type type)
+  {
+    Type old = getTypeChecker().currentProofConjType_;
+    getTypeChecker().currentProofConjType_ = type;
+    return old;
+  }
+
   protected ZEvesConcreteSyntaxSymbol getConcreteSyntaxSymbol(Term term)
   {
     return term.accept(concreteSyntaxSymbolVisitor());
@@ -133,7 +155,7 @@ public abstract class Checker<R>
   {
     return getGlobalType(ZUtils.assertZName(name));
   }
-  
+
   protected Type getGlobalType(ZName name)
   {
     return getType(name);
@@ -143,7 +165,7 @@ public abstract class Checker<R>
   {
     return term.getAnn(ProofCommandInfo.class);
   }
-  
+
   protected void error(Term term, ErrorMessage errorMsg, Object... params)
   {
     ErrorAnn errorAnn = this.errorAnn(term, errorMsg, params);
@@ -158,7 +180,7 @@ public abstract class Checker<R>
   protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object... params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
-      sectName(), GlobalDefs.nearestLocAnn(term), markup());
+            sectName(), GlobalDefs.nearestLocAnn(term), markup());
     return errorAnn;
   }
 
@@ -175,7 +197,7 @@ public abstract class Checker<R>
   protected void raiseErrors(Term term, List<ErrorAnn> list)
   {
     // raise all the errors from the list by adding them to the paraErrors()
-    for(ErrorAnn e : list)
+    for (ErrorAnn e : list)
     {
       error(term, e);
     }
@@ -187,7 +209,7 @@ public abstract class Checker<R>
    * @param pred
    */
   protected void typeCheckPred(Term term, Pred pred)
-  {    
+  {
     UResult solved = pred.accept(predChecker());
 
     // if not solved in the first pass, do it again
@@ -195,29 +217,64 @@ public abstract class Checker<R>
     {
       // try again - just like in Z
       solved = pred.accept(predChecker());
-      
+
       // if not solved a second time, raise the warning 
       if (!solved.equals(UResult.SUCC))
       {
-        warningManager().warn(term, WarningMessage.COULD_NOT_RESOLVE_PRED, 
-          getConcreteSyntaxSymbol(term), term, pred);          
+        warningManager().warn(term, WarningMessage.COULD_NOT_RESOLVE_PRED,
+                getConcreteSyntaxSymbol(term), term, pred);
       }
     }
   }
 
+  protected void checkRefConjType(Term term, Term part, ErrorMessage msg, Type found)
+  {
+    if (found instanceof UnknownType) // or check to be !ProofType
+    {
+      error(term, msg, getCurrentProofName(), part, found);
+    }
+  }
+
+  protected Type typeCheckExpr(Term term, Expr expr, WarningMessage msg)
+  {
+    Type found = expr.accept(exprChecker());
+    if (msg != null) // && some form of type unification here?
+    {
+      warningManager().warn(term, msg, getCurrentProofName(), expr, found);
+    }
+    return found;
+  }
+
+  protected void typeCheckThmRef(Term term, Expr expr, ErrorMessage msg)
+  {
+    Type2 found = GlobalDefs.unwrapType(typeCheckExpr(term, expr, null));
+    checkRefConjType(term, term, msg, found);
+  }
+
+  // Term = ProofCommand or ProofScript?
+  protected Type2 typeCheckThmRef(Term term, Name name, ErrorMessage msg)
+  {
+    Type2 found = GlobalDefs.unwrapType(getType(name));
+// z.ParaChecker.visitConjPara returns a ProdType with generics...
+//  if (found instanceof ProdType)
+    checkRefConjType(term, name, msg, found);
+    return found;
+  }
+
   @Override
   protected void addWarnings()
-  { 
+  {
     errors().addAll(warningManager().warnErrors());
     warningManager().clearWarnErrors();
-  }  
-  
+  }
+
   @Override
   protected Boolean getResult()
   {
     Boolean result = Boolean.TRUE;
     // if there are errors, make sure warnings are not considered
-    if (errors().size() > 0) {      
+    if (errors().size() > 0)
+    {
       // if strict on warnings, then consider then as errors and return false
       result = !getTypeChecker().getWarningManager().getWarningOutput().equals(WarningManager.WarningOutput.RAISE);
 
@@ -230,17 +287,48 @@ public abstract class Checker<R>
           net.sourceforge.czt.typecheck.z.ErrorAnn error = it.next();
           // do not consider warnings
           result = !error.getErrorType().equals(ErrorType.ERROR);
-        }      
+        }
       }
     }
     return result;
   }
-  
+
   protected Signature wrapTypeAndAddAnn(Name declName, Type type, Para term)
   {
     NameTypePair pair = factory().createNameTypePair(declName, type);
     Signature result = factory().createSignature(factory().list(pair));
-    addTypeAnn(term, type);  
+    addTypeAnn(term, type);
     return result;
   }
+
+  protected void calculateTables(ZSect zSect)
+  {
+    try
+    {
+      getTypeChecker().thmTable_ = sectInfo().get(new Key<ThmTable>(zSect.getName(), ThmTable.class));
+    }
+    catch (CommandException ex)
+    {
+      warningManager().warn(zSect, WarningMessage.ZSECT_THMTBL_ERROR, zSect.getName());
+    }
+    try
+    {
+      getTypeChecker().proofTable_ = sectInfo().get(new Key<ProofTable>(zSect.getName(), ProofTable.class));
+    }
+    catch (CommandException ex)
+    {
+      warningManager().warn(zSect, WarningMessage.ZSECT_THMTBL_ERROR, zSect.getName());
+    }
+  }
+
+  protected ThmTable getThmTable()
+  {
+    return getTypeChecker().thmTable_;
+  }
+
+  protected ProofTable getProofTable()
+  {
+    return getTypeChecker().proofTable_;
+  }
+
 }

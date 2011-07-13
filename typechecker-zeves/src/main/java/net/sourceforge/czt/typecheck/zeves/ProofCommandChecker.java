@@ -18,14 +18,10 @@
  */
 package net.sourceforge.czt.typecheck.zeves;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
-import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZNameList;
-import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.zeves.ast.ApplyCommand;
 import net.sourceforge.czt.zeves.ast.CaseAnalysisCommand;
@@ -43,7 +39,6 @@ import net.sourceforge.czt.zeves.ast.SimplificationCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
-import net.sourceforge.czt.zeves.jaxb.gen.ProofType;
 import net.sourceforge.czt.zeves.visitor.ApplyCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.CaseAnalysisCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.NormalizationCommandVisitor;
@@ -87,36 +82,6 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
     {
       error(term, msg, getCurrentProofName(), cnt, all, i.getName(), varType, exprType);
     }
-  }
-
-  protected Type typeCheckExpr(ProofCommand term, Expr expr, WarningMessage msg)
-  {
-    Type found = expr.accept(exprChecker());
-    if (msg != null) // && some form of type unification here?
-    {
-      warningManager().warn(term, msg, expr, getCurrentProofName(), expr, found);
-    }
-    return found;
-  }
-
-  protected void checkProofType(ProofCommand term, Term part, ErrorMessage msg, Type found)
-  {
-    if (!(found instanceof ProofType)) //UnknownType) // or check to be !ProofType
-    {
-      error(term, msg, getCurrentProofName(), part, found);
-    }
-  }
-
-  protected void typeCheckThmRef(ProofCommand term, Expr expr, ErrorMessage msg)
-  {
-    Type2 found = GlobalDefs.unwrapType(typeCheckExpr(term, expr, null));
-    checkProofType(term, term, msg, found);
-  }
-
-  protected void typeCheckThmRef(ProofCommand term, Name name, ErrorMessage msg)
-  {
-    Type2 found = GlobalDefs.unwrapType(getType(name));
-    checkProofType(term, name, msg, found);
   }
 
   @Override
@@ -264,11 +229,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
         else if (term.getNameList() != null && !term.getZNameList().isEmpty())
         {
           assert term.getPred() == null;
-          Type found = getType(term.getZNameList().get(0));
-          if (found instanceof UnknownType)
-          {
-            error(term, ErrorMessage.SUBST_CMD_PRED_INVOKE, getCurrentProofName(), term.getZNameList().get(0), found);
-          }
+          typeCheckThmRef(term, term.getZNameList().get(0), ErrorMessage.SUBST_CMD_PRED_INVOKE);
           if (term.getZNameList().size() != 1)
           {
             error(term, ErrorMessage.SUBST_CMD_BADNAME_INVOKE, getCurrentProofName(), term.getZNameList().size());

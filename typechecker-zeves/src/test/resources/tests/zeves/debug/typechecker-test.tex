@@ -34,9 +34,21 @@ equality substitute;
 
 Per command kind. ApplyCommand
 
+\begin{theorem}{xyz}
+\vdash? \forall x : \nat @ x + 1 \in \nat
+\end{theorem}
+
+\begin{theorem}{abc}[X]
+\vdash? \forall x : X; S: \power~X | x \in S @ S \neq \emptyset
+\end{theorem}
+
+\begin{theorem}{qwerty}
+\vdash? 10 = 9 + 1
+\end{theorem}
+
 \begin{zproof}[applyWordComplex]
-apply xyz to expression 1 + 1;
-apply abc to predicate 1 \in \{ 0, 1 \};
+apply xyz to expression x + 1;
+apply abc to predicate S \neq \emptyset;
 apply qwerty;
 \end{zproof}
 
@@ -45,7 +57,7 @@ Case analysis command
 \begin{zproof}[caseAnalysisCmd]
 cases;
 next;
-split P;
+split 1 \in \{ 0, 1 \};
 \end{zproof}
 
 Normalization command
@@ -82,21 +94,25 @@ prove;
 
 Susbstitution command
 
+\begin{zed}
+   foo == \{ 0, 1 \}
+\end{zed}
+
 \begin{zproof}[substCmd]
 equality substitute;
-equality substitute E;
-invoke predicate P;
-invoke Name;
+equality substitute 10;
+invoke predicate 0 \in \{ 0 , 1 \};
+invoke foo;
 invoke;
 \end{zproof}
 
 With commands
 
 \begin{zproof}[withCmds]
-with predicate (P) rewrite;
-with expression (E) reduce;
-with enabled (A, B, C) rewrite;
-with disabled (A, B, C) reduce;
+with predicate (0 \in foo) rewrite;
+with expression (foo) reduce;
+with enabled (abc, qwerty, xyz) rewrite;
+with disabled (abc, qwerty, xyz) reduce;
 \end{zproof}
 
 Combined commands
@@ -109,28 +125,17 @@ with normalization
       ;           % and some comments
 
 % very intricate combined command
-with enabled (A, B, C)
+with enabled (abc, qwerty, xyz)
   with normalization
-    with predicate (P)
+    with predicate (0 \in foo)
       prove by reduce;
 \end{zproof}
 
 Use command
 
 \begin{zproof}[useCmd]
-use otherName;
-use otherName2[X, Y];
-use name[X, \power \nat][x := 10];
-use name[x:= 10];
-use name[X, \power \nat][x:= 10,
-  y := \{ a: \nat; b: \nat \}];
-
-% Funny case: Z/Eves doesn't like this newline between gen actuals and repl.
-% and the trouble is that the ContextFreeScanner "eats" new lines here, so they
-% don't appear in the token stream. This is necessary to avoid problem when
-% tokenising things like "prove NL by NL rewrite" and "by NL" isn't a keyword.
-% also, I would need to add loads of optional newlines in the parse too :-( TODO (NO HURRY).
-use name[X, \power \nat]
-[x:= 10,
-  y := \{ a: \nat; b: \nat \}];
+use qwerty;
+use abc[\nat];
+use abc[\nat][x := 10, S := \{0, 1\}];
+use xyz[x:= 0];
 \end{zproof}

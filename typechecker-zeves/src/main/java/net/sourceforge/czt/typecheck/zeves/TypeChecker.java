@@ -18,15 +18,11 @@
 */
 package net.sourceforge.czt.typecheck.zeves;
 
+import net.sourceforge.czt.parser.util.ThmTable;
+import net.sourceforge.czt.parser.zeves.ProofTable;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.typecheck.z.DeclChecker;
-import net.sourceforge.czt.typecheck.z.PostChecker;
-import net.sourceforge.czt.typecheck.z.PredChecker;
-import net.sourceforge.czt.typecheck.z.SchTextChecker;
-import net.sourceforge.czt.typecheck.z.util.CarrierSet;
-import net.sourceforge.czt.typecheck.z.util.TypeEnv;
-import net.sourceforge.czt.typecheck.z.util.UnificationEnv;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
 import net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbolVisitor;
 
@@ -40,11 +36,15 @@ public class TypeChecker
   implements TypecheckPropertiesKeys
 {
   protected Name currentProofScript_;
+  protected Type currentProofConjType_;
 
   protected Checker<ProofCommandInfo> proofCommandChecker_;
   protected ZEvesConcreteSyntaxSymbolVisitor concreteSyntaxSymbolVisitor_;
 
   protected WarningManager warningManager_;
+
+  protected ThmTable thmTable_;
+  protected ProofTable proofTable_;
 
   public TypeChecker(net.sourceforge.czt.typecheck.zeves.impl.Factory factory,
                      SectionManager sectInfo)
@@ -76,7 +76,9 @@ public class TypeChecker
     concreteSyntaxSymbolVisitor_ = new ZEvesConcreteSyntaxSymbolVisitor();
     // raise warnings has priority over hide warnings (e.g., can only hide if not raising)
     warningManager_.setWarningOutput(PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT);
-    
+
+    thmTable_ = null;
+    proofTable_ = null;
     currentProofScript_ = null;
   }
 

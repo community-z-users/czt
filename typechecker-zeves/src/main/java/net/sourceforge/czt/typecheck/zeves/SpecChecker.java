@@ -66,7 +66,9 @@ public class SpecChecker extends Checker<Object>
   
   @Override
   public Object visitZSect(ZSect zSect)
-  {    
+  {
+    calculateTables(zSect);
+
     //reuse the general Checker protocol - needed to do it this way
     //to enable setSectName for WarningManager to be called rightly.
     List<NameSectTypeTriple> result = checkZSect(zSect);
