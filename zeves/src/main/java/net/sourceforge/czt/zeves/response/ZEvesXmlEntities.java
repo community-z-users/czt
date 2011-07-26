@@ -36,8 +36,8 @@ public class ZEvesXmlEntities {
         header.append(getEntityDef(ZString.LIMG, "lvparen"));      
         header.append(getEntityDef(ZString.RIMG, "rvparen"));      
         header.append(getEntityDef(ZString.OPLUS, "oplus"));        
-        header.append(getEntityDef(ZString.PLUS, "supplus"));                
-        header.append(getEntityDef(ZString.MULT, "supstar"));        
+        header.append(getEntityDef(ZString.NE + ZString.PLUS + ZString.SW, "supplus"));                
+        header.append(getEntityDef(ZString.NE + ZString.MULT + ZString.SW, "supstar"));        
         // Functions
         header.append(getEntityDef(ZString.PFUN, "rarrb"));
         header.append(getEntityDef(ZString.FUN, "rarr"));

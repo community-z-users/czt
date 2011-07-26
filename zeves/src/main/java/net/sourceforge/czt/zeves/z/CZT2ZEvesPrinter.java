@@ -147,6 +147,18 @@ import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.zeves.ast.ApplyCommand;
+import net.sourceforge.czt.zeves.ast.CaseAnalysisCommand;
+import net.sourceforge.czt.zeves.ast.Instantiation;
+import net.sourceforge.czt.zeves.ast.InstantiationKind;
+import net.sourceforge.czt.zeves.ast.InstantiationList;
+import net.sourceforge.czt.zeves.ast.NormalizationCommand;
+import net.sourceforge.czt.zeves.ast.ProofCommand;
+import net.sourceforge.czt.zeves.ast.QuantifiersCommand;
+import net.sourceforge.czt.zeves.ast.SimplificationCommand;
+import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
+import net.sourceforge.czt.zeves.ast.UseCommand;
+import net.sourceforge.czt.zeves.ast.WithCommand;
 import net.sourceforge.czt.zeves.proof.ProofUtils;
 import net.sourceforge.czt.zeves.util.BasicZEvesTranslator;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
@@ -166,6 +178,17 @@ import net.sourceforge.czt.zeves.util.Usage;
 import net.sourceforge.czt.zeves.util.Ability;
 import net.sourceforge.czt.zeves.util.Label;
 import net.sourceforge.czt.zeves.util.Location;
+import net.sourceforge.czt.zeves.visitor.ApplyCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.CaseAnalysisCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.InstantiationListVisitor;
+import net.sourceforge.czt.zeves.visitor.InstantiationVisitor;
+import net.sourceforge.czt.zeves.visitor.NormalizationCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.QuantifiersCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.SimplificationCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.SubstitutionCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.UseCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.WithCommandVisitor;
 
 /**
  * <p>
@@ -225,7 +248,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         MuExprVisitor<String>, LetExprVisitor<String>, NegExprVisitor<String>, CondExprVisitor<String>, 
         PreExprVisitor<String>, ThetaExprVisitor<String>, BindSelExprVisitor<String>,
         BindExprVisitor<String>, SchExprVisitor<String>, SchExpr2Visitor<String>, 
-        HideExprVisitor<String>, ApplExprVisitor<String>, DecorExprVisitor<String> /*, RenameExprVisitor<String>, */         
+        HideExprVisitor<String>, ApplExprVisitor<String>, DecorExprVisitor<String>, /*RenameExprVisitor<String>, */
+        /* Proof command visitors */
+        ProofCommandVisitor<String>, CaseAnalysisCommandVisitor<String>, 
+        NormalizationCommandVisitor<String>, QuantifiersCommandVisitor<String>, 
+        InstantiationVisitor<String>, InstantiationListVisitor<String>,
+        SimplificationCommandVisitor<String>, UseCommandVisitor<String>,
+        WithCommandVisitor<String>, SubstitutionCommandVisitor<String>, 
+        ApplyCommandVisitor<String>
 {
     
 	private static final List<String> ROMAN_NAMES = Collections.unmodifiableList(
@@ -261,6 +291,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * Separation string for expressions in a ZExprList (used during visitZExprList)
      */
     private String fZExprListSep;
+    
+    /**
+     * Current instantiation kind (used during visitQuantifiersCommand and visitUseCommand)
+     */
+    private InstantiationKind fCurrInstKind = null;
     
     /* Constructors */
     
@@ -487,9 +522,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 //            result = "&rvparen;";      
         else if (word.equals(ZString.OPLUS))
             result = "&oplus;";        
-        else if (word.endsWith(ZString.PLUS))// % ^+
+        else if (word.equals(ZString.NE + ZString.PLUS + ZString.SW))// % ^+
             result = "&supplus;";                
-        else if (word.endsWith(ZString.MULT))// % ^*
+        else if (word.equals(ZString.NE + ZString.MULT + ZString.SW))// % ^*
             result = "&supstar;";        
         // Functions
         else if (word.equals(ZString.PFUN))
@@ -610,11 +645,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * Represents the decl-name production. It does not yet implement operator templates
      * and just recognises Z/Eves identifiers (e.g. work with decoration).
      */
-    private String getName(ZName name) {
-        if (name.getOperatorName() != null)
-            return getOperator(name);
+    private String getName(Name name) {
+    	
+    	ZName zname = ZUtils.assertZName(name);
+    	
+        if (zname.getOperatorName() != null)
+            return getOperator(zname);
         else
-            return getIdent(name);
+            return getIdent(zname);
     }
         
     /**
@@ -1580,7 +1618,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         // others are more straightforward.
         } else {
             String genActuals = "";
-            if (!term.getZExprList().isEmpty()) {
+            if (!term.getZExprList().isEmpty() && term.getExplicit() != null && term.getExplicit()) {
                 genActuals = getGenActuals(term.getZExprList());
             }
             // TODO: Check names for appropriate translation.
@@ -1763,6 +1801,225 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     public String visitDecorExpr(DecorExpr term) {
     	return getExpr(term.getExpr()) + term.getStroke().accept(this);
     }
+    
+    @Override
+	public String visitProofCommand(ProofCommand term) {
+    	throw new ZEvesIncompatibleASTException("ProofCommand", term);
+	}
+
+    @Override
+	public String visitCaseAnalysisCommand(CaseAnalysisCommand term) {
+    	switch (term.getKind()) {
+		case Cases:
+			return "cases";
+		case Next:
+			return "next";
+		case Split:
+			return "split " + getPred(term.getPred());
+		default:
+			throw new ZEvesIncompatibleASTException(
+					"Unsupported case analysis kind: " + term.getKind());
+		}
+    }
+    
+	@Override
+	public String visitNormalizationCommand(NormalizationCommand term) {
+		switch (term.getKind()) {
+		case Conjunctive:
+			return "conjunctive";
+		case Disjunctive:
+			return "disjunctive";
+		case Rearrange:
+			return "rearrange";
+		case Command:
+			return "with normalization " + term.getProofCommand().accept(this);
+		default:
+			throw new ZEvesIncompatibleASTException(
+					"Unsupported normalization command kind: "	+ term.getKind());
+		}
+	}
+	
+	@Override
+	public String visitQuantifiersCommand(QuantifiersCommand term) {
+		StringBuilder result = new StringBuilder();
+		if (term.getInstantiationList() == null || term.getInstantiationList().isEmpty()) {
+			result.append("prenex");
+		} else {
+			assert term.getInstantiationList() != null && !term.getInstantiationList().isEmpty() : "quantifiers instantiation list cannot be empty";
+			result.append("instantiate ");
+			fCurrInstKind = InstantiationKind.Quantifier;
+			result.append(term.getInstantiationList().accept(this));
+		}
+		return result.toString();
+	}
+	
+	@Override
+	public String visitInstantiation(Instantiation term) {
+		assert fCurrInstKind == term.getKind() : "inconsistent instantiation kind. found "
+				+ term.getKind() + "; expected " + fCurrInstKind;
+		StringBuilder result = new StringBuilder();
+		result.append(getName(term.getZName()));
+		result.append(fCurrInstKind == InstantiationKind.Quantifier ? " == " : " := ");
+		result.append(getExpr(term.getExpr()));
+		return result.toString();
+	}
+
+	@Override
+	public String visitInstantiationList(InstantiationList term) {
+		StringBuilder result = new StringBuilder();
+		Iterator<Instantiation> it = term.iterator();
+		assert it.hasNext() : "empty instantiations are not allowed for instantiation kind "
+				+ fCurrInstKind;
+		
+		while (it.hasNext()) {
+			result.append(it.next().accept(this));
+			if (it.hasNext()) {
+				result.append(",");
+			}
+		}
+		return result.toString();
+	}
+	
+	@Override
+	public String visitSimplificationCommand(SimplificationCommand term) {
+		switch (term.getKind()) {
+		case Reduce:
+			switch (term.getPower()) {
+			case None:
+				return "reduce";
+			case Prove:
+				return "prove by reduce";
+			case Trivial:
+				throw new ZEvesIncompatibleASTException(
+						"Trivial reduce is not supported by Z/Eves");
+			default:
+				throw new ZEvesIncompatibleASTException(
+						"Unsupported simplification command power: " + term.getPower());
+			}
+		case Rewrite:
+			switch (term.getPower()) {
+			case None:
+				return "rewrite";
+			case Prove:
+				return "prove by rewrite";
+			case Trivial:
+				return "trivial rewrite";
+			default:
+				throw new ZEvesIncompatibleASTException(
+						"Unsupported simplification command power: " + term.getPower());
+			}
+
+		case Simplify:
+			switch (term.getPower()) {
+			case None:
+				return "simplify";
+			case Prove:
+				throw new ZEvesIncompatibleASTException(
+						"Prove by simplify is not supported by Z/Eves");
+			case Trivial:
+				return "trivial simplify";
+			default:
+				throw new ZEvesIncompatibleASTException(
+						"Unsupported simplification command power: " + term.getPower());
+			}
+
+		default:
+			throw new ZEvesIncompatibleASTException(
+					"Unsupported simplification command kind: "	+ term.getKind());
+		}
+	}
+
+	@Override
+	public String visitUseCommand(UseCommand term) {
+		StringBuilder result = new StringBuilder("use ");
+		result.append(getExpr(term.getTheoremRef()));
+		if (term.getInstantiationList() != null) {
+			fCurrInstKind = InstantiationKind.ThmReplacement;
+			if (!term.getInstantiationList().isEmpty()) {
+				result.append("[");
+				result.append(term.getInstantiationList().accept(this));
+				result.append("]");
+			}
+		}
+		return result.toString();
+	}
+
+	@Override
+	public String visitWithCommand(WithCommand term) {
+		assert term.getProofCommand() != null : "with command must have an inner command";
+		StringBuilder result = new StringBuilder("with ");
+		if (term.getExpr() != null) {
+			assert term.getPred() == null : "with expression command cannot have pred"; // && term.getZNameList().isEmpty();
+			result.append("expression (");
+			result.append(getExpr(term.getExpr()));
+			result.append(") ");
+		} else if (term.getPred() != null) {
+			assert term.getExpr() == null : "with predicate command cannot have expr";
+			result.append("predicate (");
+			result.append(getPred(term.getPred()));
+			result.append(") ");
+		} else if (term.getEnabled() != null) {
+			assert term.getExpr() == null && term.getPred() == null
+					&& term.getNameList() instanceof ZNameList && !term.getZNameList().isEmpty() : "with enabled/disabled command cannot have expr or pred and name list must not be empty";
+			result.append(term.getEnabled() ? "enabled " : "disabled ");
+			result.append("(");
+			result.append(getNameList(term.getZNameList().iterator()));
+			result.append(") ");
+		} else {
+			throw new ZEvesIncompatibleASTException(
+					"Unsupported with command: " + term);
+		}
+		result.append(term.getProofCommand().accept(this));
+		return result.toString();
+	}
+
+	@Override
+	public String visitSubstitutionCommand(SubstitutionCommand term) {
+		assert term.getProofCommand() == null && term.getNameList() == null
+				|| term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
+		switch (term.getKind()) {
+		case Invoke:
+			assert term.getExpr() == null : "invoke command cannot have an expression";
+			if (term.getPred() != null) {
+				return "invoke predicate " + getPred(term.getPred());
+			} else if (term.getNameList() == null || term.getZNameList().isEmpty()) {
+				return "invoke";
+			} else {
+				assert term.getNameList() != null && term.getZNameList().size() == 1 : "invoke cmd only on a single name";
+				return "invoke " + getName(term.getZNameList().get(0));
+			}
+		case Equality:
+			assert term.getPred() == null : "equality substitute command cannot have a predicate";
+			if (term.getExpr() != null) {
+				return "equality substitute " + getExpr(term.getExpr());
+			} else {
+				return "equality substitute";
+			}
+		default:
+			throw new ZEvesIncompatibleASTException(
+					"Unsupported substition command kind: " + term.getKind());
+		}
+	}
+
+	@Override
+	public String visitApplyCommand(ApplyCommand term) {
+		assert term.getProofCommand() == null && term.getNameList() != null
+				&& term.getNameList() instanceof ZNameList && term.getZNameList().size() == 1 : "apply command cannot have subcommand and must have a singleton Z namelist";
+		StringBuilder result = new StringBuilder("apply ");
+		result.append(getName(term.getZNameList().get(0)));
+		if (term.getPred() != null) {
+			assert term.getExpr() == null : "apply to predicate cannot have an expression";
+			result.append(" to predicate ");
+			result.append(getPred(term.getPred()));
+		} else if (term.getExpr() != null) {
+			assert term.getPred() == null : "apply to expression cannot have an predicate";
+			result.append(" to expression "); // )");
+			result.append(getExpr(term.getExpr()));
+			// result.append(")");
+		}
+		return result.toString();
+	}
+    
     
     /* Main Z terms */
     
