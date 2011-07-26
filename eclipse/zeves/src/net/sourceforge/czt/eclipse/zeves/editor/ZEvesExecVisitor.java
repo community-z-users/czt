@@ -1,11 +1,8 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
 import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 
@@ -15,6 +12,8 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
+import net.sourceforge.czt.zeves.ast.ProofCommand;
+import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
@@ -40,9 +39,9 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	private long lastFlush = 0;
 	
     public ZEvesExecVisitor(ZEvesApi api, ZEvesFileState state, ZEvesAnnotations annotations,
-    		int startOffset, int endOffset, IDocument document) {
+    		int startOffset, int endOffset) {
     	
-		super(startOffset, endOffset, document);
+		super(startOffset, endOffset);
 		this.api = api;
 		this.state = state;
 		this.annotations = annotations;
@@ -117,12 +116,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	}
     
     @Override
-	protected boolean visitProofScriptHead(String theoremName, Position pos) {
+	protected boolean visitProofScriptHead(ProofScript term, Position pos) {
 		
 		Annotation unfinishedAnn = markUnfinished(pos);
 		
     	try {
         	
+    		String theoremName = getProofScriptName(term);
+    		
 	    	try {
 	    		api.setCurrentGoalName(theoremName);
 			} catch (ZEvesException e) {
@@ -156,30 +157,39 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	}
 	
     @Override
-	protected void visitProofScriptEnd(String theoremName, Position pos) {
+	protected void visitProofScriptEnd(ProofScript term, Position pos) {
 		
 		Annotation unfinishedAnn = markUnfinished(pos);
-
+		
 		try {
-			boolean goalProved = api.getGoalProvedState(theoremName);
-			handleResult(pos, "Proved: " + goalProved);
-		} catch (ZEvesException e) {
-			handleZEvesException(pos, e);
+			
+			String theoremName = getProofScriptName(term);
+		
+			try {
+				boolean goalProved = api.getGoalProvedState(theoremName);
+				handleResult(pos, "Proved: " + goalProved);
+			} catch (ZEvesException e) {
+				handleZEvesException(pos, e);
+			}
+			
+		} finally {
+			markFinished(unfinishedAnn);
 		}
-
-		markFinished(unfinishedAnn);
 	}
     
     @Override
-    protected void visitProofCommand(String theoremName, int commandIndex, String command, Position pos) {
+    protected void visitProofCommand(ProofScript script, ProofCommand command, Position pos) {
     	
     	// mark unfinished
     	Annotation unfinishedAnn = markUnfinished(pos);
     	
     	try {
-    	
+
+    		String theoremName = getProofScriptName(script);
+    		String commandContents = command.accept(zEvesXmlPrinter);
+    		
 	    	try {
-				ZEvesOutput output = api.send(command);
+				ZEvesOutput output = api.sendCommand("proof-command", commandContents);
 				handleResult(pos, output);
 			} catch (ZEvesException e) {
 				handleZEvesException(pos, e);
@@ -192,7 +202,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		
 	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addProofResult(theoremName, commandIndex, proofResult);
+	    		state.addProofResult(script, command.getProofStep().intValue(), proofResult);
 	    		handleResult(pos, proofResult);
 	    		
 //	    		handleResult(pos, "Step index: " + stepIndex);
@@ -208,13 +218,11 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	
     }
     
-    @Override
-	protected List<String> getProofScript(String theoremName) {
-		return getProofScript(zEvesXmlPrinter, theoremName);
-	}
-
-	protected List<String> getProofScript(CZT2ZEvesPrinter zEvesXmlPrinter, String theoremName) {
-    	return Collections.emptyList();
+    private String getProofScriptName(ProofScript script) {
+    	return script.getName().accept(zEvesXmlPrinter);
+    	
+//      // TODO ? need to sanitize the name, e.g. Z/Eves MySchema\$domainCheck - need to remove the backslash
+//		theoremName = theoremName.replace("\\$", "$");
     }
     
     private Annotation markUnfinished(Position pos) {

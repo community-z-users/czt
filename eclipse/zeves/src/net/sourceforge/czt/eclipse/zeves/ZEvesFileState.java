@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
 
 public class ZEvesFileState {
@@ -29,20 +30,20 @@ public class ZEvesFileState {
 		return paraResults.get(para);
 	}
 	
-	public void addProofResult(String theoremName, int proofStep, ZEvesOutput result) {
-		proofStepResults.put(new ProofStepId(theoremName, proofStep), result);
+	public void addProofResult(ProofScript script, int proofStep, ZEvesOutput result) {
+		proofStepResults.put(new ProofStepId(script, proofStep), result);
 	}
 	
-	public ZEvesOutput getProofResult(String theoremName, int proofStep) {
-		return proofStepResults.get(new ProofStepId(theoremName, proofStep));
+	public ZEvesOutput getProofResult(ProofScript script, int proofStep) {
+		return proofStepResults.get(new ProofStepId(script, proofStep));
 	}
 	
 	private static class ProofStepId {
-		private final String theoremName;
+		private final ProofScript script;
 		private final int proofStep;
 		
-		public ProofStepId(String theoremName, int proofStep) {
-			this.theoremName = theoremName;
+		public ProofStepId(ProofScript script, int proofStep) {
+			this.script = script;
 			this.proofStep = proofStep;
 		}
 
@@ -51,7 +52,7 @@ public class ZEvesFileState {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + proofStep;
-			result = prime * result + ((theoremName == null) ? 0 : theoremName.hashCode());
+			result = prime * result + ((script == null) ? 0 : script.hashCode());
 			return result;
 		}
 
@@ -66,10 +67,10 @@ public class ZEvesFileState {
 			ProofStepId other = (ProofStepId) obj;
 			if (proofStep != other.proofStep)
 				return false;
-			if (theoremName == null) {
-				if (other.theoremName != null)
+			if (script == null) {
+				if (other.script != null)
 					return false;
-			} else if (!theoremName.equals(other.theoremName))
+			} else if (!script.equals(other.script))
 				return false;
 			return true;
 		}

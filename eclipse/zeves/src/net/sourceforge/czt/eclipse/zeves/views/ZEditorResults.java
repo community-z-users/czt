@@ -1,19 +1,16 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
-import java.util.List;
-
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.actions.SubmitToPointCommand;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesPosVisitor;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
-import net.sourceforge.czt.zeves.proof.ProofScript;
+import net.sourceforge.czt.zeves.ast.ProofCommand;
+import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
-import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.ITextSelection;
@@ -41,7 +38,7 @@ public class ZEditorResults {
 		
 		final IZEvesElement[] data = new IZEvesElement[1];
 		
-		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(caretPos, caretPos, ZEditorUtil.getDocument(editor)) {
+		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(caretPos, caretPos) {
 
 			@Override
 			protected void visitPara(Para term, Position position) {
@@ -56,19 +53,19 @@ public class ZEditorResults {
 			}
 
 			@Override
-			protected List<String> getProofScript(String theoremName) {
-				ProofScript script = SubmitToPointCommand.getProofScript(new CZT2ZEvesPrinter(null), theoremName);
-		    	if (script != null) {
-		    		return script.translate();
-		    	}
-		    	
-		    	return super.getProofScript(theoremName);
+			protected boolean visitProofScriptHead(ProofScript term, Position pos) {
+				// for proof script head, show the goal - 1st step
+				visitProofScriptStep(term, 1);
+				return true;
 			}
 
 			@Override
-			protected void visitProofCommand(String theoremName, int commandIndex, String command, Position pos) {
-				
-				ZEvesOutput result = snapshot.getProofResult(theoremName, commandIndex);
+			protected void visitProofCommand(ProofScript script, ProofCommand command, Position pos) {
+				visitProofScriptStep(script, command.getProofStep().intValue());
+			}
+			
+			private void visitProofScriptStep(ProofScript script, int step) {
+				ZEvesOutput result = snapshot.getProofResult(script, step);
 				
 				if (result == null) {
 					return;

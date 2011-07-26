@@ -1,7 +1,5 @@
 package net.sourceforge.czt.eclipse.zeves.actions;
 
-import java.util.List;
-
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
@@ -11,9 +9,6 @@ import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesExecVisitor;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
-import net.sourceforge.czt.zeves.proof.ProofScript;
-import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -63,20 +58,9 @@ public class SubmitToPointCommand extends AbstractHandler {
         final int start = 0;
         final int caretPosition = ZEditorUtil.getCaretPosition(editor);
         // TODO handle if resource is not available
-		final ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(zEvesApi, prover.getState(resource, true), 
-				annotations, start,	caretPosition, document) {
-
-					@Override
-					protected List<String> getProofScript(CZT2ZEvesPrinter zEvesXmlPrinter, String theoremName) {
-						
-						ProofScript script = SubmitToPointCommand.getProofScript(zEvesXmlPrinter, theoremName);
-				    	if (script != null) {
-				    		return script.translate();
-				    	}
-						
-						return super.getProofScript(zEvesXmlPrinter, theoremName);
-					}
-		};
+		final ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
+				zEvesApi, prover.getState(resource, true), 
+				annotations, start,	caretPosition);
         
 		Job job = new Job("Sending to Z/Eves") {
 			@Override
@@ -108,16 +92,4 @@ public class SubmitToPointCommand extends AbstractHandler {
 		
 		return null;
 	}
-	
-	/**
-	 * For hard-coding proof scripts
-	 * FIXME move into proper parsing when it is available
-	 * @param printer
-	 * @param name
-	 * @return
-	 */
-    public static ProofScript getProofScript(CZT2ZEvesPrinter printer, String name) {
-    	return null;
-    }
-    
 }

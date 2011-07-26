@@ -1,11 +1,8 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -16,6 +13,7 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.UnparsedPara;
+import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
@@ -24,6 +22,11 @@ import net.sourceforge.czt.z.visitor.SpecVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
 import net.sourceforge.czt.zeves.ZEvesIncompatibleASTException;
+import net.sourceforge.czt.zeves.ast.ProofCommand;
+import net.sourceforge.czt.zeves.ast.ProofCommandList;
+import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 
 /**
  * Special visitor class to traverse top-level Z terms based on their positions
@@ -31,22 +34,21 @@ import net.sourceforge.czt.zeves.ZEvesIncompatibleASTException;
  */
 public class ZEvesPosVisitor implements 
         TermVisitor<Object>, SpecVisitor<Object>, ZSectVisitor<Object>, ParaVisitor<Object>, 
-        NarrParaVisitor<Object>, LatexMarkupParaVisitor<Object>, UnparsedParaVisitor<Object> {
+        NarrParaVisitor<Object>, LatexMarkupParaVisitor<Object>, UnparsedParaVisitor<Object>,
+        ProofScriptVisitor<Object>, ProofCommandVisitor<Object>{
 	
 	private final int startOffset;
 	private final int endOffset;
 	
-	// TODO remove afterwards (when moving to parsed proof script)
-	private final IDocument document;
+	private ProofScript currentScript = null;
 	
-    public ZEvesPosVisitor(int startOffset, int endOffset, IDocument document) {
+    public ZEvesPosVisitor(int startOffset, int endOffset) {
 		super();
 		
 		Assert.isLegal(startOffset <= endOffset);
 		
 		this.startOffset = startOffset;
 		this.endOffset = endOffset;
-		this.document = document;
 	}
     
     protected boolean includePos(Position pos) {
@@ -83,21 +85,22 @@ public class ZEvesPosVisitor implements
 		 * start, the "begin section" is not included and therefore command
 		 * should not be executed
 		 */
-    	Position sectDeclPos = getSectHeadPosition(term);
+    	ZParaList paraList = term.getZParaList();
+    	Position sectDeclPos = getHeadPosition(term, paraList);
     	if (includePos(sectDeclPos)) {
     		visitZSectHead(term, sectDeclPos);
     	}
     	
     	boolean includedPara = false;
     	
-		for (Para p : term.getZParaList()) {
+		for (Para p : paraList) {
         	
 			Position pPos = getPosition(p);
 			if (pPos == null) {
 				continue;
 			}
 			
-			if (!includePos(pos)) {
+			if (!includePos(pPos)) {
 				
 				if (includedPara) {
 	        		// first not-included paragraph after an included one, break
@@ -112,7 +115,7 @@ public class ZEvesPosVisitor implements
             p.accept(this);
         }
 		
-		Position sectEndPos = getSectEndPosition(term);
+		Position sectEndPos = getEndPosition(term, paraList);
 		if (includePos(sectEndPos)) {
 			visitZSectEnd(term, sectEndPos);
 		}
@@ -177,102 +180,101 @@ public class ZEvesPosVisitor implements
 
 	@Override
 	public Object visitNarrPara(NarrPara term) {
-//		// ignore - comments, do not send to Z/Eves
-//		return null;
-
-	    // FIXME move to actual ProofScript after implementation
+		// ignore - comments, do not send to Z/Eves
+		return null;
+	}
+	
+	@Override
+	public Object visitProofScript(ProofScript term) {
+		
     	Position pos = getPosition(term);
     	if (!includePos(pos)) {
     		return null;
     	}
     	
-		String zproofStart = "\\begin{zproof}[";
-		
-		String narrText = (String) term.getContent().get(0);
-		
-		int start = narrText.indexOf(zproofStart);
-		if (start < 0) {
-			return null;
-		}
-		
-		// found start - get everything after
-		narrText = narrText.substring(start);
-		
-		int end = narrText.indexOf("]");
-		if (end < 0) {
-			return null;
-		}
-		
-		String theoremName = narrText.substring(zproofStart.length(), end).trim();
-		
-        // need to sanitize the name, e.g. Z/Eves MySchema\$domainCheck - need to remove the backslash
-		theoremName = theoremName.replace("\\$", "$");
-		
-		System.out.println("Found proof for " + theoremName);
-		
-		int startOffset = pos.getOffset() + start;
-		int endOffset = startOffset + end;
-		
-		Position scriptHeadPos = new Position(startOffset, end + 1);
-		if (includePos(scriptHeadPos)) {
-			visitProofScriptHead(theoremName, scriptHeadPos);
+    	/*
+		 * proof script begin/end cases are special, we need to investigate
+		 * locations of its commands to know whether to send begin/end
+		 * commands. E.g., if start offset is after the first command
+		 * start, the "begin proof" is not included and therefore command
+		 * should not be executed
+		 */
+    	ProofCommandList cmdList = term.getProofCommandList();
+    	Position scriptHeadPos = getHeadPosition(term, cmdList);
+    	if (includePos(scriptHeadPos)) {
+    		boolean doVisit = visitProofScriptHead(term, scriptHeadPos);
+    		if (!doVisit) {
+    			return null;
+    		}
+    		
 			// TODO ensure that current goal is this one before running into commands
-		}
-		
-		try {
-			int endLine = document.getLineOfOffset(endOffset);
+    	}
+    	
+    	this.currentScript = term;
+    	
+    	boolean includedCmd = false;
+    	
+		for (ProofCommand cmd : cmdList) {
+        	
+			Position cmdPos = getPosition(cmd);
+			if (cmdPos == null) {
+				continue;
+			}
 			
-	    	int index = 1;
-	    	for (String proofCmd : getProofScript(theoremName)) {
-	    		
-	    		int cmdLine = endLine + index;
-	    		
-	    		Position cmdPos = new Position(document.getLineOffset(cmdLine), document.getLineLength(cmdLine));
-	    		
-	    		if (includePos(cmdPos)) {
-	    			visitProofCommand(theoremName, index, proofCmd, cmdPos);
-	    		}
-	    		
-	    		index++;
-	    	}
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
+			if (!includePos(cmdPos)) {
+				
+				if (includedCmd) {
+	        		// first not-included command after an included one, break
+					break;
+				}
+				
+				// skip this one
+				continue;
+			}
+        	
+        	includedCmd = true;
+            cmd.accept(this);
+        }
 		
-		String zProofEnd = "\\end{zproof}";
-		int scriptEndStart = narrText.indexOf(zProofEnd);
-		if (scriptEndStart < 0) {
-			return null;
-		}
+		this.currentScript = null;
 		
-		Position scriptEndPos = new Position(startOffset + scriptEndStart, zProofEnd.length());
+		Position scriptEndPos = getEndPosition(term, cmdList);
 		if (includePos(scriptEndPos)) {
-			visitProofScriptEnd(theoremName, scriptEndPos);
+			visitProofScriptEnd(term, scriptEndPos);
 		}
-		
-		return null;
+        
+        return null;
 	}
-	
+
 	/**
-	 * @param theoremName
+	 * @param name
 	 * @param pos
 	 * @return false if proof script should not be evaluated, true otherwise
 	 */
-	protected boolean visitProofScriptHead(String theoremName, Position pos) {
+	protected boolean visitProofScriptHead(ProofScript term, Position pos) {
 		// do nothing by default
 		return true;
 	}
 	
-	protected void visitProofScriptEnd(String theoremName, Position pos) {
+	protected void visitProofScriptEnd(ProofScript term, Position pos) {
 		// do nothing by default
 	}
 	
-	protected void visitProofCommand(String theoremName, int commandIndex, String command, Position pos) {
-		// do nothing by default
+	@Override
+	public Object visitProofCommand(ProofCommand term) {
+		
+    	Position pos = getPosition(term);
+    	
+    	if (!includePos(pos)) {
+    		return null;
+    	}
+    	
+    	visitProofCommand(currentScript, term, pos);
+    	return null;
 	}
 	
-	protected List<String> getProofScript(String theoremName) {
-		return Collections.emptyList();
+	protected void visitProofCommand(ProofScript script, ProofCommand command, Position pos) {
+		// do nothing by default
 	}
     
     public void execSpec(Spec term) {
@@ -284,60 +286,59 @@ public class ZEvesPosVisitor implements
         term.accept(this);
     }
     
-    private Position getSectHeadPosition(ZSect sect) {
+    private Position getHeadPosition(Term term, List<? extends Term> elements) {
     	
-    	Position sPos = getPosition(sect);
-    	if (sPos == null) {
+    	Position tPos = getPosition(term);
+    	if (tPos == null) {
     		return null;
     	}
     	
-    	Position firstParaPos = null;
+    	Position firstElemPos = null;
     	
-    	for (Para para : sect.getZParaList()) {
-    		firstParaPos = getPosition(para);
+    	for (Term elem : elements) {
+    		firstElemPos = getPosition(elem);
     		
-    		if (firstParaPos != null) {
+    		if (firstElemPos != null) {
     			break;
     		}
     	}
     	
-    	if (firstParaPos == null) {
-    		// no paragraph positions - use the whole thing as section position
-    		return sPos;
+    	if (firstElemPos == null) {
+    		// no element positions - use the whole thing as term head position
+    		return tPos;
     	}
     	
-    	// section declaration position is everything up to the offset of first paragraph
-    	return new Position(sPos.getOffset(), firstParaPos.getOffset() - sPos.getOffset());
+    	// term head position is everything up to the offset of first element
+    	return new Position(tPos.getOffset(), firstElemPos.getOffset() - tPos.getOffset());
     }
     
-    private Position getSectEndPosition(ZSect sect) {
+    private Position getEndPosition(Term term, List<? extends Term> elements) {
     	
-    	Position sPos = getPosition(sect);
-    	if (sPos == null) {
+    	Position tPos = getPosition(term);
+    	if (tPos == null) {
     		return null;
     	}
     	
-    	Position lastParaPos = null;
+    	Position lastElemPos = null;
     	
     	// go backwards
-    	List<Para> paraList = sect.getZParaList();
-    	for (int index = paraList.size() - 1; index >= 0; index--) {
-    		Para para = paraList.get(index);
-    		lastParaPos = getPosition(para);
+    	for (int index = elements.size() - 1; index >= 0; index--) {
+    		Term elem = elements.get(index);
+    		lastElemPos = getPosition(elem);
     		
-    		if (lastParaPos != null) {
+    		if (lastElemPos != null) {
     			break;
     		}
     	}
     	
-    	if (lastParaPos == null) {
-    		// no paragraph positions - use the whole thing as section position
-    		return sPos;
+    	if (lastElemPos == null) {
+    		// no element positions - use the whole thing as term end position
+    		return tPos;
     	}
     	
-    	// section end position is everything after end of last paragraph
-    	int lastParaEnd = getEnd(lastParaPos);
-    	return new Position(lastParaEnd, getEnd(sPos) - lastParaEnd);
+    	// term end position is everything after end of last element
+    	int lastParaEnd = getEnd(lastElemPos);
+    	return new Position(lastParaEnd, getEnd(tPos) - lastParaEnd);
     }
     
     public static Position position(LocAnn location) {
