@@ -101,13 +101,13 @@ public NormalizationCommand createConjunctiveCommand()
 public NormalizationCommand createDisjunctiveCommand()
 {
 	countStep();
-	return createNormalizationCommand(proofStep_, null, NormalizationKind.Conjunctive);
+	return createNormalizationCommand(proofStep_, null, NormalizationKind.Disjunctive);
 }
 
 public NormalizationCommand createRearrangeCommand()
 {
 	countStep();
-	return createNormalizationCommand(proofStep_, null, NormalizationKind.Disjunctive);
+	return createNormalizationCommand(proofStep_, null, NormalizationKind.Rearrange);
 }
 
 public NormalizationCommand createWithNormalizationCommand(ProofCommand cmd)
