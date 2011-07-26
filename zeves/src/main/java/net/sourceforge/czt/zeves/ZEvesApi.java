@@ -279,7 +279,20 @@ public class ZEvesApi {
 		}
 	}
 
-	private ZEvesOutput sendCommand(String cmdName, String... args) throws ZEvesException {
+	/**
+	 * Sends the indicated command to the server, passing arguments as command
+	 * contents.
+	 * 
+	 * @param cmdName
+	 *            Z/Eves XML command name
+	 * @param args
+	 *            arguments to be passed as command contents. They will be
+	 *            separated by white-space.
+	 * @return result as Java object
+	 * @throws ZEvesException
+	 *             if command produced an error (zerror) or communication failed
+	 */
+	public ZEvesOutput sendCommand(String cmdName, String... args) throws ZEvesException {
 		String command = MessageFormat.format(ZEVES_COMMAND, cmdName, concat(Arrays.asList(args), " "));
 		return send(command);
 	}
