@@ -84,7 +84,8 @@ public class ErrorAnn
   @Override
   public String getMessage()
   {
-    StringBuilder result = new StringBuilder("\n"); // add an extra new line for error messages
+    StringBuilder result = new StringBuilder();//"\n"); // add an extra new line for error messages
+    													// AV: the extra new line looks bad in UI
     result.append(super.getMessage());
     for(ErrorAnn e : callErrors_)
     {
