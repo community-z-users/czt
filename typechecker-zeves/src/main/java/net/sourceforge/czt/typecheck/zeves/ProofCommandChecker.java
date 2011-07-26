@@ -220,7 +220,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
         }
         if (term.getPred() != null)
         {
-          assert term.getZNameList().isEmpty();
+          assert term.getNameList() == null || term.getZNameList().isEmpty();
           typeCheckPred(term, term.getPred());
 
           result.setProofStepKind(ProofStepKind.Simple);
