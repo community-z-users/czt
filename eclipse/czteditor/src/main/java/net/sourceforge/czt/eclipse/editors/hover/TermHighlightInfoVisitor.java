@@ -11,7 +11,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.eclipse.editors.parser.NameInfo;
 import net.sourceforge.czt.eclipse.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.outline.NodeNameVisitor;
+import net.sourceforge.czt.eclipse.outline.TermLabelVisitorFactory;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
@@ -87,8 +87,6 @@ public class TermHighlightInfoVisitor
 
   ITextEditor fEditor = null;
 
-  private static NodeNameVisitor getTermNameVisitor_ = new NodeNameVisitor();
-
   public TermHighlightInfoVisitor(ITextEditor textEditor)
   {
     fEditor = textEditor;
@@ -129,7 +127,7 @@ public class TermHighlightInfoVisitor
   public String visitGivenPara(GivenPara givenPara)
   {
     return "The highlighted term is a given Paragraph - "
-        + givenPara.getNames().accept(getTermNameVisitor_) + ".";
+        + givenPara.getNames().accept(getTermNameVisitor()) + ".";
   }
 
   /**
@@ -139,7 +137,7 @@ public class TermHighlightInfoVisitor
   public String visitAxPara(AxPara axPara)
   {
     return "The highlighted term is an axiomatic paragraph - "
-        + axPara.getZSchText().getZDeclList().accept(getTermNameVisitor_) + ".";
+        + axPara.getZSchText().getZDeclList().accept(getTermNameVisitor()) + ".";
   }
 
   /**
@@ -149,7 +147,7 @@ public class TermHighlightInfoVisitor
   public String visitConjPara(ConjPara conjPara)
   {
     String result = "The highlighted term is a conjecture paragraph.";
-    String name = conjPara.getZNameList().accept(getTermNameVisitor_);
+    String name = conjPara.getZNameList().accept(getTermNameVisitor());
     return result + "\nIts name is " + name + ".";
   }
 
@@ -161,7 +159,7 @@ public class TermHighlightInfoVisitor
   {
     String result = "The highlighted term is a free types paragraph.";
     String name = ((ZFreetypeList) freePara.getFreetypeList())
-        .accept(getTermNameVisitor_);
+        .accept(getTermNameVisitor());
     return result + "\nIts name is " + name + ".";
   }
 
@@ -201,7 +199,7 @@ public class TermHighlightInfoVisitor
   public String visitConstDecl(ConstDecl constDecl)
   {
     String result = "The highlighted term is a ConstDecl";
-    String type = constDecl.getExpr().accept(getTermNameVisitor_);
+    String type = constDecl.getExpr().accept(getTermNameVisitor());
     return result + "\nIts type is " + type + ".";
   }
 
@@ -212,7 +210,7 @@ public class TermHighlightInfoVisitor
   public String visitVarDecl(VarDecl varDecl)
   {
     String result = "The highlighted term is a variable declaration.";
-    String type = varDecl.getExpr().accept(getTermNameVisitor_);
+    String type = varDecl.getExpr().accept(getTermNameVisitor());
     return result + "\nThe type of the variable(s) is " + type + ".";
   }
 
@@ -343,5 +341,10 @@ public class TermHighlightInfoVisitor
       classname = classname.substring(0, classname.lastIndexOf("Impl"));
 
     return classname;
+  }
+
+  private static TermVisitor<String> getTermNameVisitor()
+  {
+    return TermLabelVisitorFactory.getTermLabelVisitor();
   }
 }

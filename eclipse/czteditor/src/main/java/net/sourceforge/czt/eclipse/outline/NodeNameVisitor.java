@@ -35,7 +35,6 @@ import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.AndExprVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
@@ -63,6 +62,8 @@ import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 import net.sourceforge.czt.z.visitor.ZNameListVisitor;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 
 /**
  * @author Chengdong Xu
@@ -97,8 +98,26 @@ public class NodeNameVisitor
       GivenTypeVisitor<String>,
       ZFreetypeListVisitor<String>,
       FreetypeVisitor<String>,
-      ClassParaVisitor<String>  // For Object-Z
+      ClassParaVisitor<String>,  // For Object-Z
+      ProofScriptVisitor<String> // For Z-Eves
+//      ProofCommandVisitor<String> // For Z-Eves
 {
+  
+  /**
+   * An extension of default PrintVisitor in a way that for unsupported terms,
+   * it returns null instead of class+hex;
+   * @author Andrius Velykis
+   */
+  public static class PrintVisitor extends net.sourceforge.czt.z.util.PrintVisitor {
+
+    @Override
+    public String visitTerm(Term term)
+    {
+      // for terms, do not print class+hex, instead return null and allow fallback
+      return null;
+    }
+  };
+  
   /**
    * @see net.sourceforge.czt.z.visitor.TermVisitor#visitTerm(net.sourceforge.czt.z.ast.Term)
    */
@@ -108,10 +127,11 @@ public class NodeNameVisitor
     if (result != null)
       return result;
 
-    String classname = term.getClass().getSimpleName();
-    if (classname.endsWith("Impl"))
-      classname = classname.substring(0, classname.lastIndexOf("Impl"));
-    return classname;
+//    String classname = term.getClass().getSimpleName();
+//    if (classname.endsWith("Impl"))
+//      classname = classname.substring(0, classname.lastIndexOf("Impl"));
+//    return classname;
+    return null;
   }
 
   /**
@@ -369,4 +389,16 @@ public class NodeNameVisitor
   {
     return para.getName().accept(new PrintVisitor());
   }
+
+  @Override
+  public String visitProofScript(ProofScript term)
+  {
+    return term.getName().accept(new PrintVisitor());
+  }
+
+//  @Override
+//  public String visitProofCommand(ProofCommand term)
+//  {
+//    return term.getClass().getSimpleName();
+//  }
 }

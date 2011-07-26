@@ -9,9 +9,7 @@ import net.sourceforge.czt.eclipse.util.IZColorConstants;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * Preference constants used in the CZT preference store. Clients should only read the
@@ -654,6 +652,16 @@ public class PreferenceConstants
    */
   public static final String INSERT_ZCHAR_BY_DOUBLE_CLICK = "net.sourceforge.czt.eclipse.charmapview.DoubleClick"; //$NON-NLS-1$
 
+  
+  /**
+   * A named preference that controls whether the complete syntax tree is displayed in the
+   * editor outline.
+   * <p>
+   * Value is of type <code>Boolean</code>.
+   * </p>
+   */
+  public static final String OUTLINE_Z_COMPLETE_TREE = "net.sourceforge.czt.eclipse.outline.completeTree"; //$NON-NLS-1$
+  
   /**
    * Initializes the given preference store with the default values.
    * 
@@ -742,6 +750,8 @@ public class PreferenceConstants
         PreferenceConstants.EDITOR_Z_DEFAULT_FOREGROUND, new RGB(0, 0, 0));
     store.setDefault(PreferenceConstants.EDITOR_Z_DEFAULT_BOLD, false);
     store.setDefault(PreferenceConstants.EDITOR_Z_DEFAULT_ITALIC, false);
+    
+    store.setDefault(PreferenceConstants.OUTLINE_Z_COMPLETE_TREE, false);
 
     //  semantic highlighting
     //    SemanticHighlightings.initDefaults(store);

@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.outline;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.eclipse.outline.NodeNameVisitor.PrintVisitor;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.z.ast.AndExpr;
 import net.sourceforge.czt.z.ast.ApplExpr;
@@ -33,7 +34,6 @@ import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.AndExprVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
@@ -106,10 +106,11 @@ public class NodeDescriptionVisitor
     if (result != null)
       return result;
 
-    String classname = term.getClass().getSimpleName();
-    if (classname.endsWith("Impl"))
-      classname = classname.substring(0, classname.lastIndexOf("Impl"));
-    return classname;
+//    String classname = term.getClass().getSimpleName();
+//    if (classname.endsWith("Impl"))
+//      classname = classname.substring(0, classname.lastIndexOf("Impl"));
+//    return classname;
+    return null;
   }
 
   /**

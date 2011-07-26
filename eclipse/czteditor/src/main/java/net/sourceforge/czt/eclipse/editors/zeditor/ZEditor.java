@@ -1591,8 +1591,9 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
 
   public void updateOutlinePage(ParsedData data)
   {
-    if (fOutlinePage != null)
-      fOutlinePage.setInput(getParsedData().getRoot());
+    if (fOutlinePage != null) {
+      fOutlinePage.setInput(data);
+    }
   }
 
   /** The <code>ZEditor</code> implementation of this 

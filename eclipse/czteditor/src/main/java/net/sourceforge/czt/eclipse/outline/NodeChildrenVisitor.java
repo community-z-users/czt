@@ -2,6 +2,7 @@
 package net.sourceforge.czt.eclipse.outline;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,7 +19,6 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
@@ -26,6 +26,8 @@ import net.sourceforge.czt.z.visitor.SchExprVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 
 /**
  * 
@@ -34,18 +36,19 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  */
 public class NodeChildrenVisitor
     implements
-      TermVisitor<Term[]>,
-      SpecVisitor<Term[]>,
-      ZSectVisitor<Term[]>,
-      ZParaListVisitor<Term[]>,
-      AxParaVisitor<Term[]>,
-      SchExprVisitor<Term[]>,
-      ClassParaVisitor<Term[]>   // for Object-Z
+      TermVisitor<List<? extends Term>>,
+      SpecVisitor<List<? extends Term>>,
+      ZSectVisitor<List<? extends Term>>,
+      ZParaListVisitor<List<? extends Term>>,
+      AxParaVisitor<List<? extends Term>>,
+      SchExprVisitor<List<? extends Term>>,
+      ClassParaVisitor<List<? extends Term>>,   // for Object-Z
+      ProofScriptVisitor<List<? extends Term>> // for Z-Eves
 {
-  public Term[] visitTerm(Term term)
+  public List<? extends Term> visitTerm(Term term)
   {
     /*
-    List<Term> children = new ArrayList<Term>();
+    List<? extends Term> children = new ArrayList<Term>();
     for (Object child : term.getChildren()) {
       if (child != null)
         if (child instanceof Term)
@@ -54,10 +57,10 @@ public class NodeChildrenVisitor
 
     return children.toArray(new Term[0]);
     */
-    return new Term[0];
+    return Collections.emptyList();
   }
 
-  public Term[] visitSpec(Spec spec)
+  public List<? extends Term> visitSpec(Spec spec)
   {
     List<Sect> children = spec.getSect();
     for (Iterator<Sect> iter = children.iterator(); iter.hasNext();) {
@@ -66,15 +69,15 @@ public class NodeChildrenVisitor
         iter.remove();
       }
     }
-    return children.toArray(new Term[0]);
+    return children;
   }
   
-  public Term[] visitZSect(ZSect zSect)
+  public List<? extends Term> visitZSect(ZSect zSect)
   {
     return zSect.getParaList().accept(this);
   }
 
-  public Term[] visitZParaList(ZParaList zParaList)
+  public List<? extends Term> visitZParaList(ZParaList zParaList)
   {
     List<Para> result = new ArrayList<Para>();
     for (Para para : zParaList) {
@@ -83,29 +86,33 @@ public class NodeChildrenVisitor
         result.add(para);
       }
     }
-    return result.toArray(new Term[0]);
+    return result;
   }
   
-  public Term[] visitAxPara(AxPara axPara)
+  public List<? extends Term> visitAxPara(AxPara axPara)
   {
     Box box = axPara.getBox();
     
     if (box == null || Box.AxBox.equals(box)) {
-      ZDeclList declList = axPara.getZSchText().getZDeclList();
-      if (declList.size() > 1)
-        return declList.toArray(new Term[0]);
+      return axPara.getZSchText().getZDeclList();
     }
     
-    return new Term[0];
+    return Collections.emptyList();
   }
 
-  public Term[] visitSchExpr(SchExpr schExpr)
+  public List<? extends Term> visitSchExpr(SchExpr schExpr)
   {
-    return schExpr.getZSchText().getZDeclList().toArray(new Term[0]);
+    return schExpr.getZSchText().getZDeclList();
   }
   
-  public Term[] visitClassPara(ClassPara para)
+  public List<? extends Term> visitClassPara(ClassPara para)
   {
-    return new Term[] {}; // para.getName()  //getZSchText().getZDeclList().toArray(new Term[0]);
+    return Collections.emptyList(); // para.getName()  //getZSchText().getZDeclList().toArray(new Term[0]);
+  }
+
+  @Override
+  public List<? extends Term> visitProofScript(ProofScript term)
+  {
+    return term.getProofCommandList();
   }
 }
