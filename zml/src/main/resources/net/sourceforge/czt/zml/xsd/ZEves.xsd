@@ -384,7 +384,7 @@
         <!--
             conjunctive: Kind==Conjuncture and CMD == null
             disjunctive: Kind==Disjunctive and CMD == null
-            rearrange  : Kind==Rearranghe  and CMD == null
+            rearrange  : Kind==Rearrange  and CMD == null
             with normalization CMD: Kind==Command and CMD != null
         -->
         <xs:attribute name="Kind" type="ZEVES:NormalizationKind" use="optional" default="Command"/>
