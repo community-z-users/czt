@@ -2114,7 +2114,7 @@ terminal Decorword
 terminal ProofWord
         PROOFWORD;
 
-terminal RewriteKind
+terminal LocInfo
       REDUCE, REWRITE, SIMPLIFY;
 </add:zeves>
 
@@ -2367,7 +2367,7 @@ non terminal ZExprList
     genericActuals,
     optGenActuals;
 
-non terminal RewriteKind
+non terminal Object[]
       innerSimplCmd;
 
 non terminal LocInfo
@@ -3338,7 +3338,7 @@ proofCommand ::=
         innerProofCommand:ipc 
         {:
           RESULT = ipc;
-          addLocAnn(RESULT, getLocation(ipc));
+          //addLocAnn(RESULT, getLocation(ipc));
         :}
         ;
 
@@ -3394,6 +3394,7 @@ applyCommand ::=
         {:
           //checkValidTheoremName(n);
           RESULT = factory_.getZEvesFactory().createApplyToExprCommand(createZName(n), e);
+          addLocAnn(RESULT, getLocation(ap, e));
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.LOCAL);
         :}
         |
@@ -3401,6 +3402,7 @@ applyCommand ::=
         {:
           //checkValidTheoremName(n);
           RESULT = factory_.getZEvesFactory().createApplyToPredCommand(createZName(n), p);
+          addLocAnn(RESULT, getLocation(ap, p));
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.LOCAL);
         :}
         |
@@ -3409,6 +3411,7 @@ applyCommand ::=
         {:
           //checkValidTheoremName(n);
           RESULT = factory_.getZEvesFactory().createGlobalApplyCommand(createZName(n));
+          addLocAnn(RESULT, getLocation(ap, n.getLocation()));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.GLOBAL);
         :}
         ;
@@ -3417,12 +3420,14 @@ caseAnalysisCommand ::=
         CASES:cam
         {:
           RESULT = factory_.getZEvesFactory().createCasesCommand();
+          addLocAnn(RESULT, cam);
           //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
         :}
         |
         NEXT:cam
         {:
           RESULT = factory_.getZEvesFactory().createNextCommand();
+          addLocAnn(RESULT, cam);
           //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
         :}
         |
@@ -3430,6 +3435,7 @@ caseAnalysisCommand ::=
         SPLIT:cam predicate:p
         {:
           RESULT = factory_.getZEvesFactory().createSplitCommand(p);
+          addLocAnn(RESULT, getLocation(cam, p));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.GLOBAL);
         :}
         ;
@@ -3441,24 +3447,28 @@ normalizationCommand ::=
         CONJUNCTIVE:nc
         {:
           RESULT = factory_.getZEvesFactory().createConjunctiveCommand();
+          addLocAnn(RESULT, nc);
           //proofScripts_.countStep(RESULT, ProofStep.UNUSUAL, ProofScope.GLOBAL);
         :}
         |
         DISJUNCTIVE:nc
         {:
           RESULT = factory_.getZEvesFactory().createDisjunctiveCommand();
+          addLocAnn(RESULT, nc);
           //proofScripts_.countStep(RESULT, ProofStep.UNUSUAL, ProofScope.GLOBAL);
         :}
         |
         REARRANGE:nc
         {:
           RESULT = factory_.getZEvesFactory().createRearrangeCommand();
+          addLocAnn(RESULT, nc);
           //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
         :}
         |
         WITH:w NORMALIZATION:n innerProofCommand:ipc
         {:
           RESULT = factory_.getZEvesFactory().createWithNormalizationCommand(ipc);
+          addLocAnn(RESULT, getLocation(w, ipc));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, getProofScope(ipc));
         :}
         ;
@@ -3472,6 +3482,7 @@ quantifiersCommand ::=
         PRENEX:p
         {:
           RESULT = factory_.getZEvesFactory().createPrenexCommand();
+          addLocAnn(RESULT, p);
           //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
         :}
         |
@@ -3479,6 +3490,7 @@ quantifiersCommand ::=
         {:
           assert !inst.isEmpty();
           RESULT = factory_.getZEvesFactory().createInstantiateCommand(inst);
+          addLocAnn(RESULT, getLocation(i, inst));
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL); // or is it local? to a quantifier?
         :}
         ;
@@ -3531,10 +3543,10 @@ instOrRepl ::=
         ;
 
 simplificationCommand ::=
-        PROVE BY innerSimplCmd:isc
+        PROVE:cmd BY innerSimplCmd:isc
         {:
           ProofCommand pc = null;
-          switch (isc)
+          switch ((RewriteKind) isc[0])
           {
             case Simplify:
             // TODO: add an error case here, actually
@@ -3547,16 +3559,17 @@ simplificationCommand ::=
               pc = factory_.getZEvesFactory().createProveByReduceCommand();
               break;
             default:
-              throw new Error("invalid proof command rewrite kind " + isc);
+              throw new Error("invalid proof command rewrite kind " + isc[0]);
           }
           RESULT = pc;
+          addLocAnn(RESULT, getLocation(cmd, (LocInfo) isc[1]));
           //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
         :}
         |
-        TRIVIAL innerSimplCmd:isc
+        TRIVIAL:cmd innerSimplCmd:isc
         {:
           ProofCommand pc = null;
-          switch (isc)
+          switch ((RewriteKind) isc[0])
           {
             case Simplify:
               pc = factory_.getZEvesFactory().createTrivialSimplifyCommand();
@@ -3569,16 +3582,17 @@ simplificationCommand ::=
               pc = factory_.getZEvesFactory().createTrivialReduceCommand();
               break;
             default:
-              throw new Error("invalid proof command rewrite kind " + isc);
+              throw new Error("invalid proof command rewrite kind " + isc[0]);
           }
           RESULT = pc;
+          addLocAnn(RESULT, getLocation(cmd, (LocInfo) isc[1]));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.GLOBAL);
         :}
         |
         innerSimplCmd:isc
         {:
           ProofCommand pc = null;
-          switch (isc)
+          switch ((RewriteKind) isc[0])
           {
             case Simplify:
               pc = factory_.getZEvesFactory().createSimplifyCommand();
@@ -3590,65 +3604,72 @@ simplificationCommand ::=
               pc = factory_.getZEvesFactory().createReduceCommand();
               break;
             default:
-              throw new Error("invalid proof command rewrite kind " + isc);
+              throw new Error("invalid proof command rewrite kind " + isc[0]);
           }
           RESULT = pc;
+          addLocAnn(RESULT, (LocInfo) isc[1]);
           //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
         :}
         |  
         // unqualified "prove" command is "by rewrite" in Z/Eves
-        PROVE
+        PROVE:cmd
         {:
           RESULT = factory_.getZEvesFactory().createProveByRewriteCommand();
+          addLocAnn(RESULT, cmd);
           //proofScripts_.countStep(RESULT, ProofStep.TRIVIAL, ProofScope.GLOBAL);
         :}
         ;
 
 innerSimplCmd ::=
-        SIMPLIFY
+        SIMPLIFY:cmd
         {:
-          RESULT = RewriteKind.Simplify;
+          RESULT = new Object[] { RewriteKind.Simplify, cmd };
         :}
         |
-        REWRITE
+        REWRITE:cmd
         {:
-          RESULT = RewriteKind.Rewrite;
+          RESULT = new Object[] { RewriteKind.Rewrite, cmd };
         :}
         |
-        REDUCE
+        REDUCE:cmd
         {:
-          RESULT = RewriteKind.Reduce;
+          RESULT = new Object[] { RewriteKind.Reduce, cmd };
         :}
         ;
 
 substitutionCommand ::=
-        EQUALITY SUBSTITUTE expression:e
+        EQUALITY:st SUBSTITUTE expression:e
         {:
           RESULT = factory_.getZEvesFactory().createEqualitySubstituteCommand(e);
+          addLocAnn(RESULT, getLocation(st, e));
           //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.LOCAL);
         :}
         |
-        EQUALITY SUBSTITUTE
+        EQUALITY:st SUBSTITUTE:end
         {:
           RESULT = factory_.getZEvesFactory().createGlobalEqualitySubstituteCommand();
+          addLocAnn(RESULT, getLocation(st, end));
           //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
         :}
         |
-        INVOKE PREDICATE predicate:p
+        INVOKE:st PREDICATE predicate:p
         {:
           RESULT = factory_.getZEvesFactory().createInvokePredicateCommand(p);
+          addLocAnn(RESULT, getLocation(st, p));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
         :}
         |
-        INVOKE name:n
+        INVOKE:st name:n
         {:
           RESULT = factory_.getZEvesFactory().createInvokeCommand(n);
+          addLocAnn(RESULT, getLocation(st, n));
           //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.LOCAL);
         :}
         |
-        INVOKE
+        INVOKE:st
         {:
           RESULT = factory_.getZEvesFactory().createGlobalInvokeCommand();
+          addLocAnn(RESULT, st);
           //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
         :}
         ;
@@ -3660,34 +3681,38 @@ substitutionCommand ::=
 // Keep the productions separate, otherwise, if I use optXXX there is a lookahead problem for "use name[x:=10]"
 // to know whether the replacement is generic actual or not.
 useCommand ::=
-        USE name:thmN genericActuals:ga replacements:repl //optGenActuals:ga optReplacements:repl
+        USE:u name:thmN genericActuals:ga replacements:repl //optGenActuals:ga optReplacements:repl
         {:
           //checkValidTheoremName(thmN);
                                                           // if ga is not empty, then create an "explicit" RefExpr; an normal one (e.g., createRefExpr(thmN)) otherwise.
           RESULT = factory_.getZEvesFactory().createUseCommand(
                       factory_.createRefExpr(thmN, ga, Boolean.FALSE, !ga.isEmpty()), repl);
+          addLocAnn(RESULT, getLocation(u, repl));
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
         :}
         |
-        USE name:thmN replacements:repl
+        USE:u name:thmN replacements:repl
         {:
           //checkValidTheoremName(thmN);
           RESULT = factory_.getZEvesFactory().createUseCommand(factory_.createRefExpr(thmN), repl);
+          addLocAnn(RESULT, getLocation(u, repl));
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
         :} // No need ? %  p r e c _RENAME
         |
-        USE name:thmN genericActuals:ga
+        USE:u name:thmN genericActuals:ga
         {:
           //checkValidTheoremName(thmN);
           RESULT = factory_.getZEvesFactory().createUseCommand(
                       factory_.createRefExpr(thmN, ga, Boolean.FALSE, Boolean.TRUE));
+          addLocAnn(RESULT, getLocation(u, ga));
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
         :}
         |
-        USE name:thmN
+        USE:u name:thmN
         {:
           //checkValidTheoremName(thmN);
           RESULT = factory_.getZEvesFactory().createUseCommand(factory_.createRefExpr(thmN));
+          addLocAnn(RESULT, getLocation(u, thmN));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.GLOBAL);
         :}
         ;
@@ -3735,27 +3760,31 @@ optReplacements ::=
 
 // TODO: call these something else because "with normalization" is not here?
 withCommand ::=
-        WITH EXPRESSION LPAREN expression:e RPAREN innerProofCommand:ipc
+        WITH:w EXPRESSION LPAREN expression:e RPAREN innerProofCommand:ipc
         {:
           RESULT = factory_.getZEvesFactory().createWithExpressionCommand(e, ipc);
+          addLocAnn(RESULT, getLocation(w, ipc));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
         :}
         |
-        WITH PREDICATE LPAREN predicate:p RPAREN innerProofCommand:ipc
+        WITH:w PREDICATE LPAREN predicate:p RPAREN innerProofCommand:ipc
         {:
           RESULT = factory_.getZEvesFactory().createWithPredicateCommand(p, ipc);
+          addLocAnn(RESULT, getLocation(w, ipc));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
         :}
         |
-        WITH ENABLED LPAREN nameList:nl RPAREN innerProofCommand:ipc
+        WITH:w ENABLED LPAREN nameList:nl RPAREN innerProofCommand:ipc
         {:
           RESULT = factory_.getZEvesFactory().createWithEnabledCommand(nl, ipc);
+          addLocAnn(RESULT, getLocation(w, ipc));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, getProofScope(ipc));
         :}
         |
-        WITH DISABLED LPAREN nameList:nl RPAREN innerProofCommand:ipc
+        WITH:w DISABLED LPAREN nameList:nl RPAREN innerProofCommand:ipc
         {:
           RESULT = factory_.getZEvesFactory().createWithDisabledCommand(nl, ipc);
+          addLocAnn(RESULT, getLocation(w, ipc));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, getProofScope(ipc));
         :}
         ;
