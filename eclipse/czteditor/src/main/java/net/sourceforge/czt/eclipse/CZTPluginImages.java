@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse;
 
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
@@ -32,11 +32,13 @@ public class CZTPluginImages
   // The plug-in registry
   private static ImageRegistry fgImageRegistry = null;
 
-  private static HashMap fgAvoidSWTErrorMap = null;
+  private static HashMap<String, ImageDescriptor> fgAvoidSWTErrorMap = null;
 
   private static final String T_OBJ = "obj16"; //$NON-NLS-1$
 
   private static final String T_OVR = "ovr16"; //$NON-NLS-1$
+  
+  private static final String T_ELCL = "elcl16"; //$NON-NLS-1$
 
   /*
    * Keys for images available from the CZT plug-in image registry.
@@ -56,6 +58,8 @@ public class CZTPluginImages
   public static final String IMG_FREEPARA = NAME_PREFIX + "free16.png"; //$NON-NLS-1$
 
   public static final String IMG_OPTEMPPARA = NAME_PREFIX + "optemp16.png"; //$NON-NLS-1$
+  
+  public static final String IMG_COMPLETE_TREE = NAME_PREFIX + "complete_tree.gif"; //$NON-NLS-1$
 
   /*
    * Set of predefined Image Descriptors.
@@ -83,6 +87,9 @@ public class CZTPluginImages
 
   public static final ImageDescriptor DESC_OPTEMPPARA = createManagedFromKey(
       T_OBJ, IMG_OPTEMPPARA); //$NON-NLS-1$
+  
+  public static final ImageDescriptor DESC_COMPLETE_TREE = createManagedFromKey(
+      T_ELCL, IMG_COMPLETE_TREE); //$NON-NLS-1$
 
   public static final ImageDescriptor DESC_OVR_ERROR = createUnManagedCached(
       T_OVR, "error_ovr.gif"); //$NON-NLS-1$
@@ -144,7 +151,7 @@ public class CZTPluginImages
   public static ImageDescriptor getDescriptor(String key)
   {
     if (fgImageRegistry == null) {
-      return (ImageDescriptor) fgAvoidSWTErrorMap.get(key);
+      return fgAvoidSWTErrorMap.get(key);
     }
     return getImageRegistry().getDescriptor(key);
   }
@@ -181,10 +188,8 @@ public class CZTPluginImages
     if (fgImageRegistry == null) {
       fgImageRegistry = new ImageRegistry();
 
-      for (Iterator iter = fgAvoidSWTErrorMap.keySet().iterator(); iter
-          .hasNext();) {
-        String key = (String) iter.next();
-        fgImageRegistry.put(key, (ImageDescriptor) fgAvoidSWTErrorMap.get(key));
+      for (Entry<String, ImageDescriptor> entry : fgAvoidSWTErrorMap.entrySet()) {
+        fgImageRegistry.put(entry.getKey(), entry.getValue());
       }
       fgAvoidSWTErrorMap = null;
 
@@ -217,7 +222,7 @@ public class CZTPluginImages
     ImageDescriptor result = create(prefix, name, true);
 
     if (fgAvoidSWTErrorMap == null) {
-      fgAvoidSWTErrorMap = new HashMap();
+      fgAvoidSWTErrorMap = new HashMap<String, ImageDescriptor>();
     }
     fgAvoidSWTErrorMap.put(key, result);
     if (fgImageRegistry != null) {

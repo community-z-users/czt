@@ -113,6 +113,7 @@ dtx/z/refcard.pdf -text svneol=unset#application/pdf
 eclipse/README.txt -text
 eclipse/czteditor/icons/CZTproject.png -text
 eclipse/czteditor/icons/ZSpec.png -text
+eclipse/czteditor/icons/elcl16/complete_tree.gif -text
 eclipse/czteditor/icons/obj16/axpara16.png -text
 eclipse/czteditor/icons/obj16/conj16.png -text
 eclipse/czteditor/icons/obj16/def16.png -text
