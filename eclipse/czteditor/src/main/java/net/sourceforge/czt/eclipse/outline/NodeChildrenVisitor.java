@@ -3,7 +3,6 @@ package net.sourceforge.czt.eclipse.outline;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -62,12 +61,13 @@ public class NodeChildrenVisitor
 
   public List<? extends Term> visitSpec(Spec spec)
   {
-    List<Sect> children = spec.getSect();
-    for (Iterator<Sect> iter = children.iterator(); iter.hasNext();) {
-      Sect sect = iter.next();
+    List<Sect> children = new ArrayList<Sect>();
+    for (Sect sect : spec.getSect()) {
       if (sect instanceof NarrSect) {
-        iter.remove();
+        continue;
       }
+      
+      children.add(sect);
     }
     return children;
   }
