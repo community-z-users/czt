@@ -25,19 +25,14 @@ public final class PreferencesMessages extends NLS
   public static String CZTBasePreferencePage_description;
 
   /*
-   * Titles related information in appearance preferences page
-   */
-  public static String AppearancePreferencePage_description;
-
-  /*
    * Titles related information in compiler preferences page
    */
   public static String CompilerPreferencePage_description;
   public static String CompilerPreferencePage_properties;
   public static String CompilerPreferencePage_ignore_unknown_latex_commands;
   public static String CompilerPreferencePage_ignore_unknown_latex_commands_tooltip;
-  public static String CompilerPreferencePage_typecheck_use_before_decl;
-  public static String CompilerPreferencePage_typecheck_use_before_decl_tooltip;
+  public static String CompilerPreferencePage_typecheck_recursive_types;
+  public static String CompilerPreferencePage_typecheck_recursive_types_tooltip;
   public static String CompilerPreferencePage_typecheck_use_strong_typing;
   public static String CompilerPreferencePage_typecheck_use_strong_typing_tooltip;
   

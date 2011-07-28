@@ -71,5 +71,4 @@ public final class ZEditorMessages extends NLS
     NLS.initializeMessages(BUNDLE_NAME, ZEditorMessages.class);
   }
 
-  public static String BasicEditorActionContributor_specific_content_assist_menu;
 }
