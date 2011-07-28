@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import net.sourceforge.czt.z.util.ZString;
+
 /**
  * <!ELEMENT if (%form;, %form;, %form;, type?)>
  * 
@@ -39,7 +41,14 @@ public class ZEvesIf {
 		String thenStr = String.valueOf(form.get(1));
 		String elseStr = String.valueOf(form.get(2));
 
-		return "if " + ifStr + " then " + thenStr + " else " + elseStr;
+		return ZString.IF + " " + ifStr + " " 
+				+ ZString.THEN + " " + predToExpr(thenStr) + " "
+				+ ZString.ELSE + " " + predToExpr(elseStr);
+	}
+	
+	// wrap into an empty schema to convert predicate to expression
+	private String predToExpr(String pred) {
+		return ZString.LSQUARE + ZString.VL + pred + ZString.RSQUARE;
 	}
 
 }
