@@ -234,8 +234,28 @@ public class <class/> extends AbstractCommand
       buf.append("\n\\end{axdef}\n");
     }
     else {
-      String message = "Unicode inputs not implemented yet";
-      throw new UnsupportedOperationException(message);
+      if (parent == null)
+        parent = "standard_toolkit";
+      buf.append(ZString.ZED);
+      buf.append(" section ");
+      buf.append(name);
+      buf.append(" parents ");
+      buf.append(parent);
+      buf.append(ZString.END);
+      buf.append(ZString.AX);
+      buf.append("result");
+      buf.append(" ");
+      buf.append(ZString.DEFEQUAL);
+      buf.append(" ");
+      buf.append(ZString.NL);
+      Reader reader = src.getReader();
+      int ch = reader.read();
+      while (ch != -1) {
+        buf.appendCodePoint(ch);
+        ch = reader.read();
+      }
+      buf.append(ZString.NL);
+      buf.append(ZString.END);
     }
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
