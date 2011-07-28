@@ -8,8 +8,10 @@ import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.preferences.ZSourcePreviewerUpdater;
 import net.sourceforge.czt.eclipse.util.IZFileType;
+import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEditorUtil;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 
@@ -18,6 +20,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
@@ -52,6 +55,13 @@ import org.eclipse.ui.texteditor.ChainedPreferenceStore;
  */
 public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 
+	private static final String PROP_FORCE_UNICODE = ZEvesPlugin.PLUGIN_ID + ".output.forceUnicode";
+	
+	static {
+		IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+		preferenceStore.setDefault(PROP_FORCE_UNICODE, false);
+	}
+	
 	private ZSourceViewer zViewer;
 //	
 //	private Text zViewer;
@@ -65,6 +75,8 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
      * Action to enable and disable link with selection.
      */
     private LinkAction toggleLinkAction;
+    
+    private boolean forceUnicode;
 
     /**
      * The last selected element if linking was disabled.
@@ -205,6 +217,10 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
      * @param tbm the tool bar manager
      */
     protected void fillToolBar(IToolBarManager tbm) {
+    	
+    	tbm.add(new Separator("view"));
+    	
+    	tbm.add(new ForceUnicodeAction());
     	tbm.add(toggleLinkAction);
     }
 
@@ -501,9 +517,10 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 		}
 		
 		ZEvesApi api = ZEvesPlugin.getZEves().getApi();
+		Markup markup = forceUnicode ? Markup.UNICODE : null;
 		
 		try {
-			return element.loadContents(api);
+			return element.loadContents(api, markup);
 		} catch (ZEvesException e) {
 			ZEvesPlugin.getDefault().log("Problems loading Z/Eves element: " + element.getDescription(), e);
 		}
@@ -532,7 +549,6 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
     private void doSetInput(Object input, String description) {
             
     	String inputText = input != null ? input.toString() : "";
-    	
     	
     	setText(inputText);
     	
@@ -584,6 +600,40 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 		@Override
 		public void run() {
 			setLinkingEnabled(!isLinkingEnabled());
+		}
+	}
+	
+	private class ForceUnicodeAction extends Action {
+
+		public ForceUnicodeAction() {
+			super("Force Unicode", SWT.TOGGLE);
+			setToolTipText("Force Unicode");
+
+			// setDescription("?");
+			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_UNICODE));
+
+			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			boolean forceUnicode = preferenceStore.getBoolean(PROP_FORCE_UNICODE);
+			setForceUnicode(forceUnicode);
+		}
+
+		/*
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		public void run() {
+			setForceUnicode(!forceUnicode);
+
+			if (currentViewInput != null) {
+				setInput(currentViewInput);
+			}
+		}
+
+		private void setForceUnicode(boolean force) {
+			forceUnicode = force;
+			setChecked(force);
+
+			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			preferenceStore.setValue(PROP_FORCE_UNICODE, force);
 		}
 	}
 

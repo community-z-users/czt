@@ -9,6 +9,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
@@ -17,6 +18,7 @@ import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.NarrSectVisitor;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
@@ -35,11 +37,12 @@ import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 public class ZEvesPosVisitor implements 
         TermVisitor<Object>, SpecVisitor<Object>, ZSectVisitor<Object>, ParaVisitor<Object>, 
         NarrParaVisitor<Object>, LatexMarkupParaVisitor<Object>, UnparsedParaVisitor<Object>,
-        ProofScriptVisitor<Object>, ProofCommandVisitor<Object>{
+        ProofScriptVisitor<Object>, ProofCommandVisitor<Object>, NarrSectVisitor<Object> {
 	
 	private final int startOffset;
 	private final int endOffset;
 	
+	private ZSect currentSect = null;
 	private ProofScript currentScript = null;
 	
     public ZEvesPosVisitor(int startOffset, int endOffset) {
@@ -71,12 +74,20 @@ public class ZEvesPosVisitor implements
     }
     
     @Override
+	public Object visitNarrSect(NarrSect term) {
+		// ignore - comments, do not send to Z/Eves
+		return null;
+	}
+
+	@Override
 	public Object visitZSect(ZSect term) {
     	
     	Position pos = getPosition(term);
     	if (!includePos(pos)) {
     		return null;
     	}
+    	
+    	this.currentSect = term;
     	
     	/*
 		 * section begin/end cases are special, we need to investigate
@@ -122,6 +133,10 @@ public class ZEvesPosVisitor implements
         
         return null;
     }
+	
+	protected final ZSect getCurrentSect() {
+		return currentSect;
+	}
     
     protected void visitZSectHead(ZSect term, Position position) {
     	// do nothing by default
@@ -202,41 +217,44 @@ public class ZEvesPosVisitor implements
     	ProofCommandList cmdList = term.getProofCommandList();
     	Position scriptHeadPos = getHeadPosition(term, cmdList);
     	if (includePos(scriptHeadPos)) {
-    		boolean doVisit = visitProofScriptHead(term, scriptHeadPos);
-    		if (!doVisit) {
-    			return null;
-    		}
-    		
-			// TODO ensure that current goal is this one before running into commands
+    		visitProofScriptHead(term, scriptHeadPos);
     	}
     	
-    	this.currentScript = term;
-    	
-    	boolean includedCmd = false;
-    	
-		for (ProofCommand cmd : cmdList) {
-        	
-			Position cmdPos = getPosition(cmd);
-			if (cmdPos == null) {
-				continue;
-			}
-			
-			if (!includePos(cmdPos)) {
-				
-				if (includedCmd) {
-	        		// first not-included command after an included one, break
-					break;
+    	if (!cmdList.isEmpty()) {
+    		
+	    	this.currentScript = term;
+	    	
+	    	// allow to make the goal current in the prover
+	    	if (!beforeProofScriptCommands(term, pos)) {
+	    		return null;
+	    	}
+	    	
+	    	boolean includedCmd = false;
+	    	
+			for (ProofCommand cmd : cmdList) {
+	        	
+				Position cmdPos = getPosition(cmd);
+				if (cmdPos == null) {
+					continue;
 				}
 				
-				// skip this one
-				continue;
-			}
-        	
-        	includedCmd = true;
-            cmd.accept(this);
-        }
-		
-		this.currentScript = null;
+				if (!includePos(cmdPos)) {
+					
+					if (includedCmd) {
+		        		// first not-included command after an included one, break
+						break;
+					}
+					
+					// skip this one
+					continue;
+				}
+	        	
+	        	includedCmd = true;
+	            cmd.accept(this);
+	        }
+			
+			this.currentScript = null;
+    	}
 		
 		Position scriptEndPos = getEndPosition(term, cmdList);
 		if (includePos(scriptEndPos)) {
@@ -246,12 +264,16 @@ public class ZEvesPosVisitor implements
         return null;
 	}
 
+	protected void visitProofScriptHead(ProofScript term, Position pos) {
+		// do nothing by default
+	}
+	
 	/**
-	 * @param name
+	 * @param term
 	 * @param pos
 	 * @return false if proof script should not be evaluated, true otherwise
 	 */
-	protected boolean visitProofScriptHead(ProofScript term, Position pos) {
+	protected boolean beforeProofScriptCommands(ProofScript term, Position pos) {
 		// do nothing by default
 		return true;
 	}

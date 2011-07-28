@@ -250,9 +250,11 @@ eclipse/zeves/META-INF/MANIFEST.MF -text svneol=unset#text/plain
 eclipse/zeves/build.properties -text svneol=unset#text/plain
 eclipse/zeves/icons/conj.png -text
 eclipse/zeves/icons/refresh.gif -text
+eclipse/zeves/icons/reset.gif -text
 eclipse/zeves/icons/submitToPoint.png -text
 eclipse/zeves/icons/thm_proved.gif -text
 eclipse/zeves/icons/thm_unproved.gif -text
+eclipse/zeves/icons/utf.png -text
 eclipse/zeves/icons/z-eves.png -text
 eclipse/zeves/plugin.xml -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEves.java -text svneol=unset#text/plain
@@ -260,10 +262,13 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesFileState.java -text sv
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesImages.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesPlugin.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SubmitToPointCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditListener.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditTracker.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorUtil.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesAnnotations.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesExecVisitor.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesPosVisitor.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesResultConverter.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunch.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunchTab.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunchTabGroup.java -text svneol=unset#text/plain

@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.editor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,6 +23,7 @@ import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModelExtension;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.texteditor.MarkerUtilities;
 
 
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
@@ -63,7 +65,12 @@ public class ZEvesAnnotations {
 
 	public void createErrorMarker(Position pos, String message) throws CoreException {
 
-		createMarkupMessageMarker(MARKER_ERROR, IMarker.SEVERITY_ERROR, pos, message);
+		createErrorMarker(pos, message, IMarker.SEVERITY_ERROR);
+	}
+	
+	public void createErrorMarker(Position pos, String message, int severity) throws CoreException {
+
+		createMarkupMessageMarker(MARKER_ERROR, severity, pos, message);
 	}
 	
 	public void createResultMarker(Position pos, String message) throws CoreException {
@@ -113,13 +120,84 @@ public class ZEvesAnnotations {
 	}
 	
 	public void clearMarkers() throws CoreException {
-		markerResource.deleteMarkers(MARKER_ERROR, false, 0);
-		markerResource.deleteMarkers(MARKER_RESULT, false, 0);
+		clearMarkers(markerResource);
 		
 		AnnotationModel annModel = getAnnotationModel();
 		if (annModel != null) {
 			annModel.removeAllAnnotations();
 		}
+	}
+	
+	public static void clearMarkers(IResource markerResource) throws CoreException {
+		markerResource.deleteMarkers(MARKER_ERROR, false, 0);
+		markerResource.deleteMarkers(MARKER_RESULT, false, 0);
+	}
+	
+	public void deleteMarkers(int offset) throws CoreException {
+		
+		if (offset == 0) {
+			// just clear everything
+			clearMarkers();
+			return;
+		}
+		
+		final List<IMarker> removeMarkers = new ArrayList<IMarker>();
+		removeMarkers.addAll(findRemoveMarkers(MARKER_ERROR, offset));
+		removeMarkers.addAll(findRemoveMarkers(MARKER_RESULT, offset));
+		
+		final List<Annotation> removeAnns = new ArrayList<Annotation>();
+		
+		final AnnotationModel annModel = getAnnotationModel();
+		if (annModel != null) {
+			int docLength = document.getLength();
+			
+			@SuppressWarnings("unchecked")
+			Iterator<Annotation> it = annModel.getAnnotationIterator(
+					offset, (docLength - offset), true, true);
+			while (it.hasNext()) {
+				removeAnns.add(it.next());
+			}
+		}
+		
+		IWorkspaceRunnable r = new IWorkspaceRunnable() {
+			public void run(IProgressMonitor monitor) throws CoreException {
+				
+				for (IMarker marker : removeMarkers) {
+					marker.delete();
+				}
+				
+				if (annModel != null && !removeAnns.isEmpty()) {
+					annModel.replaceAnnotations(
+							removeAnns.toArray(new Annotation[removeAnns.size()]), 
+							new HashMap<Object, Object>());
+				}
+			}
+		};
+
+		try {
+			markerResource.getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
+		} catch (CoreException ce) {
+			ZEvesPlugin.getDefault().log(ce);
+		}
+	}
+	
+	private List<IMarker> findRemoveMarkers(String type, int offset) throws CoreException {
+		
+		List<IMarker> remove = new ArrayList<IMarker>();
+		
+		IMarker[] markers = markerResource.findMarkers(type, true, 0);
+		for (IMarker marker : markers) {
+			int end = MarkerUtilities.getCharEnd(marker);
+			if (end < 0) {
+				continue;
+			}
+			
+			if (end >= offset) {
+				remove.add(marker);
+			}
+		}
+		
+		return remove;
 	}
 	
 	public Annotation addAnnotation(Position pos, String annotationType) {

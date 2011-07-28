@@ -1,13 +1,18 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 
 import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -33,18 +38,20 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	private final ZEvesApi api;
 	private final ZEvesFileState state;
 	private final ZEvesAnnotations annotations;
+	private final SectionManager sectInfo;
 	private Annotation unprocessedAnn;
 	
 	private static final long FLUSH_INTERVAL = 500;
 	private long lastFlush = 0;
 	
     public ZEvesExecVisitor(ZEvesApi api, ZEvesFileState state, ZEvesAnnotations annotations,
-    		int startOffset, int endOffset) {
+    		SectionManager sectInfo, int startOffset, int endOffset) {
     	
 		super(startOffset, endOffset);
 		this.api = api;
 		this.state = state;
 		this.annotations = annotations;
+		this.sectInfo = sectInfo;
 	}
 
     @Override
@@ -96,7 +103,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    	
 	    	try {
 	    		int historyIndex = api.getHistoryLength();
-	    		state.addPara(term, historyIndex);
+	    		state.addPara(pos, /*term, */historyIndex);
 	    		
 	    		Object zEvesPara = api.getHistoryElement(historyIndex);
 	    		// add result first, because that will be displayed in hover
@@ -116,47 +123,50 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	}
     
     @Override
-	protected boolean visitProofScriptHead(ProofScript term, Position pos) {
+	protected void visitProofScriptHead(ProofScript term, Position pos) {
 		
 		Annotation unfinishedAnn = markUnfinished(pos);
 		
+    	String theoremName = getProofScriptName(term);
+	    	
     	try {
-        	
-    		String theoremName = getProofScriptName(term);
+
+    		// TODO add paragraph for proof script?
+//	    	state.addPara(term, historyIndex);
     		
-	    	try {
-	    		api.setCurrentGoalName(theoremName);
-			} catch (ZEvesException e) {
-				handleZEvesException(pos, e);
-				return false;
-			}
-	    	
-	    	try {
-	
-	    		// TODO add paragraph for proof script?
-//	    		state.addPara(term, historyIndex);
-	    		
-	    		// add result first, because that will be displayed in hover
-	    		ZEvesOutput result = api.getGoalProofStep(theoremName, 1);
-//	    		state.addParaResult(term, zEvesPara);
-	    		handleResult(pos, result);
-	    		
-//	    		boolean goalProved = api.getGoalProvedState(theoremName);
-//	    		handleResult(pos, "Proved: " + goalProved);
-	    		
-	    	} catch (ZEvesException e) {
-	    		handleZEvesException(pos, e);
-	    		return false;
-	    	}
-	    	
+    		// add result first, because that will be displayed in hover
+    		ZEvesOutput result = api.getGoalProofStep(theoremName, 1);
+//	    	state.addParaResult(term, zEvesPara);
+    		state.addProofResult(null, term, ZEvesFileState.PROOF_GOAL_STEP, result);
+    		handleResult(pos, result);
+    		
+//	    	boolean goalProved = api.getGoalProvedState(theoremName);
+//	    	handleResult(pos, "Proved: " + goalProved);
+    		
+    	} catch (ZEvesException e) {
+    		handleZEvesException(pos, e);
+    		return;
     	} finally {
         	markFinished(unfinishedAnn);
     	}
-    	
-    	return true;
 	}
 	
     @Override
+	protected boolean beforeProofScriptCommands(ProofScript term, Position pos) {
+    	// ensure current script is the goal
+		String theoremName = getProofScriptName(term);
+		
+    	try {
+    		api.setCurrentGoalName(theoremName);
+		} catch (ZEvesException e) {
+			handleZEvesException(pos, e);
+			return false;
+		}
+    	
+    	return true;
+	}
+
+	@Override
 	protected void visitProofScriptEnd(ProofScript term, Position pos) {
 		
 		Annotation unfinishedAnn = markUnfinished(pos);
@@ -189,7 +199,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		String commandContents = command.accept(zEvesXmlPrinter);
     		
 	    	try {
-				ZEvesOutput output = api.sendCommand("proof-command", commandContents);
+				ZEvesOutput output = api.sendProofCommand(commandContents);
 				handleResult(pos, output);
 			} catch (ZEvesException e) {
 				handleZEvesException(pos, e);
@@ -202,7 +212,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		
 	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addProofResult(script, command.getProofStep().intValue(), proofResult);
+	    		state.addProofResult(pos, script, command.getProofStep().intValue(), proofResult);
 	    		handleResult(pos, proofResult);
 	    		
 //	    		handleResult(pos, "Step index: " + stepIndex);
@@ -284,9 +294,25 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		return;
     	}
     	
+    	boolean warning = false;
+    	String outStr;
+		try {
+			outStr = printResult(result);
+		} catch (ZEvesException e) {
+			warning = true; 
+			outStr = e.getMessage();
+		}
+    	
     	if (annotations != null) {
 			try {
-				annotations.createResultMarker(pos, result.toString());
+				if (outStr != null) {
+					
+					if (warning) {
+						annotations.createErrorMarker(pos, outStr, IMarker.SEVERITY_WARNING);
+					} else {
+						annotations.createResultMarker(pos, outStr);
+					}
+				}
 				annotations.addAnnotation(pos, ZEvesAnnotations.ANNOTATION_FINISHED);
 			} catch (CoreException ce) {
 				ZEvesPlugin.getDefault().log(ce);
@@ -295,7 +321,43 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 //			tryFlush();
 		}
     }
-    
+
+	private String printResult(Object result) throws ZEvesException {
+		if (!(result instanceof ZEvesOutput)) {
+//			return result.toString();
+			return null;
+		}
+		
+		// instead of printing everything, just get the actual results (e.g. proof goal) here
+		Object firstResult = ((ZEvesOutput) result).getFirstResult();
+		if (firstResult == null) {
+			return null;
+		}
+
+		ZSect sect = getCurrentSect();
+		String sectName = sect != null ? sect.getName() : null;
+		
+		String resultZEves = firstResult.toString();
+		
+		try {
+			return ZEvesResultConverter.convertPred(sectInfo, sectName, resultZEves, Markup.UNICODE, 80);
+		} catch (IOException e) {
+			ZEvesPlugin.getDefault().log(e);
+			throw handleParseException("I/O problems parsing Z/Eves result: " + e.getMessage(), e, resultZEves);
+		} catch (CommandException e) {
+			// TODO log this exception as well?
+			Throwable cause = e.getCause();
+			if (cause == null) {
+				cause = e;
+			}
+			throw handleParseException("Cannot parse Z/Eves result: " + cause.getMessage(), cause, resultZEves);
+		}
+	}
+	
+	private ZEvesException handleParseException(String message, Throwable ex, String unparsedResult) {
+		return new ZEvesException(message + "\nZ/Eves result:\n" + unparsedResult, ex);
+	}
+
     private void updateUnprocessed(int newOffset) {
     	if (annotations != null) {
     		

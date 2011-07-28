@@ -2,7 +2,9 @@ package net.sourceforge.czt.eclipse.zeves.views;
 
 import java.util.List;
 
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesApi.ZEvesTheoremType;
@@ -243,7 +245,7 @@ class TheoremTree extends FilteredTree2 {
 		}
 
 		@Override
-		public Object loadContents(ZEvesApi api) throws ZEvesException {
+		public Object loadContents(ZEvesApi api, Markup markup) throws ZEvesException {
 			return api.getTheorem(theoremName);
 		}
     }

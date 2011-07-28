@@ -1,13 +1,22 @@
 package net.sourceforge.czt.eclipse.zeves;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
 import net.sourceforge.czt.zeves.ZEvesApi;
+import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesServer;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+
 
 public class ZEves {
 	
@@ -70,6 +79,46 @@ public class ZEves {
 		}
 		
 		return state;
+	}
+	
+	public void reset() throws ZEvesException {
+		
+		// upon reset, reset the API and all the file states
+		if (!isRunning()) {
+			return;
+		}
+		
+		getApi().reset();
+
+		for (ZEvesFileState state : fileStates.values()) {
+			state.clear();
+		}
+
+		// also remove all markers
+		List<IResource> clearResources = new ArrayList<IResource>(fileStates.keySet());
+		clearMarkers(clearResources);
+		
+		fileStates.clear();
+	}
+
+	private void clearMarkers(final List<IResource> clearResources) {
+		if (clearResources.isEmpty()) {
+			return;
+		}
+		
+		IWorkspaceRunnable r = new IWorkspaceRunnable() {
+			public void run(IProgressMonitor monitor) throws CoreException {
+				for (IResource resource : clearResources) {
+					ZEvesAnnotations.clearMarkers(resource);
+				}
+			}
+		};
+
+		try {
+			clearResources.get(0).getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
+		} catch (CoreException ce) {
+			ZEvesPlugin.getDefault().log(ce);
+		}
 	}
 	
 //	public void start(String serverAddress, int port, ZEvesServer server, IProgressMonitor monitor) {

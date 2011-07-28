@@ -9,7 +9,10 @@ import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesServer;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -152,6 +155,8 @@ public class ZEvesStateView extends ViewPart {
 	private void initToolBar() {
 		IActionBars bars = getViewSite().getActionBars();
 		IToolBarManager tm = bars.getToolBarManager();
+		tm.add(new ResetAction());
+		tm.add(new Separator());
 		tm.add(refreshAction);
 	}
 
@@ -237,6 +242,30 @@ public class ZEvesStateView extends ViewPart {
 			
 		} catch (ZEvesException e) {
 			ZEvesPlugin.getDefault().log(e.getMessage(), e);
+		}
+	}
+	
+	private class ResetAction extends Action {
+
+		public ResetAction() {
+			super("Reset");
+			setToolTipText("Reset Prover");
+
+			// setDescription("?");
+			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_RESET));
+		}
+
+		/*
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		public void run() {
+			try {
+				ZEvesPlugin.getZEves().reset();
+			} catch (ZEvesException e) {
+				MessageDialog.openError(paragraphCountField.getShell(), 
+						"Problems Resetting Z/Eves", e.getMessage());
+				ZEvesPlugin.getDefault().log(e);
+			}
 		}
 	}
 	

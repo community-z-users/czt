@@ -1,5 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves;
 
+import net.sourceforge.czt.eclipse.zeves.editor.ZEditorEditTracker;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -17,6 +19,7 @@ public class ZEvesPlugin extends AbstractUIPlugin {
 	private static ZEvesPlugin plugin;
 	
 	private ZEves prover;
+	private ZEditorEditTracker editTracker;
 	
 	/**
 	 * The constructor
@@ -33,6 +36,8 @@ public class ZEvesPlugin extends AbstractUIPlugin {
 		plugin = this;
 		
 		prover = new ZEves();
+		editTracker = new ZEditorEditTracker();
+		editTracker.init();
 	}
 
 	/*
@@ -40,6 +45,11 @@ public class ZEvesPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+
+		if (editTracker != null) {
+			editTracker.dispose();
+			editTracker = null;
+		}
 		
 		if (prover != null) {
 			prover.stop();

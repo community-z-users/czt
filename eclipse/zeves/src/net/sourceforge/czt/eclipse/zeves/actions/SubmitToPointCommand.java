@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.actions;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
+import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
@@ -19,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.Position;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 
@@ -33,43 +35,85 @@ public class SubmitToPointCommand extends AbstractHandler {
 		}
 		
 		ZEditor editor = (ZEditor) HandlerUtil.getActiveEditor(event);
-		final ParsedData parsedData = editor.getParsedData();
+		ParsedData parsedData = editor.getParsedData();
 		
         IResource resource = ZEditorUtil.getEditorResource(editor);
         IDocument document = ZEditorUtil.getDocument(editor);
         
-        final ZEvesAnnotations annotations;
+        ZEvesAnnotations annotations = null;
         if (resource != null) {
         	annotations = new ZEvesAnnotations(editor, resource, document);
+        }
+        
+        ZEvesApi zEvesApi = prover.getApi();
+        // TODO handle if resource is not available
+        ZEvesFileState fileState = prover.getState(resource, true);
+        int submittedOffset = fileState.getLastPositionOffset();
+        
+        int caretPosition = ZEditorUtil.getCaretPosition(editor);
+        
+        Job job;
+        if (caretPosition <= submittedOffset) {
         	
-			// first delete all the previous markers
+        	// first delete all the previous markers
 			try {
-				annotations.clearMarkers();
+				annotations.deleteMarkers(caretPosition);
 			} catch (CoreException e) {
 				ZEvesPlugin.getDefault().log(e);
 			}
-			
+        	
+        	// actually undoing - current position has been submitted before
+        	job = createUndoJob(zEvesApi, fileState, caretPosition);
         } else {
-        	annotations = null;
+        	
+        	int start;
+        	if (submittedOffset < 0) {
+        		// nothing submitted - go from start
+        		start = 0;
+        	} else {
+        		// start from the next symbol
+        		start = submittedOffset + 1;
+        	}
+        	
+        	job = createSubmitJob(parsedData, annotations, zEvesApi, 
+        			fileState, start, caretPosition);
         }
-        
-        final ZEvesApi zEvesApi = prover.getApi();
-        
-        final int start = 0;
-        final int caretPosition = ZEditorUtil.getCaretPosition(editor);
-        // TODO handle if resource is not available
+		
+		job.setUser(true);
+		job.schedule();
+		
+		return null;
+	}
+
+	private Job createSubmitJob(final ParsedData parsedData, ZEvesAnnotations annotations,
+			final ZEvesApi zEvesApi, final ZEvesFileState fileState, int start,
+			int end) {
+		
 		final ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
-				zEvesApi, prover.getState(resource, true), 
-				annotations, start,	caretPosition);
+				zEvesApi, fileState, 
+				annotations, parsedData.getSectionManager(), 
+				start, end);
         
 		Job job = new Job("Sending to Z/Eves") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				
 				try {
-					
-					zEvesApi.reset();
+//					
+//					zEvesApi.reset();
+//					fileState.clear();
 					zEvesExec.execSpec(parsedData.getSpec());
+					
+//					zEvesApi.setCurrentGoalName("tAddBirthdayPRE");
+//					zEvesApi.getGoalProofLength("tAddBirthdayPRE");
+////					zEvesApi.back(3);
+//					zEvesApi.getGoalProofLength("tAddBirthdayPRE");
+////					zEvesApi.retry();
+//					zEvesApi.getGoalProofLength("tAddBirthdayPRE");
+//					
+//					fileState.undoThrough(new Position(500, 0));
+					
+//					zEvesApi.getGoalProofLength("tAddBirthdayPRE");
 					
 //					zEvesApi.undoBackTo(5);
 //					int historyCount = zEvesApi.getHistoryLength();
@@ -77,8 +121,8 @@ public class SubmitToPointCommand extends AbstractHandler {
 //					System.out.println("Last elem: " + zEvesApi.getHistoryElement(historyCount));
 //					System.out.println("InitIsOk proved: " + zEvesApi.getGoalProvedState("InitIsOK"));
 					
-				} catch (ZEvesException e) {
-					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+//				} catch (ZEvesException e) {
+//					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
 				} finally {
 					zEvesExec.finish();
 				}
@@ -86,10 +130,25 @@ public class SubmitToPointCommand extends AbstractHandler {
 				return Status.OK_STATUS;
 			}
 		};
+		return job;
+	}
+	
+	private Job createUndoJob(final ZEvesApi zEvesApi, final ZEvesFileState fileState, 
+			final int undoOffset) {
 		
-		job.setUser(true);
-		job.schedule();
-		
-		return null;
+		Job job = new Job("Undoing in Z/Eves") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				
+				try {
+					fileState.undoThrough(zEvesApi, new Position(undoOffset, 0));
+				} catch (ZEvesException e) {
+					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+				}
+				
+				return Status.OK_STATUS;
+			}
+		};
+		return job;
 	}
 }
