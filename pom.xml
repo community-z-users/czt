@@ -100,6 +100,7 @@
     <module>zlive</module>
     <module>zml</module>
     <module>parser-zeves</module>
+    <module>typechecker-zeves</module>
   </modules>
   <dependencies>
     <!-- JUnit -->
