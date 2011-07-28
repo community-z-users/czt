@@ -17,8 +17,6 @@ package net.sourceforge.czt.typecheck.zeves;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.ThmTable;
@@ -210,21 +208,28 @@ public abstract class Checker<R>
    */
   protected void typeCheckPred(Term term, Pred pred)
   {
-    UResult solved = pred.accept(predChecker());
-
-    // if not solved in the first pass, do it again
-    if (solved.equals(UResult.PARTIAL))
-    {
-      // try again - just like in Z
-      solved = pred.accept(predChecker());
-
-      // if not solved a second time, raise the warning 
-      if (!solved.equals(UResult.SUCC))
-      {
-        warningManager().warn(term, WarningMessage.COULD_NOT_RESOLVE_PRED,
-                getConcreteSyntaxSymbol(term), term, pred);
-      }
-    }
+    warningManager().warn(term, WarningMessage.IGNORE_PROOF_PRED, getCurrentProofName(), pred);
+// IGNORE THIS BIT FOR NOW: later filter errors accordingly
+//    List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> zGenOnly = factory().list(getTypeChecker().errors());
+//    // TODO: there is more to it than just errors() (e.g., paraErrors() and undeclaredName()) - see clearErrors();
+//
+//    UResult solved = pred.accept(predChecker());
+//
+//    List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> zevesGenOnly = factory().list(getTypeChecker().errors());
+//
+//    // if not solved in the first pass, do it again
+//    if (solved.equals(UResult.PARTIAL))
+//    {
+//      // try again - just like in Z
+//      solved = pred.accept(predChecker());
+//
+//      // if not solved a second time, raise the warning
+//      if (!solved.equals(UResult.SUCC))
+//      {
+//        warningManager().warn(term, WarningMessage.COULD_NOT_RESOLVE_PRED,
+//                getConcreteSyntaxSymbol(term), term, pred);
+//      }
+//    }
   }
 
   protected void checkRefConjType(Term term, Term part, ErrorMessage msg, Type found)
@@ -238,7 +243,10 @@ public abstract class Checker<R>
 
   protected Type typeCheckExpr(Term term, Expr expr, WarningMessage msg)
   {
-    Type found = expr.accept(exprChecker());
+    // IGNORE EXPR IN PROOFS FOR NOW!!!
+    warningManager().warn(term, WarningMessage.IGNORE_PROOF_EXPR, getCurrentProofName(), expr);
+    //Type found = expr.accept(exprChecker());
+    Type found = factory().createUnknownType();
     if (msg != null) // && some form of type unification here?
     {
       warningManager().warn(term, msg, getCurrentProofName(), expr, found);

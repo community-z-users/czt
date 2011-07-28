@@ -80,8 +80,9 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
     UResult res = unify(varType, exprType);
     if (!res.equals(UResult.SUCC))
     {
-      // Keep it as a warni
+      // Keep it as a warning
       //error(term, msg, getCurrentProofName(), cnt, all, i.getName(), varType, exprType);
+      warningManager().warn(term, msg, getCurrentProofName(), cnt, all, i.getName(), varType, exprType);
     }
   }
 

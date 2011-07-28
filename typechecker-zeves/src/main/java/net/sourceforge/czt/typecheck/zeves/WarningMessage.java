@@ -49,7 +49,16 @@ public enum WarningMessage {
   ZSECT_THMTBL_ERROR("Could not calculate conjecture table for Z section '{0}'", "An attempt to calculate Z section '{0}' conjecture table failed"),
   ZSECT_PROOFTBL_ERROR("Could not calculate proof script table for Z section '{0}'", "An attempt to calculate Z section '{0}' proof script table failed"),
 
- 
+  IGNORE_PROOF_EXPR("Ignoring expression typechecking in the middle of a Z/Eves proof." +
+          "\n\tIn proof...: {0}"
+        + "\n\tat expr....: {1}",
+        "Because Z/Eves may create new variables and change variables in expressions, we are ignoring type checking for them. This is safe because, Z/Eves will do it anyway."),
+
+  IGNORE_PROOF_PRED("Ignoring predicate typechecking in the middle of a Z/Eves proof." +
+          "\n\tIn proof...: {0}"
+        + "\n\tat pred....: {1}",
+        "Because Z/Eves may create new variables and change variables in predicates, we are ignoring type checking for them. This is safe because, Z/Eves will do it anyway."),
+
   UNKNOWN_TERM("Typechecker is being asked to visit a unknown term" +
     "\n\tChecker...: {0}" +
     "\n\tTerm......: {1}", 

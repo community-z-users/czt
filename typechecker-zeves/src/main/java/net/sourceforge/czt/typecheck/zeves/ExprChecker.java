@@ -16,7 +16,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.typecheck.zeves;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Type2;
 
 /**
@@ -41,13 +40,6 @@ public class ExprChecker
   @Override
   public Type2 visitTerm(Term term)
   {
-    return term.accept(zExprChecker_);
-  } 
-
-  public Type2 visitRefExpr(RefExpr term)
-  {
-    // TODO: ADD HERE EXTRA CHECKS!!!
     return term.accept(exprChecker());
-  }
-  
+  } 
 }
