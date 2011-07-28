@@ -231,7 +231,8 @@ public abstract class Checker<R>
   {
     if (found instanceof UnknownType) // or check to be !ProofType
     {
-      error(term, msg, getCurrentProofName(), part, found);
+      //error(term, msg, getCurrentProofName(), part, found);
+      warningManager().warn(term, msg, getCurrentProofName(), part, found);
     }
   }
 

@@ -133,6 +133,16 @@ public class WarningManager
     warn(term, wm, params.toArray());
   }
 
+  public void warn(Term term, ErrorMessage msg, Object... params)
+  {
+    ErrorAnn errorAnn = new ErrorAnn(msg.toString(), params, (SectionManager)sectInfo_,
+      getCurrentSectName(), GlobalDefs.nearestLocAnn(term), term, markup_);
+    errorAnn.setErrorType(ErrorType.WARNING);
+    //errorAnn.setInfo(msg.name());
+    warnErrors_.add(errorAnn);
+    warn(term, msg.toString(), params);
+  }
+
   public void warn(Term term, WarningMessage wm, Object... arguments)
   {
     ErrorAnn errorAnn = new ErrorAnn(wm.toString(), arguments, (SectionManager)sectInfo_,
