@@ -51,17 +51,11 @@ public class SubmitToPointCommand extends AbstractHandler {
         int submittedOffset = fileState.getLastPositionOffset();
         
         int caretPosition = ZEditorUtil.getCaretPosition(editor);
-        
+
+        int dirtyOffset;
         Job job;
         if (caretPosition <= submittedOffset) {
-        	
-        	// first delete all the previous markers
-			try {
-				annotations.deleteMarkers(caretPosition);
-			} catch (CoreException e) {
-				ZEvesPlugin.getDefault().log(e);
-			}
-        	
+        	dirtyOffset = caretPosition;
         	// actually undoing - current position has been submitted before
         	job = createUndoJob(zEvesApi, fileState, caretPosition);
         } else {
@@ -75,10 +69,20 @@ public class SubmitToPointCommand extends AbstractHandler {
         		start = submittedOffset + 1;
         	}
         	
+        	dirtyOffset = start;
+        	
         	job = createSubmitJob(parsedData, annotations, zEvesApi, 
         			fileState, start, caretPosition);
         }
+        
+		// first delete all the previous markers in the dirty region
+		try {
+			annotations.deleteMarkers(dirtyOffset);
+		} catch (CoreException e) {
+			ZEvesPlugin.getDefault().log(e);
+		}
 		
+		// now run the exec job
 		job.setUser(true);
 		job.schedule();
 		
@@ -99,27 +103,7 @@ public class SubmitToPointCommand extends AbstractHandler {
 			protected IStatus run(IProgressMonitor monitor) {
 				
 				try {
-//					
-//					zEvesApi.reset();
-//					fileState.clear();
 					zEvesExec.execSpec(parsedData.getSpec());
-					
-//					zEvesApi.setCurrentGoalName("tAddBirthdayPRE");
-//					zEvesApi.getGoalProofLength("tAddBirthdayPRE");
-////					zEvesApi.back(3);
-//					zEvesApi.getGoalProofLength("tAddBirthdayPRE");
-////					zEvesApi.retry();
-//					zEvesApi.getGoalProofLength("tAddBirthdayPRE");
-//					
-//					fileState.undoThrough(new Position(500, 0));
-					
-//					zEvesApi.getGoalProofLength("tAddBirthdayPRE");
-					
-//					zEvesApi.undoBackTo(5);
-//					int historyCount = zEvesApi.getHistoryLength();
-//					System.out.println("History count: " + zEvesApi.getHistoryLength());
-//					System.out.println("Last elem: " + zEvesApi.getHistoryElement(historyCount));
-//					System.out.println("InitIsOk proved: " + zEvesApi.getGoalProvedState("InitIsOK"));
 					
 //				} catch (ZEvesException e) {
 //					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
