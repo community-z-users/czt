@@ -12,6 +12,36 @@
             id="net.sourceforge.czt.eclipse.zeves.submitToPoint"
             name="Move Prover To Selection">
       </command>
+      <command
+            id="net.sourceforge.czt.eclipse.zeves.proof.reduce"
+            name="Reduction">
+      </command>
+      <command
+            id="net.sourceforge.czt.eclipse.zeves.proof.cases"
+            name="Cases">
+      </command>
+      <command
+            id="net.sourceforge.czt.eclipse.zeves.proof.quant"
+            name="Quantifiers">
+      </command>
+      <command
+            id="net.sourceforge.czt.eclipse.zeves.proof.normal"
+            name="Normal Forms">
+      </command>
+      <command
+            id="net.sourceforge.czt.eclipse.zeves.proof.eq"
+            name="Equality">
+      </command>
+      <command
+            defaultHandler="net.sourceforge.czt.eclipse.zeves.actions.SendSimpleProofCommand"
+            id="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+            name="Simple Proof Command">
+         <commandParameter
+               id="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+               name="Name"
+               optional="false">
+         </commandParameter>
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -26,6 +56,229 @@
                   style="push">
             </command>
          </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:net.sourceforge.czt.eclipse.zeves.view.Output?before=view">
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.reduce"
+               label="Reduction"
+               mode="FORCE_TEXT"
+               style="pulldown">
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.cases"
+               label="Cases"
+               mode="FORCE_TEXT"
+               style="pulldown">
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.quant"
+               label="Quantifiers"
+               mode="FORCE_TEXT"
+               style="pulldown">
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.normal"
+               label="Normal Forms"
+               mode="FORCE_TEXT"
+               style="pulldown">
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.eq"
+               label="Equality"
+               mode="FORCE_TEXT"
+               style="pulldown">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:net.sourceforge.czt.eclipse.zeves.proof.reduce">
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Prove"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="prove">
+            </parameter>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Prove by Reduce"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="prove by reduce">
+            </parameter>
+         </command>
+         <separator
+               name="s1"
+               visible="true">
+         </separator>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Reduce"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="reduce">
+            </parameter>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Rewrite"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="rewrite">
+            </parameter>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Simplify"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="simplify">
+            </parameter>
+         </command>
+         <separator
+               name="s2"
+               visible="true">
+         </separator>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Invoke"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="invoke">
+            </parameter>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Trivial Rewrite"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="trivial rewrite">
+            </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:net.sourceforge.czt.eclipse.zeves.proof.cases">
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Cases"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="cases">
+            </parameter>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Next"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="next">
+            </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:net.sourceforge.czt.eclipse.zeves.proof.quant">
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Prenex"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="cases">
+            </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:net.sourceforge.czt.eclipse.zeves.proof.normal">
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="With Normalization Reduce"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="with normalization reduce">
+            </parameter>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="With Normalization Rewrite"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="with normalization rewrite">
+            </parameter>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="With Normalization Simplify"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="with normalization simplify">
+            </parameter>
+         </command>
+         <separator
+               name="s1"
+               visible="true">
+         </separator>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Conjunctive Normal Form"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="conjunctive">
+            </parameter>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Disjunctive Normal Form"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="disjunctive">
+            </parameter>
+         </command>
+         <separator
+               name="s2"
+               visible="true">
+         </separator>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Rearrange"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="rearrange">
+            </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:net.sourceforge.czt.eclipse.zeves.proof.eq">
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
+               label="Equality Substitute"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  value="equality substitute">
+            </parameter>
+         </command>
       </menuContribution>
    </extension>
    <extension

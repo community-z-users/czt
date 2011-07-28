@@ -261,6 +261,7 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEves.java -text svneol=unse
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesFileState.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesImages.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesPlugin.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendSimpleProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SubmitToPointCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditListener.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditTracker.java -text svneol=unset#text/plain
