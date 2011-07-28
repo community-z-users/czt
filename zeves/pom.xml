@@ -15,7 +15,8 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>
+      <artifactId>typechecker-zeves</artifactId>
+      <version>1.6-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <build>
