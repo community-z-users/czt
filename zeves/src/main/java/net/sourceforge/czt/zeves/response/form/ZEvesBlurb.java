@@ -1,6 +1,7 @@
 package net.sourceforge.czt.zeves.response.form;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -14,6 +15,10 @@ public class ZEvesBlurb {
 	@XmlAnyElement(lax = true)
 	private List<?> content = new ArrayList<Object>();
 
+	public List<?> getContent() {
+		return Collections.unmodifiableList(content);
+	}
+	
 	@Override
 	public String toString() {
 		return ZEvesResponseUtil.concat(content, " ");

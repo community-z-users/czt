@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
+import net.sourceforge.czt.z.util.ZString;
+
 /**
  * <!ELEMENT rename (name, name)>
  * 
@@ -17,7 +19,9 @@ public class ZEvesRename {
 
 	@Override
 	public String toString() {
-		return String.valueOf(names.get(0)) + "/" + String.valueOf(names.get(1));
+		return String.valueOf(names.get(0)) 
+				+ ZString.SPACE + ZString.SLASH + ZString.SPACE
+				+ String.valueOf(names.get(1));
 	}
 	
 }

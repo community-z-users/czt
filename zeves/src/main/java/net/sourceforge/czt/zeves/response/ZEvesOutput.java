@@ -20,8 +20,8 @@ import net.sourceforge.czt.zeves.response.form.ZEvesBlurb;
 @XmlRootElement(name = "zoutput")
 public class ZEvesOutput {
 
-	@XmlElement(name = "provercmd", type = ZEvesProverCmd.class)
-	private Object command;
+	@XmlElement(name = "provercmd")
+	private ZEvesProverCmd command;
 
 	@XmlElements({
 			// TODO proper classes - not used in Z/Eves at the moment?
@@ -45,6 +45,14 @@ public class ZEvesOutput {
 		}
 
 		return para.get(0);
+	}
+	
+	public ZEvesProverCmd getCommand() {
+		return command;
+	}
+	
+	public ZEvesBlurb getInfo() {
+		return info;
 	}
 
 	public boolean isEmpty() {
