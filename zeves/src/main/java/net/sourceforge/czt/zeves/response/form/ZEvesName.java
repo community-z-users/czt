@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.XmlAnyElementList;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 
@@ -116,12 +117,19 @@ public class ZEvesName {
 	private ZEvesType type;
 
 	public String getIdent() {
+		
+		// Z/Eves outputs a simple ' instead of Prime, and it is not separated as a decorator,
+		// so instead just check and replace
+		if (ident != null && ident.endsWith("'")) {
+			ident = ident.substring(0, ident.length() - 1) + ZString.PRIME;
+		}
+		
 		return ident;
 	}
 
 	@Override
 	public String toString() {
-		return ident + getGenActInfo(genActuals.getItems());
+		return getIdent() + getGenActInfo(genActuals.getItems());
 	}
 
 	public static String getGenActInfo(List<?> genActuals) {
