@@ -99,7 +99,6 @@ public class ZEditorEditTracker {
 			
 			ITextEditor editor = getZEditor(ref);
 			if (editor != null) {
-				System.out.println("Attaching to " + ref);
 				IDocumentListener listener = getListener(editor, true);
 				IDocument document = ZEditorUtil.getDocument(editor);
 				document.addDocumentListener(listener);
@@ -116,7 +115,6 @@ public class ZEditorEditTracker {
 			
 			ITextEditor editor = getZEditor(ref);
 			if (editor != null) {
-				System.out.println("Detaching from " + ref);
 				removeListener(editor);
 			}
 		}
