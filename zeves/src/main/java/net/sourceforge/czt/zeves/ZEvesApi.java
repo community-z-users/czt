@@ -443,9 +443,36 @@ public class ZEvesApi {
 	public void undoBackTo(int paragraphNumber) throws ZEvesException {
 		sendCommand("undo-back-to", String.valueOf(paragraphNumber));
 	}
+	
+	public void undoBackThrough(int paragraphNumber) throws ZEvesException {
+		
+		// will use "back to" with one paragraph less
+		paragraphNumber--;
+		if (paragraphNumber < 1) {
+			paragraphNumber = 1;
+		}
+		
+		undoBackTo(paragraphNumber);
+	}
 
 	public void setCurrentGoalName(String goalName) throws ZEvesException {
 		sendCommand("set-current-goal-name", goalName);
+	}
+	
+	public ZEvesOutput sendProofCommand(String command) throws ZEvesException {
+		return sendCommand("proof-command", command);
+	}
+	
+	public void back() throws ZEvesException {
+		sendProofCommand("back");
+	}
+	
+	public void back(int numberOfSteps) throws ZEvesException {
+		sendProofCommand("back " + String.valueOf(numberOfSteps));
+	}
+	
+	public void retry() throws ZEvesException {
+		sendProofCommand("retry");
 	}
 
 	private void debug(String msg) {
