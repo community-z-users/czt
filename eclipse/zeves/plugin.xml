@@ -525,4 +525,13 @@
             verticalRulerPreferenceValue="false">
       </specification>
    </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="net.sourceforge.czt.eclipse.zeves.submitToPoint"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Shift+M1+Enter">
+      </key>
+   </extension>
 </plugin>
