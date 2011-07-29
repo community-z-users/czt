@@ -34,17 +34,17 @@ public enum Markup
   public final static String [] KNOWN_FILENAME_SUFFIXES = {
     ".tex", ".zed", ".zed8", ".zed16", ".oz", ".oz8", ".oz16",
     ".circus", ".circus8", ".circus16", ".zedpatt", ".zedpatt8", ".zedpatt16",
-    ".zml"};
+    ".zev", ".zev8", ".zev16", ".zml"};
   
   //TODO: These could come from a configuration file perhaps?
   public static List<String> getKnownLatexSuffixes()
   {
-    return Arrays.asList(".tex", ".zed", ".oz", ".circus", ".zedpatt");
+    return Arrays.asList(".tex", ".zed", ".oz", ".circus", ".zedpatt", ".zev");
   }
   
   public static List<String> getKnownUnicodeSuffixes()
   {
-    return Arrays.asList(".zed8", ".zed16", ".oz8", ".oz16", ".circus8", ".circus16", ".zedpatt8", ".zedpatt16");
+    return Arrays.asList(".zed8", ".zed16", ".oz8", ".oz16", ".circus8", ".circus16", ".zedpatt8", ".zedpatt16", ".zev8", "zev16");
   }
   
   public static List<String> getKnownXMLSuffixes()
