@@ -13,12 +13,15 @@ import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.util.CztUI;
 import net.sourceforge.czt.eclipse.util.IZFileType;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 
@@ -369,6 +372,8 @@ public class CZTPlugin extends AbstractUIPlugin
      * Initialize the section manager
      */
     try {
+    	// debug SM
+      //sectManager.setTracing(true);	
       Source source = new StringSource("\\begin{zsection} "
           + "\\SECTION ZEclipseDefault " + "\\parents standard\\_toolkit "
           + "\\end{zsection}");
@@ -376,14 +381,30 @@ public class CZTPlugin extends AbstractUIPlugin
       sectManager.put(new Key<Source>("ZEclipseDefault", Source.class), source);
       // make sure it (and the standard toolkit) are parsed
       sectManager.get(new Key<Spec>("ZEclipseDefault", Spec.class));
+      System.out.println("GOT TO PARSING");
       // and typechecked
       sectManager.get(new Key<SectTypeEnvAnn>("ZEclipseDefault",
                                               SectTypeEnvAnn.class));
     } catch (CommandException ce) {
+	  if (ce.getCause() instanceof TypeErrorException)
+      {
+        TypeErrorException typeErrorException = (TypeErrorException) ce.getCause();
+        for (ErrorAnn next : typeErrorException.getErrors())
+        {
+          if (next.getErrorType().equals(ErrorType.ERROR))
+          {  
+        	log(next.getMessage(), typeErrorException);  
+          }
+          else 
+          {
+        	log(new Status(IStatus.WARNING, getPluginID(), 1001, next.getMessage(), typeErrorException));  
+          }
+        }
+      }
       // propagate this exception so it is visible to users.
-      throw new RuntimeException("Error creating a new section manager", ce);
+	  else
+		 throw new RuntimeException("Error creating a new section manager", ce);
     }
-
     fSectionManager = sectManager;
   }
 
