@@ -123,3 +123,8 @@ sidekick.parser.zpattlatex.label=ZPattern (Latex)
 mode.zpattlatex.sidekick.parser=zpattlatex
 sidekick.parser.circuslatex.label=Circus (Latex)
 mode.circuslatex.sidekick.parser=circuslatex
+sidekick.parser.z.label=Z-Eves
+mode.z.sidekick.parser=zeves
+sidekick.parser.z.label=Z-Eves (Latex)
+mode.z.sidekick.parser=zeveslatex
+

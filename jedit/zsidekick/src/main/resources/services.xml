@@ -44,4 +44,12 @@
     new zsidekick.CztParser("ozpatt",
                             net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zeves">
+    new zsidekick.CztParser("zeves", net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zeveslatex">
+    new zsidekick.CztParser("zeves", net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
+
+
 </SERVICES>
