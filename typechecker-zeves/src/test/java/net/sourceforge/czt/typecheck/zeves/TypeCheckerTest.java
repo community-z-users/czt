@@ -29,8 +29,13 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.Spec;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -48,8 +53,8 @@ public class TypeCheckerTest
   extends net.sourceforge.czt.typecheck.z.TypeCheckerTest
 {
 
-  // true => looks into tests/circus/debug/*.tex;
-  // false=> looks into tests/circus/*.tex
+  // true => looks into tests/zeves/debug/*.tex;
+  // false=> looks into tests/zeves/*.tex
   protected static boolean DEBUG_TESTING = false; // true;
   // true => executes the printing tests, which will reparse and print files.
   protected static boolean TESTING_PRINTING = false;
@@ -188,7 +193,7 @@ public class TypeCheckerTest
     }
     //if the file name does not end with error, then we have a
     //normal case
-    else if (fileName.endsWith(".tex"))
+    else if (fileName.endsWith(".tex") || fileName.endsWith(".zed8"))
     {
       suite.addTest(createNormalTest(fullPath));
     }
@@ -202,7 +207,11 @@ public class TypeCheckerTest
   protected Term parse(String file, SectionManager manager)
     throws Exception
   {
-    Term term = super.parse(new File(file).toURL(), manager);
+    // don't use super.parse as it ignores unicode tests
+    Source source = new FileSource(file);
+    source.setMarkup(Markup.getMarkup(file));
+    manager.put(new Key<Source>(file, Source.class), source);
+    Term term = manager.get(new Key<Spec>(file, Spec.class));
     if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
         PrintVisitor pv = new PrintVisitor();

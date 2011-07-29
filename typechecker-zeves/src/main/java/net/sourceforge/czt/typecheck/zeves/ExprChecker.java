@@ -40,6 +40,6 @@ public class ExprChecker
   @Override
   public Type2 visitTerm(Term term)
   {
-    return term.accept(exprChecker());
+    return term.accept(zExprChecker_);
   } 
 }
