@@ -360,6 +360,7 @@ public class Main
       "     i  retain informal narrative rather than eliding it\n" +
       "  -o   specify output file (mark-up is determined by file ending)\n" +
       "  -s   syntax check only\n" +
+      "  -p   makes it zpatt dialect and set prove as true?\n" +
       "  -dc  domain check the specification\n" +
       "  -id  if an output in LaTeX or Unicode mark-up is specified,\n" +
       "       prints the ids for names as part of the name.\n" +
@@ -372,11 +373,13 @@ public class Main
       "  z       Standard Z (default)\n" +
       "  oz      Object Z\n" +
       "  circus  Circus language\n" +
+      "  zeves   ZEves proof languages\n" +
       "  zpatt   Z with transformation rules\n" +
       "  ozpatt  Object Z with transformation rules\n" +
       "File ending bindings:\n" +
       "  tex, zed --> LaTeX mark-up\n" +
       "  xml, zml --> ZML\n" +
+      "  zev      --> ZEves\n" +
       "  *8       --> Unicode (encoding UTF-8)\n" +
       "  *16      --> Unicode (encoding UTF-16)\n" +
       "Commands:\n" + printCommands() +
