@@ -381,7 +381,7 @@ public class CZTPlugin extends AbstractUIPlugin
       sectManager.put(new Key<Source>("ZEclipseDefault", Source.class), source);
       // make sure it (and the standard toolkit) are parsed
       sectManager.get(new Key<Spec>("ZEclipseDefault", Spec.class));
-      System.out.println("GOT TO PARSING");
+      //System.out.println("GOT TO PARSING");
       // and typechecked
       sectManager.get(new Key<SectTypeEnvAnn>("ZEclipseDefault",
                                               SectTypeEnvAnn.class));
