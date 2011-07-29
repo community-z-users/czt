@@ -33,6 +33,7 @@ public enum ZEvesProofToken implements Token
 {
   ZPROOF(ZEvesString.ZPROOF + ZString.SPACE + "zproof", NewlineCategory.AFTER),
   ZPROOFSECTION(ZEvesString.ZPROOFSECTION + ZString.SPACE + "zproofsection", NewlineCategory.AFTER),
+  ZPROOFDOLLAR(ZEvesString.ZPROOFDOLLAR, NewlineCategory.NEITHER),
   ZPROOFCOMMANDSEP(ZEvesString.ZPROOFCOMMANDSEP, NewlineCategory.BOTH);
 
   private String spelling_ = null;
@@ -49,21 +50,25 @@ public enum ZEvesProofToken implements Token
     newlineCategory_ = newlineCategory;
   }
 
+  @Override
   public String getName()
   {
     return toString();
   }
 
+  @Override
   public Object getSpelling()
   {
     return spelling_;
   }
 
+  @Override
   public String spelling()
   {
     return spelling_;
   }
 
+  @Override
   public NewlineCategory getNewlineCategory()
   {
     return newlineCategory_;

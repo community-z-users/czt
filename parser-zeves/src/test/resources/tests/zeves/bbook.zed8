@@ -1,0 +1,173 @@
+
+─ section bbook parents standard_toolkit
+└
+
+─ [ NAME , DATE ]
+└
+
+┌ BirthdayBook
+known : ℙ NAME
+birthday : NAME ⇸ DATE
+|
+ known = dom birthday
+└
+
+─ theorem BirthdayBookPredicate ⊢?
+∀ BirthdayBook ⦁ known = dom birthday
+└
+
+├ BirthdayBookPredicate simplify;
+└
+
+┌ InitBirthdayBook
+BirthdayBook ′
+|
+ birthday′ = ∅
+known′ = ∅
+└
+
+─ theorem InitIsOK ⊢?
+∃ BirthdayBook ′ ⦁ InitBirthdayBook
+└
+
+├ InitIsOK prove by reduce;
+└
+
+┌ AddBirthday
+ΔBirthdayBook
+name? : NAME
+date? : DATE
+|
+ name? ∉ known
+birthday′ = birthday ∪ { ( name? ↦ date? ) }
+└
+
+─ theorem AddBirthdayIsHonest ⊢? ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ name? ∉ known ⇒ pre AddBirthday
+└
+
+├ AddBirthdayIsHonest prove by reduce;
+└
+
+─ theorem knownAddBirthday ⊢? ∀ AddBirthday ⦁ known′ = known ∪ { name? }
+└
+
+├ knownAddBirthday prove by reduce;
+└
+
+┌ FindBirthday
+ΞBirthdayBook
+name? : NAME
+date! : DATE
+|
+ name? ∈ known
+date! = birthday ( name? )
+└
+
+├ FindBirthday$domainCheck prove by reduce;
+└
+
+─ AddThenFind == AddBirthday ⨟ FindBirthday
+└
+
+─ theorem AddFind ⊢? ∀ AddThenFind ⦁ date! = date?
+└
+
+├ AddFind prove by reduce;
+└
+
+┌ Remind1
+ΞBirthdayBook
+today? : DATE
+cards! : ℙ NAME
+|
+ cards! = { n : NAME | birthday ( n ) = today? }
+└
+
+├ Remind1$domainCheck prove;
+└
+
+┌ Remind
+ΞBirthdayBook
+today? : DATE
+cards! : ℙ NAME
+|
+ cards! = { n : known | birthday ( n ) = today? }
+└
+
+├ Remind$domainCheck prove;
+└
+
+─ REPORT ::= ok | already_known | not_known
+└
+
+┌ Success
+result! : REPORT
+|
+ result! = ok
+└
+
+┌ AlreadyKnown
+ΞBirthdayBook
+name? : NAME
+result! : REPORT
+|
+ name? ∈ known
+result! = already_known
+└
+
+─ RAddBirthday == AddBirthday ∧ Success ∨ AlreadyKnown
+└
+
+─ theorem RAddBirthdayIsTotal ⊢? ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ pre RAddBirthday
+└
+
+├ RAddBirthdayIsTotal
+prove by reduce;
+split name? ∈  known;
+prove;
+└
+
+╷ name : NAME
+VALUE : ℕ
+|
+ VALUE > 0
+└
+
+─ theorem tAddBirthdayPRE ⊢? ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ pre AddBirthday
+└
+
+├ tAddBirthdayPRE
+invoke AddBirthday;
+invoke ΔBirthdayBook;
+rewrite;
+invoke BirthdayBook;
+simplify;
+cases;
+next;
+next;
+next;
+simplify;
+conjunctive;
+simplify;
+disjunctive;
+simplify;
+cases;
+apply domInPower to predicate dom  (birthday ∪  {(name?, date?)}) ∈  ℙ NAME;
+rewrite;
+simplify;
+simplify;
+rewrite;
+prove by reduce;
+equality substitute dom birthday;
+└
+
+
+─ theorem myThm ⊢? ∀ x : ℕ ⦁ x ≥ 0
+└
+
+─ theorem test ⊢? ∀ BirthdayBook ⦁ true
+└
+
+├ test
+invoke BirthdayBook;
+└

@@ -76,7 +76,8 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   NORMALIZATION(ZEvesString.NORMALIZATION, NewlineCategory.BOTH),
   PREDICATE(ZEvesString.PREDICATE, NewlineCategory.BOTH),
   SUBSTITUTE(ZEvesString.SUBSTITUTE, NewlineCategory.BOTH),
-  TO(ZEvesString.TO, NewlineCategory.BOTH),
+  // to  cannot have soft newlines beforehand, as this confuses the lexer dearly
+  TO(ZEvesString.TO, NewlineCategory.AFTER),
   
   CHECK(ZEvesString.CHECK, NewlineCategory.BOTH),
   DECLARE(ZEvesString.DECLARE , NewlineCategory.BOTH),

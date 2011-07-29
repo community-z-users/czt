@@ -37,6 +37,8 @@ public class ZmlScanner
 {
   /**
    * Creates a new ZML scanner.
+   * @param term
+   * @param manager
    */
   public ZmlScanner(Term term, WarningManager manager)
   {

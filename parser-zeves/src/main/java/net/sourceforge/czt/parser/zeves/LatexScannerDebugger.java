@@ -125,7 +125,8 @@ public class LatexScannerDebugger {
 //      System.out.println("ZEvesProof only Symbol Table \n\t" + new TreeMap(flipMap(circusMap)));
 
       Source source = new FileSource(args[0]); // args[0] = -in
-      source.setMarkup(Markup.LATEX);
+      System.out.println("Working with " + Markup.getMarkup(args[0]) + " for " + args[0]);
+      source.setMarkup(Markup.getMarkup(args[0]));
       SimpleFormatter formatter = new SimpleFormatter(false, true, false, false);
       CztLogger.setConsoleHandler(CztLogger.getLogger(LatexMarkupParser.class), Level.ALL, Level.OFF, formatter);
       if (args.length == 1 || args[1].equals("-s"))
@@ -142,6 +143,7 @@ public class LatexScannerDebugger {
       }
     }
     catch (Exception e) {
+      System.out.flush();
       e.printStackTrace();
     }
   }

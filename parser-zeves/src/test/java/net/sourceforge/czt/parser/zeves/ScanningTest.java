@@ -14,6 +14,7 @@ import net.sourceforge.czt.session.Source;
  * Unit test for simple App.
  */
 public class ScanningTest
+          // TODO: should derive from CztManagedTest? But that class is from Parsing onwards :-(....
         extends TestCase
 {
 
@@ -70,7 +71,7 @@ public class ScanningTest
         }
         //if the file name does not end with error, then we have a
         //normal case
-        else if (name.endsWith(".tex"))
+        else if (name.endsWith(".tex") || name.endsWith("zed8"))
         {
           suite.addTest(new TestNormal(path, name));
         }
@@ -81,7 +82,7 @@ public class ScanningTest
   protected void scan(String name) throws IOException, Exception
   {
     Source source = new FileSource(name);
-    source.setMarkup(Markup.LATEX);
+    source.setMarkup(Markup.getMarkup(name));
     LatexScannerDebugger.debugScanner(source);
   }
 
@@ -101,6 +102,7 @@ public class ScanningTest
     {
       try
       {
+        System.out.println("Scanning test for " + name_);
         scan(name_);
       }
       catch (RuntimeException e)

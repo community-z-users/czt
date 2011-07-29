@@ -538,8 +538,11 @@ parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZEvesPrintVisitor.jav
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZmlScanner.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ProofScriptParsingTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ScanningTest.java -text
+parser-zeves/src/test/resources/tests/zeves/bbook.tex -text
+parser-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 parser-zeves/src/test/resources/tests/zeves/simple.tex -text
+parser-zeves/src/test/resources/tests/zeves/simple.zed8 -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
 parser/doc/parser.eps -text
 parser/doc/parser.jpg -text

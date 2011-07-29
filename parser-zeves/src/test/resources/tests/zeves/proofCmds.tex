@@ -26,8 +26,10 @@ By multiple words
 \begin{zproof}[multipleWords]
 trivial rewrite;
 trivial simplify;
-prove by rewrite;
-prove by reduce;
+prove by
+  rewrite;
+prove by        
+    reduce;     % new lines in the middle of the proof command. comments cannot appear between "by" and "reduce"!
 equality substitute;
 \end{zproof}
 
@@ -61,7 +63,7 @@ Quantifiers command
 \begin{zproof}[qntCmd]
 prenex;
 instantiate x == 10 + 5, y == \{ a: \nat; b:\nat | P(a,b) \},
-    z == 0;
+    z == 0, x\$ == 10;  % special variables?
 prenex;
 \end{zproof}
 
@@ -132,5 +134,18 @@ with enabled (A, B, C)
   with normalization
     with predicate (P)
       prove by reduce;
+\end{zproof}
+
+
+Special commands: weird names and all...
+
+\begin{zproof}[bla\$dom]
+prenex;
+apply inDom to predicate x = \dom~f \cup \dom~r;
+apply S\$member;
+instantiate x == 10 + 5, y == \{ a: \nat; b:\nat | P(a,b) \},
+    z == 0, wierd$ == 20; % wierd case for variable name that is allowed...
+prenex;
+with enabled (S\$member, inDom) prove;
 \end{zproof}
 
