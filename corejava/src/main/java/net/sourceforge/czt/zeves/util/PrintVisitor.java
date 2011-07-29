@@ -16,12 +16,13 @@
  * along with CZT; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.czt.zeves.util;
 
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.Directive;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Sect;
@@ -30,6 +31,7 @@ import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
@@ -58,13 +60,14 @@ import net.sourceforge.czt.zeves.visitor.ZEvesVisitor;
  * @author Leo Freitas
  * @date Jun 27, 2011
  */
-public class PrintVisitor 
-  extends net.sourceforge.czt.z.util.PrintVisitor
-  implements ZEvesVisitor<String>,
-             SpecVisitor<String>,
-             ZSectVisitor<String>,
-             ZParaListVisitor<String>,
-             NarrParaVisitor<String>
+public class PrintVisitor
+        extends net.sourceforge.czt.z.util.PrintVisitor
+        implements ZEvesVisitor<String>,
+        LatexMarkupParaVisitor<String>,
+        SpecVisitor<String>,
+        ZSectVisitor<String>,
+        ZParaListVisitor<String>,
+        NarrParaVisitor<String>
 {
 
   private InstantiationKind currInstKind_ = null;
@@ -89,7 +92,9 @@ public class PrintVisitor
       return zNameWord.replaceAll(Matcher.quoteReplacement("$"), Matcher.quoteReplacement("\\$"));
     }
     else
+    {
       return super.matchOtherStrings(zNameWord);
+    }
   }
 
   @Override
@@ -101,24 +106,67 @@ public class PrintVisitor
     {
       // minus the ammount of "\" added per each dollar
       // unless the dollar is in the end (e.g., x$), the split shouldn't add "+1"
-      result = result - other.split(Matcher.quoteReplacement("\\$")).length +
-                // if dollar is in the end, then split "x$" = ["x"] (no adjustment)
-                // if dollar is in the middle, then split "x$domcheck" = ["x", "domcheck"] (adjust one)
-               (other.lastIndexOf("$")+1 == other.length() ? 0 : 1)   ;
+      result = result - other.split(Matcher.quoteReplacement("\\$")).length
+               + // if dollar is in the end, then split "x$" = ["x"] (no adjustment)
+              // if dollar is in the middle, then split "x$domcheck" = ["x", "domcheck"] (adjust one)
+              (other.lastIndexOf("$") + 1 == other.length() ? 0 : 1);
     }
     return result;
   }
 
+  @Override
+  public String visitLatexMarkupPara(LatexMarkupPara term)
+  {
+    StringBuilder result = new StringBuilder();
+    for (Directive d : term.getDirective())
+    {
+      switch (d.getType())
+      {
+        case IN:
+          result.append("Zin");
+          break;
+
+        case PRE:
+          result.append("Zpre");
+          break;
+
+        case POST:
+          result.append("Zpost");
+          break;
+
+        default:
+          result.append("Z");
+          break;
+      }
+      if (d.getUnicode().startsWith("U+"))
+      {
+        result.append("char");
+      }
+      else
+      {
+        result.append("word");
+      }
+      result.append(" ");
+      result.append(d.getCommand());
+      result.append(" ");
+      result.append(d.getUnicode());
+      result.append("\n");
+    }
+    return result.toString();
+  }
+
+  @Override
   public String visitSpec(Spec term)
   {
     StringBuilder result = new StringBuilder();
-    for(Sect s : term.getSect())
+    for (Sect s : term.getSect())
     {
       result.append(visit(s));
     }
     return result.toString();
   }
 
+  @Override
   public String visitZSect(ZSect term)
   {
     if (!isAnyStandardSection(term.getName()))
@@ -130,23 +178,27 @@ public class PrintVisitor
       return result.toString();
     }
     else
+    {
       return visitTerm(term);
+    }
   }
 
+  @Override
   public String visitZParaList(ZParaList term)
   {
     StringBuilder result = new StringBuilder();
-    for(Para p : term)
+    for (Para p : term)
     {
       result.append(visit(p));
     }
     return result.toString();
   }
 
+  @Override
   public String visitNarrPara(NarrPara term)
   {
     StringBuilder result = new StringBuilder("NarrPara {");
-    for(Object o : term.getContent())
+    for (Object o : term.getContent())
     {
       if (o instanceof Term)
       {
@@ -189,10 +241,14 @@ public class PrintVisitor
   {
     switch (term.getKind())
     {
-      case Conjunctive: return "conjunctive";
-      case Disjunctive: return "disjunctive";
-      case Rearrange:   return "rearrange";
-      case Command:     return "with normalization " + visit(term.getProofCommand());
+      case Conjunctive:
+        return "conjunctive";
+      case Disjunctive:
+        return "disjunctive";
+      case Rearrange:
+        return "rearrange";
+      case Command:
+        return "with normalization " + visit(term.getProofCommand());
       default:
         throw new Error();
     }
@@ -237,9 +293,9 @@ public class PrintVisitor
     }
     else if (term.getEnabled() != null)
     {
-      assert term.getExpr() == null && term.getPred() == null &&
-             term.getNameList() instanceof ZNameList &&
-             !term.getZNameList().isEmpty() : "with enabled/disabled command cannot have expr or pred and name list must not be empty";
+      assert term.getExpr() == null && term.getPred() == null
+             && term.getNameList() instanceof ZNameList
+             && !term.getZNameList().isEmpty() : "with enabled/disabled command cannot have expr or pred and name list must not be empty";
       result.append(term.getEnabled() ? "enabled " : "disabled ");
       result.append("(");
       result.append(visit(term.getZNameList()));
@@ -256,35 +312,35 @@ public class PrintVisitor
   @Override
   public String visitSubstitutionCommand(SubstitutionCommand term)
   {
-    assert term.getProofCommand() == null &&
-           term.getNameList() == null || term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
+    assert term.getProofCommand() == null
+           && term.getNameList() == null || term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
     switch (term.getKind())
     {
       case Invoke:
-         assert term.getExpr() == null : "invoke command cannot have an expression";
-         if (term.getPred() != null)
-         {
-           return "invoke predicate " + visit(term.getPred());
-         }
-         else if (term.getNameList() == null || term.getZNameList().isEmpty())
-         {
-           return "invoke";
-         }
-         else
-         {
-           assert term.getNameList() != null && term.getZNameList().size() == 1 : "invoke cmd only on a single name";
-           return "invoke " + visit(term.getZNameList().get(0));
-         }
+        assert term.getExpr() == null : "invoke command cannot have an expression";
+        if (term.getPred() != null)
+        {
+          return "invoke predicate " + visit(term.getPred());
+        }
+        else if (term.getNameList() == null || term.getZNameList().isEmpty())
+        {
+          return "invoke";
+        }
+        else
+        {
+          assert term.getNameList() != null && term.getZNameList().size() == 1 : "invoke cmd only on a single name";
+          return "invoke " + visit(term.getZNameList().get(0));
+        }
       case Equality:
-         assert term.getPred() == null : "equality substitute command cannot have a predicate";
-         if (term.getExpr() != null)
-         {
-           return "equality substitute " + visit(term.getExpr());
-         }
-         else
-         {
-           return "equality substitute";
-         }
+        assert term.getPred() == null : "equality substitute command cannot have a predicate";
+        if (term.getExpr() != null)
+        {
+          return "equality substitute " + visit(term.getExpr());
+        }
+        else
+        {
+          return "equality substitute";
+        }
       default:
         throw new Error();
     }
@@ -295,33 +351,46 @@ public class PrintVisitor
   {
     switch (term.getKind())
     {
-      case Reduce  :
-         switch (term.getPower())
-         {
-           case None:     return "reduce";
-           case Prove:    return "prove by reduce";
-           case Trivial:  return "INVALID(trivial reduce)";
-           default: throw new Error();
-         }
-      case Rewrite :
-         switch (term.getPower())
-         {
-           case None:     return "rewrite";
-           case Prove:    return "prove by rewrite";
-           case Trivial:  return "trivial rewrite";
-           default: throw new Error();
-         }
+      case Reduce:
+        switch (term.getPower())
+        {
+          case None:
+            return "reduce";
+          case Prove:
+            return "prove by reduce";
+          case Trivial:
+            return "INVALID(trivial reduce)";
+          default:
+            throw new Error();
+        }
+      case Rewrite:
+        switch (term.getPower())
+        {
+          case None:
+            return "rewrite";
+          case Prove:
+            return "prove by rewrite";
+          case Trivial:
+            return "trivial rewrite";
+          default:
+            throw new Error();
+        }
 
       case Simplify:
-         switch (term.getPower())
-         {
-           case None:     return "simplify";
-           case Prove:    return "INVALID(prove by simplify)";
-           case Trivial:  return "trivial simplify";
-           default: throw new Error();
-         }
+        switch (term.getPower())
+        {
+          case None:
+            return "simplify";
+          case Prove:
+            return "INVALID(prove by simplify)";
+          case Trivial:
+            return "trivial simplify";
+          default:
+            throw new Error();
+        }
 
-      default:      throw new Error();
+      default:
+        throw new Error();
     }
   }
 
@@ -330,10 +399,14 @@ public class PrintVisitor
   {
     switch (term.getKind())
     {
-      case Cases:   return "cases";
-      case Next:    return "next";
-      case Split:   return "split " + visit(term.getPred());
-      default:      throw new Error();
+      case Cases:
+        return "cases";
+      case Next:
+        return "next";
+      case Split:
+        return "split " + visit(term.getPred());
+      default:
+        throw new Error();
     }
   }
 
@@ -358,10 +431,10 @@ public class PrintVisitor
   @Override
   public String visitApplyCommand(ApplyCommand term)
   {
-    assert term.getProofCommand() == null &&
-           term.getNameList() != null &&
-           term.getNameList() instanceof ZNameList &&
-           term.getZNameList().size() == 1 : "apply command cannot have subcommand and must have a singleton Z namelist";
+    assert term.getProofCommand() == null
+           && term.getNameList() != null
+           && term.getNameList() instanceof ZNameList
+           && term.getZNameList().size() == 1 : "apply command cannot have subcommand and must have a singleton Z namelist";
     StringBuilder result = new StringBuilder("apply ");
     result.append(visit(term.getZNameList().get(0)));
     if (term.getPred() != null)
@@ -408,9 +481,12 @@ public class PrintVisitor
 
   private boolean isAnyStandardSection(String name)
   {
-    for(Section s : Section.values())
+    for (Section s : Section.values())
     {
-      if (s.getName().equals(name)) return true;
+      if (s.getName().equals(name))
+      {
+        return true;
+      }
     }
     return false;
   }
@@ -439,7 +515,9 @@ public class PrintVisitor
   public String visitProofCommandInfoList(ProofCommandInfoList term)
   {
     if (term.isEmpty())
+    {
       return "";
+    }
     else
     {
       StringBuilder result = new StringBuilder();
