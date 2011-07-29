@@ -91,7 +91,11 @@ public class LatexScannerDebugger {
   public static void debugScanner(Source source) throws IOException, Exception
   {
      SectionInfo sectInfo_ = new SectionManager("zeves");
-     LatexScanner scanner = new LatexScanner(source, sectInfo_, new Properties());
+     net.sourceforge.czt.java_cup.runtime.Scanner scanner;
+     if (source.getMarkup().equals(Markup.UNICODE))
+       scanner = new UnicodeScanner(source, new Properties());
+     else // assume LaTex
+       scanner = new LatexScanner(source, sectInfo_, new Properties());
      DebugUtils.scan(scanner, Sym.class);
   }
 
