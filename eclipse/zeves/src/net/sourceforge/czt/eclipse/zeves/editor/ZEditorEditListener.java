@@ -2,10 +2,6 @@ package net.sourceforge.czt.eclipse.zeves.editor;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
@@ -28,7 +24,7 @@ public class ZEditorEditListener implements IDocumentListener {
 	}
 
 	@Override
-	public void documentChanged(DocumentEvent event) {}
+	public void documentChanged(DocumentEvent event) { }
 	
 	@Override
 	public void documentAboutToBeChanged(DocumentEvent event) {
@@ -68,30 +64,36 @@ public class ZEditorEditListener implements IDocumentListener {
 		}
     	
     	// actually undoing - current position has been submitted before
-    	Job job = createUndoJob(zEvesApi, fileState, editOffset);
-		
-		job.setUser(true);
-		// TODO set scheduling rule to avoid interference
-		job.schedule();
+		// FIXME temporary thing - running it sync for now, make parallel afterwards
+    	try {
+			fileState.undoThrough(zEvesApi, new Position(editOffset, 0));
+		} catch (ZEvesException e) {
+			ZEvesPlugin.getDefault().log(e);
+		}
+//    	Job job = createUndoJob(zEvesApi, fileState, editOffset);
+//		
+//		job.setUser(true);
+//		// TODO set scheduling rule to avoid interference
+//		job.schedule();
 	}
 	
-	private Job createUndoJob(final ZEvesApi zEvesApi, final ZEvesFileState fileState, 
-			final int undoOffset) {
-		
-		Job job = new Job("Undoing in Z/Eves") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				
-				try {
-					fileState.undoThrough(zEvesApi, new Position(undoOffset, 0));
-				} catch (ZEvesException e) {
-					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
-				}
-				
-				return Status.OK_STATUS;
-			}
-		};
-		return job;
-	}
+//	private Job createUndoJob(final ZEvesApi zEvesApi, final ZEvesFileState fileState, 
+//			final int undoOffset) {
+//		
+//		Job job = new Job("Undoing in Z/Eves") {
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
+//				
+//				try {
+//					fileState.undoThrough(zEvesApi, new Position(undoOffset, 0));
+//				} catch (ZEvesException e) {
+//					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+//				}
+//				
+//				return Status.OK_STATUS;
+//			}
+//		};
+//		return job;
+//	}
 	
 }

@@ -29,13 +29,20 @@ public class SubmitToPointCommand extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
+		ZEditor editor = (ZEditor) HandlerUtil.getActiveEditor(event);
+		int caretPosition = ZEditorUtil.getCaretPosition(editor);
+		
+		submitToOffset(editor, editor.getParsedData(), caretPosition);
+		return null;
+	}
+
+	public static void submitToOffset(ZEditor editor, ParsedData parsedData, int offset)
+			throws ExecutionException {
+		
 		ZEves prover = ZEvesPlugin.getZEves();
 		if (!prover.isRunning()) {
 			throw new ExecutionException("Prover is not running");
 		}
-		
-		ZEditor editor = (ZEditor) HandlerUtil.getActiveEditor(event);
-		ParsedData parsedData = editor.getParsedData();
 		
         IResource resource = ZEditorUtil.getEditorResource(editor);
         IDocument document = ZEditorUtil.getDocument(editor);
@@ -49,15 +56,19 @@ public class SubmitToPointCommand extends AbstractHandler {
         // TODO handle if resource is not available
         ZEvesFileState fileState = prover.getState(resource, true);
         int submittedOffset = fileState.getLastPositionOffset();
-        
-        int caretPosition = ZEditorUtil.getCaretPosition(editor);
 
         int dirtyOffset;
-        Job job;
-        if (caretPosition <= submittedOffset) {
-        	dirtyOffset = caretPosition;
+        Job job = null;
+        if (offset <= submittedOffset) {
+        	dirtyOffset = offset;
         	// actually undoing - current position has been submitted before
-        	job = createUndoJob(zEvesApi, fileState, caretPosition);
+			// FIXME temporary thing - running it sync for now, make parallel afterwards
+        	try {
+				fileState.undoThrough(zEvesApi, new Position(offset, 0));
+			} catch (ZEvesException e) {
+				throw new ExecutionException(e.getMessage(), e);
+			}
+//        	job = createUndoJob(zEvesApi, fileState, offset);
         } else {
         	
         	int start;
@@ -71,8 +82,8 @@ public class SubmitToPointCommand extends AbstractHandler {
         	
         	dirtyOffset = start;
         	
-        	job = createSubmitJob(parsedData, annotations, zEvesApi, 
-        			fileState, start, caretPosition);
+        	job = createSubmitJob(editor, parsedData, annotations, zEvesApi, 
+        			fileState, start, offset);
         }
         
 		// first delete all the previous markers in the dirty region
@@ -82,16 +93,18 @@ public class SubmitToPointCommand extends AbstractHandler {
 			ZEvesPlugin.getDefault().log(e);
 		}
 		
-		// now run the exec job
-		job.setUser(true);
-		job.schedule();
+
 		
-		return null;
+		if (job != null) {
+			// now run the exec job
+			job.setUser(true);
+			job.schedule();
+		}
 	}
 
-	private Job createSubmitJob(final ParsedData parsedData, ZEvesAnnotations annotations,
-			final ZEvesApi zEvesApi, final ZEvesFileState fileState, int start,
-			int end) {
+	private static Job createSubmitJob(final ZEditor editor, final ParsedData parsedData,
+			ZEvesAnnotations annotations, final ZEvesApi zEvesApi, final ZEvesFileState fileState,
+			int start, final int end) {
 		
 		final ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
 				zEvesApi, fileState, 
@@ -110,6 +123,15 @@ public class SubmitToPointCommand extends AbstractHandler {
 				} finally {
 					zEvesExec.finish();
 				}
+
+				// set caret position in display thread
+				editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						ZEditorUtil.setCaretPosition(editor, end);
+						editor.getSite().getPage().activate(editor);
+					}
+				});
 				
 				return Status.OK_STATUS;
 			}
@@ -117,22 +139,22 @@ public class SubmitToPointCommand extends AbstractHandler {
 		return job;
 	}
 	
-	private Job createUndoJob(final ZEvesApi zEvesApi, final ZEvesFileState fileState, 
-			final int undoOffset) {
-		
-		Job job = new Job("Undoing in Z/Eves") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				
-				try {
-					fileState.undoThrough(zEvesApi, new Position(undoOffset, 0));
-				} catch (ZEvesException e) {
-					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
-				}
-				
-				return Status.OK_STATUS;
-			}
-		};
-		return job;
-	}
+//	private static Job createUndoJob(final ZEvesApi zEvesApi, final ZEvesFileState fileState, 
+//			final int undoOffset) {
+//		
+//		Job job = new Job("Undoing in Z/Eves") {
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
+//				
+//				try {
+//					fileState.undoThrough(zEvesApi, new Position(undoOffset, 0));
+//				} catch (ZEvesException e) {
+//					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+//				}
+//				
+//				return Status.OK_STATUS;
+//			}
+//		};
+//		return job;
+//	}
 }

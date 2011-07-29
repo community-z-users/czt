@@ -53,10 +53,11 @@ public class ZEditorResults {
 		// however priority is given for exact match
 		final IZEvesElement[] data = new IZEvesElement[3];
 		final Position exactPos = new Position(caretPos, 0);
-		final Position beforePos = new Position(caretPos - 1, 0);
+		int beforeOffset = caretPos == 0 ? 0 : caretPos - 1;
+		final Position beforePos = new Position(beforeOffset, 0);
 		final Position afterPos = new Position(caretPos + 1, 0);
 		
-		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(caretPos - 1, caretPos + 1) {
+		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(beforeOffset, caretPos + 1) {
 
 			@Override
 			protected void visitPara(Para term, Position position) {
@@ -84,16 +85,18 @@ public class ZEditorResults {
 			private void visitProofScriptStep(ProofScript script, int step, Position pos) {
 				Object result = snapshot.getProofResult(script, step);
 				
+				if (result == null) {
+					return;
+				}
+				
 				if (!(result instanceof ZEvesOutput)) {
 					// just output currently whatever the result
 					collect(pos, new ParagraphElement(null, result));
 					return ;
 				}
 				
-				collect(pos, new ProofResultElement(
-						editor.getParsedData().getSectionManager().clone(), 
-						editor.getMarkup(), getCurrentSect(), 
-						script, step, (ZEvesOutput) result));
+				collect(pos, new ProofResultElement(editor, getCurrentSect(), 
+						script, step, (ZEvesOutput) result, pos));
 			}
 			
 			private void collect(Position pos, IZEvesElement result) {
@@ -152,27 +155,40 @@ public class ZEditorResults {
 	
 	public static class ProofResultElement implements IZEvesElement {
 		
-		private final SectionManager sectInfo;
-		private final Markup originalMarkup;
+		private final ZEditor editor;
 		private final ZSect section;
 		private final ProofScript script;
 		private final int step;
 		private final ZEvesOutput result;
 		
-		public ProofResultElement(SectionManager sectInfo, Markup markup, ZSect section, 
-				ProofScript script,	int step, ZEvesOutput result) {
-			this.sectInfo = sectInfo;
-			this.originalMarkup = markup;
+		private final Position position;
+		
+		public ProofResultElement(ZEditor editor, ZSect section, ProofScript script, int step,
+				ZEvesOutput result, Position position) {
+			this.editor = editor;
 			this.section = section;
 			this.script = script;
 			this.step = step;
 			this.result = result;
+			this.position = position;
+		}
+		
+		public ZEditor getEditor() {
+			return editor;
+		}
+		
+		public Position getPosition() {
+			return position;
+		}
+		
+		public boolean isGoal() {
+			return step == ZEvesFileState.PROOF_GOAL_STEP;
 		}
 
 		@Override
 		public String getDescription() {
 			
-			if (step == ZEvesFileState.PROOF_GOAL_STEP) {
+			if (isGoal()) {
 				return "Proof goal for: " + script.getZName().accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
 			}
 			
@@ -192,7 +208,7 @@ public class ZEditorResults {
 		public Object loadContents(ZEvesApi api, Markup markup) throws ZEvesException {
 
 			if (markup == null) {
-				markup = this.originalMarkup;
+				markup = editor.getMarkup();
 			}
 			
 			ZEvesProverCmd sentCommand = result.getCommand();
@@ -207,6 +223,7 @@ public class ZEditorResults {
 			}
 			
 			String sectName = section != null ? section.getName() : null;
+			SectionManager sectInfo = editor.getParsedData().getSectionManager().clone();
 			
 			if (info != null) {
 				

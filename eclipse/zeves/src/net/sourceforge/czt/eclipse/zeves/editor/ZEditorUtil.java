@@ -13,6 +13,11 @@ public class ZEditorUtil {
 	public static int getCaretPosition(ZEditor editor) {
 		return editor.getViewer().getTextWidget().getCaretOffset();
 	}
+	
+	public static void setCaretPosition(ZEditor editor, int position) {
+		editor.getViewer().getTextWidget().setCaretOffset(position);
+		editor.getViewer().getTextWidget().setSelection(position);
+	}
 
 	public static IResource getEditorResource(IEditorPart editor) {
 		

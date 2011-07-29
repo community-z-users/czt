@@ -96,7 +96,7 @@ public class ZEditorEditTracker {
 		}
 
 		public void partActivated(IWorkbenchPartReference ref) {
-			
+			System.out.println("Part activated: " + ref);
 			ITextEditor editor = getZEditor(ref);
 			if (editor != null) {
 				IDocumentListener listener = getListener(editor, true);
@@ -109,14 +109,13 @@ public class ZEditorEditTracker {
 		}
 
 		public void partClosed(IWorkbenchPartReference ref) {
-		}
-
-		public void partDeactivated(IWorkbenchPartReference ref) {
-			
 			ITextEditor editor = getZEditor(ref);
 			if (editor != null) {
 				removeListener(editor);
 			}
+		}
+
+		public void partDeactivated(IWorkbenchPartReference ref) {
 		}
 
 		public void partOpened(IWorkbenchPartReference ref) {

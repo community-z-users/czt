@@ -577,6 +577,10 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
     	return -1;
     }
     
+    public IZEvesElement getCurrentInput() {
+    	return currentViewInput;
+    }
+    
     /**
      * Action to toggle linking with selection.
      */
