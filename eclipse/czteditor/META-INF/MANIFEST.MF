@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Plugin.name
 Bundle-SymbolicName: net.sourceforge.czt.eclipse;singleton:=true
-Bundle-Version: 1.6.0
+Bundle-Version: 1.6.0.qualifier
 Bundle-Activator: net.sourceforge.czt.eclipse.CZTPlugin
 Bundle-Vendor: %Plugin.providerName
 Bundle-Localization: plugin

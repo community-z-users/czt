@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CZT Library for Eclipse
 Bundle-SymbolicName: net.sourceforge.czt.library
-Bundle-Version: 1.6.0
+Bundle-Version: 1.6.0.qualifier
 Bundle-Vendor: Community Z Tools
 Export-Package: net.sourceforge.czt.animation.eval,
  net.sourceforge.czt.animation.eval.flatpred,
