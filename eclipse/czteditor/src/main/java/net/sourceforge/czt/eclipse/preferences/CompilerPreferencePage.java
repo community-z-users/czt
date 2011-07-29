@@ -98,7 +98,7 @@ public class CompilerPreferencePage extends PreferencePage
     fDialectCombo = new Combo(result, SWT.NONE);
     GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
     fDialectCombo.setLayoutData(gd);
-    fDialectCombo.setItems(new String[]{"z", "oz", "circus", "zpatt"});
+    fDialectCombo.setItems(new String[]{"z", "oz", "circus", "zeves", "zpatt"});
     fDialectCombo.setToolTipText(PreferencesMessages.CompilerPreferencePage_dialect_tooltip);
     fDialectCombo.select(fDialectCombo.indexOf(
         getPreferenceStore().getString(PreferenceConstants.PROP_DIALECT)));
