@@ -1,13 +1,9 @@
 
 package net.sourceforge.czt.eclipse.views;
 
-import java.beans.PropertyChangeListener;
-
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
-import net.sourceforge.czt.eclipse.util.CZTColorManager;
-import net.sourceforge.czt.eclipse.util.IZColorConstants;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 
 import org.eclipse.core.runtime.IPath;
@@ -33,7 +29,6 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -69,10 +64,13 @@ public class ZCharMapView extends ViewPart
   private final IPath PATH_OBJECT_Z_TABLE = new Path("lib/ObjectZTable.xml");
   // Path of Circus character file
   private final IPath PATH_CIRCUS_TABLE = new Path("lib/CircusTable.xml");
+  // Path of Z/Eves character file
+  private final IPath PATH_ZEVES_TABLE = new Path("lib/ZEvesTable.xml");
   
   private ZCharTable fZTable = new ZCharTable(PATH_Z_TABLE);
   private ZCharTable fObjectZTable = new ZCharTable(PATH_OBJECT_Z_TABLE);
   private ZCharTable fCircusTable = new ZCharTable(PATH_CIRCUS_TABLE);
+  private ZCharTable fZEvesTable = new ZCharTable(PATH_ZEVES_TABLE);
   private ZCharTable fCharTable = fZTable;
   
   protected Object fInput;
@@ -182,21 +180,56 @@ public class ZCharMapView extends ViewPart
           String key = event.getProperty();
           if (key.equals(PreferenceConstants.PROP_DIALECT)) {
             String value = String.valueOf(event.getNewValue());
-            if ("z".equals(value))
-              fNotationCombo.select(0);
-            else if ("oz".equals(value))
-              fNotationCombo.select(1);
-            else if ("circus".equals(value))
-              fNotationCombo.select(2);
+            selectDialectTable(value);
           }
         }
-        
       });
+    
+    // select current dialect table
+    String dialect = CZTPlugin.getDefault().getPreferenceStore()
+        .getString(PreferenceConstants.PROP_DIALECT);
+    selectDialectTable(dialect);
+    updateTableForSelection();
 
     //		makeActions();
     //		hookContextMenu();
     //		hookDoubleClickAction();
     //		contributeToActionBars();
+  }
+  
+  private void selectDialectTable(String value)
+  {
+    if ("z".equals(value))
+      fNotationCombo.select(0);
+    else if ("oz".equals(value))
+      fNotationCombo.select(1);
+    else if ("circus".equals(value))
+      fNotationCombo.select(2);
+    else if ("zeves".equals(value)) {
+      fNotationCombo.select(3);
+    }
+  }
+  
+  private void updateTableForSelection()
+  {
+    if (viewer != null) {
+      switch (fNotationCombo.getSelectionIndex()) {
+        case 0:
+          viewer.setInput(fZTable);
+          break;
+        case 1:
+          viewer.setInput(fObjectZTable);
+          break;
+        case 2:
+          viewer.setInput(fCircusTable);
+          break;
+        case 3:
+          viewer.setInput(fZEvesTable);
+          break;
+        default:
+          viewer.setInput(fZTable);
+      }
+    }
   }
 
   private void createTable(Composite parent)
@@ -206,26 +239,12 @@ public class ZCharMapView extends ViewPart
 
     fNotationCombo = new Combo(parent, SWT.READ_ONLY);
     fNotationCombo.setItems(new String[]{"Z", "Object Z",
-        "Circus"});
+        "Circus", "Z/Eves"});
     fNotationCombo.addSelectionListener(new SelectionAdapter()
     {
       public void widgetSelected(SelectionEvent event)
       {
-        if (viewer != null) {
-          switch (fNotationCombo.getSelectionIndex()) {
-            case 0:
-              viewer.setInput(fZTable);
-              break;
-            case 1:
-              viewer.setInput(fObjectZTable);
-              break;
-            case 2:
-              viewer.setInput(fCircusTable);
-              break;
-            default:
-              viewer.setInput(fZTable);
-          }
-        }
+        updateTableForSelection();
       }
     });
     formData = new FormData();
@@ -235,8 +254,8 @@ public class ZCharMapView extends ViewPart
 
     viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
     final Table table = viewer.getTable();
-    CZTColorManager manager = new CZTColorManager();
-    Color color = manager.getColor(IZColorConstants.SCHEMA);
+//    CZTColorManager manager = new CZTColorManager();
+//    Color color = manager.getColor(IZColorConstants.SCHEMA);
     table.setFont(fCharMapViewFont);
     fTableCursor = new TableCursor(table, SWT.NULL);
     fTableCursor.setFont(fCharMapViewFont);
@@ -392,7 +411,8 @@ public class ZCharMapView extends ViewPart
     viewer.setContentProvider(new ViewContentProvider());
     //		viewer.setSorter(new NameSorter());
     viewer.setInput(fZTable);
-    fNotationCombo.select(0);
+    
+//    fNotationCombo.select(0);
   }
  
   private ZChar getZCharAtPoint(final Table table, Point pt)
