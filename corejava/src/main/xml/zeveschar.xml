@@ -4,6 +4,7 @@
     <BOXCHAR>
       <char id="ZPROOFCHAR" hex="251C" description="big turnstyle not bold"/>
       <char id="ZPROOFSECTIONCHAR" hex="2523" description="big turnstyle bold"/>
+      <char id="ZPROOFDOLLARCHAR" hex="0024" description="dollar sign for special thm names"/>
     </BOXCHAR>
   </SPECIAL>
 </ZEVESCHAR>

@@ -618,6 +618,15 @@ public class PrintVisitor
           size += 2 * ZString.ARG_TOK.length();
         }
       }
+      else
+      {
+        String other = matchOtherStrings(word);
+        if (other != null)
+        {
+          size = matchOtherSize(other);
+          result.append(other);
+        }
+      }
       ZUtils.unicodeToAscii(word.substring(size), result);
     }
     if (printIds_) {
@@ -625,6 +634,17 @@ public class PrintVisitor
     }
     result.append(visit(zName.getStrokeList()));
     return result.toString();
+  }
+
+  // for extensions to add any extra special ZName matching within PrintVisitor
+  protected String matchOtherStrings(String zNameWord)
+  {
+    return null;
+  }
+
+  protected int matchOtherSize(String other)
+  {
+    return other != null ? other.length() : 0;
   }
 
   @Override

@@ -20,6 +20,7 @@
 package net.sourceforge.czt.zeves.util;
 
 import java.util.Iterator;
+import java.util.regex.Matcher;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Para;
@@ -76,6 +77,36 @@ public class PrintVisitor
   public PrintVisitor(boolean printUnicode)
   {
     super(printUnicode);
+  }
+
+  @Override
+  protected String matchOtherStrings(String zNameWord)
+  {
+    if (zNameWord.indexOf("$") != -1)
+    {
+      // replaces $ to \$
+      //return zNameWord.replaceAll("\\$", "\\\\$");
+      return zNameWord.replaceAll(Matcher.quoteReplacement("$"), Matcher.quoteReplacement("\\$"));
+    }
+    else
+      return super.matchOtherStrings(zNameWord);
+  }
+
+  @Override
+  protected int matchOtherSize(String other)
+  {
+    int result = super.matchOtherSize(other);
+
+    if (other.indexOf("$") != -1)
+    {
+      // minus the ammount of "\" added per each dollar
+      // unless the dollar is in the end (e.g., x$), the split shouldn't add "+1"
+      result = result - other.split(Matcher.quoteReplacement("\\$")).length +
+                // if dollar is in the end, then split "x$" = ["x"] (no adjustment)
+                // if dollar is in the middle, then split "x$domcheck" = ["x", "domcheck"] (adjust one)
+               (other.lastIndexOf("$")+1 == other.length() ? 0 : 1)   ;
+    }
+    return result;
   }
 
   public String visitSpec(Spec term)

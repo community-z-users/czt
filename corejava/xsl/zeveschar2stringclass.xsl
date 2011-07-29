@@ -40,6 +40,7 @@ public interface ZEvesString extends ZPattString
 <xsl:apply-templates select="*"/>
   String ZPROOF = ZPROOFCHAR;
   String ZPROOFSECTION = ZPROOFSECTIONCHAR;
+  String ZPROOFDOLLAR = ZPROOFDOLLARCHAR;
   
 /*
 PROOFWORDBEGIN  = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
