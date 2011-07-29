@@ -49,9 +49,14 @@ public class ZEditorResults {
 			return null;
 		}
 		
-		final IZEvesElement[] data = new IZEvesElement[1];
+		// support selection just after or just before the actual caret position,
+		// however priority is given for exact match
+		final IZEvesElement[] data = new IZEvesElement[3];
+		final Position exactPos = new Position(caretPos, 0);
+		final Position beforePos = new Position(caretPos - 1, 0);
+		final Position afterPos = new Position(caretPos + 1, 0);
 		
-		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(caretPos, caretPos) {
+		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(caretPos - 1, caretPos + 1) {
 
 			@Override
 			protected void visitPara(Para term, Position position) {
@@ -62,37 +67,60 @@ public class ZEditorResults {
 					return;
 				}
 				
-				data[0] = new ParagraphElement(term, result);
+				collect(position, new ParagraphElement(term, result));
 			}
 
 			@Override
 			protected void visitProofScriptHead(ProofScript term, Position pos) {
 				// for proof script head, show the goal step
-				visitProofScriptStep(term, ZEvesFileState.PROOF_GOAL_STEP);
+				visitProofScriptStep(term, ZEvesFileState.PROOF_GOAL_STEP, pos);
 			}
 
 			@Override
 			protected void visitProofCommand(ProofScript script, ProofCommand command, Position pos) {
-				visitProofScriptStep(script, command.getProofStep().intValue());
+				visitProofScriptStep(script, command.getProofStep().intValue(), pos);
 			}
 			
-			private void visitProofScriptStep(ProofScript script, int step) {
-				ZEvesOutput result = snapshot.getProofResult(script, step);
+			private void visitProofScriptStep(ProofScript script, int step, Position pos) {
+				Object result = snapshot.getProofResult(script, step);
 				
-				if (result == null) {
-					return;
+				if (!(result instanceof ZEvesOutput)) {
+					// just output currently whatever the result
+					collect(pos, new ParagraphElement(null, result));
+					return ;
 				}
 				
-				data[0] = new ProofResultElement(
+				collect(pos, new ProofResultElement(
 						editor.getParsedData().getSectionManager().clone(), 
 						editor.getMarkup(), getCurrentSect(), 
-						script, step, result);
+						script, step, (ZEvesOutput) result));
+			}
+			
+			private void collect(Position pos, IZEvesElement result) {
+				
+				if (includePos(pos, exactPos)) {
+					data[0] = result;
+				} else if (includePos(pos, afterPos)) {
+					data[1] = result;
+				} else if (includePos(pos, beforePos)) {
+					data[2] = result;
+				} 
+			}
+			
+			private boolean includePos(Position pos, Position range) {
+				return includePos(pos, range.getOffset(), range.getLength());
 			}
 		};
 		
 		commandVisitor.execSpec(editor.getParsedData().getSpec());
 		
-		return data[0];
+		for (IZEvesElement result : data) {
+			if (result != null) {
+				return result;
+			}
+		}
+		
+		return null;
 	}
 	
 	public static class ParagraphElement implements IZEvesElement {

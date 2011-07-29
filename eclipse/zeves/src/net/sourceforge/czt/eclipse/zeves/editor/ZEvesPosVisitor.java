@@ -40,7 +40,7 @@ public class ZEvesPosVisitor implements
         ProofScriptVisitor<Object>, ProofCommandVisitor<Object>, NarrSectVisitor<Object> {
 	
 	private final int startOffset;
-	private final int endOffset;
+	private final int length;
 	
 	private ZSect currentSect = null;
 	private ProofScript currentScript = null;
@@ -51,18 +51,21 @@ public class ZEvesPosVisitor implements
 		Assert.isLegal(startOffset <= endOffset);
 		
 		this.startOffset = startOffset;
-		this.endOffset = endOffset;
+		this.length = endOffset - startOffset;
 	}
     
     protected boolean includePos(Position pos) {
+    	return includePos(pos, startOffset, length);
+    }
+    
+    protected static boolean includePos(Position pos, int rangeOffset, int rangeLength) {
     	
     	if (pos == null) {
     		// no position?
     		return false;
     	}
     	
-    	// the position [start;end] must intersect [startOffset;endOffset]
-    	return getEnd(pos) >= startOffset && pos.getOffset() <= endOffset;
+    	return pos.overlapsWith(rangeOffset, rangeLength);
     }
 
 	/**
@@ -376,7 +379,7 @@ public class ZEvesPosVisitor implements
     }
     
     protected int getEndOffset() {
-    	return endOffset;
+    	return startOffset + length;
     }
     
 }

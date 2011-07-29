@@ -13,7 +13,8 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ast.ProofScript;
-import net.sourceforge.czt.zeves.response.ZEvesOutput;
+
+import static java.lang.Math.max;
 
 public class ZEvesFileState {
 
@@ -23,11 +24,22 @@ public class ZEvesFileState {
 	
 	private final List<ParaPosition> paraPositions = new ArrayList<ParaPosition>();
 	private final List<ProofStepPosition> proofPositions = new ArrayList<ProofStepPosition>();
+	private final List<Position> errorPositions = new ArrayList<Position>();
 	
-	private final Map<ProofStepId, ZEvesOutput> proofStepResults = new HashMap<ProofStepId, ZEvesOutput>();
+	private final Map<ProofStepId, Object> proofStepResults = new HashMap<ProofStepId, Object>();
 
-	public void addPara(Position pos, int historyIndex) {
+	public void addPara(Position pos, int historyIndex, Para para, Object result, boolean success) {
+
+		paraResults.put(para, result);
 		
+		if (success) {
+			markParaSubmitted(pos, historyIndex);
+		} else {
+			markSubmitError(pos);
+		}
+	}
+
+	private void markParaSubmitted(Position pos, int historyIndex) {
 		// sanity check
 		ParaPosition lastPos = getLastPosInfo(paraPositions);
 		if (lastPos != null) {
@@ -47,50 +59,60 @@ public class ZEvesFileState {
 		paraPositions.add(new ParaPosition(pos, historyIndex));
 	}
 	
-	public void addParaResult(Para para, Object result) {
-		paraResults.put(para, result);
+	private void markSubmitError(Position pos) {
+		
+		// sanity check
+		Position lastPos = getLastErrorPos();
+		if (lastPos != null) {
+			if (lastPos.getOffset() > pos.getOffset()) {
+				throw new IllegalArgumentException(
+						"Error positions must be added in increasing order. " +
+						"Last position: [" + lastPos + "], new: [" + pos + "]");
+			}
+		}
+		
+		errorPositions.add(pos);
 	}
 	
 	public Object getParaResult(Para para) {
 		return paraResults.get(para);
 	}
 	
-	public void addProofResult(Position pos, ProofScript script, int proofStep, ZEvesOutput result) {
+	public void addProofResult(Position pos, ProofScript script, int proofStep, Object result,
+			boolean success) {
 		proofStepResults.put(new ProofStepId(script, proofStep), result);
 		
-		if (pos != null) {
-			
-			// sanity check
-			ProofStepPosition lastPos = getLastPosInfo(proofPositions);
-			if (lastPos != null) {
-				if (!beforePos(lastPos, pos)) {
-					throw new IllegalArgumentException(
-							"Proof step positions must be added in increasing order. " +
-							"Last position: [" + lastPos.getPosition() + "], new: [" + pos + "]");
-				}
+		if (success) {
+			// do not submit "goals"
+			if (proofStep != PROOF_GOAL_STEP) {
+				markProofSubmitted(pos, script, proofStep);
 			}
-			
-			proofPositions.add(new ProofStepPosition(pos, script, proofStep));
+		} else {
+			markSubmitError(pos);
 		}
+	}
+
+	private void markProofSubmitted(Position pos, ProofScript script, int proofStep) {
+		// sanity check
+		ProofStepPosition lastPos = getLastPosInfo(proofPositions);
+		if (lastPos != null) {
+			if (!beforePos(lastPos, pos)) {
+				throw new IllegalArgumentException(
+						"Proof step positions must be added in increasing order. " +
+						"Last position: [" + lastPos.getPosition() + "], new: [" + pos + "]");
+			}
+		}
+		
+		proofPositions.add(new ProofStepPosition(pos, script, proofStep));
 	}
 	
 	public int getLastPositionOffset() {
 		
-		Position lastPara = getLastPosition(paraPositions);
-		Position lastProof = getLastPosition(proofPositions);
+		int paraEnd = getEnd(getLastPosition(paraPositions));
+		int proofEnd = getEnd(getLastPosition(proofPositions));
+		int errEnd = getEnd(getLastErrorPos());
 		
-		if (lastPara == null) {
-			return getEnd(lastProof);
-		}
-		
-		if (lastProof == null) {
-			return getEnd(lastPara);
-		}
-		
-		int paraEnd = getEnd(lastPara);
-		int proofEnd = getEnd(lastProof);
-		
-		return paraEnd >= proofEnd ? paraEnd : proofEnd;
+		return max(max(paraEnd, proofEnd), errEnd);
 	}
 	
 	private int getEnd(Position pos) {
@@ -120,7 +142,15 @@ public class ZEvesFileState {
 		return list.get(list.size() - 1);
 	}
 	
-	public ZEvesOutput getProofResult(ProofScript script, int proofStep) {
+	private Position getLastErrorPos() {
+		if (errorPositions.isEmpty()) {
+			return null;
+		}
+		
+		return errorPositions.get(errorPositions.size() - 1);
+	}
+	
+	public Object getProofResult(ProofScript script, int proofStep) {
 		return proofStepResults.get(new ProofStepId(script, proofStep));
 	}
 	
@@ -129,9 +159,11 @@ public class ZEvesFileState {
 		paraPositions.clear();
 		proofPositions.clear();
 		proofStepResults.clear();
+		errorPositions.clear();
 	}
 	
 	public void undoThrough(ZEvesApi zEvesApi, Position pos) throws ZEvesException {
+		undoErrorsThrough(pos);
 		undoProofsThrough(zEvesApi, pos);
 		undoParaThrough(zEvesApi, pos);
 	}
@@ -157,8 +189,6 @@ public class ZEvesFileState {
 			
 			zEvesApi.undoBackThrough(undoThroughHistoryIndex);
 		}
-		
-		System.out.println("Undo through history: " + undoThroughHistoryIndex);
 	}
 	
 	private void undoProofsThrough(ZEvesApi zEvesApi, Position pos) throws ZEvesException {
@@ -203,11 +233,24 @@ public class ZEvesFileState {
 		}
 	}
 	
-	private boolean beforePos(PositionInfo info, Position pos) {
-		Position iPos = info.getPosition();
+	private void undoErrorsThrough(Position pos) {
 		
-		int infoEnd = iPos.getOffset() + iPos.getLength();
-		return infoEnd < pos.getOffset();
+		for (Iterator<Position> it = errorPositions.iterator(); it.hasNext(); ) {
+			
+			Position errPos = it.next();
+			if (!beforePos(errPos, pos)) {
+				it.remove();
+			}
+		}
+	}
+	
+	private boolean beforePos(PositionInfo info, Position pos) {
+		return beforePos(info.getPosition(), pos);
+	}
+	
+	private boolean beforePos(Position elemPos, Position pos) {
+		int elemEnd = elemPos.getOffset() + elemPos.getLength();
+		return elemEnd < pos.getOffset();
 	}
 	
 	private static class ProofStepId {

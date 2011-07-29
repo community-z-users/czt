@@ -97,22 +97,22 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 				ZEvesOutput output = api.send(commandXml);
 				handleResult(pos, output);
 			} catch (ZEvesException e) {
+				state.addPara(pos, -1, term, e.getMessage(), false);
 				handleZEvesException(pos, e);
 				return;
 			}
 	    	
 	    	try {
 	    		int historyIndex = api.getHistoryLength();
-	    		state.addPara(pos, /*term, */historyIndex);
-	    		
 	    		Object zEvesPara = api.getHistoryElement(historyIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addParaResult(term, zEvesPara);
+	    		state.addPara(pos, historyIndex, term, zEvesPara, true);
 	    		handleResult(pos, zEvesPara);
 	    		
 //	    		handleResult(pos, "History index: " + historyIndex);
 	    		
 	    	} catch (ZEvesException e) {
+	    		state.addPara(pos, -1, term, e.getMessage(), false);
 	    		handleZEvesException(pos, e);
 	    		return;
 	    	}
@@ -128,22 +128,20 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		Annotation unfinishedAnn = markUnfinished(pos);
 		
     	String theoremName = getProofScriptName(term);
+    	int proofStep = ZEvesFileState.PROOF_GOAL_STEP;
 	    	
     	try {
 
-    		// TODO add paragraph for proof script?
-//	    	state.addPara(term, historyIndex);
-    		
     		// add result first, because that will be displayed in hover
     		ZEvesOutput result = api.getGoalProofStep(theoremName, 1);
-//	    	state.addParaResult(term, zEvesPara);
-    		state.addProofResult(null, term, ZEvesFileState.PROOF_GOAL_STEP, result);
+    		state.addProofResult(pos, term, proofStep, result, true);
     		handleResult(pos, result);
     		
 //	    	boolean goalProved = api.getGoalProvedState(theoremName);
 //	    	handleResult(pos, "Proved: " + goalProved);
     		
     	} catch (ZEvesException e) {
+    		state.addProofResult(pos, term, proofStep, e.getMessage(), false);
     		handleZEvesException(pos, e);
     		return;
     	} finally {
@@ -159,6 +157,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	try {
     		api.setCurrentGoalName(theoremName);
 		} catch (ZEvesException e) {
+			state.addProofResult(pos, term, ZEvesFileState.PROOF_GOAL_STEP, e.getMessage(), false);
 			handleZEvesException(pos, e);
 			return false;
 		}
@@ -197,11 +196,13 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 
     		String theoremName = getProofScriptName(script);
     		String commandContents = command.accept(zEvesXmlPrinter);
+    		int proofStep = command.getProofStep().intValue();
     		
 	    	try {
 				ZEvesOutput output = api.sendProofCommand(commandContents);
 				handleResult(pos, output);
 			} catch (ZEvesException e) {
+				state.addProofResult(pos, script, proofStep, e.getMessage(), false);
 				handleZEvesException(pos, e);
 				return;
 			}
@@ -212,7 +213,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		
 	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addProofResult(pos, script, command.getProofStep().intValue(), proofResult);
+	    		state.addProofResult(pos, script, proofStep, proofResult, true);
 	    		handleResult(pos, proofResult);
 	    		
 //	    		handleResult(pos, "Step index: " + stepIndex);
