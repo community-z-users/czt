@@ -80,19 +80,20 @@ public class ZEvesFileState {
 	
 	public void addProofResult(Position pos, ProofScript script, int proofStep, Object result,
 			boolean success) {
-		proofStepResults.put(new ProofStepId(script, proofStep), result);
+		String scriptName = getScriptName(script);
+		proofStepResults.put(new ProofStepId(scriptName, proofStep), result);
 		
 		if (success) {
 			// do not submit "goals"
 			if (proofStep != PROOF_GOAL_STEP) {
-				markProofSubmitted(pos, script, proofStep);
+				markProofSubmitted(pos, scriptName, proofStep);
 			}
 		} else {
 			markSubmitError(pos);
 		}
 	}
 
-	private void markProofSubmitted(Position pos, ProofScript script, int proofStep) {
+	private void markProofSubmitted(Position pos, String script, int proofStep) {
 		// sanity check
 		ProofStepPosition lastPos = getLastPosInfo(proofPositions);
 		if (lastPos != null) {
@@ -151,7 +152,7 @@ public class ZEvesFileState {
 	}
 	
 	public Object getProofResult(ProofScript script, int proofStep) {
-		return proofStepResults.get(new ProofStepId(script, proofStep));
+		return proofStepResults.get(new ProofStepId(getScriptName(script), proofStep));
 	}
 	
 	public void clear() {
@@ -207,9 +208,8 @@ public class ZEvesFileState {
 			// removing - mark for 'back' and remove from list as well as results map
 			removing = true;
 			
-			ProofScript script = proofPos.getScript();
+			String goalName = proofPos.getScriptName();
 			int proofStep = proofPos.getProofStep();
-			String goalName = script.getZName().getWord();
 			
 			// increment undo count
 			Integer undoCount = proofUndoCounts.get(goalName);
@@ -217,7 +217,7 @@ public class ZEvesFileState {
 			
 			// remove from list and results map
 			it.remove();
-			proofStepResults.remove(new ProofStepId(script, proofStep));
+			proofStepResults.remove(new ProofStepId(goalName, proofStep));
 		}
 		
 		if (proofUndoCounts.isEmpty()) {
@@ -231,6 +231,10 @@ public class ZEvesFileState {
 			zEvesApi.setCurrentGoalName(goalName);
 			zEvesApi.back(undoCount);
 		}
+	}
+	
+	private String getScriptName(ProofScript script) {
+		return script.getZName().getWord(); 
 	}
 	
 	private void undoErrorsThrough(Position pos) {
@@ -252,13 +256,14 @@ public class ZEvesFileState {
 		int elemEnd = elemPos.getOffset() + elemPos.getLength();
 		return elemEnd < pos.getOffset();
 	}
-	
+
+	// TODO proof scripts with the same name?
 	private static class ProofStepId {
-		private final ProofScript script;
+		private final String scriptName;
 		private final int proofStep;
 		
-		public ProofStepId(ProofScript script, int proofStep) {
-			this.script = script;
+		public ProofStepId(String scriptName, int proofStep) {
+			this.scriptName = scriptName;
 			this.proofStep = proofStep;
 		}
 
@@ -267,7 +272,7 @@ public class ZEvesFileState {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + proofStep;
-			result = prime * result + ((script == null) ? 0 : script.hashCode());
+			result = prime * result + ((scriptName == null) ? 0 : scriptName.hashCode());
 			return result;
 		}
 
@@ -282,13 +287,14 @@ public class ZEvesFileState {
 			ProofStepId other = (ProofStepId) obj;
 			if (proofStep != other.proofStep)
 				return false;
-			if (script == null) {
-				if (other.script != null)
+			if (scriptName == null) {
+				if (other.scriptName != null)
 					return false;
-			} else if (!script.equals(other.script))
+			} else if (!scriptName.equals(other.scriptName))
 				return false;
 			return true;
 		}
+
 	}
 	
 	private abstract class PositionInfo {
@@ -320,16 +326,16 @@ public class ZEvesFileState {
 	
 	private class ProofStepPosition extends PositionInfo {
 		
-		private final ProofScript script;
+		private final String script;
 		private final int proofStep;
 		
-		public ProofStepPosition(Position pos, ProofScript script, int proofStep) {
+		public ProofStepPosition(Position pos, String script, int proofStep) {
 			super(pos);
 			this.script = script;
 			this.proofStep = proofStep;
 		}
 		
-		public ProofScript getScript() {
+		public String getScriptName() {
 			return script;
 		}
 
