@@ -160,10 +160,10 @@ public abstract class CztManagedTest extends TestCase
   {
     final String sourceData = url.getFile();
     final String sourceName = SourceLocator.getSourceName(sourceData);
-    if (isDebugging())
-    {
+    //if (isDebugging())
+    //{
       System.out.println("createSource = " + sourceName + ", " + sourceData);
-    }
+    //}
     Source source = new FileSource(sourceData);
     source.setMarkup(Markup.getMarkup(sourceData)); // extract the right markup
     getManager().put(new Key<Source>(sourceName, Source.class), source);
@@ -295,9 +295,21 @@ public abstract class CztManagedTest extends TestCase
   protected boolean includeTest(String sourceName, boolean positive)
   {
     if (positive)
-      return sourceName.endsWith(".tex");
+      return hasKnownSuffixes(sourceName);
     else
       return sourceName.endsWith(".error");
+  }
+
+  protected boolean hasKnownSuffixes(String sourceName)
+  {
+    for(String suffix : Markup.KNOWN_FILENAME_SUFFIXES)
+    {
+      if (sourceName.endsWith(suffix))
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   protected TestCase createPositiveTest(URL url)
