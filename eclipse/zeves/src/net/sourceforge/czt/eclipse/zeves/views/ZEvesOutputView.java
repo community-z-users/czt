@@ -489,7 +489,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 			return;
 		}
 		
-		setContentDescription("");
+//		setContentDescription("");
 
 		thread.setDaemon(true);
 		thread.setPriority(Thread.MIN_PRIORITY);
