@@ -313,6 +313,7 @@ CIRCUSACTIONCHAR = "\u2576"
 <add:zeves>
 ZPROOFCHAR = "\u251C"  /* big turnstyle not bold */
 ZPROOFSECTIONCHAR ="\u2523" /* big turnstyle BOLD */
+ZPROOFDOLLARCHAR = "\u0024" /* $ for 'special' thm names*/
 </add:zeves>
 
 
@@ -409,6 +410,7 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
 <add:zeves>
 ZPROOF = {ZPROOFCHAR}
 ZPROOFSECTION = {ZPROOFSECTIONCHAR}
+ZPROOFDOLLAR = {ZPROOFDOLLARCHAR}
 //ZPCMDSEMICOLON = "\u003B" /* just normal semicolon */
 //ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
 </add:zeves>
@@ -495,25 +497,37 @@ ZPROOFSECTION = {ZPROOFSECTIONCHAR}
                 }
 
 //  {PROOFIGNORE}+ {THMNAME} {PROOFIGNORE}+ / " to "
-  ({DECORWORD} {NL}*) / "to"
+ // ({DECORWORD} {NL}*) / "to"
+  {DECORWORD} / "to"
                 {
                   // if we've seen apply, and have a name (decorword) followed by "to", then we
-                  // have a THMNAME
-                  if (seenApply_)
-                  {
-                    //System.out.println("OUCH0 = " + yytext() + "; seen apply? = " + seenApply_);
-                    return symbol(Sym.THMNAME, new Decorword(yytext(), getLocation()));
-                  }
-                  // otherwise, it just gets to the next case. no "break" in the scanning.
-                  // see from Latex2Unicode.xml "if (directive_) {" in the {NL} production 
-                  // for the ZED lexical state
+                  // have a THMNAME. Otherwise, it's just a DECORWORD. TODO: should we check we are within ZPROOF?
+
+                  //Sym sym = null;
+                  //String word = yytext();
+                  //if (seenApply_)
+                  //{
+                  //  sym = Sym.THMNAME;
+                  //}
+                  //else
+                  //{
+                  //  sym = Sym.DECORWORD;
+                  //  //if (word.endsWith(NL*)) yypushback(number_of_nl) ARGH...
+                  //}
+                  //assert sym != null;
+                  Symbol symb = symbol(seenApply_ ? Sym.THMNAME : Sym.DECORWORD,
+                    new Decorword(yytext(), getLocation()));
+                  //System.out.println("OUCH0 = " + yytext() + "; seen apply? = " + seenApply_);
+                  return symb;
+
                 }
 
   ({PROOFWORDMIXED} {NL}*) / " "
+ //  {PROOFWORDMIXED} / " "
                 { 
                   String proofWord = yytext();
                   proofWord = cleanProofWord(proofWord);
-                  //System.out.println("OUCH1 = " + proofWord + "; seen apply? = " + seenApply_);
+                  //System.out.println("OUCH1    = " + proofWord + "; seen apply? = " + seenApply_);
                   if (proofWord.equals("expression") || proofWord.equals("predicate")) seenApply_ = false;
                   return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation()));
                 }
@@ -582,6 +596,11 @@ ZPROOFSECTION = {ZPROOFSECTIONCHAR}
   {NUMERAL}     {  return symbol(Sym.NUMERAL,
                                  new LocInt(yytext(), getLocation())); }
 
+  <add:zeves>
+  // for 'special' thm names like domainCheck etc
+  {ZPROOFDOLLAR} { return symbol(Sym.ZPROOFDOLLAR); }
+  </add:zeves>
+  
   {DECORWORD}   {
                    Symbol sym = symbol(
                                  <add:zeves>seenApply_ ? Sym.THMNAME : </add:zeves>Sym.DECORWORD,

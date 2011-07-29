@@ -463,8 +463,14 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     // assume it is not proof cmd se
     boolean result = false;
 
-    // get the next symbol
-    Symbol currsym = dumb_.pop();
+    // consume any possible NL between commands; In LaTeX stream they are not present; In Unicode they might
+    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+    Symbol currsym;
+    do {
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+    }
+    while (currsym.sym == Sym.NL);
 
     // in case of an early EOF hit
     if (currsym.sym == Sym.EOF)
@@ -483,7 +489,10 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       (currsym.sym == Sym.END);
 
     // put the symbol back onto the stack
-    dumb_.push(currsym);
+    for(Symbol s : tokens)
+    {
+      dumb_.push(s);
+    }
 
     // return whether to flip symbols or not
     return result;

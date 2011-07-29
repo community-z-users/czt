@@ -209,6 +209,41 @@ action code
       return result;
     }
 
+<add:zeves>
+    private static String DOLLAR = "$";
+    private ZName createSpecialThmName(Decorword dw1, /*LocInfo dollar,*/ Decorword dw2)
+    {
+      checkName(dw1);
+      checkName(dw2);
+      // dw1 might have strokes; dw2 must not have strokes.
+      ZName result = factory_.createZName(dw1.getWord() + DOLLAR + dw2.getWord(), dw1.getStrokes());
+      checkSpecialThmSuffix(dw2);
+
+      // location is the start of dw1 and end dw2
+      addLocAnn(result, getLocation(dw1.getLocation(), dw2.getLocation()));
+      return result;
+    }
+
+    private void checkSpecialThmSuffix(Decorword dw)
+    {
+      if (dw.getStrokes() != null &amp;&amp; !dw.getStrokes().isEmpty())
+      {
+        parser.report_error(ZEvesParseMessage.MSG_INVALID_SPECIAL_THM_SUFFIX,
+                               new Object[] { dw.toString() }, dw.getLocation());
+      }
+      // TODO: or should we actually check for all the "allowed" names? e.g., domainCheck; thetasInSet; member; etc...
+    }
+
+    // some very peculiar circunstances (e.g., name capture; mistaken names from thm appl) might appear like "x$"
+    private ZName createSpecialName(Decorword dw)
+    {
+      checkName(dw);
+      ZName result = factory_.createZName(dw.getWord() + DOLLAR, dw.getStrokes());
+      addLocAnn(result, dw.getLocation());
+      return result;
+    }
+</add:zeves>
+
 <add:circus>
     /**
      * This solution is simpler(?) than the DEFNAME used by Object-Z to
@@ -1960,7 +1995,7 @@ terminal LocInfo
 </add:pattern>
 <add:zeves>
         // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, THMREPLACEMENT,
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, ZPROOFDOLLAR, THMREPLACEMENT,
         APPLY ,
 BACK ,
 CASES ,
@@ -2369,6 +2404,13 @@ non terminal ZExprList
 
 non terminal Object[]
       innerSimplCmd;
+
+// can include ZPROOFDOLLAR sign in these names
+non terminal Name 
+      specialName, applyThmName, thmName;
+
+non terminal ZNameList
+      thmNameList;
 
 non terminal LocInfo
     proofSep;
@@ -3299,7 +3341,7 @@ schema ::=
 
 <add:zeves>
 zProof ::=
-        ZPROOF:zp name:n proofScript:ps proofSep:zpc END:end
+        ZPROOF:zp thmName:n proofScript:ps proofSep:zpc END:end
         {:
            //parserState_.addProofScript(n, RESULT);
 
@@ -3312,7 +3354,7 @@ zProof ::=
 
         :}
         |
-        ZPROOF:zp name:n END:end
+        ZPROOF:zp thmName:n END:end
         {:
            RESULT = factory_.createProofScript(n, factory_.createProofCommandList());
            addLocAnn(RESULT, getLocation(zp, end));
@@ -3338,6 +3380,7 @@ proofCommand ::=
         innerProofCommand:ipc 
         {:
           RESULT = ipc;
+          // LocAnn must be at the lower production (e.g., with more loc info, rather than here) - Andrius
           //addLocAnn(RESULT, getLocation(ipc));
         :}
         ;
@@ -3390,28 +3433,28 @@ applyCommand ::=
         //
         // TODO: perhaps we can leave this THMNAME as just DECORWORD. In ContextFreeScanner I substitute
         //       the incoming DECORWORD accordingly to THMNAME, but I impose no restriction on the name
-        APPLY:ap THMNAME:n TO EXPRESSION expression:e
+        APPLY:ap applyThmName:n TO EXPRESSION expression:e
         {:
           //checkValidTheoremName(n);
-          RESULT = factory_.getZEvesFactory().createApplyToExprCommand(createZName(n), e);
+          RESULT = factory_.getZEvesFactory().createApplyToExprCommand(n, e);
           addLocAnn(RESULT, getLocation(ap, e));
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.LOCAL);
         :}
         |
-        APPLY:ap THMNAME:n TO PREDICATE predicate:p
+        APPLY:ap applyThmName:n TO PREDICATE predicate:p
         {:
           //checkValidTheoremName(n);
-          RESULT = factory_.getZEvesFactory().createApplyToPredCommand(createZName(n), p);
+          RESULT = factory_.getZEvesFactory().createApplyToPredCommand(n, p);
           addLocAnn(RESULT, getLocation(ap, p));
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.LOCAL);
         :}
         |
         // in ContextFreeScanner, this case isn't easy to "catch"!
-        APPLY:ap THMNAME:n
+        APPLY:ap applyThmName:n
         {:
           //checkValidTheoremName(n);
-          RESULT = factory_.getZEvesFactory().createGlobalApplyCommand(createZName(n));
-          addLocAnn(RESULT, getLocation(ap, n.getLocation()));
+          RESULT = factory_.getZEvesFactory().createGlobalApplyCommand(n);
+          addLocAnn(RESULT, getLocation(ap, getLocation(n)));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.GLOBAL);
         :}
         ;
@@ -3521,12 +3564,25 @@ instantiationList ::=
         ;
 
 instantiation ::=
-        name:n instOrRepl:isQtn expression:e
+        specialName:n instOrRepl:isQtn expression:e
         {:
            RESULT = factory_.createInstantiation(n, e,
               isQtn ? InstantiationKind.Quantifier :
                       InstantiationKind.ThmReplacement);
            addLocAnn(RESULT, getLocation(n, e));
+        :}
+        ;
+
+// these names appear in very specific cases, like renaming during capture, say.
+specialName ::=
+        DECORWORD:dw ZPROOFDOLLAR:d
+        {:
+          RESULT = createSpecialName(dw);
+        :}
+        |
+        DECORWORD:dw
+        {:
+          RESULT = createZName(dw);
         :}
         ;
 
@@ -3659,7 +3715,7 @@ substitutionCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
         :}
         |
-        INVOKE:st name:n
+        INVOKE:st name:n // Invoke does have a user-level name (e.g., no DOLLARS)!
         {:
           RESULT = factory_.getZEvesFactory().createInvokeCommand(n);
           addLocAnn(RESULT, getLocation(st, n));
@@ -3681,7 +3737,8 @@ substitutionCommand ::=
 // Keep the productions separate, otherwise, if I use optXXX there is a lookahead problem for "use name[x:=10]"
 // to know whether the replacement is generic actual or not.
 useCommand ::=
-        USE:u name:thmN genericActuals:ga replacements:repl //optGenActuals:ga optReplacements:repl
+        // TODO: for use, should we allow the $ names? Perhaps not, given they are always rules?! No: use S\$declaration is common!
+        USE:u thmName:thmN genericActuals:ga replacements:repl //optGenActuals:ga optReplacements:repl
         {:
           //checkValidTheoremName(thmN);
                                                           // if ga is not empty, then create an "explicit" RefExpr; an normal one (e.g., createRefExpr(thmN)) otherwise.
@@ -3691,7 +3748,7 @@ useCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
         :}
         |
-        USE:u name:thmN replacements:repl
+        USE:u thmName:thmN replacements:repl
         {:
           //checkValidTheoremName(thmN);
           RESULT = factory_.getZEvesFactory().createUseCommand(factory_.createRefExpr(thmN), repl);
@@ -3699,7 +3756,7 @@ useCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
         :} // No need ? %  p r e c _RENAME
         |
-        USE:u name:thmN genericActuals:ga
+        USE:u thmName:thmN genericActuals:ga
         {:
           //checkValidTheoremName(thmN);
           RESULT = factory_.getZEvesFactory().createUseCommand(
@@ -3708,7 +3765,7 @@ useCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.COMPLEX, ProofScope.GLOBAL);
         :}
         |
-        USE:u name:thmN
+        USE:u thmName:thmN
         {:
           //checkValidTheoremName(thmN);
           RESULT = factory_.getZEvesFactory().createUseCommand(factory_.createRefExpr(thmN));
@@ -3756,7 +3813,8 @@ optReplacements ::=
         {:
           RESULT = factory_.createInstantiationList();
         :}
-        ;*/
+        ;
+        */
 
 // TODO: call these something else because "with normalization" is not here?
 withCommand ::=
@@ -3774,14 +3832,14 @@ withCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
         :}
         |
-        WITH:w ENABLED LPAREN nameList:nl RPAREN innerProofCommand:ipc
+        WITH:w ENABLED LPAREN thmNameList:nl RPAREN innerProofCommand:ipc
         {:
           RESULT = factory_.getZEvesFactory().createWithEnabledCommand(nl, ipc);
           addLocAnn(RESULT, getLocation(w, ipc));
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, getProofScope(ipc));
         :}
         |
-        WITH:w DISABLED LPAREN nameList:nl RPAREN innerProofCommand:ipc
+        WITH:w DISABLED LPAREN thmNameList:nl RPAREN innerProofCommand:ipc
         {:
           RESULT = factory_.getZEvesFactory().createWithDisabledCommand(nl, ipc);
           addLocAnn(RESULT, getLocation(w, ipc));
@@ -3797,6 +3855,45 @@ proofSep ::=
         ZPROOFCOMMANDSEP:zpc 
         {:
           RESULT = zpc;
+        :}
+        ;
+
+
+applyThmName ::=
+        THMNAME:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
+        {:
+           RESULT = createSpecialThmName(dw1, dw2);
+        :}
+        |
+        THMNAME:dw
+        {:
+           RESULT = createZName(dw);
+        :}
+        ;
+
+thmName ::=
+        DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
+        {:
+           RESULT = createSpecialThmName(dw1, dw2);
+        :}
+        |
+        DECORWORD:dw
+        {:
+           RESULT = createZName(dw);
+        :}
+        ;
+
+thmNameList ::=
+        thmNameList:nl COMMA thmName:n
+        {:
+           nl.add(n);
+           RESULT = nl;
+        :}
+        |
+        thmName:n
+        {:
+           RESULT = factory_.createZNameList();
+           RESULT.add(n);
         :}
         ;
 </add:zeves>

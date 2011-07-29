@@ -1024,7 +1024,7 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
           // with throw new ScanException. TODO: which is better?
           if (!inProofScript_)
           {
-            reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, null);//no extra information
+            reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
           }
           return result(LatexSym.PROOFWORD, proofWord);
           
@@ -1517,6 +1517,7 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
           if (braceStack_.empty()) addSpace_ = true;
           return result(result);
         }
+        // do not chance it here to allow "\\$" in names. Keep it at parser
   ({LETTER} | [0-9])*
         {
           // To aid low-level debugging: ({LETTER} | [0-9])*
