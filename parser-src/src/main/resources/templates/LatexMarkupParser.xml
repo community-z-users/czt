@@ -199,6 +199,13 @@ public class <class/>
           addMarkupFunction("circus_prelude");
         }
 </add:circus>
+<add:zeves>
+        /* Educated guess that it is needed based on Oz code */
+        if (! sectName_.equals("prelude") &amp;&amp;
+            ! sectName_.equals("zeves_prelude")) {
+          addMarkupFunction("zeves_prelude");
+        }
+</add:zeves>
         if (parents_ != null) {
           String[] parents = parents_.split(",");
           for (int i = 0; i &lt; parents.length; i++) {
