@@ -13,4 +13,7 @@
 
   <MODE NAME="circus" FILE="zed.xml" FILE_NAME_GLOB="*.circus{8,16}"/>
   <MODE NAME="circuslatex" FILE="latex.xml" FILE_NAME_GLOB="*.{circus}"/>
+
+  <MODE NAME="zeves" FILE="zed.xml" FILE_NAME_GLOB="*.zev{8,16}"/>
+  <MODE NAME="zeveslatex" FILE="latex.xml" FILE_NAME_GLOB="*.{zev}"/>
 </MODES>
