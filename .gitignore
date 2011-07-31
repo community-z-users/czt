@@ -5250,6 +5250,7 @@ typechecker-oz/tests/.settings
 typechecker-oz/tests/target
 typechecker-zeves/.classpath
 typechecker-zeves/.project
+typechecker-zeves/nbactions.xml
 typechecker-zeves/target
 typechecker/*.aux
 typechecker/*.blg
