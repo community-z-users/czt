@@ -808,6 +808,7 @@ typechecker-zeves/src/main/resources/net/sourceforge/czt/typecheck/zeves/ErrorMe
 typechecker-zeves/src/main/resources/net/sourceforge/czt/typecheck/zeves/WarningMessage_en.properties -text
 typechecker-zeves/src/test/java/net/sourceforge/czt/typecheck/zeves/TypeCheckerTest.java -text
 typechecker-zeves/src/test/resources/tests/zeves/bbook.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
 typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.zed8 -text
 typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
