@@ -9,17 +9,12 @@ import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesServer;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -31,8 +26,6 @@ import org.eclipse.ui.part.ViewPart;
 
 public class ZEvesStateView extends ViewPart {
 
-	private Action refreshAction;
-	
 	private Label proverStateField;
 	private Label proverAddressField;
 	
@@ -54,7 +47,6 @@ public class ZEvesStateView extends ViewPart {
 		Label filler = new Label(main, SWT.NONE);
 		filler.setLayoutData(GridDataFactory.fillDefaults().create());
 		
-		createRefreshAction();
 		initToolBar();
 		
 		updateState();
@@ -106,27 +98,27 @@ public class ZEvesStateView extends ViewPart {
 		
 		serverStateField = createLabelField(group, "State:");
 		
-		Composite buttons = new Composite(group, SWT.NONE);
-		buttons.setLayout(GridLayoutFactory.swtDefaults().margins(0, 0).create());
-		buttons.setLayoutData(GridDataFactory.fillDefaults().create());
-		
-		Button stopButton = new Button(buttons, SWT.PUSH | SWT.FLAT);
-		stopButton.setFont(parent.getFont());
-		stopButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_STOP));
-		stopButton.setText("Stop");
-		buttons.setLayoutData(GridDataFactory.swtDefaults().create());
-		
-		stopButton.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ZEvesServer server = ZEvesPlugin.getZEves().getServer();
-				if (server != null) {
-					server.stop();
-					updateState();
-				}
-			}
-		});
+//		Composite buttons = new Composite(group, SWT.NONE);
+//		buttons.setLayout(GridLayoutFactory.swtDefaults().margins(0, 0).create());
+//		buttons.setLayoutData(GridDataFactory.fillDefaults().create());
+//		
+//		Button stopButton = new Button(buttons, SWT.PUSH | SWT.FLAT);
+//		stopButton.setFont(parent.getFont());
+//		stopButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_STOP));
+//		stopButton.setText("Stop");
+//		buttons.setLayoutData(GridDataFactory.swtDefaults().create());
+//		
+//		stopButton.addSelectionListener(new SelectionAdapter() {
+//			
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				ZEvesServer server = ZEvesPlugin.getZEves().getServer();
+//				if (server != null) {
+//					server.stop();
+//					updateState();
+//				}
+//			}
+//		});
 	}
 	
 	/**
@@ -155,32 +147,12 @@ public class ZEvesStateView extends ViewPart {
 	private void initToolBar() {
 		IActionBars bars = getViewSite().getActionBars();
 		IToolBarManager tm = bars.getToolBarManager();
+		tm.add(new AbortAction());
 		tm.add(new ResetAction());
 		tm.add(new Separator());
-		tm.add(refreshAction);
+		tm.add(new RefreshAction());
 	}
 
-	/**
-	 * Create the prover state refresh action.
-	 */
-	private void createRefreshAction() {
-		refreshAction = new Action("Refresh") {
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.jface.action.Action#run()
-			 */
-			public void run() {
-				updateState();
-			}
-		};
-		refreshAction.setToolTipText("Refresh Prover State");
-		ImageDescriptor id = ZEvesImages.getImageDescriptor(ZEvesImages.IMG_REFRESH);
-		if (id != null) {
-			refreshAction.setImageDescriptor(id);
-		}
-	}
-	
 	private void updateState() {
 		// TODO another thread?
 		
@@ -244,6 +216,25 @@ public class ZEvesStateView extends ViewPart {
 			ZEvesPlugin.getDefault().log(e.getMessage(), e);
 		}
 	}
+
+	private class RefreshAction extends Action {
+
+		public RefreshAction() {
+			super("Refresh");
+			setToolTipText("Refresh Prover State");
+
+			// setDescription("?");
+			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_REFRESH));
+		}
+
+		/*
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			updateState();
+		}
+	}
 	
 	private class ResetAction extends Action {
 
@@ -258,6 +249,7 @@ public class ZEvesStateView extends ViewPart {
 		/*
 		 * @see org.eclipse.jface.action.Action#run()
 		 */
+		@Override
 		public void run() {
 			try {
 				ZEvesPlugin.getZEves().reset();
@@ -266,6 +258,32 @@ public class ZEvesStateView extends ViewPart {
 						"Problems Resetting Z/Eves", e.getMessage());
 				ZEvesPlugin.getDefault().log(e);
 			}
+		}
+	}
+	
+	private class AbortAction extends Action {
+
+		public AbortAction() {
+			super("Abort");
+			setToolTipText("Abort Executing Command");
+
+			// setDescription("?");
+			setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
+					.getImageDescriptor(ISharedImages.IMG_ELCL_STOP));
+		}
+
+		/*
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			
+			ZEves zeves = ZEvesPlugin.getZEves();
+			if (!zeves.isRunning()) {
+				return;
+			}
+			
+			zeves.getApi().sendAbort();
 		}
 	}
 	
