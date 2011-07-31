@@ -489,9 +489,9 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       (currsym.sym == Sym.END);
 
     // put the symbol back onto the stack
-    for(Symbol s : tokens)
-    {
-      dumb_.push(s);
+    for (int i = tokens.size() - 1; i >= 0; i--) {
+      Symbol symbol = tokens.get(i);
+      dumb_.push(symbol);
     }
 
     // return whether to flip symbols or not

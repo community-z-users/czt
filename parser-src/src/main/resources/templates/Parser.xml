@@ -3341,7 +3341,9 @@ schema ::=
 
 <add:zeves>
 zProof ::=
-        ZPROOF:zp thmName:n proofScript:ps proofSep:zpc END:end
+        ZPROOF:zp thmName:n //optNL
+              proofScript:ps proofSep:zpc //optNL
+              END:end
         {:
            //parserState_.addProofScript(n, RESULT);
 
@@ -3354,7 +3356,8 @@ zProof ::=
 
         :}
         |
-        ZPROOF:zp thmName:n END:end
+        ZPROOF:zp thmName:n //optNL
+              END:end
         {:
            RESULT = factory_.createProofScript(n, factory_.createProofCommandList());
            addLocAnn(RESULT, getLocation(zp, end));
@@ -3852,7 +3855,7 @@ withCommand ::=
 
 proofSep ::=
         // do nothing
-        ZPROOFCOMMANDSEP:zpc 
+        ZPROOFCOMMANDSEP:zpc //optNL
         {:
           RESULT = zpc;
         :}
