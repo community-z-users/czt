@@ -5,6 +5,8 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 
@@ -41,17 +43,26 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	private final SectionManager sectInfo;
 	private Annotation unprocessedAnn;
 	
+	private final IProgressMonitor progressMonitor;
+	
 	private static final long FLUSH_INTERVAL = 500;
 	private long lastFlush = 0;
 	
-    public ZEvesExecVisitor(ZEvesApi api, ZEvesFileState state, ZEvesAnnotations annotations,
-    		SectionManager sectInfo, int startOffset, int endOffset) {
+	public ZEvesExecVisitor(ZEvesApi api, ZEvesFileState state, ZEvesAnnotations annotations,
+			SectionManager sectInfo, int startOffset, int endOffset,
+			IProgressMonitor progressMonitor) {
     	
 		super(startOffset, endOffset);
 		this.api = api;
 		this.state = state;
 		this.annotations = annotations;
 		this.sectInfo = sectInfo;
+		
+		if (progressMonitor == null) {
+			progressMonitor = new NullProgressMonitor();
+		}
+		
+		this.progressMonitor = progressMonitor;
 	}
 
     @Override
@@ -62,12 +73,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		try {
     		String sectionBeginXml = MessageFormat.format(ZSECTION_BEGIN_PATTERN, term.getName(), getParents(term.getParent()));
     		api.send(sectionBeginXml);
+    		checkCancelled();
     	} catch (ZEvesException e) {
     		// do not return - just handle and continue into paragraphs
     		handleZEvesException(position, e);
+    	} finally {
+    		markFinished(unfinishedAnn);
     	}
 		
-		markFinished(unfinishedAnn);
 	}
 
 	@Override
@@ -77,11 +90,12 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		
 		try {
     		api.send(ZSECTION_END_PATTERN);
+    		checkCancelled();
     	} catch (ZEvesException e) {
     		handleZEvesException(position, e);
+    	} finally {
+    		markFinished(unfinishedAnn);
     	}
-		
-		markFinished(unfinishedAnn);
 	}
 
     @Override
@@ -96,6 +110,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    	try {
 				ZEvesOutput output = api.send(commandXml);
 				handleResult(pos, output);
+				checkCancelled();
 			} catch (ZEvesException e) {
 				state.addPara(pos, -1, term, e.getMessage(), false);
 				handleZEvesException(pos, e);
@@ -108,7 +123,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		// add result first, because that will be displayed in hover
 	    		state.addPara(pos, historyIndex, term, zEvesPara, true);
 	    		handleResult(pos, zEvesPara);
-	    		
+	    		checkCancelled();
 //	    		handleResult(pos, "History index: " + historyIndex);
 	    		
 	    	} catch (ZEvesException e) {
@@ -136,7 +151,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		ZEvesOutput result = api.getGoalProofStep(theoremName, 1);
     		state.addProofResult(pos, term, proofStep, result, true);
     		handleResult(pos, result);
-    		
+    		checkCancelled();
 //	    	boolean goalProved = api.getGoalProvedState(theoremName);
 //	    	handleResult(pos, "Proved: " + goalProved);
     		
@@ -156,6 +171,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		
     	try {
     		api.setCurrentGoalName(theoremName);
+    		checkCancelled();
 		} catch (ZEvesException e) {
 			state.addProofResult(pos, term, ZEvesFileState.PROOF_GOAL_STEP, e.getMessage(), false);
 			handleZEvesException(pos, e);
@@ -177,6 +193,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			try {
 				boolean goalProved = api.getGoalProvedState(theoremName);
 				handleResult(pos, "Proved: " + goalProved);
+				checkCancelled();
 			} catch (ZEvesException e) {
 				handleZEvesException(pos, e);
 			}
@@ -201,6 +218,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    	try {
 				ZEvesOutput output = api.sendProofCommand(commandContents);
 				handleResult(pos, output);
+				checkCancelled();
 			} catch (ZEvesException e) {
 				state.addProofResult(pos, script, proofStep, e.getMessage(), false);
 				handleZEvesException(pos, e);
@@ -215,6 +233,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		// add result first, because that will be displayed in hover
 	    		state.addProofResult(pos, script, proofStep, proofResult, true);
 	    		handleResult(pos, proofResult);
+	    		checkCancelled();
 	    		
 //	    		handleResult(pos, "Step index: " + stepIndex);
 	    		
@@ -231,9 +250,6 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     
     private String getProofScriptName(ProofScript script) {
     	return script.getName().accept(zEvesXmlPrinter);
-    	
-//      // TODO ? need to sanitize the name, e.g. Z/Eves MySchema\$domainCheck - need to remove the backslash
-//		theoremName = theoremName.replace("\\$", "$");
     }
     
     private Annotation markUnfinished(Position pos) {
@@ -400,5 +416,13 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	// flush annotations
     	flush();
     }
+    
+    private void checkCancelled() {
+    	if (progressMonitor.isCanceled()) {
+    		throw new CancelException();
+    	}
+    }
+    
+    public static class CancelException extends RuntimeException {}
     
 }

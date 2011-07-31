@@ -1,5 +1,8 @@
 package net.sourceforge.czt.eclipse.zeves.actions;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
@@ -8,6 +11,7 @@ import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesExecVisitor;
+import net.sourceforge.czt.eclipse.zeves.editor.ZEvesExecVisitor.CancelException;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import org.eclipse.core.commands.AbstractHandler;
@@ -103,24 +107,27 @@ public class SubmitToPointCommand extends AbstractHandler {
 	}
 
 	private static Job createSubmitJob(final ZEditor editor, final ParsedData parsedData,
-			ZEvesAnnotations annotations, final ZEvesApi zEvesApi, final ZEvesFileState fileState,
-			int start, final int end) {
+			final ZEvesAnnotations annotations, final ZEvesApi zEvesApi,
+			final ZEvesFileState fileState, final int start, final int end) {
 		
-		final ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
-				zEvesApi, fileState, 
-				annotations, parsedData.getSectionManager(), 
-				start, end);
-        
 		Job job = new Job("Sending to Z/Eves") {
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+			protected IStatus run(final IProgressMonitor monitor) {
+				
+				Timer cancelMonitor = initCancelMonitor(zEvesApi, monitor);
+				
+				final ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
+						zEvesApi, fileState, 
+						annotations, parsedData.getSectionManager(), 
+						start, end, monitor);
 				
 				try {
 					zEvesExec.execSpec(parsedData.getSpec());
-					
-//				} catch (ZEvesException e) {
-//					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+				} catch (CancelException e) {
+					// cancelled
+					return Status.CANCEL_STATUS;
 				} finally {
+					cancelMonitor.cancel();
 					zEvesExec.finish();
 				}
 
@@ -134,6 +141,30 @@ public class SubmitToPointCommand extends AbstractHandler {
 				});
 				
 				return Status.OK_STATUS;
+			}
+
+			private Timer initCancelMonitor(final ZEvesApi zEvesApi, final IProgressMonitor monitor) {
+				
+				// if user cancels the task, check that in a separate thread,
+				// because the main thread may be blocked by Z/Eves comms. Then
+				// send abort to abort long-running Z/Eves task probably.
+				final Timer timer = new Timer(true);
+				TimerTask cancelMonitor = new TimerTask() {
+					
+					@Override
+					public void run() {
+						if (monitor.isCanceled()) {
+							// send abort
+							zEvesApi.sendAbort();
+							timer.cancel();
+						}
+					}
+				};
+				// check for cancelation every 0.5 sec 
+				int period = 500;
+				timer.schedule(cancelMonitor, period, period);
+				
+				return timer;
 			}
 		};
 		return job;
