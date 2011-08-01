@@ -145,7 +145,8 @@ public class ZEvesResponseReader {
 		return xmlStr.replace("&dom$declaration", "dom$declaration")
 				.replace("&cup$declaration", "cup$declaration")
 				.replace("&map$declaration", "map$declaration")
-				.replace("&notin$declaration", "notin$declaration");
+				.replace("&notin$declaration", "notin$declaration")
+				.replace("&neq$declaration", "neq$declaration");
 	}
 
 }
