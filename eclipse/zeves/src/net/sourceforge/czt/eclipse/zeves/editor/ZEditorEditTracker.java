@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
@@ -63,12 +62,12 @@ public class ZEditorEditTracker {
 		return listener;
 	}
 	
-	private ZEditor getZEditor(IWorkbenchPartReference ref) {
+	private ITextEditor getZEditor(IWorkbenchPartReference ref) {
 		if (!ZEDITOR_ID.equals(ref.getId())) {
 			return null;
 		}
 		
-		return (ZEditor) ref.getPart(false);
+		return (ITextEditor) ref.getPart(false);
 	}
 	
 	private void removeListener(ITextEditor editor) {
