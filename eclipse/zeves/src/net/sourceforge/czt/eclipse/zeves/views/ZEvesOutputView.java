@@ -1,5 +1,11 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
@@ -8,32 +14,54 @@ import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.preferences.ZSourcePreviewerUpdater;
 import net.sourceforge.czt.eclipse.util.IZFileType;
+import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.actions.SendProofCommand;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.zeves.editor.ZEvesResultConverter;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ProofResultElement;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ProofResultElement.IProofResultInfo;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
+import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.commands.ActionHandler;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
@@ -43,6 +71,8 @@ import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.contexts.IContextActivation;
+import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
@@ -55,16 +85,30 @@ import org.eclipse.ui.texteditor.ChainedPreferenceStore;
  */
 public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 
-	private static final String PROP_FORCE_UNICODE = ZEvesPlugin.PLUGIN_ID + ".output.forceUnicode";
+	private static final String VIEW_ID = ZEvesPlugin.PLUGIN_ID + ".view.Output";
+	private static final String PROP_FORCE_UNICODE = VIEW_ID + ".forceUnicode";
+	private static final String PROP_SHOW_INFO = VIEW_ID + ".showProofInfo";
 	
 	static {
 		IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
 		preferenceStore.setDefault(PROP_FORCE_UNICODE, false);
 	}
+
+	private static final String SELECTION_CMDS_ID = "selectionCmds";
 	
+	private static final String CONTEXT_TERM = ZEvesPlugin.PLUGIN_ID + ".proof.term";
+	private static final String CONTEXT_EXPR = ZEvesPlugin.PLUGIN_ID + ".proof.expr";
+	private static final String CONTEXT_PRED = ZEvesPlugin.PLUGIN_ID + ".proof.pred";
+	private final Map<String, IContextActivation> contextActivations = new HashMap<String, IContextActivation>();
+	
+	private Composite main;
+	private GridData infoControlData;
 	private ZSourceViewer zViewer;
-//	
-//	private Text zViewer;
+	private Label cmdField;
+	private Label infoField;
+	
+	/** The text context menu to be disposed. */
+	private Menu fTextContextMenu;
 	
 	/**
      * True if linking with selection is enabled, false otherwise.
@@ -77,6 +121,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
     private LinkAction toggleLinkAction;
     
     private boolean forceUnicode;
+    private boolean showProofInfo;
 
     /**
      * The last selected element if linking was disabled.
@@ -99,6 +144,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
      */
 	private IPartListener2 partListener = new IPartListener2() {
 		
+		@Override
 		public void partVisible(IWorkbenchPartReference ref) {
 			if (ref.getId().equals(getSite().getId())) {
 				IWorkbenchPart activePart = ref.getPage().getActivePart();
@@ -109,28 +155,35 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 			}
 		}
 
+		@Override
 		public void partHidden(IWorkbenchPartReference ref) {
 			if (ref.getId().equals(getSite().getId()))
 				stopListeningForSelectionChanges();
 		}
 
+		@Override
 		public void partInputChanged(IWorkbenchPartReference ref) {
 			if (!ref.getId().equals(getSite().getId()))
 				computeAndSetInput(ref.getPart(false));
 		}
 
+		@Override
 		public void partActivated(IWorkbenchPartReference ref) {
 		}
 
+		@Override
 		public void partBroughtToTop(IWorkbenchPartReference ref) {
 		}
 
+		@Override
 		public void partClosed(IWorkbenchPartReference ref) {
 		}
 
+		@Override
 		public void partDeactivated(IWorkbenchPartReference ref) {
 		}
 
+		@Override
 		public void partOpened(IWorkbenchPartReference ref) {
 		}
 	};
@@ -138,11 +191,15 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 	@Override
 	public void createPartControl(Composite parent) {
 		
-//		zViewer = new ZSourceViewer(parent, verticalRuler, overviewRuler, showsAnnotationOverview, styles, store);
+		main = new Composite(parent, SWT.NONE);
+		main.setLayout(GridLayoutFactory.fillDefaults().create());
 		
-//		zViewer = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
-//		zViewer.setEditable(false);
-		createZViewer(parent);
+		Control viewerControl = createZViewer(main);
+		viewerControl.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+		
+		Control infoControl = createInfoPane(main);
+		infoControlData = GridDataFactory.fillDefaults().grab(true, false).create();
+		infoControl.setLayoutData(infoControlData);
 		
 		createActions();
 		fillActionBars(getViewSite().getActionBars());
@@ -154,7 +211,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 	 * Copied from net.sourceforge.czt.eclipse.views.ZConversionView
 	 * @param parent
 	 */
-	private void createZViewer(Composite parent) {
+	private Control createZViewer(Composite parent) {
 		
 		IPreferenceStore generalTextStore = EditorsUI.getPreferenceStore();
 		IPreferenceStore store = new ChainedPreferenceStore(new IPreferenceStore[] {
@@ -172,6 +229,211 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 		zViewer.getTextWidget().setFont(new Font(Display.getDefault(), fontData));
 		zViewer.setEditable(false);
 		zViewer.setDocument(new Document());
+		
+		MenuManager manager = new MenuManager();
+		manager.setRemoveAllWhenShown(true);
+		manager.addMenuListener(new IMenuListener() {
+			@Override
+			public void menuAboutToShow(IMenuManager menu) {
+				setFocus();
+				contextMenuAboutToShow(menu);
+			}
+		});
+		
+		Control textWidget = zViewer.getTextWidget();
+		fTextContextMenu= manager.createContextMenu(textWidget);
+		textWidget.setMenu(fTextContextMenu);
+		
+		getSite().registerContextMenu(manager, zViewer);
+		// Make the selection available
+		getSite().setSelectionProvider(zViewer);
+		
+//		getSite().getPage().addPostSelectionListener(VIEW_ID, new ISelectionListener() {
+//			
+//			@Override
+//			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+//				updateSelectionContext();
+//			}
+//		});
+		
+		zViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateSelectionContext();
+			}
+		});
+		
+		return zViewer.getControl();
+	}
+	
+	private Control createInfoPane(Composite parent) {
+		
+		Composite infoPane = new Composite(parent, SWT.NONE);
+		infoPane.setLayout(GridLayoutFactory.swtDefaults().numColumns(2).create());
+		
+		Label cmdLabel = new Label(infoPane, SWT.NONE);
+		cmdLabel.setText("Command sent:");
+		cmdLabel.setLayoutData(GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).create());
+		
+		cmdField = new Label(infoPane, SWT.WRAP);
+		cmdField.setText("");
+		cmdField.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+		
+		Label infoLabel = new Label(infoPane, SWT.NONE);
+		infoLabel.setText("Proof info:");
+		infoLabel.setLayoutData(GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).create());
+		
+		infoField = new Label(infoPane, SWT.WRAP);
+		infoField.setText("");
+		infoField.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+		
+		return infoPane;
+	}
+	
+	private void updateSelectionContext() {
+		
+		IContextService contextService = (IContextService) getSite().getService(
+				IContextService.class);
+
+		deactivateContext(contextService, CONTEXT_TERM);
+		deactivateContext(contextService, CONTEXT_EXPR);
+		deactivateContext(contextService, CONTEXT_PRED);
+		
+		Term selectedTerm = getSelectedTerm();
+		if (selectedTerm == null) {
+			// nothing selected or cannot parse, so no contexts activated
+			return;
+		}
+
+		activateContext(contextService, CONTEXT_TERM);
+		
+		if (selectedTerm instanceof Expr) {
+			activateContext(contextService, CONTEXT_EXPR);
+		}
+		
+		if (selectedTerm instanceof Pred) {
+			activateContext(contextService, CONTEXT_PRED);
+		}
+	}
+	
+	private void activateContext(IContextService contextService, String contextId) {
+		IContextActivation act = contextService.activateContext(contextId);
+		contextActivations.put(contextId, act);
+	}
+	
+	private void deactivateContext(IContextService contextService, String contextId) {
+		IContextActivation act = contextActivations.get(contextId);
+		if (act != null) {
+			contextService.deactivateContext(act);
+			contextActivations.remove(contextId);
+		}
+	}
+	
+	protected void contextMenuAboutToShow(IMenuManager menu) {
+
+		menu.add(new Separator(SELECTION_CMDS_ID));
+		
+		MenuManager applyMenu = getApplySubmenu();
+		if (applyMenu != null) {
+			menu.add(applyMenu);
+		}
+	}
+	
+	private MenuManager getApplySubmenu() {
+		
+		ZEves prover = ZEvesPlugin.getZEves();
+		if (!prover.isRunning()) {
+			return null;
+		}
+		
+		ZEvesApi api = prover.getApi();
+		
+		if (!(currentViewInput instanceof ProofResultElement)) {
+			return null;
+		}
+		
+		ProofResultElement proofResult = (ProofResultElement) currentViewInput;
+		Integer zEvesStepIndex = proofResult.getZEvesStepIndex();
+		if (zEvesStepIndex == null) {
+			// no step index, cannot determine the rules
+			return null;
+		}
+		
+		Term selectedTerm = getSelectedTerm();
+		
+		String menuLabel;
+		List<String> applyRules;
+		String cmdFormat;
+		
+		if (selectedTerm instanceof Expr) {
+			menuLabel = "Apply To Expression";
+			cmdFormat = "apply %1$s to expression %2$s";
+			try {
+				applyRules = api.getRulesMatchingExpression(proofResult.getGoalName(),
+						zEvesStepIndex.intValue(), printTerm(selectedTerm));
+			} catch (ZEvesException e) {
+				ZEvesPlugin.getDefault().log(e);
+				return null;
+			}
+		} else if (selectedTerm instanceof Pred) {
+			menuLabel = "Apply To Predicate";
+			cmdFormat = "apply %1$s to predicate %2$s";
+			try {
+				applyRules = api.getRulesMatchingPredicate(proofResult.getGoalName(),
+						zEvesStepIndex.intValue(), printTerm(selectedTerm));
+			} catch (ZEvesException e) {
+				ZEvesPlugin.getDefault().log(e);
+				return null;
+			}
+		} else {
+			return null;
+		}
+		
+		if (applyRules.isEmpty()) {
+			return null;
+		}
+		
+		MenuManager applyMenu = new MenuManager(menuLabel);
+		
+		for (String rule : applyRules) {
+			applyMenu.add(new SendApplyAction(rule, cmdFormat, selectedTerm, proofResult));
+		}
+		return applyMenu;
+	}
+	
+	private String printTerm(Term term) {
+		return term.accept(new CZT2ZEvesPrinter(null));
+	}
+	
+	private Term getSelectedTerm() {
+		
+		ITextSelection selection = (ITextSelection) zViewer.getSelection();
+		if (selection.isEmpty()) {
+			return null;
+		}
+		
+		if (!(currentViewInput instanceof ProofResultElement)) {
+			return null;
+		}
+		
+		ProofResultElement proofResult = (ProofResultElement) currentViewInput;
+		ZEditor editor = proofResult.getEditor();
+		
+		String selectedText = selection.getText();
+		SectionManager sectInfo = editor.getParsedData().getSectionManager().clone();
+		String sectName = proofResult.getSectionName();
+		
+		try {
+			return ZEvesResultConverter.parseZEvesResult(sectInfo, sectName, selectedText);
+		} catch (IOException e) {
+			// unexpected exception - log and return
+			ZEvesPlugin.getDefault().log(e);
+			return null;
+		} catch (CommandException e) {
+			// cannot parse
+			return null;
+		}
 	}
 	
 	private void setText(String text) {
@@ -221,6 +483,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
     	tbm.add(new Separator("view"));
     	
     	tbm.add(new ForceUnicodeAction());
+    	tbm.add(new ShowProofInfoAction());
     	tbm.add(toggleLinkAction);
     }
 
@@ -228,6 +491,11 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 	@Override
 	public void dispose() {
 		getSite().getWorkbenchWindow().getPartService().removePartListener(partListener);
+		
+		if (fTextContextMenu != null) {
+			fTextContextMenu.dispose();
+			fTextContextMenu= null;
+		}
 		
 		super.dispose();
 	}
@@ -278,6 +546,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
     /*
      * @see ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
      */
+	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (part.equals(this)) {
 			return;
@@ -467,6 +736,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 					/*
 					 * @see java.lang.Runnable#run()
 					 */
+					@Override
 					public void run() {
 
 						if (globalComputeCount != currentCount || getViewSite().getShell().isDisposed()) {
@@ -547,13 +817,31 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 	}
 
     private void doSetInput(Object input, String description) {
-            
-    	String inputText = input != null ? input.toString() : "";
+    	
+    	String inputText;
+    	String cmdText;
+    	String infoText;
+    	if (input instanceof IProofResultInfo) {
+    		IProofResultInfo res = (IProofResultInfo) input;
+    		inputText = res.getResult();
+    		cmdText = res.getCommand();
+    		infoText = res.getInfo();
+    	} else {
+    		inputText = input != null ? input.toString() : "";
+    		cmdText = null;
+    		infoText = null;
+    	}
     	
     	setText(inputText);
     	
     	setContentDescription(description);
     	setTitleToolTip(description);
+    	
+    	cmdField.setText(cmdText != null ? cmdText : "");
+    	infoField.setText(infoText != null ? infoText : "");
+    	
+    	main.layout(true);
+//    	main.pack(true);
     }
     
     private boolean isSelectionInteresting(IWorkbenchPart part, ISelection selection) {
@@ -579,6 +867,15 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
     
     public IZEvesElement getCurrentInput() {
     	return currentViewInput;
+    }
+    
+    private void updateProofInfoPane() {
+    	
+    	boolean showing = !infoControlData.exclude;
+    	if (showProofInfo != showing) {
+    		infoControlData.exclude = !showProofInfo;
+    		main.layout(true);
+    	}
     }
     
     /**
@@ -624,6 +921,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 		/*
 		 * @see org.eclipse.jface.action.Action#run()
 		 */
+		@Override
 		public void run() {
 			setForceUnicode(!forceUnicode);
 
@@ -639,6 +937,91 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
 			preferenceStore.setValue(PROP_FORCE_UNICODE, force);
 		}
+	}
+	
+	private class ShowProofInfoAction extends Action {
+
+		public ShowProofInfoAction() {
+			super("Show Info", SWT.TOGGLE);
+			setToolTipText("Show Proof Info");
+
+			// setDescription("?");
+			ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
+			setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+
+			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			boolean showProofInfo = preferenceStore.getBoolean(PROP_SHOW_INFO);
+			setShowProofInfo(showProofInfo);
+		}
+
+		/*
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			setShowProofInfo(!showProofInfo);
+		}
+
+		private void setShowProofInfo(boolean show) {
+			showProofInfo = show;
+			setChecked(show);
+			
+			updateProofInfoPane();
+
+			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			preferenceStore.setValue(PROP_SHOW_INFO, show);
+		}
+	}
+	
+	private class SendApplyAction extends Action {
+		
+		private final String cmdName;
+		private final String cmdFormat;
+		private final Term term;
+		
+		private final ProofResultElement proofResult;
+		
+		public SendApplyAction(String cmdName, String cmdFormat, Term term,
+				ProofResultElement proofResult) {
+			super(cmdName);
+			
+			this.cmdName = cmdName;
+			this.cmdFormat = cmdFormat;
+			this.term = term;
+			this.proofResult = proofResult;
+			
+			// do not print the term yet, just use ... instead
+			setToolTipText(getProofCmd("..."));
+			
+			// setDescription("?");
+//			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_UNICODE));
+		}
+		
+		private String getProofCmd(String termStr) {
+			return String.format(cmdFormat, cmdName, termStr);
+		}
+
+		/*
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			
+			ZEditor editor = proofResult.getEditor();
+			SectionManager sectInfo = editor.getParsedData().getSectionManager().clone();
+			String sectName = proofResult.getSectionName();
+			
+			String param = ZEvesResultConverter.printResult(sectInfo, sectName, term,
+					editor.getMarkup(), -1);
+			
+			String proofCommand = getProofCmd(param.trim());
+			try {
+				SendProofCommand.addSubmitCommand(proofResult, proofCommand);
+			} catch (ExecutionException e) {
+				ZEvesPlugin.getDefault().log(e);
+			}
+		}
+		
 	}
 
 }

@@ -148,15 +148,16 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	try {
 
     		// add result first, because that will be displayed in hover
-    		ZEvesOutput result = api.getGoalProofStep(theoremName, 1);
-    		state.addProofResult(pos, term, proofStep, result, true);
+    		int goalStepIndex = 1;
+    		ZEvesOutput result = api.getGoalProofStep(theoremName, goalStepIndex);
+    		state.addProofResult(pos, term, proofStep, goalStepIndex, result, true);
     		handleResult(pos, result);
     		checkCancelled();
 //	    	boolean goalProved = api.getGoalProvedState(theoremName);
 //	    	handleResult(pos, "Proved: " + goalProved);
     		
     	} catch (ZEvesException e) {
-    		state.addProofResult(pos, term, proofStep, e.getMessage(), false);
+    		state.addProofResult(pos, term, proofStep, null, e.getMessage(), false);
     		handleZEvesException(pos, e);
     		return;
     	} finally {
@@ -173,7 +174,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		api.setCurrentGoalName(theoremName);
     		checkCancelled();
 		} catch (ZEvesException e) {
-			state.addProofResult(pos, term, ZEvesFileState.PROOF_GOAL_STEP, e.getMessage(), false);
+			state.addProofResult(pos, term, ZEvesFileState.PROOF_GOAL_STEP, null, e.getMessage(), false);
 			handleZEvesException(pos, e);
 			return false;
 		}
@@ -220,7 +221,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 				handleResult(pos, output);
 				checkCancelled();
 			} catch (ZEvesException e) {
-				state.addProofResult(pos, script, proofStep, e.getMessage(), false);
+				state.addProofResult(pos, script, proofStep, null, e.getMessage(), false);
 				handleZEvesException(pos, e);
 				return;
 			}
@@ -231,7 +232,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		
 	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addProofResult(pos, script, proofStep, proofResult, true);
+	    		state.addProofResult(pos, script, proofStep, stepIndex, proofResult, true);
 	    		handleResult(pos, proofResult);
 	    		checkCancelled();
 	    		

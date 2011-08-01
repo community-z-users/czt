@@ -46,8 +46,8 @@ public class ZEvesResultConverter {
 	}
 	
 	/**
-	 * Parses given Z/Eves result string first as Pred and if that fails, tries
-	 * parsing it as Expr
+	 * Parses given Z/Eves result string first as Expr and if that fails, tries
+	 * parsing it as Pred
 	 * 
 	 * @param sectInfo
 	 * @param sectName
@@ -59,11 +59,11 @@ public class ZEvesResultConverter {
 	public static Term parseZEvesResult(SectionManager sectInfo, String sectName, String zEvesStr)
 			throws IOException, CommandException {
 		
-//		try {
+		try {
+			return parseZEvesExpr(sectInfo, sectName, zEvesStr);			
+		} catch (CommandException e) {
 			return parseZEvesPred(sectInfo, sectName, zEvesStr);
-//		} catch (CommandException e) {
-//			return parseZEvesExpr(sectInfo, sectName, zEvesStr);
-//		}
+		}
 	}
 	
 	private static CommandException handleCommandException(CommandException e) {

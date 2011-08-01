@@ -37,7 +37,37 @@
             id="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd"
             name="Simple Proof Command">
          <commandParameter
-               id="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+               id="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+               name="Name"
+               optional="false">
+         </commandParameter>
+      </command>
+      <command
+            defaultHandler="net.sourceforge.czt.eclipse.zeves.actions.SendSelectionProofCommand"
+            id="net.sourceforge.czt.eclipse.zeves.proof.selectionCmd"
+            name="Selection Proof Command">
+         <commandParameter
+               id="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+               name="Name"
+               optional="false">
+         </commandParameter>
+      </command>
+      <command
+            defaultHandler="net.sourceforge.czt.eclipse.zeves.actions.SendExprProofCommand"
+            id="net.sourceforge.czt.eclipse.zeves.proof.exprCmd"
+            name="Expr Proof Command">
+         <commandParameter
+               id="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+               name="Name"
+               optional="false">
+         </commandParameter>
+      </command>
+      <command
+            defaultHandler="net.sourceforge.czt.eclipse.zeves.actions.SendPredProofCommand"
+            id="net.sourceforge.czt.eclipse.zeves.proof.predCmd"
+            name="Pred Proof Command">
+         <commandParameter
+               id="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                name="Name"
                optional="false">
          </commandParameter>
@@ -99,7 +129,7 @@
                label="Prove"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="prove">
             </parameter>
          </command>
@@ -108,7 +138,7 @@
                label="Prove by Reduce"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="prove by reduce">
             </parameter>
          </command>
@@ -121,7 +151,7 @@
                label="Reduce"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="reduce">
             </parameter>
          </command>
@@ -130,7 +160,7 @@
                label="Rewrite"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="rewrite">
             </parameter>
          </command>
@@ -139,7 +169,7 @@
                label="Simplify"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="simplify">
             </parameter>
          </command>
@@ -152,7 +182,7 @@
                label="Invoke"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="invoke">
             </parameter>
          </command>
@@ -161,7 +191,7 @@
                label="Trivial Rewrite"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="trivial rewrite">
             </parameter>
          </command>
@@ -174,7 +204,7 @@
                label="Cases"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="cases">
             </parameter>
          </command>
@@ -183,7 +213,7 @@
                label="Next"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="next">
             </parameter>
          </command>
@@ -196,7 +226,7 @@
                label="Prenex"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="cases">
             </parameter>
          </command>
@@ -209,7 +239,7 @@
                label="With Normalization Reduce"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="with normalization reduce">
             </parameter>
          </command>
@@ -218,7 +248,7 @@
                label="With Normalization Rewrite"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="with normalization rewrite">
             </parameter>
          </command>
@@ -227,7 +257,7 @@
                label="With Normalization Simplify"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="with normalization simplify">
             </parameter>
          </command>
@@ -240,7 +270,7 @@
                label="Conjunctive Normal Form"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="conjunctive">
             </parameter>
          </command>
@@ -249,7 +279,7 @@
                label="Disjunctive Normal Form"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="disjunctive">
             </parameter>
          </command>
@@ -262,7 +292,7 @@
                label="Rearrange"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="rearrange">
             </parameter>
          </command>
@@ -275,9 +305,133 @@
                label="Equality Substitute"
                style="push">
             <parameter
-                  name="net.sourceforge.czt.eclipse.zeves.proof.simpleCmd.name"
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
                   value="equality substitute">
             </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:net.sourceforge.czt.eclipse.zeves.view.Output?after=selectionCmds">
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.selectionCmd"
+               label="Expand This Name"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+                  value="invoke %s">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="net.sourceforge.czt.eclipse.zeves.proof.inTermContext">
+               </reference>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.predCmd"
+               label="Split On This Predicate"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+                  value="split %s">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="net.sourceforge.czt.eclipse.zeves.proof.inPredContext">
+               </reference>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.predCmd"
+               label="Reduce This Predicate"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+                  value="with predicate (%s) reduce">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="net.sourceforge.czt.eclipse.zeves.proof.inPredContext">
+               </reference>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.predCmd"
+               label="Rewrite This Predicate"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+                  value="with predicate (%s) rewrite">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="net.sourceforge.czt.eclipse.zeves.proof.inPredContext">
+               </reference>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.predCmd"
+               label="Simplify This Predicate"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+                  value="with predicate (%s) simplify">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="net.sourceforge.czt.eclipse.zeves.proof.inPredContext">
+               </reference>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.exprCmd"
+               label="Reduce This Subexpression"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+                  value="with expression (%s) reduce">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="net.sourceforge.czt.eclipse.zeves.proof.inExprContext">
+               </reference>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.exprCmd"
+               label="Rewrite This Subexpression"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+                  value="with expression (%s) rewrite">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="net.sourceforge.czt.eclipse.zeves.proof.inExprContext">
+               </reference>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="net.sourceforge.czt.eclipse.zeves.proof.exprCmd"
+               label="Simplify This Subexpression"
+               style="push">
+            <parameter
+                  name="net.sourceforge.czt.eclipse.zeves.proof.cmdName"
+                  value="with expression (%s) simplify">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="net.sourceforge.czt.eclipse.zeves.proof.inExprContext">
+               </reference>
+            </visibleWhen>
          </command>
       </menuContribution>
    </extension>
@@ -533,5 +687,64 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="Shift+M1+Enter">
       </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            id="net.sourceforge.czt.eclipse.zeves.proof.term"
+            name="Proof Term Selected">
+      </context>
+      <context
+            id="net.sourceforge.czt.eclipse.zeves.proof.pred"
+            name="Proof Predicate Selected"
+            parentId="net.sourceforge.czt.eclipse.zeves.proof.term">
+      </context>
+      <context
+            id="net.sourceforge.czt.eclipse.zeves.proof.expr"
+            name="Proof Expr Selected"
+            parentId="net.sourceforge.czt.eclipse.zeves.proof.term">
+      </context>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="net.sourceforge.czt.eclipse.zeves.proof.inTermContext">
+         <with
+               variable="activeContexts">
+            <iterate
+                  ifEmpty="false"
+                  operator="or">
+               <equals
+                     value="net.sourceforge.czt.eclipse.zeves.proof.term">
+               </equals>
+            </iterate>
+         </with>
+      </definition>
+      <definition
+            id="net.sourceforge.czt.eclipse.zeves.proof.inPredContext">
+         <with
+               variable="activeContexts">
+            <iterate
+                  ifEmpty="false"
+                  operator="or">
+               <equals
+                     value="net.sourceforge.czt.eclipse.zeves.proof.pred">
+               </equals>
+            </iterate>
+         </with>
+      </definition>
+      <definition
+            id="net.sourceforge.czt.eclipse.zeves.proof.inExprContext">
+         <with
+               variable="activeContexts">
+            <iterate
+                  ifEmpty="false"
+                  operator="or">
+               <equals
+                     value="net.sourceforge.czt.eclipse.zeves.proof.expr">
+               </equals>
+            </iterate>
+         </with>
+      </definition>
    </extension>
 </plugin>

@@ -13,6 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.debug.ui,
  org.eclipse.jface.databinding,
  org.eclipse.core.databinding,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ org.eclipse.core.expressions
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

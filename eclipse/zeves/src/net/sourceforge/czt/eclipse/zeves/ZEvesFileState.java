@@ -27,6 +27,7 @@ public class ZEvesFileState {
 	private final List<Position> errorPositions = new ArrayList<Position>();
 	
 	private final Map<ProofStepId, Object> proofStepResults = new HashMap<ProofStepId, Object>();
+	private final Map<ProofStepId, Integer> proofStepIndices = new HashMap<ProofStepId, Integer>();
 
 	public void addPara(Position pos, int historyIndex, Para para, Object result, boolean success) {
 
@@ -78,10 +79,15 @@ public class ZEvesFileState {
 		return paraResults.get(para);
 	}
 	
-	public void addProofResult(Position pos, ProofScript script, int proofStep, Object result,
-			boolean success) {
+	public void addProofResult(Position pos, ProofScript script, int proofStep, Integer zEvesStepIndex,
+			Object result, boolean success) {
+		
 		String scriptName = getScriptName(script);
-		proofStepResults.put(new ProofStepId(scriptName, proofStep), result);
+		ProofStepId key = new ProofStepId(scriptName, proofStep);
+		proofStepResults.put(key, result);
+		if (zEvesStepIndex != null) {
+			proofStepIndices.put(key, zEvesStepIndex);
+		}
 		
 		if (success) {
 			// do not submit "goals"
@@ -155,11 +161,16 @@ public class ZEvesFileState {
 		return proofStepResults.get(new ProofStepId(getScriptName(script), proofStep));
 	}
 	
+	public Integer getProofStepIndex(ProofScript script, int proofStep) {
+		return proofStepIndices.get(new ProofStepId(getScriptName(script), proofStep));
+	}
+	
 	public void clear() {
 		paraResults.clear();
 		paraPositions.clear();
 		proofPositions.clear();
 		proofStepResults.clear();
+		proofStepIndices.clear();
 		errorPositions.clear();
 	}
 	
@@ -217,7 +228,9 @@ public class ZEvesFileState {
 			
 			// remove from list and results map
 			it.remove();
-			proofStepResults.remove(new ProofStepId(goalName, proofStep));
+			ProofStepId key = new ProofStepId(goalName, proofStep);
+			proofStepResults.remove(key);
+			proofStepIndices.remove(key);
 		}
 		
 		if (proofUndoCounts.isEmpty()) {

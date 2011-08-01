@@ -95,8 +95,10 @@ public class ZEditorResults {
 					return ;
 				}
 				
+				Integer zEvesStepIndex = snapshot.getProofStepIndex(script, step);
+				
 				collect(pos, new ProofResultElement(editor, getCurrentSect(), 
-						script, step, (ZEvesOutput) result, pos));
+						script, step, zEvesStepIndex, (ZEvesOutput) result, pos));
 			}
 			
 			private void collect(Position pos, IZEvesElement result) {
@@ -159,16 +161,18 @@ public class ZEditorResults {
 		private final ZSect section;
 		private final ProofScript script;
 		private final int step;
+		private final Integer zEvesStepIndex;
 		private final ZEvesOutput result;
 		
 		private final Position position;
 		
 		public ProofResultElement(ZEditor editor, ZSect section, ProofScript script, int step,
-				ZEvesOutput result, Position position) {
+				Integer stepIndex, ZEvesOutput result, Position position) {
 			this.editor = editor;
 			this.section = section;
 			this.script = script;
 			this.step = step;
+			this.zEvesStepIndex = stepIndex;
 			this.result = result;
 			this.position = position;
 		}
@@ -181,15 +185,27 @@ public class ZEditorResults {
 			return position;
 		}
 		
+		public String getSectionName() {
+			return section != null ? section.getName() : null;
+		}
+		
 		public boolean isGoal() {
 			return step == ZEvesFileState.PROOF_GOAL_STEP;
+		}
+		
+		public int getZEvesStepIndex() {
+			return zEvesStepIndex;
+		}
+		
+		public String getGoalName() {
+			return script.getZName().accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
 		}
 
 		@Override
 		public String getDescription() {
 			
 			if (isGoal()) {
-				return "Proof goal for: " + script.getZName().accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+				return "Proof goal for: " + getGoalName();
 			}
 			
 			ProofCommand proofCommand = getProofCommand();
@@ -215,16 +231,18 @@ public class ZEditorResults {
 			ZEvesBlurb info = result.getInfo();
 			List<?> results = result.getResults();
 			
-			StringBuilder out = new StringBuilder();
+//			StringBuilder out = new StringBuilder();
 			
-			if (sentCommand != null) {
-				out.append("Command sent: " + sentCommand.toString());
-				out.append("\n");
-			}
+			String sentCmdStr = sentCommand != null ? sentCommand.toString() : null;
+//			if (sentCommand != null) {
+//				out.append("Command sent: " + sentCommand.toString());
+//				out.append("\n");
+//			}
 			
-			String sectName = section != null ? section.getName() : null;
+			String sectName = getSectionName();
 			SectionManager sectInfo = editor.getParsedData().getSectionManager().clone();
 			
+			String infoStr = null;
 			if (info != null) {
 				
 				StringBuilder infoOut = new StringBuilder();
@@ -238,10 +256,12 @@ public class ZEditorResults {
 					delim = " ";
 				}
 				
-				out.append(infoOut);
-				out.append("\n");
+				infoStr = infoOut.toString();
+//				out.append(infoOut);
+//				out.append("\n");
 			}
 			
+			StringBuilder out = new StringBuilder();
 			boolean first = true;
 			for (Object res : results) {
 				
@@ -256,7 +276,8 @@ public class ZEditorResults {
 				out.append("\n");
 			}
 			
-			return out;
+//			return out;
+			return new ProofResultInfo(sentCmdStr, infoStr, out.toString());
 		}
 		
 		private String convertBlurbElement(SectionManager sectInfo, String sectName,
@@ -320,6 +341,56 @@ public class ZEditorResults {
 			}
 			
 			return null;
+		}
+		
+		public interface IProofResultInfo {
+			public String getCommand();
+			public String getInfo();
+			public String getResult();
+		}
+		
+		private class ProofResultInfo implements IProofResultInfo {
+			private final String command;
+			private final String info;
+			private final String result;
+			
+			public ProofResultInfo(String command, String info, String result) {
+				super();
+				this.command = command;
+				this.info = info;
+				this.result = result;
+			}
+
+			@Override
+			public String getCommand() {
+				return command;
+			}
+
+			@Override
+			public String getInfo() {
+				return info;
+			}
+
+			@Override
+			public String getResult() {
+				return result;
+			}
+
+			@Override
+			public String toString() {
+				
+				StringBuilder out = new StringBuilder();
+				if (command != null) {
+					out.append("Command sent: " + command + "\n");
+				}
+				
+				if (info != null) {
+					out.append(info + "\n");
+				}
+				
+				out.append(result);
+				return out.toString();
+			}
 		}
 		
 	}
