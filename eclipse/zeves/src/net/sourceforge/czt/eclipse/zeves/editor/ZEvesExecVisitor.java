@@ -299,6 +299,12 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			ZEvesPlugin.getDefault().log(e);
 		}
 		
+		Throwable cause = e.getCause();
+		if (cause != null) {
+			// log the cause
+			ZEvesPlugin.getDefault().log(cause);
+		}
+		
 		return null;
     }
     
