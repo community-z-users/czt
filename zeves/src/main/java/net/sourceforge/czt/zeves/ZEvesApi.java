@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -418,6 +419,32 @@ public class ZEvesApi {
 
 		ZEvesOutput output = sendCommand("get-theorem", theoremName);
 		return (ZEvesTheorem) output.getFirstResult();
+	}
+	
+	public List<String> getRulesMatchingPredicate(String goalName, int stepNumber, String predicate)
+			throws ZEvesException {
+		
+		return getRulesMatchingTerm("get-rules-matching-predicate", goalName, stepNumber, predicate);
+	}
+	
+	public List<String> getRulesMatchingExpression(String goalName, int stepNumber, String expr)
+			throws ZEvesException {
+		
+		return getRulesMatchingTerm("get-rules-matching-expression", goalName, stepNumber, expr);
+	}
+	
+	private List<String> getRulesMatchingTerm(String commandName, String goalName, int stepNumber,
+			String term) throws ZEvesException {
+		
+		ZEvesOutput output = sendCommand(commandName, goalName, String.valueOf(stepNumber), term);
+		List<String> rules = new ArrayList<String>();
+		for (Object res : output.getResults()) {
+			if (res instanceof ZEvesName) {
+				rules.add(((ZEvesName) res).getIdent());
+			}
+		}
+
+		return rules;
 	}
 
 	public String getCurrentGoalName() throws ZEvesException {
