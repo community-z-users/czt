@@ -191,11 +191,21 @@
   </xs:annotation>
   </xs:element>
 
-  <xs:element name="InstantiationList" type="ZEVES:InstantiationList"/>
+  <xs:element name="InstantiationList" type="ZEVES:InstantiationList" substitutionGroup="Z:RenameList">
+     <xs:annotation>
+      <xs:documentation>
+        List of possible instantiations. It appears in proof commands (e.g., instantiate and use), as well
+        as part of schema construction renaming like (THETA S [x := 10]), hence the RenameList substition group.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="Instantiation" type="ZEVES:Instantiation">
     <xs:annotation>
       <xs:documentation>
         Encapsulates one instantiation or replacement for the instantiate or use commands. It belongs to a list of instantiations.
+        It can also appear in the extended renaming expression in ZEves, which allows for expressions in rename, instead of just names.
+        In the parser, all renames will be from Name to Expr, even when they are just simple names, for uniformity.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -229,6 +239,22 @@
   <xs:annotation>
     <xs:documentation>
        Theorem application commands. Might have an extra expression (x)or predicate attached to it.
+    </xs:documentation>
+  </xs:annotation>
+  </xs:element>
+
+  <xs:element name="ZEvesLabel" type="ZEVES:ZEvesLabel">
+  <xs:annotation>
+    <xs:documentation>
+       Label to theorems and axiomatic predicates
+    </xs:documentation>
+  </xs:annotation>
+  </xs:element>
+
+  <xs:element name="ZEvesNote" type="ZEVES:ZEvesNote">
+  <xs:annotation>
+    <xs:documentation>
+       Notes and comments from the user within formal text (not type checked)
     </xs:documentation>
   </xs:annotation>
   </xs:element>
@@ -473,7 +499,7 @@
 
   <xs:complexType name="InstantiationList">
     <xs:complexContent>
-      <xs:extension base="Z:Term">
+      <xs:extension base="Z:RenameList">
         <xs:sequence>
           <xs:element ref="ZEVES:Instantiation"  minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -537,6 +563,44 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+ <xs:complexType name="ZEvesLabel">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:Name"/>
+        </xs:sequence>
+        <xs:attribute name="Ability" type="ZEVES:LabelAbility" use="optional" default="enabled"/>
+        <xs:attribute name="Usage" type="ZEVES:LabelUsage" use="optional" default="none"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="LabelAbility">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="enabled"/>
+      <xs:enumeration value="disabled"/>
+      <xs:enumeration value="none"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LabelUsage">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="axiom"/>
+      <xs:enumeration value="rule"/>
+      <xs:enumeration value="grule"/>
+      <xs:enumeration value="frule"/>
+      <xs:enumeration value="none"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ZEvesNote">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element name="Note" type="xs:string"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
