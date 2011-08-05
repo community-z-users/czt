@@ -37,6 +37,8 @@ import net.sourceforge.czt.zeves.ast.SimplificationCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
+import net.sourceforge.czt.zeves.ast.ZEvesLabel;
+import net.sourceforge.czt.zeves.ast.ZEvesNote;
 import net.sourceforge.czt.zeves.visitor.ZEvesVisitor;
 
 /**
@@ -58,6 +60,18 @@ public class ZEvesConcreteSyntaxSymbolVisitor
   public ZEvesConcreteSyntaxSymbolVisitor(Utils utils)
   {
     utils_ = utils;
+  }
+
+  @Override
+  public ZEvesConcreteSyntaxSymbol visitZEvesLabel(ZEvesLabel term)
+  {
+    return ZEvesConcreteSyntaxSymbol.ZEVESLABEL;
+  }
+
+  @Override
+  public ZEvesConcreteSyntaxSymbol visitZEvesNote(ZEvesNote term)
+  {
+    return ZEvesConcreteSyntaxSymbol.ZEVESNOTE;
   }
 
   public interface Utils

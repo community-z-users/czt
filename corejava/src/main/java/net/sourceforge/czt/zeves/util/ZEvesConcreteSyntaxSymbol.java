@@ -68,7 +68,10 @@ public enum ZEvesConcreteSyntaxSymbol
 
   THMREPLACEMENT("Variable replacement in theorem usage"),
   INSTANTIATION("Quantified variable instantiation"),
-  INSTANTIATION_LIST("List of instantiations or thm replacements")
+  INSTANTIATION_LIST("List of instantiations or thm replacements"),
+
+  ZEVESLABEL("ZEves predicate label"),
+  ZEVESNOTE("ZEves comment within formal text")
 
   // TODO: proof commands for admin purposes
 

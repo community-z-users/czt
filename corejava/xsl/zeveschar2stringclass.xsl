@@ -41,6 +41,8 @@ public interface ZEvesString extends ZPattString
   String ZPROOF = ZPROOFCHAR;
   String ZPROOFSECTION = ZPROOFSECTIONCHAR;
   String ZPROOFDOLLAR = ZPROOFDOLLARCHAR;
+  String DISABLEDTHMTAG = DISABLEDTHMTAGCHAR;
+  String DISABLEDDEFTAG = DISABLEDDEFTAGCHAR;
   
 /*
 PROOFWORDBEGIN  = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
@@ -116,6 +118,12 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   //String TO		   = "to"; already above
   
   String ZPROOFCOMMANDSEP = "; "; // semicolon followed by space
+  
+  String THMREPLACEMENT = ":=";
+  String THMRULE = "rule";
+  String THMGRULE = "grule";
+  String THMFRULE = "frule";
+  String THMAXIOM = "axiom";
 }
 <xsl:text>
 </xsl:text>

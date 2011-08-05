@@ -21,26 +21,52 @@ package net.sourceforge.czt.zeves.util;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Box;
+import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Directive;
+import net.sourceforge.czt.z.ast.ExistsExpr;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ExprPred;
+import net.sourceforge.czt.z.ast.ForallExpr;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.Qnt1Expr;
+import net.sourceforge.czt.z.ast.RenameExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ThetaExpr;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.ConjParaVisitor;
+import net.sourceforge.czt.z.visitor.ExprPredVisitor;
 import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.PredVisitor;
+import net.sourceforge.czt.z.visitor.Qnt1ExprVisitor;
+import net.sourceforge.czt.z.visitor.RenameExprVisitor;
+import net.sourceforge.czt.z.visitor.SchExprVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
+import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
+import net.sourceforge.czt.z.visitor.ZSchTextVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
 import net.sourceforge.czt.zeves.ast.ApplyCommand;
 import net.sourceforge.czt.zeves.ast.CaseAnalysisCommand;
 import net.sourceforge.czt.zeves.ast.Instantiation;
 import net.sourceforge.czt.zeves.ast.InstantiationKind;
 import net.sourceforge.czt.zeves.ast.InstantiationList;
+import net.sourceforge.czt.zeves.ast.LabelAbility;
+import net.sourceforge.czt.zeves.ast.LabelUsage;
 import net.sourceforge.czt.zeves.ast.NormalizationCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
@@ -53,6 +79,8 @@ import net.sourceforge.czt.zeves.ast.SimplificationCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
+import net.sourceforge.czt.zeves.ast.ZEvesLabel;
+import net.sourceforge.czt.zeves.ast.ZEvesNote;
 import net.sourceforge.czt.zeves.visitor.ZEvesVisitor;
 
 /**
@@ -67,9 +95,17 @@ public class PrintVisitor
         SpecVisitor<String>,
         ZSectVisitor<String>,
         ZParaListVisitor<String>,
-        NarrParaVisitor<String>
+        NarrParaVisitor<String>,
+        AxParaVisitor<String>,
+        ConjParaVisitor<String>,
+        PredVisitor<String>,
+        SchExprVisitor<String>,
+        ZSchTextVisitor<String>,
+        ExprPredVisitor<String>,
+        Qnt1ExprVisitor<String>,
+        RenameExprVisitor<String>,
+        ThetaExprVisitor<String>
 {
-
   private InstantiationKind currInstKind_ = null;
 
   public PrintVisitor()
@@ -112,6 +148,195 @@ public class PrintVisitor
               (other.lastIndexOf("$") + 1 == other.length() ? 0 : 1);
     }
     return result;
+  }
+
+  private ZEvesLabel appendBeginEnv(Term term, StringBuilder result)
+  {
+    ZEvesLabel label = ZEvesUtils.getLabel(term);
+    result.append("\\begin");
+    if (label != null && label.getAbility().equals(LabelAbility.disabled))
+    {
+      result.append("[disabled]");
+    }
+    return label;
+  }
+
+  @Override
+  public String visitPred(Pred term)
+  {
+    StringBuilder result = new StringBuilder();
+    ZEvesLabel label = ZEvesUtils.getLabel(term);
+    if (label!=null)
+    {
+      result.append(visit(label));
+    }
+    result.append("\t");
+    result.append(term.getClass().getName());
+    return result.toString();
+  }
+
+  @Override
+  public String visitExprPred(ExprPred term)
+  {
+    return visit(term.getExpr());
+  }
+
+  @Override
+  public String visitQnt1Expr(Qnt1Expr term)
+  {
+    StringBuilder result = new StringBuilder();
+    boxedSchemaExpr_ = false; // we are on-the-fly in a paragraph, like \forall S @ expr
+    if (term instanceof ForallExpr)
+    {
+      result.append("\\forall ");
+    }
+    else if (term instanceof ExistsExpr)
+    {
+      result.append("\\exists ");
+    }
+    else
+    {
+      result.append(term.getClass().getSimpleName());
+      result.append(" ");
+    }
+    result.append(visit(term.getSchText()));
+    result.append(" @ ");
+    result.append(visit(term.getExpr()));
+    return result.toString();
+  }
+
+  @Override
+  public String visitThetaExpr(ThetaExpr term)
+  {
+    StringBuilder result  = new StringBuilder("\\theta ");
+    result.append(visit(term.getExpr()));
+    result.append(visit(term.getStrokeList()));
+    return result.toString();
+  }
+
+  @Override
+  public String visitRenameExpr(RenameExpr term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visit(term.getExpr()));
+    result.append("[");
+    result.append(visit(term.getRenameList()));
+    result.append("]");
+    return result.toString();
+  }
+
+  private boolean boxedSchemaExpr_ = false;
+  
+  @Override
+  public String visitAxPara(AxPara term)
+  {
+    StringBuilder result = new StringBuilder();
+    NameList gen = ZUtils.getAxParaGenFormals(term);
+    boolean hasGenerics = gen != null &&
+            gen instanceof ZNameList && !((ZNameList)gen).isEmpty();
+    if (term.getBox().equals(Box.AxBox))
+    {
+      if (hasGenerics)
+      {
+        result.append("\\begin{gendef}[");
+        result.append(visit(gen));
+        result.append("]");
+      }
+      else
+      {
+        result.append("\\begin{axdef}");
+      }
+      result.append("\n\t");
+      result.append(visit(ZUtils.getAxBoxDecls(term)));
+      result.append("\n\\where\n\t");
+      result.append(visit(ZUtils.getAxBoxPred(term)));
+      result.append("\n\\end{");
+      result.append(hasGenerics ? "gendef" : "axdef");
+      result.append("}\n");
+    }
+    else if (term.getBox().equals(Box.SchBox))
+    {
+      appendBeginEnv(term, result);
+      result.append("{schema}{");
+      result.append(visit(ZUtils.getSchemaName(term)));
+      result.append("}");
+      if (hasGenerics)
+      {
+        result.append("[");
+        result.append(visit(gen));
+        result.append("]");
+      }
+      result.append("\n\t");
+      boxedSchemaExpr_ = true;
+      result.append(visit(ZUtils.getSchemaDefExpr(term)));
+      result.append("\n\\end{schema}\n");
+    }
+    else if (term.getBox().equals(Box.OmitBox))
+    {
+      appendBeginEnv(term, result);
+      result.append("{zed}\n\t");
+      result.append(visit(ZUtils.getAbbreviationName(term)));
+      if (hasGenerics)
+      {
+        result.append(" [");
+        result.append(visit(gen));
+        result.append("]");
+      }
+      boxedSchemaExpr_ = false;
+      Expr abbrvExpr = ZUtils.getAbbreviationExpr(term);
+      // TODO: here there is a simplification for the schema calculus: I don't have \\defs for S \land T, say
+      result.append(abbrvExpr instanceof SchExpr ? " \\defs " : " == ");
+      result.append("[ ");
+      result.append(visit(abbrvExpr));
+      result.append(" ]");
+      result.append("\n\\end{zed}\n");
+    }
+    else
+    {
+      result.append(term.getClass().getName());
+    }
+    return result.toString();
+  }
+
+  @Override
+  public String visitSchExpr(SchExpr term)
+  {
+    return visit(term.getSchText());
+  }
+
+  @Override
+  public String visitZSchText(ZSchText term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append(visit(term.getDeclList()));
+    result.append(boxedSchemaExpr_ ? "\n\\where\n\t" : " | ");
+    result.append(visit(term.getPred()));
+    return result.toString();
+  }
+
+  @Override
+  public String visitConjPara(ConjPara term)
+  {
+    StringBuilder result = new StringBuilder();
+    ZEvesLabel label = appendBeginEnv(term, result);
+    result.append("{theorem}");
+    if (term.getName() != null)
+    {
+      result.append("{");
+      if (label != null && !label.getUsage().equals(LabelUsage.none))
+      {
+        result.append(label.getUsage());
+        result.append(" ");
+      }
+      result.append(term.getName());
+      result.append("}");
+    }
+    result.append(visit(term.getZNameList()));
+    result.append("\n");
+    result.append(visit(term.getPred()));
+    result.append("\n");
+    result.append("\\end{theorem}");
+    return result.toString();
   }
 
   @Override
@@ -537,4 +762,34 @@ public class PrintVisitor
       return result.toString();
     }
   }
+
+  @Override
+  public String visitZEvesLabel(ZEvesLabel term)
+  {
+    StringBuilder result = new StringBuilder("\\Label{");
+    if (!term.getAbility().equals(LabelAbility.none))
+    {
+      result.append(term.getAbility());
+      result.append(" ");
+    }
+    if (!term.getUsage().equals(LabelUsage.none))
+    {
+      result.append(term.getUsage());
+      result.append(" ");
+    }
+    result.append(visit(term.getName()));
+    result.append("}\n");
+    return result.toString();
+  }
+
+  @Override
+  public String visitZEvesNote(ZEvesNote term)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append("\\znote{");
+    result.append(term.getNote());
+    result.append("}\n");
+    return result.toString();
+  }
+
 }
