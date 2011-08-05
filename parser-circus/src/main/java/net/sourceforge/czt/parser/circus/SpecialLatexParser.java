@@ -121,7 +121,7 @@ public class SpecialLatexParser {
     public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 
         throws IOException {
         scanner_ = new LatexScanner(s, sectInfo, properties);
-        parser_ = new Parser(scanner_, s, sectInfo);
+        parser_ = new Parser(scanner_, s, sectInfo, properties);
     }    
     
     public Term parse()
