@@ -550,6 +550,16 @@ import net.sourceforge.czt.z.util.ZString;
      * The brace that starts a proof name in \\begin{zproof}[NAME
      */
     PROOF_NAME,
+
+    /**
+     * The brace after \\znote{...} comment
+     */
+    ZNOTE,
+
+    /**
+     * The brace after \\Label{...}
+     */
+    ZLABEL,
     </add:zeves>
 
     /**
@@ -586,7 +596,7 @@ FUNCTION = "*" | "+" | "|"
 PUNCTATION = ";" | ","
 RELATION = ":" | "&lt;" | "=" | "&gt;"
 
-START_COMMENT = "%"
+START_COMMENT = "%" 
 CHAR_MARKUP = "%%Zchar" {NOT_NL}* {NL}?
          | "%%Zinchar" {NOT_NL}* {NL}?
          | "%%Zprechar" {NOT_NL}* {NL}?
@@ -670,6 +680,8 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
 //PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}
 //PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
 
+ABILITY = "enabled" | "disabled"
+USAGE   = "axiom" | "frule" | "grule" | "rule"
 </add:zeves>
 
 %state ZED
@@ -685,6 +697,10 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
 <add:circus>
 %state CIRCUSTOOLSOFF
 </add:circus>
+<add:zeves>
+%state ZNOTE_STATE
+%state ZLABEL_STATE
+</add:zeves>
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -706,6 +722,16 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
           inAxiomaticBox_ = true;
           return result(ZString.GENAX);
         }
+  <add:zeves>
+  "\\begin" {IGNORE}* "[disabled]" "{schema}" {IGNORE}* "{" / {NAME} "}" {IGNORE}* "["
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("schema");
+          braceStack_.push(BraceType.NAME);
+          return result(ZString.SCHCHAR + ZString.GENCHAR + ZEvesString.DISABLEDDEFTAG);
+        }
+  </add:zeves>
   "\\begin" {IGNORE}* "{schema}" {IGNORE}* "{" / {NAME} "}" {IGNORE}* "["
         {
           yybegin(ZED);
@@ -714,6 +740,16 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
           braceStack_.push(BraceType.NAME);
           return result(ZString.SCHCHAR + ZString.GENCHAR);
         }
+  <add:zeves>
+  "\\begin" {IGNORE}* "[disabled]" "{schema}" {IGNORE}* "{"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("schema");
+          braceStack_.push(BraceType.NAME);
+          return result(ZString.SCH + ZEvesString.DISABLEDDEFTAG);
+        }
+  </add:zeves>
   "\\begin" {IGNORE}* "{schema}" {IGNORE}* "{"
         {
           yybegin(ZED);
@@ -726,6 +762,15 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
         {
           yybegin(ERROR);
         }
+  <add:zeves>
+  "\\begin" {IGNORE}* "[disabled]" "{zed}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("zed");
+          return result(ZString.ZED + ZEvesString.DISABLEDDEFTAG);
+        }
+  </add:zeves>
   "\\begin" {IGNORE}* "{zed}"
         {
           yybegin(ZED);
@@ -740,6 +785,16 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
           begin("zsection");
           return result(LatexSym.SECT, ZString.ZED);
         }
+  <add:zeves>
+  "\\begin" {IGNORE}* "[disabled]" {IGNORE}* "{" / "theorem}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("theorem");
+          braceStack_.push(BraceType.NAME);
+          return result(ZString.ZED + ZEvesString.DISABLEDTHMTAG);
+        }
+  </add:zeves>
   "\\begin" {IGNORE}* "{" / "theorem}"
         {
           // CZT extension: pass theorem name into Unicode output.
@@ -922,7 +977,6 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
         {
           yybegin(ERROR);
         }
-
 </add:zeves>
   ^{CHAR_MARKUP}
         {
@@ -985,7 +1039,6 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
         {
           yybegin(COMMENT_STATE);
         }
-
   {TEXT}
         {
           return result(LatexSym.TEXT);
@@ -1008,6 +1061,25 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
         }
 
   <add:zeves>
+  "\\Label" {IGNORE}* "{" / ({ABILITY}? {USAGE}? {NAME} "}")
+        {
+          addSpace_ = true;
+          String label = yytext();
+          //System.out.println("SEEN LABEL = " + label);
+          if (!inAxiomaticBox_)
+          {
+            reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_AXDEF, label, label);
+          }
+          yybegin(ZLABEL_STATE);
+          return result(ZEvesString.LLABEL + ZString.SPACE);
+        }
+  "\\znote" {IGNORE}* "{"
+        {
+           //System.out.println("SEEN ZNOTE");
+           yybegin(ZNOTE_STATE);
+           braceStack_.push(BraceType.ZNOTE);
+           return result(ZEvesString.LZNOTE);
+        }
   {PROOFWORD}
         {
           // proof words *must* be separated
@@ -1027,7 +1099,12 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
             reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
           }
           return result(LatexSym.PROOFWORD, proofWord);
-          
+        }
+  {USAGE}
+        {
+          String usage = yytext();
+          //System.out.println("SEEN USAGE-IN-ZED-STATE = " + usage);
+          return result(LatexSym.PROOFWORD, usage + ZString.SPACE);
         }
   </add:zeves>
 
@@ -1563,6 +1640,84 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
          // do nothing
        }
 }
+
+<add:zeves>
+&lt;ZNOTE_STATE&gt; {
+  "}"
+      {
+        yybegin(ZED);
+
+        // check this is a matching "}" for "\\znote{"
+        boolean okay = !braceStack_.empty();
+        BraceType brace = null;
+        if (okay)
+        {
+          brace = (BraceType) braceStack_.pop();
+          okay = brace.equals(BraceType.ZNOTE);
+        }
+        if (!okay) {
+          final ErrorType errorType = ErrorType.ERROR;
+          reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
+        }
+        return result(ZEvesString.RZNOTE);
+      }
+  .
+      {
+      // just return  the text
+        return result(yytext());
+      }
+}
+
+&lt;ZLABEL_STATE&gt; {
+  {ABILITY} 
+      {
+        String result = yytext();
+        //System.out.println("SEEN ABILITY = " + result);
+        return result(LatexSym.PROOFWORD, result);
+      }
+  {USAGE}
+      {
+        String result = yytext();
+        //System.out.println("SEEN USAGE = " + result);
+        return result(LatexSym.PROOFWORD, result);
+      }
+
+  "}"
+      {
+        // check this is a matching "}" for "\\Label{"
+        boolean okay = !braceStack_.empty();
+        BraceType brace = null;
+        if (okay)
+        {
+          brace = (BraceType) braceStack_.pop();
+          okay = brace.equals(BraceType.ZLABEL);
+        }
+        if (!okay) {
+          final ErrorType errorType = ErrorType.ERROR;
+          reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
+        }
+        yybegin(ZED);
+        return result(ZEvesString.RLABEL);
+      }
+
+  ({LETTER} | [0-9])*
+        {
+          // To aid low-level debugging: ({LETTER} | [0-9])*
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
+  .
+        {
+          // To aid low-level debugging: .  // OR SHOULD THIS BE A CATCH ALL ERROR?
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
+}
+
+
+</add:zeves>
 
 <add:oz>
 &lt;CLASSCOM&gt; {

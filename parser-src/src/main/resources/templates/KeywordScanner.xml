@@ -31,7 +31,6 @@ import java.util.Stack;
 
 import net.sourceforge.czt.java_cup.runtime.*;
 
-import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.util.CztException;
@@ -48,7 +47,9 @@ import net.sourceforge.czt.parser.oz.OzKeyword;
 import net.sourceforge.czt.parser.zpatt.ZPattKeyword;
 </add:ozpatt>
 
+import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
 
 /**
  * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for
@@ -70,16 +71,15 @@ import net.sourceforge.czt.parser.util.Token;
  * &lt;/p&gt;
  */
 public class KeywordScanner
-  implements Scanner
+  extends CztScannerImpl
 {
   private ContextFreeScanner scanner_;
   private static Map &lt;String, Integer&gt; keywords_ = createKeywordMap();
   private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
   
-  private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
-
   public KeywordScanner(ContextFreeScanner scanner, Properties properties)
   {
+    super(properties);
     scanner_ = scanner;
   }
 
@@ -142,7 +142,9 @@ public class KeywordScanner
       addKeyword(result, keyword.spelling(), symbol);
     }
   }
-  
+
+  private static Map symbolMap_ = null;
+
   /**
    * &lt;p&gt;
    * Maps the given keyword string with a specific &lt;code&gt;Symbol&lt;/code&gt;
@@ -159,9 +161,10 @@ public class KeywordScanner
                                  int symbol) {
     Integer old = map.put(keyword, new Integer(symbol));        
     if (old != null) {
-      String logMessage = "Invalid keyword mapping [" + keyword + " -> " + 
-        symbolMap_.get(symbol) + ")]. The keyword " + keyword + 
-        " has already been mapped to token " + symbolMap_.get(old) + ".";
+      if (symbolMap_ == null) symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+      final String logMessage = java.text.MessageFormat.format(
+        "Invalid keyoword mapping [{0} -> {1}]. The keyword '{0}' has already been mapped to token {2}.",
+        keyword, symbolMap_.get(symbol), symbolMap_.get(old));
       CztLogger.getLogger(KeywordScanner.class).severe(logMessage);
     }
   }
@@ -190,12 +193,8 @@ public class KeywordScanner
     throws IOException
   {
     if (! tokens_.empty()) return tokens_.pop();
-    Symbol symbol = scanner_.next_token();    
-    String logMessage =
-        "Received token (" + symbolMap_.get(symbol.sym) + ", " + 
-            (symbol.sym != Sym.TEXT ? String.valueOf(symbol.value) + ", " + 
-                (symbol.value != null ? symbol.value.getClass().getName() : "null") : "...shhh...") + ").";                    
-    CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
+    Symbol symbol = scanner_.next_token();
+    logSymbol(symbol);
     if (symbol.sym == Sym.DECORWORD <add:zeves> || symbol.sym == Sym.PROOFWORD </add:zeves>
     ) {
       Decorword decorword = (Decorword) symbol.value;
@@ -210,15 +209,19 @@ public class KeywordScanner
       String value = decorword.getName();
       Integer token = (Integer) keywords_.get(value);
       if (token != null) {
-        logMessage =
-          "Returning " + token.intValue() + " instead, which is named as token " + symbolMap_.get(token.intValue()) + ".";
-        CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
+        logFormatted("{0}: decorword {1} -> {2} named as {3}.",
+            getClass().getName(), value, token.intValue(), getSymbolMap().get(token.intValue()));
         return new Symbol(token.intValue(),
                           symbol.left, symbol.right,
                           decorword.getLocation());
       }
     }
     return symbol;
+  }
+
+  protected Class&lt;?&gt; getSymbolClass()
+  {
+    return Sym.class;
   }
 }
 </scanner>

@@ -21,14 +21,13 @@
 
 package <package/>;
 
-import java.io.*;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 import java.util.Properties;
+import net.sourceforge.czt.parser.util.CztLexerImpl;
+import net.sourceforge.czt.parser.util.LocToken;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.Source;
 
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.session.*;
 
 /**
  * &lt;p&gt;
@@ -48,7 +47,7 @@ import net.sourceforge.czt.session.*;
  * &lt;/p&gt;
  */
 public class <class/>
-  implements Lexer
+  extends CztLexerImpl
 {
   private LatexMarkupParser lexer_;
   private SectionInfo sectInfo_;
@@ -60,6 +59,7 @@ public class <class/>
   public <class/>(Source source, SectionInfo sectInfo, Properties properties)
     throws IOException
   {
+    super(properties);
     Latex2Unicode l2u = new Latex2Unicode(source, sectInfo, properties);
     lexer_ = new LatexMarkupParser(l2u, sectInfo);
   }
@@ -67,7 +67,9 @@ public class <class/>
   public LocToken next()
     throws IOException
   {
-    return lexer_.next();
+    LocToken result = lexer_.next();
+    logToken(result);
+    return result;
   }
 
   public Source getSource()

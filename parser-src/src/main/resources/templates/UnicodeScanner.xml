@@ -25,6 +25,7 @@ import java.io.*;
 import java.util.Properties;
 import net.sourceforge.czt.java_cup.runtime.*;
       
+import net.sourceforge.czt.parser.util.CztScannerImpl;
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ScanException;
@@ -48,7 +49,7 @@ import net.sourceforge.czt.session.*;
  * @see net.sourceforge.czt.parser.z
  */
 public class UnicodeScanner
-  implements Scanner
+  extends CztScannerImpl
 {
   ContextFreeScanner contextFreeScanner_;
   KeywordScanner keywordScanner_;
@@ -86,10 +87,18 @@ public class UnicodeScanner
     }
   }
 
+  protected Class&lt;?&gt; getSymbolClass()
+  {
+    return Sym.class;
+  }
+
+
   public Symbol next_token()
     throws Exception
   {
-    return smartScanner_.next_token();
+    Symbol symbol = smartScanner_.next_token();
+    logSymbol(symbol);
+    return symbol;
   }
 
   public void reset(Reader in)

@@ -25,6 +25,7 @@
 package <package/>;
 
 import java.lang.reflect.*;
+import java.util.Properties;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
@@ -68,7 +69,7 @@ import net.sourceforge.czt.util.CztException;
  * (not just from the operator template onwards).&lt;/p&gt;
  */
 public class <class/>
-  implements Scanner
+  extends CztScannerImpl
 {
   private Scanner scanner_;
   private OpTable table_;
@@ -85,8 +86,9 @@ public class <class/>
    */
   private boolean lookup_ = true;
 
-  <class/>(Scanner scanner)
+  <class/>(Scanner scanner, Properties properties)
   {
+    super(properties);
     scanner_ = scanner;
   }
 
@@ -135,10 +137,16 @@ public class <class/>
     else if (lookup_ == false &amp;&amp; result.sym == Sym.END) {
       lookup_ = true;
     }
-
+    logSymbol(result);
     previous_ = result;
     return result;
   }
+
+  protected Class&lt;?&gt; getSymbolClass()
+  {
+    return Sym.class;
+  }
+
 
   /**
    * Lookup the value of this symbol

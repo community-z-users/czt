@@ -167,7 +167,10 @@ public class <class/>
     if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
       sectName_ = Section.ANONYMOUS.getName();
-      parents_ = Section.STANDARD_TOOLKIT.getName()<add:oz>+", oz_toolkit"</add:oz><add:circus>+", circus_prelude"</add:circus>;
+      parents_ = Section.STANDARD_TOOLKIT.getName()
+        <add:oz>+", oz_toolkit"</add:oz>
+        <add:circus>+", circus_prelude"</add:circus>
+        <add:zeves>+", zeves_prelude"</add:zeves>;
       addMarkupFunction(Section.PRELUDE.getName());
 <add:oz>
       addMarkupFunction("oz_toolkit");
@@ -175,6 +178,9 @@ public class <class/>
 <add:circus>
       addMarkupFunction("circus_prelude");
 </add:circus>
+<add:zeves>
+      addMarkupFunction("zeves_prelude");
+</add:zeves>
       addMarkupFunction(Section.STANDARD_TOOLKIT.getName());
     }
     if (sectHead_) { // we are just parsing a section header

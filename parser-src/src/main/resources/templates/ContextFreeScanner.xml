@@ -254,6 +254,9 @@ BRACKET = {LPAREN} | {RPAREN} | {LSQUARE} | {RSQUARE} | {LBRACE} | {RBRACE} | {L
           /* Support for Circus Time */
           | {LCIRCTIMEOUT} | {RCIRCTIMEOUT}
 </add:circus>
+<add:zeves>
+          | {LLABEL} | {RLABEL} | {LZNOTE} | {RZNOTE}
+</add:zeves>
 LPAREN = "\u0028"  /* left parenthesis */
 RPAREN = "\u0029"  /* right parenthesis */
 LSQUARE = "\u005B" /* left square bracket */
@@ -283,13 +286,19 @@ RINTER = "\u301B"   /* left interleave bracket */
 LCIRCTIMEOUT = "\u21BB" /* left timeout bracket */
 RCIRCTIMEOUT = "\u22B3" /* right timeout bracket */
 </add:circus>
+<add:zeves>
+LZNOTE = "\u231C" /* znote comment */
+RZNOTE = "\u231D"
+LLABEL = "\u2329" /* labelled predicate */
+RLABEL = "\u232A"
+</add:zeves>
 
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
     <add:pattern> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:pattern>    
     <add:circuspatt> | {CIRCUSJOKERCHAR} | {CIRCUSACTIONLAWCHAR} | {CIRCUSPROCESSLAWCHAR}</add:circuspatt>
     <add:circus> | {CIRCUSCHAR} | {CIRCUSACTIONCHAR} </add:circus>
-    <add:zeves> | {ZPROOFCHAR} | {ZPROOFSECTIONCHAR} </add:zeves>
+    <add:zeves> | {ZPROOFCHAR} | {ZPROOFSECTIONCHAR} | {DISABLEDTHMTAGCHAR} | {DISABLEDDEFTAGCHAR}</add:zeves>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
@@ -314,6 +323,8 @@ CIRCUSACTIONCHAR = "\u2576"
 ZPROOFCHAR = "\u251C"  /* big turnstyle not bold */
 ZPROOFSECTIONCHAR ="\u2523" /* big turnstyle BOLD */
 ZPROOFDOLLARCHAR = "\u0024" /* $ for 'special' thm names*/
+DISABLEDTHMTAGCHAR = "\u2612" /* boxed cross for disabled theorem */
+DISABLEDDEFTAGCHAR = "\u2613" /* unboxed cross for disabled (unboxed/boxed) paragraphs */
 </add:zeves>
 
 
@@ -376,6 +387,10 @@ PROOFWORDMIXED   = "expression" | "predicate" | "to"
 PROOFWORD = ({PROOFWORDHEAD} | {PROOFWORDFOLLOWS} | {PROOFWORDMIXED}) {NL}*
 
 //THMNAME = ({LETTER} | {LL}) ({LETTER} | {DIGIT} | {LL})*
+
+//ABILITY = "enabled" | "disabled"
+//USAGE   = "axiom" | "frule" | "grule" | "rule"
+
 </add:zeves>
 
 DECORWORD = {WORD} {STROKE}*
@@ -411,6 +426,8 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
 ZPROOF = {ZPROOFCHAR}
 ZPROOFSECTION = {ZPROOFSECTIONCHAR}
 ZPROOFDOLLAR = {ZPROOFDOLLARCHAR}
+DISABLEDTHMTAG = {DISABLEDTHMTAGCHAR}
+DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
 //ZPCMDSEMICOLON = "\u003B" /* just normal semicolon */
 //ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
 </add:zeves>
@@ -584,6 +601,12 @@ ZPROOFDOLLAR = {ZPROOFDOLLARCHAR}
   {LCIRCTIMEOUT} {  return symbol(Sym.LCIRCTIMEOUT); }
   {RCIRCTIMEOUT} {  return symbol(Sym.RCIRCTIMEOUT); }
   </add:circus>
+  <add:zeves>
+  {LLABEL}      { return symbol(Sym.LLABEL); }
+  {RLABEL}      { return symbol(Sym.RLABEL); }
+  {LZNOTE}      { return symbol(Sym.LZNOTE); }
+  {RZNOTE}      { return symbol(Sym.RZNOTE); }
+  </add:zeves>
   {INSTROKE}    {  return symbol(Sym.INSTROKE); }
   {OUTSTROKE}   {  return symbol(Sym.OUTSTROKE); }
   {NEXTSTROKE}  {  return symbol(Sym.NEXTSTROKE); }
@@ -599,6 +622,8 @@ ZPROOFDOLLAR = {ZPROOFDOLLARCHAR}
   <add:zeves>
   // for 'special' thm names like domainCheck etc
   {ZPROOFDOLLAR} { return symbol(Sym.ZPROOFDOLLAR); }
+  {DISABLEDTHMTAG}   { return symbol(Sym.DISABLEDTHMTAG); }
+  {DISABLEDDEFTAG}   { return symbol(Sym.DISABLEDDEFTAG); }
   </add:zeves>
   
   {DECORWORD}   {

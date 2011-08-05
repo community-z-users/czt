@@ -26,6 +26,7 @@ package <package/>;
 import java.lang.reflect.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
@@ -40,7 +41,7 @@ import net.sourceforge.czt.util.CztException;
  * specifications in unicode format.&lt;/p&gt;
  */
 public class <class/>
-  implements Scanner
+  extends CztScannerImpl
 {
   private static Map&lt;Integer,NewlineCategory&gt; map_ = createMap();
 
@@ -125,8 +126,9 @@ public class <class/>
    */
   private TokenStack tokens_;
 
-  <class/>(Scanner scanner)
+  <class/>(Scanner scanner, Properties properties)
   {
+    super(properties);
     tokens_ = new TokenStack(scanner);
   }
 
@@ -141,6 +143,7 @@ public class <class/>
     throws Exception
   {
     Symbol symbol = tokens_.pop();
+    logSymbol(symbol);
     if (symbol.sym == Sym.NL &amp;&amp;
         (previousAllowsNewline() ||
          nextAllowsNewline())) {
@@ -172,5 +175,11 @@ public class <class/>
     return NewlineCategory.BOTH == category ||
       NewlineCategory.BEFORE == category;
   }
+
+  protected Class&lt;?&gt; getSymbolClass()
+  {
+    return Sym.class;
+  }
+
 }
 </parser>

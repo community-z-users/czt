@@ -53,7 +53,7 @@ public class <class/>
     throws IOException
   {
     LatexScanner scanner = new LatexScanner(source, sectInfo, properties);
-    parser_ = new Parser(scanner, source, sectInfo);
+    parser_ = new Parser(scanner, source, sectInfo, properties);
   }
 
   public Term parse()

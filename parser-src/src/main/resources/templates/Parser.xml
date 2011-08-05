@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Properties;
 import java.io.*;
 
 
@@ -241,6 +242,109 @@ action code
       ZName result = factory_.createZName(dw.getWord() + DOLLAR, dw.getStrokes());
       addLocAnn(result, dw.getLocation());
       return result;
+    }
+
+    private void addZNote(Term term, ZEvesNote znote)
+    {
+      if (znote != null &amp;&amp; znote.getNote() != null &amp;&amp; !znote.getNote().isEmpty())
+      {
+        term.getAnns().add(znote);
+      }
+    }
+
+    private void addZEvesLabel(List&lt;Para&gt; unboxedParaList, LabelAbility ability)
+    {
+      for (Para p : unboxedParaList)
+      {
+        if (p instanceof GivenPara)
+        {
+          GivenPara gp = (GivenPara) p;
+          if (gp.getNameList() instanceof ZNameList)
+          {
+            for (Name name : gp.getZNameList())
+            {
+              addZEvesLabel(gp, name, ability);
+            }
+          }
+        }
+        else if (p instanceof FreePara)
+        {
+          FreePara fp = (FreePara)p;
+          if (fp.getFreetypeList() instanceof ZFreetypeList)
+          {
+            for (Freetype ft : ZUtils.assertZFreetypeList(fp.getFreetypeList()))
+            {
+              addZEvesLabel(fp, ft.getName(), ability);
+              if (ft.getBranchList() instanceof ZBranchList)
+              {
+                for (Branch branch : ZUtils.assertZBranchList(ft.getBranchList()))
+                {
+                  addZEvesLabel(fp, branch.getName(), ability);
+                }
+              }
+            }
+          }
+        }
+        else if (p instanceof AxPara)
+        {
+          AxPara ap = (AxPara)p;
+          if (ap.getBox().equals(Box.OmitBox))
+          {
+            addZEvesLabel(ap, ZUtils.getAbbreviationName(ap), ability);
+          }
+          else
+          {
+            parser.report_error(ZEvesParseMessage.MSG_INVALID_AXPARA_ABILITY,
+                               new Object[] { ap }, getLocation(p));
+          }
+        }
+        else if (p instanceof OptempPara)
+        {
+          OptempPara op = (OptempPara)p;
+          for (Oper oper : op.getOper())
+          {
+            //if (oper instanceof Operand)
+            //{
+            //  ((Operand)oper).
+            //}
+            //else
+            if (oper instanceof Operator)
+            {
+              addZEvesLabel(op, factory_.createZName(((Operator)oper).getWord()), ability);
+            }
+          }
+        }
+        else if (p instanceof ConjPara)
+        {
+          // if \vdash? is present, this is unlikely to be within Z/Eves,
+          // but rather as part of a unboxedPara within ZED rather than THEOREM
+          // raise a warning? or error? ERROR?
+          //CztLogger.getLogger(<class/>.class).warning("Z/Eves conjectures do not have '\\vdash?' symbols, and can only appear within 'theorem' environment: " +
+          //  "on theorem named " + n.toString() + " at " + getLocation(p));
+        }
+        else
+        {
+           parser.report_error(ZEvesParseMessage.MSG_UNKNOWNPARA_ABILITY,
+                               new Object[] { p }, getLocation(p));
+        }
+      }
+    }
+
+    private void addZEvesLabel(Term term, Name name, LabelAbility ability)
+    {
+      addZEvesLabel(term, name, ability, LabelUsage.none);
+    }
+
+    private void addZEvesLabel(Term term, Name name, LabelAbility ability, LabelUsage usage)
+    {
+      assert name != null;
+      //if (ZEvesUtils.getLabel(term) != null)
+      //{
+         // warning: multiple labels? It does happen for GivenPara and others, though...
+      //}
+      ZEvesLabel label = factory_.createZEvesLabel(name, ability, usage);
+      name.getAnns().add(label);
+      term.getAnns().add(label);
     }
 </add:zeves>
 
@@ -1724,7 +1828,8 @@ parser code
      */
     public <class/>(Scanner scanner,
                     Source source,
-                    SectionInfo sectInfo)
+                    SectionInfo sectInfo,
+                    Properties properties)
     {
       super(scanner);
       source_ = source;
@@ -1741,12 +1846,12 @@ parser code
           e.printStackTrace();
         }
       }
-      opScanner_ = new OperatorScanner(getScanner());
+      opScanner_ = new OperatorScanner(getScanner(), properties);
 <add:pattern>
       jokerScanner_ = new JokerScanner(getScanner());
-      opScanner_ = new OperatorScanner(jokerScanner_);
+      opScanner_ = new OperatorScanner(jokerScanner_, properties);
 </add:pattern>
-      nlScanner_ = new NewlineScanner(opScanner_);
+      nlScanner_ = new NewlineScanner(opScanner_, properties);
       CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + " parser created for " + source_ + ".");
     }
 
@@ -1996,6 +2101,8 @@ terminal LocInfo
 <add:zeves>
         // Proof environment chars and specific proof words
         ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, ZPROOFDOLLAR, THMREPLACEMENT,
+        LLABEL, RLABEL, LZNOTE, RZNOTE, DISABLEDTHMTAG, DISABLEDDEFTAG,
+        THMRULE, THMGRULE, THMFRULE, THMAXIOM,
         APPLY ,
 BACK ,
 CASES ,
@@ -2219,6 +2326,7 @@ non terminal OptempPara catTemplate;
 
 non terminal SchText
     schemaTextNoExpression,
+    axiomaticSchemaText,
     schemaText;
 
 non terminal ZDeclList letDefinitionList;
@@ -2350,6 +2458,9 @@ non terminal LocString
 non terminal And
     optNL;
 
+non terminal Boolean
+    conjecture;
+
 <add:pattern>
 /// Z pattern constructs ///////////////////////////////////////////////
 non terminal Jokers jokerPara;
@@ -2398,6 +2509,9 @@ non terminal InstantiationList
     instantiations, replacements,
     optReplacements, instantiationList;
 
+non terminal Expr
+    zevesRenaming;
+
 non terminal ZExprList
     genericActuals,
     optGenActuals;
@@ -2407,7 +2521,7 @@ non terminal Object[]
 
 // can include ZPROOFDOLLAR sign in these names
 non terminal Name 
-      specialName, applyThmName, thmName;
+      applyThmName, thmName;
 
 non terminal ZNameList
       thmNameList;
@@ -2417,6 +2531,20 @@ non terminal LocInfo
 
 non terminal Boolean
     instOrRepl;
+
+non terminal LabelAbility
+    optLabelAbility,
+    optDefAbility,
+    optThmAbility;
+
+non terminal LabelUsage
+    optUsage;
+
+non terminal ZEvesLabel
+    optLabel;
+
+non terminal ZEvesNote
+    optZNote;
 </add:zeves>
 
 <add:circus>
@@ -2768,6 +2896,7 @@ precedence nonassoc     CIRCASSIGN;
 // TODO: not sure about these...
 //precedence nonassoc     ZPROOFCOMMANDSEP; //ZEVESINST, ZEVESREPL,
 //precedence nonassoc EQUALITY, SUBSTITUTE;
+precedence nonassoc     LLABEL, RLABEL, LZNOTE, RZNOTE;
 </add:zeves>
 precedence left         DECORWORD
                         <add:circus>
@@ -3131,7 +3260,9 @@ narrParagraph ::=
         ;
 
 unboxedParagraphList ::=
-        ZED:zed unboxedParagraphItemList:uil END:end
+        ZED:zed
+        <add:zeves>optDefAbility:ability</add:zeves>
+        unboxedParagraphItemList:uil END:end
         {: if (uil.size() == 1) {
              addLocAnn(uil.get(0), getLocation(zed, end));
            }
@@ -3185,6 +3316,7 @@ unboxedParagraphList ::=
              }
            </add:circus>
            RESULT = uil;
+           <add:zeves>addZEvesLabel(RESULT, ability);</add:zeves>
         :}
 <add:circus>
         |
@@ -3253,24 +3385,54 @@ unboxedParagraphItemList ::=
         ;
 
 unboxedParagraphItem ::=
+        <add:zeves>
+        //optZNote:znote
+        </add:zeves>
         basicTypeDefinition:btd
         {: RESULT = btd; :}
         |
+        <add:zeves>
+        //optZNote:znote
+        </add:zeves>
         abbreviationDefinition:ad
         {: RESULT = ad; :}
         |
+        <add:zeves>
+        //optZNote:znote
+        </add:zeves>
         freeTypeList:ftl
         {:
            RESULT = factory_.createFreePara(ftl);
            addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
         :}
         |
-        THEOREM name:n optNL optFormalParameters:ofp CONJECTURE predicate:p
+        <add:zeves>optThmAbility:ability</add:zeves>
+        THEOREM
+        <add:zeves>optUsage:usage</add:zeves>
+        name:n optNL optFormalParameters:ofp
+        <add:zeves>
+        //optZNote:znote
+        </add:zeves>
+        conjecture:c predicate:p
+
+        // WARNING: ConjPara within ZED environment cannot accept ability (!) Only within THEOREM environment!
         {:
            // named conjectures in Unicode are a CZT extension of the Z standard.
            RESULT = factory_.createConjPara(ofp, p);
            RESULT.getAnns().add(n); // add it as an annotation for now.
-           addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
+           LocInfo loc = getLocation(getLocation(ofpleft, ofpright), getLocation(p));
+           <add:zeves>
+           if (c)
+           {
+            // if \vdash? is present, this is unlikely to be within Z/Eves,
+            // but rather as part of a unboxedPara within ZED rather than THEOREM
+            // raise a warning? or error? ERROR?
+            CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
+              ZEvesParseMessage.MSG_WARNING_VDASH_IN_CONJECTURE.getMessage(), n, loc));
+           }
+           addZEvesLabel(RESULT, n, ability, usage);
+           </add:zeves>
+           addLocAnn(RESULT, loc);
            
            try
            {
@@ -3317,6 +3479,104 @@ unboxedParagraphItem ::=
 </add:circus>
         ;
 
+conjecture ::=
+        CONJECTURE:c
+        {:
+          RESULT = true;
+        :}
+        <add:zeves>
+        |
+        // empty is fine in Z/Eves
+        {:
+          RESULT = false;
+        :}
+        </add:zeves>
+        ;
+
+<add:zeves>
+optThmAbility ::=
+        DISABLEDTHMTAG
+        {:
+          RESULT = LabelAbility.disabled;
+        :}
+        |
+        // empty
+        {:
+          RESULT = LabelAbility.enabled;
+          // assume enabled rather than "none".
+        :}
+        ;
+
+optDefAbility ::=
+        DISABLEDDEFTAG
+        {:
+          RESULT = LabelAbility.disabled;
+        :}
+        |
+        // empty
+        {:
+          RESULT = LabelAbility.enabled;
+          // assume enabled rather than "none".
+        :}
+        ;
+
+optLabelAbility ::=
+        // "disabled" within \Label{ is overloaded by the "disabled" proof-keyword as well...
+        DISABLED
+        {:
+          RESULT = LabelAbility.disabled;
+        :}
+        |
+        // empty
+        {:
+          RESULT = LabelAbility.enabled;
+          // assume enabled rather than "none".
+        :}
+        ;
+
+optUsage ::=
+        THMRULE
+        {:
+          RESULT = LabelUsage.rule;
+        :}
+        |
+        THMFRULE
+        {:
+          RESULT = LabelUsage.frule;
+        :}
+        |
+        THMGRULE
+        {:
+          RESULT = LabelUsage.grule;
+        :}
+        |
+        THMAXIOM
+        {:
+          RESULT = LabelUsage.axiom;
+        :}
+        |
+        // empty
+        {:
+          RESULT = LabelUsage.none;
+        :}
+        ;
+
+// ZNote is generating out-of-memory errors... TODO:check later... Remove for now.
+optZNote ::=
+        LZNOTE:lzn DECORWORD:note RZNOTE:rzn
+        {:
+          RESULT = factory_.createZEvesNote(note.toString());
+          addLocAnn(RESULT, getLocation(lzn, rzn));
+        :}
+        |
+        // empty
+        {:
+          RESULT = factory_.createZEvesNote();
+        :}
+        ;
+</add:zeves>
+
+
 basicTypeDefinition ::=
         LSQUARE:lsq nameList:nl RSQUARE
         {:
@@ -3326,15 +3586,21 @@ basicTypeDefinition ::=
         ;
 
 schema ::=
-        SCH:sch name:n optNL schemaText:st END:end
+        SCH:sch
+        <add:zeves>optDefAbility:ability</add:zeves>
+        name:n optNL schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, null, st);
+           <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(sch, end));
         :}
         |
-        GENSCH:gensch name:n optNL formalParameters:fp schemaText:st END:end
+        GENSCH:gensch
+        <add:zeves>optDefAbility:ability</add:zeves>
+        name:n optNL formalParameters:fp schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, fp, st);
+           <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(gensch, end));
         :}
         ;
@@ -3380,9 +3646,11 @@ proofScript ::=
         ;
 
 proofCommand ::=
-        innerProofCommand:ipc 
+        //optZNote:znote
+        innerProofCommand:ipc
         {:
           RESULT = ipc;
+          //addZNote(RESULT, znote);
           // LocAnn must be at the lower production (e.g., with more loc info, rather than here) - Andrius
           //addLocAnn(RESULT, getLocation(ipc));
         :}
@@ -3567,13 +3835,49 @@ instantiationList ::=
         ;
 
 instantiation ::=
-        specialName:n instOrRepl:isQtn expression:e
+        name:n instOrRepl:isQtn zevesRenaming:e
         {:
            RESULT = factory_.createInstantiation(n, e,
               isQtn ? InstantiationKind.Quantifier :
                       InstantiationKind.ThmReplacement);
            addLocAnn(RESULT, getLocation(n, e));
+        :} // DIDN'T SOLVE CONFLICT BELOW FOR zevesRenaming production.
+           // %prec _RENAME
+        ;
+
+
+zevesRenaming ::=
+        expression:e
+        {:
+          RESULT = e;
         :}
+        // CONFLICTS!  TODO: won't accepted mixed renamings for now.. (e.g., THETA S[x := 10, a/y]; use THETA S[x:= 10, y := a]).
+        //|
+        //DECORWORD:n
+        //refName:n
+        //name:n
+        //????
+        //{:
+        //  RESULT = createRefExpr(n);
+        //:}
+        ;
+
+instOrRepl ::=
+        DEFEQUAL
+        {:
+          RESULT = true;
+        :}
+        |
+        THMREPLACEMENT
+        {:
+          RESULT = false;
+        :}
+        //|
+        // for when we have mixed renaming like: THETA S[x := 10, a/y] (both are THMREPLACEMENT kind)
+        //SLASH
+        //{:
+        //  RESULT = false;
+        //:}
         ;
 
 // these names appear in very specific cases, like renaming during capture, say.
@@ -3586,18 +3890,6 @@ specialName ::=
         DECORWORD:dw
         {:
           RESULT = createZName(dw);
-        :}
-        ;
-
-instOrRepl ::=
-        DEFEQUAL
-        {:
-          RESULT = true;
-        :}
-        |
-        THMREPLACEMENT
-        {:
-          RESULT = false;
         :}
         ;
 
@@ -3718,7 +4010,7 @@ substitutionCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
         :}
         |
-        INVOKE:st name:n // Invoke does have a user-level name (e.g., no DOLLARS)!
+        INVOKE:st thmName:n // Invoke does have a user-level name (e.g., no DOLLARS)!
         {:
           RESULT = factory_.getZEvesFactory().createInvokeCommand(n);
           addLocAnn(RESULT, getLocation(st, n));
@@ -3884,6 +4176,14 @@ thmName ::=
         {:
            RESULT = createZName(dw);
         :}
+        |
+        // in cases like  "invoke (\_ \seq \_);
+        LPAREN:lparen opName:on RPAREN:rparen
+        {:
+           final LocInfo loc = getLocation(lparen, rparen);
+           RESULT = strListToZName(on, loc);
+           RESULT.getAnns().add(factory_.createParenAnn());
+        :}
         ;
 
 thmNameList ::=
@@ -3902,7 +4202,7 @@ thmNameList ::=
 </add:zeves>
 
 genericAxDefinition ::=
-        GENAX:genax formalParameters:fp schemaText:st END:end
+        GENAX:genax formalParameters:fp axiomaticSchemaText:st END:end
         {:
            RESULT = factory_.createAxPara(fp, st, Box.AxBox);
            addLocAnn(RESULT, getLocation(genax, end));
@@ -3923,7 +4223,7 @@ formalParameters ::=
         ;
 
 axiomaticDefinition ::=
-        AX:ax schemaText:st END:end
+        AX:ax axiomaticSchemaText:st END:end
         {:
            ZNameList zdnl = factory_.createZNameList();
            RESULT = factory_.createAxPara(zdnl, st, Box.AxBox);
@@ -4422,7 +4722,7 @@ circusInnerProcPara ::=
         // covered. Perhaps we could remove this production later.
         narrParagraph:np
         {:
-           System.out.println("KEEP-PRODUCTION-?");
+           //System.out.println("KEEP-PRODUCTION-?");
            RESULT = np;
            // raise a scoping warning if needed
            addBasicProcessScopePostCheckFor("narrative paragraph @ circusInnerProcPara", getLocation(np));
@@ -6396,6 +6696,43 @@ schemaText ::=
         :}
         ;
 
+axiomaticSchemaText ::=
+        optDeclPart:odp BAR
+          <add:zeves>optLabel:label</add:zeves> predicate:p
+        {:
+           RESULT = factory_.createZSchText(odp, p);
+           <add:zeves>
+           if (label != null &amp;&amp; label.getName() != null)
+           {
+             p.getAnns().add(label);
+           }
+           </add:zeves>
+           addLocAnn(RESULT, getLocation(getLocation(odp),
+                                         getLocation(p)));
+        :}
+        |
+        optDeclPart:odp
+        {:
+           RESULT = factory_.createZSchText(odp, null);
+           addLocAnn(RESULT, getLocation(odp));
+        :}
+        ;
+
+<add:zeves>
+optLabel ::=
+        LLABEL:l optLabelAbility:ability optUsage:usage thmName:n RLABEL:r
+        {:
+          RESULT = factory_.createZEvesLabel(n, ability, usage);
+          addLocAnn(RESULT, getLocation(l, r));
+        :}
+        |
+        // empty
+        {:
+          RESULT = factory_.createZEvesLabel();
+        :}
+        ;
+</add:zeves>
+
 optDeclPart ::=
         //empty
         {: RESULT = factory_.createZDeclList(); :}
@@ -6562,6 +6899,13 @@ name ::=
            RESULT = createZName(dfn);
         :}
 </add:oz>
+<add:zeves>
+        |
+        DECORWORD:dw ZPROOFDOLLAR:d
+        {:
+          RESULT = createSpecialName(dw);
+        :}
+        </add:zeves>
         ;
 
 declWordList ::=
@@ -6749,9 +7093,13 @@ refName ::=
            final LocInfo loc = getLocation(lparen, rparen);
            RESULT = strListToZName(on, loc);
            RESULT.getAnns().add(factory_.createParenAnn());
+           //<add:zeves>
+           // TODO: when using refName within instantiation :-( this shouldn't be allowed; or rather where specialName used to appear for DECORWORD ZEVESDOLLAR above .
+           //CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
+           //   ZEvesParseMessage.MSG_WARNING_OPNAME_IN_REFNAME.getMessage(), RESULT, loc));
+           //</add:zeves>
         :}
         ;
-
 
 opName ::=
         prefixName:pn
@@ -7469,14 +7817,14 @@ inner_term ::=
            RESULT = factory_.createSetCompExpr(st, e);
            addLocAnn(RESULT, getLocation(lbrace, rbrace));
         :}
-	|
+        |
         /*  characteristic set comprehension */
         LBRACE:lbrace schemaTextNoExpression:stne RBRACE:rbrace
         {:
            RESULT = factory_.createSetCompExpr(stne, null);
            addLocAnn(RESULT, getLocation(lbrace, rbrace));
         :}
-	|
+        |
         /* tuple extension */
         LPAREN:lparen expressionList:el COMMA expression:e RPAREN:rparen
         {:
@@ -7529,11 +7877,12 @@ inner_term ::=
         /* push 'false' onto the isOpExpr stack, because both schema
          * exprs and operations contain only expressions
          */
-        LSQUARE:lsq //<add:oz> {: pushIsOpExpr(false); :} </add:oz>
+        LSQUARE:lsq
+          //<add:oz> {: pushIsOpExpr(false); :} </add:oz>
           schemaTextNoExpression:stne
           /* pop the stack now the expr has been parsed */
-//          <add:oz> {: popIsOpExpr(); :} </add:oz>
-RSQUARE:rsq
+          // <add:oz> {: popIsOpExpr(); :} </add:oz>
+        RSQUARE:rsq
         {:
 <add:oz>
            if (parserState_.isOpExpr()) {
@@ -7617,7 +7966,8 @@ RSQUARE:rsq
         /* binding construction */
         THETA:theta inner_term:it
         {:
-	   ZStrokeList sl = factory_.createZStrokeList();
+           //System.out.println("REACHED THETA FOR " + it.toString());
+           ZStrokeList sl = factory_.createZStrokeList();
            RESULT = factory_.createThetaExpr(expr(it), sl);
            addLocAnn(RESULT, getLocation(theta, it));
         :}
@@ -7662,6 +8012,7 @@ RSQUARE:rsq
 <add:oz>
            }
 </add:oz>
+           //System.out.println("REACHED RENAMING = " + rnl.toString());
            addLocAnn(RESULT, getLocation(it, rsquare));
         :} %prec _RENAME
         |
@@ -7860,6 +8211,14 @@ stroke ::=
         ;
 
 renameList ::=
+<add:zeves>
+        // appear first so that THMREPLACEMENT takes precedence over SLASH in ZEves' case
+        instantiations:inst
+        {:
+          RESULT = inst;
+        :}
+        |
+</add:zeves>
         zRenameList:zrnl
         {: RESULT = zrnl; :}
 <add:pattern>
