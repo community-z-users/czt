@@ -424,6 +424,8 @@ gnast/src/vm/SpecStmtCommand.java -text
 gnast/src/vm/SpecStmtCommandImpl.java -text
 gnast/src/vm/ZEvesFactory.java -text
 gnast/src/vm/ZEvesFactoryImpl.java -text
+gnast/src/vm/ZEvesLabel.java -text
+gnast/src/vm/ZEvesLabelImpl.java -text
 gnast/src/vm/ZSect.java -text
 gnast/src/vm/ZSectImpl.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
