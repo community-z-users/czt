@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -92,11 +93,35 @@ public final class CztLogger
   public static void setConsoleHandler(Logger logger,
           Level handlerLevel, Level loggerLevel, Formatter formatter)
   {
-    ConsoleHandler ch = new ConsoleHandler();
+    ConsoleHandler ch = getHandler(logger, ConsoleHandler.class);
+    if (ch == null) 
+    {
+      ch = new ConsoleHandler();
+      logger.addHandler(ch);
+    }
     ch.setLevel(handlerLevel);
     ch.setFormatter(formatter);
-    logger.addHandler(ch);
     logger.setLevel(loggerLevel);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T extends Handler> T getHandler(Logger logger, Class<T> cls)
+  {
+    for(Handler h : logger.getHandlers())
+    {
+      if (cls.isInstance(h))
+        return (T)h;
+    }
+    return null;
+  }
+
+  public static void removeHandlerClass(Logger logger, Class<?> cls)
+  {
+    for(Handler h : logger.getHandlers())
+    {
+      if (cls.isInstance(h))
+        logger.removeHandler(h);
+    }
   }
   
   public static void setFileHandler(Logger logger, String fileName)
@@ -118,19 +143,24 @@ public final class CztLogger
   public static void setFileHandler(Logger logger,
     Level handlerLevel, Level loggerLevel, String fileName, Formatter formatter)
   {
-    try
+    logger.setLevel(loggerLevel);
+    FileHandler fh = getHandler(logger, FileHandler.class);
+    if (fh == null)
     {
-      FileHandler fh = new FileHandler(fileName);
-      fh.setLevel(handlerLevel);
-      fh.setFormatter(formatter);
+      try
+      {
+        fh = new FileHandler(fileName);
+      } catch (IOException e)
+      {
+        logger.config("Could not create file handler for logger " + logger.getName() +
+          "\n\t An I/O exception was thrown while trying to create " + fileName +
+          "\n\t I/O exception : " + e.getMessage());
+        return ;
+      }
       logger.addHandler(fh);
-      logger.setLevel(loggerLevel);
-    } catch (IOException e)
-    {
-      logger.config("Could not create file handler for logger " + logger.getName() +
-        "\n\t An I/O exception was thrown while trying to create " + fileName +
-        "\n\t I/O exception : " + e.getMessage());
     }
+    fh.setLevel(handlerLevel);
+    fh.setFormatter(formatter);
   }
 }
 
