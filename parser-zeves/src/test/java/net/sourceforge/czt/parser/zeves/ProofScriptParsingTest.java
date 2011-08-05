@@ -24,6 +24,11 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.zeves.util.PrintVisitor;
 
 /**
  *
@@ -44,6 +49,17 @@ public class ProofScriptParsingTest
   {
     super(manager, debug);
   }
+  
+  private PrintVisitor printer_ = null;
+
+  @Override
+  protected void setUp() throws Exception
+  {
+    super.setUp();
+    printer_ = new PrintVisitor(false);
+    printer_.setPrintIds(false);
+    printer_.setOffset(1, 1);
+  }
 
   @Override
   protected TestCase createNegativeTest(URL url, String exception, Class<?> expCls)
@@ -51,6 +67,20 @@ public class ProofScriptParsingTest
     throw new UnsupportedOperationException("Not supported yet.");
   }
 
+  @Override
+  protected void testing(Spec term)
+  {
+    if (printer_ != null) ZUtils.setToStringVisitor(term, printer_);
+    for(Sect s : term.getSect())
+    {
+      if (s instanceof ZSect)
+      {
+        ZSect zs = (ZSect)s;
+        System.out.print(zs.getName() + " = ");
+        System.out.println(zs.toString());
+      }
+    }
+  }
 
   protected static final boolean DEBUG_TESTING = false;
   protected final static String TEST_DIR =

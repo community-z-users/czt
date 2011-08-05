@@ -90,12 +90,14 @@ public class LatexScannerDebugger {
 
   public static void debugScanner(Source source) throws IOException, Exception
   {
-     SectionInfo sectInfo_ = new SectionManager("zeves");
+     SectionManager sectInfo_ = new SectionManager("zeves");
+     sectInfo_.setProperty("czt.debug.LatexToUnicode", "false");
+     sectInfo_.setProperty("czt.debug.ContextFreeScanner", "false");
      net.sourceforge.czt.java_cup.runtime.Scanner scanner;
      if (source.getMarkup().equals(Markup.UNICODE))
-       scanner = new UnicodeScanner(source, new Properties());
+       scanner = new UnicodeScanner(source, sectInfo_.getProperties());
      else // assume LaTex
-       scanner = new LatexScanner(source, sectInfo_, new Properties());
+       scanner = new LatexScanner(source, sectInfo_, sectInfo_.getProperties());
      DebugUtils.scan(scanner, Sym.class);
   }
 
@@ -132,12 +134,13 @@ public class LatexScannerDebugger {
       System.out.println("Working with " + Markup.getMarkup(args[0]) + " for " + args[0]);
       source.setMarkup(Markup.getMarkup(args[0]));
       SimpleFormatter formatter = new SimpleFormatter(false, true, false, false);
-      CztLogger.setConsoleHandler(CztLogger.getLogger(LatexMarkupParser.class), Level.ALL, Level.OFF, formatter);
+      CztLogger.setConsoleHandler(CztLogger.getLogger(LatexMarkupParser.class), Level.ALL, Level.ALL, formatter);
       if (args.length == 1 || args[1].equals("-s"))
       {
         CztLogger.setConsoleHandler(CztLogger.getLogger(KeywordScanner.class), Level.ALL, Level.OFF, formatter);
-        CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.OFF, formatter);
-        CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.OFF, formatter);
+        CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.ALL, formatter);
+        CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.ALL, formatter);
+        CztLogger.setConsoleHandler(CztLogger.getLogger(Latex2Unicode.class), Level.ALL, Level.ALL, formatter);
         debugScanner(source);
       }
       if (args.length == 1 || args[1].equals("-p"))

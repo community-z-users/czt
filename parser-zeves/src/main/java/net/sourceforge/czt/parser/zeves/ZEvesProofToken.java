@@ -34,7 +34,16 @@ public enum ZEvesProofToken implements Token
   ZPROOF(ZEvesString.ZPROOF + ZString.SPACE + "zproof", NewlineCategory.AFTER),
   ZPROOFSECTION(ZEvesString.ZPROOFSECTION + ZString.SPACE + "zproofsection", NewlineCategory.AFTER),
   ZPROOFDOLLAR(ZEvesString.ZPROOFDOLLAR, NewlineCategory.NEITHER),
-  ZPROOFCOMMANDSEP(ZEvesString.ZPROOFCOMMANDSEP, NewlineCategory.BOTH);
+  ZPROOFCOMMANDSEP(ZEvesString.ZPROOFCOMMANDSEP, NewlineCategory.BOTH),
+
+  LLABEL(ZEvesString.LLABEL + ZString.SPACE, NewlineCategory.NEITHER),
+  RLABEL(ZString.SPACE + ZEvesString.RLABEL, NewlineCategory.NEITHER),
+  LZNOTE(ZEvesString.LZNOTE + ZString.SPACE, NewlineCategory.NEITHER),
+  RZNOTE(ZString.SPACE + ZEvesString.RZNOTE, NewlineCategory.NEITHER),
+
+  DISABLEDTHMTAG(ZEvesString.DISABLEDTHMTAG, NewlineCategory.NEITHER),
+  DISABLEDDEFTAG(ZEvesString.DISABLEDDEFTAG, NewlineCategory.NEITHER)
+          ;
 
   private String spelling_ = null;
   private NewlineCategory newlineCategory_;

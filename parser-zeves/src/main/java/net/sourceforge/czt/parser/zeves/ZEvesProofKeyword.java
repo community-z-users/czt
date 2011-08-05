@@ -103,7 +103,13 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   SUMMARY(ZEvesString.SUMMARY , NewlineCategory.BOTH),
   THROUGH(ZEvesString.THROUGH , NewlineCategory.BOTH),
 
-  THMREPLACEMENT(":=", NewlineCategory.BOTH),
+  THMREPLACEMENT(ZEvesString.THMREPLACEMENT, NewlineCategory.BOTH),
+
+  THMRULE(ZEvesString.THMRULE, NewlineCategory.NEITHER),
+  THMGRULE(ZEvesString.THMGRULE, NewlineCategory.NEITHER),
+  THMFRULE(ZEvesString.THMFRULE, NewlineCategory.NEITHER),
+  THMAXIOM(ZEvesString.THMAXIOM, NewlineCategory.NEITHER)
+
         ;
 
 

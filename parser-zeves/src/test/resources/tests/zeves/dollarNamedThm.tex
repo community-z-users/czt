@@ -1,0 +1,20 @@
+\begin{zsection}
+   \SECTION simple \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{Test}
+   \Delta Aha! \\
+   today: \nat \\
+   byNight: \nat
+\end{schema}
+
+\begin{zproof}[bla\$dom]
+prenex;
+apply inDom to predicate x = \dom~f \cup \dom~r;
+apply S\$member;
+instantiate x == 10 + 5, y == \{ a: \nat; b:\nat | P(a,b) \},
+    z == 0, wierd$ == 20; % wierd case for variable name that is allowed...
+prenex;
+with enabled (S\$member, inDom) prove;
+\end{zproof}
+
