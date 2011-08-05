@@ -1822,6 +1822,7 @@ eclipse/czthelp/reference/preferences/target
 eclipse/czthelp/reference/target
 eclipse/czthelp/target
 eclipse/cztlib/eclipse_build
+eclipse/cztlib/lib/czt.jar
 eclipse/target
 eclipse/zeves/eclipse_build
 fonts/*.aux
