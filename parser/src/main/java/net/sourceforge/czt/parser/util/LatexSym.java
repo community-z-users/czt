@@ -99,7 +99,12 @@ public enum LatexSym
   /**
    * Part of a (Z/Eves) proof keyword
    */
-  PROOFWORD;
+  PROOFWORD,
+
+  /**
+   * Part of a (Z/Eves) predicate label
+   */
+  ZEVESLABEL;
 
   public String getName()
   {

@@ -31,6 +31,7 @@ public class LocTokenImpl
     locInfo_ = locInfo;
   }
 
+  @Override
   public LocInfo getLocation()
   {
     return locInfo_;

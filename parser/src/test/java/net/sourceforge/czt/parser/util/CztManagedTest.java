@@ -151,6 +151,11 @@ public abstract class CztManagedTest extends TestCase
     return suite;
   }
 
+  protected void testing(Spec term)
+  {
+    // do nothing.
+  }
+
   protected String getTestsPath()
   {
     return testsPath_;
@@ -437,7 +442,7 @@ public abstract class CztManagedTest extends TestCase
     @Override
     protected void doTest(Spec term) throws Exception
     {
-      // do nothing
+      CztManagedTest.this.testing(term);
     }
 
     /**

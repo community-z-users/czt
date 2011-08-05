@@ -29,6 +29,7 @@ public interface Lexer
 
   /**
    * The source that is lexed.
+   * @return lexer source
    */
   Source getSource();
 }

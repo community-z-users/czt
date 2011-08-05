@@ -19,12 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.parser.util;
 
-import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 public interface CztScanner
   extends Scanner
 {
-  void reset(String filename) throws FileNotFoundException;
+  //void reset(String filename) throws FileNotFoundException; NEVER USED; REMOVED
+  boolean logDebugInfo();
+  void logSymbol(Symbol symbol);
+  void logFormatted(String pattern, Object... args);
 }
