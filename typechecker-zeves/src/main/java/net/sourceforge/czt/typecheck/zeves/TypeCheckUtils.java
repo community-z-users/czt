@@ -1,20 +1,20 @@
 /*
-  Copyright (C) 2006, 2007 Leo Freitas
-  This file is part of the czt project.
- 
-  The czt project contains free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
- 
-  The czt project is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
- 
-  You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+Copyright (C) 2006, 2007 Leo Freitas
+This file is part of the czt project.
+
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.typecheck.zeves;
 
@@ -30,10 +30,14 @@ import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.SimpleFormatter;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
@@ -45,11 +49,12 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
  *
  * @author Leo Freitas
  */
-public class TypeCheckUtils 
-    extends net.sourceforge.czt.typecheck.z.TypeCheckUtils {
-  
+public class TypeCheckUtils
+        extends net.sourceforge.czt.typecheck.z.TypeCheckUtils
+{
+
   private static final TypeCheckUtils instance_ = new TypeCheckUtils();
-  
+
   /**
    * Do not generate instances of this class.
    * You should use the static methods directly.
@@ -58,7 +63,7 @@ public class TypeCheckUtils
   {
     super();
   }
-  
+
   /**
    * Typecheck and type annotate a term, with no default section and
    * not allowing names to be used before they are declared or
@@ -68,11 +73,11 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo)
+          SectionManager sectInfo)
   {
     return typecheck(term, sectInfo, PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT);
   }
-  
+
   /**
    * Typecheck and type annotate a term, with no default section.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
@@ -81,12 +86,12 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean recursiveTypes)
+          SectionManager sectInfo,
+          boolean recursiveTypes)
   {
     return typecheck(term, sectInfo, recursiveTypes, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT, null);
   }
-  
+
   /**
    * Typecheck and type annotate a term, with no default section.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
@@ -96,13 +101,13 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean recursiveTypes,
-                                                   boolean sortDeclNames)
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean sortDeclNames)
   {
     return typecheck(term, sectInfo, recursiveTypes, sortDeclNames, null);
   }
-  
+
   /**
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
@@ -113,15 +118,15 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean recursiveTypes,
-                                                   boolean sortDeclNames,
-                                                   String sectName)
-  {    
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean sortDeclNames,
+          String sectName)
+  {
     return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames,
-        PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
+            PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
   }
-  
+
   /**
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
@@ -132,15 +137,15 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean recursiveTypes,
-                                                   boolean sortDeclNames,
-                                                   boolean useNameIds)
-  {    
-    return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useNameIds, 
-        PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, null);
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean sortDeclNames,
+          boolean useNameIds)
+  {
+    return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useNameIds,
+            PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, null);
   }
-  
+
   /**
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
@@ -152,142 +157,149 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean recursiveTypes,
-                                                   boolean sortDeclNames,
-                                                   boolean useNameIds,
-                                                   String sectName)
-  {    
-    return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useNameIds, 
-        PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean sortDeclNames,
+          boolean useNameIds,
+          String sectName)
+  {
+    return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useNameIds,
+            PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT, sectName);
   }
 
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean recursiveTypes,
-                                                   boolean useNameIds,
-                                                   WarningManager.WarningOutput warningOutput,
-                                                   String sectName)
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean useNameIds,
+          WarningManager.WarningOutput warningOutput,
+          String sectName)
   {
     return instance_.lTypecheck(term, sectInfo, recursiveTypes, useNameIds,
-      PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT, warningOutput, sectName);
+            PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT, warningOutput, sectName);
   }
-  
+
   public static List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
-                                                   SectionManager sectInfo,
-                                                   boolean recursiveTypes,
-                                                   boolean sortDeclNames,
-                                                   boolean useNameIds,
-                                                   WarningManager.WarningOutput warningOutput,
-                                                   String sectName)
-  {    
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean sortDeclNames,
+          boolean useNameIds,
+          WarningManager.WarningOutput warningOutput,
+          String sectName)
+  {
     return instance_.lTypecheck(term, sectInfo, recursiveTypes, sortDeclNames, useNameIds, warningOutput, sectName);
   }
 
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
-                                                SectionManager sectInfo,
-                                                boolean recursiveTypes,
-                                                boolean useNameIds,
-                                                String sectName)
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean useNameIds,
+          String sectName)
   {
     return lTypecheck(term, sectInfo, recursiveTypes, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT,
-        useNameIds, warningOutputDefault(), sectName);
+            useNameIds, warningOutputDefault(), sectName);
   }
-  
+
   /** An internal method of the typechecker. */
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
-                                                SectionManager sectInfo,
-                                                boolean recursiveTypes,
-                                                boolean useNameIds,
-                                                WarningManager.WarningOutput warningOutput,
-                                                String sectName)
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean useNameIds,
+          WarningManager.WarningOutput warningOutput,
+          String sectName)
   {
     return lTypecheck(term, sectInfo, recursiveTypes, PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT,
-        useNameIds, warningOutput, sectName);
+            useNameIds, warningOutput, sectName);
   }
-  
+
   private String stackTraceAsString(Throwable e)
-  {    
+  {
     StringWriter swriter = new StringWriter();
-    PrintWriter pwriter = new PrintWriter(swriter);      
-    e.fillInStackTrace();      
-    e.printStackTrace(pwriter);      
+    PrintWriter pwriter = new PrintWriter(swriter);
+    e.fillInStackTrace();
+    e.printStackTrace(pwriter);
     pwriter.flush();
     pwriter.close();
     return swriter.toString();
   }
-  
+
   /** An internal method of the typechecker. */
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
-                                                SectionManager sectInfo,
-                                                boolean recursiveTypes,
-                                                boolean sortDeclNames,
-                                                boolean useNameIds,
-                                                WarningManager.WarningOutput warningOutput,
-                                                String sectName)
+          SectionManager sectInfo,
+          boolean recursiveTypes,
+          boolean sortDeclNames,
+          boolean useNameIds,
+          WarningManager.WarningOutput warningOutput,
+          String sectName)
   {
-    
+
     ZFactory zFactory = new ZFactoryImpl();
     ZEvesFactory zevesFactory = new ZEvesFactoryImpl();
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
     TypeChecker typeChecker = new TypeChecker(
-      new net.sourceforge.czt.typecheck.zeves.impl.Factory(zFactory, zevesFactory ),
-      sectInfo, recursiveTypes, sortDeclNames);
+            new net.sourceforge.czt.typecheck.zeves.impl.Factory(zFactory, zevesFactory),
+            sectInfo, recursiveTypes, sortDeclNames);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
     typeChecker.getWarningManager().setWarningOutput(warningOutput);
-    
+
     // For Circus add the type checking robustness at the top-level
     // that means, we have it for both command based and non-command based requests.
-    try {
+    try
+    {
       term.accept(typeChecker);
     }
-    catch(net.sourceforge.czt.base.util.UnsupportedAstClassException e)
-    {      
-      Object[] params = { 
+    catch (net.sourceforge.czt.base.util.UnsupportedAstClassException e)
+    {
+      Object[] params =
+      {
         "An attempt to wrongly cast an AST class has happened.",
         e.getClass().getSimpleName(),
-        stackTraceAsString(e) };
+        stackTraceAsString(e)
+      };
       // use any checker to report the error
-      net.sourceforge.czt.typecheck.z.ErrorAnn error = 
-        typeChecker.proofCommandChecker_.errorAnn(term, net.sourceforge.czt.typecheck.zeves.ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
-      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
+      net.sourceforge.czt.typecheck.z.ErrorAnn error =
+              typeChecker.proofCommandChecker_.errorAnn(term, net.sourceforge.czt.typecheck.zeves.ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
+      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>) typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
       e.printStackTrace();
     }
-    catch(net.sourceforge.czt.util.CztException f)
+    catch (net.sourceforge.czt.util.CztException f)
     {
-      Object[] params = { 
+      Object[] params =
+      {
         "A general CztException has happened.",
         f.getClass().getSimpleName(),
-        stackTraceAsString(f) };
+        stackTraceAsString(f)
+      };
       // use any checker to report the error
       ErrorAnn error = typeChecker.proofCommandChecker_.errorAnn(term, net.sourceforge.czt.typecheck.zeves.ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
-      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
+      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>) typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
       f.printStackTrace();
     }
-    catch(Throwable t)
+    catch (Throwable t)
     {
-      Object[] params = { 
+      Object[] params =
+      {
         "A general Throwable exception has happened.",
         t.getClass().getSimpleName(),
-        stackTraceAsString(t) };
+        stackTraceAsString(t)
+      };
       // use any checker to report the error
       ErrorAnn error = typeChecker.proofCommandChecker_.errorAnn(term, net.sourceforge.czt.typecheck.zeves.ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
-      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
+      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>) typeChecker.errors()).add(error);
       System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
       t.printStackTrace();
     }
     List<net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
     errors.addAll(typeChecker.errors());
-    for(ErrorAnn err : typeChecker.getWarningManager().warnErrors())
+    for (ErrorAnn err : typeChecker.getWarningManager().warnErrors())
     {
       errors.add(err);
     }
     return errors;
   }
-  
+
   /** A convenience method for parsing an arbitrary input specification.
    *  Note that source.setMarkup(...) allows you to specify which markup format
    *  the specification is using: LATEX or UNICODE etc.
@@ -296,12 +308,12 @@ public class TypeCheckUtils
    *  @return A non-typechecked term.
    */
   protected Term parse(Source source, SectionManager sectInfo)
-    throws IOException, net.sourceforge.czt.parser.util.ParseException,
-      net.sourceforge.czt.base.util.UnmarshalException
+          throws IOException, net.sourceforge.czt.parser.util.ParseException,
+          net.sourceforge.czt.base.util.UnmarshalException
   {
     return ParseUtils.parse(source, sectInfo);
-  }  
-  
+  }
+
   /** A convenience method for parsing a file.
    *  It uses the file name extension to guess which Z markup to parse.
    *  @param  file The path to the file to be parsed.
@@ -309,12 +321,12 @@ public class TypeCheckUtils
    *  @return a non-typechecked term.
    */
   protected Term parse(String file, SectionManager sectInfo)
-    throws IOException, net.sourceforge.czt.parser.util.ParseException,
-           net.sourceforge.czt.base.util.UnmarshalException
+          throws IOException, net.sourceforge.czt.parser.util.ParseException,
+          net.sourceforge.czt.base.util.UnmarshalException
   {
     return parse(new FileSource(file), sectInfo);
-  }  
-  
+  }
+
   protected String name()
   {
     return "zevestypecheck";
@@ -324,25 +336,26 @@ public class TypeCheckUtils
   {
     return true;
   }
-  
+
   protected boolean printTypesDefault()
   {
     return true;
   }
-  
-  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  
+
+  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)
   {
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
     super.printTerm(term, writer, sectInfo, sectName, markup);
   }
-  
+
   public static void main(String[] args)
-    throws IOException, net.sourceforge.czt.base.util.UnmarshalException
-  {    
-    instance_.run(args);
+          throws IOException, net.sourceforge.czt.base.util.UnmarshalException
+  {
+    //instance_.run(args);
     //instance_.typeCheckCommandTest(args[0]);
+    instance_.testOnTheFly();
   }
-  
+
   private void typeCheckCommandTest(String file)
   {
     System.out.println("Testing TypeCheckCommand for CIRCUS:");
@@ -350,44 +363,83 @@ public class TypeCheckUtils
     SimpleFormatter sfc = new SimpleFormatter(false, true, false, false);
     //boolean showTimeStamp, boolean showRecordedMessage,
     //            boolean showSourceMethod, boolean showDirectory, boolean showStackTrace)
-     
+
     java.util.logging.ConsoleHandler ch = new java.util.logging.ConsoleHandler();
-    ch.setLevel(java.util.logging.Level.ALL);        
-    ch.setFormatter(sfc);       
+    ch.setLevel(java.util.logging.Level.ALL);
+    ch.setFormatter(sfc);
     java.util.logging.FileHandler fh = null;
-    try{
+    try
+    {
       fh = new java.util.logging.FileHandler("TypeCheckUtils.TypeCheckCommandTest.log");
       fh.setLevel(java.util.logging.Level.ALL);
-      fh.setFormatter(sfc);          
-    } catch (IOException e) {
-
+      fh.setFormatter(sfc);
+    }
+    catch (IOException e)
+    {
     }
     SectionManager manager = new SectionManager("zeves");
-    
-    java.util.logging.Logger logger = java.util.logging.Logger.getLogger(manager.getClass().getName());    
+
+    java.util.logging.Logger logger = java.util.logging.Logger.getLogger(manager.getClass().getName());
     logger.addHandler(ch);
     logger.addHandler(fh);
     logger.setLevel(java.util.logging.Level.ALL);
-    
-    try{
-      Spec spec = (Spec)instance_.parse(file, manager);
+
+    try
+    {
+      Spec spec = (Spec) instance_.parse(file, manager);
       for (net.sourceforge.czt.z.ast.Sect s : spec.getSect())
       {
         if (s instanceof ZSect)
         {
-          ZSect zs = (ZSect)s;          
+          ZSect zs = (ZSect) s;
           SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
           break;
         }
       }
     }
-    catch(Throwable e)
+    catch (Throwable e)
     {
       throw new RuntimeException(e);
     }
   }
-  
-   /**
+
+  public void testOnTheFly()
+  {
+    SectionManager sectManager = new SectionManager("zeves");
+    try
+    {
+      sectManager.setTracing(true);
+      Source source = new StringSource("\\begin{zsection} "
+                                       + "\\SECTION ZEclipseDefault " + "\\parents standard\\_toolkit "
+                                       + "\\end{zsection}");
+      source.setMarkup(Markup.LATEX);
+      sectManager.put(new Key<Source>("ZEclipseDefault", Source.class), source);
+      // make sure it (and the standard toolkit) are parsed
+      sectManager.get(new Key<Spec>("ZEclipseDefault", Spec.class));
+      System.out.println("GOT TO PARSING");
+      // and typechecked
+      sectManager.get(new Key<SectTypeEnvAnn>("ZEclipseDefault",
+              SectTypeEnvAnn.class));
+    }
+    catch (CommandException ce)
+    {
+      if (ce.getCause() instanceof TypeErrorException)
+      {
+        TypeErrorException typeErrorException = (TypeErrorException) ce.getCause();
+        for (net.sourceforge.czt.typecheck.z.ErrorAnn next : typeErrorException.getErrors())
+        {
+          System.out.println(next.toString());
+        }
+      }
+      // propagate this exception so it is visible to users.
+      else
+      {
+        throw new RuntimeException("Error creating a new section manager", ce);
+      }
+    }
+  }
+
+  /**
    * Get a Command object for use in SectionManager
    *
    * @return A command for typechecking sections.
@@ -403,7 +455,7 @@ public class TypeCheckUtils
     sectionManager.putCommand(Spec.class, ParseUtils.getCommand());
     sectionManager.putCommand(ZSect.class, ParseUtils.getCommand());
     sectionManager.putCommand(LatexMarkupFunction.class,
-                              ParseUtils.getCommand());
+            ParseUtils.getCommand());
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     return sectionManager;
   }
@@ -412,5 +464,5 @@ public class TypeCheckUtils
   protected JaxbXmlWriter getJaxbXmlWriter()
   {
     return new net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter();
-  } 
+  }
 }

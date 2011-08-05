@@ -2,140 +2,195 @@
    \SECTION typechecker\_test \parents standard\_toolkit
 \end{zsection}
 
-Empty proof
+\begin{zed}
+  [NAME, DATE]
+\end{zed}
 
-\begin{zproof}[emptyProof]
+\begin{schema}{BirthdayBook}
+  known: \power NAME \\
+  birthday: NAME \pfun DATE
+\where
+  known = \dom  birthday
+\end{schema}
+
+\begin{theorem}{BirthdayBookPredicate}
+\vdash? \forall BirthdayBook @ known = \dom birthday
+\end{theorem}
+
+\begin{zproof}[BirthdayBookPredicate]
+reduce;
 \end{zproof}
 
+\begin{schema}{InitBirthdayBook}
+  BirthdayBook~'
+\where
+  birthday' = \emptyset\\
+  known' = \emptyset
+\end{schema}
 
-By single words
+\begin{theorem}{InitIsOK}
+\vdash? \exists  BirthdayBook~' @ InitBirthdayBook
+\end{theorem}
 
-\begin{zproof}[singleWord]
-cases;
-next;
-conjunctive;
-disjunctive;
-prenex;
-rearrange;
-reduce;
-rewrite;
+\begin{zproof}[InitIsOK]
+prove by reduce;
+\end{zproof}
+
+\begin{schema}{AddBirthday}
+  \Delta BirthdayBook\\
+  name?: NAME\\
+  date?: DATE
+\where
+  name? \notin  known\\
+  birthday' = birthday \cup  \{(name? \mapsto  date?)\}
+\end{schema}
+
+\begin{theorem}{AddBirthdayIsHonest}
+\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ name? \notin  known \implies  \pre  AddBirthday
+\end{theorem}
+
+\begin{zproof}[AddBirthdayIsHonest]
+prove by reduce;
+\end{zproof}
+
+\begin{theorem}{knownAddBirthday}
+\vdash? \forall AddBirthday @ known' = known \cup  \{name?\}
+\end{theorem}
+
+\begin{zproof}[knownAddBirthday]
+prove by reduce;
+\end{zproof}
+
+\begin{schema}{FindBirthday}
+  \Xi BirthdayBook\\
+  name?: NAME\\
+  date!: DATE
+\where
+  name? \in  known\\
+  date! = birthday(name?)
+\end{schema}
+
+\begin{zproof}[FindBirthday\$domainCheck]
 simplify;
 \end{zproof}
 
-By multiple words
+\begin{zed}
+AddThenFind == AddBirthday \semi  FindBirthday
+\end{zed}
 
-\begin{zproof}[multipleWords]
-trivial rewrite;
-trivial simplify;
-prove by rewrite;
+\begin{theorem}{AddFind}
+\vdash? \forall AddThenFind @ date! = date?
+\end{theorem}
+
+\begin{zproof}[AddFind]
 prove by reduce;
-equality substitute;
 \end{zproof}
 
-Per command kind. ApplyCommand
+\begin{schema}{Remind1}
+  \Xi BirthdayBook\\
+  today?: DATE\\
+  cards!: \power  NAME
+\where
+  cards! = \{  n: NAME | birthday~(n) = today? \}
+\end{schema}
 
-\begin{theorem}{xyz}
-\vdash? \forall x : \nat @ x + 1 \in \nat
-\end{theorem}
-
-\begin{theorem}{abc}[X]
-\vdash? \forall x : X; S: \power~X | x \in S @ S \neq \emptyset
-\end{theorem}
-
-\begin{theorem}{qwerty}
-\vdash? 10 = 9 + 1
-\end{theorem}
-
-\begin{zproof}[applyWordComplex]
-apply xyz to expression x + 1;
-apply abc to predicate S \neq \emptyset;
-apply qwerty;
-\end{zproof}
-
-Case analysis command
-
-\begin{zproof}[caseAnalysisCmd]
-cases;
-next;
-split 1 \in \{ 0, 1 \};
-\end{zproof}
-
-Normalization command
-
-\begin{zproof}[normCmd]
-conjunctive;    % some comments involving ";"...
-disjunctive;
-rearrange;
-with normalization rewrite;
-\end{zproof}
-
-Quantifiers command
-
-\begin{zproof}[qntCmd]
-prenex;
-instantiate x == 10 + 5, y == \{ a: \nat; b:\nat | P(a,b) \},
-    z == 0;
-prenex;
-\end{zproof}
-
-Simplification command
-
-\begin{zproof}[simpCmd]
-prove by reduce;
-rewrite;
-reduce;
-trivial simplify;
-trivial rewrite;
-simplify;
-prove by rewrite;
-% implicit prove by rewrite
+\begin{zproof}[Remind1\$domainCheck]
 prove;
 \end{zproof}
 
-Susbstitution command
+Here we had a problem before: the newline followed by "to" was being wrongly
+captured by the lexer because of complex apply commands. We just changed the
+lexing rule to disallow newlines before TO
+\begin{schema}{Remind}
+  \Xi BirthdayBook \\
+  today?: DATE\\
+  cards!: \power  NAME
+\where
+  cards! = \{  n: known | birthday(n) = today? \}
+\end{schema}
+
+\begin{zproof}[Remind\$domainCheck]
+prove;
+\end{zproof}
 
 \begin{zed}
-   foo == \{ 0, 1 \}
+REPORT ::= ok | already\_known | not\_known
 \end{zed}
 
-\begin{zproof}[substCmd]
-equality substitute;
-equality substitute 10;
-invoke predicate 0 \in \{ 0 , 1 \};
-invoke foo;
-invoke;
+\begin{schema}{Success}
+  result!: REPORT
+\where
+  result! = ok
+\end{schema}
+
+\begin{schema}{AlreadyKnown}
+  \Xi BirthdayBook\\
+  name?: NAME\\
+  result!: REPORT
+\where
+  name? \in  known\\
+  result! = already\_known
+\end{schema}
+
+\begin{zed}
+RAddBirthday == AddBirthday \land  Success \lor  AlreadyKnown
+\end{zed}
+
+\begin{theorem}{RAddBirthdayIsTotal}
+\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ \pre  RAddBirthday
+\end{theorem}
+
+\begin{zproof}[RAddBirthdayIsTotal]
+prove by reduce;
+split name? \in  known;
+prove;
 \end{zproof}
 
-With commands
+\begin{axdef}
+  name: NAME\\
+  VALUE: \nat
+\where
+  VALUE > 0
+\end{axdef}
 
-\begin{zproof}[withCmds]
-with predicate (0 \in foo) rewrite;
-with expression (foo) reduce;
-with enabled (abc, qwerty, xyz) rewrite;
-with disabled (abc, qwerty, xyz) reduce;
+\begin{theorem}{tAddBirthdayPRE}
+\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ \pre  AddBirthday
+\end{theorem}
+
+\begin{zproof}[tAddBirthdayPRE]
+invoke AddBirthday;
+invoke \Delta BirthdayBook;
+rewrite;
+invoke BirthdayBook;
+simplify;
+cases;
+next;
+next;
+next;
+simplify;
+conjunctive;
+simplify;
+disjunctive;
+simplify;
+cases;
+apply domInPower to predicate \dom  (birthday \cup  \{(name?, date?)\}) \in  \power  NAME;
+rewrite;
+simplify;
+simplify;
+rewrite;
+prove by reduce;
+equality substitute \dom  birthday;
 \end{zproof}
 
-Combined commands
+\begin{theorem}{myThm}
+\vdash? \forall  x: \nat  @ x \geq  0
+\end{theorem}
 
-\begin{zproof}[combinedCmd1]
-with normalization
-      with
-          normalization
-              reduce
-      ;           % and some comments
+\begin{theorem}{test}
+\vdash? \forall BirthdayBook @ true
+\end{theorem}
 
-% very intricate combined command
-with enabled (abc, qwerty, xyz)
-  with normalization
-    with predicate (0 \in foo)
-      prove by reduce;
+\begin{zproof}[test]
+invoke BirthdayBook;
 \end{zproof}
 
-Use command
-
-\begin{zproof}[useCmd]
-use qwerty;
-use abc[\nat];
-use abc[\nat][x := 10, S := \{0, 1\}];
-use xyz[x:= 0];
-\end{zproof}
