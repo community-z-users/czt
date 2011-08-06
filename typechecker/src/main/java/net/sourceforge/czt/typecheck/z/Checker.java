@@ -1182,7 +1182,13 @@ abstract public class Checker<R>
     }
     return result;
   }
-  
+
+  // allow for different kind of RenameExpr RenameList within
+  protected void addNameIDs(RenameExpr renameExpr)
+  {
+    addNameIDs(renameExpr.getZRenameList());
+  }
+
   //add IDs to each new name in a list of renaming pairs
   protected void addNameIDs(List<NewOldPair> pairs)
   {

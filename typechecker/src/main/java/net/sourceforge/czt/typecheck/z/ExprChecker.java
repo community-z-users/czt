@@ -1133,7 +1133,7 @@ public class ExprChecker
     //if the expr is a schema reference, perform the renaming
     else {
       //add declname IDs to the new names
-      addNameIDs(renameExpr.getZRenameList());
+      addNameIDs(renameExpr);
 
       //rename the signature
       SchemaType schemaType = schemaType(vPowerType.getType());
