@@ -4134,6 +4134,9 @@ rules/*.tmp
 rules/.classpath
 rules/.project
 rules/.settings
+rules/simple1.log.lck
+rules/simple2.log.lck
+rules/simpleUnfold.log.lck
 rules/src/*.aux
 rules/src/*.blg
 rules/src/*.log
