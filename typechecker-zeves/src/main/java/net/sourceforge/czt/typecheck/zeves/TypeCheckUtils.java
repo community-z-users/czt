@@ -351,9 +351,9 @@ public class TypeCheckUtils
   public static void main(String[] args)
           throws IOException, net.sourceforge.czt.base.util.UnmarshalException
   {
-    //instance_.run(args);
+    instance_.run(args);
     //instance_.typeCheckCommandTest(args[0]);
-    instance_.testOnTheFly();
+    //instance_.testOnTheFly();
   }
 
   private void typeCheckCommandTest(String file)

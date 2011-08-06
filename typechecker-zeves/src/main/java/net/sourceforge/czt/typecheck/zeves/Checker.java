@@ -26,22 +26,26 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
-import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.RenameExpr;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.zeves.ast.Instantiation;
+import net.sourceforge.czt.zeves.ast.InstantiationList;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
 import net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbol;
 import net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbolVisitor;
+import net.sourceforge.czt.zeves.util.ZEvesUtils;
 
 /**
  * Derived superclass of all XXXChecker classes (i.e., one for each syntactic 
@@ -339,5 +343,30 @@ public abstract class Checker<R>
   {
     return getTypeChecker().proofTable_;
   }
+
+    // allow for different kind of RenameExpr RenameList within
+  @Override
+  protected void addNameIDs(RenameExpr renameExpr)
+  {
+    if (renameExpr.getRenameList() instanceof InstantiationList)
+      addNameIDs(ZEvesUtils.assertRenameListAsInstantiationList(renameExpr));
+    else
+      super.addNameIDs(renameExpr);
+  }
+
+  //add IDs to each new name in a list of renaming pairs
+  protected void addNameIDs(InstantiationList instList)
+  {
+    for (Instantiation inst : instList)
+    {
+      // I am not sure about this! TODO: CHECK...
+      // in ZRenameList, it is the getNewName() in NewOldPair
+      if (inst.getExpr() instanceof RefExpr)
+      {
+        factory().addNameID(((RefExpr)inst.getExpr()).getName());
+      }
+    }
+  }
+
 
 }

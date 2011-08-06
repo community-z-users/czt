@@ -293,6 +293,7 @@ public class TypeCheckerTest
           }
         }
       }
+      System.out.println("Successfully typechecked " + file_);
     }
   }
   

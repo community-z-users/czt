@@ -59,6 +59,9 @@ public enum WarningMessage {
         + "\n\tat pred....: {1}",
         "Because Z/Eves may create new variables and change variables in predicates, we are ignoring type checking for them. This is safe because, Z/Eves will do it anyway."),
 
+  IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK("Ignoring type checking instantiations within Z/Eves expression-based renaming. Leaving it to the prover." +
+           "\n\tat expr...: {0}"),
+
   UNKNOWN_TERM("Typechecker is being asked to visit a unknown term" +
     "\n\tChecker...: {0}" +
     "\n\tTerm......: {1}", 

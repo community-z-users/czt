@@ -16,7 +16,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.typecheck.zeves;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.RenameExpr;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.visitor.RenameExprVisitor;
+import net.sourceforge.czt.zeves.ast.InstantiationList;
 
 /**
  * Visitor that checks Circus expressions. They are channel set display expressions,
@@ -26,6 +33,7 @@ import net.sourceforge.czt.z.ast.Type2;
  */
 public class ExprChecker
   extends Checker<Type2>
+  implements RenameExprVisitor<Type2>
 {  
 
   //a Z expr checker
@@ -41,5 +49,42 @@ public class ExprChecker
   public Type2 visitTerm(Term term)
   {
     return term.accept(zExprChecker_);
-  } 
+  }
+
+  @Override
+  public Type2 visitRenameExpr(RenameExpr term)
+  {
+    if (term.getRenameList() instanceof InstantiationList)
+    {
+        Type2 type = factory().createUnknownType();
+
+        //visit the expr
+        Expr expr = term.getExpr();
+        Type2 exprType = expr.accept(exprChecker());
+
+        SchemaType vSchemaType = factory().createSchemaType();
+        PowerType vPowerType = factory().createPowerType(vSchemaType);
+        UResult unified = unify(vPowerType, exprType);
+
+        //if the expr is not a schema type, raise an error
+        if (unified == UResult.FAIL) {
+          Object [] params = {term, exprType};
+          error(term, net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);
+        }
+        //if the expr is a schema reference, perform the renaming
+        else {
+          //raise a warning for now: let Z/Eves do it.
+          getTypeChecker().getWarningManager().warn(term,
+                  WarningMessage.IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK,
+                  term.getExpr());
+        }
+
+        //add the type annotation
+        addTypeAnn(term, type);
+
+        return type;
+    }
+    else
+      return term.accept(zExprChecker_);
+  }
 }
