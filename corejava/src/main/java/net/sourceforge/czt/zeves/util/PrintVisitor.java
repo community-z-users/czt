@@ -219,9 +219,11 @@ public class PrintVisitor
   {
     StringBuilder result = new StringBuilder();
     result.append(visit(term.getExpr()));
+    currInstKind_ = InstantiationKind.ThmReplacement;
     result.append("[");
     result.append(visit(term.getRenameList()));
     result.append("]");
+    currInstKind_ = null;
     return result.toString();
   }
 
@@ -493,6 +495,7 @@ public class PrintVisitor
         result.append(visit(term.getInstantiationList()));
         result.append("]");
       }
+      currInstKind_ = null;
     }
     return result.toString();
   }
@@ -649,6 +652,7 @@ public class PrintVisitor
       result.append("instantiate ");
       currInstKind_ = InstantiationKind.Quantifier;
       result.append(visit(term.getInstantiationList()));
+      currInstKind_ = null;
     }
     return result.toString();
   }
