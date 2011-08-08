@@ -76,6 +76,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 <add:zeves>
 import net.sourceforge.czt.zeves.ast.*;
 import net.sourceforge.czt.zeves.util.Factory;
+import net.sourceforge.czt.zeves.util.ZEvesUtils;
 import net.sourceforge.czt.parser.zeves.ProofTable;
 </add:zeves>
 
@@ -332,7 +333,7 @@ action code
 
     private void addZEvesLabel(Term term, Name name, LabelAbility ability)
     {
-      addZEvesLabel(term, name, ability, LabelUsage.none);
+      addZEvesLabel(term, name, ability, ZEvesUtils.getDefaultUsage());
     }
 
     private void addZEvesLabel(Term term, Name name, LabelAbility ability, LabelUsage usage)
@@ -983,7 +984,7 @@ action code
       <add:pattern>, JokerTable jokerTable </add:pattern>
       <add:zeves>, ProofTable proofTable</add:zeves>)
     {
-      final boolean parseError = parser.error_;
+      final boolean parseError = parser.hasErrors();
       final String sectName = zSect.getName();
       final PrecedenceHandlingVisitor visitor =
         new PrecedenceHandlingVisitor(opTable);
@@ -1788,7 +1789,11 @@ parser code
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
-      if (error_) throw new ParseException(errorList_);
+      //if (error_) throw new ParseException(errorList_);
+      if (hasErrors())
+      {
+        raiseErrors();
+      }
       return symbol;
     }
 
@@ -1803,6 +1808,8 @@ parser code
      */
     protected List&lt;CztError&gt; errorList_;
 
+    protected ParseException parseException_;
+
     /**
      * Contains the last token where a syntax error has occured.
      */
@@ -1811,13 +1818,47 @@ parser code
     /**
      * True if and only if an error has occured during parsing.
      */
-    protected boolean error_ = false;
+    //protected boolean error_ = false;
 
     private OperatorScanner opScanner_;
     private NewlineScanner nlScanner_;
 <add:pattern>
     private JokerScanner jokerScanner_;
 </add:pattern>
+
+    protected boolean hasErrors()
+    {
+      //return error_;
+      return !errorList_.isEmpty();
+    }
+
+    protected void raiseErrors() throws ParseException
+    {
+      assert hasErrors() : "no errors to be raised";
+      if (parseException_ == null)
+      {
+        assert source_ == null;
+        parseException_ = new ParseException(errorList_);
+      }
+      assert parseException_.getErrors().equals(errorList_) : "inconsistent error list";
+      Iterator&lt;CztError&gt; it = errorList_.iterator();
+      while (it.hasNext())
+      {
+        CztError e = it.next();
+        if (e.getErrorType().equals(ErrorType.WARNING))
+        {
+          it.remove();
+          // TODO: Parser should have a warning manager (!) For now, keep warnings as just "show" at the parser level?
+          CztLogger.getLogger(<class/>.class).warning(e.toString());
+        }
+      }
+      // in case there are no more warnings...
+      if (hasErrors())
+      {
+        throw parseException_;
+      }
+    }
+
 
     /**
      * Creates a new parser with the given scanner, source information,
@@ -1835,12 +1876,13 @@ parser code
       source_ = source;
       sectInfo_ = sectInfo;
       errorList_ = new ArrayList&lt;CztError&gt;();
+      parseException_ = null;
       if (source != null) {
         try {
-          ParseException parseException = 
+          parseException_ =
             sectInfo_.get(new Key&lt;ParseException&gt;(source.getName(),
                                   ParseException.class));
-          errorList_ = parseException.getErrors();
+          errorList_ = parseException_.getErrors();
         }
         catch (CommandException e) {
           e.printStackTrace();
@@ -1900,7 +1942,7 @@ parser code
     {
       CztError error = (CztError) object;
       errorList_.add(error);
-      error_ = true;
+      //error_ = true;
     }
 
     public void report_error(ZParseMessage msg,
@@ -3502,8 +3544,7 @@ optThmAbility ::=
         |
         // empty
         {:
-          RESULT = LabelAbility.enabled;
-          // assume enabled rather than "none".
+          RESULT = ZEvesUtils.getDefaultAbility();
         :}
         ;
 
@@ -3515,8 +3556,7 @@ optDefAbility ::=
         |
         // empty
         {:
-          RESULT = LabelAbility.enabled;
-          // assume enabled rather than "none".
+          RESULT = ZEvesUtils.getDefaultAbility();
         :}
         ;
 
@@ -3529,8 +3569,7 @@ optLabelAbility ::=
         |
         // empty
         {:
-          RESULT = LabelAbility.enabled;
-          // assume enabled rather than "none".
+          RESULT = ZEvesUtils.getDefaultAbility();
         :}
         ;
 

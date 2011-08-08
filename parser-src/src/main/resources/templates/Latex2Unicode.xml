@@ -167,6 +167,8 @@ import net.sourceforge.czt.z.util.ZString;
    */
   private boolean addSpace_ = false;
 
+  private boolean catchingThmName_ = false;
+
   /**
    * True iff we are scanning a directive.
    */
@@ -544,6 +546,14 @@ import net.sourceforge.czt.z.util.ZString;
      * The brace that starts a name, for example a schema name.
      */
     NAME,
+
+    /**
+     * Like name, but for theorem environments. This is needed to possibly add an space to the token stream
+     * in circumstances like \\begin{theorem}{Test} e \in X \iff true \end{theorem}. Without the space, we
+     * get "Teste" as the name (!)
+     */
+    THM_NAME,
+
     <add:zeves>
 
     /**
@@ -791,7 +801,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           yybegin(ZED);
           assert ! addSpace_;
           begin("theorem");
-          braceStack_.push(BraceType.NAME);
+          braceStack_.push(BraceType.THM_NAME);
           return result(ZString.ZED + ZEvesString.DISABLEDTHMTAG);
         }
   </add:zeves>
@@ -801,7 +811,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           yybegin(ZED);
           assert ! addSpace_;
           begin("theorem");
-          braceStack_.push(BraceType.NAME);
+          braceStack_.push(BraceType.THM_NAME);
           return result(ZString.ZED);
           // leave the "theorem" to be treated as a name.
         }
@@ -1071,6 +1081,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
             reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_AXDEF, label, label);
           }
           yybegin(ZLABEL_STATE);
+          braceStack_.push(BraceType.ZLABEL);
           return result(ZEvesString.LLABEL + ZString.SPACE);
         }
   "\\znote" {IGNORE}* "{"
@@ -1134,6 +1145,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
 <add:oz>
           }
 </add:oz>
+          catchingThmName_ = false;
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
@@ -1545,6 +1557,14 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           } else if (brace.equals(BraceType.NAME)) {
             result += ZString.SPACE;
           }
+          // Leo: I don't like this assymetry. ThmName should be just like any other name!
+          //      \vdash? theorems with just a Name are not a good idea (!)
+          else if (brace.equals(BraceType.THM_NAME))
+          {
+            //seenThm_ = false; // up to here, the Theorem NAME must have been seen... !! NO. This is the \begin{theorem '}'--- brace !!! useless...
+            catchingThmName_ = true;
+            result += ZString.SPACE;
+          }
           return result(result);
         }
   <add:zeves>
@@ -1600,6 +1620,13 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           // To aid low-level debugging: ({LETTER} | [0-9])*
           String result = addSpace();
           result += yytext();
+          //if (seenThm_) System.out.println("LEXING0 NAME AFTER SEEN-THM? " + seenThm_ +" = '" + result + "'");
+          if (catchingThmName_) 
+          { 
+            result += ZString.SPACE;
+            catchingThmName_ = false;
+            //System.out.println("LEXING-DECORWORD AFTER 'catchThmName_' FLAG = '" + result + "'");
+          }
           return result(result);
         }
   .
