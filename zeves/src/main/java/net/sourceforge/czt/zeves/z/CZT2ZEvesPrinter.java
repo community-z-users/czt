@@ -71,6 +71,7 @@ import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.LambdaExpr;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.LetExpr;
+import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.NarrPara;
@@ -160,8 +161,6 @@ import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
 import net.sourceforge.czt.zeves.proof.ProofUtils;
-import net.sourceforge.czt.zeves.util.BasicZEvesTranslator;
-import net.sourceforge.czt.zeves.util.ZEvesUtils;
 import net.sourceforge.czt.zeves.proof.ProofScript;
 import net.sourceforge.czt.z.visitor.CondExprVisitor;
 import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
@@ -174,10 +173,10 @@ import net.sourceforge.czt.z.visitor.ProdExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
-import net.sourceforge.czt.zeves.util.Usage;
-import net.sourceforge.czt.zeves.util.Ability;
-import net.sourceforge.czt.zeves.util.Label;
-import net.sourceforge.czt.zeves.util.Location;
+import net.sourceforge.czt.zeves.ast.LabelAbility;
+import net.sourceforge.czt.zeves.ast.LabelUsage;
+import net.sourceforge.czt.zeves.ast.ZEvesLabel;
+import net.sourceforge.czt.zeves.util.ZEvesUtils;
 import net.sourceforge.czt.zeves.visitor.ApplyCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.CaseAnalysisCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.InstantiationListVisitor;
@@ -299,7 +298,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     
     /* Constructors */
     
-    /** Creates a new instance of ZPrinter */
+    /** Creates a new instance of ZPrinter
+     * @param si
+     */
     public CZT2ZEvesPrinter(SectionInfo si) {
         super();
         fZExprListSep = null;
@@ -362,8 +363,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * present as a term annotation.
      */
     private String getAbility(Term term) {
-        Ability a = ZEvesUtils.getAbilityAnn(term);
-        return a == null ? "" : a.toString().toLowerCase();
+        ZEvesLabel l = ZEvesUtils.getLabel(term);
+        return l == null ? "" : l.getAbility().equals(LabelAbility.none) ? "" : l.getAbility().name();
     }
     
     /**
@@ -375,8 +376,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
          * Mark Saaltink said: "Locations are used in the GUI to record the origin of a paragraph (either from a file or from the GUI itself).
          * This is used so that if you re-import a LaTeX file after revising it, the appropriate paragraphs are updated. Just ignore it."
          */
-        Location l = ZEvesUtils.getLocationAnn(term);
-        return l == null ? "" : "location="+l.getLocation();
+      LocAnn loc = term.getAnn(LocAnn.class);
+      return loc == null ? "" : format(LOCATION_PATTERN, loc.getLine(), loc.getCol(), loc.getStart(), loc.getEnd(), loc.getLength(), loc.getLoc());
     }
     
     /**
@@ -385,15 +386,18 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * thrown for other terms.
      */
     private String getUsage(Term term) {
-        Usage u = ZEvesUtils.getUsageAnn(term);
-        return u == null ? "" : u.toString().toLowerCase();
+        ZEvesLabel l = ZEvesUtils.getLabel(term);
+        return l == null ? "" : l.getUsage().equals(LabelUsage.none) ? "" : l.getUsage().name();
     }
     
     private String getLabel(Term term) {
-        Label l = ZEvesUtils.getLabelAnn(term);
+        ZEvesLabel l = ZEvesUtils.getLabel(term);
         String result = "";
-        if (l != null) {            
-            result = format(LABEL_PATTERN, l.getAbility(), l.getUsage(), l.getTheoremName());
+        if (l != null) {
+            result = format(LABEL_PATTERN,
+                    l.getAbility().equals(LabelAbility.none) ? "" : l.getAbility().name(),
+                    l.getUsage().equals(LabelUsage.none) ? "" : l.getUsage().name(),
+                    getName(l.getName()));
         } 
         return result;
     }
@@ -482,9 +486,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             result = "&neq;";        
         else if (word.equals(ZString.NOTMEM))
             result = "&notin;";
-        // AV: EMPTYSET is not an operator - moving to #translateWord(String)
+// AV: EMPTYSET is not an operator - moving to #translateWord(String)
 //        else if (word.equals(ZString.EMPTYSET))
-//            result = "&empty;";        
+//            result = "&empty;";
+// Leo: well spotted ;-)
         else if (word.equals(ZString.SUBSETEQ))
             result = "&subeq;";        
         else if (word.equals(ZString.SUBSET))
@@ -637,6 +642,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         StringBuilder result = new StringBuilder(getWord(name));
 		// AV: retrieving ZStrokeList from the name, because ZName can never be
 		// cast into ZStrokeList and therefore throws exception
+    //
+    // Leo: yep
         result.append(getStrokes(name.getZStrokeList()));
         return result.toString();
     }
@@ -887,7 +894,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     
     /**
-     * Returns the internal Z/Eves predicatename according to the corresponding CZT Pred2 subclass.
+     * Returns the internal Z/Eves predicate name according to the corresponding CZT Pred2 subclass.
      */
     private String getBinPredName(Pred2 term) {
         String result;
@@ -1041,7 +1048,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return term.accept(fSpecPrinter);
     }    
     
-    public void setSectionInfo(SectionInfo si) {
+    public final void setSectionInfo(SectionInfo si) {
         fSectionInfo = si;
     }
     
@@ -1051,11 +1058,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     
     /* Special Terms */
     
-    public String visitTerm(Term term) {
+    @Override public String visitTerm(Term term) {
         throw new ZEvesIncompatibleASTException("Term", term);
     }
     
-    public String visitFreetype(Freetype term) {
+    @Override public String visitFreetype(Freetype term) {
         if (ZUtils.assertZBranchList(term.getBranchList()).isEmpty())
             throw new IllegalArgumentException("Free type declarations must have at least one branch.");
         StringBuilder result = new StringBuilder(getIdent(term.getZName()));
@@ -1070,15 +1077,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         }
         
         // AV: Freetype is not a paragraph, and will get an exception in Location and Ability, therefore ignore them.
-        return format(ZED_BOX_FREETYPE_PATTERN, "", "", result.toString());
-//      return format(ZED_BOX_FREETYPE_PATTERN, getLocation(term), getAbility(term), result.toString());
+        //return format(ZED_BOX_FREETYPE_PATTERN, "", "", result.toString());
+
+        // Leo: new parser considers this and each free type is assumed to have the ability of the top-most \begin{zed} enclosing it.
+        return format(ZED_BOX_FREETYPE_PATTERN, getLocation(term), getAbility(term), result.toString());
 
         // Leo: FreePara needs to handle Loc/Ability, but in Z/Eves the ability is placed on the
         //      the top of a Z-box (e.g., \begin[disabled]{zed}, and not at the individual boxed para).
         // TODO: think about a solution to this for later.
     }
     
-    public String visitSchText(SchText termx) {
+    @Override public String visitSchText(SchText termx) {
         ZSchText term = ZUtils.assertZSchText(termx);
         StringBuilder result = new StringBuilder("");
         boolean needBar = false;
@@ -1094,7 +1103,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return result.toString();
     }
     
-    public String visitZName(ZName term) {
+    @Override public String visitZName(ZName term) {
         return getName(term);
     }
         
@@ -1105,7 +1114,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * declaration incompatibility. Next, it iterates through all elements from the
      * list appending the definition for each Decl from decls.
      */
-    public String visitZDeclList(ZDeclList decls) {
+    @Override public String visitZDeclList(ZDeclList decls) {
         /* NOTE:
          *
          * Z/Eves does not accept empty declarations, as allowed by the Z standard.
@@ -1134,7 +1143,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * is not empty, and then traverse it by building up a comma-separated list
      * of expressions.
      */
-    public String visitZExprList(ZExprList term) {         
+    @Override public String visitZExprList(ZExprList term) {
         assert !term.isEmpty() && fZExprListSep != null 
                 && !fZExprListSep.equals("") : "Expression list can be neither null nor empty.";
         StringBuilder result = new StringBuilder("");
@@ -1149,7 +1158,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return result.toString();
     }
     
-    public String visitZNameList(ZNameList term) {                
+    @Override public String visitZNameList(ZNameList term) {
         return getNameList(term.iterator());
     }
 
@@ -1162,48 +1171,48 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      *
      */
     
-    public String visitStroke(Stroke term) {
+    @Override public String visitStroke(Stroke term) {
         throw new ZEvesIncompatibleASTException("Stroke", term);
     }
     
-    public String visitNumStroke(NumStroke term) {        
+    @Override public String visitNumStroke(NumStroke term) {
         Integer i = term.getDigit().getValue();
         if (i < 0 || i > 9)
             throw new ZEvesIncompatibleASTException("Z/Eves only accepts number strokes from 0 up to 9 (inclusive)");        
         return format(NUM_STROKE_PATTERN, i.toString());
     }
     
-    public String visitInStroke(InStroke term) {
+    @Override public String visitInStroke(InStroke term) {
         return "?";
     }
     
-    public String visitOutStroke(OutStroke term) {
+    @Override public String visitOutStroke(OutStroke term) {
         return "!";
     }
     
-    public String visitNextStroke(NextStroke term) {
+    @Override public String visitNextStroke(NextStroke term) {
         return "&apos;";
     }
     
     /* Z Paragraphs */
     
-    public String visitPara(Para term) {
+    @Override public String visitPara(Para term) {
         throw new ZEvesIncompatibleASTException("Paragraph", term);
     }
     
-    public String visitNarrPara(NarrPara term) {        
+    @Override public String visitNarrPara(NarrPara term) {
         return comment("Narrative Paragraph", term.getContent().toString());
     }
     
-    public String visitLatexMarkupPara(LatexMarkupPara term) {        
+    @Override public String visitLatexMarkupPara(LatexMarkupPara term) {
         return comment("LaTeX Markup Directives Paragraph", term.getDirective().toString());
     }
     
-    public String visitUnparsedPara(UnparsedPara term) {        
+    @Override public String visitUnparsedPara(UnparsedPara term) {
         return comment("Unparsed Paragraph", term.getContent().toString());
     }
     
-    public String visitConjPara(ConjPara term) {        
+    @Override public String visitConjPara(ConjPara term) {
         String axiomPart = getAxiomPart(term.getPred());
         if (axiomPart.equals("")) {
             throw new ZEvesIncompatibleASTException("Z/Eves conjectures must not have an empty predicate part.");
@@ -1214,30 +1223,23 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         // Currently replacing NLs with semicolons
         axiomPart = axiomPart.replace(NL_SEP, SC_SEP);
         
-        Label l = ZEvesUtils.getLabelAnn(term);
+        ZEvesLabel l = ZEvesUtils.getLabel(term);
         if (l == null) {
-            l = ZEvesUtils.createLabel(term);
-            term.getAnns().add(l);                        
+          ZEvesUtils.addDefaultZEvesLabelTo(term);
         }
-        
-        // check maybe the name is actually set
-        ZName name = ZEvesUtils.getZNameAnn(term);
-        // TODO getName(name) or just name.getWord()?
-        String theoremName = name != null ? getName(name) : l.getTheoremName();
-        
         String result = format(THEOREM_DEF_PATTERN, getLocation(term), l.getAbility(), l.getUsage(),
-                theoremName, NL_SEP + getGenFormals(term.getZNameList()),
+                getName(l.getName()), NL_SEP + getGenFormals(term.getZNameList()),
                 axiomPart, getProofPart(term));
         return wrapPara(result);
     }
     
-    public String visitGivenPara(GivenPara term) {        
+    @Override public String visitGivenPara(GivenPara term) {
         String result = format(ZED_BOX_GIVENSET_PATTERN, 
                 getLocation(term), getAbility(term), getIdentList(term.getZNameList()));
         return wrapPara(result);
     }
     
-    public String visitAxPara(AxPara term) {
+    @Override public String visitAxPara(AxPara term) {
         /*
          * ADDITIONAL COMMENTS
          * -------------------
@@ -1346,7 +1348,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return wrapPara(result);
     }
     
-    public String visitFreePara(FreePara term) {
+    @Override public String visitFreePara(FreePara term) {
         /* NOTE 1:
          *
          * Z/Eves does not have free-type paragraphs with more than one freetype
@@ -1372,11 +1374,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     
     /* Declarations */
     
-    public String visitDecl(Decl term) {
+    @Override public String visitDecl(Decl term) {
         throw new ZEvesIncompatibleASTException("Declaration", term);
     }
     
-    public String visitInclDecl(InclDecl term) {
+    @Override public String visitInclDecl(InclDecl term) {
         /* NOTE:
          *
          * Z/Eves only allows inclusion of schema-ref, rather than the general
@@ -1417,11 +1419,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * treated specially and separetely without visiting ConstDecl.
      * Therefore, we leave it to be caught by the generic Decl as an error.
      *
-    public String visitConstDecl(ConstDecl term) {
+    @Override public String visitConstDecl(ConstDecl term) {
         return term;
     }
      */
-    public String visitVarDecl(VarDecl term) {
+    @Override public String visitVarDecl(VarDecl term) {
         if (term.getZNameList().isEmpty())
             throw new IllegalArgumentException("Empty basic declaration list (at CZT VarDecl) is not allowed.");
         if (term.getExpr() == null)
@@ -1439,35 +1441,35 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     
     /* Z Predicates */
     
-    public String visitPred(Pred term) {
+    @Override public String visitPred(Pred term) {
         throw new ZEvesIncompatibleASTException("Predicate", term);
     }
     
-    public String visitTruePred(TruePred term) {
+    @Override public String visitTruePred(TruePred term) {
         return "true";
     }
     
-    public String visitFalsePred(FalsePred term) {
+    @Override public String visitFalsePred(FalsePred term) {
         return "false";
     }
     
-    public String visitNegPred(NegPred term) {                        
+    @Override public String visitNegPred(NegPred term) {
         return format(NEG_PRED_PATTERN, getPred(term.getPred()));
     }
     
-    public String visitQntPred(QntPred term) {
+    @Override public String visitQntPred(QntPred term) {
         /* NOTE: This case covers quatifiers Exists, Exists1, and Forall.
          */        
         return format(QNT_PRED_PATTERN, getQntName(term), term.getSchText().accept(this).toString(), getPred(term.getPred()));
     }
     
-    public String visitPred2(Pred2 term) {
+    @Override public String visitPred2(Pred2 term) {
         /* NOTE: This case covers predicates iff, implies, and, or.
          */        
         return format(BIN_PRED_PATTERN, getPred(term.getLeftPred()), getBinPredName(term), getPred(term.getRightPred()));
     }
     
-    public String visitMemPred(MemPred term) {
+    @Override public String visitMemPred(MemPred term) {
         /* NOTE: This case covers isin, and relational operators (n-ary, unary, and =).
          */        
         MemPredKind kind = getMemPredKind(term);
@@ -1523,7 +1525,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return result;
     }
     
-    public String visitExprPred(ExprPred term) {
+    @Override public String visitExprPred(ExprPred term) {
         /* NOTE: This case covers schema-ref, refexpr, schema precondition, conditional, and let.
          */
         return getExpr(term.getExpr());
@@ -1534,20 +1536,20 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      *       dealt with by getAxiomPart directly. The need for this is due to
      *       our design decision to include labelled-predicate whilst translating.
      *
-    public String visitAndPred(AndPred term) {
+    @Override public String visitAndPred(AndPred term) {
     }
      */
     
     /* Z Expressions */
-    public String visitExpr(Expr term) {
+    @Override public String visitExpr(Expr term) {
         throw new ZEvesIncompatibleASTException("Expression", term);
     }
     
-    public String visitPowerExpr(PowerExpr term) {
+    @Override public String visitPowerExpr(PowerExpr term) {
         return format(POWER_EXPR_PATTERN, getExpr(term.getExpr()));
     }
     
-    public String visitRefExpr(RefExpr term) {
+    @Override public String visitRefExpr(RefExpr term) {
         /* NOTE (from Z.xsd):
          *
          * A reference expression (C.6.21, C.6.28, C.6.29).
@@ -1586,7 +1588,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         	//			The solution below is best effort and incomplete
         	ZExprList exprList = term.getZExprList();
         	if (exprList.size() < 1 || exprList.size() > 2) {
-        		// AV: Can it be more/less than 2 here?
+        		// AV: Can it be more/less than 2 here? Leo: No.
         		throw new ZEvesIncompatibleASTException("CZT RefExpr generic operator application translation to Z/Eves is not yet implemented " +
                         "(for \"" + term.getZName().toString() + "\").");
         	}
@@ -1629,11 +1631,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return result;
     }
     
-    public String visitNegExpr(NegExpr term) {        
+    @Override public String visitNegExpr(NegExpr term) {
         return format(NEG_EXPR_PATTERN, getExpr(term.getExpr()));
     }
     
-    public String visitMuExpr(MuExpr term) {
+    @Override public String visitMuExpr(MuExpr term) {
         String schText = term.getSchText().accept(this).toString();
         String expr = "";
         if (term.getExpr() != null)
@@ -1641,7 +1643,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return "&mu; " + schText + expr;
     }
     
-	public String visitSetCompExpr(SetCompExpr term) {
+	@Override public String visitSetCompExpr(SetCompExpr term) {
     	// TODO review corner cases like \{ T \} and \{ T | true \} when T == [ ... | ... ] schema
         String schText = term.getSchText().accept(this).toString();
         String expr = "";
@@ -1650,18 +1652,18 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return "{ " + schText + expr + " }";
 	}
     
-    public String visitLambdaExpr(LambdaExpr term) {        
+    @Override public String visitLambdaExpr(LambdaExpr term) {
         return format(LAMBDA_EXPR_PATTERN, "&lambda;", 
                 term.getSchText().accept(this).toString(), getExpr(term.getExpr()));
     }
     
-    public String visitQntExpr(QntExpr term) {
+    @Override public String visitQntExpr(QntExpr term) {
         /* NOTE: This case covers quatifiers Exists, Exists1, and Forall.
          */        
         return format(QNT_EXPR_PATTERN, getQntName(term), term.getSchText().accept(this).toString(), getExpr(term.getExpr()));
     }
     
-    public String visitLetExpr(LetExpr term) {
+    @Override public String visitLetExpr(LetExpr term) {
         throw new ZEvesIncompatibleASTException("CZT Let expression/predicate term " +
                 "contains a SchText where Z/Eves expects a led-def production. " +
                 "This translation is complex and requires effort not yet implemented " +
@@ -1669,15 +1671,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         //return format(LET_EXPR_PATTERN, getLetDef(term.getSchText()), getExpr(term.getExpr()));
     }
     
-    public String visitTupleSelExpr(TupleSelExpr term) {        
+    @Override public String visitTupleSelExpr(TupleSelExpr term) {
         return format(TUPLESEL_EXPR_PATTERN, getExpr(term.getExpr()), term.getNumeral().toString());
     }
     
-    public String visitPreExpr(PreExpr term) {        
+    @Override public String visitPreExpr(PreExpr term) {
         return format(PRE_EXPR_PATTERN, getExpr(term.getExpr()));
     }
     
-    public String visitSetExpr(SetExpr term) {        
+    @Override public String visitSetExpr(SetExpr term) {
         StringBuilder sb = new StringBuilder("{ ");        
         if (!term.getZExprList().isEmpty()) {
             fZExprListSep = ", ";
@@ -1687,26 +1689,26 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return sb.toString();
     }
     
-	public String visitNumExpr(NumExpr term) {
+	@Override public String visitNumExpr(NumExpr term) {
         return term.getValue().toString();
     }
     
-    public String visitCondExpr(CondExpr term) {        
+    @Override public String visitCondExpr(CondExpr term) {
         return format(COND_EXPR_PATTERN, getPred(term.getPred()), 
                 getExpr(term.getLeftExpr()), getExpr(term.getRightExpr()));
     }
     
-    public String visitProdExpr(ProdExpr term) {
+    @Override public String visitProdExpr(ProdExpr term) {
         fZExprListSep = "&cross; ";
         return "(" + term.getZExprList().accept(this) + ")";
     }
     
-    public String visitTupleExpr(TupleExpr term) {
+    @Override public String visitTupleExpr(TupleExpr term) {
         fZExprListSep = ", ";
         return "(" + term.getZExprList().accept(this) + ")";
     }
     
-    public String visitBindExpr(BindExpr term) {        
+    @Override public String visitBindExpr(BindExpr term) {
 //        assert !term.getNameExprPair().isEmpty() : "Binding expression list cannot be empty.";
 //        StringBuilder result = new StringBuilder("&lvang; ");
 //        term.getDecl()
@@ -1724,7 +1726,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         throw new UnsupportedOperationException("Bind expressions are not yet supported for conversion. TODO.");
     }
     
-    public String visitBindSelExpr(BindSelExpr term) {
+    @Override public String visitBindSelExpr(BindSelExpr term) {
         if (!(term.getExpr() instanceof RefExpr))
             throw new ZEvesIncompatibleASTException("Z/Eves only allows bind selection for schema references, " +
                     "rather than schema expressions. See throwable cause for details.",
@@ -1737,7 +1739,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return format(BINDSEL_EXPR_PATTERN, getExpr((RefExpr)term.getExpr()), getVarName(term.getZName()));
     }
     
-    public String visitThetaExpr(ThetaExpr term) {
+    @Override public String visitThetaExpr(ThetaExpr term) {
         Expr e = term.getExpr();
         if (!(e instanceof RefExpr || e instanceof DecorExpr || e instanceof RenameExpr))
             throw new ZEvesIncompatibleASTException("Z/Eves only allows theta expressions to schema references, " +
@@ -1753,7 +1755,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return format(THETA_EXPR_PATTERN, getExpr(term.getExpr()));
     }
     
-    public String visitSchExpr2(SchExpr2 term) {
+    @Override public String visitSchExpr2(SchExpr2 term) {
         /* NOTE: 
          * This production covers: CompExpr, PipeExpr, ProjExpr, AndExpr, 
          * OrExpr, ImpliesExpr, and IffExpr.
@@ -1761,16 +1763,16 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return format(BIN_SCHEXPR_PATTERN, getExpr(term.getLeftExpr()), getSchExprOpName(term), getExpr(term.getRightExpr()));
     }
 
-    public String visitSchExpr(SchExpr term) {
+    @Override public String visitSchExpr(SchExpr term) {
         // TODO: Check whether this is ok or not.
         return term.getSchText().accept(this).toString();
     }
 
-    public String visitHideExpr(HideExpr term) {                        
+    @Override public String visitHideExpr(HideExpr term) {
         return format(HIDE_EXPR_PATTERN, getExpr(term.getExpr()), term.getZNameList().accept(this));
     }    
     
-    public String visitApplExpr(ApplExpr term) {
+    @Override public String visitApplExpr(ApplExpr term) {
     	
 //    	if (term.getMixfix()) {
     	if (ZUtils.isFcnOpApplExpr(term)) {
@@ -1798,17 +1800,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     	return format(APPL_EXPR_PATTERN, getExpr(term.getLeftExpr()), getExpr(term.getRightExpr()));
     }
     
-    public String visitDecorExpr(DecorExpr term) {
+    @Override public String visitDecorExpr(DecorExpr term) {
     	return getExpr(term.getExpr()) + term.getStroke().accept(this);
     }
     
-    @Override
-	public String visitProofCommand(ProofCommand term) {
+   
+	@Override public String visitProofCommand(ProofCommand term) {
     	throw new ZEvesIncompatibleASTException("ProofCommand", term);
 	}
 
-    @Override
-	public String visitCaseAnalysisCommand(CaseAnalysisCommand term) {
+  
+	@Override public String visitCaseAnalysisCommand(CaseAnalysisCommand term) {
     	switch (term.getKind()) {
 		case Cases:
 			return "cases";
@@ -1822,8 +1824,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		}
     }
     
-	@Override
-	public String visitNormalizationCommand(NormalizationCommand term) {
+	
+	@Override public String visitNormalizationCommand(NormalizationCommand term) {
 		switch (term.getKind()) {
 		case Conjunctive:
 			return "conjunctive";
@@ -1839,8 +1841,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		}
 	}
 	
-	@Override
-	public String visitQuantifiersCommand(QuantifiersCommand term) {
+	
+	@Override public String visitQuantifiersCommand(QuantifiersCommand term) {
 		StringBuilder result = new StringBuilder();
 		if (term.getInstantiationList() == null || term.getInstantiationList().isEmpty()) {
 			result.append("prenex");
@@ -1853,8 +1855,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		return result.toString();
 	}
 	
-	@Override
-	public String visitInstantiation(Instantiation term) {
+	
+	@Override public String visitInstantiation(Instantiation term) {
 		assert fCurrInstKind == term.getKind() : "inconsistent instantiation kind. found "
 				+ term.getKind() + "; expected " + fCurrInstKind;
 		StringBuilder result = new StringBuilder();
@@ -1864,8 +1866,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		return result.toString();
 	}
 
-	@Override
-	public String visitInstantiationList(InstantiationList term) {
+	
+	@Override public String visitInstantiationList(InstantiationList term) {
 		StringBuilder result = new StringBuilder();
 		Iterator<Instantiation> it = term.iterator();
 		assert it.hasNext() : "empty instantiations are not allowed for instantiation kind "
@@ -1880,8 +1882,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		return result.toString();
 	}
 	
-	@Override
-	public String visitSimplificationCommand(SimplificationCommand term) {
+	
+	@Override public String visitSimplificationCommand(SimplificationCommand term) {
 		switch (term.getKind()) {
 		case Reduce:
 			switch (term.getPower()) {
@@ -1929,8 +1931,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		}
 	}
 
-	@Override
-	public String visitUseCommand(UseCommand term) {
+	
+	@Override public String visitUseCommand(UseCommand term) {
 		StringBuilder result = new StringBuilder("use ");
 		result.append(getExpr(term.getTheoremRef()));
 		if (term.getInstantiationList() != null) {
@@ -1944,8 +1946,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		return result.toString();
 	}
 
-	@Override
-	public String visitWithCommand(WithCommand term) {
+	
+	@Override public String visitWithCommand(WithCommand term) {
 		assert term.getProofCommand() != null : "with command must have an inner command";
 		StringBuilder result = new StringBuilder("with ");
 		if (term.getExpr() != null) {
@@ -1973,8 +1975,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		return result.toString();
 	}
 
-	@Override
-	public String visitSubstitutionCommand(SubstitutionCommand term) {
+	
+	@Override public String visitSubstitutionCommand(SubstitutionCommand term) {
 		assert term.getProofCommand() == null && term.getNameList() == null
 				|| term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
 		switch (term.getKind()) {
@@ -2001,8 +2003,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 		}
 	}
 
-	@Override
-	public String visitApplyCommand(ApplyCommand term) {
+	
+	@Override public String visitApplyCommand(ApplyCommand term) {
 		assert term.getProofCommand() == null && term.getNameList() != null
 				&& term.getNameList() instanceof ZNameList && term.getZNameList().size() == 1 : "apply command cannot have subcommand and must have a singleton Z namelist";
 		StringBuilder result = new StringBuilder("apply ");

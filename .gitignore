@@ -6002,14 +6002,6 @@ zeves/src/main/java/net/sourceforge/czt/zeves/response/.project
 zeves/src/main/java/net/sourceforge/czt/zeves/response/.settings
 zeves/src/main/java/net/sourceforge/czt/zeves/response/target
 zeves/src/main/java/net/sourceforge/czt/zeves/target
-zeves/src/main/java/net/sourceforge/czt/zeves/util/*.aux
-zeves/src/main/java/net/sourceforge/czt/zeves/util/*.blg
-zeves/src/main/java/net/sourceforge/czt/zeves/util/*.log
-zeves/src/main/java/net/sourceforge/czt/zeves/util/*.tmp
-zeves/src/main/java/net/sourceforge/czt/zeves/util/.classpath
-zeves/src/main/java/net/sourceforge/czt/zeves/util/.project
-zeves/src/main/java/net/sourceforge/czt/zeves/util/.settings
-zeves/src/main/java/net/sourceforge/czt/zeves/util/target
 zeves/src/main/java/net/sourceforge/czt/zeves/z/*.aux
 zeves/src/main/java/net/sourceforge/czt/zeves/z/*.blg
 zeves/src/main/java/net/sourceforge/czt/zeves/z/*.log

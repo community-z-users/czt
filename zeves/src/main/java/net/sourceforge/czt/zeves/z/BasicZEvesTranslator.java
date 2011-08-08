@@ -8,7 +8,7 @@
  * Open. You can then make changes to the template in the Source Editor.
  */
 
-package net.sourceforge.czt.zeves.util;
+package net.sourceforge.czt.zeves.z;
 
 import java.text.MessageFormat;
 
@@ -45,6 +45,9 @@ public abstract class BasicZEvesTranslator implements ZEvesXMLPatterns {
      * Applies the format operation from the underlying MessageFormat object
      * set to the last pattern. See constructor for the first pattern.
      * This method is usually called straight after method setZEvesXMLPattern.
+     * @param pattern
+     * @param arguments
+     * @return 
      */
     protected String format(String pattern, Object... arguments) {
         fZEvesXMLFmt.applyPattern(pattern);

@@ -14,7 +14,7 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
-import net.sourceforge.czt.zeves.util.BasicZEvesTranslator;
+import net.sourceforge.czt.zeves.z.BasicZEvesTranslator;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 /**

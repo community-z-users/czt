@@ -14,14 +14,13 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.zeves.util.ZEvesUtils;
-import net.sourceforge.czt.zeves.util.ZEvesXMLPatterns;
+import net.sourceforge.czt.zeves.z.ZEvesXMLPatterns;
 
 /**
  *
  * @author leo
  */
-public class ProofUtils extends ZEvesUtils implements ZEvesXMLPatterns {
+public class ProofUtils implements ZEvesXMLPatterns {
     
     /** Creates a new instance of ProofUtils */
     protected ProofUtils() {        
@@ -35,8 +34,6 @@ public class ProofUtils extends ZEvesUtils implements ZEvesXMLPatterns {
     }
     
     public static ProofScript getProofScriptAnn(Term term) {
-        if (!isConjecture(term))
-            throw new IllegalArgumentException("Z/Eves proof script is allowed only for ConjPara and Pred terms");
         ProofScript ps = (ProofScript)term.getAnn(ProofScript.class);
         return ps;
     }

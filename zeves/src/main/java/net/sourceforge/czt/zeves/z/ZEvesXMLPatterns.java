@@ -8,7 +8,7 @@
  * Open. You can then make changes to the template in the Source Editor.
  */
 
-package net.sourceforge.czt.zeves.util;
+package net.sourceforge.czt.zeves.z;
 
 /**
  *
@@ -124,6 +124,16 @@ public interface ZEvesXMLPatterns {
      */
     public static final String LABEL_PATTERN = "&lchev; {0} {1} {2} &rchev;";
     
+    /**
+     * {0} = Line         => locAnn.getLine();
+     * {1} = Column       => locAnn.getCol();
+     * {2} = Start-offset => locAnn.getStart();
+     * {3} = End-offset   => locAnn.getEnd();
+     * {4} = lenGth       => locAnn.getLength();
+     * {5} = sourCe       => locAnn.getLoc();
+     */
+    public static final String LOCATION_PATTERN = "location=L{0};C{1};S{2};E{3};G{4};R{5}";
+
     /* predicate, predicate-1 XML pattern strings */
     
     /**

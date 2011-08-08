@@ -27,7 +27,7 @@ import net.sourceforge.czt.zeves.response.ZEvesError;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
 import net.sourceforge.czt.zeves.response.ZEvesResponseReader;
 
-import static net.sourceforge.czt.zeves.util.ZEvesXMLPatterns.ZEVES_COMMAND;
+import static net.sourceforge.czt.zeves.z.ZEvesXMLPatterns.ZEVES_COMMAND;
 
 /**
  * This class is provides calls to Z/Eves XML-based API, where communication is
