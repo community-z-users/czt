@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import net.sourceforge.czt.base.ast.Term;
@@ -106,6 +105,7 @@ public class LatexScannerDebugger {
   {
       SectionInfo sectInfo_ = new SectionManager("zeves");
       Term term = ParseUtils.parse(source, sectInfo_);
+      //Spec term = sectInfo_.get(new Key<Spec>(source.getName(), Spec.class));
       PrintVisitor printer = new PrintVisitor(false);
       printer.setPrintIds(false);
       printer.setOffset(1, 1);
@@ -114,6 +114,7 @@ public class LatexScannerDebugger {
       System.out.println(term.toString());
   }
 
+  @SuppressWarnings("CallToThreadDumpStack")
   public static void main(String[] args)
   {
     try {
@@ -153,6 +154,10 @@ public class LatexScannerDebugger {
       System.out.flush();
       e.printStackTrace();
     }
+  }
+
+  private LatexScannerDebugger()
+  {
   }
 }
 
