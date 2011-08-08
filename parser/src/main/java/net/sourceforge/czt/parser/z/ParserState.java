@@ -58,6 +58,7 @@ public class ParserState
    * so that ParserState methods can not only create
    * elements but also add location information. Parser.xml
    * initialises getLoc() to be the same as the parsing source.
+   * @return
    */
   public String getLoc()
   {
@@ -94,7 +95,7 @@ public class ParserState
   public void addLocAnn(Term term, LocInfo locInfo)
   {
     if (locInfo != null) {
-      LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      LocAnn locAnn = term.getAnn(LocAnn.class);
       if (locAnn == null) {
         locAnn = factory_.createLocAnn();
         term.getAnns().add(locAnn);

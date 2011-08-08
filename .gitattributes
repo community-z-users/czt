@@ -577,6 +577,7 @@ parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/java/net/sourceforge/czt/print/z/LatexPrinterPropertyKeys.java -text
 parser/src/test/java/net/sourceforge/czt/parser/util/CztManagedTest.java -text
 parser/src/test/resources/tests/z/basicsm.tex -text
+parser/src/test/resources/tests/z/explicitRefExpr.tex -text
 parser/src/test/resources/tests/z/unboxedparalist.tex -text
 parser/src/test/resources/tests/z/unboxedparalist.utf8 -text
 parser/src/test/resources/tests/z/unboxedparalist.zed8 -text

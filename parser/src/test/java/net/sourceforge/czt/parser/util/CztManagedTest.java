@@ -156,6 +156,11 @@ public abstract class CztManagedTest extends TestCase
     // do nothing.
   }
 
+  protected void encounteredException(Throwable e, String failureMsg, boolean handled)
+  {
+    // do nothing
+  }
+
   protected String getTestsPath()
   {
     return testsPath_;
@@ -466,6 +471,7 @@ public abstract class CztManagedTest extends TestCase
         failureMsg.append(" parsing error(s)");
         pe.printErrorList();
       }
+      CztManagedTest.this.encounteredException(e, failureMsg.toString(), false);
       return false;
     }
   }
