@@ -199,7 +199,15 @@ public class TypeCheckUtils
             useNameIds, warningOutputDefault(), sectName);
   }
 
-  /** An internal method of the typechecker. */
+  /** An internal method of the typechecker.
+   * @param term
+   * @param sectInfo
+   * @param recursiveTypes
+   * @param useNameIds
+   * @param warningOutput
+   * @param sectName
+   * @return
+   */
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
           SectionManager sectInfo,
           boolean recursiveTypes,
@@ -222,9 +230,21 @@ public class TypeCheckUtils
     return swriter.toString();
   }
 
-  /** An internal method of the typechecker. */
+  /** An internal method of the typechecker.
+   * @param term
+   * @param sectInfo
+   * @param recursiveTypes
+   * @param sortDeclNames
+   * @param useNameIds
+   * @param warningOutput
+   * @param sectName
+   * @return
+   */
+  @Override
+  @SuppressWarnings({"unchecked", "CallToThreadDumpStack"})
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
           SectionManager sectInfo,
+
           boolean recursiveTypes,
           boolean sortDeclNames,
           boolean useNameIds,
@@ -306,7 +326,11 @@ public class TypeCheckUtils
    *  @param  source The string or file to be parsed.
    *  @param  sectInfo The section manager or SectionManager to use during parsing.
    *  @return A non-typechecked term.
+   * @throws IOException
+   * @throws net.sourceforge.czt.parser.util.ParseException
+   * @throws net.sourceforge.czt.base.util.UnmarshalException
    */
+  @Override
   protected Term parse(Source source, SectionManager sectInfo)
           throws IOException, net.sourceforge.czt.parser.util.ParseException,
           net.sourceforge.czt.base.util.UnmarshalException
@@ -319,7 +343,11 @@ public class TypeCheckUtils
    *  @param  file The path to the file to be parsed.
    *  @param  sectInfo The section manager or SectionManager to use during parsing.
    *  @return a non-typechecked term.
+   * @throws IOException
+   * @throws net.sourceforge.czt.parser.util.ParseException
+   * @throws net.sourceforge.czt.base.util.UnmarshalException
    */
+  @Override
   protected Term parse(String file, SectionManager sectInfo)
           throws IOException, net.sourceforge.czt.parser.util.ParseException,
           net.sourceforge.czt.base.util.UnmarshalException
@@ -327,21 +355,25 @@ public class TypeCheckUtils
     return parse(new FileSource(file), sectInfo);
   }
 
+  @Override
   protected String name()
   {
     return "zevestypecheck";
   }
 
+  @Override
   protected boolean printBenchmarkTimesDefault()
   {
     return true;
   }
 
+  @Override
   protected boolean printTypesDefault()
   {
     return true;
   }
 
+  @Override
   protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)
   {
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
@@ -356,12 +388,18 @@ public class TypeCheckUtils
     //instance_.testOnTheFly();
   }
 
+  @Override
+  protected WarningManager.WarningOutput warningOutputDefault()
+  {
+    return WarningManager.WarningOutput.HIDE;
+  }
+
   private void typeCheckCommandTest(String file)
   {
     System.out.println("Testing TypeCheckCommand for CIRCUS:");
 
     SimpleFormatter sfc = new SimpleFormatter(false, true, false, false);
-    //boolean showTimeStamp, boolean showRecordedMessage,
+    //boolean showTimeStamp, bool ean showRecordedMessage,
     //            boolean showSourceMethod, boolean showDirectory, boolean showStackTrace)
 
     java.util.logging.ConsoleHandler ch = new java.util.logging.ConsoleHandler();
@@ -449,6 +487,7 @@ public class TypeCheckUtils
     return new TypeCheckCommand();
   }
 
+  @Override
   protected SectionManager getSectionManager()
   {
     SectionManager sectionManager = new SectionManager("zeves");
