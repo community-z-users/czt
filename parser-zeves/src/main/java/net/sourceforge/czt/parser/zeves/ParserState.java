@@ -19,7 +19,13 @@
 
 package net.sourceforge.czt.parser.zeves;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.util.Pair;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 
 /**
  *
@@ -28,9 +34,14 @@ import net.sourceforge.czt.session.Source;
  */
 public class ParserState extends net.sourceforge.czt.parser.z.ParserState
 {
+  private List<Pair<Pred, ZEvesLabel>> labelledPreds_;
+
   public ParserState(Source loc)
   {
     super(loc);
+    labelledPreds_ = new ArrayList<Pair<Pred, ZEvesLabel>>();
    // proofScripts_.reset();
   }
+
+
 }

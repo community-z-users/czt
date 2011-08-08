@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.zeves;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -29,16 +30,21 @@ import java.util.Set;
 import java.util.logging.Level;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnmarshalException;
+import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.zeves.Unicode2Latex;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.SimpleFormatter;
+import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zeves.util.PrintVisitor;
 
@@ -101,17 +107,46 @@ public class LatexScannerDebugger {
   }
 
 
-  private static void debugParser(Source source) throws ParseException, IOException, UnmarshalException
+  private static void debugParser(Source source) throws CommandException, ParseException, IOException, UnmarshalException
   {
-      SectionInfo sectInfo_ = new SectionManager("zeves");
-      Term term = ParseUtils.parse(source, sectInfo_);
+      SectionManager sectInfo_ = new SectionManager("z");
+
+      File file = new File(source.getName());
+      String sourceName = SourceLocator.getSourceName(file.getName());
+      SourceLocator.addCZTPathFor(file, sectInfo_);
+      sectInfo_.put(new Key<Source>(sourceName, Source.class), source);
+      Spec term;
+      try
+      {
+        term = sectInfo_.get(new Key<Spec>(sourceName, Spec.class));
+      }
+      catch(CommandException ex)
+      {
+        term = null;
+        System.out.println("Parsing errors!");
+      }
+
+//      Term term = ParseUtils.parse(source, sectInfo_);
+
+      // check for parse exceptions
+      ParseException parseException = sectInfo_.get(new Key<ParseException>(source.getName(), ParseException.class));
+      if (parseException != null && !parseException.getErrors().isEmpty()) {
+        System.out.println("Found parser errors (" + parseException.getErrors().size() + ")");
+        for(CztError e : parseException.getErrors())
+        {
+          System.out.println(e.toString());
+        }
+      }
+
       //Spec term = sectInfo_.get(new Key<Spec>(source.getName(), Spec.class));
       PrintVisitor printer = new PrintVisitor(false);
       printer.setPrintIds(false);
       printer.setOffset(1, 1);
-      ZUtils.setToStringVisitor(term, printer);
-      //((TermImpl)term).getFactory().setToStringVisitor(printer);
-      System.out.println(term.toString());
+      if (term != null)
+      {
+        ZUtils.setToStringVisitor(term, printer);
+        System.out.println(term.toString());
+      }
   }
 
   @SuppressWarnings("CallToThreadDumpStack")

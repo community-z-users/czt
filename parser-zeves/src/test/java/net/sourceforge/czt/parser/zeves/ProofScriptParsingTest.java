@@ -82,6 +82,14 @@ public class ProofScriptParsingTest
     }
   }
 
+  @Override
+  @SuppressWarnings("CallToThreadDumpStack")
+  protected void encounteredException(Throwable e, String failureMsg, boolean handled)
+  {
+    System.out.println("Encountered exception during parsing: " + e.getClass().getName());
+    System.out.println("\t " + failureMsg);
+    if (!handled) e.printStackTrace();
+  }
   protected static final boolean DEBUG_TESTING = false;
   protected final static String TEST_DIR =
           "/tests/zeves/";
