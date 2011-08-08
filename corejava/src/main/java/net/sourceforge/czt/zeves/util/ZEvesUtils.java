@@ -18,13 +18,18 @@
  */
 package net.sourceforge.czt.zeves.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.RenameExpr;
 import net.sourceforge.czt.z.ast.RenameList;
 import net.sourceforge.czt.zeves.ast.InstantiationList;
+import net.sourceforge.czt.zeves.ast.LabelAbility;
+import net.sourceforge.czt.zeves.ast.LabelUsage;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
+import net.sourceforge.czt.zeves.impl.ZEvesFactoryImpl;
 
 /**
  *
@@ -38,34 +43,61 @@ public final class ZEvesUtils
   {
   }
 
-  public static ZEvesLabel getLabel(Term term)
+  public static final Factory FACTORY = createConsoleFactory();
+
+  /**
+   * Useful factory for debugging purposes. It prints ASCII names and
+   * LocAnn offset by one in line/col count and no name IDs.
+   * @return
+   */
+  public static Factory createConsoleFactory()
   {
-    ZEvesLabel result = null;
-    //if (term instanceof Pred || term instanceof ConjPara)
-    //{
-      result = term.getAnn(ZEvesLabel.class);
-    //}
+    return createFactory(false, false, 1, 1);
+  }
+
+  /**
+   * Create a factory tailored for either debugging or UI purposes. Various
+   * parameters affect the base factory underlying print visitor's parameters.
+   * @param printUnicode
+   * @param printNameIds
+   * @param printLocLineOffset
+   * @param printLocColOffset
+   * @return
+   */
+  public static Factory createFactory(boolean printUnicode, boolean printNameIds, int printLocLineOffset,
+          int printLocColOffset)
+  {
+    // Make a factory that prints names in ASCII, not Unicode
+    // (This is better for debugging and for console output).
+    PrintVisitor printer = new PrintVisitor(printUnicode);
+    printer.setPrintIds(printNameIds);
+    printer.setOffset(printLocLineOffset, printLocColOffset);
+    ZEvesFactoryImpl tmp = new ZEvesFactoryImpl();
+    tmp.setToStringVisitor(printer);
+    Factory result = new Factory(tmp);
     return result;
   }
 
   public static InstantiationList assertInstantiationList(Term term)
   {
-    if (term instanceof InstantiationList) {
+    if (term instanceof InstantiationList)
+    {
       return (InstantiationList) term;
     }
     final String message =
-      "Expected a InstantiationList but found " + String.valueOf(term);
+            "Expected a InstantiationList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 
   public static InstantiationList assertRenameListAsInstantiationList(RenameExpr term)
   {
     RenameList result = term.getRenameList();
-    if (result instanceof InstantiationList) {
-      return (InstantiationList)result;
+    if (result instanceof InstantiationList)
+    {
+      return (InstantiationList) result;
     }
-    final String message = "Expected the Z/Eves instantiation list implementation of RenameList " +
-      " but found " + String.valueOf(result);
+    final String message = "Expected the Z/Eves instantiation list implementation of RenameList "
+                           + " but found " + String.valueOf(result);
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
@@ -74,8 +106,53 @@ public final class ZEvesUtils
     InstantiationList result = null;
     if (term instanceof RenameExpr)
     {
-      return assertRenameListAsInstantiationList((RenameExpr)term);
+      return assertRenameListAsInstantiationList((RenameExpr) term);
     }
     return result;
+  }
+
+  public static String getLocalHost()
+  {
+    try
+    {
+      return InetAddress.getLocalHost().getHostName();
+    }
+    catch (UnknownHostException e)
+    {
+      return "localhost";
+    }
+  }
+
+  public static LabelAbility getDefaultAbility()
+  {
+    return LabelAbility.enabled;
+  }
+
+  public static LabelUsage getDefaultUsage()
+  {
+    return LabelUsage.none; 
+  }
+
+  public static ZEvesLabel getLabel(Term term)
+  {
+    ZEvesLabel result = null;
+    //if (term instanceof Pred || term instanceof ConjPara)
+    //{
+    result = term.getAnn(ZEvesLabel.class);
+    //}
+    return result;
+  }
+
+  public static void addDefaultZEvesLabelTo(Term term)
+  {
+    assert getLabel(term) == null : "adding default label for already labelled term " + term;
+    String fromClsStr = term.getClass().getName();
+    fromClsStr = fromClsStr.substring(fromClsStr.lastIndexOf(".")+1);
+    // String thmName = fromClsStr + term.hashCode();
+    // using just term.hashCode() sometimes gives a negative number, which Z/Eves does not accept
+    // instead, go to unsigned Hex (as in Object.toString())
+    String thmName = fromClsStr + Integer.toHexString(term.hashCode());
+    ZEvesLabel label = FACTORY.createZEvesLabel(FACTORY.createZName(thmName), getDefaultAbility(), getDefaultUsage());
+    term.getAnns().add(label);
   }
 }

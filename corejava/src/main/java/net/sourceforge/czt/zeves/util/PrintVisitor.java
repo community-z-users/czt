@@ -333,7 +333,15 @@ public class PrintVisitor
       result.append(term.getName());
       result.append("}");
     }
-    result.append(visit(term.getZNameList()));
+    NameList gen = term.getNameList();
+    boolean hasGenerics = gen != null &&
+            gen instanceof ZNameList && !((ZNameList)gen).isEmpty();
+    if (hasGenerics)
+    {
+      result.append("[");
+      result.append(visit(gen));
+      result.append("]");
+    }
     result.append("\n");
     result.append(visit(term.getPred()));
     result.append("\n");
