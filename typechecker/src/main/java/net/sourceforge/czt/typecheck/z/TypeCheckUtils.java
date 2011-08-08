@@ -257,7 +257,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     System.err.println("Default flags are: \"" +
         ((syntaxOnlyDefault() ? "-s " : "") +
         (useBeforeDeclDefault() ? "-d " : "-n ") +
-        (recursiveTypesDefault() ? "-r " : "-n ") +
+        (recursiveTypesDefault() ? "-r " : "") +
         (useNameIdsDefault() ? "-i " : "") +
         (printZMLDefault() ? "-p " : "") + 
         (printTypesDefault() ? "-t " : "") +
