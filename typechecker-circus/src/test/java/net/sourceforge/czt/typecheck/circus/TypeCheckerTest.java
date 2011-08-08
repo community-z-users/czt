@@ -254,6 +254,7 @@ public class TypeCheckerTest
         System.out.println("Test normal: " + file_);
         term = parse(file_, manager);
         errors = typecheck(term, manager);
+        System.out.println("\t test finished for " + file_);
       }
       catch (RuntimeException e)
       {
@@ -316,6 +317,7 @@ public class TypeCheckerTest
         {
           errors = typecheck(term, manager);
         }
+        System.out.println("\t test finished for " + file_);
       }
       catch (RuntimeException e)
       {

@@ -17,7 +17,7 @@ of action $A$ of $P$: like the $v \in T$ of $P$, this last appearance
 is within a inner scope
 %
 \begin{circus}
-    \circprocess\ [T] P \circdef  v:  T \circspot \circbegin\  \\
+    \circprocess\ [T] P \circdef  v:  T \circspot \circbegin  \\
     A \circdef\ \circvar\ v: \power~\nat \circspot \Skip
     \t1 \circspot A \\
     \circend
@@ -26,7 +26,7 @@ is within a inner scope
 Valid redeclaration of $v \in T$ in the $Q$ process scope
 %
 \begin{circus}
-    \circprocess\ [T] Q \circdef  v:  T \circspot \circbegin\
+    \circprocess\ [T] Q \circdef  v:  T \circspot \circbegin
 \end{circus}
 
 Invalid redeclaration of $v \in \nat$ in the local scope for $Q$:~
