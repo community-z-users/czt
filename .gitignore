@@ -3201,6 +3201,7 @@ parser-circus/doc/circus/.project
 parser-circus/doc/circus/.settings
 parser-circus/doc/circus/target
 parser-circus/doc/target
+parser-circus/nbactions.xml
 parser-circus/src/*.aux
 parser-circus/src/*.blg
 parser-circus/src/*.log
