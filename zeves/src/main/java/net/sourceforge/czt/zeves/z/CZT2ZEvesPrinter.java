@@ -1229,7 +1229,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         
         ZEvesLabel l = ZEvesUtils.getLabel(term);
         if (l == null) {
-          ZEvesUtils.addDefaultZEvesLabelTo(term);
+          l = ZEvesUtils.addDefaultZEvesLabelTo(term);
         }
         String result = format(THEOREM_DEF_PATTERN, getLocation(term), l.getAbility(), l.getUsage(),
                 getName(l.getName()), NL_SEP + getGenFormals(term.getZNameList()),
@@ -1807,7 +1807,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     		throw new ZEvesIncompatibleASTException("Unsupported application expression - 1 or 2 arguments required", term);
     	}
     	
-    	return format(APPL_EXPR_PATTERN, getExpr(term.getLeftExpr()), getExpr(term.getRightExpr()));
+		fRelationalOpAppl = true;
+		String op = getExpr(term.getLeftExpr());
+		fRelationalOpAppl = false;
+    	
+    	return format(APPL_EXPR_PATTERN, op, getExpr(term.getRightExpr()));
     }
     
     @Override public String visitDecorExpr(DecorExpr term) {

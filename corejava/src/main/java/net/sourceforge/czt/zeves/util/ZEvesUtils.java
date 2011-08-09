@@ -143,7 +143,7 @@ public final class ZEvesUtils
     return result;
   }
 
-  public static void addDefaultZEvesLabelTo(Term term)
+  public static ZEvesLabel addDefaultZEvesLabelTo(Term term)
   {
     assert getLabel(term) == null : "adding default label for already labelled term " + term;
     String fromClsStr = term.getClass().getName();
@@ -154,5 +154,7 @@ public final class ZEvesUtils
     String thmName = fromClsStr + Integer.toHexString(term.hashCode());
     ZEvesLabel label = FACTORY.createZEvesLabel(FACTORY.createZName(thmName), getDefaultAbility(), getDefaultUsage());
     term.getAnns().add(label);
+    
+    return label;
   }
 }
