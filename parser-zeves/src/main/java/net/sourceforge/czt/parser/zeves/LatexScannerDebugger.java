@@ -26,9 +26,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnmarshalException;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.DebugUtils;
@@ -38,12 +38,12 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.SimpleFormatter;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zeves.util.PrintVisitor;
@@ -154,7 +154,6 @@ public class LatexScannerDebugger {
   {
     try {
      
-
       //Object o = DebugUtils.getFieldMap(Sym.class).get(new Integer(Sym.DECORWORD));
       //System.out.println("SmartScanner.get_sym() = " + o.getClass() + " " + o);
 
