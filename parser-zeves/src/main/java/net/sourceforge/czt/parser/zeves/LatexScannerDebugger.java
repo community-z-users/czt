@@ -109,7 +109,7 @@ public class LatexScannerDebugger {
 
   private static void debugParser(Source source) throws CommandException, ParseException, IOException, UnmarshalException
   {
-      SectionManager sectInfo_ = new SectionManager("z");
+      SectionManager sectInfo_ = new SectionManager("zeves");
 
       File file = new File(source.getName());
       String sourceName = SourceLocator.getSourceName(file.getName());

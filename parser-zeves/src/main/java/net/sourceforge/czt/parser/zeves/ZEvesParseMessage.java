@@ -22,7 +22,9 @@ public enum ZEvesParseMessage {
   MSG_INVALID_AXPARA_ABILITY("Only named abbreviations can have ability within unboxed paragraph {0}."),
   MSG_UNKNOWNPARA_ABILITY("Cannot have ability tag on the unknown unboxed paragraph {0}."),
   MSG_WARNING_VDASH_IN_CONJECTURE("Z/Eves conjectures do not have '\\vdash?' symbol, and can only appear within 'theorem' environment: on theorem named {0} at {1}."),
-  MSG_WARNING_OPNAME_IN_REFNAME("Cannot use operator name in Z/Eves instantiation or renaming: on name {0} at {1}.")
+  MSG_WARNING_OPNAME_IN_REFNAME("Cannot use operator name in Z/Eves instantiation or renaming: on name {0} at {1}."),
+  MSG_UNBOXED_CONJPARA("Invalid Z/Eves conjectures as unboxed para with '\\vdash?' symbols. Z/Eves conjectures can appear within 'theorem' environments only: on theorem named {0} as {1}."),
+
   ;
 
   private final String message_;
