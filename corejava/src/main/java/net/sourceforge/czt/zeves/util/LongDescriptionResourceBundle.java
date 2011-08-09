@@ -39,13 +39,13 @@ public class LongDescriptionResourceBundle
     int i = 0;
     for (ZEvesConcreteSyntaxSymbol sym : ZEvesConcreteSyntaxSymbol.values()) {
       result[i][0] = sym.toString();
-      result[i][1] = sym.getOther().toString();
-      result[i][2] = sym.getDescription();
+      result[i][1] = ZEvesUtils.getConcreteSyntaxSymbolLongDesc(sym);
       i++;
     }
     return result;
   }
 
+  @Override
   public Object[][] getContents()
   {
     return CONTENTS;

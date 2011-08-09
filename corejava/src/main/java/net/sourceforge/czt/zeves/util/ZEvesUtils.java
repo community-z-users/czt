@@ -157,4 +157,36 @@ public final class ZEvesUtils
     
     return label;
   }
+
+  public static String getConcreteSyntaxSymbolShortDesc(ZEvesConcreteSyntaxSymbol sym)
+  {
+    StringBuilder rhs = new StringBuilder();
+    rhs.append(sym.toString());
+    ZEvesConcreteSyntaxSymbol other = sym.getOther();
+    while (other != null)
+    {
+      other = other.getOther();
+      rhs.append(" ");
+      rhs.append(other.toString());
+    }
+    rhs.append(" ");
+    rhs.append(sym.toString());
+    return rhs.toString();
+  }
+
+  public static String getConcreteSyntaxSymbolLongDesc(ZEvesConcreteSyntaxSymbol sym)
+  {
+    StringBuilder rhs = new StringBuilder();
+    rhs.append(sym.getDescription());
+    ZEvesConcreteSyntaxSymbol other = sym.getOther();
+    while (other != null)
+    {
+      other = other.getOther();
+      rhs.append(" ");
+      rhs.append(other.getDescription());
+    }
+    rhs.append(" ");
+    rhs.append(sym.getDescription());
+    return rhs.toString();
+  }
 }

@@ -39,8 +39,7 @@ public class ShortDescriptionResourceBundle
     int i = 0;
     for (ZEvesConcreteSyntaxSymbol sym : ZEvesConcreteSyntaxSymbol.values()) {
       result[i][0] = sym.toString();
-      result[i][1] = sym.getOther().toString();
-      result[i][2] = sym.toString();
+      result[i][1] = ZEvesUtils.getConcreteSyntaxSymbolShortDesc(sym);
       i++;
     }
     return result;
