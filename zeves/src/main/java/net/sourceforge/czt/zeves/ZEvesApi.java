@@ -225,7 +225,15 @@ public class ZEvesApi {
 		try {
 			result = getResponseReader().readXml(resultStr);
 		} catch (Exception e) {
-			throw new ZEvesException("Problems parsing Z/Eves response XML: " + e.getMessage(), e);
+			String msg = e.getMessage();
+			if (msg == null) {
+				// check cause
+				Throwable cause = e.getCause();
+				if (cause != null) {
+					msg = cause.getMessage();
+				}
+			}
+			throw new ZEvesException("Problems parsing Z/Eves response XML: " + msg, e);
 		}
 
 		ZEvesOutput output = checkError(result);
@@ -503,6 +511,6 @@ public class ZEvesApi {
 	}
 
 	private void debug(String msg) {
-//		System.out.println(msg);
+		System.out.println(msg);
 	}
 }
