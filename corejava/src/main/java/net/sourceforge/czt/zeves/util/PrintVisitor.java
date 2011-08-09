@@ -21,6 +21,8 @@ package net.sourceforge.czt.zeves.util;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.And;
+import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.ConjPara;
@@ -46,6 +48,7 @@ import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Section;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.visitor.AndPredVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.ExprPredVisitor;
@@ -101,6 +104,7 @@ public class PrintVisitor
         PredVisitor<String>,
         SchExprVisitor<String>,
         ZSchTextVisitor<String>,
+        AndPredVisitor<String>,
         ExprPredVisitor<String>,
         Qnt1ExprVisitor<String>,
         RenameExprVisitor<String>,
@@ -203,6 +207,21 @@ public class PrintVisitor
     result.append(" @ ");
     result.append(visit(term.getExpr()));
     return result.toString();
+  }
+
+  @Override
+  public String visitAndPred(AndPred term)
+  {
+    if (term.getAnd().equals(And.NL))
+    {
+      StringBuilder result = new StringBuilder();
+      result.append(visit(term.getLeftPred()));
+      result.append("\n");
+      result.append(visit(term.getRightPred()));
+      return result.toString();
+    }
+    else
+      return visitPred(term);
   }
 
   @Override
