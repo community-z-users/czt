@@ -35,14 +35,13 @@ import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 public class ParserState extends net.sourceforge.czt.parser.z.ParserState
 {
   private List<Pair<Pred, ZEvesLabel>> labelledPreds_;
-  private int freshAxiomNo_;
+  private static int freshAxiomNo_ = 1;
 
   private static final String AXIOM_LABEL_NAME = "axiom$";
 
   public ParserState(Source loc)
   {
     super(loc);
-    freshAxiomNo_ = 1;
     labelledPreds_ = new ArrayList<Pair<Pred, ZEvesLabel>>();
    // proofScripts_.reset();
   }
