@@ -2593,14 +2593,15 @@ non terminal Instantiation
 
 non terminal InstantiationList
     instantiations, replacements,
-    optReplacements, instantiationList;
+    //optReplacements,
+    instantiationList;
 
 non terminal Expr
     zevesRenaming;
 
 non terminal ZExprList
-    genericActuals,
-    optGenActuals;
+    //optGenActuals,
+    genericActuals;
 
 non terminal Object[]
       innerSimplCmd;
@@ -4162,7 +4163,7 @@ genericActuals ::=
         :}
         ;
 
-/*
+
 replacements ::=
         LSQUARE:ls instantiationList:rl RSQUARE:rs
         {:
@@ -4171,7 +4172,7 @@ replacements ::=
         :}
         ;
 
-optGenActuals ::=
+/*optGenActuals ::=
         genericActuals:ga
         {:
           RESULT = ga;
