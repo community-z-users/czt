@@ -90,7 +90,7 @@ public class ZCompiler
       // do the parsing
       parsed = sectMan.get(new Key<Spec>(this.getCurrentSection(), Spec.class));
     } catch (CommandException ce) {
-      errors.addAll(handleException(ce.getCause()));
+      errors.addAll(handleException(ce));
     }
 
     if (parsed != null) {
@@ -100,7 +100,7 @@ public class ZCompiler
             // typecheck sections
             sectMan.get(new Key<SectTypeEnvAnn>(((ZSect) sect).getName(), SectTypeEnvAnn.class));
           } catch (CommandException ce) {
-            errors.addAll(handleException(ce.getCause()));
+            errors.addAll(handleException(ce));
           }
         }
       }
@@ -128,9 +128,15 @@ public class ZCompiler
     return fParsedData;
   }
 
-  private List<? extends CztError> handleException(Throwable cause)
+  private List<? extends CztError> handleException(CommandException ex)
   {
 
+	  Throwable cause = ex.getCause();
+	  if (cause == null) {
+		  // use the exception itself
+		  cause = ex;
+	  }
+	  
 //    if (cause instanceof ParseException) {
 //      return ((ParseException) cause).getErrorList();
 //    }
