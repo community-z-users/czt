@@ -46,6 +46,7 @@ public class ShortDescriptionResourceBundle
     return result;
   }
 
+  @Override
   public Object[][] getContents()
   {
     return CONTENTS;

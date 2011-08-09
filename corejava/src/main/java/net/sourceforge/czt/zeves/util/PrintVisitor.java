@@ -212,7 +212,7 @@ public class PrintVisitor
   @Override
   public String visitAndPred(AndPred term)
   {
-    if (term.getAnd().equals(And.NL))
+    if (term.getAnd().equals(And.NL) || term.getAnd().equals(And.Semi))
     {
       StringBuilder result = new StringBuilder();
       result.append(visit(term.getLeftPred()));
