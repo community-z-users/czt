@@ -158,7 +158,7 @@ public interface ZEvesXMLPatterns {
      *       For this case, we can only accept term.getOp() as And, Chain, or Semi,
      *       but not NL.
      */
-    public static final String BIN_PRED_PATTERN = "{0} {1} {2}";
+    public static final String BIN_PRED_PATTERN = "({0}) {1} ({2})";
     
     /**
      * {0} expression   => getExpr(term.getLeftExpr());
@@ -167,7 +167,7 @@ public interface ZEvesXMLPatterns {
      *
      * Note: getRel implements the MemPred cases in the order they appear in Z.xsd
      */
-    public static final String MEMPRED_PATTERN = BIN_PRED_PATTERN;
+    public static final String MEMPRED_PATTERN = "{0} {1} {2}";
     
     /* expression[-n] XML productions */
     
@@ -271,7 +271,7 @@ public interface ZEvesXMLPatterns {
      * {2} expression   => getExpr(term.getZExprList().get(1));
      *
      */
-    public static final String MIXFIX_REF_EXPR_PATTERN = BIN_PRED_PATTERN;
+    public static final String MIXFIX_REF_EXPR_PATTERN = "{0} {1} {2}";
     
     /**
      * {0} rel          => getName(term.getZName()); 
