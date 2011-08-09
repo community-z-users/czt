@@ -17,7 +17,6 @@ import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
@@ -27,6 +26,7 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.OptempParaVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
 import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 
@@ -185,10 +185,10 @@ public class CztTreeNodeFactory
     @Override
     public Position visitConjPara(ConjPara term)
     {
-      // check for name annotation
-      ZName name = ZEvesUtils.getZNameAnn(term);
-      if (name != null) {
-        Position pos = getPosition(name);
+      // check for label annotation
+      ZEvesLabel l = ZEvesUtils.getLabel(term);
+      if (l != null) {
+        Position pos = getPosition(l.getName());
         if (pos != null) {
           return pos;
         }
