@@ -68,6 +68,7 @@ public class TypeChecker
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     exprChecker_ = new ExprChecker(this);
+    predChecker_ = new PredChecker(this);
 
     proofCommandChecker_ = new ProofCommandChecker(this);
     
@@ -88,6 +89,7 @@ public class TypeChecker
     return (net.sourceforge.czt.typecheck.zeves.impl.Factory) super.getFactory();
   }
 
+  @Override
   protected void setPreamble(String sectName, SectionManager sectInfo)
   {
     super.setPreamble(sectName, sectInfo);

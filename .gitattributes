@@ -812,6 +812,7 @@ typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ErrorAnn.jav
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ErrorMessage.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ExprChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ParaChecker.java -text
+typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/PredChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ProofCommandChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/SpecChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/TypeCheckCommand.java -text
@@ -835,6 +836,7 @@ typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/smalltest.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesability.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabels.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/zeveslabelsDuplicate-RedeclaredGlobalName.error -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesrenaming.tex -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/impl/AnnImpl.java -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/util/DependencyGraph.java -text

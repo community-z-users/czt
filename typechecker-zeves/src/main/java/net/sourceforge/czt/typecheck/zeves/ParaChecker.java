@@ -18,12 +18,17 @@
  */
 package net.sourceforge.czt.typecheck.zeves;
 
+import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
@@ -38,6 +43,7 @@ import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 public class ParaChecker
   extends Checker<Signature>        
   implements  ProofScriptVisitor<Signature>,
+              AxParaVisitor<Signature>,
               ConjParaVisitor<Signature>
 {   
   /**
@@ -55,6 +61,27 @@ public class ParaChecker
   public Signature visitTerm(Term term)
   {
     return term.accept(zParaChecker_);
+  }
+
+  @Override
+  public Signature visitAxPara(AxPara term)
+  {
+    // clear previous labelled preds known - maybe move it to Checker...
+    ((PredChecker)predChecker()).clearLabelledPredList();
+
+    // check it using the zParaChecker. This will eventually get to PredChecker
+    // within Z/Eves, which will collect potential ZLabel names
+    Signature result = term.accept(zParaChecker_);
+    if (term.getBox().equals(Box.AxBox))
+    {
+      // extend the AxPara signature with available labelled predicates. This method will clear the underlying
+      List<NameTypePair> labelledPreds = ((PredChecker)predChecker()).getLabelledPredsSignature();
+      for(NameTypePair labelledPred : labelledPreds)
+      {
+        result.getNameTypePair().add(labelledPred);
+      }
+    }
+    return result;
   }
 
   @Override
@@ -88,7 +115,9 @@ public class ParaChecker
   @Override
   public Signature visitConjPara(ConjPara term)
   {
+    // Z typechecker already checks for duplicate theorem names
     Signature result = term.accept(zParaChecker_);
+
 //    ZName thmName = factory().createZName(term.getName());
 //    Signature result = factory().createSignature(
 //            factory().list(factory().createNameTypePair(

@@ -94,7 +94,14 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker</artifactId>
       <type>test-jar</type>
-    </dependency> 
+    </dependency>
+    <!-- useful for debug testing
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-zeves</artifactId>
+      <version>1.6-SNAPSHOT</version>
+      <type>test-jar</type>
+    </dependency>-->
   </dependencies>  
   <!--
   <properties>

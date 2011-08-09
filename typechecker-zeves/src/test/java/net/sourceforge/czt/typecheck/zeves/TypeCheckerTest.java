@@ -1,6 +1,13 @@
 /**
 Copyright (C) 2004, 2005 Leo Freitas
-This file is part of the czt project.
+This file is part of t
+
+            @Override
+            public boolean compute(String name, SectionManager manager) throws CommandException
+            {
+              throw new UnsupportedOperationException("Not supported yet.");
+            }
+          }e czt project.
 The czt project contains free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -29,6 +36,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
@@ -85,13 +93,12 @@ public class TypeCheckerTest
       DEBUG_LEVEL = Level.WARNING;
     }
   }
-  private final SectionManager manager_ = new SectionManager("zeves");
+  //private final SectionManager manager_ = new SectionManager("zeves");
 
   public static Test suite()
   {
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
-
     TypeCheckerTest checkerTest = new TypeCheckerTest(false);
     checkerTest.collectTests(suite, TESTS_SOURCEDIR);
     return suite;
@@ -115,7 +122,7 @@ public class TypeCheckerTest
     //System.out.println("CZT-HOME = " + cztHome);
     if (cztHome == null || cztHome.length() == 0)
     {
-      cztHome = manager_.getProperty("czt.path");
+      //cztHome = manager_.getProperty("czt.path");
       //System.out.println("CZT-PATH = " + cztHome);
       if (cztHome == null)
       {
@@ -199,9 +206,11 @@ public class TypeCheckerTest
     }
   }
 
+  @Override
   protected SectionManager getManager()
   {
-    return manager_;
+    SectionManager result = new SectionManager("zeves");
+    return result;
   }
   
   protected Term parse(String file, SectionManager manager)
@@ -209,7 +218,9 @@ public class TypeCheckerTest
   {
     // don't use super.parse as it ignores unicode tests
     Source source = new FileSource(file);
+    Markup markup = Markup.getMarkup(file);
     source.setMarkup(Markup.getMarkup(file));
+    System.out.println("About to parse as " + markup + " file " + file);
     manager.put(new Key<Source>(file, Source.class), source);
     Term term = manager.get(new Key<Spec>(file, Spec.class));
     if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
@@ -256,13 +267,30 @@ public class TypeCheckerTest
     public void runTest()
     {
       SectionManager manager = getManager();
-      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
+      List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
       Term term = null;
       try
       {
         System.out.println("Test normal: " + file_);
         term = parse(file_, manager);
-        errors = typecheck(term, manager);
+        if (term == null)
+        {
+          fail("Parser returned null");
+        }
+        else
+        {
+          ParseException pe = manager.get(new Key<ParseException>(file_, ParseException.class));
+          if (pe.getErrors().isEmpty())
+          {
+            errors = typecheck(term, manager);
+          }
+          else
+          {
+            fail("Parse contains errors: " +
+                    "\n\tFile  : " + file_ +
+                    "\n\tErrors: " + pe.toString());
+          }
+        }
       }
       catch (RuntimeException e)
       {
@@ -280,7 +308,7 @@ public class TypeCheckerTest
       }
       if (errors.size() > 0)
       {
-        for(ErrorAnn errorAnn : errors)
+        for(net.sourceforge.czt.typecheck.z.ErrorAnn errorAnn : errors)
         {
           // only look for errors, not warnings
           if (errorAnn.getErrorType().equals(ErrorType.ERROR))
@@ -313,7 +341,7 @@ public class TypeCheckerTest
     public void runTest()
     {
       SectionManager manager = getManager();
-      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
+      List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
       try
       {
         System.out.println("Test error: " + file_);
@@ -324,7 +352,17 @@ public class TypeCheckerTest
         }
         else
         {
-          errors = typecheck(term, manager);
+          ParseException pe = manager.get(new Key<ParseException>(file_, ParseException.class));
+          if (pe.getErrors().isEmpty())
+          {
+            errors = typecheck(term, manager);
+          }
+          else
+          {
+            fail("Parse contains errors: " +
+                    "\n\tFile  : " + file_ +
+                    "\n\tErrors: " + pe.toString());
+          }
         }
       }
       catch (RuntimeException e)
@@ -350,7 +388,7 @@ public class TypeCheckerTest
       {
         String actual = null;
         boolean foundCorrectError = false;
-        for(ErrorAnn errorAnn : errors)
+        for(net.sourceforge.czt.typecheck.z.ErrorAnn errorAnn : errors)
         {
           // only look for errors, not warnings
           if (errorAnn.getErrorType().equals(ErrorType.ERROR))
