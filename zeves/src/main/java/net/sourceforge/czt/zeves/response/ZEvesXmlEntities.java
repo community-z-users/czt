@@ -111,6 +111,12 @@ public class ZEvesXmlEntities {
         header.append(getEntityDef(ZString.CROSS, "cross"));
         header.append(getEntityDef(ZString.NOT, "not"));
         
+        // add subscripts
+        for (int index = 0; index <= 9; index++) {
+        	String indexStr = String.valueOf(index);
+        	header.append(getEntityDef(ZString.SE + indexStr + ZString.NW, "sub" + indexStr));
+        }
+        
 		header.append("]>\n");
 		return header.toString();
 	}
