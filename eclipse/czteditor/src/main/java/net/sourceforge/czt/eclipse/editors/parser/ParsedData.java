@@ -180,7 +180,16 @@ public class ParsedData
     int start = startPos.intValue();
     int end = endPos.intValue();
     
-    return new Position(start, end - start);
+    int length = end - start;
+    if (start < 0 || end < 0 || length < 0) {
+      // somehow invalid (happens when the same terms are reused in AST and therefore they have
+      // strange LocAnns associated. For example, this happens for RefExpr, where its ZName is reused.
+      // For now, ignore this
+      // TODO update RefExpr location generation?
+      return null;
+    }
+    
+    return new Position(start, length);
   }
   
   private BigInteger getStart(Term term, IDocument document)
