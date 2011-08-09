@@ -537,7 +537,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         else if (word.equals(ZString.FUN))
             result = "&rarr;";
         else if (word.equals(ZString.PINJ))
-            result = "&raarbtl;";
+            result = "&rarrbtl;";
         else if (word.equals(ZString.INJ))
             result = "&rarrtl;";
         else if (word.equals(ZString.PSURJ))
@@ -577,6 +577,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 //            result = "&uplus;";
 //        else if (word.equals(ZString.???))//bag difference
 //            result = "&uminus;";                
+        // An interesting case - FINSET is used as operator name in RefExpr, while
+        // for powersets we have PowerExpr. So adding FINSET to operator name translation
+        else if (word.equals(ZString.FINSET))
+            result = "&Fopf;";
         else 
             result = word;
         return result;
@@ -1788,13 +1792,19 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 //    		Expr tLeft = tuple.getZExprList().get(0);
 //    		Expr tRight = tuple.getZExprList().get(1);
     		
-    		if (ZUtils.applExprArity(term) != 2) {
-    			throw new ZEvesIncompatibleASTException("Unsupported application expression - 2 arguments required", term);
+    		int arity = ZUtils.applExprArity(term);
+    		if (arity == 1) {
+    			// sometimes this happens (e.g. in #A), use the same as default ApplExpr
+    			ZExprList args = ZUtils.getApplExprArguments(term);
+    			return format(APPL_EXPR_PATTERN, op, getExpr(args.get(0)));
     		}
     		
-    		ZExprList args = ZUtils.getApplExprArguments(term);
+    		if (arity == 2) {
+    			ZExprList args = ZUtils.getApplExprArguments(term);
+    			return format(MIXFIX_APPL_EXPR_PATTERN, getExpr(args.get(0)), op, getExpr(args.get(1)));
+    		}
     		
-    		return format(MIXFIX_APPL_EXPR_PATTERN, getExpr(args.get(0)), op, getExpr(args.get(1)));
+    		throw new ZEvesIncompatibleASTException("Unsupported application expression - 1 or 2 arguments required", term);
     	}
     	
     	return format(APPL_EXPR_PATTERN, getExpr(term.getLeftExpr()), getExpr(term.getRightExpr()));

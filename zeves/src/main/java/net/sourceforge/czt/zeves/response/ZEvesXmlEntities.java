@@ -41,7 +41,7 @@ public class ZEvesXmlEntities {
         // Functions
         header.append(getEntityDef(ZString.PFUN, "rarrb"));
         header.append(getEntityDef(ZString.FUN, "rarr"));
-        header.append(getEntityDef(ZString.PINJ, "raarbtl"));
+        header.append(getEntityDef(ZString.PINJ, "rarrbtl"));
         header.append(getEntityDef(ZString.INJ, "rarrtl"));
         header.append(getEntityDef(ZString.PSURJ, "Rarrb"));
         header.append(getEntityDef(ZString.SURJ, "Rarr"));
@@ -70,8 +70,22 @@ public class ZEvesXmlEntities {
         header.append(getEntityDef(ZString.THETA, "theta"));
         header.append(getEntityDef(ZString.NAT, "Nopf"));
         header.append(getEntityDef(ZString.NUM, "Zopf"));
-        header.append(getEntityDef(ZString.ARITHMOS, "Aopf"));
-        header.append(getEntityDef(ZString.FINSET, "Fopf"));
+        
+		/*
+		 * Arithmos and Finset have symbols outside UTF-8 - they are in UTF-16
+		 * (represented in Java internally as Unicode surrogate pair). This
+		 * causes problems unmarshalling, because DTD parser just drops the
+		 * surrogate representation. Instead, using specific XML characters to
+		 * represent them, which get parsed correctly. Furthermore, defining
+		 * these as special entities is also problematic, because then somehow
+		 * they get doubled, e.g. F in first instance and FF in second, and so
+		 * on. Looks like the solution is to replace the entities at the
+		 * received text (e.g. fix the XML before parsing).
+		 */
+//        header.append(getEntityDef("&#x1d538;", "Aopf"));
+//        header.append(getEntityDef("&#x1d53d;", "Fopf"));
+//        header.append(getEntityDef(ZString.ARITHMOS, "Aopf"));
+//        header.append(getEntityDef(ZString.FINSET, "Fopf"));
         header.append(getEntityDef(ZString.POWER, "Popf"));
         header.append(getEntityDef(ZString.EMPTYSET, "empty"));
 		
@@ -95,7 +109,6 @@ public class ZEvesXmlEntities {
         header.append(getEntityDef(ZString.LAMBDA, "lambda"));
         header.append(getEntityDef(ZString.SPOT, "bullet"));
         header.append(getEntityDef(ZString.CROSS, "cross"));
-        header.append(getEntityDef(ZString.NOT, "not"));
         header.append(getEntityDef(ZString.NOT, "not"));
         
 		header.append("]>\n");

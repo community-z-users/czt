@@ -146,7 +146,17 @@ public class ZEvesResponseReader {
 				.replace("&cup$declaration", "cup$declaration")
 				.replace("&map$declaration", "map$declaration")
 				.replace("&notin$declaration", "notin$declaration")
-				.replace("&neq$declaration", "neq$declaration");
+				.replace("&neq$declaration", "neq$declaration")
+				
+				/*
+				 * Need to replace Arithmos and Finset ZEves XML symbols with
+				 * their unicode representation, because they get represented as
+				 * a UTF-16 surrogate pair and the parser somehow misses them
+				 * them. See ZEvesXmlEntities class for more explanation.
+				 */
+				.replace("&Aopf;", "&#x1d538;")
+				.replace("&Fopf;", "&#x1d53d;")
+				;
 	}
 
 }
