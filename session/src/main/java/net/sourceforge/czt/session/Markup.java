@@ -39,17 +39,19 @@ public enum Markup
   //TODO: These could come from a configuration file perhaps?
   public static List<String> getKnownLatexSuffixes()
   {
-    return Arrays.asList(".tex", ".zed", ".oz", ".circus", ".zedpatt", ".zev");
+    // .error is used in the type checker tests for negative test cases
+    return Arrays.asList(".tex", ".zed", ".oz", ".circus", ".zedpatt", ".zev", "error");
   }
   
   public static List<String> getKnownUnicodeSuffixes()
   {
-    return Arrays.asList(".zed8", ".zed16", ".oz8", ".oz16", ".circus8", ".circus16", ".zedpatt8", ".zedpatt16", ".zev8", "zev16");
+    return Arrays.asList(".zed8", ".zed16", ".oz8", ".oz16", ".circus8", ".circus16", ".zedpatt8", ".zedpatt16", ".zev8", "zev16", "error8", "error16");
   }
   
   public static List<String> getKnownXMLSuffixes()
   {
-    return Arrays.asList(".zml", ".xml");
+    // eml = for XML errors tests?
+    return Arrays.asList(".zml", ".xml", "eml");
   }
   
   public static Markup getMarkup(String filename)
