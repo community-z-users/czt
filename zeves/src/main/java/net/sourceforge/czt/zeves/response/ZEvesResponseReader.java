@@ -1,6 +1,8 @@
 package net.sourceforge.czt.zeves.response;
 
 import java.io.StringReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -49,6 +51,8 @@ import org.xml.sax.ext.DefaultHandler2;
  */
 public class ZEvesResponseReader {
 
+	private final static Pattern OP_DECL_XML_PATTERN = Pattern.compile("\\&[a-z]+\\$declaration");
+	
 	private final Unmarshaller unmarshaller;
 	private final XMLReader xmlReader;
 
@@ -141,22 +145,36 @@ public class ZEvesResponseReader {
 	 * @return
 	 */
 	private String fixXmlResponse(String xmlStr) {
-		// TODO improve this somehow?
-		return xmlStr.replace("&dom$declaration", "dom$declaration")
-				.replace("&cup$declaration", "cup$declaration")
-				.replace("&map$declaration", "map$declaration")
-				.replace("&notin$declaration", "notin$declaration")
-				.replace("&neq$declaration", "neq$declaration")
+		
+	 	StringBuilder xml = new StringBuilder(xmlStr);
+	 	Matcher matcher = OP_DECL_XML_PATTERN.matcher(xml);
+	 	while(matcher.find()) {
+	 		int startIndex = matcher.start();
+	 		// remove the first ampersand, then reference will be ok
+	 		xml.deleteCharAt(startIndex);
+	 		matcher.reset(xml);
+	 	}
+	 	
+	 	xmlStr = xml.toString();
+		
+		// Replaced by RegEx matching above
+//		return xmlStr.replace("&dom$declaration", "dom$declaration")
+//				.replace("&cup$declaration", "cup$declaration")
+//				.replace("&map$declaration", "map$declaration")
+//				.replace("&notin$declaration", "notin$declaration")
+//				.replace("&neq$declaration", "neq$declaration")
+//				.replace("&upto$declaration", "neq$declaration")
+//				.replace("&cardinality$declaration", "neq$declaration")
+//				.replace("&setminus$declaration", "neq$declaration")
 				
-				/*
-				 * Need to replace Arithmos and Finset ZEves XML symbols with
-				 * their unicode representation, because they get represented as
-				 * a UTF-16 surrogate pair and the parser somehow misses them
-				 * them. See ZEvesXmlEntities class for more explanation.
-				 */
-				.replace("&Aopf;", "&#x1d538;")
-				.replace("&Fopf;", "&#x1d53d;")
-				;
+		/*
+		 * Need to replace Arithmos and Finset ZEves XML symbols with
+		 * their unicode representation, because they get represented as
+		 * a UTF-16 surrogate pair and the parser somehow misses them
+		 * them. See ZEvesXmlEntities class for more explanation.
+		 */
+		return xmlStr.replace("&Aopf;", "&#x1d538;")
+				.replace("&Fopf;", "&#x1d53d;");
 	}
 
 }
