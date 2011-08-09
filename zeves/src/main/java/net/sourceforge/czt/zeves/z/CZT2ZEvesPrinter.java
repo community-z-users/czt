@@ -595,6 +595,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         // for powersets we have PowerExpr. So adding FINSET to operator name translation
         else if (word.equals(ZString.FINSET))
             result = "&Fopf;";
+        // for MINUS and NEG, just translate into normal minus
+        // Note: from short testing using &neg; crashes Z/Eves sometimes
+        else if (word.equals(ZString.MINUS))
+            result = "-";
+        else if (word.equals(ZString.NEG))
+            result = "-";
         else 
             result = word;
         return result;
