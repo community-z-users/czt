@@ -87,6 +87,16 @@ public class ParaChecker
   }
 
   //13.2.4.2 and 13.2.4.3
+  /**
+   * SchText typechecking within AxPara is slightly different from other SchText (e.g., within Expr or Pred).
+   * In here, only generic types are added to the typeEnv() (via addGenParamTypes), whereas variables declared
+   * within the schtext are added to the AxPara signature, which is later checked for duplicated add checkParaList.
+   * In the case of SchTextChecker, for Expr and Pred, the situation is different: types are explicitly added to
+   * the typeEnv(). Z extensions to AxPara that want to add names to the global environment, must do so through
+   * an extended AxPara Signature result, rather than directly at the SchText itself.
+   * @param axPara
+   * @return signature of all names within this axpara.
+   */
   public Signature visitAxPara(AxPara axPara)
   {
     //we enter a new variable scope for the generic parameters
