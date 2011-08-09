@@ -359,15 +359,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     
     /**
-     * Returns the string valued result for the current status of the ability flag
-     * present as a term annotation.
-     */
-    private String getAbility(Term term) {
-        ZEvesLabel l = ZEvesUtils.getLabel(term);
-        return l == null ? "" : l.getAbility().equals(LabelAbility.none) ? "" : l.getAbility().name();
-    }
-    
-    /**
      * Retrieves the location string attribute present as a term annotation.
      */
     private String getLocation(Term term) {
@@ -381,13 +372,36 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     
     /**
+     * Returns the string valued result for the current status of the ability flag
+     * present as a term annotation.
+     */
+    private String getAbility(Term term) {
+    	return getAbility(ZEvesUtils.getLabel(term));
+    }
+    
+    /**
+     * Returns the string valued result for the current status of the ability flag
+     * present as a term annotation.
+     */
+    private String getAbility(ZEvesLabel label) {
+    	if (label == null || label.getAbility() == LabelAbility.none) {
+    		return "";
+    	}
+    	
+    	return format(ABILITY_PATTERN, label.getAbility().name());
+    }
+
+    /**
      * Retrieves the usage string attribute present as a term annotation.
      * Usage is only allowed for ConjPara and Pred, where IllegalArgumentException is
      * thrown for other terms.
      */
-    private String getUsage(Term term) {
-        ZEvesLabel l = ZEvesUtils.getLabel(term);
-        return l == null ? "" : l.getUsage().equals(LabelUsage.none) ? "" : l.getUsage().name();
+    private String getUsage(ZEvesLabel label) {
+    	if (label == null || label.getUsage() == LabelUsage.none) {
+    		return "";
+    	}
+    	
+        return format(USAGE_PATTERN, label.getUsage().name());
     }
     
     private String getLabel(Term term) {
@@ -1231,7 +1245,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         if (l == null) {
           l = ZEvesUtils.addDefaultZEvesLabelTo(term);
         }
-        String result = format(THEOREM_DEF_PATTERN, getLocation(term), l.getAbility(), l.getUsage(),
+        String result = format(THEOREM_DEF_PATTERN, getLocation(term), getAbility(l), getUsage(l),
                 getName(l.getName()), NL_SEP + getGenFormals(term.getZNameList()),
                 axiomPart, getProofPart(term));
         return wrapPara(result);

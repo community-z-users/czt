@@ -115,7 +115,7 @@ public interface ZEvesXMLPatterns {
      *
      * Note: Provided axiom-part is not empty.
      */
-    public static final String THEOREM_DEF_PATTERN = "<theorem-def {0} {1} {2}>{3} {4}\n{5}\n{6}\n</theorem-def>";
+    public static final String THEOREM_DEF_PATTERN = "<theorem-def {0} {1} {2} >{3} {4}\n{5}\n{6}\n</theorem-def>";
     
     /**
      * {0} = ability      => label.getAbility();
@@ -132,7 +132,17 @@ public interface ZEvesXMLPatterns {
      * {4} = lenGth       => locAnn.getLength();
      * {5} = sourCe       => locAnn.getLoc();
      */
-    public static final String LOCATION_PATTERN = "location=L{0};C{1};S{2};E{3};G{4};R{5}";
+    public static final String LOCATION_PATTERN = "location=\"L{0};C{1};S{2};E{3};G{4};R{5}\"";
+    
+    /**
+     * {0} = Ability => label.getAbility();
+     */
+    public static final String ABILITY_PATTERN = "ability=\"{0}\"";
+    
+    /**
+     * {0} = Usage => label.getUsage();
+     */
+    public static final String USAGE_PATTERN = "usage=\"{0}\"";
 
     /* predicate, predicate-1 XML pattern strings */
     
