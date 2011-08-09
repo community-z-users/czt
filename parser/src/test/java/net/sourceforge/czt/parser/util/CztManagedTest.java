@@ -192,7 +192,13 @@ public abstract class CztManagedTest extends TestCase
     createSource(url);
     try
     {
-      return manager_.get(new Key<Spec>(getSourceName(url), Spec.class));
+      Spec term = manager_.get(new Key<Spec>(getSourceName(url), Spec.class));
+      ParseException pe = manager_.get(new Key<ParseException>(url.getFile(), ParseException.class));
+      if (pe != null && !pe.getErrors().isEmpty())
+      {
+        throw pe;
+      }
+      return term;
     }
     catch (CommandException e)
     {
