@@ -253,6 +253,15 @@ action code
       }
     }
 
+    /**
+     * Labels for unboxed paragraph are slighltly more complicated. That's because something like \begin[disabled]{zed}...\end{zed}
+     * are (ability-only) labels for all paragraphs within, hence the list as a parameter. Each paragraph will have inner elements
+     * within that are entitled to a label, say a GivenPara like [X,Y,Z] will have 3 labels, one for each name X, Y, Z. That is,
+     * GivenPara will have 3 labels, and each name will have its own. For FreePara, each FreeType and Branch have a label, as well
+     * as the top-level para, where the names are free-type names. For AxPara, it depends: if it's an abbreviation or horizontal
+     * schema (e.g., OmitBox), the name is obvious; other AxPara kinds are not allowed within unboxed-para lists. For ConjPara,
+     * an error is raised, since Z/Eves does not allow theorems in zed environments. OptempPara is also funny, but necessary.
+     */
     private void addZEvesLabel(List&lt;Para&gt; unboxedParaList, LabelAbility ability)
     {
       for (Para p : unboxedParaList)
@@ -320,8 +329,15 @@ action code
           // if \vdash? is present, this is unlikely to be within Z/Eves,
           // but rather as part of a unboxedPara within ZED rather than THEOREM
           // raise a warning? or error? ERROR?
-          //CztLogger.getLogger(<class/>.class).warning("Z/Eves conjectures do not have '\\vdash?' symbols, and can only appear within 'theorem' environment: " +
-          //  "on theorem named " + n.toString() + " at " + getLocation(p));
+          
+          // the assymetry of THEOREM is annoying: in there, we add the label. But it is still
+          // parsed as if it was an unboxed para (!) So, will get here. So, only raise the error
+          // if getLabel(p) doesn't have a label yet (e.g., haven't been processed as THEOREM!)
+          if (ZEvesUtils.getLabel(p) == null)
+          {
+            parser.report_error(ZEvesParseMessage.MSG_UNBOXED_CONJPARA, new Object[] { ((ConjPara)p).getName(), p }, getLocation(p));
+            //CztLogger.getLogger(<class/>.class).warning();
+          }
         }
         else
         {
@@ -336,16 +352,44 @@ action code
       addZEvesLabel(term, name, ability, ZEvesUtils.getDefaultUsage());
     }
 
+    /**
+     * Create ZEvesLabel with given parameters and attach it to Term, as well as Name.
+     * If the term or name already contains a label, a warning is raised.
+     */
     private void addZEvesLabel(Term term, Name name, LabelAbility ability, LabelUsage usage)
     {
       assert name != null;
-      //if (ZEvesUtils.getLabel(term) != null)
-      //{
+      if (ZEvesUtils.getLabel(term) != null)
+      {
          // warning: multiple labels? It does happen for GivenPara and others, though...
-      //}
+         // in that case, check the name. If it does have it already as well, then raise the warning
+         // (E.g., the name having it at a GvienPara, is a duplication)
+         if (ZEvesUtils.getLabel(name) != null)
+         {
+            CztLogger.getLogger(<class/>.class).warning("Duplicated ZEvesLabel for name " + name + " as " + ZEvesUtils.getLabel(name));
+            if (!ZEvesUtils.getLabel(name).equals(ZEvesUtils.getLabel(term)))
+            {
+              CztLogger.getLogger(<class/>.class).warning("Inconsistent ZEvesLabel for name " + name + " and term as " + ZEvesUtils.getLabel(name));
+            }
+         }
+      }
       ZEvesLabel label = factory_.createZEvesLabel(name, ability, usage);
       name.getAnns().add(label);
       term.getAnns().add(label);
+    }
+
+    /**
+     * Creates a ZEvesLabel with default values from ZEvesUtils, and a fresh name
+     * according to ParserState - this is usually the name for axioms, like axiom$1.
+     * The freshly created name has the label as an annotation.
+     */
+    private ZEvesLabel createDefaultZEvesLabel(LabelUsage usage)
+    {
+      ZName name = factory_.createZName(parserState_.freshLabelName());
+      ZEvesLabel result = factory_.createZEvesLabel(name,
+              ZEvesUtils.getDefaultAbility(), usage);
+      name.getAnns().add(result);
+      return result;
     }
 </add:zeves>
 
@@ -2583,7 +2627,7 @@ non terminal LabelUsage
     optUsage;
 
 non terminal ZEvesLabel
-    optLabel;
+    optAxLabel;
 
 non terminal ZEvesNote
     optZNote;
@@ -3920,6 +3964,7 @@ instOrRepl ::=
         ;
 
 // these names appear in very specific cases, like renaming during capture, say.
+/* just usa "name ::=" or "declName ::="
 specialName ::=
         DECORWORD:dw ZPROOFDOLLAR:d
         {:
@@ -3931,6 +3976,7 @@ specialName ::=
           RESULT = createZName(dw);
         :}
         ;
+*/
 
 simplificationCommand ::=
         PROVE:cmd BY innerSimplCmd:isc
@@ -4116,6 +4162,7 @@ genericActuals ::=
         :}
         ;
 
+/*
 replacements ::=
         LSQUARE:ls instantiationList:rl RSQUARE:rs
         {:
@@ -4124,7 +4171,6 @@ replacements ::=
         :}
         ;
 
-/*
 optGenActuals ::=
         genericActuals:ga
         {:
@@ -4244,6 +4290,9 @@ genericAxDefinition ::=
         GENAX:genax formalParameters:fp axiomaticSchemaText:st END:end
         {:
            RESULT = factory_.createAxPara(fp, st, Box.AxBox);
+           <add:zeves>
+           parserState_.clearLabelPredList();
+           </add:zeves>
            addLocAnn(RESULT, getLocation(genax, end));
         :}
         ;
@@ -4266,6 +4315,9 @@ axiomaticDefinition ::=
         {:
            ZNameList zdnl = factory_.createZNameList();
            RESULT = factory_.createAxPara(zdnl, st, Box.AxBox);
+           <add:zeves>
+           parserState_.clearLabelPredList();
+           </add:zeves>
            addLocAnn(RESULT, getLocation(ax, end));
         :}
         ;
@@ -6736,15 +6788,11 @@ schemaText ::=
         ;
 
 axiomaticSchemaText ::=
-        optDeclPart:odp BAR
-          <add:zeves>optLabel:label</add:zeves> predicate:p
+        optDeclPart:odp BAR predicate:p
         {:
            RESULT = factory_.createZSchText(odp, p);
            <add:zeves>
-           if (label != null &amp;&amp; label.getName() != null)
-           {
-             p.getAnns().add(label);
-           }
+           parserState_.associateLabelToPred();
            </add:zeves>
            addLocAnn(RESULT, getLocation(getLocation(odp),
                                          getLocation(p)));
@@ -6758,16 +6806,18 @@ axiomaticSchemaText ::=
         ;
 
 <add:zeves>
-optLabel ::=
+optAxLabel ::=
         LLABEL:l optLabelAbility:ability optUsage:usage thmName:n RLABEL:r
         {:
           RESULT = factory_.createZEvesLabel(n, ability, usage);
+          n.getAnns().add(RESULT);
           addLocAnn(RESULT, getLocation(l, r));
         :}
         |
         // empty
         {:
-          RESULT = factory_.createZEvesLabel();
+          // create a label as an axiom
+          RESULT = createDefaultZEvesLabel(LabelUsage.axiom);
         :}
         ;
 </add:zeves>
@@ -7486,14 +7536,23 @@ erOrSr ::=
 
 // This is for terms which MUST be predicates, so MIGHT contain NL/SEMI.
 predicate ::=
-        predicate:lhs sep:s term:rhs
+        predicate:lhs sep:s <add:zeves>optAxLabel:label</add:zeves> term:rhs
         {:
-           RESULT = factory_.createAndPred(lhs, pred(rhs), s);
+           Pred rhsp = pred(rhs);
+           <add:zeves>
+           parserState_.storeZEvesLabelFor(rhsp, label);
+           </add:zeves>
+           RESULT = factory_.createAndPred(lhs, rhsp, s);
            addLocAnn(RESULT, getLocation(sleft, sright, lhs, rhs));
         :}
         |
-        term:p
-        {: RESULT = pred(p); :}
+        <add:zeves>optAxLabel:label</add:zeves> term:p
+        {:
+            RESULT = pred(p);
+            <add:zeves>
+            parserState_.storeZEvesLabelFor(RESULT, label);  
+            </add:zeves>
+        :}
         ;
 
 expression ::=

@@ -1699,13 +1699,11 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   {ABILITY} 
       {
         String result = yytext();
-        //System.out.println("SEEN ABILITY = " + result);
         return result(LatexSym.PROOFWORD, result);
       }
   {USAGE}
       {
         String result = yytext();
-        //System.out.println("SEEN USAGE = " + result);
         return result(LatexSym.PROOFWORD, result);
       }
 
