@@ -659,6 +659,7 @@ public class PrintVisitor
       case Next:
         return "next";
       case Split:
+        assert term.getPred() != null : "Invalid split - null predicate";
         return "split " + visit(term.getPred());
       default:
         throw new Error();
