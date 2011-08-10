@@ -13,8 +13,8 @@
       <char id="DISABLEDDEFTAGCHAR" hex="2613" description="disabled paragraph definition character marker (unboxed cross)"/>
     </BOXCHAR>
     <BRACKET>
-      <char id="LLABEL" hex="2329" description="left label bracket"/>
-      <char id="RLABEL" hex="232A" description="right label bracket"/>
+      <char id="LLABEL" hex="300A" description="left label bracket"/>
+      <char id="RLABEL" hex="300B" description="right label bracket"/>
       <char id="LZNOTE" hex="231C" description="left znote bracket"/>
       <char id="RZNOTE" hex="231D" description="right znote bracket"/>
     </BRACKET>
