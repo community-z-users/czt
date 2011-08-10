@@ -3,8 +3,7 @@
 ╷
   foo: ℕ
 |
-  〈 disabled rule dFoo 〉 foo = 10
-  〈 disabled rule dFoo2 〉foo > 1
+ 《 disabled rule dFoo 》 foo = 10
 └
 
 ─  theorem  dFooThm  ∃ n: ℕ ⦁ n = foo
@@ -14,3 +13,10 @@
  use dFoo;
  prove;
  └
+
+╷
+  bar: ℕ
+|
+ 《 disabled rule dBar 》
+  bar = 10
+└
