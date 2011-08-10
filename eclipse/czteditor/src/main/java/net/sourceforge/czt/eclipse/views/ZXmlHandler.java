@@ -74,6 +74,15 @@ public class ZXmlHandler extends HandlerBase
     else if ("ITEM".equalsIgnoreCase(element)) {
       if (fUnicode == null)
         fUnicode = fName;
+      /*
+      System.out.println("ZCHAR    = " + fName + 
+    		  		   "\n UNICODE = " + 
+    		  		   		(fUnicode.length() == 1 ? 
+    		  				   "U+" + Integer.toHexString(fUnicode.codePointAt(0)) : 
+    		  					fUnicode)+ 
+    		  		   "\n LATEX   = " + fLatex +
+    		  		   "\n DESCRIP = " + fDescription);	
+      */
       fCurrentRow.add(new ZChar(fName, fUnicode, fLatex, fDescription));
       fName = fUnicode = fLatex = fDescription = null;
     }
