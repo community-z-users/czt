@@ -108,6 +108,20 @@ action code
     return "\\begin{" + string + "}\n";
   }
 
+  <add:zeves>
+  private String begin(String string, LatexCommand ability)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append("\\begin");
+    if (ability != null &amp;&amp; !ability.getName().isEmpty())
+      result.append(ability.getName());
+    result.append("{");
+    result.append(string);
+    result.append("}\n");
+    return result.toString();
+  }
+  </add:zeves>
+
   private String end(String string)
   {
     return "\n\\end{" + string + "}\n\n";
@@ -656,12 +670,14 @@ non terminal              input, // narrWordList, // never used!
                           paragraphList,
                           specialSeq;
 // non terminal ZSect        sectionHeader;
-non terminal String       markup, para, zpara, zedPara, wordmarkup;
+non terminal String       markup, para, zpara, zedPara, 
+                wordmarkup;
 <add:oz>
 non terminal LatexCommand innerPara;
 </add:oz>
 non terminal LatexCommand token, tokenSeq, sectHeadSeq,
-             paren, special, decorword;
+     <add:zeves>optDefAbility, optThmAbility,</add:zeves>
+                paren, special, decorword;
 
    input ::= paragraphList
              {: parser.getWriter().flush(); :}
@@ -716,9 +732,12 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 setupMarkupTable(table);
              :}
              |
-             token:t tokenSeq:s
+             <add:zeves>
+                optDefAbility:ability
+              </add:zeves>
+              token:t tokenSeq:s
              {:
-                String result = begin("zed");
+                String result = begin("zed" <add:zeves>, ability</add:zeves>);
                 if (s != null) { result += concate(t,s).getName(); }
                 result += end("zed");
                 parser.write(result);
@@ -742,16 +761,21 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              {: RESULT = null; :}
              ;             
 
-   zpara ::= ZED THEOREM decorword:w tokenSeq:s END
+   zpara ::= ZED
+              <add:zeves>
+                optThmAbility:ability
+              </add:zeves>
+             THEOREM decorword:w tokenSeq:s END
              {:
                 System.out.println("DEBUG: Unicode2Latex sees THEOREM "+w.getName());
-                String result = begin("theorem") + "{" + w.getName() + "}";
+                String result = begin("theorem" <add:zeves>, ability</add:zeves>) + "{" + w.getName() + "}";
                 if (s != null) result += s.getName();
                 result += end("theorem");
                 parser.write(result);
              :}
              |
-             ZED specialSeq zedPara END
+             ZED
+             specialSeq zedPara END
              |
              AX tokenSeq:s END
              {:
@@ -761,9 +785,13 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 parser.write(result);
              :}
              |
-             SCH specialSeq decorword:w tokenSeq:s END
+             SCH
+              <add:zeves>
+                optDefAbility:ability
+              </add:zeves>
+             specialSeq decorword:w tokenSeq:s END
              {:
-                String result = begin("schema") + "{" + w.getName() + "}";
+                String result = begin("schema" <add:zeves>, ability</add:zeves>) + "{" + w.getName() + "}";
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
@@ -984,7 +1012,40 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              PROVISO
              {: RESULT = resultTT("\\proviso", "\u25B8"); :}
 </add:zpatt>
+<add:zeves>
+             |
+             ZPROOFCOMMANDSEP
+             {:
+                RESULT = resultFT(";", ZEvesString.ZPROOFCOMMANDSEP);
+             :}
+             |
+             ZPROOFDOLLAR
+             {:
+                RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
+             :}
+ </add:zeves>
              ;
+
+
+<add:zeves>
+ optDefAbility ::=
+             DISABLEDDEFTAG
+             {:
+                RESULT = resultFF("[disabled]", ZEvesString.DISABLEDDEFTAG);
+             :}
+             |
+             // empty
+             ;
+
+ optThmAbility ::=
+             DISABLEDTHMTAG
+             {:
+                RESULT = resultFF("[disabled]", ZEvesString.DISABLEDTHMTAG);
+             :}
+             |
+             // empty
+             ;
+</add:zeves>
 
    decorword ::= DECORWORD:s
              {:
@@ -1114,6 +1175,18 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 RESULT = resultTT("~\\rcirctimeout~", CircusString.RCIRCTIMEOUT);
              :}
 </add:circus>
+<add:zeves>
+             |
+             LLABEL
+             {:
+                RESULT = resultFT("\\Label{", ZEvesString.LLABEL);
+             :}
+             |
+             RLABEL
+             {:
+                RESULT = resultTF("}", ZEvesString.RLABEL);
+             :}
+ </add:zeves>
              ;
 
   specialSeq ::=
@@ -1134,14 +1207,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 String latex = indent + "\\t" + i;
                 RESULT = resultTT(latex, indent);
              :}
- <add:zeves>
-             |
-             ZPROOFCOMMANDSEP
-             {:
-                RESULT = resultFT(";", ZEvesString.ZPROOFCOMMANDSEP);
-             :}
- </add:zeves>
-             ;
+              ;
 
 <add:oz>
   innerPara ::=
