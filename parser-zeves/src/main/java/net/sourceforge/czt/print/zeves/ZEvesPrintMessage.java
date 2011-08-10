@@ -19,15 +19,50 @@
 
 package net.sourceforge.czt.print.zeves;
 
+import java.text.MessageFormat;
+
 /**
  *
  * @author Leo Freitas
  * @date Aug 10, 2011
  */
-public class ZEvesPrintMessage {
+public enum ZEvesPrintMessage {
 
-  public String getMessage()
+  MSG_PRINT_LATEX_EXCEPTION("An exception occurred while trying to print " +
+        "LaTeX markup for term within section {0}"),
+  MSG_PRINT_OLDLATEX_EXCEPTION("An exception occurred while trying to print " +
+        "old (Spivey's) LaTeX markup within section {0}"),
+  MSG_PRINTTERMLIST_EXCEPTION("{0} is processed by printTermList directly")
+
+        ;
+
+  private final String message_;
+  private final String explanation_;
+
+  ZEvesPrintMessage(String message)
   {
-    return null;
+    message_ = message;
+    explanation_ = null;
+  }
+
+  ZEvesPrintMessage(String message, String explanation)
+  {
+    message_ = message;
+    explanation_ = explanation;
+  }
+
+  String getMessage()
+  {
+    return message_;
+  }
+
+  String getExplanation()
+  {
+    return explanation_;
+  }
+
+  String format(Object... args)
+  {
+    return MessageFormat.format(message_, args);
   }
 }

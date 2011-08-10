@@ -91,9 +91,7 @@ public class OldLatexPrinterCommand
       parser.parse();
     }
     catch (Exception e) {
-      String msg = "An exception occurred while trying to print " +
-        "old (Spivey's) LaTeX markup.";
-      throw new PrintException(msg, e);
+      throw new PrintException(ZEvesPrintMessage.MSG_PRINT_OLDLATEX_EXCEPTION.format(sectionName), e);
     }
   }
 }

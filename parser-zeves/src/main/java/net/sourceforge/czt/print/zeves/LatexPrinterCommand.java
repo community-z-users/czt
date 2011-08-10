@@ -52,9 +52,7 @@ public class LatexPrinterCommand
       parser.parse();
     }
     catch (Exception e) {
-      String msg = "An exception occurred while trying to print " +
-        "LaTeX markup for term within section " + sectionName;
-      throw new PrintException(msg, e);
+      throw new PrintException(ZEvesPrintMessage.MSG_PRINT_LATEX_EXCEPTION.format(sectionName), e);
     }
   }
 

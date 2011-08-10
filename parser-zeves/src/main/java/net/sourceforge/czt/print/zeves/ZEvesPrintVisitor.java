@@ -134,19 +134,19 @@ public class ZEvesPrintVisitor
   @Override
   public Object visitProofCommandList(ProofCommandList term)
   {
-    throw new PrintException("proof command list is processed by printTermList directly");
+    throw new PrintException(ZEvesPrintMessage.MSG_PRINTTERMLIST_EXCEPTION.format(term.getClass().getName()));
   }
-
+  
   @Override
   public String visitInstantiationList(InstantiationList term)
   {
-    throw new PrintException("instantiation list is processed by printTermList directly");
+    throw new PrintException(ZEvesPrintMessage.MSG_PRINTTERMLIST_EXCEPTION.format(term.getClass().getName()));
   }
 
   @Override
   public Object visitProofCommandInfoList(ProofCommandInfoList term)
   {
-    throw new PrintException("proof command info list is processed by printTermList directly");
+    throw new PrintException(ZEvesPrintMessage.MSG_PRINTTERMLIST_EXCEPTION.format(term.getClass().getName()));
   }
 
 
