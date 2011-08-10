@@ -98,12 +98,18 @@ public final class DebugUtils
         String value = symbol.value.toString();
         result += " with value '";
         final int maxLength = 20;
-        if (value.length() <= maxLength) {
-          result += value + "'";
+        if (value.length() == 1 &&
+                !Character.isWhitespace(value.codePointAt(0)) &&
+                !Character.isLetterOrDigit(value.codePointAt(0))) {
+          result += "U+" + Integer.toHexString(value.codePointAt(0));
+        }
+        else if(value.length() <= maxLength) {
+          result += value;
         }
         else {
-          result += value.substring(0, maxLength) + "...'";
+          result += value.substring(0, maxLength) + "...";
         }
+        result += "'";
 //        if (symbol.value instanceof Decorword)
 //        {
 //          Decorword dw = (Decorword)symbol.value;
