@@ -1,0 +1,16 @@
+﻿─ section zeveslabels parents standard_toolkit
+└
+╷
+  foo: ℕ
+|
+  〈 disabled rule dFoo 〉 foo = 10
+  〈 disabled rule dFoo2 〉foo > 1
+└
+
+─  theorem  dFooThm  ∃ n: ℕ ⦁ n = foo
+└
+
+├ dFooThm
+ use dFoo;
+ prove;
+ └

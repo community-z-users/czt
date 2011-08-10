@@ -839,6 +839,7 @@ typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/smalltest.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesability.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabels.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/zeveslabels.zed8 -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabelsDuplicate-RedeclaredGlobalName.error -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesrenaming.tex -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/impl/AnnImpl.java -text
