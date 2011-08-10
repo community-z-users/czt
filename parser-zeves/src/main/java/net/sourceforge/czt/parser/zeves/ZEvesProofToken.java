@@ -37,7 +37,7 @@ public enum ZEvesProofToken implements Token
   ZPROOFCOMMANDSEP(ZEvesString.ZPROOFCOMMANDSEP, NewlineCategory.BOTH),
 
   LLABEL(ZEvesString.LLABEL + ZString.SPACE, NewlineCategory.NEITHER),
-  RLABEL(ZString.SPACE + ZEvesString.RLABEL, NewlineCategory.NEITHER),
+  RLABEL(ZString.SPACE + ZEvesString.RLABEL, NewlineCategory.AFTER),
   LZNOTE(ZEvesString.LZNOTE + ZString.SPACE, NewlineCategory.NEITHER),
   RZNOTE(ZString.SPACE + ZEvesString.RZNOTE, NewlineCategory.NEITHER),
 
