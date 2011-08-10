@@ -28,6 +28,10 @@
            description="Horizontal Definition"
            unicode="&#x2500;&#xA;  NAME == EXPR&#xA;&#x2514;&#xA;"
            latex="\begin{zed}&#xA;  NAME == EXPR&#xA;\end{zed}&#xA;"/>
+     <item name="&#x2500 &#x2613;"
+           description="Disabled unboxed environment (zed)"
+           unicode="&#x2500; &#x2613; &#x2514;&#xA;"
+           latex="\begin[disabled]{zed}&#xA;  PARA \also PARAS &#xA;\end{zed}&#xA;"/>
      <item name="Sch"
            description="Schema Definition"
            unicode="&#x250C; NAME&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
@@ -40,18 +44,14 @@
            description="Conjecture environment named as rewrite rule"
            unicode="&#x2500;&#xA; theorem rule NAME &#xA; PRED&#xA;&#x2514;&#xA;"
            latex="\begin{theorem}{rule NAME}&#xA; PRED&#xA;\end{theorem}&#xA;"/>
-     <item name="&#x22A2;"
+     <item name="&#x22A2; &#x2612;"
            description="Disabled conjecture environment named as a rewrite rule"
            unicode="&#x2500; &#x2612; theorem rule NAME &#xA; PRED&#xA;&#x2514;&#xA;"
            latex="\begin[disabled]{theorem}{rule NAME}&#xA; PRED&#xA;\end{theorem}&#xA;"/>
-     <item name="&#x251C;"
-           description="ZEves proof environment"
+     <item name="&#x251C; P"
+           description="Proof script"
            unicode="&#x251C;&#xA; NAME &#xA; &#x2514;&#xA;"
            latex="\begin{zproof}{NAME}&#xA; \end{zproof}&#xA;"/>
-     <item name="&#x251C;"
-           description="Disabled unboxed environment (zed)"
-           unicode="&#x2500; &#x2613; &#x2514;&#xA;"
-           latex="\begin[disabled]{zed}&#xA;  PARA \also PARAS &#xA;\end{zed}&#xA;"/>
      <item name="&#x2613;"
            description="Disabled definition tag"
            unicode="&#x2613;"
@@ -60,7 +60,7 @@
            description="Disabled theorem tag"
            unicode="&#x2612;"
            latex="\begin[disabled]"/>
-      <item name="&#x2329; ... &#x232A;"
+      <item name="&#x2329; . &#x232A;"
            description="Labelled predicate"
            unicode="&#x2329; disabled rule NAME &#x232A;"
            latex="\Label{disabled rule NAME}"/>

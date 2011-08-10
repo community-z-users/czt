@@ -23,7 +23,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import javax.swing.JScrollPane;
 import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.*;
@@ -62,6 +61,7 @@ public class ZCharMap extends JPanel
   private TableModel zTableModel_;
   private TableModel objectZTableModel_;
   private TableModel circusTableModel_;
+  private TableModel zevesTableModel_;
 
   /**
    * The status bar label.
@@ -115,6 +115,7 @@ public class ZCharMap extends JPanel
     objectZTableModel_ =
       new ZCharTable(getClass().getResource("/ObjectZTable.xml"));
     circusTableModel_ = new ZCharTable(getClass().getResource("/CircusTable.xml"));
+    zevesTableModel_ = new ZCharTable(getClass().getResource("/ZEvesTable.xml"));
     mTable = new JTable();
     setTableModel();    
     
@@ -144,6 +145,7 @@ public class ZCharMap extends JPanel
   //###################### METHODS #############################
   //############################################################
 
+  @Override
   public void handleMessage(EBMessage message)
   {
     if (message instanceof EditPaneUpdate) {
@@ -181,6 +183,8 @@ public class ZCharMap extends JPanel
         mTable.setModel(objectZTableModel_);
       } else if ("circus".equals(mode.toString()) || "circuslatex".equals(mode.toString())) {
         mTable.setModel(circusTableModel_);
+      } else if ("zeves".equals(mode.toString()) || "zeveslatex".equals(mode.toString())) {
+        mTable.setModel(zevesTableModel_); 
       } else {
         mTable.setModel(zTableModel_);
       }
@@ -275,6 +279,7 @@ public class ZCharMap extends JPanel
      *
      * @return the number of columns in this table.
      */
+    @Override
     public int getColumnCount()
     {
       int erg = 0;
@@ -289,6 +294,7 @@ public class ZCharMap extends JPanel
      *
      * @return the number of rows in this table.
      */
+    @Override
     public int getRowCount()
     {
       return mTableArray.length;
@@ -303,6 +309,7 @@ public class ZCharMap extends JPanel
      *         or the empty string (should never be
      *         <code>null</code>). 
      */
+    @Override
     public Object getValueAt(int row, int col)
     {
       try {
@@ -321,6 +328,7 @@ public class ZCharMap extends JPanel
      * @return <code>String.class</code> if <code>col</code>
      *         is zero, <code>ZChar.class</code> otherwise.
      */
+    @Override
     public Class<?> getColumnClass(int col)
     {
       if (col==0) return String.class;
@@ -332,6 +340,7 @@ public class ZCharMap extends JPanel
      *
      * @return <code>null</code>
      */
+    @Override
     public String getColumnName(int col)
     {
       return null;
@@ -344,6 +353,7 @@ public class ZCharMap extends JPanel
    */  
   class ActionHandler implements ActionListener
   {
+    @Override
     public void actionPerformed(ActionEvent event)
     {
       mTable.repaint();
@@ -358,6 +368,7 @@ public class ZCharMap extends JPanel
     /**
      * Inserts the clicked character into the jedit editor window.
      */
+    @Override
     public void mouseClicked(MouseEvent event)
     {
       Point p = event.getPoint();
@@ -379,6 +390,7 @@ public class ZCharMap extends JPanel
     /**
      * Updates the status bar depending on the mouse position.
      */
+    @Override
     public void mouseMoved(MouseEvent event)
     {
       Point p = event.getPoint();
@@ -398,6 +410,7 @@ public class ZCharMap extends JPanel
     /**
      * Updates the status bar.
      */
+    @Override
     public void mouseExited(MouseEvent event)
     {
       status.setText(" ");
@@ -423,6 +436,7 @@ public class ZCharMap extends JPanel
       }
     }
 
+    @Override
     public Component getTableCellRendererComponent(JTable table,
 						   Object zchar, 
 						   boolean isSelected,
@@ -434,6 +448,7 @@ public class ZCharMap extends JPanel
       return this;
     }
 
+    @Override
     protected void paintComponent(Graphics graphics)
     {
       if (graphics instanceof Graphics2D) {
@@ -454,6 +469,7 @@ public class ZCharMap extends JPanel
       setFont(mView.getTextArea().getPainter().getFont());
     }
 
+    @Override
     protected void paintComponent(Graphics graphics)
     {
       if (graphics instanceof Graphics2D) {
