@@ -289,8 +289,8 @@ RCIRCTIMEOUT = "\u22B3" /* right timeout bracket */
 <add:zeves>
 LZNOTE = "\u231C" /* znote comment */
 RZNOTE = "\u231D"
-LLABEL = "\u2329" /* labelled predicate */
-RLABEL = "\u232A"
+LLABEL = "\u300A" //"\u2329" /* labelled predicate */
+RLABEL = "\u300B" //"\u232A"
 </add:zeves>
 
 /* Box characters (6.4.4.3) */
