@@ -20,6 +20,7 @@
 package net.sourceforge.czt.print.zeves;
 
 import java.util.Iterator;
+import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
@@ -39,14 +40,15 @@ public class ZmlScanner
    * Creates a new ZML scanner.
    * @param term
    * @param manager
+   * @param prop
    */
-  public ZmlScanner(Term term, WarningManager manager)
+  public ZmlScanner(Term term, WarningManager manager, Properties prop)
   {
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector(Sym.class);
-    ZEvesPrintVisitor visitor = new ZEvesPrintVisitor(collector, manager);
+    ZEvesPrintVisitor visitor = new ZEvesPrintVisitor(collector, prop, manager);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
 

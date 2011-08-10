@@ -1,26 +1,55 @@
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik, Leo Freitas
-  This file is part of the czt project.
+Copyright (C) 2004, 2005, 2006 Petra Malik, Leo Freitas
+This file is part of the czt project.
 
-  The czt project contains free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-  The czt project is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.czt.print.zeves;
 
 import java.util.Properties;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
+import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.util.WarningManager;
+import net.sourceforge.czt.zeves.ast.ApplyCommand;
+import net.sourceforge.czt.zeves.ast.CaseAnalysisCommand;
+import net.sourceforge.czt.zeves.ast.Instantiation;
+import net.sourceforge.czt.zeves.ast.InstantiationKind;
+import net.sourceforge.czt.zeves.ast.InstantiationList;
+import net.sourceforge.czt.zeves.ast.LabelAbility;
+import net.sourceforge.czt.zeves.ast.LabelUsage;
+import net.sourceforge.czt.zeves.ast.NormalizationCommand;
+import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
+import net.sourceforge.czt.zeves.ast.ProofCommandInfoList;
+import net.sourceforge.czt.zeves.ast.ProofCommandList;
+import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.ast.ProofType;
+import net.sourceforge.czt.zeves.ast.QuantifiersCommand;
+import net.sourceforge.czt.zeves.ast.SimplificationCommand;
+import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
+import net.sourceforge.czt.zeves.ast.UseCommand;
+import net.sourceforge.czt.zeves.ast.WithCommand;
+import net.sourceforge.czt.zeves.ast.ZEvesLabel;
+import net.sourceforge.czt.zeves.ast.ZEvesNote;
+import net.sourceforge.czt.zeves.util.ZEvesUtils;
+import net.sourceforge.czt.zeves.visitor.ZEvesVisitor;
 
 /**
  * An Circus visitor used for printing.
@@ -28,1132 +57,438 @@ import net.sourceforge.czt.z.util.WarningManager;
  * @author Petra Malik, Leo Freitas
  */
 public class ZEvesPrintVisitor
-    extends net.sourceforge.czt.print.z.ZPrintVisitor {
+        extends net.sourceforge.czt.print.z.ZPrintVisitor
+        implements ZEvesVisitor<Object>
+{
 
-    private final WarningManager warningManager_;
+  private final WarningManager warningManager_;
 
-    /**
-     * Creates a new Object-Z print visitor.
-     * The section information should be able to provide information of
-     * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
-     */
-    public ZEvesPrintVisitor(ZPrinter printer, WarningManager wm) {
-        super(printer);
-        warningManager_ = wm;
+  /**
+   * Creates a new Object-Z print visitor.
+   * The section information should be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * @param printer
+   * @param wm
+   */
+  public ZEvesPrintVisitor(ZPrinter printer, WarningManager wm)
+  {
+    super(printer);
+    warningManager_ = wm;
+  }
+
+  public ZEvesPrintVisitor(ZPrinter printer, Properties properties, WarningManager wm)
+  {
+    super(printer, properties);
+    warningManager_ = wm;
+  }
+
+  @Override
+  public Object visitConjPara(ConjPara conjPara)
+  {
+    print(ZToken.ZED);
+    ZEvesLabel label = ZEvesUtils.getLabel(conjPara);
+    if (label != null && label.getAbility().equals(LabelAbility.disabled))
+    {
+      print(ZEvesProofToken.DISABLEDTHMTAG);
     }
-
-    public ZEvesPrintVisitor(ZPrinter printer, Properties properties, WarningManager wm) {
-        super(printer, properties);
-        warningManager_ = wm;
+    if (conjPara.getName() != null) {
+      print(ZKeyword.THEOREM);
+      if (label != null && label.getUsage().equals(LabelUsage.none))
+      {
+        switch (label.getUsage())
+        {
+          case rule:
+            print(ZEvesProofKeyword.THMRULE);
+            break;
+          case grule:
+            print(ZEvesProofKeyword.THMGRULE);
+            break;
+          case frule:
+            print(ZEvesProofKeyword.THMFRULE);
+            break;
+          case axiom:
+            print(ZEvesProofKeyword.THMAXIOM);
+            break;
+        }
+      }
+      print(ZToken.DECORWORD, new Decorword(conjPara.getName()));
     }
-//
-//    /***********************************************************
-//     * Auxiliary methods
-//     ***********************************************************/
-//
-//    protected void print(CircusKeyword keyword) {
-//        /* CIRCDEF is the only keyword that is a scanner token */
-//        if (keyword.equals(CircusKeyword.CIRCDEF))
-//            print((Token) keyword);
-//        else
-//            printDecorword(keyword.spelling());
-//    }
-//
-//    private void printActualParams(ZExprList term, boolean indexes) {
-//        if (term != null && !term.isEmpty()) {
-//            print(indexes ? CircusToken.CIRCLINST : ZToken.LPAREN);
-//            visit(term);
-//            print(indexes ? CircusToken.CIRCRINST : ZToken.RPAREN);
-//        }
-//    }
-//
-//    protected void printFormalParameters(ZDeclList term) {
-//        assert term != null;
-//        if (term.isEmpty())
-//            throw new PrintException("Empty formal parameters list.");
-//        visit(term);
-//    }
-//
-//    protected void printProcessD(ProcessD term, boolean indexes) {
-//        if (!CircusUtils.isOnTheFly(term)) {
-//            printFormalParameters(term.getZDeclList());
-//            print(indexes ? CircusKeyword.CIRCINDEX : CircusKeyword.CIRCSPOT);
-//            visit(term.getCircusProcess());
-//        } else {
-//            throw new PrintException("On-the-fly parameterised process (" +
-//                term.getClass().getSimpleName() + ") must be processed by the AstToPrintTreeVisitor.");
-//        }
-//    }
-//
-//    protected void printActionD(ActionD term) {
-//        if (!CircusUtils.isOnTheFly(term)) {
-//            printFormalParameters(term.getZDeclList());
-//            print(CircusKeyword.CIRCSPOT);
-//            visit(term.getCircusAction());
-//        } else {
-//            throw new PrintException("On-the-fly parameterised action (" +
-//                term.getClass().getSimpleName() + ") must be processed by the AstToPrintTreeVisitor.");
-//        }
-//    }
-//
-//    private void warn(CircusPrintMessage cpm, Object... arguments) {
-//        warningManager_.warn(cpm.getMessage(), arguments);
-//    }
-//
-//    private void warnUnexpectedTerm(Term term)
-//    {
-//      warn(CircusPrintMessage.MSG_UNEXPECTED_TERM, term);
-//    }
-//
-//    private void warnMissingFor(String msg, BasicProcess term) {
-//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
-//    }
-//
-//    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
-//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
-//    }
-//
-//    private void warnLocalOnTheFly(Term para, BasicProcess term) {
-//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
-//    }
-//
-//    private void warnDuplicatedState(Term term) {
-//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
-//    }
-//
-//    private boolean processedState_ = false;
-//
-//    /***********************************************************
-//     * Channel related
-//     ***********************************************************/
-//    public Object visitChannelPara(ChannelPara term) {
-//        //TODO: Change this to CIRCUS for \begin{circus} at some point.
-//        print(ZToken.ZED);
-//        visit(term.getDeclList());
-//        print(ZToken.END);
-//        return null;
-//    }
-//
-//    public Object visitChannelDecl(ChannelDecl term) {
-////        if (CircusUtils.isChannelFromDecl(term)) {
-////            print(CircusKeyword.CIRCCHANFROM);
-////            printGenericFormals(term.getNameList().get(0));
-////            assert term.getExpr() != null;
-////            visit(term.getExpr());
-////        } else {
-//            print(CircusKeyword.CIRCCHAN);
-//            printGenericFormals(term.getNameList().get(0));
-//            visit(term.getNameList().get(1));
-//            if (term.getExpr() != null) {
-//                print(ZKeyword.COLON);
-//                visit(term.getExpr());
-//            }
-////        }
-//        print(ZToken.NL);
-//        return null;
-//    }
-//
-//    /***********************************************************
-//     * Channel set related
-//     ***********************************************************/
-//    public Object visitChannelSetPara(ChannelSetPara term) {
-//        print(ZToken.ZED);
-//        print(CircusKeyword.CIRCCHANSET);
-//        printGenericFormals(term.getGenFormals());
-//        visit(term.getName());
-//        print(ZKeyword.DEFEQUAL);
-//        visit(term.getChannelSet());
-//        print(ZToken.END);
-//        return null;
-//    }
-//
-//    public Object visitCircusChannelSet(CircusChannelSet term) {
-//        visit(term.getExpr());
-//        return null;
-//    }
-//
-//    public Object visitBasicChannelSetExpr(BasicChannelSetExpr term) {
-//        print(CircusToken.LCIRCCHANSET);
-//        printTermList(term.getCircusCommunicationList());
-//        print(CircusToken.RCIRCCHANSET);
-//        return null;
-//    }
-//
-//    /***********************************************************
-//     * Process related
-//     ***********************************************************/
-//
-//    /**
-//     * The AstToPrintTreeVisitor must have changed OnTheFly paragraphs
-//     * from ProcessPara to a special form of action call.
-//     */
-//    public Object visitProcessPara(ProcessPara term) {
-//        throw new PrintException("Unexpected term ProcessPara");
-//      /*
-//    // TODO: Check here when we have unboxed versions.
-//    print(ZToken.ZED);
-//    print(CircusKeyword.CIRCPROC);
-//    printGenericFormals(term.getGenFormals());
-//    visit(term.getProcessName());
-//    print(CircusKeyword.CIRCDEF);
-//    boolean isBasicProcess = (term.getCircusProcess() instanceof BasicProcess);
-//
-//    // basic processes will be spread across different environments
-//    if (isBasicProcess) {
-//        print(CircusKeyword.CIRCBEGIN);
-//        print(ZToken.END);
-//        print(ZToken.NL);
-//    }
-//    visit(term.getCircusProcess());
-//
-//    // close the environment for either CIRCEND (basic) or normal processes.
-//    print(ZToken.END);
-//    return null;*/
-//    }
-//
-//    public Term visitBasicProcess(BasicProcess term) {
-//      warnUnexpectedTerm(term);
-//      return null;
-//        //throw new PrintException("Unexpected term BasicProcess");
-//    /*
-//    processedState_ = false;
-//    boolean hasState = (term.getStatePara() != null);
-//
-//    // basic process state is part of either implicitly declared or local paras
-//    if (!hasState) {
-//        // it should not be null if term was created by the parser!
-//        // thus, raise an warning!
-//        warnMissingFor("process state", term);
-//    }
-//
-//    // locally declared paragraph within basic process
-//    for (Iterator<Para> iter = term.getZLocalPara().iterator();
-//           iter.hasNext();) {
-//        Para next = iter.next();
-//
-//        // local para cannot be on-the-fly
-//        if (CircusUtils.isOnTheFly(next)) {
-//            warnLocalOnTheFly(next, term);
-//        } else if (CircusUtils.isStatePara(next)) {
-//            // if it is state, it can only appear once
-//            if (processedState_) {
-//                warnDuplicatedState(next);
-//            } else {
-//                // is must be an horizontal definition, as in name == sch-expr
-//                // see Parser.xml circusProcessState production for details
-//                assert ZUtils.isHorizontalSchema(next) : "Inconsistent CircusStateAnn for basic process paragrph " + next;
-//                processedState_ = true;
-//
-//                // since it is an horizontal schema, we must add a circus environment for it
-//                print(CircusToken.CIRCUSACTION);
-//                print(CircusKeyword.CIRCSTATE);
-//                visit(next);
-//                print(ZToken.END);
-//                if (iter.hasNext()) print(ZToken.NL);
-//            }
-//        } else {
-//            visit(next);
-//            if (iter.hasNext()) print(ZToken.NL);
-//        }
-//    }
-//
-//    // implicitly declared action paragraphs
-//    for (Iterator<Para> iter = term.getZOnTheFlyPara().iterator();
-//           iter.hasNext();) {
-//        Para next = iter.next();
-//        if (next instanceof ActionPara) {
-//            visit(next);
-//            if (iter.hasNext()) print(ZToken.NL);
-//        } else {
-//            warnBadParagraphFor("Implicitly", next, term);
-//        }
-//    }
-//
-//    if (term.getMainAction() != null) {
-//        print(CircusToken.CIRCUSACTION);
-//        print(CircusKeyword.CIRCSPOT);
-//        visit(term.getMainAction());
-//        print(ZToken.NL);
-//    } else {
-//        warnMissingFor("main action", term);
-//    }
-//    if (hasState && !processedState_) {
-//        warnMissingFor("locally or implicitly declared process state", term);
-//    }
-//
-//    print(ZToken.ZED);
-//    print(CircusKeyword.CIRCEND);
-//    // the environment closure is done at ProcessPara above
-//
-//    return null;*/
-//    }
-//
-//    public Object visitCallProcess(CallProcess term) {
-//        printLPAREN(term);
-//        if (!CircusUtils.isOnTheFly(term)) {
-//            visit(term.getCallExpr());
-//            printActualParams(term.getZActuals(),
-//                CallUsage.Indexed.equals(term.getUsage()));
-//        } else {
-//            throw new PrintException("On-the-fly process calls must be processed by the AstToPrintTreeVisitor.");
-//        }
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitHideProcess(HideProcess term) {
-//        printLPAREN(term);
-//        visit(term.getCircusProcess());
-//        print(CircusKeyword.CIRCHIDING);
-//        visit(term.getChannelSet());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitRenameProcess(RenameProcess term) {
-//        visit(term.getCircusProcess());
-//        print(CircusToken.LCIRCRENAME);
-//        visit(term.getAssignmentPairs());
-//        print(CircusToken.RCIRCRENAME);
-//        return null;
-//    }
-//
-//    public Object visitSeqProcess(SeqProcess term) {
-//        printLPAREN(term);
-//        visit(term.getLeftProcess());
-//        print(CircusKeyword.CIRCSEQ);
-//        visit(term.getRightProcess());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitExtChoiceProcess(ExtChoiceProcess term) {
-//        printLPAREN(term);
-//        visit(term.getLeftProcess());
-//        print(CircusKeyword.EXTCHOICE);
-//        visit(term.getRightProcess());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitIntChoiceProcess(IntChoiceProcess term) {
-//        printLPAREN(term);
-//        visit(term.getLeftProcess());
-//        print(CircusKeyword.INTCHOICE);
-//        visit(term.getRightProcess());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitParallelProcess(ParallelProcess term) {
-//        printLPAREN(term);
-//        visit(term.getLeftProcess());
-//        print(CircusToken.LPAR);
-//        visit(term.getChannelSet());
-//        print(CircusToken.RPAR);
-//        visit(term.getRightProcess());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitAlphabetisedParallelProcess(AlphabetisedParallelProcess term) {
-//        printLPAREN(term);
-//        visit(term.getLeftProcess());
-//        print(CircusToken.LPAR);
-//        visit(term.getLeftAlpha());
-//        print(ZKeyword.BAR);
-//        visit(term.getRightAlpha());
-//        print(CircusToken.RPAR);
-//        visit(term.getRightProcess());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitInterleaveProcess(InterleaveProcess term) {
-//        printLPAREN(term);
-//        visit(term.getLeftProcess());
-//        print(CircusKeyword.INTERLEAVE);
-//        visit(term.getRightProcess());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitParamProcess(ParamProcess term) {
-//        printProcessD(term, false);
-//        return null;
-//    }
-//
-//    public Object visitSeqProcessIte(SeqProcessIte term) {
-//    /* For replicated sequential composition, we have no choice but to use ZCOMP
-//     * as there are no unicode left :(. We also allow printing the keyword before
-//     * checking for on-the-fly as it does not matter where the printer breaks.
-//     */
-//        print(ZKeyword.ZCOMP);
-//        printProcessD(term, false);
-//        return null;
-//    }
-//
-//    public Object visitExtChoiceProcessIte(ExtChoiceProcessIte term) {
-//        print(CircusKeyword.REPEXTCHOICE);
-//        printProcessD(term, false);
-//        return null;
-//    }
-//
-//    public Object visitIntChoiceProcessIte(IntChoiceProcessIte term) {
-//        print(CircusKeyword.REPINTCHOICE);
-//        printProcessD(term, false);
-//        return null;
-//    }
-//
-//    public Object visitParallelProcessIte(ParallelProcessIte term) {
-//        /* Just like printProcessD, but with the channel set*/
-//        if (!CircusUtils.isOnTheFly(term)) {
-//            print(CircusKeyword.REPPARALLEL);
-//            printFormalParameters(term.getZDeclList());
-//            print(CircusToken.LPAR);
-//            visit(term.getChannelSet());
-//            print(CircusToken.RPAR);
-//            print(CircusKeyword.CIRCSPOT);
-//            visit(term.getCircusProcess());
-//        } else {
-//            throw new PrintException("On-the-fly replicated parallel process must be processed by the AstToPrintTreeVisitor.");
-//        }
-//        return null;
-//    }
-//
-//    public Object visitAlphabetisedParallelProcessIte(AlphabetisedParallelProcessIte term) {
-//        throw new PrintException("This AlphabetisedParallelProcessIte terms are to be removed from the AST.");
-//    }
-//
-//    public Object visitInterleaveProcessIte(InterleaveProcessIte term) {
-//        print(CircusKeyword.REPINTERLEAVE);
-//        printProcessD(term, false);
-//        return null;
-//    }
-//
-//    public Object visitIndexedProcess(IndexedProcess term) {
-//        printProcessD(term, false);
-//        return null;
-//    }
-//
-//    public Object visitSeqProcessIdx(SeqProcessIdx term) {
-//        print(ZKeyword.ZCOMP);
-//        printProcessD(term, true);
-//        return null;
-//    }
-//
-//    public Object visitExtChoiceProcessIdx(ExtChoiceProcessIdx term) {
-//        print(CircusKeyword.REPEXTCHOICE);
-//        printProcessD(term, true);
-//        return null;
-//    }
-//
-//    public Object visitIntChoiceProcessIdx(IntChoiceProcessIdx term) {
-//        print(CircusKeyword.REPINTCHOICE);
-//        printProcessD(term, true);
-//        return null;
-//    }
-//
-//    public Object visitParallelProcessIdx(ParallelProcessIdx term) {
-//        /* Just like printProcessD, but with the channel set*/
-//        if (!CircusUtils.isOnTheFly(term)) {
-//            print(CircusKeyword.REPPARALLEL);
-//            printFormalParameters(term.getZDeclList());
-//            print(CircusToken.LPAR);
-//            visit(term.getChannelSet());
-//            print(CircusToken.RPAR);
-//            print(CircusKeyword.CIRCINDEX);
-//            visit(term.getCircusProcess());
-//        } else {
-//            throw new PrintException("On-the-fly indexed parallel process must be processed by the AstToPrintTreeVisitor.");
-//        }
-//        return null;
-//    }
-//
-//    public Object visitAlphabetisedParallelProcessIdx(AlphabetisedParallelProcessIdx term) {
-//        throw new PrintException("This AlphabetisedParallelProcessIdx terms are to be removed from the AST.");
-//    }
-//
-//    public Object visitInterleaveProcessIdx(InterleaveProcessIdx term) {
-//        print(CircusKeyword.REPINTERLEAVE);
-//        printProcessD(term, true);
-//        return null;
-//    }
-//
-//    /***********************************************************
-//     * Action related
-//     ***********************************************************/
-//
-//    public Object visitActionPara(ActionPara term) {
-//      warnUnexpectedTerm(term);
-//      return null;
-//        //throw new PrintException("Unexpected term ActionPara");
-//   /* print(CircusToken.CIRCUSACTION);
-//    if (CircusUtils.isStatePara(term)) {
-//        if (processedState_) {
-//            warnDuplicatedState(term);
-//        } else {
-//            assert CircusUtils.isOnTheFly(term) : "Action para marked as basic process state but not as on-the-fly. PARSER-BUG";
-//            processedState_ = true;
-//            print(CircusKeyword.CIRCSTATE);
-//            visit(term.getCircusAction());
-//        }
-//    } else {
-//        visit(term.getName());
-//        print(CircusKeyword.CIRCDEF);
-//        visit(term.getCircusAction());
-//    }
-//    print(ZToken.END);
-//    return null;*/
-//    }
-//
-//    public Object visitSchExprAction(SchExprAction term) {
-//        if (!CircusUtils.isOnTheFly(term)) {
-//            print(CircusToken.LSCHEXPRACT);
-//            visit(term.getExpr());
-//            print(CircusToken.RSCHEXPRACT);
-//        } else {
-//            // On-the-fly state need no special brackets.
-//            visit(term.getExpr());
-//        }
-//        return null;
-//    }
-//
-//    public Object visitChaosAction(ChaosAction term) {
-//        // Ignore parenthesied annotations here
-//        print(CircusKeyword.CIRCCHAOS);
-//        return null;
-//    }
-//
-//    public Object visitSkipAction(SkipAction term) {
-//        // Ignore parenthesied annotations here
-//        print(CircusKeyword.CIRCSKIP);
-//        return null;
-//    }
-//
-//    public Object visitStopAction(StopAction term) {
-//        // Ignore parenthesied annotations here
-//        print(CircusKeyword.CIRCSTOP);
-//        return null;
-//    }
-//
-//    public Object visitMuAction(MuAction term) {
-//        printLPAREN(term);
-//        print(CircusKeyword.CIRCMU);
-//        visit(term.getName());
-//        print(CircusKeyword.CIRCSPOT);
-//        visit(term.getCircusAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitCallAction(CallAction term) {
-//        printLPAREN(term);
-////        if (!CircusUtils.isOnTheFly(term)) {
-//            visit(term.getName());
-//            printActualParams(term.getZExprList(), false);//not indexes
-////        } else {
-////            throw new PrintException("On-the-fly action calls must be processed by the AstToPrintTreeVisitor.");
-////        }
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitHideAction(HideAction term) {
-//        printLPAREN(term);
-//        visit(term.getCircusAction());
-//        print(CircusKeyword.CIRCHIDING);
-//        visit(term.getChannelSet());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitRenameAction(RenameAction term) {
-//        visit(term.getCircusAction());
-//        print(CircusToken.LCIRCRENAME);
-//        visit(term.getAssignmentPairs());
-//        print(CircusToken.RCIRCRENAME);
-//        return null;
-//    }
-//
-//    public Object visitSubstitutionAction(SubstitutionAction term) {
-//        visit(term.getCircusAction());
-//        print(ZToken.LSQUARE);
-//        visit(term.getRenameList());
-//        print(ZToken.RSQUARE);
-//        return null;
-//    }
-//
-//    public Object visitGuardedAction(GuardedAction term) {
-//        printLPAREN(term);
-//        print(CircusToken.LCIRCGUARD);
-//        visit(term.getPred());
-//        print(CircusToken.RCIRCGUARD);
-//        // Similar to replicated sequential composition, we need to reuse
-//        // the guard symbol, as there are no other good unicode char match.
-//        print(ZKeyword.ANDALSO);
-//        visit(term.getCircusAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitPrefixingAction(PrefixingAction term) {
-//        printLPAREN(term);
-//        visit(term.getCommunication());
-//        print(CircusKeyword.PREFIXTHEN);
-//        visit(term.getCircusAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitCommunication(Communication term) {
-//        //boolean needHardSpace = term.getChannelExpr().getZExprList().isEmpty();
-//        visit(term.getChannelExpr());
-//        visit(term.getFieldList());
-//        return null;
-//    }
-//
-//    public Object visitOutputField(OutputFieldAnn term) {
-//        return null;
-//    }
-//
-//    public Object visitDotField(DotField term) {
-//        print(term.getAnn(OutputFieldAnn.class) != null ? ZToken.OUTSTROKE : ZKeyword.DOT);
-//        visit(term.getExpr());
-//        return null;
-//    }
-//
-//    public Object visitInputField(InputField term) {
-//        print(ZToken.INSTROKE);
-//        visit(term.getVariableName());
-//        if (term.getRestriction() != null && !(term.getRestriction() instanceof TruePred)) {
-//            print(CircusKeyword.PREFIXCOLON);
-//            visit(term.getRestriction());
-//        }
-//        return null;
-//    }
-//
-//    public Object visitSeqAction(SeqAction term) {
-//        printLPAREN(term);
-//        visit(term.getLeftAction());
-//        print(CircusKeyword.CIRCSEQ);
-//        visit(term.getRightAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitInterruptAction(InterruptAction term) {
-//        printLPAREN(term);
-//        visit(term.getLeftAction());
-//        print(CircusKeyword.CIRCINTERRUPT);
-//        visit(term.getRightAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitExtChoiceAction(ExtChoiceAction term) {
-//        printLPAREN(term);
-//        visit(term.getLeftAction());
-//        print(CircusKeyword.EXTCHOICE);
-//        visit(term.getRightAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitIntChoiceAction(IntChoiceAction term) {
-//        printLPAREN(term);
-//        visit(term.getLeftAction());
-//        print(CircusKeyword.INTCHOICE);
-//        visit(term.getRightAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitParallelAction(ParallelAction term) {
-//        // TODO: Add the simplified version when the namesets are empty.
-//        printLPAREN(term);
-//        visit(term.getLeftAction());
-//        print(CircusToken.LPAR);
-//        visit(term.getLeftNameSet());
-//        print(ZKeyword.BAR);
-//        visit(term.getChannelSet());
-//        print(ZKeyword.BAR);
-//        visit(term.getRightNameSet());
-//        print(CircusToken.RPAR);
-//        visit(term.getRightAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitAlphabetisedParallelAction(AlphabetisedParallelAction term) {
-//        // TODO: Add the simplified version when the namesets are empty.
-//        printLPAREN(term);
-//        visit(term.getLeftAction());
-//        print(CircusToken.LPAR);
-//        visit(term.getLeftAlpha());
-//        print(ZKeyword.BAR);
-//        visit(term.getRightAlpha());
-//        print(CircusToken.RPAR);
-//        visit(term.getRightAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitInterleaveAction(InterleaveAction term) {
-//        // TODO: Add the simplified version when the namesets are empty.
-//        printLPAREN(term);
-//        visit(term.getLeftAction());
-//        print(CircusToken.LINTER);
-//        visit(term.getLeftNameSet());
-//        print(ZKeyword.BAR);
-//        visit(term.getRightNameSet());
-//        print(CircusToken.RINTER);
-//        visit(term.getRightAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitParamAction(ParamAction term) {
-//        printActionD(term);
-//        return null;
-//    }
-//
-//    public Object visitSeqActionIte(SeqActionIte term) {
-//        print(ZKeyword.ZCOMP);
-//        printActionD(term);
-//        return null;
-//    }
-//
-//    public Object visitExtChoiceActionIte(ExtChoiceActionIte term) {
-//        print(CircusKeyword.REPEXTCHOICE);
-//        printActionD(term);
-//        return null;
-//    }
-//
-//    public Object visitIntChoiceActionIte(IntChoiceActionIte term) {
-//        print(CircusKeyword.REPINTCHOICE);
-//        printActionD(term);
-//        return null;
-//    }
-//
-//    public Object visitParallelActionIte(ParallelActionIte term) {
-//        /* Just like printActionD, but with the channel set*/
-//        if (!CircusUtils.isOnTheFly(term)) {
-//            // TODO: Add the simplified version when the namesets are empty.
-//            print(CircusToken.LPAR);
-//            visit(term.getChannelSet());
-//            print(CircusToken.RPAR);
-//            printFormalParameters(term.getZDeclList());
-//            print(CircusKeyword.CIRCSPOT);
-//            print(CircusToken.LPAR);
-//            visit(term.getNameSet());
-//            print(CircusToken.RPAR);
-//            visit(term.getCircusAction());
-//        } else {
-//            throw new PrintException("On-the-fly replicated parallel action must be processed by the AstToPrintTreeVisitor.");
-//        }
-//        return null;
-//    }
-//
-//    public Object visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term) {
-//        throw new PrintException("This AlphabetisedParallelActionIte terms are to be removed from the AST.");
-//    }
-//
-//    public Object visitInterleaveActionIte(InterleaveActionIte term) {
-//        if (!CircusUtils.isOnTheFly(term)) {
-//            // TODO: Add the simplified version when the namesets are empty.
-//            print(CircusKeyword.REPINTERLEAVE);
-//            printFormalParameters(term.getZDeclList());
-//            print(CircusToken.LINTER);
-//            visit(term.getNameSet());
-//            print(CircusToken.RINTER);
-//            print(CircusKeyword.CIRCSPOT);
-//            visit(term.getCircusAction());
-//        } else {
-//            throw new PrintException("On-the-fly replicated interleave action must be processed by the AstToPrintTreeVisitor.");
-//        }
-//        return null;
-//    }
-//
-//    /***********************************************************
-//     * Command related
-//     ***********************************************************/
-//
-//    public Object visitVarDeclCommand(VarDeclCommand term) {
-//        printLPAREN(term);
-//        print(CircusKeyword.CIRCVAR);
-//        visit(term.getDeclList());
-//        print(CircusKeyword.CIRCSPOT);
-//        visit(term.getCircusAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitAssignmentCommand(AssignmentCommand term) {
-//        printLPAREN(term);
-//        visit(term.getAssignmentPairs());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitIfGuardedCommand(IfGuardedCommand term) {
-//        printLPAREN(term);
-//        print(ZKeyword.IF);
-//        Iterator<? extends CircusAction> it = term.getGuardedActionList().iterator();
-//        while (it.hasNext()) {
-//            GuardedAction ga = (GuardedAction)it.next();
-//            visit(ga.getPred());
-//            print(CircusKeyword.CIRCTHEN);
-//            visit(ga.getCircusAction());
-//            if (it.hasNext()) {
-//                print(ZToken.NL);
-//                print(CircusKeyword.CIRCELSE);
-//            }
-//        }
-//        // For a single guard, let the if on the same line as the fi
-//        if (term.getGuardedActionList().size() > 1) {
-//            print(ZToken.NL);
-//        }
-//        print(CircusKeyword.CIRCFI);
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitDoGuardedCommand(DoGuardedCommand term) {
-//        printLPAREN(term);
-//        print(CircusKeyword.CIRCDO);
-//        Iterator<? extends CircusAction> it = term.getGuardedActionList().iterator();
-//        while (it.hasNext()) {
-//            GuardedAction ga = (GuardedAction)it.next();
-//            visit(ga.getPred());
-//            print(CircusKeyword.CIRCTHEN);
-//            visit(ga.getCircusAction());
-//            if (it.hasNext()) {
-//                print(ZToken.NL);
-//                print(CircusKeyword.CIRCELSE);
-//            }
-//        }
-//        // For a single guard, let the if on the same line as the fi
-//        if (term.getGuardedActionList().size() > 1) {
-//            print(ZToken.NL);
-//        }
-//        print(CircusKeyword.CIRCOD);
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitSpecStmtCommand(SpecStmtCommand term) {
-//        printLPAREN(term);
-//        if (term.getZFrame().isEmpty()) {
-//            // Assumption
-//            if (term.getPost() instanceof TruePred) {
-//                print(ZToken.LBRACE);
-//                visit(term.getPre());
-//                print(ZToken.RBRACE);
-//            }
-//            // Coercion
-//            else if (term.getPre() instanceof TruePred) {
-//                print(ZToken.LSQUARE);
-//                visit(term.getPost());
-//                print(ZToken.RSQUARE);
-//            }
-//            // Specification stamement with empty frame
-//            else {
-//                print(ZKeyword.COLON);
-//                print(ZToken.LSQUARE);
-//                visit(term.getPre());
-//                print(ZKeyword.COMMA);
-//                visit(term.getPost());
-//                print(ZToken.RSQUARE);
-//            }
-//        }
-//        // Specification statement with non-empty frame
-//        else {
-//            visit(term.getFrame());
-//            print(ZKeyword.COLON);
-//            print(ZToken.LSQUARE);
-//            visit(term.getPre());
-//            print(ZKeyword.COMMA);
-//            visit(term.getPost());
-//            print(ZToken.RSQUARE);
-//        }
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    /***********************************************************
-//     * Unexpected terms
-//     ***********************************************************/
-//
-//    public Object visitChannelSetType(ChannelSetType term) {
-//        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ChannelSetType.");
-//        return null;
-//    }
-//
-//    public Object visitProcessType(ProcessType term) {
-//        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessType.");
-//        return null;
-//    }
-//
-//    public Object visitActionType(ActionType term) {
-//        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionType.");
-//        return null;
-//    }
-//
-//    public Object visitNameSetType(NameSetType term) {
-//        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term NameSetType.");
-//        return null;
-//    }
-//
-//    public Object visitChannelType(ChannelType term) {
-//        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ChannelType.");
-//        return null;
-//    }
-//
-//    public Object visitProcessSignature(ProcessSignature term) {
-//        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignature.");
-//        return null;
-//    }
-//
-//    public Object visitActionSignature(ActionSignature term) {
-//        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignature.");
-//        return null;
-//    }
-//
-//    public Object visitCircusStateAnn(CircusStateAnn term) {
-//        warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusStateAnn.");
-//        return null;
-//    }
-//
-//    public Object visitOnTheFlyDefAnn(OnTheFlyDefAnn term) {
-//        /* TODO: Annotations need special treatment, see ZPrintVisitor */
-//        //throw new UnsupportedOperationException("Unexpected term OnTheFlyDefAnn.");
-//      warnUnexpectedTerm(term);
-//      return null;
-//    }
-//
-//    public Object visitLetMuAction(LetMuAction term) {
-//        //throw new UnsupportedOperationException("Unexpected term LetMuAction.");
-//      warnUnexpectedTerm(term);
-//      return null;
-//    }
-//
-//    public Object visitLetVarAction(LetVarAction term) {
-//        //throw new UnsupportedOperationException("Unexpected term LetVarAction.");
-//      warnUnexpectedTerm(term);
-//      return null;
-//    }
-//
-//    /***********************************************************
-//     * Others
-//     ***********************************************************/
-//
-//    public Object visitTransformerPara(TransformerPara term) {
-//        visit(term.getName());
-//        print(CircusKeyword.CIRCASSERTREF);
-//        visit(term.getTransformerPred());
-//        return null;
-//    }
-//
-//    protected void visitTransformation(Transformation t, Model m) {
-//        switch (t) {
-//            case Refinement:
-//                print(CircusKeyword.CIRCREFINES);
-//                if (!m.equals(Model.FlDv)) {
-//                  printDecorword(m + "~");
-//                }
-//                break;
-//            case Simulation:
-//                print(CircusKeyword.CIRCSIMULATES);
-//                break;
-//            case Equivalence:
-//                print(ZKeyword.EQUALS);
-//                break;
-//        }
-//    }
-//
-//    public Object visitProcessTransformerPred(ProcessTransformerPred term) {
-//        visit(term.getSpec());
-//        visitTransformation(term.getTransformation(), term.getModel());
-//        visit(term.getImpl());
-//        return null;
-//    }
-//
-//    public Object visitActionTransformerPred(ActionTransformerPred term) {
-//        visit(term.getSpec());
-//        visitTransformation(term.getTransformation(), term.getModel());
-//        visit(term.getImpl());
-//        return null;
-//    }
-//
-//    public Object visitQualifiedDecl(QualifiedDecl term) {
-//        if (ParamQualifier.Result.equals(term.getParamQualifier())) {
-//            print(CircusKeyword.CIRCRES);
-//        } else if (ParamQualifier.ValueResult.equals(term.getParamQualifier())) {
-//            print(CircusKeyword.CIRCVRES);
-//        } /* else must be by value, so just don't put it */
-//        if (ZUtils.assertZNameList(term.getNameList()).isEmpty())
-//            throw new PrintException("Empty list of qualified variables/parameters");
-//        visit(term.getNameList());
-//        print(ZKeyword.COLON);
-//        visit(term.getExpr());
-//        return null;
-//    }
-//
-//    public Object visitAssignmentPairs(AssignmentPairs term) {
-//        printTermList(term.getZLHS());
-//        print(CircusKeyword.CIRCASSIGN);
-//        printTermList(term.getZRHS());
-//        return null;
-//    }
-//
-//    public Object visitCircusFieldList(CircusFieldList term) {
-//        for(Field f : term) {
-//            visit(f);
-//        }
-//        return null;
-//    }
-//
-//    public Object visitSigmaExpr(SigmaExpr term) {
-//        //throw new UnsupportedOperationException("not yet!");
-//      warnUnexpectedTerm(term);
-//      return null;
-//    }
-//
-//    public Object visitNameSetPara(NameSetPara term) {
-//        /* Hum... need to know if it is boxed or not... */
-//        visit(term.getName());
-//        print(ZKeyword.DEFEQUAL);
-//        visit(term.getNameSet());
-//        return null;
-//    }
-//
-//    public Object visitCircusNameSet(CircusNameSet term) {
-//        visit(term.getExpr());
-//        return null;
-//    }
-//
-//  public Object visitImplicitChannelAnn(ImplicitChannelAnn term)
-//  {
-//    //throw new UnsupportedOperationException("Unexpected term ImplicitChannelAnn.");
-//    warnUnexpectedTerm(term);
-//    return null;
-//  }
-//
-//  public Object visitZSignatureList(ZSignatureList term)
-//  {
-//    //throw new UnsupportedOperationException("Unexpected term ZSignatureList.");
-//    warnUnexpectedTerm(term);
-//    return null;
-//  }
-//
-//  public Object visitCircusActionList(CircusActionList term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusActionList.");
-//    return null;
-//  }
-//
-//  public Object visitActionSignatureList(ActionSignatureList term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignatureList.");
-//    return null;
-//  }
-//
-//  public Object visitProcessSignatureList(ProcessSignatureList term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignatureList.");
-//    return null;
-//  }
-//
-//  public Object visitCircusCommunicationList(CircusCommunicationList term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusCommunicationList.");
-//    return null;
-//  }
-//  public Object visitStateUpdate(StateUpdate term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term StateUpdate.");
-//    return null;
-//  }
-//  public Object visitStateUpdateAnn(StateUpdateAnn term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term StateUpdateAnn.");
-//    return null;
-//  }
-//
-//  public Object visitProcessSignatureAnn(ProcessSignatureAnn term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignatureAnn.");
-//    return null;
-//  }
-//
-//  public Object visitActionSignatureAnn(ActionSignatureAnn term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignatureAnn.");
-//    return null;
-//  }
-//
-//  public Object visitCommunicationType(CommunicationType term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CommunicationType.");
-//    return null;
-//  }
-//
-//  @Override
-//  public Object visitOutputFieldAnn(OutputFieldAnn term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term OutputFieldAnn.");
-//    return null;
-//  }
-//
-//  @Override
-//  public Object visitProofObligationAnn(ProofObligationAnn term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Not supported yet.");
-//    return null;
-//  }
-//
-//  @Override
-//  public Object visitCircusNameSetList(CircusNameSetList term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Not supported yet.");
-//    return null;
-//  }
-//
-//  @Override
-//  public Object visitCircusChannelSetList(CircusChannelSetList term)
-//  {
-//    warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Not supported yet.");
-//    return null;
-//  }
-//
-//  /* Support for Circus Time (hack F Zeyda) */
-//    public Object visitTimeoutAction(TimeoutAction term) {
-//        printLPAREN(term);
-//        visit(term.getLeftAction());
-//        print(CircusToken.LCIRCTIMEOUT);
-//        visit(term.getExpr());
-//        print(CircusToken.RCIRCTIMEOUT);
-//        visit(term.getRightAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitWaitAction(WaitAction term) {
-//        printLPAREN(term);
-//        print(CircusKeyword.CIRCWAIT);
-//        visit(term.getExpr());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//    public Object visitDeadlineAction(DeadlineAction term) {
-//        printLPAREN(term);
-//        visit(term.getCircusAction());
-//        print(CircusKeyword.CIRCDEADLINE);
-//        visit(term.getExpr());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
+    printGenericFormals(conjPara.getNameList());
+    //no need for print(ZKeyword.CONJECTURE);
+    visit(conjPara.getPred());
+    print(ZToken.END);
+    return null;
+  }
+
+  @Override
+  public Object visitProofScript(ProofScript term)
+  {
+    print(ZEvesProofToken.ZPROOF);
+    visit(term.getName());
+    printTermList(term.getProofCommandList(), ZEvesProofToken.ZPROOFCOMMANDSEP);
+    visit(term.getProofCommandList());
+    print(ZToken.END);
+    return null;
+  }
+
+  @Override
+  public Object visitProofCommandList(ProofCommandList term)
+  {
+    throw new PrintException("proof command list is processed by printTermList directly");
+  }
+
+  @Override
+  public String visitInstantiationList(InstantiationList term)
+  {
+    throw new PrintException("instantiation list is processed by printTermList directly");
+  }
+
+  @Override
+  public Object visitProofCommandInfoList(ProofCommandInfoList term)
+  {
+    throw new PrintException("proof command info list is processed by printTermList directly");
+  }
+
+
+  @Override
+  public Object visitNormalizationCommand(NormalizationCommand term)
+  {
+    switch (term.getKind())
+    {
+      case Conjunctive:
+        print(ZEvesProofKeyword.CONJUNCTIVE);
+        break;
+      case Disjunctive:
+        print(ZEvesProofKeyword.DISJUNCTIVE);
+        break;
+      case Rearrange:
+        print(ZEvesProofKeyword.REARRANGE);
+        break;
+      case Command:
+        print(ZEvesProofKeyword.WITH);
+        print(ZEvesProofKeyword.NORMALIZATION);
+        visit(term.getProofCommand());
+        break;
+      default:
+        throw new Error();
+    }
+    return null;
+  }
+
+  private InstantiationKind currInstKind_ = null;
+
+  @Override
+  public Object visitUseCommand(UseCommand term)
+  {
+    print(ZEvesProofKeyword.USE);
+    visit(term.getTheoremRef());
+    if (term.getInstantiationList() != null)
+    {
+      currInstKind_ = InstantiationKind.ThmReplacement;
+      if (!term.getInstantiationList().isEmpty())
+      {
+        print(ZToken.LSQUARE);
+        printTermList(term.getInstantiationList()); // use default COMMA separator
+        print(ZToken.RSQUARE);
+      }
+      currInstKind_ = null;
+    }
+    return null;
+  }
+
+  @Override
+  public Object visitWithCommand(WithCommand term)
+  {
+    print(ZEvesProofKeyword.WITH);
+    if(term.getExpr() != null)
+    {
+      if (term.getPred() != null)
+        throw new PrintException("with expression command cannot have pred");
+      print(ZEvesProofKeyword.EXPRESSION);
+      print(ZToken.LPAREN);
+      visit(term.getExpr());
+      print(ZToken.RPAREN);
+    }
+    else if (term.getPred() != null)
+    {
+      if (term.getExpr() != null)
+        throw new PrintException("with predicate command cannot have expr");
+      print(ZEvesProofKeyword.PREDICATE);
+      print(ZToken.LPAREN);
+      visit(term.getPred());
+      print(ZToken.RPAREN);
+    }
+    else if (term.getEnabled() != null)
+    {
+      if (!(term.getExpr() == null && term.getPred() == null
+             && term.getNameList() instanceof ZNameList
+             && !term.getZNameList().isEmpty()))
+        throw new PrintException("with enabled/disabled command cannot have expr or pred and name list must not be empty");
+      print(term.getEnabled() ? ZEvesProofKeyword.ENABLED : ZEvesProofKeyword.DISABLED);
+      print(ZToken.LPAREN);
+      visit(term.getNameList());
+      print(ZToken.RPAREN);
+    }
+    else
+    {
+      throw new PrintException("Unknown WithCommand: neither expression, predicate, enabled or disabled.");
+    }
+    if(term.getProofCommand() == null)
+    {
+      throw new PrintException("with command must have an inner command");
+    }
+    visit(term.getProofCommand());
+    return null;
+  }
+
+  @Override
+  public Object visitSubstitutionCommand(SubstitutionCommand term)
+  {
+    if (!(term.getProofCommand() == null
+           && term.getNameList() == null || term.getNameList() instanceof ZNameList))
+      throw new PrintException("subst command not must have a subcmd and a Z namelist");
+    switch (term.getKind())
+    {
+      case Invoke:
+        if (term.getExpr() != null)
+          throw new PrintException("invoke command cannot have an expression");
+
+        print(ZEvesProofKeyword.INVOKE);
+        if (term.getPred() != null)
+        {
+          print(ZEvesProofKeyword.PREDICATE);
+        }
+        else
+        {
+          if (term.getZNameList().size() != 1)
+            throw new PrintException("invoke cmd only on a single name");
+          visit(term.getZNameList().get(0));
+        }
+        break;
+      case Equality:
+        if (term.getPred() != null)
+          throw new PrintException("equality substitute command cannot have a predicate");
+        print(ZEvesProofKeyword.EQUALITY);
+        print(ZEvesProofKeyword.SUBSTITUTE);
+        if (term.getExpr() != null)
+        {
+          visit(term.getExpr());
+        }
+        break;
+      default:
+        throw new Error();
+    }
+    return null;
+  }
+
+  @Override
+  public Object visitSimplificationCommand(SimplificationCommand term)
+  {
+    switch (term.getKind())
+    {
+      case Reduce:
+        switch (term.getPower())
+        {
+          case None:
+            print(ZEvesProofKeyword.REDUCE);
+            break;
+          case Prove:
+            print(ZEvesProofKeyword.PROVE);
+            print(ZEvesProofKeyword.BY);
+            print(ZEvesProofKeyword.REDUCE);
+            break;
+          case Trivial:
+            throw new PrintException("INVALID(trivial reduce)");
+          default:
+            throw new PrintException();
+        }
+        break;
+      case Rewrite:
+        switch (term.getPower())
+        {
+          case None:
+            print(ZEvesProofKeyword.REWRITE);
+            break;
+          case Prove:
+            print(ZEvesProofKeyword.PROVE);
+            print(ZEvesProofKeyword.BY);
+            print(ZEvesProofKeyword.REWRITE);
+            break;
+          case Trivial:
+            print(ZEvesProofKeyword.TRIVIAL);
+            print(ZEvesProofKeyword.REWRITE);
+            break;
+          default:
+            throw new PrintException();
+        }
+        break;
+      case Simplify:
+        switch (term.getPower())
+        {
+          case None:
+            print(ZEvesProofKeyword.SIMPLIFY);
+            break;
+          case Prove:
+            throw new PrintException("INVALID(prove by simplify)");
+          case Trivial:
+            print(ZEvesProofKeyword.TRIVIAL);
+            print(ZEvesProofKeyword.SIMPLIFY);
+            break;
+          default:
+            throw new PrintException();
+        }
+        break;
+      default:
+        throw new PrintException();
+    }
+    return null;
+  }
+
+  @Override
+  public Object visitCaseAnalysisCommand(CaseAnalysisCommand term)
+  {
+    switch (term.getKind())
+    {
+      case Cases:
+        print(ZEvesProofKeyword.CASES);
+        break;
+      case Next:
+        print(ZEvesProofKeyword.NEXT);
+        break;
+      case Split:
+        print(ZEvesProofKeyword.SPLIT);
+        if (term.getPred() == null)
+          throw new PrintException("Invalid split - null predicate");
+        visit(term.getPred());
+        break;
+      default:
+        throw new PrintException();
+    }
+    return null;
+  }
+
+  @Override
+  public Object visitQuantifiersCommand(QuantifiersCommand term)
+  {
+    if (term.getInstantiationList() == null || term.getInstantiationList().isEmpty())
+    {
+      print(ZEvesProofKeyword.PRENEX);
+    }
+    else
+    {
+      if (!(term.getInstantiationList() != null && !term.getInstantiationList().isEmpty()))
+        throw new PrintException("quantifiers instantiation list cannot be empty");
+      print(ZEvesProofKeyword.INSTANTIATE);
+      currInstKind_ = InstantiationKind.Quantifier;
+      printTermList(term.getInstantiationList());
+      currInstKind_ = null;
+    }
+    return null;
+  }
+
+  @Override
+  public Object visitApplyCommand(ApplyCommand term)
+  {
+    if (!(term.getProofCommand() == null
+           && term.getNameList() != null
+           && term.getNameList() instanceof ZNameList
+           && term.getZNameList().size() == 1))
+      throw new PrintException("apply command cannot have subcommand and must have a singleton Z namelist");
+    print(ZEvesProofKeyword.APPLY);
+    visit(term.getZNameList().get(0));
+    if (term.getPred() != null)
+    {
+      if (term.getExpr() != null)
+        throw new PrintException("apply to predicate cannot have an expression");
+      print(ZEvesProofKeyword.TO);
+      print(ZEvesProofKeyword.PREDICATE);
+      visit(term.getPred());
+    }
+    else if (term.getExpr() != null)
+    {
+      if (term.getPred() != null)
+        throw new PrintException("apply to expression cannot have an predicate");
+      print(ZEvesProofKeyword.TO);
+      print(ZEvesProofKeyword.EXPRESSION);
+      visit(term.getExpr());
+    }
+    return null;
+  }
+
+  @Override
+  public String visitInstantiation(Instantiation term)
+  {
+    if (!term.getKind().equals(currInstKind_))
+      throw new PrintException("inconsistent instantiation kind. found " + term.getKind() + "; expected " + currInstKind_);
+    visit(term.getName());
+    print(currInstKind_ == InstantiationKind.Quantifier ? ZKeyword.DEFEQUAL : ZEvesProofKeyword.THMREPLACEMENT);
+    visit(term.getExpr());
+    return null;
+  }
+
+  @Override
+  public Object visitProofType(ProofType term)
+  {
+    print(ZKeyword.COLON);
+    printTermList(term.getProofCommandInfoList(), ZToken.NL);
+    return null;
+  }
+
+  @Override
+  public Object visitZEvesLabel(ZEvesLabel term)
+  {
+    print(ZEvesProofToken.LLABEL);
+    switch (term.getAbility())
+    {
+      case disabled:
+        print(ZEvesProofToken.DISABLEDTHMTAG);
+        break;
+      case enabled:
+      case none:
+      default:
+        break;
+    }
+    switch (term.getUsage())
+    {
+      case rule:
+        print(ZEvesProofKeyword.THMRULE);
+        break;
+      case frule:
+        print(ZEvesProofKeyword.THMFRULE);
+        break;
+      case grule:
+        print(ZEvesProofKeyword.THMGRULE);
+        break;
+      case axiom:
+        print(ZEvesProofKeyword.THMAXIOM);
+        break;
+      default:
+        break;
+    }
+    visit(term.getName());
+    print(ZEvesProofToken.RLABEL);
+    return null;
+  }
+
+  @Override
+  public Object visitZEvesNote(ZEvesNote term)
+  {
+    print(ZEvesProofToken.LZNOTE);
+    printDecorword(term.getNote());
+    print(ZEvesProofToken.RZNOTE);
+    return null;
+  }
+
+  @Override
+  public Object visitProofCommandInfo(ProofCommandInfo term)
+  {
+    print(ZToken.LPAREN);
+    printDecorword(term.getProofStepScope().toString());
+    print(ZKeyword.COMMA);
+    printDecorword(term.getProofStepKind().toString());
+    print(ZKeyword.COMMA);
+    printDecorword(term.getProofStepRank().toString());
+    print(ZToken.RPAREN);
+    return null;
+  }
 }

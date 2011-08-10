@@ -544,7 +544,17 @@ parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesParseResources.
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesProofKeyword.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesProofToken.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/parser/zeves/ZEvesSymMap.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/AstToPrintTreeVisitor.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/LatexPrinterCommand.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/NewlineScanner.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/OldLatexPrinterCommand.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/PrintUtils.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/TokenSequenceVisitor.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/UnicodePrinter.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/UnicodePrinterCommand.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/WarningManager.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/XmlPrinterCommand.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZEvesPrintMessage.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZEvesPrintVisitor.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZmlScanner.java -text
 parser-zeves/src/main/resources/lib/zeves_prelude.tex -text
@@ -552,6 +562,7 @@ parser-zeves/src/main/resources/lib/zeves_toolkit.tex -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/OnTheFlyParsingTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ProofScriptParsingTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ScanningTest.java -text
+parser-zeves/src/test/java/net/sourceforge/czt/print/zeves/ZmlPrintTest.java -text
 parser-zeves/src/test/resources/tests/zeves/bbook.tex -text
 parser-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/bbook.zev -text
