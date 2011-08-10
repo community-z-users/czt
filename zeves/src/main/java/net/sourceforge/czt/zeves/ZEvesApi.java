@@ -1,5 +1,6 @@
 package net.sourceforge.czt.zeves;
 
+import net.sourceforge.czt.util.CztLogger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -318,15 +319,15 @@ public class ZEvesApi {
 		}
 
 		if (resultType == Integer.class) {
-			return (T) getInteger(output.getFirstResult());
+			return (T) getInteger(output, output.getFirstResult());
 		}
 
 		if (resultType == String.class) {
-			return (T) getString(output.getFirstResult());
+			return (T) getString(output, output.getFirstResult());
 		}
 
 		if (resultType == Boolean.class) {
-			return (T) getBoolean(output.getFirstResult());
+			return (T) getBoolean(output, output.getFirstResult());
 		}
 
 		if (resultType == ZEvesOutput.class) {
@@ -338,10 +339,10 @@ public class ZEvesApi {
 				+ resultType.getClass().getName());
 	}
 
-	private Integer getInteger(Object result) throws ZEvesException {
+	private Integer getInteger(ZEvesOutput output, Object result) throws ZEvesException {
 
-		if (result == null) {
-			throw new ZEvesException("Invalid result received from Z/Eves.");
+    if (result == null) {
+			throw new ZEvesException("Invalid integer result received from Z/Eves. " + output.toString());
 		}
 
 		String valStr = ((ZEvesNumber) result).getValue();
@@ -354,9 +355,10 @@ public class ZEvesApi {
 		}
 	}
 
-	private String getString(Object result) {
+	private String getString(ZEvesOutput output, Object result) {
 
 		if (result == null) {
+      CztLogger.getLogger(getClass()).warning("Null string result received from Z/Eves. " + output.toString());
 			return null;
 		}
 
@@ -367,10 +369,10 @@ public class ZEvesApi {
 		return ((ZEvesString) result).getValue();
 	}
 
-	private Boolean getBoolean(Object result) throws ZEvesException {
+	private Boolean getBoolean(ZEvesOutput output, Object result) throws ZEvesException {
 
 		if (result == null) {
-			throw new ZEvesException("Invalid result received from Z/Eves.");
+			throw new ZEvesException("Invalid boolean result received from Z/Eves. " + output.toString());
 		}
 
 		String valStr = ((ZEvesName) result).getIdent();
@@ -411,10 +413,10 @@ public class ZEvesApi {
 		for (int index = 0; index < results.size() - 1; index += 2) {
 
 			// theoremName and isGoal/Axiom comes in pairs
-			String theoremName = getString(results.get(index));
+			String theoremName = getString(output, results.get(index));
 
 			// axiom otherwise
-			Boolean isGoal = getBoolean(results.get(index + 1));
+			Boolean isGoal = getBoolean(output, results.get(index + 1));
 			ZEvesTheoremType type = isGoal ? ZEvesTheoremType.GOAL : ZEvesTheoremType.AXIOM;
 
 			theoremNames.put(theoremName, type);
