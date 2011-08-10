@@ -118,6 +118,8 @@ public class AstToPrintTreeVisitor
   
   protected final WarningManager warningManager_;
 
+  protected boolean withinAxPara_ = false;
+
   public AstToPrintTreeVisitor(SectionInfo sectInfo) {
       this(sectInfo, new WarningManager(AstToPrintTreeVisitor.class));
   }
@@ -191,11 +193,13 @@ public class AstToPrintTreeVisitor
    * created that contains the new children.  A child that has not
    * changed is shared between the new and the old AST.
    */
+  @Override
   public Term visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, true);
   }
 
+  @Override
   public Term visitAndPred(AndPred andPred)
   {
     List<Object> list = new LinkedList<Object>();
@@ -225,6 +229,7 @@ public class AstToPrintTreeVisitor
       visitAndPred((AndPred) pred, list);
     }
     else {
+      preprocessTerm(pred, list);
       list.add(visit(pred));
     }
   }
@@ -319,9 +324,16 @@ public class AstToPrintTreeVisitor
     return pp;
   }
 
+  protected void preprocessTerm(Term term, List list)
+  {
+    // do nothing
+  }
+
   public Term visitAxPara(AxPara axPara)
   {
     List list = new LinkedList();
+    withinAxPara_ = true;
+    PrintParagraph result = null;
     Box box = axPara.getBox();
     if (box == null || Box.AxBox.equals(box)) {
       if (! isGeneric(axPara)) {
@@ -353,6 +365,7 @@ public class AstToPrintTreeVisitor
     }
     else if (Box.OmitBox.equals(box)) {
       list.add(ZToken.ZED);
+      preprocessTerm(axPara, list);
       final List declNameList = axPara.getName();
       final SchText schText = axPara.getSchText();
       final List<Decl> decls = axPara.getZSchText().getZDeclList();
@@ -398,13 +411,16 @@ public class AstToPrintTreeVisitor
       list.add(ZToken.END);
     }
     else if (Box.SchBox.equals(box)) {
-      return handleOldZ(axPara.getAnns(), handleSchemaDefinition(axPara));
+      result = handleOldZ(axPara.getAnns(), handleSchemaDefinition(axPara));
     }
     else {
+      withinAxPara_ = false;
       throw new CztException("Unexpected Box " + box);
     }
-    return handleOldZ(axPara.getAnns(),
-                      printFactory_.createPrintParagraph(list));
+    withinAxPara_ = false;
+    if (result == null)
+      result = printFactory_.createPrintParagraph(list);
+    return handleOldZ(axPara.getAnns(), result);
   }
 
   private PrintParagraph handleSchemaDefinition(AxPara axPara)
@@ -417,6 +433,7 @@ public class AstToPrintTreeVisitor
     else {
       list.add(ZToken.SCH);
     }
+    preprocessTerm(axPara, list);
     List<Decl> decls = axPara.getZSchText().getZDeclList();
     ConstDecl cdecl = (ConstDecl) decls.get(0);
     String declName = cdecl.getZName().getWord();

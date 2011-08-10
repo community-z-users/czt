@@ -1294,7 +1294,7 @@ public class ZPrintVisitor
   /**
    * @throws NullPointerException if separator is <code>null</code>.
    */
-  protected void printTermList(List<? extends Term> list, ZKeyword separator)
+  protected void printTermList(List<? extends Term> list, Token separator)
   {
     if (separator == null) throw new NullPointerException();
     for (Iterator<? extends Term> iter = list.iterator(); iter.hasNext();) {
