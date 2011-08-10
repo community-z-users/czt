@@ -570,6 +570,8 @@ import net.sourceforge.czt.z.util.ZString;
      * The brace after \\Label{...}
      */
     ZLABEL,
+
+    SYNDEF,
     </add:zeves>
 
     /**
@@ -692,6 +694,13 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
 
 ABILITY = "enabled" | "disabled"
 USAGE   = "axiom" | "frule" | "grule" | "rule"
+
+ZEVES_OP_FCNP = [1-6]
+ZEVES_OP_FCN  = "infun" | "postfun"
+ZEVES_OP_FCNN = "infun" {ZEVES_OP_FCNP} | "postfun"
+ZEVES_OP_GEN  = "ingen" | "pregen"
+ZEVES_OP_REL  = "inrel" | "prerel"
+ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
 </add:zeves>
 
 %state ZED
@@ -710,6 +719,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
 <add:zeves>
 %state ZNOTE_STATE
 %state ZLABEL_STATE
+%state ZEVES_OPT_STATE
 </add:zeves>
 
 %%
@@ -971,6 +981,13 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           inProofScript_ = true;
           braceStack_.push(BraceType.PROOF_NAME);
           return result(ZEvesString.ZPROOF);
+        }
+  "\\syndef{" / ({NAME} "}{" {ZEVES_OP_CLS} "}{" {NAME} "}")
+        {
+          yybegin(ZEVES_OPT_STATE);
+          assert ! addSpace_;
+          braceStack_.push(BraceType.SYNDEF);
+          return result(ZString.ZED);
         }
   /* Nameless proofs are acceptable: they are the proof for the last declared Paragraph.
      for simplicity, rule then out here
@@ -1741,6 +1758,105 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
         }
 }
 
+&lt;ZEVES_OPT_STATE&gt; {
+   {ZEVES_OP_FCN}
+      {
+        // pass  infun/prefun/postfun as \\function template to Unicode stream
+        String result = toUnicode("\\function", true);
+        System.out.println("ZEVES_OP_FCN = '" + result + "'");
+        return result(result);
+      }
+   {ZEVES_OP_GEN}
+      {
+        // pass  ingen/pregen as \\generic template to Unicode stream
+        String result = toUnicode("\\generic", true);
+        System.out.println("ZEVES_OP_GEN = '" + result + "'");
+        return result(result);
+      }
+   {ZEVES_OP_REL}
+      {
+        // pass  infun/prefun/postfun as \\function template to Unicode stream
+        String result = toUnicode("\\relation", true);
+        System.out.println("ZEVES_OP_REL = '" + result + "'");
+        return result(result);
+      }
+   {ZEVES_OP_FCNP}
+      {
+        // makes 1-6 = 10-60 for compatibility with Z Std mathematical toolkit opt binding powers
+        String result = String.valueOf(Integer.valueOf(yytext()) * 10);
+        System.out.println("ZEVES_OP_FCNP = '" + result + "'");
+        return result(result);
+      }
+   "}{"
+      {
+        boolean okay = !braceStack_.empty();
+        BraceType brace = null;
+        if (okay)
+        {
+          brace = (BraceType) braceStack_.pop();
+          okay = brace.equals(BraceType.SYNDEF);
+        }
+        if (!okay) {
+          final ErrorType errorType = ErrorType.ERROR;
+          reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
+        }
+        else
+        {
+          braceStack_.push(BraceType.SYNDEF);
+        }
+        System.out.println("ZEVES_OP_}{");
+        return result(ZString.SPACE);
+      }
+   "}"
+      {
+        boolean okay = !braceStack_.empty();
+        BraceType brace = null;
+        if (okay)
+        {
+          brace = (BraceType) braceStack_.pop();
+          okay = brace.equals(BraceType.SYNDEF);
+        }
+        if (!okay) {
+          final ErrorType errorType = ErrorType.ERROR;
+          reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
+        }
+        yybegin(YYINITIAL);
+        System.out.println("ZEVES_OP_}_FINAL");
+        return result(ZString.END);
+      }
+
+  // string or word...
+  {COMMAND}
+        {
+          String result = addSpace();
+          boolean spaces = braceStack_.empty();
+          String zstring = toUnicode(yytext(), spaces);
+          if (zstring != null) {
+            result += zstring;
+          }
+          else {
+            reportUnknownLatexCommand(yytext());
+            if (spaces) result += ZString.SPACE;
+            result += yytext().substring(1);
+            if (spaces) result += ZString.SPACE;
+          }
+          return result(result);
+        }
+  ({LETTER} | [0-9])*
+        {
+          // To aid low-level debugging: ({LETTER} | [0-9])*
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
+  .
+        {
+          // To aid low-level debugging: .  // OR SHOULD THIS BE A CATCH ALL ERROR?
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
+}
 
 </add:zeves>
 
