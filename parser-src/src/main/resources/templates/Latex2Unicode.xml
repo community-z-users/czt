@@ -211,6 +211,8 @@ import net.sourceforge.czt.z.util.ZString;
   private int JUST_AFTER_TO    =  2;
   private int applyState_      = NOT_WITHIN_APPLY;
 
+  private LocToken synDefOpName_ = null;
+
   </add:zeves>
 
   /**
@@ -451,6 +453,7 @@ import net.sourceforge.czt.z.util.ZString;
     final Object[] args = { arg0, locInfo };
     CircusParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
   }
+
   </add:circus>
   <add:zeves>
   private void reportError(ErrorType type, ZEvesParseMessage msg,
@@ -982,13 +985,20 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           braceStack_.push(BraceType.PROOF_NAME);
           return result(ZEvesString.ZPROOF);
         }
-  "\\syndef{" / ({NAME} "}{" {ZEVES_OP_CLS} "}{" {NAME} "}")
-        {
-          yybegin(ZEVES_OPT_STATE);
-          assert ! addSpace_;
-          braceStack_.push(BraceType.SYNDEF);
-          return result(ZString.ZED);
-        }
+  //"\\syndef{" / ({NAME} "}{" {ZEVES_OP_CLS} "}{" {NAME} "}")
+  //      {
+  //        yybegin(ZEVES_OPT_STATE);
+  //        assert ! addSpace_;
+  //        braceStack_.push(BraceType.SYNDEF);
+  //        synDefOpName_ = null;
+  //        return result(ZString.ZED);
+  //      }
+
+  //"\\syndef{" {COMMAND} "}{infun6}{" ({LETTER} | [0-9])* "}"
+  //      {
+  //        System.out.println("SYNDF = " + yytext());
+  //      }
+
   /* Nameless proofs are acceptable: they are the proof for the last declared Paragraph.
      for simplicity, rule then out here
   "\\begin" {IGNORE}* "{zproof}" {IGNORE}*
@@ -1759,30 +1769,90 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
 }
 
 &lt;ZEVES_OPT_STATE&gt; {
-   {ZEVES_OP_FCN}
+   {ZEVES_OP_FCNN}
       {
+        final String syndef = yytext();
+        if (synDefOpName_ == null)
+        {
+          reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_UMATCHED_SYNDEFOPNAME, syndef, syndef);
+        }
+
         // pass  infun/prefun/postfun as \\function template to Unicode stream
+        System.out.println("ZEVES_OP_FCNN = '" + syndef + "'");
+
         String result = toUnicode("\\function", true);
-        System.out.println("ZEVES_OP_FCN = '" + result + "'");
+        boolean hasPrec = syndef.startsWith("infun");
+        if (hasPrec)
+        {
+          result += ZString.SPACE;
+          // makes 1-6 = 10-60 for compatibility with Z Std mathematical toolkit opt binding powers
+          result += yycharat(yylength()-1) + "0";
+          //result += ZString.SPACE;
+          result += toUnicode("\\leftassoc", true);
+        }
+        else
+        {
+          assert syndef.equals("postfun");
+        }
+
+        System.out.println("ZEVES_OP_FCNN result = '" + result + "'" + "; synDefOpName = " + synDefOpName_);
+
         return result(result);
       }
    {ZEVES_OP_GEN}
       {
+        final String syndef = yytext();
+        if (synDefOpName_ == null)
+        {
+          reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_UMATCHED_SYNDEFOPNAME, syndef, syndef);
+        }
+        System.out.println("ZEVES_OP_GEN = '" + syndef + "'");
+
         // pass  ingen/pregen as \\generic template to Unicode stream
         String result = toUnicode("\\generic", true);
-        System.out.println("ZEVES_OP_GEN = '" + result + "'");
+
+        if (syndef.startsWith("ingen"))
+        {
+          result += "100";
+          result += toUnicode("\\leftassoc", true);
+        }
+        else
+        {
+          assert syndef.equals("pregen");
+        }
+
+        System.out.println("ZEVES_OP_GEN result = '" + result + "'" + "; synDefOpName = " + synDefOpName_);
+
         return result(result);
       }
    {ZEVES_OP_REL}
       {
+        final String syndef = yytext();
+        if (synDefOpName_ == null)
+        {
+          reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_UMATCHED_SYNDEFOPNAME, syndef, syndef);
+        }
+        System.out.println("ZEVES_OP_REL = '" + syndef + "'");
+
         // pass  infun/prefun/postfun as \\function template to Unicode stream
         String result = toUnicode("\\relation", true);
-        System.out.println("ZEVES_OP_REL = '" + result + "'");
+
+        if (syndef.startsWith("inrel"))
+        {
+          result += "100";
+          result += toUnicode("\\leftassoc", true);
+        }
+        else
+        {
+          assert syndef.equals("prerel");
+        }
+
+        System.out.println("ZEVES_OP_REL result = '" + result + "'" + "; synDefOpName = " + synDefOpName_);
+
         return result(result);
       }
    {ZEVES_OP_FCNP}
       {
-        // makes 1-6 = 10-60 for compatibility with Z Std mathematical toolkit opt binding powers
         String result = String.valueOf(Integer.valueOf(yytext()) * 10);
         System.out.println("ZEVES_OP_FCNP = '" + result + "'");
         return result(result);
@@ -1804,7 +1874,6 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
         {
           braceStack_.push(BraceType.SYNDEF);
         }
-        System.out.println("ZEVES_OP_}{");
         return result(ZString.SPACE);
       }
    "}"
@@ -1821,7 +1890,7 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
         }
         yybegin(YYINITIAL);
-        System.out.println("ZEVES_OP_}_FINAL");
+        synDefOpName_ = null;
         return result(ZString.END);
       }
 
@@ -1840,21 +1909,21 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
             result += yytext().substring(1);
             if (spaces) result += ZString.SPACE;
           }
-          return result(result);
+          synDefOpName_ = result(result);
+          return result(ZString.SPACE);
         }
   ({LETTER} | [0-9])*
         {
           // To aid low-level debugging: ({LETTER} | [0-9])*
           String result = addSpace();
           result += yytext();
-          return result(result);
+
+          synDefOpName_ = result(result);
+          return result(ZString.SPACE);
         }
   .
         {
-          // To aid low-level debugging: .  // OR SHOULD THIS BE A CATCH ALL ERROR?
-          String result = addSpace();
-          result += yytext();
-          return result(result);
+          yybegin(ERROR);
         }
 }
 
