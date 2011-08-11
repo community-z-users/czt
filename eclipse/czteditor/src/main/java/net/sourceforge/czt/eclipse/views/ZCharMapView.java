@@ -8,7 +8,6 @@ import net.sourceforge.czt.eclipse.util.IZFileType;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
@@ -48,6 +47,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.IDocumentProvider;
+
+import static java.lang.Math.max;
 
 /**
  * The view shows the Z characters in a table
@@ -388,10 +389,18 @@ public class ZCharMapView extends ViewPart
     });
 
     table.setRedraw(false);
+    
+    // get the longest column count of all tables
+    int maxColumnCount = max(
+        fZTable.getColumnCount(),
+        max(fObjectZTable.getColumnCount(),
+            max(fCircusTable.getColumnCount(), 
+                fZEvesTable.getColumnCount())));
+    
     TableColumn tableColumn = new TableColumn(table, SWT.LEFT);
     tableColumn.setText("");
     tableColumn.setWidth(100);
-    for (int i = 1; i < fCharTable.getColumnCount(); i++) {
+    for (int i = 1; i < maxColumnCount; i++) {
       tableColumn = new TableColumn(table, SWT.CENTER);
       tableColumn.setText("");
       tableColumn.setWidth(50);
@@ -492,11 +501,11 @@ public class ZCharMapView extends ViewPart
    getSite().registerContextMenu(menuMgr, viewer);
    }
  */
-  private void showMessage(String message)
-  {
-    MessageDialog.openInformation(viewer.getControl().getShell(), "Z Char Map",
-        message);
-  }
+//  private void showMessage(String message)
+//  {
+//    MessageDialog.openInformation(viewer.getControl().getShell(), "Z Char Map",
+//        message);
+//  }
 
   /**
    * Passing the focus request to the viewer's control.
