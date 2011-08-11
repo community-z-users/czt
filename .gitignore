@@ -1342,14 +1342,6 @@ corejava/src/test/java/net/target
 corejava/src/test/java/target
 corejava/src/test/target
 corejava/target
-corejava/xsl/*.aux
-corejava/xsl/*.blg
-corejava/xsl/*.log
-corejava/xsl/*.tmp
-corejava/xsl/.classpath
-corejava/xsl/.project
-corejava/xsl/.settings
-corejava/xsl/target
 doc/*.aux
 doc/*.blg
 doc/*.log

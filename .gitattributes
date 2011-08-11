@@ -19,10 +19,6 @@ corejava/src/main/xml/zeveschar.xml -text
 corejava/src/test/java/net/sourceforge/czt/circuspatt/impl/LawTest.java -text
 corejava/src/test/java/net/sourceforge/czt/circuspatt/impl/MockActionLawsTest.java -text
 corejava/src/test/java/net/sourceforge/czt/zeves/util/DescriptionTest.java -text
-corejava/xsl/circuspattchar2class.xsl -text
-corejava/xsl/circuspattchar2stringclass.xsl -text
-corejava/xsl/zeveschar2class.xsl -text
-corejava/xsl/zeveschar2stringclass.xsl -text
 doc/Using[!!-~]fontforget.ppt -text
 doc/architecture.pdf -text
 doc/architecture.sxd -text
