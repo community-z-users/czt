@@ -568,6 +568,7 @@ parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/WarningManager.java -
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/XmlPrinterCommand.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZEvesPrintMessage.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZEvesPrintVisitor.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZToWhyMPrintVisitor.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZmlScanner.java -text
 parser-zeves/src/main/resources/lib/zeves_prelude.tex -text
 parser-zeves/src/main/resources/lib/zeves_toolkit.tex -text

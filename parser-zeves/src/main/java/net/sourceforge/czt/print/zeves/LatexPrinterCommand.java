@@ -24,8 +24,7 @@ import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
-import net.sourceforge.czt.print.z.AstToPrintTreeVisitor;
-import net.sourceforge.czt.print.z.UnicodePrinter;
+import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -36,17 +35,18 @@ import net.sourceforge.czt.session.SectionManager;
 public class LatexPrinterCommand
         extends net.sourceforge.czt.print.z.LatexPrinterCommand
 {
+    @Override
     public void printLatex(Term term,
                          Writer out,
                          SectionManager sectInfo,
                          String sectionName)
   {
-    TokenSequence tseq = toUnicode(term, sectInfo, sectionName,
+    UnicodePrinter printer = new UnicodePrinter(out);
+    TokenSequence tseq = toUnicode(printer, term, sectInfo, sectionName,
                                    sectInfo.getProperties());
-    ZmlScanner scanner = new ZmlScanner(tseq.iterator());
+    ZmlScanner scanner = new ZmlScanner(tseq.iterator(), sectInfo.getProperties());
     Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
-    UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
     try {
       parser.parse();
@@ -68,9 +68,9 @@ public class LatexPrinterCommand
   }
 
   @Override
-  protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
+  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(props, PrintUtils.warningManager_);
+    return new TokenSequenceVisitor(printer, props, PrintUtils.warningManager_);
   }
 
   @Override

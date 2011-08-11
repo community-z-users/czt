@@ -31,15 +31,15 @@ import net.sourceforge.czt.parser.util.Token;
  */
 public enum ZEvesProofToken implements Token
 {
-  ZPROOF(ZEvesString.ZPROOF + ZString.SPACE + "zproof", NewlineCategory.AFTER),
-  ZPROOFSECTION(ZEvesString.ZPROOFSECTION + ZString.SPACE + "zproofsection", NewlineCategory.AFTER),
+  ZPROOF(ZEvesString.ZPROOF, NewlineCategory.AFTER),
+  ZPROOFSECTION(ZEvesString.ZPROOFSECTION, NewlineCategory.AFTER),
   ZPROOFDOLLAR(ZEvesString.ZPROOFDOLLAR, NewlineCategory.NEITHER),
   ZPROOFCOMMANDSEP(ZEvesString.ZPROOFCOMMANDSEP, NewlineCategory.BOTH),
 
-  LLABEL(ZEvesString.LLABEL + ZString.SPACE, NewlineCategory.NEITHER),
-  RLABEL(ZString.SPACE + ZEvesString.RLABEL, NewlineCategory.AFTER),
-  LZNOTE(ZEvesString.LZNOTE + ZString.SPACE, NewlineCategory.NEITHER),
-  RZNOTE(ZString.SPACE + ZEvesString.RZNOTE, NewlineCategory.NEITHER),
+  LLABEL(ZEvesString.LLABEL, NewlineCategory.NEITHER),
+  RLABEL(ZEvesString.RLABEL, NewlineCategory.AFTER),
+  LZNOTE(ZEvesString.LZNOTE, NewlineCategory.NEITHER),
+  RZNOTE(ZEvesString.RZNOTE, NewlineCategory.NEITHER),
 
   DISABLEDTHMTAG(ZEvesString.DISABLEDTHMTAG, NewlineCategory.NEITHER),
   DISABLEDDEFTAG(ZEvesString.DISABLEDDEFTAG, NewlineCategory.NEITHER)

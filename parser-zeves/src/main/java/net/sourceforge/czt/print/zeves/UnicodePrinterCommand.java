@@ -22,7 +22,7 @@ package net.sourceforge.czt.print.zeves;
 import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
-import net.sourceforge.czt.print.z.AstToPrintTreeVisitor;
+import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -34,6 +34,7 @@ public class UnicodePrinterCommand
   extends net.sourceforge.czt.print.z.UnicodePrinterCommand
 {
 
+  @Override
   protected Term preprocess(Term term,
                             SectionManager manager,
                             String section)
@@ -44,8 +45,9 @@ public class UnicodePrinterCommand
     return toPrintTree(toPrintTree, term, section);
   }
 
-  protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
+  @Override
+  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(props, PrintUtils.warningManager_);
+    return new TokenSequenceVisitor(printer, props, PrintUtils.warningManager_);
   }
 }

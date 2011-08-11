@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.parser.zeves;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -28,6 +31,7 @@ import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.zeves.util.PrintVisitor;
 
 /**
@@ -52,6 +56,8 @@ public class ProofScriptParsingTest
   
   private PrintVisitor printer_ = null;
 
+  private JaxbXmlWriter writer_ = new JaxbXmlWriter();
+  
   @Override
   protected void setUp() throws Exception
   {
@@ -68,7 +74,7 @@ public class ProofScriptParsingTest
   }
 
   @Override
-  protected void testing(Spec term)
+  protected void testing(URL resource, Spec term)
   {
     if (printer_ != null) ZUtils.setToStringVisitor(term, printer_);
     for(Sect s : term.getSect())
@@ -80,11 +86,30 @@ public class ProofScriptParsingTest
         System.out.println(zs.toString());
       }
     }
+//    System.out.println("Parsing successful, start XML printing...");
+//    String xmlFile;
+//    String file = resource.getFile();
+//    if (file.lastIndexOf(".") != -1)
+//      xmlFile = file.substring(0, file.lastIndexOf(".")) + ".xml";
+//    else
+//      xmlFile = file + ".xml";
+//    File f = new File(xmlFile);
+//    f.delete();
+//    try
+//    {
+//      FileWriter fw = new FileWriter(f);
+//      writer_.write(term, fw);
+//      fw.close();
+//    } catch (IOException e)
+//    {
+//      encounteredException(resource, e, "IOException whilst trying to write XML file for resource " + file, false);
+//      throw new RuntimeException(e);
+//    }
   }
 
   @Override
   @SuppressWarnings("CallToThreadDumpStack")
-  protected void encounteredException(Throwable e, String failureMsg, boolean handled)
+  protected void encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
   {
     System.out.println("Encountered exception during parsing: " + e.getClass().getName());
     System.out.println("\t " + failureMsg);
@@ -103,4 +128,7 @@ public class ProofScriptParsingTest
     System.out.println("Number of tests for Z/Eves proofs parsing: " + result.countTestCases());
     return result;
   }
+
+
+
 }

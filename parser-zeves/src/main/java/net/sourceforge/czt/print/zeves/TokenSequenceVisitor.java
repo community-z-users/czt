@@ -20,6 +20,7 @@
 package net.sourceforge.czt.print.zeves;
 
 import java.util.Properties;
+import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.z.util.WarningManager;
 
 /**
@@ -30,9 +31,9 @@ import net.sourceforge.czt.z.util.WarningManager;
 public class TokenSequenceVisitor 
   extends  net.sourceforge.czt.print.z.TokenSequenceVisitor
 {
-  public TokenSequenceVisitor(Properties props, WarningManager warningManager)
+  public TokenSequenceVisitor(ZPrinter printer, Properties props, WarningManager warningManager)
   {
-    super();
+    super(printer);
     setZPrintVisitor(new ZEvesPrintVisitor(this, props, warningManager));
   }
 }

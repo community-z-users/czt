@@ -47,6 +47,9 @@ public class ZEvesSymMap {
   // it includes "apply", "prove", etc... but not "by" or "to" or "expression", say.
   public static Set<String> HEAD_PROOF_WORDS_ONLY = getZEvesHeadProofWordsOnly();
 
+  public static Set<String> ALL_ZEVES_KEYWORDS = getAllZEvesKeywords();
+  public static Set<String> ALL_ZEVES_USAGE_WORDS = getAllZEvesUsageWords();
+
   public static Map<String,Integer> createMap(Class<?> symClass)
   {
     try {
@@ -122,6 +125,31 @@ public class ZEvesSymMap {
     }
 
     // return the symbol names.
+    return Collections.unmodifiableSet(result);
+  }
+
+  private static Set<String> getAllZEvesKeywords()
+  {
+    Set<String> result = new TreeSet<String>();
+
+    for(ZEvesProofKeyword w : ZEvesProofKeyword.values())
+    {
+      result.add(w.getName());
+    }
+    
+    // return the symbol names.
+    return Collections.unmodifiableSet(result);
+  }
+
+  private static Set<String> getAllZEvesUsageWords()
+  {
+    Set<String> result = new TreeSet<String>();
+
+    result.add(ZEvesProofKeyword.THMRULE.getName());
+    result.add(ZEvesProofKeyword.THMFRULE.getName());
+    result.add(ZEvesProofKeyword.THMGRULE.getName());
+    result.add(ZEvesProofKeyword.THMAXIOM.getName());
+
     return Collections.unmodifiableSet(result);
   }
 }

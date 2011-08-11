@@ -67,41 +67,69 @@ public class AstToPrintTreeVisitor extends
   @SuppressWarnings("unchecked")
   protected void preprocessTerm(Term term, List list)
   {
-    if (!withinAxPara_) return;
-    ZEvesLabel label = ZEvesUtils.getLabel(term);
-    if (label != null && label.getAbility().equals(LabelAbility.disabled))
+    // within AxPara
+    if (withinAxPara_)
     {
-      if (term instanceof AxPara)
+      // if have label
+      ZEvesLabel label = ZEvesUtils.getLabel(term);
+      if (label != null)
       {
-        // for SCH or OmitBox
-        if (((AxPara)term).getBox().equals(Box.AxBox))
-          throw new PrintException("preprocessing ability for Schemas and Horizontal definitions only. AxBox labels are processed at predicate level.");
-        list.add(ZEvesProofToken.DISABLEDDEFTAG);
-      }
-      else if (term instanceof Pred)
-      {
-        list.add(ZEvesProofKeyword.DISABLED);
-        if (label != null && label.getUsage().equals(LabelUsage.none))
+        // check what kind of para for just ability or label
+        boolean hasAbility = label.getAbility().equals(LabelAbility.disabled);
+        if (term instanceof AxPara)
         {
-          switch (label.getUsage())
+          // for SCH or OmitBox
+          if (((AxPara)term).getBox().equals(Box.AxBox))
+            throw new PrintException("preprocessing ability for Schemas and Horizontal definitions only. AxBox labels are processed at predicate level.");
+
+          if (hasAbility)
+            list.add(ZEvesProofToken.DISABLEDDEFTAG);
+        }
+        // it's a pred, we have a label
+        else if (term instanceof Pred)
+        {
+          // handle name
+          if (label.getName() == null)
+            throw new PrintException("Invalid label name for labelled axiomatic predicate - " + label.toString());
+
+          // no bother with axioms (defaults)
+          if (!label.getUsage().equals(LabelUsage.axiom))
           {
-            case rule:
-              list.add(ZEvesProofKeyword.THMRULE);
-              break;
-            case grule:
-              list.add(ZEvesProofKeyword.THMGRULE);
-              break;
-            case frule:
-              list.add(ZEvesProofKeyword.THMFRULE);
-              break;
-            case axiom:
-              list.add(ZEvesProofKeyword.THMAXIOM);
-              break;
+            list.add(ZEvesProofToken.LLABEL);
+
+            // handle ability
+            if (hasAbility)
+              list.add(ZEvesProofKeyword.DISABLED);
+
+            // handle usage
+            switch (label.getUsage())
+            {
+              case rule:
+                list.add(ZEvesProofKeyword.THMRULE);
+                break;
+              case grule:
+                list.add(ZEvesProofKeyword.THMGRULE);
+                break;
+              case frule:
+                list.add(ZEvesProofKeyword.THMFRULE);
+                break;
+              case axiom:
+                // No need, already within AxPara - e.g., ConjPara will get axiom tag
+                //list.add(ZEvesProofKeyword.THMAXIOM);
+                //break;
+              case none:
+              default:
+                // do nothing
+                break;
+            }
+            // axiom names are not to be given/print
+            list.add(visit(label.getName()));
+
+            list.add(ZEvesProofToken.RLABEL);
           }
         }
-        if (label.getName() == null)
-          throw new PrintException("Invalid label name for labelled axiomatic predicate");
-        list.add(visit(label.getName()));
+        else
+          throw new PrintException("Invalid term to preprocess for printing. Neither AxPara, nor Pred " + term.getClass().getName());
       }
     }
   }

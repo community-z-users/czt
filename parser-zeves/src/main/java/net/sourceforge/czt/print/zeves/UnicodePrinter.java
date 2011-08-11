@@ -20,6 +20,8 @@
 package net.sourceforge.czt.print.zeves;
 
 import java.io.Writer;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
 
 /**
  *
@@ -49,6 +51,14 @@ public class UnicodePrinter
   public UnicodePrinter(Writer out, boolean autoFlush)
   {
     super(out, autoFlush);
+  }
+
+  @Override
+  public boolean addExtraNLFor(Token token)
+  {
+    return (super.addExtraNLFor(token) || 
+            ZEvesProofToken.ZPROOFCOMMANDSEP.getName().equals(token.getName()) ||
+            ZEvesProofToken.ZPROOF.getName().equals(token.getName()));
   }
 }
 

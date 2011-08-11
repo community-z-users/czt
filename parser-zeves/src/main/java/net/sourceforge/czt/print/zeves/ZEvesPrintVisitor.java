@@ -25,6 +25,7 @@ import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
 import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
 import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.util.WarningManager;
@@ -34,7 +35,6 @@ import net.sourceforge.czt.zeves.ast.Instantiation;
 import net.sourceforge.czt.zeves.ast.InstantiationKind;
 import net.sourceforge.czt.zeves.ast.InstantiationList;
 import net.sourceforge.czt.zeves.ast.LabelAbility;
-import net.sourceforge.czt.zeves.ast.LabelUsage;
 import net.sourceforge.czt.zeves.ast.NormalizationCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfoList;
@@ -86,33 +86,39 @@ public class ZEvesPrintVisitor
   public Object visitConjPara(ConjPara conjPara)
   {
     print(ZToken.ZED);
+    String name = conjPara.getName();
+    if (name == null || name.isEmpty())
+      throw new PrintException("Z/Eves theorems must have names");
+
     ZEvesLabel label = ZEvesUtils.getLabel(conjPara);
     if (label != null && label.getAbility().equals(LabelAbility.disabled))
     {
-      print(ZEvesProofToken.DISABLEDTHMTAG);
+        print(ZEvesProofToken.DISABLEDTHMTAG);
     }
-    if (conjPara.getName() != null) {
-      print(ZKeyword.THEOREM);
-      if (label != null && label.getUsage().equals(LabelUsage.none))
+    print(ZKeyword.THEOREM);
+    if (label != null)
+    {
+      switch (label.getUsage())
       {
-        switch (label.getUsage())
-        {
-          case rule:
-            print(ZEvesProofKeyword.THMRULE);
-            break;
-          case grule:
-            print(ZEvesProofKeyword.THMGRULE);
-            break;
-          case frule:
-            print(ZEvesProofKeyword.THMFRULE);
-            break;
-          case axiom:
-            print(ZEvesProofKeyword.THMAXIOM);
-            break;
-        }
+        case rule:
+          print(ZEvesProofKeyword.THMRULE);
+          break;
+        case grule:
+          print(ZEvesProofKeyword.THMGRULE);
+          break;
+        case frule:
+          print(ZEvesProofKeyword.THMFRULE);
+          break;
+        case axiom:
+          print(ZEvesProofKeyword.THMAXIOM);
+          break;
+        case none:
+        default:
+          // do nothing
+          break;
       }
-      print(ZToken.DECORWORD, new Decorword(conjPara.getName()));
     }
+    print(ZToken.DECORWORD, new Decorword(name));
     printGenericFormals(conjPara.getNameList());
     //no need for print(ZKeyword.CONJECTURE);
     visit(conjPara.getPred());
@@ -126,7 +132,8 @@ public class ZEvesPrintVisitor
     print(ZEvesProofToken.ZPROOF);
     visit(term.getName());
     printTermList(term.getProofCommandList(), ZEvesProofToken.ZPROOFCOMMANDSEP);
-    visit(term.getProofCommandList());
+    if (!term.getProofCommandList().isEmpty())
+      print(ZEvesProofToken.ZPROOFCOMMANDSEP);
     print(ZToken.END);
     return null;
   }

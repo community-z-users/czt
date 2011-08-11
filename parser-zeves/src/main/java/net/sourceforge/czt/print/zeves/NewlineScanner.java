@@ -20,48 +20,46 @@
 package net.sourceforge.czt.print.zeves;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
-import net.sourceforge.czt.parser.util.CztScannerImpl;
 
 /**
  *
  * @author Leo Freitas
  * @date Aug 10, 2011
  */
-public class NewlineScanner extends CztScannerImpl
+public class NewlineScanner extends net.sourceforge.czt.print.z.NewlineScanner
 {
-  Scanner scanner_;
-  Symbol lastToken_ = new Symbol(0);
-  Symbol lastButOneToken_ = new Symbol(0);
 
   public NewlineScanner(Scanner scanner)
   {
-    scanner_ = scanner;
+    super(scanner);
+  }
+
+  // DONT CALL SUPER: Sym.ZED in one parser might be different from another one
+  @Override
+  protected boolean isBoxSymbol(int sym)
+  {
+    return Sym.ZED == sym || Sym.AX == sym
+        || Sym.GENAX == sym || Sym.GENSCH == sym
+        || Sym.ZPROOF == sym 
+        || Sym.ZPROOFSECTION == sym;
   }
 
   @Override
-  public Symbol next_token()
-    throws Exception
+  protected boolean isWhereSymbol(int sym)
   {
-    Symbol symbol = scanner_.next_token();
-    if (symbol.sym == Sym.NL) {
-      int last = lastToken_.sym;
-      int lastButOne = lastButOneToken_.sym;
-      boolean lastTokenIsBox = Sym.ZED == last || Sym.AX == last
-        || Sym.GENAX == last || Sym.GENSCH == last || Sym.ZPROOF == last ||
-        Sym.ZPROOFSECTION == last;
-      boolean lastIsWhere = Sym.WHERE == last;
-      boolean lastButOneIsSch = Sym.SCH == lastButOne;
-      if (lastTokenIsBox || lastIsWhere || lastButOneIsSch) {
-        while (symbol.sym == Sym.NL) {
-          symbol = scanner_.next_token();
-        }
-      }
-    }
-    lastButOneToken_ = lastToken_;
-    lastToken_ = symbol;
-    logSymbol(symbol);
-    return symbol;
+    return Sym.WHERE == sym;
+  }
+
+  @Override
+  protected boolean isSchSymbol(int sym)
+  {
+    return Sym.SCH == sym;
+  }
+
+  @Override
+  protected int getNLSym()
+  {
+    return Sym.NL;
   }
 
   @Override
