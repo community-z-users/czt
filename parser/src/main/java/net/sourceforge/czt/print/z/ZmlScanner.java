@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.*;
@@ -33,7 +32,6 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZOpToken;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.CztLogger;
 
 /**
  * This Scanner uses the print visitor to tokenize a
@@ -42,9 +40,9 @@ import net.sourceforge.czt.util.CztLogger;
  * @author Petra Malik
  */
 public class ZmlScanner
-  implements Scanner
+  extends CztScannerImpl
 {
-  protected List symbols_;
+  protected List<Symbol> symbols_;
   private int pos_ = 0;
 
   private Iterator<Token> iter_;
@@ -53,36 +51,31 @@ public class ZmlScanner
 
   /**
    * Creates a new ZML scanner.
+   * @param properties
    */
-  protected ZmlScanner()
+  protected ZmlScanner(Properties properties)
   {
+    super(properties);
   }
 
-  public ZmlScanner(Iterator<Token> iter)
+  public ZmlScanner(Iterator<Token> iter, Properties properties)
   {
+    super(properties);
     iter_ = iter;
-  }
-
-  public ZmlScanner(Term term)
-  {
-    PrecedenceParenAnnVisitor precVisitor =
-      new PrecedenceParenAnnVisitor();
-    term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class);
-    ZPrintVisitor visitor = new ZPrintVisitor(collector);
-    term.accept(visitor);
-    symbols_ = collector.getSymbols();
   }
 
   /**
    * Creates a new ZML scanner.
+   * @param term
+   * @param properties
    */
   public ZmlScanner(Term term, Properties properties)
   {
+    super(properties);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class);
+    SymbolCollector collector = new SymbolCollector(Sym.class, this);
     ZPrintVisitor visitor = new ZPrintVisitor(collector, properties);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
@@ -108,6 +101,7 @@ public class ZmlScanner
     }
   }
 
+  @Override
   public Symbol next_token()
   {
     if (iter_ != null) {
@@ -115,10 +109,11 @@ public class ZmlScanner
       if (pre_ != null) {
         result = pre_;
         pre_ = null;
+        logSymbol(result);
         return result;
       }
       if (iter_.hasNext()) {
-        result = getSymbol(iter_.next(), DebugUtils.getFieldMap2(Sym.class));
+        result = getSymbol(iter_.next(), getSymbolMap2());
       }
       if (result == null) {
         if (post_ != null) {
@@ -129,16 +124,23 @@ public class ZmlScanner
           result = new Symbol(0);
         }
       }
+      logSymbol(result);
       return result;
     }
-    if (pos_ >= symbols_.size()) return new Symbol(0);
-    Symbol result = (Symbol) symbols_.get(pos_);
+    if (pos_ >= symbols_.size()) 
+    {
+      Symbol result = new Symbol(0);
+      logSymbol(result);
+      return result;
+    }
+    Symbol result = symbols_.get(pos_);
     pos_++;
+    logSymbol(result);
     return result;
   }
 
-  public static Symbol getSymbol(Token token,
-                                 Map<String, Object> fieldMap)
+  // Substitutes keywords as DECORWORD for Unicode printing - easier scanning
+  protected Pair<String, Object> getSymbolName(Token token)
   {
     String name = token.getName();
     Object value = token.getSpelling();
@@ -148,38 +150,59 @@ public class ZmlScanner
     }
     catch (IllegalArgumentException exception) {
       try {
-        Enum.valueOf(ZKeyword.class, name);
-        name = "DECORWORD";
-        value = new Decorword(token.spelling());
+        // Due to the rather annoying asymmetry for the THEOREM token as a keyword/token marker
+        // in both Parser and Unicode2Latex, we need to *not* consider it as Keyword, specially.
+        if (!name.equals(ZKeyword.THEOREM.name()))
+        {
+          Enum.valueOf(ZKeyword.class, name);
+          name = "DECORWORD";
+          value = new Decorword(token.spelling());
+        }
       }
       catch (IllegalArgumentException e) {
       }
     }
-    Object object = fieldMap.get(name);
+    return new Pair<String, Object>(name, value);
+  }
+
+  protected Symbol getSymbol(Token token,
+                                 Map<String, Object> fieldMap)
+  {
+    Pair<String, Object> pair = getSymbolName(token);
+    Object object = fieldMap.get(pair.getFirst());
     if (object instanceof Integer) {
       Integer result = (Integer) object;
-      return new Symbol(result, value);
+      return new Symbol(result, pair.getSecond());
     }
     throw new CztException(token.getName() + " not found.");
+  }
+
+  @Override
+  protected Class<?> getSymbolClass()
+  {
+    return Sym.class;
   }
 
   /**
    * An implementation of AbstractPrintVisitor.ZPrinter.
    */
   public static class SymbolCollector
-    implements AbstractPrintVisitor.ZPrinter
+    implements ZPrinter
   {
-    private List<Symbol> symbolList_ = new Vector<Symbol>();
-    private Map<String, Object> fieldMap_;
+    private final List<Symbol> symbolList_ = new Vector<Symbol>();
+    private final Map<String, Object> fieldMap_;
+    private final ZmlScanner scanner_;
 
-    public SymbolCollector(Class clazz)
+    public SymbolCollector(Class<?> clazz, ZmlScanner scanner)
     {
       fieldMap_ = DebugUtils.getFieldMap2(clazz);
+      scanner_ = scanner;
     }
 
+    @Override
     public void printToken(Token token)
     {
-      symbolList_.add(getSymbol(token, fieldMap_));
+      symbolList_.add(scanner_.getSymbol(token, fieldMap_));
     }
 
     public List<Symbol> getSymbols()

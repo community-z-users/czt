@@ -44,7 +44,11 @@ public abstract class TokeniserDebugger {
 
   protected TokeniserDebugger(Properties properties)
   {
-    setDebug(Boolean.parseBoolean(properties.getProperty("czt.debug." + getClass().getSimpleName(), "false")));
+    // debug individual scanner/lexer/parser name (E.g., no need for package as we won't have two of them at once
+    // or debug the whole lot if * is given. Defaults (e.g., if property is not present) are false.
+    boolean d = Boolean.parseBoolean(properties.getProperty("czt.debug." + getClass().getSimpleName(), "false"))
+             || Boolean.parseBoolean(properties.getProperty("czt.debug.*", "false"));
+    setDebug(d);
   }
 
   protected Level getDebugLoggingLevel()

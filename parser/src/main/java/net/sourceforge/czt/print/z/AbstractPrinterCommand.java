@@ -32,7 +32,21 @@ import net.sourceforge.czt.session.SectionManager;
 
 public abstract class AbstractPrinterCommand extends AbstractCommand
 {
-  public TokenSequence toUnicode(Term term,
+
+  /**
+   * Creates a sequence of tokens for printing. It considers precedences by adding
+   * parenthesis accordingly, as well as NLs depending on the underlying NL category
+   * for each token involved in the token sequence.
+   *
+   * @param printer printer adaptor to be used by TokenSequence
+   * @param term term to print
+   * @param sectInfo section manager
+   * @param sectionName section name
+   * @param props properties
+   * @return sequence of tokens to be print
+   */
+  public TokenSequence toUnicode(ZPrinter printer,
+                                 Term term,
                                  SectionManager sectInfo,
                                  String sectionName,
                                  Properties props)
@@ -41,7 +55,7 @@ public abstract class AbstractPrinterCommand extends AbstractCommand
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
-    TokenSequenceVisitor visitor = createTokenSequenceVisitor(props);
+    TokenSequenceVisitor visitor = createTokenSequenceVisitor(printer, props);
     tree.accept(visitor);
     TokenSequence tseq = visitor.getResult();
     int textWidth = textWidth(props);
@@ -53,9 +67,9 @@ public abstract class AbstractPrinterCommand extends AbstractCommand
     return tseq;
   }
 
-  protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
+  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(props);
+    return new TokenSequenceVisitor(printer, props);
   }
 
   protected int textWidth(Properties props)
@@ -65,7 +79,7 @@ public abstract class AbstractPrinterCommand extends AbstractCommand
       return Integer.valueOf(value);
     }
     catch (NumberFormatException e) {
-      return -1;
+      return -1; //PrintPropertiesKeys.PROP_TXT_WIDTH_DEFAULT;
     }
   }
 

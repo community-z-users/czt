@@ -24,11 +24,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Stack;
+import net.sourceforge.czt.parser.util.NewlineCategory;
 
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.print.z.ZPrinter;
 
-public class TokenSequence
+public class TokenSequence implements Token
 {
   private String name_;
 
@@ -36,7 +38,9 @@ public class TokenSequence
     @                 (o instanceof Token) ||
     @                 (o instanceof TokenSequence));
     @*/
-  private List<Object> list_ = new ArrayList<Object>();
+  private List<Token> list_ = new ArrayList<Token>();
+
+  private final ZPrinter printer_;
 
   private int nrOfTokens_ = 0;
   //@ invariant nrOfTokens_ >= 0;
@@ -44,11 +48,27 @@ public class TokenSequence
   private int length_ = 0;
   //@ invariant length_ >= 0;
 
-  public TokenSequence(String name)
+  public TokenSequence(String name, ZPrinter printer)
   {
     name_ = name;
+    printer_ = printer;
   }
 
+  public void printTokens()
+  {
+    for (Token o : getSequence()) {
+      if (o instanceof TokenSequence)
+      {
+        ((TokenSequence)o).printTokens();
+      }
+      else
+      {
+        printer_.printToken(o);
+      }
+    }
+  }
+
+  @Override
   public String getName()
   {
     return name_;
@@ -71,7 +91,7 @@ public class TokenSequence
     length_ += seq.getLength();
   }
 
-  public List<Object> getSequence()
+  public List<Token> getSequence()
   {
     return list_;
   }
@@ -94,23 +114,44 @@ public class TokenSequence
     return nrOfTokens_;
   }
 
+  @Override
   public String toString()
   {
     return list_.toString();
   }
 
+  @Override
+  public Object getSpelling()
+  {
+    return getSequence();
+  }
+
+  @Override
+  public String spelling()
+  {
+    Object o = getSpelling();
+    return o != null ? o.toString() : null;
+  }
+
+  @Override
+  public NewlineCategory getNewlineCategory()
+  {
+    return null;
+  }
+
   public static class TokenSeqIterator
     implements Iterator<Token>
   {
-    Stack<Iterator> stack_ = new Stack<Iterator>();
+    Stack<Iterator<Token>> stack_ = new Stack<Iterator<Token>>();
     Token next_;
 
-    protected TokenSeqIterator(List<Object> list)
+    protected TokenSeqIterator(List<Token> list)
     {
       stack_.push(list.iterator());
       next_ = null;
     }
 
+    @Override
     public boolean hasNext()
     {
       if (next_ != null) return true;
@@ -118,16 +159,21 @@ public class TokenSequence
         stack_.pop();
       }
       if (stack_.isEmpty()) return false;
-      Object next = stack_.peek().next();
-      if (next instanceof Token) {
-        next_ = (Token) next;
+      Token next = stack_.peek().next();
+      if (next instanceof TokenSequence)
+      {
+        TokenSequence seq = (TokenSequence) next;
+        stack_.push(seq.getSequence().iterator());
+        return hasNext();
+      }
+      else
+      {
+        next_ = next;
         return true;
       }
-      TokenSequence seq = (TokenSequence) next;
-      stack_.push(seq.getSequence().iterator());
-      return hasNext();
     }
 
+    @Override
     public Token next()
     {
       if (! hasNext()) throw new NoSuchElementException();
@@ -136,6 +182,7 @@ public class TokenSequence
       return result;
     }
 
+    @Override
     public void remove()
     {
       throw new UnsupportedOperationException();

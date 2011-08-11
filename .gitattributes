@@ -602,6 +602,8 @@ parser/src/main/java/net/sourceforge/czt/parser/util/TokeniserDebugger.java -tex
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/java/net/sourceforge/czt/print/z/LatexPrinterPropertyKeys.java -text
+parser/src/main/java/net/sourceforge/czt/print/z/NewlinePrinter.java -text
+parser/src/main/java/net/sourceforge/czt/print/z/ZPrinter.java -text
 parser/src/test/java/net/sourceforge/czt/parser/util/CztManagedTest.java -text
 parser/src/test/resources/tests/z/basicsm.tex -text
 parser/src/test/resources/tests/z/explicitRefExpr.tex -text

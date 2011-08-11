@@ -34,26 +34,24 @@ import net.sourceforge.czt.print.util.TokenSequence;
  */
 public class TokenSequenceVisitor
   implements TermVisitor<Object>,
-             AbstractPrintVisitor.ZPrinter
+             ZPrinter
 {
   private ZPrintVisitor visitor_;
   private Stack<TokenSequence> stack_ = new Stack<TokenSequence>();
+  private final ZPrinter tokenSeqPrinter_;
 
-  protected TokenSequenceVisitor()
+  protected TokenSequenceVisitor(ZPrinter tokenSeqPrinter)
   {
+    tokenSeqPrinter_ = tokenSeqPrinter;
   }
 
-  public TokenSequenceVisitor(ZPrintVisitor visitor)
+  public TokenSequenceVisitor(ZPrinter tokenSeqPrinter, Properties props)
   {
-    setZPrintVisitor(visitor);
-  }
-
-  public TokenSequenceVisitor(Properties props)
-  {
+    this(tokenSeqPrinter);
     setZPrintVisitor(new ZPrintVisitor(this, props));
   }
 
-  protected void setZPrintVisitor(ZPrintVisitor visitor)
+  protected final void setZPrintVisitor(ZPrintVisitor visitor)
   {
     visitor_ = visitor;
     visitor_.setVisitor(this);
@@ -65,6 +63,7 @@ public class TokenSequenceVisitor
     return stack_.pop();
   }
 
+  @Override
   public Object visitTerm(Term term)
   {
     String s = term.getClass().toString();
@@ -76,9 +75,10 @@ public class TokenSequenceVisitor
 
   private void begin(String s)
   {
-    stack_.push(new TokenSequence(s));
+    stack_.push(new TokenSequence(s, tokenSeqPrinter_));
   }
 
+  @Override
   public void printToken(Token token)
   {
     stack_.peek().add(token);

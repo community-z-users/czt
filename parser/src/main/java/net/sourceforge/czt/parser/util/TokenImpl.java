@@ -31,27 +31,32 @@ public class TokenImpl
     spelling_ = spelling;
   }
 
+  @Override
   public String getName()
   {
     return token_.toString();
   }
 
+  @Override
   public Object getSpelling()
   {
     return spelling_ != null ? spelling_ : token_.spelling();
   }
 
+  @Override
   public String spelling()
   {
     Object o = getSpelling();
     return o != null ? o.toString() : null;
   }
 
+  @Override
   public NewlineCategory getNewlineCategory()
   {
     return token_.getNewlineCategory();
   }
 
+  @Override
   public String toString()
   {
     return "Token[" + getName() + ", " + spelling() + "]";

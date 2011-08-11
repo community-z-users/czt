@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.util.ZString;
  */
 public class UnicodePrinter
   extends PrintWriter
-  implements AbstractPrintVisitor.ZPrinter
+  implements ZPrinter
 {
   /**
    * Create a new PrintWriter, without automatic line flushing.
@@ -60,46 +60,88 @@ public class UnicodePrinter
     super(out, autoFlush);
   }
 
+  // TODO: Why Z printer prints NL for END? This leads to funny Unicode file-writing(!)
+//  @Override
+//  public void printToken(Token token)
+//  {
+//    if (ZToken.NL.equals(token)) {
+//      print("\n");
+//      return;
+//    }
+//
+//    if (ZToken.INDENT.equals(token)) {
+//      print(token.spelling());
+//      return;
+//    }
+//
+//    if (token.getSpelling() instanceof WhereWord ||
+//        ZToken.END.equals(token)) {
+//      print("\n");
+//    }
+//
+//    if (ZToken.NUMSTROKE.getName().equals(token.getName())) {
+//      print(ZString.SE + token.getSpelling() + ZString.NW);
+//    }
+//    else {
+//      print(token.spelling());
+//    }
+//
+//    if (! "TEXT".equals(token.getName()) &&
+//        ! ZToken.NL.equals(token)) {
+//      if (token.getSpelling() instanceof WhereWord) print("\n");
+//      print(ZString.SPACE);
+//    }
+//  }
+
+  @Override
   public void printToken(Token token)
   {
-    if (ZToken.NL.equals(token)) {
-      print("\n");
-      return;
+    if (token instanceof TokenSequence)
+    {
+      ((TokenSequence)token).printTokens();
     }
+    else
+    {
+      // NL = "\n"
+      if (ZToken.NL.equals(token))
+      {
+        print("\n");
+      }
+      // NUMSTROKE requires SE/NW, okay
+      else if (ZToken.NUMSTROKE.getName().equals(token.getName()))
+      {
+        print(ZString.SE + token.getSpelling() + ZString.NW);
+      }
+      // everything else it is just the spelling
+      else
+      {
+        print(token.spelling());
+      }
 
-    if (ZToken.INDENT.equals(token)) {
-      print(token.spelling());
-      return;
-    }
-
-    if (token.getSpelling() instanceof WhereWord ||
-        ZToken.END.equals(token)) {
-      print("\n");
-    }
-
-    if (ZToken.NUMSTROKE.getName().equals(token.getName())) {
-      print(ZString.SE + token.getSpelling() + ZString.NW);
-    }
-    else {
-      print(token.spelling());
-    }
-
-    if (! "TEXT".equals(token.getName()) &&
-        ! ZToken.NL.equals(token)) {
-      if (token.getSpelling() instanceof WhereWord) print("\n");
-      print(ZString.SPACE);
+      if (!ZToken.TEXT.getName().equals(token.getName()) &&
+          !ZToken.NL.equals(token))
+      {
+        if (addExtraNLFor(token))
+          print("\n");
+        print(ZString.SPACE);
+      }
     }
   }
 
-  public void printTokenSequence(TokenSequence tseq)
+  public boolean addExtraNLFor(Token token)
   {
-    for (Object o : tseq.getSequence()) {
-      if (o instanceof TokenSequence) {
-        printTokenSequence((TokenSequence) o);
-      }
-      else {
-        printToken((Token) o);
-      }
-    }
+    return (token.getSpelling() instanceof WhereWord);
   }
+
+//  protected void printTokenSequence(TokenSequence tseq)
+//  {
+//    for (Object o : tseq.getSequence()) {
+//      if (o instanceof TokenSequence) {
+//        printTokenSequence((TokenSequence) o);
+//      }
+//      else {
+//        printToken((Token) o);
+//      }
+//    }
+//  }
 }

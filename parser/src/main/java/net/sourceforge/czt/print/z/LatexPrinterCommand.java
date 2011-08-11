@@ -22,6 +22,7 @@ package net.sourceforge.czt.print.z;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Properties;
 
 
 import net.sourceforge.czt.base.ast.Term;
@@ -83,12 +84,12 @@ public class LatexPrinterCommand
                          SectionManager sectInfo,
                          String sectionName)
   {
-    TokenSequence tseq = toUnicode(term, sectInfo, sectionName,
-                                   sectInfo.getProperties());
-    ZmlScanner scanner = new ZmlScanner(tseq.iterator());
+    Properties props = sectInfo.getProperties();
+    UnicodePrinter printer = new UnicodePrinter(out);
+    TokenSequence tseq = toUnicode(printer, term, sectInfo, sectionName, props);
+    ZmlScanner scanner = new ZmlScanner(tseq.iterator(), props);
     Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
-    UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
     try {
       latexPreamble(out, sectInfo);

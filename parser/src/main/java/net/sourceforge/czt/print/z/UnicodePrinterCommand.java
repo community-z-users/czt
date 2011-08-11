@@ -25,7 +25,6 @@ import java.io.Writer;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.session.*;
@@ -34,16 +33,17 @@ public class UnicodePrinterCommand
   extends AbstractPrinterCommand
   implements Command
 {
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
     try {
       final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
+      final Key<Term> key = new Key<Term>(name, Term.class);
+      final Term term = manager.get(key);
       printUnicode(term, writer, manager, null);
       writer.close();
-      manager.put(new Key(name, UnicodeString.class),
+      manager.put(new Key<UnicodeString>(name, UnicodeString.class),
                   new UnicodeString(writer.toString()));
       return true;
     }
@@ -59,6 +59,10 @@ public class UnicodePrinterCommand
    * and latex markup table needed for printing.  The section
    * information should therefore be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * @param term
+   * @param out
+   * @param sectInfo
+   * @param sectionName
    */
   public void printUnicode(Term term,
                            Writer out,
@@ -66,8 +70,9 @@ public class UnicodePrinterCommand
                            String sectionName)
   {
     Properties props = sectInfo.getProperties();
-    TokenSequence tseq = toUnicode(term, sectInfo, sectionName, props);
-    UnicodePrinter printer = new UnicodePrinter(out);
-    printer.printTokenSequence(tseq);
+    //ZPrinter printer = new NewlinePrinter(new UnicodePrinter(out));
+    ZPrinter printer = new UnicodePrinter(out);
+    TokenSequence tseq = toUnicode(printer, term, sectInfo, sectionName, props);
+    printer.printToken(tseq);
   }
 }

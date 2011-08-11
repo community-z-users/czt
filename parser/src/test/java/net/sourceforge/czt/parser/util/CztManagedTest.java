@@ -151,12 +151,12 @@ public abstract class CztManagedTest extends TestCase
     return suite;
   }
 
-  protected void testing(Spec term)
+  protected void testing(URL resource, Spec term)
   {
     // do nothing.
   }
 
-  protected void encounteredException(Throwable e, String failureMsg, boolean handled)
+  protected void encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
   {
     // do nothing
   }
@@ -453,7 +453,7 @@ public abstract class CztManagedTest extends TestCase
     @Override
     protected void doTest(Spec term) throws Exception
     {
-      CztManagedTest.this.testing(term);
+      CztManagedTest.this.testing(url_, term);
     }
 
     /**
@@ -477,7 +477,7 @@ public abstract class CztManagedTest extends TestCase
         failureMsg.append(" parsing error(s)");
         pe.printErrorList();
       }
-      CztManagedTest.this.encounteredException(e, failureMsg.toString(), false);
+      CztManagedTest.this.encounteredException(url_, e, failureMsg.toString(), false);
       return false;
     }
   }

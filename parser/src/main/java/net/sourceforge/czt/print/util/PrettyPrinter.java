@@ -57,12 +57,12 @@ public class PrettyPrinter
                                  int space,
                                  int indent)
   {
-    final List<Object> list = tseq.getSequence();
+    final List<Token> list = tseq.getSequence();
     int spaceLeft = space;
     int processed = 0;
-    Object previous = null;
-    for (ListIterator iter = list.listIterator(); iter.hasNext();) {
-      final Object o = iter.next();
+    Token previous = null;
+    for (ListIterator<Token> iter = list.listIterator(); iter.hasNext();) {
+      final Token o = iter.next();
       final int length = getLength(o);
       if (previous != null) { // handle space
         boolean nlAllowed = allowsNlAfter(previous) || allowsNlBefore(o);
@@ -71,7 +71,7 @@ public class PrettyPrinter
           iter.previous();
           iter.add(ZToken.NL);
           spaceLeft = indent(iter, indent);
-          Object next = iter.next();
+          Token next = iter.next();
           assert next == o;
         }
         else {
@@ -79,8 +79,7 @@ public class PrettyPrinter
         }
       }
       if (o instanceof TokenSequence) {
-        spaceLeft =
-          handleTokenSequence((TokenSequence) o, spaceLeft, indent+1);
+        spaceLeft = handleTokenSequence((TokenSequence) o, spaceLeft, indent+1);
       }
       else {
         if (ZToken.NL.equals(o)) {
@@ -96,7 +95,7 @@ public class PrettyPrinter
     return spaceLeft;
   }
 
-  private int indent(ListIterator iter, int indent)
+  private int indent(ListIterator<Token> iter, int indent)
   {
     iter.add(new TokenImpl(ZToken.INDENT, indent(indent)));
     return lineWidth_-2*indent;
@@ -111,39 +110,49 @@ public class PrettyPrinter
     return result.toString();
   }
 
-  public boolean allowsNlBefore(Object o)
+  public boolean allowsNlBefore(Token o)
   {
-    if (o instanceof Token) {
-      NewlineCategory nlCat = ((Token) o).getNewlineCategory();
-      return
-        (nlCat == NewlineCategory.BOTH || nlCat == NewlineCategory.BEFORE);
+    if (o instanceof TokenSequence)
+    {
+      final TokenSequence seq = (TokenSequence) o;
+      final List<Token> list = seq.getSequence();
+      if (list.isEmpty()) return false;
+      return allowsNlBefore(list.get(0));
     }
-    final TokenSequence seq = (TokenSequence) o;
-    final List<Object> list = seq.getSequence();
-    if (list.isEmpty()) return false;
-    return allowsNlBefore(list.get(0));
+    else
+    {
+      NewlineCategory nlCat = o.getNewlineCategory();
+      return (nlCat == NewlineCategory.BOTH || nlCat == NewlineCategory.BEFORE);
+    }
   }
 
-  public boolean allowsNlAfter(Object o)
+  public boolean allowsNlAfter(Token o)
   {
-    if (o instanceof Token) {
-      NewlineCategory nlCat = ((Token) o).getNewlineCategory();
-      return
-        (nlCat == NewlineCategory.BOTH || nlCat == NewlineCategory.AFTER);
+    if (o instanceof TokenSequence)
+    {
+      final TokenSequence seq = (TokenSequence) o;
+      final List<Token> list = seq.getSequence();
+      if (list.isEmpty()) return false;
+      return allowsNlAfter(list.get(list.size() - 1));
     }
-    final TokenSequence seq = (TokenSequence) o;
-    final List<Object> list = seq.getSequence();
-    if (list.isEmpty()) return false;
-    return allowsNlAfter(list.get(list.size() - 1));
+    else
+    {
+      NewlineCategory nlCat = o.getNewlineCategory();
+      return (nlCat == NewlineCategory.BOTH || nlCat == NewlineCategory.AFTER);
+    }
   }
 
   //@ requires (o instanceof Token) || (o instanceof TokenSequence);
-  private int getLength(Object o)
+  private int getLength(Token o)
   {
-    if (o instanceof Token) {
-      return ((Token) o).spelling().length();
+    if (o instanceof TokenSequence)
+    {
+      TokenSequence tseq = (TokenSequence) o;
+      return tseq.getLength() + tseq.getNrOfTokens() - 1;
     }
-    TokenSequence tseq = (TokenSequence) o;
-    return tseq.getLength() + tseq.getNrOfTokens() - 1;
+    else
+    {
+      return o.spelling().length();
+    }
   }
 }

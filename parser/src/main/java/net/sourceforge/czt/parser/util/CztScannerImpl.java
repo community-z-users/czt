@@ -39,15 +39,18 @@ public abstract class CztScannerImpl
 
   protected CztScannerImpl(Properties properties)
   {
-    super();
+    super(properties);
   }
 
   private long symbolCnt_ = 1;
-  private final static String LOG_SYMBOL = "{0} token no ({1}): ({1}, {2}, {3}).";
+
+  //          SCANNER token NO : (SYM-NAME, SYM-VAL (SYM-VAL-LEN) SYM-JAVA-CLASS).
+  private final static String LOG_SYMBOL = "{0} token no ({1}): ({2}, {3} ({4}) \t\t, {5}).";
 
   protected abstract Class<?> getSymbolClass();
 
   private Map<Object, String> symbolMap_ = null;
+  private Map<String, Object> symbolMap2_ = null;
 
   protected Map<Object, String> getSymbolMap()
   {
@@ -58,18 +61,39 @@ public abstract class CztScannerImpl
     return symbolMap_;
   }
 
+  protected Map<String, Object> getSymbolMap2()
+  {
+    if (symbolMap2_ == null)
+    {
+      symbolMap2_ = DebugUtils.getFieldMap2(getSymbolClass());
+    }
+    return symbolMap2_;
+  }
+
   @Override
   public void logSymbol(Symbol symbol)
   {
     if (logDebugInfo())
     {
-      final String symbolValue = String.valueOf(symbol.value);
+      String symbolV = String.valueOf(symbol.value);
+      final String symbolValue;
+      // for simple unicode symbols get its Hex value
+      if (symbolV.length() == 1)
+        symbolValue = "U+" + Integer.toHexString(symbolV.codePointAt(0));
+      // for higher (more than Uniode8?) get first symbol as well
+      else if (symbolV.length() == 2 && symbolV.codePointCount(0, 1) == 1)
+      {
+        symbolValue = "U+" + Integer.toHexString(symbolV.codePointAt(0)) + "; U+" + Integer.toHexString(symbolV.codePointAt(1));  // U+20 = space?
+      }
+      else
+        // only get the 1st 20 characters of spelling and substitute any NL to SPACE
+        symbolValue = symbolV.substring(0, symbolV.length() > 20 ? 20 : symbolV.length()).replaceAll("\\s", " ");
       logFormatted(LOG_SYMBOL, 
-              symbolCnt_,
               getClass().getSimpleName(),
+              symbolCnt_,
               getSymbolMap().get(symbol.sym),
-              // only get the 1st 20 characters of spelling and substitute any NL to SPACE
-              symbolValue.substring(0, symbolValue.length() > 20 ? 20 : symbolValue.length()).replaceAll("\\s", " "),
+              symbolValue,
+              symbolV.length(),
               symbol.value != null ? symbol.value.getClass().getName() : "null");
       symbolCnt_++;
     }

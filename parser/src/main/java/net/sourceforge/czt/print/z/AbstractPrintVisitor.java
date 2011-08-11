@@ -56,12 +56,4 @@ public abstract class AbstractPrintVisitor
   {
     printer_.printToken(token);
   }
-
-  /**
-   * A printer that can print Z symbols.
-   */
-  public interface ZPrinter
-  {
-    void printToken(Token token);
-  }
 }
