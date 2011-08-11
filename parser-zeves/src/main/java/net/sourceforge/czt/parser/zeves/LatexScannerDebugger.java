@@ -39,6 +39,7 @@ import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.print.zeves.PrintUtils;
 import net.sourceforge.czt.print.zeves.Unicode2Latex;
 import net.sourceforge.czt.session.CommandException;
@@ -168,8 +169,8 @@ public class LatexScannerDebugger {
     System.out.println("Created file " + source.getName() + ".zed8");
 
     System.out.println("\n============================ XML      ============================");
-    //XmlString xs = sectInfo.get(new Key<XmlString>(sourceKeyName, XmlString.class));
-    //System.out.println(xs.toString());
+    XmlString xs = sectInfo.get(new Key<XmlString>(sourceKeyName, XmlString.class));
+    System.out.println(xs.toString());
     
     System.out.println("==================================================================");
   }
