@@ -21,40 +21,11 @@ package net.sourceforge.czt.print.circus;
 
 import java.util.Iterator;
 import java.util.Properties;
-import net.sourceforge.czt.circus.ast.AlphabetisedParallelProcessIdx;
-import net.sourceforge.czt.circus.ast.CallAction;
-import net.sourceforge.czt.circus.ast.CallProcess;
-import net.sourceforge.czt.circus.ast.ChannelDecl;
-import net.sourceforge.czt.circus.ast.ChannelSetType;
-import net.sourceforge.czt.circus.ast.CommunicationType;
-import net.sourceforge.czt.circus.ast.ExtChoiceActionIte;
-import net.sourceforge.czt.circus.ast.ExtChoiceProcessIte;
-import net.sourceforge.czt.circus.ast.GuardedAction;
-import net.sourceforge.czt.circus.ast.RenameAction;
-import net.sourceforge.czt.circus.ast.HideProcess;
-import net.sourceforge.czt.circus.ast.ImplicitChannelAnn;
-import net.sourceforge.czt.circus.ast.IntChoiceProcess;
-import net.sourceforge.czt.circus.ast.IntChoiceProcessIdx;
-import net.sourceforge.czt.circus.ast.OutputFieldAnn;
-import net.sourceforge.czt.circus.ast.ParallelAction;
-import net.sourceforge.czt.circus.ast.ParamAction;
-import net.sourceforge.czt.circus.ast.ParamProcess;
-import net.sourceforge.czt.circus.ast.ProcessPara;
-import net.sourceforge.czt.circus.ast.ProcessSignature;
-import net.sourceforge.czt.circus.ast.ProcessSignatureList;
-import net.sourceforge.czt.circus.ast.ProofObligationAnn;
-import net.sourceforge.czt.circus.ast.QualifiedDecl;
-import net.sourceforge.czt.circus.ast.SeqProcess;
-import net.sourceforge.czt.circus.ast.SkipAction;
-import net.sourceforge.czt.circus.ast.TransformerPara;
-import net.sourceforge.czt.circus.ast.ZSignatureList;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.z.util.WarningManager;
 
-import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.circus.ast.*;
@@ -63,6 +34,7 @@ import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**

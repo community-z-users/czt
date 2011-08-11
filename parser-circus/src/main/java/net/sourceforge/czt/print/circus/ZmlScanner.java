@@ -20,7 +20,11 @@
 package net.sourceforge.czt.print.circus;
 
 import java.util.Iterator;
+import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.circus.CircusKeyword;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.print.z.ZmlScanner.SymbolCollector;
@@ -36,20 +40,48 @@ public class ZmlScanner
 {  
   /**
    * Creates a new ZML scanner.
+   * @param term
+   * @param props
+   * @param manager
    */
-  public ZmlScanner(Term term, WarningManager manager)
+  public ZmlScanner(Term term, Properties props, WarningManager manager)
   {
+    // DON'T CALL super(term, props)! We want to pass just props to CztScannerImpl
+    super(props);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class);
+    SymbolCollector collector = new SymbolCollector(Sym.class, this);
     CircusPrintVisitor visitor = new CircusPrintVisitor(collector, manager);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
   }
   
-  public ZmlScanner(Iterator<Token> iter)
+  public ZmlScanner(Iterator<Token> iter, Properties props)
   {
-    super(iter);
+    super(iter, props);
+  }
+
+  // Substitutes keywords as DECORWORD for Unicode printing - easier scanning
+  @Override
+  protected Pair<String, Object> getSymbolName(Token token)
+  {
+    String name = token.getName();
+    Object value = token.getSpelling();
+    try {
+      Enum.valueOf(CircusKeyword.class, name);
+      name = "DECORWORD";
+      value = new Decorword(token.spelling());
+    }
+    catch (IllegalArgumentException exception) {
+      return super.getSymbolName(token);
+    }
+    return new Pair<String, Object>(name, value);
+  }
+
+  @Override
+  public Class<?> getSymbolClass()
+  {
+    return Sym.class;
   }
 }

@@ -198,7 +198,7 @@ public final class PrintUtils
     
     warningManager_.clear();
     //System.out.println("02: CREATING ZML SCANNER FOR TRAVERSED PTV");
-    ZmlScanner scanner = new ZmlScanner(tree, warningManager_);
+    ZmlScanner scanner = new ZmlScanner(tree,((SectionManager)sectInfo).getProperties(), warningManager_);
     transformWarningMap(warnings, scanner.getClass(), warningManager_.getZSectWarnings());        
         
     //System.out.println("03: CREATING UNICODE->LATEX PARSER FOR ZML SCANNER");
@@ -252,7 +252,7 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new ZmlScanner(tree, warningManager_);
+    ZmlScanner scanner = new ZmlScanner(tree, ((SectionManager)sectInfo).getProperties(), warningManager_);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
     Unicode2Latex parser = new Unicode2Latex(scanner);
