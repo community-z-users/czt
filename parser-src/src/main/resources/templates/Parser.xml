@@ -374,7 +374,7 @@ action code
          }
       }
       ZEvesLabel label = factory_.createZEvesLabel(name, ability, usage);
-      name.getAnns().add(label);
+      //name.getAnns().add(label); To avoid circular annotation loops in ZML
       term.getAnns().add(label);
     }
 
@@ -388,7 +388,7 @@ action code
       ZName name = factory_.createZName(parserState_.freshLabelName());
       ZEvesLabel result = factory_.createZEvesLabel(name,
               ZEvesUtils.getDefaultAbility(), usage);
-      name.getAnns().add(result);
+      //name.getAnns().add(result); To avoid circular annotation loops in ZML
       return result;
     }
 </add:zeves>
@@ -6811,7 +6811,7 @@ optAxLabel ::=
         LLABEL:l optLabelAbility:ability optUsage:usage thmName:n RLABEL:r
         {:
           RESULT = factory_.createZEvesLabel(n, ability, usage);
-          n.getAnns().add(RESULT);
+          //n.getAnns().add(RESULT); To avoid circular annotation loops in ZML
           addLocAnn(RESULT, getLocation(l, r));
         :}
         |
