@@ -54,6 +54,6 @@ public interface DomainCheckPropertyKeys extends VCGPropertyKeys {
 
   // DC ZSection suffix (e.g., ZSect foo -> ZSect foo_dc)
   // DC ZSection conjecture names N_vc_dc
-  String VCG_DOMAINCHECK_SOURCENAME_SUFFIX = "_dc";
-  String VCG_DOMAINCHECK_VCNAME_SUFFIX     = "_vc_dc";
+  String VCG_DOMAINCHECK_SOURCENAME_SUFFIX = "Dc";  // _ on names are with problems :-(
+  String VCG_DOMAINCHECK_VCNAME_SUFFIX     = "VcDc";
 }

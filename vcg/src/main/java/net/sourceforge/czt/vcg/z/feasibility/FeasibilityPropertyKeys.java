@@ -78,6 +78,6 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
 
   // Pre ZSection suffix (e.g., ZSect foo -> ZSect foo_pre)
   // Pre ZSection conjecture names N_vc_pre
-  String VCG_FEASIBILITY_SOURCENAME_SUFFIX = "_fsb";
-  String VCG_FEASIBILITY_VCNAME_SUFFIX     = "_vc_fsb";
+  String VCG_FEASIBILITY_SOURCENAME_SUFFIX = "Fsb";  // avoid _ on ThmNames. Not handled properly ? Scanned differently now :-(
+  String VCG_FEASIBILITY_VCNAME_SUFFIX     = "VcFsb";
 }
