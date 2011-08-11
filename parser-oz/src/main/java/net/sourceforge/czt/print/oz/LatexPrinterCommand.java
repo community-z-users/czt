@@ -23,12 +23,9 @@ import java.io.Writer;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.print.util.PrintException;
-import net.sourceforge.czt.print.util.TokenSequence;
+import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 
 public class LatexPrinterCommand
@@ -42,7 +39,7 @@ public class LatexPrinterCommand
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = toPrintTree(toPrintTree, term, sectionName);
-    ZmlScanner scanner = new ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
     Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
@@ -91,9 +88,9 @@ public class LatexPrinterCommand
   }
 
   @Override
-  protected TokenSequenceVisitor createTokenSequenceVisitor(Properties props)
+  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(props);
+    return new TokenSequenceVisitor(printer, props);
   }
 
   @Override

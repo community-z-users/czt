@@ -19,21 +19,13 @@
 
 package net.sourceforge.czt.print.oz;
 
-import java.util.List;
-import java.util.Vector;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.parser.oz.OzToken;
 
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.z.*;
 
 /**
@@ -47,15 +39,43 @@ public class ZmlScanner
 {
   /**
    * Creates a new ZML scanner.
+   * @param term
+   * @param props
    */
-  public ZmlScanner(Term term)
+  public ZmlScanner(Term term, Properties props)
   {
+    super(props);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class);
+    SymbolCollector collector = new SymbolCollector(Sym.class, this);
     ZPrintVisitor visitor = new OzPrintVisitor(collector);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
+  }
+  
+  // TODO: don't know about Oz. Original ZmlScanner didn't care (e.g., I guess there was no tests for Unicode 2 Latex for Oz).
+  //
+  // Substitutes keywords as DECORWORD for Unicode printing - easier scanning
+//  @Override
+//  protected Pair<String, Object> getSymbolName(Token token)
+//  {
+//    String name = token.getName();
+//    Object value = token.getSpelling();
+//    try {
+//      Enum.valueOf(OzKeyword.class, name);
+//      name = "DECORWORD";
+//      value = new Decorword(token.spelling());
+//    }
+//    catch (IllegalArgumentException exception) {
+//      return super.getSymbolName(token);
+//    }
+//    return new Pair<String, Object>(name, value);
+//  }
+
+  @Override
+  protected Class<?> getSymbolClass()
+  {
+    return Sym.class;
   }
 }

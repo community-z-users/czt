@@ -19,13 +19,11 @@
 
 package net.sourceforge.czt.print.oz;
 
-import java.util.List;
 import java.util.Iterator;
 import java.util.Properties;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.oz.util.OzString;
-import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -34,6 +32,7 @@ import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.parser.oz.OzToken;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.print.z.ZPrinter;
 
 /**
  * An Object-Z visitor used for printing.
