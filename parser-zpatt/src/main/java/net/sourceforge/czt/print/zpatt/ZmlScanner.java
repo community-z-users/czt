@@ -22,24 +22,52 @@ package net.sourceforge.czt.print.zpatt;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.Pair;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.zpatt.ZPattKeyword;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
-import net.sourceforge.czt.print.z.UnicodePrinter;
 
 public class ZmlScanner
   extends net.sourceforge.czt.print.z.ZmlScanner
 {
   /**
    * Creates a new ZML scanner.
+   * @param term
+   * @param props 
    */
   public ZmlScanner(Term term, Properties props)
   {
+    super(props);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class);
+    SymbolCollector collector = new SymbolCollector(Sym.class, this);
     ZpattPrintVisitor visitor = new ZpattPrintVisitor(collector, props);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
+  }
+
+  // Substitutes keywords as DECORWORD for Unicode printing - easier scanning
+  @Override
+  protected Pair<String, Object> getSymbolName(Token token)
+  {
+    String name = token.getName();
+    Object value = token.getSpelling();
+    try {
+      Enum.valueOf(ZPattKeyword.class, name);
+      name = "DECORWORD";
+      value = new Decorword(token.spelling());
+    }
+    catch (IllegalArgumentException exception) {
+      return super.getSymbolName(token);
+    }
+    return new Pair<String, Object>(name, value);
+  }
+
+  @Override
+  protected Class<?> getSymbolClass()
+  {
+    return Sym.class;
   }
 }

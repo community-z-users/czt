@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.ZPattString;
 import net.sourceforge.czt.zpatt.visitor.*;
