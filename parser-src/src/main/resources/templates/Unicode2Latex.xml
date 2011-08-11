@@ -105,11 +105,21 @@ action code
 
   private String begin(String string)
   {
-    return "\\begin{" + string + "}\n";
+    return begin(string, "");
+  }
+
+  private String begin(String string, String extra)
+  {
+    return "\\begin{" + string + "}" + extra + "\n";
   }
 
   <add:zeves>
   private String begin(String string, LatexCommand ability)
+  {
+    return begin(string, "", ability);
+  }
+
+  private String begin(String string, String extra, LatexCommand ability)
   {
     StringBuilder result = new StringBuilder();
     result.append("\\begin");
@@ -117,7 +127,9 @@ action code
       result.append(ability.getName());
     result.append("{");
     result.append(string);
-    result.append("}\n");
+    result.append("}");
+    result.append(extra);
+    result.append("\n");
     return result.toString();
   }
   </add:zeves>
@@ -553,7 +565,7 @@ parser code {:
     report_error(message, info);
     done_parsing();
     throw new UnsupportedOperationException("Parse error: " +
-      String.valueOf(message) + " => " + String.valueOf(info));
+      String.valueOf(message) + " => " + (info instanceof Symbol ? symbolMap_.get(((Symbol)info).sym) : String.valueOf(info)));
   }
 
   public void unrecovered_syntax_error(Symbol token)
@@ -676,7 +688,7 @@ non terminal String       markup, para, zpara, zedPara,
 non terminal LatexCommand innerPara;
 </add:oz>
 non terminal LatexCommand token, tokenSeq, sectHeadSeq,
-     <add:zeves>optDefAbility, optThmAbility,</add:zeves>
+     <add:zeves>optDefAbility, optThmAbility, thmUsage, optThmUsage,</add:zeves>
                 paren, special, decorword;
 
    input ::= paragraphList
@@ -765,10 +777,15 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
               <add:zeves>
                 optThmAbility:ability
               </add:zeves>
-             THEOREM decorword:w tokenSeq:s END
+             THEOREM
+             <add:zeves>
+                optThmUsage:usage
+             </add:zeves>
+                decorword:w tokenSeq:s END
              {:
-                System.out.println("DEBUG: Unicode2Latex sees THEOREM "+w.getName());
-                String result = begin("theorem" <add:zeves>, ability</add:zeves>) + "{" + w.getName() + "}";
+                //System.out.println("DEBUG: Unicode2Latex sees THEOREM " + w.getName());
+                String result = begin("theorem", "{" + <add:zeves>usage.getName() + " " + </add:zeves> w.getName() + "}"
+                                          <add:zeves>, ability</add:zeves>);
                 if (s != null) result += s.getName();
                 result += end("theorem");
                 parser.write(result);
@@ -791,7 +808,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
               </add:zeves>
              specialSeq decorword:w tokenSeq:s END
              {:
-                String result = begin("schema" <add:zeves>, ability</add:zeves>) + "{" + w.getName() + "}";
+                String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
@@ -807,7 +824,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              |
              GENSCH specialSeq decorword:w tokenSeq:s END
              {:
-                String result = begin("schema") + "{" + w.getName() + "}";
+                String result = begin("schema", "{" + w.getName() + "}");
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
@@ -816,7 +833,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              |
              CLASS decorword:w tokenSeq:s END
              {:
-                String result = begin("class") + "{" + w.getName() + "}";
+                String result = begin("class", "{" + w.getName() + "}");
                 if (s != null) result += s.getName();
                 result += end("class");
                 parser.write(result);
@@ -824,7 +841,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              |
              GENCLASS decorword:w tokenSeq:s END
              {:
-                String result = begin("class") + "{" + w.getName() + "}";
+                String result = begin("class", "{" + w.getName() + "}");
                 if (s != null) result += s.getName();
                 result += end("class");
                 parser.write(result);
@@ -834,7 +851,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              |
              JOKER decorword:w tokenSeq:s END
              {:                
-                String result = begin("zedjoker") + "{" + w.getName() + "}";
+                String result = begin("zedjoker", "{" + w.getName() + "}");
                 if (s != null) result += s.getName();
                 result += end("zedjoker");
                 parser.write(result);
@@ -842,7 +859,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              |
              RULE decorword:w tokenSeq:s END
              {:
-                String result = begin("rule") + "{" + w.getName() + "}";
+                String result = begin("rule", "{" + w.getName() + "}");
                 if (s != null) result += s.getName();
                 result += end("rule");
                 parser.write(result);
@@ -861,8 +878,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
             |
             CIRCUSACTIONLAW decorword:w tokenSeq:s END
             {:
-               String result = begin("circusactionlaw") + "{" +
-                 w.getName() + "}";
+               String result = begin("circusactionlaw", "{" +  w.getName() + "}");
                if (s != null) result += s.getName();
                result += end("rule");
                parser.write(result);
@@ -870,8 +886,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
             |
             CIRCUSPROCESSLAW decorword:w tokenSeq:s END
             {:
-               String result = begin("circusprocesslaw") +
-                 "{" + w.getName() + "}";
+               String result = begin("circusprocesslaw", "{" + w.getName() + "}");
                if (s != null) result += s.getName();
                result += end("rule");
                parser.write(result);
@@ -897,9 +912,9 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
 </add:circus>
 <add:zeves>
             |
-            ZPROOF tokenSeq:s END
+            ZPROOF decorword:w tokenSeq:s END
             {:
-                String result = begin("zproof");
+                String result = begin("zproof", "[" + w.getName() + "]");
                 if (s != null) { result += s.getName(); }
                 result += end("zproof");
                 parser.write(result);
@@ -1023,6 +1038,11 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              {:
                 RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
              :}
+             |
+             thmUsage:t
+             {:
+                RESULT = t;
+             :}
  </add:zeves>
              ;
 
@@ -1045,6 +1065,42 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              |
              // empty
              ;
+
+ thmUsage ::=
+             /* MUST BE DECORWORD: within tokenSeq we have LLABEL ... ?*/
+             THMRULE // or just use DECORWORD?
+             {:
+                RESULT = resultFT("rule", ZEvesString.THMRULE);
+             :}
+             |
+             THMFRULE
+             {:
+                RESULT = resultFT("frule", ZEvesString.THMFRULE);
+             :}
+             |
+             THMGRULE
+             {:
+                RESULT = resultFT("grule", ZEvesString.THMGRULE);
+             :}
+             |
+             THMAXIOM
+             {:
+                RESULT = resultFT("axiom", ZEvesString.THMAXIOM);
+             :}
+             ;
+
+ optThmUsage ::=
+             thmUsage:t
+             {:
+                RESULT = t;
+             :}
+             |
+             // empty
+             {:
+                RESULT = resultFF("", "");
+             :}
+             ;
+
 </add:zeves>
 
    decorword ::= DECORWORD:s
@@ -1179,12 +1235,12 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              |
              LLABEL
              {:
-                RESULT = resultFT("\\Label{", ZEvesString.LLABEL);
+                RESULT = resultFF("\\Label{", ZEvesString.LLABEL);
              :}
              |
              RLABEL
              {:
-                RESULT = resultTF("}", ZEvesString.RLABEL);
+                RESULT = resultFT("}\n", ZEvesString.RLABEL);
              :}
  </add:zeves>
              ;

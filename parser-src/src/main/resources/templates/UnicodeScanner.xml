@@ -58,6 +58,7 @@ public class UnicodeScanner
   public <class/>(Source source, Properties properties)
     throws IOException
   {
+    super(properties);
     contextFreeScanner_ = new ContextFreeScanner(source);
     keywordScanner_ = new KeywordScanner(contextFreeScanner_, properties);
     smartScanner_ = new SmartScanner(keywordScanner_);
@@ -65,6 +66,7 @@ public class UnicodeScanner
 
   public <class/>(CztReader in, Properties properties)
   {
+    super(properties);
     contextFreeScanner_ = new ContextFreeScanner(in);
     keywordScanner_ = new KeywordScanner(contextFreeScanner_, properties);
     smartScanner_ = new SmartScanner(keywordScanner_);
