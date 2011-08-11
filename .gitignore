@@ -1188,14 +1188,6 @@ corejava/src/main/java/net/sourceforge/target
 corejava/src/main/java/net/target
 corejava/src/main/java/target
 corejava/src/main/target
-corejava/src/main/xml/*.aux
-corejava/src/main/xml/*.blg
-corejava/src/main/xml/*.log
-corejava/src/main/xml/*.tmp
-corejava/src/main/xml/.classpath
-corejava/src/main/xml/.project
-corejava/src/main/xml/.settings
-corejava/src/main/xml/target
 corejava/src/site/*.aux
 corejava/src/site/*.blg
 corejava/src/site/*.log

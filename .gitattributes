@@ -32,8 +32,6 @@ corejava/src/main/resources/xsl/zeveschar2class.xsl -text
 corejava/src/main/resources/xsl/zeveschar2stringclass.xsl -text
 corejava/src/main/resources/xsl/zpattchar2class.xsl -text
 corejava/src/main/resources/xsl/zpattchar2stringclass.xsl -text
-corejava/src/main/xml/circuspattchar.xml -text
-corejava/src/main/xml/zeveschar.xml -text
 corejava/src/test/java/net/sourceforge/czt/circuspatt/impl/LawTest.java -text
 corejava/src/test/java/net/sourceforge/czt/circuspatt/impl/MockActionLawsTest.java -text
 corejava/src/test/java/net/sourceforge/czt/zeves/util/DescriptionTest.java -text
