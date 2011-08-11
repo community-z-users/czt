@@ -1,0 +1,122 @@
+
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}
+	 \SECTION set\_toolkit\_fsb \parents~fsb\_toolkit , set\_toolkit
+\end{zsection}
+
+VC ZSection Created at Mon Jan 17 16:28:52 GMT 2011.
+
+VC5 for line 19 column 1 start 337 length 55 in "set_toolkit"
+\begin{zed}
+theorem~vc\_ fsb5 [ X , Y ] \vdash ? \exists \_ \rel \_~: \power \power ( X \cross Y ) | true @ true
+\end{zed}
+
+VC9 for line 34 column 1 start 690 length 104 in "set_toolkit"
+\begin{zed}
+theorem~vc\_ fsb9 [ X , Y ] \vdash ? \\
+   \t2 \exists \_ \fun \_~: \power \{ f : X \rel Y | \forall x : X @ {\exists}_{1}~y : Y @ ( x , y ) \in f \} | true @ \\
+    \t3 true
+\end{zed}
+
+VC13 for line 51 column 1 start 1093 length 105 in "set_toolkit"
+\begin{zed}
+theorem \\
+   \t2 axiom794\_ vc\_ fsb13 [ X ] \vdash ? \\
+   \t2 \exists \_ \neq \_~: X \rel X | true @ \forall x , y : X @ x \neq y \iff \lnot x = y
+\end{zed}
+
+VC17 for line 67 column 1 start 1399 length 129 in "set_toolkit"
+\begin{zed}
+theorem~axiom798\_ vc\_ fsb17 [ X ] \vdash ? \\
+   \t2 \exists \_ \notin \_~: X \rel \power X | true @ \forall x : X ; a : \power X @ x \notin a \iff \lnot x \in a
+\end{zed}
+
+VC19 for line 80 column 1 start 1722 length 62 in "set_toolkit"
+\begin{zed}
+theorem \emptyset \_ vc\_ fsb19 [ X ] \vdash ? \exists \emptyset~: \power \{ x : X | false \} | true @ true
+\end{zed}
+
+VC23 for line 94 column 1 start 1964 length 152 in "set_toolkit"
+\begin{zed}
+theorem~axiom803\_ vc\_ fsb23 [ X ] \vdash ? \\
+   \t2 \exists \_ \subseteq \_~: \power X \rel \power X | true @ \forall a , b : \power X @ a \subseteq b \iff ( \forall x : a @ x \in b )
+\end{zed}
+
+VC27 for line 111 column 1 start 2349 length 149 in "set_toolkit"
+\begin{zed}
+theorem~axiom807\_ vc\_ fsb27 [ X ] \vdash ? \\
+   \t2 \exists \_ \subset \_~: \power X \rel \power X | true @ \forall a , b : \power X @ a \subset b \iff a \subseteq b \land a \neq b
+\end{zed}
+
+VC29 for line 125 column 1 start 2674 length 75 in "set_toolkit"
+\begin{zed}
+theorem~{\power} \_  _{1}\_ vc\_ fsb29 [ X ] \vdash ? \\
+   \t2 \exists {\power}_{1}~\_~: \power \{ a : \power X | a \neq \emptyset \} | true @ true
+\end{zed}
+
+VC33 for line 142 column 1 start 3033 length 164 in "set_toolkit"
+\begin{zed}
+theorem~axiom812\_ vc\_ fsb33 [ X ] \vdash ? \\
+   \t2 \exists \_ \cup \_~: \power X \cross \power X \fun \power X | true @ \\
+    \t3 \forall a , b : \power X @ a \cup b = \{ x : X | x \in a \lor x \in b \}
+\end{zed}
+
+VC37 for line 158 column 1 start 3403 length 165 in "set_toolkit"
+\begin{zed}
+theorem~axiom816\_ vc\_ fsb37 [ X ] \vdash ? \\
+   \t2 \exists \_ \cap \_~: \power X \cross \power X \fun \power X | true @ \\
+    \t3 \forall a , b : \power X @ a \cap b = \{ x : X | x \in a \land x \in b \}
+\end{zed}
+
+VC41 for line 174 column 1 start 3788 length 178 in "set_toolkit"
+\begin{zed}
+theorem~axiom820\_ vc\_ fsb41 [ X ] \vdash ? \\
+   \t2 \exists \_ \setminus \_~: \power X \cross \power X \fun \power X | true @ \\
+    \t3 \forall a , b : \power X @ a \setminus b = \{ x : X | x \in a \land x \notin b \}
+\end{zed}
+
+VC45 for line 190 column 1 start 4230 length 181 in "set_toolkit"
+\begin{zed}
+theorem~axiom824\_ vc\_ fsb45 [ X ] \vdash ? \\
+   \t2 \exists \_ \symdiff \_~: \power X \cross \power X \fun \power X | true @ \\
+    \t3 \forall a , b : \power X @ a \symdiff b = \{ x : X | \lnot ( x \in a \iff x \in b ) \}
+\end{zed}
+
+VC47 for line 203 column 1 start 4617 length 160 in "set_toolkit"
+\begin{zed}
+theorem~axiom826\_ vc\_ fsb47 [ X ] \vdash ? \\
+   \t2 \exists \bigcup : \power \power X \fun \power X | true @ \forall A : \power \power X @ \bigcup A = \{ x : X | \exists a : A @ x \in a \}
+\end{zed}
+
+VC49 for line 215 column 1 start 4979 length 159 in "set_toolkit"
+\begin{zed}
+theorem~axiom828\_ vc\_ fsb49 [ X ] \vdash ? \\
+   \t2 \exists \bigcap : \power \power X \fun \power X | true @ \forall A : \power \power X @ \bigcap A = \{ x : X | \forall a : A @ x \in a \}
+\end{zed}
+
+VC53 for line 234 column 1 start 5416 length 144 in "set_toolkit"
+\begin{zed}
+theorem~{\finset} \_  \_ vc\_ fsb53 [ X ] \vdash ? \\
+   \t2 \exists \finset \_~: \power \bigcap \{ A : \power \power X | \emptyset \in A \land ( \forall a : A ; x : X @ a \cup \{ x \} \in A ) \} | \\
+     \t4 true @ true
+\end{zed}
+
+VC55 for line 246 column 1 start 5821 length 72 in "set_toolkit"
+\begin{zed}
+theorem~{\finset} \_  _{1}\_ vc\_ fsb55 [ X ] \vdash ? \\
+   \t2 \exists {\finset}_{1}~\_~: \power ( \finset X \setminus \{ \emptyset \} ) | true @ true
+\end{zed}
+
+
+
+ VC Z section "set_toolkit_fsb" has $16$ interesting VCs (Total = 56; Simplified to $true$ = 40).
+
+
+
+%----------------------------------
+\end{document}
