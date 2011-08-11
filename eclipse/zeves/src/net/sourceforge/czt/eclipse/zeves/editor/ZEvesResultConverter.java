@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.print.zeves.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -18,7 +18,7 @@ import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 
-// TODO convert to Z/Eves ParseUtils and PrintUtils
+
 public class ZEvesResultConverter {
 
 	public static Pred parseZEvesPred(SectionManager sectInfo, String sectName, String zEvesPredStr)
