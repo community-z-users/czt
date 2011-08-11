@@ -25,6 +25,23 @@
   </dependencies>
   <build>
     <plugins>
+      <!-- Put GnAST plugin first since xml generation ought to generate to ./gnast as well -->
+      <plugin>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>maven-gnast-plugin</artifactId>
+        <version>1.6-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <configuration>
+              <gnastdir>${basedir}/../gnast</gnastdir>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <dependencies>
@@ -39,71 +56,55 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <property name="build.src" location="target/build/src"/>
-                <property name="xml.dir" location="src/main/xml"/>
-                <property name="src.xsl" location="xsl"/>
-		<property name="build.compiler" value="extJavac"/>
+                <!-- Change the dirs for XXXChar/String to make it easier for IDEs to find classes -->
+                <property name="build.xml.dir" location="target/generated-sources/gnast"/>
+                <property name="xml.dir" location="src/main/resources/xml"/>
+                <property name="xsl.dir" location="src/main/resources/xsl"/>
+                <property name="build.compiler" value="extJavac"/>
                 <xslt
                   in="${xml.dir}/zchar.xml"
-                  out="${build.src}/net/sourceforge/czt/z/util/ZChar.java"
-                  style="${src.xsl}/zchar2class.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/z/util/ZChar.java"
+                  style="${xsl.dir}/zchar2class.xsl"/>
                 <xslt
                   in="${xml.dir}/zchar.xml"
-                  out="${build.src}/net/sourceforge/czt/z/util/ZString.java"
-                  style="${src.xsl}/zchar2stringclass.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/z/util/ZString.java"
+                  style="${xsl.dir}/zchar2stringclass.xsl"/>
                 <xslt
                   in="${xml.dir}/ozchar.xml"
-                  out="${build.src}/net/sourceforge/czt/oz/util/OzChar.java"
-                  style="${src.xsl}/ozchar2class.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/oz/util/OzChar.java"
+                  style="${xsl.dir}/ozchar2class.xsl"/>
                 <xslt
                   in="${xml.dir}/ozchar.xml"
-                  out="${build.src}/net/sourceforge/czt/oz/util/OzString.java"
-                  style="${src.xsl}/ozchar2stringclass.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/oz/util/OzString.java"
+                  style="${xsl.dir}/ozchar2stringclass.xsl"/>
                 <xslt
                   in="${xml.dir}/circuschar.xml"
-                  out="${build.src}/net/sourceforge/czt/circus/util/CircusChar.java"
-                  style="${src.xsl}/circuschar2class.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/circus/util/CircusChar.java"
+                  style="${xsl.dir}/circuschar2class.xsl"/>
                 <xslt
                   in="${xml.dir}/circuschar.xml"
-                  out="${build.src}/net/sourceforge/czt/circus/util/CircusString.java"
-                  style="${src.xsl}/circuschar2stringclass.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/circus/util/CircusString.java"
+                  style="${xsl.dir}/circuschar2stringclass.xsl"/>
                 <xslt
                   in="${xml.dir}/zpattchar.xml"
-                  out="${build.src}/net/sourceforge/czt/zpatt/util/ZPattChar.java"
-                  style="${src.xsl}/zpattchar2class.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/zpatt/util/ZPattChar.java"
+                  style="${xsl.dir}/zpattchar2class.xsl"/>
                 <xslt
                   in="${xml.dir}/zpattchar.xml"
-                  out="${build.src}/net/sourceforge/czt/zpatt/util/ZPattString.java"
-                  style="${src.xsl}/zpattchar2stringclass.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/zpatt/util/ZPattString.java"
+                  style="${xsl.dir}/zpattchar2stringclass.xsl"/>
                 <xslt
                   in="${xml.dir}/zeveschar.xml"
-                  out="${build.src}/net/sourceforge/czt/zeves/util/ZEvesChar.java"
-                  style="${src.xsl}/zeveschar2class.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/zeves/util/ZEvesChar.java"
+                  style="${xsl.dir}/zeveschar2class.xsl"/>
                 <xslt
                   in="${xml.dir}/zeveschar.xml"
-                  out="${build.src}/net/sourceforge/czt/zeves/util/ZEvesString.java"
-                  style="${src.xsl}/zeveschar2stringclass.xsl"/>
+                  out="${build.xml.dir}/net/sourceforge/czt/zeves/util/ZEvesString.java"
+                  style="${xsl.dir}/zeveschar2stringclass.xsl"/>
               </tasks>
-              <sourceRoot>${basedir}/target/build/src</sourceRoot>
             </configuration>
             <goals>
               <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>net.sourceforge.czt</groupId>
-        <artifactId>maven-gnast-plugin</artifactId>
-        <version>1.6-SNAPSHOT</version>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <configuration>
-              <gnastdir>${basedir}/../gnast</gnastdir>
-            </configuration>
-            <goals>
-              <goal>generate</goal>
             </goals>
           </execution>
         </executions>

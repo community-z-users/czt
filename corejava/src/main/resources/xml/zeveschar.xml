@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ZEVESCHAR>
+  <LETTER>
+    <OTHERLETTER>
+      <char id="ZPROOFDOLLARCHAR" hex="0024" description="dollar sign for special thm names"/>
+    </OTHERLETTER>
+  </LETTER>
+  <SPECIAL>
+    <BOXCHAR>
+      <char id="ZPROOFCHAR" hex="251C" description="big turnstyle not bold"/>
+      <char id="ZPROOFSECTIONCHAR" hex="2523" description="big turnstyle bold"/>
+      <char id="DISABLEDTHMTAGCHAR" hex="2612" description="disabled theorem character marker (boxed cross)"/>
+      <char id="DISABLEDDEFTAGCHAR" hex="2613" description="disabled paragraph definition character marker (unboxed cross)"/>
+    </BOXCHAR>
+    <BRACKET>
+      <char id="LLABEL" hex="300A" description="left label bracket"/>
+      <char id="RLABEL" hex="300B" description="right label bracket"/>
+      <char id="LZNOTE" hex="231C" description="left znote bracket"/>
+      <char id="RZNOTE" hex="231D" description="right znote bracket"/>
+    </BRACKET>
+  </SPECIAL>
+</ZEVESCHAR>

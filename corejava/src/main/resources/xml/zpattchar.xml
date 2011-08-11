@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OZCHAR>
+  <SYMBOL>
+    <CORESYMBOL>
+      <char id="PROVISO" hex="25B8" description="black, right-pointing small triangle"/>
+    </CORESYMBOL>
+  </SYMBOL>
+  <SPECIAL>
+    <BOXCHAR>
+      <char id="JOKERCHAR" hex="2605" description="black star"/>
+      <char id="RULECHAR" hex="25A0" description="black square"/>
+      <char id="RULELINE" hex="2501" description="box drawing heavy horizontal"/>
+    </BOXCHAR>
+  </SPECIAL>
+</OZCHAR>
