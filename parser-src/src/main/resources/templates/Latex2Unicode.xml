@@ -825,6 +825,7 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           assert ! addSpace_;
           begin("theorem");
           braceStack_.push(BraceType.THM_NAME);
+          //System.out.println("BEGIN-THM = " + yytext());
           return result(ZString.ZED);
           // leave the "theorem" to be treated as a name.
         }
@@ -1118,32 +1119,6 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
            braceStack_.push(BraceType.ZNOTE);
            return result(ZEvesString.LZNOTE);
         }
-  {PROOFWORD}
-        {
-          // proof words *must* be separated
-          //addSpace_ = true;
-          String proofWord = //addSpace();
-          //proofWord +=
-          yytext();
-          if (proofWord.equals("to") || proofWord.equals("expression") || proofWord.equals("predicate")) addSpace_ = true;
-          
-          //String proofWord = yytext();
-
-          // if caught by mistake outside a z proof environment (e.g., "by" or "prove" as var name?)
-          // report the error and carry on to allow for better recovery later on, rather than hard crash
-          // with throw new ScanException. TODO: which is better?
-          if (!inProofScript_)
-          {
-            reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
-          }
-          return result(LatexSym.PROOFWORD, proofWord);
-        }
-  {USAGE}
-        {
-          String usage = yytext();
-          //System.out.println("SEEN USAGE-IN-ZED-STATE = " + usage);
-          return result(LatexSym.PROOFWORD, usage + ZString.SPACE);
-        }
   </add:zeves>
 
 
@@ -1335,14 +1310,6 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           // do nothing for now
           assert inAxiomaticBox_ ;
         }
-//
-//   "\\Label" "{"
-//        {
-//          // TODO: Add labellel predicates for axioms
-//          assert inAxiomaticBox_ ;
-//          yybegin(CIRCLABEL);
-//          return ... brackets ...
-//        }
  </add:circus>
 <add:oz>
   "\\begin" {IGNORE}* "{classcom}"
@@ -1588,13 +1555,48 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           //      \vdash? theorems with just a Name are not a good idea (!)
           else if (brace.equals(BraceType.THM_NAME))
           {
-            //seenThm_ = false; // up to here, the Theorem NAME must have been seen... !! NO. This is the \begin{theorem '}'--- brace !!! useless...
+            //seenThm_ = false;
+            // up to here, the Theorem NAME must have been seen... !! NO. This is the \begin{theorem '}'--- brace !!! useless...
             catchingThmName_ = true;
             result += ZString.SPACE;
           }
+          // this is to flag that "thmName" catching has finished.
+          else if (brace.equals(BraceType.BRACE) &amp;&amp; catchingThmName_)
+          {
+            catchingThmName_ = false;
+            result += ZString.SPACE;
+          }
+          //System.out.println("CLOSING-BRACE " + brace.toString() + " catchingThmName_ = " + catchingThmName_ + " = '" + result + "'");
           return result(result);
         }
   <add:zeves>
+  {PROOFWORD}
+        {
+          // proof words *must* be separated
+          //addSpace_ = true;
+          String proofWord = //addSpace();
+          //proofWord +=
+          yytext();
+          if (proofWord.equals("to") || proofWord.equals("expression") || proofWord.equals("predicate")) addSpace_ = true;
+
+          //String proofWord = yytext();
+
+          // if caught by mistake outside a z proof environment (e.g., "by" or "prove" as var name?)
+          // report the error and carry on to allow for better recovery later on, rather than hard crash
+          // with throw new ScanException. TODO: which is better?
+          if (!inProofScript_)
+          {
+            reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
+          }
+          //System.out.println("SEE PROOF-WORD-IN-ZED-STATE = " + proofWord);
+          return result(LatexSym.PROOFWORD, proofWord);
+        }
+  {USAGE}
+        {
+          String usage = yytext();
+          //System.out.println("SEEN USAGE-IN-ZED-STATE = " + usage);
+          return result(LatexSym.PROOFWORD, usage + ZString.SPACE);
+        }
         // either a proof word after white-space, or an empty proof environment
    "]" / ({IGNORE}* ({PROOFWORD} | "\\end{zproof}"))
         {
@@ -1647,13 +1649,7 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           // To aid low-level debugging: ({LETTER} | [0-9])*
           String result = addSpace();
           result += yytext();
-          //if (seenThm_) System.out.println("LEXING0 NAME AFTER SEEN-THM? " + seenThm_ +" = '" + result + "'");
-          if (catchingThmName_) 
-          { 
-            result += ZString.SPACE;
-            catchingThmName_ = false;
-            //System.out.println("LEXING-DECORWORD AFTER 'catchThmName_' FLAG = '" + result + "'");
-          }
+          //System.out.println("LEXING-DECORWORD AFTER FLAG (" + catchingThmName_ + ") = '" + result + "'");
           return result(result);
         }
   .
@@ -1661,6 +1657,7 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           // To aid low-level debugging: .
           String result = addSpace();
           result += yytext();
+          //System.out.println("CATCH-ALL = '" + result + "'");
           return result(result);
         }
 }

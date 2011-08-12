@@ -532,6 +532,7 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
                   //  //if (word.endsWith(NL*)) yypushback(number_of_nl) ARGH...
                   //}
                   //assert sym != null;
+                  //System.out.println("DECORWORD middle = " + yytext());
                   Symbol symb = symbol(seenApply_ ? Sym.THMNAME : Sym.DECORWORD,
                     new Decorword(yytext(), getLocation()));
                   //System.out.println("OUCH0 = " + yytext() + "; seen apply? = " + seenApply_);
