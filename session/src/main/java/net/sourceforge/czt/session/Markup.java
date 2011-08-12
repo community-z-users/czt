@@ -78,7 +78,7 @@ public enum Markup
     switch (markup)
     {
       case LATEX  : return ".tex";
-      case UNICODE: return ".zed16";
+      case UNICODE: return ".zed8";
       case ZML    : return ".zml";
       default     : throw new Error();
     }
