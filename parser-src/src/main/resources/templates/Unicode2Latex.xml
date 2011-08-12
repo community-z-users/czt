@@ -110,7 +110,7 @@ action code
 
   private String begin(String string, String extra)
   {
-    return "\\begin{" + string + "}" + extra + "\n";
+    return "\\begin{" + string + "}" + extra ; //+ "\n";
   }
 
   <add:zeves>
@@ -129,7 +129,7 @@ action code
     result.append(string);
     result.append("}");
     result.append(extra);
-    result.append("\n");
+    //result.append("\n");
     return result.toString();
   }
   </add:zeves>
@@ -264,9 +264,24 @@ action code
       }
       charcount = charcount + zchar.charCount();
     }
-    return new LatexCommand(latex.toString(), word,
-                            addLeftSpace, addRightSpace);
+    return createLatexCommand(latex.toString(), word, addLeftSpace, addRightSpace);
   }
+
+  // Whilst concate(w1, w2), spaces at edges are considered. For the cases
+  // where "keywords" are typeset the same in LaTeX and Unicode, it can be
+  // sometimes annoying/desarible to have hard or soft spaces added. That's
+  // what "concate(w1,w2)" does. Here, we can influence its behaviour by
+  // appending an extra soft space in the case where no such issue arrise?
+  private LatexCommand createLatexCommand(String latex, String word, boolean addLeft, boolean addRight)
+  {
+    boolean isKeyword = false 
+                  <add:zeves>||  net.sourceforge.czt.parser.zeves.ZEvesSymMap.ALL_ZEVES_KEYWORDS.contains(word.toUpperCase())</add:zeves>
+                  ;
+    addLeft = addLeft || isKeyword;
+    addRight = addRight || isKeyword;
+    return new LatexCommand(latex, word, addLeft, addRight);
+  }
+
 
   private void addParentMarkups(ZSect zsect, LatexMarkupFunction table)
   {
@@ -378,7 +393,8 @@ action code
 :}
 
 parser code {:
-  public static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+  public static final Map&lt;Object, String&gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+  public static final Map&lt;String, Object&gt; symbolMap2_= DebugUtils.getFieldMap2(Sym.class);
 
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionInfo sectInfo_ = new SectionManager();
@@ -688,7 +704,8 @@ non terminal String       markup, para, zpara, zedPara,
 non terminal LatexCommand innerPara;
 </add:oz>
 non terminal LatexCommand token, tokenSeq, sectHeadSeq,
-     <add:zeves>optDefAbility, optThmAbility, thmUsage, optThmUsage,</add:zeves>
+     <add:zeves>optDefAbility, optThmAbility, labelAbility,
+                thmUsage, optThmUsage,</add:zeves>
                 paren, special, decorword;
 
    input ::= paragraphList
@@ -1031,7 +1048,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              |
              ZPROOFCOMMANDSEP
              {:
-                RESULT = resultFT(";", ZEvesString.ZPROOFCOMMANDSEP);
+                RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
              :}
              |
              ZPROOFDOLLAR
@@ -1043,11 +1060,17 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              {:
                 RESULT = t;
              :}
+             |
+             labelAbility:l
+             {:
+                RESULT = l;
+             :}
  </add:zeves>
              ;
 
 
 <add:zeves>
+ // ability as different tokens - this is necessary for Unicode differentiation
  optDefAbility ::=
              DISABLEDDEFTAG
              {:
@@ -1070,24 +1093,39 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              /* MUST BE DECORWORD: within tokenSeq we have LLABEL ... ?*/
              THMRULE // or just use DECORWORD?
              {:
-                RESULT = resultFT("rule", ZEvesString.THMRULE);
+                // TT here to avoid "glueing" up with other names
+                RESULT = resultTT("rule", ZEvesString.THMRULE);
              :}
              |
              THMFRULE
              {:
-                RESULT = resultFT("frule", ZEvesString.THMFRULE);
+                RESULT = resultTT("frule", ZEvesString.THMFRULE);
              :}
              |
              THMGRULE
              {:
-                RESULT = resultFT("grule", ZEvesString.THMGRULE);
+                RESULT = resultTT("grule", ZEvesString.THMGRULE);
              :}
              |
              THMAXIOM
              {:
-                RESULT = resultFT("axiom", ZEvesString.THMAXIOM);
+                RESULT = resultTT("axiom", ZEvesString.THMAXIOM);
              :}
              ;
+
+// as keywords
+ labelAbility ::=
+             DISABLED
+             {:
+                RESULT = resultTT("disabled", ZEvesString.DISABLED);
+             :}
+             |
+             ENABLED
+             {:
+                RESULT = resultTT("enabled", ZEvesString.ENABLED);
+             :}
+             ;
+
 
  optThmUsage ::=
              thmUsage:t
