@@ -168,7 +168,12 @@ public abstract class CztManagedTest extends TestCase
 
   protected void createSource(URL url)
   {
-    final String sourceData = url.getFile();
+    createSource(url.getFile());
+  }
+
+  protected void createSource(String fileName)
+  {
+    final String sourceData = fileName;
     final String sourceName = SourceLocator.getSourceName(sourceData);
     //if (isDebugging())
     //{
@@ -188,12 +193,17 @@ public abstract class CztManagedTest extends TestCase
    */
   protected Spec parse(URL url) throws CommandException
   {
-    traceLog("CZT-TEST-PARSE " + url);
-    createSource(url);
+    return parse(url.getFile());
+  }
+
+  protected Spec parse(String fileName) throws CommandException
+  {
+    traceLog("CZT-TEST-PARSE " + fileName);
+    createSource(fileName);
     try
     {
-      Spec term = manager_.get(new Key<Spec>(getSourceName(url), Spec.class));
-      ParseException pe = manager_.get(new Key<ParseException>(url.getFile(), ParseException.class));
+      Spec term = manager_.get(new Key<Spec>(getSourceName(fileName), Spec.class));
+      ParseException pe = manager_.get(new Key<ParseException>(fileName, ParseException.class));
       if (pe != null && !pe.getErrors().isEmpty())
       {
         throw pe;
@@ -210,7 +220,12 @@ public abstract class CztManagedTest extends TestCase
 
   protected String getSourceName(URL url)
   {
-    return SourceLocator.getSourceName(url.getFile());
+    return getSourceName(url.getFile());
+  }
+
+  protected String getSourceName(String fileName)
+  {
+    return SourceLocator.getSourceName(fileName);
   }
 
   protected void setCZTPath()
