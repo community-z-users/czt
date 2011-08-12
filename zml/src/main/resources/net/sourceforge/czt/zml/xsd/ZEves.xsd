@@ -501,7 +501,13 @@
     <xs:complexContent>
       <xs:extension base="Z:RenameList">
         <xs:sequence>
-          <xs:element ref="ZEVES:Instantiation"  minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="ZEVES:Instantiation"  minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
