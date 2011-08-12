@@ -19,8 +19,11 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,8 +47,10 @@ public final class DebugUtils
   /**
    * Collects all static member variables in a map
    * that maps the value of the variable to its name.
+   * @param aClass
+   * @return
    */
-  public static Map<Object,String> getFieldMap(Class aClass)
+  public static Map<Object,String> getFieldMap(Class<?> aClass)
   {
     Map<Object,String> result = new HashMap<Object,String>();
     Field[] fields = aClass.getFields();
@@ -66,8 +71,10 @@ public final class DebugUtils
   /**
    * Collects all static member variables in a map
    * that maps the name to its value.
+   * @param aClass
+   * @return
    */
-  public static Map<String,Object> getFieldMap2(Class aClass)
+  public static Map<String,Object> getFieldMap2(Class<?> aClass)
   {
     Map<String,Object> result = new HashMap<String,Object>();
     Field[] fields = aClass.getFields();
@@ -85,39 +92,45 @@ public final class DebugUtils
     return result;
   }
 
-  public static void scan(Scanner scanner, Class cupSymbolTable)
-    throws Exception
+  private static final String LOG_SYMBOL = "Token ({0}) {1} at line {2} column {3} with value \"{4}\"\n";
+
+  public static void scan(Scanner scanner, Class<?> cupSymbolTable) throws Exception
+  {
+    scan(scanner, cupSymbolTable, //new BufferedWriter(
+            new OutputStreamWriter(System.out, "UTF-8"));//);
+  }
+  public static void scan(Scanner scanner, Class<?> cupSymbolTable, Writer writer) throws Exception
   {
     Map<Object,String> symbols = getFieldMap(cupSymbolTable);
     Symbol symbol = null; long i = 1;
-    while ((symbol = scanner.next_token()).sym != 0) {
-      String symbolName = symbols.get(new Integer(symbol.sym));
-      String result = "Token (" + i + ") "+ symbolName; i++;
-      result += " at line " + symbol.left + " column " + symbol.right;
-      if (symbol.value != null) {
+    while ((symbol = scanner.next_token()).sym != 0)
+    {
+      final String symbolName = symbols.get(new Integer(symbol.sym));
+      final String symbolValue;
+
+      if (symbol.value != null)
+      {
         String value = symbol.value.toString();
-        result += " with value '";
         final int maxLength = 20;
         if (value.length() == 1 &&
-                !Character.isWhitespace(value.codePointAt(0)) &&
-                !Character.isLetterOrDigit(value.codePointAt(0))) {
-          result += "U+" + Integer.toHexString(value.codePointAt(0));
+            !Character.isWhitespace(value.codePointAt(0)) &&
+            !Character.isLetterOrDigit(value.codePointAt(0))) {
+          symbolValue = "U+" + Integer.toHexString(value.codePointAt(0));
         }
         else if(value.length() <= maxLength) {
-          result += value;
+          symbolValue = value;
         }
         else {
-          result += value.substring(0, maxLength) + "...";
+          symbolValue = value.substring(0, maxLength) + "...";
         }
-        result += "'";
-//        if (symbol.value instanceof Decorword)
-//        {
-//          Decorword dw = (Decorword)symbol.value;
-//          result += " with LocInfo(at line " + dw.getLocation().getLine() 
-//                    + " column " + dw.getLocation().getColumn() + ")";
-//        }
       }
-      System.out.println(result);
+      else
+        symbolValue = "null";
+      final String result = MessageFormat.format(LOG_SYMBOL,
+              i, symbolName, symbol.left, symbol.right, symbolValue);
+      i++;
+      writer.write(result);
     }
+    writer.flush();
   }
 }
