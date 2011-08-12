@@ -19,17 +19,15 @@
 
 package net.sourceforge.czt.parser.zeves;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.zeves.util.PrintVisitor;
@@ -77,33 +75,45 @@ public class ProofScriptParsingTest
   protected void testing(URL resource, Spec term)
   {
     if (printer_ != null) ZUtils.setToStringVisitor(term, printer_);
-    for(Sect s : term.getSect())
+    System.out.println("Parsing successful, start printing of " + resource);
+    try
     {
-      if (s instanceof ZSect)
+      try
       {
-        ZSect zs = (ZSect)s;
-        System.out.print(zs.getName() + " = ");
-        System.out.println(zs.toString());
+        LatexScannerDebugger.debugPrinter(new FileSource(resource.getPath()), getManager(), term);
       }
+      catch (CommandException ex)
+      {
+        encounteredException(resource, ex, "while trying to print", false);
+      }
+    } catch (IOException e)
+    {
+      encounteredException(resource, e, "while trying to print", false);
+      System.exit(0);
     }
-//    System.out.println("Parsing successful, start XML printing...");
-//    String xmlFile;
-//    String file = resource.getFile();
-//    if (file.lastIndexOf(".") != -1)
-//      xmlFile = file.substring(0, file.lastIndexOf(".")) + ".xml";
-//    else
-//      xmlFile = file + ".xml";
-//    File f = new File(xmlFile);
-//    f.delete();
-//    try
+//    SectionManager manager = getManager();
+//    StringWriter sw = new StringWriter();
+//    for(Sect s : term.getSect())
 //    {
-//      FileWriter fw = new FileWriter(f);
-//      writer_.write(term, fw);
-//      fw.close();
-//    } catch (IOException e)
-//    {
-//      encounteredException(resource, e, "IOException whilst trying to write XML file for resource " + file, false);
-//      throw new RuntimeException(e);
+//      if (s instanceof ZSect)
+//      {
+//        ZSect zs = (ZSect)s;
+//        final String name = zs.getName();
+//        final String w = zs.toString();
+//        System.out.println("  toString() okay");
+//
+//        PrintUtils.print(term, sw, manager, name, Markup.LATEX);
+//        sw.flush();
+//        System.out.println("  Print Latex okay");
+//
+//        PrintUtils.print(term, sw, manager, name, Markup.UNICODE);
+//        sw.flush();
+//        System.out.println("  Print Unicode okay");
+//
+//        //PrintUtils.print(term, sw, manager, name, Markup.ZML);
+//        //sw.flush();
+//        //System.out.println("  Print ZML okay");
+//      }
 //    }
   }
 
@@ -112,7 +122,7 @@ public class ProofScriptParsingTest
   protected void encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
   {
     System.out.println("Encountered exception during parsing: " + e.getClass().getName());
-    System.out.println("\t " + failureMsg);
+    System.out.println("  " + failureMsg);
     if (!handled) e.printStackTrace();
   }
   protected static final boolean DEBUG_TESTING = false;
@@ -126,6 +136,7 @@ public class ProofScriptParsingTest
     ProofScriptParsingTest test = new ProofScriptParsingTest(DEBUG_TESTING);
     Test result = test.suite(TEST_DIR, null);
     System.out.println("Number of tests for Z/Eves proofs parsing: " + result.countTestCases());
+    System.out.println();
     return result;
   }
 

@@ -27,8 +27,12 @@ import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.ParenAnn;
+import net.sourceforge.czt.z.ast.RenameExpr;
 import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.util.WarningManager;
+import net.sourceforge.czt.z.visitor.RenameExprVisitor;
 import net.sourceforge.czt.zeves.ast.ApplyCommand;
 import net.sourceforge.czt.zeves.ast.CaseAnalysisCommand;
 import net.sourceforge.czt.zeves.ast.Instantiation;
@@ -58,7 +62,7 @@ import net.sourceforge.czt.zeves.visitor.ZEvesVisitor;
  */
 public class ZEvesPrintVisitor
         extends net.sourceforge.czt.print.z.ZPrintVisitor
-        implements ZEvesVisitor<Object>
+        implements ZEvesVisitor<Object>, RenameExprVisitor<Object>
 {
 
   private final WarningManager warningManager_;
@@ -80,6 +84,26 @@ public class ZEvesPrintVisitor
   {
     super(printer, properties);
     warningManager_ = wm;
+  }
+
+  @Override
+  public Object visitRenameExpr(RenameExpr renameExpr)
+  {
+    final boolean braces = renameExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(ZToken.LPAREN);
+    visit(renameExpr.getExpr());
+    print(ZToken.LSQUARE);
+    if (renameExpr.getRenameList() instanceof ZRenameList)
+      printTermList(renameExpr.getZRenameList());
+    else
+    {
+      currInstKind_ = InstantiationKind.ThmReplacement;
+      printTermList(ZEvesUtils.getInstantiationListFromExpr(renameExpr));
+      currInstKind_ = null;
+    }
+    print(ZToken.RSQUARE);
+    if (braces) print(ZToken.RPAREN);
+    return null;
   }
 
   @Override
@@ -264,8 +288,9 @@ public class ZEvesPrintVisitor
         if (term.getPred() != null)
         {
           print(ZEvesProofKeyword.PREDICATE);
+          visit(term.getPred());
         }
-        else
+        else if (term.getNameList() != null)
         {
           if (term.getZNameList().size() != 1)
             throw new PrintException("invoke cmd only on a single name");

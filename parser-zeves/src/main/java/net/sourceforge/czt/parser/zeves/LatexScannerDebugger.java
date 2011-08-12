@@ -21,26 +21,31 @@ package net.sourceforge.czt.parser.zeves;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sourceforge.czt.base.util.UnmarshalException;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.print.util.XmlString;
-import net.sourceforge.czt.print.zeves.PrintUtils;
 import net.sourceforge.czt.print.zeves.Unicode2Latex;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
@@ -100,7 +105,7 @@ public class LatexScannerDebugger {
     return result;
   }
 
-  public static void debugScanner(Source source) throws IOException, Exception
+  public static void debugScanner(Writer writer, Source source) throws IOException, Exception
   {
      SectionManager sectInfo_ = new SectionManager("zeves");
      sectInfo_.setProperty("czt.debug.LatexToUnicode", "false");
@@ -111,10 +116,20 @@ public class LatexScannerDebugger {
        scanner = new UnicodeScanner(source, sectInfo_.getProperties());
      else // assume LaTex
        scanner = new LatexScanner(source, sectInfo_, sectInfo_.getProperties());
-     DebugUtils.scan(scanner, Sym.class);
+     DebugUtils.scan(scanner, Sym.class, writer);
   }
 
-  private static void debugPrinter(Source source, SectionManager sectInfo, Spec term) throws IOException, CommandException
+  private static Writer createWriter(Source source, Markup markup) throws UnsupportedEncodingException, FileNotFoundException
+  {
+    final String fileName = source.getName() + Markup.getDefaultFileExtention(markup);
+    File file = new File(fileName);
+    if (file.exists()) file.delete();
+    BufferedWriter result = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
+    System.out.println("  created file " + fileName);
+    return result;
+  }
+
+  protected static void debugPrinter(Source source, SectionManager sectInfo, Spec term) throws IOException, CommandException
   {
     sectInfo.setProperty("czt.debug.ZmlScanner", "false");
     String sourceKeyName = SourceLocator.getSourceName(source.getName());
@@ -128,55 +143,64 @@ public class LatexScannerDebugger {
 
       System.out.println("\n============================ TOSTRING ============================");
       ZUtils.setToStringVisitor(term, printer);
-      System.out.println(term.toString());
+      final String s = term.toString();
+      System.out.println("  toString successful for " + sourceKeyName);
 
-      System.out.println("\n============================ PRTUTILS-LATEX ============================");
-      StringWriter sw = new StringWriter();
-      PrintUtils.print(term, sw, sectInfo, sourceKeyName, Markup.LATEX);
-      sw.flush();
-      System.out.println(sw.toString());
-      System.out.println();
-
-      System.out.println("\n============================ PRTUTILS-UNICODE ============================");
-      File file = new File(source.getName() + "PTRUTLS.zed8");
-      if (file.exists())
-        file.delete();
-      BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF8"));
-      //Doesn't do Unicode properly:
-      //  FileWriter fw = new FileWriter(file);
-      PrintUtils.print(term, fw, sectInfo, sourceKeyName, Markup.UNICODE);
-      fw.close();
-      System.out.println("Created file " + source.getName() + "PTRUTLS.zed8");
-      System.out.println();
+//      System.out.println("\n============================ PRTUTILS-LATEX ============================");
+//      StringWriter sw = new StringWriter();
+//      PrintUtils.print(term, sw, sectInfo, sourceKeyName, Markup.LATEX);
+//      sw.flush();
+//      System.out.println(sw.toString());
+//      System.out.println();
+//
+//      System.out.println("\n============================ PRTUTILS-UNICODE ============================");
+//      File file = new File(source.getName() + "PTRUTLS.zed8");
+//      if (file.exists())
+//        file.delete();
+//      //ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//      BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
+//      PrintUtils.print(term, fw, sectInfo, sourceKeyName, Markup.UNICODE);
+//      fw.close();
+//      System.out.println("Created file " + source.getName() + "PTRUTLS.zed8");
+//      //System.out.println(baos.toString("UTF-8"));
     }
 
     System.out.println("\n==================================================================");
-    System.out.println("SM Printing of " + source.getName());
+    System.out.println("SM " + source.getMarkup() + " printing of " + source.getName());
 
-    System.out.println("\n============================ LATEX    ============================");
-    LatexString ls = sectInfo.get(new Key<LatexString>(sourceKeyName, LatexString.class));
-    System.out.println(ls.toString());
-
-    System.out.println("\n============================ UNICODE  ============================");
-    UnicodeString us = sectInfo.get(new Key<UnicodeString>(sourceKeyName, UnicodeString.class));
-    System.out.println(us.toString());
-    File file = new File(source.getName() + ".zed8");
-    if (file.exists())
-      file.delete();
-    BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF8"));
-    fw.write(us.toString());
-    fw.close();
-    System.out.println("Created file " + source.getName() + ".zed8");
-
-    System.out.println("\n============================ XML      ============================");
-    XmlString xs = sectInfo.get(new Key<XmlString>(sourceKeyName, XmlString.class));
-    System.out.println(xs.toString());
-    
+    List<Markup> markups = new ArrayList<Markup>(Arrays.asList(Markup.values()));
+    markups.remove(Markup.getMarkup(source.getName()));
+    CztPrintString ps;
+    for(Markup m : markups)
+    {
+      ps = null;
+      switch (m)
+      {
+        case LATEX:
+          System.out.println("\n============================ LATEX    ============================");
+          ps = sectInfo.get(new Key<LatexString>(sourceKeyName, LatexString.class));
+          break;
+        case UNICODE:
+          System.out.println("\n============================ UNICODE  ============================");
+          ps = sectInfo.get(new Key<UnicodeString>(sourceKeyName, UnicodeString.class));
+          break;
+        case  ZML:
+          System.out.println("\n============================ XML      ============================");
+          ps = sectInfo.get(new Key<XmlString>(sourceKeyName, XmlString.class));
+          break;
+        default:
+          throw new Error();
+      }
+      assert ps != null;
+      Writer w = createWriter(source, m);
+      w.write(ps.toString());
+      w.close();
+    }
     System.out.println("==================================================================");
   }
 
 
-  private static void debugParser(Source source, boolean print) throws CommandException, ParseException, IOException, UnmarshalException
+  protected static void debugParser(Source source, boolean print) throws CommandException, ParseException, IOException, UnmarshalException
   {
       SectionManager sectInfo_ = new SectionManager("zeves");
 
@@ -256,11 +280,12 @@ public class LatexScannerDebugger {
         CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.ALL, formatter);
         CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.ALL, formatter);
         CztLogger.setConsoleHandler(CztLogger.getLogger(Latex2Unicode.class), Level.ALL, Level.ALL, formatter);
-        debugScanner(source);
+        debugScanner(new OutputStreamWriter(System.out, "UTF-8"), source);
       }
       if (parse)
       {
         CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.OFF, formatter);
+        CztLogger.setConsoleHandler(CztLogger.getLogger(net.sourceforge.czt.zeves.jaxb.AstToJaxb.class), Level.ALL, Level.ALL, formatter);
         debugParser(source, print);
       }
     }

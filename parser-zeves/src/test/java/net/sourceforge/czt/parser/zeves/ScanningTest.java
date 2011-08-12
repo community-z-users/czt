@@ -2,6 +2,7 @@ package net.sourceforge.czt.parser.zeves;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -83,9 +84,11 @@ public class ScanningTest
   {
     Source source = new FileSource(name);
     source.setMarkup(Markup.getMarkup(name));
-    LatexScannerDebugger.debugScanner(source);
+    StringWriter sw = new StringWriter();
+    LatexScannerDebugger.debugScanner(sw, source);
+    sw.close();
+    System.out.println("  scanning successful");
   }
-
 
   class TestNormal
           extends TestCase
