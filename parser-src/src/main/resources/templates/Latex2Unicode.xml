@@ -1723,7 +1723,7 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
 }
 
 &lt;ZLABEL_STATE&gt; {
-  {ABILITY} 
+  {ABILITY}
       {
         String result = yytext();
         return result(LatexSym.PROOFWORD, result);
@@ -1761,7 +1761,7 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
         }
   .
         {
-          // To aid low-level debugging: .  // OR SHOULD THIS BE A CATCH ALL ERROR?
+          // To aid low-level debugging: .  // OR SHOULD THIS BE A CATCH ALL ERROR? No good to pass to the parser as DECORWORD
           String result = addSpace();
           result += yytext();
           return result(result);
