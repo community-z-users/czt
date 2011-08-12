@@ -21,11 +21,15 @@ package net.sourceforge.czt.parser.zeves;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -75,12 +79,13 @@ public class ProofScriptParsingTest
   protected void testing(URL resource, Spec term)
   {
     if (printer_ != null) ZUtils.setToStringVisitor(term, printer_);
+    String fileName = resource.getPath();
     System.out.println("Parsing successful, start printing of " + resource);
     try
     {
       try
       {
-        LatexScannerDebugger.debugPrinter(new FileSource(resource.getPath()), getManager(), term);
+        LatexScannerDebugger.debugPrinter(new FileSource(fileName), getManager(), term);
       }
       catch (CommandException ex)
       {
@@ -89,32 +94,29 @@ public class ProofScriptParsingTest
     } catch (IOException e)
     {
       encounteredException(resource, e, "while trying to print", false);
-      System.exit(0);
     }
-//    SectionManager manager = getManager();
-//    StringWriter sw = new StringWriter();
-//    for(Sect s : term.getSect())
-//    {
-//      if (s instanceof ZSect)
-//      {
-//        ZSect zs = (ZSect)s;
-//        final String name = zs.getName();
-//        final String w = zs.toString();
-//        System.out.println("  toString() okay");
-//
-//        PrintUtils.print(term, sw, manager, name, Markup.LATEX);
-//        sw.flush();
-//        System.out.println("  Print Latex okay");
-//
-//        PrintUtils.print(term, sw, manager, name, Markup.UNICODE);
-//        sw.flush();
-//        System.out.println("  Print Unicode okay");
-//
-//        //PrintUtils.print(term, sw, manager, name, Markup.ZML);
-//        //sw.flush();
-//        //System.out.println("  Print ZML okay");
-//      }
-//    }
+    System.out.println("\nPrinting successful, start re-parsing of derived files");
+    List<Markup> markups = new ArrayList<Markup>(Arrays.asList(Markup.values()));
+    markups.remove(Markup.getMarkup(fileName));
+    for(Markup m : markups)
+    {
+      final String refile = fileName + Markup.getDefaultFileExtention(m);
+      System.out.println("  reparsting " + refile);
+      try
+      {
+        parse(refile);
+      }
+      catch (CommandException ex)
+      {
+        encounteredException(resource, ex, "while trying to reparse " + refile, false);
+      }
+    }
+  }
+
+  @Override
+  protected Spec parse(String fileName) throws CommandException
+  {
+    return super.parse(fileName);
   }
 
   @Override
