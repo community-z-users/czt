@@ -107,9 +107,11 @@ public class LatexScannerDebugger {
   public static void debugScanner(Writer writer, Source source) throws IOException, Exception
   {
      SectionManager sectInfo_ = new SectionManager("zeves");
-     sectInfo_.setProperty("czt.debug.LatexToUnicode", "false");
-     sectInfo_.setProperty("czt.debug.ContextFreeScanner", "false");
-     sectInfo_.setProperty("czt.debug.UnicodeScanner", "false");
+     //sectInfo_.setProperty("czt.debug.LatexToUnicode", "true");
+     //sectInfo_.setProperty("czt.debug.ContextFreeScanner", "true");
+     //sectInfo_.setProperty("czt.debug.UnicodeScanner", "false");
+     //sectInfo_.setProperty("czt.debug.*", "true");
+
     net.sourceforge.czt.java_cup.runtime.Scanner scanner;
      if (source.getMarkup().equals(Markup.UNICODE))
        scanner = new UnicodeScanner(source, sectInfo_.getProperties());
@@ -271,20 +273,20 @@ public class LatexScannerDebugger {
       System.out.println("Working with " + Markup.getMarkup(fileName) + " for " + fileName);
       source.setMarkup(Markup.getMarkup(fileName));
       SimpleFormatter formatter = new SimpleFormatter(false, true, false, false);
-      CztLogger.setConsoleHandler(CztLogger.getLogger(LatexMarkupParser.class), Level.ALL, Level.ALL, formatter);
+      //CztLogger.setConsoleHandler(CztLogger.getLogger(LatexMarkupParser.class), Level.ALL, Level.ALL, formatter);
       if (scan)
       {
-        CztLogger.setConsoleHandler(CztLogger.getLogger(KeywordScanner.class), Level.ALL, Level.OFF, formatter);
-        CztLogger.setConsoleHandler(CztLogger.getLogger(ContextFreeScanner.class), Level.ALL, Level.OFF, formatter);
-        CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.ALL, formatter);
-        CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.ALL, formatter);
+        //CztLogger.setConsoleHandler(CztLogger.getLogger(KeywordScanner.class), Level.ALL, Level.OFF, formatter);
+        //CztLogger.setConsoleHandler(CztLogger.getLogger(ContextFreeScanner.class), Level.ALL, Level.OFF, formatter);
+        //CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.ALL, formatter);
+        //CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.ALL, formatter);
         CztLogger.setConsoleHandler(CztLogger.getLogger(Latex2Unicode.class), Level.ALL, Level.ALL, formatter);
         debugScanner(new OutputStreamWriter(System.out, "UTF-8"), source);
       }
       if (parse)
       {
-        CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.OFF, formatter);
-        CztLogger.setConsoleHandler(CztLogger.getLogger(net.sourceforge.czt.zeves.jaxb.AstToJaxb.class), Level.ALL, Level.ALL, formatter);
+        //CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.OFF, formatter);
+        //CztLogger.setConsoleHandler(CztLogger.getLogger(net.sourceforge.czt.zeves.jaxb.AstToJaxb.class), Level.ALL, Level.ALL, formatter);
         debugParser(source, print);
       }
     }

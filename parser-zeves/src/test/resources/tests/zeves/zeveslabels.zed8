@@ -6,7 +6,7 @@ More than one labelled predicate per axiomatic box (!)
 《 disabled rule dFoo2 》 foo > 2
 foo < 11 └
 
-─ ☒ theorem rule lFooLemmaTest ∀ x : ℕ ⦁ x > foo └
+─ ☒ theorem rule lFooLemma ∀ x : ℕ ⦁ x > foo └
 
 ─ ☒ theorem rule lOptionalVDash ∀ x : ℕ ⦁ x > foo └
 

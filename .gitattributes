@@ -585,6 +585,7 @@ parser-zeves/src/test/resources/tests/zeves/simple.tex -text
 parser-zeves/src/test/resources/tests/zeves/simple.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/smalltest.tex -text
 parser-zeves/src/test/resources/tests/zeves/toolkitThms.tex -text
+parser-zeves/src/test/resources/tests/zeves/underscoreNamedThm.tex -text
 parser-zeves/src/test/resources/tests/zeves/zevesability.tex -text
 parser-zeves/src/test/resources/tests/zeves/zeveslabels.tex -text
 parser-zeves/src/test/resources/tests/zeves/zeveslabels.zed8 -text
