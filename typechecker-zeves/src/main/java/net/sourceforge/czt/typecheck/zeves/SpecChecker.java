@@ -72,6 +72,11 @@ public class SpecChecker extends Checker<Object>
     //reuse the general Checker protocol - needed to do it this way
     //to enable setSectName for WarningManager to be called rightly.
     List<NameSectTypeTriple> result = checkZSect(zSect);
+
+    //System.out.println(zSect.getName() + " dependencies");
+    //dependencies().dump();
+    //sectTypeEnv().dumpParaIDInfo();
+    //sectTypeEnv().dump();
     return result;
   }
   
