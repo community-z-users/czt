@@ -1,5 +1,8 @@
 * text=auto !eol
 attic/bsh/parseCircus.bsh -text
+attic/domainchecker/src/main/resources/lib/AppliesToDefTest.zcs -text
+attic/domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
+attic/domainchecker/src/test/resources/tests/z/basicsm.tex -text
 attic/parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusLaw.java -text
 corejava/src/main/java/net/sourceforge/czt/z/util/WarningManager.java -text
@@ -88,9 +91,6 @@ doc/refcard/z/refcard.dvi -text
 doc/refcard/z/refcard.p1.latb -text
 doc/refcard/z/refcard.p2.latb -text
 doc/refcard/z/refcard.pdf -text
-domainchecker/src/main/resources/lib/AppliesToDefTest.zcs -text
-domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
-domainchecker/src/test/resources/tests/z/basicsm.tex -text
 dtx/circus/circus-guide.bib -text
 dtx/circus/circus-guide.dvi -text
 dtx/circus/circus-guide.pdf -text svneol=unset#application/pdf
