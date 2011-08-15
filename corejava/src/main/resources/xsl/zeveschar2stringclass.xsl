@@ -124,6 +124,8 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   String THMGRULE = "grule";
   String THMFRULE = "frule";
   String THMAXIOM = "axiom";
+
+  String BAG = "bag";
 }
 <xsl:text>
 </xsl:text>

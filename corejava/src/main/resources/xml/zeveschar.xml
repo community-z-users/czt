@@ -19,4 +19,15 @@
       <char id="RZNOTE" hex="231D" description="right znote bracket"/>
     </BRACKET>
   </SPECIAL>
+  <SYMBOL>
+    <TOOLKITSYMBOL>
+      <!-- ZEves Bag toolkit symbols -->
+      <char id="BCOUNT" hex="226F" description="bag count"/>
+      <char id="OTIMES" hex="2297" description="bag scalling"/>
+      <char id="INBAG" hex="22FF" description="bag containment"/>
+      <char id="SUBBAGEQ" hex="2291" description="bag subset equal"/>
+      <char id="UPLUS" hex="228E" description="bag union"/>
+      <char id="UMINUS" hex="2A41" description="bag difference"/>
+    </TOOLKITSYMBOL>
+  </SYMBOL>
 </ZEVESCHAR>
