@@ -89,10 +89,12 @@ public class ProofScriptParsingTest
       }
       catch (CommandException ex)
       {
+        System.out.println("CommandException thrown during printing of " + fileName);
         encounteredException(resource, ex, "while trying to print", false);
       }
     } catch (IOException e)
     {
+      System.out.println("IOException thrown during printing of " + fileName);
       encounteredException(resource, e, "while trying to print", false);
     }
     System.out.println("\nPrinting successful, start re-parsing of derived files");
@@ -108,6 +110,7 @@ public class ProofScriptParsingTest
       }
       catch (CommandException ex)
       {
+        System.out.println("Exception thrown during reparsing of " + fileName);
         encounteredException(resource, ex, "while trying to reparse " + refile, false);
       }
     }
@@ -121,12 +124,13 @@ public class ProofScriptParsingTest
 
   @Override
   @SuppressWarnings("CallToThreadDumpStack")
-  protected void encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
+  protected boolean encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
   {
     System.out.println("Encountered exception during parsing: " + e.getClass().getName());
     System.out.println("  " + failureMsg);
-    if (!handled) e.printStackTrace();
+    return handled;
   }
+  
   protected static final boolean DEBUG_TESTING = false;
   protected final static String TEST_DIR =
           "/tests/zeves/";

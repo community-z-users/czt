@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnmarshalException;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.DebugUtils;
@@ -45,7 +46,6 @@ import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.print.util.XmlString;
-import net.sourceforge.czt.print.zeves.Unicode2Latex;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
@@ -130,7 +130,7 @@ public class LatexScannerDebugger {
     return result;
   }
 
-  protected static void debugPrinter(Source source, SectionManager sectInfo, Spec term) throws IOException, CommandException
+  protected static void debugPrinter(Source source, SectionManager sectInfo, Term term) throws IOException, CommandException
   {
     sectInfo.setProperty("czt.debug.ZmlScanner", "false");
     String sourceKeyName = SourceLocator.getSourceName(source.getName());
@@ -164,40 +164,44 @@ public class LatexScannerDebugger {
 //      fw.close();
 //      System.out.println("Created file " + source.getName() + "PTRUTLS.zed8");
 //      //System.out.println(baos.toString("UTF-8"));
-    }
+    
+      System.out.println("\n==================================================================");
+      System.out.println("SM " + source.getMarkup() + " printing of " + source.getName());
 
-    System.out.println("\n==================================================================");
-    System.out.println("SM " + source.getMarkup() + " printing of " + source.getName());
-
-    List<Markup> markups = new ArrayList<Markup>(Arrays.asList(Markup.values()));
-    markups.remove(Markup.getMarkup(source.getName()));
-    CztPrintString ps;
-    for(Markup m : markups)
-    {
-      ps = null;
-      switch (m)
+      List<Markup> markups = new ArrayList<Markup>(Arrays.asList(Markup.values()));
+      markups.remove(Markup.getMarkup(source.getName()));
+      CztPrintString ps;
+      for(Markup m : markups)
       {
-        case LATEX:
-          System.out.println("\n============================ LATEX    ============================");
-          ps = sectInfo.get(new Key<LatexString>(sourceKeyName, LatexString.class));
-          break;
-        case UNICODE:
-          System.out.println("\n============================ UNICODE  ============================");
-          ps = sectInfo.get(new Key<UnicodeString>(sourceKeyName, UnicodeString.class));
-          break;
-        case  ZML:
-          System.out.println("\n============================ XML      ============================");
-          ps = sectInfo.get(new Key<XmlString>(sourceKeyName, XmlString.class));
-          break;
-        default:
-          throw new Error();
+        ps = null;
+        switch (m)
+        {
+          case LATEX:
+            System.out.println("\n============================ LATEX    ============================");
+            ps = sectInfo.get(new Key<LatexString>(sourceKeyName, LatexString.class));
+            break;
+          case UNICODE:
+            System.out.println("\n============================ UNICODE  ============================");
+            ps = sectInfo.get(new Key<UnicodeString>(sourceKeyName, UnicodeString.class));
+            break;
+          case  ZML:
+            System.out.println("\n============================ XML      ============================");
+            ps = sectInfo.get(new Key<XmlString>(sourceKeyName, XmlString.class));
+            break;
+          default:
+            throw new Error();
+        }
+        assert ps != null;
+        Writer w = createWriter(source, m);
+        w.write(ps.toString());
+        w.close();
       }
-      assert ps != null;
-      Writer w = createWriter(source, m);
-      w.write(ps.toString());
-      w.close();
+      System.out.println("==================================================================");
     }
-    System.out.println("==================================================================");
+    else
+    {
+      throw new RuntimeException("Cannot print null term!");
+    }
   }
 
 
@@ -206,13 +210,17 @@ public class LatexScannerDebugger {
       SectionManager sectInfo_ = new SectionManager("zeves");
 
       File file = new File(source.getName());
+      // for the case of .tex.zed8 remove all possible .s
       String sourceName = SourceLocator.getSourceName(file.getName());
+      while (sourceName.lastIndexOf(".") != -1)
+        sourceName = sourceName.substring(0, sourceName.lastIndexOf("."));
       SourceLocator.addCZTPathFor(file, sectInfo_);
       sectInfo_.put(new Key<Source>(sourceName, Source.class), source);
-      Spec term;
+      Term term;
       try
       {
-        term = sectInfo_.get(new Key<Spec>(sourceName, Spec.class));
+        // don't use Spec, because for XML, a singleton spec returns ZSect rather than Spec (!)
+        term = sectInfo_.get(new Key<Term>(sourceName, Term.class));
       }
       catch(CommandException ex)
       {
