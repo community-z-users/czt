@@ -809,10 +809,13 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              :}
              |
              ZED
+              <add:zeves>
+                optThmAbility:ability
+              </add:zeves>
              specialSeq zedPara END
              |
              AX tokenSeq:s END
-             {:
+             {:se
                 String result = begin("axdef");
                 if (s != null) result += s.getName();
                 result += end("axdef");
@@ -839,9 +842,13 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 parser.write(result);
              :}
              |
-             GENSCH specialSeq decorword:w tokenSeq:s END
+             GENSCH
+              <add:zeves>
+                optDefAbility:ability
+              </add:zeves>
+             specialSeq decorword:w tokenSeq:s END
              {:
-                String result = begin("schema", "{" + w.getName() + "}");
+                String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);

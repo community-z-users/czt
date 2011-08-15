@@ -63,7 +63,7 @@ import net.sourceforge.czt.oz.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
 </add:tcoz>
 <add:zeves>
-import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.zeves.jaxb.JaxbXmlReader;
 </add:zeves>
 
 /**
