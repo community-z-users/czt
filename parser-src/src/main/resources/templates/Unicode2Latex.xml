@@ -815,7 +815,7 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
              specialSeq zedPara END
              |
              AX tokenSeq:s END
-             {:se
+             {:
                 String result = begin("axdef");
                 if (s != null) result += s.getName();
                 result += end("axdef");
