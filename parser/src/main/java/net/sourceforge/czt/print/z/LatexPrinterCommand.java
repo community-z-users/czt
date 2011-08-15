@@ -54,7 +54,7 @@ public class LatexPrinterCommand
       final Writer writer = new StringWriter();
       final Key<Term> key = new Key<Term>(name, Term.class);
       final Term term = manager.get(key);
-      printLatex(term, writer, manager, name);
+      printLatex(term, writer, manager, null);//name);
       writer.close();
       manager.put(new Key<LatexString>(name, LatexString.class),
                   new LatexString(writer.toString()));
