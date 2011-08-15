@@ -285,6 +285,9 @@ public class <class/> extends AbstractCommand
     else if (filename.endsWith("8") || filename.endsWith("16")) {
       result = Markup.UNICODE;
     }
+    else if (filename.endsWith("ml")) {
+      result = Markup.ZML;
+    }
     return result;
   }
 
