@@ -2315,7 +2315,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         {
           params.add(getExpr(e));
         }
-        assert params.size() == args.size();
+        assert params.size() == args.size() + 1;
         switch (arity)
         {
           case 1:

@@ -33,7 +33,7 @@ import net.sourceforge.czt.z.ast.Spec;
  */
 public class CZT2ZEvesPrintingTest extends CztManagedTest {
 
-   protected CZT2ZEvesPrintingTest(boolean debug)
+  protected CZT2ZEvesPrintingTest(boolean debug)
   {
     super("zeves", debug);
   }
@@ -41,6 +41,8 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
   protected CZT2ZEvesPrintingTest(SectionManager manager, boolean debug)
   {
     super(manager, debug);
+    if (manager.getDialect().equals("zeves"))
+      throw new IllegalArgumentException("Invalid manager with dialect " + manager.getDialect());
   }
 
   @Override
