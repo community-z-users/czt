@@ -25,7 +25,7 @@ import net.sourceforge.czt.zeves.response.form.ZEvesRelChain;
 import net.sourceforge.czt.zeves.response.form.ZEvesSchName;
 import net.sourceforge.czt.zeves.response.form.ZEvesSchemaText;
 import net.sourceforge.czt.zeves.response.form.ZEvesSchemaType;
-import net.sourceforge.czt.zeves.response.form.ZEvesString;
+import net.sourceforge.czt.zeves.response.form.ZEvesResponseString;
 import net.sourceforge.czt.zeves.response.para.ZEvesAbbrevDef;
 import net.sourceforge.czt.zeves.response.para.ZEvesAxDef;
 import net.sourceforge.czt.zeves.response.para.ZEvesFreeTypeDef;
@@ -75,7 +75,7 @@ public class ZEvesResponseReader {
 				ZEvesBinder.class, ZEvesLet.class, ZEvesIf.class, ZEvesSchemaText.class, 
 				ZEvesOp.class, ZEvesRelChain.class, ZEvesApplication.class, ZEvesParenForm.class,
 				ZEvesDisplay.class, ZEvesSchemaType.class, ZEvesName.class, ZEvesSchName.class,
-				ZEvesNumber.class, ZEvesString.class,
+				ZEvesNumber.class, ZEvesResponseString.class,
 				/*
 				 * <!ENTITY % para "(schemadef | axdef | theorem | givendef |
 				 * 					 horschdef | abbrevdef | freetypedef | %form; | 

@@ -1,0 +1,21 @@
+\begin{zsection}
+   \SECTION zevesrenaming \parents standard\_toolkit
+\end{zsection}
+
+\begin[disabled]{schema}{S}
+   x: \nat
+\where
+   x > 10
+\end{schema}
+
+\begin{axdef}
+   a: \nat
+\end{axdef}
+
+\begin[disabled]{theorem}{rule lSLemma0}
+  \forall S @ \theta S[a/x]
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lSLemma}
+  \forall S @ \theta S[x := 1]
+\end{theorem}

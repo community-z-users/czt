@@ -159,8 +159,6 @@ import net.sourceforge.czt.zeves.ast.SimplificationCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
-import net.sourceforge.czt.zeves.proof.ProofUtils;
-import net.sourceforge.czt.zeves.proof.ProofScript;
 import net.sourceforge.czt.z.visitor.CondExprVisitor;
 import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
 import net.sourceforge.czt.z.visitor.LetExprVisitor;
@@ -174,14 +172,19 @@ import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
 import net.sourceforge.czt.zeves.ast.LabelAbility;
 import net.sourceforge.czt.zeves.ast.LabelUsage;
+import net.sourceforge.czt.zeves.ast.ProofCommandList;
+import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
+import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
 import net.sourceforge.czt.zeves.visitor.ApplyCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.CaseAnalysisCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.InstantiationListVisitor;
 import net.sourceforge.czt.zeves.visitor.InstantiationVisitor;
 import net.sourceforge.czt.zeves.visitor.NormalizationCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.ProofCommandListVisitor;
 import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 import net.sourceforge.czt.zeves.visitor.QuantifiersCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.SimplificationCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.SubstitutionCommandVisitor;
@@ -253,12 +256,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         InstantiationVisitor<String>, InstantiationListVisitor<String>,
         SimplificationCommandVisitor<String>, UseCommandVisitor<String>,
         WithCommandVisitor<String>, SubstitutionCommandVisitor<String>,
-        ApplyCommandVisitor<String>
+        ApplyCommandVisitor<String>, ProofScriptVisitor<String>,
+        ProofCommandListVisitor<String>
 {
 
   private static final List<String> ROMAN_NAMES = Collections.unmodifiableList(
           Arrays.asList("div", "mod", "pre", "dom", "ran", "id", "seq", "iseq", "prefix",
           "suffix", "inseq", "disjoint", "partition", "bag", "inbag"));
+
+
   /**
    * CZT Section manger object. TODO: Check necessity of this.
    */
@@ -308,7 +314,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private void emptyDeclPartException()
   {
-    throw new ZEvesIncompatibleASTException("Z/Eves does not accept empty declarations on paragraph boxes");
+    throw new ZEvesIncompatibleASTException("Z/Eves does not accept empty declarations on paragraph boxes or binding expressions");
   }
 
   /**
@@ -558,10 +564,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "&notin;";
     }
-// AV: EMPTYSET is not an operator - moving to #translateWord(String)
-//        else if (word.equals(ZString.EMPTYSET))
-//            result = "&empty;";
-// Leo: well spotted ;-)
+    // AV: EMPTYSET is not an operator - moving to #translateWord(String)
+    //        else if (word.equals(ZString.EMPTYSET))
+    //            result = "&empty;";
+    // Leo: well spotted ;-)
     else if (word.equals(ZString.SUBSETEQ))
     {
       result = "&subeq;";
@@ -623,10 +629,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "&suptilde;";
     }
-//        else if (word.equals(ZString.LIMG))
-//            result = "&lvparen;";      
-//        else if (word.equals(ZString.RIMG))
-//            result = "&rvparen;";      
+    else if (word.equals(ZString.LIMG))
+    {
+      result = "&lvparen;";
+    }
+    else if (word.equals(ZString.RIMG))
+    {
+      result = "&rvparen;";
+    }
     else if (word.equals(ZString.OPLUS))
     {
       result = "&oplus;";
@@ -702,19 +712,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "&uharl;";
     }
-    // Bags
-//        else if (word.equals(ZString.???))//Bag count
-//            result = "&sharp;";
-//        else if (word.equals(ZString.???)//Bag scaling
-//            result = "&otimes;";
-//        else if (word.equals(ZString.???))//Bag membership
-//            result = "&sqisin;";
-//        else if (word.equals(ZString.???))//sub-bag
-//            result = "&sqsubeq;";
-//        else if (word.equals(ZString.???))//bag union
-//            result = "&uplus;";
-//        else if (word.equals(ZString.???))//bag difference
-//            result = "&uminus;";                
     // An interesting case - FINSET is used as operator name in RefExpr, while
     // for powersets we have PowerExpr. So adding FINSET to operator name translation
     else if (word.equals(ZString.FINSET))
@@ -731,6 +728,43 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "-";
     }
+    else if (word.equals(ZString.LANGLE))
+    {
+      result = "&lang;";
+    }
+    else if (word.equals(ZString.RANGLE))
+    {
+      result = "&rang;";
+    }
+    else if (ROMAN_NAMES.contains(word))
+    {
+      result = format(ROMAN_PATTERN, word);
+    }
+    // Bags
+    else if (word.equals(ZEvesString.BCOUNT)) //Bag count
+    {
+      result = "&sharp;";
+    }
+    else if (word.equals(ZEvesString.OTIMES))//Bag scaling
+    {
+        result = "&otimes;";
+    }
+    else if (word.equals(ZEvesString.INBAG))//Bag membership
+    {
+      result = "&sqisin;";
+    }
+    else if (word.equals(ZEvesString.SUBBAGEQ))//sub-bag
+    {
+      result = "&sqsubeq;";
+    }
+    else if (word.equals(ZEvesString.UPLUS))//bag union
+    {
+      result = "&uplus;";
+    }
+    else if (word.equals(ZEvesString.UMINUS))//bag difference
+    {
+      result = "&uminus;";
+    }
     else
     {
       result = word;
@@ -743,32 +777,41 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     // See revision 3986 in the repository if this fails.
     // I used to use opname.iterator, for what now is getWords().
     Iterator<String> parts = Arrays.asList(opname.getWords()).iterator();//opname.iterator();
-    String result = null;
+
+
+    // We are concatenating the result. In almost all cases, one gets "THE" operator involved
+    // since we are ignoring ARGs. On ocassional special cases (e.g., LANGLE, LIMG, LBLOT, user defined
+    // \\listarg op temp), we need to treat it specially, hence we send the whole load of symbols involved.
+    //
+    // PS: Z/Eves does not accept \\listarg definition by the user.
+    String result = "";
     if (fRelationalOpAppl)
     {
       int found = 0;
       while (parts.hasNext())
       {
         String part = parts.next().toString();
-        if (!part.equals(ZString.ARG))
+        // ignore the arguments: we will know if it's a list arg from ApplExpr arity.
+        if (!part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
         {
           found++;
-          result = translateOperatorWord(part);
+          result += translateOperatorWord(part);
         }
       }
-      if (found != 1)
-      {
-        throw new ZEvesIncompatibleASTException("Translation of complext operator templates is not yet supported. See throwable cause for details.",
-                new IllegalArgumentException("We only implement translation of unary or binary operator templates with one \"word\" name only. "
-                                             + "That is, we support mostly all toolkit operators, such as \"_ < _\", but not more complex templates with more tha one \"word\", "
-                                             + "such as \"_ || _ @ _ \". Check the newest version readme.txt for compatibility details."));
-      }
+      //if (found != 1)
+      //{
+      //  throw new ZEvesIncompatibleASTException("Translation of complext operator templates is not yet supported. See throwable cause for details.",
+      //          new IllegalArgumentException("We only implement translation of unary or binary operator templates with one \"word\" name only. "
+      //                                       + "That is, we support mostly all toolkit operators, such as \"_ < _\", but not more complex templates with more tha one \"word\", "
+      //                                       + "such as \"_ || _ @ _ \". Check the newest version readme.txt for compatibility details."));
+      //}
     }
     else
     {
+      throw new ZEvesIncompatibleASTException("Case yet to be handled: getOperator with " + opname + " that is not a relational op appl");
       //getFixity(opname.getFixity());
     }
-    assert result != null;
+    assert !result.isEmpty();
     return result;
   }
 
@@ -1060,7 +1103,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   private String getProofPart(ConjPara term)
   {
     StringBuilder result = new StringBuilder("");
-    ProofScript ps = ProofUtils.getProofScriptAnn(term);
+    //ProofScript ps = ProofUtils.getProofScriptAnn(term);
+    String ps = "";
     if (ps != null)
     {
       result.append("<proof-part/>");
@@ -1274,6 +1318,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    * Top-level method which translates the given CZT term to a corresponding Z/Eves
    * server XML API. It only accepts Para, Pred, or Expr because Z/Eves adds sections
    * via a set of commands rather than a simple command.
+   * @param term
+   * @return
    */
   public String print(Term term)
   {
@@ -1393,6 +1439,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    * Represents the declaration production. Firstly, it checks for empty
    * declaration incompatibility. Next, it iterates through all elements from the
    * list appending the definition for each Decl from decls.
+   * @param decls
    */
   @Override
   public String visitZDeclList(ZDeclList decls)
@@ -1417,7 +1464,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       // Z/Eves has a stricter encoding, yet it's allowed in certain places
       // (e.g., ConjPara or within Proof Commands
       result.append(NL_SEP); // sep chosen to be NL
-      d = (Decl) it.next();
+      d = it.next();
       result.append(d.accept(this));
     }
     return result.toString();
@@ -1886,7 +1933,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
          */
         left = getExpr(term.getLeftExpr());
         rel = " = ";
-        right = getExpr((Expr) ((SetExpr) term.getRightExpr()).getZExprList().get(0));
+        right = getExpr(((SetExpr) term.getRightExpr()).getZExprList().get(0));
         break;
       default:
         throw new AssertionError("Invalid MemPredKind " + kind);
@@ -1987,6 +2034,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
       Expr left = exprList.get(0);
 
+      // Leo: This is not treating possibly tricky (e.g., \\listarg) \\relation or \\generic operator templates?
+      //      I think Z/Eves doesn't have them anyway. Should be fine in general.
       if (exprList.size() > 1)
       {
         Expr right = exprList.get(1);
@@ -2129,21 +2178,24 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitBindExpr(BindExpr term)
   {
-//        assert !term.getNameExprPair().isEmpty() : "Binding expression list cannot be empty.";
-//        StringBuilder result = new StringBuilder("&lvang; ");
-//        term.getDecl()
-//        ((ZDeclList)term.getDeclList()).getDecl()
-//        Iterator/*<NameExprPair>*/ it = term.getNameExprPair().iterator();
-//        NameExprPair nep = (NameExprPair)it.next();        
-//        result.append(getBinding(nep));
-//        while (it.hasNext()) {
-//            result.append(";");
-//            nep = (NameExprPair)it.next();
-//            result.append(getBinding(nep));
-//        }
-//        result.append(" &rvang;");
-//        return result.toString();
-    throw new UnsupportedOperationException("Bind expressions are not yet supported for conversion. TODO.");
+    if (term.getZDeclList().isEmpty())
+    {
+      emptyDeclPartException();
+    }
+    StringBuilder result = new StringBuilder();
+    String delim = "";
+    for (Decl d : term.getZDeclList())
+    {
+      assert d instanceof ConstDecl;
+      ConstDecl cd = (ConstDecl)d;
+      result.append(delim);
+      result.append(getName(cd.getName()));
+      result.append(": ");
+      result.append(getExpr(cd.getExpr()));
+      delim = "; ";
+      result.append(delim);
+    }
+    return format(BIND_EXPR_PATTERN, result.toString());
   }
 
   @Override
@@ -2206,6 +2258,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return format(HIDE_EXPR_PATTERN, getExpr(term.getExpr()), term.getZNameList().accept(this));
   }
 
+  private String extractSeqElem(Expr e)
+  {
+    assert e instanceof TupleExpr;
+    TupleExpr te = (TupleExpr)e;
+    assert te.getZExprList().size() == 2;
+    Expr seqElem = te.getZExprList().get(1);
+    return getExpr(seqElem);
+  }
+
   @Override
   public String visitApplExpr(ApplExpr term)
   {
@@ -2220,26 +2281,54 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       String op = getExpr(ZUtils.getApplExprRef(term));
       fRelationalOpAppl = false;
 
-      // in here just binary ones, please
-//    		TupleExpr tuple = ZUtils.assertZTupleExpr(term.getRightExpr());
-//    		Expr tLeft = tuple.getZExprList().get(0);
-//    		Expr tRight = tuple.getZExprList().get(1);
-
       int arity = ZUtils.applExprArity(term);
-      if (arity == 1)
-      {
-        // sometimes this happens (e.g. in #A), use the same as default ApplExpr
-        ZExprList args = ZUtils.getApplExprArguments(term);
-        return format(APPL_EXPR_PATTERN, op, getExpr(args.get(0)));
-      }
+      ZExprList args = ZUtils.getApplExprArguments(term);
+      List<String> params = new ArrayList<String>(args.size());
+        
+      // Handling special cases known to Z/Eves
 
-      if (arity == 2)
+      // LANGLE / RANGLE
+      if (op.equals("&lang;&rang;"))
       {
-        ZExprList args = ZUtils.getApplExprArguments(term);
-        return format(MIXFIX_APPL_EXPR_PATTERN, getExpr(args.get(0)), op, getExpr(args.get(1)));
+        assert args.size() == 1 &&
+               args.get(0) instanceof SetExpr; // SetExpr with all the elements enumerated... < a, b > =  (<,,>)({(1,a), (2,b)})
+        SetExpr elems = (SetExpr)args.get(0);
+        StringBuilder seqElems = new StringBuilder();
+        String delim = "";
+        for (Expr e : elems.getZExprList())
+        {
+          seqElems.append(delim).append(extractSeqElem(e));
+          delim = ", ";
+        }
+        return format(APPL_EXPR_SEQ_PATTERN, seqElems);
       }
-
-      throw new ZEvesIncompatibleASTException("Unsupported application expression - 1 or 2 arguments required", term);
+      // LIMG / RIMG
+      else if (op.equals("&lvparen;&rvparen;"))
+      {
+        assert args.size() == 2;
+        return format(MIXFIX_APPL_EXPR_RELIMAGE_PATTERN, getExpr(args.get(0)), getExpr(args.get(1)));
+      }
+      else
+      {
+        params.add(op);
+        for (Expr e : args)
+        {
+          params.add(getExpr(e));
+        }
+        assert params.size() == args.size();
+        switch (arity)
+        {
+          case 1:
+            assert params.size() == 2; // op + arg
+            // sometimes this happens (e.g. in #A), use the same as default ApplExpr
+            return format(APPL_EXPR_PATTERN, params);
+          case 2:
+            assert params.size() == 3; // arg + op + arg
+            return format(MIXFIX_APPL_EXPR_PATTERN, params);
+          default:
+            throw new ZEvesIncompatibleASTException("Unsupported operator template application expression " + arity + " params as " + params, term);
+        }
+      }
     }
 
     fRelationalOpAppl = true;
@@ -2253,6 +2342,22 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   public String visitDecorExpr(DecorExpr term)
   {
     return getExpr(term.getExpr()) + term.getStroke().accept(this);
+  }
+
+  @Override
+  public String visitProofScript(ProofScript term)
+  {
+    return term.getProofCommandList().accept(this);
+  }
+
+  @Override
+  public String visitProofCommandList(ProofCommandList term)
+  {
+    for(ProofCommand pc : term.getProofCommand())
+    {
+      pc.accept(this);
+    }
+    return ";";
   }
 
   @Override
@@ -2515,22 +2620,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     return result.toString();
   }
-  /* Main Z terms */
-  /**
-   * {0} string       => term.getName();
-   * {1} parents list => getParents(term.getParent());
-   * {2} paragraphs   => getParas(term.getPara());
-   */
-  public static final String ZSECTION_BEGIN_PATTERN = "<cmd name=\"begin-section\"> {0} {1} </cmd>";
-  //private static final String ZSECTION_BEGIN_PATTERN = "<cmd name=\"begin-section\"> {0} '{'{1}'}' </cmd>";
-  public static final String ZSECTION_END_PATTERN = "<cmd name=\"end-section\"/></cmd>";
-  /**
-   * Z/Eves toolkit overrides CZT toolkits.
-   */
-  private static final String ZEVES_TOOLKIT_NAME = "toolkit";
-  private static final List<String> Z_TOOLKIT_NAMES = Collections.unmodifiableList(Arrays.asList(
-          "prelude", "number_toolkit", "set_toolkit", "relation_toolkit", "function_toolkit",
-          "sequence_toolkit", "standard_toolkit"));
 
   /**
    * Returns a comma-separated list of toolkit names, where standard Z toolkit names are not
@@ -2541,6 +2630,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    * does not yet implement sectioning. That means the available Z/Eves GUI's include this
    * separately.
    * </p>
+   * @param parents
+   * @return
    */
   public static String getParents(List<Parent> parents)
   {
@@ -2580,6 +2671,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     /**
      * Throws an exception for unexpected items.
      */
+    @Override
     public List<String> visitTerm(Term term)
     {
       throw new ZEvesIncompatibleASTException("term", term);
@@ -2603,6 +2695,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * and the translation algorithm revised for bugs.
      * </p>
      */
+    @Override
     public List<String> visitZSect(ZSect term)
     {
       List<String> result = new ArrayList<String>();
@@ -2620,8 +2713,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * Translates the all sections within this specification following
      * the protocol for ZSect terms.
      * At the head of the returned list we include a comment containing
-     * the inforemation for the specification header.
+     * the information for the specification header.
      */
+    @Override
     public List<String> visitSpec(Spec term)
     {
       List<String> result = new ArrayList<String>();
@@ -2636,7 +2730,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   }
 }
 /*
-
 <cmd name="add-paragraph"><zed-box>[Name, Event]</zed-box></cmd>
 <zoutput></zoutput>
 

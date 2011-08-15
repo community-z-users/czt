@@ -8,8 +8,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  * @author Andrius Velykis
  */
+// FIXME: Change this name to something else? There is already a ZEvesResponseString from CoreJava :-( ; Leo...
 @XmlRootElement(name = "string")
-public class ZEvesString {
+public class ZEvesResponseString {
 
 	/**
 	 * <!ATTLIST string value CDATA #REQUIRED>

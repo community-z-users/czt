@@ -17,4 +17,8 @@ public class ZEvesResponseUtil {
 		return sb.toString();
 	}
 
+  private ZEvesResponseUtil()
+  {
+  }
+
 }

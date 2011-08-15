@@ -1,0 +1,42 @@
+\begin{zsection}
+   \SECTION zeveslabels \parents standard\_toolkit
+\end{zsection}
+
+More than one labelled predicate per axiomatic box (!)
+\begin{axdef}
+   foo: \nat
+\where
+   \Label{disabled rule dFoo}
+   foo = 10
+\\
+   \Label{disabled rule dFoo2}
+   foo > 2
+\\
+   % implicitly adding label as axiom$1
+   foo < 11
+\end{axdef}
+
+\begin[disabled]{theorem}{rule lFooLemma}
+  \vdash? \forall x: \nat @ x > foo
+\end{theorem}
+
+\begin[disabled]{theorem}{rule lOptionalVDash}
+    \forall x: \nat @ x > foo
+\end{theorem}
+
+\begin{zproof}[lFooLemma]
+apply dFoo;
+prove by reduce;
+\end{zproof}
+
+\begin[disabled]{schema}{S}
+   x: \nat
+\end{schema}
+
+\begin[disabled]{zed}
+   [GS]
+\end{zed}
+
+znote{Note within theorem}
+znote{Note within axdef}
+znote{Note within proof}

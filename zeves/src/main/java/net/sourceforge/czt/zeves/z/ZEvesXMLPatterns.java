@@ -10,6 +10,10 @@
 
 package net.sourceforge.czt.zeves.z;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  *
  * @author leo
@@ -29,7 +33,23 @@ public interface ZEvesXMLPatterns {
     public static final String ZEVES_COMMAND = "<cmd name=\"{0}\">{1}</cmd>";
     
     public static final String COMMENT_PATTERN = "<!-- \n *** {0} *** \n\n {1} \n-->";
-    
+
+    /* Main Z terms */
+    /**
+     * {0} string       => term.getName();
+     * {1} parents list => getParents(term.getParent());
+     * {2} paragraphs   => getParas(term.getPara());
+     */
+    public static final String ZSECTION_BEGIN_PATTERN = "<cmd name=\"begin-section\"> {0} {1} </cmd>";
+    public static final String ZSECTION_END_PATTERN = "<cmd name=\"end-section\"/></cmd>";
+    /**
+     * Z/Eves toolkit overrides CZT toolkits.
+     */
+    public static final String ZEVES_TOOLKIT_NAME = "toolkit";
+    public static final List<String> Z_TOOLKIT_NAMES = Collections.unmodifiableList(Arrays.asList(
+            "prelude", "number_toolkit", "set_toolkit", "relation_toolkit", "function_toolkit",
+            "sequence_toolkit", "standard_toolkit"));
+
     /* Special XML pattern strings */
     
     /**
@@ -258,7 +278,7 @@ public interface ZEvesXMLPatterns {
      * {1} name list    => getZNameList.accept(this);
      */
     public static final String HIDE_EXPR_PATTERN = "{0} \\ ({1})";    
-    
+
     /**
      * {0} expression       => getExpr(term.getLeftExpr());
      * {1} expression       => getExpr(term.getRightExpr());
@@ -267,14 +287,29 @@ public interface ZEvesXMLPatterns {
      */
     public static final String APPL_EXPR_PATTERN = "{0} ({1})";
     
+    // PS: the way operator templates are handled can be slightly different
+    //     because of special cases like LANGLE, LIMG, etc. So, the pattern
+    //     is a bit different (eg., see visitApplExpr)
     /**
-     * {0} expression   => getExpr(ZUtils.getApplExprArguments(term).get(0));
-     * {1} rel          => getExpr(ZUtils.getApplExprRef(term)); 
+     * {1} expression   => getExpr(ZUtils.getApplExprArguments(term).get(0));
+     * {0} rel          => getExpr(ZUtils.getApplExprRef(term));
      * {2} expression   => getExpr(ZUtils.getApplExprArguments(term).get(1));
      *
      */
-    public static final String MIXFIX_APPL_EXPR_PATTERN = "({0}) {1} ({2})";
-    
+    public static final String MIXFIX_APPL_EXPR_PATTERN = "({1}) {0} ({2})";
+
+    /**
+     * {0} comma sep list of expressions from getExpr(ZUtils.getApplExprArguments(term).get(n));
+     */
+    public static final String APPL_EXPR_SEQ_PATTERN = "&lang; {0} &rang;";
+
+    /**
+     * {0} expression   => getExpr(ZUtils.getApplExprArguments(term).get(0));
+     * {1} expression   => getExpr(ZUtils.getApplExprArguments(term).get(1));
+     */
+    public static final String MIXFIX_APPL_EXPR_RELIMAGE_PATTERN = "{0} &lvparen; {1} &rvparen;";
+
+
     /**
      * {0} expression   => getExpr(term.getZExprList().get(0));
      * {1} rel          => getName(term.getZName()); 
@@ -288,4 +323,11 @@ public interface ZEvesXMLPatterns {
      * {1} expression   => getExpr(term.getZExprList().get(0));
      */
     public static final String PREFIX_REF_EXPR_PATTERN = "{0} {1}";
+
+
+    /**
+     * {0} semi-colon sep list of bindings as  NAME : EXPR ; NAME : EXPR ...
+     */
+    public static final String BIND_EXPR_PATTERN = "&lvang; {0} &rvang;";
+
 }

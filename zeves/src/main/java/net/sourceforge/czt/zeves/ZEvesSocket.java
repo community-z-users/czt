@@ -20,8 +20,6 @@ import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.zeves.proof.ProofScript;
-//import net.sourceforge.czt.zeves.response.ZEvesResponse;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 import net.sourceforge.czt.zeves.ZEvesServerConnectionException;
 
@@ -59,7 +57,6 @@ public class ZEvesSocket {
     private ZSect fZSect;    
     private ZEvesResponse fResponse;
     private SectionInfo fSectInfo;
-    private ProofScript fProofScript;
     private final CZT2ZEvesPrinter fPrinter;    
     
     public static final int DEFAULT_ZEVES_SERVER_PORT = 6789;
@@ -76,7 +73,6 @@ public class ZEvesSocket {
         fZSect = null;
         fSectInfo = null;
         fPrinter = new CZT2ZEvesPrinter(null);
-        fProofScript = new ProofScript(fPrinter);        
         fAutoFlushZEvesOut = autoFlushZEvesOut;    
         fHost = DEFAULT_ZEVES_HOST_ADDRESS;//InetAddress.getLocalHost();
         fPort = DEFAULT_ZEVES_SERVER_PORT;        
@@ -195,16 +191,6 @@ public class ZEvesSocket {
         return fPrinter;
     }
         
-    public ProofScript getProofScript() {
-        return fProofScript;
-    }
-    
-    public void setProofScript(ProofScript script) throws ZEvesServerConnectionException {
-        if (script == null)
-            throw new ZEvesServerConnectionException("Invalid proof script for Z/Eves server.");
-        fProofScript = script;
-    }
-    
     public void setContext(SectionInfo info) throws ZEvesServerConnectionException {
         setContext("standard_toolkit", info);
     }

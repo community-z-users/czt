@@ -1090,6 +1090,7 @@ z2alloy/src/test/resources/substitution.tex -text
 z2alloy/src/test/resources/substitution_fold.als -text
 z2alloy/src/test/resources/theta1.tex -text
 z2alloy/src/test/resources/theta1_fold.als -text
+zeves/nbactions.xml -text
 zeves/src/main/java/net/sourceforge/czt/zeves/ZEvesApi.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/ZEvesException.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/ZEvesServer.java -text svneol=unset#text/plain
@@ -1116,10 +1117,10 @@ zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesParenForm.java 
 zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesRelChain.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesRename.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesReplace.java -text svneol=unset#text/plain
+zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesResponseString.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesSchName.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesSchemaText.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesSchemaType.java -text svneol=unset#text/plain
-zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesString.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesTheoremRef.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/form/ZEvesType.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesAbbrevDef.java -text svneol=unset#text/plain
@@ -1134,6 +1135,23 @@ zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesSchemaDef.java 
 zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesSynDef.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesTheorem.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesUsage.java -text svneol=unset#text/plain
+zeves/src/test/java/net/sourceforge/czt/zeves/CZT2ZEvesPrintingTest.java -text
+zeves/src/test/resources/tests/bbook.tex -text
+zeves/src/test/resources/tests/bbook.zed8 -text
+zeves/src/test/resources/tests/bbook.zev -text
+zeves/src/test/resources/tests/dollarNamedThm.tex -text
+zeves/src/test/resources/tests/proofCmds.tex -text
+zeves/src/test/resources/tests/simple.tex -text
+zeves/src/test/resources/tests/simple.zed8 -text
+zeves/src/test/resources/tests/smalltest.tex -text
+zeves/src/test/resources/tests/toolkitThms.tex -text
+zeves/src/test/resources/tests/underscoreNamedThm.tex -text
+zeves/src/test/resources/tests/zevesability.tex -text
+zeves/src/test/resources/tests/zeveslabels.tex -text
+zeves/src/test/resources/tests/zeveslabels.zed8 -text
+zeves/src/test/resources/tests/zevesopt.tex -text
+zeves/src/test/resources/tests/zevesrenaming.tex -text
+zeves/src/test/resources/tests/zevesspecialops.tex -text
 zlive/doc/2004goals.ppt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text

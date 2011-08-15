@@ -5970,14 +5970,6 @@ zeves/src/main/java/net/sourceforge/czt/zeves/*.tmp
 zeves/src/main/java/net/sourceforge/czt/zeves/.classpath
 zeves/src/main/java/net/sourceforge/czt/zeves/.project
 zeves/src/main/java/net/sourceforge/czt/zeves/.settings
-zeves/src/main/java/net/sourceforge/czt/zeves/proof/*.aux
-zeves/src/main/java/net/sourceforge/czt/zeves/proof/*.blg
-zeves/src/main/java/net/sourceforge/czt/zeves/proof/*.log
-zeves/src/main/java/net/sourceforge/czt/zeves/proof/*.tmp
-zeves/src/main/java/net/sourceforge/czt/zeves/proof/.classpath
-zeves/src/main/java/net/sourceforge/czt/zeves/proof/.project
-zeves/src/main/java/net/sourceforge/czt/zeves/proof/.settings
-zeves/src/main/java/net/sourceforge/czt/zeves/proof/target
 zeves/src/main/java/net/sourceforge/czt/zeves/response/*.aux
 zeves/src/main/java/net/sourceforge/czt/zeves/response/*.blg
 zeves/src/main/java/net/sourceforge/czt/zeves/response/*.log

@@ -56,6 +56,8 @@ public class ZEvesXmlEntities {
         // Sequences
         header.append(getEntityDef(ZString.CAT, "frown"));
         header.append(getEntityDef(ZString.EXTRACT, "uharl"));
+        header.append(getEntityDef(ZString.LANGLE, "lang"));
+        header.append(getEntityDef(ZString.RANGLE, "rang"));
         // Bags
 //        header.append(getEntityDef(ZString.???, "sharp"));//Bag count
 //        header.append(getEntityDef(ZString.???, "otimes"));//Bag scaling

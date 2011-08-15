@@ -22,7 +22,7 @@ import org.xml.sax.SAXException;
 
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
 import net.sourceforge.czt.zeves.response.form.ZEvesNumber;
-import net.sourceforge.czt.zeves.response.form.ZEvesString;
+import net.sourceforge.czt.zeves.response.form.ZEvesResponseString;
 import net.sourceforge.czt.zeves.response.para.ZEvesTheorem;
 import net.sourceforge.czt.zeves.response.ZEvesError;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
@@ -366,7 +366,7 @@ public class ZEvesApi {
 			return ((ZEvesName) result).getIdent();
 		}
 
-		return ((ZEvesString) result).getValue();
+		return ((ZEvesResponseString) result).getValue();
 	}
 
 	private Boolean getBoolean(ZEvesOutput output, Object result) throws ZEvesException {
