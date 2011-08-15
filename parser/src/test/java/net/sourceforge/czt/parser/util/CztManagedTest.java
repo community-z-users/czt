@@ -156,9 +156,9 @@ public abstract class CztManagedTest extends TestCase
     // do nothing.
   }
 
-  protected void encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
+  protected boolean encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
   {
-    // do nothing
+    return false;
   }
 
   protected String getTestsPath()
@@ -492,8 +492,8 @@ public abstract class CztManagedTest extends TestCase
         failureMsg.append(" parsing error(s)");
         pe.printErrorList();
       }
-      CztManagedTest.this.encounteredException(url_, e, failureMsg.toString(), false);
-      return false;
+      boolean handled = CztManagedTest.this.encounteredException(url_, e, failureMsg.toString(), false);
+      return handled;
     }
   }
 
