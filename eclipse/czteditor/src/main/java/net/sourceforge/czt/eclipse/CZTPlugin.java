@@ -468,7 +468,7 @@ public class CZTPlugin extends AbstractUIPlugin
 
   public static void log(Throwable e)
   {
-    log("CZTUIMessages.JavaPlugin_internal_error", e);
+    log(e.getMessage(), e);
   }
 
   public static void log(String message, Throwable e)
