@@ -16,9 +16,10 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
 
 
-public class ZEves {
+public class ZEves implements ISchedulingRule {
 	
 	private ZEvesServer server;
 	private ZEvesApi api;
@@ -119,6 +120,24 @@ public class ZEves {
 		} catch (CoreException ce) {
 			ZEvesPlugin.getDefault().log(ce);
 		}
+	}
+
+	@Override
+	public boolean contains(ISchedulingRule rule) {
+		if (rule == this) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean isConflicting(ISchedulingRule rule) {
+		if (rule == this) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 //	public void start(String serverAddress, int port, ZEvesServer server, IProgressMonitor monitor) {
