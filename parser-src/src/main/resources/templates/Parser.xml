@@ -300,7 +300,23 @@ action code
           AxPara ap = (AxPara)p;
           if (ap.getBox().equals(Box.OmitBox))
           {
-            addZEvesLabel(ap, ZUtils.getAbbreviationName(ap), ability);
+            // try if it is an abbreviation
+            Name name = ZUtils.getAbbreviationName(ap);
+            if (name == null)
+            {
+              // if not, it must be a simple schema (e.g., one that is schema display, not schema calculus, YET! TODO)
+              if (!ZUtils.isSimpleSchema(ap))
+              {
+                parser.report_error(ZEvesParseMessage.MSG_INVALID_AXPARA_ABILITY,
+                               new Object[] { ap }, getLocation(p));
+              }
+              else
+              {
+                name = ZUtils.getSchemaName(ap);
+              }
+            }
+            assert name != null;
+            addZEvesLabel(ap, name, ability);
           }
           else
           {
