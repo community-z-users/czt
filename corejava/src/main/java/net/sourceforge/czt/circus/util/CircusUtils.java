@@ -54,6 +54,8 @@ import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
 import net.sourceforge.czt.circus.ast.CircusNameSetList;
 import net.sourceforge.czt.circus.ast.CircusChannelSetList;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.GivenType;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.ZName;
@@ -188,7 +190,9 @@ public final class CircusUtils
     Name result = null;
     if (isSimpleSchema(para) || ZUtils.isHorizontalDef(para))
     {
-      result = ZUtils.getSchemaName(para);
+      AxPara axp = (AxPara) para;
+      assert ZUtils.isAxParaSchemaOrHorizDefValid(axp);
+      result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getName();
       if (result == null)
       {
         ActionPara ap = (ActionPara) para;
