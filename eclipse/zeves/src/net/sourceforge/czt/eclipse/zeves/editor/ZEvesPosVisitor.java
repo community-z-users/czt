@@ -6,8 +6,8 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.Position;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
-import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.Para;
@@ -39,17 +39,19 @@ public class ZEvesPosVisitor implements
         NarrParaVisitor<Object>, LatexMarkupParaVisitor<Object>, UnparsedParaVisitor<Object>,
         ProofScriptVisitor<Object>, ProofCommandVisitor<Object>, NarrSectVisitor<Object> {
 	
+	private final ParsedData parsedData;
 	private final int startOffset;
 	private final int length;
 	
 	private ZSect currentSect = null;
 	private ProofScript currentScript = null;
 	
-    public ZEvesPosVisitor(int startOffset, int endOffset) {
+    public ZEvesPosVisitor(ParsedData parsedData, int startOffset, int endOffset) {
 		super();
 		
 		Assert.isLegal(startOffset <= endOffset);
 		
+		this.parsedData = parsedData;
 		this.startOffset = startOffset;
 		this.length = endOffset - startOffset;
 	}
@@ -149,8 +151,8 @@ public class ZEvesPosVisitor implements
     	// do nothing by default
     }
     
-    protected static Position getPosition(Term term) {
-    	return position(term.getAnn(LocAnn.class));
+    protected Position getPosition(Term term) {
+    	return parsedData.getTermPosition(term);
     }
 
     /**
@@ -364,14 +366,6 @@ public class ZEvesPosVisitor implements
     	// term end position is everything after end of last element
     	int lastParaEnd = getEnd(lastElemPos);
     	return new Position(lastParaEnd, getEnd(tPos) - lastParaEnd);
-    }
-    
-    public static Position position(LocAnn location) {
-    	if (location == null) {
-    		return null;
-    	}
-    	
-    	return new Position(location.getStart().intValue(), location.getLength().intValue());
     }
     
     public static int getEnd(Position position) {

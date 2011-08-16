@@ -1,15 +1,17 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
 import java.io.IOException;
-import java.text.MessageFormat;
+//import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 
+import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.session.CommandException;
@@ -24,9 +26,9 @@ import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
-import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_BEGIN_PATTERN;
-import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_END_PATTERN;
-import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.getParents;
+//import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_BEGIN_PATTERN;
+//import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_END_PATTERN;
+//import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.getParents;
 
 /**
  * Special visitor class to translate top-level Z terms. 
@@ -49,14 +51,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	private long lastFlush = 0;
 	
 	public ZEvesExecVisitor(ZEvesApi api, ZEvesFileState state, ZEvesAnnotations annotations,
-			SectionManager sectInfo, int startOffset, int endOffset,
+			ParsedData parsedData, int startOffset, int endOffset,
 			IProgressMonitor progressMonitor) {
     	
-		super(startOffset, endOffset);
+		super(parsedData, startOffset, endOffset);
 		this.api = api;
 		this.state = state;
 		this.annotations = annotations;
-		this.sectInfo = sectInfo;
+		this.sectInfo = parsedData.getSectionManager();
 		
 		if (progressMonitor == null) {
 			progressMonitor = new NullProgressMonitor();
@@ -68,34 +70,36 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     @Override
 	protected void visitZSectHead(ZSect term, Position position) {
     	
-    	Annotation unfinishedAnn = markUnfinished(position);
-		
-		try {
-    		String sectionBeginXml = MessageFormat.format(ZSECTION_BEGIN_PATTERN, term.getName(), getParents(term.getParent()));
-    		api.send(sectionBeginXml);
-    		checkCancelled();
-    	} catch (ZEvesException e) {
-    		// do not return - just handle and continue into paragraphs
-    		handleZEvesException(position, e);
-    	} finally {
-    		markFinished(unfinishedAnn);
-    	}
+    	// Currently commented, because begin-section is unimplemented in Z/Eves
+//    	Annotation unfinishedAnn = markUnfinished(position);
+//		
+//		try {
+//    		String sectionBeginXml = MessageFormat.format(ZSECTION_BEGIN_PATTERN, term.getName(), getParents(term.getParent()));
+//    		api.send(sectionBeginXml);
+//    		checkCancelled();
+//    	} catch (ZEvesException e) {
+//    		// do not return - just handle and continue into paragraphs
+//    		handleZEvesException(position, e);
+//    	} finally {
+//    		markFinished(unfinishedAnn);
+//    	}
 		
 	}
 
 	@Override
 	protected void visitZSectEnd(ZSect term, Position position) {
 		
-		Annotation unfinishedAnn = markUnfinished(position);
-		
-		try {
-    		api.send(ZSECTION_END_PATTERN);
-    		checkCancelled();
-    	} catch (ZEvesException e) {
-    		handleZEvesException(position, e);
-    	} finally {
-    		markFinished(unfinishedAnn);
-    	}
+    	// Currently commented, because end-section is unimplemented in Z/Eves
+//		Annotation unfinishedAnn = markUnfinished(position);
+//		
+//		try {
+//    		api.send(ZSECTION_END_PATTERN);
+//    		checkCancelled();
+//    	} catch (ZEvesException e) {
+//    		handleZEvesException(position, e);
+//    	} finally {
+//    		markFinished(unfinishedAnn);
+//    	}
 	}
 
     @Override
@@ -426,10 +430,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     
     private void checkCancelled() {
     	if (progressMonitor.isCanceled()) {
-    		throw new CancelException();
+    		throw new OperationCanceledException();
     	}
     }
-    
-    public static class CancelException extends RuntimeException {}
     
 }

@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.views;
 import java.io.IOException;
 import java.util.List;
 
+import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.outline.TermLabelVisitorFactory;
 import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
@@ -57,7 +58,8 @@ public class ZEditorResults {
 		final Position beforePos = new Position(beforeOffset, 0);
 		final Position afterPos = new Position(caretPos + 1, 0);
 		
-		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(beforeOffset, caretPos + 1) {
+		ParsedData parsedData = editor.getParsedData();
+		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(parsedData, beforeOffset, caretPos + 1) {
 
 			@Override
 			protected void visitPara(Para term, Position position) {
@@ -117,7 +119,7 @@ public class ZEditorResults {
 			}
 		};
 		
-		commandVisitor.execSpec(editor.getParsedData().getSpec());
+		commandVisitor.execSpec(parsedData.getSpec());
 		
 		for (IZEvesElement result : data) {
 			if (result != null) {
