@@ -14,9 +14,16 @@ public class ZEditorUtil {
 		return editor.getViewer().getTextWidget().getCaretOffset();
 	}
 	
-	public static void setCaretPosition(ZEditor editor, int position) {
-		editor.getViewer().getTextWidget().setCaretOffset(position);
-		editor.getViewer().getTextWidget().setSelection(position);
+	public static boolean setCaretPosition(ZEditor editor, int position) {
+		try {
+			editor.getViewer().getTextWidget().setCaretOffset(position);
+			editor.getViewer().getTextWidget().setSelection(position);
+		} catch (IllegalArgumentException ex) {
+			// invalid, but ignore?
+			return false;
+		}
+		
+		return true;
 	}
 
 	public static IResource getEditorResource(IEditorPart editor) {
