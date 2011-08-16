@@ -118,6 +118,7 @@ import net.sourceforge.czt.z.ast.TupleSelExpr;
 import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.util.OperatorName;
+import net.sourceforge.czt.z.util.OperatorName.Fixity;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.BindExprVisitor;
@@ -2422,7 +2423,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       // mixfix: left expr is the operator, right expr is a tuple with args
       fRelationalOpAppl = true;
       //String op = getExpr(term.getLeftExpr());
-      String op = getExpr(ZUtils.getApplExprRef(term));
+      Expr opExpr = ZUtils.getApplExprRef(term);
+      String op = getExpr(opExpr);
       fRelationalOpAppl = false;
 
       int arity = ZUtils.applExprArity(term);
@@ -2464,8 +2466,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         {
           case 1:
             assert params.size() == 2; // op + arg
-            // sometimes this happens (e.g. in #A), use the same as default ApplExpr
-            return format(APPL_EXPR_PATTERN, params.toArray());
+            if (getFixity(opExpr) == Fixity.POSTFIX) {
+            	return format(POSTFIX_APPL_EXPR_PATTERN, params.toArray());
+            } else {
+            	// sometimes this happens (e.g. in #A), use the same as default ApplExpr
+            	return format(APPL_EXPR_PATTERN, params.toArray());
+            }
           case 2:
             assert params.size() == 3; // arg + op + arg
             return format(MIXFIX_APPL_EXPR_PATTERN, params.toArray());
@@ -2480,6 +2486,18 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     fRelationalOpAppl = false;
 
     return format(APPL_EXPR_PATTERN, op, getExpr(term.getRightExpr()));
+  }
+  
+  private Fixity getFixity(Expr opTerm) {
+	  if (opTerm instanceof RefExpr) {
+		  RefExpr opRef = (RefExpr) opTerm;
+		  OperatorName opName = opRef.getZName().getOperatorName();
+		  if (opName != null) {
+			  return opName.getFixity();
+		  }
+	  }
+	  
+	  return null;
   }
 
   @Override

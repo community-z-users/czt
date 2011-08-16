@@ -300,6 +300,15 @@ public interface ZEvesXMLPatterns {
      */
     public static final String APPL_EXPR_PATTERN = "({0}) ({1})";
     
+    /**
+     * {0} expression       => getExpr(term.getLeftExpr());
+     * {1} expression       => getExpr(term.getRightExpr());
+     * 
+     * NOTE: No parenthesis for the postfix operator. For example, tilde symbol (inverse) 
+     * needs to be without parentheses, otherwise Z/Eves throws an error.
+     */
+    public static final String POSTFIX_APPL_EXPR_PATTERN = "({1}) {0}";
+    
     // PS: the way operator templates are handled can be slightly different
     //     because of special cases like LANGLE, LIMG, etc. So, the pattern
     //     is a bit different (eg., see visitApplExpr)
