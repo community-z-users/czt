@@ -34,6 +34,13 @@ public interface ZEvesXMLPatterns {
     
     public static final String COMMENT_PATTERN = "<!-- \n *** {0} *** \n\n {1} \n-->";
 
+    /* Operator templates */
+    public static final String OPERATOR_TEMPLATE_COMMENT = "{0} {1} {2} ({3})";
+    public static final String OEPRATOR_TEMPLATE_PATTERN = "<syntax-def> {0} {1} {0} </syntax-def>";
+
+    public static final String ZEVES_PROOF_PART_PATTERN = "<proof-part/> {0}";
+
+
     /* Main Z terms */
     /**
      * {0} string       => term.getName();
@@ -225,6 +232,11 @@ public interface ZEvesXMLPatterns {
     public static final String PRE_EXPR_PATTERN = "<word style=\"roman\"/>pre<word/>{0}";
     
     public static final String ROMAN_PATTERN = "<word style=\"roman\"/>{0}<word/>";
+
+    public static final List<String> ROMAN_NAMES = Collections.unmodifiableList(
+          Arrays.asList("div", "mod", "pre", "dom", "ran", "id", "seq", "iseq", "prefix",
+          "suffix", "inseq", "disjoint", "partition", "bag", "inbag"));
+
     
     /**
      * {0} expression       => getExpr(term.getExpr());

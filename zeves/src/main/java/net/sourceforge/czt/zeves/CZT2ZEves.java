@@ -7,6 +7,7 @@
 package net.sourceforge.czt.zeves;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,15 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnmarshalException;
-import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.SourceLocator;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
 
 /**
  *
@@ -40,7 +44,7 @@ public class CZT2ZEves {
     public CZT2ZEves() {
     }
     
-    public static void main(String[] args) throws FileNotFoundException, ParseException, UnmarshalException, IOException {
+    public static void main(String[] args) throws CommandException, FileNotFoundException, ParseException, UnmarshalException, IOException {
         if (args.length > 1) {
             if (args[0].equals("-print")) {
                 List<String> result = runPrinter(args[1]);
@@ -59,11 +63,18 @@ public class CZT2ZEves {
     }
     
     public static List<String> runPrinter(String filename)
-    throws FileNotFoundException, ParseException, UnmarshalException, IOException
+    throws CommandException, FileNotFoundException, ParseException, UnmarshalException, IOException
     {
-        SectionInfo manager = new SectionManager();
+        SectionManager manager = new SectionManager("zeves");
         List<String> result;
-        Spec term = (Spec)ParseUtils.parse(new FileSource(filename), manager);
+        Source source = new FileSource(filename);
+        File file = new File(filename);
+        String sourceName = SourceLocator.getSourceName(file.getName());
+        while (sourceName.lastIndexOf(".") != -1)
+          sourceName = sourceName.substring(0, sourceName.lastIndexOf("."));
+        SourceLocator.addCZTPathFor(file, manager);
+        manager.put(new Key<Source>(sourceName, Source.class), source);
+        Spec term = manager.get(new Key<Spec>(sourceName, Spec.class));//ParseUtils.parse(new FileSource(filename), manager);
         List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, (SectionManager) manager);
         if (errors.isEmpty()) {
             result = specToZEvesXML(term, manager);            

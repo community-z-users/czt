@@ -30,18 +30,24 @@ import net.sourceforge.czt.z.visitor.ZNameListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
 import net.sourceforge.czt.zeves.ZEvesIncompatibleASTException;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.AndExpr;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
+import net.sourceforge.czt.z.ast.Assoc;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.BindSelExpr;
 import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.Branch;
+import net.sourceforge.czt.z.ast.Cat;
 import net.sourceforge.czt.z.ast.CompExpr;
 import net.sourceforge.czt.z.ast.CondExpr;
 import net.sourceforge.czt.z.ast.ConjPara;
@@ -74,11 +80,16 @@ import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.NegExpr;
 import net.sourceforge.czt.z.ast.NegPred;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.Oper;
+import net.sourceforge.czt.z.ast.Operand;
+import net.sourceforge.czt.z.ast.Operator;
+import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.OrExpr;
 import net.sourceforge.czt.z.ast.OrPred;
 import net.sourceforge.czt.z.ast.OutStroke;
@@ -163,8 +174,10 @@ import net.sourceforge.czt.z.visitor.CondExprVisitor;
 import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
 import net.sourceforge.czt.z.visitor.LetExprVisitor;
 import net.sourceforge.czt.z.visitor.MuExprVisitor;
+import net.sourceforge.czt.z.visitor.NarrSectVisitor;
 import net.sourceforge.czt.z.visitor.NegExprVisitor;
 import net.sourceforge.czt.z.visitor.NumExprVisitor;
+import net.sourceforge.czt.z.visitor.OptempParaVisitor;
 import net.sourceforge.czt.z.visitor.PreExprVisitor;
 import net.sourceforge.czt.z.visitor.ProdExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
@@ -172,7 +185,6 @@ import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
 import net.sourceforge.czt.zeves.ast.LabelAbility;
 import net.sourceforge.czt.zeves.ast.LabelUsage;
-import net.sourceforge.czt.zeves.ast.ProofCommandList;
 import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 import net.sourceforge.czt.zeves.util.ZEvesString;
@@ -182,7 +194,6 @@ import net.sourceforge.czt.zeves.visitor.CaseAnalysisCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.InstantiationListVisitor;
 import net.sourceforge.czt.zeves.visitor.InstantiationVisitor;
 import net.sourceforge.czt.zeves.visitor.NormalizationCommandVisitor;
-import net.sourceforge.czt.zeves.visitor.ProofCommandListVisitor;
 import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 import net.sourceforge.czt.zeves.visitor.QuantifiersCommandVisitor;
@@ -256,14 +267,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         InstantiationVisitor<String>, InstantiationListVisitor<String>,
         SimplificationCommandVisitor<String>, UseCommandVisitor<String>,
         WithCommandVisitor<String>, SubstitutionCommandVisitor<String>,
-        ApplyCommandVisitor<String>, ProofScriptVisitor<String>,
-        ProofCommandListVisitor<String>
+        ApplyCommandVisitor<String>, ProofScriptVisitor<String>, OptempParaVisitor<String>
 {
-
-  private static final List<String> ROMAN_NAMES = Collections.unmodifiableList(
-          Arrays.asList("div", "mod", "pre", "dom", "ran", "id", "seq", "iseq", "prefix",
-          "suffix", "inseq", "disjoint", "partition", "bag", "inbag"));
-
 
   /**
    * CZT Section manger object. TODO: Check necessity of this.
@@ -294,6 +299,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private InstantiationKind fCurrInstKind = null;
 
+  /**
+   * Map containing proof command lists for corresponding theorem names.
+   * They can be used for both batch mode proof as well as interactive
+   */
+  private final Map<String, List<String>> proofScripts_;
+
+
   /* Constructors */
   /** Creates a new instance of ZPrinter
    * @param si
@@ -305,6 +317,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     fRelationalOpAppl = false;
     fCheckForLabelAnnotations = false;
     fSpecPrinter = new SpecPrinter();
+    proofScripts_ = new TreeMap<String, List<String>>();
     setSectionInfo(si);
   }
 
@@ -355,6 +368,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   private String wrapPara(String zevesPara)
   {
     return format(ZEVES_COMMAND, "add-paragraph", zevesPara);
+  }
+
+  // TODO: not being handled here but at Eclipse level because of interactivity
+  private String wrapProofCommand(String zevesProof)
+  {
+    return format(ZEVES_COMMAND, "proof-command", zevesProof);
   }
 
   private String comment(String headline, String text)
@@ -1570,6 +1589,101 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   }
 
   @Override
+  public String visitOptempPara(OptempPara term)
+  {
+    Assoc a = term.getAssoc();
+    int prec = term.getPrec().intValue();
+    Cat cat = term.getCat();
+    String operator = null;
+    String opClass = null;
+    int place = 1;
+    Iterator<Oper> it = term.getOper().iterator();
+    List<Integer> opClassIdxs = new ArrayList<Integer>();
+    StringBuilder opsComment = new StringBuilder();
+    while (it.hasNext())
+    {
+      Oper op = it.next();
+      if (op instanceof Operator)
+      {
+        if (operator != null)
+          throw new ZEvesIncompatibleASTException("ZEves does not allow multiple-word operators; relational image is predefined.");
+        operator = ((Operator)op).getWord();
+        opsComment.append(operator);
+      }
+      else if (op instanceof Operand)
+      {
+        if (((Operand)op).getList())
+          throw new ZEvesIncompatibleASTException("ZEves does not allow list-arg operators; sequence display is predefined.");
+        else
+        {
+          opClassIdxs.add(place);
+          opsComment.append(ZString.ARG_TOK);
+        }
+      }
+      place++;
+    }
+    if (opClassIdxs.size() == 2)
+    {
+      // infix
+      switch (cat)
+      {
+        case Function:
+          assert prec >= 0;
+          opClass = "infun" + (prec <= 10 ? "1" : prec <= 20 ? "2" : prec <= 30 ? "3" : prec <= 40 ? "4" : prec <= 50 ? "5" : "6");
+          break;
+        case Generic:
+          opClass = "ingen";
+          break;
+        case Relation:
+          opClass = "inrel";
+          break;
+      }
+    }
+    else if (opClassIdxs.size() == 1)
+    {
+      if (opClassIdxs.get(0) == 1)
+      {
+        // prefix
+        switch (cat)
+        {
+          case Function:
+            throw new ZEvesIncompatibleASTException("ZEves does not allow prefix function operator templates.");
+          case Generic:
+            opClass = "pregen";
+            break;
+          case Relation:
+            opClass = "prerel";
+            break;
+        }
+      }
+      else
+      {
+        // postfix
+        switch (cat)
+        {
+          case Function:
+            opClass = "postfun";
+            break;
+          case Generic:
+          case Relation:
+            throw new ZEvesIncompatibleASTException("ZEves only allows postfix function operator templates.");
+        }
+      }
+    }
+    else
+    {
+      // wrong? word? irnore?
+      //throw new ZEvesIncompatibleASTException();
+      CztLogger.getLogger(getClass()).warning("Could not determine operator fixture for " + operator + ". Assuming 'ignore'");
+      opClass = "ignore";
+    }
+    final String comment = comment("Original operator template",
+            format(OPERATOR_TEMPLATE_COMMENT, cat, prec, a, opsComment.toString()));
+    final String result = format(OEPRATOR_TEMPLATE_PATTERN, operator, opClass);
+    return comment + result;
+  }
+
+  @Override
   public String visitConjPara(ConjPara term)
   {
     String axiomPart = getAxiomPart(term.getPred());
@@ -1588,8 +1702,31 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       l = ZEvesUtils.addDefaultZEvesLabelTo(term);
     }
+    
+    final String lName = getName(l.getName());
+
+    if (term.getName() == null)
+    {
+      term.getAnns().add(ZEvesUtils.FACTORY.createZName(l.getZName()));
+    }
+    else if (!lName.equals(term.getName()))
+    {
+      // trust the label more than the "anns" name?
+      CztLogger.getLogger(getClass()).warning("Theorem name mismatch: name " + term.getName() + " given, yet label/proof-script name " + lName + " was found. Using the latter.");
+      for(Object o : term.getAnns())
+      {
+        // update the zname for the label name
+        if (o instanceof ZName)
+        {
+          ZName zn = (ZName)o;
+          zn.setWord(lName);
+          break;
+        }
+      }
+    }
+    // use label name for proof and theorem definition
     String result = format(THEOREM_DEF_PATTERN, getLocation(term), getAbility(l), getUsage(l),
-            getName(l.getName()), NL_SEP + getGenFormals(term.getZNameList()),
+            lName, NL_SEP + getGenFormals(term.getZNameList()),
             axiomPart, getProofPart(term));
     return wrapPara(result);
   }
@@ -1664,7 +1801,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       String preds = getAxiomPart(schText.getPred());
       if (!isPredicatePara(schText))
       {
+        fRelationalOpAppl = true;
         decls = getDeclPart(schText.getZDeclList());
+        fRelationalOpAppl = false;
         result = format(SCHEMA_BOX_PATTERN, getLocation(term),
                 getAbility(term), getSchName(schName), NL_SEP + genFormals, decls, preds);
       }
@@ -1693,7 +1832,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       fCheckForLabelAnnotations = false;
       if (!isPredicatePara(term.getSchText()))
       {
+        fRelationalOpAppl = true;
         decls = getDeclPart(term.getZSchText().getZDeclList());
+        fRelationalOpAppl = false;
         if (genFormals.equals(""))
         {
           result = format(AXIOMATIC_BOX_PATTERN,
@@ -2350,17 +2491,52 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitProofScript(ProofScript term)
   {
-    return term.getProofCommandList().accept(this);
+    final String thmName = getName(term.getName());
+
+    // list of proof commands useful for interactive send/receive as <cmd="proof-command"> command </cmd>
+    List<String> pScript = proofScripts_.get(thmName);
+    if (pScript != null)
+    {
+      CztLogger.getLogger(getClass()).info("Updating proof script for " + thmName);
+      pScript.clear();
+    }
+    else
+    {
+      pScript = new ArrayList<String>(term.getProofCommandList().size());
+      proofScripts_.put(thmName, pScript);
+    }
+
+    // list of proof commands separated by semi-colon for "<proof-part/>" inlined proof commands
+    StringBuilder proofCommands = new StringBuilder();
+    String delim = "";
+    for (ProofCommand pc : term.getProofCommandList())
+    {
+      final String pcStr = pc.accept(this);
+      proofCommands.append(delim).append(pcStr);
+      delim = "; \n";
+      pScript.add(wrapProofCommand(pcStr));
+    }
+
+    // returns inlined-proofs as <proof-part/>
+    return format(ZEVES_PROOF_PART_PATTERN, proofCommands.toString());
   }
 
-  @Override
-  public String visitProofCommandList(ProofCommandList term)
+  /**
+   * For every zproof available, return corresponding proof scripts
+   * @param thmName
+   * @return
+   */
+  public List<String> getProofScripts(String thmName)
   {
-    for(ProofCommand pc : term.getProofCommand())
-    {
-      pc.accept(this);
-    }
-    return ";";
+    List<String> result = proofScripts_.get(thmName);
+    if (result != null)
+      result = Collections.unmodifiableList(result);
+    return result;
+  }
+
+  public Set<String> getThmNamesWithProofScripts()
+  {
+    return Collections.unmodifiableSet(proofScripts_.keySet());
   }
 
   @Override
@@ -2668,7 +2844,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   private class SpecPrinter implements
           TermVisitor<List<String>>,
           SpecVisitor<List<String>>,
-          ZSectVisitor<List<String>>
+          ZSectVisitor<List<String>>,
+          NarrSectVisitor<List<String>>
   {
 
     /**
@@ -2678,6 +2855,21 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     public List<String> visitTerm(Term term)
     {
       throw new ZEvesIncompatibleASTException("term", term);
+    }
+
+    @Override
+    public List<String> visitNarrSect(NarrSect term)
+    {
+      List<String> result = new ArrayList<String>();
+      result.add(comment("Narrative Section", ""));
+      for (Object o : term.getContent())
+      {
+        if (o instanceof Term)
+          result.add(((Term)o).accept(CZT2ZEvesPrinter.this));
+        else
+          result.add(o.toString());
+      }
+      return result;
     }
 
     /**
