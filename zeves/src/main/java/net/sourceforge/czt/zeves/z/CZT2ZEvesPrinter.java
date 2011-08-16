@@ -1102,15 +1102,18 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private String getProofPart(ConjPara term)
   {
-    StringBuilder result = new StringBuilder("");
-    //ProofScript ps = ProofUtils.getProofScriptAnn(term);
-    String ps = "";
-    if (ps != null)
-    {
-      result.append("<proof-part/>");
-      result.append(ps);
-    }
-    return result.toString();
+	  // We do not support inline proof commands at the moment, so proof script
+	  // is a separate AST element and is sent to Z/Eves separately
+//    StringBuilder result = new StringBuilder("");
+//    //ProofScript ps = ProofUtils.getProofScriptAnn(term);
+//    String ps = "";
+//    if (ps != null)
+//    {
+//      result.append("<proof-part/>");
+//      result.append(ps);
+//    }
+//    return result.toString();
+	  return "";
   }
 
   /**
@@ -2321,10 +2324,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
           case 1:
             assert params.size() == 2; // op + arg
             // sometimes this happens (e.g. in #A), use the same as default ApplExpr
-            return format(APPL_EXPR_PATTERN, params);
+            return format(APPL_EXPR_PATTERN, params.toArray());
           case 2:
             assert params.size() == 3; // arg + op + arg
-            return format(MIXFIX_APPL_EXPR_PATTERN, params);
+            return format(MIXFIX_APPL_EXPR_PATTERN, params.toArray());
           default:
             throw new ZEvesIncompatibleASTException("Unsupported operator template application expression " + arity + " params as " + params, term);
         }
