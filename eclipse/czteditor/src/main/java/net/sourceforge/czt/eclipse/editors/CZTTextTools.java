@@ -44,7 +44,8 @@ public class CZTTextTools
       IZPartitions.Z_PARAGRAPH_LATEX_AXDEF,
       IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA,
       IZPartitions.Z_PARAGRAPH_LATEX_GENAX,
-      IZPartitions.Z_PARAGRAPH_LATEX_THEOREM};
+      IZPartitions.Z_PARAGRAPH_LATEX_THEOREM,
+      IZPartitions.Z_PARAGRAPH_LATEX_PROOFSCRIPT};
 
   /**
    * Array with legal unicode content types.
@@ -54,7 +55,8 @@ public class CZTTextTools
       IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF,
       IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
       IZPartitions.Z_PARAGRAPH_UNICODE_GENAX,
-      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH,};
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH,
+      IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT};
   
   /**
    * Array with legai default content types.

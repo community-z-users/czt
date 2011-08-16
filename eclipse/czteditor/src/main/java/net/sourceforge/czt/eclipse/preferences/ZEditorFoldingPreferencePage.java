@@ -161,6 +161,16 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
         PreferencesMessages.ZEditorPreferencePage_folding_element_gensch,
         null,
         PreferenceConstants.EDITOR_FOLDING_GENSCH));
+    fCheckBoxes.add(createCheckBox(
+        elementsGroup,
+        PreferencesMessages.ZEditorPreferencePage_folding_element_theorem,
+        null,
+        PreferenceConstants.EDITOR_FOLDING_THEOREM));
+    fCheckBoxes.add(createCheckBox(
+        elementsGroup,
+        PreferencesMessages.ZEditorPreferencePage_folding_element_proofscript,
+        null,
+        PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT));
     
     doFoldingButtonSelected();
     

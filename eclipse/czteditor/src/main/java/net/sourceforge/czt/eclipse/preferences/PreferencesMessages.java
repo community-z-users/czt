@@ -98,6 +98,8 @@ public final class PreferencesMessages extends NLS
   public static String ZEditorPreferencePage_folding_element_sch;
   public static String ZEditorPreferencePage_folding_element_genax;
   public static String ZEditorPreferencePage_folding_element_gensch;
+  public static String ZEditorPreferencePage_folding_element_theorem;
+  public static String ZEditorPreferencePage_folding_element_proofscript;
   
   /*
    * Titles related information in syntax coloring preference page

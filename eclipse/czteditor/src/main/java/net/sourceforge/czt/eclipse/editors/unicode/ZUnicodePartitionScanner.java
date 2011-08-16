@@ -20,7 +20,8 @@ public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
       IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF,
       IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
       IZPartitions.Z_PARAGRAPH_UNICODE_GENAX,
-      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH,};
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH,
+      IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT};
 
   /**
    * Detector for empty comments.
@@ -86,6 +87,8 @@ public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
         IZPartitions.Z_PARAGRAPH_UNICODE_GENAX);
     IToken zParagraphUnicodeGenSch = new Token(
         IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH);
+    IToken zParagraphUnicodeProofScript = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT);
 
     // Add special case word rule.
     // rules.add(new WordPredicateRule(zMultiLineComment));
@@ -110,6 +113,10 @@ public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
 
     rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH_START,
         IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH_END, zParagraphUnicodeGenSch,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT_START,
+        IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT_END, zParagraphUnicodeProofScript,
         (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
 
     IPredicateRule[] result = new IPredicateRule[rules.size()];

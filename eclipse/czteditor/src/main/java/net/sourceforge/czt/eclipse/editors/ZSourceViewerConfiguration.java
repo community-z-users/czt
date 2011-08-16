@@ -294,6 +294,8 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_GENAX);
       reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_THEOREM);
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_THEOREM);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_PROOFSCRIPT);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_PROOFSCRIPT);
     }
     else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(sourceFileType)
         || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(sourceFileType)) {
@@ -308,6 +310,8 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENAX);
       reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH);
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT);
     }
 
     //Set the DamagerRepairer to default content type

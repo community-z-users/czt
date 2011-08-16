@@ -979,7 +979,9 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
         || PreferenceConstants.EDITOR_FOLDING_AX.equals(property)
         || PreferenceConstants.EDITOR_FOLDING_SCH.equals(property)
         || PreferenceConstants.EDITOR_FOLDING_GENAX.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_GENSCH.equals(property);
+        || PreferenceConstants.EDITOR_FOLDING_GENSCH.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_THEOREM.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT.equals(property);
   }
 
   private boolean isFolded(String type)
@@ -1024,6 +1026,11 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     if (IZPartitions.Z_PARAGRAPH_LATEX_THEOREM.equals(type))
       return getPreferenceStore().getBoolean(
           PreferenceConstants.EDITOR_FOLDING_THEOREM);
+    
+    if (IZPartitions.Z_PARAGRAPH_LATEX_PROOFSCRIPT.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT
+        .equals(type))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT);
 
     return false;
   }
@@ -1061,6 +1068,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
 
     if (IZPartitions.Z_PARAGRAPH_LATEX_THEOREM.equals(type))
       return PreferenceConstants.EDITOR_FOLDING_THEOREM;
+    
+    if (IZPartitions.Z_PARAGRAPH_LATEX_PROOFSCRIPT.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT
+        .equals(type))
+      return PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT;
 
     return null;
   }

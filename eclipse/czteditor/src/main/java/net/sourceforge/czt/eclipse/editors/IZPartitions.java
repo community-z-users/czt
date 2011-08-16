@@ -5,6 +5,7 @@
 package net.sourceforge.czt.eclipse.editors;
 
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.zeves.util.ZEvesString;
 
 /**
  * /**
@@ -152,6 +153,28 @@ public interface IZPartitions
    * @value <code>\\end{gendef}</code>
    */
   String Z_PARAGRAPH_LATEX_GENAX_END = "\\end{gendef}"; //$NON-NLS-1$
+  
+  /* Definition for LATEX_PROOFSCRIPT */
+  /**
+   * The identifier of the latex Z partition content type
+   * - Proof script paragraph markup
+   * @value <code>__z_paragraph_latex_proofscript</code>
+   */
+  String Z_PARAGRAPH_LATEX_PROOFSCRIPT = "__z_paragraph_latex_proofscript"; //$NON-NLS-1$
+
+  /**
+   * The start String of the latex Z partition content type
+   * - Proof script paragraph markup
+   * @value <code>\\begin{zproof}</code>
+   */
+  String Z_PARAGRAPH_LATEX_PROOFSCRIPT_START = "\\begin{zproof}"; //$NON-NLS-1$
+
+  /**
+   * The end String of the latex Z partition content type
+   * - Proof script paragraph markup
+   * @value <code>\\end{zproof}</code>
+   */
+  String Z_PARAGRAPH_LATEX_PROOFSCRIPT_END = "\\end{zproof}"; //$NON-NLS-1$
 
   /* Definition for UNICODE_ZSECTION */
   /**
@@ -278,6 +301,29 @@ public interface IZPartitions
    */
   String Z_PARAGRAPH_UNICODE_ENDCHAR_OLD = "\u2029"; //$NON-NLS-1$
 
+  /* Definition for UNICODE_PROOFSCRIPT */
+  /**
+   * The identifier of the unicode Z partition content type
+   * - Proof script paragraph markup
+   * @value <code>__z_paragraph_unicode_schema</code>
+   */
+  String Z_PARAGRAPH_UNICODE_PROOFSCRIPT = "__z_paragraph_unicode_proofscript"; //$NON-NLS-1$
+  String Z_PARAGRAPH_UNICODE_PROOFSCRIPT_OLD = "__z_paragraph_unicode_schema_proofscript"; //$NON-NLS-1$
+
+  /**
+   * The start String of the unicode Z partition content type
+   * - Proof script paragraph markup
+   * - Box drawings light down and right
+   * @value <code>\u251C</code>
+   */
+  String Z_PARAGRAPH_UNICODE_PROOFSCRIPT_START = ZEvesString.ZPROOF; //$NON-NLS-1$
+
+  /**
+   * The end String of the unicode Z partition content type
+   * - Proof script paragraph markup
+   * @value <code>\u2514</code>
+   */
+  String Z_PARAGRAPH_UNICODE_PROOFSCRIPT_END = ZString.END; //$NON-NLS-1$
 
   /**
    * The start String of the latex Z conjecture paragraph

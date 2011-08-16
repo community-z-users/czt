@@ -334,6 +334,15 @@ public class PreferenceConstants
    */
   public static final String EDITOR_FOLDING_THEOREM = "net.sourceforge.czt.eclipse.editor.folding_theorem"; //$NON-NLS-1$
   
+  
+  /**
+   * A named preference that controls whether the editor folds proof script paragraphs.
+   * <p>
+   * Value is of type <code>Boolean</code>.
+   * </p>
+   */
+  public static final String EDITOR_FOLDING_PROOFSCRIPT = "net.sourceforge.czt.eclipse.editor.folding_proofscript"; //$NON-NLS-1$
+  
   /*
    * Syntax coloring preference keys
    */
@@ -724,6 +733,8 @@ public class PreferenceConstants
     store.setDefault(PreferenceConstants.EDITOR_FOLDING_SCH, true);
     store.setDefault(PreferenceConstants.EDITOR_FOLDING_GENAX, true);
     store.setDefault(PreferenceConstants.EDITOR_FOLDING_GENSCH, true);
+    store.setDefault(PreferenceConstants.EDITOR_FOLDING_THEOREM, true);
+    store.setDefault(PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT, true);
     
     // Syntax coloring preference page
     PreferenceConverter.setDefault(store,
