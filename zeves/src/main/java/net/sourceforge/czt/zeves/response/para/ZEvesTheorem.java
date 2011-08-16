@@ -70,7 +70,7 @@ public class ZEvesTheorem {
 		
 		return ZEvesAbility.getInfo(ability) + ZString.ZEDCHAR + " theorem "
 				+ ZEvesUsage.getInfo(usage) + String.valueOf(name) + formalsStr + "\n"
-				+ ZString.CONJECTURE + " " + String.valueOf(form) + "\n" + ZString.END 
+				+ /*ZString.CONJECTURE + */" " + String.valueOf(form) + "\n" + ZString.END 
 				+ proofStr;
 	}
 	
