@@ -145,6 +145,9 @@ public class ZReconcilingStrategy
             CZTPlugin.getDefault().getLog().log(status);
           }
         });
+    } catch (Throwable e) {
+      CZTPlugin.log(e);
+      e.printStackTrace();
     } finally {
       // Always notify listeners, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=55969 for the final solution
       try {
