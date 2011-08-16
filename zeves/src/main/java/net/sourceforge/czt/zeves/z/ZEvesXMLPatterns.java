@@ -169,7 +169,7 @@ public interface ZEvesXMLPatterns {
     /**
      * {0} = predicate      => getPred(term.getPred());
      */
-    public static final String NEG_PRED_PATTERN = "&not; {0}";
+    public static final String NEG_PRED_PATTERN = "&not; ({0})";
     
     /**
      * {0} = quantifier     => getQntName(term); = "&exists;" | "&exists1;" | "&forall;"
@@ -204,7 +204,7 @@ public interface ZEvesXMLPatterns {
     /**
      * {0} expression       => getExpr(term.getExpr());
      */
-    public static final String NEG_EXPR_PATTERN = "&neg; {0}";
+    public static final String NEG_EXPR_PATTERN = "&neg; ({0})";
     public static final String LAMBDA_EXPR_PATTERN = QNT_PRED_PATTERN;
     
     public static final String QNT_EXPR_PATTERN = QNT_PRED_PATTERN;
@@ -284,8 +284,9 @@ public interface ZEvesXMLPatterns {
      * {1} expression       => getExpr(term.getRightExpr());
      *
      * NOTE: Added parentheses on the argument, because it may bind stronger than the expression.
+     *       Also addded parentheses to the function, because it may be a complex expression
      */
-    public static final String APPL_EXPR_PATTERN = "{0} ({1})";
+    public static final String APPL_EXPR_PATTERN = "({0}) ({1})";
     
     // PS: the way operator templates are handled can be slightly different
     //     because of special cases like LANGLE, LIMG, etc. So, the pattern
