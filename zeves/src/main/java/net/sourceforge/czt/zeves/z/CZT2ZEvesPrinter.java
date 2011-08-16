@@ -1641,7 +1641,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     else if (opClassIdxs.size() == 1)
     {
-      if (opClassIdxs.get(0) == 1)
+      if (opClassIdxs.get(0) > 1)
       {
         // prefix
         switch (cat)
