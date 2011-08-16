@@ -5,7 +5,6 @@ import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.parser.ZCompiler;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.util.CztUI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -76,7 +75,7 @@ public class ZReconcilingStrategy
    */
   public void initialReconcile()
   {
-    reconcile(true);
+    safeReconcile(true);
   }
 
   /**
@@ -84,7 +83,7 @@ public class ZReconcilingStrategy
    */
   public void reconcile(DirtyRegion dirtyRegion, IRegion subRegion)
   {
-    reconcile(false);
+    safeReconcile(false);
   }
 
   /**
@@ -92,7 +91,7 @@ public class ZReconcilingStrategy
    */
   public void reconcile(IRegion partition)
   {
-    reconcile(false);
+    safeReconcile(false);
   }
 
   /**
@@ -116,6 +115,15 @@ public class ZReconcilingStrategy
       fZReconcilingListener.aboutToBeReconciled();
   }
 
+  private void safeReconcile(boolean initialReconcile) {
+    try {
+      reconcile(initialReconcile);
+    } catch (Throwable e) {
+      CZTPlugin.log(e);
+      e.printStackTrace();
+    } 
+  }
+  
   private void reconcile(final boolean initialReconcile)
   {
     if (!(fEditor instanceof ZEditor))
@@ -145,9 +153,6 @@ public class ZReconcilingStrategy
             CZTPlugin.getDefault().getLog().log(status);
           }
         });
-    } catch (Throwable e) {
-      CZTPlugin.log(e);
-      e.printStackTrace();
     } finally {
       // Always notify listeners, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=55969 for the final solution
       try {
