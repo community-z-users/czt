@@ -179,10 +179,21 @@ public abstract class Checker<R>
     error(term, errorMsg, params.toArray());
   }
 
+  
   protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object... params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
             sectName(), GlobalDefs.nearestLocAnn(term), markup());
+    return errorAnn;
+  }
+
+  @Override
+  protected ErrorAnn errorAnn(Term term, String error, Object [] params)
+  {
+    // this method is very important to make sure the right "ErrorAnn" is created!
+    ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
+      sectName(), GlobalDefs.nearestLocAnn(term),
+      term, markup());
     return errorAnn;
   }
 
