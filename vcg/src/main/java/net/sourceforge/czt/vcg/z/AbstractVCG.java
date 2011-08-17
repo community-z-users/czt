@@ -1128,7 +1128,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * @param vcList list of VCs for each paragraphs to be added to Z section result.
    * @throws VCGException
    */
-  protected void populateResultsToVCZSect(ZSect result, List<VC<R>> vcList)
+  public void populateResultsToVCZSect(ZSect result, List<VC<R>> vcList)
           throws VCGException
   {
     assert result != null && vcList != null;
