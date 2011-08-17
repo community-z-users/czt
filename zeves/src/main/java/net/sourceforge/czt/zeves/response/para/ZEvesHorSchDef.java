@@ -29,8 +29,9 @@ public class ZEvesHorSchDef {
 	@XmlAttribute
 	private ZEvesAbility ability;
 	
-	@XmlElement(name = "schname", required = true)
-	private ZEvesSchName name;
+	// schname interferes with form here, use #getName()
+//	@XmlElement(name = "schname", required = true)
+//	private ZEvesSchName name;
 	
 	/**
 	 * <!ELEMENT formals (name+)>
@@ -39,18 +40,28 @@ public class ZEvesHorSchDef {
 	@XmlElement(name = "name")
 	private List<ZEvesName> formals = new ArrayList<ZEvesName>();
 	
-	
 	@XmlAnyElement(lax = true)
-	private Object form;
+	private List<?> form = new ArrayList<Object>();
 
+	public ZEvesSchName getName() {
+		// always take the first in form
+		return (ZEvesSchName) form.get(0);
+	}
+
+	public Object getForm() {
+		// since form interferes with name, it gets caught into the first
+		// element here
+		return form.get(1);
+	}
+	
 	@Override
 	public String toString() {
 		
 		String formalsStr = !formals.isEmpty() ? 
 				"[" + ZEvesResponseUtil.concat(formals, ", ") + "]" : "";
 		
-		return ZEvesAbility.getInfo(ability) + ZString.ZEDCHAR + String.valueOf(name) 
-				+ formalsStr + " == " + String.valueOf(form) + "\n" + ZString.END;
+		return ZEvesAbility.getInfo(ability) + ZString.ZEDCHAR + String.valueOf(getName()) 
+				+ formalsStr + " == " + String.valueOf(getForm()) + "\n" + ZString.END;
 	}
 	
 }
