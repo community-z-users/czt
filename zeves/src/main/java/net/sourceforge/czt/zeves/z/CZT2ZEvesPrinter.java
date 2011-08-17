@@ -683,6 +683,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "&oplus;";
     }
+    else if (word.equals(ZString.COMP))
+    {
+      result = "&fatsemi;";
+    }
     else if (word.equals(ZString.NE + ZString.PLUS + ZString.SW))// % ^+
     {
       result = "&supplus;";
@@ -1234,7 +1238,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     else if (term instanceof AndPred)
     {
       And op = ((AndPred) term).getAnd();
-      if (op.equals(And.Wedge))
+      if (op.equals(And.Wedge) || op.equals(And.Chain))
       {
         result = "&wedge;";
       }
