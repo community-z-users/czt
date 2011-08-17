@@ -2477,7 +2477,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
       int arity = ZUtils.applExprArity(term);
       ZExprList args = ZUtils.getApplExprArguments(term);
-      List<String> params = new ArrayList<String>(args.size());
         
       // Handling special cases known to Z/Eves
 
@@ -2504,6 +2503,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       }
       else
       {
+        List<String> params = new ArrayList<String>(args.size());
         params.add(op);
         for (Expr e : args)
         {

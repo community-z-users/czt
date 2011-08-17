@@ -329,7 +329,7 @@ public interface ZEvesXMLPatterns {
      * {0} expression   => getExpr(ZUtils.getApplExprArguments(term).get(0));
      * {1} expression   => getExpr(ZUtils.getApplExprArguments(term).get(1));
      */
-    public static final String MIXFIX_APPL_EXPR_RELIMAGE_PATTERN = "{0} &lvparen; {1} &rvparen;";
+    public static final String MIXFIX_APPL_EXPR_RELIMAGE_PATTERN = "({0}) &lvparen; {1} &rvparen;";
 
 
     /**
