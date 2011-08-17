@@ -816,12 +816,22 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "&uminus;";
     }
+    else if (word.equals(ZString.ARG))
+    {
+      result = " _ ";
+    }
+    else if (word.equals(ZString.LISTARG))
+    {
+      result = " ,, ";
+    }
     else
     {
       result = word;
     }
     return result;
   }
+
+  private boolean fKeepOpArgs = false;
 
   private String getOperator(OperatorName opname)
   {
@@ -843,7 +853,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       {
         String part = parts.next().toString();
         // ignore the arguments: we will know if it's a list arg from ApplExpr arity.
-        if (!part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
+        if (fKeepOpArgs || !part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
         {
 //          found++;
           result += translateOperatorWord(part);
@@ -1506,6 +1516,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitZDeclList(ZDeclList decls)
   {
+
     /* NOTE:
      *
      * Z/Eves does not accept empty declarations, as allowed by the Z standard.
@@ -1518,6 +1529,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     StringBuilder result = new StringBuilder("");
     Iterator<Decl> it = decls.iterator();
     Decl d = it.next();
+    // for declared names, keep the operators
+    fKeepOpArgs = true;
     result.append(d.accept(this));
     while (it.hasNext())
     {
@@ -1527,7 +1540,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       d = it.next();
       result.append(d.accept(this));
     }
-    return result.toString();
+    fKeepOpArgs = false;
+   return result.toString();
   }
 
   /**
@@ -1717,7 +1731,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     final String comment = comment("Original operator template",
             format(OPERATOR_TEMPLATE_COMMENT, cat, prec, a, opsComment.toString()));
-    final String result = format(OEPRATOR_TEMPLATE_PATTERN, operator, opClass);
+    final String result = wrapPara(format(OEPRATOR_TEMPLATE_PATTERN, operator, opClass));
     return comment + result;
   }
 

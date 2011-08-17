@@ -36,7 +36,7 @@ public interface ZEvesXMLPatterns {
 
     /* Operator templates */
     public static final String OPERATOR_TEMPLATE_COMMENT = "{0} {1} {2} ({3})";
-    public static final String OEPRATOR_TEMPLATE_PATTERN = "<syntax-def> {0} {1} {0} </syntax-def>";
+    public static final String OEPRATOR_TEMPLATE_PATTERN = "<syntax-def>{0} {1} {0}</syntax-def>";
 
     public static final String ZEVES_PROOF_PART_PATTERN = "<proof-part/> {0}";
 
