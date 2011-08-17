@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 
 /**
@@ -37,7 +38,7 @@ public class ZEvesSchemaText {
 		String decPartStr = ZEvesResponseUtil.concat(decPart, "; ");
 		String predPartStr = !form.isEmpty() ? " | " + ZEvesResponseUtil.concat(form, "; ") : "";
 		
-		return decPartStr + predPartStr;
+		return ZString.LSQUARE + decPartStr + predPartStr + ZString.RSQUARE;
 	}
 	
 }
