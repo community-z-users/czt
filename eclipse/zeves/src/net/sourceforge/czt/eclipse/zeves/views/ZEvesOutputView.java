@@ -24,6 +24,7 @@ import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ProofResultElement
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ProofResultElement.IProofResultInfo;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
@@ -362,6 +363,15 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 		
 		Term selectedTerm = getSelectedTerm();
 		
+		if (selectedTerm == null) {
+			return null;
+		}
+		
+		SectionManager sectInfo = proofResult.getEditor().getParsedData().getSectionManager().clone();
+		String sectName = proofResult.getSectionName();
+		
+		String exprStr = printTerm(selectedTerm, sectInfo, sectName);
+		
 		String menuLabel;
 		List<String> applyRules;
 		String cmdFormat;
@@ -371,7 +381,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 			cmdFormat = "apply %1$s to expression %2$s";
 			try {
 				applyRules = api.getRulesMatchingExpression(proofResult.getGoalName(),
-						zEvesStepIndex.intValue(), printTerm(selectedTerm));
+						zEvesStepIndex.intValue(), exprStr);
 			} catch (ZEvesException e) {
 				ZEvesPlugin.getDefault().log(e);
 				return null;
@@ -381,7 +391,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 			cmdFormat = "apply %1$s to predicate %2$s";
 			try {
 				applyRules = api.getRulesMatchingPredicate(proofResult.getGoalName(),
-						zEvesStepIndex.intValue(), printTerm(selectedTerm));
+						zEvesStepIndex.intValue(), exprStr);
 			} catch (ZEvesException e) {
 				ZEvesPlugin.getDefault().log(e);
 				return null;
@@ -402,8 +412,10 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 		return applyMenu;
 	}
 	
-	private String printTerm(Term term) {
-		return term.accept(new CZT2ZEvesPrinter(null));
+	private String printTerm(Term term, SectionInfo sectInfo, String sectionName) {
+		CZT2ZEvesPrinter printer = new CZT2ZEvesPrinter(sectInfo);
+		printer.setSectionName(sectionName);
+		return term.accept(printer);
 	}
 	
 	private Term getSelectedTerm() {

@@ -37,7 +37,7 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
  */
 public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	
-	private final CZT2ZEvesPrinter zEvesXmlPrinter = new CZT2ZEvesPrinter(null);
+	private final CZT2ZEvesPrinter zEvesXmlPrinter;
 	
 	private final ZEvesApi api;
 	private final ZEvesFileState state;
@@ -59,6 +59,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		this.state = state;
 		this.annotations = annotations;
 		this.sectInfo = parsedData.getSectionManager();
+		this.zEvesXmlPrinter = new CZT2ZEvesPrinter(sectInfo);
 		
 		if (progressMonitor == null) {
 			progressMonitor = new NullProgressMonitor();
@@ -109,7 +110,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	
     	try {
     	
-	    	String commandXml = term.accept(zEvesXmlPrinter);
+	    	String commandXml = term.accept(getZEvesXmlPrinter());
 	
 	    	try {
 				ZEvesOutput output = api.send(commandXml);
@@ -217,7 +218,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	try {
 
     		String theoremName = getProofScriptName(script);
-    		String commandContents = command.accept(zEvesXmlPrinter);
+    		String commandContents = command.accept(getZEvesXmlPrinter());
     		int proofStep = command.getProofStep().intValue();
     		
 	    	try {
@@ -254,7 +255,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     }
     
     private String getProofScriptName(ProofScript script) {
-    	return script.getName().accept(zEvesXmlPrinter);
+    	return script.getName().accept(getZEvesXmlPrinter());
     }
     
     private Annotation markUnfinished(Position pos) {
@@ -433,5 +434,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		throw new OperationCanceledException();
     	}
     }
+
+	private CZT2ZEvesPrinter getZEvesXmlPrinter() {
+		// synchronize current section name
+		ZSect sect = getCurrentSect();
+		String sectName = sect != null ? sect.getName() : null;
+		zEvesXmlPrinter.setSectionName(sectName);
+		
+		return zEvesXmlPrinter;
+	}
     
 }

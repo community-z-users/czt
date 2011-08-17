@@ -287,9 +287,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 {
 
   /**
-   * CZT Section manger object. TODO: Check necessity of this.
+   * CZT Section manger object.
    */
   private SectionInfo fSectionInfo;
+  
+  /**
+   * Current section name
+   */
+  private String fSectionName;
+  
   /**
    * Label annotations matter only for axiomatic and generic boxes.
    * The flag switches its processing on and off.
@@ -1406,6 +1412,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     return fSectionInfo;
   }
+  
+  public final void setSectionName(String sectionName) {
+    this.fSectionName = sectionName;
+  }
 
   /* Special Terms */
   @Override
@@ -1869,11 +1879,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       ConstDecl cd = (ConstDecl) term.getZSchText().getZDeclList().get(0);
       ZName hdefName = cd.getZName();
       Expr expr = cd.getExpr();
-      // Added a number of expression cases when &eqhat; symbol is needed (from Z-Eves API doc)
-      // TODO review whether this does not cause other problems, e.g. can an abbreviations have the same exprs?
+      // We check whether the expression is schema-based to determine if we need the &eqhat; symbol.
+      // First we check whether RHS is schema expression, otherwise ask for type information
       boolean isSchExpr = expr instanceof SchExpr || expr instanceof SchExpr2
-          || expr instanceof HideExpr || expr instanceof ForallExpr || expr instanceof ExistsExpr
-          || expr instanceof Exists1Expr || expr instanceof NegExpr || expr instanceof PreExpr;
+          || isSchemaTyped(fSectionName, hdefName);
       String zboxItemName = isSchExpr ? getSchName(hdefName) : getDefLHS(hdefName);
       String zboxItemSymbol = isSchExpr ? "&eqhat;" : "==";
       String zboxItemExpr = getExpr(expr);
@@ -2519,27 +2528,29 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
   protected Type2 getType(String sectionName, ZName name)
   {
+    if (sectionName == null) {
+      throw new IllegalArgumentException("No section name indicated for type information");
+    }
+    
+    try
     {
-      try
+      SectTypeEnvAnn sectTypeEnv = getSectionInfo().get(new Key<SectTypeEnvAnn>(sectionName, SectTypeEnvAnn.class));
+      Type2 result = null;
+      for(NameSectTypeTriple nst : sectTypeEnv.getNameSectTypeTriple())
       {
-        SectTypeEnvAnn sectTypeEnv = getSectionInfo().get(new Key<SectTypeEnvAnn>(sectionName, SectTypeEnvAnn.class));
-        Type2 result = null;
-        for(NameSectTypeTriple nst : sectTypeEnv.getNameSectTypeTriple())
+        if (ZUtils.namesEqual(name, nst.getZName()))
         {
-          if (ZUtils.namesEqual(name, nst.getZName()))
-          {
-            Type type = nst.getType();
-            result = GlobalDefs.unwrapType(type);
-            break;
-          }
+          Type type = nst.getType();
+          result = GlobalDefs.unwrapType(type);
+          break;
         }
-        return result;
       }
-      catch (CommandException e)
-      {
-        throw new ZEvesIncompatibleASTException("Could not retrieve type information of section " + sectionName + " for " + name, e);
-      }
-    } 
+      return result;
+    }
+    catch (CommandException e)
+    {
+      throw new ZEvesIncompatibleASTException("Could not retrieve type information of section " + sectionName + " for " + name, e);
+    }
   }
 
   protected boolean isSchemaTyped(String sectionName, ZName name)
@@ -3020,6 +3031,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       List<String> result = new ArrayList<String>();
       result.add(format(ZSECTION_BEGIN_PATTERN, term.getName(),
               getParents(term.getParent())));
+      // mark section name
+      setSectionName(term.getName());
       for (Para p : term.getZParaList())
       {
         result.add(p.accept(CZT2ZEvesPrinter.this));
