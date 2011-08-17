@@ -713,10 +713,11 @@ public class PrintVisitor
   @Override
   public String visitInstantiation(Instantiation term)
   {
-    assert currInstKind_ == term.getKind() : "inconsistent instantiation kind. found " + term.getKind() + "; expected " + currInstKind_;
+    if (currInstKind_ != null && !term.getKind().equals(currInstKind_))
+      throw new IllegalArgumentException("Inconsistent known instantiation kind. Found " + term.getKind() + "; expected " + currInstKind_);
     StringBuilder result = new StringBuilder();
     result.append(visit(term.getZName()));
-    result.append(currInstKind_ == InstantiationKind.Quantifier ? " == " : " := ");
+    result.append(term.getKind().equals(InstantiationKind.Quantifier) ? " == " : " := ");
     result.append(visit(term.getExpr()));
     return result.toString();
   }
@@ -726,7 +727,7 @@ public class PrintVisitor
   {
     StringBuilder result = new StringBuilder();
     Iterator<Instantiation> it = term.iterator();
-    assert it.hasNext() : "empty instantiations are not allowed for instantiation kind " + currInstKind_;
+    assert it.hasNext() : "empty instantiations are not allowed";
     result.append(visit(it.next()));
     while (it.hasNext())
     {
