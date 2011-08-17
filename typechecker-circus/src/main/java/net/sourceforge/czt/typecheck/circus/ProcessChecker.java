@@ -539,7 +539,7 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     //add this call for post checking --- this is CZT's approach
     if (!GlobalDefs.containsObject(paraErrors(), term))
     {
-      paraErrors().add(term);
+      addTermForPostChecking(term);
       addedPostChecking = true;
     }
      
@@ -570,7 +570,7 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
       // post checking ?      
       if (!addedPostChecking)
       {
-        paraErrors().add(term);
+        addTermForPostChecking(term);
         //addAction4PostCheck(getCurrentActionName());
         addedPostChecking = true;
       }   

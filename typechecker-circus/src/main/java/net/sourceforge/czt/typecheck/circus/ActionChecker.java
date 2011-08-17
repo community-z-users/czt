@@ -524,7 +524,7 @@ public class ActionChecker
     {
       //if (!ZUtils.namesEqual(getCurrentActionName(), call))
       //{
-        paraErrors().add(term);
+        addTermForPostChecking(term);
         addedPostChecking = true; // see this flag below.
       //}
     }
@@ -557,7 +557,7 @@ public class ActionChecker
       addedPostChecking = true;
       if (!GlobalDefs.containsObject(paraErrors(), term))
       {
-        paraErrors().add(term);       
+        addTermForPostChecking(term);
       }
     }
 
