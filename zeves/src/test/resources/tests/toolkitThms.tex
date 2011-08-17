@@ -9,7 +9,7 @@ As below, it's not a valid/complete Reference Name
 (Syntax error at symbol RSQUARE: \#[A]~S)
 
 
-\begin[disabled]{theorem}{rule lUnitElemBelongs}
-    e \in \langle x\rangle  \iff  e = (BLA, x)
+\begin[disabled]{theorem}{rule lUnitElemBelongs}[X]
+   \forall e: \nat \cross X; x: X @ e \in \langle x\rangle  \iff  e = (1, x)
 \end{theorem}
 (Syntax error at symbol MEM: e \in \langle x\rangle)

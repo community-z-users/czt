@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.z.ast.And;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Parent;
@@ -36,7 +39,11 @@ import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
+import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.AndExpr;
 import net.sourceforge.czt.z.ast.AndPred;
@@ -97,6 +104,7 @@ import net.sourceforge.czt.z.ast.OutStroke;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.PipeExpr;
 import net.sourceforge.czt.z.ast.PowerExpr;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.PreExpr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Pred2;
@@ -109,6 +117,7 @@ import net.sourceforge.czt.z.ast.RenameExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchExpr2;
 import net.sourceforge.czt.z.ast.SchText;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.Stroke;
@@ -116,6 +125,8 @@ import net.sourceforge.czt.z.ast.ThetaExpr;
 import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.TupleSelExpr;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZRenameList;
@@ -129,7 +140,6 @@ import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.DecorExprVisitor;
 import net.sourceforge.czt.z.visitor.NewOldPairVisitor;
 import net.sourceforge.czt.z.visitor.QntExprVisitor;
-import net.sourceforge.czt.z.visitor.RenameExprVisitor;
 import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
 import net.sourceforge.czt.z.visitor.DeclVisitor;
@@ -186,6 +196,7 @@ import net.sourceforge.czt.z.visitor.NumExprVisitor;
 import net.sourceforge.czt.z.visitor.OptempParaVisitor;
 import net.sourceforge.czt.z.visitor.PreExprVisitor;
 import net.sourceforge.czt.z.visitor.ProdExprVisitor;
+import net.sourceforge.czt.z.visitor.RenameExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
@@ -2507,18 +2518,77 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     return getExpr(term.getExpr()) + term.getStroke().accept(this);
   }
-  
-  @Override
-  public String visitRenameExpr(RenameExpr term) {
-	
-	String renamings = term.getZRenameList().accept(this);
-	return format(RENAME_EXPR_PATTERN, getExpr(term.getExpr()), renamings);
+
+  protected Type2 getType(String sectionName, ZName name)
+  {
+    {
+      try
+      {
+        SectTypeEnv sectTypeEnv = getSectionInfo().get(new Key<SectTypeEnv>(sectionName, SectTypeEnv.class));
+        Type type = sectTypeEnv.getType(name);
+        Type2 result =GlobalDefs.unwrapType(type);
+        return result;
+      }
+      catch (CommandException e)
+      {
+        throw new ZEvesIncompatibleASTException("Could not retrieve type information of section " + sectionName + " for " + name, e);
+      }
+    } 
   }
+
+  protected boolean isSchemaTyped(String sectionName, ZName name)
+  {
+    Type2 type = getType(sectionName, name);
+    return (type instanceof PowerType && ((PowerType)type).getType() instanceof SchemaType);
+  }
+
+  @Override
+  public String visitRenameExpr(RenameExpr term)
+  {
+    final String renamings;
+    if (term.getRenameList() instanceof ZRenameList)
+      renamings = term.getZRenameList().accept(this);
+    else if (term.getRenameList() instanceof InstantiationList)
+    {
+      InstantiationList il = ZEvesUtils.getInstantiationListFromExpr(term);
+      if (il != null)
+      {
+        fCurrInstKind = InstantiationKind.ThmReplacement;
+        renamings = il.accept(this);
+        fCurrInstKind = null;
+      }
+      else
+        throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
+    }
+    else
+      throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
+    return format(RENAME_EXPR_PATTERN, getExpr(term.getExpr()), renamings);
+  }
+//
+//  @Override
+//  public String visitInstantiationList(InstantiationList term)
+//  {
+//    StringBuilder sb = new StringBuilder();
+//    String delim = "";
+//    for (Instantiation pair : term) {
+//      sb.append(delim).append(pair.accept(this));
+//      delim = ",";
+//    }
+//    return sb.toString();
+//  }
+//
+//  @Override
+//  public String visitInstantiation(Instantiation term)
+//  {
+//    return getName(term.getName()) +
+//            (term.getKind().equals(InstantiationKind.ThmReplacement) ? ":=" : "==") +
+//            getExpr(term.getExpr());
+//  }
   
   @Override
-  public String visitZRenameList(ZRenameList term) {
-	
-	StringBuilder sb = new StringBuilder();
+  public String visitZRenameList(ZRenameList term)
+  {
+		StringBuilder sb = new StringBuilder();
 
     String delim = "";
     for (NewOldPair pair : term) {
@@ -2531,7 +2601,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
   @Override
   public String visitNewOldPair(NewOldPair term) {
-	return getName(term.getNewName()) + "/" + getName(term.getOldName());
+    return getName(term.getNewName()) + "/" + getName(term.getOldName());
   }
 
   @Override
@@ -2641,6 +2711,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       result.append("instantiate ");
       fCurrInstKind = InstantiationKind.Quantifier;
       result.append(term.getInstantiationList().accept(this));
+      fCurrInstKind = null;
     }
     return result.toString();
   }
@@ -2744,6 +2815,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         result.append(term.getInstantiationList().accept(this));
         result.append("]");
       }
+      fCurrInstKind = null;
     }
     return result.toString();
   }

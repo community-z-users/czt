@@ -47,24 +47,28 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
   }
 
   @Override
-  protected void testing(URL resource, Spec term)
+  protected void testing(URL resource, Spec term) throws Exception
   {
     String fileName = resource.getPath(); //getFile() returns the protocol as well
-    try
+    List<String> result = new ArrayList<String>();
+    result = CZT2ZEves.runPrinter(fileName);
+    System.out.println(result.size() + " Z/Eves command(s) created:\n");
+    if (!result.isEmpty() && result.get(0).equals("ERRORS"))
     {
-      List<String> result = new ArrayList<String>();
-      //result = CZT2ZEves.runPrinter(fileName);
-      System.out.println(result.size() + " Z/Eves command(s) created:\n");
       for(String s : result)
       {
-       // System.out.println(s);
+        System.out.println(s);
       }
     }
-    catch (Exception e)
-    {
-      System.out.println("Exception thrown during testing of " + fileName + " - " + e);
-      encounteredException(resource, e, fileName, false);
-    }
+  }
+
+  @Override
+  protected boolean encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
+  {
+      System.out.println("Exception thrown during testing of " + failureMsg + " - " + e);
+      e.printStackTrace();
+      return super.encounteredException(resource, e, failureMsg, false);
+      //System.exit(0);
   }
 
   @Override

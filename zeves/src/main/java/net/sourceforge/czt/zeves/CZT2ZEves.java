@@ -14,22 +14,25 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.rmi.UnmarshalException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.UnmarshalException;
-import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.zeves.TypeCheckUtils;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
+
 
 /**
  *
@@ -75,14 +78,23 @@ public class CZT2ZEves {
         SourceLocator.addCZTPathFor(file, manager);
         manager.put(new Key<Source>(sourceName, Source.class), source);
         Spec term = manager.get(new Key<Spec>(sourceName, Spec.class));//ParseUtils.parse(new FileSource(filename), manager);
-        List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, (SectionManager) manager);
+        List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, manager);
+        Iterator<? extends ErrorAnn> it = errors.iterator();
+        while (it.hasNext())
+        {
+          if (it.next().getErrorType().equals(ErrorType.WARNING))
+            it.remove();
+        }
         if (errors.isEmpty()) {
             result = specToZEvesXML(term, manager);            
         } else {
             result = new ArrayList<String>();
+            result.add("ERRORS");
             System.out.println("We expect a well-typed specification for Z/Eves translation.");
             System.out.println(errors.size() + " error(s) found:");
-            for(ErrorAnn ea : errors) {
+            for(ErrorAnn ea : errors) 
+            {
+                assert ea.getErrorType().equals(ErrorType.ERROR);
                 result.add(ea.toString());
             }            
         }      
