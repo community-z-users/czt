@@ -27,13 +27,16 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ExprPred;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RenameExpr;
+import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.ThetaExpr;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
@@ -168,6 +171,43 @@ public abstract class Checker<R>
     return term.getAnn(ProofCommandInfo.class);
   }
 
+  protected class IngnoreUndeclNameAnn {} //extends AnnImpl {}
+
+  protected boolean ignoreUndeclaredNames()
+  {
+    return getTypeChecker().ignoreUndeclaredNames_;
+  }
+
+  protected void setIgnoreUndeclaredNames(boolean v)
+  {
+    getTypeChecker().ignoreUndeclaredNames_ = v;
+  }
+
+  protected boolean shouldIgnoreUndeclaredNamesIn(Term term)
+  {
+    return term instanceof RefExpr ||
+            term instanceof ThetaExpr ||
+            term instanceof SetExpr ||
+            term instanceof ExprPred;
+  }
+
+  protected void checkIfNeedIgnoreUndeclNameTag(Term term)
+  {
+    // mark post check terms to ignore if term is of the right class
+    // and the tagging flag is on
+    if (ignoreUndeclaredNames() && shouldIgnoreUndeclaredNamesIn(term))
+    {
+      term.getAnns().add(new IngnoreUndeclNameAnn());
+    }
+  }
+
+  @Override
+  protected void addTermForPostChecking(Term term)
+  {
+    checkIfNeedIgnoreUndeclNameTag(term);
+    super.addTermForPostChecking(term);
+  }
+
   protected void error(Term term, ErrorMessage errorMsg, Object... params)
   {
     ErrorAnn errorAnn = this.errorAnn(term, errorMsg, params);
@@ -182,11 +222,23 @@ public abstract class Checker<R>
   
   protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object... params)
   {
-    ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
-            sectName(), GlobalDefs.nearestLocAnn(term), markup());
-    return errorAnn;
+    return errorAnn(term, error.toString(), params);
   }
 
+  @Override
+  protected net.sourceforge.czt.typecheck.z.ErrorAnn errorAnn(Term term, net.sourceforge.czt.typecheck.z.ErrorMessage error, Object[] params)
+  {
+    net.sourceforge.czt.typecheck.z.ErrorAnn result = super.errorAnn(term, error, params);
+    if (ignoreUndeclaredNames() && result != null &&
+            (error.equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER) ||
+             error.equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR)))
+    {
+      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, result.toString());
+      result.setErrorType(ErrorType.WARNING);
+    }
+    return result;
+  }
+  
   @Override
   protected ErrorAnn errorAnn(Term term, String error, Object [] params)
   {

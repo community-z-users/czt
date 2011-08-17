@@ -843,6 +843,7 @@ typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ErrorAnn.jav
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ErrorMessage.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ExprChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ParaChecker.java -text
+typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/PostChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/PredChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ProofCommandChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/SpecChecker.java -text
@@ -865,6 +866,7 @@ typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.zed8 -te
 typechecker-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/smalltest.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/undeclaredNamesInTheoremAsWarnings.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesability.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabels.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabels.zed8 -text

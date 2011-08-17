@@ -66,7 +66,9 @@ public enum WarningMessage {
     "\n\tChecker...: {0}" +
     "\n\tTerm......: {1}", 
     "A unknown term can only be found if some type rule is missing or an ill-formed term\n\t" +
-    "is given to typecheck. This should never happen for parsed terms.") // or bug in TC(?!)   
+    "is given to typecheck. This should never happen for parsed terms."), // or bug in TC(?!)
+
+  UNDECLARED_NAME_ERROR_AS_WARNING("Undeclared name error in ConjPara being treated as warning. Msg = {0}.")
   ;
   
   private final String message_;

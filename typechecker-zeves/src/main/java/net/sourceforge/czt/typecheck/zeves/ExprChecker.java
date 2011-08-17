@@ -48,6 +48,7 @@ public class ExprChecker
   @Override
   public Type2 visitTerm(Term term)
   {
+    checkIfNeedIgnoreUndeclNameTag(term);
     return term.accept(zExprChecker_);
   }
 

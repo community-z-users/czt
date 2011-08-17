@@ -115,9 +115,17 @@ public class ParaChecker
   @Override
   public Signature visitConjPara(ConjPara term)
   {
+    // enable term tagging for certain terms within ConjPara (e.g., all those PostCheck able)
+    setIgnoreUndeclaredNames(true);
+
     // Z typechecker already checks for duplicate theorem names
     Signature result = term.accept(zParaChecker_);
 
+    // disable term tagging
+    setIgnoreUndeclaredNames(false);
+
+
+    
 //    ZName thmName = factory().createZName(term.getName());
 //    Signature result = factory().createSignature(
 //            factory().list(factory().createNameTypePair(

@@ -2,16 +2,9 @@
    \SECTION typechecker\_test \parents standard\_toolkit
 \end{zsection}
 
-\begin[disabled]{schema}{S}
-   x: \nat
-\where
-   x > 10
-\end{schema}
-
-\begin[disabled]{theorem}{rule lSLemma0}
-  \forall a: \num @ \forall S; S~' @ \theta S[a/x] = \theta (S~')[a/x']
-\end{theorem}
-
-\begin[disabled]{theorem}{rule lSLemma1}
-  \forall S @ \theta S[x := 1] = \theta S
+Names x and y not declared explicitly, but universally quantified implicitly in Z/Eves.
+This is like a name joker/wildcard.
+%
+\begin[disabled]{theorem}{rule lRanElemType}[X, Y]
+ \forall  A: \power~X; B: \power~Y @ \forall  R: A \rel  B | (x, y) \in  R @ y \in  B
 \end{theorem}

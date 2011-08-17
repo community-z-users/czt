@@ -46,6 +46,14 @@ public class TypeChecker
   protected ThmTable thmTable_;
   protected ProofTable proofTable_;
 
+  /**
+   * Checks for Undeclared names in RefExpr within ConjPara. ZEves allows implicit universally quantified names
+   * (E.g., like jokers for names) within theorems. So for instance, you could have  a conjecture "Op1 \iff Op2",
+   * where there is no need to quantify over the state of these operators like "\forall St @ Op1 \iff Op2".
+   */
+  protected boolean ignoreUndeclaredNames_ = false;
+
+
   public TypeChecker(net.sourceforge.czt.typecheck.zeves.impl.Factory factory,
                      SectionManager sectInfo)
   {
@@ -69,6 +77,7 @@ public class TypeChecker
     paraChecker_ = new ParaChecker(this);
     exprChecker_ = new ExprChecker(this);
     predChecker_ = new PredChecker(this);
+    postChecker_ = new PostChecker(this);
 
     proofCommandChecker_ = new ProofCommandChecker(this);
     
@@ -81,6 +90,7 @@ public class TypeChecker
     thmTable_ = null;
     proofTable_ = null;
     currentProofScript_ = null;
+    ignoreUndeclaredNames_ = false;
   }
 
   @Override
