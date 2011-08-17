@@ -75,44 +75,28 @@ public class ProofScriptParsingTest
     throw new UnsupportedOperationException("Not supported yet.");
   }
 
+  private int fStage_ = 0;
+
   @Override
-  protected void testing(URL resource, Spec term)
+  protected void testing(URL resource, Spec term) throws Exception
   {
     if (printer_ != null) ZUtils.setToStringVisitor(term, printer_);
     String fileName = resource.getPath();
     System.out.println("Parsing successful, start printing of " + resource);
-    try
-    {
-      try
-      {
-        LatexScannerDebugger.debugPrinter(new FileSource(fileName), getManager(), term);
-      }
-      catch (CommandException ex)
-      {
-        System.out.println("CommandException thrown during printing of " + fileName);
-        encounteredException(resource, ex, "while trying to print", false);
-      }
-    } catch (IOException e)
-    {
-      System.out.println("IOException thrown during printing of " + fileName);
-      encounteredException(resource, e, "while trying to print", false);
-    }
+    fStage_ = 1;
+
+    LatexScannerDebugger.debugPrinter(new FileSource(fileName), getManager(), term);
+    
     System.out.println("\nPrinting successful, start re-parsing of derived files");
     List<Markup> markups = new ArrayList<Markup>(Arrays.asList(Markup.values()));
+
+    fStage_ = 2;
     markups.remove(Markup.getMarkup(fileName));
     for(Markup m : markups)
     {
       final String refile = fileName + Markup.getDefaultFileExtention(m);
       System.out.println("  reparsting " + refile);
-      try
-      {
-        parse(refile);
-      }
-      catch (CommandException ex)
-      {
-        System.out.println("Exception thrown during reparsing of " + fileName);
-        encounteredException(resource, ex, "while trying to reparse " + refile, false);
-      }
+      parse(refile);
     }
   }
 
@@ -126,7 +110,8 @@ public class ProofScriptParsingTest
   @SuppressWarnings("CallToThreadDumpStack")
   protected boolean encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
   {
-    System.out.println("Encountered exception during parsing: " + e.getClass().getName());
+    final String stage = fStage_ == 0 ? "parsing" : fStage_==1 ? "printing" : "reparsing";
+    System.out.println("Encountered exception during " + stage + " " + e.getClass().getName());
     System.out.println("  " + failureMsg);
     return handled;
   }
