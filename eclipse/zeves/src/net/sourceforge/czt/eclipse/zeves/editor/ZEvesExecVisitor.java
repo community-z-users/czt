@@ -1,6 +1,10 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 //import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IMarker;
@@ -8,17 +12,30 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferenceConstants;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.vcg.util.DefinitionException;
+import net.sourceforge.czt.vcg.z.VC;
+import net.sourceforge.czt.vcg.z.VCEnvAnn;
+import net.sourceforge.czt.vcg.z.VCGException;
+import net.sourceforge.czt.vcg.z.VCGUtils;
+import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG;
+import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
@@ -43,6 +60,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	private final ZEvesFileState state;
 	private final ZEvesAnnotations annotations;
 	private final SectionManager sectInfo;
+	private final FeasibilityVCG fsbVcg; 
+	
 	private Annotation unprocessedAnn;
 	
 	private final IProgressMonitor progressMonitor;
@@ -61,11 +80,25 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		this.sectInfo = parsedData.getSectionManager();
 		this.zEvesXmlPrinter = new CZT2ZEvesPrinter(sectInfo);
 		
+		this.fsbVcg = initFeasibilityVcg(sectInfo);
+		
 		if (progressMonitor == null) {
 			progressMonitor = new NullProgressMonitor();
 		}
 		
 		this.progressMonitor = progressMonitor;
+	}
+	
+	private static FeasibilityVCG initFeasibilityVcg(SectionManager sectInfo) {
+		FeasibilityVCG fsbVcg = new FeasibilityVCG();
+		try {
+			fsbVcg.setSectionManager(sectInfo.clone());
+		} catch (VCGException e) {
+			ZEvesPlugin.getDefault().log(e);
+			return null;
+		}
+		
+		return fsbVcg;
 	}
 
     @Override
@@ -131,6 +164,9 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		checkCancelled();
 //	    		handleResult(pos, "History index: " + historyIndex);
 	    		
+	    		createVCs(term, pos);
+	    		checkCancelled();
+	    		
 	    	} catch (ZEvesException e) {
 	    		state.addPara(pos, -1, term, e.getMessage(), false);
 	    		handleZEvesException(pos, e);
@@ -141,6 +177,87 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
         	markFinished(unfinishedAnn);
     	}
 	}
+    
+    private void createVCs(Para term, Position pos) {
+    	
+    	IPreferenceStore prefs = ZEvesPlugin.getDefault().getPreferenceStore(); 
+    	boolean generateVCs = prefs.getBoolean(ZEvesPreferenceConstants.PROP_GENERATE_FEASIBILITY_VCS);
+    	if (!generateVCs) {
+    		return;
+    	}
+    	
+		if (fsbVcg == null) {
+			addVCWarning(pos, "Verification condition generator is not available");
+			return;
+		}
+    	
+    	final String sectionName = getCurrentSect().getName();
+    	try {
+			VCEnvAnn<Pred> vcAnn = fsbVcg.createVCEnvAnn(term,
+					Arrays.asList(ZUtils.FACTORY.createParent(sectionName)));
+			
+			List<ConjPara> vcs = createVCParas(vcAnn.getVCs());
+			for (ConjPara vc : vcs) {
+				
+		    	String vcCmdXml = vc.accept(getZEvesXmlPrinter());
+		    	
+		    	try {
+					ZEvesOutput output = api.send(vcCmdXml);
+					handleResult(pos, output);
+					
+					checkCancelled();
+				} catch (ZEvesException e) {
+					handleZEvesException(pos, e);
+					return;
+				}
+			}
+			
+		} catch (VCGException e) {
+			List<? extends Throwable> exceptions = VCGUtils.handleVCGException(e, "Generating VCs");
+			if (exceptions.isEmpty()) {
+				// log the main
+				ZEvesPlugin.getDefault().log(e);
+				return;
+			}
+			
+			for (Throwable ex : exceptions) {
+				ZEvesPlugin.getDefault().log(ex);
+				
+				String msg = (ex instanceof DefinitionException) ? 
+						((DefinitionException) ex).getMessage(true) : ex.getMessage();
+				
+				addVCWarning(pos, msg);
+			}
+		}
+    }
+    
+    private List<ConjPara> createVCParas(List<VC<Pred>> vcs) throws VCGException {
+    	// wrap into an empty ZSection
+    	Factory factory = ZUtils.FACTORY;
+		ZSect sect = factory.createZSect("VCGOutput", Collections.<Parent>emptyList(), factory.createZParaList());
+    	fsbVcg.populateResultsToVCZSect(sect, vcs);
+    	
+    	List<ConjPara> conjParas = new ArrayList<ConjPara>();
+    	for (Para para : sect.getZParaList()) {
+    		if (para instanceof ConjPara) {
+    			conjParas.add((ConjPara) para);
+    		}
+    	}
+    	
+    	return conjParas;
+    }
+    
+    private void addVCWarning(Position pos, String message) {
+		if (annotations != null) {
+			try {
+				annotations.createErrorMarker(pos, 
+						"VCG: " + message, 
+						IMarker.SEVERITY_WARNING);
+			} catch (CoreException ce) {
+				ZEvesPlugin.getDefault().log(ce);
+			}
+		}
+    }
     
     @Override
 	protected void visitProofScriptHead(ProofScript term, Position pos) {

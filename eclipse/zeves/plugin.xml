@@ -747,4 +747,19 @@
          </with>
       </definition>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
+            class="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferencePage"
+            id="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferencePage"
+            name="Z/Eves">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferenceInitializer">
+      </initializer>
+   </extension>
 </plugin>
