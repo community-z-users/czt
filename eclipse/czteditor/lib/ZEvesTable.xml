@@ -334,7 +334,7 @@
      <item name="&#x251C; P"
            description="Proof script"
            unicode="&#x251C; NAME &#xA; prove; &#xA;&#x2514;&#xA;"
-           latex="\begin{zproof}{NAME}&#xA; prove; &#xA;\end{zproof}&#xA;"/>
+           latex="\begin{zproof}[NAME]&#xA; prove; &#xA;\end{zproof}&#xA;"/>
      <item name="&#x300A; &#x300B;"
            description="Labelled predicate"
            unicode="&#x300A; disabled rule NAME &#x300B;"
