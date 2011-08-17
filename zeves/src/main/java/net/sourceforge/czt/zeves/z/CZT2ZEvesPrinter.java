@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.z.ast.And;
 import net.sourceforge.czt.z.ast.Name;
@@ -41,9 +39,7 @@ import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
-import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.AndExpr;
 import net.sourceforge.czt.z.ast.AndPred;
@@ -86,6 +82,7 @@ import net.sourceforge.czt.z.ast.LetExpr;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.MuExpr;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.NegExpr;
@@ -118,6 +115,7 @@ import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchExpr2;
 import net.sourceforge.czt.z.ast.SchText;
 import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.Stroke;
@@ -2524,9 +2522,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       try
       {
-        SectTypeEnv sectTypeEnv = getSectionInfo().get(new Key<SectTypeEnv>(sectionName, SectTypeEnv.class));
-        Type type = sectTypeEnv.getType(name);
-        Type2 result =GlobalDefs.unwrapType(type);
+        SectTypeEnvAnn sectTypeEnv = getSectionInfo().get(new Key<SectTypeEnvAnn>(sectionName, SectTypeEnvAnn.class));
+        Type2 result = null;
+        for(NameSectTypeTriple nst : sectTypeEnv.getNameSectTypeTriple())
+        {
+          if (ZUtils.namesEqual(name, nst.getZName()))
+          {
+            Type type = nst.getType();
+            result = GlobalDefs.unwrapType(type);
+            break;
+          }
+        }
         return result;
       }
       catch (CommandException e)
