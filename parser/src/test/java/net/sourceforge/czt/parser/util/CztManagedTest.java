@@ -151,7 +151,7 @@ public abstract class CztManagedTest extends TestCase
     return suite;
   }
 
-  protected void testing(URL resource, Spec term)
+  protected void testing(URL resource, Spec term) throws Exception
   {
     // do nothing.
   }
