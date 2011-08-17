@@ -119,6 +119,7 @@ import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.StrokeList;
 import net.sourceforge.czt.z.ast.ThetaExpr;
 import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
@@ -753,6 +754,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "&uharl;";
     }
+    // POWER can also be used as operator (e.g. P_1), so adding the translation here as well
+    else if (word.equals(ZString.POWER))
+    {
+      result = "&Popf;";
+    }
     // An interesting case - FINSET is used as operator name in RefExpr, while
     // for powersets we have PowerExpr. So adding FINSET to operator name translation
     else if (word.equals(ZString.FINSET))
@@ -828,14 +834,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     String result = "";
     if (fRelationalOpAppl)
     {
-      int found = 0;
+//      int found = 0;
       while (parts.hasNext())
       {
         String part = parts.next().toString();
         // ignore the arguments: we will know if it's a list arg from ApplExpr arity.
         if (!part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
         {
-          found++;
+//          found++;
           result += translateOperatorWord(part);
         }
       }
@@ -853,7 +859,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       //getFixity(opname.getFixity());
     }
     assert !result.isEmpty();
-    return result;
+    
+    String strokes = getStrokes(opname.getStrokes());
+    return result + strokes;
   }
 
   private String getOperator(Term name)
@@ -876,10 +884,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   /**
    * Returns a list of strokes simply concatenated as it appears.
    */
-  private String getStrokes(ZStrokeList strokes)
+  private String getStrokes(StrokeList strokes)
   {
+    ZStrokeList zstrokes = ZUtils.assertZStrokeList(strokes);
+    
     StringBuilder result = new StringBuilder("");
-    for (Stroke stk : strokes)
+    for (Stroke stk : zstrokes)
     {
       result.append(stk.accept(this));
     }
