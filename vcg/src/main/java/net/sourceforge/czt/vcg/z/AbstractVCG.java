@@ -37,6 +37,8 @@ import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
@@ -1237,6 +1239,10 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     // create an empty section header: that is, wrap the term as a ZSect inheriting std_toolkit
     ZSect zsect = factory.createZSect(createUniqueZScectName(), parents, factory.createZParaList());
     zsect.getZParaList().add(para);
+
+    // add the temporary section to the manager. Do I need the source? No?
+    getManager().put(new Key<Source>(zsect.getName(), Source.class), new StringSource(zsect.toString()));
+    getManager().put(new Key<ZSect>(zsect.getName(), ZSect.class), zsect);
 
     // VC on-the-fly Z section with std_toolkit as parent
     VCEnvAnn<R> result = createVCEnvAnn(zsect);
