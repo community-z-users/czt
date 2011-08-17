@@ -351,5 +351,11 @@ public interface ZEvesXMLPatterns {
      * {0} semi-colon sep list of bindings as  NAME : EXPR ; NAME : EXPR ...
      */
     public static final String BIND_EXPR_PATTERN = "&lvang; {0} &rvang;";
+    
+    /**
+     * {0} = expr         => getExpr(term.getExpr());
+     * {1} = rename list  => getExpr(term.getExpr());
+     */
+    public static final String RENAME_EXPR_PATTERN = "{0} [ {1} ]";
 
 }

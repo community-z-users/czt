@@ -83,6 +83,7 @@ import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.NegExpr;
 import net.sourceforge.czt.z.ast.NegPred;
+import net.sourceforge.czt.z.ast.NewOldPair;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.NumStroke;
@@ -117,6 +118,7 @@ import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.TupleSelExpr;
 import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.OperatorName.Fixity;
 import net.sourceforge.czt.z.util.ZString;
@@ -125,7 +127,9 @@ import net.sourceforge.czt.z.visitor.BindExprVisitor;
 import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.DecorExprVisitor;
+import net.sourceforge.czt.z.visitor.NewOldPairVisitor;
 import net.sourceforge.czt.z.visitor.QntExprVisitor;
+import net.sourceforge.czt.z.visitor.RenameExprVisitor;
 import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
 import net.sourceforge.czt.z.visitor.DeclVisitor;
@@ -159,6 +163,7 @@ import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.z.visitor.ZRenameListVisitor;
 import net.sourceforge.czt.zeves.ast.ApplyCommand;
 import net.sourceforge.czt.zeves.ast.CaseAnalysisCommand;
 import net.sourceforge.czt.zeves.ast.Instantiation;
@@ -261,7 +266,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         MuExprVisitor<String>, LetExprVisitor<String>, NegExprVisitor<String>, CondExprVisitor<String>,
         PreExprVisitor<String>, ThetaExprVisitor<String>, BindSelExprVisitor<String>,
         BindExprVisitor<String>, SchExprVisitor<String>, SchExpr2Visitor<String>,
-        HideExprVisitor<String>, ApplExprVisitor<String>, DecorExprVisitor<String>, /*RenameExprVisitor<String>, */
+        HideExprVisitor<String>, ApplExprVisitor<String>, DecorExprVisitor<String>, 
+        RenameExprVisitor<String>, ZRenameListVisitor<String>, NewOldPairVisitor<String>,
         /* Proof command visitors */
         ProofCommandVisitor<String>, CaseAnalysisCommandVisitor<String>,
         NormalizationCommandVisitor<String>, QuantifiersCommandVisitor<String>,
@@ -1482,11 +1488,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     result.append(d.accept(this));
     while (it.hasNext())
     {
-      // FIXME does not work for theorems - need semicolon instead of NL
-      // trouble is CZT is more lenient/Iso-ZStd regarding spaces/NL here.
-      // Z/Eves has a stricter encoding, yet it's allowed in certain places
-      // (e.g., ConjPara or within Proof Commands
-      result.append(NL_SEP); // sep chosen to be NL
+      // Using semicolon for all declaration lists, because Z/Eves expects
+      // semicolons in horizontal definitions, theorems, etc.
+      result.append(SC_SEP);
       d = it.next();
       result.append(d.accept(this));
     }
@@ -1693,11 +1697,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       throw new ZEvesIncompatibleASTException("Z/Eves conjectures must not have an empty predicate part.");
     }
 
-    // AV: quite a hack, but we cannot have NL in axiom part here, however they get generated in #visitZDeclList()
-    // TODO implement propertly - use semicolons in the generation
-    // Currently replacing NLs with semicolons
-    axiomPart = axiomPart.replace(NL_SEP, SC_SEP);
-
     ZEvesLabel l = ZEvesUtils.getLabel(term);
     if (l == null)
     {
@@ -1861,7 +1860,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       ConstDecl cd = (ConstDecl) term.getZSchText().getZDeclList().get(0);
       ZName hdefName = cd.getZName();
       Expr expr = cd.getExpr();
-      boolean isSchExpr = expr instanceof SchExpr || expr instanceof SchExpr2;
+      // Added a number of expression cases when &eqhat; symbol is needed (from Z-Eves API doc)
+      // TODO review whether this does not cause other problems, e.g. can an abbreviations have the same exprs?
+      boolean isSchExpr = expr instanceof SchExpr || expr instanceof SchExpr2
+          || expr instanceof HideExpr || expr instanceof ForallExpr || expr instanceof ExistsExpr
+          || expr instanceof Exists1Expr || expr instanceof NegExpr || expr instanceof PreExpr;
       String zboxItemName = isSchExpr ? getSchName(hdefName) : getDefLHS(hdefName);
       String zboxItemSymbol = isSchExpr ? "&eqhat;" : "==";
       String zboxItemExpr = getExpr(expr);
@@ -2393,8 +2396,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitSchExpr(SchExpr term)
   {
-    // TODO: Check whether this is ok or not.
-    return term.getSchText().accept(this).toString();
+    return "[" + term.getSchText().accept(this).toString() + "]";
   }
 
   @Override
@@ -2504,6 +2506,32 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   public String visitDecorExpr(DecorExpr term)
   {
     return getExpr(term.getExpr()) + term.getStroke().accept(this);
+  }
+  
+  @Override
+  public String visitRenameExpr(RenameExpr term) {
+	
+	String renamings = term.getZRenameList().accept(this);
+	return format(RENAME_EXPR_PATTERN, getExpr(term.getExpr()), renamings);
+  }
+  
+  @Override
+  public String visitZRenameList(ZRenameList term) {
+	
+	StringBuilder sb = new StringBuilder();
+
+    String delim = "";
+    for (NewOldPair pair : term) {
+      sb.append(delim).append(pair.accept(this));
+      delim = ",";
+    }
+
+    return sb.toString();
+  }
+
+  @Override
+  public String visitNewOldPair(NewOldPair term) {
+	return getName(term.getNewName()) + "/" + getName(term.getOldName());
   }
 
   @Override
