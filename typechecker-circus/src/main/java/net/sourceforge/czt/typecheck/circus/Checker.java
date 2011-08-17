@@ -1626,8 +1626,9 @@ public abstract class Checker<R>
   }
 
   @Override
-  protected ErrorAnn errorAnn(Term term, String error, Object... params)
+  protected ErrorAnn errorAnn(Term term, String error, Object[] params)
   {
+    // this method is very important to make sure the right "ErrorAnn" is created!
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
       sectName(), GlobalDefs.nearestLocAnn(term),
       markup());
