@@ -353,7 +353,7 @@ public class ExprChecker
 
       //add this for post-checking
       if (!containsObject(paraErrors(), bindSelExpr)) {
-        paraErrors().add(bindSelExpr);
+        addTermForPostChecking(bindSelExpr);
       }
     }
 
