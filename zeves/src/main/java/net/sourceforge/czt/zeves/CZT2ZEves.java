@@ -80,12 +80,21 @@ public class CZT2ZEves {
         Spec term = manager.get(new Key<Spec>(sourceName, Spec.class));//ParseUtils.parse(new FileSource(filename), manager);
         List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, manager);
         Iterator<? extends ErrorAnn> it = errors.iterator();
+        int foundWarnings = 0;
         while (it.hasNext())
         {
           if (it.next().getErrorType().equals(ErrorType.WARNING))
+          {
+            foundWarnings++;
             it.remove();
+          }
         }
-        if (errors.isEmpty()) {
+        if (foundWarnings != 0)
+        {
+          System.out.println("Found " + foundWarnings + " warnings. They are being ignored.");
+        }
+        if (errors.isEmpty())
+        {
             result = specToZEvesXML(term, manager);            
         } else {
             result = new ArrayList<String>();
