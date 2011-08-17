@@ -146,6 +146,11 @@ abstract public class Checker<R>
   {
     paraErrors().add(errorAnn);
   }
+
+  protected void addTermForPostChecking(Term term)
+  {
+    paraErrors().add(term);
+  }
   
   /**
    * Adds an error as an annotation to the term. Return true if and

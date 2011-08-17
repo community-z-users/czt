@@ -240,7 +240,7 @@ public class PredChecker
           if (undecAnn != null) {
             pair.getZName().getAnns().add(undecAnn);
             if (!containsObject(paraErrors(), exprPred)) {
-              paraErrors().add(exprPred);
+              addTermForPostChecking(exprPred);
             }
           }
           else {

@@ -244,6 +244,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     System.err.println("       -t     print global type declarations");
     System.err.println("       -b     print benchmarking times");
     System.err.println("       -h     hide warnings (cannot hide when raising!)");
+    System.err.println("       -o     show warnings");
     System.err.println("       -w     raise warnings as errors");
     System.err.println("      -cp <l> specify the value for czt.path as");
     System.err.println("              a semicolon-separated list of dirs");
@@ -254,17 +255,17 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     System.err.println("           b  buffer whole spec in memory (faster)");
     System.err.println("           i  retain informal narrative (no eliding)");
     System.err.println("\n");
-    System.err.println("Default flags are: \"" +
-        ((syntaxOnlyDefault() ? "-s " : "") +
-        (useBeforeDeclDefault() ? "-d " : "-n ") +
-        (recursiveTypesDefault() ? "-r " : "") +
-        (useNameIdsDefault() ? "-i " : "") +
-        (printZMLDefault() ? "-p " : "") + 
-        (printTypesDefault() ? "-t " : "") +
-        (printBenchmarkTimesDefault() ? "-b" : "") +
-        (warningOutputDefault().equals(WarningManager.WarningOutput.RAISE) ? "-w" :
-          warningOutputDefault().equals(WarningManager.WarningOutput.HIDE) ? "-h" : "") +
-        (useSpecReaderDefault() ? "-gb " : "")).trim() +
+    System.err.println("Default flags are: \"-" +
+        ((syntaxOnlyDefault() ? "s " : "") +
+        (useBeforeDeclDefault() ? "d " : "n ") +
+        (recursiveTypesDefault() ? "r " : "") +
+        (useNameIdsDefault() ? "i " : "") +
+        (printZMLDefault() ? "p " : "") + 
+        (printTypesDefault() ? "t " : "") +
+        (printBenchmarkTimesDefault() ? "b" : "") +
+        (warningOutputDefault().equals(WarningManager.WarningOutput.RAISE) ? "w" :
+          warningOutputDefault().equals(WarningManager.WarningOutput.HIDE) ? "h" : "") +
+        (useSpecReaderDefault() ? "gb " : "")).trim() +
         "\"");
   }
 
@@ -591,10 +592,10 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                 defaultFlags = false;
                 manager.setProperty(PROP_TYPECHECK_RECURSIVE_TYPES, String.valueOf(recursiveTypes));
                 break;
-	      case 'd':
-		useBeforeDecl = true;
-		defaultFlags = false;
-manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
+              case 'd':
+                useBeforeDecl = true;
+                defaultFlags = false;
+                manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
               case 't':
                 printTypes = true;
                 defaultFlags = false;
@@ -611,6 +612,11 @@ manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl
                 useNameIds = true;
                 defaultFlags = false;
                 manager.setProperty(PROP_TYPECHECK_USE_NAMEIDS, String.valueOf(useNameIds));
+                break;
+              case 'o':
+                warningOutput = WarningManager.WarningOutput.SHOW;
+                defaultFlags = false;
+                manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
                 break;
               case 'w':
                 warningOutput = WarningManager.WarningOutput.RAISE;

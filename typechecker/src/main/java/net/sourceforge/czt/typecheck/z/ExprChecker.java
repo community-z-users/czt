@@ -99,7 +99,7 @@ public class ExprChecker
 
     //add this reference for post checking
     if (!containsObject(paraErrors(), refExpr)) {
-      paraErrors().add(refExpr);
+      addTermForPostChecking(refExpr);
     }
 
     //if this is undeclared, create an unknown type with this RefExpr
@@ -329,7 +329,7 @@ public class ExprChecker
     //error list for future evalutation
     if (resolve(innerType) instanceof VariableType &&
         !containsObject(paraErrors(), setExpr)) {
-      paraErrors().add(setExpr);
+       addTermForPostChecking(setExpr);
     }
 
     //create the type of this expr
@@ -1044,7 +1044,7 @@ public class ExprChecker
           if (undecAnn != null) {
             pair.getZName().getAnns().add(undecAnn);
             if (!containsObject(paraErrors(), thetaExpr)) {
-              paraErrors().add(thetaExpr);
+              addTermForPostChecking(thetaExpr);
             }
           }
 
