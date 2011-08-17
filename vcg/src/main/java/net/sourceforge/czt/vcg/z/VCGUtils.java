@@ -22,6 +22,7 @@ package net.sourceforge.czt.vcg.z;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
@@ -1188,6 +1189,72 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     }
     //System.err.flush();
   }
+  
+  public static List<? extends Throwable> handleVCGException(VCGException e, String jobName)
+  {
+    String extra = "";
+    int vcgErrors = 0;
+    int parsingErrors = 0;
+    int typeErrors = 0;
+    List<Throwable> result = new ArrayList<Throwable>();
+    // if VCG during collection, expose possible def tbl errors
+    if (e instanceof VCCollectionException && e.getCause() instanceof VCGException)
+    {
+      if (e.getCause().getCause() instanceof DefinitionException)
+      {
+        DefinitionException de = ((DefinitionException)e.getCause().getCause());
+        vcgErrors += de.totalNumberOfErrors();
+        extra = ((DefinitionException)e.getCause().getCause()).getMessage();
+        result.add(de);
+      }
+      else
+      {
+        vcgErrors++;
+        extra = e.getCause().getMessage();
+        result.add(e.getCause());
+      }
+    }
+    // if VCG during CmdExp try to get parse / type errors
+    else if (e.getCause() instanceof CommandException)
+    {
+      CommandException vcge = (CommandException)e.getCause();
+      if (vcge.getCause() instanceof ParseException)
+      {
+        ParseException pe = (ParseException)vcge.getCause();
+        parsingErrors += pe.getErrors().size();
+        result.add((ParseException)vcge.getCause());
+      }
+      else if (vcge.getCause() instanceof TypeErrorException)
+      {
+        TypeErrorException te = (TypeErrorException)vcge.getCause();
+        typeErrors += te.getErrors().size();
+        result.add((TypeErrorException)vcge.getCause());
+      }
+      else
+      {
+        extra = vcge.getMessage();
+        result.add(vcge);
+      }
+      vcgErrors++;
+    }
+    else
+    {
+      vcgErrors++;
+      extra = e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+      if (e.getCause() != null)
+        result.add(e.getCause());
+    }
+    RuntimeException rte = new RuntimeException("VCG exception has happened while " + jobName
+                       + "\n\t message = " + e.getMessage()
+                       + "\n\t cause   = " + (e.getCause() != null ? e.getCause().getMessage() : "none")
+                       + "\n\t parser  = " + parsingErrors + " errors"
+                       + "\n\t typechk = " + typeErrors + " errors"
+                       + "\n\t vcgerr  = " + vcgErrors + " errors"
+                       + "\n\t clue    = " + extra);
+    result.add(0, rte);
+    return result;
+  }
+
 
   /* UTILITY CLASS STATIC METHODS */
 

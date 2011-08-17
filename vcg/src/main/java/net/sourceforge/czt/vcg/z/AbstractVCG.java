@@ -41,6 +41,7 @@ import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefinitionException;
+import net.sourceforge.czt.vcg.util.DefinitionTableService;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Decl;
@@ -363,6 +364,9 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
         throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR");
       }
       getVCCollector().getTransformer().setApplyTransformer(applyTransf);
+
+      // override the Z DefTable cmd
+      sectManager_.putCommand(DefinitionTable.class, DefinitionTableService.getCommand(sectManager_));
 
       doConfig();
       
