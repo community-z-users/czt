@@ -55,27 +55,16 @@ public class SchTextChecker
     super(typeChecker);
   }
 
+  @Override
   public Signature visitZSchText(ZSchText zSchText)
   {
-    //get and visit the list of declarations
-    DeclList declList = zSchText.getDeclList();
-
     //get the list of Names declared in this schema text
-    List<NameTypePair> pairs = declList.accept(declChecker());
+    List<NameTypePair> pairs = checkSchTextDeclPart(zSchText);
 
     //add the pairs to the type environment
     typeEnv().add(pairs);
 
-    //get and visit the pred
-    Pred pred = zSchText.getPred();
-    if (pred != null) {
-      UResult solved = (UResult) pred.accept(predChecker());
-      //if the are unsolved unifications in this predicate,
-      //visit it again
-      if (solved == PARTIAL) {
-        pred.accept(predChecker());
-      }
-    }
+    checkSchTextPredPart(zSchText);
 
     //check for duplicate names
     checkForDuplicates(pairs, null);

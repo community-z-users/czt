@@ -1188,6 +1188,32 @@ abstract public class Checker<R>
     return result;
   }
 
+  protected void checkSchTextPredPart(ZSchText zSchText)
+  {
+    //get and visit the pred
+    Pred pred = zSchText.getPred();
+    if (pred != null) {
+      UResult solved = pred.accept(predChecker());
+      //if the are unsolved unifications in this predicate,
+      //visit it again
+      if (solved == PARTIAL) {
+        pred.accept(predChecker());
+      }
+    }
+  }
+
+  protected List<NameTypePair> checkSchTextDeclPart(ZSchText zSchText)
+  {
+    //get and visit the list of declarations
+    DeclList declList = zSchText.getDeclList();
+
+    //get the list of Names declared in this schema text
+    List<NameTypePair> pairs = declList.accept(declChecker());
+
+    return pairs;
+  }
+
+
   // allow for different kind of RenameExpr RenameList within
   protected void addNameIDs(RenameExpr renameExpr)
   {
