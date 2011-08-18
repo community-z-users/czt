@@ -90,6 +90,11 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	}
 	
 	private static FeasibilityVCG initFeasibilityVcg(SectionManager sectInfo) {
+		
+		if (sectInfo == null) {
+			return null;
+		}
+		
 		FeasibilityVCG fsbVcg = new FeasibilityVCG();
 		try {
 			fsbVcg.setSectionManager(sectInfo.clone());
