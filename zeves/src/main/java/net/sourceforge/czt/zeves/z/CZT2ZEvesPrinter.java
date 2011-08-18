@@ -2426,7 +2426,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
                                            + "include such declarations implicitly whenever possible, while translating the binding selection itself. "
                                            + "Check whether a new version with such feature is available."));
     }
-    return format(THETA_EXPR_PATTERN, getExpr(term.getExpr()));
+    return format(THETA_EXPR_PATTERN, getExpr(term.getExpr()), getStrokes(term.getZStrokeList()));
   }
 
   @Override

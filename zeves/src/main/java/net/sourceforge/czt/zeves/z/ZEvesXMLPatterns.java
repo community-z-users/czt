@@ -260,12 +260,13 @@ public interface ZEvesXMLPatterns {
     
     /**
      * {0} expression       => getExpr(term.getExpr());
+     * {1} strokes          => getStrokes(term.getZStrokeList());
      *
      * NOTE: The expression can represent either a schema-ref dealt with through
      *       RefExpr or DecorExpr, or schema-ref replacements dealt with through
      *       a RenameExpr.
      */
-    public static final String THETA_EXPR_PATTERN = "&theta; {0}";
+    public static final String THETA_EXPR_PATTERN = "&theta; {0} {1}";
     
     /**
      * {0} expression   => getExpr(term.getExpr());
@@ -273,7 +274,7 @@ public interface ZEvesXMLPatterns {
      * NOTE: For Z/Eves XML, CZT PowerExpr is just a special kind of var-name
      *       within expression-3, as there is no specific production for it.
      */
-    public static final String POWER_EXPR_PATTERN = "&Popf; {0}";
+    public static final String POWER_EXPR_PATTERN = "&Popf; ({0})";
     
     /**
      * {0} expression   => getExpr(term.getLeftExpr());
