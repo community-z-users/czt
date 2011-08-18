@@ -20,6 +20,7 @@ package net.sourceforge.czt.print.zeves;
 
 import java.util.Properties;
 import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
@@ -29,6 +30,7 @@ import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ParenAnn;
 import net.sourceforge.czt.z.ast.RenameExpr;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.util.WarningManager;
@@ -66,6 +68,8 @@ public class ZEvesPrintVisitor
 {
 
   private final WarningManager warningManager_;
+
+  private boolean withinWithCmdNameList_ = false;
 
   /**
    * Creates a new Object-Z print visitor.
@@ -228,6 +232,16 @@ public class ZEvesPrintVisitor
   }
 
   @Override
+  protected void print(Token token)
+  {
+    if (withinWithCmdNameList_ &&
+            (token.equals(ZToken.LPAREN) || token.equals(ZToken.RPAREN)))
+      return;
+    else
+      super.print(token);
+  }
+
+  @Override
   public Object visitWithCommand(WithCommand term)
   {
     print(ZEvesProofKeyword.WITH);
@@ -257,7 +271,9 @@ public class ZEvesPrintVisitor
         throw new PrintException("with enabled/disabled command cannot have expr or pred and name list must not be empty");
       print(term.getEnabled() ? ZEvesProofKeyword.ENABLED : ZEvesProofKeyword.DISABLED);
       print(ZToken.LPAREN);
+      withinWithCmdNameList_ = true;
       visit(term.getNameList());
+      withinWithCmdNameList_ = false;
       print(ZToken.RPAREN);
     }
     else
