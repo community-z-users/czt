@@ -23,13 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.z.ast.ExprPred;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.QntPred;
-import net.sourceforge.czt.z.visitor.ExprPredVisitor;
 import net.sourceforge.czt.z.visitor.PredVisitor;
-import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
@@ -43,8 +39,8 @@ public class PredChecker
         extends Checker<UResult>
         implements
             // AndPredVisitor<UResult>,
-            QntPredVisitor<UResult>,
-            ExprPredVisitor<UResult>,
+            //QntPredVisitor<UResult>,
+            //ExprPredVisitor<UResult>,
             PredVisitor<UResult>
 {
 
@@ -103,6 +99,12 @@ public class PredChecker
     return result;
   }
 
+  /**
+   * ZEves actually allows undeclared names in any pred within ConjPara, not just
+   * QntPred or ExprPred
+   * @param term
+   * @return
+   */
   @Override
   public UResult visitPred(Pred term)
   {
@@ -119,13 +121,13 @@ public class PredChecker
    * @param term
    * @return
    */
-  @Override
-  public UResult visitQntPred(QntPred term)
-  {
-    processZLabel(term);
-    UResult result = considerUndeclaredNamesFor(term);
-    return result;
-  }
+//  @Override
+//  public UResult visitQntPred(QntPred term)
+//  {
+//    processZLabel(term);
+//    UResult result = considerUndeclaredNamesFor(term);
+//    return result;
+//  }
 
   /**
    * Another case where names are implicitly in context is schemas as predicates.
@@ -140,17 +142,17 @@ public class PredChecker
    * @param term
    * @return
    */
-  @Override
-  public UResult visitExprPred(ExprPred term)
-  {
-    // check for labels - unlikely
-    processZLabel(term);
-
-    // check if need to add IgnoreUndeclaredErrAnn to this term
-    // likely to be true: within a ConjPara, a schema set of names is to be treated differently
-    UResult result = considerUndeclaredNamesFor(term);
-    return result;
-  }
+//  @Override
+//  public UResult visitExprPred(ExprPred term)
+//  {
+//    // check for labels - unlikely
+//    processZLabel(term);
+//
+//    // check if need to add IgnoreUndeclaredErrAnn to this term
+//    // likely to be true: within a ConjPara, a schema set of names is to be treated differently
+//    UResult result = considerUndeclaredNamesFor(term);
+//    return result;
+//  }
 
 //  @Override
 //  public UResult visitAndPred(AndPred term)
