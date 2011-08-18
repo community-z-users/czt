@@ -122,12 +122,12 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
 
   /* CLASS SETUP METHOS */
 
-  public AbstractVCG()
+  protected AbstractVCG()
   {
     this(ZUtils.createConsoleFactory());
   }
 
-  public AbstractVCG(Factory factory)
+  protected AbstractVCG(Factory factory)
   {
     super(factory);
     assert factory != null;

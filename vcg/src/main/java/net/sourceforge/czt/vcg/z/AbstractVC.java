@@ -20,6 +20,7 @@
 package net.sourceforge.czt.vcg.z;
 
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.ConjPara;
@@ -36,7 +37,7 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @date Dec 24, 2010
  * $Id$
  */
-public abstract class AbstractVC<R> implements VC<R>
+public abstract class AbstractVC<R> implements VC<R>, VCNameFactory
 {
   private final LocAnn loc_;
   private String name_;
@@ -81,6 +82,11 @@ public abstract class AbstractVC<R> implements VC<R>
 
     // create a candidate VC name
     name_ = createVCName(term);
+  }
+
+  public final String createNameForVCOf(Para para)
+  {
+    return createVCName(para);
   }
 
   /**

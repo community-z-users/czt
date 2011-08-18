@@ -378,7 +378,11 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
                 && mixedBindings.containsAll(beforeBindings)
                 && (beforeBindings.size() + afterBindings.size() == mixedBindings.size());
 
+      // if either before or after bindings are empty, then this is a existential proof
+      // that is, an initialisation proof for the state say.
       boolean existential = beforeBindings.isEmpty() || afterBindings.isEmpty();
+
+      // if both bindings are empty, then this is a degenerate case, and there is nothing todo.
       boolean notihngtodo = beforeBindings.isEmpty() && afterBindings.isEmpty();
 
       // create the zSchText of assumptions and set the precondition to the user-suplied predicate

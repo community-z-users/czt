@@ -91,8 +91,8 @@ public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPrope
   protected String printToolDefaultFlagsUsage()
   {
     return (super.printToolDefaultFlagsUsage()
-              + (getFeasibility().isAddingNonemptyGivenSetVC() ? "-g " : "")
-              + (getFeasibility().isCreatingZSchemas() ? "-z " : ""));
+              + (getFeasibility().isAddingNonemptyGivenSetVC() ? " -g " : "")
+              + (getFeasibility().isCreatingZSchemas() ? " -z " : ""));
   }
 
   @Override

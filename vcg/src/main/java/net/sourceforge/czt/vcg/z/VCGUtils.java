@@ -179,7 +179,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
               + (getVCG().isProcessingParents() ? "-p " : "")
               + (getVCG().isAddingTrivialVC() ? "-t " : "")
               + (getVCG().getVCCollector().getTransformer().isApplyingTransformer() ? "-r " : "")
-              + (getVCG().isRaisingTypeWarnings() ? "-w" : "")
+              + (getVCG().isRaisingTypeWarnings() ? "-w " : "")
               + ("-m" + preferedMarkupDefault()).trim());
   }
 
@@ -207,7 +207,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     printToolUsage();
     System.err.println("\n");
     System.err.println("Default flags are: \""
-                       + printToolDefaultFlagsUsage()
+                       + printToolDefaultFlagsUsage().trim()
                        + "\"\n");
   }
 
@@ -599,7 +599,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     if (args.length == 0)
     {
       printUsage();
-      System.exit(-1);
+      System.exit(0);
     }
 
     // retrieve section manager and update its CZT properties.

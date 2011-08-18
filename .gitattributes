@@ -909,6 +909,7 @@ vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTable.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTableService.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTableVisitor.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/UnificationEnv.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/VCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVCG.java -text
