@@ -23,6 +23,8 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.OptempParaVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 
 import org.eclipse.swt.graphics.Image;
 
@@ -39,7 +41,8 @@ public class NodeIconVisitor
       FreeParaVisitor<Image>,
       OptempParaVisitor<Image>,
       ConstDeclVisitor<Image>,
-      VarDeclVisitor<Image>
+      VarDeclVisitor<Image>,
+      ProofScriptVisitor<Image>
 {
 
   /*
@@ -103,6 +106,14 @@ public class NodeIconVisitor
   public Image visitOptempPara(OptempPara optempPara)
   {
     return CZTPluginImages.get(CZTPluginImages.IMG_OPTEMPPARA);
+  }
+  
+  /**
+   * @see net.sourceforge.czt.z.visitor.ProofScriptVisitor#visitProofScript(net.sourceforge.czt.z.ast.ProofScript)
+   */
+  public Image visitProofScript(ProofScript proofScript)
+  {
+    return CZTPluginImages.get(CZTPluginImages.IMG_PROOFSCRIPT);
   }
 
   /*

@@ -59,6 +59,10 @@ public class CZTPluginImages
 
   public static final String IMG_OPTEMPPARA = NAME_PREFIX + "optemp16.png"; //$NON-NLS-1$
   
+  public static final String IMG_PROOFSCRIPT = NAME_PREFIX + "proofscript16.png"; //$NON-NLS-1$
+  
+  public static final String IMG_Z_ELEMENT = NAME_PREFIX + "zelem16.png"; //$NON-NLS-1$
+  
   public static final String IMG_COMPLETE_TREE = NAME_PREFIX + "complete_tree.gif"; //$NON-NLS-1$
 
   /*
@@ -87,6 +91,12 @@ public class CZTPluginImages
 
   public static final ImageDescriptor DESC_OPTEMPPARA = createManagedFromKey(
       T_OBJ, IMG_OPTEMPPARA); //$NON-NLS-1$
+  
+  public static final ImageDescriptor DESC_PROOFSCRIPT = createManagedFromKey(
+      T_OBJ, IMG_PROOFSCRIPT); //$NON-NLS-1$
+  
+  public static final ImageDescriptor DESC_Z_ELEMENT = createManagedFromKey(
+      T_OBJ, IMG_Z_ELEMENT); //$NON-NLS-1$
   
   public static final ImageDescriptor DESC_COMPLETE_TREE = createManagedFromKey(
       T_ELCL, IMG_COMPLETE_TREE); //$NON-NLS-1$

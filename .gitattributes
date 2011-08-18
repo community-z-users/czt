@@ -134,8 +134,10 @@ eclipse/czteditor/icons/obj16/def16.png -text
 eclipse/czteditor/icons/obj16/free16.png -text
 eclipse/czteditor/icons/obj16/given16.png -text
 eclipse/czteditor/icons/obj16/optemp16.png -text
+eclipse/czteditor/icons/obj16/proofscript16.png -text
 eclipse/czteditor/icons/obj16/schema16.png -text
 eclipse/czteditor/icons/obj16/zed16.png -text
+eclipse/czteditor/icons/obj16/zelem16.png -text
 eclipse/czteditor/icons/ovr16/error_ovr.gif -text
 eclipse/czteditor/icons/ovr16/warning_ovr.gif -text
 eclipse/czteditor/icons/sample.gif -text
@@ -266,7 +268,7 @@ eclipse/zeves/build.properties -text svneol=unset#text/plain
 eclipse/zeves/icons/conj.png -text
 eclipse/zeves/icons/refresh.gif -text
 eclipse/zeves/icons/reset.gif -text
-eclipse/zeves/icons/submitToPoint.png -text
+eclipse/zeves/icons/submit_point.png -text
 eclipse/zeves/icons/thm_proved.gif -text
 eclipse/zeves/icons/thm_unproved.gif -text
 eclipse/zeves/icons/utf.png -text

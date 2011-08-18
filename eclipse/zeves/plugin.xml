@@ -82,7 +82,7 @@
                id="net.sourceforge.czt.eclipse.zeves.toolbar">
             <command
                   commandId="net.sourceforge.czt.eclipse.zeves.submitToPoint"
-                  icon="icons/submitToPoint.png"
+                  icon="icons/submit_point.png"
                   style="push">
             </command>
          </toolbar>

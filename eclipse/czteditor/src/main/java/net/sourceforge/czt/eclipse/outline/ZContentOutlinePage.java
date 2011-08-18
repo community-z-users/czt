@@ -41,8 +41,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
@@ -287,9 +285,12 @@ public class ZContentOutlinePage extends ContentOutlinePage
         }
       }
 
-      // always use some icon - needed for overlays
-      return PlatformUI.getWorkbench().getSharedImages().getImage(
-          ISharedImages.IMG_OBJ_ELEMENT);
+      // use default Z element icon
+      return CZTPluginImages.get(CZTPluginImages.IMG_Z_ELEMENT);
+      
+//      // always use some icon - needed for overlays
+//      return PlatformUI.getWorkbench().getSharedImages().getImage(
+//          ISharedImages.IMG_OBJ_ELEMENT);
     }
 
     @Override
