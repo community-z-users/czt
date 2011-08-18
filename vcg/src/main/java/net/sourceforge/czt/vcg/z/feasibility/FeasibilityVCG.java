@@ -29,12 +29,14 @@ import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VC;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCCollector;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -165,19 +167,19 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
 
   /* VC CALCULATION TERM VISITING METHODS */
 
-//  @Override
-//  protected void beforeGeneratingVCG(ZSect zSect) throws VCCollectionException
-//  {
-//    super.beforeGeneratingVCG(zSect);
-//    loadDCToolkit();
-//  }
+  @Override
+  protected void beforeGeneratingVCG(ZSect zSect) throws VCCollectionException
+  {
+    super.beforeGeneratingVCG(zSect);
+    assert getVCCollector() instanceof FeasibilityVCCollector;
+    ((FeasibilityVCCollector)getVCCollector()).clearAddedPara();
+  }
 
-//  @Override
-//  protected void afterGeneratingVCG(ZSect zSect, List<VC<Pred>> vcList) throws VCCollectionException
-//  {
-//    // TODO: anything to do here?
-//    super.afterGeneratingVCG(zSect, vcList);
-//  }
+  @Override
+  protected void afterGeneratingVCG(ZSect zSect, List<VC<Pred>> vcList) throws VCCollectionException
+  {
+    super.afterGeneratingVCG(zSect, vcList);
+  }
 
   /* VC ZSect CREATION METHODS */
 

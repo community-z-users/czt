@@ -18,10 +18,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.vcg.z.feasibility;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.z.util.Factory;
@@ -93,6 +96,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   private final ZName setInterName_;
   private final ZName freeTypeCtorOpName_;
 
+  private final Map<ZName, AxPara> addedSigSchemas_;
+
   /**
    * 
    */
@@ -116,6 +121,18 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     dash_ = factory_.createNextStroke();
     setInterName_ = factory_.createZName(ZString.ARG_TOK+ZString.CAP+ZString.ARG_TOK);
     freeTypeCtorOpName_ = factory_.createZName(ZString.ARG_TOK+ZString.INJ+ZString.ARG_TOK);
+    addedSigSchemas_ = new TreeMap<ZName, AxPara>(ZUtils.ZNAME_COMPARATOR);
+  }
+
+  protected void clearAddedPara()
+  {
+    addedSigSchemas_.clear();
+  }
+
+  @Override
+  public Collection<? extends Para> addedPara()
+  {
+    return addedSigSchemas_.values();
   }
   
   @Override
@@ -180,7 +197,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
 
   /**
    * Calculates DC for given term (i.e. visits term). As some Z productions have
-   * null terms, like AxPara \begin{axdef} x: \nat \end{axdef} has null predicate,
+   * null terms , like AxPara \begin{axdef} x: \nat \end{axdef} has null predicate,
    * implementations should take care of such situations accordingly. For null terms
    * in this collector, we presume a harmless DC condition (e.g., true).
    * @param term
@@ -353,6 +370,11 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
             factory_.list(factory_.createVarDecl(factory_.createZNameList(factory_.list(horizDef.getDefName())), expr))), truePred());
   }
 
+  protected String getSigSchemaSuffix()
+  {
+    return "Sig";
+  }
+
   // FSB(S == [D | P]) ==> before(D)  = {} XOR after(D) = {} => \exists bindings(S) @ P
   // FSB(S == [D | P]) ==> before(D) != {} &&  after(D)!= {} => \forall before(D) | userPre(Op) @ \exists after(D) @ P
   // FSB(S == [D | P]) ==> before(D)  = {} &&  after(D) = {} => P, where its free variables must be in (type-) context
@@ -395,6 +417,12 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName));
 
       AxPara schNameSigSchema = null;
+      ZName schSigName = null;
+
+      if (isCreatingZSchemas())
+      {
+        schSigName = factory_.createZName(schName.getWord() + getSigSchemaSuffix(), schName.getStrokeList());
+      }
 
       // only consider precondition predicates for schemas with after variables
       // schemas with before variables should have a existential proof!
@@ -418,7 +446,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         }
         else
         {
-          schNameSigSchema = predTransformer_.createSchExpr(schDef.getGenericParams(), schName, fsbAssumptions);
+
+          schNameSigSchema = predTransformer_.createSchExpr(schDef.getGenericParams(), schSigName, fsbAssumptions);
           // create the conclusions as a Z-centric \pre SchRef operator
           result = predTransformer_.forAllPred(fsbAssumptions,
                   factory_.createExprPred(factory_.createPreExpr(schRef)));
@@ -434,7 +463,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         }
         else
         {
-          schNameSigSchema = predTransformer_.createSchExpr(schDef.getGenericParams(), schName, fsbAssumptions);
+          schNameSigSchema = predTransformer_.createSchExpr(schDef.getGenericParams(), schSigName, fsbAssumptions);
 
           // still to differentiate these two.
           result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
@@ -449,7 +478,14 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       // if anything got created
       if (schNameSigSchema != null)
       {
-        // TODO: add AxPara to section? and make it a reference instead of fsbAssumptions
+        int cnt = 0;
+        AxPara old = addedSigSchemas_.put(schSigName, schNameSigSchema);
+        while (old != null)
+        {
+          schSigName.setWord(schSigName.getWord() + cnt);
+          old = addedSigSchemas_.put(schSigName, schNameSigSchema);
+          cnt++;
+        }
       }
       return result;
     }

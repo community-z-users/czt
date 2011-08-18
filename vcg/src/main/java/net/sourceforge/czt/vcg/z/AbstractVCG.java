@@ -20,8 +20,10 @@
 package net.sourceforge.czt.vcg.z;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +50,8 @@ import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Para;
@@ -993,6 +997,13 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
             new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use getVCCollector().getTransformer()!"));
   }
 
+  @Override
+  public Collection<? extends Para> addedPara()
+  {
+    throw new CztException(
+            new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use getVCCollector().addedPara()!"));
+  }
+
   /* VC ZSect CREATION METHODS */
 
   /**
@@ -1119,6 +1130,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     return result.toString();
   }
 
+  private static final String ADDED_PARA_NARR_PARA = "\nAdded schema for feasibility VC signature of paragraph named {0} at {1}.\n";
+
   /**
    * Adds to the given VC Z section the list of VCs for each
    * corresponding paragraph as a conjecture paragraph. It updates the Z section
@@ -1138,6 +1151,22 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     NarrPara narrPara = factory_.createNarrPara(factory_.list(narrText));
     result.getZParaList().add(narrPara);
     boolean addTrivialVC = isAddingTrivialVC();
+
+    // during VCCollection some paras might be added
+    for(Para p : getVCCollector().addedPara())
+    {
+      LocAnn loc = p.getAnn(LocAnn.class);
+      Name n = ZUtils.getSchemaName(p);
+      final String name;
+      if (n != null)
+        name = ZUtils.toStringZName(ZUtils.assertZName(n));
+      else
+        name = "unknown";
+      narrPara = factory_.createNarrPara(factory_.list(
+              MessageFormat.format(ADDED_PARA_NARR_PARA, name, loc != null ? loc.toString() : "unknown")));
+      result.getZParaList().add(narrPara);
+      result.getZParaList().add(p);
+    }
 
     int vcCount = 0;
     // process each Para DC
@@ -1288,7 +1317,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     // get the VCs from term sectName
     List<VC<R>> vcList = calculateVCS(term);
 
-    // update the VC ZSect and add it to the SectionManager
+    // update t he VC ZSect and add it to the SectionManager
     // it is accessible as manager.get(new Key<ZSect>(sectName + VCG_GENERAL_NAME_SUFFIX, ZSect.class));
     populateResultsToVCZSect(zsectVC, vcList);
 
