@@ -25,7 +25,9 @@ import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.QntPred;
 import net.sourceforge.czt.z.visitor.PredVisitor;
+import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
@@ -39,6 +41,7 @@ public class PredChecker
         extends Checker<UResult>
         implements
             // AndPredVisitor<UResult>,
+            QntPredVisitor<UResult>,
              PredVisitor<UResult>
 {
 
@@ -74,8 +77,7 @@ public class PredChecker
     return result;
   }
 
-  @Override
-  public UResult visitPred(Pred term)
+  protected void processZLabel(Pred term)
   {
     ZEvesLabel label = ZEvesUtils.getLabel(term);
     if (label != null)
@@ -84,7 +86,26 @@ public class PredChecker
       factory().addNameID(label.getName());
       labelledPreds_.add(new Pair<Pred, ZEvesLabel>(term, label));
     }
+  }
+
+  @Override
+  public UResult visitPred(Pred term)
+  {
+    processZLabel(term);
     return term.accept(zPredChecker_);
+  }
+
+  @Override
+  public UResult visitQntPred(QntPred term)
+  {
+    processZLabel(term);
+    boolean ignoreNames = ignoreUndeclaredNames();
+    if (ignoreNames)
+      enterQntPredScope();
+    UResult result = term.accept(zPredChecker_);
+    if (ignoreNames)
+      exitQntPredScope();
+    return result;
   }
 
 //  @Override

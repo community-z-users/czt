@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.zeves;
 
+import java.util.Stack;
 import net.sourceforge.czt.parser.util.ThmTable;
 import net.sourceforge.czt.parser.zeves.ProofTable;
 import net.sourceforge.czt.session.SectionManager;
@@ -53,6 +54,13 @@ public class TypeChecker
    */
   protected boolean ignoreUndeclaredNames_ = false;
 
+  /**
+   * Stack of QntPred contexts used to flag whether or not to tag undeclared names as ignoreable.
+   * That is, names within QntPred DeclPart shouldn't be ignored (E.g., for the case of ingen/pregen
+   * operators given inline with args - see zevesopt.tex example).
+   */
+  protected final Stack<Boolean> qntPredStack_;
+
 
   public TypeChecker(net.sourceforge.czt.typecheck.zeves.impl.Factory factory,
                      SectionManager sectInfo)
@@ -69,6 +77,8 @@ public class TypeChecker
     // create all the checkers as default - for Z
     super(factory, sectInfo, recursiveTypes, sortDeclNames);
 
+    qntPredStack_ = new Stack<Boolean>();
+
     // make sure specChecker is the first checker created
     // this is important because it creates the "Synch" channel
     // into the sectTypeEnv(), which is looked up by the
@@ -78,6 +88,7 @@ public class TypeChecker
     exprChecker_ = new ExprChecker(this);
     predChecker_ = new PredChecker(this);
     postChecker_ = new PostChecker(this);
+    schTextChecker_ = new SchTextChecker(this);
 
     proofCommandChecker_ = new ProofCommandChecker(this);
     

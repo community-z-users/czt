@@ -40,6 +40,7 @@ import net.sourceforge.czt.z.ast.ThetaExpr;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zeves.ast.Instantiation;
@@ -183,12 +184,40 @@ public abstract class Checker<R>
     getTypeChecker().ignoreUndeclaredNames_ = v;
   }
 
+  protected void enterQntPredScope()
+  {
+    getTypeChecker().qntPredStack_.push(true);
+  }
+
+  protected void exitQntPredScope()
+  {
+    getTypeChecker().qntPredStack_.pop();
+  }
+
+  protected boolean withinQntPredScope()
+  {
+    return !getTypeChecker().qntPredStack_.isEmpty();
+  }
+
   protected boolean shouldIgnoreUndeclaredNamesIn(Term term)
   {
-    return term instanceof RefExpr ||
+    return (term instanceof RefExpr ||
             term instanceof ThetaExpr ||
             term instanceof SetExpr ||
-            term instanceof ExprPred;
+            term instanceof ExprPred) &&
+            withinQntPredScope();
+  }
+
+  @Override
+  protected void checkSchTextPredPart(ZSchText zSchText)
+  {
+    super.checkSchTextPredPart(zSchText);
+  }
+
+  @Override
+  protected List<NameTypePair> checkSchTextDeclPart(ZSchText zSchText)
+  {
+    return super.checkSchTextDeclPart(zSchText);
   }
 
   protected void checkIfNeedIgnoreUndeclNameTag(Term term)
@@ -233,7 +262,7 @@ public abstract class Checker<R>
             (error.equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER) ||
              error.equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR)))
     {
-      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, result.toString());
+      result = errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), result.toString() });
       result.setErrorType(ErrorType.WARNING);
     }
     return result;

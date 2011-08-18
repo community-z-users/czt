@@ -52,7 +52,9 @@ public class PostChecker
             (result.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER.toString()) ||
              result.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR.toString())))
     {
-      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, result.toString());
+//      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, term.getClass().getName() + " = " + result.toString());
+//      result = null;//result.setErrorType(ErrorType.WARNING);
+      result = errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), result.toString() });
       result.setErrorType(ErrorType.WARNING);
     }
     return result;

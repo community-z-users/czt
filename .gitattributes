@@ -849,6 +849,7 @@ typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ParaChecker.
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/PostChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/PredChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/ProofCommandChecker.java -text
+typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/SchTextChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/SpecChecker.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/TypeCheckCommand.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/TypeCheckResources.java -text
@@ -869,11 +870,13 @@ typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.zed8 -te
 typechecker-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/smalltest.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/undeclaredGenOpTempName-UndeclaredIdentifier.error -text
 typechecker-zeves/src/test/resources/tests/zeves/undeclaredNamesInTheoremAsWarnings.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesability.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabels.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabels.zed8 -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabelsDuplicate-RedeclaredGlobalName.error -text
+typechecker-zeves/src/test/resources/tests/zeves/zevesopt.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesrenaming.tex -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/impl/AnnImpl.java -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/util/DependencyGraph.java -text

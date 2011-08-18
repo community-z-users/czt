@@ -44,6 +44,7 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZBranchList;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -220,10 +221,10 @@ public class TypeCheckerTest
     Source source = new FileSource(file);
     Markup markup = Markup.getMarkup(file);
     source.setMarkup(Markup.getMarkup(file));
-    System.out.println("About to parse as " + markup + " file " + file);
+    System.out.println("\tabout to parse as " + markup + " file " + file);
     manager.put(new Key<Source>(file, Source.class), source);
     Term term = manager.get(new Key<Spec>(file, Spec.class));
-    if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
+    if (/*DEBUG_TESTING &&*/ DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
         PrintVisitor pv = new PrintVisitor();
         System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + file);        
@@ -235,7 +236,15 @@ public class TypeCheckerTest
     return term;
   }
   
-  protected List typecheck(Term term, SectionManager manager)
+  /**
+   *
+   * @param term
+   * @param manager
+   * @return
+   * @throws Exception
+   */
+  @Override
+  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term, SectionManager manager)
     throws Exception
   {
     return TypeCheckUtils.typecheck(term,
@@ -264,6 +273,13 @@ public class TypeCheckerTest
       file_ = file;
     }
 
+    @Override
+    public String toString()
+    {
+      return getClass().getName() + " = " + file_;
+    }
+
+    @Override
     public void runTest()
     {
       SectionManager manager = getManager();
@@ -319,9 +335,14 @@ public class TypeCheckerTest
               "\nError: " + errorAnn.toString());
             break;
           }
+          else
+          {
+            System.out.println("\t found and ignored warning : " + errorAnn.toString());
+          }
         }
       }
-      System.out.println("Successfully typechecked " + file_);
+      else
+        System.out.println("\tsuccessfully typechecked " + file_);
     }
   }
   
@@ -338,6 +359,14 @@ public class TypeCheckerTest
       exception_ = exception;
     }
 
+    @Override
+    public String toString()
+    {
+      return getClass().getName() + " = " + file_ + " EXP = " + exception_;
+    }
+
+
+    @Override
     public void runTest()
     {
       SectionManager manager = getManager();
@@ -378,7 +407,7 @@ public class TypeCheckerTest
           "\n\tFile: " + file_ +
           "\n\tException: " + e.toString());
       }
-      if (errors.size() == 0)
+      if (errors.isEmpty())
       {
         fail("\nNo type error found" +
           "\n\tFile: " + file_ +
@@ -400,8 +429,11 @@ public class TypeCheckerTest
         }
         if (!foundCorrectError)
         {
+          System.out.println("\tfound errors but while looking for " + exception_ + " error we found " + actual);
           incorrectError(actual);
         }
+        else
+          System.out.println("\tsuccessfully found error " + exception_ + " in " + file_);
       }
     }
 

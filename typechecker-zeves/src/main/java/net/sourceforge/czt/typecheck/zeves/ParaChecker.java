@@ -112,6 +112,26 @@ public class ParaChecker
     return result;
   }
 
+  /**
+   * ConjPara typechecking is slightly different from Z. That's because Z/Eves allows
+   * name jokers within predicate part of the theorem. So, we want to switch "undeclarare-name"
+   * errors off in that case. To do that, we tag the *terms within the Pred part only*, and
+   * during post checking, tagged terms that flag "undeclared-name" errors after post checking,
+   * are treated such that the error becomes a warning.
+   *
+   * But that stops undeclared name typechecking at DeclPart of theorems, like the case with
+   * generic operator templates (e.g., the only one we could imagine/create) like
+   *
+   * \begin{theorem}{lOpGenInThm}[X,Y]
+   *   \forall f: X \zevesthmgen Y @ f \neq \emptyset
+   * \end{theorem}
+   *
+   * In this case, both "f" and \zevesthmgen (defined as a \generic (\_ \zevesthmgen \_) template)
+   * are wrongly tagged for postchecking. This is the only case that is dangerous.
+   *
+   * @param term
+   * @return
+   */
   @Override
   public Signature visitConjPara(ConjPara term)
   {
@@ -124,15 +144,6 @@ public class ParaChecker
     // disable term tagging
     setIgnoreUndeclaredNames(false);
 
-
-    
-//    ZName thmName = factory().createZName(term.getName());
-//    Signature result = factory().createSignature(
-//            factory().list(factory().createNameTypePair(
-//              thmName,
-//              factory().getZEvesFactory().createProofType(
-//                factory().getZEvesFactory().createProofCommandInfoList()))));
-//    addSignatureAnn(term, result);
     return result;
   }
 

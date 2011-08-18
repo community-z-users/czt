@@ -2,9 +2,36 @@
    \SECTION typechecker\_test \parents standard\_toolkit
 \end{zsection}
 
-Names x and y not declared explicitly, but universally quantified implicitly in Z/Eves.
-This is like a name joker/wildcard.
+The "name on the thrid" parameter *must* not be the same as the unicode markup for
+\verb'\after. That is, it cannot be just *after*. Otherwise, it gets confused later
+on for the domain check and other theorems.
 %
+%%Zinword \zevesthmgen zevesthmgen
+%%Zinword \zevesthmrel zevesthmrel
+%%Zinword \zevesgenother zevesgenother
+
+
+\begin{zed}
+\generic 10 \leftassoc (\_ \zevesthmgen \_)
+\also
+\relation  (\_ \zevesthmrel \_)
+\also
+\generic 10 \leftassoc (\_ \zevesgenother \_)
+\end{zed}
+
+begin{theorem}{lOpGenInThm}[X,Y]
+   \forall f: X \zevesthmgen Y @ f \neq \emptyset
+end{theorem}
+
+\begin{theorem}{lOpRelInThm}[X,Y]
+   \forall \_ \zevesthmrel \_ : X \rel Y; x: X; y: Y @ x \zevesthmrel y 
+\end{theorem}
+
+\begin{zed}
+   \_ \zevesgenother \_ == (\nat \cross \nat) \rel \nat
+\end{zed}
+
+
 \begin[disabled]{theorem}{rule lRanElemType}[X, Y]
  \forall  A: \power~X; B: \power~Y @ \forall  R: A \rel  B | (x, y) \in  R @ y \in  B
 \end{theorem}
