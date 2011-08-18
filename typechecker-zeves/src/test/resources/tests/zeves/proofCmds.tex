@@ -113,12 +113,12 @@ use name[X, \power \nat]
   y := \{ a: \nat; b: \nat \}];
 \end{zproof}
 
-With commands
+With commands.
 
 \begin{zproof}[withCmds]
 with predicate (P) rewrite;
 with expression (E) reduce;
-with enabled (A, B, C) rewrite;
+with enabled (A, B, C, \_\rel\_, \_\fun\_) rewrite;
 with disabled (A, B, C) reduce;
 \end{zproof}
 
