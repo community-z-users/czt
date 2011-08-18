@@ -1040,12 +1040,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result.toString();
   }
 
+  private String getNameList(Iterator<Name> it)
+  {
+    return getNameList(it, false);
+  }
+
   /**
    * Returns a comma-separated list of decl-name or ref-name (but not mixed).
    * It assumes the list is neither null nor empty. It is used to represent
    * various productions related to names with operators.
    */
-  private String getNameList(Iterator<Name> it)
+  private String getNameList(Iterator<Name> it, boolean asOperators)
   {
     StringBuilder result = new StringBuilder("");
     ZName name = ZUtils.assertZName(it.next());
@@ -1054,7 +1059,20 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result.append(", ");
       name = ZUtils.assertZName(it.next());
+
+      if (asOperators)
+      {
+        fRelationalOpAppl.push(name);
+      }
+
       result.append(getName(name));
+
+      if (asOperators)
+      {
+        assert !fRelationalOpAppl.isEmpty();
+        Term t = fRelationalOpAppl.pop();
+        assert t == name;
+      }
     }
     return result.toString();
   }
@@ -3051,7 +3069,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
              && term.getNameList() instanceof ZNameList && !term.getZNameList().isEmpty() : "with enabled/disabled command cannot have expr or pred and name list must not be empty";
       result.append(term.getEnabled() ? "enabled " : "disabled ");
       result.append("(");
-      result.append(getNameList(term.getZNameList().iterator()));
+      result.append(getNameList(term.getZNameList().iterator(), true));
       result.append(") ");
     }
     else
@@ -3083,7 +3101,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         else
         {
           assert term.getNameList() != null && term.getZNameList().size() == 1 : "invoke cmd only on a single name";
-          return "invoke " + getName(term.getZNameList().get(0));
+          return "invoke " + getDefLHS(ZUtils.assertZName(term.getZNameList().get(0)));
         }
       case Equality:
         assert term.getPred() == null : "equality substitute command cannot have a predicate";
