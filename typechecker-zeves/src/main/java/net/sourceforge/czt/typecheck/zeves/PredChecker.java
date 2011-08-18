@@ -23,9 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.util.Pair;
+import net.sourceforge.czt.z.ast.ExprPred;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.QntPred;
+import net.sourceforge.czt.z.visitor.ExprPredVisitor;
 import net.sourceforge.czt.z.visitor.PredVisitor;
 import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
@@ -42,7 +44,8 @@ public class PredChecker
         implements
             // AndPredVisitor<UResult>,
             QntPredVisitor<UResult>,
-             PredVisitor<UResult>
+            ExprPredVisitor<UResult>,
+            PredVisitor<UResult>
 {
 
   //a Z expr checker
@@ -88,23 +91,64 @@ public class PredChecker
     }
   }
 
+  protected UResult considerUndeclaredNamesFor(Pred term)
+  {
+    boolean ignoreNames = ignoreUndeclaredNames();
+    if (ignoreNames)
+      enterPredWithinConjParaScope();
+    checkIfNeedIgnoreUndeclNameTag(term);
+    UResult result = term.accept(zPredChecker_);
+    if (ignoreNames)
+      exitPredWithinConjParaScope();
+    return result;
+  }
+
   @Override
   public UResult visitPred(Pred term)
   {
     processZLabel(term);
-    return term.accept(zPredChecker_);
+    UResult result = considerUndeclaredNamesFor(term);
+    //return term.accept(zPredChecker_);
+    return result;
   }
 
+  /**
+   * Quantified predicates within ConjPara (e.g., ignoreUndeclaredNames() flag)
+   * need to consider certain names as wildcards. This is shared between here and
+   * SchTextChecker (see visitZSchText there for details).
+   * @param term
+   * @return
+   */
   @Override
   public UResult visitQntPred(QntPred term)
   {
     processZLabel(term);
-    boolean ignoreNames = ignoreUndeclaredNames();
-    if (ignoreNames)
-      enterQntPredScope();
-    UResult result = term.accept(zPredChecker_);
-    if (ignoreNames)
-      exitQntPredScope();
+    UResult result = considerUndeclaredNamesFor(term);
+    return result;
+  }
+
+  /**
+   * Another case where names are implicitly in context is schemas as predicates.
+   * So for instance a theorem like
+   *
+   * \begin{theorem}{test}
+   *    S \iff T
+   * \end{theorem}
+   *
+   * where all variables of S and T are implicitly universally quantified.
+   *
+   * @param term
+   * @return
+   */
+  @Override
+  public UResult visitExprPred(ExprPred term)
+  {
+    // check for labels - unlikely
+    processZLabel(term);
+
+    // check if need to add IgnoreUndeclaredErrAnn to this term
+    // likely to be true: within a ConjPara, a schema set of names is to be treated differently
+    UResult result = considerUndeclaredNamesFor(term);
     return result;
   }
 

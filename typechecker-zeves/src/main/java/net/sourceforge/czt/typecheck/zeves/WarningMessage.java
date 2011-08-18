@@ -68,9 +68,16 @@ public enum WarningMessage {
     "A unknown term can only be found if some type rule is missing or an ill-formed term\n\t" +
     "is given to typecheck. This should never happen for parsed terms."), // or bug in TC(?!)
 
+  UNDECIDABLE_SCHEMA_CALULUS_EXPR("Undecidable schema calculus expression within conjecture" +
+    "\n\tTheorem...: {0}" +
+    "\n\tTerm......: {1}"),
+
   UNDECLARED_NAME_ERROR_AS_WARNING("Undeclared name error in ConjPara being treated as a warning."+
     "\n\tTerm......: {0}" +
     "\n\tMessage...: {1}")
+
+
+
   ;
   
   private final String message_;

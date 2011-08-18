@@ -38,6 +38,7 @@ public class TypeChecker
 {
   protected Name currentProofScript_;
   protected Type currentProofConjType_;
+  protected String currentThmName_;
 
   protected Checker<ProofCommandInfo> proofCommandChecker_;
   protected ZEvesConcreteSyntaxSymbolVisitor concreteSyntaxSymbolVisitor_;
@@ -59,7 +60,7 @@ public class TypeChecker
    * That is, names within QntPred DeclPart shouldn't be ignored (E.g., for the case of ingen/pregen
    * operators given inline with args - see zevesopt.tex example).
    */
-  protected final Stack<Boolean> qntPredStack_;
+  protected final Stack<Boolean> predWithinConjParaStack_;
 
 
   public TypeChecker(net.sourceforge.czt.typecheck.zeves.impl.Factory factory,
@@ -77,7 +78,7 @@ public class TypeChecker
     // create all the checkers as default - for Z
     super(factory, sectInfo, recursiveTypes, sortDeclNames);
 
-    qntPredStack_ = new Stack<Boolean>();
+    predWithinConjParaStack_ = new Stack<Boolean>();
 
     // make sure specChecker is the first checker created
     // this is important because it creates the "Synch" channel
@@ -101,6 +102,7 @@ public class TypeChecker
     thmTable_ = null;
     proofTable_ = null;
     currentProofScript_ = null;
+    currentThmName_ = null;
     ignoreUndeclaredNames_ = false;
   }
 

@@ -45,18 +45,8 @@ public class PostChecker
   {
     // post check
     net.sourceforge.czt.typecheck.z.ErrorAnn result = term.accept(zPostChecker_);
-
-    // if there is a result that is about undeclared identifiers, and the term given
-    // was tagged as one to ignore undeclared names with, then mark it as a warning.
-    if (result != null && term.getAnn(Checker.IngnoreUndeclNameAnn.class) != null &&
-            (result.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER.toString()) ||
-             result.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR.toString())))
-    {
-//      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, term.getClass().getName() + " = " + result.toString());
-//      result = null;//result.setErrorType(ErrorType.WARNING);
-      result = errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), result.toString() });
-      result.setErrorType(ErrorType.WARNING);
-    }
+    result = updateErrorAnn(result, term);
+    removeIgnoreUndeclNameAnn(term);
     return result;
   }
 }

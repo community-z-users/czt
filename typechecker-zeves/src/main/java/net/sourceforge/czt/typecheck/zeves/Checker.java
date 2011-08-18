@@ -28,6 +28,7 @@ import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
+import net.sourceforge.czt.z.ast.IffExpr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
@@ -133,6 +134,16 @@ public abstract class Checker<R>
     return getTypeChecker().currentProofScript_;
   }
 
+  protected String getCurrentThmName()
+  {
+    return getTypeChecker().currentThmName_;
+  }
+
+  protected void setCurrentThmName(String name)
+  {
+    getTypeChecker().currentThmName_ = name;
+  }
+
   protected Name setCurrentProofName(Name name)
   {
     Name old = getTypeChecker().currentProofScript_;
@@ -172,7 +183,7 @@ public abstract class Checker<R>
     return term.getAnn(ProofCommandInfo.class);
   }
 
-  protected class IngnoreUndeclNameAnn {} //extends AnnImpl {}
+  protected static class IngnoreUndeclNameAnn {} //extends AnnImpl {}
 
   protected boolean ignoreUndeclaredNames()
   {
@@ -184,28 +195,57 @@ public abstract class Checker<R>
     getTypeChecker().ignoreUndeclaredNames_ = v;
   }
 
-  protected void enterQntPredScope()
+  protected void enterPredWithinConjParaScope()
   {
-    getTypeChecker().qntPredStack_.push(true);
+    getTypeChecker().predWithinConjParaStack_.push(true);
   }
 
-  protected void exitQntPredScope()
+  protected void exitPredWithinConjParaScope()
   {
-    getTypeChecker().qntPredStack_.pop();
+    getTypeChecker().predWithinConjParaStack_.pop();
   }
 
-  protected boolean withinQntPredScope()
+  protected boolean withinConjParaPredScope()
   {
-    return !getTypeChecker().qntPredStack_.isEmpty();
+    return !getTypeChecker().predWithinConjParaStack_.isEmpty();
   }
+
+  /**
+   * Since we do not yet have type information for Term, we need to guess if it
+   * is a schema or not. Mostly always, it will be okay
+   * @param term
+   * @return
+   */
+  protected boolean isSchemaCalculusExpr(Term term)
+  {
+    boolean result = term instanceof Expr;
+    if (result)
+    {
+      ZUtils.ZExprKind kind = ZUtils.whatKindOfZExpr((Expr)term);
+      if (kind.equals(ZUtils.ZExprKind.MIXED) || kind.equals(ZUtils.ZExprKind.UNKNOWN))
+      {
+        warningManager().warn(term, WarningMessage.UNDECIDABLE_SCHEMA_CALULUS_EXPR, getCurrentThmName(), term.getClass().getName());
+      }
+      result = kind.equals(ZUtils.ZExprKind.SCHEMA);
+    }
+    return result;
+  }
+
+//   ((term instanceof CondExpr) ||
+//             (term instanceof LambdaExpr) ||
+//             (term instanceof LetExpr) ||
+//             (term instanceof MuExpr) ||
+//             (term instanceof ApplExpr))
+
 
   protected boolean shouldIgnoreUndeclaredNamesIn(Term term)
   {
     return (term instanceof RefExpr ||
             term instanceof ThetaExpr ||
             term instanceof SetExpr ||
-            term instanceof ExprPred) &&
-            withinQntPredScope();
+            term instanceof ExprPred || 
+            isSchemaCalculusExpr(term)) &&
+            withinConjParaPredScope();
   }
 
   @Override
@@ -237,6 +277,35 @@ public abstract class Checker<R>
     super.addTermForPostChecking(term);
   }
 
+  protected void removeIgnoreUndeclNameAnn(Term term)
+  {
+    Checker.IngnoreUndeclNameAnn iuna = term.getAnn(Checker.IngnoreUndeclNameAnn.class);
+    if (iuna!= null)
+      term.getAnns().remove(iuna);
+  }
+
+  @SuppressWarnings("unchecked")
+  protected <T extends net.sourceforge.czt.typecheck.z.ErrorAnn> T updateErrorAnn(T error, Term term)
+  {
+    // clear up the ann tag, if any
+    Checker.IngnoreUndeclNameAnn iuna = term.getAnn(Checker.IngnoreUndeclNameAnn.class);
+    boolean hasIgnoreNameAnn = iuna != null;
+    
+    // if there is a result that is about undeclared identifiers, and the term given
+    // was tagged as one to ignore undeclared names with, then mark it as a warning.
+    if (error != null && hasIgnoreNameAnn &&
+            (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER.name()) ||
+             error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR.name())))
+    {
+//      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, term.getClass().getName() + " = " + result.toString());
+//      result = null;//result.setErrorType(ErrorType.WARNING);
+      error = (T)errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), error.toString() });
+      error.setErrorType(ErrorType.WARNING);
+    }
+
+    return error;
+  }
+
   protected void error(Term term, ErrorMessage errorMsg, Object... params)
   {
     ErrorAnn errorAnn = this.errorAnn(term, errorMsg, params);
@@ -258,13 +327,7 @@ public abstract class Checker<R>
   protected net.sourceforge.czt.typecheck.z.ErrorAnn errorAnn(Term term, net.sourceforge.czt.typecheck.z.ErrorMessage error, Object[] params)
   {
     net.sourceforge.czt.typecheck.z.ErrorAnn result = super.errorAnn(term, error, params);
-    if (ignoreUndeclaredNames() && result != null &&
-            (error.equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER) ||
-             error.equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR)))
-    {
-      result = errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), result.toString() });
-      result.setErrorType(ErrorType.WARNING);
-    }
+    result = updateErrorAnn(result, term);
     return result;
   }
   
@@ -272,10 +335,11 @@ public abstract class Checker<R>
   protected ErrorAnn errorAnn(Term term, String error, Object [] params)
   {
     // this method is very important to make sure the right "ErrorAnn" is created!
-    ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
+    ErrorAnn result = new ErrorAnn(error, params, sectInfo(),
       sectName(), GlobalDefs.nearestLocAnn(term),
       term, markup());
-    return errorAnn;
+    result = updateErrorAnn(result, term);
+    return result;
   }
 
   /**

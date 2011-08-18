@@ -54,17 +54,17 @@ public class SchTextChecker extends Checker<Signature>
   public Signature visitZSchText(ZSchText term)
   {
     // exits the scope to allow for undeclared name checking of DeclList of ZSchText
-    boolean wasWithinQntPredScope = withinQntPredScope();
+    boolean wasWithinQntPredScope = withinConjParaPredScope();
     
     if (wasWithinQntPredScope)
-      exitQntPredScope();
+      exitPredWithinConjParaScope();
 
     //get the list of Names declared in this schema text
     List<NameTypePair> pairs = checkSchTextDeclPart(term);
 
     // restore the scope to ignore undeclared name checking of remaining Pred part
     if (wasWithinQntPredScope)
-      enterQntPredScope();
+      enterPredWithinConjParaScope();
 
     //add the pairs to the type environment
     typeEnv().add(pairs);

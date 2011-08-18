@@ -138,8 +138,12 @@ public class ParaChecker
     // enable term tagging for certain terms within ConjPara (e.g., all those PostCheck able)
     setIgnoreUndeclaredNames(true);
 
+    setCurrentThmName(term.getName());
+
     // Z typechecker already checks for duplicate theorem names
     Signature result = term.accept(zParaChecker_);
+
+    setCurrentThmName(null);
 
     // disable term tagging
     setIgnoreUndeclaredNames(false);
