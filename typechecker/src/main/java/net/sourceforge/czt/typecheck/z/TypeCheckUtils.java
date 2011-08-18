@@ -403,11 +403,15 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
           {
             case RAISE:
               errorCount++;
+              print = true;
               break;
             case HIDE:
               print = false; // hide but count
+              warningCount++;
+              break;
             case SHOW:
               warningCount++;
+              print = true;
               break;
           }
           break;

@@ -163,6 +163,7 @@ public class ErrorAnn
     return RESOURCE_BUNDLE.getString(key);
   }
 
+  @Override
   public String toString()
   {
     String result = new String();
@@ -172,10 +173,19 @@ public class ErrorAnn
     if (locAnn_ != null) {
       final String lineNr = locAnn_.getLine() != null ?
         locAnn_.getLine().toString() : "unknown";
+      final String colNr = locAnn_.getCol() != null ?
+        locAnn_.getCol().toString() : null;
       final String source = locAnn_.getLoc();
-      localised =
-        RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE.toString());
-      args = new String [] {source, lineNr };
+      if (colNr == null)
+      {
+        localised = RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE.toString());
+        args = new String [] {source, lineNr };
+      }
+      else
+      {
+        localised = RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE_COL.toString());
+        args = new String [] {source, lineNr, colNr };
+      }
     }
     else {
       localised =
@@ -184,6 +194,7 @@ public class ErrorAnn
     }
 
     MessageFormat form = new MessageFormat(localised);
+    result += getErrorType().name() + " ";
     result += form.format(args) + ": ";
 
     result += getMessage();
