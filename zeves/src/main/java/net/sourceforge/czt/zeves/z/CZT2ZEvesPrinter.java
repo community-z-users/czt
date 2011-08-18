@@ -5,6 +5,7 @@
  */
 package net.sourceforge.czt.zeves.z;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,6 +34,7 @@ import net.sourceforge.czt.zeves.ZEvesIncompatibleASTException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
@@ -295,32 +297,51 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   /**
    * Current section name
    */
-  private String fSectionName;
+  private String fSectionName = null;
   
   /**
    * Label annotations matter only for axiomatic and generic boxes.
    * The flag switches its processing on and off.
    */
-  private boolean fCheckForLabelAnnotations;
+  private boolean fCheckForLabelAnnotations = false;
+
   /**
    * Flag set at getRel(term) method in order to instruct reference visiting
    * to consider operator names as relational applications.
    * That is, when the flag is true, the translation considers "x \\leq y"
-   * as  "x &leq; y", whereas when the flag is false, the translatin considers
+   * as  "x &leq; y", whereas when the flag is false, the translation considers
    * "(\\_ \\leq \\_)~(x, y)". In other words, the former just translates the
    * operator symbol, whereas the second translates both the operator symbol
-   * as well as the underscor ARG_TOK.
+   * as well as the underscore ARG_TOK.
+   *
+   * We could have used a stack, but there is no need. The only convoluted case
+   * is for ApplExpr within another (e.g., x \cup y \cap z), in which case the
+   * chaining will guarantee the flag is set properly. The other cases RefExpr
+   * and DeclLists cannot have chained operators.
+   *
+   * ApplExpr->RefExpr->ApplExpr could be one such case. Have a stack, then there
+   * is no need for the other flag (e.g., just check the stack top contents to see
+   * which case it is: keep args or not).
    */
-  private boolean fRelationalOpAppl;
-  private final SpecPrinter fSpecPrinter;
+  private final Stack<Term> fRelationalOpAppl;
+
+  /**
+   * In certain cases of RelationalOpAppl we also want to keep the ARG_TOK, like
+   * in DeclList of Sch/AxDef, for definition of operator templates. We don't need
+   * them for the operator being applied, though.
+   */
+  //private boolean fKeepOpArgs = false;
+
   /**
    * Separation string for expressions in a ZExprList (used during visitZExprList)
    */
-  private String fZExprListSep;
+  private String fZExprListSep = null;
+
   /**
-   * Current instantiation kind (used during visitQuantifiersCommand and visitUseCommand)
+   * Current instantiation kind (used during visitQuantifiersCommand and visitUseCommand).
+   * Because of renaming expressions, we need a stack here (e.g., A[x := B[y := z], y := a]).
    */
-  private InstantiationKind fCurrInstKind = null;
+  private final Stack<InstantiationKind> fCurrInstKind;
 
   /**
    * Map containing proof command lists for corresponding theorem names.
@@ -328,7 +349,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private final Map<String, List<String>> proofScripts_;
 
-
+  /**
+   * Top-level printer for specification terms (e.g., ZSect, NarrSect, etc).
+   * It is a printer as a list of strings, instead of a single string.
+   */
+  private final SpecPrinter fSpecPrinter;
+  
   /* Constructors */
   /** Creates a new instance of ZPrinter
    * @param si
@@ -336,8 +362,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   public CZT2ZEvesPrinter(SectionInfo si)
   {
     super();
+    fSectionName = null;
+    fSectionInfo = null;
     fZExprListSep = null;
-    fRelationalOpAppl = false;
+    //fKeepOpArgs = false;
+    fCurrInstKind = new Stack<InstantiationKind>();
+    fRelationalOpAppl = new Stack<Term>();
     fCheckForLabelAnnotations = false;
     fSpecPrinter = new SpecPrinter();
     proofScripts_ = new TreeMap<String, List<String>>();
@@ -831,29 +861,37 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result;
   }
 
-  private boolean fKeepOpArgs = false;
+  private boolean shouldKeepOpArgsInOpName()
+  {
+    assert !fRelationalOpAppl.isEmpty();
+    Term t= fRelationalOpAppl.peek();
+    return (t instanceof ZSchText ||                     // ZSchText for AxDef or SchBox should keep args
+            ((t instanceof ZName) &&
+             ((ZName)t).getOperatorName() != null));     // OpNames within DefLHS in Horizontal AxPara
+  }
 
   private String getOperator(OperatorName opname)
   {
-    // See revision 3986 in the repository if this fails.
-    // I used to use opname.iterator, for what now is getWords().
-    Iterator<String> parts = Arrays.asList(opname.getWords()).iterator();//opname.iterator();
-
-
     // We are concatenating the result. In almost all cases, one gets "THE" operator involved
     // since we are ignoring ARGs. On ocassional special cases (e.g., LANGLE, LIMG, LBLOT, user defined
     // \\listarg op temp), we need to treat it specially, hence we send the whole load of symbols involved.
     //
     // PS: Z/Eves does not accept \\listarg definition by the user.
     String result = "";
-    if (fRelationalOpAppl)
+
+    // If the name is tagged for operator consideration
+    if (!fRelationalOpAppl.isEmpty())
     {
+      // See revision 3986 in the repository if this fails.
+      // I used to use opname.iterator, for what now is getWords().
+      Iterator<String> parts = Arrays.asList(opname.getWords()).iterator();//opname.iterator();
+
 //      int found = 0;
       while (parts.hasNext())
       {
         String part = parts.next().toString();
         // ignore the arguments: we will know if it's a list arg from ApplExpr arity.
-        if (fKeepOpArgs || !part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
+        if (shouldKeepOpArgsInOpName() || !part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
         {
 //          found++;
           result += translateOperatorWord(part);
@@ -867,9 +905,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       //                                       + "such as \"_ || _ @ _ \". Check the newest version readme.txt for compatibility details."));
       //}
     }
+    // otherwise, this is an operator appearing in a place where it shouldn't
     else
     {
-      throw new ZEvesIncompatibleASTException("Case yet to be handled: getOperator with " + opname + " that is not a relational op appl");
+      throw new ZEvesIncompatibleASTException("Incompatible Std Z operator template for Z/Eves: " + opname);
+      //throw new ZEvesIncompatibleASTException("Case yet to be handled: getOperator with " + opname + " that is not a relational op appl");
       //getFixity(opname.getFixity());
     }
     assert !result.isEmpty();
@@ -944,6 +984,38 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
   }
 
+  private String extractSeqElem(Expr e)
+  {
+    assert e instanceof TupleExpr;
+    TupleExpr te = (TupleExpr)e;
+    assert te.getZExprList().size() == 2;
+    Expr seqElem = te.getZExprList().get(1);
+    return getExpr(seqElem);
+  }
+
+  private String getRefName(RefExpr term)
+  {
+    fRelationalOpAppl.push(term);
+    final String result = getName(term.getZName());
+
+    assert !fRelationalOpAppl.isEmpty();
+    Term e = fRelationalOpAppl.pop();
+    assert e == term;
+    return result;
+  }
+
+  private String getApplExprPart(Expr expr)
+  {
+    // mixfix: left expr is the operator, right expr is a tuple with args
+    fRelationalOpAppl.push(expr);
+    final String result = getExpr(expr);
+
+    assert !fRelationalOpAppl.isEmpty();
+    Term e = fRelationalOpAppl.pop();
+    assert e == expr;
+    return result;
+  }
+
   /**
    * Returns a comma-separated list of identifiers.
    * It represents ident-list, or event-name-list.
@@ -994,7 +1066,22 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   private String getDefLHS(ZName dname)
   {
     // TODO: Include other forms of def-lhs production.
-    return getVarName(dname);
+
+    OperatorName on = dname.getOperatorName();
+    final String result;
+    if (on != null)
+    {
+      fRelationalOpAppl.push(dname);
+      // Horizontal op defs need to be parenthesised 
+      result = "(" + getOperator(on) + ")";
+      
+      assert !fRelationalOpAppl.isEmpty();
+      Term t = fRelationalOpAppl.pop();
+      assert t == dname;
+    }
+    else
+      result = getVarName(dname);
+    return result;
   }
 
   /**
@@ -1363,9 +1450,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private String getMemPredRelOpName(RefExpr refexpr)
   {
-    fRelationalOpAppl = true;
+    // for MemPred, we need to treat the RefExpr differently.
+    fRelationalOpAppl.push(refexpr);
     String result = getExpr(refexpr);
-    fRelationalOpAppl = false;
+
+    assert !fRelationalOpAppl.isEmpty();
+    Term t = fRelationalOpAppl.pop();
+    assert t == refexpr;
+
     if (result == null || result.equals(""))
     {
       throw new ZEvesIncompatibleASTException("Relational operator could not be translated. See throwable cause for details.",
@@ -1529,8 +1621,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     StringBuilder result = new StringBuilder("");
     Iterator<Decl> it = decls.iterator();
     Decl d = it.next();
-    // for declared names, keep the operators
-    fKeepOpArgs = true;
     result.append(d.accept(this));
     while (it.hasNext())
     {
@@ -1540,8 +1630,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       d = it.next();
       result.append(d.accept(this));
     }
-    fKeepOpArgs = false;
-   return result.toString();
+    return result.toString();
   }
 
   /**
@@ -1644,7 +1733,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   public String visitOptempPara(OptempPara term)
   {
     Assoc a = term.getAssoc();
-    int prec = term.getPrec().intValue();
+    BigInteger p = term.getPrec();
+    int prec = 0;
+    if (p != null) prec = p.intValue();
     Cat cat = term.getCat();
     String operator = null;
     String opClass = null;
@@ -1842,15 +1933,22 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
        * tags for SchBoxes rather than visiting the whole SchText altogether.
        *
        * Moreover, predicate paragraphss can be included whenever the declaration
-       * part is empty.
+       * part is empty. We use such "PredPara" for convenience when managing terms
+       * (e.g., Expr / Pred) on the fly as para.
        */
       String decls = "";
       String preds = getAxiomPart(schText.getPred());
       if (!isPredicatePara(schText))
       {
-        fRelationalOpAppl = true;
+        // handle relational operators with appropriate fixity (E.g., x+y instead of (_+_)(x,y))
+        fRelationalOpAppl.push(schText);
+        // for declared names, keep the operators (e.g., print full op names (_+_):T instead of + only).
+        //fKeepOpArgs = true; Just check for schText on the stack
         decls = getDeclPart(schText.getZDeclList());
-        fRelationalOpAppl = false;
+        //fKeepOpArgs = false;
+        assert !fRelationalOpAppl.isEmpty();
+        Term t = fRelationalOpAppl.pop();
+        assert t == schText;
         result = format(SCHEMA_BOX_PATTERN, getLocation(term),
                 getAbility(term), getSchName(schName), NL_SEP + genFormals, decls, preds);
       }
@@ -1874,14 +1972,20 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
        * So I will treat CZT empty axiomatic/generic boxes as labelled-predicate producation.
        */
       String decls = "";
+      ZSchText schText = term.getZSchText();
       fCheckForLabelAnnotations = true;
-      String preds = getAxiomPart(term.getZSchText().getPred());
+      String preds = getAxiomPart(schText.getPred());
       fCheckForLabelAnnotations = false;
-      if (!isPredicatePara(term.getSchText()))
+      if (!isPredicatePara(schText))
       {
-        fRelationalOpAppl = true;
-        decls = getDeclPart(term.getZSchText().getZDeclList());
-        fRelationalOpAppl = false;
+        fRelationalOpAppl.push(schText);
+        //fKeepOpArgs = true;
+        decls = getDeclPart(schText.getZDeclList());
+        //fKeepOpArgs = false;
+        assert !fRelationalOpAppl.isEmpty();
+        Term t = fRelationalOpAppl.pop();
+        assert t == schText;
+        
         if (genFormals.equals(""))
         {
           result = format(AXIOMATIC_BOX_PATTERN,
@@ -2059,7 +2163,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     /* NOTE: This case covers quatifiers Exists, Exists1, and Forall.
      */
-    return format(QNT_PRED_PATTERN, getQntName(term), term.getSchText().accept(this).toString(), getPred(term.getPred()));
+
+
+    // we could have operator templates within these schText classes.
+    ZSchText schText = term.getZSchText();
+    fRelationalOpAppl.push(schText);
+    final String schTextPart = schText.accept(this);
+    assert !fRelationalOpAppl.isEmpty();
+    Term t = fRelationalOpAppl.pop();
+    assert t == schText;
+    
+    return format(QNT_PRED_PATTERN, getQntName(term), schTextPart, getPred(term.getPred()));
   }
 
   @Override
@@ -2074,6 +2188,31 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   public String visitMemPred(MemPred term)
   {
     /* NOTE: This case covers isin, and relational operators (n-ary, unary, and =).
+     */
+    /*
+     * A relation operator application (C.5.12).
+     *   <ul>
+     *   <li>Membership predicate.
+     *       In this case, Mixfix=false, the first (left) expression is the
+     *       element, and the second (right) expression is the set.
+     *       For example, "n \in S" has left="n" and right="S".</li>
+     *   <li>Equality.
+     *       In this case, Mixfix=true, the first (left) expression is the
+     *       left-hand side of the equality, and the second (right)
+     *       expression is a singleton set containing the right-hand side
+     *       of the equality.
+     *       For example: "n = m" has left="n" and right="{m}".</li>
+     *   <li>Other operator application.
+     *       In this case, Mixfix=true, the first (left) expression is
+     *       usually a tuple containing the corresponding number of arguments,
+     *       and the second (right) expression is the operator name.
+     *       However, for a unary operator, the left expression does not have
+     *       to be a tuple.
+     *       For example, "n &lt; m" has left="(n,m)" and right=" _ &lt; _ ",
+     *       "disjoint s" has left="s" and right="disjoint _ ", and
+     *       if foo was declared as a unary postfix operator,
+     *       then "(2,3) foo" would have left= "(2,3)" and right=" _ foo".
+     *       </li>
      */
     MemPredKind kind = getMemPredKind(term);
     String rel, left, right;
@@ -2200,7 +2339,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * then Z/Eves will sort itself out, as in \\emptyset. Ok let's go!
      */
     String result;
-    // case C.6.21 is tricky. leave it out for now.
+    // case 6.21
     if (term.getMixfix())
     {
 
@@ -2214,9 +2353,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
                                                 + "(for \"" + term.getZName().toString() + "\").");
       }
 
-      fRelationalOpAppl = true;
-      String opName = getName(term.getZName());
-      fRelationalOpAppl = false;
+      String opName = getRefName(term);
       if (opName == null || opName.equals(""))
       {
         throw new ZEvesIncompatibleASTException("Relational operator could not be translated. See throwable cause for details.",
@@ -2246,6 +2383,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 //                    "(for \"" + term.getZName().toString() + "\").");
       // others are more straightforward.
     }
+    // case 6.28, 6.29
     else
     {
       String genActuals = "";
@@ -2253,9 +2391,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       {
         genActuals = getGenActuals(term.getZExprList());
       }
-      // TODO: Check names for appropriate translation.
+      // Don't call getRefName here, but name directly (e.g., name not to be treated as a possible operator).
       result = getName(term.getZName()) + genActuals;
-      // TODO: Detal with replacements! Not yet implemented?
     }
     assert result != null && !result.equals("");
     return result;
@@ -2304,7 +2441,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     /* NOTE: This case covers quatifiers Exists, Exists1, and Forall.
      */
-    return format(QNT_EXPR_PATTERN, getQntName(term), term.getSchText().accept(this).toString(), getExpr(term.getExpr()));
+
+    // Differently from QntPred, we *cannot* have operator templates in qnt schema expressions! Schemas are not part of operators.
+    return format(QNT_EXPR_PATTERN, getQntName(term), term.getSchText().accept(this), getExpr(term.getExpr()));
   }
 
   @Override
@@ -2451,29 +2590,33 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return format(HIDE_EXPR_PATTERN, getExpr(term.getExpr()), term.getZNameList().accept(this));
   }
 
-  private String extractSeqElem(Expr e)
-  {
-    assert e instanceof TupleExpr;
-    TupleExpr te = (TupleExpr)e;
-    assert te.getZExprList().size() == 2;
-    Expr seqElem = te.getZExprList().get(1);
-    return getExpr(seqElem);
-  }
-
   @Override
   public String visitApplExpr(ApplExpr term)
   {
-
-//    	if (term.getMixfix()) {
+    final String result;
+    /**
+     * A function application (C.6.21, C.6.22).
+     *   <ul>
+     *   <li>C.6.21 (Function Operator Application).  For example: S + T.
+     *           In this case, Mixfix=true, the first (left) expression is the
+     *           name, (" _ + _ "), (that is, a RefExpr with Mixfix=false!)
+     *           and the second (right) expression is (S,T).</li>
+     *   <li>C.6.22 (Application).  For example: (_ + _)(S, T).
+     *           In this case, Mixfix=false, and the rest is the same as above
+     *           (the first expression is the RefExpr with Mixfix=false and
+     *           name (" _ + _ "), and the second expression is (S,T)).
+     *           Another example: dom R.
+     *           In this case, Mixfix=false, the first (left) expression is the
+     *           function, dom, (again, a RefExpr with Mixfix=false)
+     *           and the second (right) expression is the argument R.</li>
+     */
+    // case 6.21
     if (ZUtils.isFcnOpApplExpr(term))
     {
       assert term.getMixfix() != null && term.getMixfix();
-      // mixfix: left expr is the operator, right expr is a tuple with args
-      fRelationalOpAppl = true;
-      //String op = getExpr(term.getLeftExpr());
+
       Expr opExpr = ZUtils.getApplExprRef(term);
-      String op = getExpr(opExpr);
-      fRelationalOpAppl = false;
+      String op = getApplExprPart(opExpr);
 
       int arity = ZUtils.applExprArity(term);
       ZExprList args = ZUtils.getApplExprArguments(term);
@@ -2493,14 +2636,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
           seqElems.append(delim).append(extractSeqElem(e));
           delim = ", ";
         }
-        return format(APPL_EXPR_SEQ_PATTERN, seqElems);
+        result = format(APPL_EXPR_SEQ_PATTERN, seqElems);
       }
       // LIMG / RIMG
       else if (op.equals("&lvparen;&rvparen;"))
       {
         assert args.size() == 2;
-        return format(MIXFIX_APPL_EXPR_RELIMAGE_PATTERN, getExpr(args.get(0)), getExpr(args.get(1)));
+        result = format(MIXFIX_APPL_EXPR_RELIMAGE_PATTERN, getExpr(args.get(0)), getExpr(args.get(1)));
       }
+      // all other cases
       else
       {
         List<String> params = new ArrayList<String>(args.size());
@@ -2513,27 +2657,33 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         switch (arity)
         {
           case 1:
-            assert params.size() == 2; // op + arg
-            if (getFixity(opExpr) == Fixity.POSTFIX) {
-            	return format(POSTFIX_APPL_EXPR_PATTERN, params.toArray());
-            } else {
+            assert params.size() == 2; // op + arg (e.g., _\inv)
+            if (getFixity(opExpr) == Fixity.POSTFIX)
+            {
+            	result = format(POSTFIX_APPL_EXPR_PATTERN, params.toArray());
+            } 
+            else
+            {
             	// sometimes this happens (e.g. in #A), use the same as default ApplExpr
-            	return format(APPL_EXPR_PATTERN, params.toArray());
+            	result = format(APPL_EXPR_PATTERN, params.toArray());
             }
+            break;
           case 2:
-            assert params.size() == 3; // arg + op + arg
-            return format(MIXFIX_APPL_EXPR_PATTERN, params.toArray());
+            assert params.size() == 3; // arg + op + arg (e.g., _ + _)
+            result = format(MIXFIX_APPL_EXPR_PATTERN, params.toArray());
+            break;
           default:
             throw new ZEvesIncompatibleASTException("Unsupported operator template application expression " + arity + " params as " + params, term);
         }
       }
     }
-
-    fRelationalOpAppl = true;
-    String op = getExpr(term.getLeftExpr());
-    fRelationalOpAppl = false;
-
-    return format(APPL_EXPR_PATTERN, op, getExpr(term.getRightExpr()));
+    // case 6.22
+    else
+    {
+      final String op = getApplExprPart(term.getLeftExpr());
+      result = format(APPL_EXPR_PATTERN, op, getExpr(term.getRightExpr()));
+    }
+    return result;
   }
   
   private Fixity getFixity(Expr opTerm) {
@@ -2598,9 +2748,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       InstantiationList il = ZEvesUtils.getInstantiationListFromExpr(term);
       if (il != null)
       {
-        fCurrInstKind = InstantiationKind.ThmReplacement;
+        fCurrInstKind.push(InstantiationKind.ThmReplacement);
         renamings = il.accept(this);
-        fCurrInstKind = null;
+
+        assert !fCurrInstKind.isEmpty();
+        InstantiationKind k = fCurrInstKind.pop();
+        assert k.equals(InstantiationKind.ThmReplacement);
       }
       else
         throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
@@ -2754,9 +2907,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       assert term.getInstantiationList() != null && !term.getInstantiationList().isEmpty() : "quantifiers instantiation list cannot be empty";
       result.append("instantiate ");
-      fCurrInstKind = InstantiationKind.Quantifier;
+      fCurrInstKind.push(InstantiationKind.Quantifier);
       result.append(term.getInstantiationList().accept(this));
-      fCurrInstKind = null;
+      assert !fCurrInstKind.isEmpty();
+      InstantiationKind k = fCurrInstKind.pop();
+      assert k.equals(InstantiationKind.Quantifier);
     }
     return result.toString();
   }
@@ -2764,11 +2919,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitInstantiation(Instantiation term)
   {
-    assert fCurrInstKind == term.getKind() : "inconsistent instantiation kind. found "
-                                             + term.getKind() + "; expected " + fCurrInstKind;
+    assert !fCurrInstKind.isEmpty();
+    InstantiationKind k = fCurrInstKind.peek();
+    assert k.equals(term.getKind()) : "inconsistent instantiation kind. found "
+                                             + term.getKind() + "; expected " + k;
     StringBuilder result = new StringBuilder();
     result.append(getName(term.getZName()));
-    result.append(fCurrInstKind == InstantiationKind.Quantifier ? " == " : " := ");
+    result.append(k.equals(InstantiationKind.Quantifier) ? " == " : " := ");
     result.append(getExpr(term.getExpr()));
     return result.toString();
   }
@@ -2778,9 +2935,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     StringBuilder result = new StringBuilder();
     Iterator<Instantiation> it = term.iterator();
+    assert !fCurrInstKind.isEmpty() : "visiting instantiation list outside any instantiation context";
     assert it.hasNext() : "empty instantiations are not allowed for instantiation kind "
-                          + fCurrInstKind;
-
+                          + fCurrInstKind.peek();
     while (it.hasNext())
     {
       result.append(it.next().accept(this));
@@ -2853,14 +3010,18 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     result.append(getExpr(term.getTheoremRef()));
     if (term.getInstantiationList() != null)
     {
-      fCurrInstKind = InstantiationKind.ThmReplacement;
+      fCurrInstKind.push(InstantiationKind.ThmReplacement);
       if (!term.getInstantiationList().isEmpty())
       {
         result.append("[");
         result.append(term.getInstantiationList().accept(this));
         result.append("]");
       }
-      fCurrInstKind = null;
+      result.append(term.getInstantiationList().accept(this));
+
+      assert !fCurrInstKind.isEmpty();
+      InstantiationKind k = fCurrInstKind.pop();
+      assert k.equals(InstantiationKind.ThmReplacement);
     }
     return result.toString();
   }

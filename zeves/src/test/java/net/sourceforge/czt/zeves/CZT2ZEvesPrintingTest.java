@@ -59,6 +59,8 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
       {
         System.out.println(s);
       }
+      System.out.println();
+      fail("Encountered type errors");
     }
   }
 
