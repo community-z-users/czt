@@ -2624,7 +2624,7 @@ non terminal Object[]
 
 // can include ZPROOFDOLLAR sign in these names
 non terminal Name 
-      applyThmName, thmName;
+      applyThmName, thmName, invokeName;
 
 non terminal ZNameList
       thmNameList;
@@ -4112,7 +4112,7 @@ substitutionCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
         :}
         |
-        INVOKE:st thmName:n // Invoke does have a user-level name (e.g., no DOLLARS)!
+        INVOKE:st invokeName:n // Invoke does have a user-level name (e.g., no DOLLARS)!
         {:
           RESULT = factory_.getZEvesFactory().createInvokeCommand(n);
           addLocAnn(RESULT, getLocation(st, n));
@@ -4268,7 +4268,7 @@ applyThmName ::=
         :}
         ;
 
-thmName ::=
+invokeName ::=
         DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
         {:
            RESULT = createSpecialThmName(dw1, dw2);
@@ -4283,6 +4283,25 @@ thmName ::=
         LPAREN:lparen opName:on RPAREN:rparen
         {:
            final LocInfo loc = getLocation(lparen, rparen);
+           RESULT = strListToZName(on, loc);
+           RESULT.getAnns().add(factory_.createParenAnn());
+        :}
+        ;
+
+thmName ::=
+        DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
+        {:
+           RESULT = createSpecialThmName(dw1, dw2);
+        :}
+        |
+        DECORWORD:dw
+        {:
+           RESULT = createZName(dw);
+        :}
+        |
+        opName:on
+        {:
+           final LocInfo loc = getLocation(onleft, onright);
            RESULT = strListToZName(on, loc);
            RESULT.getAnns().add(factory_.createParenAnn());
         :}
