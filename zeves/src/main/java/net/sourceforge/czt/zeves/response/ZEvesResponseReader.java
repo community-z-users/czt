@@ -52,6 +52,12 @@ import org.xml.sax.ext.DefaultHandler2;
 public class ZEvesResponseReader {
 
 	private final static Pattern OP_DECL_XML_PATTERN = Pattern.compile("\\&[a-z]+\\$declaration");
+	/** 
+	 * A pattern to match entities without a semicolon, which get output by Z/Eves sometimes, e.g.
+	 * in a message "the next token, "&lvparen (left rel image bracket), is not ")"." We need
+	 * to capture this and fix by adding a semicolon. 
+	 */
+	private final static Pattern ENTITY_NO_SEMI_PATTERN = Pattern.compile("\\&[A-Za-z][A-Za-z0-9]*\\s");
 	
 	private final Unmarshaller unmarshaller;
 	private final XMLReader xmlReader;
@@ -147,13 +153,21 @@ public class ZEvesResponseReader {
 	private String fixXmlResponse(String xmlStr) {
 		
 	 	StringBuilder xml = new StringBuilder(xmlStr);
-	 	Matcher matcher = OP_DECL_XML_PATTERN.matcher(xml);
-	 	while(matcher.find()) {
-	 		int startIndex = matcher.start();
+	 	Matcher opDeclMatcher = OP_DECL_XML_PATTERN.matcher(xml);
+	 	while(opDeclMatcher.find()) {
+	 		int startIndex = opDeclMatcher.start();
 	 		// remove the first ampersand, then reference will be ok
 	 		xml.deleteCharAt(startIndex);
-	 		matcher.reset(xml);
+	 		opDeclMatcher.reset(xml);
 	 	}
+	 	
+	 	Matcher noSemiMatcher = ENTITY_NO_SEMI_PATTERN.matcher(xml);
+		while(noSemiMatcher.find()) {
+			int endIndex = noSemiMatcher.end();
+			// add a semicolon in the last-to position
+			xml.insert(endIndex - 1, ";");
+			noSemiMatcher.reset(xml);
+		}
 	 	
 	 	xmlStr = xml.toString();
 		
