@@ -882,6 +882,7 @@ typechecker-zeves/src/test/resources/tests/zeves/zeveslabels.zed8 -text
 typechecker-zeves/src/test/resources/tests/zeves/zeveslabelsDuplicate-RedeclaredGlobalName.error -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesopt.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesrenaming.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/zopt.tex -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/impl/AnnImpl.java -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/util/DependencyGraph.java -text
 typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/CharTuple.tex -text
