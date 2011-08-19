@@ -907,6 +907,7 @@ ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=uns
 util/src/test/java/net/sourceforge/czt/util/TermAnnTest.java -text
 vcg/pom.xml -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/CarrierSet.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/DefaultVCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/Definition.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTable.java -text

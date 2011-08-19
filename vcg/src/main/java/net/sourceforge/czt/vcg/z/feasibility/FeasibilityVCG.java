@@ -27,6 +27,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
@@ -47,7 +48,7 @@ import net.sourceforge.czt.z.util.ZUtils;
 public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pair<Para, Pred>>>
         implements FeasibilityPropertyKeys
 {
-  private FeasibilityVCCollector fsbCheck_;
+  private final FeasibilityVCCollector fsbCheck_;
   
   /* CLASS SETUP METHOS */
 
@@ -190,7 +191,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   }
 
   @Override
-  protected String getVCSectName(String originalSectName)
+  public String getVCSectName(String originalSectName)
   {
     return originalSectName + VCG_FEASIBILITY_SOURCENAME_SUFFIX;
   }

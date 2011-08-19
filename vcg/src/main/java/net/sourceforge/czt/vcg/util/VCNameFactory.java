@@ -32,7 +32,8 @@ public interface VCNameFactory {
    * Create a name for a VC related to the given Para. This is a convenience method
    * to enable external tools to influence how names are given to VCs.
    * @param para
+   * @param type
    * @return
    */
-  public String createNameForVCOf(Para para);
+  public String createNameForVCOf(Para para, String type);
 }

@@ -24,6 +24,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -37,6 +38,7 @@ import net.sourceforge.czt.z.util.Factory;
 public abstract class AbstractVCCollector<R> implements VCCollector<R>
 {  
   protected Factory factory_;
+  private VCNameFactory vcNameFactory_;
   protected final Logger logger_;
   private long vcCnt_;
 
@@ -59,6 +61,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     vcCnt_ = 0;
     factory_ = factory;
     defTable_ = null;
+    vcNameFactory_ = null;
     logger_ = Logger.getLogger(getClass().getName());
     // NOTE: not effective to change this factory, since it won't have LocAnn! Change the LocAnn factory directly instead. :-(
     //
@@ -67,6 +70,18 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     //        ZUtils.assertZFactoryImpl(
     //          factory_.getZFactory()).getToStringVisitor()).setOffset(1, 1);
    // VisitorUtils.checkVisitorRules(this);
+  }
+
+  @Override
+  public VCNameFactory getVCNameFactory()
+  {
+    return vcNameFactory_;
+  }
+
+  @Override
+  public void setVCNameFactory(VCNameFactory vcf)
+  {
+    vcNameFactory_ = vcf;
   }
 
   protected Logger getLogger()

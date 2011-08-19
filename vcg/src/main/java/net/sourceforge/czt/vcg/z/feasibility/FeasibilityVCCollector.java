@@ -176,10 +176,22 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     return result;
   }
 
+  class NameSuffix {}
+
   @Override
   public VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException
   {
-    return new FeasibilityVC(vcId,term, type, vc);
+    NameSuffix ns = term.getAnn(NameSuffix.class);
+    if (getVCNameFactory() != null)
+      if (ns != null)
+        return new FeasibilityVC(vcId, term, type, vc, getVCNameFactory(), ns.toString());
+      else
+        return new FeasibilityVC(vcId, term, type, vc, getVCNameFactory());
+    else
+      if (ns != null)
+        return new FeasibilityVC(vcId,term, type, vc, ns.toString());
+      else
+        return new FeasibilityVC(vcId, term, type, vc);
   }
 
   @Override
@@ -510,16 +522,28 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       try
       {
         SortedSet<Definition> mixed = getDefTable().bindings(nameNoStrokes);
+        SortedSet<Definition> before = filterBindings(mixed, BEFORE_FILTER);
         SortedSet<Definition> after = filterBindings(mixed, AFTER_FILTER);
+
+        // if there are no after bindings on the schema def, then add it as part
+        // of the Pred part of assumptions.
         if (after.isEmpty())
         {
-          //result = factory_.createExprPred(schDef.getExpr());
+          //result = factory_.createExprPred(schDef.getExpr()); ??
           result = factory_.createExprPred(factory_.createRefExpr(nameNoStrokes));
         }
+        // if there are after variables, but the no before variables, this is 
+        // like Initialisation or existential quantification case for dashed 
+        // variables only schemas
+        else if (before.isEmpty())
+        {
+          result = factory_.createExprPred(factory_.createRefExpr(nameNoStrokes));
+        }
+        // else, if they are indeed mixed, then do not add any extra predicate
       }
       catch(DefinitionException e)
       {
-        // ignore
+        // ignore and make it just true
       }
     }
     // just true for now.

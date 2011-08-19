@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.z;
 
+import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -103,7 +104,7 @@ public abstract class VCGCommand<R> extends AbstractCommand
     typeCheck(vcg.getVCSectName(), manager);
 
     // update the manager with results, depending on the kind of VCEnvAnn
-    manager.put(new Key/*<VCEnvAnn<R>>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass()), vcg);
+    manager.put(new Key/*<VCEnvAnn<R>>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass()), vcg, ParseUtils.calculateDependencies(zSect, getVCEnvAnnClass()));
     //manager.put(this.<R>createSMKey(vcg.getOriginalZSectName(), this.<R>getVCEnvAnnClass()), vcg);
 
     return true;

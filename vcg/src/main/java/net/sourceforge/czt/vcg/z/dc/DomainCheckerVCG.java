@@ -262,7 +262,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   }
 
   @Override
-  protected String getVCSectName(String originalSectName)
+  public String getVCSectName(String originalSectName)
   {
     return originalSectName + VCG_DOMAINCHECK_SOURCENAME_SUFFIX;
   }

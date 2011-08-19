@@ -24,6 +24,7 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.Para;
 
 /**
@@ -37,6 +38,9 @@ import net.sourceforge.czt.z.ast.Para;
  */
 public interface VCCollector<R> extends TermVisitor<R>
 {
+
+  VCNameFactory getVCNameFactory();
+  void setVCNameFactory(VCNameFactory vcf);
 
   /**
    * Calculate the verification condition for a given term in the context of

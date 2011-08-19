@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.z.feasibility;
 
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.vcg.z.AbstractVC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCType;
@@ -34,20 +35,29 @@ import net.sourceforge.czt.z.ast.TruePred;
 public class FeasibilityVC extends AbstractVC<Pred> implements FeasibilityPropertyKeys
 {
 
+  public FeasibilityVC(long vcId, Para term, VCType type, Pred vc, VCNameFactory factory, String nameSuffix) throws VCCollectionException
+  {
+    super(vcId, term, type, vc, factory, nameSuffix);
+  }
+
+  public FeasibilityVC(long vcId, Para term, VCType type, Pred vc, VCNameFactory factory) throws VCCollectionException
+  {
+    super(vcId, term, type, vc, factory, VCG_FEASIBILITY_VCNAME_SUFFIX);
+  }
+
+  public FeasibilityVC(long vcId, Para term, VCType type, Pred vc, String nameSuffix) throws VCCollectionException
+  {
+    super(vcId, term, type, vc, nameSuffix);
+  }
+
   public FeasibilityVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException
   {
-    super(vcId, term, type, vc);
+    super(vcId, term, type, vc, VCG_FEASIBILITY_VCNAME_SUFFIX);
   }
 
   @Override
   public boolean isTrivial()
   {
     return (getVC() instanceof TruePred);
-  }
-
-  @Override
-  protected String getVCNameSuffix()
-  {
-    return VCG_FEASIBILITY_VCNAME_SUFFIX;
   }
 }

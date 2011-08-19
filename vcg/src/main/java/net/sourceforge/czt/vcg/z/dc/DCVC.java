@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.z.dc;
 
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.vcg.z.AbstractVC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCType;
@@ -34,20 +35,19 @@ import net.sourceforge.czt.z.ast.TruePred;
 public class DCVC extends AbstractVC<Pred> implements DomainCheckPropertyKeys
 {
 
+  public DCVC(long vcId, Para term, VCType type, Pred vc, VCNameFactory factory) throws VCCollectionException
+  {
+    super(vcId, term, type, vc, factory, VCG_DOMAINCHECK_VCNAME_SUFFIX);
+  }
+
   public DCVC(long vcId, Para term, Pred vc) throws VCCollectionException
   {
-    super(vcId, term, VCType.NONE, vc);
+    super(vcId, term, VCType.NONE, vc, VCG_DOMAINCHECK_VCNAME_SUFFIX);
   }
 
   @Override
   public boolean isTrivial()
   {
     return (getVC() instanceof TruePred);
-  }
-
-  @Override
-  protected String getVCNameSuffix()
-  {
-    return VCG_DOMAINCHECK_VCNAME_SUFFIX;
   }
 }

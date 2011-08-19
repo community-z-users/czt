@@ -20,6 +20,7 @@
 package net.sourceforge.czt.vcg.z;
 
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Box;
@@ -37,7 +38,7 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @date Dec 24, 2010
  * $Id$
  */
-public abstract class AbstractVC<R> implements VC<R>, VCNameFactory
+public abstract class AbstractVC<R> implements VC<R>
 {
   private final LocAnn loc_;
   private String name_;
@@ -46,9 +47,13 @@ public abstract class AbstractVC<R> implements VC<R>, VCNameFactory
   private final VCType vcType_;
   private final long vcId_;
   
-  private static long axiomCnt_ = 0;
 
-  protected AbstractVC(long vcId, Para term, VCType type, R vc) throws VCCollectionException
+  protected AbstractVC(long vcId, Para term, VCType type, R vc, String nameSuffix) throws VCCollectionException
+  {
+    this(vcId, term, type, vc, DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY, nameSuffix);
+  }
+
+  protected AbstractVC(long vcId, Para term, VCType type, R vc, VCNameFactory factory, String nameSuffix) throws VCCollectionException
   {
     if (term == null || vc == null || type == null || vcId <= 0)
       throw new VCCollectionException("VC-CTOR-ILLEGAL-ARG-VC");
@@ -81,76 +86,8 @@ public abstract class AbstractVC<R> implements VC<R>, VCNameFactory
     }
 
     // create a candidate VC name
-    name_ = createVCName(term);
+    name_ = factory.createNameForVCOf(para_, nameSuffix);
   }
-
-  public final String createNameForVCOf(Para para)
-  {
-    return createVCName(para);
-  }
-
-  /**
-   * For any given Z Paragraph, extract a meaningful name for this VC. It also
-   * counts how many axioms there are.
-   * @param para
-   * @return
-   */
-  protected final String createVCName(Para para)
-  {
-    // create the conjecture name or internal axiom name
-    String conjName = null;
-    ZName conjPrefix = null;
-    if (ZUtils.isAbbreviation(para))
-    {
-      conjPrefix = ZUtils.assertZName(ZUtils.getAbbreviationName(para));
-    }
-    else if (ZUtils.isSimpleSchema(para))
-    {
-      conjPrefix =ZUtils.assertZName(ZUtils.getSchemaName(para));
-    }
-    else if (para instanceof ConjPara)
-    {
-      conjName = ((ConjPara) para).getName();
-    }
-    else if (para instanceof FreePara)
-    {
-      // for multiple free types, just get the first name available.
-      conjPrefix = ZUtils.assertZFreetypeList(((FreePara) para).getFreetypeList()).get(0).getZName();
-    }
-    else if (ZUtils.isAxPara(para) && ((AxPara) para).getBox().equals(Box.AxBox))
-    {
-      conjName = "axiom" + axiomCnt_;
-      axiomCnt_++;
-    }
-            
-    // if it was possible to extra a prefix name, try it        
-    if (conjPrefix != null)
-    {
-      conjName = conjPrefix.toString();
-    }
-
-    // in any case, always have a name for it (e.g., ConjPara with no name)
-    if (conjName == null || conjName.isEmpty())
-    {
-      conjName = "vc" + axiomCnt_;
-      axiomCnt_++;
-    }
-    // add the conjecture name
-    assert conjName != null && !conjName.isEmpty() : "Invalid VC conjecture name";
-    
-    // to avoid naming problems, add vcCnt_ to suffix
-    // (e.g., some names with strokes and without like \finsert and \finset_1
-    conjName += getVCNameSuffix() + vcId_;
-
-    return conjName;
-  }
-
-  /**
-   * Each subclass can append a VCName suffix to the conjecture name
-   * @return
-   */
-  protected abstract String getVCNameSuffix();
-
 
   @Override
   public Para getVCPara()
