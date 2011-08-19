@@ -92,8 +92,9 @@ public class AstToPrintTreeVisitor extends
           if (label.getName() == null)
             throw new PrintException("Invalid label name for labelled axiomatic predicate - " + label.toString());
 
-          // no bother with axioms (defaults)
-          if (!label.getUsage().equals(LabelUsage.axiom))
+          // no bother with axioms (defaults). If there is usage, put the label!
+          if (//!label.getUsage().equals(LabelUsage.axiom) &&
+              !label.getUsage().equals(LabelUsage.none))
           {
             list.add(ZEvesProofToken.LLABEL);
 

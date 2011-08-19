@@ -20,7 +20,11 @@
 package net.sourceforge.czt.parser.zeves;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.Pair;
@@ -36,6 +40,7 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
 {
   private List<Pair<Pred, ZEvesLabel>> labelledPreds_;
   private static int freshAxiomNo_ = 1;
+  private final LabelCleaningVisitor labelCleaningVisitor_ ;
 
   private static final String AXIOM_LABEL_NAME = "axiom";
 
@@ -43,6 +48,7 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
   {
     super(loc);
     labelledPreds_ = new ArrayList<Pair<Pred, ZEvesLabel>>();
+    labelCleaningVisitor_ = new LabelCleaningVisitor();
    // proofScripts_.reset();
   }
 
@@ -51,12 +57,24 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
     labelledPreds_.add(new Pair<Pred, ZEvesLabel>(p, l));
   }
 
+  /**
+   * Clears the labels with a schema predicates, added during "predicate"
+   * parsing. It is not possible to have a separate "predicate" tree, given
+   * its intricate relation with term/expression
+   * @param term
+   */
+  public void clearLabelAssociations(Pred term)
+  {
+    //term.accept(labelCleaningVisitor_);
+    clearLabelPredList();
+  }
+
   public void clearLabelPredList()
   {
     labelledPreds_.clear();
   }
 
-  public void associateLabelToPred()
+  public void associateLabelsToPreds()
   {
     for(Pair<Pred, ZEvesLabel> pair : labelledPreds_)
     {
@@ -70,5 +88,30 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
     final String result = AXIOM_LABEL_NAME + freshAxiomNo_;
     freshAxiomNo_++;
     return result;
+  }
+
+  @SuppressWarnings("FinalClass")
+  final class LabelCleaningVisitor implements TermVisitor<Object>
+  {
+
+    private void removeLabel(Term term)
+    {
+      for (Iterator<Object> iter = term.getAnns().iterator(); iter.hasNext(); )
+      {
+        Object ann = iter.next();
+        if (ann instanceof ZEvesLabel)
+        {
+          iter.remove();
+        }
+      }
+    }
+
+    @Override
+    public Object visitTerm(Term term)
+    {
+      removeLabel(term);
+      VisitorUtils.visitTerm(this, term);
+      return null;
+    }
   }
 }
