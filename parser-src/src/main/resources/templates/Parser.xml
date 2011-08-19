@@ -399,11 +399,10 @@ action code
      * according to ParserState - this is usually the name for axioms, like axiom$1.
      * The freshly created name has the label as an annotation.
      */
-    private ZEvesLabel createDefaultZEvesLabel(LabelUsage usage)
+    private ZEvesLabel createDefaultZEvesLabel(LabelAbility ability, LabelUsage usage)
     {
       ZName name = factory_.createZName(parserState_.freshLabelName());
-      ZEvesLabel result = factory_.createZEvesLabel(name,
-              ZEvesUtils.getDefaultAbility(), usage);
+      ZEvesLabel result = factory_.createZEvesLabel(name, ability, usage);
       //name.getAnns().add(result); To avoid circular annotation loops in ZML
       return result;
     }
@@ -3605,7 +3604,7 @@ optThmAbility ::=
         |
         // empty
         {:
-          RESULT = ZEvesUtils.getDefaultAbility();
+          RESULT = LabelAbility.none;
         :}
         ;
 
@@ -3617,7 +3616,7 @@ optDefAbility ::=
         |
         // empty
         {:
-          RESULT = ZEvesUtils.getDefaultAbility();
+          RESULT = LabelAbility.none;
         :}
         ;
 
@@ -3630,7 +3629,7 @@ optLabelAbility ::=
         |
         // empty
         {:
-          RESULT = ZEvesUtils.getDefaultAbility();
+          RESULT = LabelAbility.none;
         :}
         ;
 
@@ -6812,6 +6811,9 @@ schemaText ::=
         optDeclPart:odp BAR predicate:p
         {:
            RESULT = factory_.createZSchText(odp, p);
+           <add:zeves>
+           parserState_.clearLabelAssociations(p);
+           </add:zeves>
            addLocAnn(RESULT, getLocation(getLocation(odp),
                                          getLocation(p)));
         :}
@@ -6828,7 +6830,7 @@ axiomaticSchemaText ::=
         {:
            RESULT = factory_.createZSchText(odp, p);
            <add:zeves>
-           parserState_.associateLabelToPred();
+           parserState_.associateLabelsToPreds();
            </add:zeves>
            addLocAnn(RESULT, getLocation(getLocation(odp),
                                          getLocation(p)));
@@ -6853,7 +6855,7 @@ optAxLabel ::=
         // empty
         {:
           // create a label as an axiom
-          RESULT = createDefaultZEvesLabel(LabelUsage.axiom);
+          RESULT = createDefaultZEvesLabel(LabelAbility.none, LabelUsage.none);
         :}
         ;
 </add:zeves>
