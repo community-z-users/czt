@@ -38,11 +38,13 @@ public abstract class TermImpl
     term_ = term;
   }
 
+  @Override
   public boolean equals(Object obj)
   {
     return term_.equals(obj);
   }
 
+  @Override
   public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof TermVisitor) {
@@ -52,29 +54,53 @@ public abstract class TermImpl
     return null;
   }
 
+  @Override
   public Object [] getChildren()
   {
     return term_.getChildren();
   }
 
+  @Override
   public int hashCode()
   {
     String s = "Term";
     return s.hashCode();
   }
 
+  @Override
   public List<Object> getAnns()
   {
     return term_ != null ? term_.getAnns() : null;
   }
 
+  @Override
   public <T> T getAnn(Class<T> aClass)
   {
     return term_ != null ? term_.getAnn(aClass) : null;
   }
   
+  @Override
   public String toString()
   {
     return term_.toString();
+  }
+
+  @Override
+  public <T> boolean hasAnn(Class<T> aClass)
+  {
+    return term_ != null ? term_.hasAnn(aClass) : false;
+  }
+
+  @Override
+  public <T> boolean removeAnn(T annotation)
+  {
+    return term_ != null ? term_.removeAnn(annotation) : false;
+  }
+
+  @Override
+  public <T> void removeAnn(Class<T> aClass)
+  {
+    if (term_ != null)
+      term_.removeAnn(aClass);
   }
 }

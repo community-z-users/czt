@@ -34,7 +34,10 @@ public class TypeErrorException extends net.sourceforge.czt.util.CztException
     
     private final List<ErrorAnn> fErrors = new ArrayList<ErrorAnn>();
     
-    /** Creates a new instance of TypeErrorException */
+    /** Creates a new instance of TypeErrorException
+     * @param message 
+     * @param errors
+     */
     public TypeErrorException(String message, List<? extends ErrorAnn> errors) {
         super(message);
         fErrors.addAll(errors);
@@ -45,11 +48,12 @@ public class TypeErrorException extends net.sourceforge.czt.util.CztException
         fErrors.addAll(errors);
     }
     
-    public List<ErrorAnn> errors() {
-        return Collections.unmodifiableList(fErrors);
+    public List<? extends ErrorAnn> errors() {
+      return getErrors();
     }
 
+    @Override
     public List<ErrorAnn> getErrors() {
-        return errors();
+      return Collections.unmodifiableList(fErrors);
     }
 }

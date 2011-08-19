@@ -36,6 +36,7 @@ import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.util.WarningManager;
 import sun.nio.cs.ext.TIS_620;
 
@@ -177,7 +178,16 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
 		      useNameIds, WarningManager.WarningOutput.SHOW, sectName);
   }
 
-  /** An internal method of the typechecker. */
+  /** An internal method of the typechecker.
+   * @param term
+   * @param sectInfo
+   * @param useBeforeDecl
+   * @param recursiveTypes
+   * @param useNameIds
+   * @param warningOutput
+   * @param sectName
+   * @return
+   */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                    boolean useBeforeDecl,
@@ -192,8 +202,67 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
 					      sectInfo, useBeforeDecl, 
 					      recursiveTypes);
     typeChecker.setPreamble(sectName, sectInfo);
-    typeChecker.setUseNameIds(useNameIds);    
-    term.accept(typeChecker);    
+    typeChecker.setUseNameIds(useNameIds);
+
+    return guardedTypeCheck(typeChecker, term);
+  }
+
+  @SuppressWarnings("CallToThreadDumpStack")
+  protected List<? extends ErrorAnn> guardedTypeCheck(TypeChecker typeChecker, Term term)
+  {
+    // add type checking robustness on exceptions occurring at the top-level
+    // that means, we have it for both command based and non-command based requests.
+    try {
+      term.accept(typeChecker);
+    }
+    catch(net.sourceforge.czt.base.util.UnsupportedAstClassException e)
+    {
+      Object[] params = {
+        "An attempt to wrongly cast an AST class has happened",
+        e.getMessage(),
+        e.getClass().getName(),
+        e.getCause() != null ? e.getCause().getClass() + " = " + e.getCause().getMessage() : "none"
+      };
+      // use any checker to report the error
+      ErrorAnn error = typeChecker.exprChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
+      typeChecker.errors_.add(error);
+      e.printStackTrace();
+    }
+    catch(net.sourceforge.czt.util.CztException f)
+    {
+      Object[] params = {
+        "A unexpected CztException has happened",
+        f.getMessage(),
+        f.getClass().getName(),
+        f.getCause() != null ? f.getCause().getClass() + " = " + f.getCause().getMessage() : "none"
+      };
+      // use any checker to report the error
+      ErrorAnn error = typeChecker.exprChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
+      typeChecker.errors_.add(error);      
+      if (f.getCause() != null && f.getCause() instanceof CommandException &&
+          f.getCause().getCause() != null && f.getCause().getCause() instanceof TypeErrorException)
+      {
+        TypeErrorException tee = (TypeErrorException)f.getCause().getCause();
+        typeChecker.errors_.addAll(0, tee.getErrors());
+      }
+      else
+      {
+        f.printStackTrace();
+      }
+    }
+    catch(Throwable t)
+    {
+      Object[] params = {
+        "A general Throwable exception has happened",
+        t.getMessage(),
+        t.getClass().getName(),
+        t.getCause() != null ? t.getCause().getClass() + " = " + t.getCause().getMessage() : "none"
+      };
+      // use any checker to report the error
+      ErrorAnn error = typeChecker.exprChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);
+      typeChecker.errors_.add(error);
+      t.printStackTrace();
+    }
     return typeChecker.errors();
   }
 

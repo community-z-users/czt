@@ -22,14 +22,10 @@ import java.util.List;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.util.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.util.CztException;
 
 /**
  */
@@ -103,7 +99,7 @@ public class SpecChecker
     }
     catch (CommandException e) {
       final String msg = "No type information for section " + parentName;
-      throw new RuntimeException(msg, e);
+      throw new CztException(msg, e);
     }
 
     //add the parent's global decls to this section's global type environment
