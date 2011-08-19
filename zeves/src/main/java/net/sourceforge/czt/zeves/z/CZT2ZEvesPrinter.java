@@ -3035,7 +3035,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         result.append(term.getInstantiationList().accept(this));
         result.append("]");
       }
-      result.append(term.getInstantiationList().accept(this));
 
       assert !fCurrInstKind.isEmpty();
       InstantiationKind k = fCurrInstKind.pop();
