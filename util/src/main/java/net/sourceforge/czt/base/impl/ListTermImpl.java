@@ -21,6 +21,7 @@ package net.sourceforge.czt.base.impl;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.ListTerm;
@@ -68,6 +69,7 @@ public class ListTermImpl<E>
    * @throws IndexOutOfBoundsException if the index is out of range
    *         <code>(index < 0 || index > size())</code>.
    */
+  @Override
   public void add(int index, E element)
   {
     list_.add(index, element);
@@ -81,6 +83,7 @@ public class ListTermImpl<E>
    * @throws IndexOutOfBoundsException if the index is out of range
    *         <code>(index < 0 || index >= size())</code>.
    */
+  @Override
   public E get(int index)
   {
     return list_.get(index);
@@ -112,6 +115,7 @@ public class ListTermImpl<E>
    * @throws ArrayIndexOutOfBoundsException if <code>index</code>
    *         is out of range <code>(index < 0 || index >= size())</code>.
    */
+  @Override
   public E set(int index, E element)
   {
     return list_.set(index, element);
@@ -119,12 +123,15 @@ public class ListTermImpl<E>
 
   /**
    * Returns the number of components in this list.
+   * @return
    */
+  @Override
   public int size()
   {
     return list_.size();
   }
 
+  @Override
   public <R> R accept(Visitor<R> v)
   {
     if (v instanceof ListTermVisitor) {
@@ -138,11 +145,13 @@ public class ListTermImpl<E>
     return null;
   }
 
+  @Override
   public Object[] getChildren()
   {
     return list_.toArray();
   }
 
+  @Override
   public Term create(Object[] args)
   {
     ListTermImpl<E> result = new ListTermImpl<E>();
@@ -152,6 +161,7 @@ public class ListTermImpl<E>
     return result;
   }
 
+  @Override
   public ListTerm<Object> getAnns()
   {
     ListTermImpl<Object> result = new ListTermImpl<Object>();
@@ -159,6 +169,7 @@ public class ListTermImpl<E>
     return result;
   }
 
+  @Override
   public Object getAnn(Class aClass)
   {
     for (Object annotation : anns_) {
@@ -167,5 +178,43 @@ public class ListTermImpl<E>
       }
     }
     return null;
+  }
+
+  @Override
+  public <T> boolean hasAnn(Class<T> aClass)
+  {
+    return getAnn(aClass) != null;
+  }
+
+  @Override
+  public <T> void removeAnn(Class<T> aClass)
+  {
+    List<Object> anns = getAnns();
+    for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
+    {
+      Object ann = iter.next();
+      if (aClass.isInstance(ann))
+      {
+        iter.remove();
+      }
+    }
+  }
+
+  @Override
+  public <T> boolean removeAnn(T annotation)
+  {
+    List<Object> anns = getAnns();
+    boolean result = false;
+    Iterator<Object> iter = anns.iterator();
+    while (iter.hasNext() && !result)
+    {
+      Object ann = iter.next();
+      result = ann.equals(annotation);
+    }
+    if (result)
+    {
+      iter.remove();
+    }
+    return result;
   }
 }

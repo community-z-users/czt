@@ -101,6 +101,34 @@ public interface Term
    * <p>Returns one of the <code>aClass</code> annotations of this
    * term, or <code>null</code> if the term does not contain an
    * annotation of this type.
+   * @param <T>
+   * @param aClass
+   * @return
    */
   <T> T getAnn(Class<T> aClass);
+
+  /**
+   * Checks whether the term has any annotation of the given class type
+   * @param <T> type of annotation class
+   * @param aClass class to check
+   * @return whether there is an annotation of that kind or not
+   */
+  <T> boolean hasAnn(Class<T> aClass);
+
+  /**
+   * Removes a specific annotation, if present. If there are more than one
+   * instance of T, the first one is removed. That is, the underlying annotations
+   * as returned by getAnns() are checked in order using a.equals(annotation)
+   * @param <T> type of annotation
+   * @param annotation instance to remove
+   * @return whether the given ann has been removed or not
+   */
+  <T> boolean removeAnn(T annotation);
+
+  /**
+   * Removes all annotations of the specific class.
+   * @param <T> type of annotation
+   * @param aClass class to check
+   */
+  <T> void removeAnn(Class<T> aClass);
 }

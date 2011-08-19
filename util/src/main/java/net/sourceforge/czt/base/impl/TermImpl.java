@@ -20,6 +20,7 @@
 package net.sourceforge.czt.base.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
@@ -58,6 +59,7 @@ public abstract class TermImpl implements Term
     return factory_;
   }
 
+  @Override
   public <R> R accept(Visitor<R> v)
   {
     if (v instanceof TermVisitor) {
@@ -67,6 +69,7 @@ public abstract class TermImpl implements Term
     return null;
   }
 
+  @Override
   public boolean equals(Object obj)
   {
     if (obj != null && this.getClass().equals(obj.getClass())) {
@@ -74,17 +77,22 @@ public abstract class TermImpl implements Term
     }
     return false;
   }
+
+  @Override
   public int hashCode()
   {
     String s = "Term";
     return s.hashCode();
   }
 
+  @Override
   public List<Object> getAnns()
   {
     return anns_;
   }
 
+  @Override
+  @SuppressWarnings("unchecked")
   public <T> T getAnn(Class<T> aClass)
   {
     for (Object annotation : anns_) {
@@ -95,6 +103,46 @@ public abstract class TermImpl implements Term
     return null;
   }
 
+  @Override
+  public <T> boolean hasAnn(Class<T> aClass)
+  {
+    return getAnn(aClass) != null;
+  }
+
+  @Override
+  public <T> void removeAnn(Class<T> aClass)
+  {
+    List<Object> anns = getAnns();
+    for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
+    {
+      Object ann = iter.next();
+      if (aClass.isInstance(ann))
+      {
+        iter.remove();
+      }
+    }
+  }
+
+  @Override
+  public <T> boolean removeAnn(T annotation)
+  {
+    List<Object> anns = getAnns();
+    boolean result = false;
+    Iterator<Object> iter = anns.iterator();
+    while (iter.hasNext() && !result)
+    {
+      Object ann = iter.next();
+      result = ann.equals(annotation);
+    }
+    if (result)
+    {
+      iter.remove();
+    }
+    return result;
+  }
+
+  @Override
+  @SuppressWarnings("CallToThreadDumpStack")
   public String toString()
   {
     try {
