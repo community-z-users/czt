@@ -89,4 +89,22 @@ class LispWrapper
     }
     return null;
   }
+
+  @Override
+  public <T> boolean hasAnn(Class<T> aClass)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public <T> boolean removeAnn(T annotation)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public <T> void removeAnn(Class<T> aClass)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 }
