@@ -39,7 +39,7 @@ import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 public class ParserState extends net.sourceforge.czt.parser.z.ParserState
 {
   private List<Pair<Pred, ZEvesLabel>> labelledPreds_;
-  private static int freshAxiomNo_ = 1;
+  private int freshAxiomNo_ = 1;
   private final LabelCleaningVisitor labelCleaningVisitor_ ;
 
   private static final String AXIOM_LABEL_NAME = "axiom";
@@ -85,7 +85,8 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
 
   public String freshLabelName()
   {
-    final String result = AXIOM_LABEL_NAME + freshAxiomNo_;
+    final String result = AXIOM_LABEL_NAME + (getCurrentSectName() != null ? "_" + getCurrentSectName() : "") + freshAxiomNo_;
+    //System.out.println("Creating default axiom label = " + result);
     freshAxiomNo_++;
     return result;
   }
