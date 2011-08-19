@@ -1034,6 +1034,7 @@ action code
 
     private ZSect createZSect(String name, List&lt;Parent&gt; parents)
     {
+      parserState_.setCurrentSectName(name);
       ZParaList paraList = factory_.createZParaList();
       ZSect result = factory_.createZSect(name, parents, paraList);
       return result;
