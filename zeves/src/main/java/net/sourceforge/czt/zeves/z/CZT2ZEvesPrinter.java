@@ -322,8 +322,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    * ApplExpr->RefExpr->ApplExpr could be one such case. Have a stack, then there
    * is no need for the other flag (e.g., just check the stack top contents to see
    * which case it is: keep args or not).
+   *
+   * When to add ARG_TOK or not depends on the stack state. Stack tops with SchText
+   * or (ZName with valid getOperatorName()) should add ARGS, whereas all other terms
+   * shouldn't. As complicated optemp patterns keep cropping up, we also allow a "boolean"
+   * to be added to the stack. If true, then ARG_TOK; if false, no.
+   *
    */
-  private final Stack<Term> fRelationalOpAppl;
+  private final Stack<Object> fRelationalOpAppl;
 
   /**
    * In certain cases of RelationalOpAppl we also want to keep the ARG_TOK, like
@@ -367,7 +373,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     fZExprListSep = null;
     //fKeepOpArgs = false;
     fCurrInstKind = new Stack<InstantiationKind>();
-    fRelationalOpAppl = new Stack<Term>();
+    fRelationalOpAppl = new Stack<Object>();
     fCheckForLabelAnnotations = false;
     fSpecPrinter = new SpecPrinter();
     proofScripts_ = new TreeMap<String, List<String>>();
@@ -864,10 +870,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   private boolean shouldKeepOpArgsInOpName()
   {
     assert !fRelationalOpAppl.isEmpty();
-    Term t= fRelationalOpAppl.peek();
+    Object t= fRelationalOpAppl.peek();
     return (t instanceof ZSchText ||                     // ZSchText for AxDef or SchBox should keep args
             ((t instanceof ZName) &&
-             ((ZName)t).getOperatorName() != null));     // OpNames within DefLHS in Horizontal AxPara
+             ((ZName)t).getOperatorName() != null) ||    // OpNames within DefLHS in Horizontal AxPara
+            ((t instanceof Boolean) &&
+             ((Boolean)t).booleanValue())                // explicit "override" case (e.g., ApplExpr that are not FcnOpAppl - "(_+_)(1,2)"
+           );
   }
 
   private String getOperator(OperatorName opname)
@@ -993,26 +1002,28 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return getExpr(seqElem);
   }
 
+  private void checkStack(Object o)
+  {
+    assert !fRelationalOpAppl.isEmpty();
+    Object e = fRelationalOpAppl.pop();
+    assert e == o || (e instanceof Boolean && e.equals(o));
+  }
+
   private String getRefName(RefExpr term)
   {
     fRelationalOpAppl.push(term);
     final String result = getName(term.getZName());
-
-    assert !fRelationalOpAppl.isEmpty();
-    Term e = fRelationalOpAppl.pop();
-    assert e == term;
+    checkStack(term);
     return result;
   }
 
-  private String getApplExprPart(Expr expr)
+  private String getApplExprPart(Expr expr, boolean keepOpArgs)
   {
     // mixfix: left expr is the operator, right expr is a tuple with args
-    fRelationalOpAppl.push(expr);
+    fRelationalOpAppl.push(keepOpArgs ? keepOpArgs : expr);
     final String result = getExpr(expr);
 
-    assert !fRelationalOpAppl.isEmpty();
-    Term e = fRelationalOpAppl.pop();
-    assert e == expr;
+    checkStack(keepOpArgs ? keepOpArgs : expr);
     return result;
   }
 
@@ -1069,9 +1080,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
       if (asOperators)
       {
-        assert !fRelationalOpAppl.isEmpty();
-        Term t = fRelationalOpAppl.pop();
-        assert t == name;
+        checkStack(name);
       }
     }
     return result.toString();
@@ -1093,9 +1102,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       // Horizontal op defs need to be parenthesised 
       result = "(" + getOperator(on) + ")";
       
-      assert !fRelationalOpAppl.isEmpty();
-      Term t = fRelationalOpAppl.pop();
-      assert t == dname;
+      checkStack(dname);
     }
     else
       result = getVarName(dname);
@@ -1466,21 +1473,19 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   /**
    * Returns the relational operator name for the given RefExpr, which is part of a MemPred term.
    */
-  private String getMemPredRelOpName(RefExpr refexpr)
+  private String getMemPredRelOpName(RefExpr refExpr)
   {
     // for MemPred, we need to treat the RefExpr differently.
-    fRelationalOpAppl.push(refexpr);
-    String result = getExpr(refexpr);
+    fRelationalOpAppl.push(refExpr);
+    String result = getExpr(refExpr);
 
-    assert !fRelationalOpAppl.isEmpty();
-    Term t = fRelationalOpAppl.pop();
-    assert t == refexpr;
+    checkStack(refExpr);
 
     if (result == null || result.equals(""))
     {
       throw new ZEvesIncompatibleASTException("Relational operator could not be translated. See throwable cause for details.",
               new IllegalArgumentException("It wasn't possible to properly translate relational operator "
-                                           + refexpr.getZName().toString() + " into Z/Eves format."));
+                                           + refExpr.getZName().toString() + " into Z/Eves format."));
     }
     return result;
   }
@@ -1964,9 +1969,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         //fKeepOpArgs = true; Just check for schText on the stack
         decls = getDeclPart(schText.getZDeclList());
         //fKeepOpArgs = false;
-        assert !fRelationalOpAppl.isEmpty();
-        Term t = fRelationalOpAppl.pop();
-        assert t == schText;
+        checkStack(schText);
         result = format(SCHEMA_BOX_PATTERN, getLocation(term),
                 getAbility(term), getSchName(schName), NL_SEP + genFormals, decls, preds);
       }
@@ -2000,9 +2003,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         //fKeepOpArgs = true;
         decls = getDeclPart(schText.getZDeclList());
         //fKeepOpArgs = false;
-        assert !fRelationalOpAppl.isEmpty();
-        Term t = fRelationalOpAppl.pop();
-        assert t == schText;
+        checkStack(schText);
         
         if (genFormals.equals(""))
         {
@@ -2187,9 +2188,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     ZSchText schText = term.getZSchText();
     fRelationalOpAppl.push(schText);
     final String schTextPart = schText.accept(this);
-    assert !fRelationalOpAppl.isEmpty();
-    Term t = fRelationalOpAppl.pop();
-    assert t == schText;
+    checkStack(schText);
     
     return format(QNT_PRED_PATTERN, getQntName(term), schTextPart, getPred(term.getPred()));
   }
@@ -2634,7 +2633,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       assert term.getMixfix() != null && term.getMixfix();
 
       Expr opExpr = ZUtils.getApplExprRef(term);
-      String op = getApplExprPart(opExpr);
+      String op = getApplExprPart(opExpr, false);
 
       int arity = ZUtils.applExprArity(term);
       ZExprList args = ZUtils.getApplExprArguments(term);
@@ -2698,7 +2697,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     // case 6.22
     else
     {
-      final String op = getApplExprPart(term.getLeftExpr());
+      final String op = getApplExprPart(term.getLeftExpr(), true);
       result = format(APPL_EXPR_PATTERN, op, getExpr(term.getRightExpr()));
     }
     return result;
@@ -2780,26 +2779,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
     return format(RENAME_EXPR_PATTERN, getExpr(term.getExpr()), renamings);
   }
-//
-//  @Override
-//  public String visitInstantiationList(InstantiationList term)
-//  {
-//    StringBuilder sb = new StringBuilder();
-//    String delim = "";
-//    for (Instantiation pair : term) {
-//      sb.append(delim).append(pair.accept(this));
-//      delim = ",";
-//    }
-//    return sb.toString();
-//  }
-//
-//  @Override
-//  public String visitInstantiation(Instantiation term)
-//  {
-//    return getName(term.getName()) +
-//            (term.getKind().equals(InstantiationKind.ThmReplacement) ? ":=" : "==") +
-//            getExpr(term.getExpr());
-//  }
   
   @Override
   public String visitZRenameList(ZRenameList term)
@@ -2944,7 +2923,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     StringBuilder result = new StringBuilder();
     result.append(getName(term.getZName()));
     result.append(k.equals(InstantiationKind.Quantifier) ? " == " : " := ");
+    // instantiations *must* also allow for opArgs because of potential need of
+    // explicit generics. Z/Eves accepts "\#[X]~A", whereas CZT insists on "(\#~\_)[X]~A"
+    // so we almost always need to add the full (no-fix) version of op-temp names in inst.
+    fRelationalOpAppl.push(Boolean.TRUE);
     result.append(getExpr(term.getExpr()));
+    checkStack(Boolean.TRUE);
     return result.toString();
   }
 

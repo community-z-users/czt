@@ -1167,6 +1167,7 @@ zeves/src/test/resources/tests/zeveslabelsUnicode.zed8 -text
 zeves/src/test/resources/tests/zevesopt.tex -text
 zeves/src/test/resources/tests/zevesrenaming.tex -text
 zeves/src/test/resources/tests/zevesspecialops.tex -text
+zeves/src/test/resources/tests/zopt.tex -text
 zlive/doc/2004goals.ppt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text
