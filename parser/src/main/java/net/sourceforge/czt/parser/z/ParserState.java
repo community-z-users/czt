@@ -37,6 +37,7 @@ public class ParserState
   private int previousChain_ = -1;
   private Factory factory_ = new Factory();
   private final Source loc_;
+  private String sectName_ = null;
 
   public ParserState(Source source)
   {
@@ -51,6 +52,16 @@ public class ParserState
   public boolean isPreviousChain(int value)
   {
     return previousChain_ == value;
+  }
+
+  public String getCurrentSectName()
+  {
+    return sectName_;
+  }
+
+  public void setCurrentSectName(String v)
+  {
+    sectName_ = v;
   }
 
   /**
