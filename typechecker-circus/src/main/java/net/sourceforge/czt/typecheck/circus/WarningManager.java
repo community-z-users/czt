@@ -31,7 +31,7 @@ public class WarningManager
   private Markup markup_ = Markup.LATEX;
   private final SectionInfo sectInfo_;
   private Term term_ = null;
-  private List<ErrorAnn> warnErrors_ = new ArrayList<ErrorAnn>();  
+  private List<net.sourceforge.czt.typecheck.z.ErrorAnn> warnErrors_ = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
   
   public WarningManager()
   {
@@ -105,6 +105,7 @@ public class WarningManager
     return term_;
   }
   
+  @Override
   public void clear()
   {
     super.clear();
@@ -116,7 +117,7 @@ public class WarningManager
     warnErrors_.clear();
   }
   
-  public List<ErrorAnn> warnErrors()
+  public List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> warnErrors()
   {
     return Collections.unmodifiableList(warnErrors_);
   }

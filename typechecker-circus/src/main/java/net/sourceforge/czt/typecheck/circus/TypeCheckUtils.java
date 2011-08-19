@@ -216,7 +216,7 @@ public class TypeCheckUtils
     return swriter.toString();
   }
   
-  /** An internal method of the typechecker. */
+  @Override
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean recursiveTypes,
@@ -236,51 +236,9 @@ public class TypeCheckUtils
     typeChecker.setUseNameIds(useNameIds);
     typeChecker.getWarningManager().setWarningOutput(warningOutput);
     
-    // For Circus add the type checking robustness at the top-level
-    // that means, we have it for both command based and non-command based requests.
-    try {
-      term.accept(typeChecker);
-    }
-    catch(net.sourceforge.czt.base.util.UnsupportedAstClassException e)
-    {      
-      Object[] params = { 
-        "An attempt to wrongly cast an AST class has happened.",
-        e.getClass().getSimpleName(),
-        stackTraceAsString(e) };
-      // use any checker to report the error
-      net.sourceforge.czt.typecheck.z.ErrorAnn error = 
-        typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params);      
-      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
-      System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
-      e.printStackTrace();
-    }
-    catch(net.sourceforge.czt.util.CztException f)
-    {
-      Object[] params = { 
-        "A general CztException has happened.",
-        f.getClass().getSimpleName(),
-        stackTraceAsString(f) };
-      // use any checker to report the error
-      ErrorAnn error = typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params); 
-      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
-      System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
-      f.printStackTrace();
-    }
-    catch(Throwable t)
-    {
-      Object[] params = { 
-        "A general Throwable exception has happened.",
-        t.getClass().getSimpleName(),
-        stackTraceAsString(t) };
-      // use any checker to report the error
-      ErrorAnn error = typeChecker.processChecker_.errorAnn(term, ErrorMessage.UNEXPECTED_EXCEPTION_ERROR, params); 
-      ((List<net.sourceforge.czt.typecheck.z.ErrorAnn>)typeChecker.errors()).add(error);
-      System.err.println("UNEXPECTED_EXCEPTION_ERROR!");
-      t.printStackTrace();
-    }
     List<net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
-    errors.addAll(typeChecker.errors());
-    for(ErrorAnn err : typeChecker.getWarningManager().warnErrors())
+    errors.addAll(guardedTypeCheck(typeChecker, term));
+    for(net.sourceforge.czt.typecheck.z.ErrorAnn err : typeChecker.getWarningManager().warnErrors())
     {
       errors.add(err);
     }

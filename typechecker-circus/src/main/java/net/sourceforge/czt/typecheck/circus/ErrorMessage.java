@@ -138,7 +138,7 @@ public enum ErrorMessage
   /** Messages within PostChecker.java */  
   
   POSTCHECKING_NAMESET_ERROR,
-  POSTCHECKING_CALL_ERROR,
+  POSTCHECKING_CALL_ERROR//,
 
   /** Messages within SpecChecker.java */  
   /** Messages within ExprChecker.java */  
@@ -146,7 +146,8 @@ public enum ErrorMessage
   /** Messages within CharTupleChecker.java */  
   /** Messages within SchTextChecker.java */  
   
-  UNEXPECTED_EXCEPTION_ERROR;  
+  //UNEXPECTED_EXCEPTION_ERROR
+          ;
 
 //  
 //  
