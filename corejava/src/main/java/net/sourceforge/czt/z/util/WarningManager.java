@@ -97,7 +97,7 @@ public class WarningManager
     return loggerClass_;
   }
 
-  public Class<?> setLoggerClass(Class<?> cls)
+  public final Class<?> setLoggerClass(Class<?> cls)
   {
     Class<?> old = loggerClass_;
     loggerClass_ = cls;

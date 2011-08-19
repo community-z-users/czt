@@ -21,6 +21,7 @@ package net.sourceforge.czt.z.util;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
@@ -478,6 +479,79 @@ public final class ZUtils
   public static boolean isDelta(ZName zName)
   {
     return (zName.getWord().startsWith(ZString.DELTA));
+  }
+
+  /**
+   * Cloning terms
+   * @param <T>
+   * @param term
+   * @return
+   */
+  public static <T extends Term> T cloneTerm(T term)
+  {
+    assert term != null;
+    List<Term> listTerm = new ArrayList<Term>();
+    listTerm.add(term);
+    return cloneTerm(term, listTerm);
+  }
+
+  /**
+   * Test whether a list contains a reference to an object.
+   * @param list the list to search.
+   * @param o the reference to search for.
+   * @return true if and only if the reference is in the list.
+   */
+  public static boolean containsObject(List<?> list, Object o)
+  {
+    boolean result = false;
+    for (Iterator<?> iter = list.iterator(); iter.hasNext(); )
+    {
+      Object next = iter.next();
+      if (next == o)
+      {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
+
+  private static <T extends Term> T cloneTerm(T term, List<Term> listTerm)
+  {
+    Object[] children = term.getChildren();
+    for (int i = 0; i < children.length; i++) {
+      Object child = children[i];
+      if (child instanceof Term &&
+          ! containsObject(listTerm, child)) {
+        children[i] = cloneTerm((Term) child, listTerm);
+      }
+    }
+    @SuppressWarnings("unchecked")
+    T result = (T)term.create(children);
+    assert result.equals(term);
+    cloneAnns(term, result);
+    return result;
+  }
+
+  //copy the LocAnn and UndeclaredAnn from term1 to term2
+  private static void cloneAnns(Term term1, Term term2)
+  {
+    if (term1.getAnns() != null)
+    {
+      for(Object obj : term1.getAnns())
+      {
+        if (obj instanceof Term)
+        {
+          Term ann = (Term)obj;
+          Term cann = cloneTerm(ann);
+          term2.getAnns().add(cann);
+        }
+        else
+        {
+          term2.getAnns().add(obj);
+        }
+      }
+    }
   }
 
   /**
