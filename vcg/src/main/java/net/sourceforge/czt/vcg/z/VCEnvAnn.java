@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.impl.AnnImpl;
 
 /**
@@ -33,6 +34,7 @@ import net.sourceforge.czt.z.impl.AnnImpl;
  */
 public abstract class VCEnvAnn<R> extends AnnImpl implements VCGPropertyKeys
 {
+  private VCNameFactory vcNameFactory_;
   private String originalZSectName_;
   private List<VC<R>> vcs_;
   
@@ -46,25 +48,33 @@ public abstract class VCEnvAnn<R> extends AnnImpl implements VCGPropertyKeys
    *
    * @param originalZSectName ZSect where the VCs came from
    * @param vcs list of VC per paragraph.
+   * @param vcf
    */
-  protected VCEnvAnn(String originalZSectName, List<VC<R>> vcs)
+  protected VCEnvAnn(String originalZSectName, List<VC<R>> vcs, VCNameFactory vcf)
   {
     super();
-    init(originalZSectName, vcs);
+    init(originalZSectName, vcs, vcf);
   }
 
-  protected VCEnvAnn(String originalZSectName, List<VC<R>> vcs, BaseFactory factory)
+  protected VCEnvAnn(String originalZSectName, List<VC<R>> vcs, VCNameFactory vcf, BaseFactory factory)
   {
     super(factory);
-    init(originalZSectName, vcs);
+    init(originalZSectName, vcs, vcf);
   }
 
-  protected final void init(String originalZSectName, List<VC<R>> vcs)
+  protected final void init(String originalZSectName, List<VC<R>> vcs, VCNameFactory vcf)
   {
-    assert vcs != null : "null list of vcs";
+    assert vcs != null : "null list of vcs" ;
+    assert vcf != null : "vc name factory is null";
     assert originalZSectName != null && !originalZSectName.isEmpty() : "invalid Z section name";
     originalZSectName_ = originalZSectName;
+    vcNameFactory_ = vcf;
     vcs_ = Collections.unmodifiableList(vcs);
+  }
+
+  protected VCNameFactory getVCNameFactory()
+  {
+    return vcNameFactory_;
   }
 
   /**

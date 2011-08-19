@@ -16,7 +16,6 @@
  * along with CZT; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.czt.vcg.util;
 
 import net.sourceforge.czt.z.ast.AxPara;
@@ -35,18 +34,46 @@ import net.sourceforge.czt.z.util.ZUtils;
 public class DefaultVCNameFactory implements VCNameFactory
 {
 
-   private static long axiomCnt_ = 0;
+  private static long axiomCnt_ = 0;
+  public static final VCNameFactory DEFAULT_VCNAME_FACTORY = new DefaultVCNameFactory();
 
-   public static final VCNameFactory DEFAULT_VCNAME_FACTORY = new DefaultVCNameFactory();
+  protected String createAbbreviationName(AxPara para, String name, String type)
+  {
+    assert ZUtils.isAbbreviation(para);
+    return ZUtils.toStringZName(ZUtils.assertZName(ZUtils.getAbbreviationName(para)));
+  }
+
+  protected String createSchemaName(AxPara para, String name, String type)
+  {
+    assert ZUtils.isSimpleSchema(para);
+    return ZUtils.toStringZName(ZUtils.assertZName(ZUtils.getSchemaName(para)));
+  }
+
+  protected String createFreeParaName(FreePara para, String name, String type)
+  {
+    return ZUtils.toStringZName(ZUtils.assertZFreetypeList(para.getFreetypeList()).get(0).getZName());
+  }
+
+  protected String createConjParaName(ConjPara para, String name, String type)
+  {
+    return para.getName();
+  }
+
+  protected String createAxDefName(AxPara para, String name, String type)
+  {
+    assert ZUtils.isAxPara(para) && para.getBox().equals(Box.AxBox);
+    return name + axiomCnt_++;
+  }
 
   /**
    * For any given Z Paragraph, extract a meaningful name for this VC. It also
    * counts how many axioms there are.
    * @param para
+   * @param type
    * @return
    */
   @Override
-  public final String createNameForVCOf(Para para, String type)
+  public String createNameForVCOf(Para para, String type)
   {
     // create the conjecture name or internal axiom name
     String conjName = null;
@@ -57,7 +84,7 @@ public class DefaultVCNameFactory implements VCNameFactory
     }
     else if (ZUtils.isSimpleSchema(para))
     {
-      conjPrefix =ZUtils.assertZName(ZUtils.getSchemaName(para));
+      conjPrefix = ZUtils.assertZName(ZUtils.getSchemaName(para));
     }
     else if (para instanceof ConjPara)
     {
@@ -94,5 +121,11 @@ public class DefaultVCNameFactory implements VCNameFactory
     conjName += type;
 
     return conjName;
+  }
+
+  @Override
+  public String createVCSectName(String originalSectName, String extra)
+  {
+    return originalSectName + extra;
   }
 }

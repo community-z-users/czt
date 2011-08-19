@@ -264,7 +264,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   @Override
   public String getVCSectName(String originalSectName)
   {
-    return originalSectName + VCG_DOMAINCHECK_SOURCENAME_SUFFIX;
+    return getVCNameFactory().createVCSectName(originalSectName, VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
   }
 
   /**
@@ -282,7 +282,8 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   @Override
   protected VCEnvAnn<Pred> newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
   {
-    return new DCVCEnvAnn(originalSectName, vcList);
+    // Or get the getVCCollector().getVCNameFactory()?
+    return new DCVCEnvAnn(originalSectName, vcList, getVCNameFactory());
   }
 
   @Override

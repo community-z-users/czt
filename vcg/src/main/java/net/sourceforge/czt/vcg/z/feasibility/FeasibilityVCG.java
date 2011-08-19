@@ -193,7 +193,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   @Override
   public String getVCSectName(String originalSectName)
   {
-    return originalSectName + VCG_FEASIBILITY_SOURCENAME_SUFFIX;
+    return getVCNameFactory().createVCSectName(originalSectName, VCG_FEASIBILITY_SOURCENAME_SUFFIX);
   }
 
   /**
@@ -217,7 +217,8 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   @Override
   protected VCEnvAnn<Pred> newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
   {
-    return new FeasibilityVCEnvAnn(originalSectName, vcList);
+    // Or get the getVCCollector().getVCNameFactory()?
+    return new FeasibilityVCEnvAnn(originalSectName, vcList, getVCNameFactory());
   }
 
   @Override

@@ -7,6 +7,7 @@ package net.sourceforge.czt.vcg.z.dc;
 
 import java.util.List;
 import net.sourceforge.czt.base.impl.BaseFactory;
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
 import net.sourceforge.czt.z.ast.Pred;
@@ -41,15 +42,16 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
    * paragraph have been removed whilst creating the Z section.
    * @param originalZSectName
    * @param dcs
+   * @param vcf
    */
-  protected DCVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs)
+  protected DCVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs, VCNameFactory vcf)
   {
-    super(originalZSectName, dcs);
+    super(originalZSectName, dcs, vcf);
   }
   
-  protected DCVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs, BaseFactory factory)
+  protected DCVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs, VCNameFactory vcf, BaseFactory factory)
   {
-    super(originalZSectName, dcs, factory);
+    super(originalZSectName, dcs, vcf, factory);
   }
   
   @Override
@@ -61,7 +63,7 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
       String originalSectName = (String)args[0];      
       @SuppressWarnings("unchecked")
       List<VC<Pred>> dcs = (List<VC<Pred>>)args[1];
-      result = new DCVCEnvAnn(originalSectName, dcs, getFactory());
+      result = new DCVCEnvAnn(originalSectName, dcs, getVCNameFactory(), getFactory());
     }
     catch (IndexOutOfBoundsException e) 
     {
@@ -84,7 +86,7 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
   @Override
   public String getVCSectName()
   {
-    return getOriginalZSectName() + VCG_DOMAINCHECK_SOURCENAME_SUFFIX;
+    return getVCNameFactory().createVCSectName(getOriginalZSectName(), VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
   }
 
 

@@ -950,6 +950,7 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCCollector.j
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCEnvAnn.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCEnvAnnVisitor.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/TrivialFeasibilityVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/AbstractPredTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/AbstractTermTransformer.java -text

@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.Para;
@@ -61,7 +62,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     vcCnt_ = 0;
     factory_ = factory;
     defTable_ = null;
-    vcNameFactory_ = null;
+    vcNameFactory_ = DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY;
     logger_ = Logger.getLogger(getClass().getName());
     // NOTE: not effective to change this factory, since it won't have LocAnn! Change the LocAnn factory directly instead. :-(
     //

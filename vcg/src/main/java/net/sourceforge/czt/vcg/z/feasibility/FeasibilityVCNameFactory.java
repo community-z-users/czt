@@ -17,32 +17,29 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.czt.vcg.util;
+package net.sourceforge.czt.vcg.z.feasibility;
 
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.Para;
 
 /**
  *
  * @author Leo Freitas
- * @date Aug 18, 2011
+ * @date Aug 19, 2011
  */
-public interface VCNameFactory {
+public class FeasibilityVCNameFactory implements VCNameFactory
+{
 
-  /**
-   * Create a name for a VC related to the given Para. This is a convenience method
-   * to enable external tools to influence how names are given to VCs.
-   * @param para
-   * @param type
-   * @return
-   */
-  public String createNameForVCOf(Para para, String type);
+  @Override
+  public String createNameForVCOf(Para para, String type)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-  /**
-   * Creates a ZSect name to contains the various parts created during VCG, such
-   * as NarrPara, AxPara (e.g., new schemas or axioms), and ConjPara of course.
-   * @param originalSectName
-   * @param extras
-   * @return
-   */
-  public String createVCSectName(String originalSectName, String extra);
+  @Override
+  public String createVCSectName(String originalSectName, String extra)
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
 }
