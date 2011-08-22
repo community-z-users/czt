@@ -602,6 +602,7 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    SECTION, PARENTS, // used by the SectHeadScanner within ContextFreeScanner
                    WHERE, // the latex \where command
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
+                   ZSTATE, ZSTINIT, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT, ZRETRIEVE,
  <add:oz>
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
@@ -706,6 +707,7 @@ non terminal LatexCommand innerPara;
 non terminal LatexCommand token, tokenSeq, sectHeadSeq,
      <add:zeves>optDefAbility, optThmAbility, labelAbility,
                 thmUsage, optThmUsage,</add:zeves>
+                optZStInfo, //optNL,
                 paren, special, decorword;
 
    input ::= paragraphList
@@ -822,13 +824,15 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 parser.write(result);
              :}
              |
+             optZStInfo:zsti
              SCH
               <add:zeves>
                 optDefAbility:ability
               </add:zeves>
              specialSeq decorword:w tokenSeq:s END
              {:
-                String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
+                String result = zsti.getName();
+                result += begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
@@ -842,13 +846,15 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 parser.write(result);
              :}
              |
+             optZStInfo:zsti
              GENSCH
               <add:zeves>
                 optDefAbility:ability
               </add:zeves>
              specialSeq decorword:w tokenSeq:s END
              {:
-                String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
+                String result = zsti.getName();
+                result += begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
@@ -1075,6 +1081,59 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
  </add:zeves>
              ;
 
+optZStInfo ::=
+             ZSTATE //optNL
+             {:
+                RESULT = resultFF("\n\\zstate\n", ZString.ZSTATE);
+             :}
+             |
+             ZSTINIT //optNL
+             {:
+                RESULT = resultFF("\n\\zstinit\n", ZString.ZINIT);
+             :}
+             |
+             ZASTATE //optNL
+             {:
+                RESULT = resultFF("\n\\zastate\n", ZString.ZASTATE);
+             :}
+             |
+             ZASTINIT //optNL
+             {:
+                RESULT = resultFF("\n\\zastinit\n", ZString.ZAINIT);
+             :}
+             |
+             ZCSTATE //optNL
+             {:
+                RESULT = resultFF("\n\\zcstate\n", ZString.ZCSTATE);
+             :}
+             |
+             ZCSTINIT //optNL
+             {:
+                RESULT = resultFF("\n\\zcsinit\n", ZString.ZCINIT);
+             :}
+             |
+             ZRETRIEVE //optNL
+             {:
+                RESULT = resultFF("\n\\zretrieve\n", ZString.ZRETRIEVE);
+             :}
+             |
+             // empty
+             {:
+                RESULT = resultFF(" ", ZString.SPACE);
+             :}
+             ;
+
+/*
+optNL ::=   NL
+            {:
+                RESULT = resultTT("\\\\\n", ZString.NL);
+            :}
+            |
+           // empty
+           {:
+              RESULT = resultFF(" ", ZString.SPACE);
+           :}
+           ;*/
 
 <add:zeves>
  // ability as different tokens - this is necessary for Unicode differentiation

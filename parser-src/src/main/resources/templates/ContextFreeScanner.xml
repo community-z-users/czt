@@ -443,6 +443,14 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
   {SCH}         {  beginZed(); return symbol(Sym.SCH); }
   {GENSCH}      {  beginZed(); return symbol(Sym.GENSCH); }
 
+  ({NL}|{SPACE})* "zstate" ({SPACE}|{NL})+     { return symbol(Sym.ZSTATE);   }
+  ({NL}|{SPACE})* "zstinit" ({SPACE}|{NL})+    { return symbol(Sym.ZSTINIT);  }
+  ({NL}|{SPACE})* "zastate" ({SPACE}|{NL})+    { return symbol(Sym.ZASTATE);   }
+  ({NL}|{SPACE})* "zastinit" ({SPACE}|{NL})+   { return symbol(Sym.ZASTINIT);  }
+  ({NL}|{SPACE})* "zcstate" ({SPACE}|{NL})+    { return symbol(Sym.ZCSTATE);   }
+  ({NL}|{SPACE})* "zcstinit" ({SPACE}|{NL})+   { return symbol(Sym.ZCSTINIT);  }
+  ({NL}|{SPACE})* "zretrieve" ({SPACE}|{NL})+  { return symbol(Sym.ZRETRIEVE); }
+
 &lt;YYINITIAL&gt; {
   <add:pattern>
   /* Z joker paragraph */

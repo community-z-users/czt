@@ -631,6 +631,9 @@ NOT_LB = !(![^] | "{")
 NAME =   {NOT_LB}*
        | {NOT_LB}* "{" {NOT_LB}* "}" {NOT_LB}*
 
+ZSTATE = "zstate" | "zstinit" | "zastate" | "zcstate" | "zastinit" | "zcstinit" | "zretrieve"
+ZSTATE_INFO = "\\" {ZSTATE}
+
 <add:zeves>
 /*
 A proof word is any combination of proof word parts followed by remaining bits
@@ -986,6 +989,12 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           braceStack_.push(BraceType.PROOF_NAME);
           return result(ZEvesString.ZPROOF);
         }
+
+  // For now, don't accept \\syndef; instead we just directly translate CZT Optemp into ZEves' XML format
+  // Given \\syndef are not that common within our legacy specs, this shoulnd't be a problem. The point is
+  // that we still have the ability to handle ZEves specs with op templates. The CZT Optemp language is
+  // richer that ZEves', so the CZT2ZEves xml printer guarantees they match, raising an error where they can't.
+  //
   //"\\syndef{" / ({NAME} "}{" {ZEVES_OP_CLS} "}{" {NAME} "}")
   //      {
   //        yybegin(ZEVES_OPT_STATE);
@@ -1016,6 +1025,13 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           yybegin(ERROR);
         }
 </add:zeves>
+
+  {ZSTATE_INFO} {IGNORE}* / "\\begin"
+        {
+          String zst = yytext();
+          zst = zst.substring(1, zst.length());
+          return result(zst);
+        }
   ^{CHAR_MARKUP}
         {
           return result(LatexSym.CHAR_MARKUP);

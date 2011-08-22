@@ -298,6 +298,10 @@ public class <class/>
     if (markupFunction_ != null) {
       final Key&lt;LatexMarkupFunction&gt; key =
         new Key&lt;LatexMarkupFunction&gt;(markupFunction_.getSection(), LatexMarkupFunction.class);
+      if (sectInfo_.isCached(key))
+      {
+        CztLogger.getLogger(LatexMarkupFunction.class).warning("About to add duplicate key '" + key.toString() + "' while updating LatexMarkupFunction. This might happen when keywords are missued in the specification");
+      }
       sectInfo_.put(key, markupFunction_, null);
     }
   }

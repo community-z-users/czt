@@ -2197,6 +2197,7 @@ terminal LocInfo
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, THEOREM,
+        ZSTATE, ZSTINIT, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT, ZRETRIEVE,
 <add:pattern>
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:pattern>
@@ -2401,6 +2402,9 @@ non terminal AxPara
     genericAxDefinition,
     abbreviationDefinition,
     schema;
+
+non terminal ZStateInfo
+    optZStateInfo;
 
 non terminal ConstDecl
     letDefinition;
@@ -3686,6 +3690,7 @@ basicTypeDefinition ::=
         ;
 
 schema ::=
+        optZStateInfo:ozsi
         SCH:sch
         <add:zeves>optDefAbility:ability</add:zeves>
         name:n optNL schemaText:st END:end
@@ -3693,8 +3698,10 @@ schema ::=
            RESULT = factory_.createSchema(n, null, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(sch, end));
+           if (ozsi != null) RESULT.getAnns().add(ozsi);
         :}
         |
+        optZStateInfo:ozsi
         GENSCH:gensch
         <add:zeves>optDefAbility:ability</add:zeves>
         name:n optNL formalParameters:fp schemaText:st END:end
@@ -3702,6 +3709,49 @@ schema ::=
            RESULT = factory_.createSchema(n, fp, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(gensch, end));
+           if (ozsi != null) RESULT.getAnns().add(ozsi);
+        :}
+        ;
+
+optZStateInfo ::=
+        ZSTATE
+        {:
+           RESULT = ZStateInfo.STATE;
+        :}
+        |
+        ZSTINIT
+        {:
+           RESULT = ZStateInfo.INIT;
+        :}
+        |
+        ZASTATE
+        {:
+           RESULT = ZStateInfo.ASTATE;
+        :}
+        |
+        ZASTINIT
+        {:
+           RESULT = ZStateInfo.AINIT;
+        :}
+        |
+        ZCSTATE
+        {:
+           RESULT = ZStateInfo.CSTATE;
+        :}
+        |
+        ZCSTINIT
+        {:
+           RESULT = ZStateInfo.CINIT;
+        :}
+        |
+        ZRETRIEVE
+        {:
+           RESULT = ZStateInfo.RETRIEVE;
+        :}
+        |
+        // empty
+        {:
+           RESULT = null;
         :}
         ;
 
