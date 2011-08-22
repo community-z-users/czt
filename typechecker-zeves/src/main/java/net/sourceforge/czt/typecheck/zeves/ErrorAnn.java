@@ -74,43 +74,4 @@ public class ErrorAnn
       Markup markup) {
     PrintUtils.print(term, writer, sectInfo, sectName, markup_);
   }
-  
-  /**
-   * In the case of inner errors raised during postchecking for calls,
-   * add them to the originating message.
-   * 
-   * @return the compound error string.
-   */
-  @Override
-  public String getMessage()
-  {
-    StringBuilder result = new StringBuilder();//"\n"); // add an extra new line for error messages
-    													// AV: the extra new line looks bad in UI
-    result.append(super.getMessage());
-    for(ErrorAnn e : callErrors_)
-    {
-      result.append("\n------------------------------\n");
-      result.append(e.getMessage());
-    }
-    if (!callErrors_.isEmpty())
-    {
-      result.append("\n------------------------------\n");
-    }
-    return result.toString();
-  }
-  
-  protected List<ErrorAnn> callErrors()
-  {
-    return Collections.unmodifiableList(callErrors_);
-  }
-  
-  protected void addCallErrors(List<ErrorAnn> list)
-  {
-    callErrors_.addAll(list);
-  }
-  
-  protected void clearCallErrors()
-  {
-    callErrors_.clear();
-  }  
 }

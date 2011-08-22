@@ -28,6 +28,17 @@ apply dFoo;
 prove by reduce;
 \end{zproof}
 
-znote{Note within theorem}
-znote{Note within axdef}
-znote{Note within proof}
+
+\begin{theorem}{lZOpsinProof}
+   true
+\end{theorem}
+
+\begin{zproof}[lZOpsinProof]
+  prove by reduce;
+  use finiteFunction[Y, X][f := f (\_ \inv) [X, Y]];
+\end{zproof}
+
+Duplicate name
+\begin{theorem}{lZOpsinProof}
+   true
+\end{theorem}
