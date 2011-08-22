@@ -21,8 +21,10 @@ package net.sourceforge.czt.print.zeves;
 
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
 import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
+import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -67,6 +69,7 @@ public class AstToPrintTreeVisitor extends
   @SuppressWarnings("unchecked")
   protected void preprocessTerm(Term term, List list)
   {
+    super.preprocessTerm(term, list);
     // within AxPara
     if (withinAxPara_)
     {
