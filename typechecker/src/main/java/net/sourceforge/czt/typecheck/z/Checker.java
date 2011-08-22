@@ -21,9 +21,11 @@ package net.sourceforge.czt.typecheck.z;
 import java.io.Writer;
 import java.io.StringWriter;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
@@ -35,6 +37,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -47,11 +50,14 @@ abstract public class Checker<R>
 {
   //the information required for the typechecker classes.
   protected TypeChecker typeChecker_;
-  
+
+  protected Map<ZStateInfo, Name> zStateInfo_;
+
   public Checker(TypeChecker typeChecker)
   {
     assert typeChecker != null;
     typeChecker_ = typeChecker;
+    zStateInfo_ = new EnumMap<ZStateInfo, Name>(ZStateInfo.class);
   }
   
   /**
@@ -823,6 +829,35 @@ abstract public class Checker<R>
       }
     }
     return result;
+  }
+
+  protected void checkZStateInfo(AxPara para)
+  {
+    if (para.hasAnn(ZStateInfo.class))
+    {
+      Object[] params = null;
+      ZStateInfo zsi = para.getAnn(ZStateInfo.class);
+      Name name = zStateInfo_.get(zsi);
+      if (name == null && para.getBox().equals(Box.SchBox))
+      {
+        name = ZUtils.getSchemaName(para);
+        Name old = zStateInfo_.put(zsi, name);
+        assert old == null;
+      }
+      // bad format or missing name
+      else
+      {
+        Name other = ZUtils.getAxParaSchOrAbbrName(para);
+        if (!ZUtils.namesEqual(name, other))
+        {
+          params = new Object[]
+                  {
+                    para, zsi, name, ZUtils.getAxParaSchOrAbbrName(para)
+                  };
+          error(para, ErrorMessage.ZSTATEINFO_INCONSISTENCY, params);
+        }
+      }
+    }
   }
   
   protected void insertUnsort(List<NameTypePair> pairsA,

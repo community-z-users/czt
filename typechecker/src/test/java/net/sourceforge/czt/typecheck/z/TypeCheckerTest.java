@@ -182,6 +182,8 @@ public class TypeCheckerTest
       }
       if (errors.size() > 0)
       {
+        System.out.println("\tfound type errors on normal spec " + this.url_);
+        System.out.println("\t"+errors.toString());
         ErrorAnn errorAnn = errors.get(0);
         fail("\nUnexpected type error" +
           "\n\tFile: " + url_ +
@@ -210,7 +212,6 @@ public class TypeCheckerTest
       List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
       try
       {
-	//        System.out.println("Test error: " + url_);
         Term term = parse(url_, manager);
         if (term == null)
         {
@@ -247,6 +248,8 @@ public class TypeCheckerTest
           removeUnderscore(errorAnn.getErrorMessage().toString());
         if (exception_.compareToIgnoreCase(actual) != 0)
         {
+          System.out.println("\tfound type error " + actual + " expected " + exception_ + " for " + url_);
+          System.out.println("\t"+errors.toString());
           incorrectError(actual);
         }
       }

@@ -903,6 +903,8 @@ typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/TypeMismatc
 typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/TypeMismatchInExpr-SchExpr2-Vright.error -text
 typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/useBeforeDecl/Fastest.tex -text
 typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/useBeforeDecl/Transitive.tex -text
+typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/zstateref.tex -text
+typechecker/src/test/resources/zstateref-ZSTATEINFOINCONSISTENCY.error -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_about.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text

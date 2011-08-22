@@ -1,0 +1,54 @@
+
+\begin{zsection}
+   \SECTION zstateref \parents zstate\_toolkit
+\end{zsection}
+
+\zstate
+\begin{schema}{S}
+   x: \nat
+\where
+   10 > x
+\end{schema}
+
+\zstinit
+\begin{schema}{SInit}
+   S~'
+\where
+   x' = 0
+\end{schema}
+
+\zastate
+\begin{schema}{AState}
+   x: \power \nat
+\where
+  x \neq \emptyset
+\end{schema}
+
+\zastinit
+\begin{schema}{ASInit}
+   AState~'
+\where
+   x' = \{ 0 \}
+\end{schema}
+
+\zcstate
+\begin{schema}{CState}
+  y: \seq \nat
+\where
+   y \neq \langle \rangle
+\end{schema}
+
+\zcstinit
+\begin{schema}{CStInit}
+   CState~'
+\where
+  y' = \langle 0 \rangle
+\end{schema}
+
+\zretrieve
+\begin{schema}{Retr}
+   AState \\
+   CState
+\where
+   \ran~y = x
+\end{schema}

@@ -1,0 +1,17 @@
+\begin{zsection}
+   \SECTION zstateref\_ZSTATEINFOINCONSISTENCY \parents zstate\_toolkit
+\end{zsection}
+
+\zstate
+\begin{schema}{S}
+   x: \nat
+\where
+   10 > x
+\end{schema}
+
+\zstate
+\begin{schema}{T}
+   y: \nat
+\where
+   y = 0
+\end{schema}

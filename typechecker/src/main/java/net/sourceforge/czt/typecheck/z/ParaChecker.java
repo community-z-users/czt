@@ -115,6 +115,8 @@ public class ParaChecker
     //exit the variable scope
     typeEnv().exitScope();
 
+    checkZStateInfo(axPara);
+
     return signature;
   }
 
