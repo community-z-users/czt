@@ -74,6 +74,14 @@ public interface ZString
   String ARG = LL;
   String LISTARG = ",,";
 
+  String ZSTATE = "zstate";
+  String ZINIT = "zstinit";
+  String ZASTATE = "zastate";
+  String ZAINIT = "zastinit";
+  String ZCINIT = "zcstinit";
+  String ZCSTATE = "zcstate";
+  String ZRETRIEVE = "zretrieve";
+  
   /**
    * The separator that is used when representing operators as strings
    * to separate names and arguments.

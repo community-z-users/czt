@@ -626,6 +626,24 @@ public final class ZUtils
     return result;
   }
 
+  public static Name getAxParaSchOrAbbrName(Term term)
+  {
+    Name result = null;
+    if (isAxPara(term))
+    {
+      AxPara axp = (AxPara)term;
+      if (isAxParaSchemaOrHorizDefValid(axp))
+      {
+        result = getSchemaName(term);
+        if (result == null)
+        {
+          result = getAbbreviationName(term);
+        }
+      }
+    }
+    return result;
+  }
+
   public static Name getAbbreviationName(Term term)  
   {
     Name result = null;
