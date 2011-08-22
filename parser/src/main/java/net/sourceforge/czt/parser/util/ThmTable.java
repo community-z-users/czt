@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.util;
 import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.ConjPara;
 
 /**
@@ -63,7 +64,8 @@ public class ThmTable extends InfoTable
   {
     if (thmTable_.get(name) != null) {
       String message = "Conjecture " + name + " defined more than once";
-      throw new ThmTableException(message);
+      CztLogger.getLogger(getClass()).warning(message);
+      //throw new ThmTableException(message); Leave the duplication to be caught by the typechecker
     }
     thmTable_.put(name, info);
   }

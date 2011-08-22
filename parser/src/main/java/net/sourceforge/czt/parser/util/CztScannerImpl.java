@@ -79,7 +79,15 @@ public abstract class CztScannerImpl
       final String symbolValue;
       // for simple unicode symbols get its Hex value
       if (symbolV.length() == 1)
-        symbolValue = "U+" + Integer.toHexString(symbolV.codePointAt(0));
+      {
+        int codePoint = symbolV.codePointAt(0);
+        if (!Character.isWhitespace(codePoint) &&
+            !Character.isLetterOrDigit(codePoint) &&
+            !(codePoint >= 0x20 && codePoint <= 0x7E))
+          symbolValue = "U+" + Integer.toHexString(codePoint);
+        else
+          symbolValue = symbolV;
+      }
       // for higher (more than Uniode8?) get first symbol as well
       else if (symbolV.length() == 2 && symbolV.codePointCount(0, 1) == 1)
       {

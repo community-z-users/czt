@@ -33,6 +33,7 @@ import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.util.TokenImpl;
 import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.*;
@@ -40,7 +41,6 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.Section;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -324,14 +324,47 @@ public class AstToPrintTreeVisitor
     return pp;
   }
 
-  protected void preprocessTerm(Term term, List list)
+  // Object: actually Token or Term
+  protected void preprocessTerm(Term term, List<Object> list)
   {
-    // do nothing
+    if (term.hasAnn(ZStateInfo.class))
+    {
+      ZStateInfo sti =term.getAnn(ZStateInfo.class);
+      //if (!sti.equals(ZStateInfo.NONE))
+      //  list.add(0, ZToken.NL);
+      switch (sti)
+      {
+        case INIT:
+          list.add(0, ZToken.ZSTINIT);
+          break;
+        case STATE:
+          list.add(0, ZToken.ZSTATE);
+          break;
+        case AINIT:
+          list.add(0, ZToken.ZASTINIT);
+          break;
+        case ASTATE:
+          list.add(0, ZToken.ZASTATE);
+          break;
+        case CINIT:
+          list.add(0, ZToken.ZCSTINIT);
+          break;
+        case CSTATE:
+          list.add(0, ZToken.ZCSTINIT);
+          break;
+        case RETRIEVE:
+          list.add(0, ZToken.ZRETRIEVE);
+          break;
+      }
+      //list.add(0, ZToken.NL);
+    }
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
   public Term visitAxPara(AxPara axPara)
   {
-    List list = new LinkedList();
+    List<Object> list = new LinkedList<Object>();
     withinAxPara_ = true;
     PrintParagraph result = null;
     Box box = axPara.getBox();
@@ -366,7 +399,7 @@ public class AstToPrintTreeVisitor
     else if (Box.OmitBox.equals(box)) {
       list.add(ZToken.ZED);
       preprocessTerm(axPara, list);
-      final List declNameList = axPara.getName();
+      final List<Name> declNameList = axPara.getName();
       final SchText schText = axPara.getSchText();
       final List<Decl> decls = axPara.getZSchText().getZDeclList();
       for (Decl decl : decls) {
@@ -393,7 +426,7 @@ public class AstToPrintTreeVisitor
             list.add(ZToken.RSQUARE);
           }
           final Expr expr = constDecl.getExpr();
-          final TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
+          final TypeAnn typeAnn = expr.getAnn(TypeAnn.class);
           Token token = ZKeyword.DEFEQUAL;
           if (typeAnn != null) {
             Type type = typeAnn.getType();

@@ -79,7 +79,8 @@ public enum ZKeyword
   MU(ZString.MU, NewlineCategory.AFTER),
   THETA(ZString.THETA, NewlineCategory.AFTER),
   ZCOMP(ZString.ZCOMP, NewlineCategory.BOTH),
-  ZPIPE(ZString.ZPIPE, NewlineCategory.BOTH);
+  ZPIPE(ZString.ZPIPE, NewlineCategory.BOTH)
+  ;
 
   private String spelling_;
   private NewlineCategory newlineCategory_;

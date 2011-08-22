@@ -99,6 +99,13 @@ public final class DebugUtils
     scan(scanner, cupSymbolTable, //new BufferedWriter(
             new OutputStreamWriter(System.out, "UTF-8"));//);
   }
+
+  private static boolean isASCIIRange(int codePoint)
+  {
+    // between SPACE (20) to "~" (7E)
+    return codePoint >= 0x20 && codePoint <= 0x7E;
+  }
+
   public static void scan(Scanner scanner, Class<?> cupSymbolTable, Writer writer) throws Exception
   {
     Map<Object,String> symbols = getFieldMap(cupSymbolTable);
@@ -114,7 +121,8 @@ public final class DebugUtils
         final int maxLength = 20;
         if (value.length() == 1 &&
             !Character.isWhitespace(value.codePointAt(0)) &&
-            !Character.isLetterOrDigit(value.codePointAt(0))) {
+            !Character.isLetterOrDigit(value.codePointAt(0)) &&
+            !isASCIIRange(value.codePointAt(0)) ) {
           symbolValue = "U+" + Integer.toHexString(value.codePointAt(0));
         }
         else if(value.length() <= maxLength) {

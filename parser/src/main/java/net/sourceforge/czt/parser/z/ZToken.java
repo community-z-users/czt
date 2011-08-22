@@ -53,7 +53,15 @@ public enum ZToken
   GENSCH(ZString.GENSCH, NewlineCategory.AFTER),
   END(ZString.END, NewlineCategory.BEFORE),
   NL(ZString.NL, null),
-  INDENT(ZString.SPACE, null);
+  INDENT(ZString.SPACE, null),
+
+  ZSTATE(ZString.ZSTATE, NewlineCategory.NEITHER),
+  ZSTINIT(ZString.ZINIT, NewlineCategory.NEITHER),
+  ZASTATE(ZString.ZASTATE, NewlineCategory.NEITHER),
+  ZASTINIT(ZString.ZAINIT, NewlineCategory.NEITHER),
+  ZCSTATE(ZString.ZCSTATE, NewlineCategory.NEITHER),
+  ZCSTINIT(ZString.ZCINIT, NewlineCategory.NEITHER),
+  ZRETRIEVE(ZString.ZRETRIEVE, NewlineCategory.NEITHER);
 
   private String spelling_;
   private NewlineCategory newlineCategory_;
