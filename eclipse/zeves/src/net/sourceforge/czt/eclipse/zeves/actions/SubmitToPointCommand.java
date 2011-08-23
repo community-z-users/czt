@@ -5,10 +5,10 @@ import java.util.TimerTask;
 
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.editor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesExecVisitor;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -35,17 +36,21 @@ public class SubmitToPointCommand extends AbstractHandler {
 		ZEditor editor = (ZEditor) HandlerUtil.getActiveEditor(event);
 		int caretPosition = ZEditorUtil.getCaretPosition(editor);
 		
-		submitToOffset(editor, editor.getParsedData(), caretPosition);
+		submitToOffset(editor, caretPosition);
 		return null;
 	}
 
-	public static void submitToOffset(ZEditor editor, ParsedData parsedData, int offset)
-			throws ExecutionException {
+	public static void submitToOffset(ZEditor editor, int offset) {
 		
 		ZEves prover = ZEvesPlugin.getZEves();
 		if (!prover.isRunning()) {
-			throw new ExecutionException("Prover is not running");
+			MessageDialog.openInformation(editor.getSite().getShell(), "Prover Not Running",
+					"The Z/Eves prover is not running.");
+			return;
+//			throw new ExecutionException("Prover is not running");
 		}
+		
+		ParsedData parsedData = editor.getParsedData();
 		
         IResource resource = ZEditorUtil.getEditorResource(editor);
         IDocument document = ZEditorUtil.getDocument(editor);
