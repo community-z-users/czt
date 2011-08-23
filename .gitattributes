@@ -306,7 +306,6 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendSimpleProofComma
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SubmitToPointCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditListener.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditTracker.java -text svneol=unset#text/plain
-eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorUtil.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesAnnotations.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesExecVisitor.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesPosVisitor.java -text svneol=unset#text/plain
@@ -320,7 +319,6 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesRemoteLaunch.jav
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferenceConstants.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferenceInitializer.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferencePage.java -text svneol=unset#text/plain
-eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/FilteredTree2.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/IZEvesElement.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/TheoremTree.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEditorResults.java -text svneol=unset#text/plain
