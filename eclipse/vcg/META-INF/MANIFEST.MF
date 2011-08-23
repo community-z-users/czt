@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CZT Verification Condition Generator
+Bundle-SymbolicName: net.sourceforge.czt.eclipse.vcg;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: net.sourceforge.czt.eclipse.vcg.VcgPlugin
+Bundle-Vendor: Community Z Tools
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.sourceforge.czt.eclipse;bundle-version="1.6.0",
+ net.sourceforge.czt.library;bundle-version="1.6.0",
+ org.eclipse.ui.editors,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: net.sourceforge.czt.eclipse.vcg.views

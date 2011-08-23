@@ -1808,6 +1808,7 @@ eclipse/czthelp/target
 eclipse/cztlib/eclipse_build
 eclipse/cztlib/lib/czt.jar
 eclipse/target
+eclipse/vcg/eclipse_build
 eclipse/zeves/eclipse_build
 fonts/*.aux
 fonts/*.blg

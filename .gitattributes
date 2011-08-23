@@ -263,6 +263,20 @@ eclipse/updatesite/.project -text
 eclipse/updatesite/artifacts.xml -text
 eclipse/updatesite/content.xml -text
 eclipse/updatesite/site.xml -text
+eclipse/vcg/.classpath -text svneol=unset#text/plain
+eclipse/vcg/.project -text svneol=unset#text/plain
+eclipse/vcg/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+eclipse/vcg/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+eclipse/vcg/build.properties -text svneol=unset#text/plain
+eclipse/vcg/plugin.xml -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/VcgImages.java -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/VcgPlugin.java -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCEntry.java -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCManager.java -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCPage.java -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCTree.java -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCView.java -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VcgAnnotations.java -text svneol=unset#text/plain
 eclipse/zeves/.classpath -text svneol=unset#text/plain
 eclipse/zeves/.project -text svneol=unset#text/plain
 eclipse/zeves/META-INF/MANIFEST.MF -text svneol=unset#text/plain
