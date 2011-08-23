@@ -2227,7 +2227,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   {
     try {
       // first delete all the previous markers
-      resource.deleteMarkers(IZMarker.PROBLEM, false, 0);
+      resource.deleteMarkers(IZMarker.PROBLEM, true, 0);
 
       ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser();
 
@@ -2244,9 +2244,9 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   public void aboutToBeReconciled()
   {
     // Notify listeners
-    Object[] listeners = fReconcilingListeners.getListeners();
-    for (int i = 0, length = listeners.length; i < length; ++i)
-      ((IZReconcilingListener) listeners[i]).aboutToBeReconciled();
+    for (Object listener : fReconcilingListeners.getListeners()) {
+      ((IZReconcilingListener) listener).aboutToBeReconciled();
+    }
   }
 
   /*
@@ -2264,10 +2264,9 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     updateOutlinePage(fParsedData);
 
     // Notify listeners
-//    Object[] listeners = fReconcilingListeners.getListeners();
-//    for (int i = 0, length = listeners.length; i < length; ++i)
-//      ((IZReconcilingListener) listeners[i]).reconciled(parsedData, forced,
-//          progressMonitor);
+    for (Object listener : fReconcilingListeners.getListeners()) {
+      ((IZReconcilingListener) listener).reconciled(parsedData, forced, progressMonitor);
+    }
 
     // Update Z Outline page selection
 //    if (!forced && !progressMonitor.isCanceled()) {
@@ -2291,7 +2290,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * @param listener  The reconcile listener to be added
    * @since 3.0
    */
-  final void addReconcileListener(IZReconcilingListener listener)
+  public final void addReconcileListener(IZReconcilingListener listener)
   {
     synchronized (fReconcilingListeners) {
       fReconcilingListeners.add(listener);
@@ -2305,7 +2304,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * @param listener  the reconcile listener to be removed
    * @since 3.0
    */
-  final void removeReconcileListener(IZReconcilingListener listener)
+  public final void removeReconcileListener(IZReconcilingListener listener)
   {
     synchronized (fReconcilingListeners) {
       fReconcilingListeners.remove(listener);
