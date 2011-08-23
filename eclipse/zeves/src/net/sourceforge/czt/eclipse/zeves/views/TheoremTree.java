@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.views;
 
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.views.FilteredTree2;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.zeves.ZEvesApi;

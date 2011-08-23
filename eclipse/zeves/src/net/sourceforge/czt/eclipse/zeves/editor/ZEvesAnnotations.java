@@ -160,6 +160,7 @@ public class ZEvesAnnotations {
 		}
 		
 		IWorkspaceRunnable r = new IWorkspaceRunnable() {
+			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				
 				for (IMarker marker : removeMarkers) {
@@ -263,12 +264,14 @@ public class ZEvesAnnotations {
 	
 	public void flushPendingMarkers() {
 		
-		final List<Entry<String, Map<String, Object>>> markersCopy = new ArrayList<Entry<String, Map<String,Object>>>(pendingMarkers);
+		final List<Entry<String, Map<String, Object>>> markersCopy = 
+				new ArrayList<Entry<String, Map<String,Object>>>(pendingMarkers);
 		pendingMarkers.clear();
 		
 		final IResource resource = markerResource;
 		
 		IWorkspaceRunnable r = new IWorkspaceRunnable() {
+			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				
 				for (Entry<String, Map<String, Object>> markerEntry : markersCopy) {

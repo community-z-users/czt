@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPartReference;
@@ -23,8 +25,14 @@ public class ZEditorEditTracker {
 			new HashMap<ITextEditor, IDocumentListener>();
 	
 	public void init() {
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
-				.addPartListener(partListener);
+		Display.getDefault().syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
+						.addPartListener(partListener);
+			}
+		});
 	}
 	
 	public void dispose() {
