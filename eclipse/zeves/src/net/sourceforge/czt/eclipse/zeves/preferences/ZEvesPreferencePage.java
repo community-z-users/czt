@@ -62,11 +62,11 @@ public class ZEvesPreferencePage extends PreferencePage implements IWorkbenchPre
 	    layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
 	    main.setLayout(layout);
 	    
-	    addCheckBox(
-	        main,
-	        "Generate feasibility VCs",
-	        "Generate feasibility verification conditions when paragraphs are submitted to Z/Eves",
-	        ZEvesPreferenceConstants.PROP_GENERATE_FEASIBILITY_VCS);
+//	    addCheckBox(
+//	        main,
+//	        "Generate feasibility VCs",
+//	        "Generate feasibility verification conditions when paragraphs are submitted to Z/Eves",
+//	        ZEvesPreferenceConstants.PROP_GENERATE_FEASIBILITY_VCS);
 
 	    Dialog.applyDialogFont(main);
 	    return main;
