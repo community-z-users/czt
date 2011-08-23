@@ -10,6 +10,7 @@ import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.preferences.ZSourcePreviewerUpdater;
@@ -18,7 +19,6 @@ import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.actions.SendProofCommand;
-import net.sourceforge.czt.eclipse.zeves.editor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ProofResultElement;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ProofResultElement.IProofResultInfo;
@@ -34,6 +34,7 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.action.Action;
@@ -628,9 +629,9 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 			ze = (IZEvesElement) element;
 		}
 		
-//		if (element instanceof IAdaptable) {
-//			ze = (IZEvesElement) ((IAdaptable) element).getAdapter(IZEvesElement.class);
-//		}
+		if (element instanceof IAdaptable) {
+			ze = (IZEvesElement) ((IAdaptable) element).getAdapter(IZEvesElement.class);
+		}
 
 		return ze;
 	}
