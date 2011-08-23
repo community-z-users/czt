@@ -55,7 +55,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
   private final static Visitor<List<? extends Term>> NODE_CHILDREN_VISITOR = 
       new NodeChildrenVisitor();
   
-  private static final Visitor<Image> TERM_ICON_VISITOR = new NodeIconVisitor();
+  public static final Visitor<Image> TERM_ICON_VISITOR = new NodeIconVisitor();
   
   /** A flag to show complete syntax tree in outline */
   private boolean showCompleteTree;
