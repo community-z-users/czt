@@ -416,7 +416,7 @@ public abstract class CztManagedTest extends TestCase
         }
         else
         {
-          msg.append("\n EXPTION HANDLED DURING TESTING \n--------------------------------");
+          msg.append("\n EXCEPTION HANDLED DURING TESTING \n--------------------------------");
           manager_.getLogger().finer(msg.toString());
           System.err.println(msg.toString());
         }
