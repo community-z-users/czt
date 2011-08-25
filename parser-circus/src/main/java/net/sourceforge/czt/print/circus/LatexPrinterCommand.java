@@ -43,14 +43,7 @@ public class LatexPrinterCommand
     Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     parser.setWriter(printer);
-    try {
-      parser.parse();
-    }
-    catch (Exception e) {
-      String msg = "An exception occurred while trying to print " +
-        "LaTeX markup for term within section " + sectionName;
-      throw new PrintException(msg, e);
-    }
+    parse(out, sectInfo, parser, sectionName);
   }
 
   @Override
