@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.vcg.z.feasibility;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -36,13 +36,15 @@ import net.sourceforge.czt.z.ast.ZBranchList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCType;
-import net.sourceforge.czt.vcg.z.transformer.ZPredTransformer;
+import net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GivenPara;
@@ -58,7 +60,9 @@ import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.visitor.BranchVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
@@ -85,18 +89,22 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   FeasibilityPropertyKeys
 {
 
-  private ZPredTransformer predTransformer_;
+  private ZPredTransformerFSB predTransformer_;
 
   private boolean nonEmptyGivenSets_;
   private boolean doCreateZSchemas_;
 
   private final Stroke dash_;
   private final Stroke output_;
+  private final Stroke input_;
   private ZName currentName_;
   private final ZName setInterName_;
   private final ZName freeTypeCtorOpName_;
 
+  private ZName stateSchema_;
+  private ZNameList stateSchemaGenParams_;
   private final Map<ZName, AxPara> addedSigSchemas_;
+  private final List<AxPara> addedSigSchemasList_;
 
   /**
    * 
@@ -112,27 +120,35 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   public FeasibilityVCCollector(Factory factory)
   {
     super(factory);
-    predTransformer_ = new ZPredTransformer(factory, this);
+    predTransformer_ = new ZPredTransformerFSB(factory, this);
     predTransformer_.setApplyTransformer(PROP_VCG_FEASIBILITY_APPLY_TRANSFORMERS_DEFAULT);
     setNonemptyGivenSetVC(PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS_DEFAULT);
     setCreateZSchemas(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT);
+    setZStateName(null);
     currentName_ = null;
+    stateSchemaGenParams_ = null;
     output_ = factory_.createOutStroke();
     dash_ = factory_.createNextStroke();
+    input_ = factory_.createInStroke();
     setInterName_ = factory_.createZName(ZString.ARG_TOK+ZString.CAP+ZString.ARG_TOK);
     freeTypeCtorOpName_ = factory_.createZName(ZString.ARG_TOK+ZString.INJ+ZString.ARG_TOK);
     addedSigSchemas_ = new TreeMap<ZName, AxPara>(ZUtils.ZNAME_COMPARATOR);
+    addedSigSchemasList_ = new ArrayList<AxPara>();
   }
 
   protected void clearAddedPara()
   {
     addedSigSchemas_.clear();
+    addedSigSchemasList_.clear();
+    setZStateName(null);
   }
 
   @Override
-  public Collection<? extends Para> addedPara()
+  public List<? extends Para> addedPara()
   {
-    return addedSigSchemas_.values();
+    assert addedSigSchemasList_.size() == addedSigSchemas_.size() &&
+            addedSigSchemasList_.containsAll(addedSigSchemas_.values());
+    return Collections.unmodifiableList(addedSigSchemasList_);
   }
   
   @Override
@@ -159,6 +175,22 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   protected final void setCreateZSchemas(boolean value)
   {
     doCreateZSchemas_ = value;
+  }
+
+  protected final void setZStateName(ZName n)
+  {
+    stateSchema_ = n;
+    stateSchemaGenParams_ = null;
+  }
+
+  protected ZName getZStateName()
+  {
+    return stateSchema_;
+  }
+
+  protected ZNameList getZStateGenParams()
+  {
+    return stateSchemaGenParams_;
   }
 
   /** VC COLLECTOR METHODS
@@ -331,10 +363,12 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   @Override
   public Pred visitAxPara(AxPara term)
   {
+    Pred result = null;
     switch (term.getBox())
     {
       case AxBox:
-        return handleAxiom(term.getZSchText());
+        result = handleAxiom(term.getZSchText());
+        break;
 
       case OmitBox:
       case SchBox:
@@ -343,20 +377,47 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         Definition termDef = getDefTable().lookupName(termName);
         if (termDef != null)
         {
-          Expr termExpr  = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getExpr();
+        //  Expr termExpr  = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getExpr();
 //          assert termDef.getExpr().equals(termExpr);
+          
           if (termDef.getDefinitionKind().isSchemaReference())
-            return handleSchema(termDef);
+          {
+            if (term.hasAnn(ZStateInfo.class))
+            {
+              if (term.getAnn(ZStateInfo.class).equals(ZStateInfo.STATE) ||
+                  term.getAnn(ZStateInfo.class).equals(ZStateInfo.ASTATE))
+              {
+                if (stateSchema_ != null)
+                  throw new CztException(new FeasibilityException("State schema already set through section manager properties as " + ZUtils.toStringZName(stateSchema_)
+                          + ". Cannot change it to " + ZUtils.toStringZName(termDef.getDefName())));
+                setZStateName(termDef.getDefName());
+                stateSchemaGenParams_ = termDef.getGenericParams();
+              }
+            }
+            else if (stateSchema_ != null && ZUtils.namesEqual(termDef.getDefName(), stateSchema_))
+            {
+              stateSchemaGenParams_ = termDef.getGenericParams();
+            }
+            result = handleSchema(termDef);
+          }
           else if (termDef.getDefinitionKind().isAxiom())
-            return handleHorizDef(termDef);
+          {
+            result = handleHorizDef(termDef);
+          }
+          break;
         }
-        throw new CztException(new FeasibilityException("VC-FSB-AXPARA-PROBLEM = " + termName));
+        else
+        {
+          throw new CztException(new FeasibilityException("VC-FSB-AXPARA-PROBLEM = " + termName));
+        }
       default:
         // this case should never happen, yet we need to return something
         // in the unlikely case the Java compiler messes up with Box Enums
         // (i.e. corrupted byte code classes)!
         throw new AssertionError("Invalid Box for AxPara! " + term.getBox());
     }
+    assert result != null;
+    return result;
   }
 
   /* VC GENERATION HELPER METHODS */
@@ -382,9 +443,36 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
             factory_.list(factory_.createVarDecl(factory_.createZNameList(factory_.list(horizDef.getDefName())), expr))), truePred());
   }
 
-  protected String getSigSchemaSuffix()
+  public FSBVCNameFactory getFSBVCNameFactory()
   {
-    return "Sig";
+    assert getVCNameFactory() instanceof FSBVCNameFactory;
+    return (FSBVCNameFactory)getVCNameFactory();
+  }
+
+  protected ZName getSigSchemaName(ZName schName)
+  {
+    return getFSBVCNameFactory().createNameForSigSchemaOf(schName);
+  }
+
+  protected ZExprList createGenericParamsRefExprs(ZNameList genParams)
+  {
+    ZExprList result = factory_.createZExprList();
+    for(Name name : genParams)
+    {
+      result.add(factory_.createRefExpr(name));
+    }
+    assert result.size() == genParams.size();
+    return result;
+  }
+
+  protected RefExpr createSchRef(ZName schName, ZNameList genParams)
+  {
+    return genParams != null &&
+           !genParams.isEmpty() ?
+             factory_.createRefExpr(schName,
+                createGenericParamsRefExprs(genParams), Boolean.FALSE) :
+             factory_.createRefExpr(schName);
+    
   }
 
   // FSB(S == [D | P]) ==> before(D)  = {} XOR after(D) = {} => \exists bindings(S) @ P
@@ -395,8 +483,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     assert schDef != null && schDef.getDefinitionKind().isSchemaReference();
     // for schemas add
     ZName schName  = schDef.getDefName();
-    Expr schExpr   = schDef.getExpr();
-    RefExpr schRef = factory_.createRefExpr(schName);
+    ZNameList genParams = schDef.getGenericParams();
+    //Expr schExpr   = schDef.getExpr();
+    RefExpr schRef = createSchRef(schName, genParams);
     try
     {
       Pred result;
@@ -417,7 +506,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       boolean existential = beforeBindings.isEmpty() || afterBindings.isEmpty();
 
       // if both bindings are empty, then this is a degenerate case, and there is nothing todo.
-      boolean notihngtodo = beforeBindings.isEmpty() && afterBindings.isEmpty();
+      boolean emptybindings = beforeBindings.isEmpty() && afterBindings.isEmpty();
 
       // create the zSchText of assumptions and set the precondition to the user-suplied predicate
       // populate the ZDeclList for the before bindings - this create a flat list of decl (e.g., all schemas expanded)
@@ -426,14 +515,25 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       // In case of existential (e.g., either is empty, then put after for before in assumptions: \exists S' @ Init)
       ZSchText fsbAssumptions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
       populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings.isEmpty() ? afterBindings : beforeBindings);
-      fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName));
+
+      // get any user defined predicates
+      fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName, genParams));
 
       AxPara schNameSigSchema = null;
       ZName schSigName = null;
+      RefExpr schSigRef = null;
+      ZSchText schSigSchText = null;
 
       if (isCreatingZSchemas())
       {
-        schSigName = factory_.createZName(schName.getWord() + getSigSchemaSuffix(), schName.getStrokeList());
+        // create a signature schema name + ref expr from current schema, considering its generic params
+        schSigName = getSigSchemaName(schName);
+        schSigRef = createSchRef(schSigName, genParams);
+
+        // create a ZSchText with the schSigRef (e.g., [ SchNameSig | true ]), as well as an AxPara
+        // as SchNameSig == [ before + inputs | P ], where P = getUserDefinedSchemaPRE
+        schSigSchText = predTransformer_.createSchemaInclusion(schSigRef);
+        schNameSigSchema = predTransformer_.createSchExpr(genParams, schSigName, fsbAssumptions);
       }
 
       // only consider precondition predicates for schemas with after variables
@@ -450,23 +550,25 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           ZSchText fsbConclusions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
           // conclusions = [ d1', ... dn', do!: T | true ]
           populateDeclList(fsbConclusions.getZDeclList(), afterBindings);
+
           // \forall assumptions @ \exists conclusions @ Sch
-          Pred invariant = getSchemaInvariant(schRef);//, schExpr); // try expanding the schema invariants - if fails, just use the schema reference
-          result = predTransformer_.forAllPred(fsbAssumptions,
-                predTransformer_.existsPred(fsbConclusions, 
-                invariant == null ? factory_.createExprPred(schRef) : invariant));
+          //Pred invariant = getSchemaInvariant(schRef);//, schExpr); // try expanding the schema invariants - if fails, just use the schema reference
+          result = factory_.createExprPred(
+                  predTransformer_.forAllExpr(fsbAssumptions,
+                    predTransformer_.existsExpr(fsbConclusions, schRef)));
         }
         else
         {
-
-          schNameSigSchema = predTransformer_.createSchExpr(schDef.getGenericParams(), schSigName, fsbAssumptions);
+          assert schSigName != null && schSigRef != null && schSigSchText != null && schNameSigSchema != null;
           // create the conclusions as a Z-centric \pre SchRef operator
-          result = predTransformer_.forAllPred(fsbAssumptions,
-                  factory_.createExprPred(factory_.createPreExpr(schRef)));
+          // \forall SchSig | true @ \pre Sch
+          result = factory_.createExprPred(
+                  predTransformer_.forAllExpr(
+                    schSigSchText, factory_.createPreExpr(schRef)));
         }
       }
       // no after bindings; if there are any before bindings then create existential proof
-      else if (!notihngtodo) // before \neq {} XOR after \neq {} and it is existential
+      else if (!emptybindings) // before \neq {} XOR after \neq {} and it is existential
       {
         if (!isCreatingZSchemas())
         {
@@ -475,10 +577,10 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         }
         else
         {
-          schNameSigSchema = predTransformer_.createSchExpr(schDef.getGenericParams(), schSigName, fsbAssumptions);
-
-          // still to differentiate these two.
-          result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
+          // z centric existential proof
+          // \exists SchSig @ true
+          assert schSigName != null && schSigRef != null && schSigSchText != null && schNameSigSchema != null;
+          result = predTransformer_.existsPred(schSigSchText, factory_.createTruePred());
         }
       }
       // otherwise, there is nothing to do: just return P
@@ -487,17 +589,23 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         result = predTransformer_.truePred(); // TODO: still to return P from ZName (!!!)
       }
 
-      // if anything got created
+      // if anything got created, add them
       if (schNameSigSchema != null)
       {
         int cnt = 0;
         AxPara old = addedSigSchemas_.put(schSigName, schNameSigSchema);
+        addedSigSchemasList_.add(schNameSigSchema);
+        StringBuilder message = new StringBuilder();
         while (old != null)
         {
+          message.append("Duplicated signature schema ").append(schSigName);
           schSigName.setWord(schSigName.getWord() + cnt);
           old = addedSigSchemas_.put(schSigName, schNameSigSchema);
           cnt++;
+          message.append(". There is a problem in the name factory; retrying with name ").append(schSigName);
+          CztLogger.getLogger(getClass()).warning(message.toString());
         }
+        assert addedSigSchemasList_.size() == addedSigSchemas_.size();
       }
       return result;
     }
@@ -510,9 +618,10 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   /**
    * User supplied predicate to be assumed as part of the given schema name
    * @param name
+   * @param genParams
    * @return
    */
-  protected Pred getUserDefinedSchemaPRE(ZName name)
+  protected Pred getUserDefinedSchemaPRE(ZName name, ZNameList genParams)
   {
     ZName nameNoStrokes = factory_.createZName(name.getWord());
     Definition schDef = getDefTable().lookupName(nameNoStrokes);
@@ -527,40 +636,59 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
 
         // if there are no after bindings on the schema def, then add it as part
         // of the Pred part of assumptions.
-        if (after.isEmpty())
+
+        // if there are after variables, but the no before variables, this is
+        // like Initialisation or existential quantification case for dashed
+        // variables only schemas
+        if (after.isEmpty() || before.isEmpty())
         {
           //result = factory_.createExprPred(schDef.getExpr()); ??
-          result = factory_.createExprPred(factory_.createRefExpr(nameNoStrokes));
+          //result = factory_.createExprPred(factory_.createRefExpr(nameNoStrokes));
+          result = factory_.createExprPred(createSchRef(nameNoStrokes, genParams));
         }
-        // if there are after variables, but the no before variables, this is 
-        // like Initialisation or existential quantification case for dashed 
-        // variables only schemas
-        else if (before.isEmpty())
+        // else, if they are indeed mixed, then look for some user given table for any extra predicate
+        // for instance the Z State schema as tagged by \zstate or \zastate (e.g., abstract only for now).
+        else if (stateSchema_ != null)
         {
-          result = factory_.createExprPred(factory_.createRefExpr(nameNoStrokes));
+          if (stateSchemaGenParams_ != null && genParams != null &&
+              !genParams.containsAll(stateSchemaGenParams_))
+          {
+            final String message = "Included state schema " + ZUtils.toStringZName(stateSchema_) +
+                    " depend on generic parameters not given to schema " + ZUtils.toStringZName(name) +
+                    "\n\tGiven.....: " + genParams.toString() +
+                    "\n\tExpected..: " + stateSchemaGenParams_.toString();
+            CztLogger.getLogger(getClass()).warning(message);
+          }
+          // Keep the state schema as Pred part of "OpSig == [ x, y : T | State ]", for "State = [ x, y: T | inv(x,y) ]".
+          // the repetition of bindings is for both clarity of what the VCG is doing and to ensure in odd cases we do not
+          // mess up the VC itself (e.g., State having more bindings than we found for OpSig will lead to a type error).
+          result = factory_.createExprPred(createSchRef(stateSchema_, stateSchemaGenParams_));
         }
-        // else, if they are indeed mixed, then do not add any extra predicate
+        // else ???? TODO: let the user give schemas as string text and parser ???
       }
       catch(DefinitionException e)
       {
         // ignore and make it just true
+        final String message = "Definition exception raised whilst trying to collect user defined preconditions for schema " + ZUtils.toStringZName(name) +
+                "\n---------------------------------------" + e.toString() + "\n---------------------------------------\n";
+        CztLogger.getLogger(getClass()).warning(message);
       }
     }
     // just true for now.
     return result;
   }
 
-  protected Pred getSchemaInvariant(Expr expr)
-  {
-    Pred result = factory_.createExprPred(expr);
-    // USE RULES TO CALCULATE
-//    if (expr instanceof SchExpr)
-//    {
-//      SchExpr sexpr = (SchExpr)expr;
-//      sexpr.getZSchText().
-//    }
-    return result;
-  }
+//  protected Pred getSchemaInvariant(Expr expr)
+//  {
+//    Pred result = factory_.createExprPred(expr);
+//    // USE RULES TO CALCULATE
+////    if (expr instanceof SchExpr)
+////    {
+////      SchExpr sexpr = (SchExpr)expr;
+////      sexpr.getZSchText().
+////    }
+//    return result;
+//  }
 
   protected void populateDeclList(ZDeclList zDeclList, SortedSet<Definition> bindings)
   {
@@ -639,8 +767,10 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     @Override
     public boolean considerName(ZName name)
     {
-      return !name.getZStrokeList().contains(dash_) &&
-             !name.getZStrokeList().contains(output_);
+      return (!name.getZStrokeList().contains(dash_) &&
+             !name.getZStrokeList().contains(output_))
+             ||
+             (name.getZStrokeList().contains(input_));
 
     }
   }
@@ -655,8 +785,10 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     @Override
     public boolean considerName(ZName name)
     {
-      return name.getZStrokeList().contains(dash_) ||
-             name.getZStrokeList().contains(output_);
+      return (name.getZStrokeList().contains(dash_) ||
+             name.getZStrokeList().contains(output_))
+             &&
+             (!name.getZStrokeList().contains(input_));
 
     }
   }

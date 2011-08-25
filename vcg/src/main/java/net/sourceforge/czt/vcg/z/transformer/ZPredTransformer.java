@@ -28,7 +28,6 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.Factory;
 

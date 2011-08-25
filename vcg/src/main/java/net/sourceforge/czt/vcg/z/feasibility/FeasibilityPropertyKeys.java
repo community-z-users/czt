@@ -47,6 +47,12 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
   String PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS =
     "vcg_fsb_create_zschemas";
 
+  /**
+   * Z state schema name given by the user as a property or through \zstate
+   */
+  String PROP_VCG_FEASIBILITY_ZSTATE_NAME =
+    "vcg_fsb_zstate_name";
+
 
   // default values from properties in VCGPropertyKeys
   boolean PROP_VCG_FEASIBILITY_PROCESS_PARENTS_DEFAULT         = false;
@@ -54,7 +60,8 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
   boolean PROP_VCG_FEASIBILITY_APPLY_TRANSFORMERS_DEFAULT      = true;
   boolean PROP_VCG_FEASIBILITY_RAISE_TYPE_WARNINGS_DEFAULT     = true; /* by default raise warnings as errors */
   Markup  PROP_VCG_FEASIBILITY_PREFERRED_MARKUP_DEFAULT        = Markup.LATEX;
-  String  PROP_VCG_FEASIBILITY_PARENTS_TO_IGNORE_DEFAULT       = null;
+  String  PROP_VCG_FEASIBILITY_PARENTS_TO_IGNORE_DEFAULT       = "";
+  String  PROP_VCG_FEASIBILITY_ZSTATE_NAME_DEFAULT             = "";
 
   // new default values
   boolean PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS_DEFAULT      = true;
@@ -63,21 +70,10 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
   // Feasibility toolkit name
   String VCG_FEASIBILITY_TOOLKIT_NAME = "fsb_toolkit";
 
-  // Feasibility Z State Markup directives
-  // %%Zword \zstate zstate
-  // %%Zword \zstinit zstinit
-  //
-  // They are used to tag the user specification schema
-  // as the chosen state and state initialisation ones.
-  // There should only be one, and cmd-line options might
-  // override this choice encoded in the user ZSect itself.
-  String VCG_FEASIBILITY_STATE_LMARKUP      = "\\zstate";
-  String VCG_FEASIBILITY_STATE_UMARKUP      = "zstate";
-  String VCG_FEASIBILITY_STATE_INIT_LMARKUP = "\\zstinit";
-  String VCG_FEASIBILITY_STATE_INIT_UMARKUP = "zstinit";
-
   // Pre ZSection suffix (e.g., ZSect foo -> ZSect foo_pre)
   // Pre ZSection conjecture names N_vc_pre
   String VCG_FEASIBILITY_SOURCENAME_SUFFIX = "_fsb";  // avoid _ on ThmNames. Not handled properly ? Scanned differently now :-(
   String VCG_FEASIBILITY_VCNAME_SUFFIX     = "_vc_fsb";
+
+  String VCG_FEASIBILITY_SIGSCHEMA_SUFFIX  = "Sig";
 }

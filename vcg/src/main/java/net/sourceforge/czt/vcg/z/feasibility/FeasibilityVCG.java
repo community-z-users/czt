@@ -26,8 +26,8 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
-import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
@@ -39,6 +39,7 @@ import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -49,6 +50,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
         implements FeasibilityPropertyKeys
 {
   private final FeasibilityVCCollector fsbCheck_;
+  private String zStateName_;
   
   /* CLASS SETUP METHOS */
 
@@ -60,6 +62,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   public FeasibilityVCG(Factory factory)
   {
     super(factory);
+    zStateName_ = null;
     fsbCheck_ = new FeasibilityVCCollector(factory);
   }
 
@@ -105,6 +108,11 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
     return PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT;
   }
 
+  protected String defaultZStateName()
+  {
+    return PROP_VCG_FEASIBILITY_ZSTATE_NAME_DEFAULT;
+  }
+
   @Override
   public VCCollector<Pred> getVCCollector()
   {
@@ -144,14 +152,19 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
     boolean createZS = getManager().hasProperty(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS) ?
           manager.getBooleanProperty(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS) :
           defaultCreatingZSchemas();
+    String zstate = getManager().hasProperty(PROP_VCG_FEASIBILITY_ZSTATE_NAME) ?
+          manager.getProperty(PROP_VCG_FEASIBILITY_ZSTATE_NAME) :
+          defaultZStateName();
     setNonemptyGivenSetVC(nonEmptyGS);
     setCreateZSchemas(createZS);
+    setZStateName(zstate);
   }
 
   @Override
   public void reset()
   {
     super.reset();
+    setZStateName(null);
     setNonemptyGivenSetVC(defaultAddingNonemptyGivenSets());
     setCreateZSchemas(defaultCreatingZSchemas());
   }
@@ -164,6 +177,24 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
             String.valueOf(defaultAddingNonemptyGivenSets()));
     manager.setProperty(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS,
             String.valueOf(defaultCreatingZSchemas()));
+    manager.setProperty(PROP_VCG_FEASIBILITY_ZSTATE_NAME,
+            String.valueOf(defaultZStateName()));
+  }
+
+  protected void setZStateName(String name)
+  {
+    if (name != null && !name.isEmpty())
+    {
+      if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
+        throw new CztException(new FeasibilityException("Cannot set Z state name that contains prime decoration"));
+      zStateName_ = name;
+      ((FeasibilityVCCollector)getVCCollector()).setZStateName(factory_.createZName(name));
+    }
+    else
+    {
+      zStateName_ = null;
+      ((FeasibilityVCCollector)getVCCollector()).setZStateName(null);
+    }
   }
 
   /* VC CALCULATION TERM VISITING METHODS */
@@ -173,7 +204,14 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   {
     super.beforeGeneratingVCG(zSect);
     assert getVCCollector() instanceof FeasibilityVCCollector;
+
+    // this sets the ZState name within the collector to null.
     ((FeasibilityVCCollector)getVCCollector()).clearAddedPara();
+    assert ((FeasibilityVCCollector)getVCCollector()).getZStateName() == null;
+
+    // in case the user explicitly define the Z state name 
+    if (zStateName_ != null)
+      setZStateName(zStateName_);
   }
 
   @Override

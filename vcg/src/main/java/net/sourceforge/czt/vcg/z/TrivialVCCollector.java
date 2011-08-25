@@ -18,8 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.vcg.z;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.util.CztException;
@@ -164,7 +164,7 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
   }
 
   @Override
-  public Collection<? extends Para> addedPara()
+  public List<? extends Para> addedPara()
   {
     return Collections.emptyList();
   }

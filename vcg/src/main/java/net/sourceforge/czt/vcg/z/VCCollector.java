@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.vcg.z;
 
-import java.util.Collection;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -80,5 +79,10 @@ public interface VCCollector<R> extends TermVisitor<R>
 
   void resetVCCount();
 
-  Collection<? extends Para> addedPara();
+  /**
+   * Any added paragraph during VC generation with an associated index for ease of
+   * insertion in derived Z sections
+   * @return
+   */
+  List<? extends Para> addedPara();
 }

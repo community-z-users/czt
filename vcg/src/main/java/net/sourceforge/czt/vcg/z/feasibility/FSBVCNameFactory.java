@@ -17,32 +17,22 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.czt.vcg.util;
+package net.sourceforge.czt.vcg.z.feasibility;
 
-import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.vcg.util.VCNameFactory;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
  *
  * @author Leo Freitas
- * @date Aug 18, 2011
+ * @date Aug 25, 2011
  */
-public interface VCNameFactory {
-
+public interface FSBVCNameFactory extends VCNameFactory
+{
   /**
-   * Create a name for a VC related to the given Para. This is a convenience method
-   * to enable external tools to influence how names are given to VCs.
-   * @param para
-   * @param type
+   * Create a Schema signature name for given schema name
+   * @param schName
    * @return
    */
-  public String createNameForVCOf(Para para, String type);
-
-  /**
-   * Creates a ZSect name to contains the various parts created during VCG, such
-   * as NarrPara, AxPara (e.g., new schemas or axioms), and ConjPara of course.
-   * @param originalSectName
-   * @param extra
-   * @return
-   */
-  public String createVCSectName(String originalSectName, String extra);
+  ZName createNameForSigSchemaOf(ZName schName);
 }

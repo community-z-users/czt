@@ -967,6 +967,7 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DomainCheckUtils.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerCommand.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerVCG.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/TrivialDCVCCollector.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FSBVCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityCommand.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityPropertyKeys.java -text
@@ -982,6 +983,7 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/AbstractPredTransformer.
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/AbstractTermTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/ZPredTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/dc/ZPredTransformerDC.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java -text
 vcg/src/main/resources/lib/AppliesToDefTest.zcs -text
 vcg/src/main/resources/lib/AppliesToDefTest.zev -text
 vcg/src/main/resources/lib/dc_toolkit.tex -text

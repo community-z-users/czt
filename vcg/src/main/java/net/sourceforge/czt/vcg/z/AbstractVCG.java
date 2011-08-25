@@ -23,7 +23,6 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +45,6 @@ import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.util.DefinitionTableService;
-import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Decl;
@@ -71,7 +69,6 @@ import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.z.visitor.SectVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
-import sun.print.CUPSPrinter;
 
 /**
  * Base class for all VCG utility classes. It can process Terms for VCG, where
@@ -103,7 +100,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   protected static final String[] EXTENDED_TOOLKIT_NAMES =
   {
     "whitespace",
-    "fuzz_toolkit"
+    "fuzz_toolkit",
+    "zstate_toolkit"
   };
 
   protected static final String[] STANDARD_TOOLKIT_NAMES =
@@ -1039,7 +1037,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   }
 
   @Override
-  public Collection<? extends Para> addedPara()
+  public List<? extends Para> addedPara()
   {
     throw new CztException(
             new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use getVCCollector().addedPara()!"));

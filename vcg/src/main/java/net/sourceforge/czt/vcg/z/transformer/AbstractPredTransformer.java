@@ -53,6 +53,11 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
     return factory_.createTruePred();
   }
 
+  public Pred falsePred()
+  {
+    return factory_.createFalsePred();
+  }
+
   public Pred checkNeg(Pred pred)
   {
     Pred result = pred;
@@ -73,7 +78,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
       // \lnot true = false (UNIT-TRUE)
       else if (innerPred instanceof TruePred)
       {
-        result = factory_.createFalsePred();
+        result = falsePred();
       }
       // \lnot (P \land Q) = \lnot P \lor \lnot Q (DEMORGAN-AND)
       else if (innerPred instanceof AndPred)
@@ -137,7 +142,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
       // P \land false = false \land P = false (AND-ZERO)
       if (lhs instanceof FalsePred || rhs instanceof FalsePred)
       {
-        result = factory_.createFalsePred();
+        result = falsePred();
       }
       // true \land RHS = RHS (AND-UNIT-R)
       else if(lhs instanceof TruePred)
@@ -158,7 +163,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
       else if ((lhs instanceof NegPred && ((NegPred)lhs).getPred().equals(rhs)) ||
                (rhs instanceof NegPred && ((NegPred)rhs).getPred().equals(lhs)))
       {
-        result = factory_.createFalsePred();
+        result = falsePred();
       }
       // These next two laws could be greatly simplified
       // we leave them as such for clarity at first.
@@ -385,7 +390,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
       // (\exists D | P @ false) = (\exists D | false @ Q) = false
       if (pred instanceof FalsePred || zSchText.getPred() instanceof FalsePred)
       {
-        result = factory_.createFalsePred();
+        result = falsePred();
       }
     }
     if (result == null)

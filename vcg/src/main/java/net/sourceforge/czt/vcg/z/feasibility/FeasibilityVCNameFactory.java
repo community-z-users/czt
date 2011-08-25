@@ -19,27 +19,40 @@
 
 package net.sourceforge.czt.vcg.z.feasibility;
 
-import net.sourceforge.czt.vcg.util.VCNameFactory;
+import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  *
  * @author Leo Freitas
  * @date Aug 19, 2011
  */
-public class FeasibilityVCNameFactory implements VCNameFactory
+public class FeasibilityVCNameFactory extends DefaultVCNameFactory implements FeasibilityPropertyKeys, FSBVCNameFactory
 {
+  public static final FSBVCNameFactory DEFAULT_FSBVCNAME_FACTORY = new FeasibilityVCNameFactory();
 
   @Override
   public String createNameForVCOf(Para para, String type)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return super.createNameForVCOf(para, type);
   }
 
   @Override
   public String createVCSectName(String originalSectName, String extra)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return super.createVCSectName(originalSectName, extra);
   }
 
+  @Override
+  public ZName createNameForSigSchemaOf(ZName schName)
+  {
+    return ZUtils.FACTORY.createZName(schName.getWord() + getSigSchemaNameSuffix(), schName.getStrokeList());
+  }
+
+  protected String getSigSchemaNameSuffix()
+  {
+    return VCG_FEASIBILITY_SIGSCHEMA_SUFFIX;
+  }
 }

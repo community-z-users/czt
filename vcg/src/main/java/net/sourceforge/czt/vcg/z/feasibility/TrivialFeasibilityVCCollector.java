@@ -69,30 +69,15 @@ public abstract class TrivialFeasibilityVCCollector extends TrivialVCCollector i
 
         FeasibilityPropertyKeys
 {
-
-  private String zStateName_;
-  private String zStInitName_;
-
   /** Creates a new instance of TrivialVCCollector
    * @param factory
    */
   public TrivialFeasibilityVCCollector(Factory factory)
   {
     super(factory);
-    zStateName_ = null;
-    zStInitName_ = null;
+    setVCNameFactory(FeasibilityVCNameFactory.DEFAULT_FSBVCNAME_FACTORY);
   }
   
-  protected String getZStateName()
-  {
-    return zStateName_;
-  }
-
-  protected String getZStateInitName()
-  {
-    return zStInitName_;
-  }
-
   @Override
   public Pred visitConjPara(ConjPara term)
   {
@@ -182,14 +167,14 @@ public abstract class TrivialFeasibilityVCCollector extends TrivialVCCollector i
   @Override
   public Pred visitDirective(Directive term)
   {
-    if (term.getType().equals(DirectiveType.NONE))
-    {
-      // try collecting user-supplied Z State schema name(s).
-      if (term.getCommand().toLowerCase().equals(VCG_FEASIBILITY_STATE_LMARKUP))
-       zStateName_ = term.getUnicode();
-      else if (term.getCommand().toLowerCase().equals(VCG_FEASIBILITY_STATE_INIT_LMARKUP))
-        zStInitName_ = term.getUnicode();
-    }
+//    if (term.getType().equals(DirectiveType.NONE))
+//    {
+//      // try collecting user-supplied Z State schema name(s).
+//      if (term.getCommand().toLowerCase().equals(VCG_FEASIBILITY_STATE_LMARKUP))
+//       zStateName_ = term.getUnicode();
+//      else if (term.getCommand().toLowerCase().equals(VCG_FEASIBILITY_STATE_INIT_LMARKUP))
+//        zStInitName_ = term.getUnicode();
+//    }
     return truePred();
   }
 
