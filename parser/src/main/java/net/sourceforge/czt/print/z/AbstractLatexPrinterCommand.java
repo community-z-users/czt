@@ -74,9 +74,14 @@ public abstract class AbstractLatexPrinterCommand
   public final static String LATEX_POSTSCRIPT =
           "\n\n%----------------------------------\n\\end{document}";
 
+  protected boolean getLatexWrapping()
+  {
+    return latexWrapping_;
+  }
+  
   protected void latexPreamble(Writer out, SectionManager sectInfo) throws IOException
   {
-    if (latexWrapping_)
+    if (getLatexWrapping())
     {
       out.write(LATEX_PREAMBLE);
     }
@@ -84,7 +89,7 @@ public abstract class AbstractLatexPrinterCommand
 
   protected void latexPostscript(Writer out, SectionManager sectInfo) throws IOException
   {
-    if (latexWrapping_)
+    if (getLatexWrapping())
     {
       out.write(LATEX_POSTSCRIPT);
     }

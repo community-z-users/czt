@@ -90,7 +90,12 @@ public class LatexMarkupConverterTest
    * Parses the specified URL, converts it into a different markup and
    * back into the original markup, and returns the parse tree of the
    * converted specification.
+   * @param url
+   * @param manager
+   * @return
+   * @throws Exception
    */
+  @Override
   public Term parse(URL url, SectionManager manager)
     throws Exception
   {
@@ -134,11 +139,9 @@ public class LatexMarkupConverterTest
     throws Exception
   {
     SectionManager manager = new SectionManager();
-    String name = url.toString();
-    Key key = new Key(name, Source.class);
-    manager.put(key, new UrlSource(url));
-    key = new Key(name, LatexString.class);
-    LatexString latex = (LatexString) manager.get(key);
+    String name = SourceLocator.getSourceName(url.toString());
+    manager.put(new Key<Source>(name, Source.class), new UrlSource(url));
+    LatexString latex = manager.get(new Key<LatexString>(name, LatexString.class));
     FileOutputStream stream = new FileOutputStream(latexFileName);
     Writer writer = new OutputStreamWriter(stream);
     writer.write(latex.toString());

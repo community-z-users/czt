@@ -41,40 +41,47 @@ import net.sourceforge.czt.z.ast.Spec;
 public class ZmlPrinterTest
   extends AbstractParserTest
 {
+  /**
+   *
+   * @param url
+   * @param manager0
+   * @return
+   * @throws Exception
+   */
+  @Override
   public Term parse(URL url, SectionManager manager0)
     throws Exception
   {
     Source source = new UrlSource(url);
-    String name = source.getName();
+    String name = SourceLocator.getSourceName(source.getName());
+      
     SectionManager manager = manager0.clone();
 
     // parse
-    manager.put(new Key(name, Source.class), source);
-    Spec spec = (Spec) manager.get(new Key(name, Spec.class));
+    manager.put(new Key<Source>(name, Source.class), source);
+    Spec spec = manager.get(new Key<Spec>(name, Spec.class));
     // We do not delete annotations, since conjecture names are
     // stored as annotations and we want to preserve those.
 
     // print as latex
-    String contents = ((LatexString)
-        manager.get(new Key(name, LatexString.class))).toString();
+    String contents = (manager.get(new Key<LatexString>(name, LatexString.class))).toString();
     source = new StringSource(contents);
     source.setMarkup(Markup.LATEX);
 
     // now reparse the LaTeX
-    name = source.getName();
+    name = SourceLocator.getSourceName(source.getName());
     manager = manager0.clone();
 
-    manager.put(new Key(name, Source.class), source);
-    spec = (Spec) manager.get(new Key(name, Spec.class));
+    manager.put(new Key<Source>(name, Source.class), source);
+    spec = manager.get(new Key<Spec>(name, Spec.class));
 
     // print as Unicode, reparse, and return
-    source = new StringSource(((UnicodeString)
-      manager.get(new Key(name, UnicodeString.class))).toString());
+    source = new StringSource((manager.get(new Key<UnicodeString>(name, UnicodeString.class))).toString());
     source.setMarkup(Markup.UNICODE);
-    name = source.getName();
+    name = SourceLocator.getSourceName(source.getName());
     manager = manager0.clone();
 
-    manager.put(new Key(name, Source.class), source);
-    return (Spec) manager.get(new Key(name, Spec.class));
+    manager.put(new Key<Source>(name, Source.class), source);
+    return manager.get(new Key<Spec>(name, Spec.class));
   }
 }

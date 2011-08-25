@@ -97,7 +97,7 @@ public abstract class AbstractPrinterCommand extends AbstractCommand
                              String sectionName)
   {
     try {
-      return (Term) toPrintTree.run(term, sectionName);
+      return toPrintTree.run(term, sectionName);
     }
     catch (CommandException exception) {
       String msg =

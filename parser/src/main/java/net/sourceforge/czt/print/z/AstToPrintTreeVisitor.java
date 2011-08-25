@@ -128,6 +128,8 @@ public class AstToPrintTreeVisitor
    * Creates a new ast to print tree visitor.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * @param sectInfo
+   * @param wm
    */
   public AstToPrintTreeVisitor(SectionInfo sectInfo, WarningManager wm)
   {
@@ -139,7 +141,7 @@ public class AstToPrintTreeVisitor
     throws CommandException
   {
     warningManager_.setCurrentSectName(sectionName);
-    ZSect zSect = (ZSect) sectInfo_.get(new Key(sectionName, ZSect.class));
+    ZSect zSect = sectInfo_.get(new Key<ZSect>(sectionName, ZSect.class));
     return zSect.accept(this);
   }
 
@@ -151,6 +153,9 @@ public class AstToPrintTreeVisitor
    * <p>For instance, the given operator table is used if the given
    * term is an expression, predicate, or paragraph, but not if the
    * given term is a Z section or specification.</p>
+   * @param term
+   * @param opTable
+   * @return
    */
   public Term run(Term term, OpTable opTable)
   {
@@ -170,13 +175,17 @@ public class AstToPrintTreeVisitor
    * <p>For instance, the given section name is used if the given
    * term is an expression, predicate, or paragraph, but not if the
    * given term is a Z section or specification.</p>
+   * @param term
+   * @param sectionName
+   * @return
+   * @throws CommandException
    */
   public Term run(Term term, String sectionName)
     throws CommandException
   {
     if (sectionName != null) {
       warningManager_.setCurrentSectName(sectionName);
-      opTable_ = (OpTable) sectInfo_.get(new Key(sectionName, OpTable.class));
+      opTable_ = sectInfo_.get(new Key<OpTable>(sectionName, OpTable.class));
       prec_ = new PrecedenceVisitor(opTable_);
     }
     return term.accept(this);
@@ -192,6 +201,7 @@ public class AstToPrintTreeVisitor
    * has changed during that visit, a new term of the same class is
    * created that contains the new children.  A child that has not
    * changed is shared between the new and the old AST.
+   * @param term
    */
   @Override
   public Term visitTerm(Term term)

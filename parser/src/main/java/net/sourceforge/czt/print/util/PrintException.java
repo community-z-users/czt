@@ -61,11 +61,12 @@ public class PrintException extends CztException {
       return warnings_;
   }   
   
+  @Override
   public String toString() {
-      StringBuffer str = new StringBuffer(super.toString());      
+      StringBuilder str = new StringBuilder(super.toString());
       str.append("\n");
       for(String sect : warnings_.keySet()) {          
-          str.append("Warnings for " + sect + "\n");
+          str.append("Warnings for ").append(sect).append("\n");
           for(String warn : warnings_.get(sect)) {
               str.append(warn);
               str.append("\n");

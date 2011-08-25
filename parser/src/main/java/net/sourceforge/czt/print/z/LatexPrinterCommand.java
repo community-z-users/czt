@@ -22,6 +22,7 @@ package net.sourceforge.czt.print.z;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.text.MessageFormat;
 import java.util.Properties;
 
 
@@ -29,7 +30,11 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.ZSect;
 
 public class LatexPrinterCommand
   extends AbstractLatexPrinterCommand
@@ -54,7 +59,11 @@ public class LatexPrinterCommand
       final Writer writer = new StringWriter();
       final Key<Term> key = new Key<Term>(name, Term.class);
       final Term term = manager.get(key);
-      printLatex(term, writer, manager, null);//name);
+      if (term instanceof ZSect)
+        printLatex(term, writer, manager, name);
+      else
+        // in case of spec (e.g., multiple  or anonymous sections; or on-the-fly, don't give sectionName)
+        printLatex(term, writer, manager, null);
       writer.close();
       manager.put(new Key<LatexString>(name, LatexString.class),
                   new LatexString(writer.toString()));
@@ -62,6 +71,10 @@ public class LatexPrinterCommand
     }
     catch (IOException e) {
       throw new CommandException(e);
+    }
+    catch (PrintException pe)
+    {
+      throw new CommandException(pe);
     }
   }
 
@@ -91,15 +104,20 @@ public class LatexPrinterCommand
     Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     parser.setWriter(printer);
-    try {
+    parse(out, sectInfo, parser, sectionName);
+  }
+
+  protected void parse(Writer out, SectionManager sectInfo, net.sourceforge.czt.java_cup.runtime.lr_parser parser, String sectionName) throws PrintException
+  {
+    try
+    {
       latexPreamble(out, sectInfo);
       parser.parse();
       latexPostscript(out, sectInfo);
     }
-    catch (Exception e) {
-      final String msg = "An exception occurred while trying to print " +
-        "LaTeX markup for term within section " + sectionName;
-      throw new PrintException(msg, e);
+    catch (Exception e)
+    {
+      throw new PrintException(MessageFormat.format(ZPrintMessage.MSG_PRINT_LATEX_EXCEPTION.getMessage(), "LaTeX", sectionName), e);
     }
   }
 }
