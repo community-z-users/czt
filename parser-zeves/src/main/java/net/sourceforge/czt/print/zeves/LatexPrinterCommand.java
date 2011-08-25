@@ -35,32 +35,27 @@ import net.sourceforge.czt.session.SectionManager;
 public class LatexPrinterCommand
         extends net.sourceforge.czt.print.z.LatexPrinterCommand
 {
-    @Override
-    public void printLatex(Term term,
-                         Writer out,
-                         SectionManager sectInfo,
-                         String sectionName)
+  @Override
+  public void printLatex(Term term,
+          Writer out,
+          SectionManager sectInfo,
+          String sectionName)
   {
     UnicodePrinter printer = new UnicodePrinter(out);
     TokenSequence tseq = toUnicode(printer, term, sectInfo, sectionName,
-                                   sectInfo.getProperties());
+            sectInfo.getProperties());
     ZmlScanner scanner = new ZmlScanner(tseq.iterator(), sectInfo.getProperties());
     Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     parser.setWriter(printer);
-    try {
-      parser.parse();
-    }
-    catch (Exception e) {
-      throw new PrintException(ZEvesPrintMessage.MSG_PRINT_LATEX_EXCEPTION.format(sectionName), e);
-    }
+    parse(out, sectInfo, parser, sectionName);
   }
 
   @Override
   protected Term preprocess(Term term,
-                            SectionManager manager,
-                            String section)
-    throws PrintException
+          SectionManager manager,
+          String section)
+          throws PrintException
   {
     PrintUtils.warningManager_.setCurrentSectName(section);
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager, PrintUtils.warningManager_);
