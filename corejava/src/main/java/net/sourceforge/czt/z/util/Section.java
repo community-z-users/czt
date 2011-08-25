@@ -43,7 +43,11 @@ public enum Section
   SET_TOOLKIT("set_toolkit"),
 
   /** Extra (Old-Z) toolkit name. */
-  FUZZ_TOOLKIT("fuzz_toolkit");
+  FUZZ_TOOLKIT("fuzz_toolkit"),
+
+  ZSTATE_TOOLKIT("ztate_toolkit"),
+  WHITESPACE("whitespace")
+          ;
 
   private String name_;
 
