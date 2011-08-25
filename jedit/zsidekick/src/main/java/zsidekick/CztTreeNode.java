@@ -99,6 +99,11 @@ public class CztTreeNode
                                       ("zeves".equals(dialect) ?
                                     zevesLongDescriptionVisitor_ :
                                      zLongDescriptionVisitor_));
+    if (term.hasAnn(TypeAnn.class))
+    {
+      TypeAnn tn = term.getAnn(TypeAnn.class);
+      description += " : " + tn.getType().toString();
+    }
     if (description == null) {
       description = term.getClass().toString();
     }
