@@ -400,6 +400,11 @@ public class <class/> extends AbstractCommand
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
           ZSect zsect = (ZSect) sect;
+          // if an annonymous ZSect, also add the file name for/to it?
+          if (zsect.getName().equals(net.sourceforge.czt.z.util.Section.ANONYMOUS.getName()))
+          {
+            manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect);
+          }
           manager.put(new Key&lt;ZSect&gt;(zsect.getName(), ZSect.class),
                       zsect);
 
