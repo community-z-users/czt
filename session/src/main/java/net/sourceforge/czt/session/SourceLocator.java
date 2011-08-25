@@ -285,7 +285,8 @@ public class SourceLocator extends AbstractCommand
   public static void addCZTPathFor(File file, SectionManager manager)
   {
     String localcztpath = getCZTPathFor(file, manager);
-    assert localcztpath != null || !localcztpath.isEmpty();
+    if (localcztpath == null || localcztpath.isEmpty())
+      throw new IllegalArgumentException("Cannot add null path to czt.path for file " + file);
     manager.setProperty(PROP_CZT_PATH, localcztpath);
   }
   
