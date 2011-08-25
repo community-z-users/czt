@@ -22,7 +22,7 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
         <Anns>
             <LocAnn Loc="birthdaybook_unfolded.tex" Line="0" Col="0"/>
         </Anns>
-        <Name>Specification</Name>
+        <Name>birthdaybook_unfolded</Name>
         <Parent>
             <Word>standard_toolkit</Word>
         </Parent>

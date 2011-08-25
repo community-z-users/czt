@@ -14,7 +14,7 @@
         <Anns>
             <LocAnn Loc="buffer.tex" Line="0" Col="0"/>
         </Anns>
-        <Name>Specification</Name>
+        <Name>buffer</Name>
         <Parent>
             <Word>standard_toolkit</Word>
         </Parent>
