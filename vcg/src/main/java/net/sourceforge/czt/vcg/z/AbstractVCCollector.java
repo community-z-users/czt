@@ -24,6 +24,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
+import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.Para;
@@ -41,6 +42,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   protected Factory factory_;
   private VCNameFactory vcNameFactory_;
   protected final Logger logger_;
+  protected boolean checkTblConsistency_;
   private long vcCnt_;
 
   /**
@@ -170,6 +172,16 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
       if (tbl instanceof DefinitionTable)
       {
         defTable_ = (DefinitionTable)tbl;
+        if (checkTblConsistency_)
+        {
+          DefinitionException de = defTable_.checkOverallConsistency();
+          if (de != null)
+          {
+            throw new VCCollectionException("Definition table inconsistency, see DefinitionException "
+                    + "within VCGException cause for details.",
+                    defTable_.getSectionName(), new VCGException(de));
+          }
+        }
       }
     }
   }

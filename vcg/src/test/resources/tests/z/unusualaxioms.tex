@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION unusualaxioms \parents set\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   x: \{ 1, 3, 5, 7, 9 \}
+\where
+   true
+\end{schema}
+
+\begin{schema}{T}
+   x: \nat
+\where
+   true
+\end{schema}
+
+\begin{zed}
+   R == \forall S @ T
+   %\\
+   %Oh == \IF true \THEN S \ELSE T
+   \\
+   Doh == \IF true \THEN \{0\} \ELSE \{1\}
+\end{zed}

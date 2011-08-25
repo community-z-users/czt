@@ -180,6 +180,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
               + (getVCG().isAddingTrivialVC() ? "-t " : "")
               + (getVCG().getVCCollector().getTransformer().isApplyingTransformer() ? "-r " : "")
               + (getVCG().isRaisingTypeWarnings() ? "-w " : "")
+              + (getVCG().isCheckingDefTblConsistency() ? "-y " : "")
               + ("-m" + preferedMarkupDefault()).trim());
   }
 
@@ -194,6 +195,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     System.err.println("       -t     add trivial VCs.");
     System.err.println("       -r     apply term transformers.");
     System.err.println("       -w     raise type warnings as errors.");
+    System.err.println("       -y     check def table consistency.");
     System.err.println("       -mX    prefered markup to print results");
     System.err.println("              where X=LATEX, UNICODE, XML");
     System.err.println("       -i <l> list of parents to ignore.");
@@ -623,6 +625,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     boolean raiseWarnings = vcg.isRaisingTypeWarnings();
     boolean processParents = vcg.isProcessingParents();
     boolean addTrivialDC = vcg.isAddingTrivialVC();
+    boolean checkDefTblConsistency = vcg.isCheckingDefTblConsistency();
     boolean applyPredTransf = vcg.getVCCollector().getTransformer().isApplyingTransformer();
     String cztpath = cztPathDefault();
     Markup preferedMarkup = preferedMarkupDefault();
@@ -647,6 +650,10 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       else if ("-p".equals(args[i]))
       {
         processParents = true;
+      }
+      else if ("-y".equals(args[i]))
+      {
+        checkDefTblConsistency = true;
       }
       else if ("-w".equals(args[i]))
       {
@@ -715,6 +722,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     manager.setProperty(PROP_VCG_APPLY_TRANSFORMERS, String.valueOf(applyPredTransf));
     manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(raiseWarnings));
     manager.setProperty(PROP_VCGU_PREFERRED_OUTPUT_MARKUP, preferedMarkup.toString());
+    manager.setProperty(PROP_VCG_CHECK_DEFTBL_CONSISTENCY, String.valueOf(checkDefTblConsistency));
     manager.setProperty(LatexPrinterPropertyKeys.PROP_LATEXPRINTER_WRAPPING,
             String.valueOf(latexOutputWrappingDefault()));
     processCollectedProperties();

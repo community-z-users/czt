@@ -172,7 +172,7 @@ public class DefinitionException extends InfoTable.InfoTableException
   @Override
   public String getMessage()
   {
-    return getMessage(false);
+    return getMessage(true);
   }
 
   @Override

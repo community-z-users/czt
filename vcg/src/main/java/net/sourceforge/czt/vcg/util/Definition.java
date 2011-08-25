@@ -27,12 +27,14 @@ import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NewOldPair;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -211,21 +213,72 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
           ZNameList generic, Expr definition, Type2 carrierSet,
           DefinitionKind definitionKind) throws DefinitionException
   {
+    // if new local def is a schema binding
+    if (definitionKind.isSchemaBinding())
+    {
+      // and there is a previous (repeated def) schema binding for it
+      // ex: S == [ f: \nat ; f : \num ]
+      Definition previous = locals_.get(defName);
+      if (previous != null)
+      {
+        if (previous.getDefinitionKind().isSchemaBinding())
+        {
+          // create a combination of their types as the actual definition
+          definition = ZUtils.FACTORY.createFunOpAppl(
+            ZUtils.FACTORY.createZName(
+              ZString.ARG_TOK + ZString.CAP + ZString.ARG_TOK),
+            ZUtils.FACTORY.createTupleExpr(previous.getExpr(), definition));
+          final String message = "Duplicated local def \"" + DefinitionTable.printTerm(defName) +
+            "\" of \"" + DefinitionTable.printTerm(defName_) + "\" in section " + getSectionName() +
+            ". This only happens on explicit duplication (e.g., within same paragraph); "
+            + " adding intersection of declarations as " + DefinitionTable.printTerm(definition);
+          //throw new DefinitionException(oldLocalDef.getDefName(), message);
+          CztLogger.getLogger(getClass()).warning(message);
+        }
+        else
+        {
+          final String message = "Duplicated local def \"" + DefinitionTable.printTerm(defName) +
+            "\" of \"" + DefinitionTable.printTerm(defName_) + "\" in section " + getSectionName() +
+            ". Previous declaration is not a schema binding but a " + previous.getDefinitionKind().toString() +
+            ", whereas current definition is a " + definitionKind + ". This is likely to be type incorrect.";
+          throw new DefinitionException(previous.getDefName(), message);
+        }
+      }
+      // NOTE: this case doesn't usually happen by the user;
+      //       duplication through name collusion is more common
+      //       (e.g., S == [ x: \num ]; T == [ x: \nat ]; R == S \land T
+      //       but in this case, there is no need for intersecting here?
+      //       Actually there will be no collusion, given the locals are
+      //       not transitively investigated. Maybe should ? TODO see...
+    }
     Definition localDef = new Definition(getSectionName(), defName,
             generic, definition, carrierSet, definitionKind);
     addLocalDecl(localDef);
     return localDef;
   }
 
+  /**
+   * Called when schema inclusions are given as a local reference.
+   * @param def
+   * @throws DefinitionException
+   */
   protected void addLocalDecl(Definition def) throws DefinitionException
   {
     ZName defName = def.getDefName();
     Definition oldLocalDef = locals_.put(defName, def);
     if (oldLocalDef != null)
     {
-      final String message = "Duplicated local def \"" + DefinitionTable.printTerm(defName) +
-              "\" of \"" + DefinitionTable.printTerm(defName_) + "\" in section " + getSectionName();
-      throw new DefinitionException(oldLocalDef.getDefName(), message);
+      // if there is a duplicated local that are not both schema bindings, raise an error
+      if (!(def.getDefinitionKind().isSchemaBinding() &&
+          oldLocalDef.getDefinitionKind().isSchemaBinding()))
+      {
+          final String message = "Duplicated local def \"" + DefinitionTable.printTerm(defName) +
+            "\" of \"" + DefinitionTable.printTerm(defName_) + "\" in section " + getSectionName() +
+            ". Previous declaration is not a schema binding but a " + oldLocalDef.getDefinitionKind().toString() +
+            ", whereas current definition is a " + def.getDefinitionKind().toString() +
+            ". This is likely to be type incorrect.";
+          throw new DefinitionException(oldLocalDef.getDefName(), message);
+      }
     }
   }
 

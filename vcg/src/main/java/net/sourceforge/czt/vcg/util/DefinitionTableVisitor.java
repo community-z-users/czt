@@ -1345,6 +1345,15 @@ public class DefinitionTableVisitor
       DefinitionKind old = defKinds.pop();
       assert old.equals(currentDefKind) : "definition stack consistency: not SCHEXPR";
     }
+    // possibly mixed schema calculus with other expressions (e.g., Lambda, Mu, Let, Cond, etc)
+    //else if (ZUtils.whatKindOfZExpr(expr).equals(ZExprKind.MIXED))
+    //{
+    //  // type checker *must* give appropriate type information for bindings
+    //  if (expr instanceof CondExpr)
+    //  {
+    //
+    //  }
+    //}
     else
     {
       raiseUnsupportedCase("complex definition for schema", currentDefKind, expr);

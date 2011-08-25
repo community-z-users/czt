@@ -94,5 +94,5 @@ public interface VCG<R> {
   boolean isAddingTrivialVC();
   boolean isProcessingParents();
   boolean isRaisingTypeWarnings();
-
+  boolean isCheckingDefTblConsistency();
 }

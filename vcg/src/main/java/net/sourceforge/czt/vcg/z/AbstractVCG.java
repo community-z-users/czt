@@ -71,6 +71,7 @@ import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.z.visitor.SectVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import sun.print.CUPSPrinter;
 
 /**
  * Base class for all VCG utility classes. It can process Terms for VCG, where
@@ -142,6 +143,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     addTrivialVC_    = PROP_VCG_ADD_TRIVIAL_VC_DEFAULT;
     logTypeWarnings_ = PROP_VCG_RAISE_TYPE_WARNINGS_DEFAULT;
     processParents_  = PROP_VCG_PROCESS_PARENTS_DEFAULT;
+    checkTblConsistency_ = PROP_VCG_CHECK_DEFTBL_CONSISTENCY_DEFAULT;
     parentsToIgnore_ = new TreeSet<String>();
   }
 
@@ -204,6 +206,11 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   protected boolean defaultApplyTransformers()
   {
     return PROP_VCG_APPLY_TRANSFORMERS_DEFAULT;
+  }
+
+  protected boolean defaultCheckDefTblConsistency()
+  {
+    return PROP_VCG_CHECK_DEFTBL_CONSISTENCY_DEFAULT;
   }
 
   /**
@@ -280,6 +287,12 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     return logTypeWarnings_;
   }
 
+  @Override
+  public boolean isCheckingDefTblConsistency()
+  {
+    return checkTblConsistency_;
+  }
+
   /**
    * Clears both sets of parents to process and to ignore
    */
@@ -300,6 +313,11 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   public void setAddingTrivialVC(boolean value)
   {
     addTrivialVC_ = value;
+  }
+
+  public void setCheckDefTblConsistency(boolean value)
+  {
+    checkTblConsistency_ = value;
   }
 
   public void setProcessingParents(boolean value)
@@ -373,12 +391,15 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
         sectManager_.getBooleanProperty(PROP_VCG_RAISE_TYPE_WARNINGS) : defaultRaiseTypeWarnings();
       boolean applyTransf = sectManager_.hasProperty(PROP_VCG_APPLY_TRANSFORMERS) ?
         sectManager_.getBooleanProperty(PROP_VCG_APPLY_TRANSFORMERS) : defaultApplyTransformers();
+      boolean checkTblConst = sectManager_.hasProperty(PROP_VCG_CHECK_DEFTBL_CONSISTENCY) ?
+        sectManager_.getBooleanProperty(PROP_VCG_CHECK_DEFTBL_CONSISTENCY) : defaultCheckDefTblConsistency();
       List<String> parentsToIgnore = sectManager_.hasProperty(PROP_VCG_PARENTS_TO_IGNORE) ?
         sectManager_.getListProperty(PROP_VCG_PARENTS_TO_IGNORE) :
         new ArrayList<String>(defaultParentsToIgnore());
       setProcessingParents(processParents);
       setAddingTrivialVC(addTrivialVC);
       setRaiseTypeWarnings(raiseTW);
+      setCheckDefTblConsistency(checkTblConst);
       clearParentsToIgnore();
       parentsToIgnore_.addAll(parentsToIgnore);
 
@@ -424,6 +445,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       manager.setProperty(PROP_VCG_ADD_TRIVIAL_VC, String.valueOf(defaultAddTrivialVC()));
       manager.setProperty(PROP_VCG_APPLY_TRANSFORMERS, String.valueOf(defaultApplyTransformers()));
       manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(defaultRaiseTypeWarnings()));
+      manager.setProperty(PROP_VCG_CHECK_DEFTBL_CONSISTENCY,
+            String.valueOf(defaultCheckDefTblConsistency()));
 
       // build it from parents to ignore
       String prop = "";
@@ -459,6 +482,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     addTrivialVC_ = defaultAddTrivialVC();
     logTypeWarnings_ = defaultRaiseTypeWarnings();
     processParents_ = defaultProcessParents();
+    checkTblConsistency_ = defaultCheckDefTblConsistency();
     getVCCollector().getTransformer().setApplyTransformer(defaultApplyTransformers());
     clearParentsToIgnore();
     parentsToIgnore_.addAll(defaultParentsToIgnore());
