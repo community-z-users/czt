@@ -72,7 +72,7 @@ public class SourceLocator extends AbstractCommand
    * @throws net.sourceforge.czt.session.CommandException if resource not found.
    */   
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected boolean doCompute(String name, SectionManager manager)
     throws CommandException
   {
     traceLog("SL-locate       = " + name);

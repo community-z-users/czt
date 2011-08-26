@@ -45,6 +45,21 @@ public abstract class AbstractCommand implements Command {
    * @throws CommandException if any problem occurs.
    */
   @Override
-  public abstract boolean compute(String name, SectionManager manager)
-    throws CommandException;
+  public final boolean compute(String name, SectionManager manager)
+    throws CommandException
+  {
+    processProperties(manager);
+    return doCompute(name, manager);
+  }
+
+  protected abstract boolean doCompute(String name, SectionManager manager) throws CommandException;
+
+  /**
+   * Pass section manager to enable derived classes to preprocess any property of interest
+   * @param manager
+   */
+  protected void processProperties(SectionManager manager)
+  {
+    // do nothing
+  }
 }
