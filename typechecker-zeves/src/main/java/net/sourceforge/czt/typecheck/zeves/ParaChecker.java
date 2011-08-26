@@ -28,12 +28,15 @@ import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
 import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.ast.ProofType;
+import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 
 /**
@@ -84,6 +87,18 @@ public class ParaChecker
     return result;
   }
 
+  private boolean domainCheckName(Name name)
+  {
+    boolean result = name instanceof ZName;
+    if (result)
+    {
+      ZName zn = ZUtils.assertZName(name);
+      result = zn.getWord().endsWith(ZEvesString.ZPROOFDOLLAR + ZEvesString.DOMAIN_CHECK);
+      //System.out.println("Considering DC name " + name + " = " + result);
+    }
+    return result;
+  }
+
   @Override
   public Signature visitProofScript(ProofScript term)
   {
@@ -92,7 +107,7 @@ public class ParaChecker
     setCurrentProofName(name);
     setCurrentProofRefConjType(found);
 
-    if (found instanceof UnknownType)
+    if (found instanceof UnknownType && !domainCheckName(name))
     {
       warningManager().warn(term, WarningMessage.PROOF_SCRIPT_HAS_NO_CONJ, name);
     }
