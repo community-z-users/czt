@@ -386,7 +386,7 @@ public class <class/> extends AbstractCommand
    *  if a parsing exception occurs, which can be for various reasons (ParseException, IOException, etc).
    */
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected boolean doCompute(String name, SectionManager manager)
     throws CommandException
   {
     // create a Spec key for the given name and check if it's cached,
