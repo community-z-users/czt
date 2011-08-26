@@ -1,94 +1,64 @@
-/**
- * 
- */
-
 package net.sourceforge.czt.eclipse.views;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.microstar.xml.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.ext.DefaultHandler2;
 
 /**
  * @author Chengdong Xu
- *
+ * @author Andrius Velykis
  */
-public class ZXmlHandler extends HandlerBase
+public class ZXmlHandler extends DefaultHandler2
 {
 
   private List<List<Object>> fCharTable = new ArrayList<List<Object>>();
 
   private List<Object> fCurrentRow;
-  
-  private String fName;
-  private String fUnicode;
-  private String fLatex;
-  private String fDescription;
-
-  /**
-   * 
-   */
-  public ZXmlHandler()
-  {
-    super();
-  }
 
   public List<List<Object>> getCharList()
   {
     return fCharTable;
   }
 
-  /**
-   * @see org.xml.sax.helpers.DefaultHandler#startDocument()
-   */
-  public void startDocument()
+  @Override
+  public void startElement(String uri, String localName, String qName, Attributes attributes)
+      throws SAXException
   {
-  }
-  
-  public void attribute(String name, String value, boolean isSpecified)
-  {
-    if ("HEADING".equalsIgnoreCase(name)) {
-      fCurrentRow = new ArrayList<Object>();
-      fCurrentRow.add(value);
-    }
-    else if ("NAME".equalsIgnoreCase(name)) {
-      fName = value;
-    }
-    else if ("UNICODE".equalsIgnoreCase(name)) {
-      fUnicode = value;
-    }
-    else if ("LATEX".equalsIgnoreCase(name)) {
-      fLatex = value;
-    }
-    else if ("DESCRIPTION".equalsIgnoreCase(name)) {
-      fDescription = value;
-    }
-  }
-  public void endElement(String element)
-  {
-    if ("TABLE".equalsIgnoreCase(element)) {
-    }
-    else if ("ROW".equalsIgnoreCase(element)) {
+    if ("row".equals(qName)) {
+      fCurrentRow = createRow(attributes);
       fCharTable.add(fCurrentRow);
     }
-    else if ("ITEM".equalsIgnoreCase(element)) {
-      if (fUnicode == null)
-        fUnicode = fName;
-      /*
-      System.out.println("ZCHAR    = " + fName + 
-    		  		   "\n UNICODE = " + 
-    		  		   		(fUnicode.length() == 1 ? 
-    		  				   "U+" + Integer.toHexString(fUnicode.codePointAt(0)) : 
-    		  					fUnicode)+ 
-    		  		   "\n LATEX   = " + fLatex +
-    		  		   "\n DESCRIP = " + fDescription);	
-      */
-      fCurrentRow.add(new ZChar(fName, fUnicode, fLatex, fDescription));
-      fName = fUnicode = fLatex = fDescription = null;
+    else if ("item".equals(qName)) {
+      fCurrentRow.add(createZChar(attributes));
     }
   }
 
-  public void endDocument()
+  private List<Object> createRow(Attributes attributes)
   {
+    List<Object> row = new ArrayList<Object>();
+
+    String rowHeading = attributes.getValue("heading");
+    row.add(rowHeading);
+
+    return row;
   }
+
+  private ZChar createZChar(Attributes attributes)
+  {
+
+    String name = attributes.getValue("name");
+    String description = attributes.getValue("description");
+    String unicode = attributes.getValue("unicode");
+    String latex = attributes.getValue("latex");
+
+    if (unicode == null) {
+      unicode = name;
+    }
+
+    return new ZChar(name, unicode, latex, description);
+  }
+
 }

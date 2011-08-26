@@ -64,6 +64,8 @@ public class CZTPluginImages
   public static final String IMG_Z_ELEMENT = NAME_PREFIX + "zelem16.png"; //$NON-NLS-1$
   
   public static final String IMG_COMPLETE_TREE = NAME_PREFIX + "complete_tree.gif"; //$NON-NLS-1$
+  
+  public static final String IMG_CHAR_TABLE = NAME_PREFIX + "char_table.gif"; //$NON-NLS-1$
 
   /*
    * Set of predefined Image Descriptors.
@@ -97,6 +99,9 @@ public class CZTPluginImages
   
   public static final ImageDescriptor DESC_Z_ELEMENT = createManagedFromKey(
       T_OBJ, IMG_Z_ELEMENT); //$NON-NLS-1$
+  
+  public static final ImageDescriptor DESC_CHAR_TABLE = createManagedFromKey(
+      T_OBJ, IMG_CHAR_TABLE); //$NON-NLS-1$
   
   public static final ImageDescriptor DESC_COMPLETE_TREE = createManagedFromKey(
       T_ELCL, IMG_COMPLETE_TREE); //$NON-NLS-1$
