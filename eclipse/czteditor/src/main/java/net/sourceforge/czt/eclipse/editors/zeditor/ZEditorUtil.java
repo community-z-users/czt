@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.editors.zeditor;
 
 import net.sourceforge.czt.eclipse.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.Markup;
@@ -74,10 +74,10 @@ public class ZEditorUtil {
   
   public static String getEditorFont(Markup markup) {
     if (Markup.UNICODE == markup) {
-      return PreferenceConstants.EDITOR_UNICODE_FONT;
+      return ZEditorConstants.FONT_UNICODE;
     }
     else if (Markup.LATEX == markup) {
-      return PreferenceConstants.EDITOR_LATEX_FONT;
+      return ZEditorConstants.FONT_LATEX;
     }
     
     return JFaceResources.TEXT_FONT;

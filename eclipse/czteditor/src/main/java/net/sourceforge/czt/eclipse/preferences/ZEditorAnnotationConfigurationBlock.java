@@ -65,16 +65,16 @@ public class ZEditorAnnotationConfigurationBlock
 
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.BOOLEAN,
-        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_ENABLE));
+        ZEditorConstants.ANNOTATION_SCHEMABOX_ENABLE));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.STRING,
-        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE));
+        ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.STRING,
-        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR));
+        ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_COLOR));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.INT,
-        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH));
+        ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_WIDTH));
 
     OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys
         .size()];
@@ -201,7 +201,7 @@ public class ZEditorAnnotationConfigurationBlock
     
     label = PreferencesMessages.ZEditorPreferencePage_annotation_schema_box_enable;
     Button schemaBoxEnableButton = addCheckBox(schemaBoxGroup, label,
-        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_ENABLE, 0);
+        ZEditorConstants.ANNOTATION_SCHEMABOX_ENABLE, 0);
 
     label = PreferencesMessages.ZEditorPreferencePage_annotation_schema_box_style;
     Label boxStyleLabel = new Label(schemaBoxGroup, SWT.LEFT);
@@ -221,11 +221,11 @@ public class ZEditorAnnotationConfigurationBlock
 
       public void widgetSelected(SelectionEvent e)
       {
-        String key = PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE;
+        String key = ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE;
         if (fSchemaBoxStyleCombo.getSelectionIndex() == 0)
-          getPreferenceStore().setValue(key, PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_1);
+          getPreferenceStore().setValue(key, ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE_1);
         else if (fSchemaBoxStyleCombo.getSelectionIndex() == 1)
-          getPreferenceStore().setValue(key, PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_2);
+          getPreferenceStore().setValue(key, ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE_2);
       }
     });
     
@@ -251,7 +251,7 @@ public class ZEditorAnnotationConfigurationBlock
 
       public void widgetSelected(SelectionEvent e)
       {
-        String key = PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR;
+        String key = ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_COLOR;
         PreferenceConverter.setValue(getPreferenceStore(), key,
             fSchemaBoxLineColorEditor.getColorValue());
       }
@@ -275,7 +275,7 @@ public class ZEditorAnnotationConfigurationBlock
 
       public void widgetSelected(SelectionEvent e)
       {
-        String key = PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH;
+        String key = ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_WIDTH;
         getPreferenceStore().setValue(key, fSchemaBoxLineWidthCombo.getSelectionIndex());
       }
     });
@@ -309,19 +309,19 @@ public class ZEditorAnnotationConfigurationBlock
 
   private void updateUnManagedControl()
   {
-    String key = PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE;
+    String key = ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE;
     String style = getPreferenceStore().getString(key);
-    if (PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_1.equals(style))
+    if (ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE_1.equals(style))
       fSchemaBoxStyleCombo.select(0);
-    else if (PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_2.equals(style))
+    else if (ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE_2.equals(style))
       fSchemaBoxStyleCombo.select(1);
     else
       fSchemaBoxStyleCombo.select(-1);
     
-    key = PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR;
+    key = ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_COLOR;
     fSchemaBoxLineColorEditor.setColorValue(PreferenceConverter.getColor(getPreferenceStore(), key));
     
-    key = PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH;
+    key = ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_WIDTH;
     fSchemaBoxLineWidthCombo.select(getPreferenceStore().getInt(key));
   }
 

@@ -12,8 +12,8 @@ import net.sourceforge.czt.eclipse.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
+import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
@@ -222,7 +222,7 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 				.getCZTTextTools().getColorManager(), store, null, IZPartitions.Z_PARTITIONING, false);
 		zViewer.configure(configuration);
 		// FIXME implement proper setting of font (according to content displayed)
-		FontUpdater.enableFor(zViewer, configuration, store, PreferenceConstants.EDITOR_UNICODE_FONT);
+		FontUpdater.enableFor(zViewer, configuration, store, ZEditorConstants.FONT_UNICODE);
 		zViewer.setEditable(false);
 		zViewer.setDocument(new Document());
 		

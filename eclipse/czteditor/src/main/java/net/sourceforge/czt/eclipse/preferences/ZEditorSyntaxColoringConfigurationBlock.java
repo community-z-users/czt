@@ -279,27 +279,27 @@ public class ZEditorSyntaxColoringConfigurationBlock
   /**
    * Preference key suffix for foreground preferences.
    */
-  private static final String FOREGROUND = PreferenceConstants.EDITOR_FOREGROUND_SUFFIX;
+  private static final String FOREGROUND = ZEditorConstants.SUFFIX_FOREGROUND;
   
   /**
    * Preference key suffix for bold preferences.
    */
-  private static final String BOLD = PreferenceConstants.EDITOR_BOLD_SUFFIX;
+  private static final String BOLD = ZEditorConstants.SUFFIX_BOLD;
 
   /**
    * Preference key suffix for italic preferences.
    */
-  private static final String ITALIC = PreferenceConstants.EDITOR_ITALIC_SUFFIX;
+  private static final String ITALIC = ZEditorConstants.SUFFIX_ITALIC;
 
   /**
    * Preference key suffix for strikethrough preferences.
    */
-  private static final String STRIKETHROUGH = PreferenceConstants.EDITOR_STRIKETHROUGH_SUFFIX;
+  private static final String STRIKETHROUGH = ZEditorConstants.SUFFIX_STRIKETHROUGH;
 
   /**
    * Preference key suffix for underline preferences.
    */
-  private static final String UNDERLINE = PreferenceConstants.EDITOR_UNDERLINE_SUFFIX;
+  private static final String UNDERLINE = ZEditorConstants.SUFFIX_UNDERLINE;
 
   /**
    * The keys of the overlay store. 
@@ -853,7 +853,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
     fPreviewViewer.configure(configuration);
     
     // enable font updates
-    FontUpdater.enableFor(fPreviewViewer, configuration, store, PreferenceConstants.EDITOR_LATEX_FONT);
+    FontUpdater.enableFor(fPreviewViewer, configuration, store, ZEditorConstants.FONT_LATEX);
     fPreviewViewer.setEditable(false);
 
     String content = loadPreviewContentFromFile("ColorSettingPreviewCode.txt"); //$NON-NLS-1$

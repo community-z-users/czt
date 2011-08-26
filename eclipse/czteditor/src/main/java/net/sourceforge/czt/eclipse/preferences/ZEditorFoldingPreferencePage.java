@@ -104,7 +104,7 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
         result,
         PreferencesMessages.ZEditorPreferencePage_folding_enable,
         PreferencesMessages.ZEditorPreferencePage_folding_enable_tooltip,
-        PreferenceConstants.EDITOR_FOLDING_ENABLED);
+        ZEditorConstants.FOLDING_ENABLED);
     fEnableFoldingButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     fEnableFoldingButton.addSelectionListener(new SelectionListener() {
       public void widgetSelected(SelectionEvent se) {
@@ -125,52 +125,52 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_narrative,
         null,
-        PreferenceConstants.EDITOR_FOLDING_NARRATIVE));
+        ZEditorConstants.FOLDING_NARRATIVE));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_directive,
         null,
-        PreferenceConstants.EDITOR_FOLDING_ZCHAR));
+        ZEditorConstants.FOLDING_ZCHAR));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_zed,
         null,
-        PreferenceConstants.EDITOR_FOLDING_ZED));
+        ZEditorConstants.FOLDING_ZED));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_section,
         null,
-        PreferenceConstants.EDITOR_FOLDING_ZSECTION));
+        ZEditorConstants.FOLDING_ZSECTION));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_ax,
         null,
-        PreferenceConstants.EDITOR_FOLDING_AX));
+        ZEditorConstants.FOLDING_AX));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_sch,
         null,
-        PreferenceConstants.EDITOR_FOLDING_SCH));
+        ZEditorConstants.FOLDING_SCH));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_genax,
         null,
-        PreferenceConstants.EDITOR_FOLDING_GENAX));
+        ZEditorConstants.FOLDING_GENAX));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_gensch,
         null,
-        PreferenceConstants.EDITOR_FOLDING_GENSCH));
+        ZEditorConstants.FOLDING_GENSCH));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_theorem,
         null,
-        PreferenceConstants.EDITOR_FOLDING_THEOREM));
+        ZEditorConstants.FOLDING_THEOREM));
     fCheckBoxes.add(createCheckBox(
         elementsGroup,
         PreferencesMessages.ZEditorPreferencePage_folding_element_proofscript,
         null,
-        PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT));
+        ZEditorConstants.FOLDING_PROOFSCRIPT));
     
     doFoldingButtonSelected();
     

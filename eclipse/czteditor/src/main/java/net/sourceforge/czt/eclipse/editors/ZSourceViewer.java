@@ -7,7 +7,7 @@ package net.sourceforge.czt.eclipse.editors;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
@@ -440,7 +440,7 @@ public class ZSourceViewer extends ProjectionViewer
     // re-enable folding if ProjectionViewer failed to due so
     if (fPreferenceStore != null
         && fPreferenceStore
-            .getBoolean(PreferenceConstants.EDITOR_FOLDING_ENABLED)
+            .getBoolean(ZEditorConstants.FOLDING_ENABLED)
         && !isProjectionMode())
       enableProjection();
   }

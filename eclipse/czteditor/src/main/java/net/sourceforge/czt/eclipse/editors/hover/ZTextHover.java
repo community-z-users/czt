@@ -8,7 +8,7 @@ import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.parser.NameInfo;
 import net.sourceforge.czt.eclipse.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.LocAnn;
@@ -108,7 +108,7 @@ public class ZTextHover extends DefaultTextHover
   public IRegion getHoverRegion(ITextViewer textViewer, int offset)
   {
     if (!CZTPlugin.getDefault().getPreferenceStore()
-        .getBoolean(PreferenceConstants.EDITOR_SHOW_HOVER)) {
+        .getBoolean(ZEditorConstants.SHOW_HOVER)) {
       return null;
     }
 

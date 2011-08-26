@@ -56,7 +56,7 @@ import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.parser.ZCompilerMessageParser;
 import net.sourceforge.czt.eclipse.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.outline.ZContentOutlinePage;
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.util.CztUI;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.IZEncoding;
@@ -518,10 +518,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   private StyledText text;
 
   /** Preference key for matching brackets */
-  protected final static String MATCHING_BRACKETS = PreferenceConstants.EDITOR_MATCHING_BRACKETS;
+  protected final static String MATCHING_BRACKETS = ZEditorConstants.MATCHING_BRACKETS;
 
   /** Preference key for matching brackets color */
-  protected final static String MATCHING_BRACKETS_COLOR = PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
+  protected final static String MATCHING_BRACKETS_COLOR = ZEditorConstants.MATCHING_BRACKETS_COLOR;
 
   /** The fEditor's bracket matcher */
   protected ZPairMatcher fBracketMatcher;
@@ -625,12 +625,12 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     CZTTextTools textTools = CZTPlugin.getDefault().getCZTTextTools();
     setSourceViewerConfiguration(new ZSourceViewerConfiguration(textTools
         .getColorManager(), store, this, IZPartitions.Z_PARTITIONING));
-    fParsingEnabled = store.getBoolean(PreferenceConstants.EDITOR_PARSING_ENABLED);
+    fParsingEnabled = store.getBoolean(ZEditorConstants.PARSING_ENABLED);
     fMarkOccurrenceAnnotations = store
-        .getBoolean(PreferenceConstants.EDITOR_MARK_OCCURRENCES);
+        .getBoolean(ZEditorConstants.MARK_OCCURRENCES);
     fReportProblemsWhileEditing = store.getString(
-        PreferenceConstants.EDITOR_REPORT_PROBLEMS).equals(
-        PreferenceConstants.EDITOR_REPORT_PROBLEMS_WHILE_EDITING);
+        ZEditorConstants.REPORT_PROBLEMS).equals(
+        ZEditorConstants.REPORT_PROBLEMS_WHILE_EDITING);
   }
 
   /**
@@ -748,11 +748,11 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     AnnotationPreference schemaboxInfo = new AnnotationPreference();
     schemaboxInfo.setAnnotationType(IZAnnotationType.SCHEMABOX);
     schemaboxInfo
-        .setColorPreferenceKey(PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR);
+        .setColorPreferenceKey(ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_COLOR);
     schemaboxInfo
-        .setTextPreferenceKey(PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_ENABLE);
+        .setTextPreferenceKey(ZEditorConstants.ANNOTATION_SCHEMABOX_ENABLE);
     schemaboxInfo
-        .setTextStylePreferenceKey(PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE);
+        .setTextStylePreferenceKey(ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE);
     schemaboxInfo.setPresentationLayer(0);
     support.setAnnotationPreference(schemaboxInfo);
   }
@@ -807,7 +807,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   boolean isFoldingEnabled()
   {
     return CZTPlugin.getDefault().getPreferenceStore().getBoolean(
-        PreferenceConstants.EDITOR_FOLDING_ENABLED);
+        ZEditorConstants.FOLDING_ENABLED);
   }
 
   /*
@@ -980,65 +980,65 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   // check whether it is folding type property
   private boolean isFoldingProperty(String property)
   {
-    return PreferenceConstants.EDITOR_FOLDING_NARRATIVE.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_ZCHAR.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_ZED.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_ZSECTION.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_AX.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_SCH.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_GENAX.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_GENSCH.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_THEOREM.equals(property)
-        || PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT.equals(property);
+    return ZEditorConstants.FOLDING_NARRATIVE.equals(property)
+        || ZEditorConstants.FOLDING_ZCHAR.equals(property)
+        || ZEditorConstants.FOLDING_ZED.equals(property)
+        || ZEditorConstants.FOLDING_ZSECTION.equals(property)
+        || ZEditorConstants.FOLDING_AX.equals(property)
+        || ZEditorConstants.FOLDING_SCH.equals(property)
+        || ZEditorConstants.FOLDING_GENAX.equals(property)
+        || ZEditorConstants.FOLDING_GENSCH.equals(property)
+        || ZEditorConstants.FOLDING_THEOREM.equals(property)
+        || ZEditorConstants.FOLDING_PROOFSCRIPT.equals(property);
   }
 
   private boolean isFolded(String type)
   {
     if (IDocument.DEFAULT_CONTENT_TYPE.equals(type))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_NARRATIVE);
+          ZEditorConstants.FOLDING_NARRATIVE);
 
     if (IZPartitions.Z_PARAGRAPH_LATEX_ZED.equals(type))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_ZED);
+          ZEditorConstants.FOLDING_ZED);
 
     if (IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR.equals(type))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_ZCHAR);
+          ZEditorConstants.FOLDING_ZCHAR);
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION
         .equals(type)))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_ZSECTION);
+          ZEditorConstants.FOLDING_ZSECTION);
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_AXDEF.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF
         .equals(type)))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_AX);
+          ZEditorConstants.FOLDING_AX);
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
         .equals(type)))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_SCH);
+          ZEditorConstants.FOLDING_SCH);
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_GENAX.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENAX
         .equals(type)))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_GENAX);
+          ZEditorConstants.FOLDING_GENAX);
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
         .equals(type)))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_GENSCH);
+          ZEditorConstants.FOLDING_GENSCH);
 
     if (IZPartitions.Z_PARAGRAPH_LATEX_THEOREM.equals(type))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_THEOREM);
+          ZEditorConstants.FOLDING_THEOREM);
     
     if (IZPartitions.Z_PARAGRAPH_LATEX_PROOFSCRIPT.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT
         .equals(type))
       return getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT);
+          ZEditorConstants.FOLDING_PROOFSCRIPT);
 
     return false;
   }
@@ -1046,40 +1046,40 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   private String getPropertyOfType(String type)
   {
     if (IDocument.DEFAULT_CONTENT_TYPE.equals(type))
-      return PreferenceConstants.EDITOR_FOLDING_NARRATIVE;
+      return ZEditorConstants.FOLDING_NARRATIVE;
 
     if (IZPartitions.Z_PARAGRAPH_LATEX_ZED.equals(type))
-      return PreferenceConstants.EDITOR_FOLDING_ZED;
+      return ZEditorConstants.FOLDING_ZED;
 
     if (IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR.equals(type))
-      return PreferenceConstants.EDITOR_FOLDING_ZCHAR;
+      return ZEditorConstants.FOLDING_ZCHAR;
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION
         .equals(type)))
-      return PreferenceConstants.EDITOR_FOLDING_ZSECTION;
+      return ZEditorConstants.FOLDING_ZSECTION;
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_AXDEF.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF
         .equals(type)))
-      return PreferenceConstants.EDITOR_FOLDING_AX;
+      return ZEditorConstants.FOLDING_AX;
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
         .equals(type)))
-      return PreferenceConstants.EDITOR_FOLDING_SCH;
+      return ZEditorConstants.FOLDING_SCH;
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_GENAX.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENAX
         .equals(type)))
-      return PreferenceConstants.EDITOR_FOLDING_GENAX;
+      return ZEditorConstants.FOLDING_GENAX;
 
     if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
         .equals(type)))
-      return PreferenceConstants.EDITOR_FOLDING_GENSCH;
+      return ZEditorConstants.FOLDING_GENSCH;
 
     if (IZPartitions.Z_PARAGRAPH_LATEX_THEOREM.equals(type))
-      return PreferenceConstants.EDITOR_FOLDING_THEOREM;
+      return ZEditorConstants.FOLDING_THEOREM;
     
     if (IZPartitions.Z_PARAGRAPH_LATEX_PROOFSCRIPT.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_PROOFSCRIPT
         .equals(type))
-      return PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT;
+      return ZEditorConstants.FOLDING_PROOFSCRIPT;
 
     return null;
   }
@@ -1432,7 +1432,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     if (!moveCursor) { // avoid Selector repeatedly working
       markOccurrenceAnnotations(cursorOffset);
       if (getPreferenceStore().getBoolean(
-          PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE)) {
+          ZEditorConstants.SYNC_OUTLINE_ON_CURSOR_MOVE)) {
         synchronizeOutlinePage(cursorOffset);
       }
     }
@@ -1835,7 +1835,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
         .equals(property)) {
       /*
        * Ignore tab setting since we rely on the formatter preferences.
-       * We do this outside the try-finally block to avoid that EDITOR_TAB_WIDTH
+       * We do this outside the try-finally block to avoid that TAB_WIDTH
        * is handled by the sub-class (AbstractDecoratedTextEditor).
        */
       return;
@@ -1855,14 +1855,14 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       if (newValue != null)
         newBooleanValue = Boolean.valueOf(newValue.toString()).booleanValue();
 
-      if (PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE
+      if (ZEditorConstants.SYNC_OUTLINE_ON_CURSOR_MOVE
           .equals(property)) {
         if (newBooleanValue)
           selectionChanged();
         return;
       }
 
-      if (PreferenceConstants.EDITOR_MARK_OCCURRENCES.equals(property)) {
+      if (ZEditorConstants.MARK_OCCURRENCES.equals(property)) {
         if (newBooleanValue != fMarkOccurrenceAnnotations) {
           fMarkOccurrenceAnnotations = newBooleanValue;
           if (!fMarkOccurrenceAnnotations)
@@ -1901,7 +1901,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
        return;
        }
 
-       if (PreferenceConstants.EDITOR_FOLDING_PROVIDER.equals(property)) {
+       if (PreferenceConstants.FOLDING_PROVIDER.equals(property)) {
        if (sourceViewer instanceof ProjectionViewer) {
        ProjectionViewer projectionViewer= (ProjectionViewer) sourceViewer;
        if (fProjectionModelUpdater != null)
@@ -1925,7 +1925,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
        return;
        }
        */
-      if (PreferenceConstants.EDITOR_FOLDING_ENABLED.equals(property)) {
+      if (ZEditorConstants.FOLDING_ENABLED.equals(property)) {
         //        if (sourceViewer instanceof ProjectionViewer) {
         //          new ToggleFoldingRunner().runWhenNextVisible();         
         //        }
@@ -1936,13 +1936,13 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
         updateFoldingType(property, newBooleanValue);
       }
       
-      if (PreferenceConstants.EDITOR_PARSING_ENABLED.equals(property)) {
+      if (ZEditorConstants.PARSING_ENABLED.equals(property)) {
         fParsingEnabled = newBooleanValue;
       }
         
 
-      if (PreferenceConstants.EDITOR_REPORT_PROBLEMS.equals(property)) {
-        fReportProblemsWhileEditing = PreferenceConstants.EDITOR_REPORT_PROBLEMS_WHILE_EDITING
+      if (ZEditorConstants.REPORT_PROBLEMS.equals(property)) {
+        fReportProblemsWhileEditing = ZEditorConstants.REPORT_PROBLEMS_WHILE_EDITING
             .equals(newValue);
       }
     } finally {

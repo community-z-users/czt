@@ -54,25 +54,25 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
 
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.BOOLEAN,
-        PreferenceConstants.EDITOR_PARSING_ENABLED));
+        ZEditorConstants.PARSING_ENABLED));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.STRING,
-        PreferenceConstants.EDITOR_REPORT_PROBLEMS));
+        ZEditorConstants.REPORT_PROBLEMS));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.BOOLEAN,
-        PreferenceConstants.EDITOR_MATCHING_BRACKETS));
+        ZEditorConstants.MATCHING_BRACKETS));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.STRING,
-        PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR));
+        ZEditorConstants.MATCHING_BRACKETS_COLOR));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.BOOLEAN,
-        PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE));
+        ZEditorConstants.SYNC_OUTLINE_ON_CURSOR_MOVE));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.BOOLEAN,
-        PreferenceConstants.EDITOR_SHOW_HOVER));
+        ZEditorConstants.SHOW_HOVER));
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.BOOLEAN,
-        PreferenceConstants.EDITOR_MARK_OCCURRENCES));
+        ZEditorConstants.MARK_OCCURRENCES));
 
     OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys
         .size()];
@@ -194,15 +194,15 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
 
     label = PreferencesMessages.ZEditorBasePreferencePage_parsing_enable;
     Button parseEnableButton = addCheckBox(appearanceComposite, label,
-        PreferenceConstants.EDITOR_PARSING_ENABLED, 0);
+        ZEditorConstants.PARSING_ENABLED, 0);
 
     label = PreferencesMessages.ZEditorBasePreferencePage_report_problems_on_save;
     Button reportOnSaveButton = addRadioButton(appearanceComposite, label,
-        PreferenceConstants.EDITOR_REPORT_PROBLEMS, PreferenceConstants.EDITOR_REPORT_PROBLEMS_ON_SAVE, 0);
+        ZEditorConstants.REPORT_PROBLEMS, ZEditorConstants.REPORT_PROBLEMS_ON_SAVE, 0);
     
     label = PreferencesMessages.ZEditorBasePreferencePage_report_problems_while_editing;
     Button reportWhileEditButton = addRadioButton(appearanceComposite, label,
-        PreferenceConstants.EDITOR_REPORT_PROBLEMS, PreferenceConstants.EDITOR_REPORT_PROBLEMS_WHILE_EDITING, 0);
+        ZEditorConstants.REPORT_PROBLEMS, ZEditorConstants.REPORT_PROBLEMS_WHILE_EDITING, 0);
     
     createDependency(parseEnableButton, new Button[]{reportOnSaveButton, reportWhileEditButton});
     
@@ -218,7 +218,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
 
     label = PreferencesMessages.ZEditorBasePreferencePage_matching_brackets;
     Button matchingBracketsButton = addCheckBox(appearanceComposite, label,
-        PreferenceConstants.EDITOR_MATCHING_BRACKETS, 0);
+        ZEditorConstants.MATCHING_BRACKETS, 0);
 
     Label l = new Label(appearanceComposite, SWT.LEFT);
     l.setText(PreferencesMessages.ZEditorBasePreferencePage_matching_brackets_color);
@@ -241,7 +241,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
 
       public void widgetSelected(SelectionEvent e)
       {
-        String key = PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
+        String key = ZEditorConstants.MATCHING_BRACKETS_COLOR;
         PreferenceConverter.setValue(getPreferenceStore(), key,
             fMatchingBracketsColorEditor.getColorValue());
       }
@@ -258,7 +258,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
     
     label = PreferencesMessages.ZEditorBasePreferencePage_sync_outline_on_cursor_move;
     addCheckBox(appearanceComposite, label,
-        PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE, 0);
+        ZEditorConstants.SYNC_OUTLINE_ON_CURSOR_MOVE, 0);
     
     //  another spacer
     l = new Label(appearanceComposite, SWT.LEFT);
@@ -269,7 +269,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
     
     label = PreferencesMessages.ZEditorBasePreferencePage_show_text_hover;
     addCheckBox(appearanceComposite, label,
-        PreferenceConstants.EDITOR_SHOW_HOVER, 0);
+        ZEditorConstants.SHOW_HOVER, 0);
     
     //  another spacer
     l = new Label(appearanceComposite, SWT.LEFT);
@@ -280,7 +280,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
     
     label = PreferencesMessages.ZEditorBasePreferencePage_mark_occurrences;
     addCheckBox(appearanceComposite, label,
-        PreferenceConstants.EDITOR_MARK_OCCURRENCES, 0);
+        ZEditorConstants.MARK_OCCURRENCES, 0);
     
     return appearanceComposite;
   }
@@ -309,7 +309,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
 
   private void updateColorSelector()
   {
-    String key = PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
+    String key = ZEditorConstants.MATCHING_BRACKETS_COLOR;
     RGB rgb = PreferenceConverter.getColor(getPreferenceStore(), key);
     fMatchingBracketsColorEditor.setColorValue(rgb);
   }

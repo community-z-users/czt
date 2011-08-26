@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.util.IColorManager;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -34,19 +34,19 @@ import org.eclipse.swt.widgets.Display;
  * the color manager under the same key.
  * </p>
  * <p>
- * Preference color key + {@link PreferenceConstants#EDITOR_BOLD_SUFFIX} are used
+ * Preference color key + {@link ZEditorConstants#SUFFIX_BOLD} are used
  * to retrieve whether the token is rendered in bold.
  * </p>
  * <p>
- * Preference color key + {@link PreferenceConstants#EDITOR_ITALIC_SUFFIX} are used
+ * Preference color key + {@link ZEditorConstants#SUFFIX_ITALIC} are used
  * to retrieve whether the token is rendered in italic.
  * </p>
  * <p>
- * Preference color key + {@link PreferenceConstants#EDITOR_STRIKETHROUGH_SUFFIX} are used
+ * Preference color key + {@link ZEditorConstants#SUFFIX_STRIKETHROUGH} are used
  * to retrieve whether the token is rendered in strikethrough.
  * </p>
  * <p>
- * Preference color key + {@link PreferenceConstants#EDITOR_UNDERLINE_SUFFIX} are used
+ * Preference color key + {@link ZEditorConstants#SUFFIX_UNDERLINE} are used
  * to retrieve whether the token is rendered in underline.
  * </p>
  * 
@@ -111,11 +111,11 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
    * store and in the color manager.
    * </p>
    * <p>
-   * Preference key + {@link PreferenceConstants#EDITOR_BOLD_SUFFIX} is used
+   * Preference key + {@link ZEditorConstants#SUFFIX_BOLD} is used
    * to retrieve whether the token is rendered in bold.
    * </p>
    * <p>
-   * Preference key + {@link PreferenceConstants#EDITOR_ITALIC_SUFFIX} is used
+   * Preference key + {@link ZEditorConstants#SUFFIX_ITALIC} is used
    * to retrieve whether the token is rendered in italic.
    * </p>
    */
@@ -153,15 +153,15 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
 
     for (int i = 0; i < length; i++) {
       fPropertyNamesForeground[i] = fPropertyNames[i]
-          + PreferenceConstants.EDITOR_FOREGROUND_SUFFIX;
+          + ZEditorConstants.SUFFIX_FOREGROUND;
       fPropertyNamesBold[i] = fPropertyNames[i]
-          + PreferenceConstants.EDITOR_BOLD_SUFFIX;
+          + ZEditorConstants.SUFFIX_BOLD;
       fPropertyNamesItalic[i] = fPropertyNames[i]
-          + PreferenceConstants.EDITOR_ITALIC_SUFFIX;
+          + ZEditorConstants.SUFFIX_ITALIC;
       fPropertyNamesStrikethrough[i] = fPropertyNames[i]
-          + PreferenceConstants.EDITOR_STRIKETHROUGH_SUFFIX;
+          + ZEditorConstants.SUFFIX_STRIKETHROUGH;
       fPropertyNamesUnderline[i] = fPropertyNames[i]
-          + PreferenceConstants.EDITOR_UNDERLINE_SUFFIX;
+          + ZEditorConstants.SUFFIX_UNDERLINE;
       if (fNeedsLazyColorLoading)
         addTokenWithProxyAttribute(fPropertyNames[i], fPropertyNamesForeground[i],
             fPropertyNamesBold[i], fPropertyNamesItalic[i],

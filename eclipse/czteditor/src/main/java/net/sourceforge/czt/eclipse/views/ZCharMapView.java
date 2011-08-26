@@ -9,6 +9,7 @@ import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.session.Markup;
 
 import org.eclipse.core.runtime.IPath;
@@ -71,7 +72,7 @@ import static java.lang.Math.max;
 public class ZCharMapView extends ViewPart
 {
   
-  private static final String EDITOR_FONT = PreferenceConstants.EDITOR_UNICODE_FONT;
+  private static final String EDITOR_FONT = ZEditorConstants.FONT_UNICODE;
   
   enum DialectTable {
     Z("z", "Z", "lib/ZTable.xml", 'Z'), 

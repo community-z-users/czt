@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -707,7 +707,7 @@ public class ZSpecDecorationSupport
   {
     if (fPreferenceStore != null) {
       return fPreferenceStore
-          .getInt(PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH);
+          .getInt(ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_WIDTH);
     }
     return 0;
   }
@@ -736,7 +736,7 @@ public class ZSpecDecorationSupport
   {
     String p = event.getProperty();
 
-    if (PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH.equals(p)) {
+    if (ZEditorConstants.ANNOTATION_SCHEMABOX_LINE_WIDTH.equals(p)) {
       if (fAnnotationPainter != null)
         fAnnotationPainter.paint(IPainter.CONFIGURATION);
       return;
@@ -896,10 +896,10 @@ public class ZSpecDecorationSupport
     painter.addDrawingStrategy(AnnotationPreference.STYLE_IBEAM,
         fgIBeamStrategy);
     painter.addDrawingStrategy(
-        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_1,
+        ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE_1,
         fgSchemaBoxStyle1Strategy);
     painter.addDrawingStrategy(
-        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_2,
+        ZEditorConstants.ANNOTATION_SCHEMABOX_STYLE_2,
         fgSchemaBoxStyle2Strategy);
 
     return painter;

@@ -179,6 +179,7 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/Compiler
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorAnnotationConfigurationBlock.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorAnnotationPreferencePage.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorBaseConfigurationBlock.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorConstants.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/ExceptionHandler.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/IZMode.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/FilteredTree2.java -text svneol=unset#text/plain
