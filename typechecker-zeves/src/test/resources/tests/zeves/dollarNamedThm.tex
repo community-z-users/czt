@@ -22,3 +22,22 @@ prenex;
 with enabled (S\$member, inDom) prove;
 \end{zproof}
 
+
+\begin{zed}
+[Service, Data]
+\end{zed}
+
+\begin{axdef}
+   d0, d1: Data
+\\
+   s0, s1: Service
+\end{axdef}
+
+\begin{theorem}{lServDatWitness}
+   (\exists s: Service @ true) \land (\exists d: Data @ true)
+\end{theorem}
+
+\begin{zproof}[lServDatWitness]
+use d0\$declaration;
+use d1\$declaration;
+\end{zproof}
