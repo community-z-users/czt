@@ -44,32 +44,7 @@ public class OldLatexPrinterCommand
   extends net.sourceforge.czt.print.z.OldLatexPrinterCommand
   implements Command
 {
-  public boolean compute(String name, SectionManager manager)
-    throws CommandException
-  {
-    try {
-      final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
-      printOldLatex(term, writer, manager);
-      writer.close();
-      manager.put(new Key(name, OldLatexString.class),
-                  new OldLatexString(writer.toString()));
-      return true;
-    }
-    catch (IOException e) {
-      throw new CommandException(e);
-    }
-  }
-
-  public void printOldLatex(Term term,
-                            Writer out,
-                            SectionManager sectInfo)
-  {
-    String sectionName = Section.STANDARD_TOOLKIT.getName();
-    printOldLatex(term, out, sectInfo, sectionName);
-  }
-
+  @Override
   public void printOldLatex(Term term,
                             Writer out,
                             SectionManager sectInfo,
