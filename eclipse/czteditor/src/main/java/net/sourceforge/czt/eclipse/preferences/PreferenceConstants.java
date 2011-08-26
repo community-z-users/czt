@@ -78,6 +78,9 @@ public class PreferenceConstants
    */
   public static final String PROP_TYPECHECK_USE_STRONG_TYPING = net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys.PROP_TYPECHECK_USE_STRONG_TYPING; //$NON-NLS-1$
 
+  private static final String EDITOR_PREF = CZTPlugin.getPluginID() + ".editor";
+  private static final String ANNOTATION_PREF = EDITOR_PREF + ".annotation";
+  
   /*
    * Editor base preference keys
    */
@@ -87,7 +90,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_PARSING_ENABLED = "net.sourceforge.czt.eclipse.editor.parsing_enabled"; //$NON-NLS-1$
+  public static final String EDITOR_PARSING_ENABLED = EDITOR_PREF + ".parsing_enabled"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether the editor reports problems from parsing
@@ -102,21 +105,21 @@ public class PreferenceConstants
    * @see #EDITOR_REPORT_PROBLEMS_ON_SAVE
    * @see #EDITOR_REPORT_PROBLEMS_WHILE_EDITING
    */
-  public static final String EDITOR_REPORT_PROBLEMS = "net.sourceforge.czt.eclipse.editor.report.problems"; //$NON-NLS-1$
+  public static final String EDITOR_REPORT_PROBLEMS = EDITOR_PREF + ".report.problems"; //$NON-NLS-1$
 
   /**
    * A string value used by the named preference <code>EDITOR_REPORT_PROBLEMS</code>
    * 
    * @see #EDITOR_REPORT_PROBLEMS
    */
-  public static final String EDITOR_REPORT_PROBLEMS_ON_SAVE = "net.sourceforge.czt.eclipse.editor.report.problems.OnSave"; //$NON-NLS-1$
+  public static final String EDITOR_REPORT_PROBLEMS_ON_SAVE = EDITOR_PREF + ".report.problems.OnSave"; //$NON-NLS-1$
 
   /**
    * A string value used by the named preference <code>EDITOR_REPORT_PROBLEMS</code>
    * 
    * @see #EDITOR_REPORT_PROBLEMS
    */
-  public static final String EDITOR_REPORT_PROBLEMS_WHILE_EDITING = "net.sourceforge.czt.eclipse.editor.report.problems.WhileEditing"; //$NON-NLS-1$
+  public static final String EDITOR_REPORT_PROBLEMS_WHILE_EDITING = EDITOR_PREF + ".report.problems.WhileEditing"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether bracket matching highlighting is turned on or off.
@@ -124,7 +127,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public final static String EDITOR_MATCHING_BRACKETS = "net.sourceforge.czt.eclipse.editor.MatchingBrackets"; //$NON-NLS-1$
+  public final static String EDITOR_MATCHING_BRACKETS = EDITOR_PREF + ".MatchingBrackets"; //$NON-NLS-1$
 
   /**
    * A named preference that holds the color used to highlight matching brackets.
@@ -136,7 +139,7 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_MATCHING_BRACKETS_COLOR = "net.sourceforge.czt.eclipse.editor.MatchingBracketsColor"; //$NON-NLS-1$
+  public final static String EDITOR_MATCHING_BRACKETS_COLOR = EDITOR_PREF + ".MatchingBracketsColor"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether the outline view selection
@@ -145,7 +148,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public final static String EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = "net.sourceforge.czt.eclipse.editor.SyncOutlineOnCursorMove"; //$NON-NLS-1$
+  public final static String EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = EDITOR_PREF + ".SyncOutlineOnCursorMove"; //$NON-NLS-1$
   
   /*
    * Hover preference keys
@@ -156,7 +159,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_SHOW_HOVER = "net.sourceforge.czt.eclipse.editor.showHover"; //$NON-NLS-1$
+  public static final String EDITOR_SHOW_HOVER = EDITOR_PREF + ".showHover"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether annotation roll over is used or not.
@@ -165,7 +168,7 @@ public class PreferenceConstants
    * uses a roll over to display multiple annotations
    * </p>
    */
-  public static final String EDITOR_ANNOTATION_ROLL_OVER = "net.sourceforge.czt.eclipse.editor.annotation.rollover"; //$NON-NLS-1$
+  public static final String EDITOR_ANNOTATION_ROLL_OVER = ANNOTATION_PREF + ".rollover"; //$NON-NLS-1$
 
   /*
    * Mark occurrence preference keys
@@ -176,7 +179,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_MARK_OCCURRENCES = "net.sourceforge.czt.eclipse.editor.MarkOccurrences"; //$NON-NLS-1$
+  public static final String EDITOR_MARK_OCCURRENCES = EDITOR_PREF + ".MarkOccurrences"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether occurrences are sticky in the CZT editor.
@@ -184,7 +187,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_STICKY_OCCURRENCES = "net.sourceforge.czt.eclipse.editor.StickyOccurrences"; //$NON-NLS-1$
+  public static final String EDITOR_STICKY_OCCURRENCES = EDITOR_PREF + ".StickyOccurrences"; //$NON-NLS-1$
 
   /*
    * Annotation preference keys
@@ -195,7 +198,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_ENABLE = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.enable";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_ENABLE = ANNOTATION_PREF + ".schemabox.enable";
   
   /**
    * A named preference that controls the style that the editor uses to draw the schema boxes. 
@@ -208,21 +211,21 @@ public class PreferenceConstants
    * @see #EDITOR_ANNOTATION_SCHEMABOX_STYLE_1
    * @see #EDITOR_ANNOTATION_SCHEMABOX_STYLE_2
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.style";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE = ANNOTATION_PREF + ".schemabox.style";
   
   /**
    * A string value used by the named preference <code>EDITOR_ANNOTATION_SCHEMABOX_STYLE</code>
    * 
    * @see #EDITOR_ANNOTATION_SCHEMABOX_STYLE
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE_1 = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.style_1";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE_1 = ANNOTATION_PREF + ".schemabox.style_1";
   
   /**
    * A string value used by the named preference <code>EDITOR_ANNOTATION_SCHEMABOX_STYLE</code>
    * 
    * @see #EDITOR_ANNOTATION_SCHEMABOX_STYLE
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE_2 = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.style_2";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE_2 = ANNOTATION_PREF + ".schemabox.style_2";
   
   /**
    * A named preference that holds the color used to draw schema boxes.
@@ -234,7 +237,7 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.line_color";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR = ANNOTATION_PREF + ".schemabox.line_color";
   
   /**
    * A named preference that holds the width used to draw schema boxes.
@@ -242,7 +245,7 @@ public class PreferenceConstants
    * Value is of type <code>int</code>.
    * </p>
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.line_width";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH = ANNOTATION_PREF + ".schemabox.line_width";
   
   /*
    * Folding preference keys
@@ -253,7 +256,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_ENABLED = "net.sourceforge.czt.eclipse.editor.folding.enabled"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_ENABLED = EDITOR_PREF + ".folding.enabled"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -262,7 +265,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_NARRATIVE = "net.sourceforge.czt.eclipse.editor.folding_narrative"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_NARRATIVE = EDITOR_PREF + ".folding_narrative"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -271,7 +274,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_ZCHAR = "net.sourceforge.czt.eclipse.editor.folding_ZCHAR"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_ZCHAR = EDITOR_PREF + ".folding_ZCHAR"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -280,7 +283,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_ZED = "net.sourceforge.czt.eclipse.editor.folding_zed"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_ZED = EDITOR_PREF + ".folding_zed"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -289,7 +292,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_ZSECTION = "net.sourceforge.czt.eclipse.editor.folding_zsection"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_ZSECTION = EDITOR_PREF + ".folding_zsection"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -298,7 +301,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_AX = "net.sourceforge.czt.eclipse.editor.folding_ax"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_AX = EDITOR_PREF + ".folding_ax"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -307,7 +310,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_SCH = "net.sourceforge.czt.eclipse.editor.folding_sch"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_SCH = EDITOR_PREF + ".folding_sch"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -316,7 +319,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_GENAX = "net.sourceforge.czt.eclipse.editor.folding_genax"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_GENAX = EDITOR_PREF + ".folding_genax"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -325,7 +328,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_GENSCH = "net.sourceforge.czt.eclipse.editor.folding_gensch"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_GENSCH = EDITOR_PREF + ".folding_gensch"; //$NON-NLS-1$
 
   
   /**
@@ -334,7 +337,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_THEOREM = "net.sourceforge.czt.eclipse.editor.folding_theorem"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_THEOREM = EDITOR_PREF + ".folding_theorem"; //$NON-NLS-1$
   
   
   /**
@@ -343,7 +346,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_PROOFSCRIPT = "net.sourceforge.czt.eclipse.editor.folding_proofscript"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_PROOFSCRIPT = EDITOR_PREF + ".folding_proofscript"; //$NON-NLS-1$
   
   /*
    * Syntax coloring preference keys
@@ -692,114 +695,71 @@ public class PreferenceConstants
     //		store.setDefault(PreferenceConstants.APPEARANCE_FOLD_PACKAGES_IN_PACKAGE_EXPLORER, true);
 
     // Compiler preference page
-    store.setDefault(PreferenceConstants.PROP_DIALECT, "z");
+    store.setDefault(PROP_DIALECT, "z");
     
-    store.setDefault(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, 
+    store.setDefault(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, 
         ParsePropertiesKeys.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS_DEFAULT);
 
-    store.setDefault(PreferenceConstants.PROP_TYPECHECK_RECURSIVE_TYPES, 
+    store.setDefault(PROP_TYPECHECK_RECURSIVE_TYPES, 
         TypecheckPropertiesKeys.PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT);
 
-    store.setDefault(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING, 
+    store.setDefault(PROP_TYPECHECK_USE_STRONG_TYPING, 
         net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys.PROP_TYPECHECK_USE_STRONG_TYPING_DEFAULT);
 
     // Editor base preference page
-    store.setDefault(PreferenceConstants.EDITOR_PARSING_ENABLED, true);
-    store.setDefault(PreferenceConstants.EDITOR_REPORT_PROBLEMS,
-        PreferenceConstants.EDITOR_REPORT_PROBLEMS_WHILE_EDITING);
-    store.setDefault(PreferenceConstants.EDITOR_MATCHING_BRACKETS, true);
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR, new RGB(192, 192,
-            192));
-    store.setDefault(PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE,
-        true);
-    store.setDefault(PreferenceConstants.EDITOR_SHOW_HOVER, true);
-//    store.setDefault(PreferenceConstants.EDITOR_ANNOTATION_ROLL_OVER, true);
-    store.setDefault(PreferenceConstants.EDITOR_MARK_OCCURRENCES, true);
-//    store.setDefault(PreferenceConstants.EDITOR_STICKY_OCCURRENCES, true);
+    store.setDefault(EDITOR_PARSING_ENABLED, true);
+    store.setDefault(EDITOR_REPORT_PROBLEMS, EDITOR_REPORT_PROBLEMS_WHILE_EDITING);
+    store.setDefault(EDITOR_MATCHING_BRACKETS, true);
+    PreferenceConverter.setDefault(store, EDITOR_MATCHING_BRACKETS_COLOR, new RGB(192, 192, 192));
+    store.setDefault(EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE, true);
+    store.setDefault(EDITOR_SHOW_HOVER, true);
+//    store.setDefault(EDITOR_ANNOTATION_ROLL_OVER, true);
+    store.setDefault(EDITOR_MARK_OCCURRENCES, true);
+//    store.setDefault(EDITOR_STICKY_OCCURRENCES, true);
     
     // Editor annotation preference page
     store.setDefault(EDITOR_ANNOTATION_SCHEMABOX_ENABLE, true);
-    store.setDefault(EDITOR_ANNOTATION_SCHEMABOX_STYLE, PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_2);
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR, new RGB(255, 100, 100));
+    store.setDefault(EDITOR_ANNOTATION_SCHEMABOX_STYLE, EDITOR_ANNOTATION_SCHEMABOX_STYLE_2);
+    PreferenceConverter.setDefault(store, EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR, new RGB(255, 100, 100));
     store.setDefault(EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH, 0);
 
 
     //  Folding preference page
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_ENABLED, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_NARRATIVE, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_ZCHAR, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_ZED, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_ZSECTION, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_AX, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_SCH, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_GENAX, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_GENSCH, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_THEOREM, true);
-    store.setDefault(PreferenceConstants.EDITOR_FOLDING_PROOFSCRIPT, true);
+    store.setDefault(EDITOR_FOLDING_ENABLED, true);
+    store.setDefault(EDITOR_FOLDING_NARRATIVE, true);
+    store.setDefault(EDITOR_FOLDING_ZCHAR, true);
+    store.setDefault(EDITOR_FOLDING_ZED, true);
+    store.setDefault(EDITOR_FOLDING_ZSECTION, true);
+    store.setDefault(EDITOR_FOLDING_AX, true);
+    store.setDefault(EDITOR_FOLDING_SCH, true);
+    store.setDefault(EDITOR_FOLDING_GENAX, true);
+    store.setDefault(EDITOR_FOLDING_GENSCH, true);
+    store.setDefault(EDITOR_FOLDING_THEOREM, true);
+    store.setDefault(EDITOR_FOLDING_PROOFSCRIPT, true);
     
     // Syntax coloring preference page
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_Z_NARRATIVE_FOREGROUND, new RGB(128, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_Z_NARRATIVE_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_Z_NARRATIVE_ITALIC, false);
+    PreferenceConverter.setDefault(store, EDITOR_Z_NARRATIVE_FOREGROUND, new RGB(128, 0, 0));
+    store.setDefault(EDITOR_Z_NARRATIVE_BOLD, false);
+    store.setDefault(EDITOR_Z_NARRATIVE_ITALIC, false);
 
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_Z_COMMENT_FOREGROUND, new RGB(128, 128, 0));
-    store.setDefault(PreferenceConstants.EDITOR_Z_COMMENT_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_Z_COMMENT_ITALIC, false);
+    PreferenceConverter.setDefault(store, EDITOR_Z_COMMENT_FOREGROUND, new RGB(128, 128, 0));
+    store.setDefault(EDITOR_Z_COMMENT_BOLD, false);
+    store.setDefault(EDITOR_Z_COMMENT_ITALIC, false);
 
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_Z_KEYWORD_FOREGROUND, new RGB(64, 64, 128));
-    store.setDefault(PreferenceConstants.EDITOR_Z_KEYWORD_BOLD, true);
-    store.setDefault(PreferenceConstants.EDITOR_Z_KEYWORD_ITALIC, false);
+    PreferenceConverter.setDefault(store, EDITOR_Z_KEYWORD_FOREGROUND, new RGB(64, 64, 128));
+    store.setDefault(EDITOR_Z_KEYWORD_BOLD, true);
+    store.setDefault(EDITOR_Z_KEYWORD_ITALIC, false);
 
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_Z_OPERATOR_FOREGROUND, new RGB(64, 64, 128));
-    store.setDefault(PreferenceConstants.EDITOR_Z_OPERATOR_BOLD, true);
-    store.setDefault(PreferenceConstants.EDITOR_Z_OPERATOR_ITALIC, false);
+    PreferenceConverter.setDefault(store, EDITOR_Z_OPERATOR_FOREGROUND, new RGB(64, 64, 128));
+    store.setDefault(EDITOR_Z_OPERATOR_BOLD, true);
+    store.setDefault(EDITOR_Z_OPERATOR_ITALIC, false);
 
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_Z_DEFAULT_FOREGROUND, new RGB(0, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_Z_DEFAULT_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_Z_DEFAULT_ITALIC, false);
+    PreferenceConverter.setDefault(store, EDITOR_Z_DEFAULT_FOREGROUND, new RGB(0, 0, 0));
+    store.setDefault(EDITOR_Z_DEFAULT_BOLD, false);
+    store.setDefault(EDITOR_Z_DEFAULT_ITALIC, false);
     
-    store.setDefault(PreferenceConstants.OUTLINE_Z_COMPLETE_TREE, false);
+    store.setDefault(OUTLINE_Z_COMPLETE_TREE, false);
 
-    //  semantic highlighting
-    //    SemanticHighlightings.initDefaults(store);
-
-    // do more complicated stuff
-    //		NewJavaProjectPreferencePage.initDefaults(store);
-
-    // work in progress
-    //		WorkInProgressPreferencePage.initDefaults(store);
-
-    // reset preferences that are not settable by fEditor any longer
-    // see AbstractDecoratedTextEditorPreferenceConstants
-    //		store.setToDefault(EDITOR_LINE_NUMBER_RULER); // global
-    //		store.setToDefault(EDITOR_LINE_NUMBER_RULER_COLOR); // global
-    //		store.setToDefault(EDITOR_OVERVIEW_RULER); // removed -> true
-    //		store.setToDefault(AbstractDecoratedTextEditorPreferenceConstants.EDITOR_USE_CUSTOM_CARETS); // accessibility
-
-    //		store.setToDefault(PreferenceConstants.EDITOR_CURRENT_LINE); // global
-    //		store.setToDefault(PreferenceConstants.EDITOR_CURRENT_LINE_COLOR); // global
-
-    //		store.setToDefault(PreferenceConstants.EDITOR_PRINT_MARGIN); // global
-    //		store.setToDefault(PreferenceConstants.EDITOR_PRINT_MARGIN_COLUMN); // global
-    //		store.setToDefault(PreferenceConstants.EDITOR_PRINT_MARGIN_COLOR); // global
-
-    //		store.setToDefault(PreferenceConstants.EDITOR_FOREGROUND_COLOR); // global
-    //		store.setToDefault(PreferenceConstants.EDITOR_FOREGROUND_DEFAULT_COLOR); // global
-    //		store.setToDefault(PreferenceConstants.EDITOR_BACKGROUND_COLOR); // global
-    //		store.setToDefault(PreferenceConstants.EDITOR_BACKGROUND_DEFAULT_COLOR); // global
-    //		store.setToDefault(AbstractDecoratedTextEditorPreferenceConstants.EDITOR_SELECTION_FOREGROUND_DEFAULT_COLOR); // global
-    //		store.setToDefault(AbstractDecoratedTextEditorPreferenceConstants.EDITOR_SELECTION_BACKGROUND_DEFAULT_COLOR); // global
-
-    //		store.setToDefault(PreferenceConstants.EDITOR_DISABLE_OVERWRITE_MODE); // global
-
-    //		store.setToDefault(PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED); // removed
   }
 
   /**
@@ -812,28 +772,4 @@ public class PreferenceConstants
     return CZTPlugin.getDefault().getPreferenceStore();
   }
 
-  /**
-   * Returns the value for the given key in the given context.
-   * @param key The preference key
-   * @param project The current context or <code>null</code> if no context is available and the
-   * workspace setting should be taken. Note that passing <code>null</code> should
-   * be avoided.
-   * @return Returns the current value for the string.
-   * @since 3.1
-   */
-  /*	public static String getPreference(String key, IJavaProject project) {
-   String val;
-   if (project != null) {
-   val= new ProjectScope(project.getProject()).getNode(JavaUI.ID_PLUGIN).get(key, null);
-   if (val != null) {
-   return val;
-   }
-   }
-   val= new InstanceScope().getNode(JavaUI.ID_PLUGIN).get(key, null);
-   if (val != null) {
-   return val;
-   }
-   return new DefaultScope().getNode(JavaUI.ID_PLUGIN).get(key, null);
-   }
-   */
 }
