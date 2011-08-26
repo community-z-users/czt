@@ -374,12 +374,6 @@ public class PreferenceConstants
   public static final String EDITOR_UNDERLINE_SUFFIX = "_underline"; //$NON-NLS-1$
 
   /**
-   * The symbolic font name for the Java fEditor text font 
-   * (value <code>"org.eclipse.jdt.ui.editors.textfont"</code>).
-   */
-  public final static String EDITOR_TEXT_FONT = "org.eclipse.jdt.ui.editors.textfont"; //$NON-NLS-1$
-  
-  /**
    * The symbolic font name for Z Editor font when editing Unicode specifications
    */
   public final static String EDITOR_UNICODE_FONT = EDITOR_PREF + ".font.unicode"; //$NON-NLS-1$

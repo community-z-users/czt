@@ -1,14 +1,11 @@
-/**
- * 
- */
 package net.sourceforge.czt.eclipse.editors.actions;
 
 import java.util.ResourceBundle;
 
-import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.print.util.OldLatexString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -46,10 +43,10 @@ public class Convert2OldLatexAction extends ConversionAction
    * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#process(net.sourceforge.czt.session.SectionManager)
    */
   @Override
-  String process(SectionManager manager) throws CommandException
+  protected String process(SectionManager manager) throws CommandException
   {
-    Key key = new Key("NEWSECTION", OldLatexString.class);
-    OldLatexString latex = (OldLatexString) manager.get(key);
+    Key<OldLatexString> key = new Key<OldLatexString>("NEWSECTION", OldLatexString.class);
+    OldLatexString latex = manager.get(key);
     return latex.toString();
   }
 
@@ -57,9 +54,9 @@ public class Convert2OldLatexAction extends ConversionAction
    * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#getTargetMarkup()
    */
   @Override
-  String getTargetFileType()
+  protected Markup getTargetMarkup()
   {
-    return IZFileType.FILETYPE_LATEX;
+    return Markup.LATEX;
   }
 
 }

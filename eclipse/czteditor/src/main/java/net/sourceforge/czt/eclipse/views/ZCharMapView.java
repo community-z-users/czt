@@ -42,6 +42,8 @@ import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -52,6 +54,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IEditorPart;
@@ -67,6 +70,8 @@ import static java.lang.Math.max;
  */
 public class ZCharMapView extends ViewPart
 {
+  
+  private static final String EDITOR_FONT = PreferenceConstants.EDITOR_UNICODE_FONT;
   
   enum DialectTable {
     Z("z", "Z", "lib/ZTable.xml", 'Z'), 
@@ -138,7 +143,7 @@ public class ZCharMapView extends ViewPart
   private Font getEditorFont()
   {
     if (editorFont == null) {
-      editorFont = JFaceResources.getTextFont();
+      editorFont = JFaceResources.getFont(EDITOR_FONT);
     }
 
     return editorFont;
@@ -268,6 +273,9 @@ public class ZCharMapView extends ViewPart
     // enable tooltips
     toolTipSupport = StyledToolTipSupport.enableToolTipFor(viewer, ToolTip.NO_RECREATE);
     
+    // init table font update
+    initEditorFont();
+    
     table.setRedraw(false);
     
     // get the longest column count of all tables
@@ -294,6 +302,40 @@ public class ZCharMapView extends ViewPart
     table.setRedraw(true);
     
     viewer.setContentProvider(new ZCharTableContentProvider());
+  }
+  
+  private void initEditorFont() {
+    
+    // set row height to font's height (needed when fonts increase)
+    viewer.getTable().addListener(SWT.MeasureItem, new Listener() { 
+      public void handleEvent(Event event) { 
+        int height = event.gc.getFontMetrics().getHeight();
+        event.height = height;
+      } 
+    });
+    
+    final IPropertyChangeListener fontChangeListener = new IPropertyChangeListener()
+    {
+      @Override
+      public void propertyChange(PropertyChangeEvent event)
+      {
+        if (event.getProperty().equals(EDITOR_FONT)) {
+          editorFont = JFaceResources.getFont(EDITOR_FONT);
+          viewer.refresh();
+        }
+      }
+    };
+    
+    viewer.getTable().addDisposeListener(new DisposeListener()
+    {
+      @Override
+      public void widgetDisposed(DisposeEvent e)
+      {
+        JFaceResources.getFontRegistry().removeListener(fontChangeListener);
+      }
+    });
+    
+    JFaceResources.getFontRegistry().addListener(fontChangeListener);
   }
 
   private TableViewerFocusCellManager initSingleCellFocus(TableViewer viewer)

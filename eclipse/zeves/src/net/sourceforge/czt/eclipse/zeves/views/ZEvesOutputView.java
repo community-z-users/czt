@@ -8,12 +8,12 @@ import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
+import net.sourceforge.czt.eclipse.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
-import net.sourceforge.czt.eclipse.preferences.ZSourcePreviewerUpdater;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
@@ -47,7 +47,6 @@ import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
@@ -56,8 +55,6 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -224,11 +221,8 @@ public class ZEvesOutputView extends ViewPart implements ISelectionListener {
 		SimpleZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(CZTPlugin.getDefault()
 				.getCZTTextTools().getColorManager(), store, null, IZPartitions.Z_PARTITIONING, false);
 		zViewer.configure(configuration);
-		Font font = JFaceResources.getFont(PreferenceConstants.EDITOR_TEXT_FONT);
-		zViewer.getTextWidget().setFont(font);
-		new ZSourcePreviewerUpdater(zViewer, configuration, store);
-		FontData fontData = new FontData("CZT", 12, SWT.NORMAL);
-		zViewer.getTextWidget().setFont(new Font(Display.getDefault(), fontData));
+		// FIXME implement proper setting of font (according to content displayed)
+		FontUpdater.enableFor(zViewer, configuration, store, PreferenceConstants.EDITOR_UNICODE_FONT);
 		zViewer.setEditable(false);
 		zViewer.setDocument(new Document());
 		

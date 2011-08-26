@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.sourceforge.czt.eclipse.editors.actions;
 
 import java.util.ResourceBundle;
@@ -10,10 +7,10 @@ import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.CztUI;
 import net.sourceforge.czt.eclipse.views.ZConversionView;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -58,15 +55,17 @@ public abstract class ConversionAction extends TextEditorAction
     if (editor.getParsedData() == null)
       return;
     String fileName = ((FileEditorInput)editor.getEditorInput()).getName();
-    String sourceFileType = editor.getFileType();
-    String targetFileType = getTargetFileType();
+    Markup sourceMarkup = editor.getMarkup();
+    Markup targetMarkup = getTargetMarkup();
     String data = null;
     SectionManager manager = editor.getParsedData().getSectionManager();
+
     try {
       data = process(manager);
-    } catch (CommandException e) {
-      data = null;
-      System.out.println("commandException");
+    } catch (Exception e) {
+      MessageDialog.openError(getTextEditor().getSite().getShell(), "Conversion Problem",
+          "Problems encountered during conversion: " + e.getMessage());
+      CZTPlugin.log(e);
     }
     
     try {
@@ -79,23 +78,13 @@ public abstract class ConversionAction extends TextEditorAction
       if (page == null)
         return;
       ZConversionView view = (ZConversionView) page.showView(CztUI.ID_CONVERSIONVIEW);
-      view.setConversionData(fileName, sourceFileType, targetFileType, data);
+      view.setConversionData(fileName, sourceMarkup, targetMarkup, data);
     } catch (PartInitException e) {
-      CZTPlugin
-          .getDefault()
-          .getLog()
-          .log(
-              new Status(
-                  IStatus.ERROR,
-                  CztUI.ID_PLUGIN,
-                  0,
-                  CZTPlugin
-                      .getResourceString("CompilerAction.conversionViewOpeningProblem"),
-                  e));
+      CZTPlugin.log(e);
     }
   }
   
-  abstract String process(SectionManager manager) throws CommandException;
+  protected abstract String process(SectionManager manager) throws CommandException;
   
-  abstract String getTargetFileType();
+  protected abstract Markup getTargetMarkup();
 }

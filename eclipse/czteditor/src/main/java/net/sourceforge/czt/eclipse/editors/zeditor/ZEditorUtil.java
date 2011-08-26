@@ -2,12 +2,15 @@ package net.sourceforge.czt.eclipse.editors.zeditor;
 
 import net.sourceforge.czt.eclipse.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.session.Markup;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -67,6 +70,17 @@ public class ZEditorUtil {
     }
     
     return false;
+  }
+  
+  public static String getEditorFont(Markup markup) {
+    if (Markup.UNICODE == markup) {
+      return PreferenceConstants.EDITOR_UNICODE_FONT;
+    }
+    else if (Markup.LATEX == markup) {
+      return PreferenceConstants.EDITOR_LATEX_FONT;
+    }
+    
+    return JFaceResources.TEXT_FONT;
   }
 
   public static void runOnReconcile(final ZEditor editor, final ReconcileRunnable callback)

@@ -8,12 +8,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.editors.PixelConverter;
+import net.sourceforge.czt.eclipse.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.util.IZColorConstants;
@@ -40,7 +40,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.RGB;
@@ -634,8 +633,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
     gd = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, true);
     gd.heightHint = convertHeightInCharsToPixels(9);
     int maxWidth = 0;
-    for (Iterator it = fListModel.iterator(); it.hasNext();) {
-      HighlightingColorListItem item = (HighlightingColorListItem) it.next();
+    for (HighlightingColorListItem item : fListModel) {
       maxWidth = Math.max(maxWidth, convertWidthInCharsToPixels(item
           .getDisplayName().length()));
     }
@@ -853,9 +851,9 @@ public class ZEditorSyntaxColoringConfigurationBlock
     SimpleZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(
         fColorManager, store, null, IZPartitions.Z_PARTITIONING, false);
     fPreviewViewer.configure(configuration);
-    Font font = JFaceResources.getFont(PreferenceConstants.EDITOR_TEXT_FONT);
-    fPreviewViewer.getTextWidget().setFont(font);
-    new ZSourcePreviewerUpdater(fPreviewViewer, configuration, store);
+    
+    // enable font updates
+    FontUpdater.enableFor(fPreviewViewer, configuration, store, PreferenceConstants.EDITOR_LATEX_FONT);
     fPreviewViewer.setEditable(false);
 
     String content = loadPreviewContentFromFile("ColorSettingPreviewCode.txt"); //$NON-NLS-1$

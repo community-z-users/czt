@@ -1,14 +1,11 @@
-/**
- * 
- */
 package net.sourceforge.czt.eclipse.editors.actions;
 
 import java.util.ResourceBundle;
 
-import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -28,7 +25,6 @@ public class Convert2UnicodeAction extends ConversionAction
       ITextEditor editor)
   {
     super(bundle, prefix, editor);
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -47,10 +43,10 @@ public class Convert2UnicodeAction extends ConversionAction
    * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#process(net.sourceforge.czt.session.SectionManager)
    */
   @Override
-  String process(SectionManager manager) throws CommandException
+  protected String process(SectionManager manager) throws CommandException
   {
-    Key key = new Key("NEWSECTION", UnicodeString.class);
-    UnicodeString unicode = (UnicodeString) manager.get(key);
+    Key<UnicodeString> key = new Key<UnicodeString>("NEWSECTION", UnicodeString.class);
+    UnicodeString unicode = manager.get(key);
     return unicode.toString();
   }
 
@@ -58,9 +54,9 @@ public class Convert2UnicodeAction extends ConversionAction
    * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#getTargetMarkup()
    */
   @Override
-  String getTargetFileType()
+  protected Markup getTargetMarkup()
   {
-    return IZFileType.FILETYPE_UTF8;
+    return Markup.UNICODE;
   }
 
 }

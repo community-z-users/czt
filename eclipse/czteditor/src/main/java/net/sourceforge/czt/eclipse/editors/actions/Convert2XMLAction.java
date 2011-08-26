@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.sourceforge.czt.eclipse.editors.actions;
 
 import java.util.ResourceBundle;
@@ -8,6 +5,7 @@ import java.util.ResourceBundle;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -45,10 +43,10 @@ public class Convert2XMLAction extends ConversionAction
    * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#process(net.sourceforge.czt.session.SectionManager)
    */
   @Override
-  String process(SectionManager manager) throws CommandException
+  protected String process(SectionManager manager) throws CommandException
   {
-    Key key = new Key("NEWSECTION", XmlString.class);
-    XmlString xml = (XmlString) manager.get(key);
+    Key<XmlString> key = new Key<XmlString>("NEWSECTION", XmlString.class);
+    XmlString xml = manager.get(key);
     return xml.toString();
   }
 
@@ -56,9 +54,9 @@ public class Convert2XMLAction extends ConversionAction
    * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#getTargetMarkup()
    */
   @Override
-  String getTargetFileType()
+  protected Markup getTargetMarkup()
   {
-    return "XML";
+    return Markup.ZML;
   }
 
 }

@@ -2,19 +2,19 @@ package net.sourceforge.czt.eclipse.views;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
+import net.sourceforge.czt.eclipse.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
-import net.sourceforge.czt.eclipse.preferences.ZSourcePreviewerUpdater;
 import net.sourceforge.czt.eclipse.util.IColorManager;
 import net.sourceforge.czt.eclipse.util.IZFileType;
+import net.sourceforge.czt.session.Markup;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.ViewPart;
@@ -22,6 +22,7 @@ import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 
 /**
  * @author Chengdong Xu
+ * @author Andrius Velykis
  */
 public class ZConversionView extends ViewPart
 {
@@ -29,8 +30,7 @@ public class ZConversionView extends ViewPart
   private final static String CONVERSION_NOT_AVAILABLE = "A conversion is not performed";
 
   private ZSourceViewer fSourceViewer;
-
-  private IDocument fDocument;
+  private FontUpdater fontUpdater;
 
   /**
    * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
@@ -48,14 +48,9 @@ public class ZConversionView extends ViewPart
     SimpleZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(
         colorManager, store, null, IZPartitions.Z_PARTITIONING, false);
     fSourceViewer.configure(configuration);
-//    Font font = JFaceResources.getFont(PreferenceConstants.EDITOR_TEXT_FONT);
-    fSourceViewer.getTextWidget().setFont(JFaceResources.getTextFont());
-    new ZSourcePreviewerUpdater(fSourceViewer, configuration, store);
-//    FontData fontData = new FontData("CZT", 12, SWT.NORMAL);
-//    fSourceViewer.getTextWidget().setFont(new Font(Display.getDefault(), fontData));
+    fontUpdater = FontUpdater.enableFor(fSourceViewer, configuration, store, JFaceResources.TEXT_FONT);
     fSourceViewer.setEditable(false);
-    fDocument = new Document();
-    fSourceViewer.setDocument(fDocument);
+    fSourceViewer.setDocument(new Document());
 
     initStatus();
   }
@@ -75,8 +70,7 @@ public class ZConversionView extends ViewPart
     if (fileName != null && fileName.trim() != null && sourceMarkup != null
         && sourceMarkup.trim() != null && targetMarkup != null
         && targetMarkup.trim() != null) {
-      String information = "SOURCE:" + fileName + " -- " + "Original Markup:"
-          + sourceMarkup + " -- " + "Target Markup:" + targetMarkup;
+      String information = "File " + fileName + " converted to " + targetMarkup + " (originally " + sourceMarkup + ")";
       setContentDescription(information);
     }
     else
@@ -88,32 +82,40 @@ public class ZConversionView extends ViewPart
     setContentDescription(CONVERSION_NOT_AVAILABLE);
   }
 
-  public void setConversionData(String fileName, String sourceMarkup,
-      String targetFileType, String data)
+  public void setConversionData(String fileName, Markup sourceMarkup,
+      Markup targetMarkup, String data)
   {
-//    fDocument.set(data);
-    fDocument = new Document(data);
-    if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(targetFileType)) {
-      CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
-          fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
-      setStatus(fileName, sourceMarkup, "LaTeX");
+    IDocument document = new Document(data);
+    CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
+        document, IZPartitions.Z_PARTITIONING, getFileType(targetMarkup));
+    
+    setStatus(fileName, getMarkupLabel(sourceMarkup), getMarkupLabel(targetMarkup));
+    
+    fontUpdater.setFont(ZEditorUtil.getEditorFont(targetMarkup));
+    fSourceViewer.setDocument(document);
+  }
+  
+  private String getMarkupLabel(Markup markup) {
+    if (markup == null) {
+      return "<Unknown>";
     }
-    else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(targetFileType)) {
-      CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
-          fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
-      setStatus(fileName, sourceMarkup, "Unicode (encoded as UTF-8)");
+    
+    switch (markup) {
+      case LATEX: return "LaTeX";
+      case UNICODE: return "Unicode";
+      case ZML: return "XML";
+      default: return markup.toString();
     }
-    else if (IZFileType.FILETYPE_UTF16.equalsIgnoreCase(targetFileType)) {
-      CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
-          fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF16);
-      setStatus(fileName, sourceMarkup, "Unicode (encoded as UTF-16)");
+  }
+  
+  private String getFileType(Markup markup) {
+    if (markup != null) {
+      switch (markup) {
+        case LATEX: return IZFileType.FILETYPE_LATEX;
+        case UNICODE: return IZFileType.FILETYPE_UTF8;
+      }
     }
-    else {
-      CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
-          fDocument, null);
-      setStatus(fileName, sourceMarkup, targetFileType);
-    }
-    fSourceViewer.setDocument(fDocument);
-
+    
+    return null;
   }
 }

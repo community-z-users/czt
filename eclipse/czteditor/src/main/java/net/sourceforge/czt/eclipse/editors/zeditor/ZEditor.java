@@ -25,10 +25,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.CZTTextTools;
+import net.sourceforge.czt.eclipse.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.editors.OccurrencesFinderJob;
@@ -75,7 +77,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
-// obsolete now: import org.eclipse.jface.internal.text.link.contentassist.HTMLTextPresenter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPartitioningException;
@@ -110,12 +111,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
@@ -209,6 +207,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     /*
      * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
      */
+    @Override
     public void selectionChanged(SelectionChangedEvent event)
     {
       ZEditor.this.selectionChanged();
@@ -222,6 +221,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       extends
         AbstractSelectionChangedListener
   {
+    @Override
     public void selectionChanged(SelectionChangedEvent event)
     {
       doOutlineSelectionChanged(event);
@@ -239,6 +239,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
      * @see org.eclipse.ui.IWindowListener#windowActivated(org.eclipse.ui.IWorkbenchWindow)
      * @since 3.1
      */
+    @Override
     public void windowActivated(IWorkbenchWindow window)
     {
       if (window == getEditorSite().getWorkbenchWindow()
@@ -254,6 +255,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
      * @see org.eclipse.ui.IWindowListener#windowDeactivated(org.eclipse.ui.IWorkbenchWindow)
      * @since 3.1
      */
+    @Override
     public void windowDeactivated(IWorkbenchWindow window)
     {
       if (window == getEditorSite().getWorkbenchWindow()
@@ -265,6 +267,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
      * @see org.eclipse.ui.IWindowListener#windowClosed(org.eclipse.ui.IWorkbenchWindow)
      * @since 3.1
      */
+    @Override
     public void windowClosed(IWorkbenchWindow window)
     {
     }
@@ -273,6 +276,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
      * @see org.eclipse.ui.IWindowListener#windowOpened(org.eclipse.ui.IWorkbenchWindow)
      * @since 3.1
      */
+    @Override
     public void windowOpened(IWorkbenchWindow window)
     {
     }
@@ -358,6 +362,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     /*
      * @see org.eclipse.ui.IPartListener2#partVisible(org.eclipse.ui.IWorkbenchPartReference)
      */
+    @Override
     public void partVisible(IWorkbenchPartReference partRef)
     {
       if (ZEditor.this.equals(partRef.getPart(false))) {
@@ -369,6 +374,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     /*
      * @see org.eclipse.ui.IPartListener2#partClosed(org.eclipse.ui.IWorkbenchPartReference)
      */
+    @Override
     public void partClosed(IWorkbenchPartReference partRef)
     {
       if (ZEditor.this.equals(partRef.getPart(false))) {
@@ -376,26 +382,32 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       }
     }
 
+    @Override
     public void partActivated(IWorkbenchPartReference partRef)
     {
     }
 
+    @Override
     public void partBroughtToTop(IWorkbenchPartReference partRef)
     {
     }
 
+    @Override
     public void partDeactivated(IWorkbenchPartReference partRef)
     {
     }
 
+    @Override
     public void partOpened(IWorkbenchPartReference partRef)
     {
     }
 
+    @Override
     public void partHidden(IWorkbenchPartReference partRef)
     {
     }
 
+    @Override
     public void partInputChanged(IWorkbenchPartReference partRef)
     {
     }
@@ -551,6 +563,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /**
    * @see org.eclipse.ui.texteditor.AbstractTextEditor#createActions()
    */
+  @Override
   protected void createActions()
   {
     super.createActions();
@@ -602,6 +615,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /**
    * @see org.eclipse.ui.editors.text.TextEditor#initializeEditor()
    */
+  @Override
   protected void initializeEditor()
   {
     super.initializeEditor();
@@ -622,6 +636,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /**
    * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#initializeKeyBindingScopes()
    */
+  @Override
   protected void initializeKeyBindingScopes()
   {
     setKeyBindingScopes(new String[]{"net.sourceforge.czt.eclipse.ZEditorScope"}); //$NON-NLS-1$
@@ -630,6 +645,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /**
    * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createPartControl(org.eclipse.swt.widgets.Composite)
    */
+  @Override
   public void createPartControl(Composite parent)
   {
     super.createPartControl(parent);
@@ -646,10 +662,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
         .addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.warning"); //$NON-NLS-1$
     fProjectionSupport.setHoverControlCreator(new IInformationControlCreator()
     {
+      @Override
       public IInformationControl createInformationControl(Shell shell)
       {
-        if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
-            || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(getFileType())) {
+        if (Markup.UNICODE == getMarkup()) {
           return new UnicodeSourceViewerInformationControl(shell, SWT.TOOL
               | SWT.NO_TRIM | getOrientation(), SWT.NONE);
         }
@@ -667,18 +683,16 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
         .getProjectionAnnotationModel();
 
     text = getSourceViewer().getTextWidget();
-    if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
-        || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(getFileType())) {
-      FontData viewFontData = new FontData();
-      viewFontData.setName("CZT");
-      //        viewFontData.setHeight(10);
-      //        viewFontData.setStyle(SWT.BOLD);
-      Font cztUnicodeFont = new Font(Display.getDefault(), viewFontData);
-      text.setFont(cztUnicodeFont);
-    }
+    
+    // enable font updates
+    FontUpdater.enableFor(getSourceViewer(),
+        (ZSourceViewerConfiguration) getSourceViewerConfiguration(), 
+        getPreferenceStore(),
+        ZEditorUtil.getEditorFont(getMarkup()));
 
     IInformationControlCreator informationControlCreator = new IInformationControlCreator()
     {
+      @Override
       public IInformationControl createInformationControl(Shell shell)
       {
         boolean cutDown = false;
@@ -706,24 +720,21 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
 
     PlatformUI.getWorkbench().addWindowListener(fActivationListener);
   }
-
+  
+  @Override
   protected void configureSourceViewerDecorationSupport(
       SourceViewerDecorationSupport support)
   {
-    //    System.out.println("ZEditor.configureSourceViewerDecorationSupport starts");
-    if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
-      support.setCharacterPairMatcher(new ZLatexPairMatcher(
-          ZCharacter.BRACKETS_LATEX));
+    
+    if (Markup.LATEX == getMarkup()) {
+      support.setCharacterPairMatcher(new ZLatexPairMatcher(ZCharacter.BRACKETS_LATEX));
+    } else if (Markup.UNICODE == getMarkup()) {
+      support.setCharacterPairMatcher(new ZPairMatcher(ZCharacter.BRACKETS_UNICODE));
     }
-    else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
-        || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(getFileType()))
-      support.setCharacterPairMatcher(new ZPairMatcher(
-          ZCharacter.BRACKETS_UNICODE));
+    
     support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS,
         MATCHING_BRACKETS_COLOR);
     super.configureSourceViewerDecorationSupport(support);
-    //    System.out
-    //        .println("ZEditor.configureSourceViewerDecorationSupport finishes");
   }
 
   /**
@@ -750,18 +761,13 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * @inheritDoc
    * @see org.eclipse.ui.texteditor.AbstractTextEditor#createSourceViewer(org.eclipse.swt.widgets.Composite, org.eclipse.jface.text.source.IVerticalRuler, int)
    */
+  @Override
   protected final ISourceViewer createSourceViewer(Composite parent,
       IVerticalRuler verticalRuler, int styles)
   {
     IPreferenceStore store = getPreferenceStore();
     ISourceViewer viewer = createZSourceViewer(parent, verticalRuler,
         getOverviewRuler(), isOverviewRulerVisible(), styles, store);
-
-    //        JavaUIHelp.setHelp(this, viewer.getTextWidget(), IJavaHelpContextIds.JAVA_EDITOR);
-
-    ZSourceViewer zSourceViewer = null;
-    if (viewer instanceof ZSourceViewer)
-      zSourceViewer = (ZSourceViewer) viewer;
 
     // ensure source viewer decoration support has been created and configured
     getSourceViewerDecorationSupport(viewer);
@@ -808,6 +814,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * @see org.eclipse.ui.part.WorkbenchPart#getOrientation()
    * @since 3.1
    */
+  @Override
   public int getOrientation()
   {
     return SWT.LEFT_TO_RIGHT; //Z editors are always left to right by default
@@ -816,6 +823,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /**
    * Method declared on AbstractTextEditor
    */
+  @Override
   protected void editorContextMenuAboutToShow(IMenuManager menu)
   {
     super.editorContextMenuAboutToShow(menu);
@@ -1161,17 +1169,17 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
           fSchemaBoxAnnotations, newAnnotations);
     }
     else {
-      for (int i = 0; i < fSchemaBoxAnnotations.length; i++)
+      for (int i = 0; i < fSchemaBoxAnnotations.length; i++) {
         annotationModel.removeAnnotation(fSchemaBoxAnnotations[i]);
-      Iterator iter = newAnnotations.entrySet().iterator();
-      while (iter.hasNext()) {
-        Map.Entry mapEntry = (Map.Entry) iter.next();
-        if (mapEntry.getValue() != null)
-          annotationModel.addAnnotation((Annotation) mapEntry.getKey(),
-              (Position) mapEntry.getValue());
       }
 
-      fSchemaBoxAnnotations = (Annotation[]) newAnnotations.keySet().toArray(
+      for (Entry<Annotation, Position> mapEntry : newAnnotations.entrySet()) {
+        if (mapEntry.getValue() != null) {
+          annotationModel.addAnnotation(mapEntry.getKey(), mapEntry.getValue());
+        }
+      }
+
+      fSchemaBoxAnnotations = newAnnotations.keySet().toArray(
           new Annotation[newAnnotations.keySet().size()]);
     }
   }
@@ -1315,6 +1323,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     }
   }
 
+  @Override
   public void installEncodingSupport()
   {
     super.installEncodingSupport();
@@ -1343,6 +1352,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     }
   }
 
+  @Override
   public void handleCursorPositionChanged()
   {
     super.handleCursorPositionChanged();
@@ -1476,6 +1486,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * <code>AbstractTextEditor</code> method performs any extra 
    * disposal actions required by the Z fEditor.
    */
+  @Override
   public void dispose()
   {
     if (fOutlinePage != null)
@@ -1541,6 +1552,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * <code>AbstractTextEditor</code> method performs any extra 
    * revert behavior required by the Z fEditor.
    */
+  @Override
   public void doRevertToSaved()
   {
     super.doRevertToSaved();
@@ -1558,6 +1570,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * 
    * @param progressMonitor the progress monitor
    */
+  @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
     super.doSave(progressMonitor);
@@ -1573,6 +1586,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * <code>AbstractTextEditor</code> method performs any extra 
    * save as behavior required by the Z fEditor.
    */
+  @Override
   public void doSaveAs()
   {
     super.doSaveAs();
@@ -1591,6 +1605,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * @param input the fEditor input
    * @throws CoreException in case the input can not be set
    */
+  @Override
   public void doSetInput(IEditorInput input) throws CoreException
   {
     /**
@@ -1615,6 +1630,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * @param required the required type
    * @return an adapter for the required type or <code>null</code>
    */
+  @Override
   public Object getAdapter(Class required)
   {
     if (IContentOutlinePage.class.equals(required)) {
@@ -1807,6 +1823,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /*
    * @see AbstractTextEditor#handlePreferenceStoreChanged(PropertyChangeEvent)
    */
+  @Override
   protected void handlePreferenceStoreChanged(PropertyChangeEvent event)
   {
 
@@ -1949,23 +1966,11 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   }
 
   /**
-   * Returns the boolean preference for the given key.
-   *
-   * @param store the preference store
-   * @param key the preference key
-   * @return <code>true</code> if the key exists in the store and its value is <code>true</code>
-   * @since 3.0
-   */
-  private boolean getBoolean(IPreferenceStore store, String key)
-  {
-    return key != null && store.getBoolean(key);
-  }
-
-  /**
    * Sets the given message as error message to this fEditor's status line.
    *
    * @param msg message to be set
    */
+  @Override
   protected void setStatusLineErrorMessage(String msg)
   {
     IEditorStatusLine statusLine = (IEditorStatusLine) getAdapter(IEditorStatusLine.class);
@@ -1979,6 +1984,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * @param msg message to be set
    * @since 3.0
    */
+  @Override
   protected void setStatusLineMessage(String msg)
   {
     IEditorStatusLine statusLine = (IEditorStatusLine) getAdapter(IEditorStatusLine.class);
@@ -1989,6 +1995,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /*
    * @see StatusTextEditor#getStatusHeader(IStatus)
    */
+  @Override
   protected String getStatusHeader(IStatus status)
   {
     if (fEncodingSupport != null) {
@@ -2002,6 +2009,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /*
    * @see StatusTextEditor#getStatusBanner(IStatus)
    */
+  @Override
   protected String getStatusBanner(IStatus status)
   {
     if (fEncodingSupport != null) {
@@ -2015,6 +2023,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /*
    * @see StatusTextEditor#getStatusMessage(IStatus)
    */
+  @Override
   protected String getStatusMessage(IStatus status)
   {
     if (fEncodingSupport != null) {
@@ -2046,13 +2055,14 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     //        stores.add(new PreferencesAdapter(JavaCore.getPlugin().getPluginPreferences()));
     stores.add(EditorsUI.getPreferenceStore());
 
-    return new ChainedPreferenceStore((IPreferenceStore[]) stores
+    return new ChainedPreferenceStore(stores
         .toArray(new IPreferenceStore[stores.size()]));
   }
 
   /*
    * @see org.eclipse.ui.texteditor.AbstractTextEditor#setPreferenceStore(org.eclipse.jface.preference.IPreferenceStore)
    */
+  @Override
   protected void setPreferenceStore(IPreferenceStore store)
   {
     super.setPreferenceStore(store);
@@ -2068,6 +2078,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /* 
    * @see org.eclipse.ui.texteditor.AbstractTextEditor#affectsTextPresentation(org.eclipse.jface.util.PropertyChangeEvent)
    */
+  @Override
   public boolean affectsTextPresentation(PropertyChangeEvent event)
   {
     return ((ZSourceViewerConfiguration) getSourceViewerConfiguration())
@@ -2241,6 +2252,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     }
   }
 
+  @Override
   public void aboutToBeReconciled()
   {
     // Notify listeners
@@ -2252,6 +2264,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /*
    * @see net.sourceforge.czt.eclipse.editors.IZReconcilingListener#reconciled(net.sourceforge.czt.eclipse.editors.parser.ParsedData, boolean, org.eclipse.core.runtime.IProgressMonitor)
    */
+  @Override
   public void reconciled(ParsedData parsedData, boolean forced,
       IProgressMonitor progressMonitor)
   {
