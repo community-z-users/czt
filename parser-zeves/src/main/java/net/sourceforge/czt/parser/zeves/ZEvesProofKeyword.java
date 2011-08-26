@@ -31,22 +31,6 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
  */
 public enum ZEvesProofKeyword implements Token {
 
-/*
-PROOFWORDBEGIN  = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
-                  "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
-                  "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
-
-PROOFWORDMIDDLE = "by" | "enabled" | "expression" | "disabled" | "lemma" | 
-                  "normalization" | "predicate" | "substitute" | "to"
-
-PROOFCMDBEGIN   = "check" | "declare" | "help" | "parent" | "print" | "quit" |
-                  "read" | "reset" | "retry" | "theorems" | "undo" |
-                  "zsection" | "ztags"
-
-PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
-                  "script" | "status" | "summary" | "to" | "through"
-*/
-
   APPLY(ZEvesString.APPLY, NewlineCategory.BOTH),
   BACK (ZEvesString.BACK, NewlineCategory.BOTH),
   CASES(ZEvesString.CASES, NewlineCategory.BOTH),
@@ -88,6 +72,7 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   READ(ZEvesString.READ , NewlineCategory.BOTH),
   RESET(ZEvesString.RESET , NewlineCategory.BOTH),
   RETRY(ZEvesString.RETRY , NewlineCategory.BOTH),
+  SYNTAX(ZEvesString.SYNTAX, NewlineCategory.BOTH),
   THEOREMS(ZEvesString.THEOREMS , NewlineCategory.BOTH),
   UNDO(ZEvesString.UNDO , NewlineCategory.BOTH),
   ZSECTION(ZEvesString.ZSECTION , NewlineCategory.BOTH),
@@ -175,21 +160,25 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
     };
   }
 
+  @Override
   public String getName()
   {
     return toString();
   }
 
+  @Override
   public Object getSpelling()
   {
     return spelling_;
   }
 
+  @Override
   public String spelling()
   {
     return spelling_;
   }
 
+  @Override
   public NewlineCategory getNewlineCategory()
   {
     return NewlineCategory_;
