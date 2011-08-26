@@ -20,7 +20,6 @@
 package net.sourceforge.czt.z.util;
 
 import java.math.BigInteger;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -65,6 +64,7 @@ public class PrintVisitor
              RefExprVisitor<String>,
              PowerExprVisitor<String>,
              ApplExprVisitor<String>,
+             TupleExprVisitor<String>,
              ZExprListVisitor<String>,
              NameTypePairVisitor<String>
 {
@@ -170,6 +170,16 @@ public class PrintVisitor
     StringBuilder result = new StringBuilder();
     result.append(visit(expr.getLeftExpr()));
     result.append(visit(expr.getRightExpr()));
+    return result.toString();
+  }
+
+  @Override
+  public String visitTupleExpr(TupleExpr expr)
+  {
+    StringBuilder result = new StringBuilder();
+    result.append("(");
+    result.append(expr.getExprList());
+    result.append(")");
     return result.toString();
   }
 
