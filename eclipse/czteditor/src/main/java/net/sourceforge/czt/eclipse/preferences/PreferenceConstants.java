@@ -6,6 +6,8 @@ package net.sourceforge.czt.eclipse.preferences;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.util.IZColorConstants;
+import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
+import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
@@ -50,7 +52,7 @@ public class PreferenceConstants
    * is sometimes convenient.
    * </p>
    */
-  public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS = net.sourceforge.czt.parser.util.ParsePropertiesKeys.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS; //$NON-NLS-1$
+  public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS = ParsePropertiesKeys.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS; //$NON-NLS-1$
 
   /**
    * A named preference that sets the property of the typechecker for z and oz.
@@ -62,7 +64,7 @@ public class PreferenceConstants
    * will check that names are declared before they are used.
    * </p>
    */
-  public static final String PROP_TYPECHECK_RECURSIVE_TYPES = net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys.PROP_TYPECHECK_RECURSIVE_TYPES; //$NON-NLS-1$
+  public static final String PROP_TYPECHECK_RECURSIVE_TYPES = TypecheckPropertiesKeys.PROP_TYPECHECK_RECURSIVE_TYPES; //$NON-NLS-1$
 
   /**
    * A named preference that sets the property of the typechecker for oz.
@@ -692,13 +694,14 @@ public class PreferenceConstants
     // Compiler preference page
     store.setDefault(PreferenceConstants.PROP_DIALECT, "z");
     
-    store.setDefault(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
-        true);
+    store.setDefault(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, 
+        ParsePropertiesKeys.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS_DEFAULT);
 
-    store.setDefault(PreferenceConstants.PROP_TYPECHECK_RECURSIVE_TYPES, true);
+    store.setDefault(PreferenceConstants.PROP_TYPECHECK_RECURSIVE_TYPES, 
+        TypecheckPropertiesKeys.PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT);
 
-    store
-        .setDefault(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING, true);
+    store.setDefault(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING, 
+        net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys.PROP_TYPECHECK_USE_STRONG_TYPING_DEFAULT);
 
     // Editor base preference page
     store.setDefault(PreferenceConstants.EDITOR_PARSING_ENABLED, true);
