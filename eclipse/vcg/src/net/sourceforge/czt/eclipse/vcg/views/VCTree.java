@@ -26,7 +26,7 @@ class VCTree extends FilteredTree2 {
 		ColumnViewerToolTipSupport.enableFor(treeViewer);
 		
 		// First column is for the theorem name
-		addColumn("Name", 250, 0, SWT.NONE).setLabelProvider(
+		addColumn("Name", 180, 0, SWT.NONE).setLabelProvider(
 				new ColumnLabelProvider2() {
 					@Override
 					public String getText(Object element) {
@@ -42,7 +42,7 @@ class VCTree extends FilteredTree2 {
 				});
 		
 		// Second column is for the theorem source paragraph number
-		addColumn("Source Paragraph", 40, 3, SWT.NONE).setLabelProvider(
+		addColumn("Source Paragraph", 100, 3, SWT.NONE).setLabelProvider(
 				new ColumnLabelProvider2() {
 					@Override
 					public String getText(Object element) {
