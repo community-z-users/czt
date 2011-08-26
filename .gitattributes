@@ -273,6 +273,7 @@ eclipse/vcg/icons/insert.gif -text
 eclipse/vcg/icons/refresh.gif -text
 eclipse/vcg/icons/vc_view.png -text
 eclipse/vcg/plugin.xml -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/IVcgConstants.java -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/VcgImages.java -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/VcgPlugin.java -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCEntry.java -text svneol=unset#text/plain

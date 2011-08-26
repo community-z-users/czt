@@ -14,6 +14,8 @@ import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.vcg.VcgImages;
 import net.sourceforge.czt.eclipse.vcg.VcgPlugin;
+import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
@@ -25,12 +27,15 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.vcg.util.DefinitionException;
+import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.VCGUtils;
+import net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -39,6 +44,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
@@ -61,6 +68,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.Page;
 
+import static net.sourceforge.czt.eclipse.vcg.IVcgConstants.PREF_SHOW_IN_SPEC_VCS; 
+
 public class VCPage extends Page {
 
 	private Composite main;
@@ -71,7 +80,15 @@ public class VCPage extends Page {
 	
 	private final VCView view;
 	private final ZEditor editor;
-	private final InSpecFilter inSpecFilter = new InSpecFilter(false);
+	private final InSpecFilter inSpecFilter = new InSpecFilter(getShowInSpecPref());
+	
+	private static boolean getShowInSpecPref() {
+		return getPrefs().getBoolean(PREF_SHOW_IN_SPEC_VCS, false);
+	}
+	
+	private static IEclipsePreferences getPrefs() {
+		return InstanceScope.INSTANCE.getNode(VcgPlugin.PLUGIN_ID);
+	}
 
 	public VCPage(VCView view, ZEditor editor) {
 		super();
@@ -393,8 +410,15 @@ public class VCPage extends Page {
 				return Collections.emptyList();
 			}
 			
-			FeasibilityVCG fsbVcg = initFeasibilityVcg();
+			List<VCEntry> vcs = new ArrayList<VCEntry>();
+
+//			vcs.addAll(createVCs(initDomainVcg()));
+			vcs.addAll(createVCs(initFeasibilityVcg()));
 			
+			return vcs;
+		}
+
+		private List<VCEntry> createVCs(AbstractVCG<Pred> fsbVcg) throws CommandException {
 			List<VCEntry> vcs = new ArrayList<VCEntry>();
 			
 			for (Sect sect : parsedData.getSpec().getSect()) {
@@ -422,6 +446,15 @@ public class VCPage extends Page {
 			return fsbVcg;
 		}
 		
+		private DomainCheckerVCG initDomainVcg() throws VCGException {
+
+			SectionManager sectInfo = parsedData.getSectionManager().clone();
+			
+			DomainCheckerVCG dcVcg = new DomainCheckerVCG();
+			dcVcg.setSectionManager(sectInfo);
+			return dcVcg;
+		}
+		
 		private Throwable handleVCException(VCGException e) {
 			List<? extends Throwable> exceptions = VCGUtils.handleVCGException(e, "Generating VCs");
 			if (exceptions.isEmpty()) {
@@ -432,11 +465,19 @@ public class VCPage extends Page {
 			
 			for (Throwable ex : exceptions) {
 				
-				if (ex instanceof DefinitionException) {
-					ex = new VCGException(((DefinitionException) ex).getMessage(true), ex);
+				StringBuilder errMsg = new StringBuilder();
+				if (ex instanceof CztErrorList) {
+					List<? extends CztError> errs = ((CztErrorList) ex).getErrors();
+					for (CztError err : errs) {
+						errMsg.append(err.getMessage());
+						errMsg.append("\n");
+					}
+//					ex = new VCGException(((DefinitionException) ex).getMessage(true), ex);
 				}
+				
+				String msg = errMsg.length() > 0 ? errMsg.toString() : ex.getMessage();
 
-				VcgPlugin.getDefault().log(ex);
+				VcgPlugin.getDefault().log(msg, ex);
 			}
 		
 			// the first one is summary
@@ -532,7 +573,9 @@ public class VCPage extends Page {
 		 */
 		@Override
 		public void run() {
-			inSpecFilter.setShowInSpec(!inSpecFilter.isShowInSpec());
+			boolean showInSpec = !inSpecFilter.isShowInSpec();
+			inSpecFilter.setShowInSpec(showInSpec);
+			getPrefs().putBoolean(PREF_SHOW_IN_SPEC_VCS, showInSpec);
 			filteredTree.getViewer().refresh();
 		}
 	}
