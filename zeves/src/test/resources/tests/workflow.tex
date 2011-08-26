@@ -65,16 +65,30 @@ end{theorem}
    \_ \readBy \_ : Data \rel Service
 \\
    \_ \writes \_ : Service \rel Data
-%\\
-%   \_ \readableTo \_ : Data \rel Service
-%\\
-%   \_ \canWrite \_ : Service \rel Data
+\\
+   \_ \readableTo \_ : Data \rel Service
+\\
+   \_ \canWrite \_ : Service \rel Data
 \\
    wf, graph: Data \rel Data
 \where
    % A workflow is the transitive closure of the composition between
    % data read by services that write data subsequentially to it.
    wf = ((\_ \readBy \_) \comp (\_ \writes \_))\plus
-%\\
-%   graph = ((\_ \readableTo \_) \comp (\_ \canWrite \_))\plus
+\\
+   graph = ((\_ \readableTo \_) \comp (\_ \canWrite \_))\plus
 \end{schema}
+
+\begin{schema}{WFAuthorised}
+   Workflow
+\where
+   % What's actually read is within what's possible to read - AKA Authorisation
+   % What's actually written is within wha't possible to write
+   (\_ \readBy \_) \subseteq (\_ \readableTo \_)
+ \\
+   ((\_ \writes \_), (\_ \canWrite \_)) \in (\_ \subseteq \_)
+\end{schema}
+
+\begin{theorem}{frule fWFAuthorisedReadByWithinReableToDom}
+    \forall Workflow @ \dom~(\_ \readBy \_) \in \power~(\dom~(\_\readableTo \_))
+\end{theorem}

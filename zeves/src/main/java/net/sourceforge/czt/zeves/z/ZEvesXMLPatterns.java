@@ -81,7 +81,7 @@ public interface ZEvesXMLPatterns {
      * {4} = zboxItemSymbol  => "&eqhat;" | "=="
      * {5} = zboxItemExpr    => getExpr(((ConstDecl)term.getZSchText().getZDeclList()).getExpr());
      */
-    public static final String ZED_BOX_HORIZONTAL_PATTERN = "<zed-box {0} {1}>{2}\n{3}\n{4}\n{5}\n</zed-box>";
+    public static final String ZED_BOX_HORIZONTAL_PATTERN = "<zed-box {0} {1}>{2} {3} {4} {5}</zed-box>";
     
     /**
      * {0} = location        => getLocation(term);

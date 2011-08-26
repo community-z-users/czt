@@ -867,6 +867,16 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result;
   }
 
+  private String adjustIfOpWithinArgument(String s)
+  {
+    if (s.startsWith(ZString.ARG_TOK) && s.endsWith(ZString.ARG_TOK))
+    {
+      s = "(" + s + ")";
+    }
+    return s;
+  }
+
+
   private boolean shouldKeepOpArgsInOpName()
   {
     assert !fRelationalOpAppl.isEmpty();
@@ -1015,15 +1025,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     assert e == o || (e instanceof Boolean && e.equals(o));
   }
 
-  // e.g., for ApplExpr with mixfix true RefExpr has mixfix false, but shouldn't get operators              (x + y) or (\_R\_) \comp (\_ S\_)
-  //       whereas for ApplExpr with mixfix false RefExpr also has mixfix false, but *must* get operators!  (_+_)(x,y) (\_\comp\_)((\_R\_), (\_S\_))
-//  private boolean isWithinApplExprRefExpr()
-//  {
-//    return !fRelationalOpAppl.isEmpty() &&
-//            fRelationalOpAppl.peek() instanceof ApplExpr &&
-//            ZUtils.isFcnOpApplExpr((ApplExpr)fRelationalOpAppl.peek());
-//  }
-
   private String getRefName(RefExpr term)
   {
     fRelationalOpAppl.push(term);
@@ -1145,7 +1146,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    * together additional brackets. If the list is empty, it simply
    * returns the empty string.
    */
-  private String getGenFormals(ZNameList term)
+  private String getGenFormals(ZNameList term, boolean addNL)
   {
     assert term != null;
     StringBuilder result = new StringBuilder("");
@@ -1154,7 +1155,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       result.append("[");
       result.append(getIdentList(term));
       result.append("]");
-      result.append(NL_SEP);
+      if (addNL) result.append(NL_SEP);
     }
     return result.toString();
   }
@@ -1235,15 +1236,52 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result.toString();
   }
 
+  // e.g., for ApplExpr with mixfix true RefExpr has mixfix false, but shouldn't get operators              (x + y) or (\_R\_) \comp (\_ S\_)
+  //       whereas for ApplExpr with mixfix false RefExpr also has mixfix false, but *must* get operators!  (_+_)(x,y) (\_\comp\_)((\_R\_), (\_S\_))
+  private boolean isWihtinFcnOpApplExpr(Expr expr)
+  {
+    return (((expr instanceof RefExpr) &&
+            !((RefExpr)expr).getMixfix().booleanValue()) &&
+            !fRelationalOpAppl.isEmpty() &&
+            (fRelationalOpAppl.peek() instanceof ApplExpr) &&
+            ZUtils.isFcnOpApplExpr((ApplExpr)fRelationalOpAppl.peek())
+            );
+  }
+
+  private boolean isWithinMemPredRefExpr(Expr expr)
+  {
+    return (((expr instanceof RefExpr) &&
+            !((RefExpr)expr).getMixfix().booleanValue()) &&
+            !fRelationalOpAppl.isEmpty() &&
+            (fRelationalOpAppl.peek() instanceof Boolean) &&
+            !((Boolean)fRelationalOpAppl.peek()).booleanValue()
+            );
+  }
+
+
+//  private boolean isWithinApplExprRefExpr()
+//  {
+//    return !fRelationalOpAppl.isEmpty() &&
+//            fRelationalOpAppl.peek() instanceof ApplExpr &&
+//            ZUtils.isFcnOpApplExpr((ApplExpr)fRelationalOpAppl.peek());
+//  }
+
   /**
    * Retrieve the Z/Eves XML for the given non-null expression, something
    * the calling method must ensure, otherwise a NullPointerException (or
    * indeed an AssertionError) is thrown . Therefore, it always return some non-empty string.
+   *
+   * Push the expr for the various cases where RefExpr with mixfix false might appear as an operator
+   * The only special case then, is if the RefExpr is within an ApplExpr.Mixfix(true) case
    */
   private String getExpr(Expr expr)
   {
     assert expr != null;
-    return expr.accept(this).toString();
+    boolean pushExpr = ! (isWihtinFcnOpApplExpr(expr) || isWithinMemPredRefExpr(expr));
+    if (pushExpr) fRelationalOpAppl.push(expr);
+    final String result = expr.accept(this);
+    if (pushExpr) checkStack(expr);
+    return result;
   }
 
   /**
@@ -1494,11 +1532,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private String getMemPredRelOpName(RefExpr refExpr)
   {
-    // for MemPred, we need to treat the RefExpr differently.
-    fRelationalOpAppl.push(refExpr);
+    // for MemPred, we need to treat the RefExpr differently: don't push it because it is always mixfix=false
+    //fRelationalOpAppl.push(refExpr);
+    fRelationalOpAppl.push(refExpr.getMixfix());
     String result = getExpr(refExpr);
 
-    checkStack(refExpr);
+    checkStack(refExpr.getMixfix());
 
     if (result == null || result.equals(""))
     {
@@ -1688,12 +1727,22 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     StringBuilder result = new StringBuilder("");
     Iterator<Expr> it = term.iterator();
     Expr e = it.next();
-    result.append(getExpr(e));
+    // for when ZExprList contains RefExpr that are operators ans hace mixfix false
+    // e.g.,  (\_R\_, \_S\_) \in (\_ \subseqeq \_) (!)
+    fRelationalOpAppl.push(e);
+    String resp = getExpr(e);
+    resp = adjustIfOpWithinArgument(resp);
+    result.append(resp);
+    checkStack(e);
     while (it.hasNext())
     {
       result.append(fZExprListSep);
       e = it.next();
-      result.append(getExpr(e));
+      fRelationalOpAppl.push(e);
+      resp = getExpr(e);
+      resp = adjustIfOpWithinArgument(resp);
+      result.append(resp);
+      checkStack(e);
     }
     return result.toString();
   }
@@ -1906,7 +1955,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     // use label name for proof and theorem definition
     String result = format(THEOREM_DEF_PATTERN, getLocation(term), getAbility(l), getUsage(l),
-            lName, NL_SEP + getGenFormals(term.getZNameList()),
+            lName, NL_SEP + getGenFormals(term.getZNameList(), true),
             axiomPart, getProofPart(term));
     return wrapPara(result);
   }
@@ -1956,7 +2005,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      */
     String result;
     Box b = term.getBox();
-    String genFormals = getGenFormals(term.getZNameList());
+    String genFormals = getGenFormals(term.getZNameList(), !b.equals(Box.OmitBox));
     assert genFormals != null;
     if (b.equals(Box.SchBox))
     {
@@ -2252,12 +2301,20 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      */
     MemPredKind kind = getMemPredKind(term);
     String rel, left, right;
+    Expr lhs, rhs;
     switch (kind)
     {
+      // for the various cases, push expressions to the op-treatment stack. If it's a refExpr with mixfix false, it will get op ARG_TOK
       case SET_MEMBERSHIP:
-        left = getExpr(term.getLeftExpr());
+        lhs = term.getLeftExpr();
+        rhs = term.getRightExpr();
+        fRelationalOpAppl.push(lhs);
+        left = getExpr(lhs);
+        checkStack(lhs);
         rel = "&isin;";
-        right = getExpr(term.getRightExpr());
+        fRelationalOpAppl.push(rhs);
+        right = getExpr(rhs);
+        checkStack(rhs);
         break;
       case NARY_RELOP_APPLICATION:
         ZExprList params = ((TupleExpr) term.getLeftExpr()).getZExprList();
@@ -2266,9 +2323,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         {
           throw new ZEvesIncompatibleASTException("Current version only supports translation of binary relational operators.");
         }
-        left = getExpr(params.get(0));
+        lhs = params.get(0);
+        rhs = params.get(1);
+        fRelationalOpAppl.push(lhs);
+        left = getExpr(lhs);
+        checkStack(lhs);
         rel = getMemPredRelOpName((RefExpr) term.getRightExpr());
-        right = getExpr(params.get(1));
+        fRelationalOpAppl.push(rhs);
+        right = getExpr(rhs);
+        checkStack(rhs);
         break;
       case UNARY_RELOP_APPLICATION:
         RefExpr refexpr = (RefExpr) term.getRightExpr();
@@ -2277,22 +2340,25 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         /* NOTE:
          * The actual unary parameter comes from the left expression and is placed according to the fixture.
          */
+        lhs = term.getLeftExpr();
+        fRelationalOpAppl.push(lhs);
         if (fixity == OperatorName.Fixity.PREFIX)
         {
           // Prefix: left+rel+right = ""+rel+right
           left = "";
-          right = getExpr(term.getLeftExpr());
+          right = getExpr(lhs);
         }
         else if (fixity == OperatorName.Fixity.POSTFIX)
         {
           // Postfix: left+rel+right = left+rel+""
-          left = getExpr(term.getLeftExpr());
+          left = getExpr(lhs);
           right = "";
         }
         else
         {
           throw new ZEvesIncompatibleASTException("Unsupported fixture for relational operator (" + fixity.toString() + ").");
         }
+        checkStack(lhs);
         break;
       case EQUALITY:
         /* NOTE:
@@ -2300,13 +2366,21 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
          * For equality, the left expression is a Expr, whereas the
          * right expression must be a SetExpr containing only one element
          */
-        left = getExpr(term.getLeftExpr());
+        lhs = term.getLeftExpr();
+        rhs = ((SetExpr) term.getRightExpr()).getZExprList().get(0);
+        fRelationalOpAppl.push(lhs);
+        left = getExpr(lhs);
+        checkStack(lhs);
         rel = " = ";
-        right = getExpr(((SetExpr) term.getRightExpr()).getZExprList().get(0));
+        fRelationalOpAppl.push(rhs);
+        right = getExpr(rhs);
+        checkStack(rhs);
         break;
       default:
         throw new AssertionError("Invalid MemPredKind " + kind);
     }
+    left = adjustIfOpWithinArgument(left);
+    right = adjustIfOpWithinArgument(right);
     String result = format(MEMPRED_PATTERN, left, rel, right);
     assert result != null && !result.equals("");
     return result;
@@ -2690,7 +2764,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         List<String> params = new ArrayList<String>(args.size());
         params.add(op);
         // tell potential RefExpr as operators (e.g., mixfix false) about a ApplExpr
-        fRelationalOpAppl.push(term);
+        //fRelationalOpAppl.push(term);
         for (Expr e : args)
         {
           // push the expr. If it is a refExpr, check whether the mixfix is false, and if so, get ARG_TOK
@@ -2699,7 +2773,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
           checkStack(e);
         }
         assert params.size() == args.size() + 1;
-        checkStack(term);
+        //checkStack(term);
         switch (arity)
         {
           case 1:
