@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 package net.sourceforge.czt.eclipse.views;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
@@ -19,13 +15,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
@@ -36,24 +26,11 @@ import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 public class ZConversionView extends ViewPart
 {
 
-  private final String CONVERSION_NOT_AVAILABLE = "A conversion is not performed";
-
-  IColorManager fColorManager = CZTPlugin.getDefault().getCZTTextTools()
-      .getColorManager();
-
-  private Label fInformationLabel;
+  private final static String CONVERSION_NOT_AVAILABLE = "A conversion is not performed";
 
   private ZSourceViewer fSourceViewer;
 
   private IDocument fDocument;
-
-  /**
-   * 
-   */
-  public ZConversionView()
-  {
-    super();
-  }
 
   /**
    * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
@@ -65,34 +42,17 @@ public class ZConversionView extends ViewPart
     IPreferenceStore store = new ChainedPreferenceStore(new IPreferenceStore[]{
         CZTPlugin.getDefault().getPreferenceStore(), generalTextStore});
 
-    FormData formData;
-    parent.setLayout(new FormLayout());
-    fInformationLabel = new Label(parent, SWT.LEFT);
-    formData = new FormData();
-    formData.top = new FormAttachment(0, 5);
-    formData.left = new FormAttachment(0, 5);
-    formData.right = new FormAttachment(100, -5);
-    formData.bottom = new FormAttachment(0, 25);
-    fInformationLabel.setLayoutData((formData));
+    fSourceViewer = new ZSourceViewer(parent, null, null, false, SWT.V_SCROLL | SWT.H_SCROLL, store);
 
-    formData = new FormData();
-    formData.top = new FormAttachment(fInformationLabel, -5);
-    formData.left = new FormAttachment(0, 5);
-    formData.right = new FormAttachment(100, -5);
-    formData.bottom = new FormAttachment(100, -5);
-
-    fSourceViewer = new ZSourceViewer(parent, null, null, false, SWT.V_SCROLL
-        | SWT.H_SCROLL | SWT.BORDER, store);
-    fSourceViewer.getControl().setLayoutData((formData));
-
+    IColorManager colorManager = CZTPlugin.getDefault().getCZTTextTools().getColorManager();
     SimpleZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(
-        fColorManager, store, null, IZPartitions.Z_PARTITIONING, false);
+        colorManager, store, null, IZPartitions.Z_PARTITIONING, false);
     fSourceViewer.configure(configuration);
-    Font font = JFaceResources.getFont(PreferenceConstants.EDITOR_TEXT_FONT);
-    fSourceViewer.getTextWidget().setFont(font);
+//    Font font = JFaceResources.getFont(PreferenceConstants.EDITOR_TEXT_FONT);
+    fSourceViewer.getTextWidget().setFont(JFaceResources.getTextFont());
     new ZSourcePreviewerUpdater(fSourceViewer, configuration, store);
-    FontData fontData = new FontData("CZT", 12, SWT.NORMAL);
-    fSourceViewer.getTextWidget().setFont(new Font(Display.getDefault(), fontData));
+//    FontData fontData = new FontData("CZT", 12, SWT.NORMAL);
+//    fSourceViewer.getTextWidget().setFont(new Font(Display.getDefault(), fontData));
     fSourceViewer.setEditable(false);
     fDocument = new Document();
     fSourceViewer.setDocument(fDocument);
@@ -117,7 +77,7 @@ public class ZConversionView extends ViewPart
         && targetMarkup.trim() != null) {
       String information = "SOURCE:" + fileName + " -- " + "Original Markup:"
           + sourceMarkup + " -- " + "Target Markup:" + targetMarkup;
-      fInformationLabel.setText(information);
+      setContentDescription(information);
     }
     else
       initStatus();
@@ -125,7 +85,7 @@ public class ZConversionView extends ViewPart
 
   private void initStatus()
   {
-    fInformationLabel.setText(this.CONVERSION_NOT_AVAILABLE);
+    setContentDescription(CONVERSION_NOT_AVAILABLE);
   }
 
   public void setConversionData(String fileName, String sourceMarkup,
