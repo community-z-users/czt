@@ -1670,11 +1670,6 @@ eclipse/czteditor/src/main/java/com/microstar/*.blg
 eclipse/czteditor/src/main/java/com/microstar/*.log
 eclipse/czteditor/src/main/java/com/microstar/*.tmp
 eclipse/czteditor/src/main/java/com/microstar/target
-eclipse/czteditor/src/main/java/com/microstar/xml/*.aux
-eclipse/czteditor/src/main/java/com/microstar/xml/*.blg
-eclipse/czteditor/src/main/java/com/microstar/xml/*.log
-eclipse/czteditor/src/main/java/com/microstar/xml/*.tmp
-eclipse/czteditor/src/main/java/com/microstar/xml/target
 eclipse/czteditor/src/main/java/com/target
 eclipse/czteditor/src/main/java/net/*.aux
 eclipse/czteditor/src/main/java/net/*.blg
