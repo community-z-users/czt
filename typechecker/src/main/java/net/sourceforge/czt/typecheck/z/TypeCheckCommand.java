@@ -74,7 +74,7 @@ public class TypeCheckCommand extends AbstractCommand
    *    named ZSect has a parsing or type checking error.
    */
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected boolean doCompute(String name, SectionManager manager)
     throws CommandException
   {
     // Retrieve the section information.
