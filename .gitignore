@@ -3646,6 +3646,7 @@ parser-src/*.tmp
 parser-src/.classpath
 parser-src/.project
 parser-src/.settings
+parser-src/nb-configuration.xml
 parser-src/src/*.aux
 parser-src/src/*.blg
 parser-src/src/*.log
