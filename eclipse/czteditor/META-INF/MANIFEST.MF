@@ -29,3 +29,4 @@ Export-Package: net.sourceforge.czt.eclipse,
  net.sourceforge.czt.eclipse.preferences,
  net.sourceforge.czt.eclipse.util,
  net.sourceforge.czt.eclipse.views
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
