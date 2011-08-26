@@ -30,8 +30,20 @@ import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 
-public abstract class AbstractPrinterCommand extends AbstractCommand
+public abstract class AbstractPrinterCommand extends AbstractCommand implements PrintPropertiesKeys
 {
+
+  @Override
+  protected void processProperties(SectionManager manager)
+  {
+    if (manager.hasProperty(PROP_PRINTING_STRUCTURED_GOAL))
+    {
+      printStructuredGoal_ = manager.getBooleanProperty(PROP_PRINTING_STRUCTURED_GOAL);
+    }
+  }
+
+  protected boolean printStructuredGoal_ = PROP_PRINTING_STRUCTURED_GOAL_DEFAULT;
+
 
   /**
    * Creates a sequence of tokens for printing. It considers precedences by adding
@@ -74,7 +86,7 @@ public abstract class AbstractPrinterCommand extends AbstractCommand
 
   protected int textWidth(Properties props)
   {
-    String value = props.getProperty(PrintPropertiesKeys.PROP_TXT_WIDTH);
+    String value = props.getProperty(PROP_TXT_WIDTH);
     try {
       return Integer.valueOf(value);
     }

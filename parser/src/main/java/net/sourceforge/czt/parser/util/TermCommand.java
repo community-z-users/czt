@@ -44,7 +44,7 @@ public class TermCommand extends AbstractCommand
    * @throws CommandException
    */
   @Override
-  public boolean compute(String name, SectionManager manager) throws CommandException
+  protected boolean doCompute(String name, SectionManager manager) throws CommandException
   {
     // create a new key for the resource for Term
     final Key<Term> newKey = new Key<Term>(name, Term.class);

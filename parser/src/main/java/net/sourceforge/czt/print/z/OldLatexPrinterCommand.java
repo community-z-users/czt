@@ -24,36 +24,38 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Properties;
 
-import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.OldLatexString;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.Section;
 
 public class OldLatexPrinterCommand
   extends AbstractLatexPrinterCommand
   implements Command
 {
-  public boolean compute(String name, SectionManager manager)
+  @Override
+  protected boolean doCompute(String name, SectionManager manager)
     throws CommandException
   {
     try {
       final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
+      final Key<Term> key = new Key<Term>(name, Term.class);
+      final Term term =  manager.get(key);
       printOldLatex(term, writer, manager);
       writer.close();
-      manager.put(new Key(name, OldLatexString.class),
+      manager.put(new Key<OldLatexString>(name, OldLatexString.class),
                   new OldLatexString(writer.toString()));
       return true;
     }
     catch (IOException e) {
       throw new CommandException(e);
+    }
+    catch (PrintException pe)
+    {
+      throw new CommandException(pe);
     }
   }
 

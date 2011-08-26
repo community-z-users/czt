@@ -19,11 +19,13 @@
 
 package net.sourceforge.czt.print.z;
 
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+
 /**
  * LaTeX printing section manager's property keys.
  * @author Leo
  */
-public interface LatexPrinterPropertyKeys {
+public interface LatexPrinterPropertyKeys extends PrintPropertiesKeys {
 
   /**
    * When this property is <code>true</code>, the LaTeX printing adds preamble/postscript

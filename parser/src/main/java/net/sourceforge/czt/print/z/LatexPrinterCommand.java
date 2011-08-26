@@ -50,7 +50,7 @@ public class LatexPrinterCommand
    * @throws CommandException
    */
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected boolean doCompute(String name, SectionManager manager)
     throws CommandException
   {
     try {
