@@ -359,7 +359,7 @@ PROOFCMDBEGIN   = "check" | "declare" | "help" | "parent" | "print" | "quit" |
                   "zsection" | "ztags"
 
 PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
-                  "script" | "status" | "summary" | "to" | "through"
+                  "script" | "status" | "summary" | "syntax" | "to" | "through"
 
 PROOFWORDPART   = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
 PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}

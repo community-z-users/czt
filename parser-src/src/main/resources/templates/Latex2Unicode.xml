@@ -693,7 +693,7 @@ PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "red
 //                  "zsection" | "ztags"
 
 //PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
-//                  "script" | "status" | "summary" | "to" | "through"
+//                  "script" | "status" | "summary" | "syntax" | "to" | "through"
 
 //PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}
 //PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
@@ -702,7 +702,7 @@ ABILITY = "enabled" | "disabled"
 USAGE   = "axiom" | "frule" | "grule" | "rule"
 
 ZEVES_OP_FCNP = [1-6]
-ZEVES_OP_FCN  = "infun" | "postfun"
+//ZEVES_OP_FCN  = "infun" | "postfun"
 ZEVES_OP_FCNN = "infun" {ZEVES_OP_FCNP} | "postfun"
 ZEVES_OP_GEN  = "ingen" | "pregen"
 ZEVES_OP_REL  = "inrel" | "prerel"

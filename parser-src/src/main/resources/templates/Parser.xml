@@ -75,6 +75,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 
 <add:zeves>
 import net.sourceforge.czt.zeves.ast.*;
+import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.zeves.util.Factory;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
 import net.sourceforge.czt.parser.zeves.ProofTable;
@@ -212,13 +213,12 @@ action code
     }
 
 <add:zeves>
-    private static String DOLLAR = "$";
     private ZName createSpecialThmName(Decorword dw1, /*LocInfo dollar,*/ Decorword dw2)
     {
       checkName(dw1);
       checkName(dw2);
       // dw1 might have strokes; dw2 must not have strokes.
-      ZName result = factory_.createZName(dw1.getWord() + DOLLAR + dw2.getWord(), dw1.getStrokes());
+      ZName result = factory_.createZName(dw1.getWord() + ZEvesString.ZPROOFDOLLARCHAR + dw2.getWord(), dw1.getStrokes());
       checkSpecialThmSuffix(dw2);
 
       // location is the start of dw1 and end dw2
@@ -240,7 +240,7 @@ action code
     private ZName createSpecialName(Decorword dw)
     {
       checkName(dw);
-      ZName result = factory_.createZName(dw.getWord() + DOLLAR, dw.getStrokes());
+      ZName result = factory_.createZName(dw.getWord() + ZEvesString.ZPROOFDOLLARCHAR, dw.getStrokes());
       addLocAnn(result, dw.getLocation());
       return result;
     }
@@ -2205,58 +2205,18 @@ terminal LocInfo
         // Proof environment chars and specific proof words
         ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, ZPROOFDOLLAR, THMREPLACEMENT,
         LLABEL, RLABEL, LZNOTE, RZNOTE, DISABLEDTHMTAG, DISABLEDDEFTAG,
-        THMRULE, THMGRULE, THMFRULE, THMAXIOM,
-        APPLY ,
-BACK ,
-CASES ,
-CONJUNCTIVE ,
-DISJUNCTIVE ,
-EQUALITY ,
-INSTANTIATE ,
-INVOKE ,
-NEXT ,
-PRENEX ,
-PROVE ,
-REARRANGE ,
-TRIVIAL ,
-TRY ,
-SPLIT ,
-USE ,
-WITH ,
+        THMRULE, THMGRULE, THMFRULE, THMAXIOM, 
+        
+        APPLY, BACK, CASES, CONJUNCTIVE, DISJUNCTIVE, EQUALITY,
+        INSTANTIATE, INVOKE, NEXT, PRENEX, PROVE, REARRANGE, TRIVIAL, TRY,
+        SPLIT, USE, WITH, BY, ENABLED, EXPRESSION, DISABLED, LEMMA,
+        NORMALIZATION, PREDICATE, SUBSTITUTE, TO,
 
-BY ,
-ENABLED ,
-EXPRESSION ,
-DISABLED ,
-LEMMA		 ,
-NORMALIZATION ,
-PREDICATE ,
-SUBSTITUTE ,
-TO		 ,
+        CHECK, DECLARE, HELP, PARENT, PRINT, QUIT, READ, RESET, RETRY,
+        SYNTAX, THEOREMS, UNDO, ZSECTION, ZTAGS,
 
-CHECK ,
-DECLARE ,
-HELP ,
-PARENT ,
-PRINT ,
-QUIT ,
-READ ,
-RESET ,
-RETRY ,
-THEOREMS ,
-UNDO ,
-ZSECTION ,
-ZTAGS ,
-
-ABOUT		 ,
-DECLARATION ,
-FORMULA	 ,
-HISTORY	 ,
-PROOF		 ,
-SCRIPT		 ,
-STATUS		 ,
-SUMMARY	 ,
-THROUGH	,
+        ABOUT, DECLARATION, FORMULA, HISTORY, PROOF, SCRIPT, STATUS,
+        SUMMARY, THROUGH,
 
 </add:zeves>
 <add:circus>
@@ -2606,10 +2566,19 @@ non terminal ProofCommand
     proofCommand, innerProofCommand,
     applyCommand, caseAnalysisCommand, normalizationCommand,
     quantifiersCommand, simplificationCommand, substitutionCommand,
-    useCommand, withCommand;
+    useCommand, withCommand,
+    printProofCommands, undoingCommands, interfaceCommands, zsectionProofCommands;
+
+
+non terminal LocInfo
+    optPrint, optSummary, optScript;
+
+non terminal LocInt
+    optNumber;
 
 non terminal Instantiation
-    instantiation, replacement;
+    instantiation//, replacement
+    ;
 
 non terminal InstantiationList
     instantiations, replacements,
@@ -3804,6 +3773,183 @@ proofCommand ::=
           // LocAnn must be at the lower production (e.g., with more loc info, rather than here) - Andrius
           //addLocAnn(RESULT, getLocation(ipc));
         :}
+        |
+        printProofCommands:ppc
+        {:
+          RESULT = ppc;
+        :}
+        |
+        undoingCommands:uc
+        {:
+          RESULT = uc;
+        :}
+        |
+        interfaceCommands:ic
+        {:
+          RESULT = ic;
+        :}
+        |
+        zsectionProofCommands:zpc
+        {:
+          RESULT = zpc;
+        :}
+        ;
+
+
+printProofCommands ::=
+        HELP name:n
+        {:
+        :}
+        |
+        PRINT DECLARATION name:n
+        {:
+        :}
+        |
+        PRINT FORMULA
+        {:
+        :}
+        |
+        PRINT HISTORY optSummary:s optNumber:n
+        {:
+        :}
+        |
+        PRINT PROOF optSummary:s
+        {:
+        :}
+        |
+        PRINT STATUS
+        {:
+        :}
+        |
+        PRINT SYNTAX name:n
+        {:
+        :}
+        |
+        optPrint:t THEOREMS ABOUT EXPRESSION expression:e
+        {:
+        :}
+        |
+        optPrint:t THEOREMS ABOUT PREDICATE predicate:p
+        {:
+        :}
+        ;
+
+undoingCommands ::=
+        RESET
+        {:
+        :}
+        |
+        UNDO optNumber:n
+        {:
+        :}
+        |
+        UNDO BACK TO name:n
+        {:
+        :}
+        |
+        UNDO BACK THROUGH name:n
+        {:
+        :}
+        |
+        RETRY
+        {:
+        :}
+        |
+        TRY LEMMA thmName:n
+        {:
+        :}
+        TRY predicate:p
+        {:
+        :}
+        ;
+
+interfaceCommands ::=
+        CHECK DECORWORD:dw2
+        {:
+        :}
+        |
+        QUIT
+        {:
+        :}
+        |
+        READ optScript:s DECORWORD:dw2
+        {:
+        :}
+        |
+        ZTAGS thmNameList:tnl
+        {:
+        :}
+        ;
+
+        // or should this be thmNameList:nl?
+zsectionProofCommands ::=
+        DECLARE nameList:nl
+        {:
+        :}
+        |
+        DECLARE TO name:n
+        {:
+        :}
+        |
+        DECLARE THROUGH name:n
+        {:
+        :}
+        |
+        PARENT DECORWORD:dw
+        {:
+        :}
+        |
+        ZSECTION DECORWORD:path nameList:nl
+        {:
+        :}
+        ;
+        
+optScript ::=
+        SCRIPT:s
+        {:
+          RESULT = s;
+        :}
+        |
+        // empty
+        {:
+          RESULT = null;
+        :}
+        ;
+
+optPrint ::=
+        PRINT:p
+        {:
+          RESULT = p;
+        :}
+        |
+        // empty
+        {:
+          RESULT = null;
+        :}
+        ;
+
+optSummary ::=
+        SUMMARY:s
+        {:
+          RESULT = s;
+        :}
+        |
+        // empty
+        {:
+          RESULT = null;
+        :}
+        ;
+
+optNumber ::=
+        NUMERAL:n
+        {:
+          RESULT = n;
+        :}
+        |
+        // empty
+        {:
+          RESULT = null;
+        :}
         ;
 
 innerProofCommand ::=
@@ -4339,6 +4485,16 @@ invokeName ::=
         ;
 
 thmName ::=
+        // special name from axiomatic/schema declarations
+        // the issue here is that "DECLARATION" is a reserved 
+        // word ("print declaration X"), hence doesn't gets
+        // tokenised as DECORWORD(!)
+        // ex. f\$declaration, S\$declaration
+        DECORWORD:dw1 ZPROOFDOLLAR:d DECLARATION:dcl
+        {:
+           RESULT = createSpecialThmName(dw1, new Decorword(ZEvesString.DECLARATION, dcl));
+        :}
+        |
         DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
         {:
            RESULT = createSpecialThmName(dw1, dw2);
