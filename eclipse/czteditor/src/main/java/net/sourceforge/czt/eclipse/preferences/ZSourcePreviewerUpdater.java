@@ -3,10 +3,10 @@ package net.sourceforge.czt.eclipse.preferences;
 
 import net.sourceforge.czt.eclipse.editors.ZSourceViewerConfiguration;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.events.DisposeEvent;
