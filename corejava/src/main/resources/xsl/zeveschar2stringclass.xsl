@@ -57,7 +57,7 @@ PROOFCMDBEGIN   = "check" | "declare" | "help" | "parent" | "print" | "quit" |
                   "zsection" | "ztags"
 
 PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
-                  "script" | "status" | "summary" | "to" | "through"
+                  "script" | "status" | "summary" | "syntax" | "to" | "through"
 */
 
   String APPLY       = "apply";
@@ -114,6 +114,7 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   String SCRIPT		 = "script";
   String STATUS		 = "status";
   String SUMMARY	 = "summary";
+  String SYNTAX    = "syntax";
   String THROUGH	 = "through";
   //String TO		   = "to"; already above
   
