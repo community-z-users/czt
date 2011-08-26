@@ -426,7 +426,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private String wrapPara(String zevesPara)
   {
-    return format(ZEVES_COMMAND, "add-paragraph", zevesPara);
+    final String result = format(ZEVES_COMMAND, "add-paragraph", zevesPara);
+    return result;
   }
 
   // TODO: not being handled here but at Eclipse level because of interactivity
