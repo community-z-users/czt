@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 package net.sourceforge.czt.eclipse.preferences;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
@@ -52,7 +48,7 @@ public class PreferenceConstants
    * is sometimes convenient.
    * </p>
    */
-  public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS = ParsePropertiesKeys.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS; //$NON-NLS-1$
+  public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS = ParsePropertiesKeys.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS; 
 
   /**
    * A named preference that sets the property of the typechecker for z and oz.
@@ -64,7 +60,7 @@ public class PreferenceConstants
    * will check that names are declared before they are used.
    * </p>
    */
-  public static final String PROP_TYPECHECK_RECURSIVE_TYPES = TypecheckPropertiesKeys.PROP_TYPECHECK_RECURSIVE_TYPES; //$NON-NLS-1$
+  public static final String PROP_TYPECHECK_RECURSIVE_TYPES = TypecheckPropertiesKeys.PROP_TYPECHECK_RECURSIVE_TYPES; 
 
   /**
    * A named preference that sets the property of the typechecker for oz.
@@ -76,7 +72,7 @@ public class PreferenceConstants
    * will check using strong typing.
    * </p>
    */
-  public static final String PROP_TYPECHECK_USE_STRONG_TYPING = net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys.PROP_TYPECHECK_USE_STRONG_TYPING; //$NON-NLS-1$
+  public static final String PROP_TYPECHECK_USE_STRONG_TYPING = net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys.PROP_TYPECHECK_USE_STRONG_TYPING; 
 
   private static final String EDITOR_PREF = CZTPlugin.getPluginID() + ".editor";
   private static final String ANNOTATION_PREF = EDITOR_PREF + ".annotation";
@@ -382,6 +378,16 @@ public class PreferenceConstants
    * (value <code>"org.eclipse.jdt.ui.editors.textfont"</code>).
    */
   public final static String EDITOR_TEXT_FONT = "org.eclipse.jdt.ui.editors.textfont"; //$NON-NLS-1$
+  
+  /**
+   * The symbolic font name for Z Editor font when editing Unicode specifications
+   */
+  public final static String EDITOR_UNICODE_FONT = EDITOR_PREF + ".font.unicode"; //$NON-NLS-1$
+  
+  /**
+   * The symbolic font name for Z Editor font when editing LaTeX specifications
+   */
+  public final static String EDITOR_LATEX_FONT = EDITOR_PREF + ".font.latex"; //$NON-NLS-1$
 
   /**
    * A named preference that holds the color used to render narrative paragraphs.

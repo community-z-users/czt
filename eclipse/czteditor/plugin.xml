@@ -409,5 +409,35 @@
          </menu>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.themes">
+      <themeElementCategory
+            id="net.sourceforge.czt.eclipse.preferences.theme"
+            label="CZT">
+         <description>
+            CZT fonts and colors
+         </description>
+      </themeElementCategory>
+      <fontDefinition
+            categoryId="net.sourceforge.czt.eclipse.preferences.theme"
+            id="net.sourceforge.czt.eclipse.editor.font.unicode"
+            isEditable="true"
+            label="Unicode Z Editor Font"
+            value="CZT-regular-12">
+         <description>
+            The Unicode Z editor text font is used by Z editors when editing Unicode Z specifications.
+         </description>
+      </fontDefinition>
+      <fontDefinition
+            categoryId="net.sourceforge.czt.eclipse.preferences.theme"
+            defaultsTo="org.eclipse.jface.textfont"
+            id="net.sourceforge.czt.eclipse.editor.font.latex"
+            isEditable="true"
+            label="LaTeX Z Editor Font">
+         <description>
+            The LaTeX Z editor text font is used by Z editors when editing LaTeX Z specifications.
+         </description>
+      </fontDefinition>
+   </extension>
 
 </plugin>
