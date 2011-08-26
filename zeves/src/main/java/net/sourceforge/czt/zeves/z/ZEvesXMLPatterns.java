@@ -119,7 +119,7 @@ public interface ZEvesXMLPatterns {
      * {3} = decl-part       => getDeclPart(term.getZSchText().getZDeclList());
      * {4} = axiom-part      => getAxiomPart(term.getSchText().getPred());
      */
-    public static final String GENERIC_BOX_PATTERN = "<generic-box {0} {1}>{2}\n{3}\n{4}\n</generic-box>";
+    public static final String GENERIC_BOX_PATTERN = "<generic-box {0} {1}>{2} {3} {4}</generic-box>";
     
     /**
      * {0} = location        => getLocation(term);
