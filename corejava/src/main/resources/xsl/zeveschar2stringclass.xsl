@@ -127,6 +127,23 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   String THMAXIOM = "axiom";
 
   String BAG = "bag";
+
+  // Names from theorems added by ZEves
+  String DECLARATION_PART = "declarationPart";
+  String SCHEMA_MEMBER = "member";
+  String THETA_MEMBER = "thetaMember";
+  String SCHEMA_BIND_SELECT = "select";
+  String THETAS_EQUAL = "thetasEqual";
+  String SCHEMA_INSET = "inSet";
+  String THETA_INSET = "thetaInSet";
+  String SCHEMA_SET_IN_POWERSET = "setInPowerSet";
+
+  String FREETYPE_INJECTIVE = "injective";
+  String FREETYPE_EXPANSION = "expansion";
+  String FREETYPE_INDUCTION = "induction";
+  String FREETYPE_MEMBER    = "member";
+
+  String DOMAIN_CHECK = "domainCheck";
 }
 <xsl:text>
 </xsl:text>
