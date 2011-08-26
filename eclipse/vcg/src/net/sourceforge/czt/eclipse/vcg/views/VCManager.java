@@ -1,6 +1,5 @@
 package net.sourceforge.czt.eclipse.vcg.views;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +16,8 @@ import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.vcg.VcgPlugin;
-import net.sourceforge.czt.print.zeves.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
@@ -234,7 +231,7 @@ public class VCManager {
 			// TODO check maybe move this up to be done on the whole of section once? 
 			stripNameIds(vcPara);
 			stripNameIds(specPara);
-			if (termsEquivalent(vcPara, specPara)) {
+			if (termsEquiv(vcPara, specPara)) {
 				// mark as already in spec
 				alreadyInSpec = true;
 			} else {
@@ -355,22 +352,27 @@ public class VCManager {
 		return null;
 	}
 	
-	private boolean termsEquivalent(Term term1, Term term2) {
-		
-		/*
-		 * FIXME implement proper equality, at the moment using the printing,
-		 * because cannot handle the cases where the same is represented with
-		 * different ASTs, e.g. ForallPred vs ExprPred(ForallExpr)
-		 */
-		StringWriter out1 = new StringWriter();
-		StringWriter out2 = new StringWriter();
-		PrintUtils.print(term1, out1, parsedData.getSectionManager(), specSect.getName(), Markup.UNICODE);
-		PrintUtils.print(term2, out2, parsedData.getSectionManager(), specSect.getName(), Markup.UNICODE);
-		
-		return out1.toString().equals(out2.toString());
-		
-//		return term1.equals(term2);
+	private boolean termsEquiv(Term term1, Term term2) {
+		return term1.equals(term2);
+//		return termsPrintEquiv(term1, term2);
 	}
+	
+//	/**
+//	 * Checks whether the terms are print-equivalent. This can be used to check
+//	 * when terms are parsed into different but equivalent ASTs.
+//	 * 
+//	 * @param term1
+//	 * @param term2
+//	 * @return
+//	 */
+//	private boolean termsPrintEquiv(Term term1, Term term2) {
+//		StringWriter out1 = new StringWriter();
+//		StringWriter out2 = new StringWriter();
+//		PrintUtils.print(term1, out1, parsedData.getSectionManager(), specSect.getName(), Markup.UNICODE);
+//		PrintUtils.print(term2, out2, parsedData.getSectionManager(), specSect.getName(), Markup.UNICODE);
+//		
+//		return out1.toString().equals(out2.toString());
+//	}
 	
 	private void restoreOriginalPreds() {
 		for (Entry<ZSchText, Pred> predEntry : originalPreds) {
