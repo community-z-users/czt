@@ -78,12 +78,13 @@ public abstract class VCGCommand<R> extends AbstractCommand
    * Once VCs are generated, we also type checked the VC ZSect created in the process.
    *
    * @param name
+   * @param manager
    * @return
    * @throws CommandException
    */
   @Override
   @SuppressWarnings("unchecked")
-  public boolean compute(String name, SectionManager manager) throws CommandException
+  protected boolean doCompute(String name, SectionManager manager) throws CommandException
   {
     // expect name to be a section or specification name.
     // parse and type check the name - this will update the manager if needed
