@@ -874,6 +874,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return (t instanceof ZSchText ||                     // ZSchText for AxDef or SchBox should keep args
             ((t instanceof ZName) &&
              ((ZName)t).getOperatorName() != null) ||    // OpNames within DefLHS in Horizontal AxPara
+            ((t instanceof ApplExpr) && 
+             !((ApplExpr)t).getMixfix().booleanValue()) ||  // ApplExpr with mixfix false should keep opnames
+             ((t instanceof RefExpr) &&
+             !((RefExpr)t).getMixfix().booleanValue() &&
+             ((RefExpr)t).getZName().getOperatorName() != null) || // RefExpr with mixfix false that have operator names (e.g., explicitly given RefExpr as "(_op_)"
+                                                                   // they come from ApplExpr RefExpr with mixfix false or through ApplExpr parameters that might be RefExpr of mixfix false (\_R\_) \comp (\_S \_) say
             ((t instanceof Boolean) &&
              ((Boolean)t).booleanValue())                // explicit "override" case (e.g., ApplExpr that are not FcnOpAppl - "(_+_)(1,2)"
            );
@@ -1009,6 +1015,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     assert e == o || (e instanceof Boolean && e.equals(o));
   }
 
+  // e.g., for ApplExpr with mixfix true RefExpr has mixfix false, but shouldn't get operators              (x + y) or (\_R\_) \comp (\_ S\_)
+  //       whereas for ApplExpr with mixfix false RefExpr also has mixfix false, but *must* get operators!  (_+_)(x,y) (\_\comp\_)((\_R\_), (\_S\_))
+//  private boolean isWithinApplExprRefExpr()
+//  {
+//    return !fRelationalOpAppl.isEmpty() &&
+//            fRelationalOpAppl.peek() instanceof ApplExpr &&
+//            ZUtils.isFcnOpApplExpr((ApplExpr)fRelationalOpAppl.peek());
+//  }
+
   private String getRefName(RefExpr term)
   {
     fRelationalOpAppl.push(term);
@@ -1017,13 +1032,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result;
   }
 
-  private String getApplExprPart(Expr expr, boolean keepOpArgs)
+  private String getApplExprPart(ApplExpr term)
   {
-    // mixfix: left expr is the operator, right expr is a tuple with args
-    fRelationalOpAppl.push(keepOpArgs ? keepOpArgs : expr);
-    final String result = getExpr(expr);
+    fRelationalOpAppl.push(term);
+    // if ApplExpr with mixfix true (e.g., not explicit:  (x+y), get the "_+_" without params)
+    // otherwise with mixifix false (e.g., explicit: (_+_)(x,y), get the "_+_" with params)
 
-    checkStack(keepOpArgs ? keepOpArgs : expr);
+    // mixfix: left expr is the operator, right expr is a tuple with args
+    Expr opExpr = ZUtils.isFcnOpApplExpr(term) ?
+      ZUtils.getApplExprRef(term) : term.getLeftExpr();
+    final String result = getExpr(opExpr);
+    checkStack(term);
     return result;
   }
 
@@ -2370,6 +2389,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
                                                 + "(for \"" + term.getZName().toString() + "\").");
       }
 
+      // pushes a RefExpr to the stack, yet with Mixfix True, then no need for ARG_TOK
       String opName = getRefName(term);
       if (opName == null || opName.equals(""))
       {
@@ -2409,7 +2429,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         genActuals = getGenActuals(term.getZExprList());
       }
       // Don't call getRefName here, but name directly (e.g., name not to be treated as a possible operator).
-      result = getName(term.getZName()) + genActuals;
+      // e.g., for ApplExpr with mixfix true RefExpr has mixfix false, but shouldn't get operators              (x + y) or (\_R\_) \comp (\_ S\_)
+      //       whereas for ApplExpr with mixfix false RefExpr also has mixfix false, but *must* get operators!  (_+_)(x,y) (\_\comp\_)((\_R\_), (\_S\_))
+      result = getName(term.getName()) + genActuals;
     }
     assert result != null && !result.equals("");
     return result;
@@ -2633,7 +2655,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       assert term.getMixfix() != null && term.getMixfix();
 
       Expr opExpr = ZUtils.getApplExprRef(term);
-      String op = getApplExprPart(opExpr, false);
+      String op = getApplExprPart(term);
 
       int arity = ZUtils.applExprArity(term);
       ZExprList args = ZUtils.getApplExprArguments(term);
@@ -2664,13 +2686,20 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       // all other cases
       else
       {
+        // ex:  (\_ r \_) \comp (\_ s \_)  : ApplExpr(\comp, (r, s)) but as operators with \_!
         List<String> params = new ArrayList<String>(args.size());
         params.add(op);
+        // tell potential RefExpr as operators (e.g., mixfix false) about a ApplExpr
+        fRelationalOpAppl.push(term);
         for (Expr e : args)
         {
+          // push the expr. If it is a refExpr, check whether the mixfix is false, and if so, get ARG_TOK
+          fRelationalOpAppl.push(e);
           params.add(getExpr(e));
+          checkStack(e);
         }
         assert params.size() == args.size() + 1;
+        checkStack(term);
         switch (arity)
         {
           case 1:
@@ -2697,7 +2726,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     // case 6.22
     else
     {
-      final String op = getApplExprPart(term.getLeftExpr(), true);
+      final String op = getApplExprPart(term);
       result = format(APPL_EXPR_PATTERN, op, getExpr(term.getRightExpr()));
     }
     return result;

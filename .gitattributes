@@ -1194,6 +1194,7 @@ zeves/src/test/resources/tests/simpleUnicode.zed8 -text
 zeves/src/test/resources/tests/smalltest.tex -text
 zeves/src/test/resources/tests/toolkitThms.tex -text
 zeves/src/test/resources/tests/underscoreNamedThm.tex -text
+zeves/src/test/resources/tests/workflow.tex -text
 zeves/src/test/resources/tests/zevesability.tex -text
 zeves/src/test/resources/tests/zeveslabels.tex -text
 zeves/src/test/resources/tests/zeveslabelsUnicode.zed8 -text
