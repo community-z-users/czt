@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.util.Section;
  * @author Petra Malik
  */
 @SuppressWarnings("FinalClass")
-public final class PrintUtils implements PrintPropertiesKeys
+public final class PrintUtils 
 {
   /**
    * Do not create instances of this class.
