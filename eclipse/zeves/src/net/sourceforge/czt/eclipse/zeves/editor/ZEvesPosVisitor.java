@@ -225,41 +225,38 @@ public class ZEvesPosVisitor implements
     		visitProofScriptHead(term, scriptHeadPos);
     	}
     	
-    	if (!cmdList.isEmpty()) {
-    		
-	    	this.currentScript = term;
-	    	
-	    	// allow to make the goal current in the prover
-	    	if (!beforeProofScriptCommands(term, pos)) {
-	    		return null;
-	    	}
-	    	
-	    	boolean includedCmd = false;
-	    	
-			for (ProofCommand cmd : cmdList) {
-	        	
-				Position cmdPos = getPosition(cmd);
-				if (cmdPos == null) {
-					continue;
+    	this.currentScript = term;
+    	
+    	// allow to make the goal current in the prover
+    	if (!beforeProofScriptCommands(term, pos)) {
+    		return null;
+    	}
+    	
+    	boolean includedCmd = false;
+    	
+		for (ProofCommand cmd : cmdList) {
+        	
+			Position cmdPos = getPosition(cmd);
+			if (cmdPos == null) {
+				continue;
+			}
+			
+			if (!includePos(cmdPos)) {
+				
+				if (includedCmd) {
+	        		// first not-included command after an included one, break
+					break;
 				}
 				
-				if (!includePos(cmdPos)) {
-					
-					if (includedCmd) {
-		        		// first not-included command after an included one, break
-						break;
-					}
-					
-					// skip this one
-					continue;
-				}
-	        	
-	        	includedCmd = true;
-	            cmd.accept(this);
-	        }
-			
-			this.currentScript = null;
-    	}
+				// skip this one
+				continue;
+			}
+        	
+        	includedCmd = true;
+            cmd.accept(this);
+        }
+		
+		this.currentScript = null;
 		
 		Position scriptEndPos = getEndPosition(term, cmdList);
 		if (includePos(scriptEndPos)) {

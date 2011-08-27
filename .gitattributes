@@ -128,6 +128,7 @@ eclipse/README.txt -text
 eclipse/czteditor/icons/CZTproject.png -text
 eclipse/czteditor/icons/ZSpec.png -text
 eclipse/czteditor/icons/elcl16/complete_tree.gif -text
+eclipse/czteditor/icons/elcl16/utf.png -text
 eclipse/czteditor/icons/obj16/axpara16.png -text
 eclipse/czteditor/icons/obj16/char_table.gif -text
 eclipse/czteditor/icons/obj16/conj16.png -text
@@ -183,8 +184,10 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorC
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/ExceptionHandler.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/IZMode.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/FilteredTree2.java -text svneol=unset#text/plain
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/IZInfoObject.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/SelectZCharTableAction.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/ZConversionView.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/ZInfoView.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewCZTProjectWizard.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewCZTProjectWizardPage.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewElementWizard.java -text
@@ -290,7 +293,6 @@ eclipse/zeves/icons/reset.gif -text
 eclipse/zeves/icons/submit_point.png -text
 eclipse/zeves/icons/thm_proved.gif -text
 eclipse/zeves/icons/thm_unproved.gif -text
-eclipse/zeves/icons/utf.png -text
 eclipse/zeves/icons/z-eves.png -text
 eclipse/zeves/plugin.xml -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEves.java -text svneol=unset#text/plain
@@ -303,7 +305,6 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendProofCommand.jav
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendSelectionProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendSimpleProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SubmitToPointCommand.java -text svneol=unset#text/plain
-eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/adapters/VCEntryAdapterFactory.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditListener.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditTracker.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEvesAnnotations.java -text svneol=unset#text/plain
@@ -319,7 +320,6 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesRemoteLaunch.jav
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferenceConstants.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferenceInitializer.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferencePage.java -text svneol=unset#text/plain
-eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/IZEvesElement.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/TheoremTree.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEditorResults.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEvesOutputView.java -text svneol=unset#text/plain

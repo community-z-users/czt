@@ -35,6 +35,8 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
  */
 public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	
+	public static final int GOAL_STEP_INDEX = 1;
+
 	private final CZT2ZEvesPrinter zEvesXmlPrinter;
 	
 	private final ZEvesApi api;
@@ -116,7 +118,6 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 				handleResult(pos, output);
 				checkCancelled();
 			} catch (ZEvesException e) {
-				state.addPara(pos, -1, term, e.getMessage(), false);
 				handleZEvesException(pos, e);
 				return;
 			}
@@ -125,13 +126,12 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		int historyIndex = api.getHistoryLength();
 	    		Object zEvesPara = api.getHistoryElement(historyIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addPara(pos, historyIndex, term, zEvesPara, true);
+	    		state.addParaResult(pos, historyIndex, zEvesPara);
 	    		handleResult(pos, zEvesPara);
 	    		checkCancelled();
 //	    		handleResult(pos, "History index: " + historyIndex);
 	    		
 	    	} catch (ZEvesException e) {
-	    		state.addPara(pos, -1, term, e.getMessage(), false);
 	    		handleZEvesException(pos, e);
 	    		return;
 	    	}
@@ -147,22 +147,19 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		Annotation unfinishedAnn = markUnfinished(pos);
 		
     	String theoremName = getProofScriptName(term);
-    	int proofStep = ZEvesFileState.PROOF_GOAL_STEP;
 	    	
     	try {
 
     		// add result first, because that will be displayed in hover
-    		int goalStepIndex = 1;
-    		ZEvesOutput result = api.getGoalProofStep(theoremName, goalStepIndex);
-    		state.addProofResult(pos, term, proofStep, goalStepIndex, result, true);
+    		ZEvesOutput result = api.getGoalProofStep(theoremName, GOAL_STEP_INDEX);
+    		state.addGoalResult(pos, result);
     		handleResult(pos, result);
     		checkCancelled();
 //	    	boolean goalProved = api.getGoalProvedState(theoremName);
 //	    	handleResult(pos, "Proved: " + goalProved);
     		
     	} catch (ZEvesException e) {
-    		state.addProofResult(pos, term, proofStep, null, e.getMessage(), false);
-    		handleZEvesException(pos, e);
+    		handleZEvesException(pos, e, false);
     		return;
     	} finally {
         	markFinished(unfinishedAnn);
@@ -178,7 +175,6 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		api.setCurrentGoalName(theoremName);
     		checkCancelled();
 		} catch (ZEvesException e) {
-			state.addProofResult(pos, term, ZEvesFileState.PROOF_GOAL_STEP, null, e.getMessage(), false);
 			handleZEvesException(pos, e);
 			return false;
 		}
@@ -200,7 +196,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 				handleResult(pos, "Proved: " + goalProved);
 				checkCancelled();
 			} catch (ZEvesException e) {
-				handleZEvesException(pos, e);
+				handleZEvesException(pos, e, false);
 			}
 			
 		} finally {
@@ -218,14 +214,12 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 
     		String theoremName = getProofScriptName(script);
     		String commandContents = command.accept(getZEvesXmlPrinter());
-    		int proofStep = command.getProofStep().intValue();
     		
 	    	try {
 				ZEvesOutput output = api.sendProofCommand(commandContents);
 				handleResult(pos, output);
 				checkCancelled();
 			} catch (ZEvesException e) {
-				state.addProofResult(pos, script, proofStep, null, e.getMessage(), false);
 				handleZEvesException(pos, e);
 				return;
 			}
@@ -236,7 +230,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		
 	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addProofResult(pos, script, proofStep, stepIndex, proofResult, true);
+	    		state.addProofResult(pos, script, stepIndex, proofResult);
 	    		handleResult(pos, proofResult);
 	    		checkCancelled();
 	    		
@@ -281,8 +275,15 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 //    	tryFlush();
     }
 
-    private Object handleZEvesException(Position pos, ZEvesException e) {
+    private void handleZEvesException(Position pos, ZEvesException e) {
+    	handleZEvesException(pos, e, true);
+    }
+    
+    private void handleZEvesException(Position pos, ZEvesException e, boolean markState) {
     	
+    	if (markState) {
+    		state.addError(pos, e);
+    	}
     	// TODO clear previous markers?
     	
     	boolean addedMarkers = false;
@@ -308,8 +309,6 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			// log the cause
 			ZEvesPlugin.getDefault().log(cause);
 		}
-		
-		return null;
     }
     
     private void handleResult(Position pos, Object result) {

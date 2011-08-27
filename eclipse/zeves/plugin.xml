@@ -89,7 +89,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:net.sourceforge.czt.eclipse.zeves.view.Output?before=view">
+            locationURI="toolbar:net.sourceforge.czt.eclipse.zeves.view.Output?before=info-view">
          <command
                commandId="net.sourceforge.czt.eclipse.zeves.proof.reduce"
                label="Reduction"
@@ -761,15 +761,5 @@
       <initializer
             class="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferenceInitializer">
       </initializer>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory
-            adaptableType="net.sourceforge.czt.eclipse.vcg.views.VCEntry"
-            class="net.sourceforge.czt.eclipse.zeves.adapters.VCEntryAdapterFactory">
-         <adapter
-               type="net.sourceforge.czt.eclipse.zeves.views.IZEvesElement">
-         </adapter>
-      </factory>
    </extension>
 </plugin>

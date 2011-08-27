@@ -30,6 +30,13 @@
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.views.ZConversionView"
             name="%ConversionView.name"/>
+      <view
+            category="net.sourceforge.czt.eclipse"
+            class="net.sourceforge.czt.eclipse.views.ZInfoView"
+            icon="icons/ZSpec.png"
+            id="net.sourceforge.czt.eclipse.views.ZInfo"
+            name="Z Info">
+      </view>
    </extension>
    <extension
          id="CZTDocumentSetupParticipant"

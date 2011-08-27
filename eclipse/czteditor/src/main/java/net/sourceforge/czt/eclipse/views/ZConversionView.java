@@ -7,7 +7,6 @@ import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.util.IColorManager;
-import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.session.Markup;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -87,7 +86,7 @@ public class ZConversionView extends ViewPart
   {
     IDocument document = new Document(data);
     CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
-        document, IZPartitions.Z_PARTITIONING, getFileType(targetMarkup));
+        document, IZPartitions.Z_PARTITIONING, ZEditorUtil.getFileType(targetMarkup));
     
     setStatus(fileName, getMarkupLabel(sourceMarkup), getMarkupLabel(targetMarkup));
     
@@ -106,16 +105,5 @@ public class ZConversionView extends ViewPart
       case ZML: return "XML";
       default: return markup.toString();
     }
-  }
-  
-  private String getFileType(Markup markup) {
-    if (markup != null) {
-      switch (markup) {
-        case LATEX: return IZFileType.FILETYPE_LATEX;
-        case UNICODE: return IZFileType.FILETYPE_UTF8;
-      }
-    }
-    
-    return null;
   }
 }

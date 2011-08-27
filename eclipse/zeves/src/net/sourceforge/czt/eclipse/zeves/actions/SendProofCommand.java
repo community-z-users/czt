@@ -4,10 +4,10 @@ import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil.ReconcileRunnable;
+import net.sourceforge.czt.eclipse.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.views.IZEvesElement;
 import net.sourceforge.czt.eclipse.zeves.views.ZEvesOutputView;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ProofResultElement;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -39,13 +39,13 @@ public abstract class SendProofCommand extends AbstractHandler {
 		Shell shell = HandlerUtil.getActiveShell(event);
 		
 		ZEvesOutputView outputView = (ZEvesOutputView) part;
-		IZEvesElement currentInput = outputView.getCurrentInput();
-		if (!(currentInput instanceof ProofResultElement)) {
+		IZInfoObject currentInput = outputView.getCurrentInput();
+		if (!(currentInput instanceof ZEvesProofObject)) {
 			MessageDialog.openError(shell, "Invalid element", "Proof commands must be executed on proof goals.");
 			return null;
 		}
 		
-		ProofResultElement proofResult = (ProofResultElement) currentInput;
+		ZEvesProofObject proofResult = (ZEvesProofObject) currentInput;
 		
 		String proofCommand = getCommand(event, proofCommandName, proofResult);
 		if (proofCommand == null) {
@@ -57,7 +57,7 @@ public abstract class SendProofCommand extends AbstractHandler {
 		return null;
 	}
 
-	public static void addSubmitCommand(ProofResultElement proofResult, String proofCommand)
+	public static void addSubmitCommand(ZEvesProofObject proofResult, String proofCommand)
 			throws ExecutionException {
 		
 		// insert the command after the proof result position into the editor
@@ -98,6 +98,6 @@ public abstract class SendProofCommand extends AbstractHandler {
 	}
 	
 	protected abstract String getCommand(ExecutionEvent event, String proofCommand,
-			ProofResultElement proofResult);
+			ZEvesProofObject proofResult);
 
 }

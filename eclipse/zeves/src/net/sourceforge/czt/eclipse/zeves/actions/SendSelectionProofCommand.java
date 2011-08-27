@@ -6,7 +6,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesResultConverter;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ProofResultElement;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 
@@ -22,7 +22,7 @@ public class SendSelectionProofCommand extends SendProofCommand {
 
 	@Override
 	protected String getCommand(ExecutionEvent event, String proofCommand,
-			ProofResultElement proofResult) {
+			ZEvesProofObject proofResult) {
 		
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		if (selection.isEmpty()) {

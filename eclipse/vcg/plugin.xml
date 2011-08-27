@@ -27,6 +27,16 @@
                relative="org.eclipse.ui.views.ResourceNavigator"
                visible="true">
          </view>
+         <viewShortcut
+               id="net.sourceforge.czt.eclipse.views.ZInfo">
+         </viewShortcut>
+         <view
+               id="net.sourceforge.czt.eclipse.views.ZInfo"
+               minimized="false"
+               relationship="stack"
+               relative="net.sourceforge.czt.eclipse.views.ZCharMapView"
+               visible="true">
+         </view>
       </perspectiveExtension>
    </extension>
    <extension

@@ -65,6 +65,8 @@ public class CZTPluginImages
   
   public static final String IMG_COMPLETE_TREE = NAME_PREFIX + "complete_tree.gif"; //$NON-NLS-1$
   
+  public static final String IMG_UNICODE = NAME_PREFIX + "utf.png";
+  
   public static final String IMG_CHAR_TABLE = NAME_PREFIX + "char_table.gif"; //$NON-NLS-1$
 
   /*
@@ -105,6 +107,9 @@ public class CZTPluginImages
   
   public static final ImageDescriptor DESC_COMPLETE_TREE = createManagedFromKey(
       T_ELCL, IMG_COMPLETE_TREE); //$NON-NLS-1$
+  
+  public static final ImageDescriptor DESC_UNICODE = createManagedFromKey(
+      T_ELCL, IMG_UNICODE); //$NON-NLS-1$
 
   public static final ImageDescriptor DESC_OVR_ERROR = createUnManagedCached(
       T_OVR, "error_ovr.gif"); //$NON-NLS-1$

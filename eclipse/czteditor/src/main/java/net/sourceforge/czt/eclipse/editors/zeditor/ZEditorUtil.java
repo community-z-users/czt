@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.editors.zeditor;
 import net.sourceforge.czt.eclipse.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
+import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.Markup;
@@ -81,6 +82,17 @@ public class ZEditorUtil {
     }
     
     return JFaceResources.TEXT_FONT;
+  }
+  
+  public static String getFileType(Markup markup) {
+    if (markup != null) {
+      switch (markup) {
+        case LATEX: return IZFileType.FILETYPE_LATEX;
+        case UNICODE: return IZFileType.FILETYPE_UTF8;
+      }
+    }
+    
+    return null;
   }
 
   public static void runOnReconcile(final ZEditor editor, final ReconcileRunnable callback)

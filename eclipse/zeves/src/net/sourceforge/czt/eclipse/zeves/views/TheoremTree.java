@@ -3,12 +3,16 @@ package net.sourceforge.czt.eclipse.zeves.views;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.views.FilteredTree2;
+import net.sourceforge.czt.eclipse.views.IZInfoObject;
+import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
+import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesApi.ZEvesTheoremType;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -208,7 +212,7 @@ class TheoremTree extends FilteredTree2 {
     	
     }
     
-    public static class TheoremEntry implements IZEvesElement {
+    public static class TheoremEntry implements IZInfoObject {
     	
     	private final String theoremName;
     	private final ZEvesTheoremType type;
@@ -240,13 +244,29 @@ class TheoremTree extends FilteredTree2 {
 		}
 
 		@Override
-		public String getDescription() {
-			return "theorem " + theoremName;
+		public Markup getMarkup() {
+			return Markup.UNICODE;
 		}
 
 		@Override
-		public Object loadContents(ZEvesApi api, Markup markup) throws ZEvesException {
-			return api.getTheorem(theoremName);
+		public String loadContents(Markup markup, IProgressMonitor monitor) throws CoreException {
+			
+			ZEves zEves = ZEvesPlugin.getZEves();
+			if (!zEves.isRunning()) {
+				return null;
+			}
+			
+			try {
+				Object result = zEves.getApi().getTheorem(theoremName);
+				return result.toString();
+			} catch (ZEvesException e) {
+				throw new CoreException(ZEvesPlugin.newErrorStatus(e.getMessage(), e));
+			}
+		}
+
+		@Override
+		public String loadDescription(IProgressMonitor monitor) throws CoreException {
+			return "theorem " + theoremName;
 		}
     }
 

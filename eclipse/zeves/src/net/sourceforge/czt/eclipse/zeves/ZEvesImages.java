@@ -29,8 +29,6 @@ public class ZEvesImages {
 	public static final String IMG_THEOREM_PROVED = ICON_BASE_URL + "thm_proved.gif";
 	public static final String IMG_THEOREM_UNPROVED = ICON_BASE_URL + "thm_unproved.gif";
 	
-	public static final String IMG_UNICODE = ICON_BASE_URL + "utf.png";
-	
 	/**
 	 * Returns the <code>Image<code> identified by the given path,
 	 * or <code>null</code> if it does not exist.
