@@ -1,12 +1,10 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -18,11 +16,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.jface.text.source.AnnotationModel;
-import org.eclipse.jface.text.source.IAnnotationModel;
-import org.eclipse.jface.text.source.IAnnotationModelExtension;
-import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
 
@@ -34,58 +27,60 @@ public class ZEvesAnnotations {
 	public static final String MARKER_RESULT = ZEvesPlugin.PLUGIN_ID + ".resultMarker";
 	public static final String MARKER_RESULT_TRUE = ZEvesPlugin.PLUGIN_ID + ".resultTrueMarker";
 	
-	private static final String COMMAND_ANN_PREFIX = ZEvesPlugin.PLUGIN_ID + ".annotation.command.";
+	public static final String MARKER_COMMAND_STATUS = ZEvesPlugin.PLUGIN_ID + ".commandStatusMarker";
+	public static final int STATUS_FINISHED = IMarker.SEVERITY_INFO;
+	public static final int STATUS_UNFINISHED = IMarker.SEVERITY_WARNING;
+	public static final int STATUS_FAILED = IMarker.SEVERITY_ERROR;
 	
-	public static final String ANNOTATION_UNFINISHED = COMMAND_ANN_PREFIX + "unfinished";
-	public static final String ANNOTATION_UNPROCESSED = COMMAND_ANN_PREFIX + "unprocessed";
-	public static final String ANNOTATION_FAILED = COMMAND_ANN_PREFIX + "failed";
-	public static final String ANNOTATION_FINISHED = COMMAND_ANN_PREFIX + "finished";
+	public static final String MARKER_PROCESS = ZEvesPlugin.PLUGIN_ID + ".processMarker";
 	
-	private static final Object ZEVES_ANNOTATIONS = new Object();
-	
-	private final ITextEditor editor;
 	private final IResource markerResource;
 	private final IDocument document;
 	
-	private final List<Entry<String, Map<String, Object>>> pendingMarkers = 
-			new ArrayList<Map.Entry<String, Map<String, Object>>>();
+	private final List<MarkerInfo> pendingAddMarkers = new LinkedList<MarkerInfo>();
+	private final List<MarkerInfo> pendingRemoveMarkers = new LinkedList<MarkerInfo>();
+	private final Map<MarkerInfo, IMarker> addedMarkers = new HashMap<MarkerInfo, IMarker>();
 	
-	private final Map<Annotation, Position> pendingAddAnnotations = new HashMap<Annotation, Position>();
-	private final List<Annotation> pendingRemoveAnnotations = new ArrayList<Annotation>();
-	
-	public ZEvesAnnotations(ITextEditor editor, IResource markerResource, IDocument document) {
+	public ZEvesAnnotations(IResource markerResource, IDocument document) {
 		super();
 		
-		Assert.isNotNull(editor);
 		Assert.isNotNull(markerResource);
 		
-		this.editor = editor;
 		this.markerResource = markerResource;
 		this.document = document;
 	}
 
-	public void createErrorMarker(Position pos, String message) throws CoreException {
-
-		createErrorMarker(pos, message, IMarker.SEVERITY_ERROR);
+	public MarkerInfo createErrorMarker(Position pos, String message) throws CoreException {
+		return createErrorMarker(pos, message, IMarker.SEVERITY_ERROR);
 	}
 	
-	public void createErrorMarker(Position pos, String message, int severity) throws CoreException {
-
-		createMarkupMessageMarker(MARKER_ERROR, severity, pos, message);
+	public MarkerInfo createErrorMarker(Position pos, String message, int severity) throws CoreException {
+		return createMarker(MARKER_ERROR, severity, pos, message);
 	}
 	
-	public void createResultMarker(Position pos, String message) throws CoreException {
-
-		createMarkupMessageMarker(MARKER_RESULT, IMarker.SEVERITY_INFO, pos, message);
+	public MarkerInfo createResultMarker(Position pos, String message) throws CoreException {
+		return createMarker(MARKER_RESULT, IMarker.SEVERITY_INFO, pos, message);
 	}
 	
-	public void createResultTrueMarker(Position pos, String message) throws CoreException {
-
-		createMarkupMessageMarker(MARKER_RESULT_TRUE, IMarker.SEVERITY_INFO, pos, message);
+	public MarkerInfo createResultTrueMarker(Position pos, String message) throws CoreException {
+		return createMarker(MARKER_RESULT_TRUE, IMarker.SEVERITY_INFO, pos, message);
 	}
 	
-	private void createMarkupMessageMarker(String type, int severity, Position pos, String message)
+	public MarkerInfo createStatusMarker(Position pos, int type) throws CoreException {
+		return createMarker(MARKER_COMMAND_STATUS, type, pos, null, false);
+	}
+	
+	public MarkerInfo createProcessMarker(Position pos) throws CoreException {
+		return createMarker(MARKER_PROCESS, 0, pos, null, false);
+	}
+	
+	private MarkerInfo createMarker(String type, int severity, Position pos, String message)
 			throws CoreException {
+		return createMarker(type, severity, pos, message, true);
+	}
+	
+	private MarkerInfo createMarker(String type, int severity, Position pos, String message,
+			boolean lineMarker) throws CoreException {
 		
 		Map<String, Object> markerAttrs = new HashMap<String, Object>();
 		
@@ -96,47 +91,69 @@ public class ZEvesAnnotations {
 			int start = pos.getOffset();
 			int end = pos.getOffset() + pos.getLength();
 			
-			try {
-				if (document != null) {
-					int line = document.getLineOfOffset(start);
-					int line1 = line + 1; // for 1-relative
-					markerAttrs.put(IMarker.LOCATION, "line " + line1);	
-					markerAttrs.put(IMarker.LINE_NUMBER, line1);
-					
-					// trim the end of location to the end of line only
-					int lineEnd = document.getLineOffset(line) + document.getLineLength(line);
-					if (lineEnd < end) {
-						end = lineEnd;
+			if (lineMarker) {
+				try {
+					if (document != null) {
+						int line = document.getLineOfOffset(start);
+						int line1 = line + 1; // for 1-relative
+						markerAttrs.put(IMarker.LOCATION, "line " + line1);	
+						markerAttrs.put(IMarker.LINE_NUMBER, line1);
+						
+						// trim the end of location to the end of line only
+						int lineEnd = document.getLineOffset(line) + document.getLineLength(line);
+						if (lineEnd < end) {
+							end = lineEnd;
+						}
+						
 					}
-					
+				} catch (BadLocationException ex) {
+					// ignore
 				}
-			} catch (BadLocationException ex) {
-				// ignore
 			}
 			
 			markerAttrs.put(IMarker.CHAR_START, start);
 			markerAttrs.put(IMarker.CHAR_END, end);
 		}
 		
-		markerAttrs.put(IMarker.MESSAGE, message);
+		if (message != null) {
+			markerAttrs.put(IMarker.MESSAGE, message);
+		}
 		
-		pendingMarkers.add(new SimpleEntry<String, Map<String, Object>>(type, markerAttrs));
+		MarkerInfo markerInfo = new MarkerInfo(type, markerAttrs);
+		pendingAddMarkers.add(markerInfo);
 		
-//		MarkerUtilities.createMarker(markerResource, markerAttrs, type);
+		return markerInfo;
 	}
 	
 	public void clearMarkers() throws CoreException {
 		clearMarkers(markerResource);
-		
-		AnnotationModel annModel = getAnnotationModel();
-		if (annModel != null) {
-			annModel.removeAllAnnotations();
+	}
+	
+	public static void clearMarkers(final IResource markerResource) throws CoreException {
+		IWorkspaceRunnable r = new IWorkspaceRunnable() {
+			@Override
+			public void run(IProgressMonitor monitor) throws CoreException {
+				markerResource.deleteMarkers(MARKER_ERROR, true, 0);
+				markerResource.deleteMarkers(MARKER_RESULT, true, 0);
+				markerResource.deleteMarkers(MARKER_COMMAND_STATUS, true, 0);
+				markerResource.deleteMarkers(MARKER_PROCESS, true, 0);
+			}
+		};
+
+		try {
+			markerResource.getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
+		} catch (CoreException ce) {
+			ZEvesPlugin.getDefault().log(ce);
 		}
 	}
 	
-	public static void clearMarkers(IResource markerResource) throws CoreException {
-		markerResource.deleteMarkers(MARKER_ERROR, true, 0);
-		markerResource.deleteMarkers(MARKER_RESULT, true, 0);
+	public void deleteMarker(MarkerInfo markerInfo) {
+		
+		// remove from the pending list
+		pendingAddMarkers.remove(markerInfo);
+		
+		// mark for removal
+		pendingRemoveMarkers.add(markerInfo);
 	}
 	
 	public void deleteMarkers(int offset) throws CoreException {
@@ -150,20 +167,8 @@ public class ZEvesAnnotations {
 		final List<IMarker> removeMarkers = new ArrayList<IMarker>();
 		removeMarkers.addAll(findRemoveMarkers(MARKER_ERROR, offset));
 		removeMarkers.addAll(findRemoveMarkers(MARKER_RESULT, offset));
-		
-		final List<Annotation> removeAnns = new ArrayList<Annotation>();
-		
-		final AnnotationModel annModel = getAnnotationModel();
-		if (annModel != null) {
-			int docLength = document.getLength();
-			
-			@SuppressWarnings("unchecked")
-			Iterator<Annotation> it = annModel.getAnnotationIterator(
-					offset, (docLength - offset), true, true);
-			while (it.hasNext()) {
-				removeAnns.add(it.next());
-			}
-		}
+		removeMarkers.addAll(findRemoveMarkers(MARKER_COMMAND_STATUS, offset));
+		removeMarkers.addAll(findRemoveMarkers(MARKER_PROCESS, offset));
 		
 		IWorkspaceRunnable r = new IWorkspaceRunnable() {
 			@Override
@@ -171,12 +176,6 @@ public class ZEvesAnnotations {
 				
 				for (IMarker marker : removeMarkers) {
 					marker.delete();
-				}
-				
-				if (annModel != null && !removeAnns.isEmpty()) {
-					annModel.replaceAnnotations(
-							removeAnns.toArray(new Annotation[removeAnns.size()]), 
-							new HashMap<Object, Object>());
 				}
 			}
 		};
@@ -207,72 +206,13 @@ public class ZEvesAnnotations {
 		return remove;
 	}
 	
-	public Annotation addAnnotation(Position pos, String annotationType) {
-		if (pos == null) {
-			return null;
-		}
-		
-//		AnnotationModel annModel = getAnnotationModel();
-//		if (annModel == null) {
-//			return null;
-//		}
-		
-		Annotation annotation = new Annotation(false);
-		annotation.setType(annotationType);
-		
-//		annModel.addAnnotation(annotation, pos);
-		
-		pendingAddAnnotations.put(annotation, pos);
-		
-		return annotation;
-	}
-	
-	public void removeAnnotation(Annotation annotation) {
-		if (annotation == null) {
-			return;
-		}
-		
-//		AnnotationModel annModel = getAnnotationModel();
-//		if (annModel == null) {
-//			return;
-//		}
-//		
-//		annModel.removeAnnotation(annotation);
-		
-		pendingAddAnnotations.remove(annotation);
-		pendingRemoveAnnotations.add(annotation);
-	}
-	
-	private AnnotationModel getAnnotationModel() {
-		
-		IAnnotationModel baseAnnotationModel = 
-			editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
-		if (baseAnnotationModel == null) {
-			return null;
-		}
-		
-		// use modern models
-		Assert.isTrue(baseAnnotationModel instanceof IAnnotationModelExtension);
-		
-		return getAnnotationModel((IAnnotationModelExtension) baseAnnotationModel, ZEVES_ANNOTATIONS); 
-	}
-	
-	private AnnotationModel getAnnotationModel(IAnnotationModelExtension baseModel, Object key) {
-		
-		AnnotationModel model = (AnnotationModel) baseModel.getAnnotationModel(key);
-		if (model == null) {
-			model = new AnnotationModel();
-			baseModel.addAnnotationModel(key, model);
-		}
-		
-		return model;
-	}
-	
 	public void flushPendingMarkers() {
 		
-		final List<Entry<String, Map<String, Object>>> markersCopy = 
-				new ArrayList<Entry<String, Map<String,Object>>>(pendingMarkers);
-		pendingMarkers.clear();
+		final List<MarkerInfo> addCopy = new ArrayList<MarkerInfo>(pendingAddMarkers);
+		final List<MarkerInfo> removeCopy = new ArrayList<MarkerInfo>(pendingRemoveMarkers);
+				
+		pendingAddMarkers.clear();
+		pendingRemoveMarkers.clear();
 		
 		final IResource resource = markerResource;
 		
@@ -280,9 +220,18 @@ public class ZEvesAnnotations {
 			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				
-				for (Entry<String, Map<String, Object>> markerEntry : markersCopy) {
-					IMarker marker = resource.createMarker(markerEntry.getKey());
-					marker.setAttributes(markerEntry.getValue());
+				for (MarkerInfo markerInfo : removeCopy) {
+					IMarker marker = addedMarkers.get(markerInfo);
+					if (marker != null) {
+						marker.delete();
+						addedMarkers.remove(markerInfo);
+					}
+				}
+				
+				for (MarkerInfo markerInfo : addCopy) {
+					IMarker marker = resource.createMarker(markerInfo.getType());
+					marker.setAttributes(markerInfo.getAttributes());
+					addedMarkers.put(markerInfo, marker);
 				}
 			}
 		};
@@ -294,20 +243,22 @@ public class ZEvesAnnotations {
 		}
 	}
 	
-	public void flushPendingAnnotations() {
+	public static class MarkerInfo {
+		private final String type;
+		private final Map<String, Object> attributes;
 		
-		Map<Annotation, Position> addCopy = new HashMap<Annotation, Position>(pendingAddAnnotations);
-		Annotation[] removeCopy = pendingRemoveAnnotations.toArray(new Annotation[pendingRemoveAnnotations.size()]);
-
-		pendingAddAnnotations.clear();
-		pendingRemoveAnnotations.clear();
-		
-		AnnotationModel annModel = getAnnotationModel();
-		if (annModel == null) {
-			return;
+		public MarkerInfo(String type, Map<String, Object> attributes) {
+			this.type = type;
+			this.attributes = attributes;
 		}
 
-		annModel.replaceAnnotations(removeCopy, addCopy);
+		public String getType() {
+			return type;
+		}
+
+		public Map<String, Object> getAttributes() {
+			return attributes;
+		}
 	}
 	
 }

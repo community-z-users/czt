@@ -53,7 +53,7 @@ public class ZEditorEditListener implements IDocumentListener {
         	return;
         }
         
-        ZEvesAnnotations annotations = new ZEvesAnnotations(editor, resource, document);
+        ZEvesAnnotations annotations = new ZEvesAnnotations(resource, document);
         
     	// first delete all the previous markers
 		try {

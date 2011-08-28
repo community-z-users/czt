@@ -57,7 +57,7 @@ public class SubmitToPointCommand extends AbstractHandler {
         
         ZEvesAnnotations annotations = null;
         if (resource != null) {
-        	annotations = new ZEvesAnnotations(editor, resource, document);
+        	annotations = new ZEvesAnnotations(resource, document);
         }
         
         // TODO handle if resource is not available

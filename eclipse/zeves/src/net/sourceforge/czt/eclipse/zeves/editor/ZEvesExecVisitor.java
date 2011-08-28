@@ -7,11 +7,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.source.Annotation;
 
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations.MarkerInfo;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -45,7 +45,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	private final ZEvesAnnotations annotations;
 	private final SectionManager sectInfo;
 	
-	private Annotation unprocessedAnn;
+	private MarkerInfo unprocessedMarker;
 	
 	private final IProgressMonitor progressMonitor;
 	
@@ -74,7 +74,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	protected void visitZSectHead(ZSect term, Position position) {
     	
     	// Currently commented, because begin-section is unimplemented in Z/Eves
-//    	Annotation unfinishedAnn = markUnfinished(position);
+//    	MarkerInfo unfinishedMarker = markUnfinished(position);
 //		
 //		try {
 //    		String sectionBeginXml = MessageFormat.format(ZSECTION_BEGIN_PATTERN, term.getName(), getParents(term.getParent()));
@@ -84,7 +84,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 //    		// do not return - just handle and continue into paragraphs
 //    		handleZEvesException(position, e);
 //    	} finally {
-//    		markFinished(unfinishedAnn);
+//    		markFinished(unfinishedMarker);
 //    	}
 		
 	}
@@ -93,7 +93,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	protected void visitZSectEnd(ZSect term, Position position) {
 		
     	// Currently commented, because end-section is unimplemented in Z/Eves
-//		Annotation unfinishedAnn = markUnfinished(position);
+//		MarkerInfo unfinishedMarker = markUnfinished(position);
 //		
 //		try {
 //    		api.send(ZSECTION_END_PATTERN);
@@ -101,14 +101,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 //    	} catch (ZEvesException e) {
 //    		handleZEvesException(position, e);
 //    	} finally {
-//    		markFinished(unfinishedAnn);
+//    		markFinished(unfinishedMarker);
 //    	}
 	}
 
     @Override
 	protected void visitPara(Para term, Position pos) {
     	// mark unfinished
-    	Annotation unfinishedAnn = markUnfinished(pos);
+    	MarkerInfo unfinishedMarker = markUnfinished(pos);
     	
     	try {
     	
@@ -138,14 +138,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    	}
     	
     	} finally {
-        	markFinished(unfinishedAnn);
+        	markFinished(unfinishedMarker);
     	}
 	}
     
     @Override
 	protected void visitProofScriptHead(ProofScript term, Position pos) {
 		
-		Annotation unfinishedAnn = markUnfinished(pos);
+    	MarkerInfo unfinishedMarker = markUnfinished(pos);
 		
     	String theoremName = getProofScriptName(term);
 	    	
@@ -163,7 +163,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		handleZEvesException(pos, e, false);
     		return;
     	} finally {
-        	markFinished(unfinishedAnn);
+        	markFinished(unfinishedMarker);
     	}
 	}
 	
@@ -186,7 +186,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	@Override
 	protected void visitProofScriptEnd(ProofScript term, Position pos) {
 		
-		Annotation unfinishedAnn = markUnfinished(pos);
+		MarkerInfo unfinishedMarker = markUnfinished(pos);
 		
 		try {
 			
@@ -201,7 +201,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			}
 			
 		} finally {
-			markFinished(unfinishedAnn);
+			markFinished(unfinishedMarker);
 		}
 	}
     
@@ -209,7 +209,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     protected void visitProofCommand(ProofScript script, ProofCommand command, Position pos) {
     	
     	// mark unfinished
-    	Annotation unfinishedAnn = markUnfinished(pos);
+    	MarkerInfo unfinishedMarker = markUnfinished(pos);
     	
     	try {
 
@@ -243,7 +243,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    	}
     	
     	} finally {
-        	markFinished(unfinishedAnn);
+        	markFinished(unfinishedMarker);
     	}
     	
     }
@@ -252,27 +252,32 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	return script.getName().accept(getZEvesXmlPrinter());
     }
     
-    private Annotation markUnfinished(Position pos) {
+    private MarkerInfo markUnfinished(Position pos) {
     	
     	if (annotations == null) {
     		return null;
     	}
     	
-    	Annotation ann = annotations.addAnnotation(pos, ZEvesAnnotations.ANNOTATION_UNFINISHED);
+    	MarkerInfo marker = null;
+		try {
+			marker = annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_UNFINISHED);
+		} catch (CoreException ce) {
+			ZEvesPlugin.getDefault().log(ce);
+		}
     	
     	updateUnprocessed(getEnd(pos));
     	
     	tryFlush();
-    	return ann;
+    	return marker;
     }
     
-    private void markFinished(Annotation unfinishedAnn) {
+    private void markFinished(MarkerInfo unfinishedMarker) {
     	
-    	if (annotations == null || unfinishedAnn == null) {
+    	if (annotations == null || unfinishedMarker == null) {
     		return;
     	}
     	
-    	annotations.removeAnnotation(unfinishedAnn);
+    	annotations.deleteMarker(unfinishedMarker);
 //    	tryFlush();
     }
 
@@ -291,7 +296,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		if (annotations != null) {
 			try {
 				annotations.createErrorMarker(pos, e.getMessage());
-				annotations.addAnnotation(pos, ZEvesAnnotations.ANNOTATION_FAILED);
+				annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_FAILED);
 				addedMarkers = true;
 			} catch (CoreException ce) {
 				ZEvesPlugin.getDefault().log(ce);
@@ -349,7 +354,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 						}
 					}
 				}
-				annotations.addAnnotation(pos, ZEvesAnnotations.ANNOTATION_FINISHED);
+				annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_FINISHED);
 			} catch (CoreException ce) {
 				ZEvesPlugin.getDefault().log(ce);
 			}
@@ -410,15 +415,19 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     private void updateUnprocessed(int newOffset) {
     	if (annotations != null) {
     		
-    		if (unprocessedAnn != null) {
-    			annotations.removeAnnotation(unprocessedAnn);
+    		if (unprocessedMarker != null) {
+    			annotations.deleteMarker(unprocessedMarker);
     		}
     		
     		int length = getEndOffset() - newOffset;
-    		if (length > 0) { 
-	    		unprocessedAnn = annotations.addAnnotation(
-	    				new Position(newOffset, getEndOffset() - newOffset), 
-	    				ZEvesAnnotations.ANNOTATION_UNPROCESSED);
+    		if (length > 0) {
+    			unprocessedMarker = null;
+    			try {
+		    		unprocessedMarker = annotations.createProcessMarker(
+		    				new Position(newOffset, getEndOffset() - newOffset));
+    			} catch (CoreException ce) {
+    				ZEvesPlugin.getDefault().log(ce);
+    			}
     		}
     	}
     }
@@ -433,7 +442,6 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     public void flush() {
     	if (annotations != null) {
     		annotations.flushPendingMarkers();
-    		annotations.flushPendingAnnotations();
     	}
     	
     	lastFlush = System.currentTimeMillis();
@@ -441,8 +449,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     
     public void finish() {
     	// remove unprocessed annotation
-    	if (annotations != null && unprocessedAnn != null) {
-			annotations.removeAnnotation(unprocessedAnn);
+    	if (annotations != null && unprocessedMarker != null) {
+			annotations.deleteMarker(unprocessedMarker);
     	}
     	
     	// flush annotations

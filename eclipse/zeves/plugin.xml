@@ -568,9 +568,6 @@
       <super
             type="org.eclipse.core.resources.textmarker">
       </super>
-      <persistent
-            value="true">
-      </persistent>
    </extension>
    <extension
          id="resultMarker"
@@ -579,9 +576,6 @@
       <super
             type="org.eclipse.core.resources.textmarker">
       </super>
-      <persistent
-            value="true">
-      </persistent>
    </extension>
    <extension
          id="resultTrueMarker"
@@ -590,9 +584,22 @@
       <super
             type="net.sourceforge.czt.eclipse.zeves.resultMarker">
       </super>
-      <persistent
-            value="true">
-      </persistent>
+   </extension>
+   <extension
+         id="commandStatusMarker"
+         name="Z/Eves Command Status"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+   </extension>
+   <extension
+         id="processMarker"
+         name="Z/Eves Process Status"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
    </extension>
    <extension
          point="org.eclipse.ui.editors.annotationTypes">
@@ -608,16 +615,23 @@
             super="net.sourceforge.czt.eclipse.zeves.annotation.result">
       </type>
       <type
-            name="net.sourceforge.czt.eclipse.zeves.annotation.command.failed">
-      </type>
-      <type
+            markerSeverity="0"
+            markerType="net.sourceforge.czt.eclipse.zeves.commandStatusMarker"
             name="net.sourceforge.czt.eclipse.zeves.annotation.command.finished">
       </type>
       <type
-            name="net.sourceforge.czt.eclipse.zeves.annotation.command.unprocessed">
+            markerSeverity="1"
+            markerType="net.sourceforge.czt.eclipse.zeves.commandStatusMarker"
+            name="net.sourceforge.czt.eclipse.zeves.annotation.command.unfinished">
       </type>
       <type
-            name="net.sourceforge.czt.eclipse.zeves.annotation.command.unfinished">
+            markerSeverity="2"
+            markerType="net.sourceforge.czt.eclipse.zeves.commandStatusMarker"
+            name="net.sourceforge.czt.eclipse.zeves.annotation.command.failed">
+      </type>
+      <type
+            markerType="net.sourceforge.czt.eclipse.zeves.processMarker"
+            name="net.sourceforge.czt.eclipse.zeves.annotation.command.unprocessed">
       </type>
    </extension>
    <extension
