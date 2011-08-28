@@ -584,12 +584,28 @@
       </persistent>
    </extension>
    <extension
+         id="resultTrueMarker"
+         name="Z/Eves Result: True"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="net.sourceforge.czt.eclipse.zeves.resultMarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
          point="org.eclipse.ui.editors.annotationTypes">
       <type
             markerSeverity="0"
             markerType="net.sourceforge.czt.eclipse.zeves.resultMarker"
-            name="net.sourceforge.czt.eclipse.zeves.annotation.result"
-            super="org.eclipse.ui.workbench.texteditor.info">
+            name="net.sourceforge.czt.eclipse.zeves.annotation.result">
+      </type>
+      <type
+            markerSeverity="0"
+            markerType="net.sourceforge.czt.eclipse.zeves.resultTrueMarker"
+            name="net.sourceforge.czt.eclipse.zeves.annotation.resultTrue"
+            super="net.sourceforge.czt.eclipse.zeves.annotation.result">
       </type>
       <type
             name="net.sourceforge.czt.eclipse.zeves.annotation.command.failed">
@@ -677,6 +693,44 @@
             textStylePreferenceValue="NONE"
             verticalRulerPreferenceKey="commandFinishedInVerticalRuler"
             verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.result"
+            icon="icons/proof_marker.png"
+            colorPreferenceKey="proofResultColor"
+            colorPreferenceValue="152,128,239"
+            highlightPreferenceKey="proofResultHighlighting"
+            highlightPreferenceValue="false"
+            includeOnPreferencePage="true"
+            label="Z/Eves Proof Result"
+            overviewRulerPreferenceKey="proofResultInOverviewRuler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="2"
+            textPreferenceKey="proofResultIndication"
+            textPreferenceValue="true"
+            textStylePreferenceKey="proofResultTextStyle"
+            textStylePreferenceValue="SQUIGGLES"
+            verticalRulerPreferenceKey="proofResultInVerticalRuler"
+            verticalRulerPreferenceValue="true">
+      </specification>
+      <specification
+            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.resultTrue"
+            icon="icons/thm_proved.gif"
+            colorPreferenceKey="proofResultTrueColor"
+            colorPreferenceValue="152,128,239"
+            highlightPreferenceKey="proofResultTrueHighlighting"
+            highlightPreferenceValue="false"
+            includeOnPreferencePage="true"
+            label="Z/Eves Proof Result: True"
+            overviewRulerPreferenceKey="proofResultTrueInOverviewRuler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="2"
+            textPreferenceKey="proofResultTrueIndication"
+            textPreferenceValue="true"
+            textStylePreferenceKey="proofResultTrueTextStyle"
+            textStylePreferenceValue="SQUIGGLES"
+            verticalRulerPreferenceKey="proofResultTrueInVerticalRuler"
+            verticalRulerPreferenceValue="true">
       </specification>
    </extension>
    <extension

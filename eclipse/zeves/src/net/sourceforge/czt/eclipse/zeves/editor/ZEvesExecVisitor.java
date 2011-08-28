@@ -22,6 +22,7 @@ import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
+import net.sourceforge.czt.zeves.response.form.ZEvesName;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 //import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_BEGIN_PATTERN;
@@ -231,7 +232,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
 	    		// add result first, because that will be displayed in hover
 	    		state.addProofResult(pos, script, stepIndex, proofResult);
-	    		handleResult(pos, proofResult);
+	    		handleResult(pos, proofResult, isResultTrue(proofResult));
 	    		checkCancelled();
 	    		
 //	    		handleResult(pos, "Step index: " + stepIndex);
@@ -312,6 +313,10 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     }
     
     private void handleResult(Position pos, Object result) {
+    	handleResult(pos, result, false);
+    }
+    
+    private void handleResult(Position pos, Object result, boolean resultTrue) {
     	
     	if (result == null) {
     		return;
@@ -337,7 +342,11 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 					if (warning) {
 						annotations.createErrorMarker(pos, outStr, IMarker.SEVERITY_WARNING);
 					} else {
-						annotations.createResultMarker(pos, outStr);
+						if (resultTrue) {
+							annotations.createResultTrueMarker(pos, outStr);
+						} else {
+							annotations.createResultMarker(pos, outStr);
+						}
 					}
 				}
 				annotations.addAnnotation(pos, ZEvesAnnotations.ANNOTATION_FINISHED);
@@ -347,6 +356,19 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			
 //			tryFlush();
 		}
+    }
+    
+    private boolean isResultTrue(ZEvesOutput result) {
+    	if (result.getResults().size() == 1) {
+    		// only one result, and it must be "true"
+    		Object firstResult = result.getFirstResult();
+    		if (firstResult instanceof ZEvesName) {
+    			String value = ((ZEvesName) firstResult).getIdent();
+    			return Boolean.valueOf(value);
+    		}
+    	}
+    	
+    	return false;
     }
 
 	private String printResult(Object result) throws ZEvesException {

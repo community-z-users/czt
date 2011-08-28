@@ -32,6 +32,7 @@ public class ZEvesAnnotations {
 
 	public static final String MARKER_ERROR = ZEvesPlugin.PLUGIN_ID + ".errorMarker";
 	public static final String MARKER_RESULT = ZEvesPlugin.PLUGIN_ID + ".resultMarker";
+	public static final String MARKER_RESULT_TRUE = ZEvesPlugin.PLUGIN_ID + ".resultTrueMarker";
 	
 	private static final String COMMAND_ANN_PREFIX = ZEvesPlugin.PLUGIN_ID + ".annotation.command.";
 	
@@ -76,6 +77,11 @@ public class ZEvesAnnotations {
 	public void createResultMarker(Position pos, String message) throws CoreException {
 
 		createMarkupMessageMarker(MARKER_RESULT, IMarker.SEVERITY_INFO, pos, message);
+	}
+	
+	public void createResultTrueMarker(Position pos, String message) throws CoreException {
+
+		createMarkupMessageMarker(MARKER_RESULT_TRUE, IMarker.SEVERITY_INFO, pos, message);
 	}
 	
 	private void createMarkupMessageMarker(String type, int severity, Position pos, String message)
@@ -129,8 +135,8 @@ public class ZEvesAnnotations {
 	}
 	
 	public static void clearMarkers(IResource markerResource) throws CoreException {
-		markerResource.deleteMarkers(MARKER_ERROR, false, 0);
-		markerResource.deleteMarkers(MARKER_RESULT, false, 0);
+		markerResource.deleteMarkers(MARKER_ERROR, true, 0);
+		markerResource.deleteMarkers(MARKER_RESULT, true, 0);
 	}
 	
 	public void deleteMarkers(int offset) throws CoreException {

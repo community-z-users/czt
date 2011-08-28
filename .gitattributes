@@ -288,6 +288,7 @@ eclipse/zeves/.project -text svneol=unset#text/plain
 eclipse/zeves/META-INF/MANIFEST.MF -text svneol=unset#text/plain
 eclipse/zeves/build.properties -text svneol=unset#text/plain
 eclipse/zeves/icons/conj.png -text
+eclipse/zeves/icons/proof_marker.png -text
 eclipse/zeves/icons/refresh.gif -text
 eclipse/zeves/icons/reset.gif -text
 eclipse/zeves/icons/submit_point.png -text
