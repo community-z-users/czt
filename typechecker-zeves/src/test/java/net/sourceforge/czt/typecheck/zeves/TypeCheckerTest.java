@@ -42,9 +42,9 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.ZBranchList;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -214,20 +214,22 @@ public class TypeCheckerTest
     return result;
   }
   
-  protected Term parse(String file, SectionManager manager)
+  protected Term parse(String fileName, SectionManager manager)
     throws Exception
   {
     // don't use super.parse as it ignores unicode tests
+    File file = new File(fileName);
     Source source = new FileSource(file);
-    Markup markup = Markup.getMarkup(file);
-    source.setMarkup(Markup.getMarkup(file));
-    System.out.println("\tabout to parse as " + markup + " file " + file);
-    manager.put(new Key<Source>(file, Source.class), source);
-    Term term = manager.get(new Key<Spec>(file, Spec.class));
+    Markup markup = Markup.getMarkup(fileName);
+    source.setMarkup(Markup.getMarkup(fileName));
+    SourceLocator.addCZTPathFor(file, manager);
+    System.out.println("\tabout to parse as " + markup + " file " + fileName);
+    manager.put(new Key<Source>(fileName, Source.class), source);
+    Term term = manager.get(new Key<Spec>(fileName, Spec.class));
     if (/*DEBUG_TESTING &&*/ DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
         PrintVisitor pv = new PrintVisitor();
-        System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + file);        
+        System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + fileName);
         System.out.println(pv.printProcessPara(term));
         System.out.println();
         System.out.println(term);
