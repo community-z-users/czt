@@ -15,6 +15,7 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -28,42 +29,28 @@ import org.eclipse.ui.IFileEditorInput;
 /**
  * @author Chengdong Xu
  */
-public class ZCompiler
+public enum ZCompiler
 {
-  private static ZCompiler fInstance;
+  
+  INSTANCE;
 
-  private ZEditor fEditor = null;
-
-  private final String DEFAULT_SECTION_NAME = "NEWSECTION";
+  private static final String DEFAULT_SECTION_NAME = "NEWSECTION";
 
   private String sectionName_ = DEFAULT_SECTION_NAME;
 
-  private ParsedData fParsedData = null;
-
-  /**
-   * Constructor
-   */
-  private ZCompiler()
-  {
-    fInstance = this;
-  }
-
   public static ZCompiler getInstance()
   {
-    if (fInstance == null)
-      fInstance = new ZCompiler();
-    return fInstance;
+    return INSTANCE;
   }
 
   /**
    * Parse the input in an fEditor
    */
-  public ParsedData parse()
+  public ParsedData parse(ZEditor editor)
   {
-    ZEditor editor = getEditor();
     IDocument document = editor.getDocumentProvider().getDocument(
         editor.getEditorInput());
-    fParsedData = new ParsedData(editor);
+    ParsedData parsedData = new ParsedData(editor);
     
     SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
 
@@ -78,7 +65,7 @@ public class ZCompiler
     assert path.endsWith(name);
     String dir = path.substring(0, path.lastIndexOf(name));
     //System.out.println("DEBUG: setting czt.path to "+dir);
-    sectMan.setProperty("czt.path", dir);
+    sectMan.setProperty(SourceLocator.PROP_CZT_PATH, dir);
 
     Spec parsed = null;
     List<CztError> errors = new ArrayList<CztError>();
@@ -106,7 +93,7 @@ public class ZCompiler
       }
 
       if (parsed.getSect().size() > 0) {
-        fParsedData.addData(parsed, sectMan, document);
+        parsedData.setData(parsed, sectMan, document);
       }
     }
 
@@ -123,9 +110,9 @@ public class ZCompiler
       CZTPlugin.log("Unexpected error in Z compiler: " + ce.getMessage(), ce);
     }
 
-    fParsedData.setErrors(errors);
+    parsedData.setErrors(errors);
 
-    return fParsedData;
+    return parsedData;
   }
 
   private List<? extends CztError> handleException(CommandException ex)
@@ -168,25 +155,11 @@ public class ZCompiler
   public void setCurrentSection(String sectName)
   {
     if (sectName == null)
-      this.sectionName_ = this.DEFAULT_SECTION_NAME;
+      this.sectionName_ = DEFAULT_SECTION_NAME;
     else if (sectName.equals("") || sectName.contains("_"))
-      this.sectionName_ = this.DEFAULT_SECTION_NAME;
+      this.sectionName_ = DEFAULT_SECTION_NAME;
     else
       this.sectionName_ = sectName;
   }
 
-  public ZEditor getEditor()
-  {
-    return this.fEditor;
-  }
-
-  public void setEditor(ZEditor editor)
-  {
-    this.fEditor = editor;
-  }
-
-  public ParsedData getParsedData()
-  {
-    return this.fParsedData;
-  }
 }

@@ -166,6 +166,8 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/hover/Source
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/hover/TermHighlightInfoVisitor.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/hover/UnicodeSourceViewerInformationControl.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/latex/ZLatexPairMatcher.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/IPositionProvider.java -text svneol=unset#text/plain
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/TermPositionProvider.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.properties -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorUtil.java -text svneol=unset#text/plain

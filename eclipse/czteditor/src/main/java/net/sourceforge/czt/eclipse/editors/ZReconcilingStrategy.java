@@ -141,8 +141,7 @@ public class ZReconcilingStrategy
 
             ZCompiler compiler = ZCompiler.getInstance();
             if (compiler != null) {
-              compiler.setEditor((ZEditor) fEditor);
-              data[0] = compiler.parse();
+              data[0] = compiler.parse((ZEditor) fEditor);
             }
           }
 
