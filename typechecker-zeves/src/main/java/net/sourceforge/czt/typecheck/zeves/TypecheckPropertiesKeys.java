@@ -31,5 +31,5 @@ package net.sourceforge.czt.typecheck.zeves;
 public interface TypecheckPropertiesKeys
   extends net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys
 {
- 
+  WarningManager.WarningOutput PROP_TYPECHECK_WARNINGS_OUTPUT_ZEVES_DEFAULT = WarningManager.WarningOutput.HIDE;
 }
