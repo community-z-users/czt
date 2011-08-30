@@ -26,15 +26,17 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
-import net.sourceforge.czt.z.ast.IffExpr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RenameExpr;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.ThetaExpr;
@@ -359,6 +361,55 @@ public abstract class Checker<R>
     {
       error(term, e);
     }
+  }
+
+  @Override
+  protected SectTypeEnvAnn handleParentErrors(String parentName, CommandException e) throws CztException
+  {
+    if (e.getCause() instanceof TypeErrorException)
+    {
+      List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = ((TypeErrorException)e.getCause()).errors();
+      int errorCnt = errors.size();
+      WarningManager.WarningOutput wo = warningManager().getWarningOutput();
+      // if we are to raise warnings, then don't consider what to disregard
+      if (!wo.equals(WarningManager.WarningOutput.RAISE))
+      {
+        for(net.sourceforge.czt.typecheck.z.ErrorAnn error : errors)
+        {
+          // do not consider warnings as errors
+          if (error.getErrorType().equals(ErrorType.WARNING))
+          {
+            errorCnt--;
+            // perhaps show then if needed
+            if (wo.equals(WarningManager.WarningOutput.SHOW))
+              warningManager().warn(WarningMessage.PARENT_WARNING.getMessage(), parentName, error.toString());
+          }
+        }
+      }
+      if (errorCnt > 0)
+      {
+        int warningCnt = errors.size() - errorCnt;
+        final String message = "Section " + sectName() + " contains " + errorCnt +
+          (errorCnt == 1 ? " error" : " errors and ") + warningCnt +
+          (warningCnt == 1 ? " warning " : " warnings ") + " from parent section " + parentName;
+        Exception nestedException = new TypeErrorException(message, errors);
+        return super.handleParentErrors(parentName, new CommandException(nestedException));
+      }
+      else
+      {
+        // if should be already cached.
+        try
+        {
+          return sectInfo().get(new Key<SectTypeEnvAnn>(parentName, SectTypeEnvAnn.class));
+        }
+        catch (CommandException f)
+        {
+          return super.handleParentErrors(parentName, f);
+        }
+      }
+    }
+    else
+      return super.handleParentErrors(parentName, e);
   }
 
   /**

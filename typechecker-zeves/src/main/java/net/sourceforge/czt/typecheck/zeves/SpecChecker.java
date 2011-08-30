@@ -21,8 +21,10 @@ package net.sourceforge.czt.typecheck.zeves;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
 
@@ -34,7 +36,7 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * @author Leo Freitas
  */
 public class SpecChecker extends Checker<Object>
-  implements ZParaListVisitor<Object>, ZSectVisitor<Object>
+  implements ZParaListVisitor<Object>, ZSectVisitor<Object>, ParentVisitor<Object>
 {  
   //a Z spec checker
   protected net.sourceforge.czt.typecheck.z.SpecChecker zSpecChecker_;
@@ -94,5 +96,12 @@ public class SpecChecker extends Checker<Object>
     // ZParaList is the only production here that DOES NOT return 
     // a List<NameTypeTripple>, just like in the zSpeckChecker.
     return null;    
-  }    
+  }
+
+  @Override
+  public Object visitParent(Parent term)
+  {
+    checkParent(term);
+    return null;
+  }
 }
