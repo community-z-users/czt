@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
+import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.IFile;
@@ -51,7 +51,7 @@ public class ResourceUtil {
 			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				for (IResource resource : clearResources) {
-					ZEvesAnnotations.clearMarkers(resource);
+					ZEvesMarkers.clearMarkers(resource);
 				}
 			}
 		};
@@ -80,7 +80,7 @@ public class ResourceUtil {
 			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				for (Entry<IFile, Integer> fileOffset : fileUndoOffsets.entrySet()) {
-					ZEvesAnnotations.deleteMarkers(fileOffset.getKey(), fileOffset.getValue());
+					ZEvesMarkers.deleteMarkers(fileOffset.getKey(), fileOffset.getValue());
 				}
 			}
 		};

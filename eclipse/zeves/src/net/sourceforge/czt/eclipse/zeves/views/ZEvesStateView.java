@@ -3,12 +3,12 @@ package net.sourceforge.czt.eclipse.zeves.views;
 import java.util.Map;
 
 import net.sourceforge.czt.eclipse.CZTPluginImages;
-import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
-import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
-import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot.FileSection;
+import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot.FileSection;
 import net.sourceforge.czt.eclipse.zeves.launch.ZEvesAppLaunch;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;

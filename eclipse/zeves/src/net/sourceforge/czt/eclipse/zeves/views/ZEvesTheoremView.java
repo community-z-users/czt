@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.views.TheoremTree.TheoremEntry;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;

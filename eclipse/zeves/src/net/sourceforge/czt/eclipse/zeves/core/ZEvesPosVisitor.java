@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.editor;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.util.List;
 

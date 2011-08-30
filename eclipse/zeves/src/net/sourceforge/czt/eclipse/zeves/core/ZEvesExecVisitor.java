@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.editor;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,10 +16,8 @@ import org.eclipse.jface.text.Position;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
 import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
-import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
-import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations.MarkerInfo;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
@@ -56,7 +54,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	
 	private final ZEvesApi api;
 	private final ZEvesSnapshot snapshot;
-	private final ZEvesAnnotations annotations;
+	private final ZEvesMarkers markers;
 	
 	private final String filePath;
 	private final SectionManager sectInfo;
@@ -68,14 +66,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	private static final long FLUSH_INTERVAL = 500;
 	private long lastFlush = 0;
 	
-	public ZEvesExecVisitor(ZEvesApi api, ZEvesSnapshot snapshot, ZEvesAnnotations annotations,
+	public ZEvesExecVisitor(ZEvesApi api, ZEvesSnapshot snapshot, ZEvesMarkers markers,
 			String filePath, IPositionProvider<? super Term> posProvider, SectionManager sectInfo, 
 			int startOffset, int endOffset, IProgressMonitor progressMonitor) {
     	
 		super(posProvider, startOffset, endOffset);
 		this.api = api;
 		this.snapshot = snapshot;
-		this.annotations = annotations;
+		this.markers = markers;
 		
 		this.filePath = filePath;
 		this.sectInfo = sectInfo;
@@ -192,7 +190,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	    	// TODO resolve document somehow?
 	    	IDocument document = null;
 	    	
-	    	ZEvesAnnotations parentAnns = resource != null ? new ZEvesAnnotations(resource, document) : null;
+	    	ZEvesMarkers parentAnns = resource != null ? new ZEvesMarkers(resource, document) : null;
 	    	IPositionProvider<Term> parentPosProvider = new TermPositionProvider(document);
 	    	
 	    	Position parentSectPos = parentPosProvider.getPosition(parentSect);
@@ -381,13 +379,13 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     
     private MarkerInfo markUnfinished(Position pos) {
     	
-    	if (annotations == null) {
+    	if (markers == null) {
     		return null;
     	}
     	
     	MarkerInfo marker = null;
 		try {
-			marker = annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_UNFINISHED);
+			marker = markers.createStatusMarker(pos, ZEvesMarkers.STATUS_UNFINISHED);
 		} catch (CoreException ce) {
 			ZEvesPlugin.getDefault().log(ce);
 		}
@@ -400,11 +398,11 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     
     private void markFinished(MarkerInfo unfinishedMarker) {
     	
-    	if (annotations == null || unfinishedMarker == null) {
+    	if (markers == null || unfinishedMarker == null) {
     		return;
     	}
     	
-    	annotations.deleteMarker(unfinishedMarker);
+    	markers.deleteMarker(unfinishedMarker);
 //    	tryFlush();
     }
 
@@ -420,10 +418,10 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	// TODO clear previous markers?
     	
     	boolean addedMarkers = false;
-		if (annotations != null) {
+		if (markers != null) {
 			try {
-				annotations.createErrorMarker(pos, e.getMessage());
-				annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_FAILED);
+				markers.createErrorMarker(pos, e.getMessage());
+				markers.createStatusMarker(pos, ZEvesMarkers.STATUS_FAILED);
 				addedMarkers = true;
 			} catch (CoreException ce) {
 				ZEvesPlugin.getDefault().log(ce);
@@ -450,9 +448,9 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     
     private void handleResult(Position pos, Object result, boolean resultTrue) {
     	
-    	if (annotations != null) {
+    	if (markers != null) {
     		try {
-				annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_FINISHED);
+				markers.createStatusMarker(pos, ZEvesMarkers.STATUS_FINISHED);
 			} catch (CoreException ce) {
 				ZEvesPlugin.getDefault().log(ce);
 			}
@@ -475,21 +473,21 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 			outStr = e.getMessage();
 		}
     	
-    	if (annotations != null) {
+    	if (markers != null) {
 			try {
 				if (outStr != null) {
 					
 					if (warning) {
-						annotations.createErrorMarker(pos, outStr, IMarker.SEVERITY_WARNING);
+						markers.createErrorMarker(pos, outStr, IMarker.SEVERITY_WARNING);
 					} else {
 						if (resultTrue) {
-							annotations.createResultTrueMarker(pos, outStr);
+							markers.createResultTrueMarker(pos, outStr);
 						} else {
-							annotations.createResultMarker(pos, outStr);
+							markers.createResultMarker(pos, outStr);
 						}
 					}
 				}
-//				annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_FINISHED);
+//				markers.createStatusMarker(pos, ZEvesMarkers.STATUS_FINISHED);
 			} catch (CoreException ce) {
 				ZEvesPlugin.getDefault().log(ce);
 			}
@@ -548,17 +546,17 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	}
 
     private void updateUnprocessed(int newOffset) {
-    	if (annotations != null) {
+    	if (markers != null) {
     		
     		if (unprocessedMarker != null) {
-    			annotations.deleteMarker(unprocessedMarker);
+    			markers.deleteMarker(unprocessedMarker);
     		}
     		
     		int length = getEndOffset() - newOffset;
     		if (length > 0) {
     			unprocessedMarker = null;
     			try {
-		    		unprocessedMarker = annotations.createProcessMarker(
+		    		unprocessedMarker = markers.createProcessMarker(
 		    				new Position(newOffset, getEndOffset() - newOffset));
     			} catch (CoreException ce) {
     				ZEvesPlugin.getDefault().log(ce);
@@ -575,20 +573,20 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     }
     
     public void flush() {
-    	if (annotations != null) {
-    		annotations.flushPendingMarkers();
+    	if (markers != null) {
+    		markers.flushPendingMarkers();
     	}
     	
     	lastFlush = System.currentTimeMillis();
     }
     
     public void finish() {
-    	// remove unprocessed annotation
-    	if (annotations != null && unprocessedMarker != null) {
-			annotations.deleteMarker(unprocessedMarker);
+    	// remove unprocessed marker
+    	if (markers != null && unprocessedMarker != null) {
+			markers.deleteMarker(unprocessedMarker);
     	}
     	
-    	// flush annotations
+    	// flush marker
     	flush();
     }
     

@@ -3,8 +3,8 @@ package net.sourceforge.czt.eclipse.zeves.launch;
 import java.io.IOException;
 import java.net.ConnectException;
 
-import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.zeves.ZEvesApi;
 
 import org.eclipse.core.runtime.CoreException;

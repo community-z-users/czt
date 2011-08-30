@@ -1,8 +1,9 @@
-package net.sourceforge.czt.eclipse.zeves;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
 import java.util.Set;
 
+import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesServer;

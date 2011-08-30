@@ -1,5 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves;
 
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEditorEditTracker;
 
 import org.eclipse.core.runtime.IStatus;

@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -8,11 +8,11 @@ import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
-import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.actions.SubmitToPointCommand;
+import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot;
 
 public class ZEditorEditListener implements IDocumentListener {
 

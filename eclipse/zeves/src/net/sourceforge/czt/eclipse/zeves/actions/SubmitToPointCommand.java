@@ -10,12 +10,12 @@ import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
-import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
-import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
-import net.sourceforge.czt.eclipse.zeves.editor.ZEvesExecVisitor;
+import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecVisitor;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import org.eclipse.core.commands.AbstractHandler;
@@ -59,9 +59,9 @@ public class SubmitToPointCommand extends AbstractHandler {
         IResource resource = ZEditorUtil.getEditorResource(editor);
         IDocument document = ZEditorUtil.getDocument(editor);
         
-        ZEvesAnnotations annotations = null;
+        ZEvesMarkers markers = null;
         if (resource != null) {
-        	annotations = new ZEvesAnnotations(resource, document);
+        	markers = new ZEvesMarkers(resource, document);
         }
         
         ZEvesSnapshot snapshot = prover.getSnapshot();
@@ -85,7 +85,7 @@ public class SubmitToPointCommand extends AbstractHandler {
         		start = submittedOffsetInFile + 1;
         	}
         	
-        	job = createSubmitJob(editor, parsedData, annotations, prover, 
+        	job = createSubmitJob(editor, parsedData, markers, prover, 
         			filePath, start, offset);
         }
 
@@ -93,7 +93,7 @@ public class SubmitToPointCommand extends AbstractHandler {
 	}
 
 	private static Job createSubmitJob(final ZEditor editor, final ParsedData parsedData,
-			final ZEvesAnnotations annotations, 
+			final ZEvesMarkers markers, 
 			ZEves prover, final String filePath, final int start, final int end) {
 		
 		final ZEvesApi zEvesApi = prover.getApi();
@@ -106,7 +106,7 @@ public class SubmitToPointCommand extends AbstractHandler {
 				
 				// first delete all the previous markers in the dirty region
 	    		try {
-	    			annotations.deleteMarkers(start);
+	    			markers.deleteMarkers(start);
 	    		} catch (CoreException e) {
 	    			ZEvesPlugin.getDefault().log(e);
 	    		}
@@ -130,7 +130,7 @@ public class SubmitToPointCommand extends AbstractHandler {
 				Timer cancelMonitor = initCancelMonitor(zEvesApi, monitor);
 				
 				final ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
-						zEvesApi, snapshot, annotations, 
+						zEvesApi, snapshot, markers, 
 						filePath, posProvider, parsedData.getSectionManager(), 
 						start, end, monitor);
 

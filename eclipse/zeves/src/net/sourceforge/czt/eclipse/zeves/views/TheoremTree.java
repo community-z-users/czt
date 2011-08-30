@@ -4,9 +4,9 @@ import java.util.List;
 
 import net.sourceforge.czt.eclipse.views.FilteredTree2;
 import net.sourceforge.czt.eclipse.views.IZInfoObject;
-import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesApi.ZEvesTheoremType;

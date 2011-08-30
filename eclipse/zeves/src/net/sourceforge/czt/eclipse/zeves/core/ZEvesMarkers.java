@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.editor;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
 
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 
-public class ZEvesAnnotations {
+public class ZEvesMarkers {
 
 	public static final String MARKER_ERROR = ZEvesPlugin.PLUGIN_ID + ".errorMarker";
 	public static final String MARKER_RESULT = ZEvesPlugin.PLUGIN_ID + ".resultMarker";
@@ -41,7 +41,7 @@ public class ZEvesAnnotations {
 	private final List<MarkerInfo> pendingRemoveMarkers = new LinkedList<MarkerInfo>();
 	private final Map<MarkerInfo, IMarker> addedMarkers = new HashMap<MarkerInfo, IMarker>();
 	
-	public ZEvesAnnotations(IResource markerResource, IDocument document) {
+	public ZEvesMarkers(IResource markerResource, IDocument document) {
 		super();
 		
 		Assert.isNotNull(markerResource);

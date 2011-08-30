@@ -5,7 +5,7 @@ import java.io.IOException;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.editor.ZEvesResultConverter;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
