@@ -603,10 +603,12 @@ parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/OnTheFlyParsingTest.
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ProofScriptParsingTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ScanningTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/print/zeves/ZmlPrintTest.java -text
+parser-zeves/src/test/resources/tests/zeves/bar.tex -text
 parser-zeves/src/test/resources/tests/zeves/bbook.tex -text
 parser-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/bbook.zev -text
 parser-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
+parser-zeves/src/test/resources/tests/zeves/foo.tex -text
 parser-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 parser-zeves/src/test/resources/tests/zeves/simple.tex -text
 parser-zeves/src/test/resources/tests/zeves/simple.zed8 -text
