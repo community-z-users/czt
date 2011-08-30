@@ -1,14 +1,19 @@
 package net.sourceforge.czt.eclipse.zeves.actions;
 
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
-import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesExecVisitor;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -24,7 +29,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.Position;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 
@@ -60,59 +64,74 @@ public class SubmitToPointCommand extends AbstractHandler {
         	annotations = new ZEvesAnnotations(resource, document);
         }
         
+        ZEvesSnapshot snapshot = prover.getSnapshot();
         // TODO handle if resource is not available
-        ZEvesFileState fileState = prover.getState(resource, true);
-        int submittedOffset = fileState.getLastPositionOffset();
+        String filePath = ResourceUtil.getPath(resource);
+        
+        int submittedOffsetInFile = snapshot.getLastPositionOffset(filePath);
 
-        int dirtyOffset;
         Job job;
-        if (offset <= submittedOffset) {
-        	dirtyOffset = offset;
+        if (offset <= submittedOffsetInFile) {
         	// actually undoing - current position has been submitted before
-        	job = createUndoJob(prover, fileState, offset);
+        	job = createUndoJob(prover, filePath, offset);
         } else {
         	
         	int start;
-        	if (submittedOffset < 0) {
+        	if (submittedOffsetInFile < 0) {
         		// nothing submitted - go from start
         		start = 0;
         	} else {
         		// start from the next symbol
-        		start = submittedOffset + 1;
+        		start = submittedOffsetInFile + 1;
         	}
         	
-        	dirtyOffset = start;
-        	
         	job = createSubmitJob(editor, parsedData, annotations, prover, 
-        			fileState, start, offset);
+        			filePath, start, offset);
         }
-        
-		// first delete all the previous markers in the dirty region
-		try {
-			annotations.deleteMarkers(dirtyOffset);
-		} catch (CoreException e) {
-			ZEvesPlugin.getDefault().log(e);
-		}
-		
 
 		job.schedule();
 	}
 
 	private static Job createSubmitJob(final ZEditor editor, final ParsedData parsedData,
 			final ZEvesAnnotations annotations, 
-			ZEves prover, final ZEvesFileState fileState, final int start, final int end) {
+			ZEves prover, final String filePath, final int start, final int end) {
 		
 		final ZEvesApi zEvesApi = prover.getApi();
+		final ZEvesSnapshot snapshot = prover.getSnapshot();
+		final IPositionProvider<Term> posProvider = new TermPositionProvider(ZEditorUtil.getDocument(editor));
 		
 		Job job = new Job("Sending to Z/Eves") {
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 				
+				// first delete all the previous markers in the dirty region
+	    		try {
+	    			annotations.deleteMarkers(start);
+	    		} catch (CoreException e) {
+	    			ZEvesPlugin.getDefault().log(e);
+	    		}
+				
+	    		// submitting in a file, which is not the last in the snapshot
+	    		// e.g. submit one file partially, then submit another
+				if (snapshot.needUndo(filePath, start)) {
+					// need to undo until the start, and then submit again
+					try {
+						
+						Map<String, Integer> fileUndoOffsets = 
+							snapshot.undoThrough(zEvesApi, filePath, start);
+						
+						ResourceUtil.deleteMarkers(fileUndoOffsets);
+						
+					} catch (ZEvesException e) {
+						return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+					}
+				}
+				
 				Timer cancelMonitor = initCancelMonitor(zEvesApi, monitor);
 				
 				final ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
-						zEvesApi, fileState, 
-						annotations, parsedData, 
+						zEvesApi, snapshot, annotations, 
+						filePath, posProvider, parsedData.getSectionManager(), 
 						start, end, monitor);
 
 				// wrap into try-finally, because OperationCanceledExpression
@@ -165,16 +184,27 @@ public class SubmitToPointCommand extends AbstractHandler {
 		return job;
 	}
 	
-	public static Job createUndoJob(ZEves prover, final ZEvesFileState fileState, final int undoOffset) {
+	public static Job createUndoJob(final ZEves prover, final String filePath, final int undoOffset) {
 		
 		final ZEvesApi zEvesApi = prover.getApi();
+		final ZEvesSnapshot snapshot = prover.getSnapshot();
 		
 		Job job = new Job("Undoing in Z/Eves") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				
 				try {
-					fileState.undoThrough(zEvesApi, new Position(undoOffset, 0));
+					Map<String, Integer> fileUndoOffsets = 
+						snapshot.undoThrough(zEvesApi, filePath, undoOffset);
+
+					// and just to make sure, delete markers in the current file from the offset
+					Integer currentUndoOffset = fileUndoOffsets.get(filePath);
+					if (currentUndoOffset == null || currentUndoOffset > undoOffset) {
+						fileUndoOffsets.put(filePath, undoOffset);
+					}
+					
+					ResourceUtil.deleteMarkers(fileUndoOffsets);
+					
 				} catch (ZEvesException e) {
 					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
 				}

@@ -157,18 +157,22 @@ public class ZEvesAnnotations {
 	}
 	
 	public void deleteMarkers(int offset) throws CoreException {
+		deleteMarkers(markerResource, offset);
+	}
+	
+	public static void deleteMarkers(IResource markerResource, int offset) throws CoreException {
 		
 		if (offset == 0) {
 			// just clear everything
-			clearMarkers();
+			clearMarkers(markerResource);
 			return;
 		}
 		
 		final List<IMarker> removeMarkers = new ArrayList<IMarker>();
-		removeMarkers.addAll(findRemoveMarkers(MARKER_ERROR, offset));
-		removeMarkers.addAll(findRemoveMarkers(MARKER_RESULT, offset));
-		removeMarkers.addAll(findRemoveMarkers(MARKER_COMMAND_STATUS, offset));
-		removeMarkers.addAll(findRemoveMarkers(MARKER_PROCESS, offset));
+		removeMarkers.addAll(findRemoveMarkers(markerResource, MARKER_ERROR, offset));
+		removeMarkers.addAll(findRemoveMarkers(markerResource, MARKER_RESULT, offset));
+		removeMarkers.addAll(findRemoveMarkers(markerResource, MARKER_COMMAND_STATUS, offset));
+		removeMarkers.addAll(findRemoveMarkers(markerResource, MARKER_PROCESS, offset));
 		
 		IWorkspaceRunnable r = new IWorkspaceRunnable() {
 			@Override
@@ -187,7 +191,8 @@ public class ZEvesAnnotations {
 		}
 	}
 	
-	private List<IMarker> findRemoveMarkers(String type, int offset) throws CoreException {
+	private static List<IMarker> findRemoveMarkers(IResource markerResource, String type, int offset)
+			throws CoreException {
 		
 		List<IMarker> remove = new ArrayList<IMarker>();
 		

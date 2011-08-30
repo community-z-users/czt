@@ -298,10 +298,11 @@ eclipse/zeves/icons/thm_proved.gif -text
 eclipse/zeves/icons/thm_unproved.gif -text
 eclipse/zeves/icons/z-eves.png -text
 eclipse/zeves/plugin.xml -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ResourceUtil.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEves.java -text svneol=unset#text/plain
-eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesFileState.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesImages.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesPlugin.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesSnapshot.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendExprProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendPredProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendProofCommand.java -text svneol=unset#text/plain

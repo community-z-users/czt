@@ -1,23 +1,47 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
+import java.util.Map;
+
+import net.sourceforge.czt.eclipse.CZTPluginImages;
+import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
+import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot.FileSection;
 import net.sourceforge.czt.eclipse.zeves.launch.ZEvesAppLaunch;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesServer;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -33,6 +57,9 @@ public class ZEvesStateView extends ViewPart {
 	
 	private Label paragraphCountField;
 	
+	private TableViewer sectionsViewer;
+	private RemoveSectionAction removeSectionAction;
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		
@@ -43,6 +70,8 @@ public class ZEvesStateView extends ViewPart {
 		createServerComponent(main);
 		
 		createProverDataComponent(main);
+		
+		createSectionsComponent(main);
 		
 		Label filler = new Label(main, SWT.NONE);
 		filler.setLayoutData(GridDataFactory.fillDefaults().create());
@@ -137,11 +166,100 @@ public class ZEvesStateView extends ViewPart {
 		
 		paragraphCountField = createLabelField(group, "Paragraphs:");
 	}
+	
+	/**
+	 * Creates the table to display loaded sections
+	 * 
+	 * @param parent the composite to create the controls in
+	 */
+	private void createSectionsComponent(Composite parent) {
+		
+		Label label = new Label(parent, SWT.NONE);
+		label.setText("Submitted sections:");
+		label.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
+		
+		sectionsViewer = new TableViewer(parent, SWT.SINGLE | SWT.NO_SCROLL | SWT.V_SCROLL
+				| SWT.FULL_SELECTION | SWT.BORDER);
+		
+		TableViewerColumn viewerColumn = new TableViewerColumn(sectionsViewer, SWT.NONE);
+		final TableColumn column = viewerColumn.getColumn();
+		column.setText("Section");
+		column.setWidth(500);
+		column.setResizable(true);
+		column.setMoveable(true);
+		viewerColumn.setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				FileSection section = (FileSection) element;
+				return section.getSectionName();
+			}
+
+			@Override
+			public Image getImage(Object element) {
+				return CZTPluginImages.get(CZTPluginImages.IMG_ZSECTION);
+			}
+
+			@Override
+			public String getToolTipText(Object element) {
+				
+				FileSection section = (FileSection) element;
+				return "Section " + section.getSectionName() + " (" + section.getFilePath() + ")";
+			}
+			
+		});
+		
+		// enable tooltips
+		ColumnViewerToolTipSupport.enableFor(sectionsViewer);
+		
+		Table table = sectionsViewer.getTable();
+		table.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+//		table.setLinesVisible(true);
+		
+		sectionsViewer.setContentProvider(new IStructuredContentProvider() {
+
+			@Override
+			public Object[] getElements(Object inputElement) {
+				if (inputElement instanceof ZEvesSnapshot) {
+					return ((ZEvesSnapshot) inputElement).getSections().toArray();
+				}
+				
+				return new Object[0];
+			}
+			
+			@Override
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
+			
+			@Override
+			public void dispose() {}
+		});
+		
+        // add context menu
+        final MenuManager mgr = new MenuManager();
+        removeSectionAction = new RemoveSectionAction();
+        mgr.add(removeSectionAction);
+        table.setMenu(mgr.createContextMenu(table));
+		
+        
+        sectionsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateSelectionActions();
+			}
+		});
+        updateSelectionActions();
+		
+		sectionsViewer.setInput(ZEvesPlugin.getZEves().getSnapshot());
+	}
+	
+	private void updateSelectionActions() {
+		removeSectionAction.setEnabled(!sectionsViewer.getSelection().isEmpty());
+	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
+		sectionsViewer.getControl().setFocus();
 	}
 	
 	private void initToolBar() {
@@ -154,12 +272,17 @@ public class ZEvesStateView extends ViewPart {
 	}
 
 	private void updateState() {
-		// TODO another thread?
 		
 		ZEves prover = ZEvesPlugin.getZEves();
 		updateProverState(prover.getApi());
 		updateServerState(prover.getServer());
 		updateProverDataState(prover.getApi());
+		
+		reloadSections();
+	}
+	
+	private void reloadSections() {
+		sectionsViewer.setInput(sectionsViewer.getInput());
 	}
 
 	private void updateProverState(ZEvesApi api) {
@@ -196,7 +319,7 @@ public class ZEvesStateView extends ViewPart {
 		serverStateField.setText(serverState);
 	}
 	
-	private void updateProverDataState(ZEvesApi api) {
+	private void updateProverDataState(final ZEvesApi api) {
 
 		paragraphCountField.setText("");
 		
@@ -204,17 +327,29 @@ public class ZEvesStateView extends ViewPart {
 			return;
 		}
 		
-		try {
-			int historyLength = api.getHistoryLength();
-			paragraphCountField.setText(String.valueOf(historyLength));
+		Job apiQueryJob = new Job("Querying Z/Eves state") {
 			
-			for (int index = 1; index <= historyLength; index++) {
-				api.getTheoremNames(index);
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				
+				try {
+					final int historyLength = api.getHistoryLength();
+					
+					paragraphCountField.getDisplay().asyncExec(new Runnable() {
+						
+						@Override
+						public void run() {
+							paragraphCountField.setText(String.valueOf(historyLength));
+						}
+					});
+				} catch (ZEvesException e) {
+					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+				}
+				
+				return Status.OK_STATUS;
 			}
-			
-		} catch (ZEvesException e) {
-			ZEvesPlugin.getDefault().log(e.getMessage(), e);
-		}
+		};
+		apiQueryJob.schedule();
 	}
 
 	private class RefreshAction extends Action {
@@ -257,6 +392,8 @@ public class ZEvesStateView extends ViewPart {
 				MessageDialog.openError(paragraphCountField.getShell(), 
 						"Problems Resetting Z/Eves", e.getMessage());
 				ZEvesPlugin.getDefault().log(e);
+			} finally {
+				updateState();
 			}
 		}
 	}
@@ -284,6 +421,69 @@ public class ZEvesStateView extends ViewPart {
 			}
 			
 			zeves.getApi().sendAbort();
+		}
+	}
+	
+	private class RemoveSectionAction extends Action {
+
+		public RemoveSectionAction() {
+			super("Remove Section");
+			setToolTipText("Remove (Undo) Section in Z/Eves Prover");
+
+			// setDescription("?");
+			setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
+					.getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE));
+		}
+
+		/*
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+
+			ISelection selection = sectionsViewer.getSelection();
+			if (selection.isEmpty()) {
+				return;
+			}
+			
+			final FileSection selectedSection = 
+				(FileSection) ((IStructuredSelection) selection).getFirstElement();
+			
+			ZEves prover = ZEvesPlugin.getZEves();
+			if (!prover.isRunning()) {
+				return;
+			}
+			
+			final ZEvesApi zEvesApi = prover.getApi();
+			final ZEvesSnapshot snapshot = prover.getSnapshot();
+			
+			Job job = new Job("Undoing in Z/Eves") {
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					
+					try {
+						Map<String, Integer> fileUndoOffsets = 
+							snapshot.undoThrough(zEvesApi, selectedSection);
+						
+						ResourceUtil.deleteMarkers(fileUndoOffsets);
+					} catch (ZEvesException e) {
+						return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+					} finally {
+						// update the view
+						getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
+							@Override
+							public void run() {
+								updateState();
+							}
+						});
+					}
+					
+					return Status.OK_STATUS;
+				}
+			};
+			job.setRule(prover);
+			
+			job.schedule();
 		}
 	}
 	

@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding,
  org.eclipse.jface.text,
  org.eclipse.core.expressions,
- net.sourceforge.czt.eclipse.vcg;bundle-version="1.0.0"
+ net.sourceforge.czt.eclipse.vcg;bundle-version="1.0.0",
+ org.eclipse.core.filesystem
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

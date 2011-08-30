@@ -1,7 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -9,9 +8,10 @@ import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEves;
-import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.actions.SubmitToPointCommand;
 
 public class ZEditorEditListener implements IDocumentListener {
@@ -46,23 +46,15 @@ public class ZEditorEditListener implements IDocumentListener {
         	return;
         }
         
-        ZEvesFileState fileState = prover.getState(resource, true);
-        int submittedOffset = fileState.getLastPositionOffset();
-        if (editOffset > submittedOffset) {
+        ZEvesSnapshot snapshot = prover.getSnapshot();
+        String filePath = ResourceUtil.getPath(resource);
+        
+        if (!snapshot.needUndo(filePath, editOffset)) {
         	// editing after last submission - no undo necessary
         	return;
         }
         
-        ZEvesAnnotations annotations = new ZEvesAnnotations(resource, document);
-        
-    	// first delete all the previous markers
-		try {
-			annotations.deleteMarkers(editOffset);
-		} catch (CoreException e) {
-			ZEvesPlugin.getDefault().log(e);
-		}
-		
-    	Job job = SubmitToPointCommand.createUndoJob(prover, fileState, editOffset);
+    	Job job = SubmitToPointCommand.createUndoJob(prover, filePath, editOffset);
     	job.schedule();
 	}
 	

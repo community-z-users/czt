@@ -1,21 +1,12 @@
 package net.sourceforge.czt.eclipse.zeves;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesServer;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRunnable;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 
 
@@ -25,11 +16,8 @@ public class ZEves implements ISchedulingRule {
 	private ZEvesApi api;
 	private boolean starting = false;
 	
-	/**
-	 * A mapping from file URI to its Z/Eves state
-	 */
-	private final Map<IResource, ZEvesFileState> fileStates = new HashMap<IResource, ZEvesFileState>();
-
+	private final ZEvesSnapshot snapshot = new ZEvesSnapshot();
+	
 	public void stop() {
 		
 		if (api != null) {
@@ -72,14 +60,8 @@ public class ZEves implements ISchedulingRule {
 		this.starting = starting;
 	}
 	
-	public ZEvesFileState getState(IResource resource, boolean create) {
-		ZEvesFileState state = fileStates.get(resource);
-		if (state == null && create) {
-			state = new ZEvesFileState();
-			fileStates.put(resource, state);
-		}
-		
-		return state;
+	public ZEvesSnapshot getSnapshot() {
+		return snapshot;
 	}
 	
 	public void reset() throws ZEvesException {
@@ -90,36 +72,11 @@ public class ZEves implements ISchedulingRule {
 		}
 		
 		getApi().reset();
-
-		for (ZEvesFileState state : fileStates.values()) {
-			state.clear();
-		}
+		
+		Set<String> clearedPaths = snapshot.clear();
 
 		// also remove all markers
-		List<IResource> clearResources = new ArrayList<IResource>(fileStates.keySet());
-		clearMarkers(clearResources);
-		
-		fileStates.clear();
-	}
-
-	private void clearMarkers(final List<IResource> clearResources) {
-		if (clearResources.isEmpty()) {
-			return;
-		}
-		
-		IWorkspaceRunnable r = new IWorkspaceRunnable() {
-			public void run(IProgressMonitor monitor) throws CoreException {
-				for (IResource resource : clearResources) {
-					ZEvesAnnotations.clearMarkers(resource);
-				}
-			}
-		};
-
-		try {
-			clearResources.get(0).getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
-		} catch (CoreException ce) {
-			ZEvesPlugin.getDefault().log(ce);
-		}
+		ResourceUtil.clearMarkers(clearedPaths);
 	}
 
 	@Override

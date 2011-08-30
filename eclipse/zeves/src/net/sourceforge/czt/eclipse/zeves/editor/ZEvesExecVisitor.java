@@ -1,22 +1,36 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
 import java.io.IOException;
+import java.util.List;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 
-import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
+import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
+import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesAnnotations.MarkerInfo;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
@@ -34,15 +48,17 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
  * Each element in the returned list must be transmitted to the Z/Eves
  * server separately, in the given order.
  */
-public class ZEvesExecVisitor extends ZEvesPosVisitor {
+public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<Object> {
 	
 	public static final int GOAL_STEP_INDEX = 1;
 
 	private final CZT2ZEvesPrinter zEvesXmlPrinter;
 	
 	private final ZEvesApi api;
-	private final ZEvesFileState state;
+	private final ZEvesSnapshot snapshot;
 	private final ZEvesAnnotations annotations;
+	
+	private final String filePath;
 	private final SectionManager sectInfo;
 	
 	private MarkerInfo unprocessedMarker;
@@ -52,15 +68,17 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	private static final long FLUSH_INTERVAL = 500;
 	private long lastFlush = 0;
 	
-	public ZEvesExecVisitor(ZEvesApi api, ZEvesFileState state, ZEvesAnnotations annotations,
-			ParsedData parsedData, int startOffset, int endOffset,
-			IProgressMonitor progressMonitor) {
+	public ZEvesExecVisitor(ZEvesApi api, ZEvesSnapshot snapshot, ZEvesAnnotations annotations,
+			String filePath, IPositionProvider<? super Term> posProvider, SectionManager sectInfo, 
+			int startOffset, int endOffset, IProgressMonitor progressMonitor) {
     	
-		super(parsedData, startOffset, endOffset);
+		super(posProvider, startOffset, endOffset);
 		this.api = api;
-		this.state = state;
+		this.snapshot = snapshot;
 		this.annotations = annotations;
-		this.sectInfo = parsedData.getSectionManager();
+		
+		this.filePath = filePath;
+		this.sectInfo = sectInfo;
 		this.zEvesXmlPrinter = new CZT2ZEvesPrinter(sectInfo);
 		
 		if (progressMonitor == null) {
@@ -73,39 +91,148 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     @Override
 	protected void visitZSectHead(ZSect term, Position position) {
     	
-    	// Currently commented, because begin-section is unimplemented in Z/Eves
-//    	MarkerInfo unfinishedMarker = markUnfinished(position);
-//		
-//		try {
+    	MarkerInfo unfinishedMarker = markUnfinished(position);
+		
+		try {
+			
+			for (Parent parent : term.getParent()) {
+				parent.accept(this);
+				checkCancelled();
+			}
+			
+			snapshot.updatingSection(position, filePath, getCurrentSectionName());
+			handleResult(position, null);
+			checkCancelled();
+			
+			// Currently commented, because begin-section is unimplemented in Z/Eves
 //    		String sectionBeginXml = MessageFormat.format(ZSECTION_BEGIN_PATTERN, term.getName(), getParents(term.getParent()));
 //    		api.send(sectionBeginXml);
 //    		checkCancelled();
 //    	} catch (ZEvesException e) {
 //    		// do not return - just handle and continue into paragraphs
 //    		handleZEvesException(position, e);
-//    	} finally {
-//    		markFinished(unfinishedMarker);
-//    	}
+    	} finally {
+    		markFinished(unfinishedMarker);
+    	}
 		
+	}
+
+	@Override
+	protected void beforeZSectParas(ZSect term, Position pos) {
+		// mark the section as updating in the snapshot
+		// no need to pass in the position here - it should have been passed
+		// during section head visit
+		snapshot.updatingSection(null, filePath, getCurrentSectionName());
 	}
 
 	@Override
 	protected void visitZSectEnd(ZSect term, Position position) {
 		
-    	// Currently commented, because end-section is unimplemented in Z/Eves
-//		MarkerInfo unfinishedMarker = markUnfinished(position);
-//		
-//		try {
+		MarkerInfo unfinishedMarker = markUnfinished(position);
+		
+		try {
+			snapshot.completeSection(position, filePath, getCurrentSectionName());
+			handleResult(position, null);
+			checkCancelled();
+			
+			// Currently commented, because end-section is unimplemented in Z/Eves
 //    		api.send(ZSECTION_END_PATTERN);
 //    		checkCancelled();
 //    	} catch (ZEvesException e) {
 //    		handleZEvesException(position, e);
-//    	} finally {
-//    		markFinished(unfinishedMarker);
-//    	}
+    	} finally {
+    		markFinished(unfinishedMarker);
+    	}
 	}
 
     @Override
+	public Object visitParent(Parent term) {
+    	
+    	String parentSectName = term.getWord();
+    	
+    	for (Section systemSection : Section.values()) {
+    		if (systemSection == Section.ANONYMOUS) {
+    			// do not ignore anonymous section?
+    			continue;
+    		}
+    		
+    		if (systemSection.getName().equals(parentSectName)) {
+    			// system section - do not submit to Z/Eves
+    			return null;
+    		}
+    	}
+    	
+    	try {
+    		
+	    	Source parentSource = sectInfo.get(new Key<Source>(parentSectName, Source.class));
+	    	if (!(parentSource instanceof FileSource)) {
+	    		// TODO report unsupported
+	    		return null;
+	    	}
+	    	
+	    	String parentFilePath = parentSource.getName();
+	    	
+	    	ZSect parentSect = sectInfo.get(new Key<ZSect>(parentSectName, ZSect.class));
+	    	
+	    	if (snapshot.isSectionCompleted(parentFilePath, parentSect.getName())) {
+	    		// section already submitted and completed
+	    		return null;
+	    	}
+	    	
+	    	// TODO resolve parent loops somehow?
+	    	
+	    	IResource resource = null;
+	    	List<IFile> files = ResourceUtil.findFile(parentFilePath);
+	    	if (files.size() > 0) {
+	    		// take the first one found
+	    		// TODO support multiple resources (e.g. the same file is several times in the workspace)?
+	    		resource = files.get(0);
+	    	}
+	    	
+	    	// TODO resolve document somehow?
+	    	IDocument document = null;
+	    	
+	    	ZEvesAnnotations parentAnns = resource != null ? new ZEvesAnnotations(resource, document) : null;
+	    	IPositionProvider<Term> parentPosProvider = new TermPositionProvider(document);
+	    	
+	    	Position parentSectPos = parentPosProvider.getPosition(parentSect);
+
+	    	// check how much (possibly) parent has already been submitted
+	    	int parentSubmitOffset = snapshot.getLastPositionOffset(parentFilePath);
+	    	int startOffset;
+	    	if (parentSubmitOffset >= 0) {
+	    		// start from the next one
+	    		startOffset = parentSubmitOffset + 1;
+	    	} else {
+	    		// get offsets from the section position
+	    		startOffset = parentSectPos.getOffset();
+	    	}
+	    	
+	    	// continue until the end of the section
+	    	// note: add +1 to the end, otherwise "end section" is excluded
+	    	int endOffset = getEnd(parentSectPos) + 1;
+	    	
+	    	ZEvesExecVisitor parentExec = new ZEvesExecVisitor(
+	    			api, snapshot, parentAnns, parentFilePath, 
+	    			parentPosProvider, sectInfo, 
+	    			startOffset, endOffset, progressMonitor);
+	    	
+	    	try {
+	    		// submit the parent section
+	    		parentSect.accept(parentExec);
+	    	} finally {
+	    		parentExec.finish();
+	    	}
+			
+    	} catch (CommandException ex) {
+    		// TODO report the exception on the parent?
+    		ZEvesPlugin.getDefault().log(ex);
+    	}
+    	
+		return null;
+	}
+
+	@Override
 	protected void visitPara(Para term, Position pos) {
     	// mark unfinished
     	MarkerInfo unfinishedMarker = markUnfinished(pos);
@@ -127,7 +254,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		int historyIndex = api.getHistoryLength();
 	    		Object zEvesPara = api.getHistoryElement(historyIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addParaResult(pos, historyIndex, zEvesPara);
+	    		snapshot.addParaResult(pos, historyIndex, zEvesPara);
 	    		handleResult(pos, zEvesPara);
 	    		checkCancelled();
 //	    		handleResult(pos, "History index: " + historyIndex);
@@ -153,7 +280,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 
     		// add result first, because that will be displayed in hover
     		ZEvesOutput result = api.getGoalProofStep(theoremName, GOAL_STEP_INDEX);
-    		state.addGoalResult(pos, result);
+    		snapshot.addGoalResult(pos, result);
     		handleResult(pos, result);
     		checkCancelled();
 //	    	boolean goalProved = api.getGoalProvedState(theoremName);
@@ -231,7 +358,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		
 	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
 	    		// add result first, because that will be displayed in hover
-	    		state.addProofResult(pos, script, stepIndex, proofResult);
+	    		snapshot.addProofResult(pos, script, stepIndex, proofResult);
 	    		handleResult(pos, proofResult, isResultTrue(proofResult));
 	    		checkCancelled();
 	    		
@@ -288,7 +415,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     private void handleZEvesException(Position pos, ZEvesException e, boolean markState) {
     	
     	if (markState) {
-    		state.addError(pos, e);
+    		snapshot.addError(pos, e);
     	}
     	// TODO clear previous markers?
     	
@@ -323,6 +450,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     
     private void handleResult(Position pos, Object result, boolean resultTrue) {
     	
+    	if (annotations != null) {
+    		try {
+				annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_FINISHED);
+			} catch (CoreException ce) {
+				ZEvesPlugin.getDefault().log(ce);
+			}
+    	}
+    	
     	if (result == null) {
     		return;
     	}
@@ -354,7 +489,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 						}
 					}
 				}
-				annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_FINISHED);
+//				annotations.createStatusMarker(pos, ZEvesAnnotations.STATUS_FINISHED);
 			} catch (CoreException ce) {
 				ZEvesPlugin.getDefault().log(ce);
 			}

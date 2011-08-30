@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.outline.TermLabelVisitorFactory;
 import net.sourceforge.czt.eclipse.views.IZInfoObject;
-import net.sourceforge.czt.eclipse.zeves.ZEvesFileState;
-import net.sourceforge.czt.eclipse.zeves.ZEvesFileState.ProofResult;
+import net.sourceforge.czt.eclipse.zeves.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot;
+import net.sourceforge.czt.eclipse.zeves.ZEvesSnapshot.ProofResult;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesExecVisitor;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesPosVisitor;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEvesResultConverter;
@@ -32,30 +35,26 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.PlatformObject;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
 
 
 public class ZEditorResults {
 
-	private static ZEvesFileState getSnapshot(ZEditor editor) {
+	public static IZInfoObject getZEvesResult(final ZEditor editor, ITextSelection selection,
+			int caretPos) {
 		
 		IResource resource = ZEditorUtil.getEditorResource(editor);
-		
 		if (resource == null) {
 			return null;
 		}
 		
-		return ZEvesPlugin.getZEves().getState(resource, false);
-	}
-	
-	public static IZInfoObject getZEvesResult(final ZEditor editor, ITextSelection selection,
-			int caretPos) {
+		IDocument document = ZEditorUtil.getDocument(editor);
+		IPositionProvider<Term> posProvider = new TermPositionProvider(document);
 		
-		final ZEvesFileState snapshot = getSnapshot(editor);
-		if (snapshot == null) {
-			return null;
-		}
+		final String filePath = ResourceUtil.getPath(resource);
+		final ZEvesSnapshot snapshot = ZEvesPlugin.getZEves().getSnapshot();
 		
 		// support selection just after or just before the actual caret position,
 		// however priority is given for exact match
@@ -66,12 +65,12 @@ public class ZEditorResults {
 		final Position afterPos = new Position(caretPos + 1, 0);
 		
 		ParsedData parsedData = editor.getParsedData();
-		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(parsedData, beforeOffset, caretPos + 1) {
+		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(posProvider, beforeOffset, caretPos + 1) {
 
 			@Override
 			protected void visitPara(Para term, Position position) {
 				
-				Object result = snapshot.getResult(position);
+				Object result = snapshot.getResult(filePath, getCurrentSectionName(), position);
 				
 				if (result == null) {
 					return;
@@ -101,7 +100,7 @@ public class ZEditorResults {
 			}
 			
 			private void visitProofScriptStep(ProofScript script, ProofCommand command, Position pos) {
-				Object result = snapshot.getProofResult(pos);
+				Object result = snapshot.getProofResult(filePath, getCurrentSectionName(), pos);
 				
 				if (result == null) {
 					return;

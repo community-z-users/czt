@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.Position;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
@@ -39,19 +39,19 @@ public class ZEvesPosVisitor implements
         NarrParaVisitor<Object>, LatexMarkupParaVisitor<Object>, UnparsedParaVisitor<Object>,
         ProofScriptVisitor<Object>, ProofCommandVisitor<Object>, NarrSectVisitor<Object> {
 	
-	private final ParsedData parsedData;
+	private final IPositionProvider<? super Term> posProvider;
 	private final int startOffset;
 	private final int length;
 	
 	private ZSect currentSect = null;
 	private ProofScript currentScript = null;
 	
-    public ZEvesPosVisitor(ParsedData parsedData, int startOffset, int endOffset) {
+    public ZEvesPosVisitor(IPositionProvider<? super Term> posProvider, int startOffset, int endOffset) {
 		super();
 		
 		Assert.isLegal(startOffset <= endOffset);
 		
-		this.parsedData = parsedData;
+		this.posProvider = posProvider;
 		this.startOffset = startOffset;
 		this.length = endOffset - startOffset;
 	}
@@ -107,6 +107,9 @@ public class ZEvesPosVisitor implements
     		visitZSectHead(term, sectDeclPos);
     	}
     	
+    	// allow to act once for the section before submitting paragraphs
+    	beforeZSectParas(term, pos);
+    	
     	boolean includedPara = false;
     	
 		for (Para p : paraList) {
@@ -142,17 +145,29 @@ public class ZEvesPosVisitor implements
 	protected final ZSect getCurrentSect() {
 		return currentSect;
 	}
+	
+	protected final String getCurrentSectionName() {
+		if (currentSect == null) {
+			return null;
+		}
+		
+		return currentSect.getName();
+	}
     
     protected void visitZSectHead(ZSect term, Position position) {
     	// do nothing by default
     }
+    
+	protected void beforeZSectParas(ZSect term, Position pos) {
+		// do nothing by default
+	}
     
     protected void visitZSectEnd(ZSect term, Position position) {
     	// do nothing by default
     }
     
     protected Position getPosition(Term term) {
-    	return parsedData.getTermPosition(term);
+    	return posProvider.getPosition(term);
     }
 
     /**
