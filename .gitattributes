@@ -148,6 +148,7 @@ eclipse/czteditor/lib/CircusTable.xml -text
 eclipse/czteditor/lib/ObjectZTable.xml -text
 eclipse/czteditor/lib/ZEvesTable.xml -text svneol=unset#text/plain
 eclipse/czteditor/lib/ZTable.xsd -text
+eclipse/czteditor/schema/problemSeverityProviders.exsd -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/CZTCompositeReconcilingStrategy.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/CompositeReconcilingStrategy.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/IZReconcilingListener.java -text
@@ -167,7 +168,9 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/hover/TermHi
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/hover/UnicodeSourceViewerInformationControl.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/latex/ZLatexPairMatcher.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/IPositionProvider.java -text svneol=unset#text/plain
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/IZProblemSeverityProvider.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/TermPositionProvider.java -text svneol=unset#text/plain
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/ZProblemSeverity.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.properties -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorUtil.java -text svneol=unset#text/plain

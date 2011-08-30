@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.util.IZMarker;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ErrorType;
@@ -16,7 +17,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
@@ -27,53 +32,143 @@ import org.eclipse.jface.text.IDocument;
 public class ZCompilerMessageParser
 {
 
-  private IResource fResource = null;
+  // the ID of problem severity providers extension point
+  private static final String SEVERITY_PROVIDERS_ID = CZTPlugin.getPluginID() + ".problemSeverityProviders";
+  
+  private final String dialect;
+  private final List<IZProblemSeverityProvider> providers = new ArrayList<IZProblemSeverityProvider>();
+  
+  public ZCompilerMessageParser(String dialect)
+  {
+    this.dialect = dialect;
+    loadSeverityProviders();
+  }
 
-  private IDocument fDocument = null;
+  /*
+   * Loads the available severity providers from an extension point
+   */
+  private void loadSeverityProviders()
+  {
+    IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(
+        SEVERITY_PROVIDERS_ID);
+
+    try {
+      for (IConfigurationElement e : config) {
+        final Object o = e.createExecutableExtension("class");
+        if (o instanceof IZProblemSeverityProvider) {
+          providers.add((IZProblemSeverityProvider) o);
+        }
+      }
+    }
+    catch (CoreException ex) {
+      CZTPlugin.log(ex);
+    }
+  }
 
   public void parseCompilerMessage(IDocument document, IResource resource,
       List<CztError> errors) throws CoreException
   {
-    this.fResource = resource;
-    this.fDocument = document;
-    
     List<Entry<String, Map<String, Object>>> markers = new ArrayList<Entry<String, Map<String, Object>>>();
-    for (int i = 0; i < errors.size(); i++) {
-      markers.add(parseError(errors.get(i)));
+    for (CztError error : errors) {
+      Entry<String, Map<String, Object>> markerInfo = parseError(document, error);
+      if (markerInfo != null) {
+        markers.add(markerInfo);
+      }
     }
     
-    createMarkers(markers);
+    createMarkers(resource, markers);
   }
 
   /**
    * @param error a Czt error
    */
-  protected Entry<String, Map<String, Object>> parseError(CztError error)
+  private Entry<String, Map<String, Object>> parseError(IDocument document, CztError error)
   {
     ErrorType errorType = error.getErrorType();
+    if (errorType == ErrorType.WARNING) {
+      // check the severity preferences for warnings
+      // for example, a user may choose to ignore certain warnings, or display them as errors
+      ZProblemSeverity severity = getSeverityPreference(error);
+      if (severity != null) {
+        switch (severity) {
+          case ERROR: {
+            errorType = ErrorType.ERROR;
+            break;
+          }
+          case WARNING: {
+            errorType = ErrorType.WARNING;
+            break;
+          }
+          case IGNORE: {
+            // ignore this
+            return null;
+          }
+        }
+      }
+    } else {
+      // errors are always kept
+    }
+    
     String message = error.getMessage();
     int line = error.getLine();
     int column = error.getColumn();
     int start = error.getStart();
     int length = error.getLength();
-    int end;
 
     try {
       if (start < 0)
-        start = this.fDocument.getLineOffset(line) + column;
+        start = document.getLineOffset(line) + column;
       else
-        line = this.fDocument.getLineOfOffset(start);
+        line = document.getLineOfOffset(start);
 
       if (length < 0)
-        length = this.fDocument.getLineLength(line) - column;
+        length = document.getLineLength(line) - column;
     } catch (BadLocationException ble) {
       ble.printStackTrace();
     }
 
-    end = start + length;
+    int end = start + length;
 
-    int severity = ErrorType.ERROR.equals(errorType) ? IMarker.SEVERITY_ERROR : IMarker.SEVERITY_WARNING;
+    int severity = errorType == ErrorType.WARNING ? IMarker.SEVERITY_WARNING : IMarker.SEVERITY_ERROR;
     return setMarker(severity, message, line + 1, start, end);
+  }
+  
+  /*
+   * Checks the providers whether a specific severity is indicated for the error.
+   * Returns null if no preference is given.
+   */
+  private ZProblemSeverity getSeverityPreference(final CztError err) {
+    
+    for (final IZProblemSeverityProvider provider : providers) {
+
+      final ZProblemSeverity[] severity = new ZProblemSeverity[1];
+
+      // run safely - implementation can come from other plugins
+      ISafeRunnable runnable = new ISafeRunnable()
+      {
+        @Override
+        public void handleException(Throwable exception)
+        {
+          CZTPlugin.log(exception);
+        }
+
+        @Override
+        public void run() throws Exception
+        {
+          severity[0] = provider.getSeverity(dialect, err);
+        }
+      };
+
+      SafeRunner.run(runnable);
+      
+      if (severity[0] != null) {
+        // found explicit severity
+        // TODO check if multiple extensions can have preference on the same error?
+        return severity[0];
+      }
+    }
+    
+    return null;
   }
 
   /**
@@ -100,8 +195,8 @@ public class ZCompilerMessageParser
     return new SimpleEntry<String, Map<String, Object>>(IZMarker.PROBLEM, attributes);
   }
   
-  public void createMarkers(final List<Entry<String, Map<String, Object>>> markers)
-      throws CoreException
+  private void createMarkers(final IResource resource,
+      final List<Entry<String, Map<String, Object>>> markers) throws CoreException
   {
 
     IWorkspaceRunnable r = new IWorkspaceRunnable()
@@ -109,12 +204,13 @@ public class ZCompilerMessageParser
       public void run(IProgressMonitor monitor) throws CoreException
       {
         for (Entry<String, Map<String, Object>> markerEntry : markers) {
-          IMarker marker = fResource.createMarker(markerEntry.getKey());
+          IMarker marker = resource.createMarker(markerEntry.getKey());
           marker.setAttributes(markerEntry.getValue());
         }
       }
     };
 
-    fResource.getWorkspace().run(r, null, IWorkspace.AVOID_UPDATE, null);
+    resource.getWorkspace().run(r, null, IWorkspace.AVOID_UPDATE, null);
   }
+  
 }

@@ -56,6 +56,7 @@ import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.parser.ZCompilerMessageParser;
 import net.sourceforge.czt.eclipse.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.outline.ZContentOutlinePage;
+import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.util.CztUI;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
@@ -2240,7 +2241,8 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       // first delete all the previous markers
       resource.deleteMarkers(IZMarker.PROBLEM, true, 0);
 
-      ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser();
+      String dialect = CZTPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.PROP_DIALECT);
+      ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser(dialect);
 
       compMsgParser.parseCompilerMessage(document, resource, errors);
     } catch (CoreException ce) {
