@@ -25,7 +25,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
@@ -40,6 +39,7 @@ import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -858,6 +858,40 @@ abstract public class Checker<R>
         }
       }
     }
+  }
+
+  protected void checkParent(Parent parent)
+  {
+    String parentName = parent.getWord();
+    sectTypeEnv().addParent(parentName);
+
+    //get the global decl information for the parent
+    SectTypeEnvAnn sectTypeEnvAnn = null;
+    try {
+      sectTypeEnvAnn = sectInfo().get(new Key<SectTypeEnvAnn>(parentName, SectTypeEnvAnn.class));
+    }
+    catch (CommandException e) {
+      sectTypeEnvAnn = handleParentErrors(parentName, e);
+    }
+
+    //add the parent's global decls to this section's global type environment
+    for (NameSectTypeTriple triple : sectTypeEnvAnn.getNameSectTypeTriple()) {
+      sectTypeEnv().addParent(triple.getSect());
+      NameSectTypeTriple duplicate = sectTypeEnv().add(triple);
+      //raise an error if there are duplicates in merging parents
+      if (duplicate != null &&
+          !duplicate.getSect().equals(triple.getSect())) {
+        Object [] params = {triple.getZName(), duplicate.getSect(),
+                            triple.getSect(), sectName()};
+        error(parent, ErrorMessage.REDECLARED_GLOBAL_NAME_PARENT_MERGE, params);
+      }
+    }
+  }
+
+  protected SectTypeEnvAnn handleParentErrors(String parentName, CommandException e) throws CztException
+  {
+    final String msg = "No type information for section " + parentName;
+    throw new CztException(msg, e);
   }
   
   protected void insertUnsort(List<NameTypePair> pairsA,

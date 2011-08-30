@@ -89,31 +89,7 @@ public class SpecChecker
 
   public Object visitParent(Parent parent)
   {
-    String parentName = parent.getWord();
-    sectTypeEnv().addParent(parentName);
-
-    //get the global decl information for the parent
-    SectTypeEnvAnn sectTypeEnvAnn = null;
-    try {
-      sectTypeEnvAnn = sectInfo().get(new Key<SectTypeEnvAnn>(parentName, SectTypeEnvAnn.class));
-    }
-    catch (CommandException e) {
-      final String msg = "No type information for section " + parentName;
-      throw new CztException(msg, e);
-    }
-
-    //add the parent's global decls to this section's global type environment
-    for (NameSectTypeTriple triple : sectTypeEnvAnn.getNameSectTypeTriple()) {
-      sectTypeEnv().addParent(triple.getSect());
-      NameSectTypeTriple duplicate = sectTypeEnv().add(triple);
-      //raise an error if there are duplicates in merging parents
-      if (duplicate != null &&
-          !duplicate.getSect().equals(triple.getSect())) {
-        Object [] params = {triple.getZName(), duplicate.getSect(),
-                            triple.getSect(), sectName()};
-        error(parent, ErrorMessage.REDECLARED_GLOBAL_NAME_PARENT_MERGE, params);
-      }
-    }
+    checkParent(parent);
 
     return null;
   }
