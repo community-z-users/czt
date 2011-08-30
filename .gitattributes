@@ -324,9 +324,11 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunchTabGrou
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesLaunchConstants.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesMainLaunchTab.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesRemoteLaunch.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ProblemSeveritiesPreferencePage.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferenceConstants.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferenceInitializer.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferencePage.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesProblemSeverityProvider.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/TheoremTree.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEditorResults.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/views/ZEvesOutputView.java -text svneol=unset#text/plain

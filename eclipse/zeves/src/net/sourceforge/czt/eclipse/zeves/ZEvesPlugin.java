@@ -5,13 +5,14 @@ import net.sourceforge.czt.eclipse.zeves.editor.ZEditorEditTracker;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ZEvesPlugin extends AbstractUIPlugin {
+public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "net.sourceforge.czt.eclipse.zeves"; //$NON-NLS-1$
@@ -97,6 +98,11 @@ public class ZEvesPlugin extends AbstractUIPlugin {
 			message = ""; 
 		}		
 		return new Status(IStatus.ERROR, PLUGIN_ID, 0, message, exception);
+	}
+
+	@Override
+	public void earlyStartup() {
+		getDefault();
 	}
 
 }

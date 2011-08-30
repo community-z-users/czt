@@ -823,11 +823,27 @@
             id="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferencePage"
             name="Z/Eves">
       </page>
+      <page
+            category="net.sourceforge.czt.eclipse.preferences.CompilerPreferencePage"
+            class="net.sourceforge.czt.eclipse.zeves.preferences.ProblemSeveritiesPreferencePage"
+            id="net.sourceforge.czt.eclipse.zeves.preferences.ProblemSeveritiesPreferencePage"
+            name="Errors/Warnings">
+      </page>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="net.sourceforge.czt.eclipse.problemSeverityProviders">
+      <provider
+            class="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesProblemSeverityProvider">
+      </provider>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup></startup>
    </extension>
 </plugin>
