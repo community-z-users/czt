@@ -73,7 +73,7 @@ public enum WarningMessage {
     "\n\tTerm......: {1}"),
 
 
-  PARENT_WARNING("Found warning in parent {0}\n\t{1}"),
+  PARENT_ERRORS_WARNING("Found errors in parent {0} of section {1}\n\t{2}"),
 
   UNDECLARED_NAME_ERROR_AS_WARNING("Undeclared name error in ConjPara being treated as a warning."+
     "\n\tTerm......: {0}" +

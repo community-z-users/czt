@@ -382,7 +382,7 @@ public abstract class Checker<R>
             errorCnt--;
             // perhaps show then if needed
             if (wo.equals(WarningManager.WarningOutput.SHOW))
-              warningManager().warn(WarningMessage.PARENT_WARNING.getMessage(), parentName, error.toString());
+              warningManager().warn(WarningMessage.PARENT_ERRORS_WARNING.getMessage(), sectName(), parentName, error.toString());
           }
         }
       }
