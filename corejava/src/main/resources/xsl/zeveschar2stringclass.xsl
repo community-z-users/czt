@@ -114,7 +114,7 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   String SCRIPT		 = "script";
   String STATUS		 = "status";
   String SUMMARY	 = "summary";
-  String SYNTAX    = "syntax";
+  String ZEVESYNTAX= "syntax";
   String THROUGH	 = "through";
   //String TO		   = "to"; already above
   
