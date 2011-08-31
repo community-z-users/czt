@@ -72,7 +72,7 @@ public enum ZEvesProofKeyword implements Token {
   READ(ZEvesString.READ , NewlineCategory.BOTH),
   RESET(ZEvesString.RESET , NewlineCategory.BOTH),
   RETRY(ZEvesString.RETRY , NewlineCategory.BOTH),
-  SYNTAX(ZEvesString.SYNTAX, NewlineCategory.BOTH),
+  SYNTAX(ZEvesString.ZEVESYNTAX, NewlineCategory.BOTH),
   THEOREMS(ZEvesString.THEOREMS , NewlineCategory.BOTH),
   UNDO(ZEvesString.UNDO , NewlineCategory.BOTH),
   ZSECTION(ZEvesString.ZSECTION , NewlineCategory.BOTH),
