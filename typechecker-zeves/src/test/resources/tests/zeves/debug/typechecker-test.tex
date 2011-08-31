@@ -2,16 +2,70 @@
    \SECTION typechecker\_test \parents zstate\_toolkit
 \end{zsection}
 
-\zstate
-\begin{schema}{S}
-   x: \nat
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Operators and auxiliary types}
+
+\newcommand{\readby}{\zrelop{readBy}}
+\newcommand{\writes}{\zrelop{writes}}
+\newcommand{\readableTo}{\zrelop{readableTo}}
+\newcommand{\canWrite}{\zrelop{canWrite}}
+\syndef{\readby}{inrel}{"readBy"}
+\syndef{\writes}{inrel}{"writes"}
+\syndef{\readableTo}{inrel}{"readableTo"}
+\syndef{\canWrite}{inrel}{"canWrite"}
+
+%%Zinword \readBy readBy
+%%Zinword \writes writes
+%%Zinword \readableTo readableTo
+%%Zinword \canWrite canWrite
+
+\begin{zed}
+\relation (\varg \readBy \varg)
+\\
+\relation (\varg \writes \varg)
+\\
+\relation (\varg \readableTo \varg)
+\\
+\relation (\varg \canWrite \varg)
+\end{zed}
+
+\begin{zed}
+   [Service, Data, Cloud]
+\end{zed}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Workflow}
+
+\begin[disabled]{schema}{Workflow}
+   \_ \readBy \_ : Data \rel Service
+\\
+   \_ \writes \_ : Service \rel Data
+\\
+   \_ \readableTo \_ : Data \rel Service
+\\
+   \_ \canWrite \_ : Service \rel Data
+\\
+   wf, graph: Data \rel Data
+\\
+   knownServices: \power~Service
+\\
+   knownData: \power~Data
 \where
-   10 > x
+   % A workflow is the transitive closure of the composition between
+   % data read by services that write data subsequentially to it.
+   wf = ((\_ \readBy \_) \comp (\_ \writes \_))\plus
+\\
+   graph = ((\_ \readableTo \_) \comp (\_ \canWrite \_))\plus
+\\
+   knownServices = \dom~(\_ \writes \_) \cup \ran~(\_ \readBy \_)
+\\
+   knownData = \dom~(\_ \readBy \_) \cup \ran~(\_ \writes \_)
 \end{schema}
 
-\zstate
-\begin{schema}{AState}
-   x: \power \nat
+\begin{schema}{WFInit}
+   Workflow~'
 \where
-  x \neq \emptyset
+   (\_ \readBy \_) = (\_ \writes \_) = \emptyset
 \end{schema}
