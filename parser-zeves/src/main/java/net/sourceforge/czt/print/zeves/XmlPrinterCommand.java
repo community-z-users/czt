@@ -23,11 +23,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 
 /**
@@ -50,7 +52,8 @@ public class XmlPrinterCommand
       xmlWriter.write(term, writer);
       writer.close();
       manager.put(new Key<XmlString>(name, XmlString.class),
-                  new XmlString(writer.toString(), "circus"));
+                  new XmlString(writer.toString(), "zeves"),
+                  term instanceof ZSect ? ParseUtils.calculateDependencies((ZSect)term, XmlString.class) : null);
       return true;
     }
     catch (IOException e) {
