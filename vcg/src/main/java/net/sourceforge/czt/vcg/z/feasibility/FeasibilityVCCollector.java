@@ -89,7 +89,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   FeasibilityPropertyKeys
 {
 
-  private ZPredTransformerFSB predTransformer_;
+  protected ZPredTransformerFSB predTransformer_;
 
   private boolean nonEmptyGivenSets_;
   private boolean doCreateZSchemas_;
@@ -150,7 +150,27 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
             addedSigSchemasList_.containsAll(addedSigSchemas_.values());
     return Collections.unmodifiableList(addedSigSchemasList_);
   }
+
+  protected ZName getStateSchema()
+  {
+    return stateSchema_;
+  }
+
+  protected ZNameList getStateSchemaGenParams()
+  {
+    return stateSchemaGenParams_;
+  }
+
+  protected VCCollectionException createVCCollectionException(final String message)
+  {
+    return new FeasibilityException(message);
+  }
   
+  protected VCCollectionException createVCCollectionException(final String message, Throwable e)
+  {
+    return new FeasibilityException(message, e);
+  }
+
   @Override
   public TermTransformer<Pred> getTransformer()
   {
@@ -208,20 +228,23 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     return result;
   }
 
-  class NameSuffix {}
+  public interface VCNameSuffix
+  {
+    public String getVCNameSuffix();
+  }
 
   @Override
   public VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException
   {
-    NameSuffix ns = term.getAnn(NameSuffix.class);
+    VCNameSuffix ns = term.getAnn(VCNameSuffix.class);
     if (getVCNameFactory() != null)
       if (ns != null)
-        return new FeasibilityVC(vcId, term, type, vc, getVCNameFactory(), ns.toString());
+        return new FeasibilityVC(vcId, term, type, vc, getVCNameFactory(), ns.getVCNameSuffix());
       else
         return new FeasibilityVC(vcId, term, type, vc, getVCNameFactory());
     else
       if (ns != null)
-        return new FeasibilityVC(vcId,term, type, vc, ns.toString());
+        return new FeasibilityVC(vcId,term, type, vc, ns.getVCNameSuffix());
       else
         return new FeasibilityVC(vcId, term, type, vc);
   }
@@ -259,7 +282,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     }
     else
     {
-      return predTransformer_.visit(term);
+      return getTransformer().visit(term);
     }
   }
 
@@ -382,22 +405,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           
           if (termDef.getDefinitionKind().isSchemaReference())
           {
-            if (term.hasAnn(ZStateInfo.class))
-            {
-              if (term.getAnn(ZStateInfo.class).equals(ZStateInfo.STATE) ||
-                  term.getAnn(ZStateInfo.class).equals(ZStateInfo.ASTATE))
-              {
-                if (stateSchema_ != null)
-                  throw new CztException(new FeasibilityException("State schema already set through section manager properties as " + ZUtils.toStringZName(stateSchema_)
-                          + ". Cannot change it to " + ZUtils.toStringZName(termDef.getDefName())));
-                setZStateName(termDef.getDefName());
-                stateSchemaGenParams_ = termDef.getGenericParams();
-              }
-            }
-            else if (stateSchema_ != null && ZUtils.namesEqual(termDef.getDefName(), stateSchema_))
-            {
-              stateSchemaGenParams_ = termDef.getGenericParams();
-            }
+            collectStateInfo(term, termDef);
             result = handleSchema(termDef);
           }
           else if (termDef.getDefinitionKind().isAxiom())
@@ -408,7 +416,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         }
         else
         {
-          throw new CztException(new FeasibilityException("VC-FSB-AXPARA-PROBLEM = " + termName));
+          throw new CztException(createVCCollectionException("VC-FSB-AXPARA-PROBLEM = " + termName));
         }
       default:
         // this case should never happen, yet we need to return something
@@ -418,6 +426,27 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     }
     assert result != null;
     return result;
+  }
+
+  protected void collectStateInfo(AxPara term, Definition termDef)
+  {
+    if (term.hasAnn(ZStateInfo.class))
+    {
+      if (term.getAnn(ZStateInfo.class).equals(ZStateInfo.STATE) ||
+          term.getAnn(ZStateInfo.class).equals(ZStateInfo.ASTATE))
+      {
+        if (stateSchema_ != null)
+          throw new CztException(createVCCollectionException(
+                  "State schema already set through section manager properties as " + ZUtils.toStringZName(stateSchema_)
+                  + ". Cannot change it to " + ZUtils.toStringZName(termDef.getDefName())));
+        setZStateName(termDef.getDefName());
+        stateSchemaGenParams_ = termDef.getGenericParams();
+      }
+    }
+    else if (stateSchema_ != null && ZUtils.namesEqual(termDef.getDefName(), stateSchema_))
+    {
+      stateSchemaGenParams_ = termDef.getGenericParams();
+    }
   }
 
   /* VC GENERATION HELPER METHODS */
@@ -611,7 +640,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     }
     catch (DefinitionException ex)
     {
-      throw new CztException(new FeasibilityException("VC-FSB-SCHEMA-DEFEXCEPTION for " + schName, ex));
+      throw new CztException(createVCCollectionException("VC-FSB-SCHEMA-DEFEXCEPTION for " + schName, ex));
     }
   }
 

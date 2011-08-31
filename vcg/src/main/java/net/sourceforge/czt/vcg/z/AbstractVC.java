@@ -22,13 +22,8 @@ package net.sourceforge.czt.vcg.z;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
-import net.sourceforge.czt.z.ast.AxPara;
-import net.sourceforge.czt.z.ast.Box;
-import net.sourceforge.czt.z.ast.ConjPara;
-import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -47,7 +42,6 @@ public abstract class AbstractVC<R> implements VC<R>
   private final VCType vcType_;
   private final long vcId_;
   
-
   protected AbstractVC(long vcId, Para term, VCType type, R vc, String nameSuffix) throws VCCollectionException
   {
     this(vcId, term, type, vc, DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY, nameSuffix);

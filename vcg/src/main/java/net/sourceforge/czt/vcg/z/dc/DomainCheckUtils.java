@@ -48,7 +48,7 @@ public class DomainCheckUtils extends VCGUtils<Pred> implements DomainCheckPrope
     super();
   }
 
-  protected DomainCheckerVCG getDC()
+  protected DomainCheckerVCG getDomainCheckVCG()
   {
 
     return (DomainCheckerVCG)getVCG();
@@ -94,7 +94,7 @@ public class DomainCheckUtils extends VCGUtils<Pred> implements DomainCheckPrope
   protected String printToolDefaultFlagsUsage()
   {
     return (super.printToolDefaultFlagsUsage()
-              + (getDC().isUsingInfixAppliesTo() ? "-a " : ""));
+              + (getDomainCheckVCG().isUsingInfixAppliesTo() ? "-a " : ""));
   }
 
   @Override

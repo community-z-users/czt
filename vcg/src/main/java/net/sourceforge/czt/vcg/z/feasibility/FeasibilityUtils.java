@@ -45,7 +45,7 @@ public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPrope
     super();
   }
 
-  protected FeasibilityVCG getFeasibility()
+  protected FeasibilityVCG getFeasibilityVCG()
   {
     return (FeasibilityVCG)getVCG();
   }
@@ -91,8 +91,8 @@ public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPrope
   protected String printToolDefaultFlagsUsage()
   {
     return (super.printToolDefaultFlagsUsage()
-              + (getFeasibility().isAddingNonemptyGivenSetVC() ? " -g " : "")
-              + (getFeasibility().isCreatingZSchemas() ? " -z " : ""));
+              + (getFeasibilityVCG().isAddingNonemptyGivenSetVC() ? " -g " : "")
+              + (getFeasibilityVCG().isCreatingZSchemas() ? " -z " : ""));
   }
 
   @Override

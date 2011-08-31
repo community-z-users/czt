@@ -16,24 +16,25 @@
  * along with CZT; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.czt.vcg.z.feasibility;
+
+package net.sourceforge.czt.vcg.z.refinement;
 
 import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
-import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.util.VCGTest;
-import net.sourceforge.czt.vcg.z.refinement.RefinementPropertyKeys;
+import net.sourceforge.czt.vcg.z.VCGException;
+import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
+import net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys;
 import net.sourceforge.czt.z.ast.Pred;
 
 /**
  *
  * @author Leo Freitas
- * @date Jan 6, 2011
+ * @date Aug 31, 2011
  */
-public class FeasibilityTest extends VCGTest  
+public class RefinementTest extends VCGTest implements RefinementPropertyKeys
 {
 
   protected static final boolean DEBUG_TESTING = false;
@@ -42,20 +43,20 @@ public class FeasibilityTest extends VCGTest
 
   public static Test suite() throws VCGException
   {
-    SectionManager manager = FeasibilityUtils.getFeasibilityUtils().createSectionManager(
-            FeasibilityUtils.getFeasibilityUtils().getExtension());
-    FeasibilityTest test = new FeasibilityTest(manager, DEBUG_TESTING);
+    SectionManager manager = RefinementUtils.getRefinementUtils().createSectionManager(
+            RefinementUtils.getRefinementUtils().getExtension());
+    RefinementTest test = new RefinementTest(manager, DEBUG_TESTING);
     Test result = test.suite(TEST_DIR, null);
     System.out.println("Number of tests: " + result.countTestCases());
     return result;
   }
 
-  protected FeasibilityTest(String extension, boolean debug)
+  protected RefinementTest(String extension, boolean debug)
   {
     super(extension, debug);
   }
 
-  protected FeasibilityTest(SectionManager manager, boolean debug)
+  protected RefinementTest(SectionManager manager, boolean debug)
   {
     super(manager, debug);
   }
@@ -63,7 +64,7 @@ public class FeasibilityTest extends VCGTest
   @Override
   protected TestCase createPositiveTest(URL url)
   {
-    return new NormalVCGTest<Pred>(url, FeasibilityUtils.getFeasibilityUtils());
+    return new NormalVCGTest<Pred>(url, RefinementUtils.getRefinementUtils());
   }
 
   /**

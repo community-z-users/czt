@@ -150,11 +150,9 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
    * any available information tables. These tables <b>MUST</b> come from the
    * section manager of this collector. They could be, for instance, tables for
    * definitions, operators, and other related conjectures.
-   * @param ter
    * @param term
    * @param tables
    * @throws VCCollectionException
-   * @return
    */
   //public VC<R> calculateVC(Term term, List<? extends InfoTable> tables)
   //        throws VCCollectionException
@@ -163,7 +161,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   //  return ?;
   //}
 
-  protected void beforeCalculateVC(Term ter, List<? extends InfoTable> tables)
+  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
           throws VCCollectionException
   {
     defTable_ = null; // a null dts means always "applies$to", rather than \in \dom~? when possible

@@ -50,7 +50,7 @@ public class DomainCheckerCommand extends VCGCommand<Pred>
   {
     // config the domain checker according to the given section manager 
     traceLog("DCCmd-ZSECT-CONFIG");
-    DomainCheckUtils.getDCUtils().getDC().setSectionManager(manager);
+    DomainCheckUtils.getDCUtils().getDomainCheckVCG().setSectionManager(manager);
 
     // compute DCVCEnvAnn for a given ZSect:
     //    a) assume zSect is: parsed, type correct, and with all SM tables in place

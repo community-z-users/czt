@@ -992,11 +992,21 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCEnvAnnVisit
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/TrivialFeasibilityVCCollector.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementCommand.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementException.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementPropertyKeys.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementUtils.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVC.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVCCollector.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVCEnvAnn.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVCEnvAnnVisitor.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVCG.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/AbstractPredTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/AbstractTermTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/ZPredTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/dc/ZPredTransformerDC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/feasibility/ZPredTransformerFSB.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/transformer/refinement/ZPredTransformerRef.java -text
 vcg/src/main/resources/lib/AppliesToDefTest.zcs -text
 vcg/src/main/resources/lib/AppliesToDefTest.zev -text
 vcg/src/main/resources/lib/dc_toolkit.tex -text
@@ -1010,6 +1020,7 @@ vcg/src/main/resources/lib/number_toolkit_dc.tex -text
 vcg/src/main/resources/lib/number_toolkit_fsb.tex -text
 vcg/src/main/resources/lib/prelude_dc.tex -text
 vcg/src/main/resources/lib/prelude_fsb.tex -text
+vcg/src/main/resources/lib/ref_toolkit.tex -text
 vcg/src/main/resources/lib/relation_toolkit_dc.tex -text
 vcg/src/main/resources/lib/relation_toolkit_fsb.tex -text
 vcg/src/main/resources/lib/sequence_toolkit_dc.tex -text
@@ -1024,6 +1035,7 @@ vcg/src/test/java/net/sourceforge/czt/vcg/util/DefinitionTableTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/util/VCGTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityTest.java -text
+vcg/src/test/java/net/sourceforge/czt/vcg/z/refinement/RefinementTest.java -text
 vcg/src/test/resources/tests/z/axioms.tex -text
 vcg/src/test/resources/tests/z/basicsm.tex -text
 vcg/src/test/resources/tests/z/birthdaybook.tex -text

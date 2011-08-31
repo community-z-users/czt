@@ -49,7 +49,7 @@ import net.sourceforge.czt.z.util.ZUtils;
 public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pair<Para, Pred>>>
         implements FeasibilityPropertyKeys
 {
-  private final FeasibilityVCCollector fsbCheck_;
+  protected FeasibilityVCCollector fsbCheck_;
   private String zStateName_;
   
   /* CLASS SETUP METHOS */
@@ -64,6 +64,11 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
     super(factory);
     zStateName_ = null;
     fsbCheck_ = new FeasibilityVCCollector(factory);
+  }
+
+  protected String getFSBSourceNameSuffix()
+  {
+    return VCG_FEASIBILITY_SOURCENAME_SUFFIX;
   }
 
   @Override
@@ -114,9 +119,14 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   }
 
   @Override
-  public VCCollector<Pred> getVCCollector()
+  public final VCCollector<Pred> getVCCollector()
   {
     return fsbCheck_;
+  }
+
+  public FeasibilityVCCollector getFSBVCCollector()
+  {
+    return (FeasibilityVCCollector)getVCCollector();
   }
 
   /* VCG CONFIGURATION METHODS */
@@ -188,12 +198,12 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
       if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
         throw new CztException(new FeasibilityException("Cannot set Z state name that contains prime decoration"));
       zStateName_ = name;
-      ((FeasibilityVCCollector)getVCCollector()).setZStateName(factory_.createZName(name));
+      getFSBVCCollector().setZStateName(factory_.createZName(name));
     }
     else
     {
       zStateName_ = null;
-      ((FeasibilityVCCollector)getVCCollector()).setZStateName(null);
+      getFSBVCCollector().setZStateName(null);
     }
   }
 
@@ -206,8 +216,8 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
     assert getVCCollector() instanceof FeasibilityVCCollector;
 
     // this sets the ZState name within the collector to null.
-    ((FeasibilityVCCollector)getVCCollector()).clearAddedPara();
-    assert ((FeasibilityVCCollector)getVCCollector()).getZStateName() == null;
+    getFSBVCCollector().clearAddedPara();
+    assert getFSBVCCollector().getZStateName() == null;
 
     // in case the user explicitly define the Z state name 
     if (zStateName_ != null)
@@ -231,7 +241,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   @Override
   public String getVCSectName(String originalSectName)
   {
-    return getVCNameFactory().createVCSectName(originalSectName, VCG_FEASIBILITY_SOURCENAME_SUFFIX);
+    return getVCNameFactory().createVCSectName(originalSectName, getFSBSourceNameSuffix());
   }
 
   /**
@@ -278,10 +288,10 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
       // if it is on the user-suplied Z section, raise it as we expect type-correct input
       if (e.getCause() != null && (e.getCause() instanceof CommandException) &&
           e.getCause().getCause() != null && (e.getCause().getCause() instanceof TypeErrorException) &&
-          sectName != null && sectName.endsWith(VCG_FEASIBILITY_SOURCENAME_SUFFIX))
+          sectName != null && sectName.endsWith(getFSBSourceNameSuffix()))
       {
-        final String msg = "\nType errors when generating feasibility VCs for Z section " +
-          sectName.substring(0, sectName.length()-VCG_FEASIBILITY_SOURCENAME_SUFFIX.length()) +
+        final String msg = "\nType errors on " + getClass().getSimpleName() + " for Z section " +
+          sectName.substring(0, sectName.length()-getFSBSourceNameSuffix().length()) +
           ".\nThis may happen if complex gneric types are involved.";
         logger_.info(msg);
       }
@@ -291,7 +301,6 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
       }
     }
   }
-
 
   @Override
   protected boolean isTableMandatory(Key<? extends InfoTable> key)
