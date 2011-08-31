@@ -71,6 +71,9 @@ public class <class/>
   private Map&lt;String,LatexMarkupFunction&gt; markupFunctions_ =
     new HashMap&lt;String,LatexMarkupFunction&gt;();
 
+  private java.util.Set&lt;Key&lt;LatexMarkupFunction&gt;&gt; dependencies_ =
+    new java.util.HashSet&lt;Key&lt;LatexMarkupFunction&gt;&gt;();
+
   /**
    * Are we just parsing a section header?
    */
@@ -124,8 +127,9 @@ public class <class/>
     LatexMarkupFunction markupFunction = markupFunctions_.get(parent);
     if (markupFunction == null) {
       try {
-        markupFunction = 
-          sectInfo_.get(new Key&lt;LatexMarkupFunction&gt;(parent, LatexMarkupFunction.class));
+        Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(parent, LatexMarkupFunction.class);
+        markupFunction = sectInfo_.get(key);
+        dependencies_.add(key);
       }
       catch (CommandException exception) {
         String message = "Cannot get LatexMarkupFunction for " + parent
@@ -293,6 +297,12 @@ public class <class/>
     return result;
   }
 
+  private java.util.Set dependencies()
+  {
+    return dependencies_;
+  }
+
+  @SuppressWarnings("unchecked")
   private void updateLatexMarkupFunction()
   {
     if (markupFunction_ != null) {
@@ -302,7 +312,7 @@ public class <class/>
       {
         CztLogger.getLogger(LatexMarkupFunction.class).warning("About to add duplicate key '" + key.toString() + "' while updating LatexMarkupFunction. This might happen when keywords are missued in the specification");
       }
-      sectInfo_.put(key, markupFunction_, null);
+      sectInfo_.put(key, markupFunction_, dependencies());
     }
   }
 

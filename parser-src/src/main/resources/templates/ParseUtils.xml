@@ -97,13 +97,15 @@ public class <class/> extends AbstractCommand
         for (Sect sect : spec.getSect()) {
           if (sect instanceof ZSect) {
             ZSect zSect = (ZSect) sect;
-            sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, null);
+            sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), 
+              zSect, calculateDependencies(zSect, ZSect.class));
           }
         }
       }
       else if (result instanceof ZSect) {
         ZSect zSect =  (ZSect) result;
-        sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, null);
+        sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect,
+          calculateDependencies(zSect, ZSect.class));
       }
     }
     else {
@@ -308,21 +310,22 @@ public class <class/> extends AbstractCommand
   /**
    * Given a ZSection, it calculates the dependency keys from all parents, for
    * the given Key information type T
-   * @param &lt;T&gt;
    * @param term the ZSection to calculate parents from
    * @param type the Key type
    * @return set of keys with given type
    */
-  public static /* &lt;T&gt; */ Set/* &lt;Key&lt;T&gt;&gt; */ calculateDependencies(ZSect term, Class/* &lt;T&gt; */ type)
+
+  @SuppressWarnings("unchecked")
+  public static Set&lt;Key&lt;?&gt;&gt; calculateDependencies(ZSect term, Class&lt;?&gt; type)
   {
-    Set/* &lt;Key&lt;T&gt;&gt; */ dependencies = new HashSet/* &lt;Key&lt;T&gt;&gt; */();
+    Set&lt;Key&lt;?&gt;&gt; dependencies = new HashSet&lt;Key&lt;?&gt;&gt;();
     for (Parent parent : term.getParent())
     {
-      dependencies.add(new Key/* &lt;T&gt; */(parent.getWord(), type));
+      dependencies.add(new Key(parent.getWord(), type));
     }
     return dependencies;
   }
-
+  
   /**
    * For non-parsed ZSect (e.g., created on-the-fly by tools), one needs to update
    * a given section manager in a particular order. This method produces a similar
@@ -403,10 +406,10 @@ public class <class/> extends AbstractCommand
           // if an annonymous ZSect, also add the file name for/to it?
           if (zsect.getName().equals(net.sourceforge.czt.z.util.Section.ANONYMOUS.getName()))
           {
-            manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect);
+            manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect, calculateDependencies(zsect, ZSect.class));
           }
           manager.put(new Key&lt;ZSect&gt;(zsect.getName(), ZSect.class),
-                      zsect);
+                      zsect, calculateDependencies(zsect, ZSect.class));
 
         }
       }
@@ -423,7 +426,7 @@ public class <class/> extends AbstractCommand
       if (source != null) {
         Term term = ParseUtils.parse(source, manager, manager.getProperties());
         if (term instanceof Spec) {
-          manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term);
+          manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term, java.util.Collections.&lt;Key&lt;?&gt;&gt;emptySet());
         }
         result = term != null;
         final String msg = "PU-PARSED = parse " + (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
