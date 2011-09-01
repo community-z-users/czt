@@ -1,6 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -35,6 +36,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.PlatformObject;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
@@ -56,16 +58,26 @@ public class ZEditorResults {
 		final String filePath = ResourceUtil.getPath(resource);
 		final ZEvesSnapshot snapshot = ZEvesPlugin.getZEves().getSnapshot();
 		
-		// support selection just after or just before the actual caret position,
-		// however priority is given for exact match
-		final IZInfoObject[] data = new IZInfoObject[3];
-		final Position exactPos = new Position(caretPos, 0);
-		int beforeOffset = caretPos == 0 ? 0 : caretPos - 1;
-		final Position beforePos = new Position(beforeOffset, 0);
-		final Position afterPos = new Position(caretPos + 1, 0);
+		// calculate "target" positions for the indicated. We specify a decreasing priority
+		// order of positions that could apply to locate results. Then the first result
+		// that is available in the decreasing order is used as overall result 
+		final List<Position> targetPositions = getTargetPositions(document, caretPos);
+		
+		Position first = targetPositions.get(0);
+		int beforeOffset = first.getOffset();
+		int afterOffset = first.getOffset() + first.getLength();
+		
+		for (Position pos : targetPositions) {
+			if (pos != null) {
+				beforeOffset = Math.min(beforeOffset, pos.getOffset());
+				afterOffset = Math.max(afterOffset, pos.getOffset() + pos.getLength());
+			}
+		}
+		
+		final IZInfoObject[] data = new IZInfoObject[targetPositions.size()];
 		
 		ParsedData parsedData = editor.getParsedData();
-		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(posProvider, beforeOffset, caretPos + 1) {
+		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(posProvider, beforeOffset, afterOffset) {
 
 			@Override
 			protected void visitPara(Para term, Position position) {
@@ -135,16 +147,20 @@ public class ZEditorResults {
 			
 			private void collect(Position pos, IZInfoObject result) {
 				
-				if (includePos(pos, exactPos)) {
-					data[0] = result;
-				} else if (includePos(pos, afterPos)) {
-					data[1] = result;
-				} else if (includePos(pos, beforePos)) {
-					data[2] = result;
-				} 
+				for (int index = 0; index < targetPositions.size(); index++) {
+					Position targetPos = targetPositions.get(index);
+					if (includePos(pos, targetPos)) {
+						data[index] = result;
+						return;
+					}
+				}
 			}
 			
 			private boolean includePos(Position pos, Position range) {
+				if (range == null) {
+					return false;
+				}
+				
 				return includePos(pos, range.getOffset(), range.getLength());
 			}
 		};
@@ -158,6 +174,69 @@ public class ZEditorResults {
 		}
 		
 		return null;
+	}
+
+	private static List<Position> getTargetPositions(IDocument document, int caretPos) {
+		// support selection just after or just before the actual caret position,
+		// however priority is given for exact match
+		// also support selection for the same line, or for the 
+		// lines before and after (in lowering priority)
+		Position exactPos = new Position(caretPos);
+		Position beforePos = null;
+		Position afterPos = null;
+		Position linePos = null;
+		Position preLinePos = null;
+		Position postLinePos = null;
+		
+		try {		
+		
+			int line = document.getLineOfOffset(caretPos);
+			
+			if (caretPos > 0) {
+				int beforeOffset = caretPos - 1;
+				int beforeOffsetLine = document.getLineOfOffset(beforeOffset);
+				if (line == beforeOffsetLine) {
+					// before position only supported if in the same line, 
+					// otherwise "line" position gets priority
+					beforePos = new Position(beforeOffset);
+				}
+			}
+			
+			if (caretPos < document.getLength() - 1) {
+				int afterOffset = caretPos + 1;
+				int afterOffsetLine = document.getLineOfOffset(afterOffset);
+				if (line == afterOffsetLine) {
+					// before position only supported if in the same line, 
+					// otherwise "line" position gets priority
+					afterPos = new Position(afterOffset);
+				}
+			}
+			
+			int lineOffset = document.getLineOffset(line);
+			int lineLength = document.getLineLength(line);
+			linePos = new Position(lineOffset, lineLength);
+			
+			if (line > 0) {
+				int preLine = line - 1;
+				int preLineOffset = document.getLineOffset(preLine);
+				int preLineLength = document.getLineLength(preLine);
+				preLinePos = new Position(preLineOffset, preLineLength);
+			}
+			
+			if (line < document.getNumberOfLines() - 1) {
+				int postLine = line + 1;
+				int postLineOffset = document.getLineOffset(postLine);
+				int postLineLength = document.getLineLength(postLine);
+				postLinePos = new Position(postLineOffset, postLineLength);
+			}
+		} catch (BadLocationException ex) {
+			ZEvesPlugin.getDefault().log(ex);
+		}
+		
+		// order the priority of positions
+		final List<Position> targetPositions = 
+				Arrays.asList(exactPos, beforePos, afterPos, linePos, preLinePos, postLinePos);
+		return targetPositions;
 	}
 	
 	private static abstract class ZEditorObject<T extends Term> 
