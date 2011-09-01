@@ -16,6 +16,7 @@ import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.actions.SendProofCommand;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesErrorObject;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofResultInfo;
 import net.sourceforge.czt.session.CommandException;
@@ -308,7 +309,17 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	protected IZInfoObject findSelectedZInfoElement(IWorkbenchPart part, ISelection selection, int caretPos) {
 		
 		if (part instanceof ZEditor && selection instanceof ITextSelection) {
-			return ZEditorResults.getZEvesResult((ZEditor) part, (ITextSelection) selection, caretPos);
+			
+			ZEditor editor = (ZEditor) part; 
+			
+			if (editor.getParsedData().getSpec() == null) {
+				// problems parsing
+				return new ZEvesErrorObject(editor, null, null, null, new ZEvesException(
+						"Selected editor contains parsing problems. " +
+						"Please correct them to display editor results."));
+			}
+			
+			return ZEditorResults.getZEvesResult(editor, (ITextSelection) selection, caretPos);
 		}
     	
 		return super.findSelectedZInfoElement(part, selection, caretPos);
