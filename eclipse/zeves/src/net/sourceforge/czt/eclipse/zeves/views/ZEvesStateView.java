@@ -1,14 +1,13 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
-import java.util.Map;
-
 import net.sourceforge.czt.eclipse.CZTPluginImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesResetCommand;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot.FileSection;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesUndoSectionCommand;
 import net.sourceforge.czt.eclipse.zeves.launch.ZEvesAppLaunch;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
@@ -22,7 +21,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -319,6 +317,15 @@ public class ZEvesStateView extends ViewPart {
 		serverStateField.setText(serverState);
 	}
 	
+	private void fireUpdateState() {
+		getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				updateState();
+			}
+		});
+	}
+	
 	private void updateProverDataState(final ZEvesApi api) {
 
 		paragraphCountField.setText("");
@@ -386,15 +393,13 @@ public class ZEvesStateView extends ViewPart {
 		 */
 		@Override
 		public void run() {
-			try {
-				ZEvesPlugin.getZEves().reset();
-			} catch (ZEvesException e) {
-				MessageDialog.openError(paragraphCountField.getShell(), 
-						"Problems Resetting Z/Eves", e.getMessage());
-				ZEvesPlugin.getDefault().log(e);
-			} finally {
-				updateState();
-			}
+			
+			ZEvesPlugin.getZEves().getExecutor().addCommand(new ZEvesResetCommand() {
+				@Override
+				protected void completed() {
+					fireUpdateState();
+				}
+			});
 		}
 	}
 	
@@ -454,36 +459,13 @@ public class ZEvesStateView extends ViewPart {
 				return;
 			}
 			
-			final ZEvesApi zEvesApi = prover.getApi();
-			final ZEvesSnapshot snapshot = prover.getSnapshot();
-			
-			Job job = new Job("Undoing in Z/Eves") {
+			prover.getExecutor().addCommand(new ZEvesUndoSectionCommand(selectedSection) {
 				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					
-					try {
-						Map<String, Integer> fileUndoOffsets = 
-							snapshot.undoThrough(zEvesApi, selectedSection);
-						
-						ResourceUtil.deleteMarkers(fileUndoOffsets);
-					} catch (ZEvesException e) {
-						return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
-					} finally {
-						// update the view
-						getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
-							@Override
-							public void run() {
-								updateState();
-							}
-						});
-					}
-					
-					return Status.OK_STATUS;
+				protected void completed(boolean success) {
+					// update the view
+					fireUpdateState();
 				}
-			};
-			job.setRule(prover);
-			
-			job.schedule();
+			});
 		}
 	}
 	

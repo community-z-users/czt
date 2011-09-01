@@ -1,23 +1,19 @@
 package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
-import java.util.Set;
-
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
-import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesServer;
 
-import org.eclipse.core.runtime.jobs.ISchedulingRule;
 
-
-public class ZEves implements ISchedulingRule {
+public class ZEves {
 	
 	private ZEvesServer server;
 	private ZEvesApi api;
 	private boolean starting = false;
 	
 	private final ZEvesSnapshot snapshot = new ZEvesSnapshot();
+	private final ZEvesLinearExecutor executor = new ZEvesLinearExecutor();
 	
 	public void stop() {
 		
@@ -65,37 +61,8 @@ public class ZEves implements ISchedulingRule {
 		return snapshot;
 	}
 	
-	public void reset() throws ZEvesException {
-		
-		// upon reset, reset the API and all the file states
-		if (!isRunning()) {
-			return;
-		}
-		
-		getApi().reset();
-		
-		Set<String> clearedPaths = snapshot.clear();
-
-		// also remove all markers
-		ResourceUtil.clearMarkers(clearedPaths);
-	}
-
-	@Override
-	public boolean contains(ISchedulingRule rule) {
-		if (rule == this) {
-			return true;
-		}
-		
-		return false;
-	}
-
-	@Override
-	public boolean isConflicting(ISchedulingRule rule) {
-		if (rule == this) {
-			return true;
-		}
-		
-		return false;
+	public ZEvesLinearExecutor getExecutor() {
+		return executor;
 	}
 	
 //	public void start(String serverAddress, int port, ZEvesServer server, IProgressMonitor monitor) {

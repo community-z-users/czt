@@ -1,9 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.actions;
 
-import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.views.ZEvesOutputView;
@@ -89,12 +87,7 @@ public abstract class SendProofCommand extends AbstractHandler {
 			ZEvesPlugin.getDefault().log(e);
 		}
 		
-		ZEditorUtil.runOnReconcile(editor, new ReconcileRunnable() {
-			@Override
-			protected void run(ParsedData parsedData) {
-				SubmitToPointCommand.submitToOffset(editor, posEnd + addOffset);
-			}
-		});
+		SubmitToPointCommand.submitToOffset(editor, posEnd + addOffset);
 	}
 	
 	protected abstract String getCommand(ExecutionEvent event, String proofCommand,
