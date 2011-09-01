@@ -35,12 +35,10 @@ public class ZCompilerMessageParser
   // the ID of problem severity providers extension point
   private static final String SEVERITY_PROVIDERS_ID = CZTPlugin.getPluginID() + ".problemSeverityProviders";
   
-  private final String dialect;
   private final List<IZProblemSeverityProvider> providers = new ArrayList<IZProblemSeverityProvider>();
   
-  public ZCompilerMessageParser(String dialect)
+  public ZCompilerMessageParser()
   {
-    this.dialect = dialect;
     loadSeverityProviders();
   }
 
@@ -65,12 +63,12 @@ public class ZCompilerMessageParser
     }
   }
 
-  public void parseCompilerMessage(IDocument document, IResource resource,
+  public void parseCompilerMessage(String dialect, IDocument document, IResource resource,
       List<CztError> errors) throws CoreException
   {
     List<Entry<String, Map<String, Object>>> markers = new ArrayList<Entry<String, Map<String, Object>>>();
     for (CztError error : errors) {
-      Entry<String, Map<String, Object>> markerInfo = parseError(document, error);
+      Entry<String, Map<String, Object>> markerInfo = parseError(dialect, document, error);
       if (markerInfo != null) {
         markers.add(markerInfo);
       }
@@ -82,13 +80,13 @@ public class ZCompilerMessageParser
   /**
    * @param error a Czt error
    */
-  private Entry<String, Map<String, Object>> parseError(IDocument document, CztError error)
+  private Entry<String, Map<String, Object>> parseError(String dialect, IDocument document, CztError error)
   {
     ErrorType errorType = error.getErrorType();
     if (errorType == ErrorType.WARNING) {
       // check the severity preferences for warnings
       // for example, a user may choose to ignore certain warnings, or display them as errors
-      ZProblemSeverity severity = getSeverityPreference(error);
+      ZProblemSeverity severity = getSeverityPreference(dialect, error);
       if (severity != null) {
         switch (severity) {
           case ERROR: {
@@ -137,7 +135,7 @@ public class ZCompilerMessageParser
    * Checks the providers whether a specific severity is indicated for the error.
    * Returns null if no preference is given.
    */
-  private ZProblemSeverity getSeverityPreference(final CztError err) {
+  private ZProblemSeverity getSeverityPreference(final String dialect, final CztError err) {
     
     for (final IZProblemSeverityProvider provider : providers) {
 

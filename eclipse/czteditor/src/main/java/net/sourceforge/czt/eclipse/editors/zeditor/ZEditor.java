@@ -566,6 +566,8 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * tag the model (ParsedData) version.
    */
   private BigInteger documentVersion = BigInteger.ZERO;
+  
+  private final ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser();
 
   public ZEditor()
   {
@@ -2326,9 +2328,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       resource.deleteMarkers(IZMarker.PROBLEM, true, 0);
 
       String dialect = CZTPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.PROP_DIALECT);
-      ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser(dialect);
-
-      compMsgParser.parseCompilerMessage(document, resource, errors);
+      compMsgParser.parseCompilerMessage(dialect, document, resource, errors);
     } catch (CoreException ce) {
       CZTPlugin.getDefault().getLog().log(
           new Status(IStatus.ERROR, CztUI.ID_PLUGIN, 0, CZTPlugin
