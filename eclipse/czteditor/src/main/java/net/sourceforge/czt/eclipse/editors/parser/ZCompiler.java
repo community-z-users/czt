@@ -2,6 +2,7 @@
 package net.sourceforge.czt.eclipse.editors.parser;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,12 +51,14 @@ public enum ZCompiler
   {
     IDocument document = editor.getDocumentProvider().getDocument(
         editor.getEditorInput());
-    ParsedData parsedData = new ParsedData(editor);
     
     SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
 
     final IFile file = ((IFileEditorInput) editor.getEditorInput()).getFile();
     final String name = file.getName();
+    // get document version before the document, which will ensure 
+    // the document is up-to-date or newer for that version.
+    final BigInteger documentVersion = editor.getDocumentVersion();
     final Source source = new StringSource(document.get(), name);
     source.setMarkup(editor.getMarkup()); // or Markup.UNICODE
     source.setEncoding(editor.getEncoding()); // for Unicode
@@ -67,6 +70,8 @@ public enum ZCompiler
     //System.out.println("DEBUG: setting czt.path to "+dir);
     sectMan.setProperty(SourceLocator.PROP_CZT_PATH, dir);
 
+    ParsedData parsedData = new ParsedData(editor, documentVersion);
+    
     Spec parsed = null;
     List<CztError> errors = new ArrayList<CztError>();
 

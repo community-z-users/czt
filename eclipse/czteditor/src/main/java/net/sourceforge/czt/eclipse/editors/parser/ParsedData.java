@@ -1,6 +1,7 @@
 
 package net.sourceforge.czt.eclipse.editors.parser;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +35,11 @@ public class ParsedData
 
   private Map<ZName, NameInfo> fNameInfoMap = new HashMap<ZName, NameInfo>();
 
+  private final BigInteger documentVersion;
 
-  public ParsedData(Object source)
+  public ParsedData(Object source, BigInteger documentVersion)
   {
+    this.documentVersion = documentVersion;
     source_ = source;
   }
 
@@ -152,6 +155,11 @@ public class ParsedData
   public Position getTermPosition(Term term)
   {
     return posProvider.getPosition(term);
+  }
+
+  public BigInteger getDocumentVersion()
+  {
+    return documentVersion;
   }
 
 }

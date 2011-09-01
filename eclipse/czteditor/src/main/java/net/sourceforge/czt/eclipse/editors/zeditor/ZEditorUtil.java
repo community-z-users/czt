@@ -1,5 +1,7 @@
 package net.sourceforge.czt.eclipse.editors.zeditor;
 
+import java.math.BigInteger;
+
 import net.sourceforge.czt.eclipse.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
@@ -97,32 +99,43 @@ public class ZEditorUtil {
 
   public static void runOnReconcile(final ZEditor editor, final ReconcileRunnable callback)
   {
-    callback.setEditor(editor);
+    runOnReconcile(editor, editor.getDocumentVersion(), callback);
+  }
+  
+  public static void runOnReconcile(final ZEditor editor, BigInteger minDocumentVersion, 
+      final ReconcileRunnable callback)
+  {
+    // TODO better synchronization?
+    callback.editor = editor;
+    callback.minDocumentVersion = minDocumentVersion;
     editor.addReconcileListener(callback);
+    
+    // check maybe this version is already correct
+    ParsedData parsedData = editor.getParsedData();
+    if (parsedData.getDocumentVersion().compareTo(minDocumentVersion) >= 0) {
+      editor.removeReconcileListener(callback);
+      callback.run(parsedData);
+    }
   }
 
   public static abstract class ReconcileRunnable implements IZReconcilingListener
   {
 
     private ZEditor editor;
-
-    public void setEditor(ZEditor editor)
-    {
-      this.editor = editor;
-    }
+    private BigInteger minDocumentVersion;
 
     @Override
     public void reconciled(ParsedData parsedData, boolean forced, IProgressMonitor progressMonitor)
     {
-      // remove itself from listeners - this was one-shot event
-      editor.removeReconcileListener(this);
-      run(parsedData);
+      if (parsedData.getDocumentVersion().compareTo(minDocumentVersion) >= 0) {
+        // remove itself from listeners - this was one-shot event
+        editor.removeReconcileListener(this);
+        run(parsedData);
+      }
     }
 
     @Override
-    public void aboutToBeReconciled()
-    {
-    }
+    public void aboutToBeReconciled() {}
 
     protected abstract void run(ParsedData parsedData);
   }
