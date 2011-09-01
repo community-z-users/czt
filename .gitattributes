@@ -945,6 +945,11 @@ ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
 util/src/test/java/net/sourceforge/czt/util/TermAnnTest.java -text
 vcg/pom.xml -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/AbstractBindingFilter.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/AfterBindings.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/BeforeBindings.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/BindingFilter.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/BindingUtils.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/CarrierSet.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefaultVCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/Definition.java -text

@@ -21,11 +21,17 @@ package net.sourceforge.czt.vcg.z.refinement;
 
 import java.util.List;
 import java.util.SortedSet;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.vcg.z.VC;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
+import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -36,6 +42,10 @@ import net.sourceforge.czt.z.util.ZUtils;
 public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Para, Pred>>>
         implements RefinementPropertyKeys
 {
+
+  private String concreteStateName_;
+  private String retrieveName_;
+
   /* CLASS SETUP METHOS */
 
   public RefinementVCG()
@@ -46,6 +56,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   public RefinementVCG(Factory factory)
   {
     super(factory);
+    retrieveName_ = null;
+    concreteStateName_ = null;
     fsbCheck_ = new RefinementVCCollector(factory);
   }
 
@@ -99,6 +111,49 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     return PROP_VCG_REFINEMENT_ZSTATE_NAME_DEFAULT;
   }
 
+  protected String defaultConcreteStateName()
+  {
+    return PROP_VCG_REFINEMENT_CONCRETE_STATE_NAME_DEFAULT;
+  }
+
+  protected String defaultRetrieveName()
+  {
+    return PROP_VCG_REFINEMENT_RETRIEVE_NAME_DEFAULT;
+  }
+
+  @Override
+  protected void doConfig() throws VCGException
+  {
+    super.doConfig();
+    SectionManager manager = getManager();
+    String concreteSt = getManager().hasProperty(PROP_VCG_REFINEMENT_CONCRETE_STATE_NAME) ?
+          manager.getProperty(PROP_VCG_REFINEMENT_CONCRETE_STATE_NAME) :
+          defaultConcreteStateName();
+    String ret = getManager().hasProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME) ?
+          manager.getProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME) :
+          defaultZStateName();
+    setConcreteStateName(concreteSt);
+    setRetrieveName(ret);
+  }
+
+  @Override
+  public void reset()
+  {
+    super.reset();
+    setConcreteStateName(null);
+    setRetrieveName(null);
+  }
+
+  @Override
+  protected void doDefaultProperties(SectionManager manager)
+  {
+    super.doDefaultProperties(manager);
+    manager.setProperty(PROP_VCG_REFINEMENT_CONCRETE_STATE_NAME,
+            String.valueOf(defaultConcreteStateName()));
+    manager.setProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME,
+            String.valueOf(defaultRetrieveName()));
+  }
+
   protected RefinementVCCollector getRefVCCollector()
   {
     return (RefinementVCCollector)getVCCollector();
@@ -130,5 +185,64 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   {
     // Or get the getVCCollector().getVCNameFactory()?
     return new RefinementVCEnvAnn(originalSectName, vcList, getVCNameFactory());
+  }
+
+  protected void setConcreteStateName(String name)
+  {
+    if (name != null && !name.isEmpty())
+    {
+      if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
+        throw new CztException(new RefinementException("Cannot set Z concrete state name that contains prime decoration"));
+      concreteStateName_ = name;
+      getRefVCCollector().setConcreteStateName(factory_.createZName(name));
+    }
+    else
+    {
+      concreteStateName_ = null;
+      getRefVCCollector().setConcreteStateName(null);
+    }
+  }
+
+  protected void setRetrieveName(String name)
+  {
+    if (name != null && !name.isEmpty())
+    {
+      if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
+        throw new CztException(new RefinementException("Cannot set Z retrieve schema name that contains prime decoration"));
+      retrieveName_ = name;
+      getRefVCCollector().setRetrieveName(factory_.createZName(name));
+    }
+    else
+    {
+      retrieveName_ = null;
+      getRefVCCollector().setConcreteStateName(null);
+    }
+  }
+
+  @Override
+  protected void beforeGeneratingVCG(ZSect zSect) throws VCCollectionException
+  {
+    super.beforeGeneratingVCG(zSect);
+    assert getVCCollector() instanceof RefinementVCCollector;
+
+    assert getRefVCCollector().getConcreteStateName() == null;
+    assert getRefVCCollector().getRetrieveName() == null;
+
+    // in case the user explicitly define the Z state name
+    if (concreteStateName_ != null)
+      setConcreteStateName(concreteStateName_);
+
+    if (retrieveName_ != null)
+      setRetrieveName(retrieveName_);
+  }
+
+  @Override
+  protected void afterGeneratingVCG(ZSect zSect, List<VC<Pred>> vcList) throws VCCollectionException
+  {
+    super.afterGeneratingVCG(zSect, vcList);
+
+    // add necessary refinement VCs to vcList!
+
+    
   }
 }

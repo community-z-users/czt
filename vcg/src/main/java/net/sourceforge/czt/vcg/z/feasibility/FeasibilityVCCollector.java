@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -39,6 +38,7 @@ import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.vcg.util.BindingUtils;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
@@ -57,7 +57,6 @@ import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
@@ -94,9 +93,6 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   private boolean nonEmptyGivenSets_;
   private boolean doCreateZSchemas_;
 
-  private final Stroke dash_;
-  private final Stroke output_;
-  private final Stroke input_;
   private ZName currentName_;
   private final ZName setInterName_;
   private final ZName freeTypeCtorOpName_;
@@ -124,12 +120,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     predTransformer_.setApplyTransformer(PROP_VCG_FEASIBILITY_APPLY_TRANSFORMERS_DEFAULT);
     setNonemptyGivenSetVC(PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS_DEFAULT);
     setCreateZSchemas(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT);
-    setZStateName(null);
     currentName_ = null;
-    stateSchemaGenParams_ = null;
-    output_ = factory_.createOutStroke();
-    dash_ = factory_.createNextStroke();
-    input_ = factory_.createInStroke();
+    setZStateName(null);
     setInterName_ = factory_.createZName(ZString.ARG_TOK+ZString.CAP+ZString.ARG_TOK);
     freeTypeCtorOpName_ = factory_.createZName(ZString.ARG_TOK+ZString.INJ+ZString.ARG_TOK);
     addedSigSchemas_ = new TreeMap<ZName, AxPara>(ZUtils.ZNAME_COMPARATOR);
@@ -520,15 +512,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       Pred result;
       // get the bindings and filter then by category
       SortedSet<Definition> mixedBindings  = getDefTable().bindings(schName);
-
-      //if (mixedBindings.isEmpty())
-      //{
-      SortedSet<Definition> afterBindings  = filterBindings(mixedBindings, AFTER_FILTER);
-      SortedSet<Definition> beforeBindings = filterBindings(mixedBindings, BEFORE_FILTER);
-      assert Collections.disjoint(beforeBindings, afterBindings)
-                && mixedBindings.containsAll(afterBindings)
-                && mixedBindings.containsAll(beforeBindings)
-                && (beforeBindings.size() + afterBindings.size() == mixedBindings.size());
+      SortedSet<Definition> afterBindings  = BindingUtils.afterBindingsOf(mixedBindings);
+      SortedSet<Definition> beforeBindings = BindingUtils.beforeBindingsOf(mixedBindings);
+      assert BindingUtils.bindingsInvariant(mixedBindings, beforeBindings, afterBindings);
 
       // if either before or after bindings are empty, then this is a existential proof
       // that is, an initialisation proof for the state say.
@@ -659,9 +645,12 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     {
       try
       {
+        // not quite the same as calling method: it consider names without strokes (!)
+        // TODO: see if we could avoid this rework
         SortedSet<Definition> mixed = getDefTable().bindings(nameNoStrokes);
-        SortedSet<Definition> before = filterBindings(mixed, BEFORE_FILTER);
-        SortedSet<Definition> after = filterBindings(mixed, AFTER_FILTER);
+        SortedSet<Definition> before = BindingUtils.beforeBindingsOf(mixed);
+        SortedSet<Definition> after = BindingUtils.afterBindingsOf(mixed);
+        assert BindingUtils.bindingsInvariant(mixed, before, after);
 
         // if there are no after bindings on the schema def, then add it as part
         // of the Pred part of assumptions.
@@ -756,69 +745,5 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       
     }
     zDeclList.addAll(decls);
-  }
-
-  protected SortedSet<Definition> filterBindings(SortedSet<Definition> bindings, BindingFilter filter)
-  {
-    SortedSet<Definition> result = new TreeSet<Definition>(bindings);
-    if (!result.isEmpty())
-    {
-      Iterator<Definition> it = result.iterator();
-      while (it.hasNext())
-      {
-        Definition def = it.next();
-        // if this name is not to be considered, then remove it
-        if (!filter.considerName(def.getDefName()))
-        {
-          it.remove();
-        }
-      }
-      assert bindings.containsAll(result);
-    }
-    return result;
-  }
-
-  protected interface BindingFilter
-  {
-    public boolean considerName(ZName name);
-  }
-
-  private final BeforeBindings BEFORE_FILTER = new BeforeBindings();
-  private final AfterBindings  AFTER_FILTER  = new AfterBindings();
-
-  protected class BeforeBindings implements BindingFilter
-  {
-    /**
-     *
-     * @param name
-     * @return
-     */
-    @Override
-    public boolean considerName(ZName name)
-    {
-      return (!name.getZStrokeList().contains(dash_) &&
-             !name.getZStrokeList().contains(output_))
-             ||
-             (name.getZStrokeList().contains(input_));
-
-    }
-  }
-
-  protected class AfterBindings implements BindingFilter
-  {
-    /**
-     *
-     * @param name
-     * @return
-     */
-    @Override
-    public boolean considerName(ZName name)
-    {
-      return (name.getZStrokeList().contains(dash_) ||
-             name.getZStrokeList().contains(output_))
-             &&
-             (!name.getZStrokeList().contains(input_));
-
-    }
   }
 }

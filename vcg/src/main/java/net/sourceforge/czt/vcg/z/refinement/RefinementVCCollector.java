@@ -19,7 +19,14 @@
 
 package net.sourceforge.czt.vcg.z.refinement;
 
+import java.util.Collections;
+import java.util.SortedSet;
+import net.sourceforge.czt.parser.z.ZStateInfo;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.vcg.util.BindingUtils;
 import net.sourceforge.czt.vcg.util.Definition;
+import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCType;
@@ -28,6 +35,10 @@ import net.sourceforge.czt.vcg.z.transformer.refinement.ZPredTransformerRef;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -38,6 +49,11 @@ import net.sourceforge.czt.z.util.ZUtils;
  */
 public class RefinementVCCollector extends FeasibilityVCCollector implements RefinementPropertyKeys
 {
+  private ZName concreteState_;
+  private ZName retrieve_;
+  private ZNameList concreetStateGenParams_;
+  private ZNameList retrieveGenParams_;
+  
   /**
    *
    */
@@ -52,9 +68,41 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   public RefinementVCCollector(Factory factory)
   {
     super(factory);
+    setConcreteStateName(null);
+    setRetrieveName(null);
     predTransformer_ = new ZPredTransformerRef(factory, this);
     predTransformer_.setApplyTransformer(PROP_VCG_REFINEMENT_APPLY_TRANSFORMERS_DEFAULT);
     setCreateZSchemas(PROP_VCG_REFINEMENT_CREATE_ZSCHEMAS_DEFAULT);
+  }
+
+  protected final void setConcreteStateName(ZName n)
+  {
+    concreteState_ = n;
+    concreetStateGenParams_ = null;
+  }
+
+  protected ZName getConcreteStateName()
+  {
+    return concreteState_;
+  }
+
+  protected final void setRetrieveName(ZName n)
+  {
+    retrieve_ = n;
+    retrieveGenParams_ = null;
+  }
+
+  protected ZName getRetrieveName()
+  {
+    return retrieve_;
+  }
+
+  @Override
+  protected void clearAddedPara()
+  {
+    super.clearAddedPara();
+    setConcreteStateName(null);
+    setRetrieveName(null);
   }
 
   @Override
@@ -94,12 +142,35 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   protected void collectStateInfo(AxPara term, Definition termDef)
   {
     super.collectStateInfo(term, termDef);
-
-  }
-
-  @Override
-  protected Pred handleSchema(Definition termDef)
-  {
-    return super.handleSchema(termDef);
+    if (term.hasAnn(ZStateInfo.class))
+    {
+      ZStateInfo zsi = term.getAnn(ZStateInfo.class);
+      if (zsi.equals(ZStateInfo.CSTATE))
+      {
+        if (concreteState_ != null)
+          throw new CztException(createVCCollectionException(
+                  "Concrete state schema already set through section manager properties as " + ZUtils.toStringZName(concreteState_)
+                  + ". Cannot change it to " + ZUtils.toStringZName(termDef.getDefName())));
+        setConcreteStateName(termDef.getDefName());
+        concreetStateGenParams_ = termDef.getGenericParams();
+      }
+      else if (zsi.equals(ZStateInfo.RETRIEVE))
+      {
+        if (retrieve_ != null)
+          throw new CztException(createVCCollectionException(
+                  "Retrieve schema already set through section manager properties as " + ZUtils.toStringZName(retrieve_)
+                  + ". Cannot change it to " + ZUtils.toStringZName(termDef.getDefName())));
+        setRetrieveName(termDef.getDefName());
+        retrieveGenParams_ = termDef.getGenericParams();
+      }
+    }
+    else if (concreteState_ != null && ZUtils.namesEqual(termDef.getDefName(), concreteState_))
+    {
+      concreetStateGenParams_ = termDef.getGenericParams();
+    }
+    else if (retrieve_ != null && ZUtils.namesEqual(termDef.getDefName(), retrieve_))
+    {
+      retrieveGenParams_ = termDef.getGenericParams();
+    }
   }
 }

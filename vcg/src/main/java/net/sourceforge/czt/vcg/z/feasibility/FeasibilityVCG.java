@@ -224,12 +224,6 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
       setZStateName(zStateName_);
   }
 
-  @Override
-  protected void afterGeneratingVCG(ZSect zSect, List<VC<Pred>> vcList) throws VCCollectionException
-  {
-    super.afterGeneratingVCG(zSect, vcList);
-  }
-
   /* VC ZSect CREATION METHODS */
 
   @Override
