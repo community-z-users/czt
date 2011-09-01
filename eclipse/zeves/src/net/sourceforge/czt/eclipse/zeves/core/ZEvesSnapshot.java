@@ -518,19 +518,20 @@ public class ZEvesSnapshot {
 				continue;
 			}
 			
-			if (index == fileLastEntryIndex) {
-				/*
-				 * Reached the last ever entry for this file, which means that
-				 * editing is done after the last entry. Therefore, it makes
-				 * this entry to be the last entry before given offset (next
-				 * step will switch into another section).
-				 */
-				return index;
-			}
-			
 			// here we are in the correct file section, check the position
 			if (getEnd(resultPos.getPosition()) < offset) {
 				// still before the position
+				
+				if (index == fileLastEntryIndex) {
+					/*
+					 * Reached the last ever entry for this file, which means that
+					 * editing is done after the last entry. Therefore, it makes
+					 * this entry to be the last entry before given offset (next
+					 * step will switch into another section).
+					 */
+					return index;
+				}
+				
 				continue;
 			}
 			
