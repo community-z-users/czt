@@ -60,7 +60,7 @@ public class ZEvesProblemSeverityProvider implements IZProblemSeverityProvider {
 				return getSeverityPref(SEVERITY_TABLE_PROBLEMS);
 			}
 			
-			if (WarningMessage.PARENT_WARNING.name().equals(messageKey)) {
+			if (WarningMessage.PARENT_ERRORS_WARNING.name().equals(messageKey)) {
 				return getSeverityPref(SEVERITY_PARENT_PROBLEMS);
 			}
 		}
