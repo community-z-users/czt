@@ -30,7 +30,8 @@ public class ZEditorUtil {
   {
     try {
       editor.getViewer().getTextWidget().setCaretOffset(position);
-      editor.getViewer().getTextWidget().setSelection(position);
+//      editor.getViewer().getTextWidget().setSelection(position);
+      editor.getViewer().setSelectedRange(position, 0);
     }
     catch (IllegalArgumentException ex) {
       // invalid, but ignore?
